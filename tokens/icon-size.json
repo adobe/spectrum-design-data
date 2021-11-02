@@ -1,0 +1,22 @@
+{
+  "icon": {
+    "size": {
+      "75": {
+        "value": "20px",
+        "sets": { "desktop": "16px"}
+      },
+      "100": {
+        "value": "22px",
+        "sets": { "desktop": "18px"}
+      },
+      "200": {
+        "value": "24px",
+        "sets": { "desktop": "20px"}
+      },
+      "300": {
+        "value": "28px",
+        "sets": { "desktop": "22px"}
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "font": {
+    "size": {
+      "75": {
+        "value": "15px",
+        "sets": { "desktop": "12px" }
+      },
+      "100": {
+        "value": "17px",
+        "sets": { "desktop": "14px" }
+      },
+      "200": {
+        "value": "19px",
+        "sets": { "desktop": "16px" }
+      },
+      "300": {
+        "value": "22px",
+        "sets": { "desktop": "18px" }
+      }
+    }
+  }
+}

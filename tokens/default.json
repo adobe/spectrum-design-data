@@ -1,0 +1,17 @@
+{
+  "default": {
+    "rounding": {
+      "value": "5px",
+      "sets": {
+        "desktop": "4px",
+        "ccx": "6px"
+      }
+    },
+    "border-width": {
+      "value": "1px",
+      "sets": {
+        "ccx": "1px"
+      }
+    }
+  }
+}
