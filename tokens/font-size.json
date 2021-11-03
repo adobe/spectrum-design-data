@@ -2,20 +2,28 @@
   "font": {
     "size": {
       "75": {
-        "mobile": { "value": "15px" },
-        "desktop": { "value": "12px" }
+        "sets": {
+          "mobile": { "value": "15px" },
+          "desktop": { "value": "12px" }
+        }
       },
       "100": {
-        "mobile": { "value": "17px" },
-        "desktop": { "value": "14px" }
+        "sets": {
+          "mobile": { "value": "17px" },
+          "desktop": { "value": "14px" }
+        }
       },
       "200": {
-        "mobile": { "value": "19px" },
-        "desktop": { "value": "16px" }
+        "sets": {
+          "mobile": { "value": "19px" },
+          "desktop": { "value": "16px" }
+        }
       },
       "300": {
-        "mobile": { "value": "22px" },
-        "desktop": { "value": "18px" }
+        "sets": {
+          "mobile": { "value": "22px" },
+          "desktop": { "value": "18px" }
+        }
       }
     }
   }
