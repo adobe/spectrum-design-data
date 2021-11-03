@@ -2,57 +2,57 @@
   "rounded": {
     "min-size": {
       "s": {
-        "value": "30px",
-        "sets": { "desktop": "24px" }
+        "mobile": { "value": "30px" },
+        "desktop": { "value": "24px" }
       },
       "m": {
-        "value": "40px",
-        "sets": { "desktop": "32px" }
+        "mobile": { "value": "40px" },
+        "desktop": { "value": "32px" }
       },
       "l": {
-        "value": "50px",
-        "sets": { "desktop": "40px" }
+        "mobile": { "value": "50px" },
+        "desktop": { "value": "40px" }
       },
       "xl": {
-        "value": "60px",
-        "sets": { "desktop": "48px" }
+        "mobile": { "value": "60px" },
+        "desktop": { "value": "48px" }
       }
     },
     "text": {
       "side-padding": {
         "s": {
-          "value": "11px",
-          "sets": { "desktop": "9px" }
+          "mobile": { "value": "11px" },
+          "desktop": { "value": "9px" }
         },
         "m": {
-          "value": "15px",
-          "sets": { "desktop": "12px" }
+          "mobile": { "value": "15px" },
+          "desktop": { "value": "12px" }
         },
         "l": {
-          "value": "19px",
-          "sets": { "desktop": "15px" }
+          "mobile": { "value": "19px" },
+          "desktop": { "value": "15px" }
         },
         "xl": {
-          "value": "22px",
-          "sets": { "desktop": "18px" }
+          "mobile": { "value": "22px" },
+          "desktop": { "value": "18px" }
         }
       },
       "icon-gap": {
         "s": {
-          "value": "9px",
-          "sets": { "desktop": "7px" }
+          "mobile": { "value": "9px" },
+          "desktop": { "value": "7px" }
         },
         "m": {
-          "value": "10px",
-          "sets": { "desktop": "8px" }
+          "mobile": { "value": "10px" },
+          "desktop": { "value": "8px" }
         },
         "l": {
-          "value": "11px",
-          "sets": { "desktop": "9px" }
+          "mobile": { "value": "11px" },
+          "desktop": { "value": "9px" }
         },
         "xl": {
-          "value": "13px",
-          "sets": { "desktop": "10px" }
+          "mobile": { "value": "13px" },
+          "desktop": { "value": "10px" }
         }
       },
       "font-size": {
@@ -65,20 +65,20 @@
     "icon": {
       "side-padding": {
         "s": {
-          "value": "9px",
-          "sets": { "desktop": "7px" }
+          "mobile": { "value": "9px" },
+          "desktop": { "value": "7px" }
         },
         "m": {
-          "value": "12px",
-          "sets": { "desktop": "10px" }
+          "mobile": { "value": "12px" },
+          "desktop": { "value": "10px" }
         },
         "l": {
-          "value": "16px",
-          "sets": { "desktop": "13px" }
+          "mobile": { "value": "16px" },
+          "desktop": { "value": "13px" }
         },
         "xl": {
-          "value": "19px",
-          "sets": { "desktop": "15px" }
+          "mobile": { "value": "19px" },
+          "desktop": { "value": "15px" }
         }
       },
       "size": {

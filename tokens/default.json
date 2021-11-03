@@ -1,17 +1,15 @@
 {
   "default": {
     "rounding": {
-      "value": "5px",
-      "sets": {
-        "desktop": "4px",
-        "ccx": "6px"
-      }
+      "spectrum": {
+        "mobile": { "value": "5px" },
+        "desktop": { "value": "4px" }
+      },
+      "ccx": { "value": "6px" }
     },
     "border-width": {
-      "value": "1px",
-      "sets": {
-        "ccx": "1px"
-      }
+      "spectrum": { "value": "1px" },
+      "ccx": { "value": "2px" }
     }
   }
 }

@@ -2,20 +2,20 @@
   "icon": {
     "size": {
       "75": {
-        "value": "20px",
-        "sets": { "desktop": "16px"}
+        "mobile": { "value": "20px" },
+        "desktop": { "value": "16px" }
       },
       "100": {
-        "value": "22px",
-        "sets": { "desktop": "18px"}
+        "mobile": { "value": "22px" },
+        "desktop": { "value": "18px" }
       },
       "200": {
-        "value": "24px",
-        "sets": { "desktop": "20px"}
+        "mobile": { "value": "24px" },
+        "desktop": { "value": "20px" }
       },
       "300": {
-        "value": "28px",
-        "sets": { "desktop": "22px"}
+        "mobile": { "value": "28px" },
+        "desktop": { "value": "22px" }
       }
     }
   }
