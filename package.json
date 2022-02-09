@@ -4,13 +4,15 @@
   "description": "",
   "main": "build.js",
   "scripts": {
-    "build": "node build.js",
+    "build": "style-dictionary build",
     "clean": "rm -rf dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "Apache-2.0",
   "devDependencies": {
-    "style-dictionary": "2.9.0"
+    "deepmerge": "^4.2.2",
+    "jest": "^27.5.1",
+    "style-dictionary": "3.0.0-rc.10"
   }
 }

@@ -80,10 +80,10 @@
         }
       },
       "font-size": {
-        "s": { "value": "{font.size.75.value}" },
-        "m": { "value": "{font.size.100.value}" },
-        "l": { "value": "{font.size.200.value}" },
-        "xl": { "value": "{font.size.300.value}" }
+        "s": { "value": "{font.size.75}" },
+        "m": { "value": "{font.size.100}" },
+        "l": { "value": "{font.size.200}" },
+        "xl": { "value": "{font.size.300}" }
       }
     },
     "icon": {
@@ -114,10 +114,10 @@
         }
       },
       "size": {
-        "s": { "value": "{icon.size.75.value}" },
-        "m": { "value": "{icon.size.100.value}" },
-        "l": { "value": "{icon.size.200.value}" },
-        "xl": { "value": "{icon.size.300.value}" }
+        "s": { "value": "{icon.size.75}" },
+        "m": { "value": "{icon.size.100}" },
+        "l": { "value": "{icon.size.200}" },
+        "xl": { "value": "{icon.size.300}" }
       }
     }
   }

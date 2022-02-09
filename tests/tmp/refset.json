@@ -1,0 +1,23 @@
+{
+  "component": {
+    "font-size": {
+      "value": {
+        "ref": "{font-size}",
+        "sets": {
+          "mobile": "15px",
+          "desktop": "12px"
+        }
+      }
+    }
+  },
+  "font-size": {
+    "sets": {
+      "mobile": {
+        "value": "15px"
+      },
+      "desktop": {
+        "value": "12px"
+      }
+    }
+  }
+}
