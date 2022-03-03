@@ -1,18 +1,17 @@
 {
-  "name": "style-dictionary-example-complete",
+  "name": "@adobe/spectrum-tokens",
   "version": "1.0.0",
   "description": "",
-  "main": "build.js",
+  "main": "config.js",
   "scripts": {
     "build": "style-dictionary build",
-    "clean": "rm -rf dist",
-    "test": "jest"
+    "clean": "rm -rf dist"
   },
   "author": "",
   "license": "Apache-2.0",
   "devDependencies": {
     "deepmerge": "^4.2.2",
-    "jest": "^27.5.1",
-    "style-dictionary": "3.0.0-rc.10"
+    "style-dictionary": "^3.7.0",
+    "style-dictionary-sets": "^1.0.4"
   }
 }

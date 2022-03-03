@@ -1,5 +1,5 @@
 const StyleDictionary = require("style-dictionary");
-const JsonSetsFormatter = require("./json-sets-formatter");
+const JsonSetsFormatter = require("style-dictionary-sets").JsonSetsFormatter;
 
 StyleDictionary.registerFormat(JsonSetsFormatter);
 
