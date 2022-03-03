@@ -2,90 +2,122 @@
   "rounded": {
     "min-size": {
       "s": {
-        "value": "30px",
-        "sets": { "desktop": "24px" }
+        "sets": {
+          "mobile": { "value": "30px" },
+          "desktop": { "value": "24px" }
+        }
       },
       "m": {
-        "value": "40px",
-        "sets": { "desktop": "32px" }
+        "sets": {
+          "mobile": { "value": "40px" },
+          "desktop": { "value": "32px" }
+        }
       },
       "l": {
-        "value": "50px",
-        "sets": { "desktop": "40px" }
+        "sets": {
+          "mobile": { "value": "50px" },
+          "desktop": { "value": "40px" }
+        }
       },
       "xl": {
-        "value": "60px",
-        "sets": { "desktop": "48px" }
+        "sets": {
+          "mobile": { "value": "60px" },
+          "desktop": { "value": "48px" }
+        }
       }
     },
     "text": {
       "side-padding": {
         "s": {
-          "value": "11px",
-          "sets": { "desktop": "9px" }
+          "sets": {
+            "mobile": { "value": "11px" },
+            "desktop": { "value": "9px" }
+          }
         },
         "m": {
-          "value": "15px",
-          "sets": { "desktop": "12px" }
+          "sets": {
+            "mobile": { "value": "15px" },
+            "desktop": { "value": "12px" }
+          }
         },
         "l": {
-          "value": "19px",
-          "sets": { "desktop": "15px" }
+          "sets": {
+            "mobile": { "value": "19px" },
+            "desktop": { "value": "15px" }
+          }
         },
         "xl": {
-          "value": "22px",
-          "sets": { "desktop": "18px" }
+          "sets": {
+            "mobile": { "value": "22px" },
+            "desktop": { "value": "18px" }
+          }
         }
       },
       "icon-gap": {
         "s": {
-          "value": "9px",
-          "sets": { "desktop": "7px" }
+          "sets": {
+            "mobile": { "value": "9px" },
+            "desktop": { "value": "7px" }
+          }
         },
         "m": {
-          "value": "10px",
-          "sets": { "desktop": "8px" }
+          "sets": {
+            "mobile": { "value": "10px" },
+            "desktop": { "value": "8px" }
+          }
         },
         "l": {
-          "value": "11px",
-          "sets": { "desktop": "9px" }
+          "sets": {
+            "mobile": { "value": "11px" },
+            "desktop": { "value": "9px" }
+          }
         },
         "xl": {
-          "value": "13px",
-          "sets": { "desktop": "10px" }
+          "sets": {
+            "mobile": { "value": "13px" },
+            "desktop": { "value": "10px" }
+          }
         }
       },
       "font-size": {
-        "s": { "value": "{font.size.75.value}" },
-        "m": { "value": "{font.size.100.value}" },
-        "l": { "value": "{font.size.200.value}" },
-        "xl": { "value": "{font.size.300.value}" }
+        "s": { "value": "{font.size.75}" },
+        "m": { "value": "{font.size.100}" },
+        "l": { "value": "{font.size.200}" },
+        "xl": { "value": "{font.size.300}" }
       }
     },
     "icon": {
       "side-padding": {
         "s": {
-          "value": "9px",
-          "sets": { "desktop": "7px" }
+          "sets": {
+            "mobile": { "value": "9px" },
+            "desktop": { "value": "7px" }
+          }
         },
         "m": {
-          "value": "12px",
-          "sets": { "desktop": "10px" }
+          "sets": {
+            "mobile": { "value": "12px" },
+            "desktop": { "value": "10px" }
+          }
         },
         "l": {
-          "value": "16px",
-          "sets": { "desktop": "13px" }
+          "sets": {
+            "mobile": { "value": "16px" },
+            "desktop": { "value": "13px" }
+          }
         },
         "xl": {
-          "value": "19px",
-          "sets": { "desktop": "15px" }
+          "sets": {
+            "mobile": { "value": "19px" },
+            "desktop": { "value": "15px" }
+          }
         }
       },
       "size": {
-        "s": { "value": "{icon.size.75.value}" },
-        "m": { "value": "{icon.size.100.value}" },
-        "l": { "value": "{icon.size.200.value}" },
-        "xl": { "value": "{icon.size.300.value}" }
+        "s": { "value": "{icon.size.75}" },
+        "m": { "value": "{icon.size.100}" },
+        "l": { "value": "{icon.size.200}" },
+        "xl": { "value": "{icon.size.300}" }
       }
     }
   }

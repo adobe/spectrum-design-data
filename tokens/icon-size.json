@@ -2,20 +2,28 @@
   "icon": {
     "size": {
       "75": {
-        "value": "20px",
-        "sets": { "desktop": "16px"}
+        "sets": {
+          "mobile": { "value": "20px" },
+          "desktop": { "value": "16px" }
+        }
       },
       "100": {
-        "value": "22px",
-        "sets": { "desktop": "18px"}
+        "sets": {
+          "mobile": { "value": "22px" },
+          "desktop": { "value": "18px" }
+        }
       },
       "200": {
-        "value": "24px",
-        "sets": { "desktop": "20px"}
+        "sets": {
+          "mobile": { "value": "24px" },
+          "desktop": { "value": "20px" }
+        }
       },
       "300": {
-        "value": "28px",
-        "sets": { "desktop": "22px"}
+        "sets": {
+          "mobile": { "value": "28px" },
+          "desktop": { "value": "22px" }
+        }
       }
     }
   }
