@@ -2,16 +2,13 @@
   "colors": {
     "blue": {
       "400": {
-        "set": {
-          "type": "color-theme",
-          "values": {
-            "lightest": { "value": "rgb(55, 142, 240)" },
-            "light": { "value": "rgb(38, 128, 235)" },
-            "midlight": { "value": "rgb(20, 115, 230)" },
-            "middark": { "value": "rgb(55, 142, 240)" },
-            "dark": { "value": "rgb(38, 128, 235)" },
-            "darkest": { "value": "rgb(20, 115, 230)" }
-          }
+        "sets": {
+          "lightest": { "value": "rgb(55, 142, 240)" },
+          "light": { "value": "rgb(38, 128, 235)" },
+          "midlight": { "value": "rgb(20, 115, 230)" },
+          "middark": { "value": "rgb(55, 142, 240)" },
+          "dark": { "value": "rgb(38, 128, 235)" },
+          "darkest": { "value": "rgb(20, 115, 230)" }
         }
       },
       "500": {
