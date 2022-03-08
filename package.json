@@ -26,6 +26,6 @@
     "lint-staged": "^12.3.4",
     "prettier": "^2.5.1",
     "style-dictionary": "^3.7.0",
-    "style-dictionary-sets": "^1.0.4"
+    "style-dictionary-sets": "^1.0.5"
   }
 }
