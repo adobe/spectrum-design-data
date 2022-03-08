@@ -1,16 +1,30 @@
 {
   "name": "@adobe/spectrum-tokens",
-  "version": "1.0.0",
+  "version": "12.0.0-beta.1",
   "description": "",
   "main": "config.js",
   "scripts": {
     "build": "style-dictionary build",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "pre-commit": "lint-staged",
+    "prepare": "husky install"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adobe/spectrum-tokens.git"
+  },
+  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
   "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-tokens/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-tokens#readme",
   "devDependencies": {
-    "deepmerge": "^4.2.2",
+    "@commitlint/cli": "^16.2.0",
+    "@commitlint/config-conventional": "^16.2.1",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.4",
+    "prettier": "^2.5.1",
     "style-dictionary": "^3.7.0",
     "style-dictionary-sets": "^1.0.4"
   }
