@@ -1,13 +1,14 @@
 {
   "name": "@adobe/spectrum-tokens",
-  "version": "12.0.0-beta.1",
+  "version": "0.0.0-development",
   "description": "",
   "main": "config.js",
   "scripts": {
     "build": "style-dictionary build",
     "clean": "rm -rf dist",
     "pre-commit": "lint-staged",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "lint-staged": "^12.3.4",
     "prettier": "^2.5.1",
     "style-dictionary": "^3.7.0",
-    "style-dictionary-sets": "^1.0.5"
+    "style-dictionary-sets": "^1.0.5",
+    "semantic-release": "^19.0.2"
   }
 }
