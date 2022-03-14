@@ -1,5 +1,5 @@
-{ 
-  "layout" : {
+{
+  "layout": {
     "corner-radius": {
       "75": {
         "sets": {
@@ -141,15 +141,17 @@
 
     "android-elevation": {
       "value": "2dp"
-    }, 
+    },
 
     "font-size": {
       "50": {
         "sets": {
-          "desktop": { 
-            "value": "11px"},
-          "mobile": { 
-            "value": "13px"}
+          "desktop": {
+            "value": "11px"
+          },
+          "mobile": {
+            "value": "13px"
+          }
         }
       },
       "75": {
@@ -292,15 +294,13 @@
           }
         }
       }
-      
-
     },
 
     "workflow-icon-size": {
       "50": {
         "sets": {
-          "desktop":{"value": "14px"},
-          "mobile":{"value": "18px"}
+          "desktop": { "value": "14px" },
+          "mobile": { "value": "18px" }
         }
       },
       "75": {
@@ -343,7 +343,6 @@
           }
         }
       }
-      
     },
 
     "spacing": {
@@ -389,10 +388,10 @@
       "50": {
         "sets": {
           "desktop": {
-            "value":"6px"
+            "value": "6px"
           },
           "mobile": {
-            "value":"8px"
+            "value": "8px"
           }
         }
       },
@@ -514,7 +513,7 @@
         "value": "1.5"
       }
     },
-    
+
     "line-height-CJK": {
       "100": {
         "value": "1.5"
@@ -788,7 +787,7 @@
     },
 
     "pill": {
-      "edge-to-visual":{
+      "edge-to-visual": {
         "75": {
           "sets": {
             "desktop": {
@@ -926,7 +925,7 @@
         }
       }
     },
-    
+
     "edge-to-text": {
       "50": {
         "sets": {
@@ -979,6 +978,5 @@
         }
       }
     }
-  
   }
 }

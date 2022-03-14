@@ -9,7 +9,6 @@
           "mobile": {
             "value": "3px"
           }
-
         }
       },
       "medium": {
@@ -55,10 +54,10 @@
             "desktop": {
               "value": "12px"
             },
-            "mobile":{ 
+            "mobile": {
               "value": "16px"
             }
-          },          
+          },
           "express": {
             "desktop": {
               "value": "14px"
@@ -129,7 +128,6 @@
           }
         }
       }
-
     },
     "top-to-control": {
       "small": {
@@ -354,7 +352,6 @@
         }
       }
     }
-
   },
   "help-text": {
     "top-to-workflow-icon": {
@@ -411,7 +408,6 @@
             "value": "20px"
           }
         }
-        
       },
       "medium": {
         "sets": {
@@ -422,7 +418,6 @@
             "value": "40px"
           }
         }
-        
       },
       "large": {
         "sets": {
@@ -433,7 +428,6 @@
             "value": "80px"
           }
         }
-        
       }
     },
     "thickness": {
@@ -446,7 +440,6 @@
             "value": "3px"
           }
         }
-        
       },
       "medium": {
         "sets": {
@@ -457,7 +450,6 @@
             "value": "4px"
           }
         }
-        
       },
       "large": {
         "sets": {
@@ -770,7 +762,6 @@
         }
       }
     }
-    
   },
   "tooltip": {
     "width": {
