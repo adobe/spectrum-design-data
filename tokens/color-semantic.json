@@ -1,0 +1,19 @@
+{
+  "color": {
+    "semantic": {
+      "accent-color": {
+        "100": {
+          "sets": {
+            "spectrum": {
+                "value": "{color.blue.100}"
+            },
+            "express": {
+              "value": "{color.indigo.100}"
+            }
+
+          }
+        }
+      }
+    }
+  }
+}
