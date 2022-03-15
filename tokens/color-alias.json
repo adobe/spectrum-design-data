@@ -1,0 +1,82 @@
+{
+  "color": {
+    "alias": {
+      "focus-ring-color": {
+        "default": {
+          "value":"{color.blue.800}"
+        },
+        "static-white": {
+          "value": "{color.static.black.default}"
+        },
+        "static-black": {
+          "value": "{color.static-white}"
+        }
+      },
+      "neutral-content-color": {
+        "default": {
+          "value": "{color.gray.800}"
+        },
+        "hover": {
+          "value": "{color.gray.900}"
+        },
+        "down": {
+          "value": "{color.gray.900}"
+        },
+        "key-focus": {
+          "value": "{color.gray.900}"
+        }
+      },
+      "neutral-subdued-content-color": {
+        "default": {
+          "value": "{color.gray.700}"
+        },
+        "hover": {
+          "value": "{color.gray.800}"
+        },
+        "down": {
+          "value": "{color.gray.900}"
+        },
+        "key-focus": {
+          "value": "{color.gray.800}"
+        }
+      },
+      "accent-content-color": {
+        "default": {
+          "value": "{color.semantic.accent-color.900}"
+        },
+        "hover": {
+          "value": "{color.semantic.accent-color.1000}"
+        },
+        "down": {
+          "value": "{color.semantic.accent-color.1100}"
+        },
+        "key-focus": {
+          "value": "{color.semantic.accent-color.1000}"
+        }
+      },
+      "negative-content-color": {
+        "default": {
+          "value": "{color.semantic.negative-color.900}"
+        },
+        "hover": {
+          "value": "{color.semantic.negative-color.1000}"
+        },
+        "down": {
+          "value": "{color.semantic.negative-color.1100}"
+        },
+        "key-focus": {
+          "value": "{color.semantic.negative-color.1000}"
+        }
+      },
+      "disabled-content-color": {
+        "value": "{color.gray.400}"
+      },
+      "disabled-content-color-static-white-color": {
+        "value": "{color.static.white.500}"
+      },
+      "disabled-content-color-static-black-color": {
+        "value": "{color.static.white.500}"
+      }
+    }
+  }
+}
