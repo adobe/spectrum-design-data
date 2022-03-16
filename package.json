@@ -23,11 +23,12 @@
   "devDependencies": {
     "@commitlint/cli": "^16.2.0",
     "@commitlint/config-conventional": "^16.2.1",
+    "@semantic-release/changelog": "^6.0.1",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.4",
     "prettier": "^2.5.1",
+    "semantic-release": "^19.0.2",
     "style-dictionary": "^3.7.0",
-    "style-dictionary-sets": "^1.0.5",
-    "semantic-release": "^19.0.2"
+    "style-dictionary-sets": "^1.0.5"
   }
 }
