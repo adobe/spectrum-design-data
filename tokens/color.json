@@ -1,5 +1,11 @@
 {
   "color":{
+    "black": {
+      "value": "rgb(0, 0, 0)"
+    },
+    "white": {
+      "value": "rgb(0, 0, 0)"
+    },
     "gray": {
       "50": {
         "sets":{
