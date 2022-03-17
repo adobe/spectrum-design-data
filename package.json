@@ -15,6 +15,9 @@
     "url": "https://github.com/adobe/spectrum-tokens.git"
   },
   "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
+  "contributors": [
+    "Aaron Brownlee <brownlee@adobe.com> (https://misterbrownlee.com)"
+  ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/adobe/spectrum-tokens/issues"
