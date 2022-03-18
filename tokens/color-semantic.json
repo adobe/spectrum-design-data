@@ -163,7 +163,7 @@
   "informative-color-800": {
     "value": "{blue-800}"
   },
-  "900": {
+  "informative-color-900": {
     "value": "{blue-900}"
   },
   "informative-color-1000": {
@@ -199,7 +199,7 @@
   "negative-color-600": {
     "value": "{red-600}"
   },
-  "700": {
+  "negative-color-700": {
     "value": "{red-700}"
   },
   "negative-color-800": {
