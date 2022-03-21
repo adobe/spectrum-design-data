@@ -1,981 +1,907 @@
 {
-  "layout": {
-    "corner-radius": {
-      "75": {
-        "sets": {
-          "spectrum": {
-            "desktop": {
-              "value": "2px"
-            },
-            "mobile": {
-              "value": "2px"
-            }
-          },
-          "express": {
-            "desktop": {
-              "value": "3px"
-            },
-            "mobile": {
-              "value": "4px"
-            }
-          }
+  "corner-radius-75": {
+    "sets": {
+      "spectrum": {
+        "desktop": {
+          "value": "2px"
+        },
+        "mobile": {
+          "value": "2px"
         }
       },
-      "100": {
-        "sets": {
-          "spectrum": {
-            "desktop": {
-              "value": "4px"
-            },
-            "mobile": {
-              "value": "5px"
-            }
-          },
-          "express": {
-            "desktop": {
-              "value": "6px"
-            },
-            "mobile": {
-              "value": "8px"
-            }
-          }
-        }
-      },
-      "200": {
-        "sets": {
-          "spectrum": {
-            "desktop": {
-              "value": "8px"
-            },
-            "mobile": {
-              "value": "10px"
-            }
-          },
-          "express": {
-            "desktop": {
-              "value": "12px"
-            },
-            "mobile": {
-              "value": "16px"
-            }
-          }
+      "express": {
+        "desktop": {
+          "value": "3px"
+        },
+        "mobile": {
+          "value": "4px"
         }
       }
-    },
-
-    "drop-shadow": {
-      "x": {
-        "sets": {
-          "spectrum": {
-            "desktop": {
-              "value": "0px"
-            },
-            "mobile": {
-              "value": "0px"
-            }
-          },
-          "express": {
-            "desktop": {
-              "value": "0px"
-            },
-            "mobile": {
-              "value": "0px"
-            }
-          }
+    }
+  },
+  "corner-radius-100": {
+    "sets": {
+      "spectrum": {
+        "desktop": {
+          "value": "4px"
+        },
+        "mobile": {
+          "value": "5px"
         }
       },
-      "y": {
-        "sets": {
-          "spectrum": {
-            "desktop": {
-              "value": "1px"
-            },
-            "mobile": {
-              "value": "2px"
-            }
-          },
-          "express": {
-            "desktop": {
-              "value": "4px"
-            },
-            "mobile": {
-              "value": "4px"
-            }
-          }
-        }
-      },
-      "blur": {
-        "sets": {
-          "spectrum": {
-            "desktop": {
-              "value": "4px"
-            },
-            "mobile": {
-              "value": "6px"
-            }
-          },
-          "express": {
-            "desktop": {
-              "value": "16px"
-            },
-            "mobile": {
-              "value": "16px"
-            }
-          }
-        }
-      },
-      "color": {
-        "sets": {
-          "light": {
-            "value": "rgba(0, 0, 0, 0.15)"
-          },
-          "dark": {
-            "value": "rgba(0, 0, 0, 0.50)"
-          },
-          "darkest": {
-            "value": "rgba(0, 0, 0, 0.80)"
-          }
+      "express": {
+        "desktop": {
+          "value": "6px"
+        },
+        "mobile": {
+          "value": "8px"
         }
       }
-    },
-
-    "android-elevation": {
-      "value": "2dp"
-    },
-
-    "font-size": {
-      "50": {
-        "sets": {
-          "desktop": {
-            "value": "11px"
-          },
-          "mobile": {
-            "value": "13px"
-          }
+    }
+  },
+  "corner-radius-200": {
+    "sets": {
+      "spectrum": {
+        "desktop": {
+          "value": "8px"
+        },
+        "mobile": {
+          "value": "10px"
         }
       },
-      "75": {
-        "sets": {
-          "desktop": {
-            "value": "12px"
-          },
-          "mobile": {
-            "value": "15px"
-          }
-        }
-      },
-      "100": {
-        "sets": {
-          "desktop": {
-            "value": "14px"
-          },
-          "mobile": {
-            "value": "17px"
-          }
-        }
-      },
-      "200": {
-        "sets": {
-          "desktop": {
-            "value": "16px"
-          },
-          "mobile": {
-            "value": "19px"
-          }
-        }
-      },
-      "300": {
-        "sets": {
-          "desktop": {
-            "value": "18px"
-          },
-          "mobile": {
-            "value": "22px"
-          }
-        }
-      },
-      "400": {
-        "sets": {
-          "desktop": {
-            "value": "20px"
-          },
-          "mobile": {
-            "value": "24px"
-          }
-        }
-      },
-      "500": {
-        "sets": {
-          "desktop": {
-            "value": "22px"
-          },
-          "mobile": {
-            "value": "27px"
-          }
-        }
-      },
-      "600": {
-        "sets": {
-          "desktop": {
-            "value": "25px"
-          },
-          "mobile": {
-            "value": "31px"
-          }
-        }
-      },
-      "700": {
-        "sets": {
-          "desktop": {
-            "value": "28px"
-          },
-          "mobile": {
-            "value": "34px"
-          }
-        }
-      },
-      "800": {
-        "sets": {
-          "desktop": {
-            "value": "32px"
-          },
-          "mobile": {
-            "value": "39px"
-          }
-        }
-      },
-      "900": {
-        "sets": {
-          "desktop": {
-            "value": "36px"
-          },
-          "mobile": {
-            "value": "44px"
-          }
-        }
-      },
-      "1000": {
-        "sets": {
-          "desktop": {
-            "value": "40px"
-          },
-          "mobile": {
-            "value": "49px"
-          }
-        }
-      },
-      "1100": {
-        "sets": {
-          "desktop": {
-            "value": "45px"
-          },
-          "mobile": {
-            "value": "55px"
-          }
-        }
-      },
-      "1200": {
-        "sets": {
-          "desktop": {
-            "value": "50px"
-          },
-          "mobile": {
-            "value": "62px"
-          }
-        }
-      },
-      "1300": {
-        "sets": {
-          "desktop": {
-            "value": "60px"
-          },
-          "mobile": {
-            "value": "70px"
-          }
+      "express": {
+        "desktop": {
+          "value": "12px"
+        },
+        "mobile": {
+          "value": "16px"
         }
       }
-    },
-
-    "workflow-icon-size": {
-      "50": {
-        "sets": {
-          "desktop": { "value": "14px" },
-          "mobile": { "value": "18px" }
+    }
+  },
+  "drop-shadow-x": {
+    "sets": {
+      "spectrum": {
+        "desktop": {
+          "value": "0px"
+        },
+        "mobile": {
+          "value": "0px"
         }
       },
-      "75": {
-        "sets": {
-          "desktop": {
-            "value": "16px"
-          },
-          "mobile": {
-            "value": "20px"
-          }
-        }
-      },
-      "100": {
-        "sets": {
-          "desktop": {
-            "value": "18px"
-          },
-          "mobile": {
-            "value": "22px"
-          }
-        }
-      },
-      "200": {
-        "sets": {
-          "desktop": {
-            "value": "20px"
-          },
-          "mobile": {
-            "value": "24px"
-          }
-        }
-      },
-      "300": {
-        "sets": {
-          "desktop": {
-            "value": "22px"
-          },
-          "mobile": {
-            "value": "28px"
-          }
+      "express": {
+        "desktop": {
+          "value": "0px"
+        },
+        "mobile": {
+          "value": "0px"
         }
       }
-    },
-
-    "spacing": {
-      "50": {
-        "value": "2px"
+    }
+  },
+  "drop-shadow-y": {
+    "sets": {
+      "spectrum": {
+        "desktop": {
+          "value": "1px"
+        },
+        "mobile": {
+          "value": "2px"
+        }
       },
-      "75": {
-        "value": "4px"
+      "express": {
+        "desktop": {
+          "value": "4px"
+        },
+        "mobile": {
+          "value": "4px"
+        }
+      }
+    }
+  },
+  "drop-shadow-blur": {
+    "sets": {
+      "spectrum": {
+        "desktop": {
+          "value": "4px"
+        },
+        "mobile": {
+          "value": "6px"
+        }
       },
-      "100": {
-        "value": "8px"
+      "express": {
+        "desktop": {
+          "value": "16px"
+        },
+        "mobile": {
+          "value": "16px"
+        }
+      }
+    }
+  },
+  "android-elevation": {
+    "value": "2dp"
+  },
+  "font-size-50": {
+    "sets": {
+      "desktop": {
+        "value": "11px"
       },
-      "200": {
+      "mobile": {
+        "value": "13px"
+      }
+    }
+  },
+  "font-size-75": {
+    "sets": {
+      "desktop": {
         "value": "12px"
       },
-      "300": {
+      "mobile": {
+        "value": "15px"
+      }
+    }
+  },
+  "font-size-100": {
+    "sets": {
+      "desktop": {
+        "value": "14px"
+      },
+      "mobile": {
+        "value": "17px"
+      }
+    }
+  },
+  "font-size-200": {
+    "sets": {
+      "desktop": {
         "value": "16px"
       },
-      "400": {
-        "value": "24px"
+      "mobile": {
+        "value": "19px"
+      }
+    }
+  },
+  "font-size-300": {
+    "sets": {
+      "desktop": {
+        "value": "18px"
       },
-      "500": {
+      "mobile": {
+        "value": "22px"
+      }
+    }
+  },
+  "font-size-400": {
+    "sets": {
+      "desktop": {
+        "value": "20px"
+      },
+      "mobile": {
+        "value": "24px"
+      }
+    }
+  },
+  "font-size-500": {
+    "sets": {
+      "desktop": {
+        "value": "22px"
+      },
+      "mobile": {
+        "value": "27px"
+      }
+    }
+  },
+  "font-size-600": {
+    "sets": {
+      "desktop": {
+        "value": "25px"
+      },
+      "mobile": {
+        "value": "31px"
+      }
+    }
+  },
+  "font-size-700": {
+    "sets": {
+      "desktop": {
+        "value": "28px"
+      },
+      "mobile": {
+        "value": "34px"
+      }
+    }
+  },
+  "font-size-800": {
+    "sets": {
+      "desktop": {
         "value": "32px"
       },
-      "600": {
+      "mobile": {
+        "value": "39px"
+      }
+    }
+  },
+  "font-size-900": {
+    "sets": {
+      "desktop": {
+        "value": "36px"
+      },
+      "mobile": {
+        "value": "44px"
+      }
+    }
+  },
+  "font-size-1000": {
+    "sets": {
+      "desktop": {
         "value": "40px"
       },
-      "700": {
+      "mobile": {
+        "value": "49px"
+      }
+    }
+  },
+  "font-size-1100": {
+    "sets": {
+      "desktop": {
+        "value": "45px"
+      },
+      "mobile": {
+        "value": "55px"
+      }
+    }
+  },
+  "font-size-1200": {
+    "sets": {
+      "desktop": {
+        "value": "50px"
+      },
+      "mobile": {
+        "value": "62px"
+      }
+    }
+  },
+  "font-size-1300": {
+    "sets": {
+      "desktop": {
+        "value": "60px"
+      },
+      "mobile": {
+        "value": "70px"
+      }
+    }
+  },
+  "workflow-icon-size-50": {
+    "sets": {
+      "desktop": { "value": "14px" },
+      "mobile": { "value": "18px" }
+    }
+  },
+  "workflow-icon-size-75": {
+    "sets": {
+      "desktop": {
+        "value": "16px"
+      },
+      "mobile": {
+        "value": "20px"
+      }
+    }
+  },
+  "workflow-icon-size-100": {
+    "sets": {
+      "desktop": {
+        "value": "18px"
+      },
+      "mobile": {
+        "value": "22px"
+      }
+    }
+  },
+  "workflow-icon-size-200": {
+    "sets": {
+      "desktop": {
+        "value": "20px"
+      },
+      "mobile": {
+        "value": "24px"
+      }
+    }
+  },
+  "workflow-icon-size-300": {
+    "sets": {
+      "desktop": {
+        "value": "22px"
+      },
+      "mobile": {
+        "value": "28px"
+      }
+    }
+  },
+  "spacing-50": {
+    "value": "2px"
+  },
+  "spacing-75": {
+    "value": "4px"
+  },
+  "spacing-100": {
+    "value": "8px"
+  },
+  "spacing-200": {
+    "value": "12px"
+  },
+  "spacing-300": {
+    "value": "16px"
+  },
+  "spacing-400": {
+    "value": "24px"
+  },
+  "spacing-500": {
+    "value": "32px"
+  },
+  "spacing-600": {
+    "value": "40px"
+  },
+  "spacing-700": {
+    "value": "48px"
+  },
+  "spacing-800": {
+    "value": "64px"
+  },
+  "spacing-900": {
+    "value": "80px"
+  },
+  "spacing-1000": {
+    "value": "96px"
+  },
+  "text-to-visual-50": {
+    "sets": {
+      "desktop": {
+        "value": "6px"
+      },
+      "mobile": {
+        "value": "8px"
+      }
+    }
+  },
+  "text-to-visual-75": {
+    "sets": {
+      "desktop": {
+        "value": "7px"
+      },
+      "mobile": {
+        "value": "9px"
+      }
+    }
+  },
+  "text-to-visual-100": {
+    "sets": {
+      "desktop": {
+        "value": "8px"
+      },
+      "mobile": {
+        "value": "10px"
+      }
+    }
+  },
+  "text-to-visual-200": {
+    "sets": {
+      "desktop": {
+        "value": "9px"
+      },
+      "mobile": {
+        "value": "11px"
+      }
+    }
+  },
+  "text-to-visual-300": {
+    "sets": {
+      "desktop": {
+        "value": "10px"
+      },
+      "mobile": {
+        "value": "13px"
+      }
+    }
+  },
+  "text-to-control-75": {
+    "sets": {
+      "desktop": {
+        "value": "9px"
+      },
+      "mobile": {
+        "value": "11px"
+      }
+    }
+  },
+  "text-to-control-100": {
+    "sets": {
+      "desktop": {
+        "value": "10px"
+      },
+      "mobile": {
+        "value": "13px"
+      }
+    }
+  },
+  "text-to-control-200": {
+    "sets": {
+      "desktop": {
+        "value": "11px"
+      },
+      "mobile": {
+        "value": "14px"
+      }
+    }
+  },
+  "text-to-control-300": {
+    "sets": {
+      "desktop": {
+        "value": "13px"
+      },
+      "mobile": {
+        "value": "16px"
+      }
+    }
+  },
+  "focus-ring-thickness": {
+    "value": "2px"
+  },
+  "focus-ring-gap": {
+    "value": "2px"
+  },
+  "border-width-100": {
+    "sets": {
+      "spectrum": {
+        "value": "1px"
+      },
+      "express": {
+        "value": "2px"
+      }
+    }
+  },
+  "border-width-200": {
+    "value": "2px"
+  },
+  "line-height-100": {
+    "value": "1.3"
+  },
+  "line-height-200": {
+    "value": "1.5"
+  },
+  "line-height-CJK-100": {
+    "value": "1.5"
+  },
+  "line-height-CJK-200": {
+    "value": "1.7"
+  },
+  "component-minimum-width-50": {
+    "sets": {
+      "desktop": {
+        "value": "20px"
+      },
+      "mobile": {
+        "value": "26px"
+      }
+    }
+  },
+  "component-minimum-width-75": {
+    "sets": {
+      "desktop": {
+        "value": "24px"
+      },
+      "mobile": {
+        "value": "30px"
+      }
+    }
+  },
+  "component-minimum-width-100": {
+    "sets": {
+      "desktop": {
+        "value": "32px"
+      },
+      "mobile": {
+        "value": "40px"
+      }
+    }
+  },
+  "component-minimum-width-200": {
+    "sets": {
+      "desktop": {
+        "value": "40px"
+      },
+      "mobile": {
+        "value": "50px"
+      }
+    }
+  },
+  "component-minimum-width-300": {
+    "sets": {
+      "desktop": {
         "value": "48px"
       },
-      "800": {
-        "value": "64px"
-      },
-      "900": {
-        "value": "80px"
-      },
-      "1000": {
-        "value": "96px"
+      "mobile": {
+        "value": "60px"
       }
-    },
-
-    "text-to-visual": {
-      "50": {
-        "sets": {
-          "desktop": {
-            "value": "6px"
-          },
-          "mobile": {
-            "value": "8px"
-          }
-        }
+    }
+  },
+  "component-height-50": {
+    "sets": {
+      "desktop": {
+        "value": "20px"
       },
-      "75": {
-        "sets": {
-          "desktop": {
-            "value": "7px"
-          },
-          "mobile": {
-            "value": "9px"
-          }
-        }
-      },
-      "100": {
-        "sets": {
-          "desktop": {
-            "value": "8px"
-          },
-          "mobile": {
-            "value": "10px"
-          }
-        }
-      },
-      "200": {
-        "sets": {
-          "desktop": {
-            "value": "9px"
-          },
-          "mobile": {
-            "value": "11px"
-          }
-        }
-      },
-      "300": {
-        "sets": {
-          "desktop": {
-            "value": "10px"
-          },
-          "mobile": {
-            "value": "13px"
-          }
-        }
+      "mobile": {
+        "value": "26px"
       }
-    },
-
-    "text-to-control": {
-      "75": {
-        "sets": {
-          "desktop": {
-            "value": "9px"
-          },
-          "mobile": {
-            "value": "11px"
-          }
-        }
+    }
+  },
+  "component-height-75": {
+    "sets": {
+      "desktop": {
+        "value": "24px"
       },
-      "100": {
-        "sets": {
-          "desktop": {
-            "value": "10px"
-          },
-          "mobile": {
-            "value": "13px"
-          }
-        }
-      },
-      "200": {
-        "sets": {
-          "desktop": {
-            "value": "11px"
-          },
-          "mobile": {
-            "value": "14px"
-          }
-        }
-      },
-      "300": {
-        "sets": {
-          "desktop": {
-            "value": "13px"
-          },
-          "mobile": {
-            "value": "16px"
-          }
-        }
+      "mobile": {
+        "value": "30px"
       }
-    },
-
-    "focus-ring": {
-      "thickness": {
-        "value": "2px"
+    }
+  },
+  "component-height-100": {
+    "sets": {
+      "desktop": {
+        "value": "32px"
       },
-      "gap": {
-        "value": "2px"
+      "mobile": {
+        "value": "40px"
       }
-    },
-
-    "border-width": {
-      "100": {
-        "sets": {
-          "spectrum": {
-            "value": "1px"
-          },
-          "express": {
-            "value": "2px"
-          }
-        }
+    }
+  },
+  "component-height-200": {
+    "sets": {
+      "desktop": {
+        "value": "40px"
       },
-      "200": {
-        "value": "2px"
+      "mobile": {
+        "value": "50px"
       }
-    },
-
-    "line-height": {
-      "100": {
-        "value": "1.3"
+    }
+  },
+  "component-height-300": {
+    "sets": {
+      "desktop": {
+        "value": "48px"
       },
-      "200": {
-        "value": "1.5"
+      "mobile": {
+        "value": "60px"
       }
-    },
-
-    "line-height-CJK": {
-      "100": {
-        "value": "1.5"
+    }
+  },
+  "component-top-to-workflow-icon-50": {
+    "sets": {
+      "desktop": {
+        "value": "3px"
       },
-      "200": {
-        "value": "1.7"
+      "mobile": {
+        "value": "4px"
       }
-    },
-
-    "component": {
-      "minimum-width": {
-        "50": {
-          "sets": {
-            "desktop": {
-              "value": "20px"
-            },
-            "mobile": {
-              "value": "26px"
-            }
-          }
-        },
-        "75": {
-          "sets": {
-            "desktop": {
-              "value": "24px"
-            },
-            "mobile": {
-              "value": "30px"
-            }
-          }
-        },
-        "100": {
-          "sets": {
-            "desktop": {
-              "value": "32px"
-            },
-            "mobile": {
-              "value": "40px"
-            }
-          }
-        },
-        "200": {
-          "sets": {
-            "desktop": {
-              "value": "40px"
-            },
-            "mobile": {
-              "value": "50px"
-            }
-          }
-        },
-        "300": {
-          "sets": {
-            "desktop": {
-              "value": "48px"
-            },
-            "mobile": {
-              "value": "60px"
-            }
-          }
-        }
+    }
+  },
+  "component-top-to-workflow-icon-75": {
+    "sets": {
+      "desktop": {
+        "value": "4px"
       },
-      "height": {
-        "50": {
-          "sets": {
-            "desktop": {
-              "value": "20px"
-            },
-            "mobile": {
-              "value": "26px"
-            }
-          }
-        },
-        "75": {
-          "sets": {
-            "desktop": {
-              "value": "24px"
-            },
-            "mobile": {
-              "value": "30px"
-            }
-          }
-        },
-        "100": {
-          "sets": {
-            "desktop": {
-              "value": "32px"
-            },
-            "mobile": {
-              "value": "40px"
-            }
-          }
-        },
-        "200": {
-          "sets": {
-            "desktop": {
-              "value": "40px"
-            },
-            "mobile": {
-              "value": "50px"
-            }
-          }
-        },
-        "300": {
-          "sets": {
-            "desktop": {
-              "value": "48px"
-            },
-            "mobile": {
-              "value": "60px"
-            }
-          }
-        }
-      },
-      "top-to-workflow-icon": {
-        "50": {
-          "sets": {
-            "desktop": {
-              "value": "3px"
-            },
-            "mobile": {
-              "value": "4px"
-            }
-          }
-        },
-        "75": {
-          "sets": {
-            "desktop": {
-              "value": "4px"
-            },
-            "mobile": {
-              "value": "5px"
-            }
-          }
-        },
-        "100": {
-          "sets": {
-            "desktop": {
-              "value": "7px"
-            },
-            "mobile": {
-              "value": "9px"
-            }
-          }
-        },
-        "200": {
-          "sets": {
-            "desktop": {
-              "value": "10px"
-            },
-            "mobile": {
-              "value": "13px"
-            }
-          }
-        },
-        "300": {
-          "sets": {
-            "desktop": {
-              "value": "13px"
-            },
-            "mobile": {
-              "value": "16px"
-            }
-          }
-        }
-      },
-      "top-to-text": {
-        "50": {
-          "sets": {
-            "desktop": {
-              "value": "3px"
-            },
-            "mobile": {
-              "value": "4px"
-            }
-          }
-        },
-        "75": {
-          "sets": {
-            "desktop": {
-              "value": "4px"
-            },
-            "mobile": {
-              "value": "4px"
-            }
-          }
-        },
-        "100": {
-          "sets": {
-            "desktop": {
-              "value": "6px"
-            },
-            "mobile": {
-              "value": "8px"
-            }
-          }
-        },
-        "200": {
-          "sets": {
-            "desktop": {
-              "value": "9px"
-            },
-            "mobile": {
-              "value": "12px"
-            }
-          }
-        },
-        "300": {
-          "sets": {
-            "desktop": {
-              "value": "12px"
-            },
-            "mobile": {
-              "value": "15px"
-            }
-          }
-        }
-      },
-      "bottom-to-text": {
-        "50": {
-          "sets": {
-            "desktop": {
-              "value": "3px"
-            },
-            "mobile": {
-              "value": "6px"
-            }
-          }
-        },
-        "75": {
-          "sets": {
-            "desktop": {
-              "value": "5px"
-            },
-            "mobile": {
-              "value": "7px"
-            }
-          }
-        },
-        "100": {
-          "sets": {
-            "desktop": {
-              "value": "9px"
-            },
-            "mobile": {
-              "value": "11px"
-            }
-          }
-        },
-        "200": {
-          "sets": {
-            "desktop": {
-              "value": "11px"
-            },
-            "mobile": {
-              "value": "14px"
-            }
-          }
-        },
-        "300": {
-          "sets": {
-            "desktop": {
-              "value": "14px"
-            },
-            "mobile": {
-              "value": "18px"
-            }
-          }
-        }
+      "mobile": {
+        "value": "5px"
       }
-    },
-
-    "pill": {
-      "edge-to-visual": {
-        "75": {
-          "sets": {
-            "desktop": {
-              "value": "10px"
-            },
-            "mobile": {
-              "value": "13px"
-            }
-          }
-        },
-        "100": {
-          "sets": {
-            "desktop": {
-              "value": "17px"
-            },
-            "mobile": {
-              "value": "17px"
-            }
-          }
-        },
-        "200": {
-          "sets": {
-            "desktop": {
-              "value": "18px"
-            },
-            "mobile": {
-              "value": "22px"
-            }
-          }
-        },
-        "300": {
-          "sets": {
-            "desktop": {
-              "value": "21px"
-            },
-            "mobile": {
-              "value": "27px"
-            }
-          }
-        }
+    }
+  },
+  "component-top-to-workflow-icon-100": {
+    "sets": {
+      "desktop": {
+        "value": "7px"
       },
-      "edge-to-text": {
-        "75": {
-          "sets": {
-            "desktop": {
-              "value": "12px"
-            },
-            "mobile": {
-              "value": "15px"
-            }
-          }
-        },
-        "100": {
-          "sets": {
-            "desktop": {
-              "value": "16px"
-            },
-            "mobile": {
-              "value": "20px"
-            }
-          }
-        },
-        "200": {
-          "sets": {
-            "desktop": {
-              "value": "20px"
-            },
-            "mobile": {
-              "value": "25px"
-            }
-          }
-        },
-        "300": {
-          "sets": {
-            "desktop": {
-              "value": "24px"
-            },
-            "mobile": {
-              "value": "30px"
-            }
-          }
-        }
+      "mobile": {
+        "value": "9px"
       }
-    },
-
-    "edge-to-visual": {
-      "50": {
-        "sets": {
-          "desktop": {
-            "value": "6px"
-          },
-          "mobile": {
-            "value": "7px"
-          }
-        }
+    }
+  },
+  "component-top-to-workflow-icon-200": {
+    "sets": {
+      "desktop": {
+        "value": "10px"
       },
-      "75": {
-        "sets": {
-          "desktop": {
-            "value": "7px"
-          },
-          "mobile": {
-            "value": "9px"
-          }
-        }
-      },
-      "100": {
-        "sets": {
-          "desktop": {
-            "value": "10px"
-          },
-          "mobile": {
-            "value": "12px"
-          }
-        }
-      },
-      "200": {
-        "sets": {
-          "desktop": {
-            "value": "13px"
-          },
-          "mobile": {
-            "value": "16px"
-          }
-        }
-      },
-      "300": {
-        "sets": {
-          "desktop": {
-            "value": "15px"
-          },
-          "mobile": {
-            "value": "19px"
-          }
-        }
+      "mobile": {
+        "value": "13px"
       }
-    },
-
-    "edge-to-text": {
-      "50": {
-        "sets": {
-          "desktop": {
-            "value": "8px"
-          },
-          "mobile": {
-            "value": "10px"
-          }
-        }
+    }
+  },
+  "component-top-to-workflow-icon-300": {
+    "sets": {
+      "desktop": {
+        "value": "13px"
       },
-      "75": {
-        "sets": {
-          "desktop": {
-            "value": "9px"
-          },
-          "mobile": {
-            "value": "11px"
-          }
-        }
+      "mobile": {
+        "value": "16px"
+      }
+    }
+  },
+  "component-top-to-text-50": {
+    "sets": {
+      "desktop": {
+        "value": "3px"
       },
-      "100": {
-        "sets": {
-          "desktop": {
-            "value": "12px"
-          },
-          "mobile": {
-            "value": "15px"
-          }
-        }
+      "mobile": {
+        "value": "4px"
+      }
+    }
+  },
+  "component-top-to-text-75": {
+    "sets": {
+      "desktop": {
+        "value": "4px"
       },
-      "200": {
-        "sets": {
-          "desktop": {
-            "value": "15px"
-          },
-          "mobile": {
-            "value": "19px"
-          }
-        }
+      "mobile": {
+        "value": "4px"
+      }
+    }
+  },
+  "component-top-to-text-100": {
+    "sets": {
+      "desktop": {
+        "value": "6px"
       },
-      "300": {
-        "sets": {
-          "desktop": {
-            "value": "18px"
-          },
-          "mobile": {
-            "value": "22px"
-          }
-        }
+      "mobile": {
+        "value": "8px"
+      }
+    }
+  },
+  "component-top-to-text-200": {
+    "sets": {
+      "desktop": {
+        "value": "9px"
+      },
+      "mobile": {
+        "value": "12px"
+      }
+    }
+  },
+  "component-top-to-text-300": {
+    "sets": {
+      "desktop": {
+        "value": "12px"
+      },
+      "mobile": {
+        "value": "15px"
+      }
+    }
+  },
+  "component-bottom-to-text-50": {
+    "sets": {
+      "desktop": {
+        "value": "3px"
+      },
+      "mobile": {
+        "value": "6px"
+      }
+    }
+  },
+  "component-bottom-to-text-75": {
+    "sets": {
+      "desktop": {
+        "value": "5px"
+      },
+      "mobile": {
+        "value": "7px"
+      }
+    }
+  },
+  "component-bottom-to-text-100": {
+    "sets": {
+      "desktop": {
+        "value": "9px"
+      },
+      "mobile": {
+        "value": "11px"
+      }
+    }
+  },
+  "component-bottom-to-text-200": {
+    "sets": {
+      "desktop": {
+        "value": "11px"
+      },
+      "mobile": {
+        "value": "14px"
+      }
+    }
+  },
+  "component-bottom-to-text-300": {
+    "sets": {
+      "desktop": {
+        "value": "14px"
+      },
+      "mobile": {
+        "value": "18px"
+      }
+    }
+  },
+  "pill-edge-to-visual-75": {
+    "sets": {
+      "desktop": {
+        "value": "10px"
+      },
+      "mobile": {
+        "value": "13px"
+      }
+    }
+  },
+  "pill-edge-to-visual-100": {
+    "sets": {
+      "desktop": {
+        "value": "17px"
+      },
+      "mobile": {
+        "value": "17px"
+      }
+    }
+  },
+  "pill-edge-to-visual-200": {
+    "sets": {
+      "desktop": {
+        "value": "18px"
+      },
+      "mobile": {
+        "value": "22px"
+      }
+    }
+  },
+  "pill-edge-to-visual-300": {
+    "sets": {
+      "desktop": {
+        "value": "21px"
+      },
+      "mobile": {
+        "value": "27px"
+      }
+    }
+  },
+  "pill-edge-to-text-75": {
+    "sets": {
+      "desktop": {
+        "value": "12px"
+      },
+      "mobile": {
+        "value": "15px"
+      }
+    }
+  },
+  "pill-edge-to-text-100": {
+    "sets": {
+      "desktop": {
+        "value": "16px"
+      },
+      "mobile": {
+        "value": "20px"
+      }
+    }
+  },
+  "pill-edge-to-text-200": {
+    "sets": {
+      "desktop": {
+        "value": "20px"
+      },
+      "mobile": {
+        "value": "25px"
+      }
+    }
+  },
+  "pill-edge-to-text-300": {
+    "sets": {
+      "desktop": {
+        "value": "24px"
+      },
+      "mobile": {
+        "value": "30px"
+      }
+    }
+  },
+  "edge-to-visual-50": {
+    "sets": {
+      "desktop": {
+        "value": "6px"
+      },
+      "mobile": {
+        "value": "7px"
+      }
+    }
+  },
+  "edge-to-visual-75": {
+    "sets": {
+      "desktop": {
+        "value": "7px"
+      },
+      "mobile": {
+        "value": "9px"
+      }
+    }
+  },
+  "edge-to-visual-100": {
+    "sets": {
+      "desktop": {
+        "value": "10px"
+      },
+      "mobile": {
+        "value": "12px"
+      }
+    }
+  },
+  "edge-to-visual-200": {
+    "sets": {
+      "desktop": {
+        "value": "13px"
+      },
+      "mobile": {
+        "value": "16px"
+      }
+    }
+  },
+  "edge-to-visual-300": {
+    "sets": {
+      "desktop": {
+        "value": "15px"
+      },
+      "mobile": {
+        "value": "19px"
+      }
+    }
+  },
+  "edge-to-text-50": {
+    "sets": {
+      "desktop": {
+        "value": "8px"
+      },
+      "mobile": {
+        "value": "10px"
+      }
+    }
+  },
+  "edge-to-text-75": {
+    "sets": {
+      "desktop": {
+        "value": "9px"
+      },
+      "mobile": {
+        "value": "11px"
+      }
+    }
+  },
+  "edge-to-text-100": {
+    "sets": {
+      "desktop": {
+        "value": "12px"
+      },
+      "mobile": {
+        "value": "15px"
+      }
+    }
+  },
+  "edge-to-text-200": {
+    "sets": {
+      "desktop": {
+        "value": "15px"
+      },
+      "mobile": {
+        "value": "19px"
+      }
+    }
+  },
+  "edge-to-text-300": {
+    "sets": {
+      "desktop": {
+        "value": "18px"
+      },
+      "mobile": {
+        "value": "22px"
       }
     }
   }
