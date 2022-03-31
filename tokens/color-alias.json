@@ -48,15 +48,17 @@
   "transparent-black-900": {
     "value": "rgb(0, 0, 0)"
   },
+
   "focus-ring-color": {
     "value": "{blue-800}"
   },
-  "focus-ring-static-white-color": {
-    "value": "{black}"
-  },
-  "focus-ring-static-black-color": {
+  "static-white-focus-ring-color": {
     "value": "{white}"
   },
+  "static-black-focus-ring-color": {
+    "value": "{black}"
+  },
+
   "neutral-content-color": {
     "value": "{gray-800}"
   },
@@ -69,6 +71,7 @@
   "neutral-content-color-key-focus": {
     "value": "{gray-900}"
   },
+
   "neutral-subdued-content-color": {
     "default": {
       "value": "{gray-700}"
@@ -83,6 +86,7 @@
       "value": "{gray-800}"
     }
   },
+
   "accent-content-color": {
     "value": "{accent-color-900}"
   },
