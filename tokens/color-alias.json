@@ -234,6 +234,7 @@
   "accent-content-color-key-focus": {
     "value": "{accent-color-1000}"
   },
+
   "negative-content-color": {
     "value": "{negative-color-900}"
   },
@@ -246,6 +247,74 @@
   "negative-content-color-key-focus": {
     "value": "{negative-color-1000}"
   },
+
+  "negative-background-color": {
+    "default": {
+      "sets": {
+        "light": {
+          "value": "{negative-color-900}"
+        },
+        "dark": {
+          "value": "{negative-color-500}"
+        },
+        "darkest": {
+          "value": "{negative-color-600}"
+        },
+        "wireframe": {
+          "value": "{negative-color-900}"
+        }
+      }
+    },
+    "hover": {
+      "sets": {
+        "light": {
+          "value": "{negative-color-1000}"
+        },
+        "dark": {
+          "value": "{negative-color-400}"
+        },
+        "darkest": {
+          "value": "{negative-color-500}"
+        },
+        "wireframe": {
+          "value": "{negative-color-1000}"
+        }
+      }
+    },
+    "down": {
+      "sets": {
+        "light": {
+          "value": "{negative-color-1100}"
+        },
+        "dark": {
+          "value": "{negative-color-300}"
+        },
+        "darkest": {
+          "value": "{negative-color-400}"
+        },
+        "wireframe": {
+          "value": "{negative-color-1100}"
+        }
+      }
+    },
+    "key-focus": {
+      "sets": {
+        "light": {
+          "value": "{negative-color-1000}"
+        },
+        "dark": {
+          "value": "{negative-color-400}"
+        },
+        "darkest": {
+          "value": "{negative-color-500}"
+        },
+        "wireframe": {
+          "value": "{negative-color-1000}"
+        }
+      }
+    }
+  },
+
   "disabled-content-color": {
     "value": "{gray-400}"
   },
