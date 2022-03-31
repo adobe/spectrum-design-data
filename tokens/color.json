@@ -5,6 +5,7 @@
   "white": {
     "value": "rgb(255, 255, 255)"
   },
+
   "gray-50": {
     "sets": {
       "light": {
@@ -15,6 +16,9 @@
       },
       "darkest": {
         "value": "rgb(0, 0, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(255, 255, 255)"
       }
     }
   },
@@ -28,6 +32,9 @@
       },
       "darkest": {
         "value": "rgb(14, 14, 14)"
+      },
+      "wireframe": {
+        "value": "rgb(253, 253, 254)"
       }
     }
   },
@@ -41,6 +48,9 @@
       },
       "darkest": {
         "value": "rgb(30, 30, 30)"
+      },
+      "wireframe": {
+        "value": "rgb(244, 246, 252)"
       }
     }
   },
@@ -54,6 +64,9 @@
       },
       "darkest": {
         "value": "rgb(46, 46, 46)"
+      },
+      "wireframe": {
+        "value": "rgb(230, 236, 248)"
       }
     }
   },
@@ -67,6 +80,9 @@
       },
       "darkest": {
         "value": "rgb(67, 67, 67)"
+      },
+      "wireframe": {
+        "value": "rgb(210, 220, 243)"
       }
     }
   },
@@ -80,6 +96,9 @@
       },
       "darkest": {
         "value": "rgb(96, 96, 96)"
+      },
+      "wireframe": {
+        "value": "rgb(183, 200, 235)"
       }
     }
   },
@@ -93,6 +112,9 @@
       },
       "darkest": {
         "value": "rgb(135, 135, 135)"
+      },
+      "wireframe": {
+        "value": "rgb(152, 176, 226)"
       }
     }
   },
@@ -106,6 +128,9 @@
       },
       "darkest": {
         "value": "rgb(175, 175, 175)"
+      },
+      "wireframe": {
+        "value": "rgb(113, 144, 210)"
       }
     }
   },
@@ -119,6 +144,9 @@
       },
       "darkest": {
         "value": "rgb(209, 209, 209)"
+      },
+      "wireframe": {
+        "value": "rgb(78, 112, 187)"
       }
     }
   },
@@ -132,6 +160,9 @@
       },
       "darkest": {
         "value": "rgb(235, 235, 235)"
+      },
+      "wireframe": {
+        "value": "rgb(73, 110, 194)"
       }
     }
   },
@@ -145,9 +176,13 @@
       },
       "darkest": {
         "value": "rgb(255, 255, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(72, 110, 194)"
       }
     }
   },
+
   "red-100": {
     "sets": {
       "light": {
@@ -158,6 +193,9 @@
       },
       "darkest": {
         "value": "rgb(87, 0, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(242, 245, 251)"
       }
     }
   },
@@ -171,6 +209,9 @@
       },
       "darkest": {
         "value": "rgb(110, 0, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(237, 241, 250)"
       }
     }
   },
@@ -184,6 +225,9 @@
       },
       "darkest": {
         "value": "rgb(138, 0, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(233, 238, 248)"
       }
     }
   },
@@ -197,6 +241,9 @@
       },
       "darkest": {
         "value": "rgb(167, 0, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(226, 232, 247)"
       }
     }
   },
@@ -210,6 +257,9 @@
       },
       "darkest": {
         "value": "rgb(196, 7, 6)"
+      },
+      "wireframe": {
+        "value": "rgb(216, 225, 244)"
       }
     }
   },
@@ -223,6 +273,9 @@
       },
       "darkest": {
         "value": "rgb(221, 33, 24)"
+      },
+      "wireframe": {
+        "value": "rgb(203, 215, 241)"
       }
     }
   },
@@ -236,6 +289,9 @@
       },
       "darkest": {
         "value": "rgb(238, 67, 49)"
+      },
+      "wireframe": {
+        "value": "rgb(190, 205, 237)"
       }
     }
   },
@@ -249,6 +305,9 @@
       },
       "darkest": {
         "value": "rgb(249, 99, 76)"
+      },
+      "wireframe": {
+        "value": "rgb(173, 192, 233)"
       }
     }
   },
@@ -262,6 +321,9 @@
       },
       "darkest": {
         "value": "rgb(255, 129, 107)"
+      },
+      "wireframe": {
+        "value": "rgb(154, 177, 227)"
       }
     }
   },
@@ -275,6 +337,9 @@
       },
       "darkest": {
         "value": "rgb(255, 158, 140)"
+      },
+      "wireframe": {
+        "value": "rgb(133, 161, 219)"
       }
     }
   },
@@ -288,6 +353,9 @@
       },
       "darkest": {
         "value": "rgb(255, 183, 169)"
+      },
+      "wireframe": {
+        "value": "rgb(114, 145, 211)"
       }
     }
   },
@@ -301,6 +369,9 @@
       },
       "darkest": {
         "value": "rgb(255, 205, 195)"
+      },
+      "wireframe": {
+        "value": "rgb(96, 130, 201)"
       }
     }
   },
@@ -314,6 +385,9 @@
       },
       "darkest": {
         "value": "rgb(255, 223, 217)"
+      },
+      "wireframe": {
+        "value": "rgb(82, 117, 192)"
       }
     }
   },
@@ -327,9 +401,13 @@
       },
       "darkest": {
         "value": "rgb(255, 237, 234)"
+      },
+      "wireframe": {
+        "value": "rgb(74, 109, 184)"
       }
     }
   },
+
   "orange-100": {
     "sets": {
       "light": {
@@ -340,6 +418,9 @@
       },
       "darkest": {
         "value": "rgb(72, 24, 1)"
+      },
+      "wireframe": {
+        "value": "rgb(242, 245, 251)"
       }
     }
   },
@@ -353,6 +434,9 @@
       },
       "darkest": {
         "value": "rgb(92, 32, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(237, 241, 250)"
       }
     }
   },
@@ -366,6 +450,9 @@
       },
       "darkest": {
         "value": "rgb(115, 43, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(233, 238, 248)"
       }
     }
   },
@@ -379,6 +466,9 @@
       },
       "darkest": {
         "value": "rgb(138, 55, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(226, 232, 247)"
       }
     }
   },
@@ -392,6 +482,9 @@
       },
       "darkest": {
         "value": "rgb(162, 68, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(216, 225, 244)"
       }
     }
   },
@@ -405,6 +498,9 @@
       },
       "darkest": {
         "value": "rgb(186, 82, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(203, 215, 241)"
       }
     }
   },
@@ -418,6 +514,9 @@
       },
       "darkest": {
         "value": "rgb(210, 98, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(190, 205, 237)"
       }
     }
   },
@@ -431,6 +530,9 @@
       },
       "darkest": {
         "value": "rgb(232, 116, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(173, 192, 233)"
       }
     }
   },
@@ -444,6 +546,9 @@
       },
       "darkest": {
         "value": "rgb(249, 137, 23)"
+      },
+      "wireframe": {
+        "value": "rgb(154, 177, 227)"
       }
     }
   },
@@ -457,6 +562,9 @@
       },
       "darkest": {
         "value": "rgb(255, 162, 59)"
+      },
+      "wireframe": {
+        "value": "rgb(133, 161, 219)"
       }
     }
   },
@@ -470,6 +578,9 @@
       },
       "darkest": {
         "value": "rgb(255, 188, 102)"
+      },
+      "wireframe": {
+        "value": "rgb(114, 145, 211)"
       }
     }
   },
@@ -483,6 +594,9 @@
       },
       "darkest": {
         "value": "rgb(253, 210, 145)"
+      },
+      "wireframe": {
+        "value": "rgb(96, 130, 201)"
       }
     }
   },
@@ -496,6 +610,9 @@
       },
       "darkest": {
         "value": "rgb(255, 226, 181)"
+      },
+      "wireframe": {
+        "value": "rgb(82, 117, 192)"
       }
     }
   },
@@ -509,9 +626,13 @@
       },
       "darkest": {
         "value": "rgb(255, 239, 213)"
+      },
+      "wireframe": {
+        "value": "rgb(74, 109, 184)"
       }
     }
   },
+
   "yellow-100": {
     "sets": {
       "light": {
@@ -522,6 +643,9 @@
       },
       "darkest": {
         "value": "rgb(53, 36, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(242, 245, 251)"
       }
     }
   },
@@ -535,6 +659,9 @@
       },
       "darkest": {
         "value": "rgb(68, 47, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(237, 241, 250)"
       }
     }
   },
@@ -548,6 +675,9 @@
       },
       "darkest": {
         "value": "rgb(86, 62, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(233, 238, 248)"
       }
     }
   },
@@ -561,6 +691,9 @@
       },
       "darkest": {
         "value": "rgb(103, 77, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(226, 232, 247)"
       }
     }
   },
@@ -574,6 +707,9 @@
       },
       "darkest": {
         "value": "rgb(122, 92, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(216, 225, 244)"
       }
     }
   },
@@ -587,6 +723,9 @@
       },
       "darkest": {
         "value": "rgb(141, 108, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(203, 215, 241)"
       }
     }
   },
@@ -600,6 +739,9 @@
       },
       "darkest": {
         "value": "rgb(161, 126, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(190, 205, 237)"
       }
     }
   },
@@ -613,6 +755,9 @@
       },
       "darkest": {
         "value": "rgb(180, 144, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(173, 192, 233)"
       }
     }
   },
@@ -626,6 +771,9 @@
       },
       "darkest": {
         "value": "rgb(199, 162, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(154, 177, 227)"
       }
     }
   },
@@ -639,6 +787,9 @@
       },
       "darkest": {
         "value": "rgb(216, 181, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(133, 161, 219)"
       }
     }
   },
@@ -652,6 +803,9 @@
       },
       "darkest": {
         "value": "rgb(233, 199, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(114, 145, 211)"
       }
     }
   },
@@ -665,6 +819,9 @@
       },
       "darkest": {
         "value": "rgb(247, 216, 4)"
+      },
+      "wireframe": {
+        "value": "rgb(96, 130, 201)"
       }
     }
   },
@@ -678,6 +835,9 @@
       },
       "darkest": {
         "value": "rgb(249, 233, 97)"
+      },
+      "wireframe": {
+        "value": "rgb(82, 117, 192)"
       }
     }
   },
@@ -691,9 +851,13 @@
       },
       "darkest": {
         "value": "rgb(252, 243, 170)"
+      },
+      "wireframe": {
+        "value": "rgb(74, 109, 184)"
       }
     }
   },
+
   "chartreuse-100": {
     "sets": {
       "light": {
@@ -704,6 +868,9 @@
       },
       "darkest": {
         "value": "rgb(32, 43, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(242, 245, 251)"
       }
     }
   },
@@ -717,6 +884,9 @@
       },
       "darkest": {
         "value": "rgb(42, 56, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(237, 241, 250)"
       }
     }
   },
@@ -730,6 +900,9 @@
       },
       "darkest": {
         "value": "rgb(54, 72, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(233, 238, 248)"
       }
     }
   },
@@ -743,6 +916,9 @@
       },
       "darkest": {
         "value": "rgb(66, 88, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(226, 232, 247)"
       }
     }
   },
@@ -756,6 +932,9 @@
       },
       "darkest": {
         "value": "rgb(79, 105, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(216, 225, 244)"
       }
     }
   },
@@ -769,6 +948,9 @@
       },
       "darkest": {
         "value": "rgb(93, 123, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(203, 215, 241)"
       }
     }
   },
@@ -782,6 +964,9 @@
       },
       "darkest": {
         "value": "rgb(107, 142, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(190, 205, 237)"
       }
     }
   },
@@ -795,6 +980,9 @@
       },
       "darkest": {
         "value": "rgb(122, 161, 0)"
+      },
+      "wireframe": {
+        "value": "rgb(173, 192, 233)"
       }
     }
   },
@@ -808,6 +996,9 @@
       },
       "darkest": {
         "value": "rgb(138, 180, 3)"
+      },
+      "wireframe": {
+        "value": "rgb(154, 177, 227)"
       }
     }
   },
@@ -821,6 +1012,9 @@
       },
       "darkest": {
         "value": "rgb(154, 198, 11)"
+      },
+      "wireframe": {
+        "value": "rgb(133, 161, 219)"
       }
     }
   },
@@ -834,6 +1028,9 @@
       },
       "darkest": {
         "value": "rgb(170, 216, 22)"
+      },
+      "wireframe": {
+        "value": "rgb(114, 145, 211)"
       }
     }
   },
@@ -847,6 +1044,9 @@
       },
       "darkest": {
         "value": "rgb(187, 232, 41)"
+      },
+      "wireframe": {
+        "value": "rgb(96, 130, 201)"
       }
     }
   },
@@ -860,6 +1060,9 @@
       },
       "darkest": {
         "value": "rgb(205, 246, 72)"
+      },
+      "wireframe": {
+        "value": "rgb(82, 117, 192)"
       }
     }
   },
@@ -873,9 +1076,13 @@
       },
       "darkest": {
         "value": "rgb(225, 253, 132)"
+      },
+      "wireframe": {
+        "value": "rgb(74, 109, 184)"
       }
     }
   },
+
   "celery-100": {
     "sets": {
       "light": {
@@ -886,6 +1093,9 @@
       },
       "darkest": {
         "value": "rgb(0, 47, 7)"
+      },
+      "wireframe": {
+        "value": "rgb(242, 245, 251)"
       }
     }
   },
@@ -899,6 +1109,9 @@
       },
       "darkest": {
         "value": "rgb(0, 61, 9)"
+      },
+      "wireframe": {
+        "value": "rgb(237, 241, 250)"
       }
     }
   },
@@ -912,6 +1125,9 @@
       },
       "darkest": {
         "value": "rgb(0, 77, 12)"
+      },
+      "wireframe": {
+        "value": "rgb(233, 238, 248)"
       }
     }
   },
@@ -925,6 +1141,9 @@
       },
       "darkest": {
         "value": "rgb(0, 95, 15)"
+      },
+      "wireframe": {
+        "value": "rgb(226, 232, 247)"
       }
     }
   },
@@ -938,6 +1157,9 @@
       },
       "darkest": {
         "value": "rgb(0, 113, 15)"
+      },
+      "wireframe": {
+        "value": "rgb(216, 225, 244)"
       }
     }
   },
@@ -951,6 +1173,9 @@
       },
       "darkest": {
         "value": "rgb(0, 132, 15)"
+      },
+      "wireframe": {
+        "value": "rgb(203, 215, 241)"
       }
     }
   },
@@ -964,6 +1189,9 @@
       },
       "darkest": {
         "value": "rgb(0, 151, 20)"
+      },
+      "wireframe": {
+        "value": "rgb(190, 205, 237)"
       }
     }
   },
@@ -977,6 +1205,9 @@
       },
       "darkest": {
         "value": "rgb(13, 171, 37)"
+      },
+      "wireframe": {
+        "value": "rgb(173, 192, 233)"
       }
     }
   },
@@ -990,6 +1221,9 @@
       },
       "darkest": {
         "value": "rgb(45, 191, 58)"
+      },
+      "wireframe": {
+        "value": "rgb(154, 177, 227)"
       }
     }
   },
@@ -1003,6 +1237,9 @@
       },
       "darkest": {
         "value": "rgb(80, 208, 82)"
+      },
+      "wireframe": {
+        "value": "rgb(133, 161, 219)"
       }
     }
   },
@@ -1016,6 +1253,9 @@
       },
       "darkest": {
         "value": "rgb(115, 224, 107)"
+      },
+      "wireframe": {
+        "value": "rgb(114, 145, 211)"
       }
     }
   },
@@ -1029,6 +1269,9 @@
       },
       "darkest": {
         "value": "rgb(147, 237, 131)"
+      },
+      "wireframe": {
+        "value": "rgb(96, 130, 201)"
       }
     }
   },
@@ -1042,6 +1285,9 @@
       },
       "darkest": {
         "value": "rgb(180, 247, 162)"
+      },
+      "wireframe": {
+        "value": "rgb(82, 117, 192)"
       }
     }
   },
@@ -1055,9 +1301,13 @@
       },
       "darkest": {
         "value": "rgb(213, 252, 202)"
+      },
+      "wireframe": {
+        "value": "rgb(74, 109, 184)"
       }
     }
   },
+
   "green-100": {
     "sets": {
       "light": {
@@ -1068,6 +1318,9 @@
       },
       "darkest": {
         "value": "rgb(10, 44, 28)"
+      },
+      "wireframe": {
+        "value": "rgb(242, 245, 251)"
       }
     }
   },
@@ -1081,6 +1334,9 @@
       },
       "darkest": {
         "value": "rgb(7, 59, 36)"
+      },
+      "wireframe": {
+        "value": "rgb(237, 241, 250)"
       }
     }
   },
@@ -1094,6 +1350,9 @@
       },
       "darkest": {
         "value": "rgb(0, 76, 46)"
+      },
+      "wireframe": {
+        "value": "rgb(233, 238, 248)"
       }
     }
   },
@@ -1107,6 +1366,9 @@
       },
       "darkest": {
         "value": "rgb(0, 93, 57)"
+      },
+      "wireframe": {
+        "value": "rgb(226, 232, 247)"
       }
     }
   },
@@ -1120,6 +1382,9 @@
       },
       "darkest": {
         "value": "rgb(0, 111, 69)"
+      },
+      "wireframe": {
+        "value": "rgb(216, 225, 244)"
       }
     }
   },
@@ -1133,6 +1398,9 @@
       },
       "darkest": {
         "value": "rgb(0, 130, 82)"
+      },
+      "wireframe": {
+        "value": "rgb(203, 215, 241)"
       }
     }
   },
@@ -1146,6 +1414,9 @@
       },
       "darkest": {
         "value": "rgb(0, 149, 98)"
+      },
+      "wireframe": {
+        "value": "rgb(190, 205, 237)"
       }
     }
   },
@@ -1159,6 +1430,9 @@
       },
       "darkest": {
         "value": "rgb(28, 168, 114)"
+      },
+      "wireframe": {
+        "value": "rgb(173, 192, 233)"
       }
     }
   },
@@ -1172,6 +1446,9 @@
       },
       "darkest": {
         "value": "rgb(52, 187, 132)"
+      },
+      "wireframe": {
+        "value": "rgb(154, 177, 227)"
       }
     }
   },
@@ -1185,6 +1462,9 @@
       },
       "darkest": {
         "value": "rgb(75, 205, 149)"
+      },
+      "wireframe": {
+        "value": "rgb(133, 161, 219)"
       }
     }
   },
@@ -1198,6 +1478,9 @@
       },
       "darkest": {
         "value": "rgb(103, 222, 168)"
+      },
+      "wireframe": {
+        "value": "rgb(114, 145, 211)"
       }
     }
   },
@@ -1211,6 +1494,9 @@
       },
       "darkest": {
         "value": "rgb(137, 236, 188)"
+      },
+      "wireframe": {
+        "value": "rgb(96, 130, 201)"
       }
     }
   },
@@ -1224,6 +1510,9 @@
       },
       "darkest": {
         "value": "rgb(177, 244, 209)"
+      },
+      "wireframe": {
+        "value": "rgb(82, 117, 192)"
       }
     }
   },
@@ -1237,9 +1526,13 @@
       },
       "darkest": {
         "value": "rgb(214, 249, 228)"
+      },
+      "wireframe": {
+        "value": "rgb(74, 109, 184)"
       }
     }
   },
+
   "seafoam-100": {
     "sets": {
       "light": {
@@ -1250,6 +1543,9 @@
       },
       "darkest": {
         "value": "rgb(18, 43, 42)"
+      },
+      "wireframe": {
+        "value": "rgb(242, 245, 251)"
       }
     }
   },
@@ -1263,6 +1559,9 @@
       },
       "darkest": {
         "value": "rgb(19, 57, 55)"
+      },
+      "wireframe": {
+        "value": "rgb(237, 241, 250)"
       }
     }
   },
@@ -1276,6 +1575,9 @@
       },
       "darkest": {
         "value": "rgb(16, 73, 70)"
+      },
+      "wireframe": {
+        "value": "rgb(233, 238, 248)"
       }
     }
   },
@@ -1289,6 +1591,9 @@
       },
       "darkest": {
         "value": "rgb(3, 91, 88)"
+      },
+      "wireframe": {
+        "value": "rgb(226, 232, 247)"
       }
     }
   },
@@ -1302,6 +1607,9 @@
       },
       "darkest": {
         "value": "rgb(0, 108, 104)"
+      },
+      "wireframe": {
+        "value": "rgb(216, 225, 244)"
       }
     }
   },
@@ -1315,6 +1623,9 @@
       },
       "darkest": {
         "value": "rgb(0, 127, 121)"
+      },
+      "wireframe": {
+        "value": "rgb(203, 215, 241)"
       }
     }
   },
@@ -1328,6 +1639,9 @@
       },
       "darkest": {
         "value": "rgb(0, 146, 140)"
+      },
+      "wireframe": {
+        "value": "rgb(190, 205, 237)"
       }
     }
   },
@@ -1341,6 +1655,9 @@
       },
       "darkest": {
         "value": "rgb(0, 165, 159)"
+      },
+      "wireframe": {
+        "value": "rgb(173, 192, 233)"
       }
     }
   },
@@ -1354,6 +1671,9 @@
       },
       "darkest": {
         "value": "rgb(26, 185, 178)"
+      },
+      "wireframe": {
+        "value": "rgb(154, 177, 227)"
       }
     }
   },
@@ -1367,6 +1687,9 @@
       },
       "darkest": {
         "value": "rgb(66, 202, 195)"
+      },
+      "wireframe": {
+        "value": "rgb(133, 161, 219)"
       }
     }
   },
@@ -1380,6 +1703,9 @@
       },
       "darkest": {
         "value": "rgb(102, 218, 211)"
+      },
+      "wireframe": {
+        "value": "rgb(114, 145, 211)"
       }
     }
   },
@@ -1393,6 +1719,9 @@
       },
       "darkest": {
         "value": "rgb(139, 232, 225)"
+      },
+      "wireframe": {
+        "value": "rgb(96, 130, 201)"
       }
     }
   },
@@ -1406,6 +1735,9 @@
       },
       "darkest": {
         "value": "rgb(179, 242, 237)"
+      },
+      "wireframe": {
+        "value": "rgb(82, 117, 192)"
       }
     }
   },
@@ -1419,9 +1751,13 @@
       },
       "darkest": {
         "value": "rgb(215, 248, 244)"
+      },
+      "wireframe": {
+        "value": "rgb(74, 109, 184)"
       }
     }
   },
+
   "cyan-100": {
     "sets": {
       "light": {
@@ -1432,6 +1768,9 @@
       },
       "darkest": {
         "value": "rgb(0, 41, 68)"
+      },
+      "wireframe": {
+        "value": "rgb(242, 245, 251)"
       }
     }
   },
@@ -1445,6 +1784,9 @@
       },
       "darkest": {
         "value": "rgb(0, 54, 88)"
+      },
+      "wireframe": {
+        "value": "rgb(237, 241, 250)"
       }
     }
   },
@@ -1458,6 +1800,9 @@
       },
       "darkest": {
         "value": "rgb(0, 69, 108)"
+      },
+      "wireframe": {
+        "value": "rgb(233, 238, 248)"
       }
     }
   },
@@ -1471,6 +1816,9 @@
       },
       "darkest": {
         "value": "rgb(0, 86, 128)"
+      },
+      "wireframe": {
+        "value": "rgb(226, 232, 247)"
       }
     }
   },
@@ -1484,6 +1832,9 @@
       },
       "darkest": {
         "value": "rgb(0, 103, 147)"
+      },
+      "wireframe": {
+        "value": "rgb(216, 225, 244)"
       }
     }
   },
@@ -1497,6 +1848,9 @@
       },
       "darkest": {
         "value": "rgb(0, 121, 167)"
+      },
+      "wireframe": {
+        "value": "rgb(203, 215, 241)"
       }
     }
   },
@@ -1510,6 +1864,9 @@
       },
       "darkest": {
         "value": "rgb(0, 140, 186)"
+      },
+      "wireframe": {
+        "value": "rgb(190, 205, 237)"
       }
     }
   },
@@ -1523,6 +1880,9 @@
       },
       "darkest": {
         "value": "rgb(4, 160, 205)"
+      },
+      "wireframe": {
+        "value": "rgb(173, 192, 233)"
       }
     }
   },
@@ -1536,6 +1896,9 @@
       },
       "darkest": {
         "value": "rgb(23, 180, 221)"
+      },
+      "wireframe": {
+        "value": "rgb(154, 177, 227)"
       }
     }
   },
@@ -1549,6 +1912,9 @@
       },
       "darkest": {
         "value": "rgb(57, 199, 234)"
+      },
+      "wireframe": {
+        "value": "rgb(133, 161, 219)"
       }
     }
   },
@@ -1562,6 +1928,9 @@
       },
       "darkest": {
         "value": "rgb(96, 216, 243)"
+      },
+      "wireframe": {
+        "value": "rgb(114, 145, 211)"
       }
     }
   },
@@ -1575,6 +1944,9 @@
       },
       "darkest": {
         "value": "rgb(134, 230, 250)"
+      },
+      "wireframe": {
+        "value": "rgb(96, 130, 201)"
       }
     }
   },
@@ -1588,6 +1960,9 @@
       },
       "darkest": {
         "value": "rgb(170, 242, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(82, 117, 192)"
       }
     }
   },
@@ -1601,9 +1976,13 @@
       },
       "darkest": {
         "value": "rgb(206, 249, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(74, 109, 184)"
       }
     }
   },
+
   "blue-100": {
     "sets": {
       "light": {
@@ -1614,6 +1993,9 @@
       },
       "darkest": {
         "value": "rgb(0, 38, 81)"
+      },
+      "wireframe": {
+        "value": "rgb(242, 245, 251)"
       }
     }
   },
@@ -1627,6 +2009,9 @@
       },
       "darkest": {
         "value": "rgb(0, 50, 106)"
+      },
+      "wireframe": {
+        "value": "rgb(237, 241, 250)"
       }
     }
   },
@@ -1640,6 +2025,9 @@
       },
       "darkest": {
         "value": "rgb(0, 64, 135)"
+      },
+      "wireframe": {
+        "value": "rgb(233, 238, 248)"
       }
     }
   },
@@ -1653,6 +2041,9 @@
       },
       "darkest": {
         "value": "rgb(0, 78, 166)"
+      },
+      "wireframe": {
+        "value": "rgb(226, 232, 247)"
       }
     }
   },
@@ -1666,6 +2057,9 @@
       },
       "darkest": {
         "value": "rgb(0, 92, 200)"
+      },
+      "wireframe": {
+        "value": "rgb(216, 225, 244)"
       }
     }
   },
@@ -1679,6 +2073,9 @@
       },
       "darkest": {
         "value": "rgb(6, 108, 231)"
+      },
+      "wireframe": {
+        "value": "rgb(203, 215, 241)"
       }
     }
   },
@@ -1692,6 +2089,9 @@
       },
       "darkest": {
         "value": "rgb(29, 128, 245)"
+      },
+      "wireframe": {
+        "value": "rgb(190, 205, 237)"
       }
     }
   },
@@ -1705,6 +2105,9 @@
       },
       "darkest": {
         "value": "rgb(64, 150, 243)"
+      },
+      "wireframe": {
+        "value": "rgb(173, 192, 233)"
       }
     }
   },
@@ -1718,6 +2121,9 @@
       },
       "darkest": {
         "value": "rgb(94, 170, 247)"
+      },
+      "wireframe": {
+        "value": "rgb(154, 177, 227)"
       }
     }
   },
@@ -1731,6 +2137,9 @@
       },
       "darkest": {
         "value": "rgb(124, 189, 250)"
+      },
+      "wireframe": {
+        "value": "rgb(133, 161, 219)"
       }
     }
   },
@@ -1744,6 +2153,9 @@
       },
       "darkest": {
         "value": "rgb(152, 206, 253)"
+      },
+      "wireframe": {
+        "value": "rgb(114, 145, 211)"
       }
     }
   },
@@ -1757,6 +2169,9 @@
       },
       "darkest": {
         "value": "rgb(179, 222, 254)"
+      },
+      "wireframe": {
+        "value": "rgb(96, 130, 201)"
       }
     }
   },
@@ -1770,6 +2185,9 @@
       },
       "darkest": {
         "value": "rgb(206, 234, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(82, 117, 192)"
       }
     }
   },
@@ -1783,9 +2201,13 @@
       },
       "darkest": {
         "value": "rgb(227, 243, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(74, 109, 184)"
       }
     }
   },
+
   "indigo-100": {
     "sets": {
       "light": {
@@ -1796,6 +2218,9 @@
       },
       "darkest": {
         "value": "rgb(26, 29, 97)"
+      },
+      "wireframe": {
+        "value": "rgb(242, 245, 251)"
       }
     }
   },
@@ -1809,6 +2234,9 @@
       },
       "darkest": {
         "value": "rgb(35, 39, 125)"
+      },
+      "wireframe": {
+        "value": "rgb(237, 241, 250)"
       }
     }
   },
@@ -1822,6 +2250,9 @@
       },
       "darkest": {
         "value": "rgb(46, 50, 158)"
+      },
+      "wireframe": {
+        "value": "rgb(233, 238, 248)"
       }
     }
   },
@@ -1835,6 +2266,9 @@
       },
       "darkest": {
         "value": "rgb(58, 63, 189)"
+      },
+      "wireframe": {
+        "value": "rgb(226, 232, 247)"
       }
     }
   },
@@ -1848,6 +2282,9 @@
       },
       "darkest": {
         "value": "rgb(73, 78, 216)"
+      },
+      "wireframe": {
+        "value": "rgb(216, 225, 244)"
       }
     }
   },
@@ -1861,6 +2298,9 @@
       },
       "darkest": {
         "value": "rgb(90, 96, 235)"
+      },
+      "wireframe": {
+        "value": "rgb(203, 215, 241)"
       }
     }
   },
@@ -1874,6 +2314,9 @@
       },
       "darkest": {
         "value": "rgb(110, 115, 246)"
+      },
+      "wireframe": {
+        "value": "rgb(190, 205, 237)"
       }
     }
   },
@@ -1887,6 +2330,9 @@
       },
       "darkest": {
         "value": "rgb(132, 136, 253)"
+      },
+      "wireframe": {
+        "value": "rgb(173, 192, 233)"
       }
     }
   },
@@ -1900,6 +2346,9 @@
       },
       "darkest": {
         "value": "rgb(153, 157, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(154, 177, 227)"
       }
     }
   },
@@ -1913,6 +2362,9 @@
       },
       "darkest": {
         "value": "rgb(174, 177, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(133, 161, 219)"
       }
     }
   },
@@ -1926,6 +2378,9 @@
       },
       "darkest": {
         "value": "rgb(194, 196, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(114, 145, 211)"
       }
     }
   },
@@ -1939,6 +2394,9 @@
       },
       "darkest": {
         "value": "rgb(212, 213, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(96, 130, 201)"
       }
     }
   },
@@ -1952,6 +2410,9 @@
       },
       "darkest": {
         "value": "rgb(227, 228, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(82, 117, 192)"
       }
     }
   },
@@ -1965,9 +2426,13 @@
       },
       "darkest": {
         "value": "rgb(240, 240, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(74, 109, 184)"
       }
     }
   },
+
   "purple-100": {
     "sets": {
       "light": {
@@ -1978,6 +2443,9 @@
       },
       "darkest": {
         "value": "rgb(50, 16, 104)"
+      },
+      "wireframe": {
+        "value": "rgb(242, 245, 251)"
       }
     }
   },
@@ -1991,6 +2459,9 @@
       },
       "darkest": {
         "value": "rgb(67, 13, 140)"
+      },
+      "wireframe": {
+        "value": "rgb(237, 241, 250)"
       }
     }
   },
@@ -2004,6 +2475,9 @@
       },
       "darkest": {
         "value": "rgb(86, 16, 173)"
+      },
+      "wireframe": {
+        "value": "rgb(233, 238, 248)"
       }
     }
   },
@@ -2017,6 +2491,9 @@
       },
       "darkest": {
         "value": "rgb(106, 29, 200)"
+      },
+      "wireframe": {
+        "value": "rgb(226, 232, 247)"
       }
     }
   },
@@ -2030,6 +2507,9 @@
       },
       "darkest": {
         "value": "rgb(126, 49, 222)"
+      },
+      "wireframe": {
+        "value": "rgb(216, 225, 244)"
       }
     }
   },
@@ -2043,6 +2523,9 @@
       },
       "darkest": {
         "value": "rgb(145, 70, 236)"
+      },
+      "wireframe": {
+        "value": "rgb(203, 215, 241)"
       }
     }
   },
@@ -2056,6 +2539,9 @@
       },
       "darkest": {
         "value": "rgb(162, 94, 246)"
+      },
+      "wireframe": {
+        "value": "rgb(190, 205, 237)"
       }
     }
   },
@@ -2069,6 +2555,9 @@
       },
       "darkest": {
         "value": "rgb(178, 119, 250)"
+      },
+      "wireframe": {
+        "value": "rgb(173, 192, 233)"
       }
     }
   },
@@ -2082,6 +2571,9 @@
       },
       "darkest": {
         "value": "rgb(192, 143, 252)"
+      },
+      "wireframe": {
+        "value": "rgb(154, 177, 227)"
       }
     }
   },
@@ -2095,6 +2587,9 @@
       },
       "darkest": {
         "value": "rgb(206, 166, 253)"
+      },
+      "wireframe": {
+        "value": "rgb(133, 161, 219)"
       }
     }
   },
@@ -2108,6 +2603,9 @@
       },
       "darkest": {
         "value": "rgb(219, 188, 254)"
+      },
+      "wireframe": {
+        "value": "rgb(114, 145, 211)"
       }
     }
   },
@@ -2121,6 +2619,9 @@
       },
       "darkest": {
         "value": "rgb(230, 207, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(96, 130, 201)"
       }
     }
   },
@@ -2134,6 +2635,9 @@
       },
       "darkest": {
         "value": "rgb(240, 224, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(82, 117, 192)"
       }
     }
   },
@@ -2147,9 +2651,13 @@
       },
       "darkest": {
         "value": "rgb(248, 237, 255)"
+      },
+      "wireframe": {
+        "value": "rgb(74, 109, 184)"
       }
     }
   },
+
   "fuchsia-100": {
     "sets": {
       "light": {
@@ -2160,6 +2668,9 @@
       },
       "darkest": {
         "value": "rgb(70, 14, 68)"
+      },
+      "wireframe": {
+        "value": "rgb(242, 245, 251)"
       }
     }
   },
@@ -2173,6 +2684,9 @@
       },
       "darkest": {
         "value": "rgb(93, 9, 92)"
+      },
+      "wireframe": {
+        "value": "rgb(237, 241, 250)"
       }
     }
   },
@@ -2186,6 +2700,9 @@
       },
       "darkest": {
         "value": "rgb(120, 0, 120)"
+      },
+      "wireframe": {
+        "value": "rgb(233, 238, 248)"
       }
     }
   },
@@ -2199,6 +2716,9 @@
       },
       "darkest": {
         "value": "rgb(146, 0, 147)"
+      },
+      "wireframe": {
+        "value": "rgb(226, 232, 247)"
       }
     }
   },
@@ -2212,6 +2732,9 @@
       },
       "darkest": {
         "value": "rgb(169, 19, 170)"
+      },
+      "wireframe": {
+        "value": "rgb(216, 225, 244)"
       }
     }
   },
@@ -2225,6 +2748,9 @@
       },
       "darkest": {
         "value": "rgb(191, 43, 191)"
+      },
+      "wireframe": {
+        "value": "rgb(203, 215, 241)"
       }
     }
   },
@@ -2238,6 +2764,9 @@
       },
       "darkest": {
         "value": "rgb(211, 65, 213)"
+      },
+      "wireframe": {
+        "value": "rgb(190, 205, 237)"
       }
     }
   },
@@ -2251,6 +2780,9 @@
       },
       "darkest": {
         "value": "rgb(228, 91, 229)"
+      },
+      "wireframe": {
+        "value": "rgb(173, 192, 233)"
       }
     }
   },
@@ -2264,6 +2796,9 @@
       },
       "darkest": {
         "value": "rgb(239, 120, 238)"
+      },
+      "wireframe": {
+        "value": "rgb(154, 177, 227)"
       }
     }
   },
@@ -2277,6 +2812,9 @@
       },
       "darkest": {
         "value": "rgb(246, 149, 243)"
+      },
+      "wireframe": {
+        "value": "rgb(133, 161, 219)"
       }
     }
   },
@@ -2290,6 +2828,9 @@
       },
       "darkest": {
         "value": "rgb(251, 175, 246)"
+      },
+      "wireframe": {
+        "value": "rgb(114, 145, 211)"
       }
     }
   },
@@ -2303,6 +2844,9 @@
       },
       "darkest": {
         "value": "rgb(254, 199, 248)"
+      },
+      "wireframe": {
+        "value": "rgb(96, 130, 201)"
       }
     }
   },
@@ -2316,6 +2860,9 @@
       },
       "darkest": {
         "value": "rgb(255, 220, 250)"
+      },
+      "wireframe": {
+        "value": "rgb(82, 117, 192)"
       }
     }
   },
@@ -2329,9 +2876,13 @@
       },
       "darkest": {
         "value": "rgb(255, 235, 252)"
+      },
+      "wireframe": {
+        "value": "rgb(74, 109, 184)"
       }
     }
   },
+
   "magenta-100": {
     "sets": {
       "light": {
@@ -2342,6 +2893,9 @@
       },
       "darkest": {
         "value": "rgb(83, 3, 41)"
+      },
+      "wireframe": {
+        "value": "rgb(242, 245, 251)"
       }
     }
   },
@@ -2355,6 +2909,9 @@
       },
       "darkest": {
         "value": "rgb(106, 0, 52)"
+      },
+      "wireframe": {
+        "value": "rgb(237, 241, 250)"
       }
     }
   },
@@ -2368,6 +2925,9 @@
       },
       "darkest": {
         "value": "rgb(133, 0, 65)"
+      },
+      "wireframe": {
+        "value": "rgb(233, 238, 248)"
       }
     }
   },
@@ -2381,6 +2941,9 @@
       },
       "darkest": {
         "value": "rgb(161, 0, 78)"
+      },
+      "wireframe": {
+        "value": "rgb(226, 232, 247)"
       }
     }
   },
@@ -2394,6 +2957,9 @@
       },
       "darkest": {
         "value": "rgb(186, 22, 93)"
+      },
+      "wireframe": {
+        "value": "rgb(216, 225, 244)"
       }
     }
   },
@@ -2407,6 +2973,9 @@
       },
       "darkest": {
         "value": "rgb(209, 43, 114)"
+      },
+      "wireframe": {
+        "value": "rgb(203, 215, 241)"
       }
     }
   },
@@ -2420,6 +2989,9 @@
       },
       "darkest": {
         "value": "rgb(227, 69, 137)"
+      },
+      "wireframe": {
+        "value": "rgb(190, 205, 237)"
       }
     }
   },
@@ -2433,6 +3005,9 @@
       },
       "darkest": {
         "value": "rgb(241, 97, 156)"
+      },
+      "wireframe": {
+        "value": "rgb(173, 192, 233)"
       }
     }
   },
@@ -2446,6 +3021,9 @@
       },
       "darkest": {
         "value": "rgb(252, 124, 173)"
+      },
+      "wireframe": {
+        "value": "rgb(154, 177, 227)"
       }
     }
   },
@@ -2459,6 +3037,9 @@
       },
       "darkest": {
         "value": "rgb(255, 152, 191)"
+      },
+      "wireframe": {
+        "value": "rgb(133, 161, 219)"
       }
     }
   },
@@ -2472,6 +3053,9 @@
       },
       "darkest": {
         "value": "rgb(255, 179, 207)"
+      },
+      "wireframe": {
+        "value": "rgb(114, 145, 211)"
       }
     }
   },
@@ -2485,6 +3069,9 @@
       },
       "darkest": {
         "value": "rgb(255, 202, 221)"
+      },
+      "wireframe": {
+        "value": "rgb(96, 130, 201)"
       }
     }
   },
@@ -2498,6 +3085,9 @@
       },
       "darkest": {
         "value": "rgb(255, 221, 233)"
+      },
+      "wireframe": {
+        "value": "rgb(82, 117, 192)"
       }
     }
   },
@@ -2511,6 +3101,9 @@
       },
       "darkest": {
         "value": "rgb(255, 236, 243)"
+      },
+      "wireframe": {
+        "value": "rgb(74, 109, 184)"
       }
     }
   }
