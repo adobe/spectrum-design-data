@@ -335,6 +335,10 @@
     "value": "{transparent-black-200}"
   },
 
+  "disabled-border-color": {
+    "value": "{gray-300}"
+  },
+
   "drop-shadow-color": {
     "sets": {
       "light": {
