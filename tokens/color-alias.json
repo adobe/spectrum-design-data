@@ -341,6 +341,9 @@
   "disabled-static-white-border-color": {
     "value": "{transparent-white-300}"
   },
+  "disabled-static-black-border-color": {
+    "value": "{transparent-black-300}"
+  },
 
   "drop-shadow-color": {
     "sets": {
