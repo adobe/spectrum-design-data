@@ -469,10 +469,10 @@
   "line-height-200": {
     "value": "1.5"
   },
-  "line-height-CJK-100": {
+  "CJK-line-height-100": {
     "value": "1.5"
   },
-  "line-height-CJK-200": {
+  "CJK-line-height-200": {
     "value": "1.7"
   },
   "component-minimum-width-50": {
