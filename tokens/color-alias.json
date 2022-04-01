@@ -318,6 +318,9 @@
   "disabled-content-color": {
     "value": "{gray-400}"
   },
+  "disabled-static-white-content-color": {
+    "value": "{transparent-white-500}"
+  },
   "disabled-background-color": {
     "value": "{gray-200}"
   },
