@@ -321,6 +321,10 @@
   "disabled-static-white-content-color": {
     "value": "{transparent-white-500}"
   },
+  "disabled-static-black-content-color": {
+    "value": "{transparent-black-500}"
+  },
+
   "disabled-background-color": {
     "value": "{gray-200}"
   },
@@ -330,12 +334,7 @@
   "disabled-static-black-background-color": {
     "value": "{transparent-black-200}"
   },
-  "disabled-content-static-white-color": {
-    "value": "{transparent-white-500}"
-  },
-  "disabled-content-static-black-color": {
-    "value": "{transparent-black-500}"
-  },
+
   "drop-shadow-color": {
     "sets": {
       "light": {
