@@ -338,6 +338,9 @@
   "disabled-border-color": {
     "value": "{gray-300}"
   },
+  "disabled-static-white-border-color": {
+    "value": "{transparent-white-300}"
+  },
 
   "drop-shadow-color": {
     "sets": {
