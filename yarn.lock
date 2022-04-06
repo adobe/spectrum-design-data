@@ -3736,10 +3736,10 @@ strip-json-comments@~2.0.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
 
-style-dictionary-sets@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/style-dictionary-sets/-/style-dictionary-sets-1.0.6.tgz#1535bfb16699b7604950a573785857f521f44b6c"
-  integrity sha512-dBAw+Hh/neCm3gwmaMBiWOn2S1ims0lTZQFDAGZ1KLARycHMgqY9YsTWmiJUkT/8x8uDIPQWOFMKhMy3/b6Q1Q==
+style-dictionary-sets@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/style-dictionary-sets/-/style-dictionary-sets-1.1.0.tgz#f744ad8aa165ea2c8d0fcac391d59bbeecaf442c"
+  integrity sha512-31q7xIJdUUgS6r30tpeMpx6WCCiLna14qBktbU8WdcGkDcqBhej28J/ZoomH/WkJ3lROol/AA/oZcEN9x1+pBg==
   dependencies:
     deepmerge "^4.2.2"
 

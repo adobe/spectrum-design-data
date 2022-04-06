@@ -12,7 +12,9 @@ governing permissions and limitations under the License.
 
 const StyleDictionary = require("style-dictionary");
 const JsonSetsFormatter = require("style-dictionary-sets").JsonSetsFormatter;
+const NameKebabTransfom = require("style-dictionary-sets").NameKebabTransfom;
 
+StyleDictionary.registerTransform(NameKebabTransfom);
 StyleDictionary.registerFormat(JsonSetsFormatter);
 
 module.exports = {
@@ -20,11 +22,11 @@ module.exports = {
   platforms: {
     JSON: {
       buildPath: "dist/json/",
-      transforms: ["attribute/cti", "name/cti/kebab"],
+      transforms: [NameKebabTransfom.name],
       files: [
         {
           destination: "variables.json",
-          format: "json/sets",
+          format: JsonSetsFormatter.name,
           options: {
             showFileHeader: false,
             outputReferences: true,
