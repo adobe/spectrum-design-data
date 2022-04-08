@@ -264,5 +264,47 @@
   },
   "notice-color-1400": {
     "value": "{orange-1400}"
+  },
+  "positive-color-100": {
+    "value": "{green-100}"
+  },
+  "positive-color-200": {
+    "value": "{green-200}"
+  },
+  "positive-color-300": {
+    "value": "{green-300}"
+  },
+  "positive-color-400": {
+    "value": "{green-400}"
+  },
+  "positive-color-500": {
+    "value": "{green-500}"
+  },
+  "positive-color-600": {
+    "value": "{green-600}"
+  },
+  "positive-color-700": {
+    "value": "{green-700}"
+  },
+  "positive-color-800": {
+    "value": "{green-800}"
+  },
+  "positive-color-900": {
+    "value": "{green-900}"
+  },
+  "positive-color-1000": {
+    "value": "{green-1000}"
+  },
+  "positive-color-1100": {
+    "value": "{green-1100}"
+  },
+  "positive-color-1200": {
+    "value": "{green-1200}"
+  },
+  "positive-color-1300": {
+    "value": "{green-1300}"
+  },
+  "positive-color-1400": {
+    "value": "{green-1400}"
   }
 }
