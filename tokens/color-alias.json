@@ -293,6 +293,70 @@
       }
     }
   },
+  "informative-background-color-default": {
+    "sets": {
+      "light": {
+        "value": "{informative-color-900}"
+      },
+      "dark": {
+        "value": "{informative-color-500}"
+      },
+      "darkest": {
+        "value": "{informative-color-600}"
+      },
+      "wireframe": {
+        "value": "{informative-color-900}"
+      }
+    }
+  },
+  "informative-background-color-hover": {
+    "sets": {
+      "light": {
+        "value": "{informative-color-1000}"
+      },
+      "dark": {
+        "value": "{informative-color-400}"
+      },
+      "darkest": {
+        "value": "{informative-color-500}"
+      },
+      "wireframe": {
+        "value": "{informative-color-1000}"
+      }
+    }
+  },
+  "informative-background-color-down": {
+    "sets": {
+      "light": {
+        "value": "{informative-color-1100}"
+      },
+      "dark": {
+        "value": "{informative-color-300}"
+      },
+      "darkest": {
+        "value": "{informative-color-400}"
+      },
+      "wireframe": {
+        "value": "{informative-color-1100}"
+      }
+    }
+  },
+  "informative-background-color-key-focus": {
+    "sets": {
+      "light": {
+        "value": "{informative-color-1000}"
+      },
+      "dark": {
+        "value": "{informative-color-400}"
+      },
+      "darkest": {
+        "value": "informativet-color-500}"
+      },
+      "wireframe": {
+        "value": "{informative-color-1000}"
+      }
+    }
+  },
 
   "negative-content-color": {
     "value": "{negative-color-900}"
