@@ -18,7 +18,7 @@ StyleDictionary.registerTransform(NameKebabTransfom);
 StyleDictionary.registerFormat(JsonSetsFormatter);
 
 module.exports = {
-  source: ["tokens/**/*.json"],
+  source: ["src/**/*.json"],
   platforms: {
     JSON: {
       buildPath: "dist/json/",
