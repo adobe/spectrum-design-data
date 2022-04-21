@@ -45,19 +45,23 @@
   "checkbox-control-size-small": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "12px"
-        },
-        "mobile": {
-          "value": "16px"
+        "sets": {
+          "desktop": {
+            "value": "12px"
+          },
+          "mobile": {
+            "value": "16px"
+          }
         }
       },
       "express": {
-        "desktop": {
-          "value": "14px"
-        },
-        "mobile": {
-          "value": "18px"
+        "sets": {
+          "desktop": {
+            "value": "14px"
+          },
+          "mobile": {
+            "value": "18px"
+          }
         }
       }
     }
@@ -65,19 +69,23 @@
   "checkbox-control-size-medium": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "14px"
-        },
-        "mobile": {
-          "value": "18px"
+        "sets": {
+          "desktop": {
+            "value": "14px"
+          },
+          "mobile": {
+            "value": "18px"
+          }
         }
       },
       "express": {
-        "desktop": {
-          "value": "16px"
-        },
-        "mobile": {
-          "value": "20px"
+        "sets": {
+          "desktop": {
+            "value": "16px"
+          },
+          "mobile": {
+            "value": "20px"
+          }
         }
       }
     }
@@ -85,19 +93,23 @@
   "checkbox-control-size-large": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "16px"
-        },
-        "mobile": {
-          "value": "20px"
+        "sets": {
+          "desktop": {
+            "value": "16px"
+          },
+          "mobile": {
+            "value": "20px"
+          }
         }
       },
       "express": {
-        "desktop": {
-          "value": "18px"
-        },
-        "mobile": {
-          "value": "22px"
+        "sets": {
+          "desktop": {
+            "value": "18px"
+          },
+          "mobile": {
+            "value": "22px"
+          }
         }
       }
     }
@@ -105,19 +117,23 @@
   "checkbox-control-size-extra-large": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "18px"
-        },
-        "mobile": {
-          "value": "22px"
+        "sets": {
+          "desktop": {
+            "value": "18px"
+          },
+          "mobile": {
+            "value": "22px"
+          }
         }
       },
       "express": {
-        "desktop": {
-          "value": "20px"
-        },
-        "mobile": {
-          "value": "26px"
+        "sets": {
+          "desktop": {
+            "value": "20px"
+          },
+          "mobile": {
+            "value": "26px"
+          }
         }
       }
     }
@@ -125,19 +141,23 @@
   "checkbox-top-to-control-small": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "6px"
-        },
-        "mobile": {
-          "value": "7px"
+        "sets": {
+          "desktop": {
+            "value": "6px"
+          },
+          "mobile": {
+            "value": "7px"
+          }
         }
       },
       "express": {
-        "desktop": {
-          "value": "5px"
-        },
-        "mobile": {
-          "value": "6px"
+        "sets": {
+          "desktop": {
+            "value": "5px"
+          },
+          "mobile": {
+            "value": "6px"
+          }
         }
       }
     }
@@ -145,19 +165,23 @@
   "checkbox-top-to-control-medium": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "9px"
-        },
-        "mobile": {
-          "value": "11px"
+        "sets": {
+          "desktop": {
+            "value": "9px"
+          },
+          "mobile": {
+            "value": "11px"
+          }
         }
       },
       "express": {
-        "desktop": {
-          "value": "8px"
-        },
-        "mobile": {
-          "value": "10px"
+        "sets": {
+          "desktop": {
+            "value": "8px"
+          },
+          "mobile": {
+            "value": "10px"
+          }
         }
       }
     }
@@ -165,19 +189,23 @@
   "checkbox-top-to-control-large": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "12px"
-        },
-        "mobile": {
-          "value": "15px"
+        "sets": {
+          "desktop": {
+            "value": "12px"
+          },
+          "mobile": {
+            "value": "15px"
+          }
         }
       },
       "express": {
-        "desktop": {
-          "value": "11px"
-        },
-        "mobile": {
-          "value": "14px"
+        "sets": {
+          "desktop": {
+            "value": "11px"
+          },
+          "mobile": {
+            "value": "14px"
+          }
         }
       }
     }
@@ -185,19 +213,23 @@
   "checkbox-top-to-control-extra-large": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "15px"
-        },
-        "mobile": {
-          "value": "19px"
+        "sets": {
+          "desktop": {
+            "value": "15px"
+          },
+          "mobile": {
+            "value": "19px"
+          }
         }
       },
       "express": {
-        "desktop": {
-          "value": "14px"
-        },
-        "mobile": {
-          "value": "17px"
+        "sets": {
+          "desktop": {
+            "value": "14px"
+          },
+          "mobile": {
+            "value": "17px"
+          }
         }
       }
     }
