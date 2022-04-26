@@ -60,7 +60,7 @@
     "value": "{black}"
   },
 
-  "neutral-content-color": {
+  "neutral-content-color-default": {
     "value": "{gray-800}"
   },
   "neutral-content-color-hover": {
