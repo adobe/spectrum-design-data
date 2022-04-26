@@ -766,5 +766,15 @@
         "value": "5px"
       }
     }
+  },
+  "tooltip-maximum-width": {
+    "sets": {
+      "desktop": {
+        "value": "160px"
+      },
+      "mobile": {
+        "value": "200px"
+      }
+    }
   }
 }
