@@ -435,6 +435,70 @@
       }
     }
   },
+  "positive-background-color-default": {
+    "sets": {
+      "light": {
+        "value": "{positive-color-900}"
+      },
+      "dark": {
+        "value": "{positive-color-500}"
+      },
+      "darkest": {
+        "value": "{positive-color-600}"
+      },
+      "wireframe": {
+        "value": "{positive-color-900}"
+      }
+    }
+  },
+  "positive-background-color-hover": {
+    "sets": {
+      "light": {
+        "value": "{positive-color-1000}"
+      },
+      "dark": {
+        "value": "positivee-color-400}"
+      },
+      "darkest": {
+        "value": "{positive-color-500}"
+      },
+      "wireframe": {
+        "value": "{positive-color-1000}"
+      }
+    }
+  },
+  "positive-background-color-down": {
+    "sets": {
+      "light": {
+        "value": "{positive-color-1100}"
+      },
+      "dark": {
+        "value": "{positive-color-300}"
+      },
+      "darkest": {
+        "value": "positivee-color-400}"
+      },
+      "wireframe": {
+        "value": "{positive-color-1100}"
+      }
+    }
+  },
+  "positive-background-color-key-focus": {
+    "sets": {
+      "light": {
+        "value": "{positive-color-1000}"
+      },
+      "dark": {
+        "value": "{positive-color-400}"
+      },
+      "darkest": {
+        "value": "{positive-color-500}"
+      },
+      "wireframe": {
+        "value": "{positive-color-1000}"
+      }
+    }
+  },
 
   "disabled-content-color": {
     "value": "{gray-400}"
