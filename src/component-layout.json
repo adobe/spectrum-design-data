@@ -747,6 +747,48 @@
       }
     }
   },
+
+  "toast-height": {
+    "sets": {
+      "desktop": {
+        "value": "48px"
+      },
+      "mobile": {
+        "value": "56px"
+      }
+    }
+  },
+  "toast-top-to-workflow-icon": {
+    "sets": {
+      "desktop": {
+        "value": "15px"
+      },
+      "mobile": {
+        "value": "17px"
+      }
+    }
+  },
+  "toast-top-to-text": {
+    "sets": {
+      "desktop": {
+        "value": "14px"
+      },
+      "mobile": {
+        "value": "16px"
+      }
+    }
+  },
+  "toast-bottom-to-text": {
+    "sets": {
+      "desktop": {
+        "value": "17px"
+      },
+      "mobile": {
+        "value": "19px"
+      }
+    }
+  },
+
   "tooltip-width": {
     "sets": {
       "desktop": {
