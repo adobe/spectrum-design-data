@@ -457,7 +457,7 @@
         "value": "{positive-color-1000}"
       },
       "dark": {
-        "value": "positivee-color-400}"
+        "value": "{positive-color-400}"
       },
       "darkest": {
         "value": "{positive-color-500}"
@@ -476,7 +476,7 @@
         "value": "{positive-color-300}"
       },
       "darkest": {
-        "value": "positivee-color-400}"
+        "value": "{positive-color-400}"
       },
       "wireframe": {
         "value": "{positive-color-1100}"
