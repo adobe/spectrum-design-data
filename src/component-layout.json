@@ -546,6 +546,10 @@
       }
     }
   },
+  
+  "radio-button-selection-indicator": {
+    "value": "4px"
+  },
 
   "status-light-dot-size-small": {
     "sets": {
