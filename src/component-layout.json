@@ -271,56 +271,7 @@
       }
     }
   },
-  "component-minimum-width-50": {
-    "sets": {
-      "desktop": {
-        "value": "20px"
-      },
-      "mobile": {
-        "value": "26px"
-      }
-    }
-  },
-  "component-minimum-width-75": {
-    "sets": {
-      "desktop": {
-        "value": "24px"
-      },
-      "mobile": {
-        "value": "30px"
-      }
-    }
-  },
-  "component-minimum-width-100": {
-    "sets": {
-      "desktop": {
-        "value": "32px"
-      },
-      "mobile": {
-        "value": "40px"
-      }
-    }
-  },
-  "component-minimum-width-200": {
-    "sets": {
-      "desktop": {
-        "value": "40px"
-      },
-      "mobile": {
-        "value": "50px"
-      }
-    }
-  },
-  "component-minimum-width-300": {
-    "sets": {
-      "desktop": {
-        "value": "48px"
-      },
-      "mobile": {
-        "value": "60px"
-      }
-    }
-  },
+
   "component-height-50": {
     "sets": {
       "desktop": {
