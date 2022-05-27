@@ -473,6 +473,27 @@
     }
   },
 
+  "action-bar-height": {
+    "sets": {
+      "desktop": {
+        "value": "48px"
+      },
+      "mobile": {
+        "value": "56px"
+      }
+    }
+  },
+  "action-bar-top-to-item-counter":{
+    "sets": {
+      "desktop": {
+        "value": "14px"
+      },
+      "mobile": {
+        "value": "16px"
+      }
+    }
+  },
+
   "action-button-edge-to-hold-icon-small": {
     "sets": {
       "desktop": {
