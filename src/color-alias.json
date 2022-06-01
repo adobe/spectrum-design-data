@@ -542,5 +542,53 @@
         "value": "rgba(0, 0, 0, 0.80)"
       }
     }
+  },
+  "background-base-color": {
+    "sets": {
+      "light": {
+        "value": "{gray-200}"
+      },
+      "dark": {
+        "value": "{gray-50}"
+      },
+      "darkest": {
+        "value": "{gray-50}"
+      },
+      "wireframe": {
+        "value": "{gray-200}"
+      }
+    }
+  },
+  "background-layer-1-color": {
+    "sets": {
+      "light": {
+        "value": "{gray-100}"
+      },
+      "dark": {
+        "value": "{gray-75}"
+      },
+      "darkest": {
+        "value": "{gray-75}"
+      },
+      "wireframe": {
+        "value": "{gray-100}"
+      }
+    }
+  },
+  "background-base-color": {
+    "sets": {
+      "light": {
+        "value": "{gray-50}"
+      },
+      "dark": {
+        "value": "{gray-100}"
+      },
+      "darkest": {
+        "value": "{gray-100}"
+      },
+      "wireframe": {
+        "value": "{gray-50}"
+      }
+    }
   }
 }
