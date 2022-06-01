@@ -575,7 +575,7 @@
       }
     }
   },
-  "background-base-color": {
+  "background-layer-2-color": {
     "sets": {
       "light": {
         "value": "{gray-50}"
