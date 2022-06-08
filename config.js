@@ -13,9 +13,15 @@ governing permissions and limitations under the License.
 const StyleDictionary = require("style-dictionary");
 const JsonSetsFormatter = require("style-dictionary-sets").JsonSetsFormatter;
 const NameKebabTransfom = require("style-dictionary-sets").NameKebabTransfom;
+const DroverJsonFormatter =
+  require("style-dictionary-sets").DroverJsonFormatter;
+const AttributeSetsTransform =
+  require("style-dictionary-sets").AttributeSetsTransform;
 
+StyleDictionary.registerTransform(AttributeSetsTransform);
 StyleDictionary.registerTransform(NameKebabTransfom);
 StyleDictionary.registerFormat(JsonSetsFormatter);
+StyleDictionary.registerFormat(DroverJsonFormatter);
 
 module.exports = {
   source: ["src/**/*.json"],
@@ -27,6 +33,20 @@ module.exports = {
         {
           destination: "variables.json",
           format: JsonSetsFormatter.name,
+          options: {
+            showFileHeader: false,
+            outputReferences: true,
+          },
+        },
+      ],
+    },
+    Drover: {
+      buildPath: "dist/json/",
+      transforms: [AttributeSetsTransform.name, NameKebabTransfom.name],
+      files: [
+        {
+          destination: "drover.json",
+          format: "drover/json/sets",
           options: {
             showFileHeader: false,
             outputReferences: true,
