@@ -4,6 +4,7 @@
   "description": "",
   "main": "config.js",
   "scripts": {
+    "convert-excel": "node index.js",
     "build": "style-dictionary build",
     "clean": "rm -rf dist",
     "pre-commit": "lint-staged",
@@ -27,11 +28,15 @@
     "@commitlint/cli": "^16.2.0",
     "@commitlint/config-conventional": "^16.2.1",
     "@semantic-release/changelog": "^6.0.1",
+    "convert-excel-to-json": "^1.7.0",
+    "hex-to-rgba": "^2.0.1",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.4",
     "prettier": "^2.5.1",
     "semantic-release": "^19.0.2",
+    "slugify": "^1.6.5",
     "style-dictionary": "^3.7.0",
     "style-dictionary-sets": "^1.1.0"
-  }
+  },
+  "dependencies": {}
 }
