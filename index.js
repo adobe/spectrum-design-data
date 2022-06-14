@@ -149,7 +149,11 @@ Object.keys(formattedResult).forEach((sheet, i) => {
     `tokens/${fileName}.json`,
     JSON.stringify(formattedResult[sheet], "", 2)
   );
+  console.log(`tokens/${fileName}.json created with ${Object.keys(formattedResult[sheet]).length} tokens` )
 });
-
-// console.log(unmatchedTokens);
+console.log('');
+if(Object.keys(unmatchedTokens).length > 0) {
+  console.log("The following tokens didn't match any known formatting and were not included:");
+  console.log(unmatchedTokens);
+}
 // console.log(formattedResult);
