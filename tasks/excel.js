@@ -19,8 +19,12 @@ const hexAlphaColorRegex =
 const multilineRegEx = /\r\n/;
 const setRegEx = /\s*\(((?:\w|\s)+)\)/;
 const doubleSetRegEx = /\s*\(((?:\w|\s)+) +\/ +(\w+)\)/;
+const rgbColorRegex =
+  /rgb\( ?(?<r>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<g>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<b>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?\)/;
+const rgbaColorRegex =
+  /rgba\( ?(?<r>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<g>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<b>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<a>0|1|0.\d*) ?\)/;
 
-const tester = (regex, value) => {
+const runRegexTest = (regex, value) => {
   return regex.test(value.toString().trim());
 };
 
@@ -54,17 +58,17 @@ const formatToken = (token) => {
 
 const formatters = {
   reference: (token) => {
-    return tester(refRegEx, token.value)
+    return runRegexTest(refRegEx, token.value)
       ? { value: `{${token.value}}` }
       : false;
   },
   dimension: (token) => {
-    return tester(dimensionRegEx, token.value)
+    return runRegexTest(dimensionRegEx, token.value)
       ? { value: token.value.toString().split(" ").join("") }
       : false;
   },
   hexColor: (token) => {
-    return tester(hexColorRegex, token.value)
+    return runRegexTest(hexColorRegex, token.value)
       ? { value: hexToRgb(token.value) }
       : false;
   },
@@ -74,8 +78,13 @@ const formatters = {
       ? { value: hexToRgba(regexMatch[1], regexMatch[2] / 100) }
       : false;
   },
+  rgbColor: (token) => {
+    return runRegexTest(rgbColorRegex, token.value) || runRegexTest(rgbaColorRegex, token.value)
+      ? { value: token.value.toString().toLowerCase() }
+      : false;
+  },
   sets: (token) => {
-    if (tester(multilineRegEx, token.value)) {
+    if (runRegexTest(multilineRegEx, token.value)) {
       const setItems = token.value.split("\r\n");
       const result = { sets: {} };
       setItems.forEach((item) => {
@@ -129,8 +138,8 @@ Object.keys(result).forEach((sheet) => {
     if (token.hasOwnProperty(VALUE)) {
       // for single line sets i.e. `red-100 (Spectrum)`
       if (
-        !tester(multilineRegEx, token.value) &&
-        tester(setRegEx, token.value)
+        !runRegexTest(multilineRegEx, token.value) &&
+        runRegexTest(setRegEx, token.value)
       ) {
         const valueMatch = token.value.match(setRegEx);
         token.value = token.value.substr(0, valueMatch.index);
@@ -149,11 +158,16 @@ Object.keys(formattedResult).forEach((sheet, i) => {
     `tokens/${fileName}.json`,
     JSON.stringify(formattedResult[sheet], "", 2)
   );
-  console.log(`tokens/${fileName}.json created with ${Object.keys(formattedResult[sheet]).length} tokens` )
+  console.log(
+    `tokens/${fileName}.json created with ${
+      Object.keys(formattedResult[sheet]).length
+    } tokens`
+  );
 });
-console.log('');
-if(Object.keys(unmatchedTokens).length > 0) {
-  console.log("The following tokens didn't match any known formatting and were not included:");
+console.log("");
+if (Object.keys(unmatchedTokens).length > 0) {
+  console.log(
+    "The following tokens didn't match any known formatting and were not included:"
+  );
   console.log(unmatchedTokens);
 }
-// console.log(formattedResult);
