@@ -730,10 +730,10 @@
     "value": "1px"
   },
   "divider-thickness-medium": {
-    "value": "1px"
+    "value": "2px"
   },
   "divider-thickness-large": {
-    "value": "1px"
+    "value": "4px"
   },
   "field-label-text-to-asterisk-small": {
     "sets": {
