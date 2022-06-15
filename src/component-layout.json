@@ -1040,15 +1040,15 @@
           "mobile": {
             "value": "16px"
           }
-        },
-        "express":{
-          "sets": {
-            "desktop": {
-              "value": "14px"
-            },
-            "mobile": {
-              "value": "18px"
-            }
+        }
+      },
+      "express":{
+        "sets": {
+          "desktop": {
+            "value": "14px"
+          },
+          "mobile": {
+            "value": "18px"
           }
         }
       }
