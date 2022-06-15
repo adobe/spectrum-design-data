@@ -32,6 +32,6 @@
     "prettier": "^2.5.1",
     "semantic-release": "^19.0.2",
     "style-dictionary": "^3.7.0",
-    "style-dictionary-sets": "^1.6.1"
+    "style-dictionary-sets": "^1.6.2"
   }
 }
