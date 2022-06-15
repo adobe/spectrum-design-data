@@ -12,7 +12,7 @@
   "component-pill-edge-to-visual-100": {
     "sets": {
       "desktop": {
-        "value": "17px"
+        "value": "14px"
       },
       "mobile": {
         "value": "17px"
