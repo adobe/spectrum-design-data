@@ -3440,10 +3440,10 @@ safe-buffer@~5.2.0:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-semantic-release-mirror-version@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/semantic-release-mirror-version/-/semantic-release-mirror-version-1.1.0.tgz#620739b028f0d24349e9e573390e97c745ddf66f"
-  integrity sha512-JRLxdWH9l0+03VD1AZKIvIvdx0oH6FIR7wjauBagAIpJou3gagJ/5MMLgx2ktqyXQ402DqrxDM0hRsGa4KU47A==
+semantic-release-mirror-version@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/semantic-release-mirror-version/-/semantic-release-mirror-version-1.1.1.tgz#6b4d15fcd476f55bc40efa561c44f913b6c9f8fb"
+  integrity sha512-yI3IyvIJuOLXdinRG6fcqguy5o+xtX/iPJcEPq2X2L9Id1OjpFUDJAT9MhBLxAhs65YcQ2Ud2cB7SKoWsZ5hsg==
   dependencies:
     glob "^8.0.3"
 

@@ -31,7 +31,7 @@
     "lint-staged": "^12.3.4",
     "prettier": "^2.5.1",
     "semantic-release": "^19.0.2",
-    "semantic-release-mirror-version": "^1.1.0",
+    "semantic-release-mirror-version": "^1.1.1",
     "style-dictionary": "^3.7.0",
     "style-dictionary-sets": "^2.0.0"
   }

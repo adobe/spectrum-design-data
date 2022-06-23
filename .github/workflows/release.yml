@@ -15,7 +15,6 @@ jobs:
           node-version: '14.x'
       - name: Install modules
         run: yarn
-      - run: node -v
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v3
         env:
