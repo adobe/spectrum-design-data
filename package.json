@@ -7,8 +7,7 @@
     "build": "style-dictionary build",
     "clean": "rm -rf dist",
     "pre-commit": "lint-staged",
-    "prepare": "husky install",
-    "postinstall": "yarn run build",
+    "prepare": "husky install && yarn run build",
     "semantic-release": "semantic-release"
   },
   "repository": {
