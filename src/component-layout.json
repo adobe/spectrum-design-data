@@ -436,7 +436,7 @@
         "value": "5px"
       },
       "mobile": {
-        "value": "7px"
+        "value": "6px"
       }
     }
   },
@@ -488,6 +488,16 @@
       },
       "mobile": {
         "value": "16px"
+      }
+    }
+  },
+  "action-button-edge-to-hold-icon-extra-small":{
+    "sets": {
+      "desktop": {
+        "value": "3px"
+      },
+      "mobile": {
+        "value": "3px"
       }
     }
   },
