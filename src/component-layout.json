@@ -491,6 +491,16 @@
       }
     }
   },
+  "action-button-edge-to-hold-icon-extra-small":{
+    "sets": {
+      "desktop": {
+        "value": "3px"
+      },
+      "mobile": {
+        "value": "3px"
+      }
+    }
+  },
   "action-button-edge-to-hold-icon-small": {
     "sets": {
       "desktop": {
