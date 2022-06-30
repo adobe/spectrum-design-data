@@ -3762,9 +3762,9 @@ strip-json-comments@~2.0.1:
   integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
 
 style-dictionary-sets@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/style-dictionary-sets/-/style-dictionary-sets-2.0.1.tgz#82d8ff887c00b49c4ff5bf2357fa3e378923274b"
-  integrity sha512-2WLFqkY/iEvPbsQQB89JyPOPbYWeunjTBR34LcV8bxdC6T46MOGnW9aOaHPKTxY7ZAYiVNxWQoaa1TwNiaJ5Sg==
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/style-dictionary-sets/-/style-dictionary-sets-2.0.2.tgz#54462fc53d7b00e21aa67fe488a5a78768abb240"
+  integrity sha512-77STdaD9LGylq+sW3azJ6M0OCxd0y4XyckoahSKDjy961pBEHKR9JH/pgzv5SeoT6MMuDxmixlDBORno93C+Jw==
   dependencies:
     deepmerge "^4.2.2"
 
