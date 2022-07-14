@@ -879,30 +879,30 @@
   "help-text-top-to-workflow-icon-medium": {
     "sets": {
       "desktop": {
-        "value": "7px"
+        "value": "3px"
       },
       "mobile": {
-        "value": "9px"
+        "value": "4px"
       }
     }
   },
   "help-text-top-to-workflow-icon-large": {
     "sets": {
       "desktop": {
-        "value": "10px"
+        "value": "6px"
       },
       "mobile": {
-        "value": "13px"
+        "value": "8px"
       }
     }
   },
   "help-text-top-to-workflow-icon-extra-large": {
     "sets": {
       "desktop": {
-        "value": "13px"
+        "value": "9px"
       },
       "mobile": {
-        "value": "16px"
+        "value": "11px"
       }
     }
   },
