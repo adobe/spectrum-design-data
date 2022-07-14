@@ -5,6 +5,7 @@
   "main": "config.js",
   "scripts": {
     "build": "style-dictionary build",
+    "diffLastRelease": ". tasks/diffOutput.sh",
     "clean": "rm -rf dist",
     "pre-commit": "lint-staged",
     "prepare": "husky install && yarn run build",
