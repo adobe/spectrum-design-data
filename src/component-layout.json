@@ -1067,11 +1067,13 @@
   "radio-button-control-size-medium": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "14px"
-        },
-        "mobile": {
-          "value": "18px"
+        "sets": {
+          "desktop": {
+            "value": "14px"
+          },
+          "mobile": {
+            "value": "18px"
+          }
         }
       },
       "express": {
@@ -1089,11 +1091,13 @@
   "radio-button-control-size-large": {
     "sets": {
       "spectrum":{
-        "desktop": {
-          "value": "16px"
-        },
-        "mobile": {
-          "value": "20px"
+        "sets": {
+          "desktop": {
+            "value": "16px"
+          },
+          "mobile": {
+            "value": "20px"
+          }
         }
       },
       "express": {
@@ -1111,11 +1115,13 @@
   "radio-button-control-size-extra-large": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "18px"
-        },
-        "mobile": {
-          "value": "22px"
+        "sets": {
+          "desktop": {
+            "value": "18px"
+          },
+          "mobile": {
+            "value": "22px"
+          }
         }
       },
       "express": {
@@ -1133,11 +1139,13 @@
   "radio-button-top-to-control-small": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "6px"
-        },
-        "mobile": {
-          "value": "7px"
+        "sets": {
+          "desktop": {
+            "value": "6px"
+          },
+          "mobile": {
+            "value": "7px"
+          }
         }
       },
       "express": {
@@ -1155,11 +1163,13 @@
   "radio-button-top-to-control-medium": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "9px"
-        },
-        "mobile": {
-          "value": "11px"
+        "sets": {
+          "desktop": {
+            "value": "9px"
+          },
+          "mobile": {
+            "value": "11px"
+          }
         }
       },
       "express": {
@@ -1177,11 +1187,13 @@
   "radio-button-top-to-control-large": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "12px"
-        },
-        "mobile": {
-          "value": "15px"
+        "sets": {
+          "desktop": {
+            "value": "12px"
+          },
+          "mobile": {
+            "value": "15px"
+          }
         }
       },
       "express": {
@@ -1199,11 +1211,13 @@
   "radio-button-top-to-control-extra-large": {
     "sets": {
       "spectrum": {
-        "desktop": {
-          "value": "15px"
-        },
-        "mobile": {
-          "value": "19px"
+        "sets": {
+          "desktop": {
+            "value": "15px"
+          },
+          "mobile": {
+            "value": "19px"
+          }
         }
       },
       "express": {
