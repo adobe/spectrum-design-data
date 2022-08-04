@@ -15,7 +15,7 @@ const refRegEx = /^[A-z]+(?:-\w+)*$/;
 const dimensionRegEx = /^([0-9]+(?:\.[0-9]+)?) *(dp|px)?$/;
 const hexColorRegex = /^#(?:[0-9a-fA-F]{3}){1,2}$/;
 const hexAlphaColorRegex =
-  /^(#(?:[0-9a-fA-F]{3}){1,2}), *([1-9]|[1-9][0-9]|100)%$/;
+  /^(#(?:[0-9a-fA-F]{3}){1,2}), *([0-9]|[1-9][0-9]|100)%$/;
 const multilineRegEx = /\r\n/;
 const setRegEx = /\s*\(((?:\w|\s)+)\)/;
 const doubleSetRegEx = /\s*\(((?:\w|\s)+) +\/ +(\w+)\)/;
@@ -23,6 +23,7 @@ const rgbColorRegex =
   /rgb\( ?(?<r>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<g>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<b>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?\)/;
 const rgbaColorRegex =
   /rgba\( ?(?<r>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<g>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<b>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<a>0|1|0.\d*) ?\)/;
+const percentageRegex = /([0-9]|[1-9][0-9]|100)%$/;
 
 const runRegexTest = (regex, value) => {
   return regex.test(value.toString().trim());
@@ -35,6 +36,15 @@ const hexToRgb = (rgbaValue) => {
     const matchAr = match[1].split(",").map((e) => parseInt(e.trim()));
     if (matchAr[3] === 1)
       return `rgb(${matchAr[0]}, ${matchAr[1]}, ${matchAr[2]})`;
+  }
+  return result;
+};
+
+const percentageToDecimal = (percentageValue) => {
+  const result = percentageValue;
+  const match = result.match(percentageRegex);
+  if (result.match(percentageRegex)) {
+    return `${match[1] / 100}`;
   }
   return result;
 };
@@ -79,8 +89,14 @@ const formatters = {
       : false;
   },
   rgbColor: (token) => {
-    return runRegexTest(rgbColorRegex, token.value) || runRegexTest(rgbaColorRegex, token.value)
+    return runRegexTest(rgbColorRegex, token.value) ||
+      runRegexTest(rgbaColorRegex, token.value)
       ? { value: token.value.toString().toLowerCase() }
+      : false;
+  },
+  percentage: (token) => {
+    return runRegexTest(percentageRegex, token.value)
+      ? { value: percentageToDecimal(token.value) }
       : false;
   },
   sets: (token) => {
