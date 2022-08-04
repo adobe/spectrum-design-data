@@ -2,6 +2,9 @@
   "white": {
     "value": "rgb(255, 255, 255)"
   },
+  "transparent-white-100": {
+    "value": "rgba(255, 255, 255, 0)"
+  },
   "transparent-white-200": {
     "value": "rgba(255, 255, 255, 0.1)"
   },
@@ -28,6 +31,9 @@
   },
   "black": {
     "value": "rgb(0, 0, 0)"
+  },
+  "transparent-black-100": {
+    "value": "rgba(0, 0, 0, 0)"
   },
   "transparent-black-200": {
     "value": "rgba(0, 0, 0, 0.1)"

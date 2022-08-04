@@ -902,7 +902,7 @@
         "value": "4px"
       },
       "mobile": {
-        "value": "4px"
+        "value": "5px"
       }
     }
   },
@@ -952,7 +952,7 @@
         "value": "5px"
       },
       "mobile": {
-        "value": "7px"
+        "value": "6px"
       }
     }
   },
