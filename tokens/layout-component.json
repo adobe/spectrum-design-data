@@ -964,9 +964,6 @@
       }
     }
   },
-  "button-minimum-width-multiplier": {
-    "value": "2.25"
-  },
   "tooltip-tip-width": {
     "sets": {
       "desktop": {
