@@ -59,7 +59,22 @@
   "static-black-focus-ring-color": {
     "value": "{black}"
   },
-
+  "overlay-color": {
+    "value": "{black}"
+  },
+  "overlay-opacity": {
+    "sets": {
+      "light": {
+        "value": "0.4"
+      },
+      "dark": {
+        "value": "0.5"
+      },
+      "darkest": {
+        "value": "0.6"
+      }
+    }
+  },
   "neutral-content-color-default": {
     "value": "{gray-800}"
   },
