@@ -23,7 +23,6 @@
   "transparent-white-900": {
     "value": "rgb(255, 255, 255)"
   },
-
   "transparent-black-200": {
     "value": "rgba(0, 0, 0, 0.10)"
   },
@@ -48,11 +47,9 @@
   "transparent-black-900": {
     "value": "rgb(0, 0, 0)"
   },
-
   "focus-ring-color": {
     "value": "{blue-800}"
   },
-
   "static-white-focus-ring-color": {
     "value": "{white}"
   },
@@ -87,7 +84,6 @@
   "neutral-content-color-key-focus": {
     "value": "{gray-900}"
   },
-
   "neutral-background-color-default": {
     "sets": {
       "light": {
@@ -152,7 +148,6 @@
       }
     }
   },
-
   "neutral-subdued-background-color-default": {
     "sets": {
       "light": {
@@ -217,7 +212,6 @@
       }
     }
   },
-
   "neutral-subdued-content-color-default": {
     "value": "{gray-700}"
   },
@@ -230,7 +224,6 @@
   "neutral-subdued-content-color-key-focus": {
     "value": "{gray-800}"
   },
-
   "accent-content-color": {
     "value": "{accent-color-900}"
   },
@@ -243,7 +236,6 @@
   "accent-content-color-key-focus": {
     "value": "{accent-color-1000}"
   },
-
   "accent-background-color-default": {
     "sets": {
       "light": {
@@ -372,7 +364,6 @@
       }
     }
   },
-
   "negative-content-color": {
     "value": "{negative-color-900}"
   },
@@ -385,7 +376,6 @@
   "negative-content-color-key-focus": {
     "value": "{negative-color-1000}"
   },
-
   "negative-background-color-default": {
     "sets": {
       "light": {
@@ -514,7 +504,6 @@
       }
     }
   },
-
   "disabled-content-color": {
     "value": "{gray-400}"
   },
@@ -524,7 +513,6 @@
   "disabled-static-black-content-color": {
     "value": "{transparent-black-500}"
   },
-
   "disabled-background-color": {
     "value": "{gray-200}"
   },
@@ -534,7 +522,6 @@
   "disabled-static-black-background-color": {
     "value": "{transparent-black-200}"
   },
-
   "disabled-border-color": {
     "value": "{gray-300}"
   },
@@ -544,7 +531,326 @@
   "disabled-static-black-border-color": {
     "value": "{transparent-black-300}"
   },
-
+  "neutral-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{gray-500}"
+      },
+      "dark": {
+        "value": "{gray-600}"
+      },
+      "darkest": {
+        "value": "{gray-600}"
+      },
+      "wireframe": {
+        "value": "{gray-500}"
+      }
+    }
+  },
+  "accent-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{accent-color-800}"
+      },
+      "dark": {
+        "value": "{accent-color-900}"
+      },
+      "darkest": {
+        "value": "{accent-color-900}"
+      },
+      "wireframe": {
+        "value": "{accent-color-900}"
+      }
+    }
+  },
+  "informative-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{informative-color-800}"
+      },
+      "dark": {
+        "value": "{informative-color-900}"
+      },
+      "darkest": {
+        "value": "{informative-color-900}"
+      },
+      "wireframe": {
+        "value": "{informative-color-900}"
+      }
+    }
+  },
+  "negative-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{negative-color-800}"
+      },
+      "dark": {
+        "value": "{negative-color-700}"
+      },
+      "darkest": {
+        "value": "{negative-color-700}"
+      },
+      "wireframe": {
+        "value": "{negative-color-900}"
+      }
+    }
+  },
+  "notice-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{notice-color-600}"
+      },
+      "dark": {
+        "value": "{notice-color-900}"
+      },
+      "darkest": {
+        "value": "{notice-color-900}"
+      },
+      "wireframe": {
+        "value": "{notice-color-900}"
+      }
+    }
+  },
+  "positive-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{positive-color-700}"
+      },
+      "dark": {
+        "value": "{positive-color-800}"
+      },
+      "darkest": {
+        "value": "{positive-color-800}"
+      },
+      "wireframe": {
+        "value": "{positive-color-900}"
+      }
+    }
+  },
+  "gray-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{gray-500}"
+      },
+      "dark": {
+        "value": "{gray-600}"
+      },
+      "darkest": {
+        "value": "{gray-600}"
+      },
+      "wireframe": {
+        "value": "{gray-500}"
+      }
+    }
+  },
+  "red-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{red-800}"
+      },
+      "dark": {
+        "value": "{red-700}"
+      },
+      "darkest": {
+        "value": "{red-700}"
+      },
+      "wireframe": {
+        "value": "{red-900}"
+      }
+    }
+  },
+  "orange-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{orange-600}"
+      },
+      "dark": {
+        "value": "{orange-900}"
+      },
+      "darkest": {
+        "value": "{orange-900}"
+      },
+      "wireframe": {
+        "value": "{orange-900}"
+      }
+    }
+  },
+  "yellow-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{yellow-600}"
+      },
+      "dark": {
+        "value": "{yellow-1100}"
+      },
+      "darkest": {
+        "value": "{yellow-1100}"
+      },
+      "wireframe": {
+        "value": "{yellow-900}"
+      }
+    }
+  },
+  "chartreuse-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{chartreuse-600}"
+      },
+      "dark": {
+        "value": "{chartreuse-900}"
+      },
+      "darkest": {
+        "value": "{chartreuse-900}"
+      },
+      "wireframe": {
+        "value": "{chartreuse-900}"
+      }
+    }
+  },
+  "celery-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{celery-700}"
+      },
+      "dark": {
+        "value": "{celery-800}"
+      },
+      "darkest": {
+        "value": "{celery-800}"
+      },
+      "wireframe": {
+        "value": "{celery-900}"
+      }
+    }
+  },
+  "green-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{green-700}"
+      },
+      "dark": {
+        "value": "{green-800}"
+      },
+      "darkest": {
+        "value": "{green-800}"
+      },
+      "wireframe": {
+        "value": "{green-900}"
+      }
+    }
+  },
+  "seafoam-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{seafoam-700}"
+      },
+      "dark": {
+        "value": "{seafoam-800}"
+      },
+      "darkest": {
+        "value": "{seafoam-800}"
+      },
+      "wireframe": {
+        "value": "{seafoam-900}"
+      }
+    }
+  },
+  "cyan-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{cyan-600}"
+      },
+      "dark": {
+        "value": "{cyan-900}"
+      },
+      "darkest": {
+        "value": "{cyan-900}"
+      },
+      "wireframe": {
+        "value": "{cyan-900}"
+      }
+    }
+  },
+  "blue-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{blue-800}"
+      },
+      "dark": {
+        "value": "{blue-900}"
+      },
+      "darkest": {
+        "value": "{blue-900}"
+      },
+      "wireframe": {
+        "value": "{blue-900}"
+      }
+    }
+  },
+  "indigo-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{indigo-800}"
+      },
+      "dark": {
+        "value": "{indigo-900}"
+      },
+      "darkest": {
+        "value": "{indigo-900}"
+      },
+      "wireframe": {
+        "value": "{indigo-900}"
+      }
+    }
+  },
+  "purple-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{purple-800}"
+      },
+      "dark": {
+        "value": "{purple-900}"
+      },
+      "darkest": {
+        "value": "{purple-900}"
+      },
+      "wireframe": {
+        "value": "{purple-900}"
+      }
+    }
+  },
+  "fuchsia-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{fuchsia-800}"
+      },
+      "dark": {
+        "value": "{fuchsia-900}"
+      },
+      "darkest": {
+        "value": "{fuchsia-900}"
+      },
+      "wireframe": {
+        "value": "{fuchsia-900}"
+      }
+    }
+  },
+  "magenta-visual-color": {
+    "sets": {
+      "light": {
+        "value": "{magenta-800}"
+      },
+      "dark": {
+        "value": "{magenta-900}"
+      },
+      "darkest": {
+        "value": "{magenta-900}"
+      },
+      "wireframe": {
+        "value": "{magenta-900}"
+      }
+    }
+  },
   "drop-shadow-color": {
     "sets": {
       "light": {
