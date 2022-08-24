@@ -566,48 +566,48 @@
   "negative-visual-color": {
     "sets": {
       "light": {
-        "value": "{negative-800}"
+        "value": "{negative-color-800}"
       },
       "dark": {
-        "value": "{negative-700}"
+        "value": "{negative-color-700}"
       },
       "darkest": {
-        "value": "{negative-700}"
+        "value": "{negative-color-700}"
       },
       "wireframe": {
-        "value": "{negative-900}"
+        "value": "{negative-color-900}"
       }
     }
   },
   "notice-visual-color": {
     "sets": {
       "light": {
-        "value": "{notice-600}"
+        "value": "{notice-color-600}"
       },
       "dark": {
-        "value": "{notice-900}"
+        "value": "{notice-color-900}"
       },
       "darkest": {
-        "value": "{notice-900}"
+        "value": "{notice-color-900}"
       },
       "wireframe": {
-        "value": "{notice-900}"
+        "value": "{notice-color-900}"
       }
     }
   },
   "positive-visual-color": {
     "sets": {
       "light": {
-        "value": "{positive-700}"
+        "value": "{positive-color-700}"
       },
       "dark": {
-        "value": "{positive-800}"
+        "value": "{positive-color-800}"
       },
       "darkest": {
-        "value": "{positive-800}"
+        "value": "{positive-color-800}"
       },
       "wireframe": {
-        "value": "{positive-900}"
+        "value": "{positive-color-900}"
       }
     }
   },
