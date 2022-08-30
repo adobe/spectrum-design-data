@@ -1699,7 +1699,7 @@
       }
     }
   },
-  "tooltip-width": {
+  "tooltip-tip-width": {
     "sets": {
       "desktop": {
         "value": "8px"
@@ -1709,7 +1709,7 @@
       }
     }
   },
-  "tooltip-height": {
+  "tooltip-tip-height": {
     "sets": {
       "desktop": {
         "value": "4px"
