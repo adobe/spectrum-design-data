@@ -917,7 +917,89 @@
       }
     }
   },
-
+  "menu-item-label-to-description": {
+    "value": "1px"
+  },
+  "menu-item-edge-to-content-not-selected-small": {
+    "sets": {
+      "desktop":{
+        "value": "28px"
+      },
+      "mobile":{
+        "value": "24px"
+      }
+    }
+  },
+  "menu-item-edge-to-content-not-selected-medium": {
+    "sets": {
+      "desktop": {
+        "value": "32px"
+      },
+      "mobile": {
+        "value": "42px"
+      }
+    }
+  },
+  "menu-item-edge-to-content-not-selected-large": {
+    "sets": {
+      "desktop": {
+        "value": "38px"
+      },
+      "mobile": {
+        "value": "47px"
+      }
+    }
+  },
+  "menu-item-edge-to-content-not-selected-extra-large": {
+    "sets": {
+      "desktop": {
+        "value": "45px"
+      },
+      "mobile": {
+        "value": "54px"
+      }
+    }
+  },
+  "menu-item-top-to-chevron-small": {
+    "sets": {
+      "desktop": {
+        "value": "7px"
+      },
+      "mobile": {
+        "value": "9px"
+      }
+    }
+  },
+  "menu-item-top-to-chevron-medium": {
+    "sets": {
+      "desktop": {
+        "value": "11px"
+      },
+      "mobile": {
+        "value": "13px"
+      }
+    }
+  },
+  "menu-item-top-to-chevron-large": {
+    "sets": {
+      "desktop": {
+        "value": "14px"
+      },
+      "mobile": {
+        "value": "17px"
+      }
+    }
+  },
+  "menu-item-top-to-chevron-extra-large": {
+    "sets": {
+      "desktop": {
+        "value": "17px"
+      },
+      "mobile": {
+        "value": "22px"
+      }
+    }
+  },
   "swatch-size-extra-small": {
     "sets": {
       "desktop": {
