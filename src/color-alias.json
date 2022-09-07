@@ -883,6 +883,18 @@
       }
     }
   },
+  "background-opacity-default": {
+    "value": "0"
+  },
+  "background-opacity-hover": {
+    "value": "0.1"
+  },
+  "background-opacity-down": {
+    "value": "0.1"
+  },
+  "background-opacity-key-focus": {
+    "value": "0.1"
+  },
   "background-layer-1-color": {
     "sets": {
       "light": {
