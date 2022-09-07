@@ -47,8 +47,11 @@
   "transparent-black-900": {
     "value": "rgb(0, 0, 0)"
   },
-  "focus-ring-color": {
+  "focus-indicator-color" :{
     "value": "{blue-800}"
+  },
+  "focus-ring-color": {
+    "value": "{focus-indicator-color}"
   },
   "static-white-focus-ring-color": {
     "value": "{white}"
