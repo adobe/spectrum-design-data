@@ -493,6 +493,21 @@
   "line-height-200": {
     "value": "1.5"
   },
+  "font-family-default": {
+    "value": "{font-family-sans-serif}"
+  },
+  "font-family-sans-serif": {
+    "value": "Adobe Clean"
+  },
+  "font-family-serif": {
+    "value": "Adobe Clean Serif"
+  },
+  "font-family-code": {
+    "value": "Source Code Pro"
+  },
+  "CJK-letter-spacing": {
+    "value": "0.05em"
+  },
   "CJK-line-height-100": {
     "value": "1.5"
   },
