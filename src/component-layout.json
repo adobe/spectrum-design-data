@@ -2150,5 +2150,63 @@
   },
   "detail-letter-spacing": {
     "value": "0.06em"
+  },
+  "code": {
+    "value": "{font-regular-default}"
+  },
+  "code-strong": {
+    "value": "{font-bold-default}"
+  },
+  "code-emphasized": {
+    "value": "{font-italic-default}"
+  },
+  "code-strong-emphasized": {
+    "value": "{font-bold-italic-default}"
+  },
+  "cjk-code": {
+    "value": "{font-regular-cjk}"
+  },
+  "cjk-code-strong": {
+    "value": "{font-black-cjk}"
+  },
+  "cjk-code-emphasized": {
+    "value": "{font-bold-cjk}"
+  },
+  "cjk-code-strong-emphasized": {
+    "value": "{font-black-cjk}"
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+  "code-size-xl": {
+    "value": "{font-size-400}"
+  },
+  "code-size-l": {
+    "value": "{font-size-300}"
+  },
+  "code-size-m": {
+    "value": "{font-size-200}"
+  },
+  "code-size-s": {
+    "value": "{font-size-100}"
+  },
+  "code-size-xs": {
+    "value": "{font-size-75}"
+  },
+
+  "code-line-height": {
+    "value": "{line-height-200}"
+  },
+  "cjk-code-line-height": {
+    "value": "{cjk-line-height-200}"
   }
 }
