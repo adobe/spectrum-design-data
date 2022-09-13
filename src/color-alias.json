@@ -1088,6 +1088,9 @@
       },
       "darkest": {
         "value": "rgba(0, 0, 0, 0.80)"
+      },
+      "wireframe": {
+        "value": "rgba(0, 0, 0, 0.15)"
       }
     }
   },
