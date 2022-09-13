@@ -47,8 +47,6 @@ module.exports = {
         {
           destination: "drover.json",
           format: "drover/json/sets",
-          filter: (token) =>
-            !(token.path.includes("express") || token.path.includes("mobile") || token.path.includes("wireframe")),
           options: {
             showFileHeader: false,
             outputReferences: true,
