@@ -560,10 +560,118 @@
   "line-height-200": {
     "value": "1.5"
   },
-  "CJK-line-height-100": {
+  "font-family-default": {
+    "value": "{font-family-sans-serif}"
+  },
+  "font-family-sans-serif": {
+    "value": "adobe clean"
+  },
+  "font-family-serif": {
+    "value": "adobe clean serif"
+  },
+  "font-family-code": {
+    "value": "source code pro"
+  },
+  "font-light-default": {
+    "value": "adobe clean light"
+  }, 
+  "font-light-cjk": {
+    "value": "adobe clean han light"
+  },
+  "font-light-monospace": {
+    "value": "source code pro"
+  },
+  "font-light-italic-default": { 
+    "value": "adobe clean light italic"
+  },
+  "font-light-italic-monospace": {
+    "value": "source code pro light italic"
+  },
+  "font-regular-default": {
+    "value": "adobe clean regular"
+  },
+  "font-regular-cjk": {
+    "value": "adobe clean han regular"
+  },
+  "font-regular-serif": {
+    "value": "adobe clean serif regular"
+  },
+  "font-regular-monospace": {
+    "value": "source code pro regular"
+  },
+  "font-italic-default": {
+      "value": "adobe clean italic"
+  },
+  "font-italic-serif": {
+    "value": "adobe clean serif italic"
+  },
+  "font-italic-monospace": {
+    "value": "source code pro italic"
+  },
+  "font-medium-default": {
+      "value": "adobe clean medium"
+  },
+  "font-medium-serif": {
+    "value": "adobe clean serif medium"
+  },
+  "font-medium-monospace": {
+    "value": "source code pro medium"
+  },
+  "font-bold-default": {
+      "value": "adobe clean bold"
+  },
+  "font-bold-cjk": {
+    "value": "adobe clean han bold"
+  },
+  "font-bold-serif": {
+    "value": "adobe clean serif bold"
+  },
+  "font-bold-monospace": {
+    "value": "source code pro bold"
+  },
+  "font-bold-italic-default": {
+      "value": "adobe clean bold italic"
+  },
+  "font-bold-italic-serif": {
+    "value": "adobe clean serif bold italic"
+  },
+  "font-bold-italic-monospace": {
+    "value": "source code pro bold italic"
+  },
+  "font-extra-bold-default": {
+      "value": "adobe clean extra bold"
+  },
+  "font-extra-bold-cjk": {
+    "value": "adobe clean han extra bold"
+  },
+  "font-black-default": {
+      "value": "adobe clean black"
+  },
+  "font-black-cjk": {
+    "value": "adobe clean han black"
+  },
+  "font-black-serif": {
+    "value": "adobe clean serif black"
+  },
+  "font-black-monospace": {
+    "value": "source code pro black"
+  },
+  "font-black-italic-default": {
+      "value": "adobe clean black italic"
+  },
+  "font-black-italic-serif": {
+    "value": "adobe clean serif black italic"
+  },
+  "font-black-italic-monospace": {
+    "value": "source code pro black italic"
+  },
+  "cjk-letter-spacing": {
+    "value": "0.05em"
+  },
+  "cjk-line-height-100": {
     "value": "1.5"
   },
-  "CJK-line-height-200": {
+  "cjk-line-height-200": {
     "value": "1.7"
   },
   "component-pill-edge-to-visual-75": {
