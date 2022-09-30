@@ -3,6 +3,7 @@
   "version": "0.0.0-development",
   "description": "",
   "main": "config.js",
+  "tokens": "dist/json/variables.json",
   "scripts": {
     "test": "jest",
     "test-watch": "jest --runInBand --watch",
