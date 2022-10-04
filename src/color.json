@@ -2,26 +2,29 @@
   "white": {
     "value": "rgb(255, 255, 255)"
   },
+  "transparent-white-100": {
+    "value": "rgba(255, 255, 255, 0)"
+  },
   "transparent-white-200": {
-    "value": "rgba(255, 255, 255, 0.10)"
+    "value": "rgba(255, 255, 255, 0.1)"
   },
   "transparent-white-300": {
     "value": "rgba(255, 255, 255, 0.25)"
   },
   "transparent-white-400": {
-    "value": "rgba(255, 255, 255, 0.40)"
+    "value": "rgba(255, 255, 255, 0.4)"
   },
   "transparent-white-500": {
     "value": "rgba(255, 255, 255, 0.55)"
   },
   "transparent-white-600": {
-    "value": "rgba(255, 255, 255, 0.70)"
+    "value": "rgba(255, 255, 255, 0.7)"
   },
   "transparent-white-700": {
-    "value": "rgba(255, 255, 255, 0.80)"
+    "value": "rgba(255, 255, 255, 0.8)"
   },
   "transparent-white-800": {
-    "value": "rgba(255, 255, 255, 0.90)"
+    "value": "rgba(255, 255, 255, 0.9)"
   },
   "transparent-white-900": {
     "value": "rgb(255, 255, 255)"
@@ -29,26 +32,29 @@
   "black": {
     "value": "rgb(0, 0, 0)"
   },
+  "transparent-black-100": {
+    "value": "rgba(0, 0, 0, 0)"
+  },
   "transparent-black-200": {
-    "value": "rgba(0, 0, 0, 0.10)"
+    "value": "rgba(0, 0, 0, 0.1)"
   },
   "transparent-black-300": {
     "value": "rgba(0, 0, 0, 0.25)"
   },
   "transparent-black-400": {
-    "value": "rgba(0, 0, 0, 0.40)"
+    "value": "rgba(0, 0, 0, 0.4)"
   },
   "transparent-black-500": {
     "value": "rgba(0, 0, 0, 0.55)"
   },
   "transparent-black-600": {
-    "value": "rgba(0, 0, 0, 0.70)"
+    "value": "rgba(0, 0, 0, 0.7)"
   },
   "transparent-black-700": {
-    "value": "rgba(0, 0, 0, 0.80)"
+    "value": "rgba(0, 0, 0, 0.8)"
   },
   "transparent-black-800": {
-    "value": "rgba(0, 0, 0, 0.90)"
+    "value": "rgba(0, 0, 0, 0.9)"
   },
   "transparent-black-900": {
     "value": "rgb(0, 0, 0)"
@@ -901,7 +907,6 @@
       }
     }
   },
-
   "yellow-100": {
     "sets": {
       "light": {
@@ -1574,7 +1579,6 @@
       }
     }
   },
-
   "green-100": {
     "sets": {
       "light": {
@@ -2471,7 +2475,6 @@
       }
     }
   },
-
   "purple-100": {
     "sets": {
       "light": {

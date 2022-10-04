@@ -12,7 +12,7 @@ const nameMap = {
 const rgbaRegEx =
   /rgba\(((?:(?:[01]?[0-9][0-9]?|2[0-4][0-9]|25[0-5]) *, *){3}(?:([0-9]*[.])?[0-9]+)) *\)/;
 const refRegEx = /^[A-z]+(?:-\w+)*$/;
-const dimensionRegEx = /^([0-9]+(?:\.[0-9]+)?) *(dp|px)?$/;
+const dimensionRegEx = /^(-?[0-9]+(?:\.[0-9]+)?) *(dp|px|em)?$/;
 const hexColorRegex = /^#(?:[0-9a-fA-F]{3}){1,2}$/;
 const hexAlphaColorRegex =
   /^(#(?:[0-9a-fA-F]{3}){1,2}), *([0-9]|[1-9][0-9]|100)%$/;
