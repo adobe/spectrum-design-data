@@ -606,5 +606,45 @@
   },
   "cjk-line-height-200": {
     "value": "1.7"
+  },
+  "disclosure-indicator-top-to-disclosure-icon-small": {
+    "sets": {
+      "desktop": {
+        "value": "7px"
+      },
+      "mobile": {
+        "value": "9px"
+      }
+    }
+  },
+  "disclosure-indicator-top-to-disclosure-icon-medium": {
+    "sets": {
+      "desktop": {
+        "value": "11px"
+      },
+      "mobile": {
+        "value": "13px"
+      }
+    }
+  },
+  "disclosure-indicator-top-to-disclosure-icon-large": {
+    "sets": {
+      "desktop": {
+        "value": "14px"
+      },
+      "mobile": {
+        "value": "17px"
+      }
+    }
+  },
+  "disclosure-indicator-top-to-disclosure-icon-extra-large": {
+    "sets": {
+      "desktop": {
+        "value": "17px"
+      },
+      "mobile": {
+        "value": "22px"
+      }
+    }
   }
 }
