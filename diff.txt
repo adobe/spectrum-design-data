@@ -1,0 +1,175 @@
+Fetched https://unpkg.com/@adobe/spectrum-tokens@12.0.0-beta.52/dist/json/variables.json
+
+*New Tokens Added:*
+  - `accent-content-color-default`
+  - `character-count-to-field-quiet-extra-large`
+  - `character-count-to-field-quiet-large`
+  - `character-count-to-field-quiet-medium`
+  - `character-count-to-field-quiet-small`
+  - `combo-box-minimum-width-multiplier`
+  - `combo-box-quiet-minimum-width-multiplier`
+  - `combo-box-visual-to-field-button-extra-large`
+  - `combo-box-visual-to-field-button-large`
+  - `combo-box-visual-to-field-button-medium`
+  - `combo-box-visual-to-field-button-quiet`
+  - `combo-box-visual-to-field-button-small`
+  - `component-to-menu-extra-large`
+  - `component-to-menu-large`
+  - `component-to-menu-medium`
+  - `component-to-menu-small`
+  - `disclosure-indicator-top-to-disclosure-icon-extra-large`
+  - `disclosure-indicator-top-to-disclosure-icon-large`
+  - `disclosure-indicator-top-to-disclosure-icon-medium`
+  - `disclosure-indicator-top-to-disclosure-icon-small`
+  - `field-edge-to-alert-icon-extra-large`
+  - `field-edge-to-alert-icon-large`
+  - `field-edge-to-alert-icon-medium`
+  - `field-edge-to-alert-icon-quiet`
+  - `field-edge-to-alert-icon-small`
+  - `field-edge-to-border-quiet`
+  - `field-edge-to-disclosure-icon-100`
+  - `field-edge-to-disclosure-icon-200`
+  - `field-edge-to-disclosure-icon-300`
+  - `field-edge-to-disclosure-icon-75`
+  - `field-edge-to-text-quiet`
+  - `field-edge-to-validation-icon-extra-large`
+  - `field-edge-to-validation-icon-large`
+  - `field-edge-to-validation-icon-medium`
+  - `field-edge-to-validation-icon-quiet`
+  - `field-edge-to-validation-icon-small`
+  - `field-label-to-component`
+  - `field-label-to-component-quiet-extra-large`
+  - `field-label-to-component-quiet-large`
+  - `field-label-to-component-quiet-medium`
+  - `field-label-to-component-quiet-small`
+  - `field-text-to-alert-icon-extra-large`
+  - `field-text-to-alert-icon-large`
+  - `field-text-to-alert-icon-medium`
+  - `field-text-to-alert-icon-small`
+  - `field-text-to-validation-icon-extra-large`
+  - `field-text-to-validation-icon-large`
+  - `field-text-to-validation-icon-medium`
+  - `field-text-to-validation-icon-small`
+  - `field-top-to-alert-icon-extra-large`
+  - `field-top-to-alert-icon-large`
+  - `field-top-to-alert-icon-medium`
+  - `field-top-to-alert-icon-small`
+  - `field-top-to-progress-circle-extra-large`
+  - `field-top-to-progress-circle-large`
+  - `field-top-to-progress-circle-medium`
+  - `field-top-to-progress-circle-small`
+  - `field-top-to-validation-icon-extra-large`
+  - `field-top-to-validation-icon-large`
+  - `field-top-to-validation-icon-medium`
+  - `field-top-to-validation-icon-small`
+  - `focus-indicator-gap`
+  - `focus-indicator-thickness`
+  - `help-text-to-component`
+  - `menu-item-top-to-disclosure-icon-extra-large`
+  - `menu-item-top-to-disclosure-icon-large`
+  - `menu-item-top-to-disclosure-icon-medium`
+  - `menu-item-top-to-disclosure-icon-small`
+  - `negative-border-color-default`
+  - `negative-border-color-down`
+  - `negative-border-color-hover`
+  - `negative-border-color-key-focus`
+  - `negative-content-color-default`
+  - `picker-minimum-width-multiplier`
+  - `picker-visual-to-disclosure-icon-extra-large`
+  - `picker-visual-to-disclosure-icon-large`
+  - `picker-visual-to-disclosure-icon-medium`
+  - `picker-visual-to-disclosure-icon-small`
+  - `progress-bar-maximum-width`
+  - `progress-bar-minimum-width`
+  - `side-label-character-count-to-field`
+  - `side-label-character-count-top-margin-extra-large`
+  - `side-label-character-count-top-margin-large`
+  - `side-label-character-count-top-margin-medium`
+  - `side-label-character-count-top-margin-small`
+  - `slider-bottom-to-handle-extra-large`
+  - `slider-bottom-to-handle-large`
+  - `slider-bottom-to-handle-medium`
+  - `slider-bottom-to-handle-small`
+  - `slider-control-height-extra-large`
+  - `slider-control-height-large`
+  - `slider-control-height-medium`
+  - `slider-control-height-small`
+  - `slider-handle-border-width-down-extra-large`
+  - `slider-handle-border-width-down-large`
+  - `slider-handle-border-width-down-medium`
+  - `slider-handle-border-width-down-small`
+  - `slider-handle-gap`
+  - `slider-handle-size-extra-large`
+  - `slider-handle-size-large`
+  - `slider-handle-size-medium`
+  - `slider-handle-size-small`
+  - `slider-track-thickness`
+  - `static-black-focus-indicator-color`
+  - `static-white-focus-indicator-color`
+  - `swatch-border-color`
+  - `swatch-border-opacity`
+  - `swatch-disabled-icon-border-color`
+  - `swatch-disabled-icon-border-opacity`
+  - `text-area-minimum-height`
+  - `text-area-minimum-width`
+  - `text-field-minimum-width-multiplier`
+  - `transparent-black-100`
+  - `transparent-white-100`
+
+*Tokens removed:*
+  - `accent-content-color`
+  - `focus-ring-color`
+  - `focus-ring-gap`
+  - `focus-ring-thickness`
+  - `menu-item-top-to-chevron-extra-large`
+  - `menu-item-top-to-chevron-large`
+  - `menu-item-top-to-chevron-medium`
+  - `menu-item-top-to-chevron-small`
+  - `negative-content-color`
+  - `progress-bar-maximum-width`
+  - `progress-bar-minimum-width`
+  - `static-black-focus-ring-color`
+  - `static-white-focus-ring-color`
+
+*Token values updated:*
+  - `blue-background-color-default`
+  - `celery-background-color-default`
+  - `chartreuse-background-color-default`
+  - `cyan-background-color-default`
+  - `disabled-static-black-background-color`
+  - `disabled-static-white-background-color`
+  - `drop-shadow-color`
+  - `fuchsia-background-color-default`
+  - `gray-background-color-default`
+  - `green-background-color-default`
+  - `indigo-background-color-default`
+  - `magenta-background-color-default`
+  - `orange-background-color-default`
+  - `purple-background-color-default`
+  - `red-background-color-default`
+  - `seafoam-background-color-default`
+  - `tag-top-to-avatar-large`
+  - `tag-top-to-avatar-medium`
+  - `transparent-black-200`
+  - `transparent-black-400`
+  - `transparent-black-600`
+  - `transparent-black-700`
+  - `transparent-black-800`
+  - `transparent-white-200`
+  - `transparent-white-400`
+  - `transparent-white-600`
+  - `transparent-white-700`
+  - `transparent-white-800`
+  - `yellow-background-color-default`
+
+*Potentially rename tokens:*
+  - `accent-content-color` -> `accent-content-color-default`
+  - `focus-ring-gap` -> `focus-indicator-gap`
+  - `focus-ring-thickness` -> `focus-indicator-gap`
+  - `menu-item-top-to-chevron-extra-large` -> `disclosure-indicator-top-to-disclosure-icon-extra-large`
+  - `menu-item-top-to-chevron-large` -> `disclosure-indicator-top-to-disclosure-icon-large`
+  - `menu-item-top-to-chevron-medium` -> `disclosure-indicator-top-to-disclosure-icon-medium`
+  - `menu-item-top-to-chevron-small` -> `disclosure-indicator-top-to-disclosure-icon-small`
+  - `negative-content-color` -> `negative-border-color-default`
+  - `static-black-focus-ring-color` -> `swatch-disabled-icon-border-color`
+  - `static-white-focus-ring-color` -> `static-white-focus-indicator-color`

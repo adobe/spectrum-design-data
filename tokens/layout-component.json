@@ -1310,14 +1310,7 @@
     }
   },
   "in-line-alert-minimum-width": {
-    "sets": {
-      "desktop": {
-        "value": "320px"
-      },
-      "mobile": {
-        "value": "360px"
-      }
-    }
+    "value": "240px"
   },
   "tag-top-to-avatar-small": {
     "sets": {
@@ -1335,7 +1328,7 @@
         "value": "6px"
       },
       "mobile": {
-        "value": "9px"
+        "value": "7px"
       }
     }
   },
@@ -1345,7 +1338,7 @@
         "value": "9px"
       },
       "mobile": {
-        "value": "12px"
+        "value": "11px"
       }
     }
   },
@@ -2336,7 +2329,7 @@
       }
     }
   },
-  "Combo-box-visual-to-field-button-quiet": {
+  "combo-box-visual-to-field-button-quiet": {
     "value": "0"
   }
 }

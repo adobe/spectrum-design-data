@@ -1121,15 +1121,6 @@
   "font-black-italic-monospace": {
     "value": "source code pro black italic"
   },
-  "cjk-letter-spacing": {
-    "value": "0.05em"
-  },
-  "cjk-line-height-100": {
-    "value": "1.5"
-  },
-  "cjk-line-height-200": {
-    "value": "1.7"
-  },
   "field-edge-to-text-quiet": {
     "value": "0px"
   },

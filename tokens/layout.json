@@ -1019,31 +1019,6 @@
   "font-family-default": {
     "value": "{font-family-sans-serif}"
   },
-  "font-family-sans-serif": {
-    "value": "Adobe Clean"
-  },
-  "font-family-serif": {
-    "value": "Adobe Clean Serif"
-  },
-  "font-family-code": {
-    "value": "Source Code Pro"
-  },
-  "component-font-light": {
-    "value": "{font-light}"
-  },
-  "font-light": {
-    "sets": {
-      "default": {
-        "value": "adobe clean light"
-      },
-      "cjk": {
-        "value": "adobe clean han light"
-      },
-      "monospace": {
-        "value": "source code pro light"
-      }
-    }
-  },
   "font-light-default": {
     "value": "adobe clean light"
   },
@@ -1051,34 +1026,91 @@
     "value": "adobe clean han light"
   },
   "font-light-monospace": {
-    "value": "source code pro light"
+    "value": "source code pro"
   },
-  "font-light-italic": {
-    "sets": {}
+  "font-light-italic-default": {
+    "value": "adobe clean light italic"
   },
-  "font-regular": {
-    "sets": {}
+  "font-light-italic-monospace": {
+    "value": "source code pro light italic"
   },
-  "font-italic": {
-    "sets": {}
+  "font-regular-default": {
+    "value": "adobe clean regular"
   },
-  "font-medium": {
-    "sets": {}
+  "font-regular-cjk": {
+    "value": "adobe clean han regular"
   },
-  "font-bold": {
-    "sets": {}
+  "font-regular-serif": {
+    "value": "adobe clean serif regular"
   },
-  "font-bold-italic": {
-    "sets": {}
+  "font-regular-monospace": {
+    "value": "source code pro regular"
   },
-  "font-extra-bold": {
-    "sets": {}
+  "font-italic-default": {
+    "value": "adobe clean italic"
   },
-  "font-black": {
-    "sets": {}
+  "font-italic-serif": {
+    "value": "adobe clean serif italic"
   },
-  "font-black-italic": {
-    "sets": {}
+  "font-italic-monospace": {
+    "value": "source code pro italic"
+  },
+  "font-medium-default": {
+    "value": "adobe clean medium"
+  },
+  "font-medium-serif": {
+    "value": "adobe clean serif medium"
+  },
+  "font-medium-monospace": {
+    "value": "source code pro medium"
+  },
+  "font-bold-default": {
+    "value": "adobe clean bold"
+  },
+  "font-bold-cjk": {
+    "value": "adobe clean han bold"
+  },
+  "font-bold-serif": {
+    "value": "adobe clean serif bold"
+  },
+  "font-bold-monospace": {
+    "value": "source code pro bold"
+  },
+  "font-bold-italic-default": {
+    "value": "adobe clean bold italic"
+  },
+  "font-bold-italic-serif": {
+    "value": "adobe clean serif bold italic"
+  },
+  "font-bold-italic-monospace": {
+    "value": "source code pro bold italic"
+  },
+  "font-extra-bold-default": {
+    "value": "adobe clean extra bold"
+  },
+  "font-extra-bold-cjk": {
+    "value": "adobe clean han extra bold"
+  },
+  "font-black-default": {
+    "value": "adobe clean black"
+  },
+  "font-black-cjk": {
+    "value": "adobe clean han black"
+  },
+  "font-black-serif": {
+    "value": "adobe clean serif black"
+  },
+  "font-black-monospace": {
+    "value": "source code pro black"
+  },
+  "font-black-italic-default": {
+    "value": "adobe clean black italic"
+  },
+  "font-black-italic-serif": {
+    "value": "adobe clean serif black italic"
+  },
+  "font-black-italic-monospace": {
+    "value": "source code pro black italic"
   },
   "field-edge-to-text-quiet": {
     "value": "0px"
