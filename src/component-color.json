@@ -1,0 +1,14 @@
+{
+  "swatch-border-color": {
+    "value": "{gray-900}"
+  },
+  "swatch-border-opacity": {
+    "value": "0.51"
+  },
+  "swatch-disabled-icon-border-color": {
+    "value": "{black}"
+  },
+  "swatch-disabled-icon-border-opacity": {
+    "value": "0.51"
+  }
+}
