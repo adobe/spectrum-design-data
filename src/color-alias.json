@@ -594,7 +594,7 @@
       }
     }
   },
-  "negative-content-color": {
+  "negative-content-color-default": {
     "value": "{negative-color-900}"
   },
   "negative-content-color-hover": {
