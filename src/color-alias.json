@@ -1156,5 +1156,17 @@
         "value": "{gray-50}"
       }
     }
+  },
+  "negative-border-color-default": {
+    "value": "{negative-color-900}"
+  },
+  "negative-border-color-hover": {
+    "value": "{negative-color-1000}"
+  },
+  "negative-border-color-down": {
+    "value": "{negative-color-1100}"
+  },
+  "negative-border-color-key-focus": {
+    "value": "{negative-color-1000}"
   }
 }
