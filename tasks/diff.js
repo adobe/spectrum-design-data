@@ -33,25 +33,25 @@ async function run() {
   // console.log(JSON.stringify(diffResult, '', 2));
   if (Object.keys(diffResult.added).length > 0) {
     console.log("\n*New Tokens Added:*");
-    Object.keys(diffResult.added).forEach((tokenName, i) => {
+    Object.keys(diffResult.added).sort().forEach((tokenName, i) => {
       console.log(`  - \`${tokenName}\``);
     });
   }
   if (Object.keys(diffResult.deleted).length > 0) {
     console.log("\n*Tokens removed:*");
-    Object.keys(diffResult.deleted).forEach((tokenName, i) => {
+    Object.keys(diffResult.deleted).sort().forEach((tokenName, i) => {
       console.log(`  - \`${tokenName}\``);
     });
   }
   if (Object.keys(diffResult.updated).length > 0) {
     console.log("\n*Token values updated:*");
-    Object.keys(diffResult.updated).forEach((tokenName, i) => {
+    Object.keys(diffResult.updated).sort().forEach((tokenName, i) => {
       console.log(`  - \`${tokenName}\``);
     });
   }
   if (Object.keys(diffResult.possiblyRenamed).length > 0) {
     console.log("\n*Potentially rename tokens:*");
-    Object.keys(diffResult.possiblyRenamed).forEach((tokenName, i) => {
+    Object.keys(diffResult.possiblyRenamed).sort().forEach((tokenName, i) => {
       console.log(`  - \`${tokenName}\` -> \`${diffResult.possiblyRenamed[tokenName]}\``);
     });
   }
