@@ -1,4 +1,7 @@
 {
+  "transparent-white-100": {
+    "value": "rgba(255, 255, 255, 0)"
+  },
   "transparent-white-200": {
     "value": "rgba(255, 255, 255, 0.10)"
   },
@@ -22,6 +25,9 @@
   },
   "transparent-white-900": {
     "value": "rgb(255, 255, 255)"
+  },
+  "transparent-black-100": {
+    "value": "rgba(0, 0, 0, 0)"
   },
   "transparent-black-200": {
     "value": "rgba(0, 0, 0, 0.10)"
@@ -448,7 +454,7 @@
   "neutral-subdued-content-color-key-focus": {
     "value": "{gray-800}"
   },
-  "accent-content-color": {
+  "accent-content-color-default": {
     "value": "{accent-color-900}"
   },
   "accent-content-color-hover": {
