@@ -1409,6 +1409,9 @@
   "radio-button-selection-indicator": {
     "value": "4px"
   },
+  "help-text-to-component": {
+    "value": "0px"
+  },
   "status-light-dot-size-small": {
     "sets": {
       "desktop": {
