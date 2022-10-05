@@ -468,10 +468,10 @@
       }
     }
   },
-  "focus-ring-thickness": {
+  "focus-indicator-thickness": {
     "value": "2px"
   },
-  "focus-ring-gap": {
+  "focus-indicator-gap": {
     "value": "2px"
   },
   "border-width-100": {
@@ -507,14 +507,14 @@
   },
   "font-light-default": {
     "value": "adobe clean light"
-  }, 
+  },
   "font-light-cjk": {
     "value": "adobe clean han light"
   },
   "font-light-monospace": {
     "value": "source code pro"
   },
-  "font-light-italic-default": { 
+  "font-light-italic-default": {
     "value": "adobe clean light italic"
   },
   "font-light-italic-monospace": {

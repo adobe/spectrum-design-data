@@ -50,13 +50,10 @@
   "focus-indicator-color" :{
     "value": "{blue-800}"
   },
-  "focus-ring-color": {
-    "value": "{focus-indicator-color}"
-  },
-  "static-white-focus-ring-color": {
+  "static-white-focus-indicator-color": {
     "value": "{white}"
   },
-  "static-black-focus-ring-color": {
+  "static-black-focus-indicator-color": {
     "value": "{black}"
   },
   "overlay-color": {
@@ -89,7 +86,7 @@
       "wireframe":{
         "value": "{gray-700}"
       }
-    } 
+    }
   },
   "red-background-color-default": {
     "sets": {
@@ -105,7 +102,7 @@
       "wireframe":{
         "value": "{red-600}"
       }
-    } 
+    }
   },
   "orange-background-color-default": {
     "sets": {
@@ -121,7 +118,7 @@
       "wireframe":{
         "value": "{orange-600}"
       }
-    } 
+    }
   },
   "yellow-background-color-default": {
     "sets": {
@@ -137,7 +134,7 @@
       "wireframe":{
         "value": "{yellow-400}"
       }
-    } 
+    }
   },
   "chartreuse-background-color-default": {
     "sets": {
@@ -153,7 +150,7 @@
       "wireframe":{
         "value": "{chartreuse-500}"
       }
-    } 
+    }
   },
   "celery-background-color-default": {
     "sets": {
@@ -169,7 +166,7 @@
       "wireframe":{
         "value": "{celery-600}"
       }
-    } 
+    }
   },
   "green-background-color-default": {
     "sets": {
@@ -185,7 +182,7 @@
       "wireframe":{
         "value": "{green-900}"
       }
-    } 
+    }
   },
   "seafoam-background-color-default": {
     "sets": {
@@ -201,7 +198,7 @@
       "wireframe":{
         "value": "{seafoam-900}"
       }
-    } 
+    }
   },
   "cyan-background-color-default": {
     "sets": {
@@ -217,7 +214,7 @@
       "wireframe":{
         "value": "{cyan-900}"
       }
-    } 
+    }
   },
   "blue-background-color-default": {
     "sets": {
@@ -249,7 +246,7 @@
       "wireframe":{
         "value": "{indigo-900}"
       }
-    } 
+    }
   },
   "purple-background-color-default": {
     "sets": {
@@ -265,7 +262,7 @@
       "wireframe":{
         "value": "{purple-900}"
       }
-    } 
+    }
   },
   "fuchsia-background-color-default": {
     "sets": {
@@ -281,7 +278,7 @@
       "wireframe":{
         "value": "{fuchsia-900}"
       }
-    } 
+    }
   },
   "magenta-background-color-default": {
     "sets": {
@@ -297,7 +294,7 @@
       "wireframe":{
         "value": "{magenta-900}"
       }
-    } 
+    }
   },
   "neutral-content-color-default": {
     "value": "{gray-800}"
