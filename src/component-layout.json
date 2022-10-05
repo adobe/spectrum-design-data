@@ -2701,5 +2701,90 @@
   },
   "text-field-minimum-width-multiplier": {
     "value": "1.5"
+  },
+  "text-area-minimum-width": {
+    "sets": {
+      "desktop": {
+        "value": "112px"
+      },
+      "mobile": {
+        "value": "140px"
+      }
+    }
+  },
+  "text-area-minimum-height": {
+    "sets": {
+      "desktop": {
+        "value": "56px"
+      },
+      "mobile": {
+        "value": "70px"
+      }
+    }
+  },
+  "combo-box-minimum-width-multiplier": {
+    "value": "2.5"
+  },
+  "combo-box-quiet-minimum-width-multiplier": {
+    "value": "2"
+  },
+  "combo-box-visual-to-field-button-small": {
+    "sets": {
+      "spectrum": {
+        "sets": {
+          "desktop": {
+            "value": "7px"
+          },
+          "mobile": {
+            "value": "9px"
+          }
+        }
+      }
+    }
+  },
+  "combo-box-visual-to-field-button-medium": {
+    "sets": {
+      "spectrum": {
+        "sets": {
+          "desktop": {
+            "value": "8px"
+          },
+          "mobile": {
+            "value": "10px"
+          }
+        }
+      }
+    }
+  },
+  "combo-box-visual-to-field-button-large": {
+    "sets": {
+      "spectrum": {
+        "sets": {
+          "desktop": {
+            "value": "9px"
+          },
+          "mobile": {
+            "value": "11px"
+          }
+        }
+      }
+    }
+  },
+  "combo-box-visual-to-field-button-extra-large": {
+    "sets": {
+      "spectrum": {
+        "sets": {
+          "desktop": {
+            "value": "10px"
+          },
+          "mobile": {
+            "value": "13px"
+          }
+        }
+      }
+    }
+  },
+  "combo-box-visual-to-field-button-quiet": {
+    "value": "0"
   }
 }
