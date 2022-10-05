@@ -960,7 +960,7 @@
       }
     }
   },
-  "menu-item-top-to-chevron-small": {
+  "menu-item-top-to-disclosure-icon-small": {
     "sets": {
       "desktop": {
         "value": "7px"
@@ -970,7 +970,7 @@
       }
     }
   },
-  "menu-item-top-to-chevron-medium": {
+  "menu-item-top-to-disclosure-icon-medium": {
     "sets": {
       "desktop": {
         "value": "11px"
@@ -980,7 +980,7 @@
       }
     }
   },
-  "menu-item-top-to-chevron-large": {
+  "menu-item-top-to-disclosure-icon-large": {
     "sets": {
       "desktop": {
         "value": "14px"
@@ -990,7 +990,7 @@
       }
     }
   },
-  "menu-item-top-to-chevron-extra-large": {
+  "menu-item-top-to-disclosure-icon-extra-large": {
     "sets": {
       "desktop": {
         "value": "17px"
