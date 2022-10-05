@@ -4,6 +4,7 @@
     "main",
     "next",
     "next-major",
+    "beta",
     { "name": "beta", "prerelease": true },
     { "name": "alpha", "prerelease": true }
   ],
