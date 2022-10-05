@@ -470,7 +470,46 @@
       }
     }
   },
-
+  "component-to-menu-small": {
+    "sets": {
+      "desktop": {
+        "value": "6px"
+      },
+      "mobile": {
+        "value": "7px"
+      }
+    }
+  },
+  "component-to-menu-medium": {
+    "sets": {
+      "desktop": {
+        "value": "6px"
+      },
+      "mobile": {
+        "value": "8px"
+      }
+    }
+  },
+  "component-to-menu-large": {
+    "sets": {
+      "desktop": {
+        "value": "7px"
+      },
+      "mobile": {
+        "value": "9px"
+      }
+    }
+  },
+  "component-to-menu-extra-large": {
+    "sets": {
+      "desktop": {
+        "value": "8px"
+      },
+      "mobile": {
+        "value": "10px"
+      }
+    }
+  },
   "action-bar-height": {
     "sets": {
       "desktop": {
@@ -865,7 +904,49 @@
       }
     }
   },
-
+  "field-label-to-component": {
+    "value": "0px"
+  },
+  "field-label-to-component-quiet-small": {
+    "sets": {
+      "desktop": {
+        "value": "-8px"
+      },
+      "mobile": {
+        "value": "-10px"
+      }
+    }
+  },
+  "field-label-to-component-quiet-medium": {
+    "sets": {
+      "desktop": {
+        "value": "-8px"
+      },
+      "mobile": {
+        "value": "-10px"
+      }
+    }
+  },
+  "field-label-to-component-quiet-large": {
+    "sets": {
+      "desktop": {
+        "value": "-12px"
+      },
+      "mobile": {
+        "value": "-15px"
+      }
+    }
+  },
+  "field-label-to-component-quiet-extra-large": {
+    "sets": {
+      "desktop": {
+        "value": "-15px"
+      },
+      "mobile": {
+        "value": "-19px"
+      }
+    }
+  },
   "help-text-top-to-workflow-icon-small": {
     "sets": {
       "desktop": {
@@ -922,10 +1003,10 @@
   },
   "menu-item-edge-to-content-not-selected-small": {
     "sets": {
-      "desktop":{
+      "desktop": {
         "value": "28px"
       },
-      "mobile":{
+      "mobile": {
         "value": "24px"
       }
     }
@@ -1934,7 +2015,7 @@
   },
   "heading": {
     "sets": {
-      "spectrum":{
+      "spectrum": {
         "value": "{font-bold-default}"
       },
       "express": {
