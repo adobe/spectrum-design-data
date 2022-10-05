@@ -1172,26 +1172,11 @@
   "swatch-slash-thickness-large": {
     "value": "5px"
   },
-
   "progress-bar-minimum-width": {
-    "sets": {
-      "desktop": {
-        "value": "48px"
-      },
-      "mobile": {
-        "value": "48px"
-      }
-    }
+    "value": "48px"
   },
   "progress-bar-maximum-width": {
-    "sets": {
-      "desktop": {
-        "value": "768px"
-      },
-      "mobile": {
-        "value": "768px"
-      }
-    }
+    "value": "768px"
   },
   "progress-bar-thickness-small": {
     "sets": {
