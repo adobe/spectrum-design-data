@@ -90,7 +90,7 @@
         "value": "{gray-700}"
       },
       "wireframe":{
-        "value": "{gray-700}"
+        "value": "{gray-600}"
       }
     }
   },
@@ -106,7 +106,7 @@
         "value": "{red-700}"
       },
       "wireframe":{
-        "value": "{red-600}"
+        "value": "{red-1100}"
       }
     }
   },
@@ -122,7 +122,7 @@
         "value": "{orange-800}"
       },
       "wireframe":{
-        "value": "{orange-600}"
+        "value": "{orange-1100}"
       }
     }
   },
@@ -138,7 +138,7 @@
         "value": "{yellow-1000}"
       },
       "wireframe":{
-        "value": "{yellow-400}"
+        "value": "{yellow-1100}"
       }
     }
   },
@@ -154,7 +154,7 @@
         "value": "{chartreuse-900}"
       },
       "wireframe":{
-        "value": "{chartreuse-500}"
+        "value": "{chartreuse-1100}"
       }
     }
   },
@@ -170,7 +170,7 @@
         "value": "{celery-800}"
       },
       "wireframe":{
-        "value": "{celery-600}"
+        "value": "{celery-1100}"
       }
     }
   },
@@ -186,7 +186,7 @@
         "value": "{green-700}"
       },
       "wireframe":{
-        "value": "{green-900}"
+        "value": "{green-1100}"
       }
     }
   },
@@ -202,7 +202,7 @@
         "value": "{seafoam-700}"
       },
       "wireframe":{
-        "value": "{seafoam-900}"
+        "value": "{seafoam-1100}"
       }
     }
   },
@@ -218,7 +218,7 @@
         "value": "{cyan-700}"
       },
       "wireframe":{
-        "value": "{cyan-900}"
+        "value": "{cyan-1100}"
       }
     }
   },
@@ -234,7 +234,7 @@
         "value": "{blue-700}"
       },
       "wireframe": {
-        "value": "{blue-900}"
+        "value": "{blue-1100}"
       }
     }
   },
@@ -250,7 +250,7 @@
         "value": "{indigo-700}"
       },
       "wireframe":{
-        "value": "{indigo-900}"
+        "value": "{indigo-1100}"
       }
     }
   },
@@ -266,7 +266,7 @@
         "value": "{purple-700}"
       },
       "wireframe":{
-        "value": "{purple-900}"
+        "value": "{purple-1100}"
       }
     }
   },
@@ -282,7 +282,7 @@
         "value": "{fuchsia-700}"
       },
       "wireframe":{
-        "value": "{fuchsia-900}"
+        "value": "{fuchsia-1100}"
       }
     }
   },
@@ -298,7 +298,7 @@
         "value": "{magenta-700}"
       },
       "wireframe":{
-        "value": "{magenta-900}"
+        "value": "{magenta-1100}"
       }
     }
   },
