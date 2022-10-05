@@ -10,6 +10,7 @@
     "test-watch": "jest --runInBand --watch",
     "build": "style-dictionary build",
     "diffLastRelease": ". tasks/diffOutput.sh",
+    "generateDiffResult": "node tasks/diff.js",
     "clean": "rm -rf dist",
     "pre-commit": "lint-staged",
     "prepare": "husky install && yarn run build",
