@@ -2211,18 +2211,6 @@
   "cjk-code-strong-emphasized": {
     "value": "{font-black-cjk}"
   },
-
-
-
-
-
-
-
-
-
-
-
-
   "code-size-xl": {
     "value": "{font-size-400}"
   },
@@ -2244,5 +2232,64 @@
   },
   "cjk-code-line-height": {
     "value": "{cjk-line-height-200}"
+  },
+  "picker-minimum-width-multiplier": {
+    "value": "2"
+  },
+  "picker-visual-to-disclosure-icon-small": {
+    "sets": {
+      "spectrum": {
+        "sets": {
+          "desktop": {
+            "value": "7px"
+          },
+          "mobile": {
+            "value": "9px"
+          }
+        }
+      }
+    }
+  },
+  "picker-visual-to-disclosure-icon-medium": {
+    "sets": {
+      "spectrum": {
+        "sets": {
+          "desktop": {
+            "value": "8px"
+          },
+          "mobile": {
+            "value": "10px"
+          }
+        }
+      }
+    }
+  },
+  "picker-visual-to-disclosure-icon-large": {
+    "sets": {
+      "spectrum": {
+        "sets": {
+          "desktop": {
+            "value": "9px"
+          },
+          "mobile": {
+            "value": "11px"
+          }
+        }
+      }
+    }
+  },
+  "picker-visual-to-disclosure-icon-extra-large": {
+    "sets": {
+      "spectrum": {
+        "sets": {
+          "desktop": {
+            "value": "10px"
+          },
+          "mobile": {
+            "value": "13px"
+          }
+        }
+      }
+    }
   }
 }
