@@ -607,6 +607,96 @@
   "cjk-line-height-200": {
     "value": "1.7"
   },
+  "character-count-to-field-quiet-small": {
+    "sets": {
+      "desktop": {
+        "value": "-3px"
+      },
+      "mobile": {
+        "value": "-4px"
+      }
+    }
+  },
+  "character-count-to-field-quiet-medium": {
+    "sets": {
+      "desktop": {
+        "value": "-3px"
+      },
+      "mobile": {
+        "value": "-4px"
+      }
+    }
+  },
+  "character-count-to-field-quiet-large": {
+    "sets": {
+      "desktop": {
+        "value": "-3px"
+      },
+      "mobile": {
+        "value": "-4px"
+      }
+    }
+  },
+  "character-count-to-field-quiet-extra-large": {
+    "sets": {
+      "desktop": {
+        "value": "-4px"
+      },
+      "mobile": {
+        "value": "-5px"
+      }
+    }
+  },
+  "side-label-character-count-to-field": {
+    "sets": {
+      "desktop": {
+        "value": "12px"
+      },
+      "mobile": {
+        "value": "15px"
+      }
+    }
+  },
+  "side-label-character-count-top-margin-small": {
+    "sets": {
+      "desktop": {
+        "value": "4px"
+      },
+      "mobile": {
+        "value": "5px"
+      }
+    }
+  },
+  "side-label-character-count-top-margin-medium": {
+    "sets": {
+      "desktop": {
+        "value": "8px"
+      },
+      "mobile": {
+        "value": "10px"
+      }
+    }
+  },
+  "side-label-character-count-top-margin-large": {
+    "sets": {
+      "desktop": {
+        "value": "10px"
+      },
+      "mobile": {
+        "value": "13px"
+      }
+    }
+  },
+  "side-label-character-count-top-margin-extra-large": {
+    "sets": {
+      "desktop": {
+        "value": "13px"
+      },
+      "mobile": {
+        "value": "17px"
+      }
+    }
+  },
   "disclosure-indicator-top-to-disclosure-icon-small": {
     "sets": {
       "desktop": {
