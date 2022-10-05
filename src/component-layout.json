@@ -2294,5 +2294,8 @@
         }
       }
     }
+  },
+  "text-field-minimum-width-multiplier": {
+    "value": "1.5"
   }
 }
