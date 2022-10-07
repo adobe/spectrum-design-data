@@ -1113,6 +1113,9 @@
       }
     }
   },
+  "opacity-disabled": {
+    "value": "0.3"
+  },
   "background-opacity-default": {
     "value": "0"
   },
