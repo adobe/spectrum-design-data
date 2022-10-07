@@ -828,7 +828,7 @@
   "notice-visual-color": {
     "sets": {
       "light": {
-        "value": "{notice-color-600}"
+        "value": "{notice-color-700}"
       },
       "dark": {
         "value": "{notice-color-900}"
@@ -892,7 +892,7 @@
   "orange-visual-color": {
     "sets": {
       "light": {
-        "value": "{orange-600}"
+        "value": "{orange-700}"
       },
       "dark": {
         "value": "{orange-900}"
