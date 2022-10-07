@@ -580,6 +580,12 @@
       }
     }
   },
+  "alert-dialog-minimum-width": {
+    "value": "288px"
+  },
+  "alert-dialog-maximum-width": {
+    "value": "480px"
+  },
   "button-minimum-width-multiplier": {
     "value": "2.25"
   },
