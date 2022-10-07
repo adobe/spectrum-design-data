@@ -487,6 +487,9 @@
   "border-width-200": {
     "value": "2px"
   },
+  "border-width-400": {
+    "value": "4px"
+  },
   "line-height-100": {
     "value": "1.3"
   },
