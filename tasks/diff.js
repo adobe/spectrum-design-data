@@ -20,13 +20,13 @@ async function run() {
     getOldTokens(),
   ]);
   const diffResult = detailedDiff(oldTokens, newTokens);
-  
+
   calculatePossibleRenames(diffResult, oldTokens, newTokens);
 
-  logResultCategory(diffResult, 'added');
-  logResultCategory(diffResult, 'deleted');
-  logResultCategory(diffResult, 'updated', 'Token values updated');
-  logResultCategory(diffResult, 'possiblyRenamed', 'Tokens possibly renamed');
+  logResultCategory(diffResult, "added");
+  logResultCategory(diffResult, "deleted");
+  logResultCategory(diffResult, "updated", "Token values updated");
+  logResultCategory(diffResult, "possiblyRenamed", "Tokens possibly renamed");
 }
 
 async function getNewTokens() {
@@ -54,12 +54,16 @@ function calculatePossibleRenames(diffResult, oldTokens, newTokens) {
   diffResult.possiblyRenamed = {};
   Object.keys(diffResult.deleted).forEach((deletedTokenName) => {
     const oldTokenValue = oldTokens[deletedTokenName];
+    const allValueMatches = [];
     Object.keys(diffResult.added).forEach((addedTokenName, i) => {
       const newTokenValue = newTokens[addedTokenName];
       if (Object.keys(diff(oldTokenValue, newTokenValue)).length === 0) {
-        diffResult.possiblyRenamed[deletedTokenName] = addedTokenName;
+        allValueMatches.push(addedTokenName);
       }
     });
+    if (allValueMatches.length > 0) {
+      diffResult.possiblyRenamed[deletedTokenName] = allValueMatches;
+    }
   });
 }
 
@@ -71,8 +75,30 @@ function logResultCategory(diffResult, categoryKey, msg) {
   }
   if (resultCount > 0) {
     console.log(`\n*${msg} (${resultCount}):*`);
-    Object.keys(results).sort().forEach((tokenName, i) => {
-      console.log(`  - \`${tokenName}\``);
-    });
+    switch (categoryKey) {
+      case "possiblyRenamed":
+        Object.keys(results)
+          .sort()
+          .forEach((oldTokenName, i) => {
+            if (
+              Array.isArray(results[oldTokenName]) &&
+              results[oldTokenName].length > 1
+            ) {
+              console.log(`  - Old name: \`${oldTokenName}\`, new name options:`);
+              results[oldTokenName].forEach((newTokenName) =>
+                console.log(`    - \`${newTokenName}\``)
+              );
+            } else {
+              console.log(
+                `  - \`${oldTokenName}\` -> \`${results[oldTokenName][0]}\``
+              );
+            }
+          });
+        break;
+      default:
+        Object.keys(results)
+          .sort()
+          .forEach((tokenName, i) => console.log(`  - \`${tokenName}\``));
+    }
   }
 }
