@@ -1113,7 +1113,7 @@
       }
     }
   },
-  "meter-thickness-medium": {
+  "meter-thickness-large": {
     "sets": {
       "desktop": {
         "value": "6px"
