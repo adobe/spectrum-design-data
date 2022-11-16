@@ -24,6 +24,9 @@ const rgbColorRegex =
 const rgbaColorRegex =
   /rgba\( ?(?<r>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<g>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<b>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<a>0|1|0.\d*) ?\)/;
 const percentageRegex = /([0-9]|[1-9][0-9]|100)%$/;
+const fontWeightRegex = /(light|regular|medium|bold|extra-bold|black)/;
+const fontFamilyRegex =
+  /(Adobe Clean|Adobe Clean Serif|Source Code Pro|Adobe Clean Han)/;
 
 const runRegexTest = (regex, value) => {
   return regex.test(value.toString().trim());
@@ -99,6 +102,16 @@ const formatters = {
       ? { value: percentageToDecimal(token.value) }
       : false;
   },
+  fontWeight: (token) => {
+    return runRegexTest(fontWeightRegex, token.value)
+      ? { value: token.value }
+      : false;
+  },
+  fontFamilyRegex: (token) => {
+    return runRegexTest(fontFamilyRegex, token.value)
+      ? { value: token.value }
+      : false;
+  },
   sets: (token) => {
     if (runRegexTest(multilineRegEx, token.value)) {
       const setItems = token.value.split("\r\n");
@@ -136,7 +149,7 @@ const formatters = {
 };
 
 const result = excelToJson({
-  sourceFile: "Spectrum core tokens.xlsx",
+  sourceFile: "Spec - tokens.xlsx",
   columnToKey: {
     A: NAME,
     B: VALUE,

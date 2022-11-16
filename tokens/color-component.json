@@ -10,5 +10,23 @@
   },
   "swatch-disabled-icon-border-opacity": {
     "value": "0.51"
+  },
+  "thumbnail-border-color": {
+    "value": "{gray-800}"
+  },
+  "thumbnail-border-opacity": {
+    "value": "0.1"
+  },
+  "thumbnail-opacity-disabled": {
+    "value": "{opacity-disabled}"
+  },
+  "opacity-checkerboard-square-light": {
+    "value": "{white}"
+  },
+  "opacity-checkerboard-square-dark": {
+    "value": "gray-200 (light)\r\ngray-800 (dark)\r\ngray-800 (darkest)"
+  },
+  "avatar-opacity-disabled": {
+    "value": "{opacity-disabled}"
   }
 }
