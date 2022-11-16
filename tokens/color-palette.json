@@ -6,25 +6,25 @@
     "value": "rgba(255, 255, 255, 0)"
   },
   "transparent-white-200": {
-    "value": "rgba(255, 255, 255, 0.1)"
+    "value": "rgba(255, 255, 255, 0.10)"
   },
   "transparent-white-300": {
     "value": "rgba(255, 255, 255, 0.25)"
   },
   "transparent-white-400": {
-    "value": "rgba(255, 255, 255, 0.4)"
+    "value": "rgba(255, 255, 255, 0.40)"
   },
   "transparent-white-500": {
     "value": "rgba(255, 255, 255, 0.55)"
   },
   "transparent-white-600": {
-    "value": "rgba(255, 255, 255, 0.7)"
+    "value": "rgba(255, 255, 255, 0.70)"
   },
   "transparent-white-700": {
-    "value": "rgba(255, 255, 255, 0.8)"
+    "value": "rgba(255, 255, 255, 0.80)"
   },
   "transparent-white-800": {
-    "value": "rgba(255, 255, 255, 0.9)"
+    "value": "rgba(255, 255, 255, 0.90)"
   },
   "transparent-white-900": {
     "value": "rgb(255, 255, 255)"
@@ -36,25 +36,25 @@
     "value": "rgba(0, 0, 0, 0)"
   },
   "transparent-black-200": {
-    "value": "rgba(0, 0, 0, 0.1)"
+    "value": "rgba(0, 0, 0, 0.10)"
   },
   "transparent-black-300": {
     "value": "rgba(0, 0, 0, 0.25)"
   },
   "transparent-black-400": {
-    "value": "rgba(0, 0, 0, 0.4)"
+    "value": "rgba(0, 0, 0, 0.40)"
   },
   "transparent-black-500": {
     "value": "rgba(0, 0, 0, 0.55)"
   },
   "transparent-black-600": {
-    "value": "rgba(0, 0, 0, 0.7)"
+    "value": "rgba(0, 0, 0, 0.70)"
   },
   "transparent-black-700": {
-    "value": "rgba(0, 0, 0, 0.8)"
+    "value": "rgba(0, 0, 0, 0.80)"
   },
   "transparent-black-800": {
-    "value": "rgba(0, 0, 0, 0.9)"
+    "value": "rgba(0, 0, 0, 0.90)"
   },
   "transparent-black-900": {
     "value": "rgb(0, 0, 0)"
