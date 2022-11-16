@@ -30,10 +30,10 @@
         "value": "rgba(0, 0, 0, 0.15)"
       },
       "dark": {
-        "value": "rgba(0, 0, 0, 0.5)"
+        "value": "rgba(0, 0, 0, 0.50)"
       },
       "darkest": {
-        "value": "rgba(0, 0, 0, 0.8)"
+        "value": "rgba(0, 0, 0, 0.80)"
       },
       "wireframe": {
         "value": "rgba(0, 0, 0, 0.15)"
@@ -698,7 +698,7 @@
         "value": "{fuchsia-900}"
       },
       "dark": {
-        "value": "{orange-700}"
+        "value": "{fuchsia-700}"
       },
       "darkest": {
         "value": "{fuchsia-700}"
