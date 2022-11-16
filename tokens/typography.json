@@ -15,28 +15,28 @@
     "value": "Adobe Clean Han"
   },
   "font-weight-light": {
-    "value": "{light}"
+    "value": "light"
   },
   "font-weight-regular": {
-    "value": "{regular}"
+    "value": "regular"
   },
   "font-weight-medium": {
-    "value": "{medium}"
+    "value": "medium"
   },
   "font-weight-bold": {
-    "value": "{bold}"
+    "value": "bold"
   },
   "font-weight-extra-bold": {
-    "value": "{extra-bold}"
+    "value": "extra-bold"
   },
   "font-weight-black": {
-    "value": "{black}"
+    "value": "black"
   },
   "font-style-italic": {
-    "value": "{italic}"
+    "value": "italic"
   },
   "font-style-regular": {
-    "value": "{normal}"
+    "value": "normal"
   },
   "font-size-50": {
     "sets": {
@@ -234,7 +234,14 @@
     "value": "{font-family-sans-serif}"
   },
   "heading-sans-serif-font-weight": {
-    "value": "font-weight-bold (Spectrum)\r\nfont-weight-black (Spectum for Express)"
+    "sets": {
+      "spectrum": {
+        "value": "{font-weight-bold}"
+      },
+      "spectum for express": {
+        "value": "{font-weight-black}"
+      }
+    }
   },
   "heading-sans-serif-font-style": {
     "value": "{font-style-regular}"
@@ -243,7 +250,14 @@
     "value": "{font-family-serif}"
   },
   "heading-serif-font-weight": {
-    "value": "font-weight-bold (Spectrum)\r\nfont-weight-black (Spectum for Express)"
+    "sets": {
+      "spectrum": {
+        "value": "{font-weight-bold}"
+      },
+      "spectum for express": {
+        "value": "{font-weight-black}"
+      }
+    }
   },
   "heading-serif-font-style": {
     "value": "{font-style-regular}"
@@ -252,7 +266,14 @@
     "value": "{font-family-cjk}"
   },
   "heading-cjk-font-weight": {
-    "value": "font-weight-bold (Spectrum)\r\nfont-weight-black (Spectum for Express)"
+    "sets": {
+      "spectrum": {
+        "value": "{font-weight-bold}"
+      },
+      "spectum for express": {
+        "value": "{font-weight-black}"
+      }
+    }
   },
   "heading-cjk-font-style": {
     "value": "{font-style-regular}"
@@ -396,7 +417,14 @@
     "value": "{font-family-sans-serif}"
   },
   "heading-sans-serif-emphasized-font-weight": {
-    "value": "font-weight-bold (Spectrum)\r\nfont-weight-black (Spectum for Express)"
+    "sets": {
+      "spectrum": {
+        "value": "{font-weight-bold}"
+      },
+      "spectum for express": {
+        "value": "{font-weight-black}"
+      }
+    }
   },
   "heading-sans-serif-emphasized-font-style": {
     "value": "{font-style-italic}"
@@ -405,7 +433,14 @@
     "value": "{font-family-serif}"
   },
   "heading-serif-emphasized-font-weight": {
-    "value": "font-weight-bold (Spectrum)\r\nfont-weight-black (Spectrum for Express)"
+    "sets": {
+      "spectrum": {
+        "value": "{font-weight-bold}"
+      },
+      "spectrum for express": {
+        "value": "{font-weight-black}"
+      }
+    }
   },
   "heading-serif-emphasized-font-style": {
     "value": "{font-style-italic}"

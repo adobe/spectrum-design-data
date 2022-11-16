@@ -24,7 +24,17 @@
     "value": "{white}"
   },
   "opacity-checkerboard-square-dark": {
-    "value": "gray-200 (light)\r\ngray-800 (dark)\r\ngray-800 (darkest)"
+    "sets": {
+      "light": {
+        "value": "{gray-200}"
+      },
+      "dark": {
+        "value": "{gray-800}"
+      },
+      "darkest": {
+        "value": "{gray-800}"
+      }
+    }
   },
   "avatar-opacity-disabled": {
     "value": "{opacity-disabled}"
