@@ -698,7 +698,7 @@
         "value": "{fuchsia-900}"
       },
       "dark": {
-        "value": "{orange-700}"
+        "value": "{fuchsia-700}"
       },
       "darkest": {
         "value": "{fuchsia-700}"
