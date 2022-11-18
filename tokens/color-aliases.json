@@ -6,10 +6,10 @@
     "value": "{white}"
   },
   "static-black-focus-indicator-color": {
-    "value": "{black}"
+    "value": "black"
   },
   "overlay-color": {
-    "value": "{black}"
+    "value": "black"
   },
   "overlay-opacity": {
     "sets": {

@@ -2396,5 +2396,75 @@
         "value": "50px"
       }
     }
+  },
+  "alert-banner-minimum-height": {
+    "sets": {
+      "desktop": {
+        "value": "48px"
+      },
+      "mobile": {
+        "value": "64px"
+      }
+    }
+  },
+  "alert-banner-width": {
+    "sets": {
+      "desktop": {
+        "value": "832px"
+      },
+      "mobile": {
+        "value": "680px"
+      }
+    }
+  },
+  "alert-banner-to-top-workflow-icon": {
+    "sets": {
+      "desktop": {
+        "value": "15px"
+      },
+      "mobile": {
+        "value": "21px"
+      }
+    }
+  },
+  "alert-banner-to-top-text": {
+    "sets": {
+      "desktop": {
+        "value": "14px"
+      },
+      "mobile": {
+        "value": "21px"
+      }
+    }
+  },
+  "alert-banner-to-bottom-text": {
+    "sets": {
+      "desktop": {
+        "value": "17px"
+      },
+      "mobile": {
+        "value": "22px"
+      }
+    }
+  },
+  "rating-indicator-width": {
+    "sets": {
+      "desktop": {
+        "value": "18px"
+      },
+      "mobile": {
+        "value": "22px"
+      }
+    }
+  },
+  "rating-indicator-to-icon": {
+    "sets": {
+      "desktop": {
+        "value": "4px"
+      },
+      "mobile": {
+        "value": "5px"
+      }
+    }
   }
 }
