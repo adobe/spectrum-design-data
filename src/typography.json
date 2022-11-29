@@ -229,7 +229,7 @@
       "spectrum": {
         "value": "{font-weight-bold}"
       },
-      "spectum for express": {
+      "express": {
         "value": "{font-weight-black}"
       }
     }
@@ -245,7 +245,7 @@
       "spectrum": {
         "value": "{font-weight-bold}"
       },
-      "spectum for express": {
+      "express": {
         "value": "{font-weight-black}"
       }
     }
@@ -261,7 +261,7 @@
       "spectrum": {
         "value": "{font-weight-extra-bold}"
       },
-      "spectum for express": {
+      "express": {
         "value": "{font-weight-black}"
       }
     }
@@ -364,7 +364,7 @@
       "spectrum": {
         "value": "{font-weight-bold}"
       },
-      "spectum for express": {
+      "express": {
         "value": "{font-weight-black}"
       }
     }
@@ -377,7 +377,7 @@
       "spectrum": {
         "value": "{font-weight-bold}"
       },
-      "spectrum for express": {
+      "express": {
         "value": "{font-weight-black}"
       }
     }
