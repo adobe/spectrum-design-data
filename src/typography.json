@@ -422,7 +422,7 @@
     "value": "{font-style-italic}"
   },
   "heading-cjk-light-strong-emphasized-font-weight": {
-    "value": "{font-weight-bold}"
+    "value": "{font-weight-extra-bold}"
   },
   "heading-cjk-light-strong-emphasized-font-style": {
     "value": "{font-style-default}"
