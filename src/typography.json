@@ -203,6 +203,18 @@
   "letter-spacing-cjk": {
     "value": "0.05em"
   },
+  "heading-sans-serif-font-family": {
+    "component": "heading",
+    "value": "{font-family-sans-serif}"
+  },
+  "heading-serif-font-family": {
+    "component": "heading",
+    "value": "{font-family-serif}"
+  },
+  "heading-cjk-font-family": {
+    "component": "heading",
+    "value": "{font-family-cjk}"
+  },
   "heading-sans-serif-light-font-weight": {
     "component": "heading",
     "value": "{font-weight-light}"
@@ -227,10 +239,6 @@
     "component": "heading",
     "value": "{font-style-default}"
   },
-  "heading-sans-serif-font-family": {
-    "component": "heading",
-    "value": "{font-family-sans-serif}"
-  },
   "heading-sans-serif-font-weight": {
     "component": "heading",
     "sets": {
@@ -246,10 +254,6 @@
     "component": "heading",
     "value": "{font-style-default}"
   },
-  "heading-serif-font-family": {
-    "component": "heading",
-    "value": "{font-family-serif}"
-  },
   "heading-serif-font-weight": {
     "component": "heading",
     "sets": {
@@ -264,10 +268,6 @@
   "heading-serif-font-style": {
     "component": "heading",
     "value": "{font-style-default}"
-  },
-  "heading-cjk-font-family": {
-    "component": "heading",
-    "value": "{font-family-cjk}"
   },
   "heading-cjk-font-weight": {
     "component": "heading",
@@ -590,6 +590,14 @@
     "component": "body",
     "value": "{font-family-sans-serif}"
   },
+  "body-serif-font-family": {
+    "component": "body",
+    "value": "{font-family-serif}"
+  },
+  "body-cjk-font-family": {
+    "component": "body",
+    "value": "{font-family-cjk}"
+  },
   "body-sans-serif-font-weight": {
     "component": "body",
     "value": "{font-weight-regular}"
@@ -598,10 +606,6 @@
     "component": "body",
     "value": "{font-style-default}"
   },
-  "body-serif-font-family": {
-    "component": "body",
-    "value": "{font-family-serif}"
-  },
   "body-serif-font-weight": {
     "component": "body",
     "value": "{font-weight-regular}"
@@ -609,10 +613,6 @@
   "body-serif-font-style": {
     "component": "body",
     "value": "{font-style-default}"
-  },
-  "body-cjk-font-family": {
-    "component": "body",
-    "value": "{font-family-cjk}"
   },
   "body-cjk-font-weight": {
     "component": "body",
