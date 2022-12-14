@@ -3,6 +3,14 @@ const hexToRgba = require("hex-to-rgba");
 const fs = require("fs");
 const slugify = require("slugify");
 
+const ignoredComponents = [
+  "Misc",
+  "Background",
+  "Content (visual, text)",
+  "Border",
+  "Typography (global)",
+];
+
 const NAME = "name";
 const VALUE = "value";
 const nameMap = {
@@ -25,7 +33,7 @@ const rgbaColorRegex =
   /rgba\( ?(?<r>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<g>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<b>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<a>0|1|0.\d*) ?\)/;
 const percentageRegex = /([0-9]|[1-9][0-9]|100)%$/;
 const nonRefStringRegex =
-  /^(light|regular|medium|bold|extra-bold|black|Adobe Clean|Adobe Clean Serif|Source Code Pro|Adobe Clean Han|italic|normal)$/;
+  /^(light|regular|medium|bold|extra-bold|Adobe Clean|Adobe Clean Serif|Source Code Pro|Adobe Clean Han|italic|normal)$/;
 
 const runRegexTest = (regex, value) => {
   return regex.test(value.toString().trim());
@@ -52,7 +60,7 @@ const percentageToDecimal = (percentageValue) => {
 };
 
 const formatSetName = (name) => {
-  if (nameMap.hasOwnProperty(name)) {
+  if (name in nameMap) {
     return nameMap[name];
   }
   return name.toLowerCase();
@@ -158,6 +166,7 @@ const formattedResult = {};
 const unmatchedTokens = {};
 
 Object.keys(result).forEach((sheet) => {
+  let componentName = "";
   formattedResult[sheet] = result[sheet].reduce((formattedTokens, token) => {
     if (token.hasOwnProperty(VALUE)) {
       // for single line sets i.e. `red-100 (Spectrum)`
@@ -170,7 +179,12 @@ Object.keys(result).forEach((sheet) => {
       }
       const formattedValue = formatToken(token);
       if (formattedValue) {
+        if (componentName !== "") formattedValue.component = componentName;
         formattedTokens[token.name] = formattedValue;
+      }
+    } else {
+      if (!ignoredComponents.includes(token.name)) {
+        componentName = slugify(token.name, { lower: true });
       }
     }
     return formattedTokens;

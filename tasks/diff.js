@@ -20,41 +20,13 @@ async function run() {
     getOldTokens(),
   ]);
   const diffResult = detailedDiff(oldTokens, newTokens);
-  diffResult.possiblyRenamed = {};
-  Object.keys(diffResult.deleted).forEach((deletedTokenName) => {
-    const oldTokenValue = oldTokens[deletedTokenName];
-    Object.keys(diffResult.added).forEach((addedTokenName, i) => {
-      const newTokenValue = newTokens[addedTokenName];
-      if (Object.keys(diff(oldTokenValue, newTokenValue)).length === 0) {
-        diffResult.possiblyRenamed[deletedTokenName] = addedTokenName;
-      }
-    });
-  });
-  // console.log(JSON.stringify(diffResult, '', 2));
-  if (Object.keys(diffResult.added).length > 0) {
-    console.log("\n*New Tokens Added:*");
-    Object.keys(diffResult.added).sort().forEach((tokenName, i) => {
-      console.log(`  - \`${tokenName}\``);
-    });
-  }
-  if (Object.keys(diffResult.deleted).length > 0) {
-    console.log("\n*Tokens removed:*");
-    Object.keys(diffResult.deleted).sort().forEach((tokenName, i) => {
-      console.log(`  - \`${tokenName}\``);
-    });
-  }
-  if (Object.keys(diffResult.updated).length > 0) {
-    console.log("\n*Token values updated:*");
-    Object.keys(diffResult.updated).sort().forEach((tokenName, i) => {
-      console.log(`  - \`${tokenName}\``);
-    });
-  }
-  if (Object.keys(diffResult.possiblyRenamed).length > 0) {
-    console.log("\n*Potentially rename tokens:*");
-    Object.keys(diffResult.possiblyRenamed).sort().forEach((tokenName, i) => {
-      console.log(`  - \`${tokenName}\` -> \`${diffResult.possiblyRenamed[tokenName]}\``);
-    });
-  }
+
+  calculatePossibleRenames(diffResult, oldTokens, newTokens);
+
+  logResultCategory(diffResult, "added");
+  logResultCategory(diffResult, "deleted");
+  logResultCategory(diffResult, "updated", "Token values updated");
+  logResultCategory(diffResult, "possiblyRenamed", "Tokens possibly renamed");
 }
 
 async function getNewTokens() {
@@ -75,5 +47,60 @@ async function getOldTokens() {
     return await response.json();
   } catch {
     console.error("cannot access");
+  }
+}
+
+function calculatePossibleRenames(diffResult, oldTokens, newTokens) {
+  diffResult.possiblyRenamed = {};
+  Object.keys(diffResult.deleted).forEach((deletedTokenName) => {
+    const oldTokenValue = oldTokens[deletedTokenName];
+    const allValueMatches = [];
+    Object.keys(diffResult.added).forEach((addedTokenName, i) => {
+      const newTokenValue = newTokens[addedTokenName];
+      if (Object.keys(diff(oldTokenValue, newTokenValue)).length === 0) {
+        allValueMatches.push(addedTokenName);
+      }
+    });
+    if (allValueMatches.length > 0) {
+      diffResult.possiblyRenamed[deletedTokenName] = allValueMatches;
+    }
+  });
+}
+
+function logResultCategory(diffResult, categoryKey, msg) {
+  const results = diffResult[categoryKey];
+  const resultCount = Object.keys(results).length;
+  if (!msg) {
+    msg = `Tokens ${categoryKey}`;
+  }
+  if (resultCount > 0) {
+    console.log(`\n*${msg} (${resultCount}):*`);
+    switch (categoryKey) {
+      case "possiblyRenamed":
+        Object.keys(results)
+          .sort()
+          .forEach((oldTokenName, i) => {
+            if (
+              Array.isArray(results[oldTokenName]) &&
+              results[oldTokenName].length > 1
+            ) {
+              console.log(
+                `  - Old name: \`${oldTokenName}\`, new name options:`
+              );
+              results[oldTokenName].forEach((newTokenName) =>
+                console.log(`    - \`${newTokenName}\``)
+              );
+            } else {
+              console.log(
+                `  - \`${oldTokenName}\` -> \`${results[oldTokenName][0]}\``
+              );
+            }
+          });
+        break;
+      default:
+        Object.keys(results)
+          .sort()
+          .forEach((tokenName, i) => console.log(`  - \`${tokenName}\``));
+    }
   }
 }
