@@ -1490,6 +1490,50 @@
       }
     }
   },
+  "navigational-indicator-top-to-back-icon-small": {
+    "component": "navigational-indicator",
+    "sets": {
+      "desktop": {
+        "value": "7px"
+      },
+      "mobile": {
+        "value": "9px"
+      }
+    }
+  },
+  "navigational-indicator-top-to-back-icon-medium": {
+    "component": "navigational-indicator",
+    "sets": {
+      "desktop": {
+        "value": "11px"
+      },
+      "mobile": {
+        "value": "13px"
+      }
+    }
+  },
+  "navigational-indicator-top-to-back-icon-large": {
+    "component": "navigational-indicator",
+    "sets": {
+      "desktop": {
+        "value": "14px"
+      },
+      "mobile": {
+        "value": "17px"
+      }
+    }
+  },
+  "navigational-indicator-top-to-back-icon-extra-large": {
+    "component": "navigational-indicator",
+    "sets": {
+      "desktop": {
+        "value": "17px"
+      },
+      "mobile": {
+        "value": "22px"
+      }
+    }
+  },
   "in-line-alert-minimum-width": {
     "component": "in-line-alert",
     "value": "240px"
