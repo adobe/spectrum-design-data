@@ -155,6 +155,46 @@
       }
     }
   },
+  "neutral-background-color-selected-default": {
+    "sets": {
+      "spectrum": {
+        "value": "{gray-700}"
+      },
+      "express": {
+        "value": "{gray-800}"
+      }
+    }
+  },
+  "neutral-background-color-selected-hover": {
+    "sets": {
+      "spectrum": {
+        "value": "{gray-800}"
+      },
+      "express": {
+        "value": "{gray-900}"
+      }
+    }
+  },
+  "neutral-background-color-selected-down": {
+    "sets": {
+      "spectrum": {
+        "value": "{gray-900}"
+      },
+      "express": {
+        "value": "{gray-900}"
+      }
+    }
+  },
+  "neutral-background-color-selected-key-focus": {
+    "sets": {
+      "spectrum": {
+        "value": "{gray-800}"
+      },
+      "express": {
+        "value": "{gray-900}"
+      }
+    }
+  },
   "neutral-subdued-background-color-default": {
     "sets": {
       "light": {
