@@ -209,7 +209,7 @@
         "value": "240px"
       }
     }
-  },  
+  },
   "color-area-minimum-width": {
     "component": "color-area",
     "sets": {
@@ -220,7 +220,7 @@
         "value": "80px"
       }
     }
-  },  
+  },
   "color-area-height": {
     "component": "color-area",
     "sets": {
@@ -231,7 +231,7 @@
         "value": "240px"
       }
     }
-  }, 
+  },
   "color-area-minimum-height": {
     "component": "color-area",
     "sets": {
@@ -242,16 +242,16 @@
         "value": "80px"
       }
     }
-  },  
+  },
   "color-area-border-width": {
     "component": "color-area",
     "value": "{border-width-100}"
-  },   
+  },
 
   "color-area-border-rounding": {
     "component": "color-area",
     "value": "{corner-radius-100}"
-  }, 
+  },
   "color-wheel-minimum-width": {
     "component": "color-wheel",
     "sets": {
@@ -266,7 +266,7 @@
   "color-wheel-area-margin": {
     "component": "color-wheel",
     "value": "12px"
-  }, 
+  },
   "color-control-track-width": {
     "component": "color-control",
     "sets": {
@@ -1309,7 +1309,7 @@
         "value": "336px"
       },
       "mobile": {
-        "value": "420"
+        "value": "420px"
       }
     }
   },
