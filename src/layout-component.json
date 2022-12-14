@@ -247,6 +247,7 @@
     "component": "color-area",
     "value": "{border-width-100}"
   },   
+
   "color-area-border-rounding": {
     "component": "color-area",
     "value": "{corner-radius-100}"
@@ -266,6 +267,40 @@
     "component": "color-wheel",
     "value": "12px"
   }, 
+  "color-control-track-width": {
+    "component": "color-control",
+    "sets": {
+      "desktop": {
+        "value": "24px"
+      },
+      "mobile": {
+        "value": "30px"
+      }
+    }
+  },
+  "color-slider-length": {
+    "component": "color-slider",
+    "sets": {
+      "desktop": {
+        "value": "192px"
+      },
+      "mobile": {
+        "value": "240px"
+      }
+    }
+  },
+  "color-slider-minimum-length": {
+    "component": "color-slider",
+    "value": "200px"
+  },
+  "color-slider-border-width": {
+    "component": "color-slider",
+    "value": "1px"
+  },
+  "color-slider-border-rounding": {
+    "component": "color-slider",
+    "value": "4px"
+  },
   "switch-control-width-small": {
     "component": "switch",
     "sets": {
