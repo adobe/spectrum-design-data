@@ -1,5 +1,6 @@
 {
   "checkbox-control-size-small": {
+    "component": "checkbox",
     "sets": {
       "spectrum": {
         "sets": {
@@ -21,10 +22,10 @@
           }
         }
       }
-    },
-    "component": "checkbox"
+    }
   },
   "checkbox-control-size-medium": {
+    "component": "checkbox",
     "sets": {
       "spectrum": {
         "sets": {
@@ -46,10 +47,10 @@
           }
         }
       }
-    },
-    "component": "checkbox"
+    }
   },
   "checkbox-control-size-large": {
+    "component": "checkbox",
     "sets": {
       "spectrum": {
         "sets": {
@@ -71,10 +72,10 @@
           }
         }
       }
-    },
-    "component": "checkbox"
+    }
   },
   "checkbox-control-size-extra-large": {
+    "component": "checkbox",
     "sets": {
       "spectrum": {
         "sets": {
@@ -96,10 +97,10 @@
           }
         }
       }
-    },
-    "component": "checkbox"
+    }
   },
   "checkbox-top-to-control-small": {
+    "component": "checkbox",
     "sets": {
       "spectrum": {
         "sets": {
@@ -121,10 +122,10 @@
           }
         }
       }
-    },
-    "component": "checkbox"
+    }
   },
   "checkbox-top-to-control-medium": {
+    "component": "checkbox",
     "sets": {
       "spectrum": {
         "sets": {
@@ -146,10 +147,10 @@
           }
         }
       }
-    },
-    "component": "checkbox"
+    }
   },
   "checkbox-top-to-control-large": {
+    "component": "checkbox",
     "sets": {
       "spectrum": {
         "sets": {
@@ -171,10 +172,10 @@
           }
         }
       }
-    },
-    "component": "checkbox"
+    }
   },
   "checkbox-top-to-control-extra-large": {
+    "component": "checkbox",
     "sets": {
       "spectrum": {
         "sets": {
@@ -196,10 +197,10 @@
           }
         }
       }
-    },
-    "component": "checkbox"
+    }
   },
   "switch-control-width-small": {
+    "component": "switch",
     "sets": {
       "spectrum": {
         "sets": {
@@ -221,10 +222,10 @@
           }
         }
       }
-    },
-    "component": "switch"
+    }
   },
   "switch-control-width-medium": {
+    "component": "switch",
     "sets": {
       "spectrum": {
         "sets": {
@@ -246,10 +247,10 @@
           }
         }
       }
-    },
-    "component": "switch"
+    }
   },
   "switch-control-width-large": {
+    "component": "switch",
     "sets": {
       "spectrum": {
         "sets": {
@@ -271,10 +272,10 @@
           }
         }
       }
-    },
-    "component": "switch"
+    }
   },
   "switch-control-width-extra-large": {
+    "component": "switch",
     "sets": {
       "spectrum": {
         "sets": {
@@ -296,10 +297,10 @@
           }
         }
       }
-    },
-    "component": "switch"
+    }
   },
   "switch-control-height-small": {
+    "component": "switch",
     "sets": {
       "spectrum": {
         "sets": {
@@ -321,10 +322,10 @@
           }
         }
       }
-    },
-    "component": "switch"
+    }
   },
   "switch-control-height-medium": {
+    "component": "switch",
     "sets": {
       "spectrum": {
         "sets": {
@@ -346,10 +347,10 @@
           }
         }
       }
-    },
-    "component": "switch"
+    }
   },
   "switch-control-height-large": {
+    "component": "switch",
     "sets": {
       "spectrum": {
         "sets": {
@@ -371,10 +372,10 @@
           }
         }
       }
-    },
-    "component": "switch"
+    }
   },
   "switch-control-height-extra-large": {
+    "component": "switch",
     "sets": {
       "spectrum": {
         "sets": {
@@ -396,10 +397,10 @@
           }
         }
       }
-    },
-    "component": "switch"
+    }
   },
   "switch-top-to-control-small": {
+    "component": "switch",
     "sets": {
       "spectrum": {
         "sets": {
@@ -421,10 +422,10 @@
           }
         }
       }
-    },
-    "component": "switch"
+    }
   },
   "switch-top-to-control-medium": {
+    "component": "switch",
     "sets": {
       "spectrum": {
         "sets": {
@@ -446,10 +447,10 @@
           }
         }
       }
-    },
-    "component": "switch"
+    }
   },
   "switch-top-to-control-large": {
+    "component": "switch",
     "sets": {
       "spectrum": {
         "sets": {
@@ -471,10 +472,10 @@
           }
         }
       }
-    },
-    "component": "switch"
+    }
   },
   "switch-top-to-control-extra-large": {
+    "component": "switch",
     "sets": {
       "spectrum": {
         "sets": {
@@ -496,10 +497,10 @@
           }
         }
       }
-    },
-    "component": "switch"
+    }
   },
   "radio-button-control-size-small": {
+    "component": "radio-button",
     "sets": {
       "spectrum": {
         "sets": {
@@ -521,10 +522,10 @@
           }
         }
       }
-    },
-    "component": "radio-button"
+    }
   },
   "radio-button-control-size-medium": {
+    "component": "radio-button",
     "sets": {
       "spectrum": {
         "sets": {
@@ -546,10 +547,10 @@
           }
         }
       }
-    },
-    "component": "radio-button"
+    }
   },
   "radio-button-control-size-large": {
+    "component": "radio-button",
     "sets": {
       "spectrum": {
         "sets": {
@@ -571,10 +572,10 @@
           }
         }
       }
-    },
-    "component": "radio-button"
+    }
   },
   "radio-button-control-size-extra-large": {
+    "component": "radio-button",
     "sets": {
       "spectrum": {
         "sets": {
@@ -596,10 +597,10 @@
           }
         }
       }
-    },
-    "component": "radio-button"
+    }
   },
   "radio-button-top-to-control-small": {
+    "component": "radio-button",
     "sets": {
       "spectrum": {
         "sets": {
@@ -621,10 +622,10 @@
           }
         }
       }
-    },
-    "component": "radio-button"
+    }
   },
   "radio-button-top-to-control-medium": {
+    "component": "radio-button",
     "sets": {
       "spectrum": {
         "sets": {
@@ -646,10 +647,10 @@
           }
         }
       }
-    },
-    "component": "radio-button"
+    }
   },
   "radio-button-top-to-control-large": {
+    "component": "radio-button",
     "sets": {
       "spectrum": {
         "sets": {
@@ -671,10 +672,10 @@
           }
         }
       }
-    },
-    "component": "radio-button"
+    }
   },
   "radio-button-top-to-control-extra-large": {
+    "component": "radio-button",
     "sets": {
       "spectrum": {
         "sets": {
@@ -696,14 +697,14 @@
           }
         }
       }
-    },
-    "component": "radio-button"
+    }
   },
   "radio-button-selection-indicator": {
-    "value": "4px",
-    "component": "radio-button"
+    "component": "radio-button",
+    "value": "4px"
   },
   "field-label-text-to-asterisk-small": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -711,10 +712,10 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-text-to-asterisk-medium": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -722,10 +723,10 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-text-to-asterisk-large": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "5px"
@@ -733,10 +734,10 @@
       "mobile": {
         "value": "6px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-text-to-asterisk-extra-large": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "5px"
@@ -744,10 +745,10 @@
       "mobile": {
         "value": "6px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-top-to-asterisk-small": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "8px"
@@ -755,10 +756,10 @@
       "mobile": {
         "value": "11px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-top-to-asterisk-medium": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "12px"
@@ -766,10 +767,10 @@
       "mobile": {
         "value": "15px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-top-to-asterisk-large": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "15px"
@@ -777,10 +778,10 @@
       "mobile": {
         "value": "19px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-top-to-asterisk-extra-large": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "19px"
@@ -788,10 +789,10 @@
       "mobile": {
         "value": "24px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-top-margin-small": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "0px"
@@ -799,10 +800,10 @@
       "mobile": {
         "value": "0px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-top-margin-medium": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -810,10 +811,10 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-top-margin-large": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -821,10 +822,10 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-top-margin-extra-large": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -832,14 +833,14 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-to-component": {
-    "value": "0px",
-    "component": "field-label"
+    "component": "field-label",
+    "value": "0px"
   },
   "field-label-to-component-quiet-small": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "-8px"
@@ -847,10 +848,10 @@
       "mobile": {
         "value": "-10px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-to-component-quiet-medium": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "-8px"
@@ -858,10 +859,10 @@
       "mobile": {
         "value": "-10px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-to-component-quiet-large": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "-12px"
@@ -869,10 +870,10 @@
       "mobile": {
         "value": "-15px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "field-label-to-component-quiet-extra-large": {
+    "component": "field-label",
     "sets": {
       "desktop": {
         "value": "-15px"
@@ -880,10 +881,10 @@
       "mobile": {
         "value": "-19px"
       }
-    },
-    "component": "field-label"
+    }
   },
   "help-text-top-to-workflow-icon-small": {
+    "component": "help-text",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -891,10 +892,10 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "help-text"
+    }
   },
   "help-text-top-to-workflow-icon-medium": {
+    "component": "help-text",
     "sets": {
       "desktop": {
         "value": "3px"
@@ -902,10 +903,10 @@
       "mobile": {
         "value": "4px"
       }
-    },
-    "component": "help-text"
+    }
   },
   "help-text-top-to-workflow-icon-large": {
+    "component": "help-text",
     "sets": {
       "desktop": {
         "value": "6px"
@@ -913,10 +914,10 @@
       "mobile": {
         "value": "8px"
       }
-    },
-    "component": "help-text"
+    }
   },
   "help-text-top-to-workflow-icon-extra-large": {
+    "component": "help-text",
     "sets": {
       "desktop": {
         "value": "9px"
@@ -924,14 +925,14 @@
       "mobile": {
         "value": "11px"
       }
-    },
-    "component": "help-text"
+    }
   },
   "help-text-to-component": {
-    "value": "0px",
-    "component": "help-text"
+    "component": "help-text",
+    "value": "0px"
   },
   "status-light-dot-size-small": {
+    "component": "status-light",
     "sets": {
       "desktop": {
         "value": "8px"
@@ -939,10 +940,10 @@
       "mobile": {
         "value": "8px"
       }
-    },
-    "component": "status-light"
+    }
   },
   "status-light-dot-size-medium": {
+    "component": "status-light",
     "sets": {
       "desktop": {
         "value": "8px"
@@ -950,10 +951,10 @@
       "mobile": {
         "value": "10px"
       }
-    },
-    "component": "status-light"
+    }
   },
   "status-light-dot-size-large": {
+    "component": "status-light",
     "sets": {
       "desktop": {
         "value": "10px"
@@ -961,10 +962,10 @@
       "mobile": {
         "value": "12px"
       }
-    },
-    "component": "status-light"
+    }
   },
   "status-light-dot-size-extra-large": {
+    "component": "status-light",
     "sets": {
       "desktop": {
         "value": "10px"
@@ -972,10 +973,10 @@
       "mobile": {
         "value": "12px"
       }
-    },
-    "component": "status-light"
+    }
   },
   "status-light-top-to-dot-small": {
+    "component": "status-light",
     "sets": {
       "desktop": {
         "value": "8px"
@@ -983,10 +984,10 @@
       "mobile": {
         "value": "11px"
       }
-    },
-    "component": "status-light"
+    }
   },
   "status-light-top-to-dot-medium": {
+    "component": "status-light",
     "sets": {
       "desktop": {
         "value": "12px"
@@ -994,10 +995,10 @@
       "mobile": {
         "value": "15px"
       }
-    },
-    "component": "status-light"
+    }
   },
   "status-light-top-to-dot-large": {
+    "component": "status-light",
     "sets": {
       "desktop": {
         "value": "15px"
@@ -1005,10 +1006,10 @@
       "mobile": {
         "value": "19px"
       }
-    },
-    "component": "status-light"
+    }
   },
   "status-light-top-to-dot-extra-large": {
+    "component": "status-light",
     "sets": {
       "desktop": {
         "value": "19px"
@@ -1016,10 +1017,10 @@
       "mobile": {
         "value": "24px"
       }
-    },
-    "component": "status-light"
+    }
   },
   "action-button-edge-to-hold-icon-extra-small": {
+    "component": "action-button",
     "sets": {
       "desktop": {
         "value": "3px"
@@ -1027,10 +1028,10 @@
       "mobile": {
         "value": "3px"
       }
-    },
-    "component": "action-button"
+    }
   },
   "action-button-edge-to-hold-icon-small": {
+    "component": "action-button",
     "sets": {
       "desktop": {
         "value": "3px"
@@ -1038,10 +1039,10 @@
       "mobile": {
         "value": "3px"
       }
-    },
-    "component": "action-button"
+    }
   },
   "action-button-edge-to-hold-icon-medium": {
+    "component": "action-button",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -1049,10 +1050,10 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "action-button"
+    }
   },
   "action-button-edge-to-hold-icon-large": {
+    "component": "action-button",
     "sets": {
       "desktop": {
         "value": "5px"
@@ -1060,10 +1061,10 @@
       "mobile": {
         "value": "6px"
       }
-    },
-    "component": "action-button"
+    }
   },
   "action-button-edge-to-hold-icon-extra-large": {
+    "component": "action-button",
     "sets": {
       "desktop": {
         "value": "6px"
@@ -1071,14 +1072,14 @@
       "mobile": {
         "value": "7px"
       }
-    },
-    "component": "action-button"
+    }
   },
   "button-minimum-width-multiplier": {
-    "value": "2.25",
-    "component": "button"
+    "component": "button",
+    "value": "2.25"
   },
   "tooltip-tip-width": {
+    "component": "tooltip",
     "sets": {
       "desktop": {
         "value": "8px"
@@ -1086,10 +1087,10 @@
       "mobile": {
         "value": "10px"
       }
-    },
-    "component": "tooltip"
+    }
   },
   "tooltip-tip-height": {
+    "component": "tooltip",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -1097,10 +1098,10 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "tooltip"
+    }
   },
   "tooltip-maximum-width": {
+    "component": "tooltip",
     "sets": {
       "desktop": {
         "value": "160px"
@@ -1108,22 +1109,22 @@
       "mobile": {
         "value": "200px"
       }
-    },
-    "component": "tooltip"
+    }
   },
   "divider-thickness-small": {
-    "value": "1px",
-    "component": "divider"
+    "component": "divider",
+    "value": "1px"
   },
   "divider-thickness-medium": {
-    "value": "2px",
-    "component": "divider"
+    "component": "divider",
+    "value": "2px"
   },
   "divider-thickness-large": {
-    "value": "4px",
-    "component": "divider"
+    "component": "divider",
+    "value": "4px"
   },
   "progress-circle-size-small": {
+    "component": "progress-circle",
     "sets": {
       "desktop": {
         "value": "16px"
@@ -1131,10 +1132,10 @@
       "mobile": {
         "value": "20px"
       }
-    },
-    "component": "progress-circle"
+    }
   },
   "progress-circle-size-medium": {
+    "component": "progress-circle",
     "sets": {
       "desktop": {
         "value": "32px"
@@ -1142,10 +1143,10 @@
       "mobile": {
         "value": "40px"
       }
-    },
-    "component": "progress-circle"
+    }
   },
   "progress-circle-size-large": {
+    "component": "progress-circle",
     "sets": {
       "desktop": {
         "value": "64px"
@@ -1153,10 +1154,10 @@
       "mobile": {
         "value": "80px"
       }
-    },
-    "component": "progress-circle"
+    }
   },
   "progress-circle-thickness-small": {
+    "component": "progress-circle",
     "sets": {
       "desktop": {
         "value": "2px"
@@ -1164,10 +1165,10 @@
       "mobile": {
         "value": "3px"
       }
-    },
-    "component": "progress-circle"
+    }
   },
   "progress-circle-thickness-medium": {
+    "component": "progress-circle",
     "sets": {
       "desktop": {
         "value": "3px"
@@ -1175,10 +1176,10 @@
       "mobile": {
         "value": "4px"
       }
-    },
-    "component": "progress-circle"
+    }
   },
   "progress-circle-thickness-large": {
+    "component": "progress-circle",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -1186,10 +1187,10 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "progress-circle"
+    }
   },
   "toast-height": {
+    "component": "toast",
     "sets": {
       "desktop": {
         "value": "48px"
@@ -1197,10 +1198,10 @@
       "mobile": {
         "value": "56px"
       }
-    },
-    "component": "toast"
+    }
   },
   "toast-maximum-width": {
+    "component": "toast",
     "sets": {
       "desktop": {
         "value": "336px"
@@ -1208,10 +1209,10 @@
       "mobile": {
         "value": "420px"
       }
-    },
-    "component": "toast"
+    }
   },
   "toast-top-to-workflow-icon": {
+    "component": "toast",
     "sets": {
       "desktop": {
         "value": "15px"
@@ -1219,10 +1220,10 @@
       "mobile": {
         "value": "17px"
       }
-    },
-    "component": "toast"
+    }
   },
   "toast-top-to-text": {
+    "component": "toast",
     "sets": {
       "desktop": {
         "value": "14px"
@@ -1230,10 +1231,10 @@
       "mobile": {
         "value": "16px"
       }
-    },
-    "component": "toast"
+    }
   },
   "toast-bottom-to-text": {
+    "component": "toast",
     "sets": {
       "desktop": {
         "value": "17px"
@@ -1241,10 +1242,10 @@
       "mobile": {
         "value": "19px"
       }
-    },
-    "component": "toast"
+    }
   },
   "action-bar-height": {
+    "component": "action-bar",
     "sets": {
       "desktop": {
         "value": "48px"
@@ -1252,10 +1253,10 @@
       "mobile": {
         "value": "56px"
       }
-    },
-    "component": "action-bar"
+    }
   },
   "action-bar-top-to-item-counter": {
+    "component": "action-bar",
     "sets": {
       "desktop": {
         "value": "14px"
@@ -1263,10 +1264,10 @@
       "mobile": {
         "value": "16px"
       }
-    },
-    "component": "action-bar"
+    }
   },
   "swatch-size-extra-small": {
+    "component": "swatch",
     "sets": {
       "desktop": {
         "value": "16px"
@@ -1274,10 +1275,10 @@
       "mobile": {
         "value": "20px"
       }
-    },
-    "component": "swatch"
+    }
   },
   "swatch-size-small": {
+    "component": "swatch",
     "sets": {
       "desktop": {
         "value": "24px"
@@ -1285,10 +1286,10 @@
       "mobile": {
         "value": "30px"
       }
-    },
-    "component": "swatch"
+    }
   },
   "swatch-size-medium": {
+    "component": "swatch",
     "sets": {
       "desktop": {
         "value": "32px"
@@ -1296,10 +1297,10 @@
       "mobile": {
         "value": "40px"
       }
-    },
-    "component": "swatch"
+    }
   },
   "swatch-size-large": {
+    "component": "swatch",
     "sets": {
       "desktop": {
         "value": "40px"
@@ -1307,38 +1308,38 @@
       "mobile": {
         "value": "50px"
       }
-    },
-    "component": "swatch"
+    }
   },
   "swatch-rectangle-width-multiplier": {
-    "value": "2",
-    "component": "swatch"
+    "component": "swatch",
+    "value": "2"
   },
   "swatch-slash-thickness-extra-small": {
-    "value": "2px",
-    "component": "swatch"
+    "component": "swatch",
+    "value": "2px"
   },
   "swatch-slash-thickness-small": {
-    "value": "3px",
-    "component": "swatch"
+    "component": "swatch",
+    "value": "3px"
   },
   "swatch-slash-thickness-medium": {
-    "value": "4px",
-    "component": "swatch"
+    "component": "swatch",
+    "value": "4px"
   },
   "swatch-slash-thickness-large": {
-    "value": "5px",
-    "component": "swatch"
+    "component": "swatch",
+    "value": "5px"
   },
   "progress-bar-minimum-width": {
-    "value": "48px",
-    "component": "progress-bar"
+    "component": "progress-bar",
+    "value": "48px"
   },
   "progress-bar-maximum-width": {
-    "value": "768px",
-    "component": "progress-bar"
+    "component": "progress-bar",
+    "value": "768px"
   },
   "progress-bar-thickness-small": {
+    "component": "progress-bar",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -1346,10 +1347,10 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "progress-bar"
+    }
   },
   "progress-bar-thickness-medium": {
+    "component": "progress-bar",
     "sets": {
       "desktop": {
         "value": "6px"
@@ -1357,10 +1358,10 @@
       "mobile": {
         "value": "8px"
       }
-    },
-    "component": "progress-bar"
+    }
   },
   "progress-bar-thickness-large": {
+    "component": "progress-bar",
     "sets": {
       "desktop": {
         "value": "8px"
@@ -1368,10 +1369,10 @@
       "mobile": {
         "value": "10px"
       }
-    },
-    "component": "progress-bar"
+    }
   },
   "progress-bar-thickness-extra-large": {
+    "component": "progress-bar",
     "sets": {
       "desktop": {
         "value": "10px"
@@ -1379,18 +1380,18 @@
       "mobile": {
         "value": "13px"
       }
-    },
-    "component": "progress-bar"
+    }
   },
   "meter-minimum-width": {
-    "value": "48px",
-    "component": "meter"
+    "component": "meter",
+    "value": "48px"
   },
   "meter-maximum-width": {
-    "value": "768px",
-    "component": "meter"
+    "component": "meter",
+    "value": "768px"
   },
   "meter-default-width": {
+    "component": "meter",
     "sets": {
       "desktop": {
         "value": "192px"
@@ -1398,10 +1399,10 @@
       "mobile": {
         "value": "240px"
       }
-    },
-    "component": "meter"
+    }
   },
   "meter-thickness-small": {
+    "component": "meter",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -1409,10 +1410,10 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "meter"
+    }
   },
   "meter-thickness-large": {
+    "component": "meter",
     "sets": {
       "desktop": {
         "value": "6px"
@@ -1420,14 +1421,14 @@
       "mobile": {
         "value": "8px"
       }
-    },
-    "component": "meter"
+    }
   },
   "in-line-alert-minimum-width": {
-    "value": "240px",
-    "component": "in-line-alert"
+    "component": "in-line-alert",
+    "value": "240px"
   },
   "tag-top-to-avatar-small": {
+    "component": "tag",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -1435,10 +1436,10 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "tag"
+    }
   },
   "tag-top-to-avatar-medium": {
+    "component": "tag",
     "sets": {
       "desktop": {
         "value": "6px"
@@ -1446,10 +1447,10 @@
       "mobile": {
         "value": "7px"
       }
-    },
-    "component": "tag"
+    }
   },
   "tag-top-to-avatar-large": {
+    "component": "tag",
     "sets": {
       "desktop": {
         "value": "9px"
@@ -1457,10 +1458,10 @@
       "mobile": {
         "value": "11px"
       }
-    },
-    "component": "tag"
+    }
   },
   "tag-top-to-cross-icon-small": {
+    "component": "tag",
     "sets": {
       "desktop": {
         "value": "8px"
@@ -1468,10 +1469,10 @@
       "mobile": {
         "value": "10px"
       }
-    },
-    "component": "tag"
+    }
   },
   "tag-top-to-cross-icon-medium": {
+    "component": "tag",
     "sets": {
       "desktop": {
         "value": "12px"
@@ -1479,10 +1480,10 @@
       "mobile": {
         "value": "15px"
       }
-    },
-    "component": "tag"
+    }
   },
   "tag-top-to-cross-icon-large": {
+    "component": "tag",
     "sets": {
       "desktop": {
         "value": "15px"
@@ -1490,18 +1491,18 @@
       "mobile": {
         "value": "19px"
       }
-    },
-    "component": "tag"
+    }
   },
   "popover-tip-width": {
-    "value": "16px",
-    "component": "popover"
+    "component": "popover",
+    "value": "16px"
   },
   "popover-tip-height": {
-    "value": "8px",
-    "component": "popover"
+    "component": "popover",
+    "value": "8px"
   },
   "popover-top-to-content-area": {
+    "component": "popover",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -1509,14 +1510,14 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "popover"
+    }
   },
   "menu-item-label-to-description": {
-    "value": "1px",
-    "component": "menu"
+    "component": "menu",
+    "value": "1px"
   },
   "menu-item-edge-to-content-not-selected-small": {
+    "component": "menu",
     "sets": {
       "desktop": {
         "value": "28px"
@@ -1524,10 +1525,10 @@
       "mobile": {
         "value": "24px"
       }
-    },
-    "component": "menu"
+    }
   },
   "menu-item-edge-to-content-not-selected-medium": {
+    "component": "menu",
     "sets": {
       "desktop": {
         "value": "32px"
@@ -1535,10 +1536,10 @@
       "mobile": {
         "value": "42px"
       }
-    },
-    "component": "menu"
+    }
   },
   "menu-item-edge-to-content-not-selected-large": {
+    "component": "menu",
     "sets": {
       "desktop": {
         "value": "38px"
@@ -1546,10 +1547,10 @@
       "mobile": {
         "value": "47px"
       }
-    },
-    "component": "menu"
+    }
   },
   "menu-item-edge-to-content-not-selected-extra-large": {
+    "component": "menu",
     "sets": {
       "desktop": {
         "value": "45px"
@@ -1557,10 +1558,10 @@
       "mobile": {
         "value": "54px"
       }
-    },
-    "component": "menu"
+    }
   },
   "menu-item-top-to-disclosure-icon-small": {
+    "component": "menu",
     "sets": {
       "desktop": {
         "value": "7px"
@@ -1568,10 +1569,10 @@
       "mobile": {
         "value": "9px"
       }
-    },
-    "component": "menu"
+    }
   },
   "menu-item-top-to-disclosure-icon-medium": {
+    "component": "menu",
     "sets": {
       "desktop": {
         "value": "11px"
@@ -1579,10 +1580,10 @@
       "mobile": {
         "value": "13px"
       }
-    },
-    "component": "menu"
+    }
   },
   "menu-item-top-to-disclosure-icon-large": {
+    "component": "menu",
     "sets": {
       "desktop": {
         "value": "14px"
@@ -1590,10 +1591,10 @@
       "mobile": {
         "value": "17px"
       }
-    },
-    "component": "menu"
+    }
   },
   "menu-item-top-to-disclosure-icon-extra-large": {
+    "component": "menu",
     "sets": {
       "desktop": {
         "value": "17px"
@@ -1601,10 +1602,10 @@
       "mobile": {
         "value": "22px"
       }
-    },
-    "component": "menu"
+    }
   },
   "slider-track-thickness": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "value": "2px"
@@ -1612,10 +1613,10 @@
       "express": {
         "value": "4px"
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-control-height-small": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1637,10 +1638,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-control-height-medium": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1662,10 +1663,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-control-height-large": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1687,10 +1688,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-control-height-extra-large": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1712,10 +1713,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-handle-size-small": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1737,10 +1738,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-handle-size-medium": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1762,10 +1763,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-handle-size-large": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1787,10 +1788,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-handle-size-extra-large": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1812,10 +1813,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-handle-border-width-down-small": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1837,10 +1838,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-handle-border-width-down-medium": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1862,10 +1863,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-handle-border-width-down-large": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1887,10 +1888,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-handle-border-width-down-extra-large": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1912,10 +1913,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-handle-gap": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "value": "4px"
@@ -1923,10 +1924,10 @@
       "express": {
         "value": "0px"
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-bottom-to-handle-small": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1948,10 +1949,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-bottom-to-handle-medium": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1973,10 +1974,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-bottom-to-handle-large": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1998,10 +1999,10 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "slider-bottom-to-handle-extra-large": {
+    "component": "slider",
     "sets": {
       "spectrum": {
         "sets": {
@@ -2023,14 +2024,14 @@
           }
         }
       }
-    },
-    "component": "slider"
+    }
   },
   "picker-minimum-width-multiplier": {
-    "value": "2",
-    "component": "picker"
+    "component": "picker",
+    "value": "2"
   },
   "picker-visual-to-disclosure-icon-small": {
+    "component": "picker",
     "sets": {
       "desktop": {
         "value": "7px"
@@ -2038,10 +2039,10 @@
       "mobile": {
         "value": "9px"
       }
-    },
-    "component": "picker"
+    }
   },
   "picker-visual-to-disclosure-icon-medium": {
+    "component": "picker",
     "sets": {
       "desktop": {
         "value": "8px"
@@ -2049,10 +2050,10 @@
       "mobile": {
         "value": "10px"
       }
-    },
-    "component": "picker"
+    }
   },
   "picker-visual-to-disclosure-icon-large": {
+    "component": "picker",
     "sets": {
       "desktop": {
         "value": "9px"
@@ -2060,10 +2061,10 @@
       "mobile": {
         "value": "11px"
       }
-    },
-    "component": "picker"
+    }
   },
   "picker-visual-to-disclosure-icon-extra-large": {
+    "component": "picker",
     "sets": {
       "desktop": {
         "value": "10px"
@@ -2071,14 +2072,14 @@
       "mobile": {
         "value": "13px"
       }
-    },
-    "component": "picker"
+    }
   },
   "text-field-minimum-width-multiplier": {
-    "value": "1.5",
-    "component": "text-field"
+    "component": "text-field",
+    "value": "1.5"
   },
   "text-area-minimum-width": {
+    "component": "text-area",
     "sets": {
       "desktop": {
         "value": "112px"
@@ -2086,10 +2087,10 @@
       "mobile": {
         "value": "140px"
       }
-    },
-    "component": "text-area"
+    }
   },
   "text-area-minimum-height": {
+    "component": "text-area",
     "sets": {
       "desktop": {
         "value": "56px"
@@ -2097,18 +2098,18 @@
       "mobile": {
         "value": "70px"
       }
-    },
-    "component": "text-area"
+    }
   },
   "combo-box-minimum-width-multiplier": {
-    "value": "2.5",
-    "component": "combo-box"
+    "component": "combo-box",
+    "value": "2.5"
   },
   "combo-box-quiet-minimum-width-multiplier": {
-    "value": "2",
-    "component": "combo-box"
+    "component": "combo-box",
+    "value": "2"
   },
   "combo-box-visual-to-field-button-small": {
+    "component": "combo-box",
     "sets": {
       "desktop": {
         "value": "7px"
@@ -2116,10 +2117,10 @@
       "mobile": {
         "value": "9px"
       }
-    },
-    "component": "combo-box"
+    }
   },
   "combo-box-visual-to-field-button-medium": {
+    "component": "combo-box",
     "sets": {
       "desktop": {
         "value": "8px"
@@ -2127,10 +2128,10 @@
       "mobile": {
         "value": "10px"
       }
-    },
-    "component": "combo-box"
+    }
   },
   "combo-box-visual-to-field-button-large": {
+    "component": "combo-box",
     "sets": {
       "desktop": {
         "value": "9px"
@@ -2138,10 +2139,10 @@
       "mobile": {
         "value": "11px"
       }
-    },
-    "component": "combo-box"
+    }
   },
   "combo-box-visual-to-field-button-extra-large": {
+    "component": "combo-box",
     "sets": {
       "desktop": {
         "value": "10px"
@@ -2149,14 +2150,14 @@
       "mobile": {
         "value": "13px"
       }
-    },
-    "component": "combo-box"
+    }
   },
   "combo-box-visual-to-field-button-quiet": {
-    "value": "0",
-    "component": "combo-box"
+    "component": "combo-box",
+    "value": "0"
   },
   "thumbnail-size-50": {
+    "component": "thumbnail",
     "sets": {
       "desktop": {
         "value": "16px"
@@ -2164,10 +2165,10 @@
       "mobile": {
         "value": "20px"
       }
-    },
-    "component": "thumbnail"
+    }
   },
   "thumbnail-size-75": {
+    "component": "thumbnail",
     "sets": {
       "desktop": {
         "value": "18px"
@@ -2175,10 +2176,10 @@
       "mobile": {
         "value": "22px"
       }
-    },
-    "component": "thumbnail"
+    }
   },
   "thumbnail-size-100": {
+    "component": "thumbnail",
     "sets": {
       "desktop": {
         "value": "20px"
@@ -2186,10 +2187,10 @@
       "mobile": {
         "value": "26px"
       }
-    },
-    "component": "thumbnail"
+    }
   },
   "thumbnail-size-200": {
+    "component": "thumbnail",
     "sets": {
       "desktop": {
         "value": "22px"
@@ -2197,10 +2198,10 @@
       "mobile": {
         "value": "28px"
       }
-    },
-    "component": "thumbnail"
+    }
   },
   "thumbnail-size-300": {
+    "component": "thumbnail",
     "sets": {
       "desktop": {
         "value": "26px"
@@ -2208,10 +2209,10 @@
       "mobile": {
         "value": "32px"
       }
-    },
-    "component": "thumbnail"
+    }
   },
   "thumbnail-size-400": {
+    "component": "thumbnail",
     "sets": {
       "desktop": {
         "value": "28px"
@@ -2219,10 +2220,10 @@
       "mobile": {
         "value": "36px"
       }
-    },
-    "component": "thumbnail"
+    }
   },
   "thumbnail-size-500": {
+    "component": "thumbnail",
     "sets": {
       "desktop": {
         "value": "32px"
@@ -2230,10 +2231,10 @@
       "mobile": {
         "value": "40px"
       }
-    },
-    "component": "thumbnail"
+    }
   },
   "thumbnail-size-600": {
+    "component": "thumbnail",
     "sets": {
       "desktop": {
         "value": "36px"
@@ -2241,10 +2242,10 @@
       "mobile": {
         "value": "46px"
       }
-    },
-    "component": "thumbnail"
+    }
   },
   "thumbnail-size-700": {
+    "component": "thumbnail",
     "sets": {
       "desktop": {
         "value": "40px"
@@ -2252,10 +2253,10 @@
       "mobile": {
         "value": "50px"
       }
-    },
-    "component": "thumbnail"
+    }
   },
   "thumbnail-size-800": {
+    "component": "thumbnail",
     "sets": {
       "desktop": {
         "value": "44px"
@@ -2263,10 +2264,10 @@
       "mobile": {
         "value": "55px"
       }
-    },
-    "component": "thumbnail"
+    }
   },
   "thumbnail-size-900": {
+    "component": "thumbnail",
     "sets": {
       "desktop": {
         "value": "50px"
@@ -2274,10 +2275,10 @@
       "mobile": {
         "value": "62px"
       }
-    },
-    "component": "thumbnail"
+    }
   },
   "thumbnail-size-1000": {
+    "component": "thumbnail",
     "sets": {
       "desktop": {
         "value": "56px"
@@ -2285,18 +2286,18 @@
       "mobile": {
         "value": "70px"
       }
-    },
-    "component": "thumbnail"
+    }
   },
   "alert-dialog-minimum-width": {
-    "value": "288px",
-    "component": "alert-dialog"
+    "component": "alert-dialog",
+    "value": "288px"
   },
   "alert-dialog-maximum-width": {
-    "value": "480px",
-    "component": "alert-dialog"
+    "component": "alert-dialog",
+    "value": "480px"
   },
   "opacity-checkerboard-square-size": {
+    "component": "opacity-checkerboard",
     "sets": {
       "desktop": {
         "value": "8px"
@@ -2304,22 +2305,22 @@
       "mobile": {
         "value": "10px"
       }
-    },
-    "component": "opacity-checkerboard"
+    }
   },
   "contextual-help-minimum-width": {
-    "value": "268px",
-    "component": "contextual-help"
+    "component": "contextual-help",
+    "value": "268px"
   },
   "breadcrumbs-height": {
-    "value": "{component-height-300}",
-    "component": "breadcrumbs"
+    "component": "breadcrumbs",
+    "value": "{component-height-300}"
   },
   "breadcrumbs-height-compact": {
-    "value": "{component-height-200}",
-    "component": "breadcrumbs"
+    "component": "breadcrumbs",
+    "value": "{component-height-200}"
   },
   "breadcrumbs-height-multiline": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "72px"
@@ -2327,10 +2328,10 @@
       "mobile": {
         "value": "84px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-top-to-text": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "13px"
@@ -2338,10 +2339,10 @@
       "mobile": {
         "value": "17px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-top-to-text-compact": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "11px"
@@ -2349,10 +2350,10 @@
       "mobile": {
         "value": "16px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-top-to-text-multiline": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "12px"
@@ -2360,10 +2361,10 @@
       "mobile": {
         "value": "15px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-bottom-to-text": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "15px"
@@ -2371,10 +2372,10 @@
       "mobile": {
         "value": "19px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-bottom-to-text-compact": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "12px"
@@ -2382,10 +2383,10 @@
       "mobile": {
         "value": "19px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-bottom-to-text-multiline": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "9px"
@@ -2393,10 +2394,10 @@
       "mobile": {
         "value": "10px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-start-edge-to-text": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "8px"
@@ -2404,14 +2405,14 @@
       "mobile": {
         "value": "9px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-end-edge-to-text": {
-    "value": "0px",
-    "component": "breadcrumbs"
+    "component": "breadcrumbs",
+    "value": "0px"
   },
   "breadcrumbs-top-text-to-bottom-text": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "9px"
@@ -2419,10 +2420,10 @@
       "mobile": {
         "value": "11px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-top-to-separator-icon": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "19px"
@@ -2430,10 +2431,10 @@
       "mobile": {
         "value": "25px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-top-to-separator-icon-compact": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "15px"
@@ -2441,10 +2442,10 @@
       "mobile": {
         "value": "23px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-top-to-separator-icon-multiline": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "15px"
@@ -2452,10 +2453,10 @@
       "mobile": {
         "value": "20px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-separator-icon-to-bottom-text-multiline": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "11px"
@@ -2463,14 +2464,14 @@
       "mobile": {
         "value": "15px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-truncated-menu-to-separator-icon": {
-    "value": "0px",
-    "component": "breadcrumbs"
+    "component": "breadcrumbs",
+    "value": "0px"
   },
   "breadcrumbs-top-to-truncated-menu": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "8px"
@@ -2478,10 +2479,10 @@
       "mobile": {
         "value": "10px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-top-to-truncated-menu-compact": {
+    "component": "breadcrumbs",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -2489,18 +2490,18 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "breadcrumbs"
+    }
   },
   "breadcrumbs-start-edge-to-truncated-menu": {
-    "value": "0px",
-    "component": "breadcrumbs"
+    "component": "breadcrumbs",
+    "value": "0px"
   },
   "breadcrumbs-truncated-menu-to-bottom-text": {
-    "value": "0px",
-    "component": "breadcrumbs"
+    "component": "breadcrumbs",
+    "value": "0px"
   },
   "avatar-size-50": {
+    "component": "avatar",
     "sets": {
       "desktop": {
         "value": "16px"
@@ -2508,10 +2509,10 @@
       "mobile": {
         "value": "20px"
       }
-    },
-    "component": "avatar"
+    }
   },
   "avatar-size-75": {
+    "component": "avatar",
     "sets": {
       "desktop": {
         "value": "18px"
@@ -2519,10 +2520,10 @@
       "mobile": {
         "value": "22px"
       }
-    },
-    "component": "avatar"
+    }
   },
   "avatar-size-100": {
+    "component": "avatar",
     "sets": {
       "desktop": {
         "value": "20px"
@@ -2530,10 +2531,10 @@
       "mobile": {
         "value": "26px"
       }
-    },
-    "component": "avatar"
+    }
   },
   "avatar-size-200": {
+    "component": "avatar",
     "sets": {
       "desktop": {
         "value": "22px"
@@ -2541,10 +2542,10 @@
       "mobile": {
         "value": "28px"
       }
-    },
-    "component": "avatar"
+    }
   },
   "avatar-size-300": {
+    "component": "avatar",
     "sets": {
       "desktop": {
         "value": "26px"
@@ -2552,10 +2553,10 @@
       "mobile": {
         "value": "32px"
       }
-    },
-    "component": "avatar"
+    }
   },
   "avatar-size-400": {
+    "component": "avatar",
     "sets": {
       "desktop": {
         "value": "28px"
@@ -2563,10 +2564,10 @@
       "mobile": {
         "value": "36px"
       }
-    },
-    "component": "avatar"
+    }
   },
   "avatar-size-500": {
+    "component": "avatar",
     "sets": {
       "desktop": {
         "value": "32px"
@@ -2574,10 +2575,10 @@
       "mobile": {
         "value": "40px"
       }
-    },
-    "component": "avatar"
+    }
   },
   "avatar-size-600": {
+    "component": "avatar",
     "sets": {
       "desktop": {
         "value": "36px"
@@ -2585,10 +2586,10 @@
       "mobile": {
         "value": "46px"
       }
-    },
-    "component": "avatar"
+    }
   },
   "avatar-size-700": {
+    "component": "avatar",
     "sets": {
       "desktop": {
         "value": "40px"
@@ -2596,10 +2597,10 @@
       "mobile": {
         "value": "50px"
       }
-    },
-    "component": "avatar"
+    }
   },
   "alert-banner-minimum-height": {
+    "component": "alert-banner",
     "sets": {
       "desktop": {
         "value": "48px"
@@ -2607,10 +2608,10 @@
       "mobile": {
         "value": "64px"
       }
-    },
-    "component": "alert-banner"
+    }
   },
   "alert-banner-width": {
+    "component": "alert-banner",
     "sets": {
       "desktop": {
         "value": "832px"
@@ -2618,10 +2619,10 @@
       "mobile": {
         "value": "680px"
       }
-    },
-    "component": "alert-banner"
+    }
   },
   "alert-banner-to-top-workflow-icon": {
+    "component": "alert-banner",
     "sets": {
       "desktop": {
         "value": "15px"
@@ -2629,10 +2630,10 @@
       "mobile": {
         "value": "21px"
       }
-    },
-    "component": "alert-banner"
+    }
   },
   "alert-banner-to-top-text": {
+    "component": "alert-banner",
     "sets": {
       "desktop": {
         "value": "14px"
@@ -2640,10 +2641,10 @@
       "mobile": {
         "value": "21px"
       }
-    },
-    "component": "alert-banner"
+    }
   },
   "alert-banner-to-bottom-text": {
+    "component": "alert-banner",
     "sets": {
       "desktop": {
         "value": "17px"
@@ -2651,10 +2652,10 @@
       "mobile": {
         "value": "22px"
       }
-    },
-    "component": "alert-banner"
+    }
   },
   "rating-indicator-width": {
+    "component": "rating",
     "sets": {
       "desktop": {
         "value": "18px"
@@ -2662,10 +2663,10 @@
       "mobile": {
         "value": "22px"
       }
-    },
-    "component": "rating"
+    }
   },
   "rating-indicator-to-icon": {
+    "component": "rating",
     "sets": {
       "desktop": {
         "value": "4px"
@@ -2673,10 +2674,10 @@
       "mobile": {
         "value": "5px"
       }
-    },
-    "component": "rating"
+    }
   },
   "color-area-width": {
+    "component": "color-area",
     "sets": {
       "desktop": {
         "value": "192px"
@@ -2684,10 +2685,10 @@
       "mobile": {
         "value": "240px"
       }
-    },
-    "component": "color-area"
+    }
   },
   "color-area-minimum-width": {
+    "component": "color-area",
     "sets": {
       "desktop": {
         "value": "64px"
@@ -2695,10 +2696,10 @@
       "mobile": {
         "value": "80px"
       }
-    },
-    "component": "color-area"
+    }
   },
   "color-area-height": {
+    "component": "color-area",
     "sets": {
       "desktop": {
         "value": "192px"
@@ -2706,10 +2707,10 @@
       "mobile": {
         "value": "240px"
       }
-    },
-    "component": "color-area"
+    }
   },
   "color-area-minimum-height": {
+    "component": "color-area",
     "sets": {
       "desktop": {
         "value": "64px"
@@ -2717,18 +2718,18 @@
       "mobile": {
         "value": "80px"
       }
-    },
-    "component": "color-area"
+    }
   },
   "color-area-border-width": {
-    "value": "{border-width-100}",
-    "component": "color-area"
+    "component": "color-area",
+    "value": "{border-width-100}"
   },
   "color-area-border-rounding": {
-    "value": "{corner-radius-100}",
-    "component": "color-area"
+    "component": "color-area",
+    "value": "{corner-radius-100}"
   },
   "color-wheel-minimum-width": {
+    "component": "color-wheel",
     "sets": {
       "desktop": {
         "value": "192px"
@@ -2736,14 +2737,14 @@
       "mobile": {
         "value": "240px"
       }
-    },
-    "component": "color-wheel"
+    }
   },
   "color-wheel-color-area-margin": {
-    "value": "12px",
-    "component": "color-wheel"
+    "component": "color-wheel",
+    "value": "12px"
   },
   "color-slider-length": {
+    "component": "color-slider",
     "sets": {
       "desktop": {
         "value": "192px"
@@ -2751,19 +2752,18 @@
       "mobile": {
         "value": "240px"
       }
-    },
-    "component": "color-slider"
+    }
   },
   "color-slider-minimum-length": {
-    "value": "200px",
-    "component": "color-slider"
+    "component": "color-slider",
+    "value": "200px"
   },
   "color-slider-border-width": {
-    "value": "1px",
-    "component": "color-slider"
+    "component": "color-slider",
+    "value": "1px"
   },
   "color-slider-border-rounding": {
-    "value": "4px",
-    "component": "color-slider"
+    "component": "color-slider",
+    "value": "4px"
   }
 }

@@ -1,37 +1,38 @@
 {
   "swatch-border-color": {
-    "value": "{gray-900}",
-    "component": "swatch"
+    "component": "swatch",
+    "value": "{gray-900}"
   },
   "swatch-border-opacity": {
-    "value": "0.51",
-    "component": "swatch"
+    "component": "swatch",
+    "value": "0.51"
   },
   "swatch-disabled-icon-border-color": {
-    "value": "{black}",
-    "component": "swatch"
+    "component": "swatch",
+    "value": "{black}"
   },
   "swatch-disabled-icon-border-opacity": {
-    "value": "0.51",
-    "component": "swatch"
+    "component": "swatch",
+    "value": "0.51"
   },
   "thumbnail-border-color": {
-    "value": "{gray-800}",
-    "component": "thumbnail"
+    "component": "thumbnail",
+    "value": "{gray-800}"
   },
   "thumbnail-border-opacity": {
-    "value": "0.1",
-    "component": "thumbnail"
+    "component": "thumbnail",
+    "value": "0.1"
   },
   "thumbnail-opacity-disabled": {
-    "value": "{opacity-disabled}",
-    "component": "thumbnail"
+    "component": "thumbnail",
+    "value": "{opacity-disabled}"
   },
   "opacity-checkerboard-square-light": {
-    "value": "{white}",
-    "component": "opacity-checkerboard"
+    "component": "opacity-checkerboard",
+    "value": "{white}"
   },
   "opacity-checkerboard-square-dark": {
+    "component": "opacity-checkerboard",
     "sets": {
       "light": {
         "value": "{gray-200}"
@@ -42,27 +43,26 @@
       "darkest": {
         "value": "{gray-800}"
       }
-    },
-    "component": "opacity-checkerboard"
+    }
   },
   "avatar-opacity-disabled": {
-    "value": "{opacity-disabled}",
-    "component": "avatar"
+    "component": "avatar",
+    "value": "{opacity-disabled}"
   },
   "color-area-border-color": {
-    "value": "{gray-900}",
-    "component": "color-area"
+    "component": "color-area",
+    "value": "{gray-900}"
   },
   "color-area-border-opacity": {
-    "value": "0.1",
-    "component": "color-area"
+    "component": "color-area",
+    "value": "0.1"
   },
   "color-slider-border-color": {
-    "value": "{gray-900}",
-    "component": "color-slider"
+    "component": "color-slider",
+    "value": "{gray-900}"
   },
   "color-slider-border-opacity": {
-    "value": "0.1",
-    "component": "color-slider"
+    "component": "color-slider",
+    "value": "0.1"
   }
 }

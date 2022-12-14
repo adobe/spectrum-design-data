@@ -180,7 +180,15 @@ Object.keys(result).forEach((sheet) => {
       const formattedValue = formatToken(token);
       if (formattedValue) {
         if (componentName !== "") formattedValue.component = componentName;
-        formattedTokens[token.name] = formattedValue;
+        formattedTokens[token.name] = Object.keys(formattedValue)
+          .sort()
+          .reduce(
+            (acc, key) => ({
+              ...acc,
+              [key]: formattedValue[key],
+            }),
+            {}
+          );
       }
     } else {
       if (!ignoredComponents.includes(token.name)) {

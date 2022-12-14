@@ -30,7 +30,7 @@
     "value": "extra-bold"
   },
   "font-weight-black": {
-    "value": "black"
+    "value": "{black}"
   },
   "font-style-italic": {
     "value": "italic"
@@ -204,42 +204,43 @@
     "value": "0.05em"
   },
   "heading-sans-serif-font-family": {
-    "value": "{font-family-sans-serif}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-family-sans-serif}"
   },
   "heading-serif-font-family": {
-    "value": "{font-family-serif}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-family-serif}"
   },
   "heading-cjk-font-family": {
-    "value": "{font-family-cjk}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-family-cjk}"
   },
   "heading-sans-serif-light-font-weight": {
-    "value": "{font-weight-light}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-light}"
   },
   "heading-sans-serif-light-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-serif-light-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-regular}"
   },
   "heading-serif-light-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-cjk-light-font-weight": {
-    "value": "{font-weight-light}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-light}"
   },
   "heading-cjk-light-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-sans-serif-font-weight": {
+    "component": "heading",
     "sets": {
       "spectrum": {
         "value": "{font-weight-bold}"
@@ -247,14 +248,14 @@
       "express": {
         "value": "{font-weight-black}"
       }
-    },
-    "component": "heading"
+    }
   },
   "heading-sans-serif-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-serif-font-weight": {
+    "component": "heading",
     "sets": {
       "spectrum": {
         "value": "{font-weight-bold}"
@@ -262,14 +263,14 @@
       "express": {
         "value": "{font-weight-black}"
       }
-    },
-    "component": "heading"
+    }
   },
   "heading-serif-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-cjk-font-weight": {
+    "component": "heading",
     "sets": {
       "spectrum": {
         "value": "{font-weight-extra-bold}"
@@ -277,134 +278,134 @@
       "express": {
         "value": "{font-weight-black}"
       }
-    },
-    "component": "heading"
+    }
   },
   "heading-cjk-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-sans-serif-heavy-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-sans-serif-heavy-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-serif-heavy-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-serif-heavy-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-cjk-heavy-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-cjk-heavy-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-sans-serif-light-strong-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-bold}"
   },
   "heading-sans-serif-light-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-serif-light-strong-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-bold}"
   },
   "heading-serif-light-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-cjk-light-strong-font-weight": {
-    "value": "{font-weight-extra-bold}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-extra-bold}"
   },
   "heading-cjk-light-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-sans-serif-strong-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-sans-serif-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-serif-strong-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-serif-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-cjk-strong-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-cjk-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-sans-serif-heavy-strong-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-sans-serif-heavy-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-serif-heavy-strong-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-serif-heavy-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-cjk-heavy-strong-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-cjk-heavy-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-sans-serif-light-emphasized-font-weight": {
-    "value": "{font-weight-light}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-light}"
   },
   "heading-sans-serif-light-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-italic}"
   },
   "heading-serif-light-emphasized-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-regular}"
   },
   "heading-serif-light-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-italic}"
   },
   "heading-cjk-light-emphasized-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-regular}"
   },
   "heading-cjk-light-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-sans-serif-emphasized-font-weight": {
+    "component": "heading",
     "sets": {
       "spectrum": {
         "value": "{font-weight-bold}"
@@ -412,14 +413,14 @@
       "express": {
         "value": "{font-weight-black}"
       }
-    },
-    "component": "heading"
+    }
   },
   "heading-sans-serif-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-italic}"
   },
   "heading-serif-emphasized-font-weight": {
+    "component": "heading",
     "sets": {
       "spectrum": {
         "value": "{font-weight-bold}"
@@ -427,651 +428,650 @@
       "express": {
         "value": "{font-weight-black}"
       }
-    },
-    "component": "heading"
+    }
   },
   "heading-serif-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-italic}"
   },
   "heading-cjk-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-cjk-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-sans-serif-heavy-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-sans-serif-heavy-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-italic}"
   },
   "heading-serif-heavy-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-serif-heavy-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-italic}"
   },
   "heading-cjk-heavy-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-cjk-heavy-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-sans-serif-light-strong-emphasized-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-bold}"
   },
   "heading-sans-serif-light-strong-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-italic}"
   },
   "heading-serif-light-strong-emphasized-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-bold}"
   },
   "heading-serif-light-strong-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-italic}"
   },
   "heading-cjk-light-strong-emphasized-font-weight": {
-    "value": "{font-weight-extra-bold}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-extra-bold}"
   },
   "heading-cjk-light-strong-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-sans-serif-strong-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-sans-serif-strong-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-italic}"
   },
   "heading-serif-strong-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-serif-strong-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-italic}"
   },
   "heading-cjk-strong-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-cjk-strong-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-sans-serif-heavy-strong-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-sans-serif-heavy-strong-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-italic}"
   },
   "heading-serif-heavy-strong-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-serif-heavy-strong-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-italic}"
   },
   "heading-cjk-heavy-strong-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-weight-black}"
   },
   "heading-cjk-heavy-strong-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-style-default}"
   },
   "heading-size-xxxl": {
-    "value": "{font-size-1300}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-size-1300}"
   },
   "heading-size-xxl": {
-    "value": "{font-size-1100}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-size-1100}"
   },
   "heading-size-xl": {
-    "value": "{font-size-900}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-size-900}"
   },
   "heading-size-l": {
-    "value": "{font-size-700}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-size-700}"
   },
   "heading-size-m": {
-    "value": "{font-size-500}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-size-500}"
   },
   "heading-size-s": {
-    "value": "{font-size-300}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-size-300}"
   },
   "heading-size-xs": {
-    "value": "{font-size-200}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-size-200}"
   },
   "heading-size-xxs": {
-    "value": "{font-size-100}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{font-size-100}"
   },
   "heading-line-height": {
-    "value": "{line-height-100}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{line-height-100}"
   },
   "heading-line-height-cjk": {
-    "value": "{line-height-cjk-100}",
-    "component": "heading"
+    "component": "heading",
+    "value": "{line-height-cjk-100}"
   },
   "heading-margin-top-multiplier": {
-    "value": "0.88888889",
-    "component": "heading"
+    "component": "heading",
+    "value": "0.88888889"
   },
   "heading-margin-bottom-multiplier": {
-    "value": "0.25",
-    "component": "heading"
+    "component": "heading",
+    "value": "0.25"
   },
   "body-sans-serif-font-family": {
-    "value": "{font-family-sans-serif}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-family-sans-serif}"
   },
   "body-serif-font-family": {
-    "value": "{font-family-serif}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-family-serif}"
   },
   "body-cjk-font-family": {
-    "value": "{font-family-cjk}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-family-cjk}"
   },
   "body-sans-serif-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-weight-regular}"
   },
   "body-sans-serif-font-style": {
-    "value": "{font-style-default}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-style-default}"
   },
   "body-serif-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-weight-regular}"
   },
   "body-serif-font-style": {
-    "value": "{font-style-default}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-style-default}"
   },
   "body-cjk-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-weight-regular}"
   },
   "body-cjk-font-style": {
-    "value": "{font-style-default}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-style-default}"
   },
   "body-sans-serif-strong-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-weight-bold}"
   },
   "body-sans-serif-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-style-default}"
   },
   "body-serif-strong-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-weight-bold}"
   },
   "body-serif-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-style-default}"
   },
   "body-cjk-strong-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-weight-black}"
   },
   "body-cjk-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-style-default}"
   },
   "body-sans-serif-emphasized-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-weight-regular}"
   },
   "body-sans-serif-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-style-italic}"
   },
   "body-serif-emphasized-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-weight-regular}"
   },
   "body-serif-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-style-italic}"
   },
   "body-cjk-emphasized-font-weight": {
-    "value": "{font-weight-extra-bold}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-weight-extra-bold}"
   },
   "body-cjk-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-style-default}"
   },
   "body-sans-serif-strong-emphasized-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-weight-bold}"
   },
   "body-sans-serif-strong-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-style-italic}"
   },
   "body-serif-strong-emphasized-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-weight-bold}"
   },
   "body-serif-strong-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-style-italic}"
   },
   "body-cjk-strong-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-weight-black}"
   },
   "body-cjk-strong-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-style-default}"
   },
   "body-size-xxxl": {
-    "value": "{font-size-600}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-size-600}"
   },
   "body-size-xxl": {
-    "value": "{font-size-500}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-size-500}"
   },
   "body-size-xl": {
-    "value": "{font-size-400}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-size-400}"
   },
   "body-size-l": {
-    "value": "{font-size-300}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-size-300}"
   },
   "body-size-m": {
-    "value": "{font-size-200}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-size-200}"
   },
   "body-size-s": {
-    "value": "{font-size-100}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-size-100}"
   },
   "body-size-xs": {
-    "value": "{font-size-75}",
-    "component": "body"
+    "component": "body",
+    "value": "{font-size-75}"
   },
   "body-line-height": {
-    "value": "{line-height-200}",
-    "component": "body"
+    "component": "body",
+    "value": "{line-height-200}"
   },
   "body-line-height-cjk": {
-    "value": "{line-height-cjk-200}",
-    "component": "body"
+    "component": "body",
+    "value": "{line-height-cjk-200}"
   },
   "body-margin-multiplier": {
-    "value": "0.75",
-    "component": "body"
+    "component": "body",
+    "value": "0.75"
   },
   "detail-sans-serif-font-family": {
-    "value": "{font-family-sans-serif}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-family-sans-serif}"
   },
   "detail-sans-serif-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-bold}"
   },
   "detail-sans-serif-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-serif-font-family": {
-    "value": "{font-family-serif}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-family-serif}"
   },
   "detail-serif-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-bold}"
   },
   "detail-serif-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-cjk-font-family": {
-    "value": "{font-family-cjk}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-family-cjk}"
   },
   "detail-cjk-font-weight": {
-    "value": "{font-weight-extra-bold}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-extra-bold}"
   },
   "detail-cjk-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-sans-serif-light-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-regular}"
   },
   "detail-sans-serif-light-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-serif-light-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-regular}"
   },
   "detail-serif-light-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-cjk-light-font-weight": {
-    "value": "{font-weight-light}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-light}"
   },
   "detail-cjk-light-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-sans-serif-strong-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-bold}"
   },
   "detail-sans-serif-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-serif-strong-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-bold}"
   },
   "detail-serif-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-cjk-strong-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-black}"
   },
   "detail-cjk-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-sans-serif-light-strong-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-regular}"
   },
   "detail-sans-serif-light-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-serif-light-strong-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-regular}"
   },
   "detail-serif-light-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-cjk-light-strong-font-weight": {
-    "value": "{font-weight-extra-bold}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-extra-bold}"
   },
   "detail-cjk-light-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-sans-serif-emphasized-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-bold}"
   },
   "detail-sans-serif-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-italic}"
   },
   "detail-serif-emphasized-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-bold}"
   },
   "detail-serif-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-italic}"
   },
   "detail-cjk-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-black}"
   },
   "detail-cjk-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-sans-serif-light-emphasized-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-regular}"
   },
   "detail-sans-serif-light-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-italic}"
   },
   "detail-serif-light-emphasized-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-regular}"
   },
   "detail-serif-light-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-italic}"
   },
   "detail-cjk-light-emphasized-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-regular}"
   },
   "detail-cjk-light-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-sans-serif-strong-emphasized-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-bold}"
   },
   "detail-sans-serif-strong-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-italic}"
   },
   "detail-serif-strong-emphasized-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-bold}"
   },
   "detail-serif-strong-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-italic}"
   },
   "detail-cjk-strong-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-black}"
   },
   "detail-cjk-strong-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-sans-serif-light-strong-emphasized-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-regular}"
   },
   "detail-sans-serif-light-strong-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-italic}"
   },
   "detail-serif-light-strong-emphasized-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-regular}"
   },
   "detail-serif-light-strong-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-italic}"
   },
   "detail-cjk-light-strong-emphasized-font-weight": {
-    "value": "{font-weight-extra-bold}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-weight-extra-bold}"
   },
   "detail-cjk-light-strong-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-style-default}"
   },
   "detail-size-xl": {
-    "value": "{font-size-200}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-size-200}"
   },
   "detail-size-l": {
-    "value": "{font-size-100}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-size-100}"
   },
   "detail-size-m": {
-    "value": "{font-size-75}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-size-75}"
   },
   "detail-size-s": {
-    "value": "{font-size-50}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{font-size-50}"
   },
   "detail-line-height": {
-    "value": "{line-height-100}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{line-height-100}"
   },
   "detail-line-height-cjk": {
-    "value": "{line-height-cjk-100}",
-    "component": "detail"
+    "component": "detail",
+    "value": "{line-height-cjk-100}"
   },
   "detail-margin-top-mulitplier": {
-    "value": "0.88888889",
-    "component": "detail"
+    "component": "detail",
+    "value": "0.88888889"
   },
   "detail-margin-bottom-multiplier": {
-    "value": "0.25",
-    "component": "detail"
+    "component": "detail",
+    "value": "0.25"
   },
   "detail-letter-spacing": {
-    "value": "0.06em",
-    "component": "detail"
+    "component": "detail",
+    "value": "0.06em"
   },
   "code-font-family": {
-    "value": "{font-family-code}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-family-code}"
   },
   "code-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-weight-regular}"
   },
   "code-font-style": {
-    "value": "{font-style-default}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-style-default}"
   },
   "code-cjk-font-family": {
-    "value": "{font-family-code}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-family-code}"
   },
   "code-cjk-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-weight-regular}"
   },
   "code-cjk-font-style": {
-    "value": "{font-style-default}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-style-default}"
   },
   "code-strong-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-weight-bold}"
   },
   "code-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-style-default}"
   },
   "code-cjk-strong-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-weight-black}"
   },
   "code-cjk-strong-font-style": {
-    "value": "{font-style-default}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-style-default}"
   },
   "code-emphasized-font-weight": {
-    "value": "{font-weight-regular}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-weight-regular}"
   },
   "code-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-style-italic}"
   },
   "code-cjk-emphasized-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-weight-bold}"
   },
   "code-cjk-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-style-default}"
   },
   "code-strong-emphasized-font-weight": {
-    "value": "{font-weight-bold}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-weight-bold}"
   },
   "code-strong-emphasized-font-style": {
-    "value": "{font-style-italic}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-style-italic}"
   },
   "code-cjk-strong-emphasized-font-weight": {
-    "value": "{font-weight-black}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-weight-black}"
   },
   "code-cjk-strong-emphasized-font-style": {
-    "value": "{font-style-default}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-style-default}"
   },
   "code-size-xl": {
-    "value": "{font-size-400}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-size-400}"
   },
   "code-size-l": {
-    "value": "{font-size-300}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-size-300}"
   },
   "code-size-m": {
-    "value": "{font-size-200}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-size-200}"
   },
   "code-size-s": {
-    "value": "{font-size-100}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-size-100}"
   },
   "code-size-xs": {
-    "value": "{font-size-75}",
-    "component": "code"
+    "component": "code",
+    "value": "{font-size-75}"
   },
   "code-line-height": {
-    "value": "{line-height-200}",
-    "component": "code"
+    "component": "code",
+    "value": "{line-height-200}"
   },
   "code-line-height-cjk": {
-    "value": "{line-height-cjk-200}",
-    "component": "code"
+    "component": "code",
+    "value": "{line-height-cjk-200}"
   }
 }
