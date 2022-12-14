@@ -251,6 +251,21 @@
     "component": "color-area",
     "value": "{corner-radius-100}"
   }, 
+  "color-wheel-minimum-width": {
+    "component": "color-wheel",
+    "sets": {
+      "desktop": {
+        "value": "192px"
+      },
+      "mobile": {
+        "value": "240px"
+      }
+    }
+  },
+  "color-wheel-area-margin": {
+    "component": "color-wheel",
+    "value": "12px"
+  }, 
   "switch-control-width-small": {
     "component": "switch",
     "sets": {
