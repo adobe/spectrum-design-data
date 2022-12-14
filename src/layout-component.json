@@ -199,6 +199,58 @@
       }
     }
   },
+  "color-area-width": {
+    "component": "color-area",
+    "sets": {
+      "desktop": {
+        "value": "192px"
+      },
+      "mobile": {
+        "value": "240px"
+      }
+    }
+  },  
+  "color-area-minimum-width": {
+    "component": "color-area",
+    "sets": {
+      "desktop": {
+        "value": "64px"
+      },
+      "mobile": {
+        "value": "80px"
+      }
+    }
+  },  
+  "color-area-height": {
+    "component": "color-area",
+    "sets": {
+      "desktop": {
+        "value": "192px"
+      },
+      "mobile": {
+        "value": "240px"
+      }
+    }
+  }, 
+  "color-area-minimum-height": {
+    "component": "color-area",
+    "sets": {
+      "desktop": {
+        "value": "64px"
+      },
+      "mobile": {
+        "value": "80px"
+      }
+    }
+  },  
+  "color-area-border-width": {
+    "component": "color-area",
+    "value": "{border-width-100}"
+  },   
+  "color-area-border-rounding": {
+    "component": "color-area",
+    "value": "{corner-radius-100}"
+  }, 
   "switch-control-width-small": {
     "component": "switch",
     "sets": {

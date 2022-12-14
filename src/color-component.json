@@ -1,4 +1,12 @@
 {
+  "color-area-border-color": {
+    "component": "color-area",
+    "value": "{gray-900}"
+  },
+  "color-area-border-opacity": {
+    "component": "color-area",
+    "value": "0.1"
+  },
   "swatch-border-color": {
     "component": "swatch",
     "value": "{gray-900}"
