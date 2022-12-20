@@ -10,20 +10,15 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const StyleDictionary = require("style-dictionary");
-const JsonSetsFormatter = require("style-dictionary-sets").JsonSetsFormatter;
-const NameKebabTransfom = require("style-dictionary-sets").NameKebabTransfom;
-const DroverJsonFormatter =
-  require("style-dictionary-sets").DroverJsonFormatter;
-const AttributeSetsTransform =
-  require("style-dictionary-sets").AttributeSetsTransform;
+import StyleDictionary from "style-dictionary";
+import {JsonSetsFormatter, NameKebabTransfom, DroverJsonFormatter, AttributeSetsTransform} from "style-dictionary-sets";
 
 StyleDictionary.registerTransform(AttributeSetsTransform);
 StyleDictionary.registerTransform(NameKebabTransfom);
 StyleDictionary.registerFormat(JsonSetsFormatter);
 StyleDictionary.registerFormat(DroverJsonFormatter);
 
-module.exports = {
+StyleDictionary.extend({
   source: ["src/**/*.json"],
   platforms: {
     JSON: {
@@ -55,4 +50,4 @@ module.exports = {
       ],
     },
   },
-};
+}).buildAllPlatforms();
