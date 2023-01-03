@@ -817,10 +817,10 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "5px"
       },
       "mobile": {
-        "value": "5px"
+        "value": "6px"
       }
     }
   },
@@ -828,10 +828,10 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "5px"
       },
       "mobile": {
-        "value": "5px"
+        "value": "6px"
       }
     }
   },
