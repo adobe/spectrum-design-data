@@ -1259,20 +1259,20 @@
   "side-label-character-count-top-margin-large": {
     "sets": {
       "desktop": {
-        "value": "10px"
+        "value": "11px"
       },
       "mobile": {
-        "value": "13px"
+        "value": "14px"
       }
     }
   },
   "side-label-character-count-top-margin-extra-large": {
     "sets": {
       "desktop": {
-        "value": "13px"
+        "value": "14px"
       },
       "mobile": {
-        "value": "17px"
+        "value": "18px"
       }
     }
   },
