@@ -767,6 +767,14 @@
     "component": "detail",
     "value": "{sans-serif-font-family}"
   },
+  "detail-serif-font-family": {
+    "component": "detail",
+    "value": "{serif-font-family}"
+  },
+  "detail-cjk-font-family": {
+    "component": "detail",
+    "value": "{cjk-font-family}"
+  },
   "detail-sans-serif-font-weight": {
     "component": "detail",
     "value": "{bold-font-weight}"
@@ -775,10 +783,6 @@
     "component": "detail",
     "value": "{default-font-style}"
   },
-  "detail-serif-font-family": {
-    "component": "detail",
-    "value": "{serif-font-family}"
-  },
   "detail-serif-font-weight": {
     "component": "detail",
     "value": "{bold-font-weight}"
@@ -786,10 +790,6 @@
   "detail-serif-font-style": {
     "component": "detail",
     "value": "{default-font-style}"
-  },
-  "detail-cjk-font-family": {
-    "component": "detail",
-    "value": "{cjk-font-family}"
   },
   "detail-cjk-font-weight": {
     "component": "detail",
@@ -1007,6 +1007,10 @@
     "component": "code",
     "value": "Source Code Pro"
   },
+  "code-cjk-font-family": {
+    "component": "code",
+    "value": "{code-font-family}"
+  },
   "code-font-weight": {
     "component": "code",
     "value": "{regular-font-weight}"
@@ -1014,10 +1018,6 @@
   "code-font-style": {
     "component": "code",
     "value": "{default-font-style}"
-  },
-  "code-cjk-font-family": {
-    "component": "code",
-    "value": "{code-font-family}"
   },
   "code-cjk-font-weight": {
     "component": "code",
