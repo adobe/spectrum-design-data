@@ -2769,5 +2769,46 @@
   "floating-action-button-drop-shadow-blur": {
     "component": "floating-action-button",
     "value": "12px"
+  },
+  "illustrated-message-maximum-width": {
+    "component": "illustrated-message",
+    "value": "380px"
+  },
+  "illustrated-message-title-size": {
+    "component": "illustrated-message",
+    "sets": {
+      "desktop": {
+        "value": "{heading-size-m}"
+      },
+      "mobile": {
+        "value": "{heading-size-s}"
+      }
+    }
+  },
+  "illustrated-message-cjk-title-size": {
+    "component": "illustrated-message",
+    "sets": {
+      "desktop": {
+        "value": "{heading-cjk-size-m}"
+      },
+      "mobile": {
+        "value": "{heading-cjk-size-s}"
+      }
+    }
+  },
+  "illustrated-message-body-size": {
+    "component": "illustrated-message",
+    "sets": {
+      "desktop": {
+        "value": "{body-size-s}"
+      },
+      "mobile": {
+        "value": "{body-size-xs}"
+      }
+    }
+  },
+  "search-field-minimum-width-multiplier": {
+    "component": "search-field",
+    "value": "3"
   }
 }
