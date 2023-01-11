@@ -857,6 +857,9 @@
   "field-edge-to-text-quiet": {
     "value": "0px"
   },
+  "field-edge-to-visual-quiet": {
+    "value": "0px"
+  },
   "field-edge-to-border-quiet": {
     "value": "0px"
   },
