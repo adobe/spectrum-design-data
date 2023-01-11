@@ -2806,5 +2806,9 @@
         "value": "{body-size-xs}"
       }
     }
+  },
+  "search-field-minimum-width-multiplier": {
+    "component": "search-field",
+    "value": "3"
   }
 }
