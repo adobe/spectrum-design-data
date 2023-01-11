@@ -1,4 +1,4 @@
-const { readFile } = require("fs/promises");
+import { readFile } from "fs/promises";
 
 const getValue = (obj, setName) => {
   if (obj.hasOwnProperty("value")) {
