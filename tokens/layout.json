@@ -857,6 +857,9 @@
   "field-edge-to-text-quiet": {
     "value": "0px"
   },
+  "field-edge-to-visual-quiet": {
+    "value": "0px"
+  },
   "field-edge-to-border-quiet": {
     "value": "0px"
   },
@@ -1186,6 +1189,16 @@
       }
     }
   },
+  "field-width": {
+    "sets": {
+      "desktop": {
+        "value": "192px"
+      },
+      "mobile": {
+        "value": "240px"
+      }
+    }
+  },
   "character-count-to-field-quiet-small": {
     "sets": {
       "desktop": {
@@ -1259,20 +1272,20 @@
   "side-label-character-count-top-margin-large": {
     "sets": {
       "desktop": {
-        "value": "10px"
+        "value": "11px"
       },
       "mobile": {
-        "value": "13px"
+        "value": "14px"
       }
     }
   },
   "side-label-character-count-top-margin-extra-large": {
     "sets": {
       "desktop": {
-        "value": "13px"
+        "value": "14px"
       },
       "mobile": {
-        "value": "17px"
+        "value": "18px"
       }
     }
   },
