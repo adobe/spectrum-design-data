@@ -1186,6 +1186,16 @@
       }
     }
   },
+  "field-width": {
+    "sets": {
+      "desktop": {
+        "value": "192px"
+      },
+      "mobile": {
+        "value": "240px"
+      }
+    }
+  },
   "character-count-to-field-quiet-small": {
     "sets": {
       "desktop": {
