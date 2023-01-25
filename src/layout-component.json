@@ -2890,5 +2890,17 @@
         }
       }
     }
+  },
+  "card-minimum-width": {
+    "component": "cards",
+    "value": "100px"
+  },
+  "card-preview-minimum-height": {
+    "component": "cards",
+    "value": "130px"
+  },
+  "card-selection-background-size": {
+    "component": "cards",
+    "value": "40px"
   }
 }

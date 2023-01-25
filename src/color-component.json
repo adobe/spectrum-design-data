@@ -84,5 +84,13 @@
   "color-loupe-outer-border": {
     "component": "color-loupe",
     "value": "{white}"
+  },
+  "card-selection-background-color": {
+    "component": "cards",
+    "value": "{gray-100}"
+  },
+  "card-selection-background-color-opacity": {
+    "component": "cards",
+    "value": "0.95"
   }
 }
