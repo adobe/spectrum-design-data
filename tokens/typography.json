@@ -27,7 +27,7 @@
     "value": "extra-bold"
   },
   "black-font-weight": {
-    "value": "black"
+    "value": "{black}"
   },
   "italic-font-style": {
     "value": "italic"

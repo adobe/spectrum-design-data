@@ -2810,5 +2810,37 @@
   "search-field-minimum-width-multiplier": {
     "component": "search-field",
     "value": "3"
+  },
+  "color-loupe-height": {
+    "component": "color-loupe",
+    "sets": {}
+  },
+  "color-loupe-width": {
+    "component": "color-loupe",
+    "sets": {}
+  },
+  "color-loupe-bottom-to-color-handle": {
+    "component": "color-loupe",
+    "sets": {}
+  },
+  "color-loupe-outer-border-width": {
+    "component": "color-loupe",
+    "value": "{border-width-200}"
+  },
+  "color-loupe-inner-border-width": {
+    "component": "color-loupe",
+    "sets": {}
+  },
+  "card-minimum-width": {
+    "component": "cards",
+    "value": "100px"
+  },
+  "card-preview-minimum-height": {
+    "component": "cards",
+    "value": "130px"
+  },
+  "card-selection-background-size": {
+    "component": "cards",
+    "value": "40px"
   }
 }
