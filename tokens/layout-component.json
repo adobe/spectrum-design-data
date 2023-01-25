@@ -2813,15 +2813,60 @@
   },
   "color-loupe-height": {
     "component": "color-loupe",
-    "sets": {}
+    "sets": {
+      "spectrum": {
+        "sets": {
+          "desktop": {
+            "value": "64px"
+          }
+        }
+      },
+      "express": {
+        "sets": {
+          "desktop": {
+            "value": "40px"
+          }
+        }
+      }
+    }
   },
   "color-loupe-width": {
     "component": "color-loupe",
-    "sets": {}
+    "sets": {
+      "spectrum": {
+        "sets": {
+          "desktop": {
+            "value": "48px"
+          }
+        }
+      },
+      "express": {
+        "sets": {
+          "desktop": {
+            "value": "32px"
+          }
+        }
+      }
+    }
   },
   "color-loupe-bottom-to-color-handle": {
     "component": "color-loupe",
-    "sets": {}
+    "sets": {
+      "spectrum": {
+        "sets": {
+          "desktop": {
+            "value": "12px"
+          }
+        }
+      },
+      "express": {
+        "sets": {
+          "desktop": {
+            "value": "6px"
+          }
+        }
+      }
+    }
   },
   "color-loupe-outer-border-width": {
     "component": "color-loupe",
@@ -2829,7 +2874,22 @@
   },
   "color-loupe-inner-border-width": {
     "component": "color-loupe",
-    "sets": {}
+    "sets": {
+      "spectrum": {
+        "sets": {
+          "desktop": {
+            "value": "{border-width-200}"
+          }
+        }
+      },
+      "express": {
+        "sets": {
+          "desktop": {
+            "value": "3px"
+          }
+        }
+      }
+    }
   },
   "card-minimum-width": {
     "component": "cards",
