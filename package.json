@@ -13,7 +13,7 @@
     "diffLastRelease": ". tasks/diffOutput.sh",
     "generateDiffResult": "node tasks/diff.js",
     "clean": "rm -rf dist",
-    "pre-commit": "lint-staged --config commitlint.config.cjs",
+    "pre-commit": "lint-staged",
     "prepare": "husky install && yarn run build",
     "semantic-release": "semantic-release"
   },
