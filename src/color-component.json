@@ -64,5 +64,25 @@
   "color-slider-border-opacity": {
     "component": "color-slider",
     "value": "0.1"
+  },
+  "color-loupe-drop-shadow-color": {
+    "component": "color-loupe",
+    "value": "{transparent-black-300}"
+  },
+  "color-loupe-drop-shadow-y": {
+    "component": "color-loupe",
+    "value": "2px"
+  },
+  "color-loupe-drop-shadow-blur": {
+    "component": "color-loupe",
+    "value": "8px"
+  },
+  "color-loupe-inner-border": {
+    "component": "color-loupe",
+    "value": "{transparent-black-200}"
+  },
+  "color-loupe-outer-border": {
+    "component": "color-loupe",
+    "value": "{white}"
   }
 }
