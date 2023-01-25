@@ -84,7 +84,9 @@ function logResultCategory(diffResult, categoryKey, msg) {
               Array.isArray(results[oldTokenName]) &&
               results[oldTokenName].length > 1
             ) {
-              console.log(`  - Old name: \`${oldTokenName}\`, new name options:`);
+              console.log(
+                `  - Old name: \`${oldTokenName}\`, new name options:`
+              );
               results[oldTokenName].forEach((newTokenName) =>
                 console.log(`    - \`${newTokenName}\``)
               );

@@ -11,7 +11,12 @@ governing permissions and limitations under the License.
 */
 
 import StyleDictionary from "style-dictionary";
-import {JsonSetsFormatter, NameKebabTransfom, DroverJsonFormatter, AttributeSetsTransform} from "style-dictionary-sets";
+import {
+  JsonSetsFormatter,
+  NameKebabTransfom,
+  DroverJsonFormatter,
+  AttributeSetsTransform,
+} from "style-dictionary-sets";
 
 StyleDictionary.registerTransform(AttributeSetsTransform);
 StyleDictionary.registerTransform(NameKebabTransfom);
