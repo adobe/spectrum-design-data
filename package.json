@@ -6,6 +6,7 @@
   "main": "config.js",
   "tokens": "dist/json/variables.json",
   "scripts": {
+    "buildManifest": "node tasks/buildManifest.js",
     "convert-excel": "node tasks/excel.js",
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
     "test-watch": "jest --runInBand --watch",
@@ -14,7 +15,7 @@
     "generateDiffResult": "node tasks/diff.js",
     "clean": "rm -rf dist",
     "pre-commit": "lint-staged",
-    "prepare": "husky install && yarn run build",
+    "prepare": "husky install && yarn run build && yarn run buildManifest",
     "semantic-release": "semantic-release"
   },
   "repository": {
@@ -36,6 +37,8 @@
     "@semantic-release/changelog": "^6.0.1",
     "convert-excel-to-json": "^1.7.0",
     "deep-object-diff": "^1.1.7",
+    "glob": "^8.1.0",
+    "glob-promise": "^6.0.2",
     "hex-to-rgba": "^2.0.1",
     "husky": "^8.0.1",
     "jest": "^29.0.3",
