@@ -35,10 +35,8 @@
     "@commitlint/config-conventional": "^17.1.0",
     "@semantic-release/changelog": "^6.0.1",
     "convert-excel-to-json": "^1.7.0",
-    "hex-to-rgba": "^2.0.1",
-    "semantic-release": "^19.0.2",
-    "slugify": "^1.6.5",
     "deep-object-diff": "^1.1.7",
+    "hex-to-rgba": "^2.0.1",
     "husky": "^8.0.1",
     "jest": "^29.0.3",
     "lint-staged": "^13.0.3",
@@ -46,6 +44,7 @@
     "prettier": "^2.7.1",
     "semantic-release": "^19.0.5",
     "semantic-release-mirror-version": "^1.1.1",
+    "slugify": "^1.6.5",
     "style-dictionary": "^3.7.1",
     "style-dictionary-sets": "^2.0.5"
   }
