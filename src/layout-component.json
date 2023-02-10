@@ -2296,6 +2296,28 @@
     "component": "alert-dialog",
     "value": "480px"
   },
+  "alert-dialog-title-size": {
+    "component": "alert-dialog",
+    "sets": {
+      "desktop": {
+        "value": "{heading-size-s}"
+      },
+      "mobile": {
+        "value": "{heading-size-xs}"
+      }
+    }
+  },
+  "alert-dialog-description-size": {
+    "component": "alert-dialog",
+    "sets": {
+      "desktop": {
+        "value": "{body-size-s}"
+      },
+      "mobile": {
+        "value": "{body-size-xs}"
+      }
+    }
+  },
   "opacity-checkerboard-square-size": {
     "component": "opacity-checkerboard",
     "sets": {
