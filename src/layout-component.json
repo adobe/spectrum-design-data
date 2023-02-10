@@ -2935,5 +2935,33 @@
   "card-selection-background-size": {
     "component": "cards",
     "value": "40px"
+  },
+  "drop-zone-width": {
+    "component": "drop-zone",
+    "value": "428px"
+  },
+  "drop-zone-content-maximum-width": {
+    "component": "drop-zone",
+    "value": "{illustrated-message-maximum-width}"
+  },
+  "drop-zone-border-dash-length": {
+    "component": "drop-zone",
+    "value": "8px"
+  },
+  "drop-zone-border-dash-gap": {
+    "component": "drop-zone",
+    "value": "4px"
+  },
+  "drop-zone-title-size": {
+    "component": "drop-zone",
+    "value": "{illustrated-message-title-size}"
+  },
+  "drop-zone-cjk-title-size": {
+    "component": "drop-zone",
+    "value": "{illustrated-message-cjk-title-size}"
+  },
+  "drop-zone-body-size": {
+    "component": "drop-zone",
+    "value": "{illustrated-message-body-size}"
   }
 }
