@@ -1011,6 +1011,14 @@
     "component": "detail",
     "value": "0.06em"
   },
+  "detail-sans-serif-text-transform": {
+    "component": "detail",
+    "value": "uppercase"
+  },
+  "detail-serif-text-transform": {
+    "component": "detail",
+    "value": "uppercase"
+  },
   "detail-color": {
     "component": "detail",
     "value": "{gray-900}"
