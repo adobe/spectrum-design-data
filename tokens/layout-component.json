@@ -2847,6 +2847,9 @@
   "color-loupe-height": {
     "component": "color-loupe",
     "sets": {
+      "spectrum": {
+        "value": "64px"
+      },
       "express": {
         "sets": {
           "desktop": {
@@ -2862,10 +2865,16 @@
   "color-loupe-width": {
     "component": "color-loupe",
     "sets": {
+      "spectrum": {
+        "value": "48px"
+      },
       "express": {
         "sets": {
           "desktop": {
             "value": "32px"
+          },
+          "mobile": {
+            "value": "40px"
           }
         }
       }

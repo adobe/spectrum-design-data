@@ -33,7 +33,7 @@ const rgbaColorRegex =
   /rgba\( ?(?<r>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<g>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<b>(?:25[0-5])|[01]?[0-9][0-9]?|2[0-4][0-9]) ?, ?(?<a>0|1|0.\d*) ?\)/;
 const percentageRegex = /([0-9]|[1-9][0-9]|100)%$/;
 const nonRefStringRegex =
-  /^(light|regular|medium|bold|extra-bold|Adobe Clean|Adobe Clean Serif|Source Code Pro|Adobe Clean Han|italic|normal)$/;
+  /^(uppercase|light|regular|medium|bold|extra-bold|Adobe Clean|Adobe Clean Serif|Source Code Pro|Adobe Clean Han|italic|normal)$/;
 
 const runRegexTest = (regex, value) => {
   return regex.test(value.toString().trim());

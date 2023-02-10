@@ -1013,11 +1013,11 @@
   },
   "detail-sans-serif-text-transform": {
     "component": "detail",
-    "value": "{uppercase}"
+    "value": "uppercase"
   },
   "detail-serif-text-transform": {
     "component": "detail",
-    "value": "{uppercase}"
+    "value": "uppercase"
   },
   "detail-color": {
     "component": "detail",
