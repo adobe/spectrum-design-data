@@ -8,7 +8,7 @@
   "scripts": {
     "buildManifest": "node tasks/buildManifest.js",
     "convert-excel": "node tasks/excel.js",
-    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "test-watch": "jest --runInBand --watch",
     "build": "node tasks/buildSpectrumTokens.js",
     "diffLastRelease": ". tasks/diffOutput.sh",
