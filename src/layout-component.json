@@ -2848,16 +2848,15 @@
     "component": "color-loupe",
     "sets": {
       "spectrum": {
-        "sets": {
-          "desktop": {
-            "value": "64px"
-          }
-        }
+        "value": "64px"
       },
       "express": {
         "sets": {
           "desktop": {
             "value": "40px"
+          },
+          "mobile": {
+            "value": "50px"
           }
         }
       }
@@ -2867,16 +2866,15 @@
     "component": "color-loupe",
     "sets": {
       "spectrum": {
-        "sets": {
-          "desktop": {
-            "value": "48px"
-          }
-        }
+        "value": "48px"
       },
       "express": {
         "sets": {
           "desktop": {
             "value": "32px"
+          },
+          "mobile": {
+            "value": "40px"
           }
         }
       }
@@ -2886,18 +2884,10 @@
     "component": "color-loupe",
     "sets": {
       "spectrum": {
-        "sets": {
-          "desktop": {
-            "value": "12px"
-          }
-        }
+        "value": "12px"
       },
       "express": {
-        "sets": {
-          "desktop": {
-            "value": "6px"
-          }
-        }
+        "value": "6px"
       }
     }
   },
@@ -2909,18 +2899,10 @@
     "component": "color-loupe",
     "sets": {
       "spectrum": {
-        "sets": {
-          "desktop": {
-            "value": "{border-width-200}"
-          }
-        }
+        "value": "{border-width-200}"
       },
       "express": {
-        "sets": {
-          "desktop": {
-            "value": "3px"
-          }
-        }
+        "value": "3px"
       }
     }
   },
