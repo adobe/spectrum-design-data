@@ -92,5 +92,17 @@
   "card-selection-background-color-opacity": {
     "component": "cards",
     "value": "0.95"
+  },
+  "drop-zone-background-color": {
+    "component": "drop-zone",
+    "value": "{accent-visual-color}"
+  },
+  "drop-zone-background-color-opacity": {
+    "component": "drop-zone",
+    "value": "0.1"
+  },
+  "drop-zone-background-color-opacity-filled": {
+    "component": "drop-zone",
+    "value": "0.3"
   }
 }
