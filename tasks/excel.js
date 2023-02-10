@@ -78,6 +78,7 @@ const formatToken = (token) => {
 
 const formatters = {
   reference: (token) => {
+    if (token.name === "black-font-weight") return false;
     if (runRegexTest(nonRefStringRegex, token.value)) return false;
     return runRegexTest(refRegEx, token.value)
       ? { value: `{${token.value}}` }
@@ -111,7 +112,8 @@ const formatters = {
       : false;
   },
   nonRefString: (token) => {
-    return runRegexTest(nonRefStringRegex, token.value)
+    return token.name === "black-font-weight" ||
+      runRegexTest(nonRefStringRegex, token.value)
       ? { value: token.value }
       : false;
   },

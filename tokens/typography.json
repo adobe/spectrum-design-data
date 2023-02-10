@@ -27,7 +27,7 @@
     "value": "extra-bold"
   },
   "black-font-weight": {
-    "value": "{black}"
+    "value": "black"
   },
   "italic-font-style": {
     "value": "italic"
@@ -615,6 +615,10 @@
     "component": "heading",
     "value": "0.25"
   },
+  "heading-color": {
+    "component": "heading",
+    "value": "{gray-900}"
+  },
   "body-sans-serif-font-family": {
     "component": "body",
     "value": "{sans-serif-font-family}"
@@ -762,6 +766,10 @@
   "body-margin-multiplier": {
     "component": "body",
     "value": "0.75"
+  },
+  "body-color": {
+    "component": "body",
+    "value": "{gray-800}"
   },
   "detail-sans-serif-font-family": {
     "component": "detail",
@@ -991,7 +999,7 @@
     "component": "detail",
     "value": "{cjk-line-height-100}"
   },
-  "detail-margin-top-mulitplier": {
+  "detail-margin-top-multiplier": {
     "component": "detail",
     "value": "0.88888889"
   },
@@ -1002,6 +1010,18 @@
   "detail-letter-spacing": {
     "component": "detail",
     "value": "0.06em"
+  },
+  "detail-sans-serif-text-transform": {
+    "component": "detail",
+    "value": "{uppercase}"
+  },
+  "detail-serif-text-transform": {
+    "component": "detail",
+    "value": "{uppercase}"
+  },
+  "detail-color": {
+    "component": "detail",
+    "value": "{gray-900}"
   },
   "code-font-family": {
     "component": "code",
@@ -1102,5 +1122,9 @@
   "code-cjk-line-height": {
     "component": "code",
     "value": "{cjk-line-height-200}"
+  },
+  "code-color": {
+    "component": "code",
+    "value": "{gray-800}"
   }
 }
