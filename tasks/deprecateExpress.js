@@ -1,6 +1,6 @@
 import glob from "glob-promise";
 import { readFile, writeFile } from "fs/promises";
-import { augmentExpressTokens } from "./lib/augmentExpressTokens.js";
+import augmentExpressTokens from "./lib/augmentExpressTokens.js";
 
 const files = await glob("src/**/*.json");
 files.forEach(async (fileName) => {

@@ -1,10 +1,10 @@
 import augmentExpressTokens from "../tasks/lib/augmentExpressTokens.js";
 
 const fixture = {
-  "foo": {
-    "express": {
-      "value": "bar",
-    }
+  foo: {
+    express: {
+      value: "bar",
+    },
   },
   "corner-radius-100": {
     sets: {
