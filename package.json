@@ -11,10 +11,10 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "test-watch": "yarn test --runInBand --watch",
     "build": "node tasks/buildSpectrumTokens.js",
-    "generateDiffResult": "node tasks/diff.js",
+    "generateDiffResult": "yarn build && node tasks/diff.js",
     "clean": "rm -rf dist",
     "pre-commit": "lint-staged",
-    "prepare": "husky install && yarn run build && yarn run buildManifest",
+    "prepare": "husky install && yarn build && yarn buildManifest",
     "semantic-release": "semantic-release"
   },
   "repository": {
