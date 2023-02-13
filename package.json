@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/adobe/spectrum-tokens.git"
+    "url": "git+https://github.com/adobe/spectrum-tokens.git"
   },
   "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
   "contributors": [
