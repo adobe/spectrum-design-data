@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - "beta"
+      - "next-major"
 jobs:
   release:
     runs-on: ubuntu-latest
