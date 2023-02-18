@@ -3137,5 +3137,16 @@
   "drop-zone-body-size": {
     "component": "drop-zone",
     "value": "{illustrated-message-body-size}"
+  },
+  "menu-item-top-to-selected-icon-small": {
+    "component": "menu-item",
+    "set": {
+      "mobile": {
+        "value": "9px"
+      },
+      "desktop": {
+        "value": "7px"
+      }
+    }
   }
 }
