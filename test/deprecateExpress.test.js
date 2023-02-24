@@ -1,3 +1,4 @@
+import test from 'ava';
 import augmentExpressTokens from "../tasks/lib/augmentExpressTokens.js";
 
 const fixture = {
@@ -32,6 +33,6 @@ const fixture = {
   },
 };
 
-test("Deprecate Express should add deprecation metadata to Express tokens", () => {
-  expect(augmentExpressTokens(fixture)).toMatchSnapshot();
+test("Deprecate Express should add deprecation metadata to Express tokens", t => {
+  t.snapshot(augmentExpressTokens(fixture));
 });
