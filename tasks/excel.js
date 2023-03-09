@@ -1,7 +1,7 @@
-const excelToJson = require("convert-excel-to-json");
-const hexToRgba = require("hex-to-rgba");
-const fs = require("fs");
-const slugify = require("slugify");
+import excelToJson from "convert-excel-to-json";
+import hexToRgba from "hex-to-rgba";
+import fs from "fs";
+import slugify from "slugify";
 
 const ignoredComponents = [
   "Misc",

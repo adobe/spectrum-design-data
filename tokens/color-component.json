@@ -104,5 +104,65 @@
   "drop-zone-background-color-opacity-filled": {
     "component": "drop-zone",
     "value": "0.3"
+  },
+  "coach-mark-pagination-color": {
+    "component": "coach-mark",
+    "value": "{Gray-600}"
+  },
+  "color-handle-inner-border-color": {
+    "component": "color-handle",
+    "value": "{black}"
+  },
+  "color-handle-inner-border-opacity": {
+    "component": "color-handle",
+    "sets": {
+      "spectrum": {
+        "value": "0.42"
+      },
+      "express": {
+        "value": "0.15",
+        "deprecated": true,
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+      }
+    }
+  },
+  "color-handle-outer-border-color": {
+    "component": "color-handle",
+    "sets": {
+      "spectrum": {
+        "value": "{black}"
+      },
+      "express": {
+        "value": "{none}",
+        "deprecated": true,
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+      }
+    }
+  },
+  "color-handle-outer-border-opacity": {
+    "component": "color-handle",
+    "sets": {
+      "spectrum": {
+        "value": "{color-handle-inner-border-opacity}"
+      },
+      "express": {
+        "value": "{none}",
+        "deprecated": true,
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+      }
+    }
+  },
+  "color-handle-drop-shadow-color": {
+    "component": "color-handle",
+    "sets": {
+      "spectrum": {
+        "value": "{none}"
+      },
+      "express": {
+        "value": "{drop-shadow-color}",
+        "deprecated": true,
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+      }
+    }
   }
 }
