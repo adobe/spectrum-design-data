@@ -396,6 +396,26 @@
       }
     }
   },
+  "component-height-400": {
+    "sets": {
+      "desktop": {
+        "value": "56px"
+      },
+      "mobile": {
+        "value": "70px"
+      }
+    }
+  },
+  "component-height-500": {
+    "sets": {
+      "desktop": {
+        "value": "64px"
+      },
+      "mobile": {
+        "value": "80px"
+      }
+    }
+  },
   "focus-indicator-thickness": {
     "value": "2px"
   },
