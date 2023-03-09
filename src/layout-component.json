@@ -2977,7 +2977,14 @@
   },
   "color-slider-minimum-length": {
     "component": "color-slider",
-    "value": "200px"
+    "sets": {
+      "desktop": {
+        "value": "80px"
+      },
+      "mobile": {
+        "value": "100px"
+      }
+    }
   },
   "color-slider-border-width": {
     "component": "color-slider",
