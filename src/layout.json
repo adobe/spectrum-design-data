@@ -14,10 +14,14 @@
       "express": {
         "sets": {
           "desktop": {
-            "value": "3px"
+            "value": "3px",
+            "deprecated": true,
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
           },
           "mobile": {
-            "value": "4px"
+            "value": "4px",
+            "deprecated": true,
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
           }
         }
       }
@@ -38,10 +42,14 @@
       "express": {
         "sets": {
           "desktop": {
-            "value": "6px"
+            "value": "6px",
+            "deprecated": true,
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
           },
           "mobile": {
-            "value": "8px"
+            "value": "8px",
+            "deprecated": true,
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
           }
         }
       }
@@ -62,10 +70,14 @@
       "express": {
         "sets": {
           "desktop": {
-            "value": "12px"
+            "value": "12px",
+            "deprecated": true,
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
           },
           "mobile": {
-            "value": "16px"
+            "value": "16px",
+            "deprecated": true,
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
           }
         }
       }
@@ -86,10 +98,14 @@
       "express": {
         "sets": {
           "desktop": {
-            "value": "0px"
+            "value": "0px",
+            "deprecated": true,
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
           },
           "mobile": {
-            "value": "0px"
+            "value": "0px",
+            "deprecated": true,
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
           }
         }
       }
@@ -110,10 +126,14 @@
       "express": {
         "sets": {
           "desktop": {
-            "value": "4px"
+            "value": "4px",
+            "deprecated": true,
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
           },
           "mobile": {
-            "value": "4px"
+            "value": "4px",
+            "deprecated": true,
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
           }
         }
       }
@@ -134,10 +154,14 @@
       "express": {
         "sets": {
           "desktop": {
-            "value": "16px"
+            "value": "16px",
+            "deprecated": true,
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
           },
           "mobile": {
-            "value": "16px"
+            "value": "16px",
+            "deprecated": true,
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
           }
         }
       }
@@ -384,7 +408,9 @@
         "value": "1px"
       },
       "express": {
-        "value": "2px"
+        "value": "2px",
+        "deprecated": true,
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
       }
     }
   },
@@ -857,6 +883,9 @@
   "field-edge-to-text-quiet": {
     "value": "0px"
   },
+  "field-edge-to-visual-quiet": {
+    "value": "0px"
+  },
   "field-edge-to-border-quiet": {
     "value": "0px"
   },
@@ -1186,6 +1215,16 @@
       }
     }
   },
+  "field-width": {
+    "sets": {
+      "desktop": {
+        "value": "192px"
+      },
+      "mobile": {
+        "value": "240px"
+      }
+    }
+  },
   "character-count-to-field-quiet-small": {
     "sets": {
       "desktop": {
@@ -1259,20 +1298,20 @@
   "side-label-character-count-top-margin-large": {
     "sets": {
       "desktop": {
-        "value": "10px"
+        "value": "11px"
       },
       "mobile": {
-        "value": "13px"
+        "value": "14px"
       }
     }
   },
   "side-label-character-count-top-margin-extra-large": {
     "sets": {
       "desktop": {
-        "value": "13px"
+        "value": "14px"
       },
       "mobile": {
-        "value": "17px"
+        "value": "18px"
       }
     }
   },

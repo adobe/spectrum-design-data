@@ -1,3 +1,5 @@
 .github
 .husky
 .*
+coverage
+test

@@ -1,4 +1,5 @@
-const { readFile } = require("fs/promises");
+import test from "ava";
+import { readFile } from "fs/promises";
 
 const getValue = (obj, setName) => {
   if (obj.hasOwnProperty("value")) {
@@ -16,7 +17,7 @@ const vars = { light: {}, dark: {}, darkest: {} };
 let variables;
 let drover;
 
-beforeAll(async () => {
+test.before(async (t) => {
   variables = JSON.parse(
     await readFile("dist/json/variables.json", { encoding: "utf8" })
   );
@@ -34,12 +35,12 @@ beforeAll(async () => {
   });
 });
 
-test("Drover should match light variable values", () => {
-  expect(drover.colorThemes.light).toMatchObject(vars.light);
+test("Drover should match light variable values", (t) => {
+  t.deepEqual(drover.colorThemes.light, vars.light);
 });
-test("Drover should match dark variable values", () => {
-  expect(drover.colorThemes.dark).toMatchObject(vars.dark);
+test("Drover should match dark variable values", (t) => {
+  t.deepEqual(drover.colorThemes.dark, vars.dark);
 });
-test("Drover should match darkest variable values", () => {
-  expect(drover.colorThemes.darkest).toMatchObject(vars.darkest);
+test("Drover should match darkest variable values", (t) => {
+  t.deepEqual(drover.colorThemes.darkest, vars.darkest);
 });

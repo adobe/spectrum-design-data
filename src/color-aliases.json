@@ -161,7 +161,9 @@
         "value": "{gray-700}"
       },
       "express": {
-        "value": "{gray-800}"
+        "value": "{gray-800}",
+        "deprecated": true,
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
       }
     }
   },
@@ -171,7 +173,9 @@
         "value": "{gray-800}"
       },
       "express": {
-        "value": "{gray-900}"
+        "value": "{gray-900}",
+        "deprecated": true,
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
       }
     }
   },
@@ -181,7 +185,9 @@
         "value": "{gray-900}"
       },
       "express": {
-        "value": "{gray-900}"
+        "value": "{gray-900}",
+        "deprecated": true,
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
       }
     }
   },
@@ -191,7 +197,9 @@
         "value": "{gray-800}"
       },
       "express": {
-        "value": "{gray-900}"
+        "value": "{gray-900}",
+        "deprecated": true,
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
       }
     }
   },

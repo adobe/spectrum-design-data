@@ -1,6 +1,6 @@
-const { access, readFile, writeFile } = require("fs/promises");
-const fetch = require("node-fetch");
-const { detailedDiff, diff } = require("deep-object-diff");
+import { access, readFile, writeFile } from "fs/promises";
+import fetch from "node-fetch";
+import { detailedDiff, diff } from "deep-object-diff";
 
 const tag = "beta";
 const tokenPath = "dist/json/variables.json";

@@ -15,8 +15,5 @@ governing permissions and limitations under the License.
  */
 
 module.exports = {
-  clearMocks: true,
-  collectCoverage: true,
-  coverageDirectory: "coverage",
-  coverageProvider: "v8",
+  extends: ["@commitlint/config-conventional"],
 };

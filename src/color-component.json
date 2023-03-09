@@ -64,5 +64,45 @@
   "color-slider-border-opacity": {
     "component": "color-slider",
     "value": "0.1"
+  },
+  "color-loupe-drop-shadow-color": {
+    "component": "color-loupe",
+    "value": "{transparent-black-300}"
+  },
+  "color-loupe-drop-shadow-y": {
+    "component": "color-loupe",
+    "value": "2px"
+  },
+  "color-loupe-drop-shadow-blur": {
+    "component": "color-loupe",
+    "value": "8px"
+  },
+  "color-loupe-inner-border": {
+    "component": "color-loupe",
+    "value": "{transparent-black-200}"
+  },
+  "color-loupe-outer-border": {
+    "component": "color-loupe",
+    "value": "{white}"
+  },
+  "card-selection-background-color": {
+    "component": "cards",
+    "value": "{gray-100}"
+  },
+  "card-selection-background-color-opacity": {
+    "component": "cards",
+    "value": "0.95"
+  },
+  "drop-zone-background-color": {
+    "component": "drop-zone",
+    "value": "{accent-visual-color}"
+  },
+  "drop-zone-background-color-opacity": {
+    "component": "drop-zone",
+    "value": "0.1"
+  },
+  "drop-zone-background-color-opacity-filled": {
+    "component": "drop-zone",
+    "value": "0.3"
   }
 }
