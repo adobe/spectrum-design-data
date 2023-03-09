@@ -1716,6 +1716,50 @@
       }
     }
   },
+  "menu-item-top-to-selected-icon-small": {
+    "component": "menu",
+    "sets": {
+      "desktop": {
+        "value": "7px"
+      },
+      "mobile": {
+        "value": "9px"
+      }
+    }
+  },
+  "menu-item-top-to-selected-icon-medium": {
+    "component": "menu",
+    "sets": {
+      "desktop": {
+        "value": "11px"
+      },
+      "mobile": {
+        "value": "13px"
+      }
+    }
+  },
+  "menu-item-top-to-selected-icon-large": {
+    "component": "menu",
+    "sets": {
+      "desktop": {
+        "value": "14px"
+      },
+      "mobile": {
+        "value": "17px"
+      }
+    }
+  },
+  "menu-item-top-to-selected-icon-extra-large": {
+    "component": "menu",
+    "sets": {
+      "desktop": {
+        "value": "17px"
+      },
+      "mobile": {
+        "value": "22px"
+      }
+    }
+  },
   "slider-track-thickness": {
     "component": "slider",
     "sets": {
