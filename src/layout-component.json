@@ -2254,6 +2254,14 @@
       }
     }
   },
+  "picker-border-width": {
+    "component": "picker",
+    "sets": {
+      "spectrum": {
+        "value": "{border-width-100}"
+      }
+    }
+  },
   "text-field-minimum-width-multiplier": {
     "component": "text-field",
     "value": "1.5"
@@ -3137,6 +3145,74 @@
   "drop-zone-body-size": {
     "component": "drop-zone",
     "value": "{illustrated-message-body-size}"
+  },
+  "coach-mark-minimum-width": {
+    "component": "coach-mark-width",
+    "sets": {
+      "desktop": {
+        "value": "296px"
+      },
+      "mobile": {
+        "value": "208px"
+      }
+    }
+  },
+  "coach-mark-edge-to-content": {
+    "component": "coach-mark-width",
+    "sets": {
+      "desktop": {
+        "value": "{spacing-400}"
+      },
+      "mobile": {
+        "value": "{spacing-300}"
+      }
+    }
+  },
+  "coach-mark-pagination-text-to-bottom-edge": {
+    "component": "coach-mark-width",
+    "sets": {
+      "desktop": {
+        "value": "33px"
+      },
+      "mobile": {
+        "value": "22px"
+      }
+    }
+  },
+  "coach-mark-media-minimum-height": {
+    "component": "coach-mark-media-height",
+    "sets": {
+      "desktop": {
+        "value": "166px"
+      },
+      "mobile": {
+        "value": "121px"
+      }
+    }
+  },
+  "coach-mark-title-size": {
+    "component": "coach-mark-media-height",
+    "sets": {
+      "mobile": {
+        "value": "{heading-size-xxs}"
+      }
+    }
+  },
+  "coach-mark-body-size": {
+    "component": "coach-mark-media-height",
+    "sets": {
+      "mobile": {
+        "value": "{body-size-xs}"
+      }
+    }
+  },
+  "coach-mark-pagination-body-size": {
+    "component": "coach-mark-media-height",
+    "sets": {
+      "mobile": {
+        "value": "{body-size-xs}"
+      }
+    }
   },
   "accordion-top-to-text-compact-small": {
     "component": "accordion",

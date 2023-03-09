@@ -105,6 +105,10 @@
     "component": "drop-zone",
     "value": "0.3"
   },
+  "coach-mark-pagination-color": {
+    "component": "coach-mark",
+    "value": "{gray-600}"
+  },
   "color-handle-inner-border-color": {
     "component": "color-handle",
     "value": "{black}"
