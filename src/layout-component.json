@@ -2386,7 +2386,7 @@
   },
   "combo-box-visual-to-field-button-quiet": {
     "component": "combo-box",
-    "value": "0"
+    "value": "0px"
   },
   "thumbnail-size-50": {
     "component": "thumbnail",
