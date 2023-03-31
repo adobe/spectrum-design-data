@@ -2,7 +2,7 @@ import { access, readFile, writeFile } from "fs/promises";
 import fetch from "node-fetch";
 import { detailedDiff, diff } from "deep-object-diff";
 
-const tag = "beta";
+const tag = "next-major";
 const tokenPath = "dist/json/variables.json";
 
 run()
