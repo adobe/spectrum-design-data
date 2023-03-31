@@ -2877,6 +2877,12 @@
   },
   "alert-banner-to-top-workflow-icon": {
     "component": "alert-banner",
+    "value": "{alert-banner-top-to-workflow-icon}",
+    "deprecated": true,
+    "deprecated_comment": "Introduced as an error. Use alert-banner-top-to-workflow-icon instead"
+  },
+  "alert-banner-top-to-workflow-icon": {
+    "component": "alert-banner",
     "sets": {
       "desktop": {
         "value": "15px"
@@ -2888,6 +2894,12 @@
   },
   "alert-banner-to-top-text": {
     "component": "alert-banner",
+    "value": "{alert-banner-top-to-text}",
+    "deprecated": true,
+    "deprecated_comment": "Introduced as an error. Use alert-banner-top-to-text instead"
+  },
+  "alert-banner-top-to-text": {
+    "component": "alert-banner",
     "sets": {
       "desktop": {
         "value": "14px"
@@ -2898,6 +2910,12 @@
     }
   },
   "alert-banner-to-bottom-text": {
+    "component": "alert-banner",
+    "value": "{alert-banner-bottom-to-text}",
+    "deprecated": true,
+    "deprecated_comment": "Introduced as an error. Use alert-banner-bottom-to-text instead"
+  },
+  "alert-banner-bottom-to-text": {
     "component": "alert-banner",
     "sets": {
       "desktop": {
