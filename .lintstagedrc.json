@@ -1,4 +1,5 @@
 {
   "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": ["prettier --write"],
-  "**/*.json": ["prettier --write"]
+  "**/*.json": ["prettier --write"],
+  "tasks/**/*.{js,jsx,ts,tsx,json,css,scss,md}": ["prettier --write"]
 }
