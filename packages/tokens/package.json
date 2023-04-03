@@ -1,12 +1,12 @@
 {
-  "name": "@adobe/spectrum-dna",
+  "name": "@adobe/spectrum-tokens",
+  "version": "0.0.0-development",
   "description": "",
   "type": "module",
-  "private": true,
+  "main": "config.js",
+  "tokens": "dist/json/variables.json",
   "scripts": {
-    "moon": "moon",
-    "pre-commit": "lint-staged",
-    "prepare": "husky install"
+    "not-prepare": "moon run tokens:build && moon run tokens:buildManifest"
   },
   "repository": {
     "type": "git",
@@ -22,16 +22,13 @@
   },
   "homepage": "https://github.com/adobe/spectrum-tokens#readme",
   "devDependencies": {
-    "@commitlint/cli": "^17.1.2",
-    "@commitlint/config-conventional": "^17.1.0",
-    "@moonrepo/cli": "^1.1.0",
-    "ava": "^5.2.0",
-    "husky": "^8.0.1",
-    "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1"
-  },
-  "engines": {
-    "node": "18.13.0"
-  },
-  "packageManager": "pnpm@8.1.1"
+    "convert-excel-to-json": "^1.7.0",
+    "deep-object-diff": "^1.1.7",
+    "glob": "^8.1.0",
+    "glob-promise": "^6.0.2",
+    "hex-to-rgba": "^2.0.1",
+    "node-fetch": "^2.6.7",
+    "style-dictionary": "^3.7.1",
+    "style-dictionary-sets": "^2.0.5"
+  }
 }

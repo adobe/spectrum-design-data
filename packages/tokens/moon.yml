@@ -1,0 +1,65 @@
+fileGroups:
+  sources:
+    - "src/**/*"
+  tests:
+    - "test/**/*"
+tasks:
+  build:
+    command:
+      - node
+      - tasks/buildSpectrumTokens.js
+    platform: node
+    inputs:
+      - "task/buildSpectrumTokens.js"
+      - "@globs(sources)"
+    outputs:
+      - "dist/"
+  buildManifest:
+    command:
+      - node
+      - tasks/buildManifest.js
+    platform: node
+    inputs:
+      - "tasks/buildManifest.js"
+      - "@globs(sources)"
+    outputs:
+      - "manifest.json"
+  clean:
+    command:
+      - rm
+      - -rf
+      - dist
+    platform: system
+  convert-excel:
+    command:
+      - node
+      - tasks/excel.js
+    platform: node
+  generateDiffResult:
+    command:
+      - node
+      - tasks/diff.js
+    deps:
+      - ~:generateDiffResult-dep1
+    platform: node
+  generateDiffResult-dep1:
+    command:
+      - moon
+      - run
+      - tokens:build
+    platform: node
+  test:
+    command:
+      - npx
+      - ava
+    inputs:
+      - "tasks/**/*"
+      - "@globs(tests)"
+      - "@globs(sources)"
+    platform: node
+  test-watch:
+    command:
+      - ava
+      - --watch
+    local: true
+    platform: node
