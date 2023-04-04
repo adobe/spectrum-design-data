@@ -1,9 +1,18 @@
 import { access, readFile, writeFile } from "fs/promises";
-import fetch from "node-fetch";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 import { detailedDiff, diff } from "deep-object-diff";
+import { exec } from "node:child_process";
+import { promisify } from "util";
+import tar from "tar";
+import tmp from "tmp-promise";
+
+const execP = promisify(exec);
 
 const tag = "next-major";
 const tokenPath = "dist/json/variables.json";
+const localRootDir = join(dirname(fileURLToPath(import.meta.url)), "..");
+const localTokenPath = join(localRootDir, tokenPath);
 
 run()
   .then(() => {
@@ -19,6 +28,7 @@ async function run() {
     getNewTokens(),
     getOldTokens(),
   ]);
+
   const diffResult = detailedDiff(oldTokens, newTokens);
 
   calculatePossibleRenames(diffResult, oldTokens, newTokens);
@@ -31,23 +41,27 @@ async function run() {
 
 async function getNewTokens() {
   try {
-    await access(tokenPath);
-    return JSON.parse(await readFile(tokenPath, { encoding: "utf8" }));
+    await access(localTokenPath);
+    return JSON.parse(await readFile(localTokenPath, { encoding: "utf8" }));
   } catch {
     console.error("cannot access");
   }
 }
 
 async function getOldTokens() {
-  try {
-    const response = await fetch(
-      `https://unpkg.com/@adobe/spectrum-tokens@${tag}/${tokenPath}`
-    );
-    console.log(`Fetched ${response.url}`);
-    return await response.json();
-  } catch {
-    console.error("cannot access");
-  }
+  const tmpDir = await tmp.dir();
+  console.log(tmpDir);
+  console.log(tag);
+  const { stdout, stderr } = await execP(
+    `npm pack @adobe/spectrum-tokens@${tag} --pack-destination ${tmpDir.path}`
+  );
+  await tar.x({
+    cwd: tmpDir.path,
+    file: join(tmpDir.path, stdout.trim()),
+  });
+  const oldTokenPath = join(tmpDir.path, "package", tokenPath);
+  await access(oldTokenPath);
+  return JSON.parse(await readFile(oldTokenPath, { encoding: "utf8" }));
 }
 
 function calculatePossibleRenames(diffResult, oldTokens, newTokens) {
