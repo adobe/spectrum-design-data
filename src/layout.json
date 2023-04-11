@@ -955,6 +955,86 @@
       }
     }
   },
+  "field-end-edge-to-disclosure-icon-75": {
+    "sets": {
+      "desktop": {
+        "value": "7px"
+      },
+      "mobile": {
+        "value": "9px"
+      }
+    }
+  },
+  "field-end-edge-to-disclosure-icon-100": {
+    "sets": {
+      "desktop": {
+        "value": "11px"
+      },
+      "mobile": {
+        "value": "13px"
+      }
+    }
+  },
+  "field-end-edge-to-disclosure-icon-200": {
+    "sets": {
+      "desktop": {
+        "value": "14px"
+      },
+      "mobile": {
+        "value": "17px"
+      }
+    }
+  },
+  "field-end-edge-to-disclosure-icon-300": {
+    "sets": {
+      "desktop": {
+        "value": "17px"
+      },
+      "mobile": {
+        "value": "22px"
+      }
+    }
+  },
+  "field-top-to-disclosure-icon-75": {
+    "sets": {
+      "desktop": {
+        "value": "7px"
+      },
+      "mobile": {
+        "value": "9px"
+      }
+    }
+  },
+  "field-top-to-disclosure-icon-100": {
+    "sets": {
+      "desktop": {
+        "value": "11px"
+      },
+      "mobile": {
+        "value": "13px"
+      }
+    }
+  },
+  "field-top-to-disclosure-icon-200": {
+    "sets": {
+      "desktop": {
+        "value": "14px"
+      },
+      "mobile": {
+        "value": "17px"
+      }
+    }
+  },
+  "field-top-to-disclosure-icon-300": {
+    "sets": {
+      "desktop": {
+        "value": "17px"
+      },
+      "mobile": {
+        "value": "22px"
+      }
+    }
+  },
   "field-top-to-alert-icon-small": {
     "sets": {
       "desktop": {
