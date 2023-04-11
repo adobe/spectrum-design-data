@@ -2306,6 +2306,10 @@
       }
     }
   },
+  "picker-end-edge-to-disclousure-icon-quiet": {
+    "component": "picker",
+    "value": "0px"
+  },
   "text-field-minimum-width-multiplier": {
     "component": "text-field",
     "value": "1.5"
