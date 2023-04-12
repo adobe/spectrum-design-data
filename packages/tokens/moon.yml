@@ -10,7 +10,7 @@ tasks:
       - tasks/buildSpectrumTokens.js
     platform: node
     inputs:
-      - "task/buildSpectrumTokens.js"
+      - "tasks/buildSpectrumTokens.js"
       - "@globs(sources)"
     outputs:
       - "dist/"
@@ -29,24 +29,20 @@ tasks:
       - rm
       - -rf
       - dist
+    local: true
     platform: system
   convert-excel:
     command:
       - node
       - tasks/excel.js
+    local: true
     platform: node
   generateDiffResult:
     command:
       - node
       - tasks/diff.js
     deps:
-      - ~:generateDiffResult-dep1
-    platform: node
-  generateDiffResult-dep1:
-    command:
-      - moon
-      - run
-      - tokens:build
+      - ~:build
     platform: node
   test:
     command:
@@ -56,6 +52,8 @@ tasks:
       - "tasks/**/*"
       - "@globs(tests)"
       - "@globs(sources)"
+    deps:
+      - ~:build
     platform: node
   test-watch:
     command:

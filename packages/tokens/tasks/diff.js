@@ -9,7 +9,7 @@ import tmp from "tmp-promise";
 
 const execP = promisify(exec);
 
-const tag = "next-major";
+const tag = "latest";
 const tokenPath = "dist/json/variables.json";
 const localRootDir = join(dirname(fileURLToPath(import.meta.url)), "..");
 const localTokenPath = join(localRootDir, tokenPath);
@@ -50,8 +50,6 @@ async function getNewTokens() {
 
 async function getOldTokens() {
   const tmpDir = await tmp.dir();
-  console.log(tmpDir);
-  console.log(tag);
   const { stdout, stderr } = await execP(
     `npm pack @adobe/spectrum-tokens@${tag} --pack-destination ${tmpDir.path}`
   );
