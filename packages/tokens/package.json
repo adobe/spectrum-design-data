@@ -6,7 +6,7 @@
   "main": "config.js",
   "tokens": "dist/json/variables.json",
   "scripts": {
-    "not-prepare": "moon run tokens:build && moon run tokens:buildManifest"
+    "prepare": "moon run tokens:build && moon run tokens:buildManifest"
   },
   "repository": {
     "type": "git",
