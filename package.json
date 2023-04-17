@@ -2,7 +2,6 @@
   "name": "@adobe/spectrum-dna",
   "description": "",
   "type": "module",
-  "private": true,
   "scripts": {
     "moon": "moon",
     "pre-commit": "lint-staged",
