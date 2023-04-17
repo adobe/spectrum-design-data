@@ -6,19 +6,7 @@ Design tokens are directly integrated into our component libraries, UI kits, and
 
 ## Getting started
 
-Start by installing all the project dependencies.
-
-```bash
-pnpm
-```
-
-Running this script will also build the tokens to the `dist` directory.
-
-To manually build the project, you can also run the following script:
-
-```bash
-pnpm build
-```
+Follow the monorepo [setup guide](../../README.md#setup-monorepo-locally).
 
 ## Generate a Diff from the last release
 
@@ -69,16 +57,16 @@ More details can be found in this [example workflow](https://semantic-release.gi
 
 ## Spectrum Tokens 11.x.x and 12.x.x
 
-Starting with `@adobe/spectrum-tokens` v12.0.0, this project uses a more efficient list of tokens. Previously in v11.x.x, every possible combination of component options was used to define tokens, resulting in an unnecessarily large list of tokens. However, while the work is ongoing in migrating components from the old system to the newer one, v12.0.0 and future versions will be published under the `next` tag. To install it, use the script:
+Starting with `@adobe/spectrum-tokens` v12.0.0, this project uses a more efficient list of tokens. Previously in v11.x.x, every possible combination of component options was used to define tokens, resulting in an unnecessarily large list of tokens. However, while the work is ongoing in migrating components from the old system to the newer one, v12.0.0 and future versions will be published under the `latest` tag. To install it, use the script:
 
 ```
-pnpm add @adobe/spectrum-tokens@next
+pnpm add @adobe/spectrum-tokens
 ```
 
 or
 
 ```
-npm install --save @adobe/spectrum-tokens@next
+npm install --save @adobe/spectrum-tokens
 ```
 
 If you need to use the older and more complete set of tokens side by side with the v12.x.x release while the development of this migration is ongoing, you can use the [`@adobe/spectrum-tokens-depreacated`](https://www.npmjs.com/package/@adobe/spectrum-tokens-deprecated) package, which is an archived release of `@adobe/spectrum-tokens@11.8.0`.
