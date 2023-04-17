@@ -19,10 +19,10 @@ let drover;
 
 test.before(async (t) => {
   variables = JSON.parse(
-    await readFile("dist/json/variables.json", { encoding: "utf8" })
+    await readFile("dist/json/variables.json", { encoding: "utf8" }),
   );
   drover = JSON.parse(
-    await readFile("dist/json/drover.json", { encoding: "utf8" })
+    await readFile("dist/json/drover.json", { encoding: "utf8" }),
   );
   Object.keys(drover.colorThemes.light).forEach((tokenName) => {
     vars.light[tokenName] = getValue(variables[tokenName], "light");

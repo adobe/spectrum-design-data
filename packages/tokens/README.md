@@ -9,7 +9,7 @@ Design tokens are directly integrated into our component libraries, UI kits, and
 Start by installing all the project dependencies.
 
 ```bash
-yarn
+pnpm
 ```
 
 Running this script will also build the tokens to the `dist` directory.
@@ -17,12 +17,12 @@ Running this script will also build the tokens to the `dist` directory.
 To manually build the project, you can also run the following script:
 
 ```bash
-yarn build
+pnpm build
 ```
 
 ## Generate a Diff from the last release
 
-The `yarn generateDiffResult` script will build the project and compare the tokens in the `dist` directory with the last released version of Spectrum Tokens. It will generate a report of added tokens, deleted tokens, tokens with value changes, and tokens with potential name changes. The script can't guarantee the correct name changes; it compares new tokens and deleted tokens to see if any have the same value and are likely to be token name changes.
+The `pnpm generateDiffResult` script will build the project and compare the tokens in the `dist` directory with the last released version of Spectrum Tokens. It will generate a report of added tokens, deleted tokens, tokens with value changes, and tokens with potential name changes. The script can't guarantee the correct name changes; it compares new tokens and deleted tokens to see if any have the same value and are likely to be token name changes.
 
 ## Versioning
 
@@ -72,7 +72,7 @@ More details can be found in this [example workflow](https://semantic-release.gi
 Starting with `@adobe/spectrum-tokens` v12.0.0, this project uses a more efficient list of tokens. Previously in v11.x.x, every possible combination of component options was used to define tokens, resulting in an unnecessarily large list of tokens. However, while the work is ongoing in migrating components from the old system to the newer one, v12.0.0 and future versions will be published under the `next` tag. To install it, use the script:
 
 ```
-yarn add @adobe/spectrum-tokens@next
+pnpm add @adobe/spectrum-tokens@next
 ```
 
 or

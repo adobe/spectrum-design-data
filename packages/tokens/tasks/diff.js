@@ -51,7 +51,7 @@ async function getNewTokens() {
 async function getOldTokens() {
   const tmpDir = await tmp.dir();
   const { stdout, stderr } = await execP(
-    `npm pack @adobe/spectrum-tokens@${tag} --pack-destination ${tmpDir.path}`
+    `npm pack @adobe/spectrum-tokens@${tag} --pack-destination ${tmpDir.path}`,
   );
   await tar.x({
     cwd: tmpDir.path,
@@ -97,14 +97,14 @@ function logResultCategory(diffResult, categoryKey, msg) {
               results[oldTokenName].length > 1
             ) {
               console.log(
-                `  - Old name: \`${oldTokenName}\`, new name options:`
+                `  - Old name: \`${oldTokenName}\`, new name options:`,
               );
               results[oldTokenName].forEach((newTokenName) =>
-                console.log(`    - \`${newTokenName}\``)
+                console.log(`    - \`${newTokenName}\``),
               );
             } else {
               console.log(
-                `  - \`${oldTokenName}\` -> \`${results[oldTokenName][0]}\``
+                `  - \`${oldTokenName}\` -> \`${results[oldTokenName][0]}\``,
               );
             }
           });
