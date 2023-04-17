@@ -22,11 +22,9 @@
   },
   "homepage": "https://github.com/adobe/spectrum-tokens#readme",
   "devDependencies": {
-    "convert-excel-to-json": "^1.7.0",
     "deep-object-diff": "^1.1.7",
     "glob": "^8.1.0",
     "glob-promise": "^6.0.2",
-    "hex-to-rgba": "^2.0.1",
     "node-fetch": "^2.6.7",
     "style-dictionary": "^3.7.1",
     "style-dictionary-sets": "^2.0.5",
