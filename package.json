@@ -2,11 +2,11 @@
   "name": "@adobe/spectrum-dna",
   "description": "",
   "type": "module",
-  "private": true,
   "scripts": {
     "moon": "moon",
     "pre-commit": "lint-staged",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "release": "changeset publish"
   },
   "repository": {
     "type": "git",
