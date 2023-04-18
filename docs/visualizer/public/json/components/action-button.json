@@ -1,0 +1,198 @@
+{
+  "action-button-xs-height": {
+    "component": "action-button",
+    "value": "{component-height-50}"
+  },
+  "action-button-s-height": {
+    "component": "action-button",
+    "value": "{component-height-75}"
+  },
+  "action-button-m-height": {
+    "component": "action-button",
+    "value": "{component-height-100}"
+  },
+  "action-button-l-height": {
+    "component": "action-button",
+    "value": "{component-height-200}"
+  },
+  "action-button-xl-height": {
+    "component": "action-button",
+    "value": "{component-height-300}"
+  },
+  "action-button-rounding": {
+    "component": "action-button",
+    "value": "{corner-radius-100}"
+  },
+  "action-button-xs-icon-size": {
+    "component": "action-button",
+    "value": "{workflow-icon-size-50}"
+  },
+  "action-button-s-icon-size": {
+    "component": "action-button",
+    "value": "{workflow-icon-size-75}"
+  },
+  "action-button-m-icon-size": {
+    "component": "action-button",
+    "value": "{workflow-icon-size-100}"
+  },
+  "action-button-l-icon-size": {
+    "component": "action-button",
+    "value": "{workflow-icon-size-200}"
+  },
+  "action-button-xl-icon-size": {
+    "component": "action-button",
+    "value": "{workflow-icon-size-300}"
+  },
+  "action-button-xs-label-font-size": {
+    "component": "action-button",
+    "value": "{font-size-50}"
+  },
+  "action-button-s-label-font-size": {
+    "component": "action-button",
+    "value": "{font-size-75}"
+  },
+  "action-button-m-label-font-size": {
+    "component": "action-button",
+    "value": "{font-size-100}"
+  },
+  "action-button-l-label-font-size": {
+    "component": "action-button",
+    "value": "{font-size-200}"
+  },
+  "action-button-xl-label-font-size": {
+    "component": "action-button",
+    "value": "{font-size-300}"
+  },
+  "action-button-xs-icon-to-label": {
+    "component": "action-button",
+    "value": "{text-to-visual-50}"
+  },
+  "action-button-s-icon-to-label": {
+    "component": "action-button",
+    "value": "{text-to-visual-75}"
+  },
+  "action-button-m-icon-to-label": {
+    "component": "action-button",
+    "value": "{text-to-visual-100}"
+  },
+  "action-button-l-icon-to-label": {
+    "component": "action-button",
+    "value": "{text-to-visual-200}"
+  },
+  "action-button-xl-icon-to-label": {
+    "component": "action-button",
+    "value": "{text-to-visual-300}"
+  },
+  "action-button-xs-start-to-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-visual-50}"
+  },
+  "action-button-s-start-to-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-visual-75}"
+  },
+  "action-button-m-start-to-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-visual-100}"
+  },
+  "action-button-l-start-to-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-visual-200}"
+  },
+  "action-button-xl-start-to-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-visual-300}"
+  },
+  "action-button-xs-end-to-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-text-50}"
+  },
+  "action-button-s-end-to-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-text-75}"
+  },
+  "action-button-m-end-to-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-text-100}"
+  },
+  "action-button-l-end-to-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-text-200}"
+  },
+  "action-button-xl-end-to-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-text-300}"
+  },
+  "action-button-icon-only-xs-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-visual-only-50}"
+  },
+  "action-button-icon-only-s-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-visual-only-75}"
+  },
+  "action-button-icon-only-m-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-visual-only-100}"
+  },
+  "action-button-icon-only-l-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-visual-only-200}"
+  },
+  "action-button-icon-only-xl-edge-spacing": {
+    "component": "action-button",
+    "value": "{component-edge-to-visual-only-300}"
+  },
+  "action-button-xs-top-edge-to-icon-spacing": {
+    "component": "action-button",
+    "value": "{component-top-to-workflow-icon-50}"
+  },
+  "action-button-s-top-edge-to-icon-spacing": {
+    "component": "action-button",
+    "value": "{component-top-to-workflow-icon-75}"
+  },
+  "action-button-m-top-edge-to-icon-spacing": {
+    "component": "action-button",
+    "value": "{component-top-to-workflow-icon-100}"
+  },
+  "action-button-l-top-edge-to-icon-spacing": {
+    "component": "action-button",
+    "value": "{component-top-to-workflow-icon-200}"
+  },
+  "action-button-xl-top-edge-to-icon-spacing": {
+    "component": "action-button",
+    "value": "{component-top-to-workflow-icon-300}"
+  },
+  "action-button-xs-top-edge-to-label-spacing": {
+    "component": "action-button",
+    "value": "{component-top-to-text-50}"
+  },
+  "action-button-s-top-edge-to-label-spacing": {
+    "component": "action-button",
+    "value": "{component-top-to-text-75}"
+  },
+  "action-button-m-top-edge-to-label-spacing": {
+    "component": "action-button",
+    "value": "{component-top-to-text-100}"
+  },
+  "action-button-l-top-edge-to-label-spacing": {
+    "component": "action-button",
+    "value": "{component-top-to-text-200}"
+  },
+  "action-button-xl-top-edge-to-label-spacing": {
+    "component": "action-button",
+    "value": "{component-top-to-text-300}"
+  },
+  "action-button-border-width": {
+    "component": "action-button",
+    "value": "{border-width-100}"
+  },
+  "action-button-focus-ring-thickness": {
+    "component": "action-button",
+    "value": "{focus-indicator-thickness}"
+  },
+  "action-button-focus-ring-gap": {
+    "component": "action-button",
+    "value": "{focus-indicator-gap}"
+  }
+}
