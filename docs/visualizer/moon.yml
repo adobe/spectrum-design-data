@@ -17,7 +17,7 @@ tasks:
       - "config"
       - "@globs(sources)"
     outputs:
-      - "tmp/"
+      - "/site/visualizer"
   typescript:
     command: tsc
     platform: node
