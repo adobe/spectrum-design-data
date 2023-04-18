@@ -1,0 +1,30 @@
+fileGroups:
+  sources:
+    - "src/**/*"
+  config:
+    - "vite.config.ts"
+    - "tsconfig.json"
+    - "tsconfig.node.json"
+tasks:
+  build:
+    command:
+    - vite
+    - build
+    deps:
+    - ~:typescript
+    platform: node
+    inputs:
+      - "config"
+      - "@globs(sources)"
+    outputs:
+      - "tmp/"
+  typescript:
+    command: tsc
+    platform: node
+  dev:
+    command: vite
+    local: true
+    platform: node
+    inputs:
+      - "config"
+      - "@globs(sources)"

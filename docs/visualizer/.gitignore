@@ -1,0 +1,11 @@
+docs
+
+.DS_Store
+
+## npm
+/node_modules/
+
+## typescript types
+/types/
+.DS_Store
+.DS_Store

@@ -259,7 +259,7 @@ export class AppController {
     const isComponent = node ? node.type === "component" : false;
     let selectedComponents = this.appModel.getSelectedComponents();
     let selectedTokens = this.appModel.getSelectedTokens();
-    let deselectingThisId =
+    const deselectingThisId =
       selectedComponents.indexOf(graphNodeId) >= 0 ||
       selectedTokens.indexOf(graphNodeId) >= 0;
 
@@ -289,7 +289,7 @@ export class AppController {
       }
     }
 
-    let allSelections = [...selectedComponents, ...selectedTokens];
+    const allSelections = [...selectedComponents, ...selectedTokens];
 
     const ancestors = this.graphController.getAncestorNodes(...allSelections);
     const descendents = this.graphController.getDescendentNodes(
