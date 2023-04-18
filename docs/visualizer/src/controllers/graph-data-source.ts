@@ -39,7 +39,7 @@ interface RawSpectrumTokenJson {
 }
 
 const SOURCE_PATH =
-  "https://raw.githubusercontent.com/adobe/spectrum-tokens/next-major/";
+  "https://raw.githubusercontent.com/adobe/spectrum-tokens/main/packages/tokens/";
 
 const MANIFEST_JSON = "manifest.json";
 
@@ -146,12 +146,13 @@ export class GraphDataSource {
       // token...
 
       while (foundSets.length > 0) {
-        let foundSetsTraversalItem = foundSets.pop() as FoundSetsTraversalItem;
-        let foundSet = foundSetsTraversalItem.sets;
-        let foundPath = foundSetsTraversalItem.path;
+        const foundSetsTraversalItem =
+          foundSets.pop() as FoundSetsTraversalItem;
+        const foundSet = foundSetsTraversalItem.sets;
+        const foundPath = foundSetsTraversalItem.path;
 
         filters.forEach((filterValue) => {
-          let filteredItem = foundSet[filterValue] as RawJsonItem | undefined;
+          const filteredItem = foundSet[filterValue] as RawJsonItem | undefined;
           const thisPath = [...foundPath, filterValue];
           if (filteredItem) {
             if (filteredItem.value) {
@@ -192,7 +193,7 @@ export class GraphDataSource {
       // value or downstream adjacency
       // so here we add all appropriate nodes
       // and adjacencies to the graph...
-      let rawValues: string[] = [];
+      const rawValues: string[] = [];
       foundValues.forEach((foundValueItem) => {
         const valuePath = foundValueItem.path;
         let foundValue = foundValueItem.value;

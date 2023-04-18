@@ -106,7 +106,7 @@ class GraphGrid extends LitElement {
 
     // exactly how big will each cell be rendered?
     // round to decimal point
-    let cellSizePx = scaleDiff * maximumRepeatingTileSize;
+    const cellSizePx = scaleDiff * maximumRepeatingTileSize;
 
     let actualMaxTileSize = maximumRepeatingTileSize;
 
