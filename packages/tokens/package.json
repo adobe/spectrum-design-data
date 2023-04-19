@@ -3,7 +3,7 @@
   "version": "12.4.0",
   "description": "Design tokens for Spectrum, Adobe's design system",
   "type": "module",
-  "main": "config.js",
+  "main": "tasks/buildSpectrumTokens.js",
   "tokens": "dist/json/variables.json",
   "scripts": {},
   "repository": {
@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/adobe/spectrum-tokens/issues"
   },
-  "homepage": "https://github.com/adobe/spectrum-tokens#readme",
+  "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/packages/tokens#readme",
   "devDependencies": {
     "deep-object-diff": "^1.1.7",
     "glob": "^8.1.0",
