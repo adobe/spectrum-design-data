@@ -5,9 +5,7 @@
   "type": "module",
   "main": "config.js",
   "tokens": "dist/json/variables.json",
-  "scripts": {
-    "prepare": "moon run tokens:build && moon run tokens:buildManifest"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adobe/spectrum-tokens.git"
