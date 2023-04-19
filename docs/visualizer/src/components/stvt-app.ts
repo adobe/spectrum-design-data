@@ -1,15 +1,21 @@
+/*
+Copyright 2023 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
 import { LitElement, html, css } from "lit";
-
 import { property } from "lit/decorators.js";
-
 import { GraphController } from "../controllers/graph-controller";
-
 import { GraphModel, GraphState } from "../models/graph-model";
-
 import { AppController } from "../controllers/app-controller";
-
 import { AppModel, AppState } from "../models/app-model";
-
 import { StringMatchDictionaryItem } from "../workers/string-match";
 
 import "@spectrum-web-components/theme/sp-theme.js";
@@ -95,27 +101,17 @@ import "./stvt-hud";
 export class StvtApp extends LitElement {
   @property({ type: Object }) graphState =
     GraphModel.DEFAULT_STATE as GraphState;
-
   @property({ type: Object }) appState = AppModel.DEFAULT_STATE as AppState;
-
   @property({ type: Object }) dictionary = [] as StringMatchDictionaryItem[];
-
   @property({ type: Boolean }) showAlert = false;
-
   @property({ type: String }) alertMessage = "Alert!";
 
   alertKey: string = "";
-
   graphController: GraphController;
-
   appController: AppController;
-
   urlParamComponent = "";
-
   urlParamToken = "";
-
   urlParamFilter = "";
-
   urlParams: URLSearchParams;
 
   static styles = css`
