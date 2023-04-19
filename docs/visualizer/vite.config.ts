@@ -15,6 +15,7 @@ export default defineConfig({
     // so that github static site hosting
     // can serve the commited build files
     outDir: "../../site/visualizer",
+    emptyOutDir: true,
     rollupOptions: {
       input: {
         stvt: resolve(__dirname, "index.html"),
