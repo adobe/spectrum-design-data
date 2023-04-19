@@ -12,6 +12,7 @@ This repo uses:
 Packages in this monorepo:
 
 * [Spectrum Tokens](packages/tokens/) design tokens for Spectrum, Adobe's design system.
+* [Spectrum Token Visualizer Tool](docs/visualizer/) a visualizer for inspecting tokens. Published as a [static site](https://opensource.adobe.com/spectrum-tokens/visualizer/), not an NPM package.
 
 ## Setup monorepo locally
 
