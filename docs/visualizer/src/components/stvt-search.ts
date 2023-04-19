@@ -1,7 +1,17 @@
+/*
+Copyright 2023 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
 import { LitElement, html, css } from "lit";
-
 import { property } from "lit/decorators.js";
-
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
 import "@spectrum-web-components/button/sp-button.js";
@@ -28,13 +38,9 @@ const COLOR_TOKEN_NODE = css`rgb(211, 65, 213)`; // fuchsia 700
 export class StvtSearch extends LitElement {
   @property({ type: Object }) graphState =
     GraphModel.DEFAULT_STATE as GraphState;
-
   @property({ type: Object }) dictionary = [] as StringMatchDictionaryItem[];
-
   @property({ type: Object }) searchResults = [] as StringMatchSearchResult[];
-
   @property({ type: String }) searchQuery = "";
-
   @property({ type: Number }) targetIndex = 0;
 
   stringMatchWorker: Worker;
