@@ -151,5 +151,9 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
       }
     }
+  },
+  "floating-action-button-shadow-color": {
+    "component": "floating-action-button",
+    "value": "{transparent-black-300}"
   }
 }
