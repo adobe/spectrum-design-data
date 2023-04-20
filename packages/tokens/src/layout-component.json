@@ -2629,6 +2629,28 @@
     "component": "contextual-help",
     "value": "268px"
   },
+  "contextual-help-title-size": {
+    "component": "contextual-help",
+    "sets": {
+      "desktop": {
+        "value": "{heading-size-xs}"
+      },
+      "mobile": {
+        "value": "{heading-size-xxs}"
+      }
+    }
+  },
+  "contextual-help-body-size": {
+    "component": "contextual-help",
+    "sets": {
+      "desktop": {
+        "value": "{heading-size-s}"
+      },
+      "mobile": {
+        "value": "{heading-size-xs}"
+      }
+    }
+  },
   "breadcrumbs-height": {
     "component": "breadcrumbs",
     "value": "{component-height-300}"
