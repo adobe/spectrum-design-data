@@ -3717,58 +3717,22 @@
   "color-handle-size": {
     "component": "color-handle",
     "sets": {
-      "spectrum": {
-        "sets": {
-          "desktop": {
-            "value": "16px"
-          },
-          "mobile": {
-            "value": "20px"
-          }
-        }
+      "desktop": {
+        "value": "16px"
       },
-      "express": {
-        "sets": {
-          "desktop": {
-            "value": "20px",
-            "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-          },
-          "mobile": {
-            "value": "24px",
-            "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-          }
-        }
+      "mobile": {
+        "value": "20px"
       }
     }
   },
   "color-handle-size-key-focus": {
     "component": "color-handle",
     "sets": {
-      "spectrum": {
-        "sets": {
-          "desktop": {
-            "value": "32px"
-          },
-          "mobile": {
-            "value": "40px"
-          }
-        }
+      "desktop": {
+        "value": "32px"
       },
-      "express": {
-        "sets": {
-          "desktop": {
-            "value": "40px",
-            "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-          },
-          "mobile": {
-            "value": "48px",
-            "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-          }
-        }
+      "mobile": {
+        "value": "40px"
       }
     }
   },
@@ -3782,55 +3746,19 @@
   },
   "color-handle-outer-border-width": {
     "component": "color-handle",
-    "sets": {
-      "spectrum": {
-        "value": "1px"
-      },
-      "express": {
-        "value": "0px",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-      }
-    }
+    "value": "1px"
   },
   "color-handle-drop-shadow-x": {
     "component": "color-handle",
-    "sets": {
-      "spectrum": {
-        "value": "0"
-      },
-      "express": {
-        "value": "{drop-shadow-x}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-      }
-    }
+    "value": "0"
   },
   "color-handle-drop-shadow-y": {
     "component": "color-handle",
-    "sets": {
-      "spectrum": {
-        "value": "0"
-      },
-      "express": {
-        "value": "{color-loupe-drop-shadow-y}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-      }
-    }
+    "value": "0"
   },
   "color-handle-drop-shadow-blur": {
     "component": "color-handle",
-    "sets": {
-      "spectrum": {
-        "value": "0"
-      },
-      "express": {
-        "value": "{color-loupe-drop-shadow-blur}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-      }
-    }
+    "value": "0"
   },
   "side-navigation-width": {
     "component": "side-navigation",
