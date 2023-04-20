@@ -3124,6 +3124,10 @@
     "component": "floating-action-button",
     "value": "12px"
   },
+  "floating-action-button-drop-shadow-y": {
+    "component": "floating-action-button",
+    "value": "4px"
+  },
   "illustrated-message-maximum-width": {
     "component": "illustrated-message",
     "value": "380px"
