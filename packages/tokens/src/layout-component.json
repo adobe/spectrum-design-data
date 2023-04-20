@@ -1775,6 +1775,8 @@
   },
   "slider-control-height-small": {
     "component": "slider",
+    "deprecated": true,
+    "deprecated_comment": "use `component-height-75` instead",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1804,6 +1806,8 @@
   },
   "slider-control-height-medium": {
     "component": "slider",
+    "deprecated": true,
+    "deprecated_comment": "use `component-height-100` instead",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1833,6 +1837,8 @@
   },
   "slider-control-height-large": {
     "component": "slider",
+    "deprecated": true,
+    "deprecated_comment": "use `component-height-200` instead",
     "sets": {
       "spectrum": {
         "sets": {
@@ -1862,6 +1868,8 @@
   },
   "slider-control-height-extra-large": {
     "component": "slider",
+    "deprecated": true,
+    "deprecated_comment": "use `component-height-300` instead",
     "sets": {
       "spectrum": {
         "sets": {
@@ -2136,6 +2144,8 @@
   },
   "slider-bottom-to-handle-small": {
     "component": "slider",
+    "deprecated": true,
+    "deprecated_comment": "no longer needed with the increased control height",
     "sets": {
       "spectrum": {
         "sets": {
@@ -2165,6 +2175,8 @@
   },
   "slider-bottom-to-handle-medium": {
     "component": "slider",
+    "deprecated": true,
+    "deprecated_comment": "no longer needed with the increased control height",
     "sets": {
       "spectrum": {
         "sets": {
@@ -2194,6 +2206,8 @@
   },
   "slider-bottom-to-handle-large": {
     "component": "slider",
+    "deprecated": true,
+    "deprecated_comment": "no longer needed with the increased control height",
     "sets": {
       "spectrum": {
         "sets": {
@@ -2223,6 +2237,8 @@
   },
   "slider-bottom-to-handle-extra-large": {
     "component": "slider",
+    "deprecated": true,
+    "deprecated_comment": "no longer needed with the increased control height",
     "sets": {
       "spectrum": {
         "sets": {
@@ -2247,6 +2263,50 @@
             "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
           }
         }
+      }
+    }
+  },
+  "slider-control-to-field-label-small": {
+    "component": "slider",
+    "sets": {
+      "desktop": {
+        "value": "5px"
+      },
+      "mobile": {
+        "value": "6px"
+      }
+    }
+  },
+  "slider-control-to-field-label-medium": {
+    "component": "slider",
+    "sets": {
+      "desktop": {
+        "value": "8px"
+      },
+      "mobile": {
+        "value": "10px"
+      }
+    }
+  },
+  "slider-control-to-field-label-large": {
+    "component": "slider",
+    "sets": {
+      "desktop": {
+        "value": "11px"
+      },
+      "mobile": {
+        "value": "14px"
+      }
+    }
+  },
+  "slider-control-to-field-label-extra-large": {
+    "component": "slider",
+    "sets": {
+      "desktop": {
+        "value": "14px"
+      },
+      "mobile": {
+        "value": "17px"
       }
     }
   },
