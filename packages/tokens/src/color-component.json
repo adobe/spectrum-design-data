@@ -136,19 +136,15 @@
   },
   "color-handle-outer-border-opacity": {
     "component": "color-handle",
-    "sets": {
-      "spectrum": {
-        "value": "{color-handle-inner-border-opacity}"
-      }
-    }
+    "value": "{color-handle-inner-border-opacity}"
   },
   "color-handle-drop-shadow-color": {
     "component": "color-handle",
+    "deprecated": true,
+    "deprecated_comment": "Express does not need a separate design for Color loupe and Color handle components",
     "sets": {
       "express": {
-        "value": "{drop-shadow-color}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "value": "{drop-shadow-color}"
       }
     }
   },
