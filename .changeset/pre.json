@@ -2,7 +2,8 @@
   "mode": "pre",
   "tag": "beta",
   "initialVersions": {
-    "@adobe/spectrum-tokens": "12.4.0"
+    "@adobe/spectrum-tokens": "12.4.0",
+    "stvt": "0.0.0"
   },
-  "changesets": ["gentle-zoos-return"]
+  "changesets": ["clean-chefs-perform", "gentle-zoos-return"]
 }

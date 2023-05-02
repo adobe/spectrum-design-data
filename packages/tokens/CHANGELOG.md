@@ -1,5 +1,11 @@
 # @adobe/spectrum-tokens
 
+## 12.5.0-beta.1
+
+### Minor Changes
+
+- 75d4661: Added color tokens for the table component
+
 ## 12.5.0-beta.0
 
 ### Minor Changes
@@ -16,26 +22,26 @@
 
 #### Token Diff
 
-  _Tokens added (4):_
+_Tokens added (4):_
 
-  - `floating-action-button-drop-shadow-y`
-  - `floating-action-button-shadow-color`
-  - `contextual-help-body-size`
-  - `contextual-help-title-size`
+- `floating-action-button-drop-shadow-y`
+- `floating-action-button-shadow-color`
+- `contextual-help-body-size`
+- `contextual-help-title-size`
 
-  _Tokens values updated (7):_
+_Tokens values updated (7):_
 
-  - `color-handle-drop-shadow-blur`
-  - `color-handle-drop-shadow-x`
-  - `color-handle-drop-shadow-y`
-  - `color-handle-outer-border-opacity`
-  - `color-handle-outer-border-width`
-  - `color-handle-size`
-  - `color-handle-size-key-focus`
+- `color-handle-drop-shadow-blur`
+- `color-handle-drop-shadow-x`
+- `color-handle-drop-shadow-y`
+- `color-handle-outer-border-opacity`
+- `color-handle-outer-border-width`
+- `color-handle-size`
+- `color-handle-size-key-focus`
 
-  _Newly deprecated tokens (1):_
+_Newly deprecated tokens (1):_
 
-  - `color-handle-drop-shadow-color`
+- `color-handle-drop-shadow-color`
 
 ## 12.5.0
 
