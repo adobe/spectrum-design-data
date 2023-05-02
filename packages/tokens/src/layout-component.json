@@ -3193,60 +3193,15 @@
   },
   "color-loupe-height": {
     "component": "color-loupe",
-    "sets": {
-      "spectrum": {
-        "value": "64px"
-      },
-      "express": {
-        "sets": {
-          "desktop": {
-            "value": "40px",
-            "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-          },
-          "mobile": {
-            "value": "50px",
-            "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-          }
-        }
-      }
-    }
+    "value": "64px"
   },
   "color-loupe-width": {
     "component": "color-loupe",
-    "sets": {
-      "spectrum": {
-        "value": "48px"
-      },
-      "express": {
-        "sets": {
-          "desktop": {
-            "value": "32px",
-            "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-          },
-          "mobile": {
-            "value": "40px",
-            "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-          }
-        }
-      }
-    }
+    "value": "48px"
   },
   "color-loupe-bottom-to-color-handle": {
     "component": "color-loupe",
-    "sets": {
-      "spectrum": {
-        "value": "12px"
-      },
-      "express": {
-        "value": "6px",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-      }
-    }
+    "value": "12px"
   },
   "color-loupe-outer-border-width": {
     "component": "color-loupe",
@@ -3254,16 +3209,7 @@
   },
   "color-loupe-inner-border-width": {
     "component": "color-loupe",
-    "sets": {
-      "spectrum": {
-        "value": "{border-width-200}"
-      },
-      "express": {
-        "value": "3px",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-      }
-    }
+    "value": "1px"
   },
   "card-minimum-width": {
     "component": "cards",
