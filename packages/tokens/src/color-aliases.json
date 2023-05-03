@@ -331,6 +331,9 @@
       }
     }
   },
+  "neutral-subdued-content-color-selected": {
+    "value": "{neutral-subdued-content-color-down}"
+  },
   "accent-background-color-default": {
     "sets": {
       "light": {
@@ -410,6 +413,9 @@
         "uuid": "98781a4d-1bcc-4ede-8d40-37c76e445b3d"
       }
     }
+  },
+  "accent-content-color-selected": {
+    "value": "{accent-content-color-down}"
   },
   "informative-background-color-default": {
     "sets": {
