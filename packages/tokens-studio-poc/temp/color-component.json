@@ -1,0 +1,155 @@
+{
+  "swatch-border-color": {
+    "component": "swatch",
+    "value": "{gray-900}"
+  },
+  "swatch-border-opacity": {
+    "component": "swatch",
+    "value": "0.51"
+  },
+  "swatch-disabled-icon-border-color": {
+    "component": "swatch",
+    "value": "{black}"
+  },
+  "swatch-disabled-icon-border-opacity": {
+    "component": "swatch",
+    "value": "0.51"
+  },
+  "thumbnail-border-color": {
+    "component": "thumbnail",
+    "value": "{gray-800}"
+  },
+  "thumbnail-border-opacity": {
+    "component": "thumbnail",
+    "value": "0.1"
+  },
+  "thumbnail-opacity-disabled": {
+    "component": "thumbnail",
+    "value": "{opacity-disabled}"
+  },
+  "opacity-checkerboard-square-light": {
+    "component": "opacity-checkerboard",
+    "value": "{white}"
+  },
+  "opacity-checkerboard-square-dark": {
+    "component": "opacity-checkerboard",
+    "sets": {
+      "light": {
+        "value": "{gray-200}"
+      },
+      "dark": {
+        "value": "{gray-800}"
+      },
+      "darkest": {
+        "value": "{gray-800}"
+      }
+    }
+  },
+  "avatar-opacity-disabled": {
+    "component": "avatar",
+    "value": "{opacity-disabled}"
+  },
+  "color-area-border-color": {
+    "component": "color-area",
+    "value": "{gray-900}"
+  },
+  "color-area-border-opacity": {
+    "component": "color-area",
+    "value": "0.1"
+  },
+  "color-slider-border-color": {
+    "component": "color-slider",
+    "value": "{gray-900}"
+  },
+  "color-slider-border-opacity": {
+    "component": "color-slider",
+    "value": "0.1"
+  },
+  "color-loupe-drop-shadow-color": {
+    "component": "color-loupe",
+    "value": "{transparent-black-300}"
+  },
+  "color-loupe-drop-shadow-y": {
+    "component": "color-loupe",
+    "value": "2px"
+  },
+  "color-loupe-drop-shadow-blur": {
+    "component": "color-loupe",
+    "value": "8px"
+  },
+  "color-loupe-inner-border": {
+    "component": "color-loupe",
+    "value": "{transparent-black-200}"
+  },
+  "color-loupe-outer-border": {
+    "component": "color-loupe",
+    "value": "{white}"
+  },
+  "card-selection-background-color": {
+    "component": "cards",
+    "value": "{gray-100}"
+  },
+  "card-selection-background-color-opacity": {
+    "component": "cards",
+    "value": "0.95"
+  },
+  "drop-zone-background-color": {
+    "component": "drop-zone",
+    "value": "{accent-visual-color}"
+  },
+  "drop-zone-background-color-opacity": {
+    "component": "drop-zone",
+    "value": "0.1"
+  },
+  "drop-zone-background-color-opacity-filled": {
+    "component": "drop-zone",
+    "value": "0.3"
+  },
+  "coach-mark-pagination-color": {
+    "component": "coach-mark",
+    "value": "{gray-600}"
+  },
+  "color-handle-inner-border-color": {
+    "component": "color-handle",
+    "value": "{black}"
+  },
+  "color-handle-inner-border-opacity": {
+    "component": "color-handle",
+    "sets": {
+      "spectrum": {
+        "value": "0.42"
+      },
+      "express": {
+        "value": "0.15",
+        "deprecated": true,
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+      }
+    }
+  },
+  "color-handle-outer-border-color": {
+    "component": "color-handle",
+    "sets": {
+      "spectrum": {
+        "value": "{black}"
+      }
+    }
+  },
+  "color-handle-outer-border-opacity": {
+    "component": "color-handle",
+    "value": "{color-handle-inner-border-opacity}"
+  },
+  "color-handle-drop-shadow-color": {
+    "component": "color-handle",
+    "deprecated": true,
+    "deprecated_comment": "Express does not need a separate design for Color loupe and Color handle components",
+    "sets": {
+      "express": {
+        "value": "{drop-shadow-color}"
+      }
+    }
+  },
+  "floating-action-button-shadow-color": {
+    "component": "floating-action-button",
+    "value": "{transparent-black-300}"
+  }
+}
