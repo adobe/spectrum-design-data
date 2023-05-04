@@ -115,16 +115,7 @@
   },
   "color-handle-inner-border-opacity": {
     "component": "color-handle",
-    "sets": {
-      "spectrum": {
-        "value": "0.42"
-      },
-      "express": {
-        "value": "0.15",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
-      }
-    }
+    "value": "0.42"
   },
   "color-handle-outer-border-color": {
     "component": "color-handle",
