@@ -1,5 +1,18 @@
 # @adobe/spectrum-tokens
 
+## 12.8.0
+
+### Minor Changes
+
+- d639b4b: Updated color-handle-inner-border-opacity to remove express specific value
+
+  ## Token Diff
+
+  _Token values updated (2):_
+
+  - `color-handle-inner-border-opacity` (to remove express specific values)
+  - `color-handle-outer-border-opacity` (to remove express specific values)
+
 ## 12.7.0
 
 ### Minor Changes
