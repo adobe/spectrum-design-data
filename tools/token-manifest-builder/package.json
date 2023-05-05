@@ -1,0 +1,18 @@
+{
+  "name": "token-manifest-builder",
+  "version": "0.0.1",
+  "description": "Builds a JSON manifest file from the source of a Style Dictionary project.",
+  "type": "module",
+  "private": true,
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-tokens.git"
+  },
+  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-tokens/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-tokens#readme"
+}

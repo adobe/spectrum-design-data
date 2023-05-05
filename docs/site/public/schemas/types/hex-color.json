@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/types/hex-color.json",
+  "title": "hex-color",
+  "description": "Hexadecimal color code",
+  "type": "string",
+  "pattern": "/^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/"
+}

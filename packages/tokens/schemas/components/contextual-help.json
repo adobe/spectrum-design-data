@@ -1,0 +1,46 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/contextual-help.json",
+  "title": "Contextual help",
+  "description": "Contextual help shows a user extra information about the state of either an adjacent component or an entire view. It explains a high-level topic about an experience and can point users to more information elsewhere.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/contextual-help/"
+  },
+  "type": "object",
+  "properties": {
+    "icon": {
+      "type": "string",
+      "enum": ["info", "help"],
+      "default": "info"
+    },
+    "popoverPlacement": {
+      "type": "string",
+      "enum": [
+        "top", "top left", "top right", "top start", "top end", "bottom",
+        "bottom left", "bottom right", "bottom start", "bottom end", "left",
+        "left top", "left bottom", "start", "start top", "start bottom",
+        "right", "right top", "right bottom", "end", "end top", "end bottom"
+      ],
+      "default": "bottom start"
+    },
+    "popoverOffset": {
+      "type": "number",
+      "default": 6,
+      "description": "6 px (desktop) or 8 px (mobile)"
+    },
+    "popoverCrossOffset": {
+      "type": "number",
+      "default": 0
+    },
+    "containerPadding": {
+      "type": "number",
+      "default": 8
+    },
+    "state": {
+      "type": "string",
+      "enum": ["default", "down", "open", "keyboard focus"],
+      "default": "default"
+    }
+  }
+}

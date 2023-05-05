@@ -1,0 +1,30 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/avatar.json",
+  "title": "Avatar",
+  "description": "An avatar is a thumbnail representation of an entity, such as a user or an organization.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/avatar/"
+  },
+  "type": "object",
+  "properties": {
+    "size": {
+      "type": "number",
+      "enum": [50, 75, 100, 200, 300, 400, 500, 600, 700],
+      "default": 100
+    },
+    "image": {
+      "type": "string"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "state": {
+      "type": "string",
+      "enum": ["default", "hover", "down", "keyboard focus"],
+      "default": "default"
+    }
+  }
+}

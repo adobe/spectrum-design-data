@@ -1,0 +1,45 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/swatch.json",
+  "title": "Swatch",
+  "description": "A swatch shows a small sample of a fill — such as a color, gradient, texture, or material — that is intended to be applied to an object.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/swatch/"
+  },
+  "type": "object",
+  "properties": {
+    "preview": {
+      "type": "string",
+      "description": "This will vary depending on implementation."
+    },
+    "size": {
+      "type": "string",
+      "enum": ["xs", "s", "m", "l"],
+      "default": "m"
+    },
+    "shape": {
+      "type": "string",
+      "enum": ["square", "rectangle"],
+      "default": "square"
+    },
+    "cornerRounding": {
+      "type": "string",
+      "enum": ["default", "full"],
+      "default": "default"
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "state": {
+      "type": "string",
+      "enum": ["default", "hover", "down", "keyboard focus"],
+      "default": "default"
+    }
+  }
+}

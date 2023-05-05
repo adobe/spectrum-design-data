@@ -1,0 +1,60 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/button.json",
+  "title": "Button",
+  "description": "Buttons allow users to perform an action or to navigate to another page. They have multiple styles for various needs, and are ideal for calling attention to where a user needs to do something in order to move forward in a flow.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/button/"
+  },
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string"
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/types/workflow-icon.json",
+      "description": "Icon must be present if the label is not defined."
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["accent", "negative", "primary", "secondary"],
+      "default": "accent"
+    },
+    "staticColor": {
+      "type": "string",
+      "enum": ["white", "black"]
+    },
+    "style": {
+      "type": "string",
+      "default": "fill",
+      "enum": ["fill", "outline"]
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "justified": {
+      "type": "boolean",
+      "default": false
+    },
+    "isPending": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "state": {
+      "type": "string",
+      "enum": ["default", "hover", "down", "keyboard focus"],
+      "default": "default"
+    }
+  }
+}

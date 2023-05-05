@@ -1,0 +1,31 @@
+{
+  "name": "site",
+  "private": true,
+  "access": "restricted",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-tokens.git"
+  },
+  "dependencies": {
+    "@spectrum-css/page": "^5.0.31",
+    "@spectrum-css/sidenav": "^3.0.50",
+    "@spectrum-css/tokens": "^10.2.0",
+    "@spectrum-css/typography": "^5.0.24",
+    "@spectrum-css/vars": "^9.0.8",
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
+    "glob-promise": "^6.0.2",
+    "next": "^13.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rimraf": "^5.0.0"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-tokens/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/docs/visualizer#readme",
+  "keywords": [],
+  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)"
+}

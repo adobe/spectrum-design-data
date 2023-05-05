@@ -1,0 +1,38 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/swatch-group.json",
+  "title": "Swatch group",
+  "description": "A swatch group is a grouping of swatches that are related to each other.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/swatch-group/"
+  },
+  "type": "object",
+  "properties": {
+    "size": {
+      "type": "string",
+      "enum": ["xs", "s", "m", "l"],
+      "default": "m"
+    },
+    "density": {
+      "type": "string",
+      "enum": ["compact", "regular", "spacious"],
+      "default": "regular"
+    },
+    "enableSelection": {
+      "type": "boolean",
+      "default": false
+    },
+    "selectionMode": {
+      "type": "string",
+      "description": "Only applicable if selection is enabled.",
+      "enum": ["single", "multiple"],
+      "default": "single"
+    },
+    "allowsEmptySelection": {
+      "type": "boolean",
+      "default": false,
+      "description": "Only applicable if selection is enabled."
+    }
+  }
+}

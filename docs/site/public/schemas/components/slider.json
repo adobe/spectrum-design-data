@@ -1,0 +1,74 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/slider.json",
+  "title": "Slider",
+  "description": "Sliders allow users to quickly select a value within a range. They should be used when the upper and lower bounds to the range are invariable.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/slider/"
+  },
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "enum": ["top", "side"]
+    },
+    "value": {
+      "type": "number",
+      "description": "from minValue to maxValue"
+    },
+    "minValue": {
+      "type": "number",
+      "default": 0
+    },
+    "maxValue": {
+      "type": "number",
+      "default": 100
+    },
+    "step": {
+      "type": "number",
+      "default": 1
+    },
+    "valueFormat": {
+      "type": "string",
+      "description": "This will vary depending on implementation."
+    },
+    "progressionScale": {
+      "type": "string",
+      "enum": ["linear", "log"],
+      "default": "linear"
+    },
+    "width": {
+      "type": "number"
+    },
+    "hasFill": {
+      "type": "boolean",
+      "default": false
+    },
+    "fillStart": {
+      "type": "number",
+      "default": 0
+    },
+    "hasGradient": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEditable": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "state": {
+      "type": "string",
+      "enum": ["default", "hover", "down", "keyboard focus"],
+      "default": "default"
+    }
+  }
+}

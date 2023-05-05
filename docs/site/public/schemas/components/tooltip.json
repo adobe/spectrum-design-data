@@ -1,0 +1,50 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/tooltip.json",
+  "title": "Tooltip",
+  "description": "Tooltips show contextual help or information about specific components when a user hovers or focuses on them.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/tooltip/"
+  },
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["neutral", "informative", "positive", "negative"],
+      "default": "neutral"
+    },
+    "hasIcon": {
+      "type": "boolean",
+      "description": "If the neutral variant, there’s never an icon.",
+      "default": false
+    },
+    "maxWidth": {
+      "type": "number",
+      "default": 160,
+      "description": "units: pixels"
+    },
+    "placement": {
+      "type": "string",
+      "enum": ["top", "bottom", "left", "right"],
+      "default": "top"
+    },
+    "shouldFlip": {
+      "type": "boolean",
+      "default": false
+    },
+    "offset": {
+      "type": "number",
+      "default": 4,
+      "description": "units: pixels"
+    },
+    "containerPadding": {
+      "type": "number",
+      "default": 8,
+      "description": "units: pixels"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/bottom-navigation-android.json",
+  "title": "Bottom navigation (Android)",
+  "description": "Bottom navigation is a top-level navigation control for Android apps.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/bottom-navigation-android/"
+  },
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "enum": ["bottom", "side"],
+      "default": "bottom"
+    },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/types/workflow-icon.json"
+    },
+    "background": {
+      "type": "string",
+      "enum": ["primary", "secondary"],
+      "default": "primary"
+    },
+    "hasBadge": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

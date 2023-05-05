@@ -1,0 +1,52 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/checkbox.json",
+  "title": "Checkbox",
+  "description": "Checkboxes allow users to select multiple items from a list of individual items, or to mark one individual item as selected.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/checkbox/"
+  },
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "description": "When the label is not defined, the checkbox appears as a standalone checkbox."
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "isIndeterminate": {
+      "type": "boolean",
+      "default": false,
+      "description": "When a checkbox is indeterminate, it overrides the selection state."
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false
+    },
+    "isReadOnly": {
+      "type": "boolean",
+      "default": false
+    },
+    "state": {
+      "type": "string",
+      "enum": ["default", "hover", "down", "keyboard focus"],
+      "default": "default"
+    }
+  }
+}

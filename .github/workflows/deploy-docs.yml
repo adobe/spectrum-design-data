@@ -1,4 +1,4 @@
-name: Deploy Visualizer
+name: Deploy Docs
 
 on:
   # Runs on pushes targeting the default branch
@@ -33,9 +33,10 @@ jobs:
           fetch-depth: 0
       - uses: pnpm/action-setup@v2
         with:
-          version: 8.3.1
+          version: 8.6.5
       - uses: moonrepo/setup-moon-action@v1
       - run: moon setup
+      - run: moon run site:export
       - run: moon run visualizer:build
       - name: Setup Pages
         uses: actions/configure-pages@v3

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/text-field.json",
+  "title": "Text field",
+  "description": "Text fields allow users to input custom text entries with a keyboard. Various options can be shown with the field to communicate the input requirements.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/text-field/"
+  },
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "enum": ["top", "side"]
+    },
+    "value": {
+      "type": "string",
+      "description": "from minValue to maxValue"
+    },
+    "width": {
+      "type": "number"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false
+    },
+    "necessityIndicator": {
+      "type": "string",
+      "enum": ["text", "icon"],
+      "default": "icon"
+    },
+    "isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "hasCharacterCount": {
+      "type": "boolean",
+      "default": false
+    },
+    "showValidIcon": {
+      "type": "boolean",
+      "default": false
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false,
+      "description": "If there’s an error, this property overrides show valid icon."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "isReadOnly": {
+      "type": "boolean",
+      "default": false
+    },
+    "description": {
+      "type": "string",
+      "default": null
+    },
+    "errorMessage": {
+      "type": "string",
+      "default": null
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "default", "hover", "focus + hover", "focus + not hover",
+        "keyboard focus"
+      ],
+      "default": "default"
+    }
+  }
+}

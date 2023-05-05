@@ -1,0 +1,37 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/tab-bar-ios.json",
+  "title": "Tab bar (iOS)",
+  "description": "Tab bar is a top-level navigation control for iOS apps.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/tab-bar-ios/"
+  },
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "enum": ["bottom", "side"],
+      "default": "bottom"
+    },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/types/workflow-icon.json"
+    },
+    "background": {
+      "type": "string",
+      "enum": ["primary", "secondary"],
+      "default": "primary"
+    },
+    "hasBadge": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/picker.json",
+  "title": "Picker",
+  "description": "Pickers (sometimes known as \"dropdowns\" or \"selects\") allow users to choose from a list of options in a limited space. The list of options can change based on the context.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/picker/"
+  },
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "enum": ["top", "side"]
+    },
+    "placeholder": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "width": {
+      "type": "number",
+      "description": "Not applicable to quiet picker."
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false
+    },
+    "necessityIndicator": {
+      "type": "string",
+      "enum": ["text", "icon"],
+      "default": "icon"
+    },
+    "isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "menuContainer": {
+      "type": "string",
+      "enum": ["popover", "tray"],
+      "default": "popover"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false
+    },
+    "isReadOnly": {
+      "type": "boolean",
+      "default": false
+    },
+    "description": {
+      "type": "string",
+      "default": null
+    },
+    "errorMessage": {
+      "type": "string",
+      "default": null
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "default", "hover", "focus + hover", "focus + not hover",
+        "keyboard focus"
+      ],
+      "default": "default"
+    }
+  }
+}

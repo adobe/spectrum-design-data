@@ -60,6 +60,7 @@ tasks:
       - ava
     inputs:
       - "tasks/**/*"
+      - "schemas/**/*.{yaml,yml,json}"
       - "@globs(tests)"
       - "@globs(sources)"
     deps:

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/menu.json",
+  "title": "Menu",
+  "description": "Menus help users take actions, choose from a list of options, configure settings, and more. They can be placed in a transient container, like a popover or tray.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/menu/"
+  },
+  "type": "object",
+  "properties": {
+    "container": {
+      "type": "string",
+      "enum": ["popover", "tray"],
+      "default": null
+    },
+    "label": {
+      "type": "string"
+    },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/types/workflow-icon.json",
+      "description": "Icon must be present if the label is not defined."
+    },
+    "description": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "selectionMode": {
+      "type": "string",
+      "enum": ["single", "multiple"],
+      "default": null
+    },
+    "selectionStyle": {
+      "type": "string",
+      "enum": ["checkbox", "switch"]
+    },
+    "sectionHeader": {
+      "type": "string"
+    },
+    "isCollapsible": {
+      "type": "boolean",
+      "default": false
+    },
+    "isUnavailable": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "state": {
+      "type": "string",
+      "enum": ["default", "hover", "down", "keyboard focus"],
+      "default": "default"
+    }
+  }
+}

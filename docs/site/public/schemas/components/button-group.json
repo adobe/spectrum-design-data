@@ -1,0 +1,28 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/button-group.json",
+  "title": "Button group",
+  "description": "A button group is a grouping of buttons whose actions are related to each other.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/button-group/"
+  },
+  "type": "object",
+  "properties": {
+    "orientation": {
+      "type": "string",
+      "default": "horizontal",
+      "enum": ["horizontal", "vertical"]
+    },
+    "size": {
+      "type": "string",
+      "pattern": "^(x?s|m|x{0,3}l)$",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

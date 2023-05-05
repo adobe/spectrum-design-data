@@ -1,0 +1,47 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/color-wheel.json",
+  "title": "Color wheel",
+  "description": "A color wheel lets users visually change an individual channel of a color on a circular track.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/color-wheel/"
+  },
+  "type": "object",
+  "properties": {
+    "background": {
+      "type": "string",
+      "description": "This will vary depending on implementation."
+    },
+    "value": {
+      "type": "number",
+      "description": "Number (from minValue to maxValue)"
+    },
+    "minValue": {
+      "type": "number",
+      "default": 0
+    },
+    "maxValue": {
+      "type": "number",
+      "default": 360
+    },
+    "step": {
+      "type": "number",
+      "default": 1
+    },
+    "size": {
+      "type": "number",
+      "default": 192,
+      "description": "units: px"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "state": {
+      "type": "string",
+      "enum": ["default", "hover", "down", "keyboard focus"],
+      "default": "default"
+    }
+  }
+}

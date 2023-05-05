@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/types/typography-classification.json",
+  "title": "typography-classification",
+  "description": "Typography classification",
+  "type": "string",
+  "enum": ["serif", "sans serif"],
+  "default": "sans serif"
+}

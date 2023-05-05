@@ -1,0 +1,29 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/alert-banner.json",
+  "title": "Alert banner",
+  "description": "Alert banners show pressing and high-signal messages, such as system alerts. They're meant to be noticed and prompt users to take action.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/alert-banner/"
+  },
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["neutral", "informative", "negative"],
+      "default": "neutral"
+    },
+    "actionLabel": {
+      "type": "string",
+      "description": "If undefined, this button does not appear."
+    },
+    "isDismissible": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/close-button.json",
+  "title": "Close button",
+  "description": "The close button is used inside of other components, like a toast or an action bar, for closing or dismissing its parent component.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/close-button/"
+  },
+  "type": "object",
+  "properties": {
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "iconSize": {
+      "type": "string"
+    },
+    "staticColor": {
+      "type": "string",
+      "enum": ["white", "black"],
+      "default": null
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "state": {
+      "type": "string",
+      "enum": ["default", "hover", "down", "keyboard focus"],
+      "default": "default"
+    }
+  }
+}

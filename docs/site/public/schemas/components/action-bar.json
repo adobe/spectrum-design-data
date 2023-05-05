@@ -1,0 +1,18 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/action-bar.json",
+  "title": "Action bar",
+  "description": "Action bars are used for single and bulk selection patterns, when a user needs to perform actions on either a single or multiple items at the same time.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/action-bar/"
+  },
+  "type": "object",
+  "properties": {
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "examples": [{ "isEmphasized": true }, { "isEmphasized": false }, {}]
+}

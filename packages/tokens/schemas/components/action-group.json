@@ -1,0 +1,69 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/action-group.json",
+  "title": "Action group",
+  "description": "An action group is a grouping of action buttons that are related to each other.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/action-group/"
+  },
+  "type": "object",
+  "properties": {
+    "orientation": {
+      "type": "string",
+      "enum": ["horizontal", "vertical"],
+      "default": "horizontal"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "density": {
+      "type": "string",
+      "enum": ["regular", "compact"],
+      "default": "regular"
+    },
+    "isJustified": {
+      "type": "boolean",
+      "default": false
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "enableSelection": {
+      "type": "boolean",
+      "default": false
+    },
+    "selectionMode": {
+      "type": "string",
+      "enum": ["single", "multiple"],
+      "default": "single",
+      "description": "Only applicable if selection is enabled"
+    },
+    "allowsEmptySelection": {
+      "type": "boolean",
+      "default": false,
+      "description": "Only applicable if selection is enabled"
+    },
+    "overflowMode": {
+      "type": "string",
+      "enum": ["wrap", "collapse"],
+      "default": "wrap"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "examples": [
+    {
+      "size": "s"
+    }
+  ]
+}

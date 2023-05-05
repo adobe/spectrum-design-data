@@ -1,0 +1,80 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/combo-box.json",
+  "title": "Combo box",
+  "description": "Combo boxes combine a text entry with a picker menu, allowing users to filter longer lists to only the selections matching a query.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/combo-box/"
+  },
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "enum": ["top", "side"],
+      "default": "top"
+    },
+    "value": {
+      "type": "string"
+    },
+    "width": {
+      "type": "number"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false
+    },
+    "isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "necessityIndicator": {
+      "type": "string",
+      "enum": ["text", "icon"],
+      "default": "icon"
+    },
+    "hasAutocomplete": {
+      "type": "boolean",
+      "default": false
+    },
+    "menuTrigger": {
+      "type": "string",
+      "enum": ["input", "focus", "manual"],
+      "default": "input"
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "isReadOnly": {
+      "type": "boolean",
+      "default": false
+    },
+    "description": {
+      "type": "string"
+    },
+    "errorMessage": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "default", "hover (text area)", "hover (button area)", "focus + hover",
+        "focus + not hover", "keyboard focus"
+      ],
+      "default": "default"
+    }
+  }
+}

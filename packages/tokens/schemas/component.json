@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "title": "Component",
+  "type": "object",
+  "properties": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [
+            "actions", "containers", "data visualization", "feedback", "inputs",
+            "navigation", "status", "typography"
+          ]
+        },
+        "documentationUrl": { "type": "string", "format": "uri" }
+      },
+      "required": ["category", "documentationUrl"]
+    }
+  },
+  "required": ["meta", "title", "description", "properties", "$id"]
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/help-text.json",
+  "title": "Help text",
+  "description": "Help text provides either an informative description or an error message that gives more context about what a user needs to input. It’s commonly used in forms.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/help-text/"
+  },
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["neutral"],
+      "default": "neutral"
+    },
+    "hideIcon": {
+      "type": "boolean",
+      "default": false,
+      "description": "Only applicable if variant is negative."
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

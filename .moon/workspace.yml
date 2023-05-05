@@ -3,6 +3,7 @@ $schema: "https://moonrepo.dev/schemas/workspace.json"
 projects:
   tokens: "packages/tokens"
   visualizer: "docs/visualizer"
+  site: "docs/site"
 vcs:
   manager: "git"
   defaultBranch: "main"

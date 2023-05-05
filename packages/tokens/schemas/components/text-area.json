@@ -1,0 +1,95 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/text-area.json",
+  "title": "Text area",
+  "description": "A text area lets a user input a longer amount of text than a standard text field. It can include all of the standard validation options supported by the text field component.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/text-area/"
+  },
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "enum": ["top", "side"]
+    },
+    "value": {
+      "type": "string",
+      "description": "from minValue to maxValue"
+    },
+    "width": {
+      "type": "number"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false
+    },
+    "necessityIndicator": {
+      "type": "string",
+      "enum": ["text", "icon"],
+      "default": "icon"
+    },
+    "isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "hasCharacterCount": {
+      "type": "boolean",
+      "default": false
+    },
+    "showValidIcon": {
+      "type": "boolean",
+      "default": false
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "isReadOnly": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideDragIcon": {
+      "type": "boolean",
+      "default": false
+    },
+    "height": {
+      "type": "number",
+      "description": "If undefined, height is dynamic and grows with input text."
+    },
+    "description": {
+      "type": "string",
+      "default": null
+    },
+    "errorMessage": {
+      "type": "string",
+      "default": null
+    },
+    "inputType": {
+      "type": "string",
+      "enum": ["text", "url", "phone", "email", "password"],
+      "default": "text"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "default", "hover", "focus + hover", "focus + not hover",
+        "keyboard focus"
+      ],
+      "default": "default"
+    }
+  }
+}

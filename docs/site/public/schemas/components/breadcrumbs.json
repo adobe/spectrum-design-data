@@ -1,0 +1,18 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/breadcrumbs.json",
+  "title": "Breadcrumbs",
+  "description": "Breadcrumbs show hierarchy and navigational context for a user’s location within an app.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/breadcrumbs/"
+  },
+  "type": "object",
+  "properties": {
+    "state": {
+      "type": "string",
+      "enum": ["default", "hover", "down", "keyboard focus", "drag and drop"],
+      "default": "default"
+    }
+  }
+}

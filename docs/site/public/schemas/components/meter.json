@@ -1,0 +1,37 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/meter.json",
+  "title": "Meter",
+  "description": "Meters are visual representations of a quantity or an achievement. Their progress is determined by user actions, rather than system actions.",
+  "meta": {
+    "category": "status",
+    "documentationUrl": "https://spectrum.adobe.com/page/meter/"
+  },
+  "type": "object",
+  "properties": {
+    "variant": {
+      "type": "string",
+      "enum": ["informative", "positive", "notice", "negative"],
+      "default": "informative"
+    },
+    "label": {
+      "type": "string"
+    },
+    "valueLable": {
+      "type": "string"
+    },
+    "width": {
+      "type": "number"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["small", "large"],
+      "default": "large"
+    },
+    "value": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}
