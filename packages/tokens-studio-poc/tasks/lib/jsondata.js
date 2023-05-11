@@ -147,9 +147,7 @@ export let expressTokensStudioTokensJsonData = {
   },
 };
 
-export const mergeAllWorkingJson = (
-  targetTokensStudioTokensJsonData = allTokensStudioTokensJsonData,
-) => {
+export const mergeAllWorkingJson = (targetTokensStudioTokensJsonData = {}) => {
   // merge data into token studio data
   if (
     _.has(

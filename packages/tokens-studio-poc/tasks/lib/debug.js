@@ -1,6 +1,12 @@
+const debugIt = true;
 export function debug(msg) {
-  const debugIt = true;
   if (debugIt) {
-    console.log(msg.toString() || msg);
+    console.log(msg?.toString() || msg);
+  }
+}
+
+export function debugTable(obj) {
+  if (debugIt) {
+    console.table(obj);
   }
 }

@@ -1,4 +1,4 @@
-import { debug } from "./debug.js";
+import { debug, debugTable } from "./debug.js";
 import _ from "lodash";
 import { storeTokenAlias } from "./alias.js";
 
@@ -68,9 +68,32 @@ const splitTokenByKeyword = (pristineKey, entry, component) => {
   const skipTokenWithFontStuffRegex =
     /^(small|medium|large)(-font-weight)(?:-)(.+)/;
 
+  // do not split 'opacity-checkerboard'
+  const skipTokenWithKeywordsRegex = /^(opacity-checkerboard)((?:-)(.+))?/;
+
   // split/group token if name is matching keywords, like 'background-color', 'border-color', 'content-color',
-  const tokenWithKeywordsRegex =
-    /((.+)(?:-))?(static-black|static-white|background-color|background-opacity|border-color|border-opacity|content-color|visual-color)((?:-)(.+))?/;
+  const tokenWithKeywordsFirstPriorityRegex =
+    /((.+)(?:-))?(static-black|static-white|background-color|background-opacity|base-color|border-color|border-opacity|content-color|visual-color)((?:-)(.+))?/;
+  // split/group token if name is matching keywords, like 'background-color', 'border-color', 'content-color',
+  const tokenWithKeywordsSecondPriorityRegex =
+    /((.+)(?:-))?(background|opacity)((?:-)(.+))?/;
+
+  // e.g.
+  //   heading.sans-serif.m
+  //   heading.serif.strong-emphasized.xxl
+  //   heading.cjk.heavy.emphasized.l
+  //   heading.serif.light.strong.xs
+  //   heading-cjk-heavy-strong-emphasized-font-weight -> heading.cjk.heavy.strong-emphasized.font-weight
+  // but not
+  //   status-light.*
+  const skipTokenWithTypographyKeywordsRegex = /^(status-light)((?:-)(.+))?/;
+
+  const tokenWithTypographyKeywordsFirstPriorityRegex =
+    /((.+)(?:-))?(strong-emphasized|sans-serif)((?:-)(.+))?/;
+
+  // no need to split "heading|body|code|detail", cause those are done via "component": "heading|body|code|detail" entry
+  const tokenWithTypographyKeywordsSecondPriorityRegex =
+    /((.+)(?:-))?(cjk|light|heavy|strong|emphasized|serif)((?:-)(.+))?/;
 
   let groupName;
   let preGroupKey;
@@ -79,50 +102,81 @@ const splitTokenByKeyword = (pristineKey, entry, component) => {
   let workingKey = pristineKey;
 
   while (
-    // skip pattern
-    (workingKey.match(skipTokenWithSemanticRegex) == null ||
-      workingKey.match(skipTokenWithFontStuffRegex) == null) &&
+    // global skip pattern
+    workingKey.match(skipTokenWithFontStuffRegex) == null &&
     // match patterns
+
+    // numeric
     (workingKey.match(tokenWithNumberRegex) ||
-      workingKey.match(tokenWithKeywordsRegex) ||
-      workingKey.match(tokenWithSemanticRegex) ||
+      // keywords
+      (workingKey.match(skipTokenWithKeywordsRegex) == null &&
+        (workingKey.match(tokenWithKeywordsFirstPriorityRegex) ||
+          workingKey.match(tokenWithKeywordsSecondPriorityRegex))) ||
+      // typography
+      (workingKey.match(skipTokenWithTypographyKeywordsRegex) == null &&
+        (workingKey.match(tokenWithTypographyKeywordsFirstPriorityRegex) ||
+          workingKey.match(tokenWithTypographyKeywordsSecondPriorityRegex))) ||
+      // semantic
+      (workingKey.match(skipTokenWithSemanticRegex) == null &&
+        workingKey.match(tokenWithSemanticRegex)) ||
+      // size
       workingKey.match(tokenWithExtraSizeRegex) ||
       workingKey.match(tokenWithSizeRegex))
   ) {
-    console.table(workingKey.match(skipTokenWithSemanticRegex));
-    console.table(workingKey.match(skipTokenWithFontStuffRegex));
-    console.table(workingKey.match(tokenWithNumberRegex));
-    console.table(workingKey.match(tokenWithKeywordsRegex));
-    console.table(workingKey.match(tokenWithSemanticRegex));
-    console.table(workingKey.match(tokenWithExtraSizeRegex));
-    console.table(workingKey.match(tokenWithSizeRegex));
+    debugTable(workingKey.match(skipTokenWithSemanticRegex));
+    debugTable(workingKey.match(skipTokenWithFontStuffRegex));
+    debugTable(workingKey.match(skipTokenWithKeywordsRegex));
+    debugTable(workingKey.match(tokenWithNumberRegex));
+    debugTable(workingKey.match(tokenWithKeywordsFirstPriorityRegex));
+    debugTable(workingKey.match(tokenWithKeywordsSecondPriorityRegex));
+    debugTable(workingKey.match(tokenWithTypographyKeywordsFirstPriorityRegex));
+    debugTable(
+      workingKey.match(tokenWithTypographyKeywordsSecondPriorityRegex),
+    );
+    debugTable(workingKey.match(tokenWithSemanticRegex));
+    debugTable(workingKey.match(tokenWithExtraSizeRegex));
+    debugTable(workingKey.match(tokenWithSizeRegex));
 
     // look into working key name
-    let tokenKeywordMatch =
-      workingKey.match(tokenWithNumberRegex) ||
-      workingKey.match(tokenWithKeywordsRegex) ||
-      workingKey.match(tokenWithSemanticRegex) ||
-      workingKey.match(tokenWithExtraSizeRegex) ||
-      workingKey.match(tokenWithSizeRegex);
+    let tokenKeywordMatch;
 
-    preGroupKey = tokenKeywordMatch[2];
-    groupName = tokenKeywordMatch[3];
-    postGroupKey = tokenKeywordMatch[5];
+    if (
+      workingKey.match(tokenWithKeywordsFirstPriorityRegex) ||
+      workingKey.match(tokenWithKeywordsSecondPriorityRegex) ||
+      workingKey.match(tokenWithTypographyKeywordsFirstPriorityRegex) ||
+      workingKey.match(tokenWithTypographyKeywordsSecondPriorityRegex) ||
+      workingKey.match(tokenWithSemanticRegex)
+    ) {
+      tokenKeywordMatch =
+        workingKey.match(tokenWithKeywordsFirstPriorityRegex) ||
+        workingKey.match(tokenWithKeywordsSecondPriorityRegex) ||
+        workingKey.match(tokenWithTypographyKeywordsFirstPriorityRegex) ||
+        workingKey.match(tokenWithTypographyKeywordsSecondPriorityRegex) ||
+        workingKey.match(tokenWithSemanticRegex);
+      preGroupKey = tokenKeywordMatch[2];
+      groupName = tokenKeywordMatch[3];
+      postGroupKey = tokenKeywordMatch[5];
+    }
 
+    // overwrite matches with higher priority matched
     if (
       workingKey.match(tokenWithNumberRegex) ||
       workingKey.match(tokenWithExtraSizeRegex) ||
       workingKey.match(tokenWithSizeRegex)
     ) {
+      tokenKeywordMatch =
+        workingKey.match(tokenWithNumberRegex) ||
+        workingKey.match(tokenWithExtraSizeRegex) ||
+        workingKey.match(tokenWithSizeRegex);
       preGroupKey = tokenKeywordMatch[1];
       groupName = tokenKeywordMatch[2];
       postGroupKey = null;
     }
 
-    console.log({ groupName });
-    console.log({ preGroupKey });
-    console.log({ postGroupKey });
-    console.log({ pristineKey });
+    debug(`groupName: ${groupName}`);
+    debug(`preGroupKey: ${preGroupKey}`);
+    debug(`postGroupKey: ${postGroupKey}`);
+    debug(`pristineKey: ${pristineKey}`);
 
     // didn't find anything to split, exit loop
     if (
@@ -154,6 +208,8 @@ const splitTokenByKeyword = (pristineKey, entry, component) => {
     const foundGroupNameInEntry = Object.entries(entry).find((innerEntry) => {
       return innerEntry[0].indexOf(groupName) !== -1;
     });
+
+    // console.log({foundGroupNameInEntry});
 
     // group name can be in key; key can be:
     // e.g. 'cyan-background-color-default' -> 'cyan.background-color.default'
