@@ -3,7 +3,6 @@ import _ from "lodash";
 import { storeTokenAlias } from "./alias.js";
 
 const storeWorkingKeyAlias = (
-  convertedToken,
   preGroupKey,
   groupName,
   postGroupKey,
@@ -11,56 +10,46 @@ const storeWorkingKeyAlias = (
   workingKey,
   component,
 ) => {
-  // if modified before pristine key != key
-  if (convertedToken) {
-    console.log("ever this");
-    // e.g. neutral.content-color.default-> neutral.content-color.default
-    // disabled.static-white-background-color -> disabled.static-white.background-color
-    // debug("modify converted token: " + convertedToken);
-    // convertedToken = convertedToken
-    //   .replace(groupName + "-", groupName + ".")
-    //   .replace("-" + groupName, "." + groupName);
+  let convertedToken;
+
+  // nested group token alias, e.g.
+  //   indigo-background-color-default' -> 'indigo.background-color.default')
+  //   heading-size-s' -> 'heading-size.s')
+  if (preGroupKey && postGroupKey) {
+    convertedToken = preGroupKey + "." + groupName + "." + postGroupKey;
+  } else if (preGroupKey) {
+    convertedToken = preGroupKey + "." + groupName;
+  } else if (postGroupKey) {
+    convertedToken = groupName + "." + postGroupKey;
   } else {
-    // nested group token alias, e.g.
-    //   indigo-background-color-default' -> 'indigo.background-color.default')
-    //   heading-size-s' -> 'heading-size.s')
-
-    debug("converted token created via working key?! : " + workingKey);
-
-    if (preGroupKey && postGroupKey) {
-      convertedToken = preGroupKey + "." + groupName + "." + postGroupKey;
-    } else if (preGroupKey) {
-      convertedToken = preGroupKey + "." + groupName;
-    } else if (postGroupKey) {
-      convertedToken = groupName + "." + postGroupKey;
-    } else {
-      console.log("ever this");
-      // convertedToken = workingKey
-      //   .replace("-" + groupName + "-", "." + groupName + ".")
-      //   .replace(groupName + "-", groupName + ".")
-      //   .replace("-" + groupName, "." + groupName);
-    }
+    throw Error("storeWorkingKeyAlias failed");
   }
 
+  // attach with component group
+  // e.g. heading-size-s' -> 'heading.heading-size.s')
   convertedToken = component
     ? component + "." + convertedToken
     : convertedToken;
 
-  debug("converted token modified: " + convertedToken);
+  debug(`Converted token modified to ${convertedToken}`);
   // store converted keys / entries
   storeTokenAlias(pristineKey, convertedToken);
 };
 
-const splitTokenByKeyword = (
-  pristineKey,
-  convertedToken,
-  key,
-  entry,
-  component,
-) => {
+/**
+ *
+ * @param pristineKey
+ * @param entry
+ * @param component
+ * @return {{convertedEntry, convertedKey}}
+ */
+const splitTokenByKeyword = (pristineKey, entry, component) => {
+  // split entry if token has numeric info and "dash syntax", e.g. gray-100
+  const tokenWithNumberRegex = /^(.+)(?:-)(\d+$)/;
+
   // split entry if token has size info and "dash syntax", e.g. field-top-to-alert-icon-large
   // workaround 'large vs extra-large' 'small vs extra-small' regex issue
-  const tokenWithExtraSizeRegex = /^(.+)(?:-)(extra-small|extra-large)$/;
+  const tokenWithExtraSizeRegex = /^(.+)(?:-)(extra-(small|large))$/;
 
   const tokenWithSizeRegex =
     /^(.+)(?:-)((small|medium|large)|(xxxs|xxs|xs|s|m|l|xl|xxl|xxxl))$/;
@@ -89,25 +78,20 @@ const splitTokenByKeyword = (
 
   let workingKey = pristineKey;
 
-  // was modified before...
-  if (key !== pristineKey) {
-    console.log(`${key} modified before..`);
-    workingKey = key;
-  }
-
-  console.table(workingKey.match(skipTokenWithSemanticRegex) == null);
-  console.table(workingKey.match(skipTokenWithFontStuffRegex) == null);
-
   while (
+    // skip pattern
     (workingKey.match(skipTokenWithSemanticRegex) == null ||
       workingKey.match(skipTokenWithFontStuffRegex) == null) &&
-    (workingKey.match(tokenWithKeywordsRegex) ||
+    // match patterns
+    (workingKey.match(tokenWithNumberRegex) ||
+      workingKey.match(tokenWithKeywordsRegex) ||
       workingKey.match(tokenWithSemanticRegex) ||
       workingKey.match(tokenWithExtraSizeRegex) ||
       workingKey.match(tokenWithSizeRegex))
   ) {
     console.table(workingKey.match(skipTokenWithSemanticRegex));
     console.table(workingKey.match(skipTokenWithFontStuffRegex));
+    console.table(workingKey.match(tokenWithNumberRegex));
     console.table(workingKey.match(tokenWithKeywordsRegex));
     console.table(workingKey.match(tokenWithSemanticRegex));
     console.table(workingKey.match(tokenWithExtraSizeRegex));
@@ -115,6 +99,7 @@ const splitTokenByKeyword = (
 
     // look into working key name
     let tokenKeywordMatch =
+      workingKey.match(tokenWithNumberRegex) ||
       workingKey.match(tokenWithKeywordsRegex) ||
       workingKey.match(tokenWithSemanticRegex) ||
       workingKey.match(tokenWithExtraSizeRegex) ||
@@ -125,6 +110,7 @@ const splitTokenByKeyword = (
     postGroupKey = tokenKeywordMatch[5];
 
     if (
+      workingKey.match(tokenWithNumberRegex) ||
       workingKey.match(tokenWithExtraSizeRegex) ||
       workingKey.match(tokenWithSizeRegex)
     ) {
@@ -146,7 +132,7 @@ const splitTokenByKeyword = (
     ) {
       // cancel loop
       // workingKey = '';
-      console.log("break");
+      debug("Exit loop.");
       break;
     }
 
@@ -156,7 +142,6 @@ const splitTokenByKeyword = (
 
     // store this key as alias
     storeWorkingKeyAlias(
-      convertedToken,
       preGroupKey,
       groupName,
       postGroupKey,
@@ -173,21 +158,21 @@ const splitTokenByKeyword = (
     // group name can be in key; key can be:
     // e.g. 'cyan-background-color-default' -> 'cyan.background-color.default'
     if (workingKey.indexOf(groupName) !== -1) {
-      debug("found in workingKey: " + workingKey);
-      debug("old key: " + key);
+      debug(`found in workingKey: ${workingKey}`);
+      debug(`pristineKey: ${pristineKey}`);
 
       // modified key before, e.g.  notice.background-color-default
       if (workingKey != pristineKey) {
-        debug("split key: " + key);
-        // convert key
+        debug(`split workingKey: ${workingKey}`);
+        // convert workingKey
         const splitKey = workingKey
           .replace("-" + groupName + "-", "-")
           .replace(groupName + "-", "")
           .replace("-" + groupName, "");
 
-        // overwrite key
-        key = splitKey;
-        debug("new key: " + key);
+        // overwrite workingKey
+        workingKey = splitKey;
+        debug(`new workingKey: ${workingKey}`);
         // overwrite entry
         entry = Object.assign(
           {},
@@ -195,10 +180,11 @@ const splitTokenByKeyword = (
             [groupName]: entry,
           },
         );
+        debug(`new entry: ${JSON.stringify(entry)}`);
       }
       // not modified key before, e.g. background-color-default
       else {
-        debug("split entry: " + JSON.stringify(entry));
+        debug(`split entry: ${JSON.stringify(entry)}`);
         let splitEntry = entry;
         // split entry by postGroup e.g. background-color.default
         if (postGroupKey) {
@@ -209,7 +195,7 @@ const splitTokenByKeyword = (
             },
           );
         }
-        debug("split key: " + key);
+        debug(`split workingKey: ${workingKey}`);
         // split key by preGroup
         let splitKey;
 
@@ -226,13 +212,11 @@ const splitTokenByKeyword = (
           splitKey = groupName;
         }
 
-        key = splitKey;
+        workingKey = splitKey;
         entry = splitEntry;
-        debug("new key: " + key);
-        debug("new entry: " + JSON.stringify(entry));
+        debug(`new workingKey: ${workingKey}`);
+        debug(`new entry: ${JSON.stringify(entry)}`);
       }
-      workingKey = key;
-      debug("new working key: " + workingKey);
     }
 
     // group name can be in entry; entry can be
@@ -310,10 +294,10 @@ const splitTokenByKeyword = (
     }
   }
 
-  debug("return key: " + key);
+  debug("return workingKey: " + workingKey);
   debug("return entry: " + JSON.stringify(entry));
 
-  return { convertedKey: key, convertedEntry: entry };
+  return { convertedKey: workingKey, convertedEntry: entry };
 };
 
 /**
@@ -337,46 +321,8 @@ export const storeToken = (targetJson, key, entry, component) => {
   // store key for mapping new alias
   let pristineKey = key;
 
-  // store convertedKey for mapping aliases
-  let convertedToken;
-
-  // split entry if token has numeric info and "dash syntax", e.g. gray-100
-  const tokenWithNumberRegex = /^(.+)(?:-)(\d+$)/;
-  const tokenNumericMatch = key.match(tokenWithNumberRegex);
-  if (tokenNumericMatch && tokenNumericMatch[1] && tokenNumericMatch[2]) {
-    const baseToken = tokenNumericMatch[1];
-    const numericValue = tokenNumericMatch[2];
-
-    // convert token for alias replacement
-    convertedToken = component
-      ? // safe nested group token alias (e.g. thumbnail-size-500' -> 'thumbnail.thumbnail-size.500')
-        component + "." + baseToken + "." + numericValue
-      : // otherwise safe nested value (gray-100 -> 'gray.100') or (accent-color-100 -> accent-color.100)
-        baseToken + "." + numericValue;
-
-    debug("new convertedToken : " + JSON.stringify(convertedToken));
-
-    // store converted keys / entries
-    storeTokenAlias(key, convertedToken);
-
-    // overwrite / extend key and entry
-    const convertedEntry = Object.assign(
-      {},
-      {
-        [numericValue]: entry,
-      },
-    );
-    key = baseToken;
-    entry = convertedEntry;
-
-    debug("new key: " + key);
-    debug("new entry: " + JSON.stringify(entry));
-  }
-
   let { convertedKey, convertedEntry } = splitTokenByKeyword(
     pristineKey,
-    convertedToken,
-    key,
     entry,
     component,
   );
@@ -389,7 +335,8 @@ export const storeToken = (targetJson, key, entry, component) => {
 
   // for nested component groups...
   if (component) {
-    // (if not already done before like heading.heading-size-m) safe nested group token alias, e.g.
+    // (if not already done before like heading.heading-size-m) safe nested group token alias,
+    // e.g.
     //   color-handle-inner-border-width -> color-handle.color-handle-inner-border-width
     if (convertedKey == pristineKey) {
       const convertedNestedAlias = component + "." + convertedKey;
