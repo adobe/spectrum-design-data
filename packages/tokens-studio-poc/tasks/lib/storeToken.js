@@ -93,7 +93,7 @@ const splitTokenByKeyword = (pristineKey, entry, component) => {
 
   // no need to split "heading|body|code|detail", cause those are done via "component": "heading|body|code|detail" entry
   const tokenWithTypographyKeywordsSecondPriorityRegex =
-    /((.+)(?:-))?(cjk|light|heavy|strong|emphasized|serif)((?:-)(.+))?/;
+    /((.+)(?:-))?(cjk|light|heavy|strong|emphasized|serif|font-family|font-weight|font-style)((?:-)(.+))?/;
 
   let groupName;
   let preGroupKey;
@@ -349,6 +349,8 @@ const splitTokenByKeyword = (pristineKey, entry, component) => {
       }
     }
   }
+
+  // if (workingKey == 'heading' && groupName === 'sans-serif' && postGroupKey == 'light-strong-font-weight') {process.exit(0)}
 
   debug("return workingKey: " + workingKey);
   debug("return entry: " + JSON.stringify(entry));
