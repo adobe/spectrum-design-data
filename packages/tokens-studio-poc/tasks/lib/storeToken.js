@@ -88,8 +88,9 @@ const splitTokenByKeyword = (pristineKey, entry, component) => {
   //   status-light.*
   const skipTokenWithTypographyKeywordsRegex = /^(status-light)((?:-)(.+))?/;
 
+  // special reg-ex needed for force match keywords that are using '-' as separator.
   const tokenWithTypographyKeywordsFirstPriorityRegex =
-    /((.+)(?:-))?(strong-emphasized|sans-serif)((?:-)(.+))?/;
+    /((.+)(?:-))?(cjk|light|heavy|strong-emphasized|sans-serif|font-family|font-weight|font-style)((?:-)(.+))?/;
 
   // no need to split "heading|body|code|detail", cause those are done via "component": "heading|body|code|detail" entry
   const tokenWithTypographyKeywordsSecondPriorityRegex =
