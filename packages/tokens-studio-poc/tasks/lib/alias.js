@@ -28,5 +28,6 @@ export const getTokenAlias = (value) => {
 
 export function storeTokenAlias(key, alias) {
   debug(`Store Token ${key} as alias ${alias}`);
+
   convertedKeysToAlias.set(key, alias);
 }

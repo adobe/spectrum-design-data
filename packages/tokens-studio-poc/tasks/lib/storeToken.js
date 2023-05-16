@@ -2,6 +2,21 @@ import { debug, debugTable } from "./debug.js";
 import _ from "lodash";
 import { storeTokenAlias } from "./alias.js";
 
+/**
+ * convert the token name into an alias
+ * e.g.
+ *    color-handle-inner-border-opacity
+ *      first iteration -> color-handle-inner.border-opacity
+ *      second iteration -> color-handle.inner.border-opacity
+ * @param preGroupKey
+ * @param groupName
+ * @param postGroupKey
+ * @param pristineKey
+ * @param workingKey
+ * @param component
+ * @param workingAlias
+ * @return {undefined}
+ */
 const storeWorkingKeyAlias = (
   preGroupKey,
   groupName,
@@ -9,34 +24,49 @@ const storeWorkingKeyAlias = (
   pristineKey,
   workingKey,
   component,
+  workingAlias,
 ) => {
-  let convertedToken;
+  let convertedToken = workingAlias || undefined;
 
-  // nested group token alias, e.g.
-  //   indigo-background-color-default' -> 'indigo.background-color.default')
-  //   heading-size-s' -> 'heading-size.s')
-  if (preGroupKey && postGroupKey) {
-    convertedToken = preGroupKey + "." + groupName + "." + postGroupKey;
-  } else if (preGroupKey) {
-    convertedToken = preGroupKey + "." + groupName;
-  } else if (postGroupKey) {
-    convertedToken = groupName + "." + postGroupKey;
+  // color-handle-inner.border-opacity
+  // -> color-handle.inner.border-opacity
+  if (convertedToken) {
+    debug(`Modify existing workingAlias ${convertedToken}...`);
+    if (preGroupKey && postGroupKey) {
+      convertedToken = convertedToken.replace(
+        preGroupKey + "-" + groupName + "-" + postGroupKey,
+        preGroupKey + "." + groupName + "." + postGroupKey,
+      );
+    } else if (preGroupKey) {
+      convertedToken = convertedToken.replace(
+        preGroupKey + "-" + groupName,
+        preGroupKey + "." + groupName,
+      );
+    } else if (postGroupKey) {
+      convertedToken = convertedToken.replace(
+        groupName + "-" + postGroupKey,
+        groupName + "." + postGroupKey,
+      );
+    } else {
+      throw Error("storeWorkingKeyAlias failed");
+    }
   } else {
-    throw Error("storeWorkingKeyAlias failed");
+    // nested group token alias, e.g.
+    //   indigo-background-color-default' -> 'indigo.background-color.default')
+    //   heading-size-s' -> 'heading-size.s')
+    if (preGroupKey && postGroupKey) {
+      convertedToken = preGroupKey + "." + groupName + "." + postGroupKey;
+    } else if (preGroupKey) {
+      convertedToken = preGroupKey + "." + groupName;
+    } else if (postGroupKey) {
+      convertedToken = groupName + "." + postGroupKey;
+    } else {
+      throw Error("storeWorkingKeyAlias failed");
+    }
   }
 
-  // attach with component group
-  // e.g. heading-size-s' -> 'heading.heading-size.s')
-  // but not
-  //   code-font-family -> code.code.font-family
-  if (component && component !== convertedToken.split(".")[0]) {
-    convertedToken = component + "." + convertedToken;
-    debug(`Storing token alias with extra component group ${convertedToken}`);
-  }
-
-  debug(`Converted token modified to ${convertedToken}`);
-  // store converted keys / entries
-  storeTokenAlias(pristineKey, convertedToken);
+  debug(`New workingAlias ${convertedToken}...`);
+  return convertedToken;
 };
 
 /**
@@ -76,7 +106,7 @@ const splitTokenByKeyword = (pristineKey, entry, component) => {
 
   // split/group token if name is matching keywords, like 'background-color', 'border-color', 'content-color',
   const tokenWithKeywordsFirstPriorityRegex =
-    /((.+)(?:-))?(static-black|static-white|background-color|background-opacity|base-color|border-color|border-opacity|content-color|visual-color)((?:-)(.+))?/;
+    /((.+)(?:-))?(static-black|static-white|background-color|background-opacity|base-color|border-color|border-opacity|content-color|visual-color|inner|outer)((?:-)(.+))?/;
   // split/group token if name is matching keywords, like 'background-color', 'border-color', 'content-color',
   const tokenWithKeywordsSecondPriorityRegex =
     /((.+)(?:-))?(background|opacity)((?:-)(.+))?/;
@@ -97,13 +127,16 @@ const splitTokenByKeyword = (pristineKey, entry, component) => {
 
   // no need to split "heading|body|code|detail", cause those are done via "component": "heading|body|code|detail" entry
   const tokenWithTypographyKeywordsSecondPriorityRegex =
-    /((.+)(?:-))?(cjk|light|heavy|strong|emphasized|serif|font-family|font-weight|font-style)((?:-)(.+))?/;
+    /((.+)(?:-))?(strong|emphasized|serif)((?:-)(.+))?/;
 
   let groupName;
   let preGroupKey;
   let postGroupKey;
 
   let workingKey = pristineKey;
+
+  // converting the token name on the fly with multiple iteration, this stores the full converted alias
+  let workingAlias = undefined;
 
   while (
     // global skip pattern
@@ -179,13 +212,14 @@ const splitTokenByKeyword = (pristineKey, entry, component) => {
     );
 
     // store this key as alias
-    storeWorkingKeyAlias(
+    workingAlias = storeWorkingKeyAlias(
       preGroupKey,
       groupName,
       postGroupKey,
       pristineKey,
       workingKey,
       component,
+      workingAlias,
     );
 
     // now scan the innerEntry for the groupName...
@@ -195,65 +229,46 @@ const splitTokenByKeyword = (pristineKey, entry, component) => {
 
     // console.log({foundGroupNameInEntry});
 
-    // group name can be in key; key can be:
-    // e.g. 'cyan-background-color-default' -> 'cyan.background-color.default'
+    // group name can be in key; e.g.
+    //  'cyan-background-color-default' -> 'cyan.background-color.default'
+    //  'neutral-background-color-default' -> 'neutral.background-color.default'
     if (workingKey.indexOf(groupName) !== -1) {
       debug(`found in workingKey: ${workingKey}`);
       debug(`pristineKey: ${pristineKey}`);
-
-      // modified key before, e.g.  notice.background-color-default
-      if (workingKey !== pristineKey) {
-        debug(`split workingKey: ${workingKey}`);
-        // convert workingKey and overwrite workingKey
-        workingKey = workingKey
-          .replace("-" + groupName + "-", "-")
-          .replace(groupName + "-", "")
-          .replace("-" + groupName, "");
-        debug(`new workingKey: ${workingKey}`);
-        // overwrite entry
-        entry = Object.assign(
+      let splitKey = workingKey;
+      let splitEntry = entry;
+      // split entry by postGroup e.g.
+      if (postGroupKey) {
+        debug("postGroupKey: " + postGroupKey);
+        debug(`split entry: ${JSON.stringify(entry)}`);
+        splitEntry = Object.assign(
           {},
           {
-            [groupName]: entry,
+            [postGroupKey]: entry,
           },
         );
-        debug(`new entry: ${JSON.stringify(entry)}`);
       }
-      // not modified key before, e.g. background-color-default
-      else {
-        debug(`split entry: ${JSON.stringify(entry)}`);
-        let splitEntry = entry;
-        // split entry by postGroup e.g. background-color.default
-        if (postGroupKey) {
-          splitEntry = Object.assign(
-            {},
-            {
-              [postGroupKey]: entry,
-            },
-          );
-        }
-        debug(`split workingKey: ${workingKey}`);
-        // split key by preGroup
-        let splitKey;
 
-        if (preGroupKey) {
-          splitKey = preGroupKey;
-          splitEntry = Object.assign(
-            {},
-            {
-              [groupName]: splitEntry,
-            },
-          );
-        } else {
-          // no preGroup
-          splitKey = groupName;
-        }
-
-        workingKey = splitKey;
-        entry = splitEntry;
-        debug(`new workingKey: ${workingKey}`);
-        debug(`new entry: ${JSON.stringify(entry)}`);
+      // split key by preGroup
+      if (preGroupKey) {
+        debug("preGroup: " + preGroupKey);
+        splitKey = preGroupKey;
+        splitEntry = Object.assign(
+          {},
+          {
+            [groupName]: splitEntry,
+          },
+        );
+      } else {
+        // no preGroup
+        debug("no preGroup");
+        splitKey = groupName;
       }
+
+      workingKey = splitKey;
+      entry = splitEntry;
+      debug(`new workingKey: ${workingKey}`);
+      debug(`new entry: ${JSON.stringify(entry)}`);
     }
 
     // group name can be in entry; entry can be
@@ -336,7 +351,11 @@ const splitTokenByKeyword = (pristineKey, entry, component) => {
   // debug("return workingKey: " + workingKey);
   // debug("return entry: " + JSON.stringify(entry));
 
-  return { convertedKey: workingKey, convertedEntry: entry };
+  return {
+    convertedKey: workingKey,
+    convertedEntry: entry,
+    convertedAlias: workingAlias,
+  };
 };
 
 /**
@@ -360,7 +379,7 @@ export const storeToken = (targetJson, key, entry, component) => {
   // preserve key for mapping new alias
   let pristineKey = key;
 
-  let { convertedKey, convertedEntry } = splitTokenByKeyword(
+  let { convertedKey, convertedEntry, convertedAlias } = splitTokenByKeyword(
     pristineKey,
     entry,
     component,
@@ -369,34 +388,33 @@ export const storeToken = (targetJson, key, entry, component) => {
   debug(
     `really store key: "${convertedKey}" with entry: ${JSON.stringify(
       convertedEntry,
-    )}`,
+    )} and alias: "${convertedAlias}"`,
   );
 
+  if (!convertedAlias || convertedAlias == "") {
+    convertedAlias = pristineKey;
+  }
+
   // for nested component groups:
-  if (component) {
-    // if not already split before before (like heading.heading-size-m), safe nested group token alias,
+  if (component && convertedKey !== component) {
+    // if not already split before before, than safe nested group token alias,
     // e.g.
-    //   color-handle-inner-border-width -> color-handle.color-handle-inner-border-width
-    if (convertedKey === pristineKey) {
-      debug(`store extra component group: ${component}`);
-      const convertedNestedAlias = component + "." + convertedKey;
-      storeTokenAlias(convertedKey, convertedNestedAlias);
-    }
+    //   heading-size-m -> heading.heading-size.m
+    // but not
+    //   color-handle.inner.border-width -> color-handle.color-handle.inner.border-width
+    //   code.font-family -> code.code.font-family
+
     // if key was already split up, so that the component name is first part, don't split extra component group
-    if (convertedKey !== component) {
-      debug(`store with nested component group: ${component}`);
-      // create new nested entry for group named by component
-      const groupJson = {
-        [convertedKey]: convertedEntry,
-      };
-      targetJson[component] = _.merge(targetJson[component], groupJson);
-    } else {
-      // default: safe token in no nested group
-      targetJson[convertedKey] = _.merge(
-        targetJson[convertedKey],
-        convertedEntry,
-      );
+    debug(`store with nested component group: ${component}`);
+    if (convertedAlias?.split(".")[0] !== component) {
+      convertedAlias = component + "." + convertedAlias;
+      debug(`Storing token alias with extra component group ${convertedAlias}`);
     }
+    // create new nested entry for group named by component
+    const groupJson = {
+      [convertedKey]: convertedEntry,
+    };
+    targetJson[component] = _.merge(targetJson[component], groupJson);
   } else {
     // default: safe token in no nested group
     targetJson[convertedKey] = _.merge(
@@ -404,6 +422,8 @@ export const storeToken = (targetJson, key, entry, component) => {
       convertedEntry,
     );
   }
+  // store converted alias
+  storeTokenAlias(pristineKey, convertedAlias);
   debug("DONE");
   debug(
     "---------------------------------------------------------------------------------",
