@@ -1,4 +1,4 @@
-const debugIt = true;
+const debugIt = false;
 export function debug(msg) {
   if (debugIt) {
     console.log(msg?.toString() || msg);

@@ -415,11 +415,9 @@ function splitSetBySystemAndScale(key, set, component) {
  *
  * @param key
  * @param entry
+ * @param component - extra nested group - store component value for nested groups
  */
-export const handleTokenEntryForAll = (key, entry) => {
-  // store component value for nested groups
-  let component;
-
+export const handleTokenEntryForAll = (key, entry, component = undefined) => {
   // looking for "component" entry upfront
   if (_.has(entry, JSON_SET_NODE_NAMES.COMPONENT)) {
     // safe component, will created nested token groups
@@ -494,11 +492,9 @@ export const handleTokenEntryForAll = (key, entry) => {
  *
  * @param key
  * @param entry
+ * @param component - extra nested group - store component value for nested groups
  */
-export const handleTokenEntryForSpectrum = (key, entry) => {
-  // store component value for nested groups
-  let component;
-
+export const handleTokenEntryForSpectrum = (key, entry, component) => {
   // looking for "component" entry upfront
   if (_.has(entry, JSON_SET_NODE_NAMES.COMPONENT)) {
     // safe component, will created nested token groups
@@ -573,11 +569,9 @@ export const handleTokenEntryForSpectrum = (key, entry) => {
  *
  * @param key
  * @param entry
+ * @param component - extra nested group - store component value for nested groups
  */
-export const handleTokenEntryForExpress = (key, entry) => {
-  // store component value for nested groups
-  let component;
-
+export const handleTokenEntryForExpress = (key, entry, component) => {
   // looking for "component" entry upfront
   if (_.has(entry, JSON_SET_NODE_NAMES.COMPONENT)) {
     // safe component, will created nested token groups

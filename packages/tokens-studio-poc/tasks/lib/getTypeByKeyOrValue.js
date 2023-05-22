@@ -65,19 +65,23 @@ export const getTypeByKeyOrValue = (key, value) => {
   }
   // find key with opacity; exclude opacity-checkerboard
   else if (
-    key.indexOf("opacity") !== -1 &&
+    // include
+    (key.indexOf("opacity") !== -1 ||
+      key.indexOf("background-color-opacity") !== -1) &&
+    // exclude
     key.indexOf("opacity-checkerboard") === -1
   ) {
     return TOKENS_STUDIO_TOKEN_TYPE.OPACITY;
   }
+
+  // drop-shadow section next
 
   // color section
 
   if (
     // exclude section
     // exclude *-color-opacity
-    (key.indexOf("-color-opacity") === -1 ||
-      key.indexOf("color-loupe-height") === -1 ||
+    (key.indexOf("color-loupe-height") === -1 ||
       key.indexOf("color-loupe-width") === -1 ||
       key.indexOf("color-area-border-opacity") === -1 ||
       key.indexOf("color-slider-border-opacity") === -1 ||
@@ -85,9 +89,8 @@ export const getTypeByKeyOrValue = (key, value) => {
       key.indexOf("color-loupe-drop-shadow-blur") === -1 ||
       key.indexOf("color-loupe-inner-border") === -1 ||
       key.indexOf("color-loupe-outer-border") === -1 ||
-      key.indexOf("color-control-track-width") === -1 ||
-      key.indexOf("card-selection-background-color-opacity") === -1) &&
-    // find value starting with "rgb" or key contains 'color',
+      key.indexOf("color-control-track-width") === -1) &&
+    // find value starting with "rgb" or key contains '-color',
     // TODO: look for the type of the alias source maybe?!
     ((value && value.indexOf("rgb") === 0) || key.indexOf("-color") !== -1)
   ) {

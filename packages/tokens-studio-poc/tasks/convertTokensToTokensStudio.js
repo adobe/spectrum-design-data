@@ -54,7 +54,7 @@ const destAllTokensJsonFile = "./src/all/tokens.json";
 const destSpectrumTokensJsonFile = "./src/spectrum/tokens.json";
 const destExpressTokensJsonFile = "./src/express/tokens.json";
 
-async function convertTokensForAll() {
+async function convertTokensForAll(tokenHandler, tokenJson, tokenDestination) {
   for (const file of srcFiles) {
     console.log(`Convert file ${file}...`);
     const jsonData = JSON.parse(
@@ -65,80 +65,27 @@ async function convertTokensForAll() {
     resetWorkingJson();
 
     Object.entries(jsonData).forEach(([key, value]) => {
-      handleTokenEntryForAll(key, value);
+      let component;
+
+      if (file.endsWith("/color-palette.json")) {
+        component = "palette";
+      } else if (
+        file.endsWith("/color-aliases.json") ||
+        file.endsWith("/semantic-color-palette.json")
+      ) {
+        component = "alias";
+      }
+      tokenHandler(key, value, component);
     });
 
     // merge data into token studio data
-    mergeAllWorkingJson(allTokensStudioTokensJsonData);
+    mergeAllWorkingJson(tokenJson);
   }
 
   // write data
-  await writeFile(
-    destAllTokensJsonFile,
-    JSON.stringify(allTokensStudioTokensJsonData, null, 2),
-  );
+  await writeFile(tokenDestination, JSON.stringify(tokenJson, null, 2));
   console.log(
-    `Wrote ${destAllTokensJsonFile} with ${
-      Object.keys(allTokensStudioTokensJsonData).length
-    } entries.`,
-  );
-}
-
-async function convertTokensForSpectrum() {
-  for (const file of srcFiles) {
-    console.log(`Convert file ${file}...`);
-    const jsonData = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), file), "utf-8"),
-    );
-    // reset working data
-    resetWorkingJson();
-
-    Object.entries(jsonData).forEach(([key, value]) => {
-      handleTokenEntryForSpectrum(key, value);
-    });
-
-    // merge data into token studio data
-    mergeAllWorkingJson(spectrumTokensStudioTokensJsonData);
-  }
-
-  // write data
-  await writeFile(
-    destSpectrumTokensJsonFile,
-    JSON.stringify(spectrumTokensStudioTokensJsonData, null, 2),
-  );
-  console.log(
-    `Wrote ${destSpectrumTokensJsonFile} with ${
-      Object.keys(spectrumTokensStudioTokensJsonData).length
-    } entries.`,
-  );
-}
-
-async function convertTokensForExpress() {
-  for (const file of srcFiles) {
-    console.log(`Convert file ${file}...`);
-    const jsonData = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), file), "utf-8"),
-    );
-    // reset working data
-    resetWorkingJson();
-
-    Object.entries(jsonData).forEach(([key, value]) => {
-      handleTokenEntryForExpress(key, value);
-    });
-
-    // merge data into token studio data
-    mergeAllWorkingJson(expressTokensStudioTokensJsonData);
-  }
-
-  // write data
-  await writeFile(
-    destExpressTokensJsonFile,
-    JSON.stringify(expressTokensStudioTokensJsonData, null, 2),
-  );
-  console.log(
-    `Wrote ${destExpressTokensJsonFile} with ${
-      Object.keys(expressTokensStudioTokensJsonData).length
-    } entries.`,
+    `Wrote ${tokenDestination} with ${Object.keys(tokenJson).length} entries.`,
   );
 }
 
@@ -146,12 +93,31 @@ const main = async () => {
   // // TODO: two pass:
   // // - 1. go through every file and look for aliases
   // // - 2. go through every file and create new tokens
-  await convertTokensForAll();
-  await convertTokensForSpectrum();
-  await convertTokensForExpress();
+  await convertTokensForAll(
+    handleTokenEntryForAll,
+    allTokensStudioTokensJsonData,
+    destAllTokensJsonFile,
+  );
+  await convertTokensForAll(
+    handleTokenEntryForSpectrum,
+    spectrumTokensStudioTokensJsonData,
+    destSpectrumTokensJsonFile,
+  );
+  await convertTokensForAll(
+    handleTokenEntryForExpress,
+    expressTokensStudioTokensJsonData,
+    destExpressTokensJsonFile,
+  );
+
+  // sort and re-grouping should be added here, e.g.
+  // visual-color tokens before
+  // const SEMANTICS = ['accent', 'informative', 'negative', 'neutral', 'notice', 'positive', 'disabled'];
+  // const SORTORDER = ['Content (visual + text)', 'Backgrounds', 'Border', 'Focus', 'Semantic colors', 'App frame', 'Neutral', 'Neutral-subdued', 'Disabled', 'Semantic', 'Non-semantic'];
 
   // test data
   // todo: apply token type of alias source to alias ?
+
+  // todo: add check if a token entry has mixed a nested token with an actual token value entry...
 
   // todo: check if an alias is used before it is defined...
 
