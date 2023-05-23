@@ -565,7 +565,7 @@ export const handleTokenEntryForSpectrum = (key, entry, component) => {
 
 /**
  * check custom style-dictionary token entry...
- * - spectrum only
+ * - express only
  *
  * @param key
  * @param entry
@@ -627,6 +627,83 @@ export const handleTokenEntryForExpress = (key, entry, component) => {
       expressDarkJson,
       expressDarkestJson,
       expressWireframeJson,
+      key,
+      setNode,
+      component,
+    );
+
+    // or a value split by system / not by scale:
+    splitSetBySystem(key, setNode, component);
+
+    // or a value split by system and by scale
+    splitSetBySystemAndScale(key, setNode, component);
+  }
+};
+
+/**
+ * check custom style-dictionary token entry...
+ * - spectrum with express overwrites
+ *
+ * @param key
+ * @param entry
+ * @param component - extra nested group - store component value for nested groups
+ */
+export const handleTokenEntryForExpressOverwrite = (key, entry, component) => {
+  // looking for "component" entry upfront
+  if (_.has(entry, JSON_SET_NODE_NAMES.COMPONENT)) {
+    // safe component, will created nested token groups
+    component = entry.component;
+  }
+
+  // look for a value in the first level -> global token found
+  if (_.has(entry, JSON_SET_NODE_NAMES.VALUE)) {
+    // e.g. a global value
+    // for simple global values, like:
+    //
+    //   "android-elevation": {
+    //     "value": "2dp"
+    //   },
+    //
+    // or
+    //
+    //   "picker-minimum-width-multiplier": {
+    //     "component": "picker",
+    //     "value": "2"
+    //   },
+    //
+    // or
+    //
+    //   "black": {
+    //     "value": "rgb(0, 0, 0)"
+    //   },
+    const currentValue = getTokenAlias(entry[JSON_SET_NODE_NAMES.VALUE]);
+    const tokenEntry = {
+      value: currentValue,
+      type: getTypeByKeyOrValue(key, currentValue),
+    };
+    debug("found global key / value: " + key + "/" + currentValue);
+    storeToken(spectrumCoreJson, key, tokenEntry, component);
+  }
+  // or look for sets
+  else if (_.has(entry, JSON_SET_NODE_NAMES.SETS)) {
+    // try different sets tree walking with this node
+    const setNode = entry[JSON_SET_NODE_NAMES.SETS];
+
+    // e.g. a global value by scale
+    splitSetByScale(
+      spectrumMobileJson,
+      spectrumDesktopJson,
+      key,
+      setNode,
+      component,
+    );
+
+    // e.g. a global value by theme
+    splitSetByTheme(
+      spectrumLightJson,
+      spectrumDarkJson,
+      spectrumDarkestJson,
+      spectrumWireframeJson,
       key,
       setNode,
       component,

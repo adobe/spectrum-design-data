@@ -3,6 +3,7 @@ import fs from "fs";
 import { writeFile } from "fs/promises";
 import {
   allTokensStudioTokensJsonData,
+  expressOverwritesTokensStudioTokensJsonData,
   expressTokensStudioTokensJsonData,
   mergeAllWorkingJson,
   resetWorkingJson,
@@ -11,6 +12,7 @@ import {
 import {
   handleTokenEntryForAll,
   handleTokenEntryForExpress,
+  handleTokenEntryForExpressOverwrite,
   handleTokenEntryForSpectrum,
 } from "./lib/handleTokenEntry.js";
 
@@ -53,6 +55,8 @@ const srcFiles = [
 const destAllTokensJsonFile = "./src/all/tokens.json";
 const destSpectrumTokensJsonFile = "./src/spectrum/tokens.json";
 const destExpressTokensJsonFile = "./src/express/tokens.json";
+const destExpressOverwriteTokensJsonFile =
+  "./src/express-overwrite/tokens.json";
 
 async function convertTokensForAll(tokenHandler, tokenJson, tokenDestination) {
   for (const file of srcFiles) {
@@ -107,6 +111,12 @@ const main = async () => {
     handleTokenEntryForExpress,
     expressTokensStudioTokensJsonData,
     destExpressTokensJsonFile,
+  );
+
+  await convertTokensForAll(
+    handleTokenEntryForExpressOverwrite,
+    expressOverwritesTokensStudioTokensJsonData,
+    destExpressOverwriteTokensJsonFile,
   );
 
   // sort and re-grouping should be added here, e.g.

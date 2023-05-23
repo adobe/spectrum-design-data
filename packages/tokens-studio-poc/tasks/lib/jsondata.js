@@ -147,6 +147,42 @@ export let expressTokensStudioTokensJsonData = {
   },
 };
 
+export let expressOverwritesTokensStudioTokensJsonData = {
+  [TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumCore]: {},
+  [TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumLight]: {},
+  [TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumDark]: {},
+  [TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumDarkest]: {},
+  [TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumWireframe]: {},
+  [TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumDesktop]: {},
+  [TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumMobile]: {},
+  [TOKENS_STUDIO_SETS_NODE_NAMES.ExpressCore]: {},
+  [TOKENS_STUDIO_SETS_NODE_NAMES.ExpressLight]: {},
+  [TOKENS_STUDIO_SETS_NODE_NAMES.ExpressDark]: {},
+  [TOKENS_STUDIO_SETS_NODE_NAMES.ExpressDarkest]: {},
+  [TOKENS_STUDIO_SETS_NODE_NAMES.ExpressWireframe]: {},
+  [TOKENS_STUDIO_SETS_NODE_NAMES.ExpressDesktop]: {},
+  [TOKENS_STUDIO_SETS_NODE_NAMES.ExpressMobile]: {},
+  $themes: [],
+  $metadata: {
+    tokenSetOrder: [
+      TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumCore,
+      TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumLight,
+      TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumDark,
+      TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumDarkest,
+      TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumWireframe,
+      TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumDesktop,
+      TOKENS_STUDIO_SETS_NODE_NAMES.SpectrumMobile,
+      TOKENS_STUDIO_SETS_NODE_NAMES.ExpressCore,
+      TOKENS_STUDIO_SETS_NODE_NAMES.ExpressLight,
+      TOKENS_STUDIO_SETS_NODE_NAMES.ExpressDark,
+      TOKENS_STUDIO_SETS_NODE_NAMES.ExpressDarkest,
+      TOKENS_STUDIO_SETS_NODE_NAMES.ExpressWireframe,
+      TOKENS_STUDIO_SETS_NODE_NAMES.ExpressDesktop,
+      TOKENS_STUDIO_SETS_NODE_NAMES.ExpressMobile,
+    ],
+  },
+};
+
 export const mergeAllWorkingJson = (targetTokensStudioTokensJsonData = {}) => {
   // merge data into token studio data
   if (
