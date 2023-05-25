@@ -139,8 +139,14 @@
       }
     }
   },
-  "floating-action-button-shadow-color": {
+  "floating-action-button-drop-shadow-color": {
     "component": "floating-action-button",
     "value": "{transparent-black-300}"
+  },
+  "floating-action-button-shadow-color": {
+    "component": "floating-action-button",
+    "deprecated": true,
+    "deprecated_comment": "Use `floating-action-button-drop-shadow-color` instead",
+    "value": "{floating-action-button-drop-shadow-color}"
   }
 }
