@@ -1,133 +1,164 @@
 {
   "swatch-border-color": {
     "component": "swatch",
-    "value": "{gray-900}"
+    "value": "{gray-900}",
+    "uuid": "7da5157d-7f25-405b-8de0-f3669565fb48"
   },
   "swatch-border-opacity": {
     "component": "swatch",
-    "value": "0.51"
+    "value": "0.51",
+    "uuid": "0e397a80-cf33-44ed-8b7d-1abaf4426bf5"
   },
   "swatch-disabled-icon-border-color": {
     "component": "swatch",
-    "value": "{black}"
+    "value": "{black}",
+    "uuid": "c49cd7ae-7657-458b-871a-6b4f28bca535"
   },
   "swatch-disabled-icon-border-opacity": {
     "component": "swatch",
-    "value": "0.51"
+    "value": "0.51",
+    "uuid": "cdbba3b6-cb51-4fec-88f0-273d4bb59a18"
   },
   "thumbnail-border-color": {
     "component": "thumbnail",
-    "value": "{gray-800}"
+    "value": "{gray-800}",
+    "uuid": "5bd226f1-0a6b-42bc-80af-4a9dde99e9e9"
   },
   "thumbnail-border-opacity": {
     "component": "thumbnail",
-    "value": "0.1"
+    "value": "0.1",
+    "uuid": "58bd04e9-5b85-44d8-8474-96e157701070"
   },
   "thumbnail-opacity-disabled": {
     "component": "thumbnail",
-    "value": "{opacity-disabled}"
+    "value": "{opacity-disabled}",
+    "uuid": "92418bcd-5f0f-4f26-9a96-51f8c9e871bf"
   },
   "opacity-checkerboard-square-light": {
     "component": "opacity-checkerboard",
-    "value": "{white}"
+    "value": "{white}",
+    "uuid": "c7e50676-3f61-49c3-a35f-2532fdb02360"
   },
   "opacity-checkerboard-square-dark": {
     "component": "opacity-checkerboard",
     "sets": {
       "light": {
-        "value": "{gray-200}"
+        "value": "{gray-200}",
+        "uuid": "84a7cd5e-bb2b-4bb5-bb5f-f5839ae3a761"
       },
       "dark": {
-        "value": "{gray-800}"
+        "value": "{gray-800}",
+        "uuid": "5dbb3e96-fe86-43a2-be8b-3ceecfe2d5ba"
       },
       "darkest": {
-        "value": "{gray-800}"
+        "value": "{gray-800}",
+        "uuid": "f783b8cb-d31f-46c2-b550-990639752510"
       }
     }
   },
   "avatar-opacity-disabled": {
     "component": "avatar",
-    "value": "{opacity-disabled}"
+    "value": "{opacity-disabled}",
+    "uuid": "84d25d1b-f9e4-4a9e-8cd0-92367ff00637"
   },
   "color-area-border-color": {
     "component": "color-area",
-    "value": "{gray-900}"
+    "value": "{gray-900}",
+    "uuid": "70fc4674-0f09-48f5-8850-48b4b38c2f01"
   },
   "color-area-border-opacity": {
     "component": "color-area",
-    "value": "0.1"
+    "value": "0.1",
+    "uuid": "fba1851e-0056-4cdf-938d-6d61550bbe3c"
   },
   "color-slider-border-color": {
     "component": "color-slider",
-    "value": "{gray-900}"
+    "value": "{gray-900}",
+    "uuid": "0c85e7fa-f950-436c-a68a-dd7fb8dfac9e"
   },
   "color-slider-border-opacity": {
     "component": "color-slider",
-    "value": "0.1"
+    "value": "0.1",
+    "uuid": "8271b69e-6542-4b17-b0f0-72567e16c41b"
   },
   "color-loupe-drop-shadow-color": {
     "component": "color-loupe",
-    "value": "{transparent-black-300}"
+    "value": "{transparent-black-300}",
+    "uuid": "918b8089-d89f-45d2-8c9c-f3f13f81b0b9"
   },
   "color-loupe-drop-shadow-y": {
     "component": "color-loupe",
-    "value": "2px"
+    "value": "2px",
+    "uuid": "c9af5d60-11b1-4fc3-972e-6a607120657b"
   },
   "color-loupe-drop-shadow-blur": {
     "component": "color-loupe",
-    "value": "8px"
+    "value": "8px",
+    "uuid": "86caa027-9e9e-4a5f-aa38-058f0a96bc9d"
   },
   "color-loupe-inner-border": {
     "component": "color-loupe",
-    "value": "{transparent-black-200}"
+    "value": "{transparent-black-200}",
+    "uuid": "d2c4cb48-8a90-461d-95bc-d882ba01472b"
   },
   "color-loupe-outer-border": {
     "component": "color-loupe",
-    "value": "{white}"
+    "value": "{white}",
+    "uuid": "4e1d1cc5-736e-4e82-9054-5c1a74ac1aca"
   },
   "card-selection-background-color": {
     "component": "cards",
-    "value": "{gray-100}"
+    "value": "{gray-100}",
+    "uuid": "622c6e86-dea6-416d-9f13-bb6ef112d3cb"
   },
   "card-selection-background-color-opacity": {
     "component": "cards",
-    "value": "0.95"
+    "value": "0.95",
+    "uuid": "ac039445-0bf8-4821-b02e-e7e06a416576"
   },
   "drop-zone-background-color": {
     "component": "drop-zone",
-    "value": "{accent-visual-color}"
+    "value": "{accent-visual-color}",
+    "uuid": "866f3613-c12f-4475-87b1-ad86ef2ce153"
   },
   "drop-zone-background-color-opacity": {
     "component": "drop-zone",
-    "value": "0.1"
+    "value": "0.1",
+    "uuid": "ee5ed78b-230c-4b37-9d76-1787a975bb63"
   },
   "drop-zone-background-color-opacity-filled": {
     "component": "drop-zone",
-    "value": "0.3"
+    "value": "0.3",
+    "uuid": "ca70550a-b11a-438f-9c70-ff1eeba532cc"
   },
   "coach-mark-pagination-color": {
     "component": "coach-mark",
-    "value": "{gray-600}"
+    "value": "{gray-600}",
+    "uuid": "f8cefe70-db2c-489e-bbbe-964050e96ab6"
   },
   "color-handle-inner-border-color": {
     "component": "color-handle",
-    "value": "{black}"
+    "value": "{black}",
+    "uuid": "0c93f310-d7c6-474b-8f07-0e8e76e2756e"
   },
   "color-handle-inner-border-opacity": {
     "component": "color-handle",
-    "value": "0.42"
+    "value": "0.42",
+    "uuid": "72b473c6-ec9b-4830-a0f8-48b80070e7b8"
   },
   "color-handle-outer-border-color": {
     "component": "color-handle",
     "sets": {
       "spectrum": {
-        "value": "{black}"
+        "value": "{black}",
+        "uuid": "e4733356-090e-4bb7-b32d-ab9df30fb785"
       }
     }
   },
   "color-handle-outer-border-opacity": {
     "component": "color-handle",
-    "value": "{color-handle-inner-border-opacity}"
+    "value": "{color-handle-inner-border-opacity}",
+    "uuid": "0a0eff89-7e7d-4b7f-bcfa-a85e33e5798a"
   },
   "color-handle-drop-shadow-color": {
     "component": "color-handle",
@@ -135,18 +166,21 @@
     "deprecated_comment": "Express does not need a separate design for Color loupe and Color handle components",
     "sets": {
       "express": {
-        "value": "{drop-shadow-color}"
+        "value": "{drop-shadow-color}",
+        "uuid": "97dfaf7f-ac2d-4517-84cc-6f692f712fc5"
       }
     }
   },
   "floating-action-button-drop-shadow-color": {
     "component": "floating-action-button",
-    "value": "{transparent-black-300}"
+    "value": "{transparent-black-300}",
+    "uuid": "d66d3a56-1ba0-4ce7-a263-eb46a4d17af0"
   },
   "floating-action-button-shadow-color": {
     "component": "floating-action-button",
     "deprecated": true,
     "deprecated_comment": "Use `floating-action-button-drop-shadow-color` instead",
-    "value": "{floating-action-button-drop-shadow-color}"
+    "value": "{floating-action-button-drop-shadow-color}",
+    "uuid": "f843b1b7-4b2f-496e-a679-b0372e49d575"
   }
 }

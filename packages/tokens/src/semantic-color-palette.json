@@ -2,337 +2,421 @@
   "accent-color-100": {
     "sets": {
       "spectrum": {
-        "value": "{blue-100}"
+        "value": "{blue-100}",
+        "uuid": "2e080bb5-6f2c-4fd9-96a2-bf9fc19d2649"
       },
       "express": {
         "value": "{indigo-100}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "f9fc7606-b699-46e7-b139-aeefc287923c"
       }
     }
   },
   "accent-color-200": {
     "sets": {
       "spectrum": {
-        "value": "{blue-200}"
+        "value": "{blue-200}",
+        "uuid": "cf583998-4dfd-4222-a554-8e05ed7fb5d6"
       },
       "express": {
         "value": "{indigo-200}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "78e50d0b-78a0-46c4-8262-417143f00902"
       }
     }
   },
   "accent-color-300": {
     "sets": {
       "spectrum": {
-        "value": "{blue-300}"
+        "value": "{blue-300}",
+        "uuid": "ea67f054-1f42-427e-a768-beb8d21de2a3"
       },
       "express": {
         "value": "{indigo-300}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "d014e1e8-a5f8-4169-8c43-d69afd07847a"
       }
     }
   },
   "accent-color-400": {
     "sets": {
       "spectrum": {
-        "value": "{blue-400}"
+        "value": "{blue-400}",
+        "uuid": "a249e4b1-e6f9-4ef3-96c6-1559059839a7"
       },
       "express": {
         "value": "{indigo-400}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "1b70bc67-7877-4f92-8ce4-1abd2665fab1"
       }
     }
   },
   "accent-color-500": {
     "sets": {
       "spectrum": {
-        "value": "{blue-500}"
+        "value": "{blue-500}",
+        "uuid": "c1c0e6fb-ce21-49d7-91bb-73ce873aa69f"
       },
       "express": {
         "value": "{indigo-500}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "06246e8e-44da-49a3-8d65-7f3ce1ec8128"
       }
     }
   },
   "accent-color-600": {
     "sets": {
       "spectrum": {
-        "value": "{blue-600}"
+        "value": "{blue-600}",
+        "uuid": "5a2000be-5640-4389-a128-b2c164ad2253"
       },
       "express": {
         "value": "{indigo-600}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "eaee7f34-1725-411e-9a23-2331167e08f5"
       }
     }
   },
   "accent-color-700": {
     "sets": {
       "spectrum": {
-        "value": "{blue-700}"
+        "value": "{blue-700}",
+        "uuid": "a8fbe39b-db6d-4bb4-a7c5-8a235060d2ae"
       },
       "express": {
         "value": "{indigo-700}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "5c7ac5cc-4fe4-4392-a5c3-4274cd15a48e"
       }
     }
   },
   "accent-color-800": {
     "sets": {
       "spectrum": {
-        "value": "{blue-800}"
+        "value": "{blue-800}",
+        "uuid": "87a2c8f0-54fd-4939-8f42-3124fde1e49e"
       },
       "express": {
         "value": "{indigo-800}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "3cf62c35-1e2e-4400-886f-473de9e8a958"
       }
     }
   },
   "accent-color-900": {
     "sets": {
       "spectrum": {
-        "value": "{blue-900}"
+        "value": "{blue-900}",
+        "uuid": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54"
       },
       "express": {
         "value": "{indigo-900}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "42d37753-8b78-4328-a895-7b74d9a7aa86"
       }
     }
   },
   "accent-color-1000": {
     "sets": {
       "spectrum": {
-        "value": "{blue-1000}"
+        "value": "{blue-1000}",
+        "uuid": "9bf3fa2f-75d3-44d3-ae30-d88893665366"
       },
       "express": {
         "value": "{indigo-1000}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "b848c6ce-f921-4303-b298-20e359a1aa2e"
       }
     }
   },
   "accent-color-1100": {
     "sets": {
       "spectrum": {
-        "value": "{blue-1100}"
+        "value": "{blue-1100}",
+        "uuid": "f7f853a5-f091-4a7e-8aea-68d060c840f0"
       },
       "express": {
         "value": "{indigo-1100}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "46991cf0-e4e5-4c32-a140-4589e2456523"
       }
     }
   },
   "accent-color-1200": {
     "sets": {
       "spectrum": {
-        "value": "{blue-1200}"
+        "value": "{blue-1200}",
+        "uuid": "7c141cdb-1e5e-468a-ba48-0df01b275402"
       },
       "express": {
         "value": "{indigo-1200}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "7de1e3f0-a5b3-4a09-955b-242ff78dbaa9"
       }
     }
   },
   "accent-color-1300": {
     "sets": {
       "spectrum": {
-        "value": "{blue-1300}"
+        "value": "{blue-1300}",
+        "uuid": "f7307eba-e311-41a8-bb50-0b1e96833dfa"
       },
       "express": {
         "value": "{indigo-1300}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "a598813b-347f-4528-aa35-94b6642985db"
       }
     }
   },
   "accent-color-1400": {
     "sets": {
       "spectrum": {
-        "value": "{blue-1400}"
+        "value": "{blue-1400}",
+        "uuid": "06585cf4-a924-49b2-b6c8-f0e80b57c576"
       },
       "express": {
         "value": "{indigo-1400}",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "12c250df-6088-4c20-8b04-59814d53ed7a"
       }
     }
   },
   "informative-color-100": {
-    "value": "{blue-100}"
+    "value": "{blue-100}",
+    "uuid": "b9fc8b82-275a-49fe-98d7-95f136b48772"
   },
   "informative-color-200": {
-    "value": "{blue-200}"
+    "value": "{blue-200}",
+    "uuid": "df4ceb7f-aa84-4d71-ab3f-a56146ef146c"
   },
   "informative-color-300": {
-    "value": "{blue-300}"
+    "value": "{blue-300}",
+    "uuid": "0caae9f7-cad1-4cd6-b4a3-d47ac090d40a"
   },
   "informative-color-400": {
-    "value": "{blue-400}"
+    "value": "{blue-400}",
+    "uuid": "46f3f214-5211-452b-8dc0-ffb7e9f9712b"
   },
   "informative-color-500": {
-    "value": "{blue-500}"
+    "value": "{blue-500}",
+    "uuid": "546f860f-4e17-455a-a6eb-f7a6a3b37128"
   },
   "informative-color-600": {
-    "value": "{blue-600}"
+    "value": "{blue-600}",
+    "uuid": "79a0fe09-63fb-4c96-a3bf-a8e126e7838c"
   },
   "informative-color-700": {
-    "value": "{blue-700}"
+    "value": "{blue-700}",
+    "uuid": "04a018bd-229c-47da-99e9-d338d05f0fb6"
   },
   "informative-color-800": {
-    "value": "{blue-800}"
+    "value": "{blue-800}",
+    "uuid": "b4efe4b2-3787-47df-a7a0-5d89c3641f9f"
   },
   "informative-color-900": {
-    "value": "{blue-900}"
+    "value": "{blue-900}",
+    "uuid": "41b73196-0bc1-493e-9b5d-49f608914f5a"
   },
   "informative-color-1000": {
-    "value": "{blue-1000}"
+    "value": "{blue-1000}",
+    "uuid": "6b609325-2bcf-491a-ad38-1409025caae0"
   },
   "informative-color-1100": {
-    "value": "{blue-1100}"
+    "value": "{blue-1100}",
+    "uuid": "7bf54313-58b6-4581-b5ac-a2e51df4a9ed"
   },
   "informative-color-1200": {
-    "value": "{blue-1200}"
+    "value": "{blue-1200}",
+    "uuid": "4504d6a9-87f7-48ea-94a0-d075f28bbcff"
   },
   "informative-color-1300": {
-    "value": "{blue-1300}"
+    "value": "{blue-1300}",
+    "uuid": "f7a736c2-db44-4668-90a8-c27778ae9892"
   },
   "informative-color-1400": {
-    "value": "{blue-1400}"
+    "value": "{blue-1400}",
+    "uuid": "b178b13b-93ee-422c-af98-3bf89105754b"
   },
   "negative-color-100": {
-    "value": "{red-100}"
+    "value": "{red-100}",
+    "uuid": "c37f795e-e338-4220-b0ab-5cf899f114c0"
   },
   "negative-color-200": {
-    "value": "{red-200}"
+    "value": "{red-200}",
+    "uuid": "14919f0c-a40f-48d1-adfd-55826de8e600"
   },
   "negative-color-300": {
-    "value": "{red-300}"
+    "value": "{red-300}",
+    "uuid": "53486ec0-79f7-4853-ad5b-dacc5a904f8a"
   },
   "negative-color-400": {
-    "value": "{red-400}"
+    "value": "{red-400}",
+    "uuid": "de87c624-7f43-406e-8cdf-584343a55edc"
   },
   "negative-color-500": {
-    "value": "{red-500}"
+    "value": "{red-500}",
+    "uuid": "67d09223-03a0-444a-95b6-645a2d66f8c7"
   },
   "negative-color-600": {
-    "value": "{red-600}"
+    "value": "{red-600}",
+    "uuid": "4a0c11a4-4e77-43e0-a2cd-9931ac51d87d"
   },
   "negative-color-700": {
-    "value": "{red-700}"
+    "value": "{red-700}",
+    "uuid": "b7d5d2db-0282-436b-8cb0-873e891b22a6"
   },
   "negative-color-800": {
-    "value": "{red-800}"
+    "value": "{red-800}",
+    "uuid": "d858b481-8970-4547-aed1-b6388c36aba4"
   },
   "negative-color-900": {
-    "value": "{red-900}"
+    "value": "{red-900}",
+    "uuid": "0b469d2e-7c66-4188-b6bf-bbc379f75538"
   },
   "negative-color-1000": {
-    "value": "{red-1000}"
+    "value": "{red-1000}",
+    "uuid": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2"
   },
   "negative-color-1100": {
-    "value": "{red-1100}"
+    "value": "{red-1100}",
+    "uuid": "8a3dacc3-93f7-4e22-8bd7-c338da1a2489"
   },
   "negative-color-1200": {
-    "value": "{red-1200}"
+    "value": "{red-1200}",
+    "uuid": "1b24f4e8-224c-41f9-b0eb-6a01e9261598"
   },
   "negative-color-1300": {
-    "value": "{red-1300}"
+    "value": "{red-1300}",
+    "uuid": "fa641bdd-0714-4ae4-9a8f-8d829a9977e5"
   },
   "negative-color-1400": {
-    "value": "{red-1400}"
+    "value": "{red-1400}",
+    "uuid": "58824d04-e2c0-4f0c-a3d7-9b88a01bf28d"
   },
   "notice-color-100": {
-    "value": "{orange-100}"
+    "value": "{orange-100}",
+    "uuid": "d0382c45-0cf7-4c3b-89fb-3536459cbc31"
   },
   "notice-color-200": {
-    "value": "{orange-200}"
+    "value": "{orange-200}",
+    "uuid": "b9218264-6bd0-4fee-8ab7-346428c9bbaa"
   },
   "notice-color-300": {
-    "value": "{orange-300}"
+    "value": "{orange-300}",
+    "uuid": "f1e8d13d-d9d2-46ea-befe-ebf1927e08dd"
   },
   "notice-color-400": {
-    "value": "{orange-400}"
+    "value": "{orange-400}",
+    "uuid": "77535709-6e67-4d7c-aaeb-d2dea1918430"
   },
   "notice-color-500": {
-    "value": "{orange-500}"
+    "value": "{orange-500}",
+    "uuid": "ab679012-b7cb-4f24-b401-b02e523d7c99"
   },
   "notice-color-600": {
-    "value": "{orange-600}"
+    "value": "{orange-600}",
+    "uuid": "716af828-c64d-465d-8476-d142892ca59c"
   },
   "notice-color-700": {
-    "value": "{orange-700}"
+    "value": "{orange-700}",
+    "uuid": "adb5159c-654f-4b9a-a101-3afa90328c42"
   },
   "notice-color-800": {
-    "value": "{orange-800}"
+    "value": "{orange-800}",
+    "uuid": "a83cdd4d-b8a9-42af-98c4-459f721abbff"
   },
   "notice-color-900": {
-    "value": "{orange-900}"
+    "value": "{orange-900}",
+    "uuid": "df87ca09-ff38-485e-90f7-6d9cbfbb6714"
   },
   "notice-color-1000": {
-    "value": "{orange-1000}"
+    "value": "{orange-1000}",
+    "uuid": "d6fdcf63-c135-48a0-a767-e8f1e93e8190"
   },
   "notice-color-1100": {
-    "value": "{orange-1100}"
+    "value": "{orange-1100}",
+    "uuid": "c30c4ce0-ed40-44eb-ae0b-3549523d5bc9"
   },
   "notice-color-1200": {
-    "value": "{orange-1200}"
+    "value": "{orange-1200}",
+    "uuid": "7e22e4fe-bd28-4dac-b518-e35ec6900da3"
   },
   "notice-color-1300": {
-    "value": "{orange-1300}"
+    "value": "{orange-1300}",
+    "uuid": "197c8ecc-3d6a-46e5-82f2-c315a52169fb"
   },
   "notice-color-1400": {
-    "value": "{orange-1400}"
+    "value": "{orange-1400}",
+    "uuid": "4eccc44a-1cd5-4d9e-8627-18f7a363d3c8"
   },
   "positive-color-100": {
-    "value": "{green-100}"
+    "value": "{green-100}",
+    "uuid": "09503086-ccd2-4dfb-9bc1-6b86cf595976"
   },
   "positive-color-200": {
-    "value": "{green-200}"
+    "value": "{green-200}",
+    "uuid": "00a2adcc-7b8a-4e94-97d2-51a647016265"
   },
   "positive-color-300": {
-    "value": "{green-300}"
+    "value": "{green-300}",
+    "uuid": "2c75e63f-e628-487d-a143-e03de065d5ee"
   },
   "positive-color-400": {
-    "value": "{green-400}"
+    "value": "{green-400}",
+    "uuid": "906a05ca-0b2f-4ada-9e71-507d9f0653be"
   },
   "positive-color-500": {
-    "value": "{green-500}"
+    "value": "{green-500}",
+    "uuid": "b2e94182-57ae-479d-ab91-717edc0ec3f6"
   },
   "positive-color-600": {
-    "value": "{green-600}"
+    "value": "{green-600}",
+    "uuid": "d3a018bf-0abe-4031-8c38-80a94b0d62ae"
   },
   "positive-color-700": {
-    "value": "{green-700}"
+    "value": "{green-700}",
+    "uuid": "ffdde321-5c1d-489e-8a0f-afc582248594"
   },
   "positive-color-800": {
-    "value": "{green-800}"
+    "value": "{green-800}",
+    "uuid": "ee02d9d5-b840-44af-be8a-0f10086e8f7e"
   },
   "positive-color-900": {
-    "value": "{green-900}"
+    "value": "{green-900}",
+    "uuid": "1cd86108-ff79-4ccf-911e-8de9986c9053"
   },
   "positive-color-1000": {
-    "value": "{green-1000}"
+    "value": "{green-1000}",
+    "uuid": "82d9fc42-d750-43d2-b227-b8df29abaca4"
   },
   "positive-color-1100": {
-    "value": "{green-1100}"
+    "value": "{green-1100}",
+    "uuid": "05f42672-455e-421c-8a7e-cb187355d23d"
   },
   "positive-color-1200": {
-    "value": "{green-1200}"
+    "value": "{green-1200}",
+    "uuid": "c4f84a4a-cfc4-42a6-81d4-11f27e1b38eb"
   },
   "positive-color-1300": {
-    "value": "{green-1300}"
+    "value": "{green-1300}",
+    "uuid": "7d2d9fe7-5498-4f73-be6a-3a4ac91b6e15"
   },
   "positive-color-1400": {
-    "value": "{green-1400}"
+    "value": "{green-1400}",
+    "uuid": "eb2fdab7-ea9e-42a3-a3d1-f9beec0c7b66"
   }
 }
