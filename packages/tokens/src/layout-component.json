@@ -5,10 +5,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "12px"
+            "value": "12px",
+            "uuid": "460e8170-de69-4f8e-8420-6c87a1f6f5cd"
           },
           "mobile": {
-            "value": "16px"
+            "value": "16px",
+            "uuid": "af31c1a5-ffce-4a54-8862-3e711ca53d25"
           }
         }
       },
@@ -17,12 +19,14 @@
           "desktop": {
             "value": "14px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "1df233fb-fa60-4690-9a7a-0a045b4ff732"
           },
           "mobile": {
             "value": "18px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "13cd75f5-63de-4eb1-b3a6-528a9a853111"
           }
         }
       }
@@ -34,10 +38,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "14px"
+            "value": "14px",
+            "uuid": "86288454-7192-4e4c-b55f-fc509fc58c01"
           },
           "mobile": {
-            "value": "18px"
+            "value": "18px",
+            "uuid": "00fee3f7-a743-45d6-a2b6-028d5d96964a"
           }
         }
       },
@@ -46,12 +52,14 @@
           "desktop": {
             "value": "16px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "4612c7a8-c55f-44e8-baed-24c504f90412"
           },
           "mobile": {
             "value": "20px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "a4a66e58-f688-4b8e-bb22-66499697eebd"
           }
         }
       }
@@ -63,10 +71,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "16px"
+            "value": "16px",
+            "uuid": "839a52bc-b9ee-473f-acde-0799b4f55ded"
           },
           "mobile": {
-            "value": "20px"
+            "value": "20px",
+            "uuid": "b4367578-989e-438d-9a3e-7cb077f2f7c9"
           }
         }
       },
@@ -75,12 +85,14 @@
           "desktop": {
             "value": "18px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "72ae3a99-d684-4e96-bbd8-867e3f6a9ba9"
           },
           "mobile": {
             "value": "22px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "e91c542f-aab9-42e7-a92b-1019f0c2d83d"
           }
         }
       }
@@ -92,10 +104,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "18px"
+            "value": "18px",
+            "uuid": "4ba47ba1-c9bd-447e-8948-009d5b424e0d"
           },
           "mobile": {
-            "value": "22px"
+            "value": "22px",
+            "uuid": "13093f8b-e38e-449f-a982-7f960bb84dfa"
           }
         }
       },
@@ -104,12 +118,14 @@
           "desktop": {
             "value": "20px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "0e9c6726-327b-4771-841d-8864a7ccd984"
           },
           "mobile": {
             "value": "26px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "028907b9-cfea-4464-8069-f796ff45871a"
           }
         }
       }
@@ -121,10 +137,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "6px"
+            "value": "6px",
+            "uuid": "20518175-5bc7-4659-8007-e74339c39433"
           },
           "mobile": {
-            "value": "7px"
+            "value": "7px",
+            "uuid": "f254146e-f469-44b1-b0c9-1ac72e88f9e3"
           }
         }
       },
@@ -133,12 +151,14 @@
           "desktop": {
             "value": "5px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "102073d3-985e-41f5-927f-c477be6557d5"
           },
           "mobile": {
             "value": "6px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "e3a31d3c-a3ef-4644-9ad0-ee6ee196f3fc"
           }
         }
       }
@@ -150,10 +170,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "9px"
+            "value": "9px",
+            "uuid": "dcde5d2d-60f8-4d56-bfb1-bba44a087515"
           },
           "mobile": {
-            "value": "11px"
+            "value": "11px",
+            "uuid": "e3751526-2db9-421c-85f9-d60071aac49b"
           }
         }
       },
@@ -162,12 +184,14 @@
           "desktop": {
             "value": "8px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "96094695-7843-4144-9d6c-8e90b0c8f11e"
           },
           "mobile": {
             "value": "10px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "19c53e39-2529-400e-849a-04210d29f022"
           }
         }
       }
@@ -179,10 +203,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "12px"
+            "value": "12px",
+            "uuid": "93edae08-5320-4e7e-a006-a9af1d3665ad"
           },
           "mobile": {
-            "value": "15px"
+            "value": "15px",
+            "uuid": "d040d2f4-9bb4-4d27-adac-40fef079d958"
           }
         }
       },
@@ -191,12 +217,14 @@
           "desktop": {
             "value": "11px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "771f42bc-63af-4b02-ab72-419913b9f72b"
           },
           "mobile": {
             "value": "14px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "9952f0e9-8cf1-4a72-a584-99fe4b708b0e"
           }
         }
       }
@@ -208,10 +236,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "15px"
+            "value": "15px",
+            "uuid": "3c4217bb-91f2-4347-9f65-a0528992f600"
           },
           "mobile": {
-            "value": "19px"
+            "value": "19px",
+            "uuid": "b3be5ac8-2415-4490-8b4a-c08661ec84d1"
           }
         }
       },
@@ -220,12 +250,14 @@
           "desktop": {
             "value": "14px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "9b372f9e-f3b9-4fa6-9a12-fc50696c7e4e"
           },
           "mobile": {
             "value": "17px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "f21573b4-a8e6-4209-9bc0-6030a542308f"
           }
         }
       }
@@ -237,10 +269,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "23px"
+            "value": "23px",
+            "uuid": "f4d6fe1a-70bd-473a-9fa5-477865ea898e"
           },
           "mobile": {
-            "value": "32px"
+            "value": "32px",
+            "uuid": "ca939c4d-9369-498c-81cb-61df1397f657"
           }
         }
       },
@@ -249,12 +283,14 @@
           "desktop": {
             "value": "25px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "0693a733-603d-4ff8-90b4-6b1bc3bd1681"
           },
           "mobile": {
             "value": "32px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "76c9ee44-720a-4ce0-88a5-15d93c6f9e32"
           }
         }
       }
@@ -266,10 +302,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "26px"
+            "value": "26px",
+            "uuid": "d329eda6-f13d-4a44-b962-ff06c371ed93"
           },
           "mobile": {
-            "value": "36px"
+            "value": "36px",
+            "uuid": "ec2f3b6b-80db-4c43-bdd2-caee98796775"
           }
         }
       },
@@ -278,12 +316,14 @@
           "desktop": {
             "value": "28px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "0897d478-5e14-4147-bb98-ba6566523009"
           },
           "mobile": {
             "value": "36px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "bd5c5024-4e29-4aef-86e4-6a4f7568ca2f"
           }
         }
       }
@@ -295,10 +335,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "29px"
+            "value": "29px",
+            "uuid": "cef839a5-2ba7-4e47-9a85-d94260a8ff10"
           },
           "mobile": {
-            "value": "41px"
+            "value": "41px",
+            "uuid": "5c7bdcc9-63f8-4c4b-b26f-97b39f53dbea"
           }
         }
       },
@@ -307,12 +349,14 @@
           "desktop": {
             "value": "32px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "4703d454-0374-4304-87c9-cc4ae86e4d59"
           },
           "mobile": {
             "value": "41px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "5fa423b6-faa2-497e-9bbd-59cac5c9c696"
           }
         }
       }
@@ -324,10 +368,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "33px"
+            "value": "33px",
+            "uuid": "f3102afd-e5df-4912-9203-8226ce37fed5"
           },
           "mobile": {
-            "value": "46px"
+            "value": "46px",
+            "uuid": "4e9d9b63-989a-4b63-b74d-22b5188f8df7"
           }
         }
       },
@@ -336,12 +382,14 @@
           "desktop": {
             "value": "35px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "8efecc6d-6939-40ec-b7c9-077dddc2e4da"
           },
           "mobile": {
             "value": "46px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "0f253bb1-11d1-4af3-901b-b7b4877d02fa"
           }
         }
       }
@@ -353,10 +401,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "12px"
+            "value": "12px",
+            "uuid": "3bf75a24-5e95-4c18-9da2-b7088377fe21"
           },
           "mobile": {
-            "value": "16px"
+            "value": "16px",
+            "uuid": "a1dbcaf0-bbcf-444d-9d22-7f86db20303a"
           }
         }
       },
@@ -365,12 +415,14 @@
           "desktop": {
             "value": "14px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "44ed85d1-9e7c-4d81-9150-ad83fdafc328"
           },
           "mobile": {
             "value": "18px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "a0df76f3-334c-404e-af94-651dc1631551"
           }
         }
       }
@@ -382,10 +434,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "14px"
+            "value": "14px",
+            "uuid": "f97f0f1b-c0c2-410f-b116-86d30f4d52cf"
           },
           "mobile": {
-            "value": "18px"
+            "value": "18px",
+            "uuid": "0d5f13f2-4d5b-4c30-b3a3-fa4fcc33b928"
           }
         }
       },
@@ -394,12 +448,14 @@
           "desktop": {
             "value": "16px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "689162cb-9515-4d7d-bff3-8ae261aa314d"
           },
           "mobile": {
             "value": "20px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "4d30aa11-6dfd-4049-97fb-becec10241d6"
           }
         }
       }
@@ -411,10 +467,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "16px"
+            "value": "16px",
+            "uuid": "8301bfca-a086-4efd-a22f-1d348cbd6dcf"
           },
           "mobile": {
-            "value": "20px"
+            "value": "20px",
+            "uuid": "91b828ce-8ff9-4d32-958e-a8a23ef9b345"
           }
         }
       },
@@ -423,12 +481,14 @@
           "desktop": {
             "value": "18px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "b8f10f46-a1f8-4c73-ae1a-a3d70258d894"
           },
           "mobile": {
             "value": "22px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "db3ec089-c51c-48f6-9f3e-0588173bb5f2"
           }
         }
       }
@@ -440,10 +500,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "18px"
+            "value": "18px",
+            "uuid": "2372d602-78ce-45a7-9dff-152152e55117"
           },
           "mobile": {
-            "value": "22px"
+            "value": "22px",
+            "uuid": "b7ae7b32-b347-4e09-9978-3b0b92a4dbab"
           }
         }
       },
@@ -452,12 +514,14 @@
           "desktop": {
             "value": "20px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "7891f610-9a54-4889-a5e7-747637939809"
           },
           "mobile": {
             "value": "26px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "00e246ce-9510-4429-bbc9-74b442865798"
           }
         }
       }
@@ -469,10 +533,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "6px"
+            "value": "6px",
+            "uuid": "8a907825-236c-4548-91c4-2123e095726c"
           },
           "mobile": {
-            "value": "7px"
+            "value": "7px",
+            "uuid": "f379c453-da21-41f6-92d1-9b6bdb95fd86"
           }
         }
       },
@@ -481,12 +547,14 @@
           "desktop": {
             "value": "5px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "6e1df1c4-6a80-4b8c-99aa-24308cc68c94"
           },
           "mobile": {
             "value": "6px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "85c920b2-1f23-4bf1-90ae-e5c92d854c77"
           }
         }
       }
@@ -498,10 +566,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "9px"
+            "value": "9px",
+            "uuid": "0135b823-5097-43bb-9911-9f731146af3b"
           },
           "mobile": {
-            "value": "11px"
+            "value": "11px",
+            "uuid": "68276028-41d8-49e1-b0d4-f70cd27ab149"
           }
         }
       },
@@ -510,12 +580,14 @@
           "desktop": {
             "value": "8px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "f5575230-258b-474c-b078-8935a9f02f23"
           },
           "mobile": {
             "value": "10px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "7ba17c8b-51a1-47e3-a3be-7c8a746ab04c"
           }
         }
       }
@@ -527,10 +599,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "12px"
+            "value": "12px",
+            "uuid": "f2c965e6-89fb-4b9d-843d-cfde31b7703d"
           },
           "mobile": {
-            "value": "15px"
+            "value": "15px",
+            "uuid": "035e786b-17f2-488e-a049-84b257a3312f"
           }
         }
       },
@@ -539,12 +613,14 @@
           "desktop": {
             "value": "11px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "2aae56b2-4639-41a4-9037-409412564fd0"
           },
           "mobile": {
             "value": "14px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "43037e51-b895-4599-9d67-afcd17b0d9de"
           }
         }
       }
@@ -556,10 +632,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "15px"
+            "value": "15px",
+            "uuid": "fbc21571-970f-4bb2-8280-f6262446896b"
           },
           "mobile": {
-            "value": "19px"
+            "value": "19px",
+            "uuid": "7e95ad9a-ca10-4f06-9c19-8dd2270cfdad"
           }
         }
       },
@@ -568,12 +646,14 @@
           "desktop": {
             "value": "14px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "b7e7048a-2a27-4ccc-8f4d-717c09fb5b3f"
           },
           "mobile": {
             "value": "17px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "67f76075-33fb-4cbf-8785-cb1d626d2a04"
           }
         }
       }
@@ -585,10 +665,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "12px"
+            "value": "12px",
+            "uuid": "407304fc-7c74-4427-9032-b44ab03c07ce"
           },
           "mobile": {
-            "value": "16px"
+            "value": "16px",
+            "uuid": "90a2b18a-61c7-40d8-926c-d6b18a641010"
           }
         }
       },
@@ -597,12 +679,14 @@
           "desktop": {
             "value": "14px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "da052fde-007d-4c69-b112-67f50452755a"
           },
           "mobile": {
             "value": "18px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "cf3edaa4-3897-491a-add0-53f8057925da"
           }
         }
       }
@@ -614,10 +698,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "14px"
+            "value": "14px",
+            "uuid": "9de5b045-532c-48ef-872e-bd3c22f89a41"
           },
           "mobile": {
-            "value": "18px"
+            "value": "18px",
+            "uuid": "2eef4003-e666-48e7-b25b-8c50063ce400"
           }
         }
       },
@@ -626,12 +712,14 @@
           "desktop": {
             "value": "16px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "14ea1874-1a46-404f-8baf-1c0c0832ff33"
           },
           "mobile": {
             "value": "20px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "ae670151-1eaa-4de5-9a67-2e7a553b7b63"
           }
         }
       }
@@ -643,10 +731,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "16px"
+            "value": "16px",
+            "uuid": "cadf4b9e-b4d4-4ff5-808b-557864cf7dc8"
           },
           "mobile": {
-            "value": "20px"
+            "value": "20px",
+            "uuid": "23d0a4aa-693d-4b79-b942-3898f9cf0b80"
           }
         }
       },
@@ -655,12 +745,14 @@
           "desktop": {
             "value": "18px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "ec32e1d6-da75-47f4-ae14-f47d28912187"
           },
           "mobile": {
             "value": "22px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "2d0cb7dc-68e0-4e88-a2eb-5b4feac5c800"
           }
         }
       }
@@ -672,10 +764,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "18px"
+            "value": "18px",
+            "uuid": "f8f1d29b-4093-40ed-b73c-7a27e27a63a4"
           },
           "mobile": {
-            "value": "22px"
+            "value": "22px",
+            "uuid": "cc041f48-aaa4-4c20-8990-599e0c56134e"
           }
         }
       },
@@ -684,12 +778,14 @@
           "desktop": {
             "value": "20px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "be02f790-a7a2-4570-9065-5942b690c7ed"
           },
           "mobile": {
             "value": "26px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "c5f734ba-bf7a-4b64-8d70-8109fead6a90"
           }
         }
       }
@@ -701,10 +797,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "6px"
+            "value": "6px",
+            "uuid": "b775d7e9-d182-4818-9ae0-b3765a0ecbf7"
           },
           "mobile": {
-            "value": "7px"
+            "value": "7px",
+            "uuid": "02438c4c-161d-45eb-935d-b083ab830876"
           }
         }
       },
@@ -713,12 +811,14 @@
           "desktop": {
             "value": "5px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "587b784a-09b3-48cb-987b-6e0ca4eff810"
           },
           "mobile": {
             "value": "6px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "39ae9b23-fc0d-45d7-beaa-42e7489fbd6e"
           }
         }
       }
@@ -730,10 +830,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "9px"
+            "value": "9px",
+            "uuid": "dcc0155a-6bd1-4148-acaf-e255a7f4d22a"
           },
           "mobile": {
-            "value": "11px"
+            "value": "11px",
+            "uuid": "2f805530-cefe-420a-89e6-a6a81c0faea0"
           }
         }
       },
@@ -742,12 +844,14 @@
           "desktop": {
             "value": "8px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "53cf73f2-b7ad-4daf-88c0-c3285898120a"
           },
           "mobile": {
             "value": "10px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "8629a0e6-b0bc-4447-b17d-8717b766579c"
           }
         }
       }
@@ -759,10 +863,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "12px"
+            "value": "12px",
+            "uuid": "309c9559-1763-4345-8090-aaa12f570889"
           },
           "mobile": {
-            "value": "15px"
+            "value": "15px",
+            "uuid": "41d0dde7-de34-4e99-96d0-4f727ed71673"
           }
         }
       },
@@ -771,12 +877,14 @@
           "desktop": {
             "value": "11px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "5315bd57-b934-4668-8204-e64d2eec70e6"
           },
           "mobile": {
             "value": "14px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "9db66e19-9553-47ca-ac5c-118a6b5f043a"
           }
         }
       }
@@ -788,10 +896,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "15px"
+            "value": "15px",
+            "uuid": "f4620f0a-43ba-4650-8640-9425ed1a1260"
           },
           "mobile": {
-            "value": "19px"
+            "value": "19px",
+            "uuid": "c478710f-1747-455b-998a-6fa837762905"
           }
         }
       },
@@ -800,12 +910,14 @@
           "desktop": {
             "value": "14px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "37397c94-a464-4ae7-9448-720b4696bbdb"
           },
           "mobile": {
             "value": "17px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "42768b7d-b75d-4236-a8d3-e14d1d6e6f55"
           }
         }
       }
@@ -813,16 +925,19 @@
   },
   "radio-button-selection-indicator": {
     "component": "radio-button",
-    "value": "4px"
+    "value": "4px",
+    "uuid": "a7fc6bdb-5b9c-42d4-8f78-d34021ac0708"
   },
   "field-label-text-to-asterisk-small": {
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "4796831f-4d3e-472c-bad8-699d4eb443ea"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "4271498d-747c-423d-87cc-761b8a181f7c"
       }
     }
   },
@@ -830,10 +945,12 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "7be280dc-43dc-48c3-bf0c-b53f95e76516"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "2fbc4add-e6b4-4dfa-9a7d-0de628b2f63c"
       }
     }
   },
@@ -841,10 +958,12 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "997c475e-6ae5-469f-9c8e-9fedafa2b556"
       },
       "mobile": {
-        "value": "6px"
+        "value": "6px",
+        "uuid": "87149afe-899b-4fb6-bd7c-d2becf8117fc"
       }
     }
   },
@@ -852,10 +971,12 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "4140e899-8a28-4627-a91a-e6526da1bdf5"
       },
       "mobile": {
-        "value": "6px"
+        "value": "6px",
+        "uuid": "17ba788d-da38-455d-9322-16e4f05ea923"
       }
     }
   },
@@ -863,10 +984,12 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "7122627b-1906-424d-9cbf-261546ff3774"
       },
       "mobile": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "ec0c072f-50fb-4934-99fc-a2576062e7b4"
       }
     }
   },
@@ -874,10 +997,12 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "12px"
+        "value": "12px",
+        "uuid": "eb2b857d-9482-42fb-82f9-bbe7899a22b9"
       },
       "mobile": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "6f65ad1a-4a65-4b83-af44-5bd893f3b40e"
       }
     }
   },
@@ -885,10 +1010,12 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "60caa810-5335-4c9f-95a7-0e60d49f43fc"
       },
       "mobile": {
-        "value": "19px"
+        "value": "19px",
+        "uuid": "e410a804-2655-4bbc-9b66-53a5facc92ac"
       }
     }
   },
@@ -896,10 +1023,12 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "19px"
+        "value": "19px",
+        "uuid": "e53ea4a5-bde5-4695-9ab8-50c2ce704019"
       },
       "mobile": {
-        "value": "24px"
+        "value": "24px",
+        "uuid": "5227bf07-140a-49c6-88f9-cc454d8a90c1"
       }
     }
   },
@@ -907,10 +1036,12 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "0px"
+        "value": "0px",
+        "uuid": "ab718f97-15c3-4b8b-aee7-b50b09ec0a33"
       },
       "mobile": {
-        "value": "0px"
+        "value": "0px",
+        "uuid": "3240fc8b-c1de-42bd-a004-9b27748f5574"
       }
     }
   },
@@ -918,10 +1049,12 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "b5243f56-7985-4686-b41f-9b9b9a18b047"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "9d00a023-3a33-4b98-819e-3229e03d103b"
       }
     }
   },
@@ -929,10 +1062,12 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "f7dd90d8-91e6-4090-a5a9-6b30087860a4"
       },
       "mobile": {
-        "value": "6px"
+        "value": "6px",
+        "uuid": "f83b208f-dfdb-49a8-aedd-08fe8c7a86a9"
       }
     }
   },
@@ -940,25 +1075,30 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "5c14d528-fe17-4b0b-a123-edbdb93fd173"
       },
       "mobile": {
-        "value": "6px"
+        "value": "6px",
+        "uuid": "c4c5e251-d514-42cf-b9e3-56694910e95b"
       }
     }
   },
   "field-label-to-component": {
     "component": "field-label",
-    "value": "0px"
+    "value": "0px",
+    "uuid": "4738ec46-a43c-48f9-aeca-87863275dc4d"
   },
   "field-label-to-component-quiet-small": {
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "-8px"
+        "value": "-8px",
+        "uuid": "1218beeb-1d74-4e1a-b495-38d5f07afb55"
       },
       "mobile": {
-        "value": "-10px"
+        "value": "-10px",
+        "uuid": "2d3e67ce-de6d-4e41-bcf8-06b09c0bcce7"
       }
     }
   },
@@ -966,10 +1106,12 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "-8px"
+        "value": "-8px",
+        "uuid": "dc00948e-3c0f-4c6b-8e3e-a7fbf396e059"
       },
       "mobile": {
-        "value": "-10px"
+        "value": "-10px",
+        "uuid": "074489d2-66b0-4198-94fe-9818279bbf0f"
       }
     }
   },
@@ -977,10 +1119,12 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "-12px"
+        "value": "-12px",
+        "uuid": "be80f1b1-4c08-479f-a39e-28b6a64714f2"
       },
       "mobile": {
-        "value": "-15px"
+        "value": "-15px",
+        "uuid": "c29cfb87-34e7-4397-bfd8-23378ecbb011"
       }
     }
   },
@@ -988,10 +1132,12 @@
     "component": "field-label",
     "sets": {
       "desktop": {
-        "value": "-15px"
+        "value": "-15px",
+        "uuid": "d6c750dc-3117-4c1a-96bf-b94d530e912d"
       },
       "mobile": {
-        "value": "-19px"
+        "value": "-19px",
+        "uuid": "e1298748-d7cc-4bff-93bc-745b777fcf9e"
       }
     }
   },
@@ -999,10 +1145,12 @@
     "component": "help-text",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "91cb19ef-63fc-4d98-a61e-a5f55951f656"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "00334ebf-5706-4a97-b02c-9f41642c4795"
       }
     }
   },
@@ -1010,10 +1158,12 @@
     "component": "help-text",
     "sets": {
       "desktop": {
-        "value": "3px"
+        "value": "3px",
+        "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f"
       },
       "mobile": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "b690bd12-855e-444d-8b76-a7ae948e3f52"
       }
     }
   },
@@ -1021,10 +1171,12 @@
     "component": "help-text",
     "sets": {
       "desktop": {
-        "value": "6px"
+        "value": "6px",
+        "uuid": "54cae12b-5f21-47b4-a964-6033bd025975"
       },
       "mobile": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "e2c40309-5b3d-485a-bafa-9015a5b751e7"
       }
     }
   },
@@ -1032,25 +1184,30 @@
     "component": "help-text",
     "sets": {
       "desktop": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "bec914a9-5905-40ac-bd61-a727016c1228"
       },
       "mobile": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "251c39cc-f949-4055-aecb-42fc99f9d504"
       }
     }
   },
   "help-text-to-component": {
     "component": "help-text",
-    "value": "0px"
+    "value": "0px",
+    "uuid": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa"
   },
   "status-light-dot-size-small": {
     "component": "status-light",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "04485265-2983-4377-9ec5-f2456863a1df"
       },
       "mobile": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "cd7e6182-25e6-46cc-99f7-1750bc889183"
       }
     }
   },
@@ -1058,10 +1215,12 @@
     "component": "status-light",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "ada7bd8c-04c9-4d77-a6e8-072ff86984ae"
       },
       "mobile": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "a7fc9ca1-ad6d-47cb-8798-4a18ba4acc79"
       }
     }
   },
@@ -1069,10 +1228,12 @@
     "component": "status-light",
     "sets": {
       "desktop": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "45832ec2-5f33-4861-a857-1ca2352213db"
       },
       "mobile": {
-        "value": "12px"
+        "value": "12px",
+        "uuid": "6554dae9-18b6-4c90-b2f4-8aeaab0724ad"
       }
     }
   },
@@ -1080,10 +1241,12 @@
     "component": "status-light",
     "sets": {
       "desktop": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "5e27b361-988c-42ac-8c66-f7d1ba00632d"
       },
       "mobile": {
-        "value": "12px"
+        "value": "12px",
+        "uuid": "38b8d9c8-d340-4123-88bc-f739cfde91e9"
       }
     }
   },
@@ -1091,10 +1254,12 @@
     "component": "status-light",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "ddece3b1-7f85-4c08-b783-5bde8e31f480"
       },
       "mobile": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "a4f43adc-1db1-4e2f-a5d1-3ec06c62c9ff"
       }
     }
   },
@@ -1102,10 +1267,12 @@
     "component": "status-light",
     "sets": {
       "desktop": {
-        "value": "12px"
+        "value": "12px",
+        "uuid": "e2aa334e-ebb7-4e5f-a735-4f6a43b2d6cf"
       },
       "mobile": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "321a462b-8811-4264-ac1f-4608df8f8c53"
       }
     }
   },
@@ -1113,10 +1280,12 @@
     "component": "status-light",
     "sets": {
       "desktop": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "ead22722-10f9-4cfe-a387-65f5d86ca520"
       },
       "mobile": {
-        "value": "19px"
+        "value": "19px",
+        "uuid": "8d9d872f-7c55-4a94-a80d-c1f2c8834f5d"
       }
     }
   },
@@ -1124,10 +1293,12 @@
     "component": "status-light",
     "sets": {
       "desktop": {
-        "value": "19px"
+        "value": "19px",
+        "uuid": "899c7b7c-7405-4e29-8d42-edf41ca2943f"
       },
       "mobile": {
-        "value": "24px"
+        "value": "24px",
+        "uuid": "b351cade-6d69-449e-908a-518793fef5b9"
       }
     }
   },
@@ -1135,10 +1306,12 @@
     "component": "action-button",
     "sets": {
       "desktop": {
-        "value": "3px"
+        "value": "3px",
+        "uuid": "b79597cc-5294-4555-ab78-f4200e480ac3"
       },
       "mobile": {
-        "value": "3px"
+        "value": "3px",
+        "uuid": "d0c7ca7a-e92a-43e4-8b8d-4e4a7f8e9dcc"
       }
     }
   },
@@ -1146,10 +1319,12 @@
     "component": "action-button",
     "sets": {
       "desktop": {
-        "value": "3px"
+        "value": "3px",
+        "uuid": "fa106863-0e09-44d4-9465-68cd3254ed2b"
       },
       "mobile": {
-        "value": "3px"
+        "value": "3px",
+        "uuid": "d94c960b-4248-4422-9a0d-e77b41c6818a"
       }
     }
   },
@@ -1157,10 +1332,12 @@
     "component": "action-button",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "5022d77a-9332-4bb8-bd9f-d353eed2caa3"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "255a24ab-f70d-4698-8d2e-569c37c6c798"
       }
     }
   },
@@ -1168,10 +1345,12 @@
     "component": "action-button",
     "sets": {
       "desktop": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "dc65074f-a923-4130-84e5-59fa5d5f4121"
       },
       "mobile": {
-        "value": "6px"
+        "value": "6px",
+        "uuid": "86a36757-a2d1-4263-97dc-62cf4543b3f9"
       }
     }
   },
@@ -1179,25 +1358,30 @@
     "component": "action-button",
     "sets": {
       "desktop": {
-        "value": "6px"
+        "value": "6px",
+        "uuid": "1c72a1bf-cfcc-4553-91c6-d7bbcf02cc5a"
       },
       "mobile": {
-        "value": "7px"
+        "value": "7px",
+        "uuid": "b4b4710b-2073-4285-8342-31ae6712671b"
       }
     }
   },
   "button-minimum-width-multiplier": {
     "component": "button",
-    "value": "2.25"
+    "value": "2.25",
+    "uuid": "68b6ac88-d229-460d-8d59-3f5c141db358"
   },
   "tooltip-tip-width": {
     "component": "tooltip",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "0732bd0e-c5c0-4e58-8fee-2015c1753237"
       },
       "mobile": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "ad2c09a6-c42e-4eef-94a3-6c2180c6e2af"
       }
     }
   },
@@ -1205,10 +1389,12 @@
     "component": "tooltip",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "481757aa-c6b5-4281-9a63-feeb1c88aec6"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "70c9f65f-1e23-4c47-94dd-0c3ddde15743"
       }
     }
   },
@@ -1216,33 +1402,40 @@
     "component": "tooltip",
     "sets": {
       "desktop": {
-        "value": "160px"
+        "value": "160px",
+        "uuid": "e5ba234a-afdd-451e-84e7-51314446cdae"
       },
       "mobile": {
-        "value": "200px"
+        "value": "200px",
+        "uuid": "6d7623e1-65f5-4af5-8c08-b33b093b85ae"
       }
     }
   },
   "divider-thickness-small": {
     "component": "divider",
-    "value": "1px"
+    "value": "1px",
+    "uuid": "9dcc27ef-7044-4051-97f3-2fd64a5d0a36"
   },
   "divider-thickness-medium": {
     "component": "divider",
-    "value": "2px"
+    "value": "2px",
+    "uuid": "3cf3e962-92f3-4334-8b92-9a1da9396c25"
   },
   "divider-thickness-large": {
     "component": "divider",
-    "value": "4px"
+    "value": "4px",
+    "uuid": "913cce2a-c928-4803-9bd6-3fb1e0fcbee5"
   },
   "progress-circle-size-small": {
     "component": "progress-circle",
     "sets": {
       "desktop": {
-        "value": "16px"
+        "value": "16px",
+        "uuid": "2b9f6096-84e7-4430-a3a9-a9daadcd1225"
       },
       "mobile": {
-        "value": "20px"
+        "value": "20px",
+        "uuid": "a7fafd60-dc38-425a-b6b6-952a06d30ab4"
       }
     }
   },
@@ -1250,10 +1443,12 @@
     "component": "progress-circle",
     "sets": {
       "desktop": {
-        "value": "32px"
+        "value": "32px",
+        "uuid": "2b9efe78-8384-4994-a4ab-82046f109d20"
       },
       "mobile": {
-        "value": "40px"
+        "value": "40px",
+        "uuid": "c380cf9b-cb59-465c-9b56-41654d3239f1"
       }
     }
   },
@@ -1261,10 +1456,12 @@
     "component": "progress-circle",
     "sets": {
       "desktop": {
-        "value": "64px"
+        "value": "64px",
+        "uuid": "a91ff845-aeb8-4a1b-9e4a-d34c77bb8253"
       },
       "mobile": {
-        "value": "80px"
+        "value": "80px",
+        "uuid": "c7719369-7d3d-4446-ade2-08abb472a985"
       }
     }
   },
@@ -1272,10 +1469,12 @@
     "component": "progress-circle",
     "sets": {
       "desktop": {
-        "value": "2px"
+        "value": "2px",
+        "uuid": "becddd13-6ef9-4abc-9468-25885b2b4b84"
       },
       "mobile": {
-        "value": "3px"
+        "value": "3px",
+        "uuid": "a37ef752-662b-4152-b247-0ce9fcd624e4"
       }
     }
   },
@@ -1283,10 +1482,12 @@
     "component": "progress-circle",
     "sets": {
       "desktop": {
-        "value": "3px"
+        "value": "3px",
+        "uuid": "a3adff4d-e69e-4aa0-95ec-2019328b7d08"
       },
       "mobile": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "aa930d94-7874-44d7-80f1-dc431d40c4a4"
       }
     }
   },
@@ -1294,10 +1495,12 @@
     "component": "progress-circle",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "6331ae2c-ddf9-4de4-8df4-82b5581cf2ea"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "076b031f-5980-4112-bf0b-2cec47f54c6b"
       }
     }
   },
@@ -1305,10 +1508,12 @@
     "component": "toast",
     "sets": {
       "desktop": {
-        "value": "48px"
+        "value": "48px",
+        "uuid": "a6267318-c8b1-43d4-99b6-ca2a55e9dff4"
       },
       "mobile": {
-        "value": "56px"
+        "value": "56px",
+        "uuid": "12c8ae92-16b9-48ec-801c-bf07785da4b3"
       }
     }
   },
@@ -1316,10 +1521,12 @@
     "component": "toast",
     "sets": {
       "desktop": {
-        "value": "336px"
+        "value": "336px",
+        "uuid": "9ac252c8-06dd-48a9-a3d3-ca8ccfb355dd"
       },
       "mobile": {
-        "value": "420px"
+        "value": "420px",
+        "uuid": "a4de5997-1eb1-430f-9a9f-cf2637d02d34"
       }
     }
   },
@@ -1327,10 +1534,12 @@
     "component": "toast",
     "sets": {
       "desktop": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "d10d2a55-2b4d-46b1-81e9-521d6c3578e1"
       },
       "mobile": {
-        "value": "17px"
+        "value": "17px",
+        "uuid": "1f83245b-3d79-4326-b843-df7b6549cade"
       }
     }
   },
@@ -1338,10 +1547,12 @@
     "component": "toast",
     "sets": {
       "desktop": {
-        "value": "14px"
+        "value": "14px",
+        "uuid": "be4f24cf-9334-4fc4-aa72-e0347beecda7"
       },
       "mobile": {
-        "value": "16px"
+        "value": "16px",
+        "uuid": "9f0688f5-128f-47c3-8585-94d704214881"
       }
     }
   },
@@ -1349,10 +1560,12 @@
     "component": "toast",
     "sets": {
       "desktop": {
-        "value": "17px"
+        "value": "17px",
+        "uuid": "821e8f74-d1de-4507-9ff7-ece44e535e8c"
       },
       "mobile": {
-        "value": "19px"
+        "value": "19px",
+        "uuid": "a790fd9e-4e5f-4f4c-a3ca-832540832580"
       }
     }
   },
@@ -1360,10 +1573,12 @@
     "component": "action-bar",
     "sets": {
       "desktop": {
-        "value": "48px"
+        "value": "48px",
+        "uuid": "e67822de-d0cd-4b49-8e90-6c43523bb4dd"
       },
       "mobile": {
-        "value": "56px"
+        "value": "56px",
+        "uuid": "4be2cf45-1ba5-4a6f-a004-8d26ecbb4c2f"
       }
     }
   },
@@ -1371,10 +1586,12 @@
     "component": "action-bar",
     "sets": {
       "desktop": {
-        "value": "14px"
+        "value": "14px",
+        "uuid": "73f82d09-7927-461c-b7d7-ab0bc6b3e3f9"
       },
       "mobile": {
-        "value": "16px"
+        "value": "16px",
+        "uuid": "b8466a83-3409-47c0-a329-b8e83b83abdb"
       }
     }
   },
@@ -1382,10 +1599,12 @@
     "component": "swatch",
     "sets": {
       "desktop": {
-        "value": "16px"
+        "value": "16px",
+        "uuid": "9fa676c9-ccfb-47db-9ae4-348884b9b120"
       },
       "mobile": {
-        "value": "20px"
+        "value": "20px",
+        "uuid": "0d926e1a-080a-41ba-8bb9-ef6d0847cb77"
       }
     }
   },
@@ -1393,10 +1612,12 @@
     "component": "swatch",
     "sets": {
       "desktop": {
-        "value": "24px"
+        "value": "24px",
+        "uuid": "33789b22-7d2c-4620-8f45-973e734ef5b6"
       },
       "mobile": {
-        "value": "30px"
+        "value": "30px",
+        "uuid": "c8d8e379-1e3f-4f5e-bce3-df3fc05ff16e"
       }
     }
   },
@@ -1404,10 +1625,12 @@
     "component": "swatch",
     "sets": {
       "desktop": {
-        "value": "32px"
+        "value": "32px",
+        "uuid": "2e29b29f-b8b7-430a-8720-31422c6ad243"
       },
       "mobile": {
-        "value": "40px"
+        "value": "40px",
+        "uuid": "77be7e79-a589-4f32-9e42-ea45ed7763aa"
       }
     }
   },
@@ -1415,49 +1638,60 @@
     "component": "swatch",
     "sets": {
       "desktop": {
-        "value": "40px"
+        "value": "40px",
+        "uuid": "91e7d7f2-a34d-4d03-831c-75574d1b7bee"
       },
       "mobile": {
-        "value": "50px"
+        "value": "50px",
+        "uuid": "162c1233-3420-44a2-a270-97d0a7c23df1"
       }
     }
   },
   "swatch-rectangle-width-multiplier": {
     "component": "swatch",
-    "value": "2"
+    "value": "2",
+    "uuid": "b3157e9d-82a0-429e-b987-8c240a669af7"
   },
   "swatch-slash-thickness-extra-small": {
     "component": "swatch",
-    "value": "2px"
+    "value": "2px",
+    "uuid": "944c49d7-e189-4daa-aca1-b0b590d78875"
   },
   "swatch-slash-thickness-small": {
     "component": "swatch",
-    "value": "3px"
+    "value": "3px",
+    "uuid": "f626d145-7840-4958-86be-d2306b5b2233"
   },
   "swatch-slash-thickness-medium": {
     "component": "swatch",
-    "value": "4px"
+    "value": "4px",
+    "uuid": "4e735599-f420-4b51-aa75-607046431c76"
   },
   "swatch-slash-thickness-large": {
     "component": "swatch",
-    "value": "5px"
+    "value": "5px",
+    "uuid": "6b1b2709-de8c-450d-9299-49200208599e"
   },
   "progress-bar-minimum-width": {
     "component": "progress-bar",
-    "value": "48px"
+    "value": "48px",
+    "uuid": "8dfd4f94-93cc-47dd-92d2-87d1696f4ab7"
   },
   "progress-bar-maximum-width": {
     "component": "progress-bar",
-    "value": "768px"
+    "value": "768px",
+    "uuid": "7ba00389-a6ba-4d18-9d88-8704427ad784"
   },
   "progress-bar-thickness-small": {
     "component": "progress-bar",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "f8881a13-70fb-4797-a3ec-08c3c8432b5a"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "ab98c47f-f2e4-4f74-8008-55c65907b6eb"
       }
     }
   },
@@ -1465,10 +1699,12 @@
     "component": "progress-bar",
     "sets": {
       "desktop": {
-        "value": "6px"
+        "value": "6px",
+        "uuid": "0d9f1945-262b-48d0-b584-ff78ec28e012"
       },
       "mobile": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "d53e3ac6-6091-4c3f-9e1b-b12b716a5f95"
       }
     }
   },
@@ -1476,10 +1712,12 @@
     "component": "progress-bar",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "f8dfa5e7-efb8-409f-8ab3-6bf3adf2199b"
       },
       "mobile": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "4b680695-7e42-493c-889b-c76a60ab1f4f"
       }
     }
   },
@@ -1487,29 +1725,35 @@
     "component": "progress-bar",
     "sets": {
       "desktop": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "71229a29-a2cf-46bc-84d4-d324bffad26b"
       },
       "mobile": {
-        "value": "13px"
+        "value": "13px",
+        "uuid": "c15e51b3-4a5e-421e-aa4e-e0a82840f1a2"
       }
     }
   },
   "meter-minimum-width": {
     "component": "meter",
-    "value": "48px"
+    "value": "48px",
+    "uuid": "fd4f6ef0-bab2-4405-9eea-8a9b8a7dd295"
   },
   "meter-maximum-width": {
     "component": "meter",
-    "value": "768px"
+    "value": "768px",
+    "uuid": "63bfb4da-4aaf-49c6-9328-16c636cf0bf9"
   },
   "meter-default-width": {
     "component": "meter",
     "sets": {
       "desktop": {
-        "value": "192px"
+        "value": "192px",
+        "uuid": "ceeda4da-026b-496c-8abd-7081aceae262"
       },
       "mobile": {
-        "value": "240px"
+        "value": "240px",
+        "uuid": "dc5f4966-4ddd-4e9a-a748-370d8eaae568"
       }
     }
   },
@@ -1517,10 +1761,12 @@
     "component": "meter",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "0013e354-3f26-41a5-8486-2577045872f6"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "eb9c3cff-5a1a-4832-a623-6ab258b81d37"
       }
     }
   },
@@ -1528,25 +1774,30 @@
     "component": "meter",
     "sets": {
       "desktop": {
-        "value": "6px"
+        "value": "6px",
+        "uuid": "06751674-2222-433d-9dc6-40f14b2add6c"
       },
       "mobile": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "c9052808-918e-4368-b113-28f928104eda"
       }
     }
   },
   "in-line-alert-minimum-width": {
     "component": "in-line-alert",
-    "value": "240px"
+    "value": "240px",
+    "uuid": "8007ebd8-fd67-4dc2-8444-9e6a50c88675"
   },
   "tag-top-to-avatar-small": {
     "component": "tag",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "cf1239b1-495a-482c-8aeb-3b98c6b75583"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "a2c40238-1fda-4482-a419-b8092a385c9b"
       }
     }
   },
@@ -1554,10 +1805,12 @@
     "component": "tag",
     "sets": {
       "desktop": {
-        "value": "6px"
+        "value": "6px",
+        "uuid": "394343df-fb5d-44be-b6d1-9975ab8a4156"
       },
       "mobile": {
-        "value": "7px"
+        "value": "7px",
+        "uuid": "8dbabe33-52e7-4dc1-b2e3-81c1c62d98cb"
       }
     }
   },
@@ -1565,10 +1818,12 @@
     "component": "tag",
     "sets": {
       "desktop": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "57de6911-6f5f-4a0d-9606-e7584a10d7f4"
       },
       "mobile": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "9881ad7c-e9df-40b1-a368-4f8185042c3f"
       }
     }
   },
@@ -1576,10 +1831,12 @@
     "component": "tag",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "c9e5e973-4942-414e-b128-5569f62453a2"
       },
       "mobile": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "d93e04b9-1901-4ec4-947a-62c84205e61e"
       }
     }
   },
@@ -1587,10 +1844,12 @@
     "component": "tag",
     "sets": {
       "desktop": {
-        "value": "12px"
+        "value": "12px",
+        "uuid": "1bfd3452-93c8-424a-99e4-55e5ecbee90b"
       },
       "mobile": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "ac7b17a2-99ef-45b3-ab3b-4d3eeaf99fb9"
       }
     }
   },
@@ -1598,44 +1857,53 @@
     "component": "tag",
     "sets": {
       "desktop": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "e335436a-190c-4417-86f4-b7266c093377"
       },
       "mobile": {
-        "value": "19px"
+        "value": "19px",
+        "uuid": "af69e3d1-92b6-4e62-93f2-c1f1f10f0a63"
       }
     }
   },
   "popover-tip-width": {
     "component": "popover",
-    "value": "16px"
+    "value": "16px",
+    "uuid": "c4bc3596-1fbc-4b08-85af-6bd8142e499a"
   },
   "popover-tip-height": {
     "component": "popover",
-    "value": "8px"
+    "value": "8px",
+    "uuid": "5960406b-973d-4e1f-9bb4-2c7a22422c5b"
   },
   "popover-top-to-content-area": {
     "component": "popover",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "f97488e8-b1c1-442e-b98c-0ae6cff0b774"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "6165bae4-7148-4cb2-a1b4-38a25f2d8cde"
       }
     }
   },
   "menu-item-label-to-description": {
     "component": "menu",
-    "value": "1px"
+    "value": "1px",
+    "uuid": "628cf42f-eb40-49b0-b110-3340421d4502"
   },
   "menu-item-edge-to-content-not-selected-small": {
     "component": "menu",
     "sets": {
       "desktop": {
-        "value": "28px"
+        "value": "28px",
+        "uuid": "033fb47f-30d8-4ff2-9825-a3318ca2118b"
       },
       "mobile": {
-        "value": "24px"
+        "value": "24px",
+        "uuid": "de2ef572-54a2-46c2-ad1d-60468fbe6090"
       }
     }
   },
@@ -1643,10 +1911,12 @@
     "component": "menu",
     "sets": {
       "desktop": {
-        "value": "32px"
+        "value": "32px",
+        "uuid": "ac4c8abe-abca-4c6f-82e7-ed7fae0c761d"
       },
       "mobile": {
-        "value": "42px"
+        "value": "42px",
+        "uuid": "5faa4858-5590-40d4-bd12-b4c839908c4c"
       }
     }
   },
@@ -1654,10 +1924,12 @@
     "component": "menu",
     "sets": {
       "desktop": {
-        "value": "38px"
+        "value": "38px",
+        "uuid": "bc6a7e9d-b84c-4bf3-9a63-a08047deb41c"
       },
       "mobile": {
-        "value": "47px"
+        "value": "47px",
+        "uuid": "90385dcc-ea45-466f-ba4d-a1b13f6a079c"
       }
     }
   },
@@ -1665,10 +1937,12 @@
     "component": "menu",
     "sets": {
       "desktop": {
-        "value": "45px"
+        "value": "45px",
+        "uuid": "2480bdaf-ac18-4f67-9a0b-f92200fb31d7"
       },
       "mobile": {
-        "value": "54px"
+        "value": "54px",
+        "uuid": "3385c12f-199b-4e9d-b2e2-ef6e2658d180"
       }
     }
   },
@@ -1676,10 +1950,12 @@
     "component": "menu",
     "sets": {
       "desktop": {
-        "value": "7px"
+        "value": "7px",
+        "uuid": "8e4b2873-fb57-42d6-8b7b-91fd270c048e"
       },
       "mobile": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "eb9cf950-cba2-4fb8-a115-8a4c0ddb00d0"
       }
     }
   },
@@ -1687,10 +1963,12 @@
     "component": "menu",
     "sets": {
       "desktop": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "0ed8f599-b4c1-4ac5-b2b0-60db06a98a88"
       },
       "mobile": {
-        "value": "13px"
+        "value": "13px",
+        "uuid": "e0468683-b2d2-4839-9ad8-46963d7402fc"
       }
     }
   },
@@ -1698,10 +1976,12 @@
     "component": "menu",
     "sets": {
       "desktop": {
-        "value": "14px"
+        "value": "14px",
+        "uuid": "bceffb12-72a3-40eb-98a5-3d5fb4d3b627"
       },
       "mobile": {
-        "value": "17px"
+        "value": "17px",
+        "uuid": "bda3ee60-8f9a-41b2-a8a2-894aed3b3bed"
       }
     }
   },
@@ -1709,10 +1989,12 @@
     "component": "menu",
     "sets": {
       "desktop": {
-        "value": "17px"
+        "value": "17px",
+        "uuid": "63919dd9-0dfa-4e6f-ab89-8a24fc91061b"
       },
       "mobile": {
-        "value": "22px"
+        "value": "22px",
+        "uuid": "77e97b70-ef7e-4228-8d91-0ff9d9d2b063"
       }
     }
   },
@@ -1720,10 +2002,12 @@
     "component": "menu",
     "sets": {
       "desktop": {
-        "value": "7px"
+        "value": "7px",
+        "uuid": "fbe45d1b-f4b9-40d1-965f-38abe057dc69"
       },
       "mobile": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "943a0b43-6c91-40a3-a680-318a934bf6ef"
       }
     }
   },
@@ -1731,10 +2015,12 @@
     "component": "menu",
     "sets": {
       "desktop": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "8fb8ad12-9bb9-417f-8d0d-7323455cfb7a"
       },
       "mobile": {
-        "value": "13px"
+        "value": "13px",
+        "uuid": "61e906e3-6daa-4841-b4f0-54939157a50b"
       }
     }
   },
@@ -1742,10 +2028,12 @@
     "component": "menu",
     "sets": {
       "desktop": {
-        "value": "14px"
+        "value": "14px",
+        "uuid": "ccfed193-e366-4b13-806c-0cc18e2a87b4"
       },
       "mobile": {
-        "value": "17px"
+        "value": "17px",
+        "uuid": "f84569c5-bb63-4eb1-8193-1130e88e7e5b"
       }
     }
   },
@@ -1753,10 +2041,12 @@
     "component": "menu",
     "sets": {
       "desktop": {
-        "value": "17px"
+        "value": "17px",
+        "uuid": "7be78bf9-a761-45a4-b764-b88e6209440b"
       },
       "mobile": {
-        "value": "22px"
+        "value": "22px",
+        "uuid": "3ff6cb7a-20cb-4b25-a367-7e4497d0f237"
       }
     }
   },
@@ -1764,12 +2054,14 @@
     "component": "slider",
     "sets": {
       "spectrum": {
-        "value": "2px"
+        "value": "2px",
+        "uuid": "50a71b8b-30fb-40c0-b81e-5ce0dcc8c96b"
       },
       "express": {
         "value": "4px",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "c3844fed-2f84-46da-9b00-cc8e0dbf0336"
       }
     }
   },
@@ -1781,10 +2073,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "14px"
+            "value": "14px",
+            "uuid": "cf748652-099a-4022-ae68-0e5dcb8eff9b"
           },
           "mobile": {
-            "value": "18px"
+            "value": "18px",
+            "uuid": "19adc707-4fc6-40f0-a972-340d6c935908"
           }
         }
       },
@@ -1793,12 +2087,14 @@
           "desktop": {
             "value": "18px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "87a12a8a-f40e-44ea-a2ba-3474517e75cd"
           },
           "mobile": {
             "value": "22px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "6ea5501c-63cc-45ff-8fa0-5863f1214f5f"
           }
         }
       }
@@ -1812,10 +2108,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "16px"
+            "value": "16px",
+            "uuid": "dd3b649d-12f8-427b-95a6-a4964d92d3b0"
           },
           "mobile": {
-            "value": "20px"
+            "value": "20px",
+            "uuid": "7306fc00-67fd-4ccd-aec3-7a14e092da5e"
           }
         }
       },
@@ -1824,12 +2122,14 @@
           "desktop": {
             "value": "20px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "fa994412-f688-4fe5-9d17-79669bde7d30"
           },
           "mobile": {
             "value": "24px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "bb501252-cfd3-4ccc-89bf-0aa74713feab"
           }
         }
       }
@@ -1843,10 +2143,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "18px"
+            "value": "18px",
+            "uuid": "320abda8-9fe8-4f78-87d6-3f1be921e880"
           },
           "mobile": {
-            "value": "22px"
+            "value": "22px",
+            "uuid": "0926d8f3-bdd6-4dde-89d0-6d5d7ab9f094"
           }
         }
       },
@@ -1855,12 +2157,14 @@
           "desktop": {
             "value": "22px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "4f19dbe1-2a1f-4406-88b6-807a0027cf8d"
           },
           "mobile": {
             "value": "28px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "b77e83d6-1a06-42fd-8cb5-e4f68f8c030b"
           }
         }
       }
@@ -1874,10 +2178,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "20px"
+            "value": "20px",
+            "uuid": "fd74d5a5-b966-4d26-abca-58c7a21f8136"
           },
           "mobile": {
-            "value": "26px"
+            "value": "26px",
+            "uuid": "c5d47ebf-c83f-43c3-b2f2-f4d51c40960b"
           }
         }
       },
@@ -1886,12 +2192,14 @@
           "desktop": {
             "value": "24px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "42d3374f-79a6-4473-a3b5-033c7bd7d99b"
           },
           "mobile": {
             "value": "30px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "a5cc511d-b8c4-4fb8-9ca6-cf73c5071324"
           }
         }
       }
@@ -1903,10 +2211,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "14px"
+            "value": "14px",
+            "uuid": "1384d419-bfad-44d7-847c-a0f2c195fb93"
           },
           "mobile": {
-            "value": "18px"
+            "value": "18px",
+            "uuid": "7feb3d57-59fb-4095-966e-e8ca0e91442f"
           }
         }
       },
@@ -1915,12 +2225,14 @@
           "desktop": {
             "value": "18px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "d59c3ced-b57a-4b42-8693-c71b3579f3a7"
           },
           "mobile": {
             "value": "22px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "f424a2ec-ed1f-4739-b619-494e36f880e7"
           }
         }
       }
@@ -1932,10 +2244,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "16px"
+            "value": "16px",
+            "uuid": "a8a02181-c797-461d-a666-a63f7535a096"
           },
           "mobile": {
-            "value": "20px"
+            "value": "20px",
+            "uuid": "278fc618-f6c1-4d30-bf85-075654079003"
           }
         }
       },
@@ -1944,12 +2258,14 @@
           "desktop": {
             "value": "20px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "8e0e1863-e992-4ca4-b25e-ba93060a3746"
           },
           "mobile": {
             "value": "24px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "04bef018-e59f-4c3d-8ece-79b9614fd813"
           }
         }
       }
@@ -1961,10 +2277,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "18px"
+            "value": "18px",
+            "uuid": "3df3c866-faf0-43db-8c18-f442e7f94822"
           },
           "mobile": {
-            "value": "22px"
+            "value": "22px",
+            "uuid": "2a3fb9b0-d701-4e86-8180-9d81f68e91d5"
           }
         }
       },
@@ -1973,12 +2291,14 @@
           "desktop": {
             "value": "22px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "bbf15614-e738-43fb-9eef-011662f50591"
           },
           "mobile": {
             "value": "28px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "1d5c2e61-9381-4434-b76f-2160e933ba79"
           }
         }
       }
@@ -1990,10 +2310,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "20px"
+            "value": "20px",
+            "uuid": "10ccce0d-5a2c-414e-8055-0be76709c180"
           },
           "mobile": {
-            "value": "26px"
+            "value": "26px",
+            "uuid": "413dc697-1f14-47c8-a7f2-e52254513e6e"
           }
         }
       },
@@ -2002,12 +2324,14 @@
           "desktop": {
             "value": "24px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "77fff5f5-8941-4cd4-b814-9eb5f0720e77"
           },
           "mobile": {
             "value": "30px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "5edbd2bb-e986-4e3a-a627-04f62c94384f"
           }
         }
       }
@@ -2019,10 +2343,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "5px"
+            "value": "5px",
+            "uuid": "c9b7d8d9-c5ba-4d97-a03b-a214104ede23"
           },
           "mobile": {
-            "value": "7px"
+            "value": "7px",
+            "uuid": "683fb538-290c-423f-990b-d7134e485f51"
           }
         }
       },
@@ -2031,12 +2357,14 @@
           "desktop": {
             "value": "{border-width-200}",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "02b0ad1e-392b-4db3-a002-e2893170d3ff"
           },
           "mobile": {
             "value": "{border-width-200}",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "42c33935-3d84-4aef-a701-082db752cd15"
           }
         }
       }
@@ -2048,10 +2376,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "6px"
+            "value": "6px",
+            "uuid": "63c65cd6-a2c2-4430-a1e9-cf82ae0a3f25"
           },
           "mobile": {
-            "value": "8px"
+            "value": "8px",
+            "uuid": "25959ff8-6c2f-4612-8d69-b95bfe485ce4"
           }
         }
       },
@@ -2060,12 +2390,14 @@
           "desktop": {
             "value": "{border-width-200}",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "8b9ec3a7-393b-4cce-82ce-3d75963f03f7"
           },
           "mobile": {
             "value": "{border-width-200}",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "9ae32e64-309f-4732-b01b-3bebfb77d286"
           }
         }
       }
@@ -2077,10 +2409,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "7px"
+            "value": "7px",
+            "uuid": "525e7d74-2bc0-48ac-85ca-b07335819a31"
           },
           "mobile": {
-            "value": "9px"
+            "value": "9px",
+            "uuid": "3bf8805b-b4f7-4d0d-af85-d227d6380539"
           }
         }
       },
@@ -2089,12 +2423,14 @@
           "desktop": {
             "value": "{border-width-200}",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "2a8534ec-8949-4212-9ed1-03ac9fd0349a"
           },
           "mobile": {
             "value": "{border-width-200}",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "b8c147c1-f528-4878-bd5f-7438cac59070"
           }
         }
       }
@@ -2106,10 +2442,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "8px"
+            "value": "8px",
+            "uuid": "47d025e2-0b26-4ebc-9b46-3cd1e470b9bc"
           },
           "mobile": {
-            "value": "11px"
+            "value": "11px",
+            "uuid": "feac9f02-b52a-4694-a5d4-4b1930ab4f07"
           }
         }
       },
@@ -2118,12 +2456,14 @@
           "desktop": {
             "value": "{border-width-200}",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "c13916ff-d225-4106-a625-daea77871a31"
           },
           "mobile": {
             "value": "{border-width-200}",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "4e420f10-cf3a-478f-a355-8f4050ea1b06"
           }
         }
       }
@@ -2133,12 +2473,14 @@
     "component": "slider",
     "sets": {
       "spectrum": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "1a257268-32e9-4c5c-8477-32a724ff1d42"
       },
       "express": {
         "value": "0px",
         "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "f7aa286c-54d8-4e6b-98b6-46cf06566ea7"
       }
     }
   },
@@ -2150,10 +2492,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "5px"
+            "value": "5px",
+            "uuid": "bf2e4550-f97e-4bd2-91e8-b0ddb5a8abe2"
           },
           "mobile": {
-            "value": "6px"
+            "value": "6px",
+            "uuid": "3b96ab4f-6628-4ebd-aba8-2837fce04709"
           }
         }
       },
@@ -2162,12 +2506,14 @@
           "desktop": {
             "value": "3px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "96c6ddaa-e4a3-43d2-b402-6a0ca1a4a0c6"
           },
           "mobile": {
             "value": "4px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "c9e4aabc-3302-42ae-b794-9d8a46f4ba2e"
           }
         }
       }
@@ -2181,10 +2527,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "8px"
+            "value": "8px",
+            "uuid": "238ebdc2-e51c-459d-8cc7-abfeafed6451"
           },
           "mobile": {
-            "value": "10px"
+            "value": "10px",
+            "uuid": "5030babb-0017-4784-84ad-d3aaacf6fa05"
           }
         }
       },
@@ -2193,12 +2541,14 @@
           "desktop": {
             "value": "6px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "099ef7a9-c530-4f29-82d0-9ebfeae4a659"
           },
           "mobile": {
             "value": "8px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "5782a8d7-5af0-462f-8f97-0d82344586dd"
           }
         }
       }
@@ -2212,10 +2562,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "11px"
+            "value": "11px",
+            "uuid": "be9aed61-c7a1-4dce-80a7-07c9ecef1fd9"
           },
           "mobile": {
-            "value": "14px"
+            "value": "14px",
+            "uuid": "3915ff73-11dd-4389-8d81-2f540ab060f4"
           }
         }
       },
@@ -2224,12 +2576,14 @@
           "desktop": {
             "value": "9px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "826fdfae-7855-40a1-930d-511f48e5cc64"
           },
           "mobile": {
             "value": "12px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "4a3a1b22-5ec2-4b1a-9bbe-784e865c5aba"
           }
         }
       }
@@ -2243,10 +2597,12 @@
       "spectrum": {
         "sets": {
           "desktop": {
-            "value": "14px"
+            "value": "14px",
+            "uuid": "155b6273-1661-4ef5-85c0-a1688ce1ee72"
           },
           "mobile": {
-            "value": "17px"
+            "value": "17px",
+            "uuid": "e04d9975-4a54-416b-b5fa-87f3ae930204"
           }
         }
       },
@@ -2255,12 +2611,14 @@
           "desktop": {
             "value": "12px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "99cc688d-1dfa-440c-b6ce-d2b0b162f997"
           },
           "mobile": {
             "value": "15px",
             "deprecated": true,
-            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2."
+            "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+            "uuid": "fe46f911-0efe-4dfe-b12d-e16fa2939e7f"
           }
         }
       }
@@ -2270,10 +2628,12 @@
     "component": "slider",
     "sets": {
       "desktop": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "cbf9c42b-c14e-440d-97ad-3c937c464446"
       },
       "mobile": {
-        "value": "6px"
+        "value": "6px",
+        "uuid": "d20768dd-dbf4-48a9-8cc8-3370fa6ef810"
       }
     }
   },
@@ -2281,10 +2641,12 @@
     "component": "slider",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "b257bf97-d632-4488-a954-57b16bcf18b9"
       },
       "mobile": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "20a8d579-038e-4432-b271-8e44b83a9aa1"
       }
     }
   },
@@ -2292,10 +2654,12 @@
     "component": "slider",
     "sets": {
       "desktop": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "a4be5828-2176-42e7-97de-1f80e7dc08bb"
       },
       "mobile": {
-        "value": "14px"
+        "value": "14px",
+        "uuid": "f4fc7ec7-cc02-4ff4-bd9a-f05f9bd59c1d"
       }
     }
   },
@@ -2303,25 +2667,30 @@
     "component": "slider",
     "sets": {
       "desktop": {
-        "value": "14px"
+        "value": "14px",
+        "uuid": "309b149c-306a-49ee-b14c-a0eb4826e3b1"
       },
       "mobile": {
-        "value": "17px"
+        "value": "17px",
+        "uuid": "9be47810-7a07-4885-a86d-647f5f36d7e5"
       }
     }
   },
   "picker-minimum-width-multiplier": {
     "component": "picker",
-    "value": "2"
+    "value": "2",
+    "uuid": "67b68a30-ae00-4da2-9730-99196a2eaf96"
   },
   "picker-visual-to-disclosure-icon-small": {
     "component": "picker",
     "sets": {
       "desktop": {
-        "value": "7px"
+        "value": "7px",
+        "uuid": "4bcebd07-28a8-401d-9072-3b2ac22e8b63"
       },
       "mobile": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "269725c9-3462-4132-8487-95dd61814448"
       }
     }
   },
@@ -2329,10 +2698,12 @@
     "component": "picker",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "f83b0313-ba78-4c98-be6e-702b58956589"
       },
       "mobile": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "c620ab2b-256d-409a-a80c-7d7c2295efc8"
       }
     }
   },
@@ -2340,10 +2711,12 @@
     "component": "picker",
     "sets": {
       "desktop": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "2f22005b-305b-4629-bc03-10d81e36ce78"
       },
       "mobile": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "47f5a27f-4039-4668-bb21-aafb9dcb82fb"
       }
     }
   },
@@ -2351,10 +2724,12 @@
     "component": "picker",
     "sets": {
       "desktop": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "de09427a-eef3-4360-a912-0b0d5602d4a4"
       },
       "mobile": {
-        "value": "13px"
+        "value": "13px",
+        "uuid": "0ac097c8-020e-4a7b-b692-59dfdf07e3f8"
       }
     }
   },
@@ -2362,26 +2737,31 @@
     "component": "picker",
     "sets": {
       "spectrum": {
-        "value": "{border-width-100}"
+        "value": "{border-width-100}",
+        "uuid": "69c28762-f456-4641-b6ce-7cb295e3a27d"
       }
     }
   },
   "picker-end-edge-to-disclousure-icon-quiet": {
     "component": "picker",
-    "value": "0px"
+    "value": "0px",
+    "uuid": "c8bd227d-c72b-4f6a-9d93-0b595821dee0"
   },
   "text-field-minimum-width-multiplier": {
     "component": "text-field",
-    "value": "1.5"
+    "value": "1.5",
+    "uuid": "875bbeaf-b4b7-41b9-8e6f-d6a57ec03049"
   },
   "text-area-minimum-width": {
     "component": "text-area",
     "sets": {
       "desktop": {
-        "value": "112px"
+        "value": "112px",
+        "uuid": "69694a85-5f31-43b4-8044-c0f08c83d618"
       },
       "mobile": {
-        "value": "140px"
+        "value": "140px",
+        "uuid": "c89bcff3-23ce-405c-a776-3ece7a2ac342"
       }
     }
   },
@@ -2389,29 +2769,35 @@
     "component": "text-area",
     "sets": {
       "desktop": {
-        "value": "56px"
+        "value": "56px",
+        "uuid": "71bc5e67-900e-4e32-8109-a4c18da89348"
       },
       "mobile": {
-        "value": "70px"
+        "value": "70px",
+        "uuid": "cb7270a7-8075-435c-81a5-469ef43860c0"
       }
     }
   },
   "combo-box-minimum-width-multiplier": {
     "component": "combo-box",
-    "value": "2.5"
+    "value": "2.5",
+    "uuid": "eabcc77a-f263-43ed-9944-9daa78a56b66"
   },
   "combo-box-quiet-minimum-width-multiplier": {
     "component": "combo-box",
-    "value": "2"
+    "value": "2",
+    "uuid": "4798728b-9a97-4ce1-b703-0182b1513e8b"
   },
   "combo-box-visual-to-field-button-small": {
     "component": "combo-box",
     "sets": {
       "desktop": {
-        "value": "7px"
+        "value": "7px",
+        "uuid": "5d054a3e-e4bb-4ca3-b84a-51b3d7fa2cb8"
       },
       "mobile": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "4ccba158-da29-43a1-bbba-6531ecf98807"
       }
     }
   },
@@ -2419,10 +2805,12 @@
     "component": "combo-box",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "c5a4baf2-effe-4d9a-92f3-b4ead5440d36"
       },
       "mobile": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "fefb7088-21e0-4cdf-a8a4-af2a6dcc2a1a"
       }
     }
   },
@@ -2430,10 +2818,12 @@
     "component": "combo-box",
     "sets": {
       "desktop": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "356c4912-69c7-4a95-956b-c1aa78cb02cb"
       },
       "mobile": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "1a529788-8b87-4eef-aa07-a4ffb955761c"
       }
     }
   },
@@ -2441,25 +2831,30 @@
     "component": "combo-box",
     "sets": {
       "desktop": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "4a4ee415-1f25-4d36-928c-5ece0ce4abcc"
       },
       "mobile": {
-        "value": "13px"
+        "value": "13px",
+        "uuid": "50ecd11d-6710-46e9-b1c6-923bb1d9f494"
       }
     }
   },
   "combo-box-visual-to-field-button-quiet": {
     "component": "combo-box",
-    "value": "0px"
+    "value": "0px",
+    "uuid": "292cbbe1-1ba4-4369-9768-2051c07e6406"
   },
   "thumbnail-size-50": {
     "component": "thumbnail",
     "sets": {
       "desktop": {
-        "value": "16px"
+        "value": "16px",
+        "uuid": "0578d5e5-9c2d-46f2-9268-85bdf566b3a5"
       },
       "mobile": {
-        "value": "20px"
+        "value": "20px",
+        "uuid": "7f33676b-63dd-4d16-b7e1-36520ade716d"
       }
     }
   },
@@ -2467,10 +2862,12 @@
     "component": "thumbnail",
     "sets": {
       "desktop": {
-        "value": "18px"
+        "value": "18px",
+        "uuid": "20706cc7-9d07-4938-8328-debd3ab8d822"
       },
       "mobile": {
-        "value": "22px"
+        "value": "22px",
+        "uuid": "852fc55b-beb7-428c-bc0c-452abc204de3"
       }
     }
   },
@@ -2478,10 +2875,12 @@
     "component": "thumbnail",
     "sets": {
       "desktop": {
-        "value": "20px"
+        "value": "20px",
+        "uuid": "46dd2eca-598a-45e3-8c7d-c6cf17e148bf"
       },
       "mobile": {
-        "value": "26px"
+        "value": "26px",
+        "uuid": "545604c8-484f-4697-907c-31e2b2cb46d0"
       }
     }
   },
@@ -2489,10 +2888,12 @@
     "component": "thumbnail",
     "sets": {
       "desktop": {
-        "value": "22px"
+        "value": "22px",
+        "uuid": "ec457831-d272-4809-a84a-f1e9dcaec495"
       },
       "mobile": {
-        "value": "28px"
+        "value": "28px",
+        "uuid": "0e548378-9633-49d2-90d8-b40e1ba7c98e"
       }
     }
   },
@@ -2500,10 +2901,12 @@
     "component": "thumbnail",
     "sets": {
       "desktop": {
-        "value": "26px"
+        "value": "26px",
+        "uuid": "95c5905f-b209-4e84-881f-13ea85f12d87"
       },
       "mobile": {
-        "value": "32px"
+        "value": "32px",
+        "uuid": "8f4dd02c-d3eb-4654-aea4-b3921048cdbe"
       }
     }
   },
@@ -2511,10 +2914,12 @@
     "component": "thumbnail",
     "sets": {
       "desktop": {
-        "value": "28px"
+        "value": "28px",
+        "uuid": "7ee6d5ae-eb01-49e1-93ba-df3e7c25d876"
       },
       "mobile": {
-        "value": "36px"
+        "value": "36px",
+        "uuid": "b0351cf7-f0df-4044-ab26-5b6649ea2e1f"
       }
     }
   },
@@ -2522,10 +2927,12 @@
     "component": "thumbnail",
     "sets": {
       "desktop": {
-        "value": "32px"
+        "value": "32px",
+        "uuid": "87234a25-8f6d-457c-9d3f-363930fec12c"
       },
       "mobile": {
-        "value": "40px"
+        "value": "40px",
+        "uuid": "1798b58e-fce4-411d-ba8d-75006fa4f53e"
       }
     }
   },
@@ -2533,10 +2940,12 @@
     "component": "thumbnail",
     "sets": {
       "desktop": {
-        "value": "36px"
+        "value": "36px",
+        "uuid": "d533a543-9622-4c43-92a6-82dd5eebcc64"
       },
       "mobile": {
-        "value": "46px"
+        "value": "46px",
+        "uuid": "543dcd25-42cc-4198-b4ba-ba5524b08691"
       }
     }
   },
@@ -2544,10 +2953,12 @@
     "component": "thumbnail",
     "sets": {
       "desktop": {
-        "value": "40px"
+        "value": "40px",
+        "uuid": "d6aaa2c4-d213-44de-9bae-742d26df8765"
       },
       "mobile": {
-        "value": "50px"
+        "value": "50px",
+        "uuid": "5eab16f9-5537-4a14-958d-d96200c5723f"
       }
     }
   },
@@ -2555,10 +2966,12 @@
     "component": "thumbnail",
     "sets": {
       "desktop": {
-        "value": "44px"
+        "value": "44px",
+        "uuid": "8cee2b4d-48c8-45aa-803b-5d1cd9027fcf"
       },
       "mobile": {
-        "value": "55px"
+        "value": "55px",
+        "uuid": "94ca9817-988a-4e4f-9163-954d29204049"
       }
     }
   },
@@ -2566,10 +2979,12 @@
     "component": "thumbnail",
     "sets": {
       "desktop": {
-        "value": "50px"
+        "value": "50px",
+        "uuid": "5b9fb77d-8a2e-4e1c-ba86-475cd66b4202"
       },
       "mobile": {
-        "value": "62px"
+        "value": "62px",
+        "uuid": "97f11dd2-0173-464c-9eef-c260c9e8cf22"
       }
     }
   },
@@ -2577,29 +2992,35 @@
     "component": "thumbnail",
     "sets": {
       "desktop": {
-        "value": "56px"
+        "value": "56px",
+        "uuid": "48959be8-02f9-45b9-8190-af60c93cbb6c"
       },
       "mobile": {
-        "value": "70px"
+        "value": "70px",
+        "uuid": "cfbf3ec4-f51d-4a50-b81c-765fff84ce14"
       }
     }
   },
   "alert-dialog-minimum-width": {
     "component": "alert-dialog",
-    "value": "288px"
+    "value": "288px",
+    "uuid": "7d066c2d-ea59-483d-b8a3-6a9b9e35eedd"
   },
   "alert-dialog-maximum-width": {
     "component": "alert-dialog",
-    "value": "480px"
+    "value": "480px",
+    "uuid": "45258afa-543b-4fbc-a621-677d8081c2f1"
   },
   "alert-dialog-title-size": {
     "component": "alert-dialog",
     "sets": {
       "desktop": {
-        "value": "{heading-size-s}"
+        "value": "{heading-size-s}",
+        "uuid": "9b7ce1fc-ea8a-4d7b-a926-0accbd6b1197"
       },
       "mobile": {
-        "value": "{heading-size-xs}"
+        "value": "{heading-size-xs}",
+        "uuid": "3f362b57-09eb-4147-b366-5c1f04c9a29f"
       }
     }
   },
@@ -2607,10 +3028,12 @@
     "component": "alert-dialog",
     "sets": {
       "desktop": {
-        "value": "{body-size-s}"
+        "value": "{body-size-s}",
+        "uuid": "9dc42d1a-b87d-4a5d-a5a3-6afd4d5bd599"
       },
       "mobile": {
-        "value": "{body-size-xs}"
+        "value": "{body-size-xs}",
+        "uuid": "43c5762a-d3a6-49db-9e5e-4a524604fecc"
       }
     }
   },
@@ -2618,25 +3041,30 @@
     "component": "opacity-checkerboard",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "9ddf2e73-ad74-46d7-a79d-fe961b06dbbd"
       },
       "mobile": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "879360e9-a7b0-47e0-bc4a-931a12877014"
       }
     }
   },
   "contextual-help-minimum-width": {
     "component": "contextual-help",
-    "value": "268px"
+    "value": "268px",
+    "uuid": "83be73fe-50bc-4be8-969c-0361a816225b"
   },
   "contextual-help-title-size": {
     "component": "contextual-help",
     "sets": {
       "desktop": {
-        "value": "{heading-size-xs}"
+        "value": "{heading-size-xs}",
+        "uuid": "5358fd6c-d9a0-4caa-a85e-af82ed82efaf"
       },
       "mobile": {
-        "value": "{heading-size-xxs}"
+        "value": "{heading-size-xxs}",
+        "uuid": "e91709ce-79e3-4a81-88fa-e124960d4389"
       }
     }
   },
@@ -2644,29 +3072,35 @@
     "component": "contextual-help",
     "sets": {
       "desktop": {
-        "value": "{heading-size-s}"
+        "value": "{heading-size-s}",
+        "uuid": "e458fa68-ab9c-4441-a7d5-a02f42df1cae"
       },
       "mobile": {
-        "value": "{heading-size-xs}"
+        "value": "{heading-size-xs}",
+        "uuid": "c180fa75-254e-4ee1-8b79-31a3d90254cc"
       }
     }
   },
   "breadcrumbs-height": {
     "component": "breadcrumbs",
-    "value": "{component-height-300}"
+    "value": "{component-height-300}",
+    "uuid": "2d39863c-6987-413c-90d8-07fcc506a0d4"
   },
   "breadcrumbs-height-compact": {
     "component": "breadcrumbs",
-    "value": "{component-height-200}"
+    "value": "{component-height-200}",
+    "uuid": "8393f599-37e8-484a-a1c6-0934ce15a507"
   },
   "breadcrumbs-height-multiline": {
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "72px"
+        "value": "72px",
+        "uuid": "237ff958-a86d-4632-aa7d-504a697509c3"
       },
       "mobile": {
-        "value": "84px"
+        "value": "84px",
+        "uuid": "5e7426da-1a1e-4d37-8c96-4fdac06bfad5"
       }
     }
   },
@@ -2674,10 +3108,12 @@
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "13px"
+        "value": "13px",
+        "uuid": "d084038e-bc31-43be-99ee-13cf727eaf9d"
       },
       "mobile": {
-        "value": "17px"
+        "value": "17px",
+        "uuid": "c4e58bb6-dcd7-4b64-b881-5b918c346989"
       }
     }
   },
@@ -2685,10 +3121,12 @@
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "b19547e2-bd8f-435d-b726-4f2ce6a83984"
       },
       "mobile": {
-        "value": "16px"
+        "value": "16px",
+        "uuid": "da5c0b1f-a8df-407c-888f-ac62d1fefa7c"
       }
     }
   },
@@ -2696,10 +3134,12 @@
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "12px"
+        "value": "12px",
+        "uuid": "138070fe-1f06-48b4-ac49-f8ff117c5f42"
       },
       "mobile": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "ea82fc23-82e7-4116-a8bb-186a253675ad"
       }
     }
   },
@@ -2707,10 +3147,12 @@
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "f0e6a20d-8c2d-4aa3-9060-b6ca66aa7943"
       },
       "mobile": {
-        "value": "19px"
+        "value": "19px",
+        "uuid": "971f1589-f80b-4c1e-8814-b5c286c5f561"
       }
     }
   },
@@ -2718,10 +3160,12 @@
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "12px"
+        "value": "12px",
+        "uuid": "70a356be-c304-4bb4-a9df-97806931f089"
       },
       "mobile": {
-        "value": "19px"
+        "value": "19px",
+        "uuid": "d783bd6f-fc7a-4be4-b53a-b8be86018b7b"
       }
     }
   },
@@ -2729,10 +3173,12 @@
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "5a78f5a4-ceee-4854-96d4-b61d76cc522b"
       },
       "mobile": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "a51a1142-e38e-4055-bd45-ad2bd0045880"
       }
     }
   },
@@ -2740,25 +3186,30 @@
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "a0542dab-98fb-45d8-b4a0-79cfd2cc4f1c"
       },
       "mobile": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "6d632147-5a1e-4a19-9fca-019b234d0455"
       }
     }
   },
   "breadcrumbs-end-edge-to-text": {
     "component": "breadcrumbs",
-    "value": "0px"
+    "value": "0px",
+    "uuid": "99ef1a0d-5fe1-4b62-9609-8929e7a3bf9c"
   },
   "breadcrumbs-top-text-to-bottom-text": {
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "3a89734d-4fcc-43cf-9b77-b2f6d3732391"
       },
       "mobile": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "b93aad22-aff0-46d5-b54e-17891f02124a"
       }
     }
   },
@@ -2766,10 +3217,12 @@
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "19px"
+        "value": "19px",
+        "uuid": "15e56281-5fc1-4b59-b815-fc333231e364"
       },
       "mobile": {
-        "value": "25px"
+        "value": "25px",
+        "uuid": "882046d8-7111-4020-bf31-b8eb9d9013e0"
       }
     }
   },
@@ -2777,10 +3230,12 @@
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "a63e8df1-124f-4f3e-9e1b-ba422b8d8257"
       },
       "mobile": {
-        "value": "23px"
+        "value": "23px",
+        "uuid": "f6c5b011-ec25-42ea-a708-d7dca1b5fb5a"
       }
     }
   },
@@ -2788,10 +3243,12 @@
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "6b310160-ab2e-40fd-9216-21ddcb36b575"
       },
       "mobile": {
-        "value": "20px"
+        "value": "20px",
+        "uuid": "eb3b2566-6fc1-4a2c-a8cf-e40af3d34715"
       }
     }
   },
@@ -2799,25 +3256,30 @@
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "56dd2fd0-c7a3-4f2c-bda9-8e6ba6d99e6c"
       },
       "mobile": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "571239ce-690f-49ee-9e71-d14bbfe4b279"
       }
     }
   },
   "breadcrumbs-truncated-menu-to-separator-icon": {
     "component": "breadcrumbs",
-    "value": "0px"
+    "value": "0px",
+    "uuid": "1fe2a3df-3179-4c4a-8d1f-de41297b6d74"
   },
   "breadcrumbs-top-to-truncated-menu": {
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "751734bd-1c58-4222-bbd8-8b2349f2fbd2"
       },
       "mobile": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "793da276-18a6-46d0-a0e5-a1676c4df583"
       }
     }
   },
@@ -2825,29 +3287,35 @@
     "component": "breadcrumbs",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "e0aba287-799f-4621-97cb-563352002a20"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "d5e92b0a-6d37-4b77-a5d0-6c4f1b9a722c"
       }
     }
   },
   "breadcrumbs-start-edge-to-truncated-menu": {
     "component": "breadcrumbs",
-    "value": "0px"
+    "value": "0px",
+    "uuid": "b1fba444-c281-4be4-bded-4852b551cfee"
   },
   "breadcrumbs-truncated-menu-to-bottom-text": {
     "component": "breadcrumbs",
-    "value": "0px"
+    "value": "0px",
+    "uuid": "2285d870-68ec-469f-a034-2fdeb31e33f0"
   },
   "avatar-size-50": {
     "component": "avatar",
     "sets": {
       "desktop": {
-        "value": "16px"
+        "value": "16px",
+        "uuid": "60fd0b38-3bad-4a0f-8a69-d4cf79b635ff"
       },
       "mobile": {
-        "value": "20px"
+        "value": "20px",
+        "uuid": "6f6fae3d-eafd-41d7-a863-b2f0b57240ab"
       }
     }
   },
@@ -2855,10 +3323,12 @@
     "component": "avatar",
     "sets": {
       "desktop": {
-        "value": "18px"
+        "value": "18px",
+        "uuid": "6aa2d529-0e10-4eaf-8786-f38e04e4d438"
       },
       "mobile": {
-        "value": "22px"
+        "value": "22px",
+        "uuid": "f23636e9-93e2-444d-a95b-1311a7e074f3"
       }
     }
   },
@@ -2866,10 +3336,12 @@
     "component": "avatar",
     "sets": {
       "desktop": {
-        "value": "20px"
+        "value": "20px",
+        "uuid": "f3293ec2-befd-49e8-a280-b5a1827aa40c"
       },
       "mobile": {
-        "value": "26px"
+        "value": "26px",
+        "uuid": "a2833b95-ba74-4caf-89e6-8294465d2780"
       }
     }
   },
@@ -2877,10 +3349,12 @@
     "component": "avatar",
     "sets": {
       "desktop": {
-        "value": "22px"
+        "value": "22px",
+        "uuid": "a17f3911-00ad-4d52-a474-dc5d4e3341d1"
       },
       "mobile": {
-        "value": "28px"
+        "value": "28px",
+        "uuid": "7bfa97a1-39a8-4a30-af13-31ce1393098a"
       }
     }
   },
@@ -2888,10 +3362,12 @@
     "component": "avatar",
     "sets": {
       "desktop": {
-        "value": "26px"
+        "value": "26px",
+        "uuid": "337f89c8-5b8a-4cd9-a32d-31f2d9804b2e"
       },
       "mobile": {
-        "value": "32px"
+        "value": "32px",
+        "uuid": "b0bd14f7-9642-4e20-90c4-68f38a53e72c"
       }
     }
   },
@@ -2899,10 +3375,12 @@
     "component": "avatar",
     "sets": {
       "desktop": {
-        "value": "28px"
+        "value": "28px",
+        "uuid": "f7ee2f39-d2ea-44ce-a5e6-e9a2bb8af52e"
       },
       "mobile": {
-        "value": "36px"
+        "value": "36px",
+        "uuid": "44237baf-1128-445d-8337-a943c6ac0019"
       }
     }
   },
@@ -2910,10 +3388,12 @@
     "component": "avatar",
     "sets": {
       "desktop": {
-        "value": "32px"
+        "value": "32px",
+        "uuid": "9088ecf5-e278-48fe-a7cc-bdf77d15772f"
       },
       "mobile": {
-        "value": "40px"
+        "value": "40px",
+        "uuid": "db33d97e-15e4-4248-a8cf-4b69d745a2e0"
       }
     }
   },
@@ -2921,10 +3401,12 @@
     "component": "avatar",
     "sets": {
       "desktop": {
-        "value": "36px"
+        "value": "36px",
+        "uuid": "15634a63-05f3-4fb8-989a-cb3ad46b8946"
       },
       "mobile": {
-        "value": "46px"
+        "value": "46px",
+        "uuid": "9ea7c014-2c8d-403f-ad7f-fa3c08a3a46d"
       }
     }
   },
@@ -2932,10 +3414,12 @@
     "component": "avatar",
     "sets": {
       "desktop": {
-        "value": "40px"
+        "value": "40px",
+        "uuid": "92260f9e-ad2a-4e46-ad65-d83d99f7e7b7"
       },
       "mobile": {
-        "value": "50px"
+        "value": "50px",
+        "uuid": "0bec4f0f-efb2-44f9-a131-28f8fe248c40"
       }
     }
   },
@@ -2943,10 +3427,12 @@
     "component": "alert-banner",
     "sets": {
       "desktop": {
-        "value": "48px"
+        "value": "48px",
+        "uuid": "450405f8-4f08-4151-85dd-730b669a7ed0"
       },
       "mobile": {
-        "value": "64px"
+        "value": "64px",
+        "uuid": "6d313800-3020-45f8-969d-63e81057ff97"
       }
     }
   },
@@ -2954,10 +3440,12 @@
     "component": "alert-banner",
     "sets": {
       "desktop": {
-        "value": "832px"
+        "value": "832px",
+        "uuid": "713e9ae2-e226-45ab-bce9-869533253ee7"
       },
       "mobile": {
-        "value": "680px"
+        "value": "680px",
+        "uuid": "b02e6302-d443-4b94-bda9-f4cc90b3d4ca"
       }
     }
   },
@@ -2965,16 +3453,19 @@
     "component": "alert-banner",
     "value": "{alert-banner-top-to-workflow-icon}",
     "deprecated": true,
-    "deprecated_comment": "Introduced as an error. Use alert-banner-top-to-workflow-icon instead"
+    "deprecated_comment": "Introduced as an error. Use alert-banner-top-to-workflow-icon instead",
+    "uuid": "42b40d65-eed4-432e-8ede-74d89905d131"
   },
   "alert-banner-top-to-workflow-icon": {
     "component": "alert-banner",
     "sets": {
       "desktop": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "fbe047c4-0346-4b81-bdf6-6565cede7a28"
       },
       "mobile": {
-        "value": "21px"
+        "value": "21px",
+        "uuid": "402c755b-322c-4ea0-856c-ca209bdaa8ec"
       }
     }
   },
@@ -2982,16 +3473,19 @@
     "component": "alert-banner",
     "value": "{alert-banner-top-to-text}",
     "deprecated": true,
-    "deprecated_comment": "Introduced as an error. Use alert-banner-top-to-text instead"
+    "deprecated_comment": "Introduced as an error. Use alert-banner-top-to-text instead",
+    "uuid": "8fefedaf-6e95-4a14-a8ba-08381f57bfeb"
   },
   "alert-banner-top-to-text": {
     "component": "alert-banner",
     "sets": {
       "desktop": {
-        "value": "14px"
+        "value": "14px",
+        "uuid": "1d289972-d5ba-41e8-8935-e8c83afb15cf"
       },
       "mobile": {
-        "value": "21px"
+        "value": "21px",
+        "uuid": "8db02117-b543-4b3e-b0ff-203e9a821708"
       }
     }
   },
@@ -2999,16 +3493,19 @@
     "component": "alert-banner",
     "value": "{alert-banner-bottom-to-text}",
     "deprecated": true,
-    "deprecated_comment": "Introduced as an error. Use alert-banner-bottom-to-text instead"
+    "deprecated_comment": "Introduced as an error. Use alert-banner-bottom-to-text instead",
+    "uuid": "e2bd6435-6fbd-4030-9ff5-b034438b8d8a"
   },
   "alert-banner-bottom-to-text": {
     "component": "alert-banner",
     "sets": {
       "desktop": {
-        "value": "17px"
+        "value": "17px",
+        "uuid": "e19fdd96-44a4-407b-b2b1-01001684fc84"
       },
       "mobile": {
-        "value": "22px"
+        "value": "22px",
+        "uuid": "5f2b2bc1-ebb0-46dd-a563-58df6307996d"
       }
     }
   },
@@ -3016,10 +3513,12 @@
     "component": "rating",
     "sets": {
       "desktop": {
-        "value": "18px"
+        "value": "18px",
+        "uuid": "f0958cee-9688-43db-9542-1aef164f9dfe"
       },
       "mobile": {
-        "value": "22px"
+        "value": "22px",
+        "uuid": "dce9ff1e-06d1-49a5-817f-5319f4ab15e2"
       }
     }
   },
@@ -3027,10 +3526,12 @@
     "component": "rating",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "b132d948-bec9-4a29-b281-e77801ce5a7c"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "8e13ea1d-8000-485e-8700-5522cc71b95c"
       }
     }
   },
@@ -3038,10 +3539,12 @@
     "component": "color-area",
     "sets": {
       "desktop": {
-        "value": "192px"
+        "value": "192px",
+        "uuid": "8fcf30ee-73e1-4f54-8975-5467dedade29"
       },
       "mobile": {
-        "value": "240px"
+        "value": "240px",
+        "uuid": "e5daae6b-7040-4e80-a251-db4c8c79e113"
       }
     }
   },
@@ -3049,10 +3552,12 @@
     "component": "color-area",
     "sets": {
       "desktop": {
-        "value": "64px"
+        "value": "64px",
+        "uuid": "19ff1ba5-a351-4427-bf2e-4e212dde3d3c"
       },
       "mobile": {
-        "value": "80px"
+        "value": "80px",
+        "uuid": "126cd0b8-55cc-489c-9582-fddde76b431c"
       }
     }
   },
@@ -3060,10 +3565,12 @@
     "component": "color-area",
     "sets": {
       "desktop": {
-        "value": "192px"
+        "value": "192px",
+        "uuid": "993f90f6-22a6-49ec-a8e6-7a8b904d42a7"
       },
       "mobile": {
-        "value": "240px"
+        "value": "240px",
+        "uuid": "552a014a-c590-48f8-98dc-26849b62c3ab"
       }
     }
   },
@@ -3071,29 +3578,35 @@
     "component": "color-area",
     "sets": {
       "desktop": {
-        "value": "64px"
+        "value": "64px",
+        "uuid": "73c558f3-2a1c-4c1d-9b17-cfb49f510070"
       },
       "mobile": {
-        "value": "80px"
+        "value": "80px",
+        "uuid": "9b84d54e-2b10-4502-b072-ded2a8bf9cb3"
       }
     }
   },
   "color-area-border-width": {
     "component": "color-area",
-    "value": "{border-width-100}"
+    "value": "{border-width-100}",
+    "uuid": "78fff16d-d6fe-4a74-98bc-97c56e352250"
   },
   "color-area-border-rounding": {
     "component": "color-area",
-    "value": "{corner-radius-100}"
+    "value": "{corner-radius-100}",
+    "uuid": "ab656bf4-8814-42fa-9036-b1e67159e4e1"
   },
   "color-wheel-width": {
     "component": "color-wheel",
     "sets": {
       "desktop": {
-        "value": "192px"
+        "value": "192px",
+        "uuid": "d4cdb77e-54b8-4bcf-97b1-992287af2690"
       },
       "mobile": {
-        "value": "240px"
+        "value": "240px",
+        "uuid": "81d866f0-e2a6-4f27-bb22-6675cce4e937"
       }
     }
   },
@@ -3101,25 +3614,30 @@
     "component": "color-wheel",
     "sets": {
       "desktop": {
-        "value": "175px"
+        "value": "175px",
+        "uuid": "647244c3-b071-45c1-94f7-3be32cfebabe"
       },
       "mobile": {
-        "value": "219px"
+        "value": "219px",
+        "uuid": "6733cd28-a949-40f7-bd36-034af9c0261f"
       }
     }
   },
   "color-wheel-color-area-margin": {
     "component": "color-wheel",
-    "value": "12px"
+    "value": "12px",
+    "uuid": "4b6bca16-ea29-4d6c-81cf-9005b9a3b5e5"
   },
   "color-slider-length": {
     "component": "color-slider",
     "sets": {
       "desktop": {
-        "value": "192px"
+        "value": "192px",
+        "uuid": "11442823-3e61-425a-a24b-a4a0747a06c4"
       },
       "mobile": {
-        "value": "240px"
+        "value": "240px",
+        "uuid": "c42de1ce-088a-4918-a7dc-36507c8acedf"
       }
     }
   },
@@ -3127,41 +3645,50 @@
     "component": "color-slider",
     "sets": {
       "desktop": {
-        "value": "80px"
+        "value": "80px",
+        "uuid": "54aad7a1-df6a-414a-82b4-7976c912a8e5"
       },
       "mobile": {
-        "value": "100px"
+        "value": "100px",
+        "uuid": "120308f7-4220-420e-b836-20176a8184b7"
       }
     }
   },
   "color-slider-border-width": {
     "component": "color-slider",
-    "value": "1px"
+    "value": "1px",
+    "uuid": "2b907cad-7534-411b-b3bf-ab89a3712ad8"
   },
   "color-slider-border-rounding": {
     "component": "color-slider",
-    "value": "4px"
+    "value": "4px",
+    "uuid": "991541a2-df44-4f32-90a5-de698adf5db3"
   },
   "floating-action-button-drop-shadow-blur": {
     "component": "floating-action-button",
-    "value": "12px"
+    "value": "12px",
+    "uuid": "82e8cf04-7eda-4f36-8d2c-fda63241c3de"
   },
   "floating-action-button-drop-shadow-y": {
     "component": "floating-action-button",
-    "value": "4px"
+    "value": "4px",
+    "uuid": "a4ddc1a6-1367-4153-bb7c-c217d16d10f4"
   },
   "illustrated-message-maximum-width": {
     "component": "illustrated-message",
-    "value": "380px"
+    "value": "380px",
+    "uuid": "0e464925-5524-4fcc-a2f1-54ef42a2990a"
   },
   "illustrated-message-title-size": {
     "component": "illustrated-message",
     "sets": {
       "desktop": {
-        "value": "{heading-size-m}"
+        "value": "{heading-size-m}",
+        "uuid": "365ec548-431b-4e1e-9f9d-7b04d337f001"
       },
       "mobile": {
-        "value": "{heading-size-s}"
+        "value": "{heading-size-s}",
+        "uuid": "cfca5a29-7073-4627-8a61-27d37552dc03"
       }
     }
   },
@@ -3169,10 +3696,12 @@
     "component": "illustrated-message",
     "sets": {
       "desktop": {
-        "value": "{heading-cjk-size-m}"
+        "value": "{heading-cjk-size-m}",
+        "uuid": "e77279df-bc62-441a-8a30-5faa41d0df10"
       },
       "mobile": {
-        "value": "{heading-cjk-size-s}"
+        "value": "{heading-cjk-size-s}",
+        "uuid": "00c938e6-e62e-4bc3-8884-cf23b10e286c"
       }
     }
   },
@@ -3180,85 +3709,105 @@
     "component": "illustrated-message",
     "sets": {
       "desktop": {
-        "value": "{body-size-s}"
+        "value": "{body-size-s}",
+        "uuid": "4140710f-ae31-4ae3-b8b6-2d3eb6a1ae78"
       },
       "mobile": {
-        "value": "{body-size-xs}"
+        "value": "{body-size-xs}",
+        "uuid": "f3ba73a4-16ba-44a4-abf2-9893e8f02344"
       }
     }
   },
   "search-field-minimum-width-multiplier": {
     "component": "search-field",
-    "value": "3"
+    "value": "3",
+    "uuid": "c4b2177d-4468-4180-be27-69d26a51ba0b"
   },
   "color-loupe-height": {
     "component": "color-loupe",
-    "value": "64px"
+    "value": "64px",
+    "uuid": "0f7e8b9e-99e5-4f5a-ae80-99f65f4c4e51"
   },
   "color-loupe-width": {
     "component": "color-loupe",
-    "value": "48px"
+    "value": "48px",
+    "uuid": "889e2495-b882-4aa3-8a5b-1a71d44edde4"
   },
   "color-loupe-bottom-to-color-handle": {
     "component": "color-loupe",
-    "value": "12px"
+    "value": "12px",
+    "uuid": "92beba60-f61d-426a-a864-203dca7244a0"
   },
   "color-loupe-outer-border-width": {
     "component": "color-loupe",
-    "value": "{border-width-200}"
+    "value": "{border-width-200}",
+    "uuid": "51cd5039-1319-451a-b13f-bb3a218238a5"
   },
   "color-loupe-inner-border-width": {
     "component": "color-loupe",
-    "value": "1px"
+    "value": "1px",
+    "uuid": "b3900f89-0a7a-4c47-a6d9-ca8aa19b9bfb"
   },
   "card-minimum-width": {
     "component": "cards",
-    "value": "100px"
+    "value": "100px",
+    "uuid": "55db9f3d-621d-4d23-b3d0-c0f2b0f3f9b0"
   },
   "card-preview-minimum-height": {
     "component": "cards",
-    "value": "130px"
+    "value": "130px",
+    "uuid": "58eb5be8-644f-448e-99b9-94d1fbb93240"
   },
   "card-selection-background-size": {
     "component": "cards",
-    "value": "40px"
+    "value": "40px",
+    "uuid": "496fd060-70a9-48d0-948f-593b81847199"
   },
   "drop-zone-width": {
     "component": "drop-zone",
-    "value": "428px"
+    "value": "428px",
+    "uuid": "2097b13e-94b3-4a06-a0af-c7d8420d1273"
   },
   "drop-zone-content-maximum-width": {
     "component": "drop-zone",
-    "value": "{illustrated-message-maximum-width}"
+    "value": "{illustrated-message-maximum-width}",
+    "uuid": "b8d0db71-9a25-46fc-b77a-037fcf86be8e"
   },
   "drop-zone-border-dash-length": {
     "component": "drop-zone",
-    "value": "8px"
+    "value": "8px",
+    "uuid": "a596af57-256f-4445-b91f-36e47bfb2d95"
   },
   "drop-zone-border-dash-gap": {
     "component": "drop-zone",
-    "value": "4px"
+    "value": "4px",
+    "uuid": "47c15433-53d3-425b-8b87-ea234701f781"
   },
   "drop-zone-title-size": {
     "component": "drop-zone",
-    "value": "{illustrated-message-title-size}"
+    "value": "{illustrated-message-title-size}",
+    "uuid": "edc68bfe-7ad3-4a12-81fa-ded8fb6fc2e3"
   },
   "drop-zone-cjk-title-size": {
     "component": "drop-zone",
-    "value": "{illustrated-message-cjk-title-size}"
+    "value": "{illustrated-message-cjk-title-size}",
+    "uuid": "013387e8-8925-4bb4-a8ee-94420141fde9"
   },
   "drop-zone-body-size": {
     "component": "drop-zone",
-    "value": "{illustrated-message-body-size}"
+    "value": "{illustrated-message-body-size}",
+    "uuid": "bb3fee51-24cc-4643-9f22-fa1592ab2457"
   },
   "coach-mark-minimum-width": {
     "component": "coach-mark",
     "sets": {
       "desktop": {
-        "value": "296px"
+        "value": "296px",
+        "uuid": "9f413341-5ed5-4cd0-8348-1c7141dcab8d"
       },
       "mobile": {
-        "value": "208px"
+        "value": "208px",
+        "uuid": "9004d69e-5726-42f5-a4d0-de09db2de784"
       }
     }
   },
@@ -3266,10 +3815,12 @@
     "component": "coach-mark",
     "sets": {
       "desktop": {
-        "value": "{spacing-400}"
+        "value": "{spacing-400}",
+        "uuid": "d5a3e2c7-f717-4436-91a3-3ab34aebd48e"
       },
       "mobile": {
-        "value": "{spacing-300}"
+        "value": "{spacing-300}",
+        "uuid": "11fb0ab2-d6a0-4da8-9c83-c1f6b918406a"
       }
     }
   },
@@ -3277,10 +3828,12 @@
     "component": "coach-mark",
     "sets": {
       "desktop": {
-        "value": "33px"
+        "value": "33px",
+        "uuid": "d2ff2d4f-058e-412b-9e16-1725d6d29e25"
       },
       "mobile": {
-        "value": "22px"
+        "value": "22px",
+        "uuid": "cd48e6b7-a4d8-4a22-8d65-531d770a9898"
       }
     }
   },
@@ -3288,10 +3841,12 @@
     "component": "coach-mark",
     "sets": {
       "desktop": {
-        "value": "166px"
+        "value": "166px",
+        "uuid": "e62c5a76-685c-4b48-98bb-746d6dd4b10e"
       },
       "mobile": {
-        "value": "121px"
+        "value": "121px",
+        "uuid": "53703e12-f837-4573-bd44-e4727ed2aeaa"
       }
     }
   },
@@ -3299,7 +3854,8 @@
     "component": "coach-mark",
     "sets": {
       "mobile": {
-        "value": "{heading-size-xxs}"
+        "value": "{heading-size-xxs}",
+        "uuid": "cd4848b6-d560-475a-9d80-f7b5acebce10"
       }
     }
   },
@@ -3307,7 +3863,8 @@
     "component": "coach-mark",
     "sets": {
       "mobile": {
-        "value": "{body-size-xs}"
+        "value": "{body-size-xs}",
+        "uuid": "a0abef77-dafe-4158-9faa-a4b4b2871e54"
       }
     }
   },
@@ -3315,7 +3872,8 @@
     "component": "coach-mark",
     "sets": {
       "mobile": {
-        "value": "{body-size-xs}"
+        "value": "{body-size-xs}",
+        "uuid": "350d9235-ff9e-43d7-9298-56b36d58d6de"
       }
     }
   },
@@ -3323,10 +3881,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "2px"
+        "value": "2px",
+        "uuid": "d6cc404c-af92-43be-88e3-407fdcb6e068"
       },
       "mobile": {
-        "value": "2px"
+        "value": "2px",
+        "uuid": "0a5e5c70-d24e-48a2-9445-ccf87de892a9"
       }
     }
   },
@@ -3334,10 +3894,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "4f6e49d2-9ab8-4548-aae4-eed45a4003b9"
       },
       "mobile": {
-        "value": "7px"
+        "value": "7px",
+        "uuid": "1aa82f7b-64d5-4a5c-921c-4b36d0c4bd2d"
       }
     }
   },
@@ -3345,10 +3907,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "229fa20e-6d13-40b0-b19f-5cf6386f81ac"
       },
       "mobile": {
-        "value": "12px"
+        "value": "12px",
+        "uuid": "bef73b91-db4f-4532-9f4d-f5a81ead625d"
       }
     }
   },
@@ -3356,10 +3920,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "484c9603-07f1-4ba6-b1bf-7cfaec5d1594"
       },
       "mobile": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "47070193-194e-4211-b767-61ef8aed8723"
       }
     }
   },
@@ -3367,10 +3933,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "48db5aeb-6752-4267-89c7-48ed84692ec8"
       },
       "mobile": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "1dab0630-304c-4087-b21c-83cd0e40b1d4"
       }
     }
   },
@@ -3378,10 +3946,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "12px"
+        "value": "12px",
+        "uuid": "19c91104-bdf4-4969-8d92-c9cd47d39d13"
       },
       "mobile": {
-        "value": "14px"
+        "value": "14px",
+        "uuid": "63602a66-5f96-4e6a-8bf0-2ac03321a577"
       }
     }
   },
@@ -3389,10 +3959,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "a73cc1b0-e31d-4d42-bb89-2e283fe9c59b"
       },
       "mobile": {
-        "value": "7px"
+        "value": "7px",
+        "uuid": "c09ca9bf-1b8b-4ff3-93b7-e9296472dc76"
       }
     }
   },
@@ -3400,10 +3972,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "2021d787-ddaa-470a-a25d-8a57f67b7359"
       },
       "mobile": {
-        "value": "12px"
+        "value": "12px",
+        "uuid": "96442c10-e84d-4b26-9b49-534597d3193e"
       }
     }
   },
@@ -3411,10 +3985,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "12px"
+        "value": "12px",
+        "uuid": "8e042372-2504-46f2-8486-4d6174293ea2"
       },
       "mobile": {
-        "value": "14px"
+        "value": "14px",
+        "uuid": "e90553f0-d71e-44c2-b70a-89110fab7c6a"
       }
     }
   },
@@ -3422,10 +3998,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "6e08e002-56bf-421e-b9f8-9d37b1e80e6e"
       },
       "mobile": {
-        "value": "7px"
+        "value": "7px",
+        "uuid": "5ebd5aab-49b3-49d1-be25-8aff15217eda"
       }
     }
   },
@@ -3433,10 +4011,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "9289aae4-ddaa-4a43-8f00-973dea8350f2"
       },
       "mobile": {
-        "value": "12px"
+        "value": "12px",
+        "uuid": "51f14c59-3071-45e7-b919-683c30589da9"
       }
     }
   },
@@ -3444,10 +4024,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "13px"
+        "value": "13px",
+        "uuid": "5d8877e0-076c-4c9f-b2e9-cdde6942ea61"
       },
       "mobile": {
-        "value": "14px"
+        "value": "14px",
+        "uuid": "bd300d17-3599-4382-8a7d-1b78700d49e9"
       }
     }
   },
@@ -3455,10 +4037,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "2px"
+        "value": "2px",
+        "uuid": "524cb169-a9c1-4d3c-864e-dba03df6eac9"
       },
       "mobile": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "af95123b-2ab5-49bb-a070-1ca48b498f58"
       }
     }
   },
@@ -3466,10 +4050,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "7px"
+        "value": "7px",
+        "uuid": "d64620dc-dd4a-447a-8491-d9e144ec8828"
       },
       "mobile": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "be3de2dc-7c53-4d8c-91b1-6aed5ea0895e"
       }
     }
   },
@@ -3477,10 +4063,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "bdc61836-fdcf-4ca0-a277-dd9cb314563a"
       },
       "mobile": {
-        "value": "14px"
+        "value": "14px",
+        "uuid": "56a65744-b195-4faf-ab5c-69a8424593f9"
       }
     }
   },
@@ -3488,10 +4076,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "c73f4637-7a33-4598-9498-8eb4a9e9e863"
       },
       "mobile": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "97b9278a-11d0-4470-99c3-e2d47ca5a714"
       }
     }
   },
@@ -3499,10 +4089,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "2d6fa243-5f7e-41a8-840b-27a6432f54bc"
       },
       "mobile": {
-        "value": "13px"
+        "value": "13px",
+        "uuid": "6a83235c-7d94-4cb7-9f6b-6dc82fcb2fb0"
       }
     }
   },
@@ -3510,10 +4102,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "13px"
+        "value": "13px",
+        "uuid": "8a3eadad-8b88-4885-b4ca-07360b45d3ba"
       },
       "mobile": {
-        "value": "18px"
+        "value": "18px",
+        "uuid": "05d8a39d-a0d5-496c-810a-f1244c31b169"
       }
     }
   },
@@ -3521,10 +4115,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "40f76138-1a69-45ed-8df5-db8bc9792383"
       },
       "mobile": {
-        "value": "9px"
+        "value": "9px",
+        "uuid": "b4f92e98-694f-46cc-91be-8e0e2d5a17a4"
       }
     }
   },
@@ -3532,10 +4128,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "11px"
+        "value": "11px",
+        "uuid": "f484838e-1f0c-4125-9298-beb4ddc0fd53"
       },
       "mobile": {
-        "value": "14px"
+        "value": "14px",
+        "uuid": "c449b115-2116-45bd-8d3d-03fb806dd460"
       }
     }
   },
@@ -3543,10 +4141,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "16px"
+        "value": "16px",
+        "uuid": "96acbf76-082b-487c-8c47-f0fa173f54d2"
       },
       "mobile": {
-        "value": "19px"
+        "value": "19px",
+        "uuid": "2a6fa386-4eba-44d5-b129-c832264fafd9"
       }
     }
   },
@@ -3554,10 +4154,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "7a576841-a2a5-4443-9d31-03a12c7a2efd"
       },
       "mobile": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "70e6d9e7-2a8e-4f0d-96d6-aac7cde829bd"
       }
     }
   },
@@ -3565,10 +4167,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "12px"
+        "value": "12px",
+        "uuid": "8c199212-a745-414c-8f6b-22d2445ade3c"
       },
       "mobile": {
-        "value": "15px"
+        "value": "15px",
+        "uuid": "ae5feb3e-bb5d-4187-b81f-3a42ebf47e78"
       }
     }
   },
@@ -3576,10 +4180,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "16px"
+        "value": "16px",
+        "uuid": "3ca8a65d-5561-4d8e-a4f2-0b653b42991b"
       },
       "mobile": {
-        "value": "21px"
+        "value": "21px",
+        "uuid": "ba11dc6e-fbd8-46bc-94fd-b4d02f654d2d"
       }
     }
   },
@@ -3587,10 +4193,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "200px"
+        "value": "200px",
+        "uuid": "47ae1059-6b16-4823-866d-11be0c0e0e8a"
       },
       "mobile": {
-        "value": "250px"
+        "value": "250px",
+        "uuid": "ae8169fe-1672-4e95-87a5-344ec4d7f163"
       }
     }
   },
@@ -3598,10 +4206,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "0px"
+        "value": "0px",
+        "uuid": "27b481a4-0ea9-4e1c-a283-4a799d18d642"
       },
       "mobile": {
-        "value": "0px"
+        "value": "0px",
+        "uuid": "d560c5a0-1fa3-4d94-a4e6-87b71780083b"
       }
     }
   },
@@ -3609,10 +4219,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "0px"
+        "value": "0px",
+        "uuid": "614e6448-c0a4-4ad1-b125-f362e3001a86"
       },
       "mobile": {
-        "value": "0px"
+        "value": "0px",
+        "uuid": "d64e930a-5e7a-4438-801e-25bfe479f73d"
       }
     }
   },
@@ -3620,10 +4232,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "0px"
+        "value": "0px",
+        "uuid": "a9641e89-2c2e-49c3-9662-f530ad23a688"
       },
       "mobile": {
-        "value": "0px"
+        "value": "0px",
+        "uuid": "186b2461-88fe-41ba-8b1a-dbdb8a731e2f"
       }
     }
   },
@@ -3631,10 +4245,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "0px"
+        "value": "0px",
+        "uuid": "318c5cda-be1b-416b-b1b7-b962e5f45c0c"
       },
       "mobile": {
-        "value": "0px"
+        "value": "0px",
+        "uuid": "f8e8ebaa-a4e5-4874-ae6d-c6b421b2d216"
       }
     }
   },
@@ -3642,10 +4258,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "8px"
+        "value": "8px",
+        "uuid": "709082c2-71b9-423a-9c93-3b53a9e18da3"
       },
       "mobile": {
-        "value": "10px"
+        "value": "10px",
+        "uuid": "9c651dee-7d77-414d-930b-7c6b78cfed1b"
       }
     }
   },
@@ -3653,10 +4271,12 @@
     "component": "accordion",
     "sets": {
       "desktop": {
-        "value": "16px"
+        "value": "16px",
+        "uuid": "87008eae-491c-4f7d-a13b-83eae517c92f"
       },
       "mobile": {
-        "value": "20px"
+        "value": "20px",
+        "uuid": "48383ab9-1e66-47f9-988b-6f59b7349241"
       }
     }
   },
@@ -3664,10 +4284,12 @@
     "component": "color-handle",
     "sets": {
       "desktop": {
-        "value": "16px"
+        "value": "16px",
+        "uuid": "7c7fd224-a9d5-4d97-b3de-fd9e4e076444"
       },
       "mobile": {
-        "value": "20px"
+        "value": "20px",
+        "uuid": "b81cc6a6-390f-43dc-a6c8-dd335c177da3"
       }
     }
   },
@@ -3675,45 +4297,55 @@
     "component": "color-handle",
     "sets": {
       "desktop": {
-        "value": "32px"
+        "value": "32px",
+        "uuid": "de9cc5ca-81cf-4bde-bd21-be2402e460c5"
       },
       "mobile": {
-        "value": "40px"
+        "value": "40px",
+        "uuid": "feddbfb7-7f1a-4eee-9cbf-b393aafb7385"
       }
     }
   },
   "color-handle-border-width": {
     "component": "color-handle",
-    "value": "{border-width-200}"
+    "value": "{border-width-200}",
+    "uuid": "8ec9adae-0093-42f4-bd1b-6f3b2279996b"
   },
   "color-handle-inner-border-width": {
     "component": "color-handle",
-    "value": "1px"
+    "value": "1px",
+    "uuid": "945e0167-6893-49dd-ab21-886f93f70b92"
   },
   "color-handle-outer-border-width": {
     "component": "color-handle",
-    "value": "1px"
+    "value": "1px",
+    "uuid": "fbf27473-7c97-4d94-968d-c3e68e0cd242"
   },
   "color-handle-drop-shadow-x": {
     "component": "color-handle",
-    "value": "0"
+    "value": "0",
+    "uuid": "49499527-3fdb-4a91-a832-0ae0631ba3bb"
   },
   "color-handle-drop-shadow-y": {
     "component": "color-handle",
-    "value": "0"
+    "value": "0",
+    "uuid": "05b11927-d0cd-46a6-ae30-6f268f143d4e"
   },
   "color-handle-drop-shadow-blur": {
     "component": "color-handle",
-    "value": "0"
+    "value": "0",
+    "uuid": "29e4a8c8-33ba-44b3-952d-26f3fd6ae4f0"
   },
   "side-navigation-width": {
     "component": "side-navigation",
     "sets": {
       "desktop": {
-        "value": "192px"
+        "value": "192px",
+        "uuid": "d087f995-da55-4c96-89c4-69a9a83e2f05"
       },
       "mobile": {
-        "value": "240px"
+        "value": "240px",
+        "uuid": "3bc5710f-5fd7-4cce-a3c2-f1e45deee2b2"
       }
     }
   },
@@ -3721,10 +4353,12 @@
     "component": "side-navigation",
     "sets": {
       "desktop": {
-        "value": "160px"
+        "value": "160px",
+        "uuid": "998bb752-7826-4437-ac18-14e08644e226"
       },
       "mobile": {
-        "value": "200px"
+        "value": "200px",
+        "uuid": "ad835d79-64d9-4183-ace0-912c87fc2241"
       }
     }
   },
@@ -3732,10 +4366,12 @@
     "component": "side-navigation",
     "sets": {
       "desktop": {
-        "value": "240px"
+        "value": "240px",
+        "uuid": "68210b40-f87e-4059-88c1-e66d1c8cbd38"
       },
       "mobile": {
-        "value": "300px"
+        "value": "300px",
+        "uuid": "bcb163a0-0156-4e2e-abfe-b2ac0158f348"
       }
     }
   },
@@ -3743,10 +4379,12 @@
     "component": "side-navigation",
     "sets": {
       "desktop": {
-        "value": "24px"
+        "value": "24px",
+        "uuid": "2e5df819-ac9e-4b09-bdf6-8b1fe751c8fb"
       },
       "mobile": {
-        "value": "30px"
+        "value": "30px",
+        "uuid": "e77cde34-8f77-4fd1-a1f7-aa6738130902"
       }
     }
   },
@@ -3754,10 +4392,12 @@
     "component": "side-navigation",
     "sets": {
       "desktop": {
-        "value": "36px"
+        "value": "36px",
+        "uuid": "adfe198d-a39b-47a1-bfa4-77dd0d139803"
       },
       "mobile": {
-        "value": "45px"
+        "value": "45px",
+        "uuid": "06140452-b779-4527-ae3a-5f0623a6b97c"
       }
     }
   },
@@ -3765,10 +4405,12 @@
     "component": "side-navigation",
     "sets": {
       "desktop": {
-        "value": "50px"
+        "value": "50px",
+        "uuid": "d254c910-2939-48ce-8547-08cfb346a0db"
       },
       "mobile": {
-        "value": "62px"
+        "value": "62px",
+        "uuid": "7d4cd9bd-bfaf-4ad7-9c3b-19f7913f0825"
       }
     }
   },
@@ -3776,10 +4418,12 @@
     "component": "side-navigation",
     "sets": {
       "desktop": {
-        "value": "62px"
+        "value": "62px",
+        "uuid": "f1d90f18-e114-477f-88ca-548c5ddbc287"
       },
       "mobile": {
-        "value": "77px"
+        "value": "77px",
+        "uuid": "f82ab001-808a-4528-bf4a-be27645a28fc"
       }
     }
   },
@@ -3787,10 +4431,12 @@
     "component": "side-navigation",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "47e687e4-c458-4e0b-bd02-7698cc14983b"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "be37c65c-88c5-48cd-9554-8240909db98d"
       }
     }
   },
@@ -3798,10 +4444,12 @@
     "component": "side-navigation",
     "sets": {
       "desktop": {
-        "value": "16px"
+        "value": "16px",
+        "uuid": "c5de72a2-931a-429d-ba85-5aaf2e30fbc4"
       },
       "mobile": {
-        "value": "20px"
+        "value": "20px",
+        "uuid": "0f3821f1-6f0e-4325-bfa7-e572768fd468"
       }
     }
   },
@@ -3809,10 +4457,12 @@
     "component": "tray",
     "sets": {
       "desktop": {
-        "value": "4px"
+        "value": "4px",
+        "uuid": "74787427-ea2f-4b94-99c0-88454e8be6cf"
       },
       "mobile": {
-        "value": "5px"
+        "value": "5px",
+        "uuid": "794ad497-1725-4a03-a7c9-425eaee3178e"
       }
     }
   }
