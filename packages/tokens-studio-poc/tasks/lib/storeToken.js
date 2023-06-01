@@ -366,7 +366,13 @@ const splitTokenByKeyword = (pristineKey, entry, component) => {
  * @param entry value data object with "value" and "type" property
  * @param [component] component group (optional)
  */
-export const storeToken = (targetJson, key, entry, component) => {
+export const storeToken = (targetJson, key, entry, component, uuid) => {
+  if (uuid) {
+    entry.extensions = { "spectrum-tokens": { uuid: uuid } };
+  } else {
+    console.log("missing uuid: " + key);
+  }
+
   debug(
     "---------------------------------------------------------------------------------",
   );

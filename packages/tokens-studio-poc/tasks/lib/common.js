@@ -131,6 +131,7 @@ export const JSON_SET_NODE_NAMES = {
   VALUE: "value",
   COMPONENT: "component",
   SETS: "sets",
+  UUID: "uuid",
 };
 export const TOKENS_STUDIO_SETS_NODE_NAMES = {
   GlobalCore: "global/core",

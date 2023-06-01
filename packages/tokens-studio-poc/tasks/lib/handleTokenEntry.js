@@ -69,7 +69,13 @@ function splitSetByScale(targetMobile, targetDesktop, key, set, component) {
       value: currentValue,
       type: getTypeByKeyOrValue(key, currentValue),
     };
-    storeToken(targetMobile, key, mobileTokenEntry, component);
+    storeToken(
+      targetMobile,
+      key,
+      mobileTokenEntry,
+      component,
+      set[JSON_SET_NODE_NAMES.MOBILE][JSON_SET_NODE_NAMES.UUID],
+    );
   }
   if (_.has(set, JSON_SET_NODE_NAMES.DESKTOP)) {
     const currentValue = getTokenAlias(set[JSON_SET_NODE_NAMES.DESKTOP].value);
@@ -77,7 +83,13 @@ function splitSetByScale(targetMobile, targetDesktop, key, set, component) {
       value: currentValue,
       type: getTypeByKeyOrValue(key, currentValue),
     };
-    storeToken(targetDesktop, key, desktopTokenEntry, component);
+    storeToken(
+      targetDesktop,
+      key,
+      desktopTokenEntry,
+      component,
+      set[JSON_SET_NODE_NAMES.DESKTOP][JSON_SET_NODE_NAMES.UUID],
+    );
   }
 }
 
@@ -119,7 +131,13 @@ const splitSetByTheme = (
       value: currentValue,
       type: getTypeByKeyOrValue(key, currentValue),
     };
-    storeToken(targetLight, key, tokenEntry, component);
+    storeToken(
+      targetLight,
+      key,
+      tokenEntry,
+      component,
+      set[JSON_SET_NODE_NAMES.LIGHT][JSON_SET_NODE_NAMES.UUID],
+    );
   }
 
   if (_.has(set, JSON_SET_NODE_NAMES.DARK)) {
@@ -130,7 +148,13 @@ const splitSetByTheme = (
       value: currentValue,
       type: getTypeByKeyOrValue(key, currentValue),
     };
-    storeToken(targetDark, key, tokenEntry, component);
+    storeToken(
+      targetDark,
+      key,
+      tokenEntry,
+      component,
+      set[JSON_SET_NODE_NAMES.DARK][JSON_SET_NODE_NAMES.UUID],
+    );
   }
 
   if (_.has(set, JSON_SET_NODE_NAMES.DARKEST)) {
@@ -141,7 +165,13 @@ const splitSetByTheme = (
       value: currentValue,
       type: getTypeByKeyOrValue(key, currentValue),
     };
-    storeToken(targetDarkest, key, tokenEntry, component);
+    storeToken(
+      targetDarkest,
+      key,
+      tokenEntry,
+      component,
+      set[JSON_SET_NODE_NAMES.DARKEST][JSON_SET_NODE_NAMES.UUID],
+    );
   }
 
   if (_.has(set, JSON_SET_NODE_NAMES.WIREFRAME)) {
@@ -152,7 +182,13 @@ const splitSetByTheme = (
       value: currentValue,
       type: getTypeByKeyOrValue(key, currentValue),
     };
-    storeToken(targetWireframe, key, tokenEntry, component);
+    storeToken(
+      targetWireframe,
+      key,
+      tokenEntry,
+      component,
+      set[JSON_SET_NODE_NAMES.WIREFRAME][JSON_SET_NODE_NAMES.UUID],
+    );
   }
 };
 
@@ -247,7 +283,13 @@ function splitSetBySystem(key, set, component) {
         value: currentValue,
         type: getTypeByKeyOrValue(key, currentValue),
       };
-      storeToken(expressCoreJson, key, expressTokenEntry, component);
+      storeToken(
+        expressCoreJson,
+        key,
+        expressTokenEntry,
+        component,
+        expressNode[JSON_SET_NODE_NAMES.UUID],
+      );
     }
 
     // find express sets
@@ -289,7 +331,13 @@ function splitSetBySystem(key, set, component) {
         value: currentValue,
         type: getTypeByKeyOrValue(key, currentValue),
       };
-      storeToken(spectrumCoreJson, key, spectrumTokenEntry, component);
+      storeToken(
+        spectrumCoreJson,
+        key,
+        spectrumTokenEntry,
+        component,
+        spectrumNode[JSON_SET_NODE_NAMES.UUID],
+      );
     }
 
     // find spectrum sets
@@ -451,7 +499,13 @@ export const handleTokenEntryForAll = (key, entry, component = undefined) => {
       type: getTypeByKeyOrValue(key, currentValue),
     };
     debug("found global key / value: " + key + "/" + currentValue);
-    storeToken(globalCoreJson, key, tokenEntry, component);
+    storeToken(
+      globalCoreJson,
+      key,
+      tokenEntry,
+      component,
+      entry[JSON_SET_NODE_NAMES.UUID],
+    );
   }
   // or look for sets
   else if (_.has(entry, JSON_SET_NODE_NAMES.SETS)) {
@@ -528,7 +582,13 @@ export const handleTokenEntryForSpectrum = (key, entry, component) => {
       type: getTypeByKeyOrValue(key, currentValue),
     };
     debug("found global key / value: " + key + "/" + currentValue);
-    storeToken(spectrumCoreJson, key, tokenEntry, component);
+    storeToken(
+      spectrumCoreJson,
+      key,
+      tokenEntry,
+      component,
+      entry[JSON_SET_NODE_NAMES.UUID],
+    );
   }
   // or look for sets
   else if (_.has(entry, JSON_SET_NODE_NAMES.SETS)) {
@@ -605,7 +665,13 @@ export const handleTokenEntryForExpress = (key, entry, component) => {
       type: getTypeByKeyOrValue(key, currentValue),
     };
     debug("found global key / value: " + key + "/" + currentValue);
-    storeToken(expressCoreJson, key, tokenEntry, component);
+    storeToken(
+      expressCoreJson,
+      key,
+      tokenEntry,
+      component,
+      entry[JSON_SET_NODE_NAMES.UUID],
+    );
   }
   // or look for sets
   else if (_.has(entry, JSON_SET_NODE_NAMES.SETS)) {
@@ -682,7 +748,13 @@ export const handleTokenEntryForExpressOverwrite = (key, entry, component) => {
       type: getTypeByKeyOrValue(key, currentValue),
     };
     debug("found global key / value: " + key + "/" + currentValue);
-    storeToken(spectrumCoreJson, key, tokenEntry, component);
+    storeToken(
+      spectrumCoreJson,
+      key,
+      tokenEntry,
+      component,
+      entry[JSON_SET_NODE_NAMES.UUID],
+    );
   }
   // or look for sets
   else if (_.has(entry, JSON_SET_NODE_NAMES.SETS)) {
