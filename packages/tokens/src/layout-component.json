@@ -3252,7 +3252,7 @@
     "value": "{illustrated-message-body-size}"
   },
   "coach-mark-minimum-width": {
-    "component": "coach-mark-width",
+    "component": "coach-mark",
     "sets": {
       "desktop": {
         "value": "296px"
@@ -3263,7 +3263,7 @@
     }
   },
   "coach-mark-edge-to-content": {
-    "component": "coach-mark-width",
+    "component": "coach-mark",
     "sets": {
       "desktop": {
         "value": "{spacing-400}"
@@ -3274,7 +3274,7 @@
     }
   },
   "coach-mark-pagination-text-to-bottom-edge": {
-    "component": "coach-mark-width",
+    "component": "coach-mark",
     "sets": {
       "desktop": {
         "value": "33px"
@@ -3285,7 +3285,7 @@
     }
   },
   "coach-mark-media-minimum-height": {
-    "component": "coach-mark-media-height",
+    "component": "coach-mark",
     "sets": {
       "desktop": {
         "value": "166px"
@@ -3296,7 +3296,7 @@
     }
   },
   "coach-mark-title-size": {
-    "component": "coach-mark-media-height",
+    "component": "coach-mark",
     "sets": {
       "mobile": {
         "value": "{heading-size-xxs}"
@@ -3304,7 +3304,7 @@
     }
   },
   "coach-mark-body-size": {
-    "component": "coach-mark-media-height",
+    "component": "coach-mark",
     "sets": {
       "mobile": {
         "value": "{body-size-xs}"
@@ -3312,7 +3312,7 @@
     }
   },
   "coach-mark-pagination-body-size": {
-    "component": "coach-mark-media-height",
+    "component": "coach-mark",
     "sets": {
       "mobile": {
         "value": "{body-size-xs}"
