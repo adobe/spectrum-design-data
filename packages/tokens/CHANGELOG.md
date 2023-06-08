@@ -1,5 +1,17 @@
 # @adobe/spectrum-tokens
 
+## 12.10.0
+
+### Minor Changes
+
+- 0829c5d: Added UUIDs to each token
+
+  ## Token Diff
+
+  _Modified Tokens (1154)_
+
+  Every token has a `uuid` property added to them.
+
 ## 12.9.1
 
 ### Patch Changes
