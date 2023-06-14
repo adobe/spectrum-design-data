@@ -2744,8 +2744,15 @@
   },
   "picker-end-edge-to-disclousure-icon-quiet": {
     "component": "picker",
-    "value": "0px",
+    "value": "{picker-end-edge-to-disclosure-icon-quiet}",
+    "deprecated": true,
+    "deprecated_comment": "Use `picker-end-edge-to-disclosure-icon-quiet` instead",
     "uuid": "c8bd227d-c72b-4f6a-9d93-0b595821dee0"
+  },
+  "picker-end-edge-to-disclosure-icon-quiet": {
+    "component": "picker",
+    "value": "0px",
+    "uuid": "03da68d8-cd87-4e29-9aaf-ab467594ec2b"
   },
   "text-field-minimum-width-multiplier": {
     "component": "text-field",
