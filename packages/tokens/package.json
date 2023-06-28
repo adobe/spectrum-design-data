@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-tokens",
-  "version": "12.8.0",
+  "version": "12.12.1",
   "description": "Design tokens for Spectrum, Adobe's design system",
   "type": "module",
   "main": "tasks/buildSpectrumTokens.js",
@@ -25,7 +25,7 @@
     "glob-promise": "^6.0.2",
     "node-fetch": "^2.6.7",
     "style-dictionary": "^3.7.1",
-    "style-dictionary-sets": "^2.0.5",
+    "style-dictionary-sets": "^2.3.0",
     "tar": "^6.1.13",
     "tmp-promise": "^3.0.3"
   },

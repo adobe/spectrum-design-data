@@ -167,8 +167,8 @@ importers:
         specifier: ^3.7.1
         version: 3.7.1
       style-dictionary-sets:
-        specifier: ^2.0.5
-        version: 2.0.5
+        specifier: ^2.3.0
+        version: 2.3.0
       tar:
         specifier: ^6.1.13
         version: 6.1.13
@@ -4518,8 +4518,8 @@ packages:
       min-indent: 1.0.1
     dev: true
 
-  /style-dictionary-sets@2.0.5:
-    resolution: {integrity: sha512-BeL+3GbtLRvkn21vjQN+si9RjVHbj+SJ208P9jexqM1ga+qzaZ7ofc6rgmG8zHTRdSjUXc+QbVLmDoMY68Pd7g==}
+  /style-dictionary-sets@2.3.0:
+    resolution: {integrity: sha512-XWYZOLTqVOxdYYlF7dDnJeh27BSRxRMmivRVOFWRCvIiHhaqK7V6HxMCegVpnGCi028+BTbkYndm6evA8SiFyg==}
     dependencies:
       deepmerge: 4.3.1
     dev: true
