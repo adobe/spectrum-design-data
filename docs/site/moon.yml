@@ -56,4 +56,4 @@ tasks:
       - ~:clean
       - ~:build
     outputs:
-      - "/site/[!visualizer]"
+      - "/site/"
