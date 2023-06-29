@@ -38,18 +38,15 @@ importers:
       '@spectrum-css/page':
         specifier: ^5.0.31
         version: 5.0.31
-      '@spectrum-css/sidenav':
-        specifier: ^3.0.50
-        version: 3.0.50(@spectrum-css/vars@9.0.8)
+      '@spectrum-css/table':
+        specifier: ^4.0.58
+        version: 4.0.58(@spectrum-css/icon@3.0.49)(@spectrum-css/vars@9.0.8)
       '@spectrum-css/tokens':
         specifier: ^10.2.0
         version: 10.2.0
       '@spectrum-css/typography':
-        specifier: ^5.0.24
-        version: 5.0.24(@spectrum-css/tokens@10.2.0)
-      '@spectrum-css/vars':
-        specifier: ^9.0.8
-        version: 9.0.8
+        specifier: ^5.0.25
+        version: 5.0.25(@spectrum-css/tokens@10.2.0)
       ajv:
         specifier: ^8.12.0
         version: 8.12.0
@@ -1155,17 +1152,27 @@ packages:
     dev: true
     optional: true
 
+  /@spectrum-css/icon@3.0.49(@spectrum-css/vars@9.0.8):
+    resolution: {integrity: sha512-CQAPZqn2l4/osbeSIUlB9DstA8dTipvitWeyXwLjEPO68CKkVgAu9Iq10HlxEKdAO3sdG6aET3S9BURdWvZO+w==}
+    peerDependencies:
+      '@spectrum-css/vars': '>=9'
+    dependencies:
+      '@spectrum-css/vars': 9.0.8
+    dev: false
+
   /@spectrum-css/page@5.0.31:
     resolution: {integrity: sha512-F61w7EmFZ5VVTk6AuvfFGNbviqM+I0GkvOPgZXfWP+gL5beWzbd+ecsMKoFpeDwlH3ai87r4jg1fuI4LhvJFJA==}
     dependencies:
       '@spectrum-css/vars': 9.0.8
     dev: false
 
-  /@spectrum-css/sidenav@3.0.50(@spectrum-css/vars@9.0.8):
-    resolution: {integrity: sha512-yU9NxhUL4+KYQFS0DgY1K/qC4Fnyc1rBa+ThvcNZVUG55mzf6D2bvTHzwjihXdVMGEjBvE8T5L8JcPQ3MoXk2A==}
+  /@spectrum-css/table@4.0.58(@spectrum-css/icon@3.0.49)(@spectrum-css/vars@9.0.8):
+    resolution: {integrity: sha512-5eSi2f5F0w9WnA0JWIhgHJEBf1nWSfv6EkuOCSduDCC6gfNfwXrgUOArK0nhQvs8uIp/CCl5u+MGFytntfCNlA==}
     peerDependencies:
+      '@spectrum-css/icon': '>=3'
       '@spectrum-css/vars': '>=9'
     dependencies:
+      '@spectrum-css/icon': 3.0.49(@spectrum-css/vars@9.0.8)
       '@spectrum-css/vars': 9.0.8
     dev: false
 
@@ -1173,8 +1180,8 @@ packages:
     resolution: {integrity: sha512-u/UjiLooksIeMyCK2aTowZ8ITGayIHGEc06yVIGDwMzmI+WtFlzazMJx5gF99eZEfwsmnFpwVsb/UMFjcrun2Q==}
     dev: false
 
-  /@spectrum-css/typography@5.0.24(@spectrum-css/tokens@10.2.0):
-    resolution: {integrity: sha512-NeWBSnSWY7Ipck8m9N/6poppU7p/qXJrlhS5Xu4CKoyS99PzrzlDpjQnpQFwQ//UXJEheKGv1jqtuaUAIAkgLQ==}
+  /@spectrum-css/typography@5.0.25(@spectrum-css/tokens@10.2.0):
+    resolution: {integrity: sha512-MUf3v5Xh5k2FctD5CllNnhZukJd4eQ2xgXmPSz3A5+LDSs7YxoQR9njQ5DA3/XreDpUmIKjY9FzSUve6g6f5/w==}
     peerDependencies:
       '@spectrum-css/tokens': '>=9'
     dependencies:
