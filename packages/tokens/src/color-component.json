@@ -182,5 +182,50 @@
     "deprecated_comment": "Use `floating-action-button-drop-shadow-color` instead",
     "value": "{floating-action-button-drop-shadow-color}",
     "uuid": "f843b1b7-4b2f-496e-a679-b0372e49d575"
+  },
+  "table-row-hover-color": {
+    "component": "table",
+    "value": "{gray-900}",
+    "uuid": "44aedb76-5483-4ac3-a6f5-8cf71c2bd376"
+  },
+  "table-row-hover-opacity": {
+    "component": "table",
+    "value": "0.07",
+    "uuid": "e287d553-3712-4d6e-98f0-6075107e85fe"
+  },
+  "table-selected-row-background-color": {
+    "component": "table",
+    "value": "{informative-background-color-default}",
+    "uuid": "b7537f50-bd49-44b6-a171-19943d443d24"
+  },
+  "table-selected-row-background-opacity": {
+    "component": "table",
+    "value": "0.1",
+    "uuid": "61b3aa04-0e7e-44b8-a4c8-8442a4ebf549"
+  },
+  "table-selected-row-background-color-non-emphasized": {
+    "component": "table",
+    "value": "{neutral-background-color-selected-default}",
+    "uuid": "8578067a-6ce0-4059-84ad-4688c71df156"
+  },
+  "table-selected-row-background-opacity-non-emphasized": {
+    "component": "table",
+    "value": "0.1",
+    "uuid": "1ef41e27-3dea-4589-ad7a-140a03a77384"
+  },
+  "table-row-down-opacity": {
+    "component": "table",
+    "value": "0.1",
+    "uuid": "75ae742c-e96e-494f-9880-746bb2849575"
+  },
+  "table-selected-row-background-opacity-hover": {
+    "component": "table",
+    "value": "0.15",
+    "uuid": "ce2851bc-8ae1-4b27-8cd6-f191c9cd7fe9"
+  },
+  "table-selected-row-background-opacity-non-emphasized-hover": {
+    "component": "table",
+    "value": "0.15",
+    "uuid": "6a093ea1-f07e-4673-b52f-5b28a2e080d0"
   }
 }
