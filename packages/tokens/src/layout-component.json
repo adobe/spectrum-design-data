@@ -4343,6 +4343,929 @@
     "value": "0",
     "uuid": "29e4a8c8-33ba-44b3-952d-26f3fd6ae4f0"
   },
+  "table-column-header-row-top-to-text-small": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "8px",
+        "uuid": "de67ada3-eeed-45a2-8d03-91a5b09156ec"
+      },
+      "mobile": {
+        "value": "10px",
+        "uuid": "fdc8b7ae-2356-4d49-ba54-0ea471be2986"
+      }
+    }
+  },
+  "table-column-header-row-top-to-text-medium": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "7px",
+        "uuid": "0ec68b5a-4251-4727-a689-b10722ce1a43"
+      },
+      "mobile": {
+        "value": "9px",
+        "uuid": "ff3c5329-ccec-4b94-b200-29a377b34380"
+      }
+    }
+  },
+  "table-column-header-row-top-to-text-large": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "10px",
+        "uuid": "40b7bc07-3252-492a-9ee1-37aceeca3674"
+      },
+      "mobile": {
+        "value": "13px",
+        "uuid": "a02666d8-4ae2-42d2-b48e-419d5070e7ca"
+      }
+    }
+  },
+  "table-column-header-row-top-to-text-extra-large": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "13px",
+        "uuid": "05d4bb65-357a-4561-ab33-ea6de390a304"
+      },
+      "mobile": {
+        "value": "16px",
+        "uuid": "265247a7-bbc3-42b8-910d-946e8d04aee2"
+      }
+    }
+  },
+  "table-column-header-row-bottom-to-text-small": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "9px",
+        "uuid": "9388deb6-6a77-49bc-aeb5-9084352c2574"
+      },
+      "mobile": {
+        "value": "11px",
+        "uuid": "9cf85eae-ec15-4bb0-ba48-00ec946306a5"
+      }
+    }
+  },
+  "table-column-header-row-bottom-to-text-medium": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "8px",
+        "uuid": "7357ba3f-c707-4475-b616-4752776c06d1"
+      },
+      "mobile": {
+        "value": "10px",
+        "uuid": "631d14a5-1d2e-4e4a-90e8-146e8a397530"
+      }
+    }
+  },
+  "table-column-header-row-bottom-to-text-large": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "10px",
+        "uuid": "fc30c9a8-b098-4edf-b3f4-c666c019b3f4"
+      },
+      "mobile": {
+        "value": "13px",
+        "uuid": "e465ee66-392f-469f-a46c-6c98df03b046"
+      }
+    }
+  },
+  "table-column-header-row-bottom-to-text-extra-large": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "13px",
+        "uuid": "0f76ceee-1d19-4c69-9393-09b02e1eede5"
+      },
+      "mobile": {
+        "value": "17px",
+        "uuid": "c8bd103d-d952-4649-a7a0-09ae5242ea17"
+      }
+    }
+  },
+  "table-row-height-small-compact": {
+    "component": "table",
+    "value": "{component-height-75}",
+    "uuid": "a6dfc911-50fe-46dd-a7a3-cec3b115006a"
+  },
+  "table-row-height-medium-compact": {
+    "component": "table",
+    "value": "{component-height-100}",
+    "uuid": "b4b86a59-041d-451c-a0be-cc82e997a1d2"
+  },
+  "table-row-height-large-compact": {
+    "component": "table",
+    "value": "{component-height-200}",
+    "uuid": "d576b4aa-e3df-4aa9-8260-fecfe6517bde"
+  },
+  "table-row-height-extra-large-compact": {
+    "component": "table",
+    "value": "{component-height-300}",
+    "uuid": "dcc5dd06-bb3d-46d3-adf2-133e5be942b7"
+  },
+  "table-row-height-small-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "32px",
+        "uuid": "fd53964b-cf4a-4cdf-b088-418364b1c518"
+      },
+      "mobile": {
+        "value": "40px",
+        "uuid": "cdbb999d-c2a9-4325-9689-bede2ad3559a"
+      }
+    }
+  },
+  "table-row-height-medium-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "40px",
+        "uuid": "1dc88a25-18bc-491a-ab02-2c1ec36f4c1e"
+      },
+      "mobile": {
+        "value": "50px",
+        "uuid": "72e6564c-2acf-4f77-80d9-b21d2d55a580"
+      }
+    }
+  },
+  "table-row-height-large-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "48px",
+        "uuid": "3b22a4c7-525c-4482-9e58-19cbe46d318b"
+      },
+      "mobile": {
+        "value": "60px",
+        "uuid": "b92bc058-27ea-4e86-a1a2-e5dbae3c2ee8"
+      }
+    }
+  },
+  "table-row-height-extra-large-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "56px",
+        "uuid": "face2717-9c2c-4e18-9632-4e4a595b1fc7"
+      },
+      "mobile": {
+        "value": "70px",
+        "uuid": "b7753c9a-8854-4927-89dd-80d47bff5fa5"
+      }
+    }
+  },
+  "table-row-height-small-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "40px",
+        "uuid": "cb6f8879-6d73-40ca-9ea4-7eb05b26385a"
+      },
+      "mobile": {
+        "value": "50px",
+        "uuid": "ab252e1f-a13a-4630-a6ff-0cfa6e6f0c03"
+      }
+    }
+  },
+  "table-row-height-medium-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "48px",
+        "uuid": "697f4b63-14b9-4d58-9d16-b9dfd72ff391"
+      },
+      "mobile": {
+        "value": "60px",
+        "uuid": "572d1c5f-62a1-4bfc-a3e0-520a999545fe"
+      }
+    }
+  },
+  "table-row-height-large-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "56px",
+        "uuid": "0cd072e1-1757-49b1-a985-09ab65feb672"
+      },
+      "mobile": {
+        "value": "70px",
+        "uuid": "e377fd73-62ca-481c-93f6-c62eb35ca720"
+      }
+    }
+  },
+  "table-row-height-extra-large-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "64px",
+        "uuid": "1504ecc5-0bd8-4bf2-ad3c-e073c824cd1a"
+      },
+      "mobile": {
+        "value": "80px",
+        "uuid": "6efd745f-2a9a-4eea-a0a3-ebe0d3fbc149"
+      }
+    }
+  },
+  "table-row-top-to-text-small-compact": {
+    "component": "table",
+    "value": "{component-top-to-text-75}",
+    "uuid": "b7e7808a-16c6-481a-9257-9c1dc4e13b62"
+  },
+  "table-row-top-to-text-medium-compact": {
+    "component": "table",
+    "value": "{component-top-to-text-100}",
+    "uuid": "02c5faff-dbb4-4633-ae57-413b3666dfca"
+  },
+  "table-row-top-to-text-large-compact": {
+    "component": "table",
+    "value": "{component-top-to-text-200}",
+    "uuid": "14437ed2-c60b-40ba-91e6-bed5353fc544"
+  },
+  "table-row-top-to-text-extra-large-compact": {
+    "component": "table",
+    "value": "{component-top-to-text-300}",
+    "uuid": "2e8eff8c-60fa-4e0f-ae40-7b9f9b3679d6"
+  },
+  "table-row-bottom-to-text-small-compact": {
+    "component": "table",
+    "value": "{component-bottom-to-text-75}",
+    "uuid": "5eb79adf-f94c-4bf8-9ec9-279f49ce5331"
+  },
+  "table-row-bottom-to-text-medium-compact": {
+    "component": "table",
+    "value": "{component-bottom-to-text-100}",
+    "uuid": "d9d8fee2-9e0f-4c2b-8059-f9badb3b6482"
+  },
+  "table-row-bottom-to-text-large-compact": {
+    "component": "table",
+    "value": "{component-bottom-to-text-200}",
+    "uuid": "15e21448-3174-4565-aed7-ab84aa30d7ac"
+  },
+  "table-row-bottom-to-text-extra-large-compact": {
+    "component": "table",
+    "value": "{component-bottom-to-text-300}",
+    "uuid": "effa3e3c-eb5b-4c0a-aca9-81331e6a08ac"
+  },
+  "table-row-top-to-text-small-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "8px",
+        "uuid": "5e5a6837-34c9-4f01-8769-b66c3f602d1f"
+      },
+      "mobile": {
+        "value": "10px",
+        "uuid": "98014297-14dc-4547-944a-8951c7f6f253"
+      }
+    }
+  },
+  "table-row-top-to-text-medium-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "11px",
+        "uuid": "8e1448f8-5806-4629-8131-4e8422b26870"
+      },
+      "mobile": {
+        "value": "14px",
+        "uuid": "7df1dc32-b96d-41e3-a372-9bcaec7c2ccb"
+      }
+    }
+  },
+  "table-row-top-to-text-large-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "14px",
+        "uuid": "2ed03fb3-fed4-41d4-8a14-f7446bb76486"
+      },
+      "mobile": {
+        "value": "18px",
+        "uuid": "0108018e-6146-45c9-b032-e3d44dfb8d84"
+      }
+    }
+  },
+  "table-row-top-to-text-extra-large-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "17px",
+        "uuid": "03555438-78f5-429a-a0dd-c6777dc36372"
+      },
+      "mobile": {
+        "value": "21px",
+        "uuid": "c381a3c4-e0a3-4e86-b279-f51ee6e9e532"
+      }
+    }
+  },
+  "table-row-bottom-to-text-small-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "9px",
+        "uuid": "90ae4c5b-a49d-40ad-8dd8-b25720c13f79"
+      },
+      "mobile": {
+        "value": "11px",
+        "uuid": "d3147ee6-dc34-46e2-8379-02d9690ff80a"
+      }
+    }
+  },
+  "table-row-bottom-to-text-medium-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "12px",
+        "uuid": "c66ff3f2-3661-464c-b722-151f72d03f2a"
+      },
+      "mobile": {
+        "value": "15px",
+        "uuid": "e80339a8-22c4-4b53-9a4a-a4456f6cab3f"
+      }
+    }
+  },
+  "table-row-bottom-to-text-large-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "14px",
+        "uuid": "775139b2-3fb4-4019-8a3e-2377211ed0ec"
+      },
+      "mobile": {
+        "value": "18px",
+        "uuid": "151bf172-2889-4c98-8f15-5b6cdcb30d4b"
+      }
+    }
+  },
+  "table-row-bottom-to-text-extra-large-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "17px",
+        "uuid": "d13d2f2e-9425-403d-a95f-889d67f03425"
+      },
+      "mobile": {
+        "value": "22px",
+        "uuid": "c9ac99be-86c3-4f6c-a2a5-3487041bc95e"
+      }
+    }
+  },
+  "table-row-top-to-text-small-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "12px",
+        "uuid": "c0f9a500-3259-4888-ab43-c180c694a24e"
+      },
+      "mobile": {
+        "value": "15px",
+        "uuid": "625733b1-78b3-4dd0-9636-71d59c14e013"
+      }
+    }
+  },
+  "table-row-top-to-text-medium-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "15px",
+        "uuid": "9893c4bf-aa89-4b46-987f-09432943734a"
+      },
+      "mobile": {
+        "value": "18px",
+        "uuid": "cfa36bf7-cce0-4049-970a-8f11c6d60673"
+      }
+    }
+  },
+  "table-row-top-to-text-large-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "18px",
+        "uuid": "a3e22e10-1964-4d4a-8721-2eeddfed6f42"
+      },
+      "mobile": {
+        "value": "23px",
+        "uuid": "769d6bbf-64ba-4c08-8a57-580838de1d48"
+      }
+    }
+  },
+  "table-row-top-to-text-extra-large-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "21px",
+        "uuid": "7824ab63-198c-4ee3-99d7-9b151898eb40"
+      },
+      "mobile": {
+        "value": "26px",
+        "uuid": "90c39289-3112-49a3-8e65-d112c97f7479"
+      }
+    }
+  },
+  "table-row-bottom-to-text-small-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "13px",
+        "uuid": "ad51f205-c2e7-4af5-9301-937594c61027"
+      },
+      "mobile": {
+        "value": "16px",
+        "uuid": "07dd5018-1999-4b95-9a59-fe1c2fcc380f"
+      }
+    }
+  },
+  "table-row-bottom-to-text-medium-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "16px",
+        "uuid": "2cedf119-a2f6-484a-8bdd-83652a8d6d79"
+      },
+      "mobile": {
+        "value": "18px",
+        "uuid": "8273e28d-20b4-4575-9449-9178af111e38"
+      }
+    }
+  },
+  "table-row-bottom-to-text-large-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "18px",
+        "uuid": "3adc8c4f-32ce-4cd1-8bb1-518b9b267ed2"
+      },
+      "mobile": {
+        "value": "23px",
+        "uuid": "4bc11bec-9c86-4a6c-85d1-382c71c1352d"
+      }
+    }
+  },
+  "table-row-bottom-to-text-extra-large-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "21px",
+        "uuid": "3271ab20-8a93-4b5b-a889-7a07d9f7e6ab"
+      },
+      "mobile": {
+        "value": "27px",
+        "uuid": "06ada9fe-ceef-4fb4-88ee-37c2edee5418"
+      }
+    }
+  },
+  "table-edge-to-content": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "16px",
+        "uuid": "5e46672f-eab0-4ec3-bd14-68ffa4404ec1"
+      },
+      "mobile": {
+        "value": "16px",
+        "uuid": "7912ab09-70e2-4e08-8aa5-f985e05a4ba7"
+      }
+    }
+  },
+  "table-border-divider-width": {
+    "component": "table",
+    "value": "1px",
+    "uuid": "b6f2536c-deda-409f-8667-a5a99abdfa46"
+  },
+  "table-checkbox-to-text": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "24px",
+        "uuid": "400553db-907c-43a5-8545-92ba212e12b8"
+      },
+      "mobile": {
+        "value": "30px",
+        "uuid": "cb7c89c0-9f31-43c4-8427-2e048f549ff7"
+      }
+    }
+  },
+  "table-header-row-checkbox-to-top-small": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "10px",
+        "uuid": "370e9149-aaf5-43cd-a783-90cfa8d37419"
+      },
+      "mobile": {
+        "value": "14px",
+        "uuid": "296d445c-243d-454c-9f5a-146c13d0cded"
+      }
+    }
+  },
+  "table-header-row-checkbox-to-top-medium": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "9px",
+        "uuid": "578765e6-b2ec-4bfe-ae28-f24cbee15898"
+      },
+      "mobile": {
+        "value": "13px",
+        "uuid": "2e168a2b-46aa-453f-9ca1-746485216c84"
+      }
+    }
+  },
+  "table-header-row-checkbox-to-top-large": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "12px",
+        "uuid": "5011ae3c-2e72-4891-926e-8de8847e0a47"
+      },
+      "mobile": {
+        "value": "17px",
+        "uuid": "f6648787-3cf1-4af8-aa4f-15669ea1626d"
+      }
+    }
+  },
+  "table-header-row-checkbox-to-top-extra-large": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "15px",
+        "uuid": "8adf3d5f-1024-4eb8-8515-f3b6fd7cc22c"
+      },
+      "mobile": {
+        "value": "21px",
+        "uuid": "42a78148-e111-4124-a7a6-d9baa2ca963f"
+      }
+    }
+  },
+  "table-row-checkbox-to-top-small-compact": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "6px",
+        "uuid": "f5c64a03-3750-4c92-afe2-43575bdb1df9"
+      },
+      "mobile": {
+        "value": "9px",
+        "uuid": "2444d220-a3d0-4565-a762-02cbc52f828a"
+      }
+    }
+  },
+  "table-row-checkbox-to-top-small-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "10px",
+        "uuid": "4435c143-a75a-47c1-a629-3574b70247a3"
+      },
+      "mobile": {
+        "value": "14px",
+        "uuid": "a63aa24e-c956-4af5-bf4f-4c5d44bd1e16"
+      }
+    }
+  },
+  "table-row-checkbox-to-top-small-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "14px",
+        "uuid": "4637c01d-66cd-451e-8950-9e72700c80d3"
+      },
+      "mobile": {
+        "value": "19px",
+        "uuid": "6ccbecd6-a1c4-4fcf-beb5-2b124ac3e75b"
+      }
+    }
+  },
+  "table-row-checkbox-to-top-medium-compact": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "9px",
+        "uuid": "0b12ff10-52e2-4084-9f1b-ee7bc0b50576"
+      },
+      "mobile": {
+        "value": "13px",
+        "uuid": "84f00d87-c0ea-42fd-8477-9fff028bf79c"
+      }
+    }
+  },
+  "table-row-checkbox-to-top-medium-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "13px",
+        "uuid": "2c8f9b97-f4df-48c2-ab1a-82373d335b83"
+      },
+      "mobile": {
+        "value": "18px",
+        "uuid": "36505a4f-01b6-4b83-adf1-592818eb2c0d"
+      }
+    }
+  },
+  "table-row-checkbox-to-top-medium-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "17px",
+        "uuid": "c8a04cab-bfad-4b82-94dc-6c2b4160c7cb"
+      },
+      "mobile": {
+        "value": "23px",
+        "uuid": "a57d2d1a-5e0c-4d4c-84eb-dd2339366aad"
+      }
+    }
+  },
+  "table-row-checkbox-to-top-large-compact": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "12px",
+        "uuid": "40acc8c4-81b4-4566-a7ce-7c3d0d8ab5c5"
+      },
+      "mobile": {
+        "value": "17px",
+        "uuid": "5fde3b28-c553-4124-be3b-212d1407780c"
+      }
+    }
+  },
+  "table-row-checkbox-to-top-large-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "16px",
+        "uuid": "559b9fc0-389e-4e2f-985c-8741f218850a"
+      },
+      "mobile": {
+        "value": "22px",
+        "uuid": "2e16e4ef-fec6-41fb-9d96-bc6bb6c88f69"
+      }
+    }
+  },
+  "table-row-checkbox-to-top-large-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "20px",
+        "uuid": "d4b563c8-9234-4eed-a2a3-7e448a174286"
+      },
+      "mobile": {
+        "value": "27px",
+        "uuid": "cfbd6cb5-c8d3-4908-a77a-7a15cda932fb"
+      }
+    }
+  },
+  "table-row-checkbox-to-top-extra-large-compact": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "15px",
+        "uuid": "a1aa1c65-a1e8-40d6-805f-309d5e43d129"
+      },
+      "mobile": {
+        "value": "21px",
+        "uuid": "4069e932-339a-495d-bb36-c89f22af4f96"
+      }
+    }
+  },
+  "table-row-checkbox-to-top-extra-large-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "19px",
+        "uuid": "9b775e1f-9348-431d-9ba8-bffb19bcbf85"
+      },
+      "mobile": {
+        "value": "26px",
+        "uuid": "2171aee7-d013-459e-a13f-33075090cbe3"
+      }
+    }
+  },
+  "table-row-checkbox-to-top-extra-large-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "23px",
+        "uuid": "568ba981-51b5-4443-a427-0f857ff02572"
+      },
+      "mobile": {
+        "value": "31px",
+        "uuid": "683be05e-f8d4-4910-8d07-20515f19fbbd"
+      }
+    }
+  },
+  "table-section-header-row-height-small": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "24px",
+        "uuid": "89bd3638-bbbb-432d-84eb-e217f9bb0cbf"
+      },
+      "mobile": {
+        "value": "30px",
+        "uuid": "2cd8dc05-2f95-45b5-b8a4-0273baf3ba0e"
+      }
+    }
+  },
+  "table-section-header-row-height-medium": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "32px",
+        "uuid": "4c9e9bd8-9320-4648-bf2c-bb2db74a63fb"
+      },
+      "mobile": {
+        "value": "40px",
+        "uuid": "07beb872-72a0-400e-b434-dd076c9be0a7"
+      }
+    }
+  },
+  "table-section-header-row-height-large": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "40px",
+        "uuid": "553f5ffd-a163-4b33-b96a-5acc08cfb820"
+      },
+      "mobile": {
+        "value": "50px",
+        "uuid": "cc41c4f1-bfc5-4aa5-87af-97f191cc7af3"
+      }
+    }
+  },
+  "table-section-header-row-height-extra-large": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "48px",
+        "uuid": "34b1c98f-7159-4ae0-b299-bf2fc53035c0"
+      },
+      "mobile": {
+        "value": "60px",
+        "uuid": "06164331-9a76-4adf-b859-82074df19fbd"
+      }
+    }
+  },
+  "table-thumbnail-to-top-minimum-small-compact": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "4px",
+        "uuid": "d9cc50d4-6661-4a03-b850-ed0933f2dabb"
+      },
+      "mobile": {
+        "value": "5px",
+        "uuid": "72ebb8a4-9bfb-4ff0-ba3a-232c885931e7"
+      }
+    }
+  },
+  "table-thumbnail-to-top-minimum-medium-compact": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "5px",
+        "uuid": "86a1c328-0845-47d8-a189-24a22c1ce053"
+      },
+      "mobile": {
+        "value": "6px",
+        "uuid": "b546eac7-00ad-4ea2-992d-0c4b8d087679"
+      }
+    }
+  },
+  "table-thumbnail-to-top-minimum-large-compact": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "7px",
+        "uuid": "9b0e3ebe-59f6-4970-aa47-06b115f5efff"
+      },
+      "mobile": {
+        "value": "9px",
+        "uuid": "891cf7bc-419a-4b78-8c7e-03685fbf36a4"
+      }
+    }
+  },
+  "table-thumbnail-to-top-minimum-extra-large-compact": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "8px",
+        "uuid": "499530d7-7c3c-4bed-a4a1-d4edc2195afe"
+      },
+      "mobile": {
+        "value": "10px",
+        "uuid": "29ee801a-95bd-495c-9905-f2fd00ae0e19"
+      }
+    }
+  },
+  "table-thumbnail-to-top-minimum-small-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "5px",
+        "uuid": "db98283d-1f25-4323-9f3a-0555b9670ba6"
+      },
+      "mobile": {
+        "value": "6px",
+        "uuid": "e25b14a7-cb9e-406b-bab6-b27575f00a52"
+      }
+    }
+  },
+  "table-thumbnail-to-top-minimum-medium-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "7px",
+        "uuid": "12a6fd11-d3a5-4d72-9942-89d828d1d256"
+      },
+      "mobile": {
+        "value": "9px",
+        "uuid": "75af7a67-e0ae-4f41-9c70-09babbc587d1"
+      }
+    }
+  },
+  "table-thumbnail-to-top-minimum-large-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "8px",
+        "uuid": "de6e6ae5-eae6-4f7a-89be-176674176242"
+      },
+      "mobile": {
+        "value": "10px",
+        "uuid": "fc7efe7c-ef97-424f-89c2-2211daf44b4a"
+      }
+    }
+  },
+  "table-thumbnail-to-top-minimum-extra-large-regular": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "8px",
+        "uuid": "17c4c578-d3e1-44c0-bd21-ee4df5cb2027"
+      },
+      "mobile": {
+        "value": "10px",
+        "uuid": "b60c33b8-acc1-4af1-b30f-b467054ee417"
+      }
+    }
+  },
+  "table-thumbnail-to-top-minimum-small-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "7px",
+        "uuid": "9b464ca8-f246-482d-b240-e12e097aaf8b"
+      },
+      "mobile": {
+        "value": "9px",
+        "uuid": "b6684bce-531d-420a-befc-b4ad884059fc"
+      }
+    }
+  },
+  "table-thumbnail-to-top-minimum-medium-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "8px",
+        "uuid": "1cd90c35-f688-4054-aec4-e1e3b200cfcf"
+      },
+      "mobile": {
+        "value": "10px",
+        "uuid": "0cb1e46b-039b-46d2-a024-b72ddd82d0b4"
+      }
+    }
+  },
+  "table-thumbnail-to-top-minimum-large-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "8px",
+        "uuid": "f1cbc035-b4d0-4593-b563-a107ee2eebb0"
+      },
+      "mobile": {
+        "value": "10px",
+        "uuid": "e6689bf9-6ecc-4900-b8ad-85b103232e3e"
+      }
+    }
+  },
+  "table-thumbnail-to-top-minimum-extra-large-spacious": {
+    "component": "table",
+    "sets": {
+      "desktop": {
+        "value": "10px",
+        "uuid": "127b9225-cbab-42c1-8c86-4f425c7c8e27"
+      },
+      "mobile": {
+        "value": "12px",
+        "uuid": "28a5df8a-0fe4-4410-b804-9a6c26de4440"
+      }
+    }
+  },
   "tab-item-height-small": {
     "component": "tabs",
     "value": "{component-height-200}",
