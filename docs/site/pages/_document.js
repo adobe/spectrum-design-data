@@ -1,5 +1,4 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import Script from "next/script";
 
 export default function Document() {
   return (
@@ -9,7 +8,9 @@ export default function Document() {
       className='spectrum spectrum--medium spectrum--light'
     >
       <Head>
-        <Script src='/typekit.js' />
+        <link rel="preconnect" href="https://use.typekit.net" />
+        <link rel="dns-prefetch" href="https://use.typekit.net" />
+        <link rel="stylesheet" href="https://use.typekit.net/evk7lzt.css" />
       </Head>
       <body>
         <Main />
