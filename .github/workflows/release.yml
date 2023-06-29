@@ -21,7 +21,7 @@ jobs:
           version: 8.6.5
       - uses: moonrepo/setup-moon-action@v1
       - run: moon setup
-      - run: moon run :build
+      - run: moon run :build --query "projectSource~packages/*"
       - name: Publish
         id: changesets
         uses: changesets/action@v1
