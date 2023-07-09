@@ -17,10 +17,28 @@
     "popoverPlacement": {
       "type": "string",
       "enum": [
-        "top", "top left", "top right", "top start", "top end", "bottom",
-        "bottom left", "bottom right", "bottom start", "bottom end", "left",
-        "left top", "left bottom", "start", "start top", "start bottom",
-        "right", "right top", "right bottom", "end", "end top", "end bottom"
+        "top",
+        "top left",
+        "top right",
+        "top start",
+        "top end",
+        "bottom",
+        "bottom left",
+        "bottom right",
+        "bottom start",
+        "bottom end",
+        "left",
+        "left top",
+        "left bottom",
+        "start",
+        "start top",
+        "start bottom",
+        "right",
+        "right top",
+        "right bottom",
+        "end",
+        "end top",
+        "end bottom"
       ],
       "default": "bottom start"
     },

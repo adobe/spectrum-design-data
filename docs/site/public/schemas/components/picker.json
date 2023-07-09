@@ -73,7 +73,10 @@
     "state": {
       "type": "string",
       "enum": [
-        "default", "hover", "focus + hover", "focus + not hover",
+        "default",
+        "hover",
+        "focus + hover",
+        "focus + not hover",
         "keyboard focus"
       ],
       "default": "default"

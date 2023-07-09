@@ -52,7 +52,6 @@ export class StvtSidebar extends LitElement {
   // @property({ type: Object }) completeGraphState = GraphModel.DEFAULT_STATE as GraphState;
 
   static styles = css`
-
     :host {
       position: absolute;
       display: flex;
@@ -100,7 +99,6 @@ export class StvtSidebar extends LitElement {
       z-index: 1;
     }
 
-
     footer {
       background: var(--spectrum-gray-100);
       padding: 20px;
@@ -142,7 +140,10 @@ export class StvtSidebar extends LitElement {
       padding: 0;
       font-size: 18px;
       font-style: normal;
-      font-family: var(--spectrum-alias-body-text-font-family,var(--spectrum-global-font-family-base));
+      font-family: var(
+        --spectrum-alias-body-text-font-family,
+        var(--spectrum-global-font-family-base)
+      );
       font-weight: normal;
       line-height: 24px;
     }
@@ -152,12 +153,14 @@ export class StvtSidebar extends LitElement {
       padding: 0;
       font-size: 11px;
       font-style: normal;
-      font-family: var(--spectrum-alias-body-text-font-family,var(--spectrum-global-font-family-base));
+      font-family: var(
+        --spectrum-alias-body-text-font-family,
+        var(--spectrum-global-font-family-base)
+      );
       font-weight: normal;
       line-height: 18px;
-      text-transform: uppercase
+      text-transform: uppercase;
     }
-
   `;
 
   handleSwitchValueChange() {
@@ -177,7 +180,7 @@ export class StvtSidebar extends LitElement {
     return html`
       <section class="top">
         <div class="branding">
-          <img width=30 height=26 src="./adobe.svg"/>
+          <img width="30" height="26" src="./adobe.svg" />
           <div>
             <h1>Spectrum</h1>
             <h2>Token Visualization Tool</h2>
@@ -189,45 +192,84 @@ export class StvtSidebar extends LitElement {
         ></stvt-search>
       </section>
       <section class="middle">
-        <stvt-filters-menu
-          .filters=${this.filters}
-        ></stvt-filters-menu>
+        <stvt-filters-menu .filters=${this.filters}></stvt-filters-menu>
       </section>
       <section class="bottom">
         <footer>
           <ul>
-            <li><i><span>⌘</span> F</i> Search Tokens</li>
-            <li><i><span>⌘</span> drag</i> Pan / Move Token</li>
+            <li>
+              <i><span>⌘</span> F</i> Search Tokens
+            </li>
+            <li>
+              <i><span>⌘</span> drag</i> Pan / Move Token
+            </li>
             <li><i>← ↑ ↓ →</i> Pan</li>
-            <li><i><span>⌘</span> scroll</i> Zoom In / Out</li>
+            <li>
+              <i><span>⌘</span> scroll</i> Zoom In / Out
+            </li>
             <li><i>Z / Shift Z</i> Zoom In / Out</li>
             <li><i>BACK</i> Undo Selection</li>
             <li><i>FORWARD</i> Redo Selection</li>
           </ul>
           <section>
             <overlay-trigger id="trigger" placement="bottom" offset="6">
-                <sp-button
-                  size="s"
-                  variant="accent"
-                  slot="trigger"
-                >About</sp-button>
-                <sp-popover dialog slot="click-content" direction="bottom" style="max-width: 500px;">
-                    <div style="color: var(--spectrum-global-color-gray-800);">
-                      <p>Design tokens are all the values needed to construct and maintain a design system — spacing, color, typography, object styles, animation, etc. — represented as data. These can represent anything defined by design: a color as a RGB value, an opacity as a number, an animation ease as Bezier coordinates. They’re used in place of hard-coded values in order to ensure flexibility and unity across all product experiences.</p>
-                      <p>Design tokens are directly integrated into our component libraries, UI kits, and the Spectrum XD plugin. They cover the various options of platform scales, color themes, component states, and more. We also offer teams a variety of token types to use directly within their products if they are not using a Spectrum component library.</p>
-                      <p>This tool allows you to organically explore the relationship between these tokens by directly selecting tokens to expand their connections, filtering displayed values and connections by scale and theme, and by directly searching for token names or values.</p>
-                      <sp-link target="_new" href="https://github.com/adobe/spectrum-tokens" variant="secondary">Spectrum Tokens on GitHub</sp-link>
-                      <br/>
-                      <sp-link target="_new" href="https://git.corp.adobe.com/aportill/stvt/" variant="secondary">This Tool on GitHub</sp-link>
-                    </div>
-                </sp-popover>
+              <sp-button size="s" variant="accent" slot="trigger"
+                >About</sp-button
+              >
+              <sp-popover
+                dialog
+                slot="click-content"
+                direction="bottom"
+                style="max-width: 500px;"
+              >
+                <div style="color: var(--spectrum-global-color-gray-800);">
+                  <p>
+                    Design tokens are all the values needed to construct and
+                    maintain a design system — spacing, color, typography,
+                    object styles, animation, etc. — represented as data. These
+                    can represent anything defined by design: a color as a RGB
+                    value, an opacity as a number, an animation ease as Bezier
+                    coordinates. They’re used in place of hard-coded values in
+                    order to ensure flexibility and unity across all product
+                    experiences.
+                  </p>
+                  <p>
+                    Design tokens are directly integrated into our component
+                    libraries, UI kits, and the Spectrum XD plugin. They cover
+                    the various options of platform scales, color themes,
+                    component states, and more. We also offer teams a variety of
+                    token types to use directly within their products if they
+                    are not using a Spectrum component library.
+                  </p>
+                  <p>
+                    This tool allows you to organically explore the relationship
+                    between these tokens by directly selecting tokens to expand
+                    their connections, filtering displayed values and
+                    connections by scale and theme, and by directly searching
+                    for token names or values.
+                  </p>
+                  <sp-link
+                    target="_new"
+                    href="https://github.com/adobe/spectrum-tokens"
+                    variant="secondary"
+                    >Spectrum Tokens on GitHub</sp-link
+                  >
+                  <br />
+                  <sp-link
+                    target="_new"
+                    href="https://git.corp.adobe.com/aportill/stvt/"
+                    variant="secondary"
+                    >This Tool on GitHub</sp-link
+                  >
+                </div>
+              </sp-popover>
             </overlay-trigger>
             <sp-switch
               ?checked=${isLightsOn}
               id="spectrum-color-theme-switch"
               @change=${this.handleSwitchValueChange}
             >
-                Lights on
+              Lights on
             </sp-switch>
           </section>
         </footer>

@@ -20,10 +20,10 @@ fileGroups:
 tasks:
   build:
     command:
-    - vite
-    - build
+      - vite
+      - build
     deps:
-    - ~:typescript
+      - ~:typescript
     platform: node
     inputs:
       - "config"

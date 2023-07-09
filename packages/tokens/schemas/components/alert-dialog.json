@@ -18,7 +18,11 @@
     "variant": {
       "type": "string",
       "enum": [
-        "confirmation", "information", "warning", "destructive", "error"
+        "confirmation",
+        "information",
+        "warning",
+        "destructive",
+        "error"
       ],
       "default": "confirmation"
     },

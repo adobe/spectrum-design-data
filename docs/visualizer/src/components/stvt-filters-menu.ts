@@ -29,7 +29,6 @@ export class StvtFiltersMenu extends LitElement {
   @property({ type: Object }) filters = [] as string[];
 
   static styles = css`
-
     :host {
       position: relative;
       display: block;
@@ -67,23 +66,31 @@ export class StvtFiltersMenu extends LitElement {
   listOfOptions(category: string) {
     return CATEGORIZED_TOKEN_FILTERS[category].map(
       (filterName) => html`
-      <sp-switch emphasized value=${filterName} ?checked=${
-        this.filters.indexOf(filterName) >= 0
-      }>${filterName}</sp-switch>
-    `,
+        <sp-switch
+          emphasized
+          value=${filterName}
+          ?checked=${this.filters.indexOf(filterName) >= 0}
+          >${filterName}</sp-switch
+        >
+      `,
     );
   }
 
   get listOfCategorizedOptionLists() {
     return ORDERED_TOKEN_FILTER_CATEGORIES.map(
       (category) => html`
-      <sp-field-label for=${category} size="xl">
-        ${CATEGORIZED_TOKEN_FILTER_LABELS[category]}
-      </sp-field-label>
-      <sp-field-group selected="first" name=${category} id=${category} vertical>
-        ${this.listOfOptions(category)}
-      </sp-field-group>
-    `,
+        <sp-field-label for=${category} size="xl">
+          ${CATEGORIZED_TOKEN_FILTER_LABELS[category]}
+        </sp-field-label>
+        <sp-field-group
+          selected="first"
+          name=${category}
+          id=${category}
+          vertical
+        >
+          ${this.listOfOptions(category)}
+        </sp-field-group>
+      `,
     );
   }
 
