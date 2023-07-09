@@ -10,8 +10,14 @@
         "category": {
           "type": "string",
           "enum": [
-            "actions", "containers", "data visualization", "feedback", "inputs",
-            "navigation", "status", "typography"
+            "actions",
+            "containers",
+            "data visualization",
+            "feedback",
+            "inputs",
+            "navigation",
+            "status",
+            "typography"
           ]
         },
         "documentationUrl": { "type": "string", "format": "uri" }

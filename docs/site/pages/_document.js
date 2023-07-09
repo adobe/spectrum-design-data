@@ -5,7 +5,7 @@ export default function Document() {
     <Html
       lang="en-US"
       dir="ltr"
-      className='spectrum spectrum--medium spectrum--light'
+      className="spectrum spectrum--medium spectrum--light"
     >
       <Head>
         <link rel="preconnect" href="https://use.typekit.net" />

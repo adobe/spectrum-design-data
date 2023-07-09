@@ -18,25 +18,25 @@ function nearestPowerOf2(n: number) {
   return 1 << (31 - Math.clz32(n));
 }
 
-@customElement('graph-grid')
+@customElement("graph-grid")
 class GraphGrid extends LitElement {
   // zoom in and out of the grid by changing the scale property
-  @property({type:Number})
+  @property({ type: Number })
   scale = 1;
 
   // pan grid along x axis
-  @property({type:Number})
+  @property({ type: Number })
   posx = 0;
 
   // pan grid along y axis
-  @property({type:Number})
+  @property({ type: Number })
   posy = 0;
 
   // use dark mode colors
-  @property({type:String})
+  @property({ type: String })
   theme = "paper";
 
-  @property({type:Number})
+  @property({ type: Number })
   size = 7;
 
   static styles = css`
