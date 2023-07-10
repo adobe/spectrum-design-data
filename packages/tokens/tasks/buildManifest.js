@@ -12,9 +12,14 @@ governing permissions and limitations under the License.
 
 import glob from "glob-promise";
 import { writeFile } from "fs/promises";
+import { format } from "prettier";
 
 const manifestFileName = "manifest.json";
 const files = await glob("src/**/*.json");
 
-await writeFile(manifestFileName, JSON.stringify(files, null, 2));
+await writeFile(
+  manifestFileName,
+  await format(JSON.stringify(files), { parser: "json-stringify" }),
+);
+//
 console.log(`Wrote ${manifestFileName} with ${files.length} files.`);
