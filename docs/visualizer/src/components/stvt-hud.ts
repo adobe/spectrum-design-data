@@ -25,7 +25,6 @@ export class StvtHud extends LitElement {
   @property({ type: Number }) zoom = 1;
 
   static styles = css`
-
     :host {
       position: fixed;
       display: flex;
@@ -39,13 +38,15 @@ export class StvtHud extends LitElement {
     .slider-panel {
       position: relative;
       background: var(--spectrum-gray-100);
-      box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
       border-radius: 4px;
       padding: 0px 16px;
       display: inline-block;
       opacity: 1;
       top: 0;
-      transition: opacity 0.25s, top 0.25s;
+      transition:
+        opacity 0.25s,
+        top 0.25s;
     }
 
     .slider-panel.hidden {
@@ -56,7 +57,7 @@ export class StvtHud extends LitElement {
     .button-panel {
       position: relative;
       background: var(--spectrum-gray-100);
-      box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
       border-radius: 4px;
       padding: 0px;
       display: inline-block;
@@ -80,17 +81,20 @@ export class StvtHud extends LitElement {
     }
 
     sp-action-button i.enter-fullscreen {
-      background-color: var( --system-spectrum-actionbutton-content-color-default );
-      -webkit-mask-image: url('./Smock_FullScreen_18_N.svg');
-      mask-image: url('./Smock_FullScreen_18_N.svg');
+      background-color: var(
+        --system-spectrum-actionbutton-content-color-default
+      );
+      -webkit-mask-image: url("./Smock_FullScreen_18_N.svg");
+      mask-image: url("./Smock_FullScreen_18_N.svg");
     }
 
     sp-action-button i.exit-fullscreen {
-      background-color: var( --system-spectrum-actionbutton-selected-content-color-default );
-      -webkit-mask-image: url('./Smock_FullScreenExit_18_N.svg');
-      mask-image: url('./Smock_FullScreenExit_18_N.svg');
+      background-color: var(
+        --system-spectrum-actionbutton-selected-content-color-default
+      );
+      -webkit-mask-image: url("./Smock_FullScreenExit_18_N.svg");
+      mask-image: url("./Smock_FullScreenExit_18_N.svg");
     }
-
   `;
 
   handleZoomSliderChange() {
@@ -110,11 +114,16 @@ export class StvtHud extends LitElement {
   render() {
     return html`
       <div class="slider-panel ${this.fullscreenMode ? "hidden" : ""}">
-        <sp-slider id="zoom-slider" @input=${
-          this.handleZoomSliderChange
-        } label-visibility="none" label="Zoom" min=0.1 max=2 step=0.05 value=${this.zoom.toFixed(
-      2,
-    )}></sp-slider>
+        <sp-slider
+          id="zoom-slider"
+          @input=${this.handleZoomSliderChange}
+          label-visibility="none"
+          label="Zoom"
+          min="0.1"
+          max="2"
+          step="0.05"
+          value=${this.zoom.toFixed(2)}
+        ></sp-slider>
       </div>
       <div class="button-panel">
         <sp-action-button
@@ -122,9 +131,13 @@ export class StvtHud extends LitElement {
           quiet
           ?emphasized=${this.fullscreenMode}
           ?selected=${this.fullscreenMode}
-        ><i class=${
-          this.fullscreenMode ? "exit-fullscreen" : "enter-fullscreen"
-        } slot="icon"></i></sp-action-button>
+          ><i
+            class=${this.fullscreenMode
+              ? "exit-fullscreen"
+              : "enter-fullscreen"}
+            slot="icon"
+          ></i
+        ></sp-action-button>
       </div>
     `;
   }

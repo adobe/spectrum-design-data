@@ -46,7 +46,6 @@ export class StvtSearch extends LitElement {
   stringMatchWorker: Worker;
 
   static styles = css`
-
     :host {
       position: relative;
       display: block;
@@ -68,8 +67,11 @@ export class StvtSearch extends LitElement {
       max-height: 300px;
       background: var(--spectrum-gray-50);
       overflow: auto;
-      box-shadow: inset 0 0 0 1px var(--spectrum-gray-200), 0px 3px 6px rgba(0,0,0,0.1);
-      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      box-shadow:
+        inset 0 0 0 1px var(--spectrum-gray-200),
+        0px 3px 6px rgba(0, 0, 0, 0.1);
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
       border-radius: 5px;
     }
 
@@ -123,26 +125,25 @@ export class StvtSearch extends LitElement {
 
     .list ul li i.component {
       background-color: ${COLOR_COMPONENT_NODE};
-      -webkit-mask-image: url('./Smock_Note_18_N.svg');
-      mask-image: url('./Smock_Note_18_N.svg');
+      -webkit-mask-image: url("./Smock_Note_18_N.svg");
+      mask-image: url("./Smock_Note_18_N.svg");
     }
 
     .list ul li i.orphan-category {
       background-color: ${COLOR_ORPHAN_CATEGORY_NODE};
-      -webkit-mask-image: url('./Smock_Selection_18_N.svg');
-      mask-image: url('./Smock_Selection_18_N.svg');
+      -webkit-mask-image: url("./Smock_Selection_18_N.svg");
+      mask-image: url("./Smock_Selection_18_N.svg");
     }
 
     .list ul li i.token {
       background-color: ${COLOR_TOKEN_NODE};
-      -webkit-mask-image: url('./Smock_Label_18_N.svg');
-      mask-image: url('./Smock_Label_18_N.svg');
+      -webkit-mask-image: url("./Smock_Label_18_N.svg");
+      mask-image: url("./Smock_Label_18_N.svg");
     }
 
     #search:focus + .list {
       display: block;
     }
-
   `;
 
   constructor() {
@@ -270,35 +271,31 @@ export class StvtSearch extends LitElement {
     return html`
       <div>
         <sp-search
-            @change=${this.handleChange}
-            @input=${this.handleChange}
-            @keydown=${this.handleKeydown}
-            id="search"
-            placeholder="Search"
+          @change=${this.handleChange}
+          @input=${this.handleChange}
+          @keydown=${this.handleKeydown}
+          id="search"
+          placeholder="Search"
         ></sp-search>
         <div class="list" id="list-container">
           <ul>
-          ${this.searchResults.map((item, index) => {
-            // console.info(item);
-            // const graphNode = this.graphState.nodes[item.value];
-            // console.info(this.graphState.nodes[item.value]);
-            return html`
-            <li
-              id="search-result-${index}"
-              ?selected=${index === this.targetIndex}
-              @pointerdown=${() => this.handlePointerDown(index)}
-            ><i class=${item.type}></i>${unsafeHTML(item.matchMarkup)}</li>
-            `;
-          })}
-          ${
-            this.searchResults.length === 0
-              ? html`
-            <li
-              selected
-            >No matching results</li>
-          `
-              : html``
-          }
+            ${this.searchResults.map((item, index) => {
+              // console.info(item);
+              // const graphNode = this.graphState.nodes[item.value];
+              // console.info(this.graphState.nodes[item.value]);
+              return html`
+                <li
+                  id="search-result-${index}"
+                  ?selected=${index === this.targetIndex}
+                  @pointerdown=${() => this.handlePointerDown(index)}
+                >
+                  <i class=${item.type}></i>${unsafeHTML(item.matchMarkup)}
+                </li>
+              `;
+            })}
+            ${this.searchResults.length === 0
+              ? html` <li selected>No matching results</li> `
+              : html``}
           </ul>
         </div>
       </div>

@@ -65,7 +65,6 @@ export class TokenGraphNode extends LitElement {
   textColor = "#FFFFFF";
 
   static styles = css`
-
     div {
       position: absolute;
       width: ${GRAPH_NODE_WIDTH}px;
@@ -160,8 +159,8 @@ export class TokenGraphNode extends LitElement {
       left: 0;
       height: 100%;
       width: 28px;
-      -webkit-mask-image: url('./Smock_Copy_18_N.svg');
-      mask-image: url('./Smock_Copy_18_N.svg');
+      -webkit-mask-image: url("./Smock_Copy_18_N.svg");
+      mask-image: url("./Smock_Copy_18_N.svg");
       -webkit-mask-repeat: no-repeat;
       mask-repeat: no-repeat;
       -webkit-mask-position: center center;
@@ -169,7 +168,7 @@ export class TokenGraphNode extends LitElement {
       -webkit-mask-size: 18px;
       mask-size: 18px;
       opacity: 0.7;
-      background-color: #FFFFFF;
+      background-color: #ffffff;
     }
 
     .copyIcon:hover {
@@ -397,16 +396,20 @@ export class TokenGraphNode extends LitElement {
     }
 
     return html`
-      <ol>${this.decomposedValues.map(
-        (v) => html`<li><b>${v[1] || `*`}</b><i>${v[0]}</i></li>`,
-      )}</ol>
+      <ol>
+        ${this.decomposedValues.map(
+          (v) => html`<li><b>${v[1] || `*`}</b><i>${v[0]}</i></li>`,
+        )}
+      </ol>
     `;
   }
 
   render() {
     return html`
       <div
-        class="${this.selected ? "selected" : ""} ${this.isFaded ? "faded" : ""}"
+        class="${this.selected ? "selected" : ""} ${this.isFaded
+          ? "faded"
+          : ""}"
         id="gesture-target"
         @pointerdown=${this.handlePointerDown}
         @gesture-click=${this.handleClick}
@@ -417,13 +420,10 @@ export class TokenGraphNode extends LitElement {
         @gesture-drag-move=${this.handleDragMove}
         @mouseout=${this.handlePointerOut}
         @mouseover=${this.handlePointerOver}
-        style="background-color:var(${this.fillColor});color:var(${
-      this.textColor
-    });height:${
-      this.rowCount * GRAPH_NODE_VALUE_HEIGHT +
-      (this.rowCount - 1) * GRAPH_NODE_VALUE_MARGIN +
-      GRAPH_NODE_VALUES_PADDING * 2
-    }px;"
+        style="background-color:var(${this.fillColor});color:var(${this
+          .textColor});height:${this.rowCount * GRAPH_NODE_VALUE_HEIGHT +
+        (this.rowCount - 1) * GRAPH_NODE_VALUE_MARGIN +
+        GRAPH_NODE_VALUES_PADDING * 2}px;"
       >
         <h3>${this.id}</h3>
         <i

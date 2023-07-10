@@ -18,10 +18,10 @@ jobs:
           fetch-depth: 0
       - uses: pnpm/action-setup@v2
         with:
-          version: 8.6.5
+          version: 8.6.6
       - uses: moonrepo/setup-moon-action@v1
       - run: moon setup
-      - run: moon run :build
+      - run: moon run :build --query "projectSource~packages/*"
       - name: Publish
         id: changesets
         uses: changesets/action@v1
@@ -34,6 +34,6 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # - name: Send a Slack notification if a publish happens
-        # if: steps.changesets.outputs.published == 'true'
-        # You can do something when a publish happens.
-        # run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"
+      # if: steps.changesets.outputs.published == 'true'
+      # You can do something when a publish happens.
+      # run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"

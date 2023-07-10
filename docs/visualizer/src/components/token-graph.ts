@@ -57,7 +57,6 @@ export class TokenGraph extends LitElement {
   debouncedAfterWheel: () => void = () => {};
 
   static styles = css`
-
     #panning-drag-surface {
       position: absolute;
       display: block;
@@ -89,7 +88,7 @@ export class TokenGraph extends LitElement {
       pointer-events: none;
     }
 
-    token-graph-adjacency[isHighlighted=true] {
+    token-graph-adjacency[isHighlighted="true"] {
       z-index: 2;
     }
 
@@ -114,8 +113,6 @@ export class TokenGraph extends LitElement {
     .focus-mode token-graph-adjacency[isFocused=true] {
       opacity: 1;
     } */
-
-
   `;
 
   constructor() {
@@ -344,17 +341,18 @@ export class TokenGraph extends LitElement {
         @gesture-drag-start=${this.handleDragStart}
         @gesture-drag-end=${this.handleDragEnd}
         @gesture-drag-move=${this.handleDragMove}
-        >
+      >
         <graph-grid
-            .scale=${zoom}
-            .posx=${panX}
-            .posy=${panY}
-            .theme=${spectrumColorTheme}
-          >
+          .scale=${zoom}
+          .posx=${panX}
+          .posy=${panY}
+          .theme=${spectrumColorTheme}
+        >
         </graph-grid>
-        <div class="contents ${
-          isFocusMode ? "focus-mode" : ""
-        }" style="transform: matrix(${transform.join(",")});">
+        <div
+          class="contents ${isFocusMode ? "focus-mode" : ""}"
+          style="transform: matrix(${transform.join(",")});"
+        >
           ${repeat(
             this.adjacencyTuples,
             (tuple) => tuple.join(":"),
@@ -420,18 +418,18 @@ export class TokenGraph extends LitElement {
                 isInHoverUpstream || (isOnAncestorPath && isOnDescendentPath);
 
               return html`
-              <token-graph-adjacency
-                isHighlighted=${isHighlighted}
-                .isHighlighted=${isHighlighted}
-                .role=${role}
-                .isFaded=${isFaded}
-                .label=${label}
-                .fromX=${fromX}
-                .fromY=${fromY}
-                .toX=${toX}
-                .toY=${toY}
-              ></token-graph-adjacency>
-            `;
+                <token-graph-adjacency
+                  isHighlighted=${isHighlighted}
+                  .isHighlighted=${isHighlighted}
+                  .role=${role}
+                  .isFaded=${isFaded}
+                  .label=${label}
+                  .fromX=${fromX}
+                  .fromY=${fromY}
+                  .toX=${toX}
+                  .toY=${toY}
+                ></token-graph-adjacency>
+              `;
             },
           )}
           ${repeat(
@@ -448,26 +446,25 @@ export class TokenGraph extends LitElement {
               const isFocused = focusItems.indexOf(id) >= 0;
               const isFaded = isFocusMode && !isFocused;
               return html`
-              <token-graph-node
-                style="transform: matrix(1,0,0,1,${x},${y});"
-                isFocused=${isFocused}
-                .isFaded=${isFaded}
-                isSelected=${isSelected}
-                type=${type}
-                ?isIntersect =${
-                  selectionDescendentIntersectNodes.indexOf(id) >= 0
-                }
-                ?selected=${isSelected}
-                ?selectionAncestor=${selectionAncestorNodes.indexOf(id) >= 0}
-                ?selectionDescendent=${
-                  selectionDescendentNodes.indexOf(id) >= 0
-                }
-                ?hasDownstream=${hasDownstream}
-                ?hoverUpstream=${renderedHoverUpstream.indexOf(id) >= 0}
-                id=${id}
-                value=${value}
-              ></token-graph-node>
-            `;
+                <token-graph-node
+                  style="transform: matrix(1,0,0,1,${x},${y});"
+                  isFocused=${isFocused}
+                  .isFaded=${isFaded}
+                  isSelected=${isSelected}
+                  type=${type}
+                  ?isIntersect=${selectionDescendentIntersectNodes.indexOf(
+                    id,
+                  ) >= 0}
+                  ?selected=${isSelected}
+                  ?selectionAncestor=${selectionAncestorNodes.indexOf(id) >= 0}
+                  ?selectionDescendent=${selectionDescendentNodes.indexOf(id) >=
+                  0}
+                  ?hasDownstream=${hasDownstream}
+                  ?hoverUpstream=${renderedHoverUpstream.indexOf(id) >= 0}
+                  id=${id}
+                  value=${value}
+                ></token-graph-node>
+              `;
             },
           )}
         </div>

@@ -160,36 +160,36 @@ export class TokenGraphAdjacency extends LitElement {
 
   render() {
     return html`
-      <svg style="top:${this.top}px;left:${this.left}px;" width=${
-      this.width
-    } height=${this.height}>
+      <svg
+        style="top:${this.top}px;left:${this.left}px;"
+        width=${this.width}
+        height=${this.height}
+      >
         <path
-            d="M ${this.Ax},${this.Ay} C ${this.Ax + this.handleDistance},${
-      this.Ay
-    } ${this.Bx - this.handleDistance},${this.By} ${this.Bx},${this.By}"
-            stroke="var(${this.fillColor})"
-            stroke-width="2"
-            fill="none"
-          />
-        ${
-          this.label
-            ? svg`<g transform="rotate(${this.angle},${this.width / 2},${
-                this.height / 2
-              })">
+          d="M ${this.Ax},${this.Ay} C ${this.Ax + this.handleDistance},${this
+            .Ay} ${this.Bx - this.handleDistance},${this.By} ${this.Bx},${this
+            .By}"
+          stroke="var(${this.fillColor})"
+          stroke-width="2"
+          fill="none"
+        />
+        ${this.label
+          ? svg`<g transform="rotate(${this.angle},${this.width / 2},${
+              this.height / 2
+            })">
             <text font-family="Courier New, monospace" x="50%" y="50%" fill="var(${
               this.fillColor
             })" text-anchor="middle" font-size="smaller" dominant-baseline="middle">◀${
-                this.fillLabel
-              }▶</text>
+              this.fillLabel
+            }▶</text>
             <text font-family="Courier New, monospace" x="50%" y="50%" fill="var(${
               this.labelColor
             })" text-anchor="middle" font-size="smaller" dominant-baseline="middle">${
-                this.label
-              }</text>
+              this.label
+            }</text>
             </g>
           `
-            : svg``
-        }
+          : svg``}
       </svg>
     `;
   }

@@ -12,7 +12,12 @@
     "variant": {
       "type": "string",
       "enum": [
-        "neutral", "informative", "positive", "notice", "negative", "neutral"
+        "neutral",
+        "informative",
+        "positive",
+        "notice",
+        "negative",
+        "neutral"
       ],
       "default": "neutral"
     }

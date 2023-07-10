@@ -81,7 +81,6 @@ export class StvtTabs extends LitElement {
       user-select: none;
     }
 
-
     .tabs::-webkit-scrollbar {
       height: 1px;
       background: var(--spectrum-gray-100);
@@ -131,20 +130,20 @@ export class StvtTabs extends LitElement {
 
     .tabs li.component > i {
       background-color: ${COLOR_COMPONENT_NODE};
-      -webkit-mask-image: url('./Smock_Note_18_N.svg');
-      mask-image: url('./Smock_Note_18_N.svg');
+      -webkit-mask-image: url("./Smock_Note_18_N.svg");
+      mask-image: url("./Smock_Note_18_N.svg");
     }
 
     .tabs li.orphan-category > i {
       background-color: ${COLOR_ORPHAN_CATEGORY_NODE};
-      -webkit-mask-image: url('./Smock_Selection_18_N.svg');
-      mask-image: url('./Smock_Selection_18_N.svg');
+      -webkit-mask-image: url("./Smock_Selection_18_N.svg");
+      mask-image: url("./Smock_Selection_18_N.svg");
     }
 
     .tabs li.token > i {
       background-color: ${COLOR_TOKEN_NODE};
-      -webkit-mask-image: url('./Smock_Label_18_N.svg');
-      mask-image: url('./Smock_Label_18_N.svg');
+      -webkit-mask-image: url("./Smock_Label_18_N.svg");
+      mask-image: url("./Smock_Label_18_N.svg");
     }
 
     .tabs li button {
@@ -169,8 +168,8 @@ export class StvtTabs extends LitElement {
       width: 8px;
       height: 8px;
       background-color: var(--spectrum-gray-800);
-      -webkit-mask-image: url('./CrossSize100.svg');
-      mask-image: url('./CrossSize100.svg');
+      -webkit-mask-image: url("./CrossSize100.svg");
+      mask-image: url("./CrossSize100.svg");
     }
 
     .tabs li:hover button {
@@ -231,9 +230,11 @@ export class StvtTabs extends LitElement {
   tabsItemHtml(itemId: string) {
     // const isComponent = this.selectedComponents.indexOf(itemId) >= 0;
 
-    return html`<li class=${this.graphNodeTypeLookup[itemId]}><i></i>${itemId}<button
-      @click=${() => this.handleCloseTabClick(itemId)}
-    ><i></i></button></li>`;
+    return html`<li class=${this.graphNodeTypeLookup[itemId]}>
+      <i></i>${itemId}<button @click=${() => this.handleCloseTabClick(itemId)}>
+        <i></i>
+      </button>
+    </li>`;
   }
 
   render() {
@@ -244,25 +245,24 @@ export class StvtTabs extends LitElement {
     // }
 
     return html`
-      <div
-        id="tab-scroller"
-        class="tabs"
-        @wheel=${this.handleWheelEvents}
-      >
+      <div id="tab-scroller" class="tabs" @wheel=${this.handleWheelEvents}>
         <label>Selected:</label>
         ${tabCount === 0 ? html`<span>none</span>` : ""}
         <ul>
           ${this.selectedComponents.map(this.tabsItemHtml.bind(this))}
           ${this.selectedTokens.map(this.tabsItemHtml.bind(this))}
-          ${
-            tabCount <= 3
-              ? html``
-              : html`
-            <div class="tabs-endcap">
-              <sp-action-button @click=${this.handleDeselectAll} size="xs" quiet>Deselect All</sp-action-button>
-            </div>
-          `
-          }
+          ${tabCount <= 3
+            ? html``
+            : html`
+                <div class="tabs-endcap">
+                  <sp-action-button
+                    @click=${this.handleDeselectAll}
+                    size="xs"
+                    quiet
+                    >Deselect All</sp-action-button
+                  >
+                </div>
+              `}
         </ul>
       </div>
     `;

@@ -115,9 +115,9 @@ export class StvtApp extends LitElement {
   urlParams: URLSearchParams;
 
   static styles = css`
-
     :host {
-      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
       position: absolute;
       display: block;
       top: 0;
@@ -134,14 +134,18 @@ export class StvtApp extends LitElement {
       z-index: 2;
       left: 0;
       opacity: 1;
-      transition: opacity 0.25s, left 0.25s;
+      transition:
+        opacity 0.25s,
+        left 0.25s;
     }
 
     stvt-tabs {
       z-index: 1;
       opacity: 1;
       top: 0;
-      transition: opacity 0.25s, top 0.25s;
+      transition:
+        opacity 0.25s,
+        top 0.25s;
     }
 
     .fullscreen-mode stvt-sidebar {
@@ -173,7 +177,6 @@ export class StvtApp extends LitElement {
       left: 50%;
       transform: translate(-50%, 0);
     }
-
   `;
 
   constructor() {
@@ -371,9 +374,11 @@ export class StvtApp extends LitElement {
 
   render() {
     return html`
-      <sp-theme scale="medium" color=${
-        this.appState.spectrumColorTheme
-      } class=${this.appState.fullscreenMode ? "fullscreen-mode" : ""}>
+      <sp-theme
+        scale="medium"
+        color=${this.appState.spectrumColorTheme}
+        class=${this.appState.fullscreenMode ? "fullscreen-mode" : ""}
+      >
         <stvt-sidebar
           id="stvt-sidebar"
           @gesturechange=${(e: any) => e.preventDefault()}

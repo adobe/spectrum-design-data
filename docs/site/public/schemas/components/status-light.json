@@ -15,8 +15,18 @@
     "variant": {
       "type": "string",
       "enum": [
-        "informative", "neutral", "positive", "notice", "negative", "indigo",
-        "celery", "chartreuse", "yellow", "magenta", "fuchsia", "purple",
+        "informative",
+        "neutral",
+        "positive",
+        "notice",
+        "negative",
+        "indigo",
+        "celery",
+        "chartreuse",
+        "yellow",
+        "magenta",
+        "fuchsia",
+        "purple",
         "seafoam"
       ],
       "default": "informative"
