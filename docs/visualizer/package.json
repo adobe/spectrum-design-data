@@ -21,7 +21,7 @@
     "@spectrum-web-components/action-button": "^0.10.15",
     "@spectrum-web-components/button": "^0.20.4",
     "@spectrum-web-components/button-group": "^0.10.10",
-    "@spectrum-web-components/field-group": "^0.8.6",
+    "@spectrum-web-components/field-group": "^0.33.2",
     "@spectrum-web-components/field-label": "^0.10.9",
     "@spectrum-web-components/link": "^0.14.7",
     "@spectrum-web-components/overlay": "^0.19.4",
