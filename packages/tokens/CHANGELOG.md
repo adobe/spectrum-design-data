@@ -1,5 +1,11 @@
 # @adobe/spectrum-tokens
 
+## 12.13.1
+
+### Patch Changes
+
+- 02459bf: Migrate dependencies to devDependencies as they are not needed downstream to leverage the package.
+
 ## 12.13.0
 
 ### Minor Changes
