@@ -5960,5 +5960,180 @@
         "uuid": "794ad497-1725-4a03-a7c9-425eaee3178e"
       }
     }
+  },
+  "in-field-button-width-stacked-small": {
+    "component": "in-field-button",
+    "value": "20px",
+    "uuid": "24125066-c8d1-4c4a-85b3-493d112d3ca0"
+  },
+  "in-field-button-width-stacked-medium": {
+    "component": "in-field-button",
+    "value": "28px",
+    "uuid": "bb8c7ce0-1766-47f9-b30e-36b3b57dc2ea"
+  },
+  "in-field-button-width-stacked-large": {
+    "component": "in-field-button",
+    "value": "36px",
+    "uuid": "4e103763-4310-4aff-980f-652ad023084f"
+  },
+  "in-field-button-width-stacked-extra-large": {
+    "component": "in-field-button",
+    "value": "44px",
+    "uuid": "5f844b3f-e0d7-40f0-a754-a14bee6a0fb4"
+  },
+  "in-field-button-fill-stacked-inner-border-rounding": {
+    "component": "in-field-button",
+    "sets": {
+      "spectrum": {
+        "value": "0px",
+        "uuid": "f8ed9a70-58f1-4f1a-9e87-24bca6d7b4e1"
+      },
+      "express": {
+        "value": "1px",
+        "uuid": "5a3e434f-f915-4a72-985b-04af51c3ad7e"
+      }
+    }
+  },
+  "in-field-button-edge-to-fill": {
+    "component": "in-field-button",
+    "sets": {
+      "spectrum": {
+        "value": "0px",
+        "uuid": "5bffe992-2982-49e8-aa3a-e4e93c884f43"
+      },
+      "express": {
+        "value": "4px",
+        "uuid": "670a4fef-5e16-4db6-8acd-b747cc783312"
+      }
+    }
+  },
+  "in-field-button-stacked-inner-edge-to-fill": {
+    "component": "in-field-button",
+    "sets": {
+      "spectrum": {
+        "value": "0px",
+        "uuid": "56b54ece-0ff3-4957-9c1c-9e7fb992653c"
+      },
+      "express": {
+        "value": "1px",
+        "uuid": "c1aa585e-769d-40d6-a42d-c9d602124870"
+      }
+    }
+  },
+  "in-field-button-edge-to-disclosure-icon-stacked-small": {
+    "component": "in-field-button",
+    "value": "7px",
+    "uuid": "8b6a0ab1-4dba-4da2-9c67-3befca0f110e"
+  },
+  "in-field-button-edge-to-disclosure-icon-stacked-medium": {
+    "component": "in-field-button",
+    "value": "9px",
+    "uuid": "ccb60cfc-86fe-4959-b4a8-1a45835132c8"
+  },
+  "in-field-button-edge-to-disclosure-icon-stacked-large": {
+    "component": "in-field-button",
+    "value": "13px",
+    "uuid": "6a6e5478-b549-4a39-a7f5-5d3c417464ce"
+  },
+  "in-field-button-edge-to-disclosure-icon-stacked-extra-large": {
+    "component": "in-field-button",
+    "value": "16px",
+    "uuid": "d563157b-f0d7-407d-aaaf-ae1790c75503"
+  },
+  "in-field-button-outer-edge-to-disclosure-icon-stacked-small": {
+    "component": "in-field-button",
+    "value": "3px",
+    "uuid": "9890df35-2d45-4767-9cbe-ee745d09d990"
+  },
+  "in-field-button-outer-edge-to-disclosure-icon-stacked-medium": {
+    "component": "in-field-button",
+    "sets": {
+      "spectrum": {
+        "value": "3px",
+        "uuid": "a87d68bb-4249-43cd-947d-bd061baba0ef"
+      },
+      "express": {
+        "value": "5px",
+        "uuid": "b942ec2c-f70f-4948-8ff5-0bd471cd4f0a"
+      }
+    }
+  },
+  "in-field-button-outer-edge-to-disclosure-icon-stacked-large": {
+    "component": "in-field-button",
+    "sets": {
+      "spectrum": {
+        "value": "4px",
+        "uuid": "acc9c48a-f461-48ff-9f69-0224c4feabc6"
+      },
+      "express": {
+        "value": "7px",
+        "uuid": "345002c5-88fc-4297-aa91-54ed292265b8"
+      }
+    }
+  },
+  "in-field-button-outer-edge-to-disclosure-icon-stacked-extra-large": {
+    "component": "in-field-button",
+    "sets": {
+      "spectrum": {
+        "value": "5px",
+        "uuid": "391e1e67-1677-4f60-a09a-3b49bacd01f5"
+      },
+      "express": {
+        "value": "8px",
+        "uuid": "33e443d8-3e31-4f17-ab37-61beebaa9d40"
+      }
+    }
+  },
+  "in-field-button-inner-edge-to-disclosure-icon-stacked-small": {
+    "component": "in-field-button",
+    "sets": {
+      "spectrum": {
+        "value": "{in-field-button-outer-edge-to-disclosure-icon-stacked-small}",
+        "uuid": "6c1330a4-1c89-45a7-b2b1-8cbcaf20b9ab"
+      },
+      "express": {
+        "value": "1px",
+        "uuid": "ec74220b-c091-4b29-8e43-9d3f0e163820"
+      }
+    }
+  },
+  "in-field-button-inner-edge-to-disclosure-icon-stacked-medium": {
+    "component": "in-field-button",
+    "sets": {
+      "spectrum": {
+        "value": "{in-field-button-outer-edge-to-disclosure-icon-stacked-medium}",
+        "uuid": "3dd5babb-5026-4f28-89ae-bfe687673f31"
+      },
+      "express": {
+        "value": "1px",
+        "uuid": "5bddcd79-3829-4764-853a-b83512b5820d"
+      }
+    }
+  },
+  "in-field-button-inner-edge-to-disclosure-icon-stacked-large": {
+    "component": "in-field-button",
+    "sets": {
+      "spectrum": {
+        "value": "{in-field-button-outer-edge-to-disclosure-icon-stacked-large}",
+        "uuid": "710ebe58-f0d8-4d6b-8974-0be1f2f48dc4"
+      },
+      "express": {
+        "value": "3px",
+        "uuid": "7135afd9-ef05-4909-8b3e-eeae3d527bd0"
+      }
+    }
+  },
+  "in-field-button-inner-edge-to-disclosure-icon-stacked-extra-large": {
+    "component": "in-field-button",
+    "sets": {
+      "spectrum": {
+        "value": "{in-field-button-outer-edge-to-disclosure-icon-stacked-extra-large}",
+        "uuid": "c47499c1-b89f-49a7-bbb5-17e83e4b306e"
+      },
+      "express": {
+        "value": "4px",
+        "uuid": "979542c9-2328-495c-8abf-cb226b140f82"
+      }
+    }
   }
 }
