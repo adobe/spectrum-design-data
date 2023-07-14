@@ -1,17 +1,5 @@
 # @adobe/spectrum-tokens
 
-## 12.15.0
-
-### Minor Changes
-
-- fc12f6d: Added side-navigation token
-
-  #### Token Diff
-
-  _Tokens added (1):_
-
-  - `side-navigation-bottom-to-text`
-
 ## 12.14.0
 
 ### Minor Changes

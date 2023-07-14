@@ -22,13 +22,13 @@
   },
   "homepage": "https://github.com/adobe/spectrum-tokens#readme",
   "devDependencies": {
-    "@changesets/cli": "^2.26.1",
-    "@commitlint/cli": "^17.6.1",
-    "@commitlint/config-conventional": "^17.6.1",
+    "@changesets/cli": "^2.26.2",
+    "@commitlint/cli": "^17.6.6",
+    "@commitlint/config-conventional": "^17.6.6",
     "@moonrepo/cli": "^1.10.1",
-    "ava": "^5.2.0",
+    "ava": "^5.3.1",
     "husky": "^8.0.3",
-    "lint-staged": "^13.2.1",
+    "lint-staged": "^13.2.3",
     "prettier": "^3.0.0"
   },
   "engines": {

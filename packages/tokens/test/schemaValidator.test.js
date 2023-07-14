@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 import test from "ava";
 import Ajv from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
-import glob from "glob-promise";
+import { glob } from "glob";
 import { readFile } from "fs/promises";
 
 const readJSON = async (filePath) =>
