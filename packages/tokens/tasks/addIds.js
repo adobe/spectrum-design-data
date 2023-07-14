@@ -1,4 +1,4 @@
-import glob from "glob-promise";
+import { glob } from "glob";
 import crypto from "crypto"; // (not the fake money)
 import { writeFile, readFile } from "fs/promises";
 
