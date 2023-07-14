@@ -5948,6 +5948,19 @@
       }
     }
   },
+  "side-navigation-bottom-to-text": {
+    "component": "side-navigation",
+    "sets": {
+      "desktop": {
+        "value": "8px",
+        "uuid": "8751d85d-a325-4e4e-a7b2-0a3ca94b6b6e"
+      },
+      "mobile": {
+        "value": "10px",
+        "uuid": "e3f49e5e-f9ec-485c-846e-7a8fda08caea"
+      }
+    }
+  },
   "tray-top-to-content-area": {
     "component": "tray",
     "sets": {
