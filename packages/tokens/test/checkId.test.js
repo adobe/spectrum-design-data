@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 import test from "ava";
-import glob from "glob-promise";
+import { glob } from "glob";
 import { readFile } from "fs/promises";
 const fileNames = await glob("src/**/*.json");
 const files = await Promise.all(

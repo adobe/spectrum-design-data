@@ -2,7 +2,7 @@ import path from "path";
 import { readFile } from "fs/promises";
 import Ajv from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
-import glob from "glob-promise";
+import { glob } from "glob";
 
 const isObject = (a) => {
   return (

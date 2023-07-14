@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import glob from "glob-promise";
+import { glob } from "glob";
 import { readFile, writeFile } from "fs/promises";
 import augmentExpressTokens from "./lib/augmentExpressTokens.js";
 

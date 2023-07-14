@@ -1,9 +1,9 @@
 [
-  "src/color-aliases.json",
-  "src/color-component.json",
-  "src/color-palette.json",
-  "src/layout-component.json",
-  "src/layout.json",
+  "src/typography.json",
   "src/semantic-color-palette.json",
-  "src/typography.json"
+  "src/layout.json",
+  "src/layout-component.json",
+  "src/color-palette.json",
+  "src/color-component.json",
+  "src/color-aliases.json"
 ]
