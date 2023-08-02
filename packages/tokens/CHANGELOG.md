@@ -1,5 +1,17 @@
 # @adobe/spectrum-tokens
 
+## 12.15.0
+
+### Minor Changes
+
+- 7563bf1: Add new menu-item token for section dividers
+
+  #### Token Diff
+
+  _Tokens added (1):_
+
+  - `menu-item-section-divider-height`
+
 ## 12.14.0
 
 ### Minor Changes
