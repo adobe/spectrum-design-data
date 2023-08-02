@@ -4,13 +4,13 @@
 
 ### Minor Changes
 
-- 7563bf1: Add new menu-item token for section dividers
+- fc12f6d: Added side-navigation token
 
-  #### Token Diff
+#### Token Diff
 
-  _Tokens added (1):_
+_Tokens added (1):_
 
-  - `menu-item-section-divider-height`
+- `side-navigation-bottom-to-text`
 
 ## 12.14.0
 
