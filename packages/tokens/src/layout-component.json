@@ -2050,6 +2050,11 @@
       }
     }
   },
+  "menu-item-section-divider-height": {
+    "component": "menu",
+    "value": "8px",
+    "uuid": "dac5c077-b948-434b-91bd-0759c2414007"
+  },
   "slider-track-thickness": {
     "component": "slider",
     "sets": {
