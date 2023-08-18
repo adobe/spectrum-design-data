@@ -3810,6 +3810,19 @@
     "value": "{illustrated-message-body-size}",
     "uuid": "bb3fee51-24cc-4643-9f22-fa1592ab2457"
   },
+  "coach-mark-width": {
+    "component": "coach-mark",
+    "sets": {
+      "desktop": {
+        "value": "296px",
+        "uuid": "49d1e2be-3aa2-4515-ba54-7f6cf3ab007c"
+      },
+      "mobile": {
+        "value": "216px",
+        "uuid": "b3f14387-44fd-43d3-a152-c8e691ef87df"
+      }
+    }
+  },
   "coach-mark-minimum-width": {
     "component": "coach-mark",
     "sets": {
@@ -3818,8 +3831,21 @@
         "uuid": "9f413341-5ed5-4cd0-8348-1c7141dcab8d"
       },
       "mobile": {
-        "value": "208px",
+        "value": "216px",
         "uuid": "9004d69e-5726-42f5-a4d0-de09db2de784"
+      }
+    }
+  },
+  "coach-mark-maximum-width": {
+    "component": "coach-mark",
+    "sets": {
+      "desktop": {
+        "value": "380px",
+        "uuid": "07cdeb95-d368-4ed1-ba29-6b9ddeae1396"
+      },
+      "mobile": {
+        "value": "248px",
+        "uuid": "7f8346b2-f8bf-441d-8412-2a2a28cf4b90"
       }
     }
   },
@@ -3849,6 +3875,19 @@
       }
     }
   },
+  "coach-mark-media-height": {
+    "component": "coach-mark",
+    "sets": {
+      "desktop": {
+        "value": "222px",
+        "uuid": "f6381a33-ac4e-4ff9-86a3-183c857772ad"
+      },
+      "mobile": {
+        "value": "162px",
+        "uuid": "45b31e46-b878-40a2-a28a-91c480f45253"
+      }
+    }
+  },
   "coach-mark-media-minimum-height": {
     "component": "coach-mark",
     "sets": {
@@ -3865,6 +3904,10 @@
   "coach-mark-title-size": {
     "component": "coach-mark",
     "sets": {
+      "desktop": {
+        "value": "{heading-size-xs}",
+        "uuid": "331604db-3f28-472e-810d-9010ed2c8e33"
+      },
       "mobile": {
         "value": "{heading-size-xxs}",
         "uuid": "cd4848b6-d560-475a-9d80-f7b5acebce10"
@@ -3874,6 +3917,10 @@
   "coach-mark-body-size": {
     "component": "coach-mark",
     "sets": {
+      "desktop": {
+        "value": "{body-size-s}",
+        "uuid": "eba9f466-deda-48d5-a120-14419d5a670f"
+      },
       "mobile": {
         "value": "{body-size-xs}",
         "uuid": "a0abef77-dafe-4158-9faa-a4b4b2871e54"
@@ -3883,6 +3930,10 @@
   "coach-mark-pagination-body-size": {
     "component": "coach-mark",
     "sets": {
+      "desktop": {
+        "value": "{body-size-s}",
+        "uuid": "df8bc8ae-b6fa-4414-93b7-c89d8097fe11"
+      },
       "mobile": {
         "value": "{body-size-xs}",
         "uuid": "350d9235-ff9e-43d7-9298-56b36d58d6de"
