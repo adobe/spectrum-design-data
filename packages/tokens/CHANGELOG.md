@@ -1,16 +1,37 @@
 # @adobe/spectrum-tokens
 
+## 12.17.0
+
+### Minor Changes
+
+- 687f6c3: Updated coach-mark tokens
+
+#### Token Diff
+
+_Tokens added (3):_
+
+- `coach-mark-maximum-width`
+- `coach-mark-media-height`
+- `coach-mark-width`
+
+_Token values updated (4):_
+
+- `coach-mark-minimum-width`: `mobile` from `208px` to `216px`
+- `coach-mark-title-size`: added `desktop` value
+- `coach-mark-body-size`: added `desktop` value
+- `coach-mark-pagination-body-size`: added `desktop` value
+
 ## 12.16.0
 
 ### Minor Changes
 
 - 25dc20d: Add new menu-item token for section dividers
 
-  #### Token Diff
+#### Token Diff
 
-  _Tokens added (1):_
+_Tokens added (1):_
 
-  - `menu-item-section-divider-height`
+- `menu-item-section-divider-height`
 
 ## 12.15.0
 
