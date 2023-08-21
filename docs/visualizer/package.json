@@ -24,7 +24,7 @@
     "@spectrum-web-components/field-group": "^0.34.0",
     "@spectrum-web-components/field-label": "^0.34.0",
     "@spectrum-web-components/link": "^0.34.0",
-    "@spectrum-web-components/overlay": "^0.34.0",
+    "@spectrum-web-components/overlay": "^0.35.0",
     "@spectrum-web-components/popover": "^0.35.0",
     "@spectrum-web-components/search": "^0.34.0",
     "@spectrum-web-components/slider": "^0.34.0",
