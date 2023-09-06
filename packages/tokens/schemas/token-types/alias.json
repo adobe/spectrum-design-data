@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+  "title": "Alias",
+  "description": "A token that references another token.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/token.json"
+    }
+  ],
+  "properties": {
+    "value": {
+      "type": "string",
+      "pattern": "\\{(\\w|-)*\\}"
+    }
+  }
+}

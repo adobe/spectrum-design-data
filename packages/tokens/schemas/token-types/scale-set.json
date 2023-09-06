@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/scale-set.json",
+  "title": "Scale set",
+  "description": "A set that contains dimension values that change based on platform scale.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/set.json"
+    }
+  ],
+  "properties": {
+    "set": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "oneOf": [
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/dimension.json"
+            },
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            }
+          ]
+        },
+        "desktop": {
+          "oneOf": [
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/dimension.json"
+            },
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            }
+          ]
+        }
+      },
+      "required": ["mobile", "desktop"]
+    },
+    "required": ["set"]
+  }
+}

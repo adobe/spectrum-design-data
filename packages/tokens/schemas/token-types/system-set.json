@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/system-set.json",
+  "title": "System set",
+  "description": "A set that contains tokens that change based on system.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/set.json"
+    }
+  ],
+  "properties": {
+    "set": {
+      "type": "object",
+      "properties": {
+        "spectrum": {
+          "oneOf": [
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/token.json"
+            },
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            }
+          ]
+        },
+        "express": {
+          "oneOf": [
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/token.json"
+            },
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            }
+          ]
+        }
+      },
+      "required": ["spectrum", "express"]
+    },
+    "required": ["set"]
+  }
+}

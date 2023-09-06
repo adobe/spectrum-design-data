@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/color-set.json",
+  "title": "Color set",
+  "description": "A set that contains color values that change based on color theme.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/set.json"
+    }
+  ],
+  "properties": {
+    "set": {
+      "type": "object",
+      "properties": {
+        "light": {
+          "oneOf": [
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/color.json"
+            },
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            }
+          ]
+        },
+        "dark": {
+          "oneOf": [
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/color.json"
+            },
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            }
+          ]
+        },
+        "darkest": {
+          "oneOf": [
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/color.json"
+            },
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            }
+          ]
+        },
+        "wireframe": {
+          "oneOf": [
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schema/token-types/color.json"
+            },
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            }
+          ]
+        }
+      },
+      "required": ["light", "dark", "darkest", "wireframe"]
+    },
+    "required": ["set"]
+  }
+}
