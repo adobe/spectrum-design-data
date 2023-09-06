@@ -2125,7 +2125,7 @@
     "value": "768px",
     "uuid": "63bfb4da-4aaf-49c6-9328-16c636cf0bf9"
   },
-  "meter-default-width": {
+  "meter-width": {
     "component": "meter",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
@@ -2140,6 +2140,13 @@
         "uuid": "dc5f4966-4ddd-4e9a-a748-370d8eaae568"
       }
     }
+  },
+  "meter-default-width": {
+    "component": "meter",
+    "value": "{meter-width}",
+    "deprecated": true,
+    "deprecated_comment": "Token renamed, use `meter-width`",
+    "uuid": "2633d29d-8a14-48e8-977c-bdb9a53b3bd5"
   },
   "meter-thickness-small": {
     "component": "meter",
