@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/status-light.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/status-light.json",
   "title": "Status light",
   "description": "Status lights describe the condition of an entity. They can be used to convey semantic meaning, such as statuses and categories.",
   "meta": {

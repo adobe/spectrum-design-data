@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/link.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/link.json",
   "title": "Link",
   "description": "Links allow users to navigate to a different location. They can be presented inside a paragraph or as standalone text.",
   "meta": {

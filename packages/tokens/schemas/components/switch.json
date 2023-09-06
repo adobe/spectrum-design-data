@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/switch.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/switch.json",
   "title": "Switch",
   "description": "Switches allow users to turn an individual option on or off. They are usually used to activate or deactivate a specific setting.",
   "meta": {

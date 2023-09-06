@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/close-button.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/close-button.json",
   "title": "Close button",
   "description": "The close button is used inside of other components, like a toast or an action bar, for closing or dismissing its parent component.",
   "meta": {
