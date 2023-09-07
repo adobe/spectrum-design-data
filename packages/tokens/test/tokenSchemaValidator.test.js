@@ -67,18 +67,23 @@ test("Every token should have a $schema property", (t) => {
 });
 
 test("Every token schema should validate against the definition", (t) => {
+  const errors = [];
   t.context.tokenFiles.forEach((tokenFileObj) => {
     Object.keys(tokenFileObj.data).forEach((tokenName) => {
-      ajv.validate(
-        tokenFileObj.data[tokenName]["$schema"],
-        tokenFileObj.data[tokenName],
-      );
-      t.is(
-        ajv.errors,
-        null,
-        `${tokenName} in ${tokenFileObj.fileName} failed validation.`,
-      );
+      if (
+        !ajv.validate(
+          tokenFileObj.data[tokenName]["$schema"],
+          tokenFileObj.data[tokenName],
+        )
+      ) {
+        t.log(`${tokenName} in ${tokenFileObj.fileName} failed validation.`);
+        errors.push({
+          tokenName,
+          fileName: tokenFileObj.fileName,
+          errors: ajv.errors,
+        });
+      }
     });
   });
-  t.log("All tokens validated against their schemas.");
+  t.deepEqual(errors, []);
 });
