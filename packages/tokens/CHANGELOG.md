@@ -1,5 +1,18 @@
 # @adobe/spectrum-tokens
 
+## 12.18.1
+
+### Patch Changes
+
+- 6f5443e: Added missing `wireframe` values for 2 color tokens
+
+  ## Token Diff
+
+  _Tokens update (2):_
+
+  - `opacity-checkerboard-square-dark`
+  - `overlay-opacity`
+
 ## 12.18.0
 
 ### Minor Changes
