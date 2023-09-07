@@ -53,6 +53,10 @@
       "darkest": {
         "value": "{gray-800}",
         "uuid": "f783b8cb-d31f-46c2-b550-990639752510"
+      },
+      "wireframe": {
+        "value": "{gray-200}",
+        "uuid": "e7fe88a4-6ab3-4963-8f10-9908a5a83123"
       }
     }
   },
