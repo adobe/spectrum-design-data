@@ -5,17 +5,17 @@
     "uuid": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
   },
   "sans-serif-font-family": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-family.json",
     "value": "Adobe Clean",
     "uuid": "a552c422-c51c-458a-87b0-c6fe5178bf4b"
   },
   "serif-font-family": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-family.json",
     "value": "Adobe Clean Serif",
     "uuid": "7f83198f-26ec-4156-9573-826dd7feb718"
   },
   "cjk-font-family": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-family.json",
     "value": "Adobe Clean Han",
     "uuid": "034892ba-eff6-4193-b4c5-61d20c8f22eb"
   },
@@ -1535,13 +1535,13 @@
   },
   "detail-sans-serif-text-transform": {
     "component": "detail",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/text-transform.json",
     "value": "uppercase",
     "uuid": "8646d403-21f9-4e77-8a21-92289c303715"
   },
   "detail-serif-text-transform": {
     "component": "detail",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/text-transform.json",
     "value": "uppercase",
     "uuid": "0e161c32-c412-4cda-bacb-7eaa548b5534"
   },
@@ -1553,7 +1553,7 @@
   },
   "code-font-family": {
     "component": "code",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-family.json",
     "value": "Source Code Pro",
     "uuid": "79b6c1f9-d1d5-4053-be47-36ecb666d0c1"
   },

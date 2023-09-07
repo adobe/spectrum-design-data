@@ -12,7 +12,7 @@
   "properties": {
     "value": {
       "type": "string",
-      "pattern": "^(?:-?((?:\\d+\\.?\\d*)|(?:\\.?\\d+))(px|rem|em|%))|0$"
+      "pattern": "^(?:-?((?:\\d+\\.?\\d*)|(?:\\.?\\d+))(px|rem|em|%))|0|\\d+dp$"
     },
     "component": {},
     "deprecated": {},

@@ -234,7 +234,7 @@
     }
   },
   "android-elevation": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "2dp",
     "uuid": "f9456531-ab61-4c14-b7af-7016ce1c0d3e"
   },
