@@ -1,5 +1,22 @@
 # @adobe/spectrum-tokens
 
+## 12.19.0
+
+### Minor Changes
+
+- 0c716de: Added icon tokens
+
+  ### Token Diff
+
+  _Tokens added (6):_
+
+  - `icon-color-blue-primary-default`
+  - `icon-color-green-primary-default`
+  - `icon-color-inverse`
+  - `icon-color-primary-default`
+  - `icon-color-red-primary-default`
+  - `icon-color-yellow-primary-default`
+
 ## 12.18.1
 
 ### Patch Changes
