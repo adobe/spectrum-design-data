@@ -12,7 +12,7 @@
   "properties": {
     "value": {
       "type": "string",
-      "pattern": "\\{(\\w|-)*\\}"
+      "pattern": "^\\{(\\w|-)*\\}$"
     },
     "component": {},
     "deprecated": {},

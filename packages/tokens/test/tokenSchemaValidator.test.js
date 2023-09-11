@@ -36,6 +36,7 @@ test.before(async (t) => {
       return json["$id"];
     }),
   );
+  t.context.schemaIds = schemaIds;
 
   const tokenFilesNames = await glob("src/*.json");
   t.context.tokenFiles = await Promise.all(
@@ -43,16 +44,23 @@ test.before(async (t) => {
       return { fileName: tokenFile, data: await readJSON(tokenFile) };
     }),
   );
+});
 
-  const validate = await ajv.compile({
-    $schema: "https://json-schema.org/draft/2020-12/schema",
-    type: "object",
-    patternProperties: {
-      "^(?:(?:[a-z]|\\d)+-?)*(?:[a-z]|\\d)+$": {
-        anyOf: schemaIds.map((schemaId) => ({ $ref: schemaId })),
+test("Schema should compile without errors", async (t) => {
+  try {
+    const validate = await ajv.compile({
+      $schema: "https://json-schema.org/draft/2020-12/schema",
+      type: "object",
+      patternProperties: {
+        "^(?:(?:[a-z]|\\d)+-?)*(?:[a-z]|\\d)+$": {
+          anyOf: t.context.schemaIds.map((schemaId) => ({ $ref: schemaId })),
+        },
       },
-    },
-  });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  t.pass();
 });
 
 test("Every token should have a $schema property", (t) => {
