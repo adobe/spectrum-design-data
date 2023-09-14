@@ -1,5 +1,11 @@
 # @adobe/spectrum-tokens
 
+## 12.19.1
+
+### Patch Changes
+
+- d9a6b7b: Updated manifest.json file
+
 ## 12.19.0
 
 ### Minor Changes
