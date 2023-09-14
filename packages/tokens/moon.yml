@@ -59,6 +59,7 @@ tasks:
     inputs:
       - "tasks/**/*"
       - "schemas/**/*.{yaml,yml,json}"
+      - "manifest.json"
       - "@globs(tests)"
       - "@globs(sources)"
     deps:
