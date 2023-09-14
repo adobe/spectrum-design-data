@@ -15,6 +15,10 @@ fileGroups:
     - "test/**/*"
 tasks:
   build:
+    deps:
+      - ~:buildTokens
+      - ~:buildManifest
+  buildTokens:
     command:
       - node
       - tasks/buildSpectrumTokens.js
@@ -41,18 +45,12 @@ tasks:
       - dist
     local: true
     platform: system
-  convert-excel:
-    command:
-      - node
-      - tasks/excel.js
-    local: true
-    platform: node
   generateDiffResult:
     command:
       - node
       - tasks/diff.js
     deps:
-      - ~:build
+      - ~:buildTokens
     platform: node
   test:
     command:
@@ -64,7 +62,7 @@ tasks:
       - "@globs(tests)"
       - "@globs(sources)"
     deps:
-      - ~:build
+      - ~:buildTokens
     platform: node
   test-watch:
     command:
