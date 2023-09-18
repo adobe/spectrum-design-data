@@ -8,5 +8,5 @@
     "system-set-merge": "0.0.1",
     "token-manifest-builder": "0.0.1"
   },
-  "changesets": []
+  "changesets": ["happy-students-vanish"]
 }
