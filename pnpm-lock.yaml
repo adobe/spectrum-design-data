@@ -153,6 +153,20 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  tools/system-set-merge:
+    dependencies:
+      glob:
+        specifier: ^10.3.3
+        version: 10.3.3
+      jsonpath-plus:
+        specifier: ^7.2.0
+        version: 7.2.0
+      prettier:
+        specifier: ^3.0.0
+        version: 3.0.0
+
+  tools/token-manifest-builder: {}
+
 packages:
   /@babel/code-frame@7.22.5:
     resolution:
@@ -4141,6 +4155,14 @@ packages:
     engines: { "0": node >= 0.2.0 }
     dev: true
 
+  /jsonpath-plus@7.2.0:
+    resolution:
+      {
+        integrity: sha512-zBfiUPM5nD0YZSBT/o/fbCUlCcepMIdP0CJZxM1+KgA4f2T206f6VAg9e7mX35+KlMaIc5qXW34f3BnwJ3w+RA==,
+      }
+    engines: { node: ">=12.0.0" }
+    dev: false
+
   /kind-of@6.0.3:
     resolution:
       {
@@ -5265,7 +5287,6 @@ packages:
       }
     engines: { node: ">=14" }
     hasBin: true
-    dev: true
 
   /pretty-ms@8.0.0:
     resolution:
