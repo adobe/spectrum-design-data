@@ -1,0 +1,23 @@
+{
+  "name": "system-set-merge",
+  "version": "0.0.1",
+  "description": "A simple tool to merge system sets in Spectrum Tokens",
+  "type": "module",
+  "private": true,
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-tokens.git"
+  },
+  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-tokens/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-tokens#readme",
+  "dependencies": {
+    "glob": "^10.3.3",
+    "jsonpath-plus": "^7.2.0",
+    "prettier": "^3.0.0"
+  }
+}
