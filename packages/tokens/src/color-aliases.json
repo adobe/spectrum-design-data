@@ -200,60 +200,20 @@
     }
   },
   "neutral-background-color-selected-default": {
-    "sets": {
-      "spectrum": {
-        "value": "{gray-700}",
-        "uuid": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc"
-      },
-      "express": {
-        "value": "{gray-800}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "60caae29-d389-421e-a574-b26bcaeed3bf"
-      }
-    }
+    "value": "{gray-700}",
+    "uuid": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc"
   },
   "neutral-background-color-selected-hover": {
-    "sets": {
-      "spectrum": {
-        "value": "{gray-800}",
-        "uuid": "1c220122-5f32-42f9-848f-ae10061241e5"
-      },
-      "express": {
-        "value": "{gray-900}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "0deac090-f00a-4927-880d-dfdca06bd66e"
-      }
-    }
+    "value": "{gray-800}",
+    "uuid": "1c220122-5f32-42f9-848f-ae10061241e5"
   },
   "neutral-background-color-selected-down": {
-    "sets": {
-      "spectrum": {
-        "value": "{gray-900}",
-        "uuid": "966c56d0-4461-45e7-9e20-0277f2111a34"
-      },
-      "express": {
-        "value": "{gray-900}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "bf3de5f6-665c-4a6a-b238-e767b7240fd8"
-      }
-    }
+    "value": "{gray-900}",
+    "uuid": "966c56d0-4461-45e7-9e20-0277f2111a34"
   },
   "neutral-background-color-selected-key-focus": {
-    "sets": {
-      "spectrum": {
-        "value": "{gray-800}",
-        "uuid": "9b8df7df-3439-4614-b446-97a4de782e27"
-      },
-      "express": {
-        "value": "{gray-900}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "e012e155-2220-43e9-a248-61c71e99cc2b"
-      }
-    }
+    "value": "{gray-800}",
+    "uuid": "9b8df7df-3439-4614-b446-97a4de782e27"
   },
   "neutral-subdued-background-color-default": {
     "sets": {

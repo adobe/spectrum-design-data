@@ -293,19 +293,8 @@
     "uuid": "b5704c75-2914-4268-9023-7f7452e826c1"
   },
   "heading-sans-serif-font-weight": {
-    "component": "heading",
-    "sets": {
-      "spectrum": {
-        "value": "{bold-font-weight}",
-        "uuid": "1d4d09b4-021a-48e8-a724-bfecc13df325"
-      },
-      "express": {
-        "value": "{black-font-weight}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "e5bfbd82-a8e6-43dc-b2b6-dc1e171f48aa"
-      }
-    }
+    "value": "{bold-font-weight}",
+    "uuid": "1d4d09b4-021a-48e8-a724-bfecc13df325"
   },
   "heading-sans-serif-font-style": {
     "component": "heading",
@@ -313,19 +302,8 @@
     "uuid": "561d905e-7f44-43da-b2b4-26e12551ef6d"
   },
   "heading-serif-font-weight": {
-    "component": "heading",
-    "sets": {
-      "spectrum": {
-        "value": "{bold-font-weight}",
-        "uuid": "350aa193-9996-49c8-b5e4-54d4f7bef3c2"
-      },
-      "express": {
-        "value": "{black-font-weight}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "36bea3bb-06b8-4c66-87ad-ffc86be18243"
-      }
-    }
+    "value": "{bold-font-weight}",
+    "uuid": "350aa193-9996-49c8-b5e4-54d4f7bef3c2"
   },
   "heading-serif-font-style": {
     "component": "heading",
@@ -333,19 +311,8 @@
     "uuid": "938f3684-44c6-4ae2-935a-b88921fcd7fe"
   },
   "heading-cjk-font-weight": {
-    "component": "heading",
-    "sets": {
-      "spectrum": {
-        "value": "{extra-bold-font-weight}",
-        "uuid": "bd54516c-2fda-4421-ab62-720c3a887a34"
-      },
-      "express": {
-        "value": "{black-font-weight}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "21643fcd-b1da-4057-8fb5-e75167c0d89f"
-      }
-    }
+    "value": "{extra-bold-font-weight}",
+    "uuid": "bd54516c-2fda-4421-ab62-720c3a887a34"
   },
   "heading-cjk-font-style": {
     "component": "heading",
@@ -503,19 +470,8 @@
     "uuid": "dac03eec-6910-4176-bfca-33f8a57cf3d7"
   },
   "heading-sans-serif-emphasized-font-weight": {
-    "component": "heading",
-    "sets": {
-      "spectrum": {
-        "value": "{bold-font-weight}",
-        "uuid": "e4a183fd-53c5-4dbb-afd1-6308e2e74f80"
-      },
-      "express": {
-        "value": "{black-font-weight}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "723c8306-12fb-4cb5-9fd2-3ad40d57bb25"
-      }
-    }
+    "value": "{bold-font-weight}",
+    "uuid": "e4a183fd-53c5-4dbb-afd1-6308e2e74f80"
   },
   "heading-sans-serif-emphasized-font-style": {
     "component": "heading",
@@ -523,19 +479,8 @@
     "uuid": "2f17833a-28a4-4152-8999-12b077557797"
   },
   "heading-serif-emphasized-font-weight": {
-    "component": "heading",
-    "sets": {
-      "spectrum": {
-        "value": "{bold-font-weight}",
-        "uuid": "a0983216-b0c5-4a3f-97dc-96ee711acb1f"
-      },
-      "express": {
-        "value": "{black-font-weight}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "e9b3a7b0-ae46-48be-a143-f26463860d3f"
-      }
-    }
+    "value": "{bold-font-weight}",
+    "uuid": "a0983216-b0c5-4a3f-97dc-96ee711acb1f"
   },
   "heading-serif-emphasized-font-style": {
     "component": "heading",

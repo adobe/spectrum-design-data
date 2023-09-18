@@ -1,199 +1,59 @@
 {
   "accent-color-100": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-100}",
-        "uuid": "2e080bb5-6f2c-4fd9-96a2-bf9fc19d2649"
-      },
-      "express": {
-        "value": "{indigo-100}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "f9fc7606-b699-46e7-b139-aeefc287923c"
-      }
-    }
+    "value": "{blue-100}",
+    "uuid": "2e080bb5-6f2c-4fd9-96a2-bf9fc19d2649"
   },
   "accent-color-200": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-200}",
-        "uuid": "cf583998-4dfd-4222-a554-8e05ed7fb5d6"
-      },
-      "express": {
-        "value": "{indigo-200}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "78e50d0b-78a0-46c4-8262-417143f00902"
-      }
-    }
+    "value": "{blue-200}",
+    "uuid": "cf583998-4dfd-4222-a554-8e05ed7fb5d6"
   },
   "accent-color-300": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-300}",
-        "uuid": "ea67f054-1f42-427e-a768-beb8d21de2a3"
-      },
-      "express": {
-        "value": "{indigo-300}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "d014e1e8-a5f8-4169-8c43-d69afd07847a"
-      }
-    }
+    "value": "{blue-300}",
+    "uuid": "ea67f054-1f42-427e-a768-beb8d21de2a3"
   },
   "accent-color-400": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-400}",
-        "uuid": "a249e4b1-e6f9-4ef3-96c6-1559059839a7"
-      },
-      "express": {
-        "value": "{indigo-400}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "1b70bc67-7877-4f92-8ce4-1abd2665fab1"
-      }
-    }
+    "value": "{blue-400}",
+    "uuid": "a249e4b1-e6f9-4ef3-96c6-1559059839a7"
   },
   "accent-color-500": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-500}",
-        "uuid": "c1c0e6fb-ce21-49d7-91bb-73ce873aa69f"
-      },
-      "express": {
-        "value": "{indigo-500}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "06246e8e-44da-49a3-8d65-7f3ce1ec8128"
-      }
-    }
+    "value": "{blue-500}",
+    "uuid": "c1c0e6fb-ce21-49d7-91bb-73ce873aa69f"
   },
   "accent-color-600": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-600}",
-        "uuid": "5a2000be-5640-4389-a128-b2c164ad2253"
-      },
-      "express": {
-        "value": "{indigo-600}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "eaee7f34-1725-411e-9a23-2331167e08f5"
-      }
-    }
+    "value": "{blue-600}",
+    "uuid": "5a2000be-5640-4389-a128-b2c164ad2253"
   },
   "accent-color-700": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-700}",
-        "uuid": "a8fbe39b-db6d-4bb4-a7c5-8a235060d2ae"
-      },
-      "express": {
-        "value": "{indigo-700}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "5c7ac5cc-4fe4-4392-a5c3-4274cd15a48e"
-      }
-    }
+    "value": "{blue-700}",
+    "uuid": "a8fbe39b-db6d-4bb4-a7c5-8a235060d2ae"
   },
   "accent-color-800": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-800}",
-        "uuid": "87a2c8f0-54fd-4939-8f42-3124fde1e49e"
-      },
-      "express": {
-        "value": "{indigo-800}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "3cf62c35-1e2e-4400-886f-473de9e8a958"
-      }
-    }
+    "value": "{blue-800}",
+    "uuid": "87a2c8f0-54fd-4939-8f42-3124fde1e49e"
   },
   "accent-color-900": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-900}",
-        "uuid": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54"
-      },
-      "express": {
-        "value": "{indigo-900}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "42d37753-8b78-4328-a895-7b74d9a7aa86"
-      }
-    }
+    "value": "{blue-900}",
+    "uuid": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54"
   },
   "accent-color-1000": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-1000}",
-        "uuid": "9bf3fa2f-75d3-44d3-ae30-d88893665366"
-      },
-      "express": {
-        "value": "{indigo-1000}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "b848c6ce-f921-4303-b298-20e359a1aa2e"
-      }
-    }
+    "value": "{blue-1000}",
+    "uuid": "9bf3fa2f-75d3-44d3-ae30-d88893665366"
   },
   "accent-color-1100": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-1100}",
-        "uuid": "f7f853a5-f091-4a7e-8aea-68d060c840f0"
-      },
-      "express": {
-        "value": "{indigo-1100}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "46991cf0-e4e5-4c32-a140-4589e2456523"
-      }
-    }
+    "value": "{blue-1100}",
+    "uuid": "f7f853a5-f091-4a7e-8aea-68d060c840f0"
   },
   "accent-color-1200": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-1200}",
-        "uuid": "7c141cdb-1e5e-468a-ba48-0df01b275402"
-      },
-      "express": {
-        "value": "{indigo-1200}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "7de1e3f0-a5b3-4a09-955b-242ff78dbaa9"
-      }
-    }
+    "value": "{blue-1200}",
+    "uuid": "7c141cdb-1e5e-468a-ba48-0df01b275402"
   },
   "accent-color-1300": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-1300}",
-        "uuid": "f7307eba-e311-41a8-bb50-0b1e96833dfa"
-      },
-      "express": {
-        "value": "{indigo-1300}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "a598813b-347f-4528-aa35-94b6642985db"
-      }
-    }
+    "value": "{blue-1300}",
+    "uuid": "f7307eba-e311-41a8-bb50-0b1e96833dfa"
   },
   "accent-color-1400": {
-    "sets": {
-      "spectrum": {
-        "value": "{blue-1400}",
-        "uuid": "06585cf4-a924-49b2-b6c8-f0e80b57c576"
-      },
-      "express": {
-        "value": "{indigo-1400}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "12c250df-6088-4c20-8b04-59814d53ed7a"
-      }
-    }
+    "value": "{blue-1400}",
+    "uuid": "06585cf4-a924-49b2-b6c8-f0e80b57c576"
   },
   "informative-color-100": {
     "value": "{blue-100}",
