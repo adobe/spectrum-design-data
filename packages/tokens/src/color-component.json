@@ -168,12 +168,8 @@
     "component": "color-handle",
     "deprecated": true,
     "deprecated_comment": "Express does not need a separate design for Color loupe and Color handle components",
-    "sets": {
-      "express": {
-        "value": "{drop-shadow-color}",
-        "uuid": "97dfaf7f-ac2d-4517-84cc-6f692f712fc5"
-      }
-    }
+    "value": "{drop-shadow-color}",
+    "uuid": "97dfaf7f-ac2d-4517-84cc-6f692f712fc5"
   },
   "floating-action-button-drop-shadow-color": {
     "component": "floating-action-button",
