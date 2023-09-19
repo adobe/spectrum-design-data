@@ -18,10 +18,6 @@
       },
       "dark": {
         "value": "{blue-800}",
-        "uuid": "bcb2d920-29fe-4911-bfd6-058ed81a1c76"
-      },
-      "darkest": {
-        "value": "{blue-800}",
         "uuid": "1bac9a3f-4bc8-4a4d-8dfd-53c542b1d1d8"
       },
       "wireframe": {
@@ -38,10 +34,6 @@
         "uuid": "a0717159-cc62-4ba1-b1f1-a69dfb88c6ee"
       },
       "dark": {
-        "value": "{green-800}",
-        "uuid": "ce9c0ea4-0c5a-4d3b-974f-1b9acf27b3fd"
-      },
-      "darkest": {
         "value": "{green-800}",
         "uuid": "260ff567-2bdb-48cc-9576-f4f7629d3a8f"
       },
@@ -60,10 +52,6 @@
       },
       "dark": {
         "value": "{red-700}",
-        "uuid": "5a1ef31d-a55d-44e2-9ce9-68c407ba8611"
-      },
-      "darkest": {
-        "value": "{red-700}",
         "uuid": "a60f2744-ad15-4cf7-b9dc-89ca307ed444"
       },
       "wireframe": {
@@ -80,10 +68,6 @@
         "uuid": "59cd6057-b3d8-4bdf-b752-7df17c2c4a95"
       },
       "dark": {
-        "value": "{yellow-1000}",
-        "uuid": "646e82ab-3762-47de-87ec-a39b68d59de9"
-      },
-      "darkest": {
         "value": "{yellow-1000}",
         "uuid": "5ebf8291-23f8-4806-865d-4ebab38ff03c"
       },
