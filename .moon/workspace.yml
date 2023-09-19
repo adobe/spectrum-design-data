@@ -4,7 +4,7 @@ projects:
   tokens: "packages/tokens"
   visualizer: "docs/visualizer"
   site: "docs/site"
-  system-set-merge: "tools/system-set-merge"
+  transform-tokens-json: "tools/transform-tokens-json"
 vcs:
   manager: "git"
   defaultBranch: "main"

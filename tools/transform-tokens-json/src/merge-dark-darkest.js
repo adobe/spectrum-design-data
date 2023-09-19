@@ -11,45 +11,30 @@ governing permissions and limitations under the License.
 */
 
 import { JSONPath } from "jsonpath-plus";
-import { glob } from "glob";
-import { readFile, writeFile } from "fs/promises";
-import { resolve } from "path";
-import { format } from "prettier";
+import { readJson, writeJson, tokenFileNames } from "./lib/shared.js";
 
-import * as url from "url";
-const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
-
-const readJson = async (fileName) =>
-  JSON.parse(await readFile(fileName, "utf8"));
-
-const tokenFiles = await glob(
-  `${resolve(__dirname, "../../../packages/tokens/src")}/**/*.json`,
-);
 const editedTokenNames = {};
-tokenFiles.forEach(async (fileName) => {
+tokenFileNames.forEach(async (fileName) => {
   editedTokenNames[fileName] = [];
   const jsonData = await readJson(fileName);
   const result = JSONPath({
-    path: '$..[?(@property === "express" && @parentProperty === "sets")]^^^',
+    path: '$..[?(@property === "darkest" && @parentProperty === "sets")]^^^',
     json: jsonData,
     callback: (payload, type, obj) => {
       const tokenName = obj.parentProperty;
-      jsonData[tokenName] = {
-        value: jsonData[tokenName].sets.spectrum.value,
-        uuid: jsonData[tokenName].sets.spectrum.uuid,
+      jsonData[tokenName].sets.dark = {
+        value: jsonData[tokenName].sets.darkest.value,
+        uuid: jsonData[tokenName].sets.darkest.uuid,
       };
-      delete jsonData[tokenName].sets;
+      delete jsonData[tokenName].sets.darkest;
       editedTokenNames[fileName].push(tokenName);
       return payload;
     },
   });
   if (editedTokenNames[fileName].length > 0) {
+    await writeJson(fileName, jsonData);
     console.log(
       `File: ${fileName} updated ${editedTokenNames[fileName].length} tokens`,
-    );
-    await writeFile(
-      fileName,
-      await format(JSON.stringify(jsonData), { parser: "json-stringify" }),
     );
   } else {
     console.log(`File: ${fileName} not updated`);
