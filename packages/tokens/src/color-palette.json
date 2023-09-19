@@ -86,10 +86,6 @@
         "uuid": "f6e408a6-81ae-4658-8375-a532f324eba0"
       },
       "dark": {
-        "value": "rgb(29, 29, 29)",
-        "uuid": "d5641118-4015-426d-bf92-7c63393b3775"
-      },
-      "darkest": {
         "value": "rgb(0, 0, 0)",
         "uuid": "0913be1e-b648-4b80-9976-fd8e5e53f4fc"
       },
@@ -106,10 +102,6 @@
         "uuid": "01cd6c7e-f2eb-4b5d-9e2a-30940e1ab37b"
       },
       "dark": {
-        "value": "rgb(38, 38, 38)",
-        "uuid": "9a66da2c-7f73-4364-8674-85f794399e37"
-      },
-      "darkest": {
         "value": "rgb(14, 14, 14)",
         "uuid": "1666d544-ad1b-445a-9a57-d2277fb752eb"
       },
@@ -126,10 +118,6 @@
         "uuid": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
       },
       "dark": {
-        "value": "rgb(50, 50, 50)",
-        "uuid": "4500355e-ce60-4046-b692-71301b6b1348"
-      },
-      "darkest": {
         "value": "rgb(29, 29, 29)",
         "uuid": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
       },
@@ -146,10 +134,6 @@
         "uuid": "8de4888d-8da5-45a0-8d5d-64a734993ae4"
       },
       "dark": {
-        "value": "rgb(63, 63, 63)",
-        "uuid": "352ca27b-fdb8-4a66-b46d-6e6994c6a19d"
-      },
-      "darkest": {
         "value": "rgb(48, 48, 48)",
         "uuid": "0a676e7a-8a89-4607-a918-3abcfb0234a2"
       },
@@ -166,10 +150,6 @@
         "uuid": "aad52960-a7ec-4f69-85f9-3e1a87975120"
       },
       "dark": {
-        "value": "rgb(84, 84, 84)",
-        "uuid": "70fe1801-98f7-4cb8-a275-8cb9f180f2fc"
-      },
-      "darkest": {
         "value": "rgb(75, 75, 75)",
         "uuid": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
       },
@@ -186,10 +166,6 @@
         "uuid": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e"
       },
       "dark": {
-        "value": "rgb(112, 112, 112)",
-        "uuid": "4ef9462d-9c24-4a0f-b205-0eb04bf242a2"
-      },
-      "darkest": {
         "value": "rgb(106, 106, 106)",
         "uuid": "c34dd99f-e576-4c98-a89d-86dd47514c55"
       },
@@ -206,10 +182,6 @@
         "uuid": "7fa86c73-f058-4922-be8d-19902515cf44"
       },
       "dark": {
-        "value": "rgb(144, 144, 144)",
-        "uuid": "c295d2a4-0711-40a0-904c-b8d0c7e1b724"
-      },
-      "darkest": {
         "value": "rgb(141, 141, 141)",
         "uuid": "05808575-f14b-49d1-aefb-e3667ec0f5a4"
       },
@@ -226,10 +198,6 @@
         "uuid": "e6a41088-a188-483c-b197-63ed3c70463d"
       },
       "dark": {
-        "value": "rgb(178, 178, 178)",
-        "uuid": "7c21df9e-eb58-44da-9bea-e2bacd494130"
-      },
-      "darkest": {
         "value": "rgb(176, 176, 176)",
         "uuid": "8880b8f1-7850-49ef-a7ab-fd4e16cb37a6"
       },
@@ -246,10 +214,6 @@
         "uuid": "97111e8e-5823-47f2-af64-c3244b8d3492"
       },
       "dark": {
-        "value": "rgb(209, 209, 209)",
-        "uuid": "0b0dc002-bbda-46bf-a0fa-6d361009e31c"
-      },
-      "darkest": {
         "value": "rgb(208, 208, 208)",
         "uuid": "3cc563c6-386e-4b08-850d-68d4a292e559"
       },
@@ -267,10 +231,6 @@
       },
       "dark": {
         "value": "rgb(235, 235, 235)",
-        "uuid": "bca0223a-6639-4881-a7a4-e131c28968e7"
-      },
-      "darkest": {
-        "value": "rgb(235, 235, 235)",
         "uuid": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
       },
       "wireframe": {
@@ -287,10 +247,6 @@
       },
       "dark": {
         "value": "rgb(255, 255, 255)",
-        "uuid": "1ea0996b-81ab-4182-a86f-fd51a829eb96"
-      },
-      "darkest": {
-        "value": "rgb(255, 255, 255)",
         "uuid": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
       },
       "wireframe": {
@@ -306,10 +262,6 @@
         "uuid": "bb610367-a43d-4ba9-b667-84b4d8da69b2"
       },
       "dark": {
-        "value": "rgb(0, 56, 119)",
-        "uuid": "03fd9144-0640-4bb0-83bd-677a4e48c128"
-      },
-      "darkest": {
         "value": "rgb(0, 38, 81)",
         "uuid": "7d56ac58-fd58-41b3-9bbd-448ae0a7dd85"
       },
@@ -326,10 +278,6 @@
         "uuid": "989a37a5-66f2-4a84-a118-8d36caee6695"
       },
       "dark": {
-        "value": "rgb(0, 65, 138)",
-        "uuid": "acb6d305-c1d9-498a-9db3-5d8e921dccda"
-      },
-      "darkest": {
         "value": "rgb(0, 50, 106)",
         "uuid": "7b7d1fd8-cc1e-4053-b320-e481b8f64c46"
       },
@@ -346,10 +294,6 @@
         "uuid": "58dc7d3a-3a6d-4ee4-ad38-5e01a07335bd"
       },
       "dark": {
-        "value": "rgb(0, 77, 163)",
-        "uuid": "da78a0bb-b306-4ff2-8080-bdf21ca6bed3"
-      },
-      "darkest": {
         "value": "rgb(0, 64, 135)",
         "uuid": "d88d1685-29dc-486b-a0b9-9c90f60b8cde"
       },
@@ -366,10 +310,6 @@
         "uuid": "9c39c15f-04ee-4cb3-acf3-04c390f14780"
       },
       "dark": {
-        "value": "rgb(0, 89, 194)",
-        "uuid": "9729fbd6-6eb6-4c91-a73e-d0bd3ffbd1f3"
-      },
-      "darkest": {
         "value": "rgb(0, 78, 166)",
         "uuid": "29d339bb-ef80-40f8-a69b-afa778b60805"
       },
@@ -386,10 +326,6 @@
         "uuid": "ccc5c654-280e-4f46-964e-9d589f571bc6"
       },
       "dark": {
-        "value": "rgb(3, 103, 224)",
-        "uuid": "209d7715-b78a-4265-908f-6d9a03e63bb1"
-      },
-      "darkest": {
         "value": "rgb(0, 92, 200)",
         "uuid": "a61ed901-7f77-4667-9d19-fff6bab20623"
       },
@@ -406,10 +342,6 @@
         "uuid": "b781aad3-054c-4e81-a368-a8165e6035fd"
       },
       "dark": {
-        "value": "rgb(19, 121, 243)",
-        "uuid": "8e465599-1ad1-45f7-8db3-99caed033cfe"
-      },
-      "darkest": {
         "value": "rgb(6, 108, 231)",
         "uuid": "7e770996-780a-4494-91ea-08c1ae6cfa80"
       },
@@ -426,10 +358,6 @@
         "uuid": "1a25f1fe-6d20-49f9-b8f9-d304efc83626"
       },
       "dark": {
-        "value": "rgb(52, 143, 244)",
-        "uuid": "9260c8ad-9e25-4103-baf2-ea008746a2f7"
-      },
-      "darkest": {
         "value": "rgb(29, 128, 245)",
         "uuid": "5cc66280-e13a-459d-8529-c3f531aa5e4e"
       },
@@ -446,10 +374,6 @@
         "uuid": "5ac73d3a-a6cc-4403-a8d5-46bc262d62e9"
       },
       "dark": {
-        "value": "rgb(84, 163, 246)",
-        "uuid": "10aaf031-3586-47a6-90f5-c698f6be5bd6"
-      },
-      "darkest": {
         "value": "rgb(64, 150, 243)",
         "uuid": "cf0bafc5-f5c6-4986-a17a-6660dc542b71"
       },
@@ -466,10 +390,6 @@
         "uuid": "3451c170-3e78-449b-86f2-8b7dbea24c1c"
       },
       "dark": {
-        "value": "rgb(114, 183, 249)",
-        "uuid": "2251d00a-e90d-4758-91af-50c1c37232fe"
-      },
-      "darkest": {
         "value": "rgb(94, 170, 247)",
         "uuid": "82b09b04-6a70-4a95-9eb5-a321a66a6465"
       },
@@ -486,10 +406,6 @@
         "uuid": "da15fc4a-a3ce-4cbe-a2d1-bf5a2e77e5c4"
       },
       "dark": {
-        "value": "rgb(143, 202, 252)",
-        "uuid": "f9a4d76d-cbf9-482d-b582-01462f1ca969"
-      },
-      "darkest": {
         "value": "rgb(124, 189, 250)",
         "uuid": "147ed079-b4f0-4cd7-89cd-7ec93750d688"
       },
@@ -506,10 +422,6 @@
         "uuid": "7044000c-09c4-4c12-8b37-94f8601217e2"
       },
       "dark": {
-        "value": "rgb(174, 219, 254)",
-        "uuid": "94fd01de-1609-4dad-8e91-c0ce904aa743"
-      },
-      "darkest": {
         "value": "rgb(152, 206, 253)",
         "uuid": "2a5d2e32-930d-4c50-b1fd-6781a1dc1db5"
       },
@@ -526,10 +438,6 @@
         "uuid": "aae7bf70-35c6-49f9-a6da-ba40ee217c3d"
       },
       "dark": {
-        "value": "rgb(204, 233, 255)",
-        "uuid": "064dfc3f-d7fa-46c1-a4a4-21bc5b2f18d5"
-      },
-      "darkest": {
         "value": "rgb(179, 222, 254)",
         "uuid": "ce7da4ba-77ed-4bdd-a154-90f389af6c2a"
       },
@@ -546,10 +454,6 @@
         "uuid": "c6fce6c2-ca99-4a3d-b2af-d96a35ec70dc"
       },
       "dark": {
-        "value": "rgb(232, 246, 255)",
-        "uuid": "96f80a02-6ecf-4e17-b1f0-e508d8b0d422"
-      },
-      "darkest": {
         "value": "rgb(206, 234, 255)",
         "uuid": "2bc63c0d-691c-4cc4-95b6-b4e530a44978"
       },
@@ -566,10 +470,6 @@
         "uuid": "af563d02-b975-4ba5-82d3-02bcf30f762c"
       },
       "dark": {
-        "value": "rgb(255, 255, 255)",
-        "uuid": "2d4fbd92-649f-457e-ad5c-39798f3da5a8"
-      },
-      "darkest": {
         "value": "rgb(227, 243, 255)",
         "uuid": "eb86d777-ec23-47e4-adc6-1203709dc00d"
       },
@@ -586,10 +486,6 @@
         "uuid": "c9e0870a-8cf0-438e-9395-8141c316ad57"
       },
       "dark": {
-        "value": "rgb(123, 0, 0)",
-        "uuid": "9e721c6e-a111-411c-a892-55bf69fcd169"
-      },
-      "darkest": {
         "value": "rgb(87, 0, 0)",
         "uuid": "04f6044b-d0fa-4705-858c-2dc5721ec30f"
       },
@@ -606,10 +502,6 @@
         "uuid": "a1f7b6a3-4195-44dc-a772-9a04d3cf859c"
       },
       "dark": {
-        "value": "rgb(141, 0, 0)",
-        "uuid": "803d7924-3746-43b0-ab32-6b4b5f4dae19"
-      },
-      "darkest": {
         "value": "rgb(110, 0, 0)",
         "uuid": "b18ca77b-898e-4e09-88e2-8901de3e9172"
       },
@@ -626,10 +518,6 @@
         "uuid": "3a393af6-c7f2-45bb-a4bc-9b55518c71ac"
       },
       "dark": {
-        "value": "rgb(165, 0, 0)",
-        "uuid": "330ceaaf-c223-44b9-9548-7ee41e6ca590"
-      },
-      "darkest": {
         "value": "rgb(138, 0, 0)",
         "uuid": "fcfcf026-be31-4a05-b833-6757cacb8b05"
       },
@@ -646,10 +534,6 @@
         "uuid": "49e7cf3a-1f2a-4487-a0a9-3869a30593f1"
       },
       "dark": {
-        "value": "rgb(190, 4, 3)",
-        "uuid": "e3eb789d-b34a-467e-a195-77aaee2f0d6b"
-      },
-      "darkest": {
         "value": "rgb(167, 0, 0)",
         "uuid": "8f9fa135-5aca-4e42-b247-fdfbf74bc07b"
       },
@@ -666,10 +550,6 @@
         "uuid": "70b11bf5-60c8-48a6-a1d5-2a74bc22e283"
       },
       "dark": {
-        "value": "rgb(215, 25, 19)",
-        "uuid": "c6b687eb-7999-4ef4-a680-aa15581db960"
-      },
-      "darkest": {
         "value": "rgb(196, 7, 6)",
         "uuid": "ec50a21c-88aa-41a8-b607-c8b1c407ac4f"
       },
@@ -686,10 +566,6 @@
         "uuid": "00d13447-f1f9-4cda-89b4-6a839260e91a"
       },
       "dark": {
-        "value": "rgb(234, 56, 41)",
-        "uuid": "b4423bfa-8732-42df-ba45-361d1987bc0b"
-      },
-      "darkest": {
         "value": "rgb(221, 33, 24)",
         "uuid": "ff0fa040-17d6-4570-84b5-7a88c5bb9f45"
       },
@@ -706,10 +582,6 @@
         "uuid": "a84b6ffe-5235-4517-9beb-320ed79cf6b0"
       },
       "dark": {
-        "value": "rgb(246, 88, 67)",
-        "uuid": "ba040391-245e-4cd5-b499-9d3f9d82dedb"
-      },
-      "darkest": {
         "value": "rgb(238, 67, 49)",
         "uuid": "cb2486de-b2be-45e5-b459-6e371b29d357"
       },
@@ -726,10 +598,6 @@
         "uuid": "6c3daf67-9cdc-4c02-9912-ff0b902c22ed"
       },
       "dark": {
-        "value": "rgb(255, 117, 94)",
-        "uuid": "f1e2ab4f-0bca-4c9e-ac63-18d36726560e"
-      },
-      "darkest": {
         "value": "rgb(249, 99, 76)",
         "uuid": "9ff36ad0-608e-46a7-ab56-00af3d307d83"
       },
@@ -746,10 +614,6 @@
         "uuid": "d5d3bc64-629c-44b0-8ff5-81f260521f5b"
       },
       "dark": {
-        "value": "rgb(255, 149, 129)",
-        "uuid": "c71c3423-88ee-4611-b07b-58630ce081f0"
-      },
-      "darkest": {
         "value": "rgb(255, 129, 107)",
         "uuid": "ccb79099-59f4-4bf2-b149-0de72f556a45"
       },
@@ -766,10 +630,6 @@
         "uuid": "4a585714-4331-44b1-b81f-25a8ff1cc8ea"
       },
       "dark": {
-        "value": "rgb(255, 176, 161)",
-        "uuid": "e584aa4f-7e8f-4815-a9ca-f9804e233f5d"
-      },
-      "darkest": {
         "value": "rgb(255, 158, 140)",
         "uuid": "95621c5a-1768-4707-a2ce-bd15c61c89f4"
       },
@@ -786,10 +646,6 @@
         "uuid": "a02ee7fb-b9de-45f1-bee7-8ffe2145cbec"
       },
       "dark": {
-        "value": "rgb(255, 201, 189)",
-        "uuid": "843a8bc9-646d-44e0-b6c0-728186ebc983"
-      },
-      "darkest": {
         "value": "rgb(255, 183, 169)",
         "uuid": "53617d38-1075-4b47-87c7-4695b385a2d7"
       },
@@ -806,10 +662,6 @@
         "uuid": "ea79c634-9d94-4012-bae0-903479c34dc5"
       },
       "dark": {
-        "value": "rgb(255, 222, 216)",
-        "uuid": "34ad97a7-a6ee-4240-9eef-596694bf6e6b"
-      },
-      "darkest": {
         "value": "rgb(255, 205, 195)",
         "uuid": "e7820c1c-ff58-431d-b521-b81ee3281db0"
       },
@@ -826,10 +678,6 @@
         "uuid": "63934482-260f-4c73-a176-cad11427c537"
       },
       "dark": {
-        "value": "rgb(255, 241, 238)",
-        "uuid": "27f9bb17-392f-4707-971e-1f42ebf2b3d9"
-      },
-      "darkest": {
         "value": "rgb(255, 223, 217)",
         "uuid": "7691bca6-3749-4cb7-a950-a94fe3d2910f"
       },
@@ -846,10 +694,6 @@
         "uuid": "1c208bc2-2eca-4727-a195-f80fe0e7ea11"
       },
       "dark": {
-        "value": "rgb(255, 255, 255)",
-        "uuid": "bb706c45-98ac-4fbe-b838-d42d930d31c0"
-      },
-      "darkest": {
         "value": "rgb(255, 237, 234)",
         "uuid": "aaafa24c-cb3c-48cd-9cb7-e164be140ab5"
       },
@@ -866,10 +710,6 @@
         "uuid": "8bfd5eff-55b4-4b98-9b2e-2871e4ec6ff6"
       },
       "dark": {
-        "value": "rgb(102, 37, 0)",
-        "uuid": "507c23ac-f6a7-4820-b052-c129975eaa20"
-      },
-      "darkest": {
         "value": "rgb(72, 24, 1)",
         "uuid": "974ab8ec-6691-4696-b38c-77e16fb3df88"
       },
@@ -886,10 +726,6 @@
         "uuid": "64371717-ac11-4ec3-a0aa-9042cf43fa8f"
       },
       "dark": {
-        "value": "rgb(117, 45, 0)",
-        "uuid": "abba55d6-d5e0-445a-af5f-c61b58ee148d"
-      },
-      "darkest": {
         "value": "rgb(92, 32, 0)",
         "uuid": "587d4ce3-4275-4d2a-916c-2b1bf78c38ea"
       },
@@ -906,10 +742,6 @@
         "uuid": "f34f9b32-ef46-4473-bfd6-10b858e53f55"
       },
       "dark": {
-        "value": "rgb(137, 55, 0)",
-        "uuid": "38a3144d-99ef-4b82-9742-e15bf64bdae4"
-      },
-      "darkest": {
         "value": "rgb(115, 43, 0)",
         "uuid": "74f40bbb-5afd-4c88-89d3-e69de9e2b604"
       },
@@ -926,10 +758,6 @@
         "uuid": "15bea688-4c32-44c0-9ee3-242bdb50954c"
       },
       "dark": {
-        "value": "rgb(158, 66, 0)",
-        "uuid": "88889af1-222d-466a-b283-2a5bf6b577c8"
-      },
-      "darkest": {
         "value": "rgb(138, 55, 0)",
         "uuid": "b912089a-b6c9-49ef-8a4b-0a1f6fbbe963"
       },
@@ -946,10 +774,6 @@
         "uuid": "33bd4908-1259-4e75-8e96-bd410bebcfd6"
       },
       "dark": {
-        "value": "rgb(180, 78, 0)",
-        "uuid": "f447dc9f-3375-4b1e-8813-7952734f6aa6"
-      },
-      "darkest": {
         "value": "rgb(162, 68, 0)",
         "uuid": "8a56b352-d7d4-45d4-b403-448557656dab"
       },
@@ -966,10 +790,6 @@
         "uuid": "eeede364-d711-40e5-9d2a-0255b10d36f2"
       },
       "dark": {
-        "value": "rgb(202, 93, 0)",
-        "uuid": "527058c0-0e17-42bc-903f-c43db0c9cb9d"
-      },
-      "darkest": {
         "value": "rgb(186, 82, 0)",
         "uuid": "27b198b5-bf02-476a-a440-84c9a5bd2ce3"
       },
@@ -986,10 +806,6 @@
         "uuid": "a4527b6f-e2d4-4a0f-b013-007dc5a2d3ac"
       },
       "dark": {
-        "value": "rgb(225, 109, 0)",
-        "uuid": "7816c1b2-49da-455e-a21f-4e82011f4dca"
-      },
-      "darkest": {
         "value": "rgb(210, 98, 0)",
         "uuid": "f9e84513-57d6-4786-b8db-c86055cebfc6"
       },
@@ -1006,10 +822,6 @@
         "uuid": "437e4f5b-e68c-4491-b26c-a9fa1503561b"
       },
       "dark": {
-        "value": "rgb(244, 129, 12)",
-        "uuid": "21d33346-5120-4b05-9d50-b027fd44c7a5"
-      },
-      "darkest": {
         "value": "rgb(232, 116, 0)",
         "uuid": "5a88ed4e-94f9-4533-ab13-3995b5a60a5a"
       },
@@ -1026,10 +838,6 @@
         "uuid": "e9df9a43-f509-44f3-89f6-c277f7445651"
       },
       "dark": {
-        "value": "rgb(254, 154, 46)",
-        "uuid": "c3569470-05da-4825-a9cc-3e7ea1699fcd"
-      },
-      "darkest": {
         "value": "rgb(249, 137, 23)",
         "uuid": "0fbe4f46-02a8-444d-ace5-c245c6f15112"
       },
@@ -1046,10 +854,6 @@
         "uuid": "7dc902b9-6512-429e-9cb4-c2f97ca08e99"
       },
       "dark": {
-        "value": "rgb(255, 181, 88)",
-        "uuid": "02631a05-4d8e-4eed-af1f-e6c1f8c9c031"
-      },
-      "darkest": {
         "value": "rgb(255, 162, 59)",
         "uuid": "92e06ff6-8347-4320-9a98-3054ba458d0e"
       },
@@ -1066,10 +870,6 @@
         "uuid": "b6c1e499-f043-4b5a-81cf-4224a0f83fce"
       },
       "dark": {
-        "value": "rgb(253, 206, 136)",
-        "uuid": "aacaf0f0-b22a-4b25-9c87-6119c04ff035"
-      },
-      "darkest": {
         "value": "rgb(255, 188, 102)",
         "uuid": "a571e2cd-2aff-4344-b608-45a48162cb61"
       },
@@ -1086,10 +886,6 @@
         "uuid": "14da1231-c89f-45a1-845e-f3bd902f704b"
       },
       "dark": {
-        "value": "rgb(255, 225, 179)",
-        "uuid": "39d4fb83-3982-439c-a9f9-bd95ab2ba7e4"
-      },
-      "darkest": {
         "value": "rgb(253, 210, 145)",
         "uuid": "8e3fe8e0-2b14-4331-869f-de2680ea60ac"
       },
@@ -1106,10 +902,6 @@
         "uuid": "f650301b-6586-4193-9937-9f12d6c3f99f"
       },
       "dark": {
-        "value": "rgb(255, 242, 221)",
-        "uuid": "7f4eca34-effb-4749-8e80-b4b24dd96186"
-      },
-      "darkest": {
         "value": "rgb(255, 226, 181)",
         "uuid": "06afaefe-7e0a-42e2-99b5-e62674e1185d"
       },
@@ -1126,10 +918,6 @@
         "uuid": "99a43835-df3a-4447-b91d-9d943659b07f"
       },
       "dark": {
-        "value": "rgb(255, 253, 249)",
-        "uuid": "cf947ed5-5665-4b46-aead-e18f2477ed48"
-      },
-      "darkest": {
         "value": "rgb(255, 239, 213)",
         "uuid": "9f2f551f-b606-48ce-9493-888587d3ccb6"
       },
@@ -1146,10 +934,6 @@
         "uuid": "910d2e36-245f-4df6-a99c-92a5bb4d4cce"
       },
       "dark": {
-        "value": "rgb(76, 54, 0)",
-        "uuid": "f18c112a-3abe-4a68-b671-f4e0a4e9ee80"
-      },
-      "darkest": {
         "value": "rgb(53, 36, 0)",
         "uuid": "7bef094a-1523-4392-a0ca-59c48409f17a"
       },
@@ -1166,10 +950,6 @@
         "uuid": "0ebcaa53-4d19-4eed-99d1-4477f4358a58"
       },
       "dark": {
-        "value": "rgb(88, 64, 0)",
-        "uuid": "b5c57a8b-ba79-40ff-9710-016e4503f134"
-      },
-      "darkest": {
         "value": "rgb(68, 47, 0)",
         "uuid": "f4fdc925-63b3-4670-9f2b-a057c27c834a"
       },
@@ -1186,10 +966,6 @@
         "uuid": "97ea0771-52c6-48f0-8725-dc514b0738d4"
       },
       "dark": {
-        "value": "rgb(103, 76, 0)",
-        "uuid": "6735b5e5-4ce3-4fff-bb1f-497b8932c908"
-      },
-      "darkest": {
         "value": "rgb(86, 62, 0)",
         "uuid": "238147c6-0302-4d43-b3a3-42df832c7857"
       },
@@ -1206,10 +982,6 @@
         "uuid": "8ffb47cc-cc5c-4179-807e-4a1cb45c6496"
       },
       "dark": {
-        "value": "rgb(119, 89, 0)",
-        "uuid": "e8802954-19e6-450c-a75a-7202e5a5023c"
-      },
-      "darkest": {
         "value": "rgb(103, 77, 0)",
         "uuid": "62ab6892-66ea-4b55-8c1a-fcc191d29717"
       },
@@ -1226,10 +998,6 @@
         "uuid": "68a43979-6dee-45b9-963d-3e827b2554f4"
       },
       "dark": {
-        "value": "rgb(136, 104, 0)",
-        "uuid": "5d1e7587-c787-43cf-a17c-3bd9acc800af"
-      },
-      "darkest": {
         "value": "rgb(122, 92, 0)",
         "uuid": "efa1fdd8-4478-411a-892c-0ecf23939489"
       },
@@ -1246,10 +1014,6 @@
         "uuid": "8c86293e-334b-49ed-a7aa-eb4fe987002f"
       },
       "dark": {
-        "value": "rgb(155, 120, 0)",
-        "uuid": "6ce0efce-3c8c-4108-92b3-78f2088a7c83"
-      },
-      "darkest": {
         "value": "rgb(141, 108, 0)",
         "uuid": "8ae3c5ec-aabe-47a0-b822-ba0907e67ed4"
       },
@@ -1266,10 +1030,6 @@
         "uuid": "881b7389-0c65-46e6-a391-d1d5800c535c"
       },
       "dark": {
-        "value": "rgb(174, 137, 0)",
-        "uuid": "b0ccfc1b-2992-4d00-aa90-2990197f8a02"
-      },
-      "darkest": {
         "value": "rgb(161, 126, 0)",
         "uuid": "ac3e5d40-51eb-45aa-b4e0-87d3f6e8e359"
       },
@@ -1286,10 +1046,6 @@
         "uuid": "b9ee2410-9573-4acd-bff8-ce11bf0f72a0"
       },
       "dark": {
-        "value": "rgb(192, 156, 0)",
-        "uuid": "aab14913-8d2a-428b-acb4-3c03529b4c20"
-      },
-      "darkest": {
         "value": "rgb(180, 144, 0)",
         "uuid": "67e8d9aa-d843-4536-9c97-bd51e62da8ee"
       },
@@ -1306,10 +1062,6 @@
         "uuid": "1b030fd3-f5bc-4e84-8efd-33db77bf64b8"
       },
       "dark": {
-        "value": "rgb(211, 174, 0)",
-        "uuid": "fba8d22e-6db1-4146-8554-8a9f819b09c3"
-      },
-      "darkest": {
         "value": "rgb(199, 162, 0)",
         "uuid": "a12f6cac-7fdc-4fd4-8120-ad957823ff6b"
       },
@@ -1326,10 +1078,6 @@
         "uuid": "a9d84db4-e9db-45a8-9010-4e64822f0408"
       },
       "dark": {
-        "value": "rgb(228, 194, 0)",
-        "uuid": "48c1ac65-4ffc-4bcc-b7c0-1c7263d1a5f2"
-      },
-      "darkest": {
         "value": "rgb(216, 181, 0)",
         "uuid": "4cf4a500-37a2-4dd8-a243-14f6c012b53c"
       },
@@ -1346,10 +1094,6 @@
         "uuid": "b6001568-2f26-4722-85e2-e6a3a8ad0ec8"
       },
       "dark": {
-        "value": "rgb(244, 213, 0)",
-        "uuid": "d6609e5e-813f-40a3-ba85-81e8e4ba533a"
-      },
-      "darkest": {
         "value": "rgb(233, 199, 0)",
         "uuid": "4eee9daf-e19d-4e0b-b12d-4fdcc4852956"
       },
@@ -1366,10 +1110,6 @@
         "uuid": "7be15b50-51c6-4d0c-9ec8-89b4ac170a5a"
       },
       "dark": {
-        "value": "rgb(249, 232, 92)",
-        "uuid": "e652bbeb-ea99-466e-aba9-ab40c8af690d"
-      },
-      "darkest": {
         "value": "rgb(247, 216, 4)",
         "uuid": "69059dfa-e2e1-4f8d-b06b-058a8724e071"
       },
@@ -1386,10 +1126,6 @@
         "uuid": "b5808c39-38db-4378-96db-1f6d44ce5172"
       },
       "dark": {
-        "value": "rgb(252, 246, 187)",
-        "uuid": "ce6cae94-1b85-4a88-a582-c16750e2994d"
-      },
-      "darkest": {
         "value": "rgb(249, 233, 97)",
         "uuid": "b2a1039c-cbfe-44bf-a0fe-822c5f576f52"
       },
@@ -1406,10 +1142,6 @@
         "uuid": "65ad1c10-fb0d-4dd2-a9f5-66ab34dcc86b"
       },
       "dark": {
-        "value": "rgb(255, 255, 255)",
-        "uuid": "bf7b43f5-b6b9-4ba5-bbd1-406145088d66"
-      },
-      "darkest": {
         "value": "rgb(252, 243, 170)",
         "uuid": "dfd355e7-82fd-4fdb-96bd-b584d7268ee9"
       },
@@ -1426,10 +1158,6 @@
         "uuid": "b7cca467-abe9-4632-b01a-dda350c93480"
       },
       "dark": {
-        "value": "rgb(48, 64, 0)",
-        "uuid": "fe55390b-676c-42c3-bcaa-fc5295d59c3c"
-      },
-      "darkest": {
         "value": "rgb(32, 43, 0)",
         "uuid": "bdc6a473-3109-44c6-9e2f-198d3224d75f"
       },
@@ -1446,10 +1174,6 @@
         "uuid": "c1146153-61bf-4a31-8254-54a1d25a93c5"
       },
       "dark": {
-        "value": "rgb(55, 74, 0)",
-        "uuid": "76dda145-58f8-448a-b37a-2f4b2d4f7fdd"
-      },
-      "darkest": {
         "value": "rgb(42, 56, 0)",
         "uuid": "b18f4550-5bbe-496c-b4a5-13df8fd0c7d7"
       },
@@ -1466,10 +1190,6 @@
         "uuid": "f8812b11-742b-44d6-a21a-7fd3db39fe71"
       },
       "dark": {
-        "value": "rgb(65, 87, 0)",
-        "uuid": "4dd24fac-30ad-45a2-825f-3573c84496e8"
-      },
-      "darkest": {
         "value": "rgb(54, 72, 0)",
         "uuid": "b98dec90-df71-4593-946d-91df7918caac"
       },
@@ -1486,10 +1206,6 @@
         "uuid": "32e471ce-5b0d-40f1-a77a-67feff02775e"
       },
       "dark": {
-        "value": "rgb(76, 102, 0)",
-        "uuid": "ba474593-d290-441c-8077-b74c098f59d2"
-      },
-      "darkest": {
         "value": "rgb(66, 88, 0)",
         "uuid": "6a974b7d-ccd2-4778-baae-8caf419a529c"
       },
@@ -1506,10 +1222,6 @@
         "uuid": "fe3be762-b55e-43cb-9163-68ee7dafc53e"
       },
       "dark": {
-        "value": "rgb(89, 118, 0)",
-        "uuid": "234a0a76-ffd8-4d22-8d66-21e0f84c42d2"
-      },
-      "darkest": {
         "value": "rgb(79, 105, 0)",
         "uuid": "46d8fd3b-0e51-4cdd-a33c-de184b82dcc5"
       },
@@ -1526,10 +1238,6 @@
         "uuid": "d61e865b-6538-42a8-aba8-0842359b80c2"
       },
       "dark": {
-        "value": "rgb(102, 136, 0)",
-        "uuid": "efd39a1a-549c-4742-918b-bec4ea48539b"
-      },
-      "darkest": {
         "value": "rgb(93, 123, 0)",
         "uuid": "965174d2-e743-41df-a8e2-570b2ae2f447"
       },
@@ -1546,10 +1254,6 @@
         "uuid": "3d0fd171-80f3-4f08-9ac0-eb46d0e755f9"
       },
       "dark": {
-        "value": "rgb(117, 154, 0)",
-        "uuid": "d8876d4a-e6d0-447b-80ec-3804221d4b7b"
-      },
-      "darkest": {
         "value": "rgb(107, 142, 0)",
         "uuid": "a615bb51-0249-4201-b1c9-1c6269b82ec2"
       },
@@ -1566,10 +1270,6 @@
         "uuid": "9a0701e4-81a0-420b-b751-c6a46670fbf3"
       },
       "dark": {
-        "value": "rgb(132, 173, 1)",
-        "uuid": "82546f0c-0707-4767-ad1f-2fae18434d91"
-      },
-      "darkest": {
         "value": "rgb(122, 161, 0)",
         "uuid": "343f1685-2314-4a64-bc7a-5b7b3fd9fdcf"
       },
@@ -1586,10 +1286,6 @@
         "uuid": "7d22a144-0f7c-435e-ad05-b2d7672dff08"
       },
       "dark": {
-        "value": "rgb(148, 192, 8)",
-        "uuid": "8a0c7b2d-66fc-499a-bb16-fd18a42ef2ed"
-      },
-      "darkest": {
         "value": "rgb(138, 180, 3)",
         "uuid": "1637c50e-88e4-4273-8a75-6e8a233a690c"
       },
@@ -1606,10 +1302,6 @@
         "uuid": "00100510-9965-4086-ba82-0cb62ffebba1"
       },
       "dark": {
-        "value": "rgb(166, 211, 18)",
-        "uuid": "7feea643-ca0a-4aca-8acf-da425fbe99a4"
-      },
-      "darkest": {
         "value": "rgb(154, 198, 11)",
         "uuid": "7dbedc59-e21c-4953-a7af-5e91d170604a"
       },
@@ -1626,10 +1318,6 @@
         "uuid": "e964b654-261d-44a5-ab0a-78c8137a7783"
       },
       "dark": {
-        "value": "rgb(184, 229, 37)",
-        "uuid": "550e1eb2-bbe0-4a14-8e53-d15dc06cee35"
-      },
-      "darkest": {
         "value": "rgb(170, 216, 22)",
         "uuid": "90417b40-97dd-47b3-9dbc-4ac45f8e4a5f"
       },
@@ -1646,10 +1334,6 @@
         "uuid": "6bf184f6-f0e1-41af-94a4-47aa1a37b0aa"
       },
       "dark": {
-        "value": "rgb(205, 245, 71)",
-        "uuid": "07b5da40-2e3c-43bf-959a-45ceb8bf9940"
-      },
-      "darkest": {
         "value": "rgb(187, 232, 41)",
         "uuid": "e4b04d5d-e99d-41c5-8b24-540d653ef3ff"
       },
@@ -1666,10 +1350,6 @@
         "uuid": "e320e57d-2794-4c1e-97ef-3a8b04be1328"
       },
       "dark": {
-        "value": "rgb(231, 254, 154)",
-        "uuid": "3ab82f98-3b65-4412-adef-57c1e4833421"
-      },
-      "darkest": {
         "value": "rgb(205, 246, 72)",
         "uuid": "615841b9-08b2-4e21-981a-b8f5247e9e89"
       },
@@ -1686,10 +1366,6 @@
         "uuid": "56b4f40c-d9f2-4360-99eb-7097aafedf94"
       },
       "dark": {
-        "value": "rgb(255, 255, 255)",
-        "uuid": "5ac81a8e-2997-4b8f-aa21-ca335b0f3cfe"
-      },
-      "darkest": {
         "value": "rgb(225, 253, 132)",
         "uuid": "a75188c9-02e3-4337-8056-9a6f8f39001f"
       },
@@ -1706,10 +1382,6 @@
         "uuid": "b4a22d71-d90a-4f6e-8f6d-e4967849376f"
       },
       "dark": {
-        "value": "rgb(0, 69, 10)",
-        "uuid": "c711d2ee-7915-40f4-bf2e-ac3f31d60311"
-      },
-      "darkest": {
         "value": "rgb(0, 47, 7)",
         "uuid": "43feed9a-9a2a-44e0-9506-9bc5eb8eab1d"
       },
@@ -1726,10 +1398,6 @@
         "uuid": "30941af9-354a-4d61-9462-aca4bcd50093"
       },
       "dark": {
-        "value": "rgb(0, 80, 12)",
-        "uuid": "96d6a7b1-617c-44db-9ef3-d70063895351"
-      },
-      "darkest": {
         "value": "rgb(0, 61, 9)",
         "uuid": "741a30fb-62a9-4c76-a78e-cc2590af9c7d"
       },
@@ -1746,10 +1414,6 @@
         "uuid": "3562f589-ba34-465e-9549-2600e2527ab8"
       },
       "dark": {
-        "value": "rgb(0, 94, 14)",
-        "uuid": "b1432da5-d086-4e16-b7dd-fd9d92fef470"
-      },
-      "darkest": {
         "value": "rgb(0, 77, 12)",
         "uuid": "5eda4487-8f82-48ed-8b22-aa38601bbf88"
       },
@@ -1766,10 +1430,6 @@
         "uuid": "d86c4477-a2f4-449a-8883-daaf33608fde"
       },
       "dark": {
-        "value": "rgb(0, 109, 15)",
-        "uuid": "c573ed43-0055-47ff-8c3b-de32582b521e"
-      },
-      "darkest": {
         "value": "rgb(0, 95, 15)",
         "uuid": "646d80c1-7073-4e13-bbfe-4bd0c2226079"
       },
@@ -1786,10 +1446,6 @@
         "uuid": "9c5fc2d5-30cc-4389-b219-2db69f8a86f9"
       },
       "dark": {
-        "value": "rgb(0, 127, 15)",
-        "uuid": "350fb94c-ae2b-4843-808c-a8b6a55a0596"
-      },
-      "darkest": {
         "value": "rgb(0, 113, 15)",
         "uuid": "7d4c282b-78ce-4b2c-ab39-26bf02366e4d"
       },
@@ -1806,10 +1462,6 @@
         "uuid": "c2cfbc22-b556-4cb5-b5ee-670254d5ecbc"
       },
       "dark": {
-        "value": "rgb(0, 145, 18)",
-        "uuid": "f24733a3-e55f-467d-b757-4ebf620b8c22"
-      },
-      "darkest": {
         "value": "rgb(0, 132, 15)",
         "uuid": "260d8921-3810-4a5d-a20f-cd00170cf951"
       },
@@ -1826,10 +1478,6 @@
         "uuid": "59b03f98-f898-4888-ad71-07a434e2fc7e"
       },
       "dark": {
-        "value": "rgb(4, 165, 30)",
-        "uuid": "983d90f4-9b72-4a6b-a6fd-7934e425a305"
-      },
-      "darkest": {
         "value": "rgb(0, 151, 20)",
         "uuid": "7e7e6abb-a2e9-4308-ac8e-e6866ec17c64"
       },
@@ -1846,10 +1494,6 @@
         "uuid": "41747345-10ab-476a-9d3d-e657f9383e8e"
       },
       "dark": {
-        "value": "rgb(34, 184, 51)",
-        "uuid": "8f3ec908-66e4-48da-b129-9bb3420e11e5"
-      },
-      "darkest": {
         "value": "rgb(13, 171, 37)",
         "uuid": "3b130e0d-eb9b-49e6-84db-eda6ee95eee5"
       },
@@ -1866,10 +1510,6 @@
         "uuid": "deec9c21-caeb-4ec4-bca4-a7661a2c5f91"
       },
       "dark": {
-        "value": "rgb(68, 202, 73)",
-        "uuid": "48c0f87a-4d30-4626-b7f0-3e697f08ed49"
-      },
-      "darkest": {
         "value": "rgb(45, 191, 58)",
         "uuid": "706f3a95-ab27-497f-aab7-f4ed806eef30"
       },
@@ -1886,10 +1526,6 @@
         "uuid": "3d509755-d653-4a3f-a5a3-fcbed0c2e21c"
       },
       "dark": {
-        "value": "rgb(105, 220, 99)",
-        "uuid": "c2f2caa8-d043-4213-a79e-23a0868e62f7"
-      },
-      "darkest": {
         "value": "rgb(80, 208, 82)",
         "uuid": "021a55b8-26ae-4767-82fb-06b20c58762b"
       },
@@ -1906,10 +1542,6 @@
         "uuid": "ea7327bb-48a8-41dd-b139-c7bda3dedaee"
       },
       "dark": {
-        "value": "rgb(142, 235, 127)",
-        "uuid": "dcb055d0-c653-4b49-8b40-93d4d8b6e25e"
-      },
-      "darkest": {
         "value": "rgb(115, 224, 107)",
         "uuid": "e091babe-6e02-4393-a67e-63222ab860b4"
       },
@@ -1926,10 +1558,6 @@
         "uuid": "fc4dedc3-0009-4a5a-8e93-f52ba4155e0a"
       },
       "dark": {
-        "value": "rgb(180, 247, 162)",
-        "uuid": "73da5344-395b-43ff-bb50-7dd5f2dbc225"
-      },
-      "darkest": {
         "value": "rgb(147, 237, 131)",
         "uuid": "9913e84a-4070-476f-a570-a16781a924cf"
       },
@@ -1946,10 +1574,6 @@
         "uuid": "7a3d9646-272f-4ca1-a4e6-0708eb2cd378"
       },
       "dark": {
-        "value": "rgb(221, 253, 211)",
-        "uuid": "82e856f7-e76e-4b5b-be5b-46d3eb113c5f"
-      },
-      "darkest": {
         "value": "rgb(180, 247, 162)",
         "uuid": "d2d8dc91-da75-4c56-a0d8-e6e9802434ad"
       },
@@ -1966,10 +1590,6 @@
         "uuid": "02e66104-cbf7-4e27-89cf-f18b1ef04f2d"
       },
       "dark": {
-        "value": "rgb(255, 255, 255)",
-        "uuid": "963eafe6-3738-4470-a5dd-938e9f9c15aa"
-      },
-      "darkest": {
         "value": "rgb(213, 252, 202)",
         "uuid": "c5c3c68c-8293-4ebb-a8d1-9f4af902906e"
       },
@@ -1986,10 +1606,6 @@
         "uuid": "4428dba5-df85-4125-ba54-1c022b986847"
       },
       "dark": {
-        "value": "rgb(4, 67, 41)",
-        "uuid": "c13e61ca-4448-47fe-ab6b-156a62e18057"
-      },
-      "darkest": {
         "value": "rgb(10, 44, 28)",
         "uuid": "e5a14d4a-47c5-4a53-84c5-589a0749d906"
       },
@@ -2006,10 +1622,6 @@
         "uuid": "9d32cd19-8375-4da3-9324-0e8334c2e714"
       },
       "dark": {
-        "value": "rgb(0, 78, 47)",
-        "uuid": "df621308-02ad-49b0-9be3-10aa387bca77"
-      },
-      "darkest": {
         "value": "rgb(7, 59, 36)",
         "uuid": "e8f294f5-cb17-4fdc-b370-ca2e3f95d342"
       },
@@ -2026,10 +1638,6 @@
         "uuid": "88bac762-84e1-4652-8152-384f3b1faf59"
       },
       "dark": {
-        "value": "rgb(0, 92, 56)",
-        "uuid": "14b4ff49-4ab1-48a6-aa1e-806c6cadaa62"
-      },
-      "darkest": {
         "value": "rgb(0, 76, 46)",
         "uuid": "cd5e0471-a8c0-46cd-b98c-be3a74c2b6d2"
       },
@@ -2046,10 +1654,6 @@
         "uuid": "5cb02868-9f86-4e20-85e0-e4f5df24853c"
       },
       "dark": {
-        "value": "rgb(0, 108, 67)",
-        "uuid": "ae488b77-a511-4ef2-846c-55b336525eec"
-      },
-      "darkest": {
         "value": "rgb(0, 93, 57)",
         "uuid": "c5e88879-9773-446c-883e-96531bcb8fad"
       },
@@ -2066,10 +1670,6 @@
         "uuid": "8b315766-4fa0-4acc-a679-89da4162a15c"
       },
       "dark": {
-        "value": "rgb(0, 125, 78)",
-        "uuid": "7be03fbf-6ce6-4707-8628-ec9ae3465f47"
-      },
-      "darkest": {
         "value": "rgb(0, 111, 69)",
         "uuid": "27649ccc-69a8-48d6-9d52-6d6e2e28ae17"
       },
@@ -2086,10 +1686,6 @@
         "uuid": "4c6c7b90-29ac-4186-a991-c298f19aa83d"
       },
       "dark": {
-        "value": "rgb(0, 143, 93)",
-        "uuid": "7cdbd4d6-643d-49f2-9c00-aef6f6b98eef"
-      },
-      "darkest": {
         "value": "rgb(0, 130, 82)",
         "uuid": "a0513e49-8483-40f8-8b8f-41fdc222f13d"
       },
@@ -2106,10 +1702,6 @@
         "uuid": "19a07ad0-9e01-4adc-861d-f7634de1f1ab"
       },
       "dark": {
-        "value": "rgb(18, 162, 108)",
-        "uuid": "4c105995-9269-4655-9bbd-bb50f9cdca4a"
-      },
-      "darkest": {
         "value": "rgb(0, 149, 98)",
         "uuid": "9c24175e-34a5-46c8-b646-f70c08292776"
       },
@@ -2126,10 +1718,6 @@
         "uuid": "1be225f8-3612-422c-923f-b35f1ec4fc00"
       },
       "dark": {
-        "value": "rgb(43, 180, 125)",
-        "uuid": "5471d254-44e5-4317-a6d6-eb24279c0b03"
-      },
-      "darkest": {
         "value": "rgb(28, 168, 114)",
         "uuid": "412da16e-4db2-47d8-84d4-583ae35534f9"
       },
@@ -2146,10 +1734,6 @@
         "uuid": "cd39a520-2020-41d0-96d1-3b0fdb453fef"
       },
       "dark": {
-        "value": "rgb(67, 199, 143)",
-        "uuid": "21cb58fb-f173-4348-9b70-1b20683b7a65"
-      },
-      "darkest": {
         "value": "rgb(52, 187, 132)",
         "uuid": "5afee2ee-a5d5-4dcf-a917-11dfdd0c3691"
       },
@@ -2166,10 +1750,6 @@
         "uuid": "b0846caa-d394-4614-aaa2-af179de285f4"
       },
       "dark": {
-        "value": "rgb(94, 217, 162)",
-        "uuid": "d2fb208c-73f2-42c6-a27e-bd4f8832b25f"
-      },
-      "darkest": {
         "value": "rgb(75, 205, 149)",
         "uuid": "3d6732a1-a1f9-4e18-927b-93cebaae3895"
       },
@@ -2186,10 +1766,6 @@
         "uuid": "8d0742b8-c334-41e0-a8e1-50fc8ea3b3ef"
       },
       "dark": {
-        "value": "rgb(129, 233, 184)",
-        "uuid": "4a310c88-9def-42fe-ad5e-1153d185a5fe"
-      },
-      "darkest": {
         "value": "rgb(103, 222, 168)",
         "uuid": "a2f8f6c6-07b4-43a4-8f59-995ea2bf4e82"
       },
@@ -2206,10 +1782,6 @@
         "uuid": "4ea6f2d0-bc92-44fa-90e9-9618806a19c2"
       },
       "dark": {
-        "value": "rgb(177, 244, 209)",
-        "uuid": "53ba43a9-2d41-4a55-9193-0d569e939993"
-      },
-      "darkest": {
         "value": "rgb(137, 236, 188)",
         "uuid": "07fa1b72-bf84-4fd5-9565-28373fae6a1f"
       },
@@ -2226,10 +1798,6 @@
         "uuid": "569d58d2-c7e4-4a0c-b92a-841e45fcbc09"
       },
       "dark": {
-        "value": "rgb(223, 250, 234)",
-        "uuid": "7a024876-6c60-4df1-863d-beda1d572bd6"
-      },
-      "darkest": {
         "value": "rgb(177, 244, 209)",
         "uuid": "c5ec27ed-3a16-44fe-bb8d-a21edd2f4d73"
       },
@@ -2246,10 +1814,6 @@
         "uuid": "c0711ebf-a91a-4041-8e1a-259ed6c3c54c"
       },
       "dark": {
-        "value": "rgb(254, 255, 252)",
-        "uuid": "b07f7383-d795-49e5-9dac-1d448d978624"
-      },
-      "darkest": {
         "value": "rgb(214, 249, 228)",
         "uuid": "df5458e5-891b-4a88-a96c-748a812978a7"
       },
@@ -2266,10 +1830,6 @@
         "uuid": "2330ab05-6153-47a1-ab56-18f3cb1c579f"
       },
       "dark": {
-        "value": "rgb(18, 65, 63)",
-        "uuid": "d668ef92-6475-40e4-9837-d607fbb6b1ef"
-      },
-      "darkest": {
         "value": "rgb(18, 43, 42)",
         "uuid": "080b56a3-6f95-422a-9f4b-d850966c4984"
       },
@@ -2286,10 +1846,6 @@
         "uuid": "870298fd-4e1f-4649-bfbc-5ad5b768c2e3"
       },
       "dark": {
-        "value": "rgb(14, 76, 73)",
-        "uuid": "05f93ec8-51ce-40fc-8609-0f7b6237c68f"
-      },
-      "darkest": {
         "value": "rgb(19, 57, 55)",
         "uuid": "2876bdd7-af97-4cd6-89cc-bdb9c2110946"
       },
@@ -2306,10 +1862,6 @@
         "uuid": "1fe5483a-95bd-4597-802a-9e84c1486dbe"
       },
       "dark": {
-        "value": "rgb(4, 90, 87)",
-        "uuid": "7a5a19a8-fb25-4771-9972-837db8c65e9d"
-      },
-      "darkest": {
         "value": "rgb(16, 73, 70)",
         "uuid": "d90b7496-0f54-41ce-96eb-c973457661ae"
       },
@@ -2326,10 +1878,6 @@
         "uuid": "e2b4d354-9a1d-4153-b988-4fc24c117252"
       },
       "dark": {
-        "value": "rgb(0, 105, 101)",
-        "uuid": "d98c80fb-6f43-46bb-ac9a-227cf134ca67"
-      },
-      "darkest": {
         "value": "rgb(3, 91, 88)",
         "uuid": "ec603c2c-b2b2-4769-a889-ba7c91a458eb"
       },
@@ -2346,10 +1894,6 @@
         "uuid": "a1da1af7-df37-455d-8d27-2920b36f209f"
       },
       "dark": {
-        "value": "rgb(0, 122, 117)",
-        "uuid": "a4a5e461-575d-4ae5-9b0b-985b6b8e70b1"
-      },
-      "darkest": {
         "value": "rgb(0, 108, 104)",
         "uuid": "c24b866c-5ac0-49de-857b-48c655fa9990"
       },
@@ -2366,10 +1910,6 @@
         "uuid": "cfd8a8b3-d567-4eb4-9b6f-5db352607dab"
       },
       "dark": {
-        "value": "rgb(0, 140, 135)",
-        "uuid": "dbc0b9aa-b312-43fd-b412-e2013caf91d7"
-      },
-      "darkest": {
         "value": "rgb(0, 127, 121)",
         "uuid": "73b58f7e-008b-44ae-8969-19d981d444d6"
       },
@@ -2386,10 +1926,6 @@
         "uuid": "a036b309-95ec-45e6-b035-f30f0f922422"
       },
       "dark": {
-        "value": "rgb(0, 158, 152)",
-        "uuid": "3fd24914-a5c7-4d79-b73a-3dfb135dd75b"
-      },
-      "darkest": {
         "value": "rgb(0, 146, 140)",
         "uuid": "0b8528e6-ceea-47a5-9727-24e97d7bc138"
       },
@@ -2406,10 +1942,6 @@
         "uuid": "ac4f12a3-a3f0-4053-87f4-5fc42b08cf23"
       },
       "dark": {
-        "value": "rgb(3, 178, 171)",
-        "uuid": "49b5ed44-a22b-4565-a09f-1e7ebc1bc63e"
-      },
-      "darkest": {
         "value": "rgb(0, 165, 159)",
         "uuid": "df8f47d4-5c3b-4ecb-b9fb-5d2dbd39d696"
       },
@@ -2426,10 +1958,6 @@
         "uuid": "74cb44f8-8ab0-4a36-9920-0735756e0ddc"
       },
       "dark": {
-        "value": "rgb(54, 197, 189)",
-        "uuid": "5bbc257f-e7b9-46eb-a591-dbe2ad1850b7"
-      },
-      "darkest": {
         "value": "rgb(26, 185, 178)",
         "uuid": "dca23a18-2b19-48bf-9894-2f0948f6c05e"
       },
@@ -2446,10 +1974,6 @@
         "uuid": "84e4e598-4fd7-445a-a6cf-2884c0aae4d0"
       },
       "dark": {
-        "value": "rgb(93, 214, 207)",
-        "uuid": "e134295a-a409-4143-b656-98b6e9cb40bd"
-      },
-      "darkest": {
         "value": "rgb(66, 202, 195)",
         "uuid": "c416b5c5-0506-419f-88ca-f722f12a9d86"
       },
@@ -2466,10 +1990,6 @@
         "uuid": "d1bb038a-f83b-4e97-b95f-b215c7bc2916"
       },
       "dark": {
-        "value": "rgb(132, 230, 223)",
-        "uuid": "9f1e7783-21c4-4890-9f61-af5423aaec37"
-      },
-      "darkest": {
         "value": "rgb(102, 218, 211)",
         "uuid": "4a853bfc-f1b0-4e39-8cd8-da0350c99cd5"
       },
@@ -2486,10 +2006,6 @@
         "uuid": "0eab9416-b6f5-4d26-bde6-9b8a840f7681"
       },
       "dark": {
-        "value": "rgb(176, 242, 236)",
-        "uuid": "0f47e0b5-6612-4014-b074-e9a6817f9a37"
-      },
-      "darkest": {
         "value": "rgb(139, 232, 225)",
         "uuid": "8e4c65b7-d819-4ffd-9398-71e9d294ba63"
       },
@@ -2506,10 +2022,6 @@
         "uuid": "a88e0c6e-dfd5-4a43-8d43-97fa10101165"
       },
       "dark": {
-        "value": "rgb(223, 249, 246)",
-        "uuid": "ec37ce56-739c-4f91-a36c-6e56480aa822"
-      },
-      "darkest": {
         "value": "rgb(179, 242, 237)",
         "uuid": "ef35ace8-870d-42e0-8ce6-2df61415431f"
       },
@@ -2526,10 +2038,6 @@
         "uuid": "52c9177c-bc81-41b1-ba6d-9b075fbe8541"
       },
       "dark": {
-        "value": "rgb(254, 255, 254)",
-        "uuid": "06b4eb8e-ff63-4345-a37f-67d5f48edb1b"
-      },
-      "darkest": {
         "value": "rgb(215, 248, 244)",
         "uuid": "9499384b-336c-4a41-af05-645a92ae40d4"
       },
@@ -2546,10 +2054,6 @@
         "uuid": "72bef490-0c3a-4627-9341-fc6627cf3f74"
       },
       "dark": {
-        "value": "rgb(0, 61, 98)",
-        "uuid": "efe22abb-6616-4456-81a0-37ee1951aba1"
-      },
-      "darkest": {
         "value": "rgb(0, 41, 68)",
         "uuid": "24a8bb5a-93c3-4dd1-9ea2-d48c11479fe7"
       },
@@ -2566,10 +2070,6 @@
         "uuid": "c2aaf729-7f39-499a-8b67-e23801073b05"
       },
       "dark": {
-        "value": "rgb(0, 71, 111)",
-        "uuid": "73ab4a44-d2ef-45e7-a810-6c067657ce40"
-      },
-      "darkest": {
         "value": "rgb(0, 54, 88)",
         "uuid": "3445cf4b-2460-4692-acf2-71844d687da4"
       },
@@ -2586,10 +2086,6 @@
         "uuid": "b54275ad-3ea6-4e69-aea2-97f488308fcc"
       },
       "dark": {
-        "value": "rgb(0, 85, 127)",
-        "uuid": "f9868f72-1d95-4040-a223-659f98ba702f"
-      },
-      "darkest": {
         "value": "rgb(0, 69, 108)",
         "uuid": "e4bcf4fc-aaec-49a5-a2bb-6bb55e7fff47"
       },
@@ -2606,10 +2102,6 @@
         "uuid": "a33de292-77a9-40b7-961e-41ebfe331ad0"
       },
       "dark": {
-        "value": "rgb(0, 100, 145)",
-        "uuid": "f20b54ee-fabd-4b7a-8d96-78e355a77e96"
-      },
-      "darkest": {
         "value": "rgb(0, 86, 128)",
         "uuid": "94a5bd53-d69a-4063-b630-1976230d4f2d"
       },
@@ -2626,10 +2118,6 @@
         "uuid": "f3e8ff9f-e60b-4bce-9c39-280aef6fcb08"
       },
       "dark": {
-        "value": "rgb(0, 116, 162)",
-        "uuid": "d300a6ab-8f25-4a0f-b861-6023fb33d38a"
-      },
-      "darkest": {
         "value": "rgb(0, 103, 147)",
         "uuid": "909baeef-fd2f-4550-89ea-fb7ac9ea2db5"
       },
@@ -2646,10 +2134,6 @@
         "uuid": "d65f3e1d-ad9d-4fa7-ac06-37235124e999"
       },
       "dark": {
-        "value": "rgb(0, 134, 180)",
-        "uuid": "bb07fb46-9ca3-4e0d-b004-97ec2bc4a5f0"
-      },
-      "darkest": {
         "value": "rgb(0, 121, 167)",
         "uuid": "d753ef33-bfc0-424b-a2ac-ea87ecbee590"
       },
@@ -2666,10 +2150,6 @@
         "uuid": "08b4548a-618d-4ab5-ae46-2a60c7936f57"
       },
       "dark": {
-        "value": "rgb(0, 153, 198)",
-        "uuid": "5f971006-82ff-4793-aa03-82c2e21bebf0"
-      },
-      "darkest": {
         "value": "rgb(0, 140, 186)",
         "uuid": "3cb348d4-14a9-43da-84c4-068cf46c8c6f"
       },
@@ -2686,10 +2166,6 @@
         "uuid": "6dbdd00d-3b03-4eab-a77c-3a1f16d5e6ef"
       },
       "dark": {
-        "value": "rgb(14, 173, 215)",
-        "uuid": "d87d8d1d-570f-4c3a-8736-f71bcc265c44"
-      },
-      "darkest": {
         "value": "rgb(4, 160, 205)",
         "uuid": "ee8673ca-c39c-437e-b3a5-416f4e8664d3"
       },
@@ -2706,10 +2182,6 @@
         "uuid": "71769f93-467d-497a-b214-45c8753f34f5"
       },
       "dark": {
-        "value": "rgb(44, 193, 230)",
-        "uuid": "807d5e18-52ee-4b22-9bf3-b969c83e01ba"
-      },
-      "darkest": {
         "value": "rgb(23, 180, 221)",
         "uuid": "9c183829-4858-4908-b1ac-d89f40f2e903"
       },
@@ -2726,10 +2198,6 @@
         "uuid": "25c689a1-7876-44fa-8849-3a8db03a866c"
       },
       "dark": {
-        "value": "rgb(84, 211, 241)",
-        "uuid": "162dd4e2-ce25-431c-9849-cb4ab0625c51"
-      },
-      "darkest": {
         "value": "rgb(57, 199, 234)",
         "uuid": "04f3d463-9118-43d5-973d-8bf94417912d"
       },
@@ -2746,10 +2214,6 @@
         "uuid": "57ca59a9-1677-4813-9c0d-28267233ba35"
       },
       "dark": {
-        "value": "rgb(127, 228, 249)",
-        "uuid": "db93015d-b200-4437-8399-aec786c338db"
-      },
-      "darkest": {
         "value": "rgb(96, 216, 243)",
         "uuid": "62a7ebff-a49b-4e7a-981f-692a506b4146"
       },
@@ -2766,10 +2230,6 @@
         "uuid": "d6ba8ac5-09d4-44e2-8ade-216c626eb154"
       },
       "dark": {
-        "value": "rgb(167, 241, 255)",
-        "uuid": "3245ab92-850f-440d-bec6-1cdc34ab38b8"
-      },
-      "darkest": {
         "value": "rgb(134, 230, 250)",
         "uuid": "36a2af99-eef4-476b-a3b8-58eade0931b7"
       },
@@ -2786,10 +2246,6 @@
         "uuid": "1b179218-9e53-457d-977b-902509ef28aa"
       },
       "dark": {
-        "value": "rgb(215, 250, 255)",
-        "uuid": "3bdb98f7-2dad-4c35-96e4-b009cbc01180"
-      },
-      "darkest": {
         "value": "rgb(170, 242, 255)",
         "uuid": "5f3df12b-1330-4482-ad34-c623bd36253c"
       },
@@ -2806,10 +2262,6 @@
         "uuid": "3eac8807-136f-4687-8403-203fb49fbd74"
       },
       "dark": {
-        "value": "rgb(255, 255, 255)",
-        "uuid": "5bd12e39-1386-49d5-af4f-d9f7dd1c549c"
-      },
-      "darkest": {
         "value": "rgb(206, 249, 255)",
         "uuid": "fe63b8a3-ebb9-45fe-99c2-e246b53e06a6"
       },
@@ -2826,10 +2278,6 @@
         "uuid": "04cf76e0-1e7c-479a-9411-0dcad2f6ab25"
       },
       "dark": {
-        "value": "rgb(40, 44, 140)",
-        "uuid": "4a856cd1-643f-485c-991b-c94a750277dc"
-      },
-      "darkest": {
         "value": "rgb(26, 29, 97)",
         "uuid": "e60cb247-c265-4009-9f0a-bcbbbb801dd4"
       },
@@ -2846,10 +2294,6 @@
         "uuid": "ab568cfd-20e5-4e20-a3bf-32292297df8f"
       },
       "dark": {
-        "value": "rgb(47, 52, 163)",
-        "uuid": "4d6f5e35-b3bd-4215-a135-f7b2b67447e0"
-      },
-      "darkest": {
         "value": "rgb(35, 39, 125)",
         "uuid": "56c709dd-b41e-478a-8098-21014e3f9ec8"
       },
@@ -2866,10 +2310,6 @@
         "uuid": "a220a225-3bb9-446c-8ee3-732a96a150d2"
       },
       "dark": {
-        "value": "rgb(57, 63, 187)",
-        "uuid": "6209d9c9-3639-4fdd-83de-904ca5ae5638"
-      },
-      "darkest": {
         "value": "rgb(46, 50, 158)",
         "uuid": "716f244e-67c5-4566-b824-ed7f2192b585"
       },
@@ -2886,10 +2326,6 @@
         "uuid": "891799a7-b51d-4769-abe3-62dd0da6e190"
       },
       "dark": {
-        "value": "rgb(70, 75, 211)",
-        "uuid": "3d843f10-9396-43de-a855-a18b412b53fc"
-      },
-      "darkest": {
         "value": "rgb(58, 63, 189)",
         "uuid": "c256e06e-07bc-4dcd-9239-48841916c93b"
       },
@@ -2906,10 +2342,6 @@
         "uuid": "2751b8ae-f347-4a57-938d-98a5ee86071c"
       },
       "dark": {
-        "value": "rgb(85, 91, 231)",
-        "uuid": "1283a5f4-4a5d-4d59-a1ea-5bdd3e0396c5"
-      },
-      "darkest": {
         "value": "rgb(73, 78, 216)",
         "uuid": "1ea0564b-6e88-456e-a796-4620d57b8771"
       },
@@ -2926,10 +2358,6 @@
         "uuid": "2d69bbe7-37c1-4302-9fee-39733bb13a86"
       },
       "dark": {
-        "value": "rgb(104, 109, 244)",
-        "uuid": "c71827e0-5782-4b4f-b198-c6d7d4077249"
-      },
-      "darkest": {
         "value": "rgb(90, 96, 235)",
         "uuid": "df590853-ce16-4ddf-bbe9-a912695eae17"
       },
@@ -2946,10 +2374,6 @@
         "uuid": "3c57f9f6-e837-450b-9443-a702caa049a4"
       },
       "dark": {
-        "value": "rgb(124, 129, 251)",
-        "uuid": "5fc6c5cb-3072-46c6-a8b0-b88091835ff4"
-      },
-      "darkest": {
         "value": "rgb(110, 115, 246)",
         "uuid": "0ea3a7e0-35c5-46ec-ae9d-500c5ee06a16"
       },
@@ -2966,10 +2390,6 @@
         "uuid": "f5a317ea-25f2-4193-9305-f20c231e786e"
       },
       "dark": {
-        "value": "rgb(145, 149, 255)",
-        "uuid": "9b272e22-81ba-4e31-a220-b79c4181c96f"
-      },
-      "darkest": {
         "value": "rgb(132, 136, 253)",
         "uuid": "97e84a30-1de4-4e84-8d59-e625f9ec9ab1"
       },
@@ -2986,10 +2406,6 @@
         "uuid": "87b65e85-d767-47bb-8af5-01b85282c663"
       },
       "dark": {
-        "value": "rgb(167, 170, 255)",
-        "uuid": "3282c01c-7b68-4999-a12e-ee389a6f9ea1"
-      },
-      "darkest": {
         "value": "rgb(153, 157, 255)",
         "uuid": "5cb7ff5e-ec53-4df8-b59d-a1419190a6cf"
       },
@@ -3006,10 +2422,6 @@
         "uuid": "9d1a9aa9-a7b3-4254-9e55-a992784bb7b5"
       },
       "dark": {
-        "value": "rgb(188, 190, 255)",
-        "uuid": "3fab75f4-9161-4040-88ca-0af98b1236fd"
-      },
-      "darkest": {
         "value": "rgb(174, 177, 255)",
         "uuid": "0bf6170c-50d7-4600-96fe-2d1af93f173a"
       },
@@ -3026,10 +2438,6 @@
         "uuid": "2f59721c-2922-4ad3-b50a-37327d592050"
       },
       "dark": {
-        "value": "rgb(208, 210, 255)",
-        "uuid": "c537ba0b-c81a-40f3-8255-5be0491ca2a6"
-      },
-      "darkest": {
         "value": "rgb(194, 196, 255)",
         "uuid": "c85ea1d9-e28d-46c5-abd0-c053858770e0"
       },
@@ -3046,10 +2454,6 @@
         "uuid": "4aaedaea-2d42-4593-84e4-18a12ce5efc2"
       },
       "dark": {
-        "value": "rgb(226, 228, 255)",
-        "uuid": "f9446b63-346f-4490-b975-929bdbb12655"
-      },
-      "darkest": {
         "value": "rgb(212, 213, 255)",
         "uuid": "91f9622a-03b4-47b0-b380-5f6d64c13b5d"
       },
@@ -3066,10 +2470,6 @@
         "uuid": "f8300596-def6-4640-8d9a-c08fea25bfda"
       },
       "dark": {
-        "value": "rgb(243, 243, 254)",
-        "uuid": "11e00286-b34f-44c7-ba95-ab2e07990106"
-      },
-      "darkest": {
         "value": "rgb(227, 228, 255)",
         "uuid": "c0bfd081-7859-4ed5-aa4c-c1f547dab8f3"
       },
@@ -3086,10 +2486,6 @@
         "uuid": "4e8c10e6-0c7e-4f48-91a0-ff460915725d"
       },
       "dark": {
-        "value": "rgb(255, 255, 255)",
-        "uuid": "ee07f360-a89e-49e6-baf5-462b84133aed"
-      },
-      "darkest": {
         "value": "rgb(240, 240, 255)",
         "uuid": "080f9ea4-1d87-4691-adb7-3875a7708555"
       },
@@ -3106,10 +2502,6 @@
         "uuid": "e80b112b-a26d-4392-a431-844b33d8bac8"
       },
       "dark": {
-        "value": "rgb(76, 13, 157)",
-        "uuid": "1d180da0-3c21-488e-b017-728194ed8578"
-      },
-      "darkest": {
         "value": "rgb(50, 16, 104)",
         "uuid": "ffc5aa7a-c339-4583-a586-3e8b1329d16d"
       },
@@ -3126,10 +2518,6 @@
         "uuid": "65816c3d-544e-4bbd-bf0e-c0981e08a5cb"
       },
       "dark": {
-        "value": "rgb(89, 17, 177)",
-        "uuid": "bad41b06-2848-4eb0-a3a0-6c2b90da8630"
-      },
-      "darkest": {
         "value": "rgb(67, 13, 140)",
         "uuid": "2d67627b-372c-46af-b015-6c95bd027664"
       },
@@ -3146,10 +2534,6 @@
         "uuid": "bea266d7-8f53-43b7-b7df-0daa5b7e6f89"
       },
       "dark": {
-        "value": "rgb(105, 28, 200)",
-        "uuid": "22929eab-9a55-48b1-9798-d04d9bbea6cf"
-      },
-      "darkest": {
         "value": "rgb(86, 16, 173)",
         "uuid": "be628028-f41d-4ace-abf3-f7f38ecb2e01"
       },
@@ -3166,10 +2550,6 @@
         "uuid": "b68c2d3d-02e6-4130-9904-d2d32e67d115"
       },
       "dark": {
-        "value": "rgb(122, 45, 218)",
-        "uuid": "d2c6a538-52af-4dc0-8318-b35453ffe8c4"
-      },
-      "darkest": {
         "value": "rgb(106, 29, 200)",
         "uuid": "474fed30-921a-4795-8999-2310521c64c5"
       },
@@ -3186,10 +2566,6 @@
         "uuid": "9625edd4-fcdd-406a-9a66-068dcfeb3bd9"
       },
       "dark": {
-        "value": "rgb(140, 65, 233)",
-        "uuid": "3a969a81-eefb-468b-8889-1ad5b47c361f"
-      },
-      "darkest": {
         "value": "rgb(126, 49, 222)",
         "uuid": "b912e8ba-ed77-4179-9b80-7448f9e37193"
       },
@@ -3206,10 +2582,6 @@
         "uuid": "bfd24d4f-9100-4937-a45d-7614ce0ece74"
       },
       "dark": {
-        "value": "rgb(157, 87, 243)",
-        "uuid": "694dda5b-71ac-4169-b71e-65fe62650098"
-      },
-      "darkest": {
         "value": "rgb(145, 70, 236)",
         "uuid": "05638159-aaf7-4f3e-849e-a46e80cd9ee6"
       },
@@ -3226,10 +2598,6 @@
         "uuid": "2f218111-4cef-432b-8d69-06492e7c40c1"
       },
       "dark": {
-        "value": "rgb(172, 111, 249)",
-        "uuid": "84640df4-6e8f-4e2c-893c-187875bf8e2c"
-      },
-      "darkest": {
         "value": "rgb(162, 94, 246)",
         "uuid": "fb186f5e-72a8-4a27-8ba2-d2fdf53d5a5c"
       },
@@ -3246,10 +2614,6 @@
         "uuid": "a6205c53-9e63-475c-85f4-bdd5963e1eb2"
       },
       "dark": {
-        "value": "rgb(187, 135, 251)",
-        "uuid": "421e2e18-233d-40d8-81ed-b777d7b4539b"
-      },
-      "darkest": {
         "value": "rgb(178, 119, 250)",
         "uuid": "30aae683-83e3-47a1-bdcb-ebe658e110a3"
       },
@@ -3266,10 +2630,6 @@
         "uuid": "b72cb9ff-2b75-487c-914f-1c10bff76f75"
       },
       "dark": {
-        "value": "rgb(202, 159, 252)",
-        "uuid": "c767aaa3-0818-4404-a921-94f924159b8f"
-      },
-      "darkest": {
         "value": "rgb(192, 143, 252)",
         "uuid": "12d86845-fd54-4d30-aac8-bb9451560ba5"
       },
@@ -3286,10 +2646,6 @@
         "uuid": "163a3d87-cba9-48de-8384-c2820cf03984"
       },
       "dark": {
-        "value": "rgb(215, 182, 254)",
-        "uuid": "8c16ea42-3e31-41e3-9492-73f1a554079c"
-      },
-      "darkest": {
         "value": "rgb(206, 166, 253)",
         "uuid": "e527a3bd-3543-4b40-8a9c-eb465695bdb9"
       },
@@ -3306,10 +2662,6 @@
         "uuid": "991db22a-d0c2-4f1a-a45b-95aaf13d747d"
       },
       "dark": {
-        "value": "rgb(228, 204, 254)",
-        "uuid": "b45da3d4-6b07-451e-8960-ac7bca1e4da2"
-      },
-      "darkest": {
         "value": "rgb(219, 188, 254)",
         "uuid": "18265c0a-e466-4575-a364-3dfda9e71bd4"
       },
@@ -3326,10 +2678,6 @@
         "uuid": "b71041e1-ca59-4d0c-87e4-2a8e8821b3ab"
       },
       "dark": {
-        "value": "rgb(239, 223, 255)",
-        "uuid": "5bac1ada-9c00-4243-af3a-bc3727745035"
-      },
-      "darkest": {
         "value": "rgb(230, 207, 255)",
         "uuid": "ae071768-dcdd-4e30-8f72-d066abac97af"
       },
@@ -3346,10 +2694,6 @@
         "uuid": "7a524851-d57b-40f7-930a-f67739c0e138"
       },
       "dark": {
-        "value": "rgb(249, 240, 255)",
-        "uuid": "5e3bbc6d-1489-48ca-b5a1-423288727b1d"
-      },
-      "darkest": {
         "value": "rgb(240, 224, 255)",
         "uuid": "fbaaff02-da93-4f45-830a-5fc449a58f0b"
       },
@@ -3366,10 +2710,6 @@
         "uuid": "e1609d80-a6ba-46b6-bd52-83f32fd009ad"
       },
       "dark": {
-        "value": "rgb(255, 253, 255)",
-        "uuid": "ae3f64d4-ed66-4d97-b7e5-65ee395f7883"
-      },
-      "darkest": {
         "value": "rgb(248, 237, 255)",
         "uuid": "9ae063c9-5817-45b4-9f57-4b2196c845b9"
       },
@@ -3386,10 +2726,6 @@
         "uuid": "2a8743fc-d3b3-444a-b3f1-8ad816945941"
       },
       "dark": {
-        "value": "rgb(107, 3, 106)",
-        "uuid": "fcf73bd6-3852-429a-9095-14524c2efea3"
-      },
-      "darkest": {
         "value": "rgb(70, 14, 68)",
         "uuid": "3a434405-c4b0-40ef-b383-7cb9a9b60cab"
       },
@@ -3406,10 +2742,6 @@
         "uuid": "a304f27a-7a17-4c12-88d1-07171fa3ca75"
       },
       "dark": {
-        "value": "rgb(123, 0, 123)",
-        "uuid": "57ce4570-03d7-45a8-8f6c-85a2994fb067"
-      },
-      "darkest": {
         "value": "rgb(93, 9, 92)",
         "uuid": "779ec441-475d-41de-b207-3e139c7c3168"
       },
@@ -3426,10 +2758,6 @@
         "uuid": "723a23a1-0bb0-4c11-89cf-0eca2a421867"
       },
       "dark": {
-        "value": "rgb(144, 0, 145)",
-        "uuid": "a297d901-18ab-4da0-a5fa-d9749e8ea9db"
-      },
-      "darkest": {
         "value": "rgb(120, 0, 120)",
         "uuid": "5fa7110f-0c33-4139-8277-eff40921939e"
       },
@@ -3446,10 +2774,6 @@
         "uuid": "ce8ce579-0dca-462c-a9d3-49e451931812"
       },
       "dark": {
-        "value": "rgb(165, 13, 166)",
-        "uuid": "7eb42bf3-0008-4e2c-a085-0c0b0a56deba"
-      },
-      "darkest": {
         "value": "rgb(146, 0, 147)",
         "uuid": "a81bfdd6-4b80-4f1a-922d-2f6e04c27e01"
       },
@@ -3466,10 +2790,6 @@
         "uuid": "779bda09-25fd-4912-9aa8-8e3a5643d0cb"
       },
       "dark": {
-        "value": "rgb(185, 37, 185)",
-        "uuid": "5a5a7aac-7494-40d2-93c8-66e828c2397e"
-      },
-      "darkest": {
         "value": "rgb(169, 19, 170)",
         "uuid": "7ecdb8fa-7c4b-4392-bca8-a00a9b931cb4"
       },
@@ -3486,10 +2806,6 @@
         "uuid": "bd2db3f8-5eae-4fcb-a1f6-307d3b8e4139"
       },
       "dark": {
-        "value": "rgb(205, 57, 206)",
-        "uuid": "90ef0274-fb46-469e-a8d4-030b88dfe969"
-      },
-      "darkest": {
         "value": "rgb(191, 43, 191)",
         "uuid": "0fb76488-9965-4cf9-878f-ceed7fc2be43"
       },
@@ -3506,10 +2822,6 @@
         "uuid": "42525649-03ba-44f7-bc8c-9a824b898920"
       },
       "dark": {
-        "value": "rgb(223, 81, 224)",
-        "uuid": "3cebbadd-c690-493d-a36e-fc55d99d4b4b"
-      },
-      "darkest": {
         "value": "rgb(211, 65, 213)",
         "uuid": "5f971453-aa30-4c1f-8cbc-be45ff042fcd"
       },
@@ -3526,10 +2838,6 @@
         "uuid": "3b2867ea-80f8-44ca-9394-7bb17e8c5a22"
       },
       "dark": {
-        "value": "rgb(235, 110, 236)",
-        "uuid": "163fa258-c7a0-433a-bf26-875d55e2ba70"
-      },
-      "darkest": {
         "value": "rgb(228, 91, 229)",
         "uuid": "5848fed6-5b42-42ef-9800-8f32e42cf6ba"
       },
@@ -3546,10 +2854,6 @@
         "uuid": "5fa3362b-01ee-4861-9a02-6af6da804f61"
       },
       "dark": {
-        "value": "rgb(244, 140, 242)",
-        "uuid": "d0d6c85c-233c-4394-b6a3-ac326b70992f"
-      },
-      "darkest": {
         "value": "rgb(239, 120, 238)",
         "uuid": "3c6d42c9-4cba-4373-a61c-c8617c509f92"
       },
@@ -3566,10 +2870,6 @@
         "uuid": "fa79840c-fe56-4f21-b9c5-f1e24f89e031"
       },
       "dark": {
-        "value": "rgb(250, 168, 245)",
-        "uuid": "31064db2-1b72-47c3-909d-339589204458"
-      },
-      "darkest": {
         "value": "rgb(246, 149, 243)",
         "uuid": "a13d5f15-e4cc-4f7c-928f-aaccbf0d590e"
       },
@@ -3586,10 +2886,6 @@
         "uuid": "44aeb8b3-dd63-43a5-adb6-67cca83ca4c5"
       },
       "dark": {
-        "value": "rgb(254, 194, 248)",
-        "uuid": "135ce68a-832c-4903-b1e3-39b0c2e4f10b"
-      },
-      "darkest": {
         "value": "rgb(251, 175, 246)",
         "uuid": "0a4eb3af-d067-4d9f-af91-66c676e49e26"
       },
@@ -3606,10 +2902,6 @@
         "uuid": "fc66406d-0e4c-4f82-9fa6-aec444f04070"
       },
       "dark": {
-        "value": "rgb(255, 219, 250)",
-        "uuid": "6c569c3e-48fe-4bde-8521-7b63d8c4a37d"
-      },
-      "darkest": {
         "value": "rgb(254, 199, 248)",
         "uuid": "0d93ff9f-63e8-4caf-9e7b-714e56d968d4"
       },
@@ -3626,10 +2918,6 @@
         "uuid": "00cfb450-b2b1-47ea-aaf2-221827cca75d"
       },
       "dark": {
-        "value": "rgb(255, 239, 252)",
-        "uuid": "712ba0be-7bd6-42d1-a1db-ba4aebb7eb28"
-      },
-      "darkest": {
         "value": "rgb(255, 220, 250)",
         "uuid": "abd44b32-b837-4e11-95c7-4ba1c34db44b"
       },
@@ -3646,10 +2934,6 @@
         "uuid": "e5fc57ed-6d37-4496-a89c-db93104cb333"
       },
       "dark": {
-        "value": "rgb(255, 253, 255)",
-        "uuid": "9b3a54f9-d94b-4a21-9145-5891d0cf1405"
-      },
-      "darkest": {
         "value": "rgb(255, 235, 252)",
         "uuid": "7c819391-d74c-4326-ae0d-fe3534eb44e3"
       },
@@ -3666,10 +2950,6 @@
         "uuid": "06219a66-5150-42ab-a9fd-c743058728af"
       },
       "dark": {
-        "value": "rgb(118, 0, 58)",
-        "uuid": "c49f033b-6e6f-4945-b199-af3ad874e8ea"
-      },
-      "darkest": {
         "value": "rgb(83, 3, 41)",
         "uuid": "9149371a-1978-4136-a89c-8895edd35e7d"
       },
@@ -3686,10 +2966,6 @@
         "uuid": "0a9c01d3-0659-4884-a0e8-7032deeee766"
       },
       "dark": {
-        "value": "rgb(137, 0, 66)",
-        "uuid": "28ea9b3a-7802-4f3e-a576-9ca1e217a7e4"
-      },
-      "darkest": {
         "value": "rgb(106, 0, 52)",
         "uuid": "f5ffc5b3-d3e6-4d7e-b8a8-850324b5d9b8"
       },
@@ -3706,10 +2982,6 @@
         "uuid": "bfe2436d-c026-4641-8cd7-a9824f6948dd"
       },
       "dark": {
-        "value": "rgb(160, 0, 77)",
-        "uuid": "8a21b266-6888-4f68-9f44-7026634d6bdf"
-      },
-      "darkest": {
         "value": "rgb(133, 0, 65)",
         "uuid": "673ab9b4-e296-4472-b0b5-15adf9f1f762"
       },
@@ -3726,10 +2998,6 @@
         "uuid": "4419b5e5-344d-4905-b39d-8935bedf7d6c"
       },
       "dark": {
-        "value": "rgb(182, 18, 90)",
-        "uuid": "d0319094-27f1-4634-b436-07f1a0ade2ab"
-      },
-      "darkest": {
         "value": "rgb(161, 0, 78)",
         "uuid": "60560de2-28e6-44b4-bcff-f357fe13a4a7"
       },
@@ -3746,10 +3014,6 @@
         "uuid": "d7c3e696-4ec4-497f-89c5-bad17cb4699a"
       },
       "dark": {
-        "value": "rgb(203, 38, 109)",
-        "uuid": "60a7cd2d-5c88-4fbe-8180-6840d52678fc"
-      },
-      "darkest": {
         "value": "rgb(186, 22, 93)",
         "uuid": "830123a6-0e42-4c4f-9b20-2f4204d37af8"
       },
@@ -3766,10 +3030,6 @@
         "uuid": "329f4efa-6f0b-4bc1-95f7-1121bda7f421"
       },
       "dark": {
-        "value": "rgb(222, 61, 130)",
-        "uuid": "f7dd5e8b-4c41-4385-8d96-a984b62051be"
-      },
-      "darkest": {
         "value": "rgb(209, 43, 114)",
         "uuid": "e6b14a1d-e26e-41c4-b386-7fb3f95b8c93"
       },
@@ -3786,10 +3046,6 @@
         "uuid": "fcacf0f0-c919-4705-b4c2-6edbe2796fb0"
       },
       "dark": {
-        "value": "rgb(237, 87, 149)",
-        "uuid": "3f07950a-4823-4826-9d78-d7b450c9e961"
-      },
-      "darkest": {
         "value": "rgb(227, 69, 137)",
         "uuid": "11055a6b-7e81-4b59-9feb-8b0b6352be07"
       },
@@ -3806,10 +3062,6 @@
         "uuid": "21e774f7-89d8-438d-9fc4-aa93261022d1"
       },
       "dark": {
-        "value": "rgb(249, 114, 167)",
-        "uuid": "7903bf4c-e957-4e84-b0c0-276c80e9a4d9"
-      },
-      "darkest": {
         "value": "rgb(241, 97, 156)",
         "uuid": "6676db79-7b7e-4fcf-868b-321f9372517a"
       },
@@ -3826,10 +3078,6 @@
         "uuid": "0166ed9b-52e7-447a-b45d-de29ba85eb0d"
       },
       "dark": {
-        "value": "rgb(255, 143, 185)",
-        "uuid": "f316b3d8-5763-4166-94fe-664f477dd76f"
-      },
-      "darkest": {
         "value": "rgb(252, 124, 173)",
         "uuid": "fa5e523e-7ee3-46d0-971f-4ee95c7222b8"
       },
@@ -3846,10 +3094,6 @@
         "uuid": "98125f18-a061-4aa7-a0c5-a746d635c4c5"
       },
       "dark": {
-        "value": "rgb(255, 172, 202)",
-        "uuid": "6eeb3d6f-9eab-459c-b34c-e25c9ea107a4"
-      },
-      "darkest": {
         "value": "rgb(255, 152, 191)",
         "uuid": "bdabbfb5-1ae6-44a7-bc2e-55e11f4e5154"
       },
@@ -3866,10 +3110,6 @@
         "uuid": "29d203d7-7c2c-4f36-a5f3-d84fab6be9f1"
       },
       "dark": {
-        "value": "rgb(255, 198, 218)",
-        "uuid": "36c81f83-2299-4569-b133-4300d49fa3c2"
-      },
-      "darkest": {
         "value": "rgb(255, 179, 207)",
         "uuid": "548a74eb-4401-44f4-85b4-921287d84ac9"
       },
@@ -3886,10 +3126,6 @@
         "uuid": "2a9f4ecf-5678-4345-973a-da1e066eaf10"
       },
       "dark": {
-        "value": "rgb(255, 221, 233)",
-        "uuid": "72e2e0cb-7512-4e3b-8ac6-42a63a746e2b"
-      },
-      "darkest": {
         "value": "rgb(255, 202, 221)",
         "uuid": "9c634688-1ad5-438b-bd44-a92c64ef9934"
       },
@@ -3906,10 +3142,6 @@
         "uuid": "0be3f108-028b-4fdd-9a98-8bb24deec2d8"
       },
       "dark": {
-        "value": "rgb(255, 240, 245)",
-        "uuid": "b1caf781-77c9-48eb-84a5-507d84b6cdf4"
-      },
-      "darkest": {
         "value": "rgb(255, 221, 233)",
         "uuid": "6c441ca7-0294-462f-ac18-7b28ff20d7ff"
       },
@@ -3926,10 +3158,6 @@
         "uuid": "40d9a0f7-0085-4001-a22e-3c22d3887846"
       },
       "dark": {
-        "value": "rgb(255, 252, 253)",
-        "uuid": "2dcf8d47-a293-4ed2-bac5-2f935ed7ca5b"
-      },
-      "darkest": {
         "value": "rgb(255, 236, 243)",
         "uuid": "15f36ded-01af-4c5d-8b11-45523e7d908e"
       },
