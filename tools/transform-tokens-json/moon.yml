@@ -11,15 +11,26 @@ type: tool
 fileGroups:
   sources:
     - "/packages/tokens/src/**/*"
+  lib:
+    - "src/**/*"
 tasks:
-  run:
+  merge-spectrum-express:
     command:
       - node
-      - src/index.js
+      - src/merge-spectrum-express.js
     platform: node
     inputs:
       - "@globs(sources)"
-      - "src/index.js"
-    outputs:
+      - "@globs(lib)"
+      - "src/merge-spectrum-express.js"
+    local: true
+  merge-dark-darkest:
+    command:
+      - node
+      - src/merge-dark-darkest.js
+    platform: node
+    inputs:
       - "@globs(sources)"
+      - "@globs(lib)"
+      - "src/merge-dark-darkest.js"
     local: true

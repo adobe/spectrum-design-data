@@ -1,7 +1,7 @@
 {
-  "name": "system-set-merge",
+  "name": "transform-tokens-json",
   "version": "0.0.1",
-  "description": "A simple tool to merge system sets in Spectrum Tokens",
+  "description": "A simple tool to make one time changes in Spectrum Tokens",
   "type": "module",
   "private": true,
   "scripts": {},
