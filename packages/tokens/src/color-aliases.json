@@ -54,11 +54,11 @@
   "background-base-color": {
     "sets": {
       "light": {
-        "value": "{gray-200}",
+        "value": "{gray-100}",
         "uuid": "e0d8739d-18dd-44bc-92ea-e443882a780b"
       },
       "dark": {
-        "value": "{gray-50}",
+        "value": "{gray-25}",
         "uuid": "cf1299aa-86c7-4523-b6ae-6de597ac3712"
       },
       "wireframe": {
@@ -70,11 +70,11 @@
   "background-layer-1-color": {
     "sets": {
       "light": {
-        "value": "{gray-100}",
+        "value": "{gray-50}",
         "uuid": "7e6678b7-2903-434b-8ee2-06c83815b01d"
       },
       "dark": {
-        "value": "{gray-75}",
+        "value": "{gray-50}",
         "uuid": "da228344-5b83-4e08-96d2-089068138ba0"
       },
       "wireframe": {
@@ -86,11 +86,11 @@
   "background-layer-2-color": {
     "sets": {
       "light": {
-        "value": "{gray-50}",
+        "value": "{gray-25}",
         "uuid": "b7b2bf98-b96a-40ca-b51e-5876d3418085"
       },
       "dark": {
-        "value": "{gray-100}",
+        "value": "{gray-75}",
         "uuid": "e30b7936-6ae7-4ada-8892-94a1f67d55c9"
       },
       "wireframe": {
@@ -106,7 +106,7 @@
         "uuid": "5d54b2d5-b0c6-4438-b141-80ca91a0b8a4"
       },
       "dark": {
-        "value": "{gray-400}",
+        "value": "{gray-800}",
         "uuid": "a1c5a204-e937-4ce1-a5be-580f6b0df7a5"
       },
       "wireframe": {
@@ -122,7 +122,7 @@
         "uuid": "e0379e06-e2d3-4d6f-ba81-6cdf4012a022"
       },
       "dark": {
-        "value": "{gray-300}",
+        "value": "{gray-900}",
         "uuid": "0ce569ea-d735-42a3-96c2-60201fcb616f"
       },
       "wireframe": {
@@ -138,7 +138,7 @@
         "uuid": "5577ffde-5708-4ea7-a50d-d938f07eba7f"
       },
       "dark": {
-        "value": "{gray-200}",
+        "value": "{gray-900}",
         "uuid": "4901987b-b70c-42ef-92fd-b8c5b6894bfc"
       },
       "wireframe": {
@@ -154,7 +154,7 @@
         "uuid": "b8ba6d4d-737e-4c18-a901-bb35fdc173c3"
       },
       "dark": {
-        "value": "{gray-300}",
+        "value": "{gray-900}",
         "uuid": "f90c1f60-5d23-41ed-ab42-30eeb9d079ba"
       },
       "wireframe": {
@@ -164,11 +164,11 @@
     }
   },
   "neutral-background-color-selected-default": {
-    "value": "{gray-700}",
+    "value": "{gray-800}",
     "uuid": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc"
   },
   "neutral-background-color-selected-hover": {
-    "value": "{gray-800}",
+    "value": "{gray-900}",
     "uuid": "1c220122-5f32-42f9-848f-ae10061241e5"
   },
   "neutral-background-color-selected-down": {
@@ -176,13 +176,13 @@
     "uuid": "966c56d0-4461-45e7-9e20-0277f2111a34"
   },
   "neutral-background-color-selected-key-focus": {
-    "value": "{gray-800}",
+    "value": "{gray-900}",
     "uuid": "9b8df7df-3439-4614-b446-97a4de782e27"
   },
   "neutral-subdued-background-color-default": {
     "sets": {
       "light": {
-        "value": "{gray-600}",
+        "value": "{gray-700}",
         "uuid": "3b09b2fd-cbf9-4933-9655-27a75d984f06"
       },
       "dark": {
@@ -198,7 +198,7 @@
   "neutral-subdued-background-color-hover": {
     "sets": {
       "light": {
-        "value": "{gray-700}",
+        "value": "{gray-800}",
         "uuid": "a1ab50d5-1aa1-4198-9510-7ea8458cc62f"
       },
       "dark": {
@@ -218,7 +218,7 @@
         "uuid": "300d2800-a6e5-4b78-9b6c-aaf2f4af39c6"
       },
       "dark": {
-        "value": "{gray-200}",
+        "value": "{gray-300}",
         "uuid": "11bf9149-d8df-4f37-ba21-51ff911b0517"
       },
       "wireframe": {
@@ -230,7 +230,7 @@
   "neutral-subdued-background-color-key-focus": {
     "sets": {
       "light": {
-        "value": "{gray-700}",
+        "value": "{gray-800}",
         "uuid": "eece165c-743c-4d7a-b770-3ee50e1951cf"
       },
       "dark": {
@@ -282,11 +282,11 @@
   "accent-background-color-down": {
     "sets": {
       "light": {
-        "value": "{accent-color-1100}",
+        "value": "{accent-color-1000}",
         "uuid": "026b1d5e-7cbc-4ee9-91e8-19766b9ac541"
       },
       "dark": {
-        "value": "{accent-color-400}",
+        "value": "{accent-color-500}",
         "uuid": "e2c0de7e-d271-4b2c-9393-d864a95732e6"
       },
       "wireframe": {
@@ -350,11 +350,11 @@
   "informative-background-color-down": {
     "sets": {
       "light": {
-        "value": "{informative-color-1100}",
+        "value": "{informative-color-1000}",
         "uuid": "91f91b8c-0e65-4b7b-8c7b-60d3b6e235d8"
       },
       "dark": {
-        "value": "{informative-color-400}",
+        "value": "{informative-color-500}",
         "uuid": "c9c09cc9-1ebd-4738-9613-6a0a67bea4f9"
       },
       "wireframe": {
@@ -414,11 +414,11 @@
   "negative-background-color-down": {
     "sets": {
       "light": {
-        "value": "{negative-color-1100}",
+        "value": "{negative-color-1000}",
         "uuid": "3c2d5afe-fff4-487d-a312-000f738c8704"
       },
       "dark": {
-        "value": "{negative-color-400}",
+        "value": "{negative-color-500}",
         "uuid": "8565ec8e-2196-47ac-8636-40084acbfd4f"
       },
       "wireframe": {
@@ -478,11 +478,11 @@
   "positive-background-color-down": {
     "sets": {
       "light": {
-        "value": "{positive-color-1100}",
+        "value": "{positive-color-1000}",
         "uuid": "4096a319-241e-410c-ad51-521d57155004"
       },
       "dark": {
-        "value": "{positive-color-400}",
+        "value": "{positive-color-500}",
         "uuid": "58a934d2-a715-4544-aa79-7f94bd493f09"
       },
       "wireframe": {
@@ -510,7 +510,7 @@
   "notice-background-color-default": {
     "sets": {
       "light": {
-        "value": "{notice-color-600}",
+        "value": "{notice-color-800}",
         "uuid": "87666730-0d8e-434d-9bfb-0a45e729c482"
       },
       "dark": {
@@ -524,15 +524,15 @@
     }
   },
   "disabled-background-color": {
-    "value": "{gray-200}",
+    "value": "{gray-100}",
     "uuid": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303"
   },
   "disabled-static-white-background-color": {
-    "value": "{transparent-white-200}",
+    "value": "{transparent-white-100}",
     "uuid": "fbd40c55-bb12-43ff-9fa6-c93884befc89"
   },
   "disabled-static-black-background-color": {
-    "value": "{transparent-black-200}",
+    "value": "{transparent-black-100}",
     "uuid": "579e401c-de49-41af-a8c7-a0a070c31979"
   },
   "gray-background-color-default": {
@@ -808,7 +808,7 @@
     "uuid": "a6d8a177-3e5c-4d28-a675-c21c2695d2f6"
   },
   "neutral-subdued-content-color-down": {
-    "value": "{gray-900}",
+    "value": "{gray-800}",
     "uuid": "8ab4accc-bd95-48e0-ae3a-539740a07cc6"
   },
   "neutral-subdued-content-color-key-focus": {
@@ -824,7 +824,7 @@
     "uuid": "d6cd141c-d7a4-457f-bed5-9a725ca7a0fe"
   },
   "accent-content-color-down": {
-    "value": "{accent-color-1100}",
+    "value": "{accent-color-1000}",
     "uuid": "25d3b2d2-e7d5-4686-95ff-bfaaddc14ff1"
   },
   "accent-content-color-key-focus": {
@@ -840,7 +840,7 @@
     "uuid": "ff90152d-86bf-4a34-9a7e-ede61966bda0"
   },
   "negative-content-color-down": {
-    "value": "{negative-color-1100}",
+    "value": "{negative-color-1000}",
     "uuid": "f760cc99-ebec-4d34-931e-5621aef995a0"
   },
   "negative-content-color-key-focus": {
@@ -852,11 +852,11 @@
     "uuid": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
   },
   "disabled-static-white-content-color": {
-    "value": "{transparent-white-500}",
+    "value": "{transparent-white-400}",
     "uuid": "fe319bca-0413-4ad8-a783-c64563e05816"
   },
   "disabled-static-black-content-color": {
-    "value": "{transparent-black-500}",
+    "value": "{transparent-black-400}",
     "uuid": "e75dbb08-80eb-4de5-afd4-55a532c69c97"
   },
   "neutral-visual-color": {
