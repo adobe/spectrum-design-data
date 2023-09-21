@@ -55,6 +55,14 @@
     "value": "{blue-1400}",
     "uuid": "06585cf4-a924-49b2-b6c8-f0e80b57c576"
   },
+  "accent-color-1500": {
+    "value": "{blue-1500}",
+    "uuid": "c43d9991-8929-4b1c-8631-670eef6bde83"
+  },
+  "accent-color-1600": {
+    "value": "{blue-1600}",
+    "uuid": "4b70c929-f48d-403d-9607-5963203433dc"
+  },
   "informative-color-100": {
     "value": "{blue-100}",
     "uuid": "b9fc8b82-275a-49fe-98d7-95f136b48772"
@@ -110,6 +118,14 @@
   "informative-color-1400": {
     "value": "{blue-1400}",
     "uuid": "b178b13b-93ee-422c-af98-3bf89105754b"
+  },
+  "informative-color-1500": {
+    "value": "{blue-1500}",
+    "uuid": "beeee44c-dc6b-4892-949e-67f069fc4a94"
+  },
+  "informative-color-1600": {
+    "value": "{blue-1600}",
+    "uuid": "68aa069d-d8a6-413a-b330-0ec6af905e6d"
   },
   "negative-color-100": {
     "value": "{red-100}",
@@ -167,6 +183,14 @@
     "value": "{red-1400}",
     "uuid": "58824d04-e2c0-4f0c-a3d7-9b88a01bf28d"
   },
+  "negative-color-1500": {
+    "value": "{red-1500}",
+    "uuid": "b4c1f747-e665-43bb-a1a9-1bf9f252471d"
+  },
+  "negative-color-1600": {
+    "value": "{red-1600}",
+    "uuid": "62beb7ee-c347-4cd7-a84b-40c84fcbc135"
+  },
   "notice-color-100": {
     "value": "{orange-100}",
     "uuid": "d0382c45-0cf7-4c3b-89fb-3536459cbc31"
@@ -223,6 +247,14 @@
     "value": "{orange-1400}",
     "uuid": "4eccc44a-1cd5-4d9e-8627-18f7a363d3c8"
   },
+  "notice-color-1500": {
+    "value": "{orange-1500}",
+    "uuid": "3da89d37-cf33-4408-b316-05bb61c25759"
+  },
+  "notice-color-1600": {
+    "value": "{orange-1600}",
+    "uuid": "67e534f5-5421-493c-9324-624f0fd491f3"
+  },
   "positive-color-100": {
     "value": "{green-100}",
     "uuid": "09503086-ccd2-4dfb-9bc1-6b86cf595976"
@@ -278,5 +310,13 @@
   "positive-color-1400": {
     "value": "{green-1400}",
     "uuid": "eb2fdab7-ea9e-42a3-a3d1-f9beec0c7b66"
+  },
+  "positive-color-1500": {
+    "value": "{green-1500}",
+    "uuid": "2381ba55-11ff-4ef0-a770-dfd402650d5d"
+  },
+  "positive-color-1600": {
+    "value": "{green-1600}",
+    "uuid": "de206438-991f-4580-8aa1-1488acb03a09"
   }
 }
