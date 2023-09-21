@@ -10,6 +10,9 @@
     }
   ],
   "properties": {
+    "$schema": {
+      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-style.json"
+    },
     "value": {
       "type": "string",
       "enum": ["italic", "normal"]
