@@ -21,7 +21,7 @@ import tmp from "tmp-promise";
 
 const execP = promisify(exec);
 
-const tag = "latest";
+const tag = process.argv[2] || "latest";
 const tokenPath = "dist/json/variables.json";
 const localRootDir = join(dirname(fileURLToPath(import.meta.url)), "..");
 const localTokenPath = join(localRootDir, tokenPath);
@@ -71,6 +71,7 @@ async function getOldTokens() {
   });
   const oldTokenPath = join(tmpDir.path, "package", tokenPath);
   await access(oldTokenPath);
+  console.log(`Comparing against ${stdout.trim()}`);
   return JSON.parse(await readFile(oldTokenPath, { encoding: "utf8" }));
 }
 
