@@ -9,5 +9,9 @@
     "token-manifest-builder": "0.0.1",
     "transform-tokens-json": "0.0.1"
   },
-  "changesets": ["happy-students-vanish", "lemon-dragons-raise"]
+  "changesets": [
+    "good-peas-mix",
+    "happy-students-vanish",
+    "lemon-dragons-raise"
+  ]
 }
