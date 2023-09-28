@@ -25,7 +25,7 @@
     "@changesets/cli": "^2.26.2",
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
-    "@moonrepo/cli": "^1.14.0",
+    "@moonrepo/cli": "^1.14.1",
     "ava": "^5.3.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
