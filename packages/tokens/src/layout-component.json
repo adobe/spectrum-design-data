@@ -6002,12 +6002,25 @@
     "component": "side-navigation",
     "sets": {
       "desktop": {
-        "value": "16px",
+        "value": "24px",
         "uuid": "c5de72a2-931a-429d-ba85-5aaf2e30fbc4"
       },
       "mobile": {
-        "value": "20px",
+        "value": "30px",
         "uuid": "0f3821f1-6f0e-4325-bfa7-e572768fd468"
+      }
+    }
+  },
+  "side-navigation-header-to-item": {
+    "component": "side-navigation",
+    "sets": {
+      "desktop": {
+        "value": "8px",
+        "uuid": "423b5520-bb29-4179-9145-67305ca75b75"
+      },
+      "mobile": {
+        "value": "10px",
+        "uuid": "ad959938-ad69-4137-91e4-fcf2465b223a"
       }
     }
   },
