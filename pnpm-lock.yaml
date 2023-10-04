@@ -118,13 +118,13 @@ importers:
     devDependencies:
       "@types/node":
         specifier: ^20.4.2
-        version: 20.4.2
+        version: 20.4.7
       typescript:
         specifier: ^5.1.6
         version: 5.1.6
       vite:
         specifier: ^4.4.4
-        version: 4.4.4(@types/node@20.4.2)
+        version: 4.4.4(@types/node@20.4.7)
 
   packages/tokens:
     devDependencies:
@@ -1714,13 +1714,6 @@ packages:
     resolution:
       {
         integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==,
-      }
-    dev: true
-
-  /@types/node@20.4.2:
-    resolution:
-      {
-        integrity: sha512-Dd0BYtWgnWJKwO1jkmTrzofjK2QXXcai0dmtzvIBhcA+RsG5h8R3xlyta0kGOZRNfL9GuRtb1knmPEhQrePCEw==,
       }
     dev: true
 
@@ -6332,7 +6325,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite@4.4.4(@types/node@20.4.2):
+  /vite@4.4.4(@types/node@20.4.7):
     resolution:
       {
         integrity: sha512-4mvsTxjkveWrKDJI70QmelfVqTm+ihFAb6+xf4sjEU2TmUCTlVX87tmg/QooPEMQb/lM9qGHT99ebqPziEd3wg==,
@@ -6363,7 +6356,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      "@types/node": 20.4.2
+      "@types/node": 20.4.7
       esbuild: 0.18.12
       postcss: 8.4.26
       rollup: 3.26.2
