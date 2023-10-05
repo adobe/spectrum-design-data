@@ -100,68 +100,20 @@
     }
   },
   "neutral-background-color-default": {
-    "sets": {
-      "light": {
-        "value": "{gray-800}",
-        "uuid": "5d54b2d5-b0c6-4438-b141-80ca91a0b8a4"
-      },
-      "dark": {
-        "value": "{gray-800}",
-        "uuid": "a1c5a204-e937-4ce1-a5be-580f6b0df7a5"
-      },
-      "wireframe": {
-        "value": "{gray-800}",
-        "uuid": "9ff12440-fe4e-4f47-ab43-aea39f9ce6f2"
-      }
-    }
+    "value": "{gray-800}",
+    "uuid": "95cf1481-f476-47ce-a45a-54da64b44255"
   },
   "neutral-background-color-hover": {
-    "sets": {
-      "light": {
-        "value": "{gray-900}",
-        "uuid": "e0379e06-e2d3-4d6f-ba81-6cdf4012a022"
-      },
-      "dark": {
-        "value": "{gray-900}",
-        "uuid": "0ce569ea-d735-42a3-96c2-60201fcb616f"
-      },
-      "wireframe": {
-        "value": "{gray-900}",
-        "uuid": "b6c12c43-39da-415b-a828-43883dfa212d"
-      }
-    }
+    "value": "{gray-900}",
+    "uuid": "142f9467-e519-4ed7-bd98-69a31e876e70"
   },
   "neutral-background-color-down": {
-    "sets": {
-      "light": {
-        "value": "{gray-900}",
-        "uuid": "5577ffde-5708-4ea7-a50d-d938f07eba7f"
-      },
-      "dark": {
-        "value": "{gray-900}",
-        "uuid": "4901987b-b70c-42ef-92fd-b8c5b6894bfc"
-      },
-      "wireframe": {
-        "value": "{gray-900}",
-        "uuid": "69c94cbb-b852-4b5c-8e5f-26664dbf083a"
-      }
-    }
+    "value": "{gray-900}",
+    "uuid": "5a0fdda5-6ac2-4a31-a7b9-6b3a5dd868d6"
   },
   "neutral-background-color-key-focus": {
-    "sets": {
-      "light": {
-        "value": "{gray-900}",
-        "uuid": "b8ba6d4d-737e-4c18-a901-bb35fdc173c3"
-      },
-      "dark": {
-        "value": "{gray-900}",
-        "uuid": "f90c1f60-5d23-41ed-ab42-30eeb9d079ba"
-      },
-      "wireframe": {
-        "value": "{gray-900}",
-        "uuid": "83e3eea6-e59e-4aca-8126-a9e984e90b08"
-      }
-    }
+    "value": "{gray-900}",
+    "uuid": "f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4"
   },
   "neutral-background-color-selected-default": {
     "value": "{gray-800}",
@@ -508,20 +460,8 @@
     }
   },
   "notice-background-color-default": {
-    "sets": {
-      "light": {
-        "value": "{notice-color-800}",
-        "uuid": "87666730-0d8e-434d-9bfb-0a45e729c482"
-      },
-      "dark": {
-        "value": "{notice-color-800}",
-        "uuid": "0a0bb434-e005-41ec-bee5-709a2e41928b"
-      },
-      "wireframe": {
-        "value": "{notice-color-1100}",
-        "uuid": "640e857c-c62c-4289-b83a-1e36cee90ad4"
-      }
-    }
+    "value": "{notice-color-800}",
+    "uuid": "48f3445a-63d8-4477-a2f5-1fee6a022328"
   },
   "disabled-background-color": {
     "value": "{gray-100}",
