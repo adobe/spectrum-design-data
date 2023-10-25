@@ -3767,6 +3767,16 @@
     "value": "1px",
     "uuid": "b3900f89-0a7a-4c47-a6d9-ca8aa19b9bfb"
   },
+  "color-loupe-drop-shadow-y": {
+    "component": "color-loupe",
+    "value": "2px",
+    "uuid": "c9af5d60-11b1-4fc3-972e-6a607120657b"
+  },
+  "color-loupe-drop-shadow-blur": {
+    "component": "color-loupe",
+    "value": "8px",
+    "uuid": "86caa027-9e9e-4a5f-aa38-058f0a96bc9d"
+  },
   "card-minimum-width": {
     "component": "cards",
     "value": "100px",
