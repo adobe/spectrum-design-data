@@ -48,7 +48,7 @@
     "uuid": "b85836bf-af47-412a-900a-4ec5ad0733b2"
   },
   "transparent-white-900": {
-    "value": "rgb(255, 255, 255, 0.94)",
+    "value": "rgba(255, 255, 255, 0.94)",
     "uuid": "c5c823c6-1911-4e0e-ba2f-5105f467e108"
   },
   "transparent-white-1000": {
@@ -104,7 +104,7 @@
     "uuid": "3e89f180-b0f0-4de0-904b-c80f0210a361"
   },
   "transparent-black-900": {
-    "value": "rgb(0, 0, 0, 0.93)",
+    "value": "rgba(0, 0, 0, 0.93)",
     "uuid": "c0a331f9-53e3-4c72-b5e3-139d730a1752"
   },
   "transparent-black-1000": {
