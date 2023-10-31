@@ -1696,11 +1696,11 @@
   "navigational-indicator-top-to-back-icon-small": {
     "sets": {
       "desktop": {
-        "value": "7px",
+        "value": "6px",
         "uuid": "70de4f97-bc4a-44af-9995-1042e3c7c78f"
       },
       "mobile": {
-        "value": "9px",
+        "value": "7px",
         "uuid": "d11ab0de-19bd-4f56-8798-0192fd0cfe0e"
       }
     }
@@ -1708,11 +1708,11 @@
   "navigational-indicator-top-to-back-icon-medium": {
     "sets": {
       "desktop": {
-        "value": "11px",
+        "value": "9px",
         "uuid": "5561a148-fd77-44d3-b29d-3ed7389122a1"
       },
       "mobile": {
-        "value": "13px",
+        "value": "12px",
         "uuid": "74f8a686-0e06-4f7c-9e3d-694749beb420"
       }
     }
@@ -1720,11 +1720,11 @@
   "navigational-indicator-top-to-back-icon-large": {
     "sets": {
       "desktop": {
-        "value": "14px",
+        "value": "12px",
         "uuid": "c0e06d21-7372-401f-9ec2-926e2b1faf26"
       },
       "mobile": {
-        "value": "17px",
+        "value": "16px",
         "uuid": "e84bc865-c89f-403e-bb14-2a11f03fd364"
       }
     }
@@ -1732,11 +1732,11 @@
   "navigational-indicator-top-to-back-icon-extra-large": {
     "sets": {
       "desktop": {
-        "value": "17px",
+        "value": "15px",
         "uuid": "ac4d18d5-361c-4425-82c3-83979d58f682"
       },
       "mobile": {
-        "value": "22px",
+        "value": "19px",
         "uuid": "e68f2798-6a55-499a-b591-0cfc130607ba"
       }
     }
