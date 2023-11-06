@@ -1,5 +1,97 @@
 # @adobe/spectrum-tokens
 
+## 12.22.0
+
+### Minor Changes
+
+- f50ceea: Updated size for the Arrow UI icon used in submenus (previously was too small and looked imbalanced relative to everything else)
+
+  ### Token Diff
+
+  _Token values updated (4):_
+
+  - `navigational-indicator-top-to-back-icon-small`: `desktop` `7px` -> `6px` and `mobile` `9px` -> `7px`
+  - `navigational-indicator-top-to-back-icon-medium`: `desktop` `11px` -> `9px` and `mobile` `13px` -> `12px`
+  - `navigational-indicator-top-to-back-icon-large`: `desktop` `14px` -> `12px` and `mobile` `17px` -> `16px`
+  - `navigational-indicator-top-to-back-icon-extra-large`: `desktop` `17px` -> `15px` and `mobile` `22px` -> `19px`
+
+## 12.21.0
+
+### Minor Changes
+
+- 9ee663d: Modified and new Side nav tokens
+
+  ### Design Motivation
+
+  Category headings changed to Adobe Clean 12 Medium @ `gray-600`, to differentiate them from multi-level, top navigation items.
+
+  ### Token Diff
+
+  Token added (1):
+
+  - `side-navigation-header-to-item`
+
+  Token value updated (1):
+
+  - `side-navigation-item-to-header`: changed from `desktop: 16px` `mobile: 20px` to `desktop: 24px` `mobile: 30px`
+
+## 12.20.0
+
+### Minor Changes
+
+- 9e42269: Added UI icon sizes
+
+### Token Diff
+
+_Tokens added (46):_
+
+- `arrow-icon-size-100`
+- `arrow-icon-size-200`
+- `arrow-icon-size-300`
+- `arrow-icon-size-400`
+- `arrow-icon-size-500`
+- `arrow-icon-size-600`
+- `arrow-icon-size-75`
+- `asterisk-icon-size-100`
+- `asterisk-icon-size-200`
+- `asterisk-icon-size-300`
+- `asterisk-icon-size-75`
+- `checkmark-icon-size-100`
+- `checkmark-icon-size-200`
+- `checkmark-icon-size-300`
+- `checkmark-icon-size-400`
+- `checkmark-icon-size-50`
+- `checkmark-icon-size-500`
+- `checkmark-icon-size-600`
+- `checkmark-icon-size-75`
+- `chevron-icon-size-100`
+- `chevron-icon-size-200`
+- `chevron-icon-size-300`
+- `chevron-icon-size-400`
+- `chevron-icon-size-50`
+- `chevron-icon-size-500`
+- `chevron-icon-size-600`
+- `chevron-icon-size-75`
+- `corner-triangle-icon-size-100`
+- `corner-triangle-icon-size-200`
+- `corner-triangle-icon-size-300`
+- `corner-triangle-icon-size-75`
+- `cross-icon-size-100`
+- `cross-icon-size-200`
+- `cross-icon-size-300`
+- `cross-icon-size-400`
+- `cross-icon-size-500`
+- `cross-icon-size-600`
+- `cross-icon-size-75`
+- `dash-icon-size-100`
+- `dash-icon-size-200`
+- `dash-icon-size-300`
+- `dash-icon-size-400`
+- `dash-icon-size-50`
+- `dash-icon-size-500`
+- `dash-icon-size-600`
+- `dash-icon-size-75`
+
 ## 12.19.1
 
 ### Patch Changes
@@ -12,16 +104,16 @@
 
 - 0c716de: Added icon tokens
 
-  ### Token Diff
+### Token Diff
 
-  _Tokens added (6):_
+_Tokens added (6):_
 
-  - `icon-color-blue-primary-default`
-  - `icon-color-green-primary-default`
-  - `icon-color-inverse`
-  - `icon-color-primary-default`
-  - `icon-color-red-primary-default`
-  - `icon-color-yellow-primary-default`
+- `icon-color-blue-primary-default`
+- `icon-color-green-primary-default`
+- `icon-color-inverse`
+- `icon-color-primary-default`
+- `icon-color-red-primary-default`
+- `icon-color-yellow-primary-default`
 
 ## 12.18.1
 
@@ -29,12 +121,12 @@
 
 - 6f5443e: Added missing `wireframe` values for 2 color tokens
 
-  ## Token Diff
+### Token Diff
 
-  _Tokens update (2):_
+_Tokens update (2):_
 
-  - `opacity-checkerboard-square-dark`
-  - `overlay-opacity`
+- `opacity-checkerboard-square-dark`
+- `overlay-opacity`
 
 ## 12.18.0
 
@@ -42,19 +134,19 @@
 
 - bb89361: Update meter token from meter-default-width to meter-width.
 
-  ### Design motivation
+### Design motivation
 
-  We try to avoid "default" in the name (unless it's the state) because it's a word that implies that it's relative to something else that may not be named, which could get confusing. So meter-width I think for the name, and then just add a note in the specs.
+We try to avoid "default" in the name (unless it's the state) because it's a word that implies that it's relative to something else that may not be named, which could get confusing. So meter-width I think for the name, and then just add a note in the specs.
 
-  ### Token diff
+### Token diff
 
-  _Renamed token:_
+_Renamed token:_
 
-  - `meter-default-width` -> `meter-width`
+- `meter-default-width` -> `meter-width`
 
-  _Token added for deprecation and rename:_
+_Token added for deprecation and rename:_
 
-  - `meter-default-width`
+- `meter-default-width`
 
 ## 12.17.0
 
@@ -62,7 +154,7 @@
 
 - 687f6c3: Updated coach-mark tokens
 
-#### Token Diff
+### Token Diff
 
 _Tokens added (3):_
 
@@ -83,7 +175,7 @@ _Token values updated (4):_
 
 - 25dc20d: Add new menu-item token for section dividers
 
-#### Token Diff
+### Token Diff
 
 _Tokens added (1):_
 
@@ -95,7 +187,7 @@ _Tokens added (1):_
 
 - fc12f6d: Added side-navigation token
 
-#### Token Diff
+### Token Diff
 
 _Tokens added (1):_
 
@@ -107,29 +199,29 @@ _Tokens added (1):_
 
 - cb9e3bf: Added in-field button tokens
 
-  ## Token Diff
+### Token Diff
 
-  _Tokens added (19):_
+_Tokens added (19):_
 
-  - `in-field-button-edge-to-disclosure-icon-stacked-extra-large`
-  - `in-field-button-edge-to-disclosure-icon-stacked-large`
-  - `in-field-button-edge-to-disclosure-icon-stacked-medium`
-  - `in-field-button-edge-to-disclosure-icon-stacked-small`
-  - `in-field-button-edge-to-fill`
-  - `in-field-button-fill-stacked-inner-border-rounding`
-  - `in-field-button-inner-edge-to-disclosure-icon-stacked-extra-large`
-  - `in-field-button-inner-edge-to-disclosure-icon-stacked-large`
-  - `in-field-button-inner-edge-to-disclosure-icon-stacked-medium`
-  - `in-field-button-inner-edge-to-disclosure-icon-stacked-small`
-  - `in-field-button-outer-edge-to-disclosure-icon-stacked-extra-large`
-  - `in-field-button-outer-edge-to-disclosure-icon-stacked-large`
-  - `in-field-button-outer-edge-to-disclosure-icon-stacked-medium`
-  - `in-field-button-outer-edge-to-disclosure-icon-stacked-small`
-  - `in-field-button-stacked-inner-edge-to-fill`
-  - `in-field-button-width-stacked-extra-large`
-  - `in-field-button-width-stacked-large`
-  - `in-field-button-width-stacked-medium`
-  - `in-field-button-width-stacked-small`
+- `in-field-button-edge-to-disclosure-icon-stacked-extra-large`
+- `in-field-button-edge-to-disclosure-icon-stacked-large`
+- `in-field-button-edge-to-disclosure-icon-stacked-medium`
+- `in-field-button-edge-to-disclosure-icon-stacked-small`
+- `in-field-button-edge-to-fill`
+- `in-field-button-fill-stacked-inner-border-rounding`
+- `in-field-button-inner-edge-to-disclosure-icon-stacked-extra-large`
+- `in-field-button-inner-edge-to-disclosure-icon-stacked-large`
+- `in-field-button-inner-edge-to-disclosure-icon-stacked-medium`
+- `in-field-button-inner-edge-to-disclosure-icon-stacked-small`
+- `in-field-button-outer-edge-to-disclosure-icon-stacked-extra-large`
+- `in-field-button-outer-edge-to-disclosure-icon-stacked-large`
+- `in-field-button-outer-edge-to-disclosure-icon-stacked-medium`
+- `in-field-button-outer-edge-to-disclosure-icon-stacked-small`
+- `in-field-button-stacked-inner-edge-to-fill`
+- `in-field-button-width-stacked-extra-large`
+- `in-field-button-width-stacked-large`
+- `in-field-button-width-stacked-medium`
+- `in-field-button-width-stacked-small`
 
 ## 12.13.1
 
@@ -143,98 +235,98 @@ _Tokens added (1):_
 
 - d740d2c: added table tokens
 
-  ## Token diff
+### Token diff
 
-  _Tokens added (88):_
+_Tokens added (88):_
 
-  - `table-border-divider-width`
-  - `table-checkbox-to-text`
-  - `table-column-header-row-bottom-to-text-extra-large`
-  - `table-column-header-row-bottom-to-text-large`
-  - `table-column-header-row-bottom-to-text-medium`
-  - `table-column-header-row-bottom-to-text-small`
-  - `table-column-header-row-top-to-text-extra-large`
-  - `table-column-header-row-top-to-text-large`
-  - `table-column-header-row-top-to-text-medium`
-  - `table-column-header-row-top-to-text-small`
-  - `table-edge-to-content`
-  - `table-header-row-checkbox-to-top-extra-large`
-  - `table-header-row-checkbox-to-top-large`
-  - `table-header-row-checkbox-to-top-medium`
-  - `table-header-row-checkbox-to-top-small`
-  - `table-row-bottom-to-text-extra-large-compact`
-  - `table-row-bottom-to-text-extra-large-regular`
-  - `table-row-bottom-to-text-extra-large-spacious`
-  - `table-row-bottom-to-text-large-compact`
-  - `table-row-bottom-to-text-large-regular`
-  - `table-row-bottom-to-text-large-spacious`
-  - `table-row-bottom-to-text-medium-compact`
-  - `table-row-bottom-to-text-medium-regular`
-  - `table-row-bottom-to-text-medium-spacious`
-  - `table-row-bottom-to-text-small-compact`
-  - `table-row-bottom-to-text-small-regular`
-  - `table-row-bottom-to-text-small-spacious`
-  - `table-row-checkbox-to-top-extra-large-compact`
-  - `table-row-checkbox-to-top-extra-large-regular`
-  - `table-row-checkbox-to-top-extra-large-spacious`
-  - `table-row-checkbox-to-top-large-compact`
-  - `table-row-checkbox-to-top-large-regular`
-  - `table-row-checkbox-to-top-large-spacious`
-  - `table-row-checkbox-to-top-medium-compact`
-  - `table-row-checkbox-to-top-medium-regular`
-  - `table-row-checkbox-to-top-medium-spacious`
-  - `table-row-checkbox-to-top-small-compact`
-  - `table-row-checkbox-to-top-small-regular`
-  - `table-row-checkbox-to-top-small-spacious`
-  - `table-row-down-opacity`
-  - `table-row-height-extra-large-compact`
-  - `table-row-height-extra-large-regular`
-  - `table-row-height-extra-large-spacious`
-  - `table-row-height-large-compact`
-  - `table-row-height-large-regular`
-  - `table-row-height-large-spacious`
-  - `table-row-height-medium-compact`
-  - `table-row-height-medium-regular`
-  - `table-row-height-medium-spacious`
-  - `table-row-height-small-compact`
-  - `table-row-height-small-regular`
-  - `table-row-height-small-spacious`
-  - `table-row-hover-color`
-  - `table-row-hover-opacity`
-  - `table-row-top-to-text-extra-large-compact`
-  - `table-row-top-to-text-extra-large-regular`
-  - `table-row-top-to-text-extra-large-spacious`
-  - `table-row-top-to-text-large-compact`
-  - `table-row-top-to-text-large-regular`
-  - `table-row-top-to-text-large-spacious`
-  - `table-row-top-to-text-medium-compact`
-  - `table-row-top-to-text-medium-regular`
-  - `table-row-top-to-text-medium-spacious`
-  - `table-row-top-to-text-small-compact`
-  - `table-row-top-to-text-small-regular`
-  - `table-row-top-to-text-small-spacious`
-  - `table-section-header-row-height-extra-large`
-  - `table-section-header-row-height-large`
-  - `table-section-header-row-height-medium`
-  - `table-section-header-row-height-small`
-  - `table-selected-row-background-color`
-  - `table-selected-row-background-color-non-emphasized`
-  - `table-selected-row-background-opacity`
-  - `table-selected-row-background-opacity-hover`
-  - `table-selected-row-background-opacity-non-emphasized`
-  - `table-selected-row-background-opacity-non-emphasized-hover`
-  - `table-thumbnail-to-top-minimum-extra-large-compact`
-  - `table-thumbnail-to-top-minimum-extra-large-regular`
-  - `table-thumbnail-to-top-minimum-extra-large-spacious`
-  - `table-thumbnail-to-top-minimum-large-compact`
-  - `table-thumbnail-to-top-minimum-large-regular`
-  - `table-thumbnail-to-top-minimum-large-spacious`
-  - `table-thumbnail-to-top-minimum-medium-compact`
-  - `table-thumbnail-to-top-minimum-medium-regular`
-  - `table-thumbnail-to-top-minimum-medium-spacious`
-  - `table-thumbnail-to-top-minimum-small-compact`
-  - `table-thumbnail-to-top-minimum-small-regular`
-  - `table-thumbnail-to-top-minimum-small-spacious`
+- `table-border-divider-width`
+- `table-checkbox-to-text`
+- `table-column-header-row-bottom-to-text-extra-large`
+- `table-column-header-row-bottom-to-text-large`
+- `table-column-header-row-bottom-to-text-medium`
+- `table-column-header-row-bottom-to-text-small`
+- `table-column-header-row-top-to-text-extra-large`
+- `table-column-header-row-top-to-text-large`
+- `table-column-header-row-top-to-text-medium`
+- `table-column-header-row-top-to-text-small`
+- `table-edge-to-content`
+- `table-header-row-checkbox-to-top-extra-large`
+- `table-header-row-checkbox-to-top-large`
+- `table-header-row-checkbox-to-top-medium`
+- `table-header-row-checkbox-to-top-small`
+- `table-row-bottom-to-text-extra-large-compact`
+- `table-row-bottom-to-text-extra-large-regular`
+- `table-row-bottom-to-text-extra-large-spacious`
+- `table-row-bottom-to-text-large-compact`
+- `table-row-bottom-to-text-large-regular`
+- `table-row-bottom-to-text-large-spacious`
+- `table-row-bottom-to-text-medium-compact`
+- `table-row-bottom-to-text-medium-regular`
+- `table-row-bottom-to-text-medium-spacious`
+- `table-row-bottom-to-text-small-compact`
+- `table-row-bottom-to-text-small-regular`
+- `table-row-bottom-to-text-small-spacious`
+- `table-row-checkbox-to-top-extra-large-compact`
+- `table-row-checkbox-to-top-extra-large-regular`
+- `table-row-checkbox-to-top-extra-large-spacious`
+- `table-row-checkbox-to-top-large-compact`
+- `table-row-checkbox-to-top-large-regular`
+- `table-row-checkbox-to-top-large-spacious`
+- `table-row-checkbox-to-top-medium-compact`
+- `table-row-checkbox-to-top-medium-regular`
+- `table-row-checkbox-to-top-medium-spacious`
+- `table-row-checkbox-to-top-small-compact`
+- `table-row-checkbox-to-top-small-regular`
+- `table-row-checkbox-to-top-small-spacious`
+- `table-row-down-opacity`
+- `table-row-height-extra-large-compact`
+- `table-row-height-extra-large-regular`
+- `table-row-height-extra-large-spacious`
+- `table-row-height-large-compact`
+- `table-row-height-large-regular`
+- `table-row-height-large-spacious`
+- `table-row-height-medium-compact`
+- `table-row-height-medium-regular`
+- `table-row-height-medium-spacious`
+- `table-row-height-small-compact`
+- `table-row-height-small-regular`
+- `table-row-height-small-spacious`
+- `table-row-hover-color`
+- `table-row-hover-opacity`
+- `table-row-top-to-text-extra-large-compact`
+- `table-row-top-to-text-extra-large-regular`
+- `table-row-top-to-text-extra-large-spacious`
+- `table-row-top-to-text-large-compact`
+- `table-row-top-to-text-large-regular`
+- `table-row-top-to-text-large-spacious`
+- `table-row-top-to-text-medium-compact`
+- `table-row-top-to-text-medium-regular`
+- `table-row-top-to-text-medium-spacious`
+- `table-row-top-to-text-small-compact`
+- `table-row-top-to-text-small-regular`
+- `table-row-top-to-text-small-spacious`
+- `table-section-header-row-height-extra-large`
+- `table-section-header-row-height-large`
+- `table-section-header-row-height-medium`
+- `table-section-header-row-height-small`
+- `table-selected-row-background-color`
+- `table-selected-row-background-color-non-emphasized`
+- `table-selected-row-background-opacity`
+- `table-selected-row-background-opacity-hover`
+- `table-selected-row-background-opacity-non-emphasized`
+- `table-selected-row-background-opacity-non-emphasized-hover`
+- `table-thumbnail-to-top-minimum-extra-large-compact`
+- `table-thumbnail-to-top-minimum-extra-large-regular`
+- `table-thumbnail-to-top-minimum-extra-large-spacious`
+- `table-thumbnail-to-top-minimum-large-compact`
+- `table-thumbnail-to-top-minimum-large-regular`
+- `table-thumbnail-to-top-minimum-large-spacious`
+- `table-thumbnail-to-top-minimum-medium-compact`
+- `table-thumbnail-to-top-minimum-medium-regular`
+- `table-thumbnail-to-top-minimum-medium-spacious`
+- `table-thumbnail-to-top-minimum-small-compact`
+- `table-thumbnail-to-top-minimum-small-regular`
+- `table-thumbnail-to-top-minimum-small-spacious`
 
 ## 12.12.1
 
@@ -242,61 +334,61 @@ _Tokens added (1):_
 
 - 6365597: Added IDs to previously publish tab tokens
 
-  ## Token Diff
+### Token Diff
 
-  _Tokens updated (51):_
+_Tokens updated (51):_
 
-  - `accent-content-color-selected`
-  - `neutral-subdued-content-color-selected`
-  - `tab-item-bottom-to-text-compact-extra-large`
-  - `tab-item-bottom-to-text-compact-large`
-  - `tab-item-bottom-to-text-compact-medium`
-  - `tab-item-bottom-to-text-compact-small`
-  - `tab-item-bottom-to-text-extra-large`
-  - `tab-item-bottom-to-text-large`
-  - `tab-item-bottom-to-text-medium`
-  - `tab-item-bottom-to-text-small`
-  - `tab-item-compact-height-extra-large`
-  - `tab-item-compact-height-large`
-  - `tab-item-compact-height-medium`
-  - `tab-item-compact-height-small`
-  - `tab-item-focus-indicator-gap-extra-large`
-  - `tab-item-focus-indicator-gap-large`
-  - `tab-item-focus-indicator-gap-medium`
-  - `tab-item-focus-indicator-gap-small`
-  - `tab-item-height-extra-large`
-  - `tab-item-height-large`
-  - `tab-item-height-medium`
-  - `tab-item-height-small`
-  - `tab-item-start-to-edge-extra-large`
-  - `tab-item-start-to-edge-large`
-  - `tab-item-start-to-edge-medium`
-  - `tab-item-start-to-edge-quiet`
-  - `tab-item-start-to-edge-small`
-  - `tab-item-to-tab-item-horizontal-extra-large`
-  - `tab-item-to-tab-item-horizontal-large`
-  - `tab-item-to-tab-item-horizontal-medium`
-  - `tab-item-to-tab-item-horizontal-small`
-  - `tab-item-to-tab-item-vertical-extra-large`
-  - `tab-item-to-tab-item-vertical-large`
-  - `tab-item-to-tab-item-vertical-medium`
-  - `tab-item-to-tab-item-vertical-small`
-  - `tab-item-top-to-text-compact-extra-large`
-  - `tab-item-top-to-text-compact-large`
-  - `tab-item-top-to-text-compact-medium`
-  - `tab-item-top-to-text-compact-small`
-  - `tab-item-top-to-text-extra-large`
-  - `tab-item-top-to-text-large`
-  - `tab-item-top-to-text-medium`
-  - `tab-item-top-to-text-small`
-  - `tab-item-top-to-workflow-icon-compact-extra-large`
-  - `tab-item-top-to-workflow-icon-compact-large`
-  - `tab-item-top-to-workflow-icon-compact-medium`
-  - `tab-item-top-to-workflow-icon-compact-small`
-  - `tab-item-top-to-workflow-icon-extra-large`
-  - `tab-item-top-to-workflow-icon-large`
-  - `tab-item-top-to-workflow-icon-medium`
-  - `tab-item-top-to-workflow-icon-small`
+- `accent-content-color-selected`
+- `neutral-subdued-content-color-selected`
+- `tab-item-bottom-to-text-compact-extra-large`
+- `tab-item-bottom-to-text-compact-large`
+- `tab-item-bottom-to-text-compact-medium`
+- `tab-item-bottom-to-text-compact-small`
+- `tab-item-bottom-to-text-extra-large`
+- `tab-item-bottom-to-text-large`
+- `tab-item-bottom-to-text-medium`
+- `tab-item-bottom-to-text-small`
+- `tab-item-compact-height-extra-large`
+- `tab-item-compact-height-large`
+- `tab-item-compact-height-medium`
+- `tab-item-compact-height-small`
+- `tab-item-focus-indicator-gap-extra-large`
+- `tab-item-focus-indicator-gap-large`
+- `tab-item-focus-indicator-gap-medium`
+- `tab-item-focus-indicator-gap-small`
+- `tab-item-height-extra-large`
+- `tab-item-height-large`
+- `tab-item-height-medium`
+- `tab-item-height-small`
+- `tab-item-start-to-edge-extra-large`
+- `tab-item-start-to-edge-large`
+- `tab-item-start-to-edge-medium`
+- `tab-item-start-to-edge-quiet`
+- `tab-item-start-to-edge-small`
+- `tab-item-to-tab-item-horizontal-extra-large`
+- `tab-item-to-tab-item-horizontal-large`
+- `tab-item-to-tab-item-horizontal-medium`
+- `tab-item-to-tab-item-horizontal-small`
+- `tab-item-to-tab-item-vertical-extra-large`
+- `tab-item-to-tab-item-vertical-large`
+- `tab-item-to-tab-item-vertical-medium`
+- `tab-item-to-tab-item-vertical-small`
+- `tab-item-top-to-text-compact-extra-large`
+- `tab-item-top-to-text-compact-large`
+- `tab-item-top-to-text-compact-medium`
+- `tab-item-top-to-text-compact-small`
+- `tab-item-top-to-text-extra-large`
+- `tab-item-top-to-text-large`
+- `tab-item-top-to-text-medium`
+- `tab-item-top-to-text-small`
+- `tab-item-top-to-workflow-icon-compact-extra-large`
+- `tab-item-top-to-workflow-icon-compact-large`
+- `tab-item-top-to-workflow-icon-compact-medium`
+- `tab-item-top-to-workflow-icon-compact-small`
+- `tab-item-top-to-workflow-icon-extra-large`
+- `tab-item-top-to-workflow-icon-large`
+- `tab-item-top-to-workflow-icon-medium`
+- `tab-item-top-to-workflow-icon-small`
 
 ## 12.12.0
 
@@ -304,61 +396,61 @@ _Tokens added (1):_
 
 - ba02b18: Added tokens for the tabs component
 
-  ## Token diff
+### Token diff
 
-  _Tokens added (51):_
+_Tokens added (51):_
 
-  - `accent-content-color-selected`
-  - `neutral-subdued-content-color-selected`
-  - `tab-item-bottom-to-text-compact-extra-large`
-  - `tab-item-bottom-to-text-compact-large`
-  - `tab-item-bottom-to-text-compact-medium`
-  - `tab-item-bottom-to-text-compact-small`
-  - `tab-item-bottom-to-text-extra-large`
-  - `tab-item-bottom-to-text-large`
-  - `tab-item-bottom-to-text-medium`
-  - `tab-item-bottom-to-text-small`
-  - `tab-item-compact-height-extra-large`
-  - `tab-item-compact-height-large`
-  - `tab-item-compact-height-medium`
-  - `tab-item-compact-height-small`
-  - `tab-item-focus-indicator-gap-extra-large`
-  - `tab-item-focus-indicator-gap-large`
-  - `tab-item-focus-indicator-gap-medium`
-  - `tab-item-focus-indicator-gap-small`
-  - `tab-item-height-extra-large`
-  - `tab-item-height-large`
-  - `tab-item-height-medium`
-  - `tab-item-height-small`
-  - `tab-item-start-to-edge-extra-large`
-  - `tab-item-start-to-edge-large`
-  - `tab-item-start-to-edge-medium`
-  - `tab-item-start-to-edge-quiet`
-  - `tab-item-start-to-edge-small`
-  - `tab-item-to-tab-item-horizontal-extra-large`
-  - `tab-item-to-tab-item-horizontal-large`
-  - `tab-item-to-tab-item-horizontal-medium`
-  - `tab-item-to-tab-item-horizontal-small`
-  - `tab-item-to-tab-item-vertical-extra-large`
-  - `tab-item-to-tab-item-vertical-large`
-  - `tab-item-to-tab-item-vertical-medium`
-  - `tab-item-to-tab-item-vertical-small`
-  - `tab-item-top-to-text-compact-extra-large`
-  - `tab-item-top-to-text-compact-large`
-  - `tab-item-top-to-text-compact-medium`
-  - `tab-item-top-to-text-compact-small`
-  - `tab-item-top-to-text-extra-large`
-  - `tab-item-top-to-text-large`
-  - `tab-item-top-to-text-medium`
-  - `tab-item-top-to-text-small`
-  - `tab-item-top-to-workflow-icon-compact-extra-large`
-  - `tab-item-top-to-workflow-icon-compact-large`
-  - `tab-item-top-to-workflow-icon-compact-medium`
-  - `tab-item-top-to-workflow-icon-compact-small`
-  - `tab-item-top-to-workflow-icon-extra-large`
-  - `tab-item-top-to-workflow-icon-large`
-  - `tab-item-top-to-workflow-icon-medium`
-  - `tab-item-top-to-workflow-icon-small`
+- `accent-content-color-selected`
+- `neutral-subdued-content-color-selected`
+- `tab-item-bottom-to-text-compact-extra-large`
+- `tab-item-bottom-to-text-compact-large`
+- `tab-item-bottom-to-text-compact-medium`
+- `tab-item-bottom-to-text-compact-small`
+- `tab-item-bottom-to-text-extra-large`
+- `tab-item-bottom-to-text-large`
+- `tab-item-bottom-to-text-medium`
+- `tab-item-bottom-to-text-small`
+- `tab-item-compact-height-extra-large`
+- `tab-item-compact-height-large`
+- `tab-item-compact-height-medium`
+- `tab-item-compact-height-small`
+- `tab-item-focus-indicator-gap-extra-large`
+- `tab-item-focus-indicator-gap-large`
+- `tab-item-focus-indicator-gap-medium`
+- `tab-item-focus-indicator-gap-small`
+- `tab-item-height-extra-large`
+- `tab-item-height-large`
+- `tab-item-height-medium`
+- `tab-item-height-small`
+- `tab-item-start-to-edge-extra-large`
+- `tab-item-start-to-edge-large`
+- `tab-item-start-to-edge-medium`
+- `tab-item-start-to-edge-quiet`
+- `tab-item-start-to-edge-small`
+- `tab-item-to-tab-item-horizontal-extra-large`
+- `tab-item-to-tab-item-horizontal-large`
+- `tab-item-to-tab-item-horizontal-medium`
+- `tab-item-to-tab-item-horizontal-small`
+- `tab-item-to-tab-item-vertical-extra-large`
+- `tab-item-to-tab-item-vertical-large`
+- `tab-item-to-tab-item-vertical-medium`
+- `tab-item-to-tab-item-vertical-small`
+- `tab-item-top-to-text-compact-extra-large`
+- `tab-item-top-to-text-compact-large`
+- `tab-item-top-to-text-compact-medium`
+- `tab-item-top-to-text-compact-small`
+- `tab-item-top-to-text-extra-large`
+- `tab-item-top-to-text-large`
+- `tab-item-top-to-text-medium`
+- `tab-item-top-to-text-small`
+- `tab-item-top-to-workflow-icon-compact-extra-large`
+- `tab-item-top-to-workflow-icon-compact-large`
+- `tab-item-top-to-workflow-icon-compact-medium`
+- `tab-item-top-to-workflow-icon-compact-small`
+- `tab-item-top-to-workflow-icon-extra-large`
+- `tab-item-top-to-workflow-icon-large`
+- `tab-item-top-to-workflow-icon-medium`
+- `tab-item-top-to-workflow-icon-small`
 
 ## 12.11.0
 
@@ -366,15 +458,15 @@ _Tokens added (1):_
 
 - 1a57f08: Fixed typo with `picker-end-edge-to-disclosure-icon-quiet` by adding a new token and deprecating `picker-end-edge-to-disclousure-icon-quiet`.
 
-  ## Token Diff
+### Token Diff
 
-  _Token added (1):_
+_Token added (1):_
 
-  - `picker-end-edge-to-disclosure-icon-quiet`
+- `picker-end-edge-to-disclosure-icon-quiet`
 
-  _Newly deprecated token (1):_
+_Newly deprecated token (1):_
 
-  - `picker-end-edge-to-disclousure-icon-quiet`
+- `picker-end-edge-to-disclousure-icon-quiet`
 
 ## 12.10.0
 
@@ -382,11 +474,11 @@ _Tokens added (1):_
 
 - 0829c5d: Added UUIDs to each token
 
-  ## Token Diff
+### Token Diff
 
-  _Modified Tokens (1154)_
+_Modified Tokens (1154)_
 
-  Every token has a `uuid` property added to them.
+Every token has a `uuid` property added to them.
 
 ## 12.9.1
 
@@ -394,19 +486,19 @@ _Tokens added (1):_
 
 - cace8d8: Fixed component name typo
 
-  ## Token Diff
+### Token Diff
 
-  The following tokens have update `component` metadata property (all have been set to `coach-mark`):
+The following tokens have update `component` metadata property (all have been set to `coach-mark`):
 
-  - `coach-mark-minimum-width`
-  - `coach-mark-edge-to-content`
-  - `coach-mark-pagination-text-to-bottom-edge`
-  - `coach-mark-width`
-  - `coach-mark-media-minimum-height`
-  - `coach-mark-media-height`
-  - `coach-mark-title-size`
-  - `coach-mark-body-size`
-  - `coach-mark-pagination-body-size`
+- `coach-mark-minimum-width`
+- `coach-mark-edge-to-content`
+- `coach-mark-pagination-text-to-bottom-edge`
+- `coach-mark-width`
+- `coach-mark-media-minimum-height`
+- `coach-mark-media-height`
+- `coach-mark-title-size`
+- `coach-mark-body-size`
+- `coach-mark-pagination-body-size`
 
 ## 12.9.0
 
@@ -414,15 +506,15 @@ _Tokens added (1):_
 
 - fe7a002: Fixed typo by adding correct token (`floating-action-button-drop-shadow-color`) and deprecating incorrect token name (`floating-action-button-shadow-color`).
 
-  ## Token Diff
+### Token Diff
 
-  _Token added (1):_
+_Token added (1):_
 
-  - `floating-action-button-drop-shadow-color`
+- `floating-action-button-drop-shadow-color`
 
-  _Newly deprecated token (1):_
+_Newly deprecated token (1):_
 
-  - `floating-action-button-shadow-color` (use `floating-action-button-drop-shadow-color` instead)
+- `floating-action-button-shadow-color` (use `floating-action-button-drop-shadow-color` instead)
 
 ## 12.8.0
 
@@ -430,12 +522,12 @@ _Tokens added (1):_
 
 - d639b4b: Updated color-handle-inner-border-opacity to remove express specific value
 
-  ## Token Diff
+### Token Diff
 
-  _Token values updated (2):_
+_Token values updated (2):_
 
-  - `color-handle-inner-border-opacity` (to remove express specific values)
-  - `color-handle-outer-border-opacity` (to remove express specific values)
+- `color-handle-inner-border-opacity` (to remove express specific values)
+- `color-handle-outer-border-opacity` (to remove express specific values)
 
 ## 12.7.0
 
