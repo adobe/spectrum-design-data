@@ -1,5 +1,19 @@
 # @adobe/spectrum-tokens
 
+## 12.22.1
+
+### Patch Changes
+
+- 068dca4: Fixing a bug; `contextual-help-body-size` is referencing heading instead of body typography tokens.
+
+  ### Token Diff
+
+  _Token values updated (1):_
+
+  - `contextual-help-body-size`
+    - `desktop`: `heading-size-s` -> `body-size-s`
+    - `mobile`: `heading-size-xs` -> `body-size-xs`
+
 ## 12.22.0
 
 ### Minor Changes
