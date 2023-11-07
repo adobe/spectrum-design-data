@@ -3091,11 +3091,11 @@
     "component": "contextual-help",
     "sets": {
       "desktop": {
-        "value": "{heading-size-s}",
+        "value": "{body-size-s}",
         "uuid": "e458fa68-ab9c-4441-a7d5-a02f42df1cae"
       },
       "mobile": {
-        "value": "{heading-size-xs}",
+        "value": "{body-size-xs}",
         "uuid": "c180fa75-254e-4ee1-8b79-31a3d90254cc"
       }
     }
