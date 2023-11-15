@@ -7,7 +7,7 @@
   },
   "swatch-border-opacity": {
     "component": "swatch",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.51",
     "uuid": "0e397a80-cf33-44ed-8b7d-1abaf4426bf5"
   },
@@ -19,7 +19,7 @@
   },
   "swatch-disabled-icon-border-opacity": {
     "component": "swatch",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.51",
     "uuid": "cdbba3b6-cb51-4fec-88f0-273d4bb59a18"
   },
@@ -31,7 +31,7 @@
   },
   "thumbnail-border-opacity": {
     "component": "thumbnail",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "58bd04e9-5b85-44d8-8474-96e157701070"
   },
@@ -87,7 +87,7 @@
   },
   "color-area-border-opacity": {
     "component": "color-area",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "fba1851e-0056-4cdf-938d-6d61550bbe3c"
   },
@@ -99,7 +99,7 @@
   },
   "color-slider-border-opacity": {
     "component": "color-slider",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "8271b69e-6542-4b17-b0f0-72567e16c41b"
   },
@@ -129,7 +129,7 @@
   },
   "card-selection-background-color-opacity": {
     "component": "cards",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.95",
     "uuid": "ac039445-0bf8-4821-b02e-e7e06a416576"
   },
@@ -141,13 +141,13 @@
   },
   "drop-zone-background-color-opacity": {
     "component": "drop-zone",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "ee5ed78b-230c-4b37-9d76-1787a975bb63"
   },
   "drop-zone-background-color-opacity-filled": {
     "component": "drop-zone",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.3",
     "uuid": "ca70550a-b11a-438f-9c70-ff1eeba532cc"
   },
@@ -165,7 +165,7 @@
   },
   "color-handle-inner-border-opacity": {
     "component": "color-handle",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.42",
     "uuid": "72b473c6-ec9b-4830-a0f8-48b80070e7b8"
   },
@@ -211,7 +211,7 @@
   },
   "table-row-hover-opacity": {
     "component": "table",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.07",
     "uuid": "e287d553-3712-4d6e-98f0-6075107e85fe"
   },
@@ -223,7 +223,7 @@
   },
   "table-selected-row-background-opacity": {
     "component": "table",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "61b3aa04-0e7e-44b8-a4c8-8442a4ebf549"
   },
@@ -235,25 +235,25 @@
   },
   "table-selected-row-background-opacity-non-emphasized": {
     "component": "table",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "1ef41e27-3dea-4589-ad7a-140a03a77384"
   },
   "table-row-down-opacity": {
     "component": "table",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "75ae742c-e96e-494f-9880-746bb2849575"
   },
   "table-selected-row-background-opacity-hover": {
     "component": "table",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "ce2851bc-8ae1-4b27-8cd6-f191c9cd7fe9"
   },
   "table-selected-row-background-opacity-non-emphasized-hover": {
     "component": "table",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "6a093ea1-f07e-4673-b52f-5b28a2e080d0"
   }

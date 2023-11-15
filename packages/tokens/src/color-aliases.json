@@ -23,22 +23,22 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
         "value": "0.4",
         "uuid": "26b9803c-577f-4a29-badd-dfc459e8b73e"
       },
       "dark": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
         "value": "0.5",
         "uuid": "df41eb51-872f-458d-9439-910064f74b7b"
       },
       "darkest": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
         "value": "0.6",
         "uuid": "31d5b502-6266-4309-8f8a-3892e6e158da"
       },
       "wireframe": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
         "value": "0.4",
         "uuid": "93b904da-5d1f-4fd9-aa26-5aabe19df108"
       }
@@ -70,7 +70,7 @@
     }
   },
   "opacity-disabled": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.3",
     "uuid": "fdf6fd5d-55a0-4428-a258-4e8fafc74b74"
   },
@@ -1218,22 +1218,22 @@
     }
   },
   "background-opacity-default": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0",
     "uuid": "b7b25005-7188-4936-8dbc-e2dd15213f47"
   },
   "background-opacity-hover": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "048c326d-93b1-435f-a9e3-a4cbd3144fdd"
   },
   "background-opacity-down": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "0718c9fc-3bb2-4887-97bd-e23b8ad308c5"
   },
   "background-opacity-key-focus": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/percent.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "a35883a9-43fd-4be5-97ee-62fdf3a33f39"
   },
