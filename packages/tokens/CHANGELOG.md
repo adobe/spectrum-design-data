@@ -1,5 +1,11 @@
 # @adobe/spectrum-tokens
 
+## 12.23.1
+
+### Patch Changes
+
+- 51e0fee: Fixed typo and renamed `/schemas/token-types/percent.json` -> `/schemas/token-types/opacity.json`.
+
 ## 12.23.0
 
 ### Minor Changes
