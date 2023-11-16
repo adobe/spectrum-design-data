@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/menu.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/menu.json",
   "title": "Menu",
   "description": "Menus help users take actions, choose from a list of options, configure settings, and more. They can be placed in a transient container, like a popover or tray.",
   "meta": {

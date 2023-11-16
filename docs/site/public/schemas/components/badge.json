@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/badge.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/badge.json",
   "title": "Badge",
   "description": "Similar to status lights, badges are for showing a small amount of color-categorized metadata. They're ideal for getting a user''s attention.",
   "meta": {

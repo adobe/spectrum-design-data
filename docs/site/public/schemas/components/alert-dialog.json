@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/alert-dialog.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/alert-dialog.json",
   "title": "Alert dialog",
   "description": "Alert dialogs display important information that users need to acknowledge. They appear over the interface and block further interactions until an action is selected.",
   "meta": {
