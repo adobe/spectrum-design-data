@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/in-line-alert.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/in-line-alert.json",
   "title": "In-line alert",
   "description": "In-line alerts display a non-modal message associated with objects in a view. These are often used in form validation, providing a place to aggregate feedback related to multiple fields.",
   "meta": {
