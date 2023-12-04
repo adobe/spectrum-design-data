@@ -305,7 +305,7 @@
     "uuid": "c5a5d186-54b3-44a0-b1c6-e9b102871015"
   },
   "cjk-letter-spacing": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "0.05em",
     "uuid": "12e27721-35f5-4d03-95f3-3fc9e1cf50e4"
   },
