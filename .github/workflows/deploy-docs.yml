@@ -33,10 +33,8 @@ jobs:
           fetch-depth: 0
       - uses: pnpm/action-setup@v2
         with:
-          version: 8.10.5
-      - uses: moonrepo/setup-toolchain@v0
-        with:
-          auto-install: true
+          version: 8.11.0
+      - uses: moonrepo/setup-moon-action@v1
       - run: moon setup
       - run: moon run site:export
       - run: moon run visualizer:build
