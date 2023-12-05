@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/set.json",
+  "title": "sets",
+  "description": "A generic token set.",
+  "type": "object",
+  "properties": {
+    "sets": {
+      "type": "object"
+    },
+    "component": {
+      "type": "string"
+    },
+    "deprecated": {
+      "type": "boolean"
+    },
+    "deprecated_comment": {
+      "type": "string"
+    }
+  },
+  "required": ["sets"]
+}

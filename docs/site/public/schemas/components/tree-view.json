@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/tree-view.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/tree-view.json",
   "title": "Tree view",
   "description": "A tree view provides users with a way to navigate nested hierarchical information.",
   "meta": {

@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/scroll-zoom-bar.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/scroll-zoom-bar.json",
   "title": "Scroll-zoom bar",
   "description": "Primarily for usage in timelines, a scroll-zoom bar lets a user scroll or zoom with the same control.",
   "meta": {

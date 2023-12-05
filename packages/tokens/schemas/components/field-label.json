@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/field-label.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/field-label.json",
   "title": "Field label",
   "description": "Field labels give context to the information that a user needs to input. They're commonly used in forms.",
   "meta": {

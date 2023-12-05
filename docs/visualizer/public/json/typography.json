@@ -36,6 +36,7 @@
     "value": "normal"
   },
   "font-size-50": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "11px"
@@ -46,6 +47,7 @@
     }
   },
   "font-size-75": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "12px"
@@ -56,6 +58,7 @@
     }
   },
   "font-size-100": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "14px"
@@ -66,6 +69,7 @@
     }
   },
   "font-size-200": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "16px"
@@ -76,6 +80,7 @@
     }
   },
   "font-size-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "18px"
@@ -86,6 +91,7 @@
     }
   },
   "font-size-400": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "20px"
@@ -96,6 +102,7 @@
     }
   },
   "font-size-500": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "22px"
@@ -106,6 +113,7 @@
     }
   },
   "font-size-600": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "25px"
@@ -116,6 +124,7 @@
     }
   },
   "font-size-700": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "28px"
@@ -126,6 +135,7 @@
     }
   },
   "font-size-800": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "32px"
@@ -136,6 +146,7 @@
     }
   },
   "font-size-900": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "36px"
@@ -146,6 +157,7 @@
     }
   },
   "font-size-1000": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "40px"
@@ -156,6 +168,7 @@
     }
   },
   "font-size-1100": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "45px"
@@ -166,6 +179,7 @@
     }
   },
   "font-size-1200": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "50px"
@@ -176,6 +190,7 @@
     }
   },
   "font-size-1300": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
         "value": "60px"
@@ -238,6 +253,7 @@
   },
   "heading-sans-serif-font-weight": {
     "component": "heading",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
     "sets": {
       "spectrum": {
         "value": "{bold-font-weight}"
@@ -253,6 +269,7 @@
   },
   "heading-serif-font-weight": {
     "component": "heading",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
     "sets": {
       "spectrum": {
         "value": "{bold-font-weight}"
@@ -268,6 +285,7 @@
   },
   "heading-cjk-font-weight": {
     "component": "heading",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
     "sets": {
       "spectrum": {
         "value": "{extra-bold-font-weight}"
@@ -403,6 +421,7 @@
   },
   "heading-sans-serif-emphasized-font-weight": {
     "component": "heading",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
     "sets": {
       "spectrum": {
         "value": "{bold-font-weight}"
@@ -418,6 +437,7 @@
   },
   "heading-serif-emphasized-font-weight": {
     "component": "heading",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
     "sets": {
       "spectrum": {
         "value": "{bold-font-weight}"

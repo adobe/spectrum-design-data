@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/progress-circle.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/progress-circle.json",
   "title": "Progress circle",
   "description": "Progress circles show the progression of a system operation such as downloading, uploading, processing, etc. in a visual way. They can represent determinate or indeterminate progress.",
   "meta": {

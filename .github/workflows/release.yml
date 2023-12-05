@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - prerelease
+      - beta
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
       - uses: pnpm/action-setup@v2
         with:
-          version: 8.6.11
+          version: 8.11.0
       - uses: moonrepo/setup-moon-action@v1
       - run: moon setup
       - run: moon run :build --query "projectSource~packages/*"

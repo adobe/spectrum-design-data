@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/swatch-group.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/swatch-group.json",
   "title": "Swatch group",
   "description": "A swatch group is a grouping of swatches that are related to each other.",
   "meta": {

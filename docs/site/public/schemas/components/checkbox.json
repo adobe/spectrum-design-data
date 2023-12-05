@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/checkbox.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/checkbox.json",
   "title": "Checkbox",
   "description": "Checkboxes allow users to select multiple items from a list of individual items, or to mark one individual item as selected.",
   "meta": {

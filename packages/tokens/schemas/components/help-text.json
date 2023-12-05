@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/help-text.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/help-text.json",
   "title": "Help text",
   "description": "Help text provides either an informative description or an error message that gives more context about what a user needs to input. It’s commonly used in forms.",
   "meta": {
