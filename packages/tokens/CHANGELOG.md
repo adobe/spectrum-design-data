@@ -1,5 +1,11 @@
 # @adobe/spectrum-tokens
 
+## 12.23.2
+
+### Patch Changes
+
+- 2af5a10: fix: aligns letter-spacing token schemas to "dimension" for consistency
+
 ## 12.23.1
 
 ### Patch Changes
