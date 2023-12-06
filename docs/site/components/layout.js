@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 
-const name = "Spectrum Tokens";
+const name = "Spectrum Components API";
 export const siteTitle = "Next.js Sample Website";
 
 export default function Layout({ children, home }) {
