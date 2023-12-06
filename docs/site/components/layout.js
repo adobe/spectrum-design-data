@@ -1,8 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 
-const name = "Spectrum Components API";
-export const siteTitle = "Next.js Sample Website";
+export const siteTitle = "Spectrum Components API";
 
 export default function Layout({ children, home }) {
   return (
@@ -11,7 +10,7 @@ export default function Layout({ children, home }) {
         <link rel="icon" type="image/png" href="/favicon.png" />
         <meta
           name="description"
-          content="Learn how to build a personal website using Next.js"
+          content="API documentation for components options in Spectrum, Adobe's design system"
         />
         <meta
           property="og:image"
@@ -23,7 +22,7 @@ export default function Layout({ children, home }) {
       </Head>
       <header>
         <h2>
-          <Link href="/">{name}</Link>
+          <Link href="/">{siteTitle}</Link>
         </h2>
       </header>
       <main>{children}</main>
