@@ -138,7 +138,7 @@ function TokenValue({ token }) {
         </>
       );
     case "color":
-      return <pre>{RGBAToHexA(token.value)}</pre>;
+      return <code>{RGBAToHexA(token.value)}</code>;
     default:
       return <pre>JSON.stringify(token)</pre>;
   }
