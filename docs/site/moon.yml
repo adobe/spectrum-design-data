@@ -51,9 +51,7 @@ tasks:
   export:
     command:
       - next
-      - export
-      - --outdir
-      - ../../site/
+      - build
     platform: node
     deps:
       - ~:clean
