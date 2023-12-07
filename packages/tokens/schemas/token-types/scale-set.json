@@ -22,6 +22,9 @@
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json"
             },
             {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json"
+            },
+            {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
             }
           ]
@@ -30,6 +33,9 @@
           "anyOf": [
             {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json"
+            },
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json"
             },
             {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
