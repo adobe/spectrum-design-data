@@ -63,12 +63,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "11px",
         "uuid": "8593a326-de37-414d-b3f6-5254b41dce07"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "13px",
         "uuid": "b7561ce1-e12e-4aed-9766-181f7eca309e"
       }
@@ -78,12 +78,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "12px",
         "uuid": "55d90327-8cc9-4d4f-891f-9d42751d989a"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "15px",
         "uuid": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
       }
@@ -93,12 +93,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "14px",
         "uuid": "938e2d24-1e90-48f0-a596-595a69103707"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "17px",
         "uuid": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
       }
@@ -108,12 +108,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "16px",
         "uuid": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "19px",
         "uuid": "7e51ff4e-2749-49d1-b9ed-75de92a73991"
       }
@@ -123,12 +123,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "18px",
         "uuid": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "22px",
         "uuid": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
       }
@@ -138,12 +138,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "20px",
         "uuid": "292a28d6-2e15-46e2-80cd-5171d977e9b5"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "24px",
         "uuid": "d5ed0e8d-01ac-495f-bd15-fecc30af17c4"
       }
@@ -153,12 +153,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "22px",
         "uuid": "9be56e29-2e79-41e0-b5a9-6a2dabc70aa1"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "27px",
         "uuid": "a69a5079-1b5b-4ccf-946f-8b6e3fae4d7e"
       }
@@ -168,12 +168,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "25px",
         "uuid": "db1d7d01-8dd4-4c27-b58c-686f030e5e46"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "31px",
         "uuid": "ac892307-2559-48f5-9e2c-98dabbb0abc2"
       }
@@ -183,12 +183,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "28px",
         "uuid": "77da1638-cb39-4c80-8c13-db77b9aa528e"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "34px",
         "uuid": "6bd6456c-b73b-4926-8e67-7b942e32bbc2"
       }
@@ -198,12 +198,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "32px",
         "uuid": "8425654d-7f46-4b6d-8997-5ae6b6980e06"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "39px",
         "uuid": "bdfae93d-ae49-456b-af54-8620ea976ca8"
       }
@@ -213,12 +213,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "36px",
         "uuid": "df2d6c8d-dc03-4581-96c6-d6a92a270b77"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "44px",
         "uuid": "5296e771-6d04-4e9a-b1fe-ab22d4dfd92b"
       }
@@ -228,12 +228,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "40px",
         "uuid": "27f694f9-6770-49e0-b7fc-833618b3fc2f"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "49px",
         "uuid": "8b158ab0-7e82-4dab-a4d9-84cf7a71fa0a"
       }
@@ -243,12 +243,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "45px",
         "uuid": "00dc3fcd-383f-4bc6-8940-e0884f0ffb7e"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "55px",
         "uuid": "5eb96c78-c8f6-4e31-9bc8-fa62794ac4db"
       }
@@ -258,12 +258,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "50px",
         "uuid": "b73bfb12-80ef-453f-b7dc-52bf2258ef47"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "62px",
         "uuid": "0ab38fb2-0de9-4be0-8967-8241379706be"
       }
@@ -273,12 +273,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "60px",
         "uuid": "e8853e10-cc03-47c1-9b66-11755ff513a5"
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
         "value": "70px",
         "uuid": "bd880141-81f6-47fe-a421-01124fe66b67"
       }
