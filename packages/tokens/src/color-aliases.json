@@ -460,8 +460,19 @@
     }
   },
   "notice-background-color-default": {
-    "value": "{notice-color-800}",
-    "uuid": "48f3445a-63d8-4477-a2f5-1fee6a022328"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{notice-color-800}",
+        "uuid": "323428c1-792d-41b4-8a17-a12f1ac00e2a"
+      },
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{notice-color-600}",
+        "uuid": "48f3445a-63d8-4477-a2f5-1fee6a022328"
+      }
+    }
   },
   "disabled-background-color": {
     "value": "{gray-100}",
