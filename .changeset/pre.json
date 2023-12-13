@@ -10,12 +10,14 @@
     "transform-tokens-json": "0.0.1"
   },
   "changesets": [
+    "dirty-pets-attend",
     "good-peas-mix",
     "happy-students-vanish",
     "lemon-dragons-raise",
     "neat-balloons-rhyme",
     "slimy-emus-enjoy",
     "strange-rings-love",
+    "tame-bobcats-beg",
     "warm-experts-beg",
     "wise-turtles-confess"
   ]
