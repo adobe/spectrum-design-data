@@ -26,6 +26,7 @@
         "uuid": "1bac9a3f-4bc8-4a4d-8dfd-53c542b1d1d8"
       },
       "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{blue-900}",
         "uuid": "20880dfd-57dc-486d-b0dd-c44002f340e3"
       }
@@ -46,6 +47,7 @@
         "uuid": "260ff567-2bdb-48cc-9576-f4f7629d3a8f"
       },
       "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{green-900}",
         "uuid": "d6852796-baaa-4f95-9ce7-cc2fd5a829f1"
       }
@@ -66,6 +68,7 @@
         "uuid": "a60f2744-ad15-4cf7-b9dc-89ca307ed444"
       },
       "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{red-900}",
         "uuid": "d524a471-2dce-4497-a650-30c2d6641eec"
       }
@@ -86,6 +89,7 @@
         "uuid": "5ebf8291-23f8-4806-865d-4ebab38ff03c"
       },
       "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{yellow-400}",
         "uuid": "4a1eeded-e467-46be-a787-78555b2fe353"
       }

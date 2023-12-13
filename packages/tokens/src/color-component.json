@@ -62,6 +62,7 @@
         "uuid": "f783b8cb-d31f-46c2-b550-990639752510"
       },
       "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{gray-200}",
         "uuid": "e7fe88a4-6ab3-4963-8f10-9908a5a83123"
       }
@@ -177,14 +178,9 @@
   },
   "color-handle-outer-border-color": {
     "component": "color-handle",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{black}",
-        "uuid": "e4733356-090e-4bb7-b32d-ab9df30fb785"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{black}",
+    "uuid": "e4733356-090e-4bb7-b32d-ab9df30fb785"
   },
   "color-handle-outer-border-opacity": {
     "component": "color-handle",
@@ -194,6 +190,7 @@
   },
   "color-handle-drop-shadow-color": {
     "component": "color-handle",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "deprecated": true,
     "deprecated_comment": "Express does not need a separate design for Color loupe and Color handle components",
     "value": "{drop-shadow-color}",
