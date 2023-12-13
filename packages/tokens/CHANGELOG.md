@@ -1,5 +1,50 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.6
+
+### Minor Changes
+
+- 6d1c661: Added new Spectrum 2 color tokens for both light and dark themes:
+
+  Cinnamon 100 to 1600
+
+  ## Design Motivation
+
+  This is the last new color that is a part of the new color set needed from Premiere Pro. The additional color will also help when creating new data vis color palettes for Spectrum 2.
+
+  ## Token Diff
+
+  _Tokens added (17):_
+
+  - `cinnamon-100`
+  - `cinnamon-200`
+  - `cinnamon-300`
+  - `cinnamon-400`
+  - `cinnamon-500`
+  - `cinnamon-600`
+  - `cinnamon-700`
+  - `cinnamon-800`
+  - `cinnamon-900`
+  - `cinnamon-1000`
+  - `cinnamon-1100`
+  - `cinnamon-1200`
+  - `cinnamon-1300`
+  - `cinnamon-1400`
+  - `cinnamon-1500`
+  - `cinnamon-1600`
+
+- 91d7e95: Fixed bug in the light theme value for notice-background-color-default, from notice-color-800 to notice-color-600
+
+  ## Design Motivation
+
+  While updating the badge component in Figma, we noticed a bug where notice-background-color-default in S2 was entered incorrectly for light theme, and should instead match the value for S1
+
+  ## Token Diff
+
+  _Token values updated (1):_
+
+  - `notice-background-color-default`: `light`: `notice-color-800` -> `notice-color-600`
+
 ## 13.0.0-beta.5
 
 ### Major Changes
