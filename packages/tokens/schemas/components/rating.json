@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/rating.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/rating.json",
   "title": "Rating",
   "description": "The rating component lets users apply a rating to an item or experience, such as an image, a forum post, an item for sale in a marketplace, and more.",
   "meta": {

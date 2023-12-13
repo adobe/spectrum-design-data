@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/text-field.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/text-field.json",
   "title": "Text field",
   "description": "Text fields allow users to input custom text entries with a keyboard. Various options can be shown with the field to communicate the input requirements.",
   "meta": {

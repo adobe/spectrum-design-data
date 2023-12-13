@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/tab-bar-ios.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/tab-bar-ios.json",
   "title": "Tab bar (iOS)",
   "description": "Tab bar is a top-level navigation control for iOS apps.",
   "meta": {

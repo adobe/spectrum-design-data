@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/heading.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/heading.json",
   "title": "Heading",
   "description": "Heading is a typography component used to create various levels of hierarchies between text.",
   "meta": {

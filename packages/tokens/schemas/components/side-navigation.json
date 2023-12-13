@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/side-navigation.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/side-navigation.json",
   "title": "Side navigation",
   "description": "Side navigation lets users navigate the entire content of a product or a section. These can be used for a single level or a multi-level navigation.",
   "meta": {
