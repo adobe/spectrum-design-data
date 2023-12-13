@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/text-area.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/text-area.json",
   "title": "Text area",
   "description": "A text area lets a user input a longer amount of text than a standard text field. It can include all of the standard validation options supported by the text field component.",
   "meta": {

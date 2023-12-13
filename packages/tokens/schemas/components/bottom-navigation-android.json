@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/bottom-navigation-android.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/bottom-navigation-android.json",
   "title": "Bottom navigation (Android)",
   "description": "Bottom navigation is a top-level navigation control for Android apps.",
   "meta": {

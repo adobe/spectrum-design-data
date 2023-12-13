@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/tray.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/tray.json",
   "title": "Tray",
   "description": "Trays are containers that display transient content such as menus, options, additional actions, and more. They only exist on mobile experiences and are used for exposing types of content that may be too overwhelming for popovers.",
   "meta": {

@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/tag.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/tag.json",
   "title": "Tag",
   "description": "Tags allow users to categorize content. They can represent keywords or people, and are grouped to describe an item or a search request.",
   "meta": {

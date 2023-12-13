@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/avatar.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/avatar.json",
   "title": "Avatar",
   "description": "An avatar is a thumbnail representation of an entity, such as a user or an organization.",
   "meta": {
