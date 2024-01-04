@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 0
       - uses: pnpm/action-setup@v2
         with:
-          version: 8.12.1
+          version: 8.14.0
       - uses: moonrepo/setup-moon-action@v1
       - run: moon setup
       - run: moon run site:export
