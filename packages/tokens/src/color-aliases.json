@@ -1471,6 +1471,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{gray-25}",
         "uuid": "2275e0fa-69a3-4542-9ec6-919e44035118"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-25}",
+        "uuid": "d9cb27b8-5535-4e3a-8ca5-6eda69b934af"
       }
     }
   },
@@ -1486,6 +1491,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{gray-100}",
         "uuid": "4938710b-5a69-49eb-8517-6f5556c23298"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "6a60aa01-d789-4d39-9867-2264e66d419c"
       }
     }
   }
