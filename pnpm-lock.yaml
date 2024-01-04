@@ -118,13 +118,13 @@ importers:
     devDependencies:
       "@types/node":
         specifier: ^20.4.2
-        version: 20.4.2
+        version: 20.10.6
       typescript:
         specifier: ^5.1.6
         version: 5.3.3
       vite:
         specifier: ^4.4.4
-        version: 4.4.4(@types/node@20.4.2)
+        version: 4.4.4(@types/node@20.10.6)
 
   packages/tokens:
     devDependencies:
@@ -148,7 +148,7 @@ importers:
         version: 2.3.0
       tar:
         specifier: ^6.1.15
-        version: 6.1.15
+        version: 6.2.0
       tmp-promise:
         specifier: ^3.0.3
         version: 3.0.3
@@ -1702,13 +1702,6 @@ packages:
       }
     dependencies:
       undici-types: 5.26.5
-    dev: true
-
-  /@types/node@20.4.2:
-    resolution:
-      {
-        integrity: sha512-Dd0BYtWgnWJKwO1jkmTrzofjK2QXXcai0dmtzvIBhcA+RsG5h8R3xlyta0kGOZRNfL9GuRtb1knmPEhQrePCEw==,
-      }
     dev: true
 
   /@types/normalize-package-data@2.4.4:
@@ -6169,21 +6162,6 @@ packages:
     engines: { node: ">= 0.4" }
     dev: true
 
-  /tar@6.1.15:
-    resolution:
-      {
-        integrity: sha512-/zKt9UyngnxIT/EAGYuxaMYgOIJiP81ab9ZfkILq4oNLPFX50qyYmu7jRj9qeXoxmJHjGlbH0+cm2uy1WCs10A==,
-      }
-    engines: { node: ">=10" }
-    dependencies:
-      chownr: 2.0.0
-      fs-minipass: 2.1.0
-      minipass: 5.0.0
-      minizlib: 2.1.2
-      mkdirp: 1.0.4
-      yallist: 4.0.0
-    dev: true
-
   /tar@6.2.0:
     resolution:
       {
@@ -6516,7 +6494,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite@4.4.4(@types/node@20.4.2):
+  /vite@4.4.4(@types/node@20.10.6):
     resolution:
       {
         integrity: sha512-4mvsTxjkveWrKDJI70QmelfVqTm+ihFAb6+xf4sjEU2TmUCTlVX87tmg/QooPEMQb/lM9qGHT99ebqPziEd3wg==,
@@ -6547,7 +6525,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      "@types/node": 20.4.2
+      "@types/node": 20.10.6
       esbuild: 0.18.12
       postcss: 8.4.26
       rollup: 3.26.2

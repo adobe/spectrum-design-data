@@ -54,7 +54,7 @@ tasks:
     platform: node
   test:
     command:
-      - npx
+      - pnpm
       - ava
     inputs:
       - "tasks/**/*"
