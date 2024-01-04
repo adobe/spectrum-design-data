@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/tooltip.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/tooltip.json",
   "title": "Tooltip",
   "description": "Tooltips show contextual help or information about specific components when a user hovers or focuses on them.",
   "meta": {

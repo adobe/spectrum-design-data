@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/button-group.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/button-group.json",
   "title": "Button group",
   "description": "A button group is a grouping of buttons whose actions are related to each other.",
   "meta": {

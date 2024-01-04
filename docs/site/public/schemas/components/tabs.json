@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/tabs.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/tabs.json",
   "title": "Tabs",
   "description": "Tabs organize content into multiple sections and allow users to navigate between them. The content under the set of tabs should be related and form a coherent unit.",
   "meta": {
