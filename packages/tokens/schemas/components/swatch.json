@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/swatch.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/swatch.json",
   "title": "Swatch",
   "description": "A swatch shows a small sample of a fill — such as a color, gradient, texture, or material — that is intended to be applied to an object.",
   "meta": {

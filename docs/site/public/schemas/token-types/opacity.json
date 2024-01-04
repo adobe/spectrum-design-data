@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+  "title": "Opacity",
+  "description": "A percentage measurement of the opacity.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json"
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json"
+    },
+    "value": {
+      "type": "string",
+      "pattern": "^(?:\\d+(?:\\.\\d)+%)|(?:1|0)(?:\\.0)?|0?\\.\\d*$"
+    },
+    "component": {},
+    "deprecated": {},
+    "deprecated_comment": {},
+    "uuid": {}
+  }
+}

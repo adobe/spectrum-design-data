@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/code.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/code.json",
   "title": "Code",
   "description": "Detail is a typography component used for disclosing extra information or smaller items in hierarchical relationships of text.",
   "meta": {

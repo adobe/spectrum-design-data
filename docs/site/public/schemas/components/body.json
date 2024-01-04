@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/body.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/body.json",
   "title": "Body",
   "description": "Body is a typography component primarily used within Spectrum components and for blocks of text.",
   "meta": {

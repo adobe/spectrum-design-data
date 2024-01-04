@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/slider.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/slider.json",
   "title": "Slider",
   "description": "Sliders allow users to quickly select a value within a range. They should be used when the upper and lower bounds to the range are invariable.",
   "meta": {

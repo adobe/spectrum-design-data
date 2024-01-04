@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/popover.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/popover.json",
   "title": "Popover",
   "description": "Popovers are containers used to display transient content such as menus, options, additional actions, and more. They visually stand out through stroke and drop shadow and float on top of the interface.",
   "meta": {

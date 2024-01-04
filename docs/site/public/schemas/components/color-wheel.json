@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/color-wheel.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/color-wheel.json",
   "title": "Color wheel",
   "description": "A color wheel lets users visually change an individual channel of a color on a circular track.",
   "meta": {

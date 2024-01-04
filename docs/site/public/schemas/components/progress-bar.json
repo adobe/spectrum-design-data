@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/progress-bar.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/progress-bar.json",
   "title": "Progress bar",
   "description": "Progress bars show the progression of a system operation: downloading, uploading, processing, etc., in a visual way. They can represent either determinate or indeterminate progress.",
   "meta": {
