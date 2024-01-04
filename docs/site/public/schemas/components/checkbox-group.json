@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/checkbox-group.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/checkbox-group.json",
   "title": "Checkbox group",
   "description": "A checkbox group is a grouping of checkboxes that are related to each other.",
   "meta": {

@@ -1,6 +1,6 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schema/components/meter.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/meter.json",
   "title": "Meter",
   "description": "Meters are visual representations of a quantity or an achievement. Their progress is determined by user actions, rather than system actions.",
   "meta": {

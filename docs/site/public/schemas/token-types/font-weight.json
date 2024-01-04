@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-weight.json",
+  "title": "Font weight",
+  "description": "Defines sets the weight (or boldness) of the font",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json"
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-weight.json"
+    },
+    "value": {
+      "type": "string",
+      "enum": ["light", "regular", "medium", "bold", "extra-bold", "black"]
+    },
+    "component": {},
+    "deprecated": {},
+    "deprecated_comment": {},
+    "uuid": {}
+  }
+}

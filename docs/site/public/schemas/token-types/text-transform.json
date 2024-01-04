@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/text-transform.json",
+  "title": "Text transform",
+  "description": "A token that specifies how to capitalize an element's text.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json"
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/text-transform.json"
+    },
+    "value": {
+      "type": "string",
+      "enum": ["uppercase", "lowercase", "capitalize", "none"]
+    },
+    "component": {},
+    "deprecated": {},
+    "deprecated_comment": {},
+    "uuid": {}
+  }
+}
