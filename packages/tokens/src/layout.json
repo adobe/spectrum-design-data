@@ -104,7 +104,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "18px",
+        "value": "16px",
         "uuid": "4c4cb541-7d42-4bb4-9c86-7197c4600896"
       }
     }
@@ -119,7 +119,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "20px",
+        "value": "18px",
         "uuid": "b720c214-babe-426d-9629-9ec60d5e8622"
       }
     }
@@ -129,12 +129,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "18px",
+        "value": "20px",
         "uuid": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "22px",
+        "value": "24px",
         "uuid": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
       }
     }
@@ -144,12 +144,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "20px",
+        "value": "22px",
         "uuid": "6392e605-932e-456d-be53-149b624a04e2"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "24px",
+        "value": "28px",
         "uuid": "9948e083-8c75-48f7-8e58-32c75ec76116"
       }
     }
@@ -159,12 +159,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "22px",
+        "value": "26px",
         "uuid": "25908278-79d3-47f4-9b53-adbdd1c13e2a"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "28px",
+        "value": "30px",
         "uuid": "df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c"
       }
     }
@@ -2161,6 +2161,51 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
         "value": "8px",
         "uuid": "d396d74a-425d-4f06-837f-349f81ebf486"
+      }
+    }
+  },
+  "component-size-difference-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "2px",
+        "uuid": "9ef4a0a5-b81c-4f54-8927-286ece29a824"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "2px",
+        "uuid": "6ab11315-8061-4235-bfda-97e6a6a23e3f"
+      }
+    }
+  },
+  "component-size-width-ratio-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "3px",
+        "uuid": "4ee7342c-f2ef-4554-af0f-011052ff6177"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "3px",
+        "uuid": "9bb1fc4d-581d-4b1f-bb70-224ee4b08153"
+      }
+    }
+  },
+  "component-size-minimum-perspective-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "24px",
+        "uuid": "103daec0-9711-4422-84d1-62ab77afa00d"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "24px",
+        "uuid": "d64a2c90-deab-4eaa-8bd9-24310a1397a8"
       }
     }
   }
