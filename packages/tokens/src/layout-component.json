@@ -720,14 +720,16 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "4px",
-        "uuid": "91cb19ef-63fc-4d98-a61e-a5f55951f656"
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{component-top-to-workflow-icon-75}",
+        "uuid": "91cb19ef-63fc-4d98-a61e-a5f55951f656",
+        "deprecated": true
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "5px",
-        "uuid": "00334ebf-5706-4a97-b02c-9f41642c4795"
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{component-top-to-workflow-icon-75}",
+        "uuid": "00334ebf-5706-4a97-b02c-9f41642c4795",
+        "deprecated": true
       }
     }
   },
@@ -736,14 +738,16 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "3px",
-        "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f"
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{component-top-to-workflow-icon-100}",
+        "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f",
+        "deprecated": true
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "4px",
-        "uuid": "b690bd12-855e-444d-8b76-a7ae948e3f52"
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{component-top-to-workflow-icon-100}",
+        "uuid": "b690bd12-855e-444d-8b76-a7ae948e3f52",
+        "deprecated": true
       }
     }
   },
@@ -752,14 +756,16 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "6px",
-        "uuid": "54cae12b-5f21-47b4-a964-6033bd025975"
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{component-top-to-workflow-icon-200}",
+        "uuid": "54cae12b-5f21-47b4-a964-6033bd025975",
+        "deprecated": true
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "8px",
-        "uuid": "e2c40309-5b3d-485a-bafa-9015a5b751e7"
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{component-top-to-workflow-icon-200}",
+        "uuid": "e2c40309-5b3d-485a-bafa-9015a5b751e7",
+        "deprecated": true
       }
     }
   },
@@ -768,14 +774,16 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "9px",
-        "uuid": "bec914a9-5905-40ac-bd61-a727016c1228"
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{component-top-to-workflow-icon-300}",
+        "uuid": "bec914a9-5905-40ac-bd61-a727016c1228",
+        "deprecated": true
       },
       "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "11px",
-        "uuid": "251c39cc-f949-4055-aecb-42fc99f9d504"
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{component-top-to-workflow-icon-300}",
+        "uuid": "251c39cc-f949-4055-aecb-42fc99f9d504",
+        "deprecated": true
       }
     }
   },
