@@ -759,7 +759,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "4px",
+        "value": "5px",
         "uuid": "fd1c11a6-53d5-4253-a7d7-c4131c4b1a5e"
       }
     }
@@ -774,7 +774,7 @@
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "5px",
+        "value": "6px",
         "uuid": "5c4f1f7a-2218-4d03-ac83-9750c2c9336b"
       }
     }
@@ -784,12 +784,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "7px",
+        "value": "6px",
         "uuid": "8fec6012-7cba-4ac5-94d7-14f39fce7612"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "9px",
+        "value": "8px",
         "uuid": "93e42bfc-c2f0-40cd-a561-9045c68cb5d1"
       }
     }
@@ -799,12 +799,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "10px",
+        "value": "9px",
         "uuid": "0bf1ad10-235a-4c81-aba7-5bf55acc877d"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "13px",
+        "value": "11px",
         "uuid": "9dffd6f3-6230-425e-9208-296cf4d5c185"
       }
     }
@@ -814,12 +814,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "13px",
+        "value": "11px",
         "uuid": "815523cd-8c01-4125-bb22-3a548f1cc702"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "16px",
+        "value": "15px",
         "uuid": "090b3da5-0aa3-4bf8-b3bd-dd8dabb40721"
       }
     }
