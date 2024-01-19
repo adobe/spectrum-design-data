@@ -1,5 +1,34 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.10
+
+### Minor Changes
+
+- 23d9085: Updated desktop and mobile values for component-edge-to-visual-only tokens.
+
+  Spacing changed due to new workflow icon sizes.
+
+  ## Token Diff
+
+  _Token values updated (5):_
+
+  - `component-edge-to-visual-only-100`
+  - `component-edge-to-visual-only-200`
+  - `component-edge-to-visual-only-300`
+  - `component-edge-to-visual-only-50`
+  - `component-edge-to-visual-only-75`
+
+- c5430b7: Updated help-text-top-to-workflow-icon-_ token values to point to component-top-to-workflow-icon-_ tokens
+
+  ## Token Diff
+
+  _Newly deprecated tokens (4):_
+
+  - `help-text-top-to-workflow-icon-extra-large`: use `component-edge-to-visual-only-300`
+  - `help-text-top-to-workflow-icon-large`: use `component-edge-to-visual-only-200`
+  - `help-text-top-to-workflow-icon-medium`: use `component-edge-to-visual-only-100`
+  - `help-text-top-to-workflow-icon-small`: use `component-edge-to-visual-only-75`
+
 ## 13.0.0-beta.9
 
 ### Minor Changes
