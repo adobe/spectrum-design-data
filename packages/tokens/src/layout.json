@@ -153,10 +153,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
         "value": "0.5",
         "uuid": "e4ad85b2-97bf-48cf-a5a9-3ff3d1fada5b"
       },
       "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
         "value": "0.5",
         "uuid": "9cd69903-8417-4d6a-92cf-7ec759d5f60f"
       }
