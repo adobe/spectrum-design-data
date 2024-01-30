@@ -7060,5 +7060,15 @@
         "uuid": "ad959938-ad69-4137-91e4-fcf2465b223a"
       }
     }
+  },
+  "divider-horizontal-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "200px",
+    "uuid": "a0093378-0b2c-474b-9fe5-76940fd1398b"
+  },
+  "divider-vertical-minimum-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "200px",
+    "uuid": "299db7d6-66f6-4fcb-890d-223406c85ae4"
   }
 }
