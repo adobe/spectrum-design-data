@@ -1,5 +1,27 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.13
+
+### Minor Changes
+
+- ef600c4: ## Design Motivation
+
+  - The updated tooltip component in Spectrum 2 has a larger, slightly rounded tip
+  - Added tokens for horizontal and vertical orientation
+
+  ## Tokens Diff
+
+  _Tokens added (3):_
+
+  - `divider-horizontal-minimum-width`
+  - `divider-vertical-minimum-height`
+  - `tooltip-tip-corner-radius`
+
+  _Token values updated (2):_
+
+  - `tooltip-tip-height`
+  - `tooltip-tip-width`
+
 ## 13.0.0-beta.12
 
 ### Minor Changes
