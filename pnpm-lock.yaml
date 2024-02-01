@@ -124,13 +124,13 @@ importers:
     devDependencies:
       "@types/node":
         specifier: ^20.10.0
-        version: 20.10.3
+        version: 20.11.16
       typescript:
         specifier: ^5.3.2
-        version: 5.3.2
+        version: 5.3.3
       vite:
         specifier: ^5.0.5
-        version: 5.0.5(@types/node@20.10.3)
+        version: 5.0.5(@types/node@20.11.16)
 
   packages/tokens:
     devDependencies:
@@ -154,7 +154,7 @@ importers:
         version: 2.3.0
       tar:
         specifier: ^6.1.15
-        version: 6.1.15
+        version: 6.2.0
       tmp-promise:
         specifier: ^3.0.3
         version: 3.0.3
@@ -1874,15 +1874,6 @@ packages:
       }
     dev: true
 
-  /@types/node@20.10.3:
-    resolution:
-      {
-        integrity: sha512-XJavIpZqiXID5Yxnxv3RUDKTN5b81ddNC3ecsA0SoFXz/QU8OGBwZGMomiq0zw+uuqbL/krztv/DINAQ/EV4gg==,
-      }
-    dependencies:
-      undici-types: 5.26.5
-    dev: true
-
   /@types/node@20.11.16:
     resolution:
       {
@@ -3430,7 +3421,7 @@ packages:
     engines: { node: ">=14" }
     dependencies:
       cross-spawn: 7.0.3
-      signal-exit: 4.0.2
+      signal-exit: 4.1.0
 
   /fs-extra@10.1.0:
     resolution:
@@ -5997,20 +5988,12 @@ packages:
       }
     dev: true
 
-  /signal-exit@4.0.2:
-    resolution:
-      {
-        integrity: sha512-MY2/qGx4enyjprQnFaZsHib3Yadh3IXyV2C321GY0pjGfVBu4un0uDJkwgdxqO+Rdx8JMT8IfJIRwbYVz3Ob3Q==,
-      }
-    engines: { node: ">=14" }
-
   /signal-exit@4.1.0:
     resolution:
       {
         integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==,
       }
     engines: { node: ">=14" }
-    dev: true
 
   /slash@3.0.0:
     resolution:
@@ -6404,21 +6387,6 @@ packages:
     engines: { node: ">= 0.4" }
     dev: true
 
-  /tar@6.1.15:
-    resolution:
-      {
-        integrity: sha512-/zKt9UyngnxIT/EAGYuxaMYgOIJiP81ab9ZfkILq4oNLPFX50qyYmu7jRj9qeXoxmJHjGlbH0+cm2uy1WCs10A==,
-      }
-    engines: { node: ">=10" }
-    dependencies:
-      chownr: 2.0.0
-      fs-minipass: 2.1.0
-      minipass: 5.0.0
-      minizlib: 2.1.2
-      mkdirp: 1.0.4
-      yallist: 4.0.0
-    dev: true
-
   /tar@6.2.0:
     resolution:
       {
@@ -6656,15 +6624,6 @@ packages:
       is-typed-array: 1.1.12
     dev: true
 
-  /typescript@5.3.2:
-    resolution:
-      {
-        integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==,
-      }
-    engines: { node: ">=14.17" }
-    hasBin: true
-    dev: true
-
   /typescript@5.3.3:
     resolution:
       {
@@ -6760,7 +6719,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite@5.0.5(@types/node@20.10.3):
+  /vite@5.0.5(@types/node@20.11.16):
     resolution:
       {
         integrity: sha512-OekeWqR9Ls56f3zd4CaxzbbS11gqYkEiBtnWFFgYR2WV8oPJRRKq0mpskYy/XaoCL3L7VINDhqqOMNDiYdGvGg==,
@@ -6791,7 +6750,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      "@types/node": 20.10.3
+      "@types/node": 20.11.16
       esbuild: 0.19.8
       postcss: 8.4.32
       rollup: 4.6.1
