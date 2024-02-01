@@ -309,19 +309,9 @@
   },
   "asterisk-icon-size-75": {
     "component": "icon",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "8px",
-        "uuid": "49ea57ee-7b12-4a8b-a9bb-a11cf2c9d72c"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "8px",
-        "uuid": "bcba4d11-e15a-4ebc-a152-224ef228036a"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "49ea57ee-7b12-4a8b-a9bb-a11cf2c9d72c"
   },
   "asterisk-icon-size-100": {
     "component": "icon",
