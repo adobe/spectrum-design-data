@@ -3,19 +3,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
     "sets": {
       "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
-        "sets": {
-          "desktop": {
-            "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-            "value": "2px",
-            "uuid": "ecb9d03a-7340-4b43-8aa7-f89eef9f3a20"
-          },
-          "mobile": {
-            "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-            "value": "2px",
-            "uuid": "cddbb2f6-b3a8-4416-90ed-0d7cd1bc7248"
-          }
-        }
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "2px",
+        "uuid": "ecb9d03a-7340-4b43-8aa7-f89eef9f3a20"
       },
       "express": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -120,19 +110,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
     "sets": {
       "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
-        "sets": {
-          "desktop": {
-            "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-            "value": "0px",
-            "uuid": "81415747-aa3f-4ef3-b0bc-7c33f07a4316"
-          },
-          "mobile": {
-            "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-            "value": "0px",
-            "uuid": "4e20cec6-96b6-4e9c-8b25-c819731b89ba"
-          }
-        }
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "0px",
+        "uuid": "81415747-aa3f-4ef3-b0bc-7c33f07a4316"
       },
       "express": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
