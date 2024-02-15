@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
       - uses: pnpm/action-setup@v2
         with:
-          version: 8.14.0
+          version: 8.15.3
       - uses: moonrepo/setup-moon-action@v1
       - run: moon setup
       - run: moon run :build --query "projectSource~packages/*"
