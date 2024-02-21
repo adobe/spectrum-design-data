@@ -4,8 +4,6 @@
 
 Added new semantic color aliases to Tokens Studio, in the S2 color tokens, alias sets for both light and dark themes.
 
-New non-color tokens for S2 tag component added to both desktop and mobile layout.component sets.
-
 ## Design Motivation
 
 New values for tag component for S2. New negative-subdued background tokens were needed for negative and not selected tag components.
