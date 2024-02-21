@@ -7093,12 +7093,7 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
         "value": "15px",
         "uuid": "8533ad58-9e81-4154-8ad1-57213741e814"
-      }
-    }
-  },
-  "tag-label-clear-icon-large": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
-    "sets": {
+      },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
         "value": "19px",
