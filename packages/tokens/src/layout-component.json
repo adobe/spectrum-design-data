@@ -3348,9 +3348,14 @@
   },
   "color-slider-border-rounding": {
     "component": "color-slider",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "4px",
-    "uuid": "991541a2-df44-4f32-90a5-de698adf5db3"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{corner-radius-medium-size-small}",
+        "uuid": "991541a2-df44-4f32-90a5-de698adf5db3"
+      }
+    }
   },
   "floating-action-button-drop-shadow-blur": {
     "component": "floating-action-button",
