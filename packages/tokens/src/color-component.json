@@ -89,7 +89,7 @@
   "color-slider-border-color": {
     "component": "color-slider",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{gray-900}",
+    "value": "{gray-1000}",
     "uuid": "0c85e7fa-f950-436c-a68a-dd7fb8dfac9e"
   },
   "color-slider-border-opacity": {
