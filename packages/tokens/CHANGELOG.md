@@ -1,5 +1,24 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.17
+
+### Minor Changes
+
+- 9072ae7: `color-slider-border-color` token was updated to reference `gray-1000` instead of `gray-90`0 in both light and dark themes.
+- 912e307: Updated `color-slider-border-rounding` token to use 7px instead of 4px in desktop only.
+  This token value update is the same value used by alias token: `corner-radius-medium-size-small`.
+
+  ## Design Motivation
+
+  S2 color slider design changes.
+
+  ## Token Diff
+
+  _Token values updated (2):_
+
+  - `color-slider-border-color`
+  - `color-slider-border-rounding`
+
 ## 13.0.0-beta.16
 
 ### Minor Changes
