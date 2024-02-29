@@ -591,6 +591,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{gray-500}",
         "uuid": "a3e71134-b44f-4b52-a84d-4841e01505e6"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-700}",
+        "uuid": "c41bb795-182e-45c0-afea-4ae2148e37a4"
       }
     }
   },
@@ -1476,6 +1481,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{brown-900}",
         "uuid": "a25ac05c-c108-4caf-a77e-79b4fd36ee91"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{brown-800}",
+        "uuid": "986418d6-3e22-441d-ba7f-732ee47aad04"
       }
     }
   },
@@ -1491,6 +1501,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{cinnamon-900}",
         "uuid": "24026c61-470e-41b9-a247-58605b54706d"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{cinnamon-800}",
+        "uuid": "0535836b-ff76-4619-8e53-20f400b9996c"
       }
     }
   },
@@ -1506,6 +1521,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{pink-900}",
         "uuid": "496cef67-3a25-4d99-8545-e8aa9a7f0adc"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{pink-800}",
+        "uuid": "b2fc4b00-4b9e-4e57-9892-0b4a59df4868"
       }
     }
   },
@@ -1521,6 +1541,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{silver-900}",
         "uuid": "f7d55707-b9db-4711-b93f-dcc03932516c"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{silver-800}",
+        "uuid": "dca6ce31-57d3-4bb9-8d6a-cc2c66a3a3f4"
       }
     }
   },
@@ -1536,6 +1561,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{turquoise-900}",
         "uuid": "04c6819d-5049-4e18-bb83-95239fa3d8c2"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{turquoise-800}",
+        "uuid": "47319d06-bec7-4520-893c-f4442b85cfd5"
       }
     }
   },
@@ -1551,6 +1581,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{brown-700}",
         "uuid": "c6dcdb8e-4966-4de6-a74a-fffa0793d58e"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{brown-900}",
+        "uuid": "5f0767be-3be9-4d10-a708-740565e1c457"
       }
     }
   },
@@ -1566,6 +1601,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{cinnamon-700}",
         "uuid": "d442e5b5-5083-443d-ba60-12c60406c452"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{cinnamon-900}",
+        "uuid": "d2c78c57-304d-4d62-87b0-2adb4085552f"
       }
     }
   },
@@ -1581,6 +1621,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{pink-700}",
         "uuid": "3a363aa8-cf27-48a1-8c61-b1f1eaff6110"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{pink-900}",
+        "uuid": "636ebb71-7386-4a6a-b0c3-5778dd993b22"
       }
     }
   },
@@ -1596,6 +1641,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{silver-700}",
         "uuid": "a6e04390-003e-4565-bf96-e0fb8a791cb9"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{silver-900}",
+        "uuid": "422a0b99-1222-4c78-ac55-615992ed607c"
       }
     }
   },
@@ -1611,6 +1661,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{turquoise-700}",
         "uuid": "6beacbfc-6d61-4567-86fe-39771550cf20"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{turquoise-900}",
+        "uuid": "73e40908-216f-406e-993f-287477753e65"
       }
     }
   }
