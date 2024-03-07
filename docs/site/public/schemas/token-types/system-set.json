@@ -59,6 +59,17 @@
             }
           },
           "required": ["spectrum", "express"]
+        },
+        {
+          "properties": {
+            "spectrum": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json"
+            },
+            "express": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json"
+            }
+          },
+          "required": ["spectrum", "express"]
         }
       ]
     },
