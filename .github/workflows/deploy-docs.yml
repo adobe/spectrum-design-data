@@ -34,7 +34,9 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8.15.4
-      - uses: moonrepo/setup-moon-action@v1
+      - uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
       - run: moon setup
       - run: moon run site:export
       - run: moon run visualizer:build
