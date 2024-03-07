@@ -1,3 +1,5 @@
+Note: for [Spectrum 2](https://s2.spectrum.adobe.com/) tokens, look at the [`beta` branch](https://github.com/adobe/spectrum-tokens/tree/beta) and `beta` tagged packages on [NPM](https://www.npmjs.com/package/@adobe/spectrum-tokens?activeTab=versions).
+
 # Spectrum Tokens Monorepo
 
 This repo uses:
