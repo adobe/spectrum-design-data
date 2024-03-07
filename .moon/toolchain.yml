@@ -12,7 +12,7 @@ rust: {}
 node:
   # The version to use. Must be a semantic version that includes major, minor, and patch.
   # We suggest using the latest active LTS version: https://nodejs.org/en/about/releases
-  version: "18.13.0"
+  version: "20.11"
 
   # The package manager to use when managing dependencies.
   # Accepts "npm" (default), "pnpm", or "yarn".
