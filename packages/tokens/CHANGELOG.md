@@ -1,5 +1,93 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.19
+
+### Minor Changes
+
+- 723d3b0: Updated, added, and deprecated tokens for text field and text area.
+
+  ## Design Motivation
+
+  Updating text field and text area for Spectrum 2.
+
+  ## Token Diff
+
+  _Tokens added (4):_
+
+  - `field-width-small`
+  - `field-width-medium`
+  - `field-width-large`
+  - `field-width-extra-large`
+
+  _Updated token values (4):_
+
+  - `side-label-character-count-top-margin-small`
+  - `side-label-character-count-top-margin-medium`
+  - `side-label-character-count-top-margin-large`
+  - `side-label-character-count-top-margin-extra-large`
+
+  _Newly deprecated tokens (8):_
+
+  - `field-width`
+  - `field-edge-to-text-quiet`
+  - `field-edge-to-border-quiet`
+  - `field-edge-to-alert-icon-quiet`
+  - `field-edge-to-validation-icon-quiet`
+  - `field-label-to-component-quiet-small`
+  - `field-label-to-component-quiet-medium`
+  - `field-label-to-component-quiet-large`
+  - `field-label-to-component-quiet-extra-large`
+  - `character-count-to-field-quiet-small`
+  - `character-count-to-field-quiet-medium`
+  - `character-count-to-field-quiet-large`
+  - `character-count-to-field-quiet-extra-large`
+
+- 66b1edf: Updated color of color-area-border-color token from gray.900 to gray.1000 in both light and dark sets.
+
+  ## Design motivation
+
+  These changes occurred as a result of scaling things for S2 design language and experiences.
+
+  ## Token Diff
+
+  _Token value updated (1):_
+
+  - `color-area-border-color`
+
+- 7b5f18b: Update alert banner for Spectrum 2
+
+  ## Design Motivation
+
+  These changes occurred as a result of scaling things for S2 design language and experiences.
+
+  ## Token Diff
+
+  _Token values updated (5):_
+
+  - `alert-banner-bottom-to-text`
+  - `alert-banner-minimum-height`
+  - `alert-banner-top-to-text`
+  - `alert-banner-top-to-workflow-icon`
+  - `search-field-minimum-width-multiplier`
+
+- 4a84fdd: Spectrum 2 Toast Tokens
+
+  ## Design motivation
+
+  Updated the `color-area-border-rounding` token type from spacing to borderRadius and adjusted value referenced, desktop and mobile scale.
+
+  These changes occurred as a result of scaling things for S2 design language and experiences.
+
+  ## Token Diff
+
+  _Token values updated (5):_
+
+  - `toast-height`
+  - `toast-top-to-workflow-icon`
+  - `toast-top-to-text`
+  - `toast-bottom-to-text`
+  - `color-area-border-rounding`
+
 ## 13.0.0-beta.18
 
 ### Minor Changes
