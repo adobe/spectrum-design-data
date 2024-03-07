@@ -32,6 +32,8 @@ tasks:
     platform: node
     deps:
       - ~:copySchema
+    outputs:
+      - "/site/"
   clean:
     command:
       - rimraf
@@ -49,9 +51,6 @@ tasks:
     deps:
       - ~:build
   export:
-    command:
-      - next
-      - build
     platform: node
     deps:
       - ~:clean
