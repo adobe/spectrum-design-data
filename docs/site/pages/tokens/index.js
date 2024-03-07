@@ -101,6 +101,7 @@ function TokenValue({ token }) {
     case "font-family":
     case "font-weight":
     case "font-style":
+    case "font-size":
     case "text-transform":
     case "opacity":
       return <>{token.value}</>;
@@ -140,7 +141,7 @@ function TokenValue({ token }) {
     case "color":
       return <code>{RGBAToHexA(token.value)}</code>;
     default:
-      return <pre>JSON.stringify(token)</pre>;
+      return <code>{JSON.stringify(token)}</code>;
   }
 }
 
