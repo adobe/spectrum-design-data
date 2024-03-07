@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@spectrum-web-components/action-button": "^0.40.0",
-    "@spectrum-web-components/button": "^0.40.0",
+    "@spectrum-web-components/button": "^0.41.0",
     "@spectrum-web-components/button-group": "^0.40.0",
     "@spectrum-web-components/field-group": "^0.40.0",
     "@spectrum-web-components/field-label": "^0.40.0",
