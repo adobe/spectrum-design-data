@@ -77,7 +77,7 @@
   "color-area-border-color": {
     "component": "color-area",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{gray-900}",
+    "value": "{gray-1000}",
     "uuid": "70fc4674-0f09-48f5-8850-48b4b38c2f01"
   },
   "color-area-border-opacity": {
