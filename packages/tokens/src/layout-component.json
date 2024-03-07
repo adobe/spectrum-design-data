@@ -1121,12 +1121,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "48px",
+        "value": "52px",
         "uuid": "a6267318-c8b1-43d4-99b6-ca2a55e9dff4"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "56px",
+        "value": "60px",
         "uuid": "12c8ae92-16b9-48ec-801c-bf07785da4b3"
       }
     }
@@ -1153,12 +1153,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "15px",
+        "value": "18px",
         "uuid": "d10d2a55-2b4d-46b1-81e9-521d6c3578e1"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "17px",
+        "value": "20px",
         "uuid": "1f83245b-3d79-4326-b843-df7b6549cade"
       }
     }
@@ -1169,12 +1169,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "14px",
+        "value": "18px",
         "uuid": "be4f24cf-9334-4fc4-aa72-e0347beecda7"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "16px",
+        "value": "20px",
         "uuid": "9f0688f5-128f-47c3-8585-94d704214881"
       }
     }
@@ -1185,12 +1185,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "17px",
+        "value": "20px",
         "uuid": "821e8f74-d1de-4507-9ff7-ece44e535e8c"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "19px",
+        "value": "22px",
         "uuid": "a790fd9e-4e5f-4f4c-a3ca-832540832580"
       }
     }
@@ -3275,7 +3275,7 @@
   "color-area-border-rounding": {
     "component": "color-area",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{corner-radius-100}",
+    "value": "{corner-radius-medium-size-small}",
     "uuid": "ab656bf4-8814-42fa-9036-b1e67159e4e1"
   },
   "color-wheel-width": {
