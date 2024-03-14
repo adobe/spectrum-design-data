@@ -118,13 +118,13 @@ importers:
     devDependencies:
       "@types/node":
         specifier: ^20.4.2
-        version: 20.11.24
+        version: 20.11.27
       typescript:
         specifier: ^5.1.6
-        version: 5.3.3
+        version: 5.4.2
       vite:
         specifier: ^4.4.4
-        version: 4.4.4(@types/node@20.11.24)
+        version: 4.4.4(@types/node@20.11.27)
 
   packages/tokens:
     devDependencies:
@@ -1700,15 +1700,6 @@ packages:
       {
         integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==,
       }
-    dev: true
-
-  /@types/node@20.11.24:
-    resolution:
-      {
-        integrity: sha512-Kza43ewS3xoLgCEpQrsT+xRo/EJej1y0kVYGiLFE1NEODXGzTfwiC6tXTLMQskn1X4/Rjlh0MQUvx9W+L9long==,
-      }
-    dependencies:
-      undici-types: 5.26.5
     dev: true
 
   /@types/node@20.11.27:
@@ -6389,15 +6380,6 @@ packages:
       possible-typed-array-names: 1.0.0
     dev: true
 
-  /typescript@5.3.3:
-    resolution:
-      {
-        integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==,
-      }
-    engines: { node: ">=14.17" }
-    hasBin: true
-    dev: true
-
   /typescript@5.4.2:
     resolution:
       {
@@ -6493,7 +6475,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite@4.4.4(@types/node@20.11.24):
+  /vite@4.4.4(@types/node@20.11.27):
     resolution:
       {
         integrity: sha512-4mvsTxjkveWrKDJI70QmelfVqTm+ihFAb6+xf4sjEU2TmUCTlVX87tmg/QooPEMQb/lM9qGHT99ebqPziEd3wg==,
@@ -6524,7 +6506,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      "@types/node": 20.11.24
+      "@types/node": 20.11.27
       esbuild: 0.18.12
       postcss: 8.4.26
       rollup: 3.26.2
