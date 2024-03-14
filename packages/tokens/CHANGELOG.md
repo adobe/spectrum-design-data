@@ -1,5 +1,26 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.21
+
+### Minor Changes
+
+- d71bea1: S2 Opacity checkerboard non-color token updates
+
+  ## Design Motivation
+
+  These changes occurred as a result of scaling things for S2 design language and experiences.
+
+  ## Token Diff
+
+  _Tokens added (2):_
+
+  - `opacity-checkerboard-square-size-medium`
+  - `opacity-checkerboard-square-size-small`
+
+  _Newly deprecated token (1):_
+
+  - `opacity-checkerboard-square-size`
+
 ## 13.0.0-beta.20
 
 ### Minor Changes
