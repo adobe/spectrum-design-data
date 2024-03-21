@@ -10,11 +10,14 @@
 
   Title text in alert dialog is now using the new Title typography token. Also updated the size for description text, and added a new token for top to alert icon.
 
+  Title is a new typography style for Spectrum 2, and has a default `title-color` token.
+
   ## Token Diff
 
-  _Tokens added (1):_
+  _Tokens added (2):_
 
   - `alert-banner-top-to-alert-icon`
+  - `title-color`
 
   _Token values updated (2):_
 
