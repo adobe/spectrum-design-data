@@ -1668,5 +1668,10 @@
         "uuid": "73e40908-216f-406e-993f-287477753e65"
       }
     }
+  },
+  "title-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-900}",
+    "uuid": "a7e9c20c-ab9b-46de-bf6a-c8fec9a8986b"
   }
 }
