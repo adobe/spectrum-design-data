@@ -1,5 +1,21 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.23
+
+### Patch Changes
+
+- 936f608: Fixed misnamed accordion token.
+
+  ## Token Diff
+
+  _Tokens added (1):_
+
+  - `accordion-top-to-text-spacious-small`
+
+  _Newly deprecated token (1):_
+
+  - `accordion-small-top-to-text-spacious`
+
 ## 13.0.0-beta.22
 
 ### Minor Changes
