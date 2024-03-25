@@ -5,7 +5,7 @@
   "scripts": {
     "moon": "moon",
     "pre-commit": "lint-staged",
-    "prepare": "husky install",
+    "prepare": "husky || true",
     "release": "changeset publish"
   },
   "repository": {
