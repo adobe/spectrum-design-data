@@ -40,24 +40,9 @@
     }
   },
   "drop-shadow-color": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
-    "sets": {
-      "light": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-        "value": "rgba(0, 0, 0, 0.15)",
-        "uuid": "be45ace6-9227-41d1-80be-0c58c3f8b3cb"
-      },
-      "dark": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-        "value": "rgba(0, 0, 0, 0.8)",
-        "uuid": "e54491a8-d3ca-4d67-bacb-74ac192a387f"
-      },
-      "wireframe": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-        "value": "rgba(0, 0, 0, 0.15)",
-        "uuid": "1deef94a-efba-4670-a1be-78ee021bdfe8"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{drop-shadow-color-100}",
+    "uuid": "be45ace6-9227-41d1-80be-0c58c3f8b3cb"
   },
   "opacity-disabled": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
@@ -1673,5 +1658,50 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-900}",
     "uuid": "a7e9c20c-ab9b-46de-bf6a-c8fec9a8986b"
+  },
+  "drop-shadow-color-100": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.12)",
+        "uuid": "5c0f0543-7e9b-43d6-9fea-c771b9b524c6"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.36)",
+        "uuid": "8d7e0eb7-c3c7-485e-896c-d5d5107e3b8f"
+      }
+    }
+  },
+  "drop-shadow-color-200": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.16)",
+        "uuid": "5945eb42-744c-41df-a4ab-a3d61f8782ee"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.48)",
+        "uuid": "c88f7b8e-e5f5-4d0e-a8dd-025f8d274948"
+      }
+    }
+  },
+  "drop-shadow-emphasized-default-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{drop-shadow-color-100}",
+    "uuid": "af4e0a7a-7c6a-4cf2-a17b-0b07ef365869"
+  },
+  "drop-shadow-emphasized-hover-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{drop-shadow-color-200}",
+    "uuid": "4c84adb3-9edf-4a5d-b39a-5f31a0d3529c"
+  },
+  "drop-shadow-elevated-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{drop-shadow-color-200}",
+    "uuid": "e475981f-97af-479c-859b-7619dd87c448"
   }
 }
