@@ -1,5 +1,89 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.24
+
+### Major Changes
+
+- 1c8f7ab: Renamed previous drop shadow tokens from S1 and pointed them to the new `100` S2 drop shadow tokens
+  Added new drop shadow tokens, `100`, `200`, `emphasized-default`, `emphasized-hover`, `elevated`.
+
+  ## Design Motivation
+
+  These tokens reflect the updates to drop tokens foundations in Spectrum 2, allowing more options and flexibility of usage in containers
+
+  ## Token Diff
+
+  _Tokens added (24):_
+
+  - `drop-shadow-blur`
+  - `drop-shadow-blur-100`
+  - `drop-shadow-blur-200`
+  - `drop-shadow-color`
+  - `drop-shadow-color-100`
+  - `drop-shadow-color-200`
+  - `drop-shadow-elevated-blur`
+  - `drop-shadow-elevated-color`
+  - `drop-shadow-elevated-x`
+  - `drop-shadow-elevated-y`
+  - `drop-shadow-emphasized-default-blur`
+  - `drop-shadow-emphasized-default-color`
+  - `drop-shadow-emphasized-default-x`
+  - `drop-shadow-emphasized-default-y`
+  - `drop-shadow-emphasized-hover-blur`
+  - `drop-shadow-emphasized-hover-color`
+  - `drop-shadow-emphasized-hover-x`
+  - `drop-shadow-emphasized-hover-y`
+  - `drop-shadow-x`
+  - `drop-shadow-x-100`
+  - `drop-shadow-x-200`
+  - `drop-shadow-y`
+  - `drop-shadow-y-100`
+  - `drop-shadow-y-200`
+
+  _Tokens deleted (2):_
+
+  - `drop-shadow-blur`
+  - `drop-shadow-y`
+
+  _Token values updated (2):_
+
+  - `color-handle-drop-shadow-color`
+  - `drop-shadow-color`
+
+### Minor Changes
+
+- 3230aba: Updated and added S2 drop shadow tokens
+
+  ## Design Motivation
+
+  These changes occurred as a result of scaling things for S2 design language and experiences.
+
+  ## Token Diff
+
+  _Tokens added (7):_
+
+  - `field-default-width-extra-large`
+  - `field-default-width-large`
+  - `field-default-width-medium`
+  - `field-default-width-small`
+  - `tag-minimum-width-large`
+  - `tag-minimum-width-medium`
+  - `tag-minimum-width-small`
+
+  _Token values updated (4):_
+
+  - `field-top-to-progress-circle-extra-large`
+  - `field-top-to-progress-circle-large`
+  - `field-top-to-progress-circle-medium`
+  - `field-top-to-progress-circle-small`
+
+  _Newly Deprecated Tokens (4):_
+
+  - `field-width-extra-large`
+  - `field-width-large`
+  - `field-width-medium`
+  - `field-width-small`
+
 ## 13.0.0-beta.23
 
 ### Patch Changes
