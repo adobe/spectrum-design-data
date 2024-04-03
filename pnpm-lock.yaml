@@ -118,13 +118,13 @@ importers:
     devDependencies:
       "@types/node":
         specifier: ^20.4.2
-        version: 20.11.27
+        version: 20.12.3
       typescript:
         specifier: ^5.1.6
-        version: 5.4.2
+        version: 5.4.3
       vite:
         specifier: ^4.4.4
-        version: 4.4.4(@types/node@20.11.27)
+        version: 4.4.4(@types/node@20.12.3)
 
   packages/tokens:
     devDependencies:
@@ -148,7 +148,7 @@ importers:
         version: 2.3.0
       tar:
         specifier: ^6.2.0
-        version: 6.2.0
+        version: 6.2.1
       tmp-promise:
         specifier: ^3.0.3
         version: 3.0.3
@@ -1702,15 +1702,6 @@ packages:
       {
         integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==,
       }
-    dev: true
-
-  /@types/node@20.11.27:
-    resolution:
-      {
-        integrity: sha512-qyUZfMnCg1KEz57r7pzFtSGt49f6RPkPBis3Vo4PbS7roQEDn22hiHzl/Lo1q4i4hDEgBJmBF/NTNg2XR0HbFg==,
-      }
-    dependencies:
-      undici-types: 5.26.5
     dev: true
 
   /@types/node@20.12.3:
@@ -6234,21 +6225,6 @@ packages:
     engines: { node: ">= 0.4" }
     dev: true
 
-  /tar@6.2.0:
-    resolution:
-      {
-        integrity: sha512-/Wo7DcT0u5HUV486xg675HtjNd3BXZ6xDbzsCUZPt5iw8bTQ63bP0Raut3mvro9u+CUyq7YQd8Cx55fsZXxqLQ==,
-      }
-    engines: { node: ">=10" }
-    dependencies:
-      chownr: 2.0.0
-      fs-minipass: 2.1.0
-      minipass: 5.0.0
-      minizlib: 2.1.2
-      mkdirp: 1.0.4
-      yallist: 4.0.0
-    dev: true
-
   /tar@6.2.1:
     resolution:
       {
@@ -6467,15 +6443,6 @@ packages:
       possible-typed-array-names: 1.0.0
     dev: true
 
-  /typescript@5.4.2:
-    resolution:
-      {
-        integrity: sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==,
-      }
-    engines: { node: ">=14.17" }
-    hasBin: true
-    dev: true
-
   /typescript@5.4.3:
     resolution:
       {
@@ -6571,7 +6538,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite@4.4.4(@types/node@20.11.27):
+  /vite@4.4.4(@types/node@20.12.3):
     resolution:
       {
         integrity: sha512-4mvsTxjkveWrKDJI70QmelfVqTm+ihFAb6+xf4sjEU2TmUCTlVX87tmg/QooPEMQb/lM9qGHT99ebqPziEd3wg==,
@@ -6602,7 +6569,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      "@types/node": 20.11.27
+      "@types/node": 20.12.3
       esbuild: 0.18.12
       postcss: 8.4.26
       rollup: 3.26.2
