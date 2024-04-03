@@ -1671,6 +1671,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
         "value": "rgba(0, 0, 0, 0.36)",
         "uuid": "8d7e0eb7-c3c7-485e-896c-d5d5107e3b8f"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.12)",
+        "uuid": "8e496445-97fc-4ff6-96d4-81b0215b8ffe"
       }
     }
   },
@@ -1686,6 +1691,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
         "value": "rgba(0, 0, 0, 0.48)",
         "uuid": "c88f7b8e-e5f5-4d0e-a8dd-025f8d274948"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.16)",
+        "uuid": "aa54be1b-bf30-42b7-91ec-09259bea0bd3"
       }
     }
   },
