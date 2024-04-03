@@ -23,9 +23,9 @@
   "homepage": "https://github.com/adobe/spectrum-tokens#readme",
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
-    "@commitlint/cli": "^19.1.0",
+    "@commitlint/cli": "^19.2.1",
     "@commitlint/config-conventional": "^19.1.0",
-    "@moonrepo/cli": "^1.22.8",
+    "@moonrepo/cli": "^1.23.3",
     "ava": "^6.1.2",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
