@@ -63,12 +63,14 @@
   "drop-shadow-y": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{drop-shadow-y-100}",
-    "uuid": "c530129f-248c-4e36-ba7f-05d6d6a53962"
+    "uuid": "c530129f-248c-4e36-ba7f-05d6d6a53962",
+    "deprecated": true
   },
   "drop-shadow-blur": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{drop-shadow-blur-100}",
-    "uuid": "ac20a6da-31a7-4c8b-b361-0ad820cd8429"
+    "uuid": "ac20a6da-31a7-4c8b-b361-0ad820cd8429",
+    "deprecated": true
   },
   "android-elevation": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
