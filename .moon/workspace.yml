@@ -5,6 +5,7 @@ projects:
   visualizer: "docs/visualizer"
   site: "docs/site"
   transform-tokens-json: "tools/transform-tokens-json"
+  open-ui-generator: "tools/open-ui-generator"
 vcs:
   manager: "git"
   defaultBranch: "main"

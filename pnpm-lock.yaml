@@ -139,7 +139,7 @@ importers:
         version: 1.1.9
       glob:
         specifier: ^10.3.10
-        version: 10.3.10
+        version: 10.3.12
       style-dictionary:
         specifier: ^3.9.2
         version: 3.9.2
@@ -153,13 +153,19 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  tools/open-ui-generator:
+    devDependencies:
+      glob:
+        specifier: ^10.3.12
+        version: 10.3.12
+
   tools/token-manifest-builder: {}
 
   tools/transform-tokens-json:
     dependencies:
       glob:
         specifier: ^10.3.3
-        version: 10.3.10
+        version: 10.3.12
       jsonpath-plus:
         specifier: ^7.2.0
         version: 7.2.0
@@ -3520,10 +3526,10 @@ packages:
       }
     dev: false
 
-  /glob@10.3.10:
+  /glob@10.3.12:
     resolution:
       {
-        integrity: sha512-fa46+tv1Ak0UPK1TOy/pZrIybNNt4HCv7SDzwyfiOZkvZLEbjsZkJBPtDHVshZjbecAoAGSC20MjLDG/qr679g==,
+        integrity: sha512-TCNv8vJ+xz4QiqTpfOJA7HvYv+tNIRHKfUWw/q+v2jdgN4ebz+KY9tGx5J4rHP0o84mNP+ApH66HRX8us3Khqg==,
       }
     engines: { node: ">=16 || 14 >=14.17" }
     hasBin: true
@@ -3532,7 +3538,7 @@ packages:
       jackspeak: 2.3.6
       minimatch: 9.0.3
       minipass: 7.0.4
-      path-scurry: 1.10.1
+      path-scurry: 1.10.2
 
   /glob@7.2.3:
     resolution:
@@ -4534,10 +4540,10 @@ packages:
       tslib: 2.6.2
     dev: true
 
-  /lru-cache@10.0.0:
+  /lru-cache@10.2.0:
     resolution:
       {
-        integrity: sha512-svTf/fzsKHffP42sujkO/Rjs37BCIsQVRCeNYIm9WN8rgT7ffoUnRtZCqU+6BqcSBdv8gwJeTz8knJpgACeQMw==,
+        integrity: sha512-2bIM8x+VAf6JT4bKAljS1qUWgMsqZRPGJS6FSahIMPVvctcNhyVp7AJu7quxOW9jwkryBReKZY5tY5JYv2n/7Q==,
       }
     engines: { node: 14 || >=16.14 }
 
@@ -5239,14 +5245,14 @@ packages:
       }
     dev: true
 
-  /path-scurry@1.10.1:
+  /path-scurry@1.10.2:
     resolution:
       {
-        integrity: sha512-MkhCqzzBEpPvxxQ71Md0b1Kk51W01lrYvlMzSUaIzNsODdd7mqhiimSZlr+VegAz5Z6Vzt9Xg2ttE//XBhH3EQ==,
+        integrity: sha512-7xTavNy5RQXnsjANvVvMkEjvloOinkAjv/Z6Ildz9v2RinZ4SBKTWFOVRbaF8p0vpHnyjV/UwNDdKuUv6M5qcA==,
       }
     engines: { node: ">=16 || 14 >=14.17" }
     dependencies:
-      lru-cache: 10.0.0
+      lru-cache: 10.2.0
       minipass: 7.0.4
 
   /path-type@4.0.0:
@@ -5633,7 +5639,7 @@ packages:
     engines: { node: ">=14" }
     hasBin: true
     dependencies:
-      glob: 10.3.10
+      glob: 10.3.12
     dev: false
 
   /rollup@3.26.2:
@@ -6157,7 +6163,7 @@ packages:
       change-case: 4.1.2
       commander: 8.3.0
       fs-extra: 10.1.0
-      glob: 10.3.10
+      glob: 10.3.12
       json5: 2.2.3
       jsonc-parser: 3.2.1
       lodash: 4.17.21

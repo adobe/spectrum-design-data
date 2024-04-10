@@ -1,0 +1,21 @@
+{
+  "name": "open-ui-generator",
+  "version": "0.0.1",
+  "description": "Generates the json for Spectrum for OpenUI",
+  "type": "module",
+  "private": true,
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-tokens.git"
+  },
+  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-tokens/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-tokens#readme",
+  "devDependencies": {
+    "glob": "^10.3.12"
+  }
+}
