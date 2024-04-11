@@ -3610,19 +3610,25 @@
     "component": "coach-mark",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{coach-mark-title-font-size}",
-    "uuid": "331604db-3f28-472e-810d-9010ed2c8e33"
+    "uuid": "331604db-3f28-472e-810d-9010ed2c8e33",
+    "deprecated": true,
+    "deprecated_comment": "Replace with coach-mark-title-font-size"
   },
   "coach-mark-body-size": {
     "component": "coach-mark",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{coach-mark-body-font-size}",
-    "uuid": "eba9f466-deda-48d5-a120-14419d5a670f"
+    "uuid": "eba9f466-deda-48d5-a120-14419d5a670f",
+    "deprecated": true,
+    "deprecated_comment": "Replace with coach-mark-body-font-size"
   },
   "coach-mark-pagination-body-size": {
     "component": "coach-mark",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{coach-mark-pagination-body-font-size}",
-    "uuid": "df8bc8ae-b6fa-4414-93b7-c89d8097fe11"
+    "uuid": "df8bc8ae-b6fa-4414-93b7-c89d8097fe11",
+    "deprecated": true,
+    "deprecated_comment": "Replace with coach-mark-pagination-body-font-size"
   },
   "accordion-top-to-text-compact-small": {
     "component": "accordion",
