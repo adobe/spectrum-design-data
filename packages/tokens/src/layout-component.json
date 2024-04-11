@@ -2284,77 +2284,39 @@
     "component": "combo-box",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
     "value": "2",
-    "uuid": "4798728b-9a97-4ce1-b703-0182b1513e8b"
+    "uuid": "4798728b-9a97-4ce1-b703-0182b1513e8b",
+    "deprecated": true
   },
   "combo-box-visual-to-field-button-small": {
     "component": "combo-box",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "7px",
-        "uuid": "5d054a3e-e4bb-4ca3-b84a-51b3d7fa2cb8"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "9px",
-        "uuid": "4ccba158-da29-43a1-bbba-6531ecf98807"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{combo-box-visual-to-field-button}",
+    "uuid": "5d054a3e-e4bb-4ca3-b84a-51b3d7fa2cb8"
   },
   "combo-box-visual-to-field-button-medium": {
     "component": "combo-box",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "8px",
-        "uuid": "c5a4baf2-effe-4d9a-92f3-b4ead5440d36"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "fefb7088-21e0-4cdf-a8a4-af2a6dcc2a1a"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{combo-box-visual-to-field-button}",
+    "uuid": "c5a4baf2-effe-4d9a-92f3-b4ead5440d36"
   },
   "combo-box-visual-to-field-button-large": {
     "component": "combo-box",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "9px",
-        "uuid": "356c4912-69c7-4a95-956b-c1aa78cb02cb"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "11px",
-        "uuid": "1a529788-8b87-4eef-aa07-a4ffb955761c"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{combo-box-visual-to-field-button}",
+    "uuid": "356c4912-69c7-4a95-956b-c1aa78cb02cb"
   },
   "combo-box-visual-to-field-button-extra-large": {
     "component": "combo-box",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "4a4ee415-1f25-4d36-928c-5ece0ce4abcc"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "13px",
-        "uuid": "50ecd11d-6710-46e9-b1c6-923bb1d9f494"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{combo-box-visual-to-field-button}",
+    "uuid": "4a4ee415-1f25-4d36-928c-5ece0ce4abcc"
   },
   "combo-box-visual-to-field-button-quiet": {
     "component": "combo-box",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "0px",
-    "uuid": "292cbbe1-1ba4-4369-9768-2051c07e6406"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{combo-box-visual-to-field-button}",
+    "uuid": "292cbbe1-1ba4-4369-9768-2051c07e6406",
+    "deprecated": true
   },
   "thumbnail-size-50": {
     "component": "thumbnail",
@@ -2562,35 +2524,15 @@
   },
   "alert-dialog-title-size": {
     "component": "alert-dialog",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{title-size-xxl}",
-        "uuid": "9b7ce1fc-ea8a-4d7b-a926-0accbd6b1197"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{title-size-xl}",
-        "uuid": "3f362b57-09eb-4147-b366-5c1f04c9a29f"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{alert-dialog-title-font-size}",
+    "uuid": "9b7ce1fc-ea8a-4d7b-a926-0accbd6b1197"
   },
   "alert-dialog-description-size": {
     "component": "alert-dialog",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{body-size-m}",
-        "uuid": "9dc42d1a-b87d-4a5d-a5a3-6afd4d5bd599"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{body-size-s}",
-        "uuid": "43c5762a-d3a6-49db-9e5e-4a524604fecc"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{alert-dialog-description-font-size}",
+    "uuid": "9dc42d1a-b87d-4a5d-a5a3-6afd4d5bd599"
   },
   "opacity-checkerboard-square-size": {
     "deprecated": true,
@@ -3653,51 +3595,21 @@
   },
   "coach-mark-title-size": {
     "component": "coach-mark",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{heading-size-xs}",
-        "uuid": "331604db-3f28-472e-810d-9010ed2c8e33"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{heading-size-xxs}",
-        "uuid": "cd4848b6-d560-475a-9d80-f7b5acebce10"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{coach-mark-title-font-size}",
+    "uuid": "331604db-3f28-472e-810d-9010ed2c8e33"
   },
   "coach-mark-body-size": {
     "component": "coach-mark",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{body-size-s}",
-        "uuid": "eba9f466-deda-48d5-a120-14419d5a670f"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{body-size-xs}",
-        "uuid": "a0abef77-dafe-4158-9faa-a4b4b2871e54"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{coach-mark-body-font-size}",
+    "uuid": "eba9f466-deda-48d5-a120-14419d5a670f"
   },
   "coach-mark-pagination-body-size": {
     "component": "coach-mark",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{body-size-s}",
-        "uuid": "df8bc8ae-b6fa-4414-93b7-c89d8097fe11"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{body-size-xs}",
-        "uuid": "350d9235-ff9e-43d7-9298-56b36d58d6de"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{coach-mark-pagination-body-font-size}",
+    "uuid": "df8bc8ae-b6fa-4414-93b7-c89d8097fe11"
   },
   "accordion-top-to-text-compact-small": {
     "component": "accordion",
@@ -6233,7 +6145,8 @@
   "in-field-button-edge-to-fill": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "5bffe992-2982-49e8-aa3a-e4e93c884f43"
+    "uuid": "5bffe992-2982-49e8-aa3a-e4e93c884f43",
+    "deprecated": true
   },
   "in-field-button-stacked-inner-edge-to-fill": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
@@ -7548,6 +7461,201 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
         "value": "42px",
         "uuid": "b2788159-dd2d-4f94-9282-d8cdbba41807"
+      }
+    }
+  },
+  "in-field-button-edge-to-fill-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "0171b422-021a-4f25-bbe3-7d6ca6459166"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "a2143caf-07e6-4d45-977c-3d79d69c335e"
+      }
+    }
+  },
+  "in-field-button-edge-to-fill-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "4b212f73-7a28-4d95-b06b-6d3f0d7e5cf9"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "61cf3878-48bd-4785-ad71-ec35c4f99656"
+      }
+    }
+  },
+  "in-field-progress-circle-edge-to-fill": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "1px",
+        "uuid": "b49756fe-40d5-439a-ba07-4e5eb07e7cc5"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "2px",
+        "uuid": "1263a125-9e9d-4eb4-8b71-024899dcf623"
+      }
+    }
+  },
+  "in-field-progress-circle-size-75": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "16px",
+        "uuid": "dbb4f6bf-ddfb-4184-babe-63815cad7202"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "c43c89a6-2ae5-4d29-99ab-2c64e153d4e7"
+      }
+    }
+  },
+  "in-field-progress-circle-size-100": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "20px",
+        "uuid": "ef5f40e8-d6e9-45a7-b8cf-1689e44e713c"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "24px",
+        "uuid": "c522b33c-93b8-491f-b4df-c241f5b5ade8"
+      }
+    }
+  },
+  "in-field-progress-circle-size-200": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "22px",
+        "uuid": "86567889-978e-4dfe-8412-42c8f33c3f44"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "28px",
+        "uuid": "85377238-7488-42e0-99ce-f4fd73316d24"
+      }
+    }
+  },
+  "in-field-progress-circle-size-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "26px",
+        "uuid": "32d0a47d-c4bb-4955-aef0-28e07f429b92"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "30px",
+        "uuid": "9e740bd1-b98a-416a-be82-20e222cab3b1"
+      }
+    }
+  },
+  "combo-box-visual-to-field-button": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "6c3c7201-2f5b-455a-bcbf-5e3d783887bf"
+  },
+  "in-field-button-edge-to-fill-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "86f41898-b794-4f7e-ae41-9eb84c2c7a5b"
+  },
+  "in-field-button-edge-to-fill-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "44e97486-53ce-4bb0-a778-0f9262dfe27e"
+  },
+  "alert-dialog-description-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{body-size-m}",
+        "uuid": "67af40c2-5774-4c4b-80d9-b237f756dea4"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{body-size-s}",
+        "uuid": "5a4777f3-6c1c-4cdc-94ba-40830c1297ff"
+      }
+    }
+  },
+  "alert-dialog-title-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{title-size-xxl}",
+        "uuid": "edca7a6f-7777-4d7e-a407-bddc972b0c93"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{title-size-xl}",
+        "uuid": "2010a8cd-87dd-46eb-8350-1a920bc9e9dc"
+      }
+    }
+  },
+  "coach-mark-body-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{body-size-m}",
+        "uuid": "4b88a0d5-2d07-4e63-afa6-cdd611f0a8c1"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{body-size-s}",
+        "uuid": "73959c3d-afc2-4f6e-bd34-0399bf3b5b73"
+      }
+    }
+  },
+  "coach-mark-pagination-body-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{body-size-s}",
+        "uuid": "06ae2458-8490-4741-8a02-97f60cc01592"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{body-size-xs}",
+        "uuid": "4f8c99a5-0942-41b0-ac41-923ea9ca2bf2"
+      }
+    }
+  },
+  "coach-mark-title-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{title-size-m}",
+        "uuid": "5b132698-4ee2-40e4-83c0-9ad80f36f5fd"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{title-size-s}",
+        "uuid": "45855bc5-3b86-49a9-b443-7be9aa763c4e"
       }
     }
   }
