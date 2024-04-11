@@ -1,5 +1,25 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.26
+
+### Minor Changes
+
+- b59fa8f: Updated alert dialog tokens
+
+  ## Token Diff
+
+  _Tokens added (4):_
+
+  - `alert-dialog-description-font-size`
+  - `alert-dialog-description-size`
+  - `alert-dialog-title-font-size`
+  - `alert-dialog-title-size`
+
+  _Newly deprecated tokens (2):_
+
+  - `alert-dialog-description-size`
+  - `alert-dialog-title-size`
+
 ## 13.0.0-beta.25
 
 ### Minor Changes
