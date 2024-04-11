@@ -163,7 +163,7 @@
     },
     {
       "name": "Picker",
-      "openUIName": "InputText",
+      "openUIName": "Select",
       "definition": "Pickers (sometimes known as \"dropdowns\" or \"selects\") allow users to choose from a list of options in a limited space. The list of options can change based on the context.",
       "url": "https://spectrum.adobe.com/page/picker/"
     },

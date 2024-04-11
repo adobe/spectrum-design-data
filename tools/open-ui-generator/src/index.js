@@ -39,7 +39,7 @@ const writeJson = async (fileName, jsonData) => {
 };
 
 const openUINameMap = {
-  picker: "InputText",
+  picker: "Select",
   breadcrumbs: "Breadcrumb",
   "text-field": "InputText",
   "text-area": "InputText",
