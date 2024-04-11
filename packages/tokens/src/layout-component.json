@@ -2291,32 +2291,41 @@
     "component": "combo-box",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{combo-box-visual-to-field-button}",
-    "uuid": "5d054a3e-e4bb-4ca3-b84a-51b3d7fa2cb8"
+    "uuid": "5d054a3e-e4bb-4ca3-b84a-51b3d7fa2cb8",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button"
   },
   "combo-box-visual-to-field-button-medium": {
     "component": "combo-box",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{combo-box-visual-to-field-button}",
-    "uuid": "c5a4baf2-effe-4d9a-92f3-b4ead5440d36"
+    "uuid": "c5a4baf2-effe-4d9a-92f3-b4ead5440d36",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button"
   },
   "combo-box-visual-to-field-button-large": {
     "component": "combo-box",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{combo-box-visual-to-field-button}",
-    "uuid": "356c4912-69c7-4a95-956b-c1aa78cb02cb"
+    "uuid": "356c4912-69c7-4a95-956b-c1aa78cb02cb",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button"
   },
   "combo-box-visual-to-field-button-extra-large": {
     "component": "combo-box",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{combo-box-visual-to-field-button}",
-    "uuid": "4a4ee415-1f25-4d36-928c-5ece0ce4abcc"
+    "uuid": "4a4ee415-1f25-4d36-928c-5ece0ce4abcc",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button"
   },
   "combo-box-visual-to-field-button-quiet": {
     "component": "combo-box",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{combo-box-visual-to-field-button}",
     "uuid": "292cbbe1-1ba4-4369-9768-2051c07e6406",
-    "deprecated": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button"
   },
   "thumbnail-size-50": {
     "component": "thumbnail",
@@ -7494,6 +7503,11 @@
       }
     }
   },
+  "combo-box-visual-to-field-button": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "6c3c7201-2f5b-455a-bcbf-5e3d783887bf"
+  },
   "in-field-button-edge-to-fill-small": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
@@ -7508,6 +7522,16 @@
         "uuid": "a2143caf-07e6-4d45-977c-3d79d69c335e"
       }
     }
+  },
+  "in-field-button-edge-to-fill-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "86f41898-b794-4f7e-ae41-9eb84c2c7a5b"
+  },
+  "in-field-button-edge-to-fill-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "44e97486-53ce-4bb0-a778-0f9262dfe27e"
   },
   "in-field-button-edge-to-fill-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
