@@ -2535,13 +2535,17 @@
     "component": "alert-dialog",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{alert-dialog-title-font-size}",
-    "uuid": "9b7ce1fc-ea8a-4d7b-a926-0accbd6b1197"
+    "uuid": "9b7ce1fc-ea8a-4d7b-a926-0accbd6b1197",
+    "deprecated": true,
+    "deprecated_comment": "Replace with alert-dialog-title-font-size"
   },
   "alert-dialog-description-size": {
     "component": "alert-dialog",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{alert-dialog-description-font-size}",
-    "uuid": "9dc42d1a-b87d-4a5d-a5a3-6afd4d5bd599"
+    "uuid": "9dc42d1a-b87d-4a5d-a5a3-6afd4d5bd599",
+    "deprecated": true,
+    "deprecated_comment": "Replace with alert-dialog-description-font-size"
   },
   "opacity-checkerboard-square-size": {
     "deprecated": true,
