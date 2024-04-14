@@ -1,5 +1,11 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.28
+
+### Patch Changes
+
+- 1150331: Removed duplicate tokens from src files.
+
 ## 13.0.0-beta.27
 
 ### Minor Changes
