@@ -7603,21 +7603,6 @@
       }
     }
   },
-  "combo-box-visual-to-field-button": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "0px",
-    "uuid": "6c3c7201-2f5b-455a-bcbf-5e3d783887bf"
-  },
-  "in-field-button-edge-to-fill-medium": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "6px",
-    "uuid": "86f41898-b794-4f7e-ae41-9eb84c2c7a5b"
-  },
-  "in-field-button-edge-to-fill-large": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "8px",
-    "uuid": "44e97486-53ce-4bb0-a778-0f9262dfe27e"
-  },
   "alert-dialog-description-font-size": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
