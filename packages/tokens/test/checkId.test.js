@@ -1,5 +1,5 @@
 /*
-Copyright 2023 Adobe. All rights reserved.
+Copyright 2024 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -20,42 +20,6 @@ const files = await Promise.all(
   ),
 );
 
-// const uuids = [];
-// const missingUUIDs = [];
-// const VALUE = "value";
-// const UUID = "uuid";
-
-// function isObject(a) {
-//   return (
-//     !!a &&
-//     a.constructor &&
-//     (a.constructor === Object || a.constructor.name === "Object")
-//   );
-// }
-
-// // check for uuids
-// function checkUUID(json, name) {
-//   if (json[VALUE] && !json[UUID]) {
-//     if (!json[UUID]) {
-//       if (name) {
-//         missingUUIDs.push(name);
-//       } else {
-//         missingUUIDs.push(json[VALUE]);
-//       }
-//     }
-//     else if (uuids.includes(json[UUID])) {
-
-//     }
-//     uuids.push(json[UUID]);
-//   }
-
-//   // handle the json's children
-//   Object.keys(json).forEach((key) => {
-//     if (isObject(json[key])) {
-//       checkUUID(json[key], key);
-//     }
-//   });
-// }
 const findDuplicateUUIDs = (json) => {
   const uuids = [];
   const duplicateUUIDs = [];
