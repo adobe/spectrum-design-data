@@ -20,45 +20,67 @@ const files = await Promise.all(
   ),
 );
 
-const uuids = [];
-const missingUUIDs = [];
-const VALUE = "value";
-const UUID = "uuid";
+// const uuids = [];
+// const missingUUIDs = [];
+// const VALUE = "value";
+// const UUID = "uuid";
 
-function isObject(a) {
-  return (
-    !!a &&
-    a.constructor &&
-    (a.constructor === Object || a.constructor.name === "Object")
-  );
-}
+// function isObject(a) {
+//   return (
+//     !!a &&
+//     a.constructor &&
+//     (a.constructor === Object || a.constructor.name === "Object")
+//   );
+// }
 
-// check for and add uuids
-function checkUUID(json, name) {
-  // if it is in want of uuid, give it one
-  if (json[VALUE] && !json[UUID]) {
-    if (!json[UUID] || uuids.includes(json[UUID])) {
-      if (name) {
-        missingUUIDs.push(name);
-      } else {
-        missingUUIDs.push(json[VALUE]);
+// // check for uuids
+// function checkUUID(json, name) {
+//   if (json[VALUE] && !json[UUID]) {
+//     if (!json[UUID]) {
+//       if (name) {
+//         missingUUIDs.push(name);
+//       } else {
+//         missingUUIDs.push(json[VALUE]);
+//       }
+//     }
+//     else if (uuids.includes(json[UUID])) {
+
+//     }
+//     uuids.push(json[UUID]);
+//   }
+
+//   // handle the json's children
+//   Object.keys(json).forEach((key) => {
+//     if (isObject(json[key])) {
+//       checkUUID(json[key], key);
+//     }
+//   });
+// }
+const findDuplicateUUIDs = (json) => {
+  const uuids = [];
+  const duplicateUUIDs = [];
+  const gather = (json, name) => {
+    if (json.uuid) {
+      if (uuids.includes(json.uuid)) {
+        duplicateUUIDs.push({ uuid: json.uuid, name });
       }
+      uuids.push(json.uuid);
     }
+    Object.keys(json).forEach((key) => {
+      if (typeof json[key] === "object") {
+        gather(json[key], key);
+      }
+    });
+  };
+  gather(json);
+  return duplicateUUIDs;
+};
 
-    uuids.push(json[UUID]);
-  }
-
-  // handle the json's children
-  Object.keys(json).forEach((key) => {
-    if (isObject(json[key])) {
-      checkUUID(json[key], key);
-    }
-  });
-}
-
-test("check for uuids", async (t) => {
+test("ensure uuids are unique", async (t) => {
+  let allTokens = {};
   for (const file of files) {
-    checkUUID(file);
+    allTokens = { ...allTokens, ...file };
   }
-  t.deepEqual(missingUUIDs, []);
+  const duplicateUUIDs = findDuplicateUUIDs(allTokens);
+  t.deepEqual(duplicateUUIDs, [], "duplicate uuids found");
 });

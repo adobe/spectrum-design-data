@@ -3,7 +3,7 @@
   "version": "12.24.1",
   "description": "Design tokens for Spectrum, Adobe's design system",
   "type": "module",
-  "main": "tasks/buildSpectrumTokens.js",
+  "main": "index.js",
   "tokens": "dist/json/variables.json",
   "scripts": {},
   "repository": {
@@ -26,10 +26,11 @@
     "ajv": "^8.12.0",
     "ajv-formats": "^2.1.1",
     "deep-object-diff": "^1.1.9",
-    "glob": "^10.3.3",
-    "style-dictionary": "^3.8.0",
+    "find-duplicated-property-keys": "^1.2.9",
+    "glob": "^10.3.10",
+    "style-dictionary": "^3.9.2",
     "style-dictionary-sets": "^2.3.0",
-    "tar": "^6.1.15",
+    "tar": "^6.2.0",
     "tmp-promise": "^3.0.3"
   }
 }
