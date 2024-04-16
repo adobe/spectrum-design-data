@@ -101,8 +101,9 @@
   "color-loupe-drop-shadow-color": {
     "component": "color-loupe",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{transparent-black-300}",
-    "uuid": "918b8089-d89f-45d2-8c9c-f3f13f81b0b9"
+    "value": "{drop-shadow-elevated-color}",
+    "uuid": "918b8089-d89f-45d2-8c9c-f3f13f81b0b9",
+    "deprecated": true
   },
   "color-loupe-drop-shadow-y": {
     "component": "color-loupe",
