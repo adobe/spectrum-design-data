@@ -2,6 +2,7 @@
   "name": "stvt",
   "private": true,
   "access": "restricted",
+  "type": "module",
   "version": "0.0.0",
   "repository": {
     "type": "git",
@@ -13,26 +14,26 @@
   },
   "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/docs/visualizer#readme",
   "devDependencies": {
-    "@types/node": "^20.10.0",
-    "typescript": "^5.3.2",
-    "vite": "^5.0.5"
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.9"
   },
   "dependencies": {
-    "@spectrum-web-components/action-button": "^0.40.0",
-    "@spectrum-web-components/button": "^0.40.0",
-    "@spectrum-web-components/button-group": "^0.40.0",
-    "@spectrum-web-components/field-group": "^0.40.0",
-    "@spectrum-web-components/field-label": "^0.40.0",
-    "@spectrum-web-components/link": "^0.40.0",
-    "@spectrum-web-components/overlay": "^0.40.0",
-    "@spectrum-web-components/popover": "^0.40.0",
-    "@spectrum-web-components/search": "^0.40.0",
-    "@spectrum-web-components/slider": "^0.40.0",
-    "@spectrum-web-components/switch": "^0.40.0",
-    "@spectrum-web-components/textfield": "^0.40.0",
-    "@spectrum-web-components/theme": "^0.40.0",
-    "@spectrum-web-components/toast": "^0.40.0",
-    "@spectrum-web-components/tooltip": "^0.40.0",
-    "lit": "^3.1.0"
+    "@spectrum-web-components/action-button": "^0.42.2",
+    "@spectrum-web-components/button": "^0.42.2",
+    "@spectrum-web-components/button-group": "^0.42.2",
+    "@spectrum-web-components/field-group": "^0.42.2",
+    "@spectrum-web-components/field-label": "^0.42.2",
+    "@spectrum-web-components/link": "^0.42.2",
+    "@spectrum-web-components/overlay": "^0.42.2",
+    "@spectrum-web-components/popover": "^0.42.2",
+    "@spectrum-web-components/search": "^0.42.2",
+    "@spectrum-web-components/slider": "^0.42.2",
+    "@spectrum-web-components/switch": "^0.42.2",
+    "@spectrum-web-components/textfield": "^0.42.2",
+    "@spectrum-web-components/theme": "^0.42.2",
+    "@spectrum-web-components/toast": "^0.42.2",
+    "@spectrum-web-components/tooltip": "^0.42.2",
+    "lit": "^3.1.3"
   }
 }
