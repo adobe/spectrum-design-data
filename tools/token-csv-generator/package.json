@@ -16,8 +16,7 @@
   },
   "homepage": "https://github.com/adobe/spectrum-tokens#readme",
   "dependencies": {
-    "glob": "^10.3.3",
-    "jsonpath-plus": "^7.2.0",
-    "prettier": "^3.0.3"
+    "@adobe/spectrum-tokens": "workspace:*",
+    "jsonpath-plus": "^8.1.0"
   }
 }

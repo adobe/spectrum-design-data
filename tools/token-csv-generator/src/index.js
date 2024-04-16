@@ -12,12 +12,12 @@ governing permissions and limitations under the License.
 import { JSONPath } from "jsonpath-plus";
 import { basename } from "path";
 import { writeFile } from "fs/promises";
-import { readJson, writeJson, tokenFileNames } from "./lib/shared.js";
+import { readJson, tokenFileNames } from "@adobe/spectrum-tokens";
 
 const tokensData = [];
 tokenFileNames.forEach(async (fileName) => {
   const jsonData = await readJson(fileName);
-  const result = JSONPath({
+  JSONPath({
     path: "$.*",
     json: jsonData,
     callback: (payload, type, obj) => {
@@ -43,5 +43,6 @@ tokenFileNames.forEach(async (fileName) => {
     });
     const csv = `tokenName,fileName,uuid,component\n${csvData.join("\n")}`;
     await writeFile("./tokenNames.csv", csv, "utf8");
+    return csv;
   }
 });
