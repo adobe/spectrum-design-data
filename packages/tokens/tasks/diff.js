@@ -16,7 +16,7 @@ import { fileURLToPath } from "url";
 import { detailedDiff, diff } from "deep-object-diff";
 import { exec } from "node:child_process";
 import { promisify } from "util";
-import tar from "tar";
+import { x } from "tar";
 import tmp from "tmp-promise";
 
 const execP = promisify(exec);
@@ -65,7 +65,7 @@ async function getOldTokens() {
   const { stdout, stderr } = await execP(
     `npm pack @adobe/spectrum-tokens@${tag} --pack-destination ${tmpDir.path}`,
   );
-  await tar.x({
+  await x({
     cwd: tmpDir.path,
     file: join(tmpDir.path, stdout.trim()),
   });
