@@ -6158,5 +6158,10 @@
         "uuid": "321a9931-be34-4ce9-8180-8e7fd87e30f4"
       }
     }
+  },
+  "banana": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    "value": "rgb(0, 51, 51)",
+    "uuid": "1789b6a4-1d22-4241-9112-f38447289dca"
   }
 }
