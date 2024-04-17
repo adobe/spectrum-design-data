@@ -43,7 +43,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{drop-shadow-color-100}",
     "uuid": "be45ace6-9227-41d1-80be-0c58c3f8b3cb",
-    "deprecated": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced with drop-shadow-color-100"
   },
   "opacity-disabled": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
