@@ -7,7 +7,8 @@
     "@adobe/spectrum-tokens": "12.19.1",
     "system-set-merge": "0.0.1",
     "token-manifest-builder": "0.0.1",
-    "transform-tokens-json": "0.0.1"
+    "transform-tokens-json": "0.0.1",
+    "token-csv-generator": "0.0.1"
   },
   "changesets": [
     "angry-zoos-applaud",
@@ -21,6 +22,7 @@
     "dull-eyes-grab",
     "empty-steaks-dress",
     "five-steaks-argue",
+    "fluffy-bees-play",
     "forty-lizards-thank",
     "fuzzy-cherries-buy",
     "gentle-months-carry",
@@ -28,6 +30,7 @@
     "good-baboons-doubt",
     "good-peas-mix",
     "happy-students-vanish",
+    "kind-geese-hope",
     "lazy-bears-remember",
     "lemon-dragons-raise",
     "neat-balloons-rhyme",
