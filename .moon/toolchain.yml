@@ -12,7 +12,7 @@ rust: {}
 node:
   # The version to use. Must be a semantic version that includes major, minor, and patch.
   # We suggest using the latest active LTS version: https://nodejs.org/en/about/releases
-  version: "20.11"
+  version: "20.12"
 
   # The package manager to use when managing dependencies.
   # Accepts "npm" (default), "pnpm", or "yarn".
@@ -20,7 +20,7 @@ node:
 
   # The version of the package manager (above) to use.
   pnpm:
-    version: "8.15.5"
+    version: "9.0.2"
 
   # Add `node.version` as a constraint in the root `package.json` `engines`.
   addEnginesConstraint: true
@@ -33,7 +33,7 @@ node:
 
   # Infer and automatically create moon tasks from `package.json` scripts, per project.
   # BEWARE: Tasks and scripts are not 1:1 in functionality, so please refer to the documentation.
-  inferTasksFromScripts: true
+  inferTasksFromScripts: false
 
   # Sync a project's `dependsOn` as dependencies within the project's `package.json`.
   syncProjectWorkspaceDependencies: true
