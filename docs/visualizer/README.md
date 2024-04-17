@@ -1,36 +1,36 @@
 # Spectrum Token Visualization Tool
 
-Current url of deployed static site: [https://git.corp.adobe.com/pages/Prototype/spectrum-token-visualization-tool/](https://git.corp.adobe.com/pages/Prototype/spectrum-token-visualization-tool/)
+Current url of deployed static site: [https://opensource.adobe.com/spectrum-tokens/visualizer/](https://opensource.adobe.com/spectrum-tokens/visualizer/)
 
-<img width="1491" alt="Screenshot 2023-02-28 at 2 40 02 PM" src="https://git.corp.adobe.com/storage/user/491/files/6f2aa0cf-7f81-4b4e-af98-52cfbadb54d1">
+<img width="1491" alt="Screenshot 2023-02-28 at 2 40 02 PM" src="https://github.com/adobe/spectrum-tokens/assets/125516/3c57f2de-c42e-41a5-abed-e5da294339f0">
 
 ## Setup for local development
 
 First, checkout the source code
 
 ```
-git clone git@git.corp.adobe.com:Prototype/spectrum-token-visualization-tool.git
+git clone git@github.com:adobe/spectrum-tokens.git
 ```
 
-Navigate into the /spectrum-token-visualization-tool directory
+Navigate into the spectrum-token-visualization-tool directory.
 
 ```
-cd stvt
+cd spectrum-tokens/docs/visualizer/
 ```
 
 Install package dependencies
 
 ```
-npm install
+pnpm install
 ```
 
 Startup the local development webserver
 
 ```
-npm run dev
+pnpm moon run visualizer:dev
 ```
 
-Now you can edit any project files and your browser will hot-reload with your changes.
+Now you can edit any project files, and your browser will hot-reload with your changes.
 
 This project is based on the Vite Lit Element Typescript boilerplate static site tooling.
 
@@ -39,7 +39,7 @@ You can read all about Vite here: https://vitejs.dev/guide/
 You can read all about Lit Element here: https://lit.dev/docs/api/LitElement/
 
 _LOCAL DEVELOPMENT NOTE_
-Because we use web workers to offload some of the data processing, local development must be done in a browser that supports Worker Ecmascript Modules: https://caniuse.com/mdn-api_worker_worker_ecmascript_modules. In other words: You can use Chrome or Safari, but NOT Firefox ( as of 12.15.2022 ). This note applies ONLY to the local development webserver. Firefox does work correctly with the built static site.
+Because we use web workers to offload some of the data processing, local development must be done in a browser that supports Worker Ecmascript Modules: https://caniuse.com/mdn-api_worker_worker_ecmascript_modules. In other words, you can use Chrome or Safari, but NOT Firefox ( as of 12.15.2022 ). This note applies ONLY to the local development webserver. Firefox does work correctly with the built static site.
 
 ## Updating the deployed static site
 
@@ -48,7 +48,7 @@ The static site is hosted from the `/docs` directory of the `main` branch.
 Build the static site locally. This will overwrite the contents of the /docs directory in the project.
 
 ```
-npm run build
+pnpm moon run visualizer:build
 ```
 
 Commit the updated static site files to the git repo.
@@ -63,7 +63,7 @@ git push
 
 ## What is this prototype? How does it work?
 
-The Spectrum Tokens source-of-truth is persisted in this public github repo: https://github.com/adobe/spectrum-tokens
+The Spectrum Tokens source-of-truth is persisted in this public GitHub repo: https://github.com/adobe/spectrum-tokens
 
 Within that repository, the tokens are stored in a series of JSON files: https://github.com/adobe/spectrum-tokens/tree/beta/src
 

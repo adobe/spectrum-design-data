@@ -25,7 +25,7 @@ export default function Home({ allComponentsData }) {
 
       <main>
         <section>
-          <h1>Spectrum Components</h1>
+          <h1>Spectrum Components API</h1>
           <nav>
             <ul className="spectrum-SideNav">
               {allComponentsData.map(({ slug, title }) => (
@@ -34,7 +34,7 @@ export default function Home({ allComponentsData }) {
                     className="spectrum-SideNav-itemLink"
                     href={`/components/${slug}`}
                   >
-                    {title}
+                    <span className="spectrum-SideNav-link-text">{title}</span>
                   </Link>
                 </li>
               ))}

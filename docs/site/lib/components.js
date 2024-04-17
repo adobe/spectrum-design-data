@@ -40,6 +40,7 @@ const resolveSchemaDefinitions = (schema, ajv) => {
 
 const readJSON = async (filePath) =>
   JSON.parse(await readFile(filePath, "utf8"));
+
 const getValidator = async () => {
   const schemaDir = "public/schemas";
   const ajv = new Ajv();

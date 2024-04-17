@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+  "title": "System set",
+  "description": "A set that contains tokens that change based on system.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/set.json"
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json"
+    },
+    "sets": {
+      "type": "object",
+      "anyOf": [
+        {
+          "properties": {
+            "spectrum": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json"
+            },
+            "express": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json"
+            }
+          },
+          "required": ["spectrum", "express"]
+        },
+        {
+          "properties": {
+            "spectrum": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            },
+            "express": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            }
+          },
+          "required": ["spectrum", "express"]
+        },
+        {
+          "properties": {
+            "spectrum": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json"
+            },
+            "express": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json"
+            }
+          },
+          "required": ["spectrum", "express"]
+        },
+        {
+          "properties": {
+            "spectrum": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json"
+            },
+            "express": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json"
+            }
+          },
+          "required": ["spectrum", "express"]
+        },
+        {
+          "properties": {
+            "spectrum": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json"
+            },
+            "express": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json"
+            }
+          },
+          "required": ["spectrum", "express"]
+        }
+      ]
+    },
+    "component": {},
+    "deprecated": {},
+    "deprecated_comment": {},
+    "uuid": {}
+  },
+  "required": ["sets"]
+}

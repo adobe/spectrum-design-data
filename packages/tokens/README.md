@@ -70,3 +70,7 @@ npm install --save @adobe/spectrum-tokens
 ```
 
 If you need to use the older and more complete set of tokens side by side with the v12.x.x release while the development of this migration is ongoing, you can use the [`@adobe/spectrum-tokens-depreacated`](https://www.npmjs.com/package/@adobe/spectrum-tokens-deprecated) package, which is an archived release of `@adobe/spectrum-tokens@11.8.0`.
+
+## Token Types and `$schema`
+
+Tokens now have a `$schema` property that relates to a type defined in the `schemas/token-types/` directory. Even those these are being released as part of the regular releases, they shouldn't be considered formal API yet. There are planned adjustments with further data integration in design tools and workflows. Ideally, designers would be able to author new tokens and manage type across all the data.

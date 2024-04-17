@@ -1,5 +1,5 @@
 /*
-Copyright 2023 Adobe. All rights reserved.
+Copyright 2024 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -180,13 +180,13 @@ class GraphGrid extends LitElement {
         i === 0
           ? 1
           : // FIRST line ( primary grid outline )
-          i % 8 === 0
-          ? 1
-          : // every EIGHTH line - to show density when way zoomed out
-          i === cellCount / 2
-          ? dynamicCenterLineAlpha
-          : // CENTER line with dynamic fade in
-            0.5; // de-emphasized lines within the grid interior
+            i % 8 === 0
+            ? 1
+            : // every EIGHTH line - to show density when way zoomed out
+              i === cellCount / 2
+              ? dynamicCenterLineAlpha
+              : // CENTER line with dynamic fade in
+                0.5; // de-emphasized lines within the grid interior
       const lineColor = `rgba(${lineColorR},${lineColorG},${lineColorB},${lineAlpha.toFixed(
         2,
       )})`;
