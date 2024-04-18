@@ -1,5 +1,31 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.29
+
+### Minor Changes
+
+- [#319](https://github.com/adobe/spectrum-tokens/pull/319) [`5f962fc`](https://github.com/adobe/spectrum-tokens/commit/5f962fc864c516213db58bece2c47a74c68cc985) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated values for component pill edge to visual only tokens for both desktop and mobile.
+
+  These values are updated based on the new workflow icon size.
+
+  ## Token Diff
+
+  _Token values updated (4):_
+
+  - `component-pill-edge-to-visual-only-100`
+  - `component-pill-edge-to-visual-only-200`
+  - `component-pill-edge-to-visual-only-300`
+  - `component-pill-edge-to-visual-only-75`
+
+- [#316](https://github.com/adobe/spectrum-tokens/pull/316) [`664ab0b`](https://github.com/adobe/spectrum-tokens/commit/664ab0bba68b9f4752599ed73c98b5d339414478) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - S2 Color loupe tokens update (color-only)
+
+  ## Token Diff
+
+  _Newly deprecated tokens (2):_
+
+  - `color-loupe-drop-shadow-color`
+  - `drop-shadow-color`
+
 ## 13.0.0-beta.28
 
 ### Patch Changes
