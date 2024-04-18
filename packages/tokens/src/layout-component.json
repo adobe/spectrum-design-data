@@ -7691,22 +7691,22 @@
   "standard-dialog-maximum-width-small": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "400px",
-    "uuid": "e34da300-1bb6-44ee-9734-fca307e454e2"
+    "uuid": "c00d9b06-f198-4cd5-9b69-ed3796314dab"
   },
   "standard-dialog-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "288px",
-    "uuid": "60d70785-4b35-478e-ad22-164c234726e3"
+    "uuid": "27f2bc13-53e4-4416-8592-a2a44909d22d"
   },
   "standard-dialog-maximum-width-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "480px",
-    "uuid": "c0e0a1e4-6ef3-472b-97cd-09c11ebc0bb6"
+    "uuid": "1c886eb9-f651-42ce-baff-9b3996077f92"
   },
   "standard-dialog-maximum-width-large": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "640px",
-    "uuid": "e622c6b6-4f65-4d84-85cb-af7d70fec814"
+    "uuid": "5ec703d4-19d9-4be5-976f-e4c1966c0d3d"
   },
   "standard-dialog-title-font-size": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -7714,12 +7714,12 @@
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{title-size-xxl}",
-        "uuid": "bc5f837f-db55-4866-b48a-d372cd7072cd"
+        "uuid": "d4e81ac4-8855-4ac4-b28f-ad054f74e517"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{title-size-xl}",
-        "uuid": "9a08aef2-0f8c-4717-bb7f-afa0801144eb"
+        "uuid": "02c75ba4-2c9f-45f3-8e74-c9a1065142ac"
       }
     }
   },
@@ -7729,12 +7729,12 @@
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{body-size-m}",
-        "uuid": "4707be27-a79d-49df-89bb-e7aeeadef6fb"
+        "uuid": "84aa108a-3c23-494f-b9c0-da64acdbeb79"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{body-size-s}",
-        "uuid": "ebc3924a-f6ed-4294-90b9-e2cb383dfed5"
+        "uuid": "f33e2125-0424-4329-bf60-ec42a15c36bc"
       }
     }
   },
