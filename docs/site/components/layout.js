@@ -1,8 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 
-const name = "Spectrum Tokens";
-export const siteTitle = "Next.js Sample Website";
+export const siteTitle = "Spectrum Components API";
 
 export default function Layout({ children, home }) {
   return (
@@ -11,20 +10,19 @@ export default function Layout({ children, home }) {
         <link rel="icon" type="image/png" href="/favicon.png" />
         <meta
           name="description"
-          content="Learn how to build a personal website using Next.js"
+          content="API documentation for components options in Spectrum, Adobe's design system"
         />
         <meta
           property="og:image"
-          content={`https://og-image.vercel.app/${encodeURI(
-            siteTitle,
-          )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
+          name="twitter:image"
+          content="https://spectrum.adobe.com/static/landscape-2.png"
         />
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header>
         <h2>
-          <Link href="/">{name}</Link>
+          <Link href="/">{siteTitle}</Link>
         </h2>
       </header>
       <main>{children}</main>

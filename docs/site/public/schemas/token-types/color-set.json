@@ -24,11 +24,14 @@
             "dark": {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json"
             },
+            "darkest": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json"
+            },
             "wireframe": {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json"
             }
           },
-          "required": ["light", "dark", "wireframe"]
+          "required": ["light", "dark", "darkest", "wireframe"]
         },
         {
           "properties": {
@@ -38,11 +41,14 @@
             "dark": {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
             },
+            "darkest": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            },
             "wireframe": {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
             }
           },
-          "required": ["light", "dark", "wireframe"]
+          "required": ["light", "dark", "darkest", "wireframe"]
         },
         {
           "properties": {
@@ -52,11 +58,14 @@
             "dark": {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json"
             },
+            "darkest": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json"
+            },
             "wireframe": {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json"
             }
           },
-          "required": ["light", "dark", "wireframe"]
+          "required": ["light", "dark", "darkest", "wireframe"]
         }
       ]
     },

@@ -5,7 +5,7 @@
   "scripts": {
     "moon": "moon",
     "pre-commit": "lint-staged",
-    "prepare": "husky install",
+    "prepare": "husky || true",
     "release": "changeset publish"
   },
   "repository": {
@@ -22,17 +22,19 @@
   },
   "homepage": "https://github.com/adobe/spectrum-tokens#readme",
   "devDependencies": {
+    "@action-validator/core": "^0.6.0",
     "@changesets/cli": "^2.27.1",
-    "@commitlint/cli": "^18.4.4",
-    "@commitlint/config-conventional": "^18.4.4",
-    "@moonrepo/cli": "^1.19.0",
-    "ava": "^6.0.1",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.2.0",
-    "prettier": "^3.1.1"
+    "@commitlint/cli": "^19.2.2",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@moonrepo/cli": "^1.23.4",
+    "ava": "^6.1.2",
+    "glob": "^10.3.12",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5"
   },
   "engines": {
-    "node": "18.13.0"
+    "node": "~20.12"
   },
-  "packageManager": "pnpm@8.14.0"
+  "packageManager": "pnpm@9.0.1"
 }

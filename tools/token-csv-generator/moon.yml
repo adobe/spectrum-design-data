@@ -8,38 +8,15 @@
 # OF ANY KIND, either express or implied. See the License for the specific language
 # governing permissions and limitations under the License.
 $schema: "https://moonrepo.dev/schemas/project.json"
-stack: frontend
-type: application
-tags:
-  - docs
-  - site
-fileGroups:
-  sources:
-    - "src/**/*"
-  config:
-    - "vite.config.ts"
-    - "tsconfig.json"
-    - "tsconfig.node.json"
+type: tool
 tasks:
-  build:
+  generateCSV:
     command:
-      - vite
-      - build
-    deps:
-      - ~:typescript
+      - node
+      - src/index.js
     platform: node
-    inputs:
-      - "config"
-      - "@globs(sources)"
-    outputs:
-      - "/site/visualizer"
-  typescript:
-    command: tsc
+  test:
+    command:
+      - pnpm
+      - ava
     platform: node
-  dev:
-    command: vite
-    local: true
-    platform: node
-    inputs:
-      - "config"
-      - "@globs(sources)"

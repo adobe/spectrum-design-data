@@ -1,9 +1,9 @@
 {
   "name": "@adobe/spectrum-tokens",
-  "version": "13.0.0-beta.11",
+  "version": "12.24.1",
   "description": "Design tokens for Spectrum, Adobe's design system",
   "type": "module",
-  "main": "tasks/buildSpectrumTokens.js",
+  "main": "index.js",
   "tokens": "dist/json/variables.json",
   "scripts": {},
   "repository": {
@@ -18,15 +18,19 @@
   "bugs": {
     "url": "https://github.com/adobe/spectrum-tokens/issues"
   },
+  "publishConfig": {
+    "provenance": true
+  },
   "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/packages/tokens#readme",
   "devDependencies": {
     "ajv": "^8.12.0",
-    "ajv-formats": "^2.1.1",
+    "ajv-formats": "^3.0.1",
     "deep-object-diff": "^1.1.9",
-    "glob": "^10.3.3",
-    "style-dictionary": "^3.8.0",
+    "find-duplicated-property-keys": "^1.2.9",
+    "glob": "^10.3.12",
+    "style-dictionary": "^3.9.2",
     "style-dictionary-sets": "^2.3.0",
-    "tar": "^6.1.15",
+    "tar": "^7.0.1",
     "tmp-promise": "^3.0.3"
   }
 }

@@ -12,6 +12,7 @@
     "value": "{black}"
   },
   "overlay-opacity": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "0.4"
@@ -25,6 +26,7 @@
     }
   },
   "drop-shadow-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgba(0, 0, 0, 0.15)"
@@ -44,6 +46,7 @@
     "value": "0.3"
   },
   "background-base-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-200}"
@@ -60,6 +63,7 @@
     }
   },
   "background-layer-1-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-100}"
@@ -76,6 +80,7 @@
     }
   },
   "background-layer-2-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-50}"
@@ -92,6 +97,7 @@
     }
   },
   "neutral-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-800}"
@@ -108,6 +114,7 @@
     }
   },
   "neutral-background-color-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-900}"
@@ -124,6 +131,7 @@
     }
   },
   "neutral-background-color-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-900}"
@@ -140,6 +148,7 @@
     }
   },
   "neutral-background-color-key-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-900}"
@@ -156,6 +165,7 @@
     }
   },
   "neutral-background-color-selected-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
     "sets": {
       "spectrum": {
         "value": "{gray-700}"
@@ -166,6 +176,7 @@
     }
   },
   "neutral-background-color-selected-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
     "sets": {
       "spectrum": {
         "value": "{gray-800}"
@@ -176,6 +187,7 @@
     }
   },
   "neutral-background-color-selected-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
     "sets": {
       "spectrum": {
         "value": "{gray-900}"
@@ -186,6 +198,7 @@
     }
   },
   "neutral-background-color-selected-key-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
     "sets": {
       "spectrum": {
         "value": "{gray-800}"
@@ -196,6 +209,7 @@
     }
   },
   "neutral-subdued-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-600}"
@@ -212,6 +226,7 @@
     }
   },
   "neutral-subdued-background-color-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-700}"
@@ -228,6 +243,7 @@
     }
   },
   "neutral-subdued-background-color-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-800}"
@@ -244,6 +260,7 @@
     }
   },
   "neutral-subdued-background-color-key-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-700}"
@@ -260,6 +277,7 @@
     }
   },
   "accent-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{accent-color-900}"
@@ -276,6 +294,7 @@
     }
   },
   "accent-background-color-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{accent-color-1000}"
@@ -292,6 +311,7 @@
     }
   },
   "accent-background-color-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{accent-color-1100}"
@@ -308,6 +328,7 @@
     }
   },
   "accent-background-color-key-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{accent-color-1000}"
@@ -324,6 +345,7 @@
     }
   },
   "informative-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{informative-color-900}"
@@ -340,6 +362,7 @@
     }
   },
   "informative-background-color-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{informative-color-1000}"
@@ -356,6 +379,7 @@
     }
   },
   "informative-background-color-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{informative-color-1100}"
@@ -372,6 +396,7 @@
     }
   },
   "informative-background-color-key-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{informative-color-1000}"
@@ -388,6 +413,7 @@
     }
   },
   "negative-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{negative-color-900}"
@@ -404,6 +430,7 @@
     }
   },
   "negative-background-color-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{negative-color-1000}"
@@ -420,6 +447,7 @@
     }
   },
   "negative-background-color-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{negative-color-1100}"
@@ -436,6 +464,7 @@
     }
   },
   "negative-background-color-key-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{negative-color-1000}"
@@ -452,6 +481,7 @@
     }
   },
   "positive-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{positive-color-900}"
@@ -468,6 +498,7 @@
     }
   },
   "positive-background-color-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{positive-color-1000}"
@@ -484,6 +515,7 @@
     }
   },
   "positive-background-color-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{positive-color-1100}"
@@ -500,6 +532,7 @@
     }
   },
   "positive-background-color-key-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{positive-color-1000}"
@@ -516,6 +549,7 @@
     }
   },
   "notice-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{notice-color-600}"
@@ -541,6 +575,7 @@
     "value": "{transparent-black-200}"
   },
   "gray-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-700}"
@@ -557,6 +592,7 @@
     }
   },
   "red-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{red-900}"
@@ -573,6 +609,7 @@
     }
   },
   "orange-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{orange-600}"
@@ -589,6 +626,7 @@
     }
   },
   "yellow-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{yellow-400}"
@@ -605,6 +643,7 @@
     }
   },
   "chartreuse-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{chartreuse-500}"
@@ -621,6 +660,7 @@
     }
   },
   "celery-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{celery-600}"
@@ -637,6 +677,7 @@
     }
   },
   "green-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{green-900}"
@@ -653,6 +694,7 @@
     }
   },
   "seafoam-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{seafoam-900}"
@@ -669,6 +711,7 @@
     }
   },
   "cyan-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{cyan-900}"
@@ -685,6 +728,7 @@
     }
   },
   "blue-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{blue-900}"
@@ -701,6 +745,7 @@
     }
   },
   "indigo-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{indigo-900}"
@@ -717,6 +762,7 @@
     }
   },
   "purple-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{purple-900}"
@@ -733,6 +779,7 @@
     }
   },
   "fuchsia-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{fuchsia-900}"
@@ -749,6 +796,7 @@
     }
   },
   "magenta-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{magenta-900}"
@@ -840,6 +888,7 @@
     "value": "{transparent-black-500}"
   },
   "neutral-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-500}"
@@ -856,6 +905,7 @@
     }
   },
   "accent-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{accent-color-800}"
@@ -872,6 +922,7 @@
     }
   },
   "informative-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{informative-color-800}"
@@ -888,6 +939,7 @@
     }
   },
   "negative-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{negative-color-800}"
@@ -904,6 +956,7 @@
     }
   },
   "notice-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{notice-color-700}"
@@ -920,6 +973,7 @@
     }
   },
   "positive-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{positive-color-700}"
@@ -936,6 +990,7 @@
     }
   },
   "gray-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{gray-500}"
@@ -952,6 +1007,7 @@
     }
   },
   "red-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{red-800}"
@@ -968,6 +1024,7 @@
     }
   },
   "orange-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{orange-700}"
@@ -984,6 +1041,7 @@
     }
   },
   "yellow-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{yellow-600}"
@@ -1000,6 +1058,7 @@
     }
   },
   "chartreuse-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{chartreuse-600}"
@@ -1016,6 +1075,7 @@
     }
   },
   "celery-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{celery-700}"
@@ -1032,6 +1092,7 @@
     }
   },
   "green-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{green-700}"
@@ -1048,6 +1109,7 @@
     }
   },
   "seafoam-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{seafoam-700}"
@@ -1064,6 +1126,7 @@
     }
   },
   "cyan-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{cyan-600}"
@@ -1080,6 +1143,7 @@
     }
   },
   "blue-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{blue-800}"
@@ -1096,6 +1160,7 @@
     }
   },
   "indigo-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{indigo-800}"
@@ -1112,6 +1177,7 @@
     }
   },
   "purple-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{purple-800}"
@@ -1128,6 +1194,7 @@
     }
   },
   "fuchsia-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{fuchsia-800}"
@@ -1144,6 +1211,7 @@
     }
   },
   "magenta-visual-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "{magenta-800}"

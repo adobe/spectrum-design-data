@@ -5,6 +5,9 @@ projects:
   visualizer: "docs/visualizer"
   site: "docs/site"
   transform-tokens-json: "tools/transform-tokens-json"
+  root: "."
+  csvGenerator: tools/token-csv-generator
+
 vcs:
   manager: "git"
   defaultBranch: "main"

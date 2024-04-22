@@ -11,11 +11,22 @@ governing permissions and limitations under the License.
 */
 
 import test from "ava";
-import { glob } from "glob";
 import { readFile } from "fs/promises";
+import { tokenFileNames } from "../index.js";
+import findDuplicatedPropertyKeys from "find-duplicated-property-keys";
 
-test("check for uuids", async (t) => {
-  const manifest = JSON.parse(await readFile("manifest.json", "utf8"));
-  const fileNames = await glob("src/**/*.json");
-  t.deepEqual(manifest, fileNames);
+test("check for duplicate token names across all token files", async (t) => {
+  const result = await Promise.all(
+    tokenFileNames.map(async (tokenFileName) => {
+      const tokenDataString = await readFile(tokenFileName, "utf8");
+      return tokenDataString.substring(
+        tokenDataString.indexOf("{") + 1,
+        tokenDataString.lastIndexOf("}"),
+      );
+    }),
+  ).then((tokenDataArray) => {
+    return findDuplicatedPropertyKeys(`{${tokenDataArray.join(",")}}`);
+  });
+  // t.pass();
+  t.deepEqual(result, []);
 });
