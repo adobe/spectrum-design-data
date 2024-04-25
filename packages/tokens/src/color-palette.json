@@ -2,142 +2,170 @@
   "white": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgb(255, 255, 255)",
-    "uuid": "9b799da8-2130-417e-b7ee-5e1154a89837"
+    "uuid": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "private": true
   },
   "transparent-white-25": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0)",
-    "uuid": "98a7279b-e21c-41ae-9bae-8b9b2b243e35"
+    "uuid": "98a7279b-e21c-41ae-9bae-8b9b2b243e35",
+    "private": true
   },
   "transparent-white-50": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.04)",
-    "uuid": "db1dbf26-fa48-42e1-b724-7953b0a6a543"
+    "uuid": "db1dbf26-fa48-42e1-b724-7953b0a6a543",
+    "private": true
   },
   "transparent-white-75": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.07)",
-    "uuid": "28d11d38-570d-4d99-b581-855781b972c5"
+    "uuid": "28d11d38-570d-4d99-b581-855781b972c5",
+    "private": true
   },
   "transparent-white-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.11)",
-    "uuid": "a1b64a62-7c78-415e-a9be-c86acbf361ca"
+    "uuid": "a1b64a62-7c78-415e-a9be-c86acbf361ca",
+    "private": true
   },
   "transparent-white-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.14)",
-    "uuid": "936db837-bc5a-40b0-a0e8-8e39b9fc62cb"
+    "uuid": "936db837-bc5a-40b0-a0e8-8e39b9fc62cb",
+    "private": true
   },
   "transparent-white-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.17)",
-    "uuid": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c"
+    "uuid": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c",
+    "private": true
   },
   "transparent-white-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.21)",
-    "uuid": "12e610d4-e3dc-4e86-9c09-09d86915b6f1"
+    "uuid": "12e610d4-e3dc-4e86-9c09-09d86915b6f1",
+    "private": true
   },
   "transparent-white-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.39)",
-    "uuid": "89c1380f-3e8e-4895-b025-027cee7ecd5b"
+    "uuid": "89c1380f-3e8e-4895-b025-027cee7ecd5b",
+    "private": true
   },
   "transparent-white-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.51)",
-    "uuid": "b24431ee-5c72-4a73-8733-746c6f5d77c0"
+    "uuid": "b24431ee-5c72-4a73-8733-746c6f5d77c0",
+    "private": true
   },
   "transparent-white-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.66)",
-    "uuid": "3ecc14ec-a21e-47ba-8225-915509a532af"
+    "uuid": "3ecc14ec-a21e-47ba-8225-915509a532af",
+    "private": true
   },
   "transparent-white-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.85)",
-    "uuid": "b85836bf-af47-412a-900a-4ec5ad0733b2"
+    "uuid": "b85836bf-af47-412a-900a-4ec5ad0733b2",
+    "private": true
   },
   "transparent-white-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.94)",
-    "uuid": "c5c823c6-1911-4e0e-ba2f-5105f467e108"
+    "uuid": "c5c823c6-1911-4e0e-ba2f-5105f467e108",
+    "private": true
   },
   "transparent-white-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgb(255, 255, 255)",
-    "uuid": "1409a50a-9a9d-463d-957f-fa2e4f98a0cd"
+    "uuid": "1409a50a-9a9d-463d-957f-fa2e4f98a0cd",
+    "private": true
   },
   "black": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgb(0, 0, 0)",
-    "uuid": "28dea8b0-4e9a-46f9-babb-c8910e6ae783"
+    "uuid": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
+    "private": true
   },
   "transparent-black-25": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0)",
-    "uuid": "d0867b86-6245-4c02-8617-ea7fd5c80288"
+    "uuid": "d0867b86-6245-4c02-8617-ea7fd5c80288",
+    "private": true
   },
   "transparent-black-50": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.03)",
-    "uuid": "d6aa176c-30bd-423f-b05f-4360672bd87e"
+    "uuid": "d6aa176c-30bd-423f-b05f-4360672bd87e",
+    "private": true
   },
   "transparent-black-75": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.05)",
-    "uuid": "d33a66ea-ca60-416f-9e92-967dbbb1e983"
+    "uuid": "d33a66ea-ca60-416f-9e92-967dbbb1e983",
+    "private": true
   },
   "transparent-black-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.09)",
-    "uuid": "7565eb32-d745-4fc3-8779-a717f8ba910a"
+    "uuid": "7565eb32-d745-4fc3-8779-a717f8ba910a",
+    "private": true
   },
   "transparent-black-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.12)",
-    "uuid": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0"
+    "uuid": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0",
+    "private": true
   },
   "transparent-black-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.15)",
-    "uuid": "16a871e1-d9df-42bb-8889-99059d70e82e"
+    "uuid": "16a871e1-d9df-42bb-8889-99059d70e82e",
+    "private": true
   },
   "transparent-black-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.22)",
-    "uuid": "b769453b-586c-4dd2-b3a1-ddf5964160bc"
+    "uuid": "b769453b-586c-4dd2-b3a1-ddf5964160bc",
+    "private": true
   },
   "transparent-black-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.44)",
-    "uuid": "cebedd9f-9e4b-47cf-addb-45d8ff9c9179"
+    "uuid": "cebedd9f-9e4b-47cf-addb-45d8ff9c9179",
+    "private": true
   },
   "transparent-black-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.56)",
-    "uuid": "199e19a5-bf7d-4933-8425-d7d5881e4cf5"
+    "uuid": "199e19a5-bf7d-4933-8425-d7d5881e4cf5",
+    "private": true
   },
   "transparent-black-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.69)",
-    "uuid": "56da822f-98ea-4ad1-b993-3f052de45f36"
+    "uuid": "56da822f-98ea-4ad1-b993-3f052de45f36",
+    "private": true
   },
   "transparent-black-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.84)",
-    "uuid": "3e89f180-b0f0-4de0-904b-c80f0210a361"
+    "uuid": "3e89f180-b0f0-4de0-904b-c80f0210a361",
+    "private": true
   },
   "transparent-black-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.93)",
-    "uuid": "c0a331f9-53e3-4c72-b5e3-139d730a1752"
+    "uuid": "c0a331f9-53e3-4c72-b5e3-139d730a1752",
+    "private": true
   },
   "transparent-black-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
     "value": "rgb(0, 0, 0)",
-    "uuid": "098f2f56-e52f-47b1-943a-d1d7218de484"
+    "uuid": "098f2f56-e52f-47b1-943a-d1d7218de484",
+    "private": true
   },
   "gray-25": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -157,7 +185,8 @@
         "value": "rgb(255, 255, 255)",
         "uuid": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
       }
-    }
+    },
+    "private": true
   },
   "gray-50": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -177,7 +206,8 @@
         "value": "rgb(255, 255, 255)",
         "uuid": "16ee1a81-e7d0-46ff-af81-5eca376ce203"
       }
-    }
+    },
+    "private": true
   },
   "gray-75": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -197,7 +227,8 @@
         "value": "rgb(253, 253, 254)",
         "uuid": "4b6e738d-ac71-4d34-83eb-cd45e511b144"
       }
-    }
+    },
+    "private": true
   },
   "gray-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -217,7 +248,8 @@
         "value": "rgb(244, 246, 252)",
         "uuid": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
       }
-    }
+    },
+    "private": true
   },
   "gray-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -237,7 +269,8 @@
         "value": "rgb(230, 236, 248)",
         "uuid": "eaad36fe-2827-4404-8876-060de75c2b34"
       }
-    }
+    },
+    "private": true
   },
   "gray-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -257,7 +290,8 @@
         "value": "rgb(210, 220, 243)",
         "uuid": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
       }
-    }
+    },
+    "private": true
   },
   "gray-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -277,7 +311,8 @@
         "value": "rgb(183, 200, 235)",
         "uuid": "4634f126-2240-4de9-b244-ab2b833d70ef"
       }
-    }
+    },
+    "private": true
   },
   "gray-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -297,7 +332,8 @@
         "value": "rgb(152, 176, 226)",
         "uuid": "bc09529e-716c-4541-a75a-081ed9fdd860"
       }
-    }
+    },
+    "private": true
   },
   "gray-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -317,7 +353,8 @@
         "value": "rgb(113, 144, 210)",
         "uuid": "3ab25385-aece-42c4-af86-01ea97ed2455"
       }
-    }
+    },
+    "private": true
   },
   "gray-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -337,7 +374,8 @@
         "value": "rgb(78, 112, 187)",
         "uuid": "b5201efc-0a69-4a87-8b9b-e869bcf03457"
       }
-    }
+    },
+    "private": true
   },
   "gray-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -357,7 +395,8 @@
         "value": "rgb(73, 110, 194)",
         "uuid": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
       }
-    }
+    },
+    "private": true
   },
   "gray-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -377,7 +416,8 @@
         "value": "rgb(72, 110, 194)",
         "uuid": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
       }
-    }
+    },
+    "private": true
   },
   "gray-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -397,7 +437,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "e804baf9-ae2c-4574-96d9-10cd5253fe47"
       }
-    }
+    },
+    "private": true
   },
   "blue-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -417,7 +458,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "05ffb7a9-8bd9-46cd-bfb0-66217d52ceb1"
       }
-    }
+    },
+    "private": true
   },
   "blue-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -437,7 +479,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "1f9bd0a5-d1ed-4d24-b8bf-273f5f22a5f4"
       }
-    }
+    },
+    "private": true
   },
   "blue-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -457,7 +500,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "94ed3997-5b56-41e8-9746-1d7515244c6e"
       }
-    }
+    },
+    "private": true
   },
   "blue-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -477,7 +521,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "23852b5e-2d80-4c89-946c-1c8c2fe37b39"
       }
-    }
+    },
+    "private": true
   },
   "blue-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -497,7 +542,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "ca7117db-c105-446f-85e5-72f1191b9cfd"
       }
-    }
+    },
+    "private": true
   },
   "blue-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -517,7 +563,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "560dddaa-d4ae-4d84-8750-30eb72f9e33c"
       }
-    }
+    },
+    "private": true
   },
   "blue-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -537,7 +584,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "0a50f1d3-8ae9-4955-9b1e-3d18121a3302"
       }
-    }
+    },
+    "private": true
   },
   "blue-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -557,7 +605,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "84bc6532-7cb0-47ea-8951-b16bc2a7aab9"
       }
-    }
+    },
+    "private": true
   },
   "blue-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -577,7 +626,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "895407bb-8fda-4857-92a9-bf0cc06f2c3f"
       }
-    }
+    },
+    "private": true
   },
   "blue-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -597,7 +647,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "a50fef9e-d01f-490c-9baa-8c9672f1ac96"
       }
-    }
+    },
+    "private": true
   },
   "blue-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -617,7 +668,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "85683533-e660-4037-ad0a-3d5e7714a757"
       }
-    }
+    },
+    "private": true
   },
   "blue-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -637,7 +689,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "ccde5f80-26bb-4de8-9982-0f7fd3a97e7d"
       }
-    }
+    },
+    "private": true
   },
   "blue-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -657,7 +710,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "4dbbc998-deeb-4268-9a6a-c49a57ff0bcc"
       }
-    }
+    },
+    "private": true
   },
   "blue-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -677,7 +731,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "0284c8ef-fd73-4c33-8f31-bc9a83a5a84f"
       }
-    }
+    },
+    "private": true
   },
   "blue-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -697,7 +752,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "07862296-803e-42fc-8ba1-ff8c25e76f66"
       }
-    }
+    },
+    "private": true
   },
   "blue-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -717,7 +773,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "9d380e6c-f6e9-433d-a8d8-f2432181736c"
       }
-    }
+    },
+    "private": true
   },
   "red-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -737,7 +794,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "b9752d64-5683-4ddc-ae30-164c475a5d90"
       }
-    }
+    },
+    "private": true
   },
   "red-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -757,7 +815,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "1d78cfc4-2c54-450e-9c5a-e3d3a40bcf32"
       }
-    }
+    },
+    "private": true
   },
   "red-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -777,7 +836,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "c020ab70-b666-478b-aaf2-8e06c033f307"
       }
-    }
+    },
+    "private": true
   },
   "red-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -797,7 +857,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "4ca331f0-9278-4ad7-9328-766e8a5f83e6"
       }
-    }
+    },
+    "private": true
   },
   "red-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -817,7 +878,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "92784233-e6b0-4de0-8069-f3c037472dec"
       }
-    }
+    },
+    "private": true
   },
   "red-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -837,7 +899,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "3fe966a7-eac1-4e06-9652-271182ff332d"
       }
-    }
+    },
+    "private": true
   },
   "red-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -857,7 +920,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "fd598b48-a775-4c72-92e5-55f357c33537"
       }
-    }
+    },
+    "private": true
   },
   "red-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -877,7 +941,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "abc67d6b-bd80-4e94-a91b-1f52216a5013"
       }
-    }
+    },
+    "private": true
   },
   "red-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -897,7 +962,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "f9fbdd87-77f6-4b99-b5f5-357604b57a48"
       }
-    }
+    },
+    "private": true
   },
   "red-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -917,7 +983,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "d3c2852d-4d9f-4493-af1a-cba5269baf22"
       }
-    }
+    },
+    "private": true
   },
   "red-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -937,7 +1004,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "fb1cf925-d51e-4b6a-9cd1-ee711193a03a"
       }
-    }
+    },
+    "private": true
   },
   "red-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -957,7 +1025,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "2caf3838-8be9-41d9-9cb9-fa2e6a2f8373"
       }
-    }
+    },
+    "private": true
   },
   "red-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -977,7 +1046,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "5e630b5e-ff35-4463-8db5-79519a54d64f"
       }
-    }
+    },
+    "private": true
   },
   "red-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -997,7 +1067,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "e70a8b5a-06ec-4771-9c16-9e74ae15c9bc"
       }
-    }
+    },
+    "private": true
   },
   "red-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1017,7 +1088,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "421ec0d6-4d71-4c2d-8a39-19e3700451f0"
       }
-    }
+    },
+    "private": true
   },
   "red-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1037,7 +1109,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "50807cbc-ade6-4f6d-8711-f569a52adaf8"
       }
-    }
+    },
+    "private": true
   },
   "orange-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1057,7 +1130,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "e4fff178-2055-4ec8-83e8-636a4ea8bb8c"
       }
-    }
+    },
+    "private": true
   },
   "orange-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1077,7 +1151,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "47e53be7-b33b-48e3-abdf-fe48d59f8819"
       }
-    }
+    },
+    "private": true
   },
   "orange-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1097,7 +1172,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "c455298b-cc23-4504-b731-27be6433fbcd"
       }
-    }
+    },
+    "private": true
   },
   "orange-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1117,7 +1193,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "2c08292c-e6cc-4dcb-9046-8a2af09d1e43"
       }
-    }
+    },
+    "private": true
   },
   "orange-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1137,7 +1214,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "e6c70e40-f9e7-4975-af39-9458a8325c6f"
       }
-    }
+    },
+    "private": true
   },
   "orange-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1157,7 +1235,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "8a201cca-353e-4538-a6b5-efbc2fc86186"
       }
-    }
+    },
+    "private": true
   },
   "orange-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1177,7 +1256,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "58992b4e-69ab-4919-922a-dd9277cb770e"
       }
-    }
+    },
+    "private": true
   },
   "orange-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1197,7 +1277,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "8f42ee1b-59a5-4759-bef3-614835b348b2"
       }
-    }
+    },
+    "private": true
   },
   "orange-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1217,7 +1298,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "69637678-cb68-46f1-9353-1c7d0f86e51e"
       }
-    }
+    },
+    "private": true
   },
   "orange-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1237,7 +1319,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "bc744bfa-dd64-4660-b67c-105f07e66644"
       }
-    }
+    },
+    "private": true
   },
   "orange-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1257,7 +1340,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "7aea0d8d-0fb0-47c1-ae6a-97510159359b"
       }
-    }
+    },
+    "private": true
   },
   "orange-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1277,7 +1361,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "269da724-5ec7-4ceb-991d-1e83495cfaed"
       }
-    }
+    },
+    "private": true
   },
   "orange-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1297,7 +1382,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "c1389efc-8e68-4e2d-94b1-17e193264be7"
       }
-    }
+    },
+    "private": true
   },
   "orange-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1317,7 +1403,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "0d6ed0c9-b185-4656-9985-04904a39f5e6"
       }
-    }
+    },
+    "private": true
   },
   "orange-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1337,7 +1424,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "ea973b33-e10f-44b6-a621-92c752edb8af"
       }
-    }
+    },
+    "private": true
   },
   "orange-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1357,7 +1445,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "c93608b1-700d-496c-90c4-298870776956"
       }
-    }
+    },
+    "private": true
   },
   "yellow-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1377,7 +1466,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "be46f4fb-64d6-4e04-abd1-1f87c634d272"
       }
-    }
+    },
+    "private": true
   },
   "yellow-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1397,7 +1487,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "2e4d1e66-b660-4e99-8f01-ff9964aa19d8"
       }
-    }
+    },
+    "private": true
   },
   "yellow-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1417,7 +1508,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "6547eb52-a3a5-4004-8125-df92fed7a062"
       }
-    }
+    },
+    "private": true
   },
   "yellow-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1437,7 +1529,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "2c6515da-f97b-4961-93cf-5b6c668fc0fc"
       }
-    }
+    },
+    "private": true
   },
   "yellow-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1457,7 +1550,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "8e450204-2aa5-4cb2-959b-8fc28f7f55bf"
       }
-    }
+    },
+    "private": true
   },
   "yellow-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1477,7 +1571,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "dfdf38c7-1e23-44a8-8a62-a5f6c3a341bf"
       }
-    }
+    },
+    "private": true
   },
   "yellow-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1497,7 +1592,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "69c7c213-9a1c-4cd2-ac90-2142aa955e00"
       }
-    }
+    },
+    "private": true
   },
   "yellow-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1517,7 +1613,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "9ebe0ca0-5580-4083-899a-ba4a4638254d"
       }
-    }
+    },
+    "private": true
   },
   "yellow-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1537,7 +1634,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "a9e4cb0b-80af-417f-b8d5-b1a7aefa15e5"
       }
-    }
+    },
+    "private": true
   },
   "yellow-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1557,7 +1655,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "7e7a2c49-bf61-4402-b85b-bf4df9ca8ff0"
       }
-    }
+    },
+    "private": true
   },
   "yellow-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1577,7 +1676,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "b54bc7bb-2347-4265-ba88-8af7fa420bdf"
       }
-    }
+    },
+    "private": true
   },
   "yellow-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1597,7 +1697,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "2e92e2de-12fa-45d3-be1d-5d875311bf1e"
       }
-    }
+    },
+    "private": true
   },
   "yellow-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1617,7 +1718,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "21c27c6d-f054-48b4-abb8-5b0907e238e2"
       }
-    }
+    },
+    "private": true
   },
   "yellow-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1637,7 +1739,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "e0d95ec7-193d-40d1-9bd9-e68ff27c0275"
       }
-    }
+    },
+    "private": true
   },
   "yellow-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1657,7 +1760,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "8be0ad1a-0cdf-409d-953f-0a203282e1d9"
       }
-    }
+    },
+    "private": true
   },
   "yellow-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1677,7 +1781,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "15f47c52-fa9c-4982-ad9c-684024a9a667"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1697,7 +1802,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "cc59e104-9997-4ed2-a29e-0af0b1a04b67"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1717,7 +1823,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "838a5de8-2ec7-4814-8ba9-eaa4b0ad8e55"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1737,7 +1844,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "bbb32db5-4835-4520-8bb1-ef2c8916c604"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1757,7 +1865,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "eb857d3b-1956-4870-98cb-eaaffffaed85"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1777,7 +1886,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "7bffe928-4940-41b1-a9d4-3cbee27cb472"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1797,7 +1907,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "788108ff-5238-4a75-8936-092df93a3fd0"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1817,7 +1928,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "0386fb0b-3653-4015-a3a1-cbf047435f0f"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1837,7 +1949,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "c8046b7e-506c-47b7-8105-4d7e805f6b92"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1857,7 +1970,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "5f1f16c2-d562-4dd8-9b96-9d19b9a88093"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1877,7 +1991,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "9a6983b0-a2ba-4633-a618-f3b4ac8f05c6"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1897,7 +2012,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "8e44257e-ec8e-4459-863e-0bbbab65f6e0"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1917,7 +2033,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "9af36936-6d05-4ba4-8beb-9b65bafb9277"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1937,7 +2054,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "acb36528-7ad1-497c-baf7-c53171ce4112"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1957,7 +2075,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "485b7081-a921-42ee-b781-8a99bfeb84fa"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1977,7 +2096,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "75e5c281-4c83-4ffe-a1de-aedfa65be894"
       }
-    }
+    },
+    "private": true
   },
   "chartreuse-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -1997,7 +2117,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "a8d9965e-14d9-4015-9a6f-421400c6d011"
       }
-    }
+    },
+    "private": true
   },
   "celery-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2017,7 +2138,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "a52ac86a-8627-483b-b747-6e8aa5fa7249"
       }
-    }
+    },
+    "private": true
   },
   "celery-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2037,7 +2159,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "a83229ca-de1f-4fdb-a72b-b8a3498a31bb"
       }
-    }
+    },
+    "private": true
   },
   "celery-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2057,7 +2180,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "5b271002-0fe2-4407-be21-7c09646a2303"
       }
-    }
+    },
+    "private": true
   },
   "celery-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2077,7 +2201,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "813b3e86-659b-48ee-b88d-122c13fa96e8"
       }
-    }
+    },
+    "private": true
   },
   "celery-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2097,7 +2222,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "13e77335-22c0-470a-a5e5-da6363f622e0"
       }
-    }
+    },
+    "private": true
   },
   "celery-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2117,7 +2243,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "a52a4fbf-dc30-4c09-b1d8-b25bcead712c"
       }
-    }
+    },
+    "private": true
   },
   "celery-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2137,7 +2264,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "3e9a8018-a0bf-4562-867d-555c75c08d9f"
       }
-    }
+    },
+    "private": true
   },
   "celery-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2157,7 +2285,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "7a5096e0-6845-4ae5-bab4-d958c7e3dadb"
       }
-    }
+    },
+    "private": true
   },
   "celery-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2177,7 +2306,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "10c7c9b0-0d15-43ae-bf6f-84384783a9aa"
       }
-    }
+    },
+    "private": true
   },
   "celery-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2197,7 +2327,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "085d2bcb-85b1-4b55-842b-9559c457a1a0"
       }
-    }
+    },
+    "private": true
   },
   "celery-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2217,7 +2348,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "5c9ac732-7e1a-448c-b338-18d3b265d5d1"
       }
-    }
+    },
+    "private": true
   },
   "celery-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2237,7 +2369,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "865fc403-cab2-4e38-a181-e5e10523e04d"
       }
-    }
+    },
+    "private": true
   },
   "celery-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2257,7 +2390,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "cc88021a-ce1a-4f69-9208-d1b897a1d71b"
       }
-    }
+    },
+    "private": true
   },
   "celery-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2277,7 +2411,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "0fd51556-72b0-48ea-86f2-435bf64de316"
       }
-    }
+    },
+    "private": true
   },
   "celery-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2297,7 +2432,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "fe522078-7e21-447e-bd4f-e5f2ea6845d9"
       }
-    }
+    },
+    "private": true
   },
   "celery-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2317,7 +2453,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "99fb92f6-7186-4432-99ec-d5fa5b35c5be"
       }
-    }
+    },
+    "private": true
   },
   "green-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2337,7 +2474,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "f0702380-ed81-4f16-844c-b4c3b797161c"
       }
-    }
+    },
+    "private": true
   },
   "green-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2357,7 +2495,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "b5d964d5-e68d-44c6-880f-2e23d2bae7ec"
       }
-    }
+    },
+    "private": true
   },
   "green-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2377,7 +2516,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "1aaecce9-f58c-44a5-9bb9-f62172ebcd21"
       }
-    }
+    },
+    "private": true
   },
   "green-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2397,7 +2537,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "8143aced-4012-4dc3-a132-2b5701e09a52"
       }
-    }
+    },
+    "private": true
   },
   "green-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2417,7 +2558,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "9418d6a8-69a1-49a4-ac3d-d81c81a633be"
       }
-    }
+    },
+    "private": true
   },
   "green-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2437,7 +2579,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "57d2a064-3028-4225-82c4-e200e4abc6a3"
       }
-    }
+    },
+    "private": true
   },
   "green-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2457,7 +2600,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "fa823d25-6075-455b-a6f4-18de77a01f06"
       }
-    }
+    },
+    "private": true
   },
   "green-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2477,7 +2621,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "12755af6-ac1f-441a-80fb-07c3d61dc6c9"
       }
-    }
+    },
+    "private": true
   },
   "green-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2497,7 +2642,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "81174c05-0b05-4030-a8b7-e2fc13533954"
       }
-    }
+    },
+    "private": true
   },
   "green-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2517,7 +2663,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "a1c41ddd-5c54-4dce-bea3-51768998639c"
       }
-    }
+    },
+    "private": true
   },
   "green-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2537,7 +2684,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "7f426d3d-5ff9-4ee2-b0e1-07282fe389df"
       }
-    }
+    },
+    "private": true
   },
   "green-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2557,7 +2705,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "515298b6-f629-4c08-9e0f-18a5ba8fe20f"
       }
-    }
+    },
+    "private": true
   },
   "green-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2577,7 +2726,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "ce02582f-b327-4367-9f66-92dcc67fd072"
       }
-    }
+    },
+    "private": true
   },
   "green-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2597,7 +2747,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "51b8502d-e045-4b40-93e1-e2b49f6bf90c"
       }
-    }
+    },
+    "private": true
   },
   "green-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2617,7 +2768,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "490cf084-b56e-4464-8e38-1bb15458213e"
       }
-    }
+    },
+    "private": true
   },
   "green-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2637,7 +2789,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "96e3e83b-1878-460e-9bc2-aa25a36ff887"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2657,7 +2810,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "3c862893-b1e9-45df-99da-33906686d3c1"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2677,7 +2831,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "4115d94a-b52e-4cc8-8067-cd9184030ffe"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2697,7 +2852,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "56c4f393-086d-41d9-87d0-babaea86a2a4"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2717,7 +2873,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "21467045-093e-461e-86ac-dc65b657bf50"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2737,7 +2894,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "50117040-ca43-4b90-832d-7e4c2d83c31c"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2757,7 +2915,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "0a450ad0-dd5e-414c-9b76-dac4ca20a1b8"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2777,7 +2936,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "c26d7e9d-fef9-4aa9-991b-bbac307e3c7a"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2797,7 +2957,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "7a88f0bf-59cb-4af3-9542-f7648fecd50e"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2817,7 +2978,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "8e444b02-f977-4948-b862-63275642ad58"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2837,7 +2999,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "72873817-3cf5-4a14-aa93-1f86b4c6f7f2"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2857,7 +3020,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "fb3f4cf4-e032-4cc1-94b1-d122f0d695ac"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2877,7 +3041,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "8a7fb1d7-90ca-41d1-a04c-84bd1d70d9ec"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2897,7 +3062,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "3e88a833-9ef2-4f37-86a1-041e76850e1e"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2917,7 +3083,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "badc0d78-4232-44f0-8911-e9e2f0eab94f"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2937,7 +3104,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "fd0d5cda-892b-4628-a125-353dcd123987"
       }
-    }
+    },
+    "private": true
   },
   "seafoam-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2957,7 +3125,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "6685e580-982d-4f86-800a-19797f1675af"
       }
-    }
+    },
+    "private": true
   },
   "cyan-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2977,7 +3146,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "28fe7c7b-b43c-4650-9155-5b0f5ec27a09"
       }
-    }
+    },
+    "private": true
   },
   "cyan-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -2997,7 +3167,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "b6b314ea-f9ba-4f49-a115-f4177ecb7bbc"
       }
-    }
+    },
+    "private": true
   },
   "cyan-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3017,7 +3188,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "f7d51b4b-6c95-4271-a51e-4ad5a1660591"
       }
-    }
+    },
+    "private": true
   },
   "cyan-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3037,7 +3209,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "6c2a20c7-e453-4401-a0b4-8e0d1d7edd7e"
       }
-    }
+    },
+    "private": true
   },
   "cyan-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3057,7 +3230,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "39f96e8f-c9c8-4158-8da9-6825cd084fc3"
       }
-    }
+    },
+    "private": true
   },
   "cyan-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3077,7 +3251,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "6f67dfce-62d0-4147-aac6-33873a325cd3"
       }
-    }
+    },
+    "private": true
   },
   "cyan-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3097,7 +3272,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "08173787-f50d-48a7-badc-141a9e7b7981"
       }
-    }
+    },
+    "private": true
   },
   "cyan-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3117,7 +3293,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "a006424a-ad2b-4091-a38d-b4af80ddc03e"
       }
-    }
+    },
+    "private": true
   },
   "cyan-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3137,7 +3314,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "03de1fef-9ae1-457d-917b-6f22fb545d00"
       }
-    }
+    },
+    "private": true
   },
   "cyan-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3157,7 +3335,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "8dd5e110-aa2f-47b2-aa21-30bc4241db86"
       }
-    }
+    },
+    "private": true
   },
   "cyan-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3177,7 +3356,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "4698ba84-dab0-4b6b-a2b1-e289261aa7b4"
       }
-    }
+    },
+    "private": true
   },
   "cyan-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3197,7 +3377,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "8e12e7fe-546a-4e8c-92eb-56673446b1bb"
       }
-    }
+    },
+    "private": true
   },
   "cyan-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3217,7 +3398,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "958d5c96-6b57-47c2-a9a5-f589c054aa13"
       }
-    }
+    },
+    "private": true
   },
   "cyan-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3237,7 +3419,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "8a2d9c8d-a95a-48ac-b6eb-0ca1d5e69bd7"
       }
-    }
+    },
+    "private": true
   },
   "cyan-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3257,7 +3440,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "6aa5f844-ba8d-40a3-86ec-109e9430ace5"
       }
-    }
+    },
+    "private": true
   },
   "cyan-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3277,7 +3461,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "9bf84aeb-6822-40c9-b027-8db8a49fd54b"
       }
-    }
+    },
+    "private": true
   },
   "indigo-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3297,7 +3482,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "37af1036-6ba7-4eac-b1a5-9442ff55036f"
       }
-    }
+    },
+    "private": true
   },
   "indigo-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3317,7 +3503,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "401d532f-8374-4e5a-99c5-51c4ec9bc344"
       }
-    }
+    },
+    "private": true
   },
   "indigo-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3337,7 +3524,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "fb607a6f-2d62-4163-a6a3-068b80a084da"
       }
-    }
+    },
+    "private": true
   },
   "indigo-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3357,7 +3545,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "5cd6358b-bdc0-488e-a5fe-089a769b6bfb"
       }
-    }
+    },
+    "private": true
   },
   "indigo-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3377,7 +3566,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "a9e657da-8f33-425a-b2ab-dca9d1337bf3"
       }
-    }
+    },
+    "private": true
   },
   "indigo-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3397,7 +3587,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "233a1b84-3ab6-4899-9b41-d9177356c175"
       }
-    }
+    },
+    "private": true
   },
   "indigo-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3417,7 +3608,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "feeeaa05-5c75-4a06-b5be-ed8bf3ecd773"
       }
-    }
+    },
+    "private": true
   },
   "indigo-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3437,7 +3629,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "63e9a41c-ee85-43c1-b550-3ca8ce7c0986"
       }
-    }
+    },
+    "private": true
   },
   "indigo-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3457,7 +3650,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "39f6823f-ca35-413c-ad64-31529710cf3c"
       }
-    }
+    },
+    "private": true
   },
   "indigo-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3477,7 +3671,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "ef5ddbb5-3e37-4806-b863-9369294dc07a"
       }
-    }
+    },
+    "private": true
   },
   "indigo-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3497,7 +3692,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "f4c7c283-b412-4acc-b2f5-0339f946ff3d"
       }
-    }
+    },
+    "private": true
   },
   "indigo-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3517,7 +3713,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "91d7c77f-6cb0-4f1d-92ea-03965a296cc6"
       }
-    }
+    },
+    "private": true
   },
   "indigo-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3537,7 +3734,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "a274d960-197e-4045-99d3-9919cfa90e6e"
       }
-    }
+    },
+    "private": true
   },
   "indigo-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3557,7 +3755,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "46fa9ff8-5758-41c3-b0aa-fefd075eb739"
       }
-    }
+    },
+    "private": true
   },
   "indigo-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3577,7 +3776,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "72c07c8d-19f8-44de-8e73-98997502cf86"
       }
-    }
+    },
+    "private": true
   },
   "indigo-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3597,7 +3797,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "2f76990f-4bfd-4b4d-b063-aa374ea9df83"
       }
-    }
+    },
+    "private": true
   },
   "purple-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3617,7 +3818,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "8898f93b-9e3f-4143-bb78-fd0afd4c4ee0"
       }
-    }
+    },
+    "private": true
   },
   "purple-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3637,7 +3839,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "0980d65e-bf37-40c7-a59c-5a0c80795211"
       }
-    }
+    },
+    "private": true
   },
   "purple-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3657,7 +3860,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "2f450b24-782a-428f-80ff-9d762e22e44c"
       }
-    }
+    },
+    "private": true
   },
   "purple-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3677,7 +3881,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "7faf15d0-6890-4cde-919e-1b720d5bfc0a"
       }
-    }
+    },
+    "private": true
   },
   "purple-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3697,7 +3902,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "2473ee91-ecb3-414d-ac05-8b040aee3283"
       }
-    }
+    },
+    "private": true
   },
   "purple-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3717,7 +3923,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "78f628a8-2d9f-4532-8502-bf389ec8ae7d"
       }
-    }
+    },
+    "private": true
   },
   "purple-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3737,7 +3944,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "8cdcca2d-71d7-4a08-b7a0-072e954980fe"
       }
-    }
+    },
+    "private": true
   },
   "purple-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3757,7 +3965,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "32ee4548-9a32-476b-a245-f0af6c701fdb"
       }
-    }
+    },
+    "private": true
   },
   "purple-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3777,7 +3986,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "1f898f83-cd72-4bf1-bd66-ee1486a0f70d"
       }
-    }
+    },
+    "private": true
   },
   "purple-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3797,7 +4007,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "2287f92f-6851-4f5f-b48c-3a43067a7a08"
       }
-    }
+    },
+    "private": true
   },
   "purple-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3817,7 +4028,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "ed68aade-7d0a-4029-bf17-9a3b88f08ceb"
       }
-    }
+    },
+    "private": true
   },
   "purple-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3837,7 +4049,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "aa502b60-e84f-4a35-910f-de28016d44fc"
       }
-    }
+    },
+    "private": true
   },
   "purple-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3857,7 +4070,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "eeb7a71b-1a59-4629-a1fd-4fe9bae6d3db"
       }
-    }
+    },
+    "private": true
   },
   "purple-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3877,7 +4091,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "10c0a8e7-8496-4421-bfa0-cc41af6271d7"
       }
-    }
+    },
+    "private": true
   },
   "purple-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3897,7 +4112,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "05c1a879-e716-4f67-97ab-7f524b713815"
       }
-    }
+    },
+    "private": true
   },
   "purple-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3917,7 +4133,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "1d742643-035d-4966-aba9-2be2bbfb793e"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3937,7 +4154,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "c826bbb3-badb-48a1-becf-86f5f395eef7"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3957,7 +4175,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "eed8370d-a367-4333-ba69-56843a7657ba"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3977,7 +4196,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "7b52a8c6-67b3-4d8c-b506-aa5eeababdfb"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -3997,7 +4217,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "670788fe-2614-4673-bda2-681622680109"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4017,7 +4238,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "906889fa-ad69-4129-978c-23ea12d2b362"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4037,7 +4259,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "0b09ae9a-7aa8-4b63-b6c4-4317b03dc3ff"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4057,7 +4280,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "02b7bf12-ff14-4829-aa9b-52c3033b0652"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4077,7 +4301,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "a6344998-b1e8-4651-a4c9-b1b2aa22d48b"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4097,7 +4322,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "2a29020c-1524-4b9b-a249-25b9927d4a54"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4117,7 +4343,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "7606b799-458c-466e-96c6-a0a7e949a83c"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4137,7 +4364,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "aa82e21e-e5a2-4bcd-a63d-a2d76c467ac7"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4157,7 +4385,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "bdb3a49e-331e-44b9-96e2-4f1dccdae565"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4177,7 +4406,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "c53a7f46-12aa-48c9-afdf-20e7a26bbb09"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4197,7 +4427,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "ee6b1d77-41ce-4c87-9d95-098f5fc66da9"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4217,7 +4448,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "a8afc139-5eeb-4b56-9acd-62433f802563"
       }
-    }
+    },
+    "private": true
   },
   "fuchsia-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4237,7 +4469,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "cd37d695-d1b0-4322-92f7-9bc0a347aa90"
       }
-    }
+    },
+    "private": true
   },
   "magenta-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4257,7 +4490,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "3f70bddc-f8e3-41a1-a68e-9500ac9a2474"
       }
-    }
+    },
+    "private": true
   },
   "magenta-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4277,7 +4511,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "074993b8-2652-448c-a6ca-b18a39176ed9"
       }
-    }
+    },
+    "private": true
   },
   "magenta-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4297,7 +4532,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "04b09fbb-08cb-4fe3-a287-d7de2bf39312"
       }
-    }
+    },
+    "private": true
   },
   "magenta-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4317,7 +4553,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "41d578d1-c853-4360-95e9-b94ad61e7786"
       }
-    }
+    },
+    "private": true
   },
   "magenta-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4337,7 +4574,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "0734c859-3e4c-4974-98e2-700c49c69bcd"
       }
-    }
+    },
+    "private": true
   },
   "magenta-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4357,7 +4595,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "e70126f5-e8d6-47e2-9737-0dbb17655b1f"
       }
-    }
+    },
+    "private": true
   },
   "magenta-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4377,7 +4616,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "e5ffefaa-72d6-444d-8f9f-3fb08a9f2480"
       }
-    }
+    },
+    "private": true
   },
   "magenta-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4397,7 +4637,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "6dca10b8-2ed2-463c-82f5-fad66a833675"
       }
-    }
+    },
+    "private": true
   },
   "magenta-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4417,7 +4658,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "991792f1-03ed-494b-ada7-1beb965e39c9"
       }
-    }
+    },
+    "private": true
   },
   "magenta-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4437,7 +4679,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "8a8e447b-6b31-4758-b59e-51acad7c9210"
       }
-    }
+    },
+    "private": true
   },
   "magenta-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4457,7 +4700,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "9784741b-612e-4986-952b-a102c04e2afd"
       }
-    }
+    },
+    "private": true
   },
   "magenta-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4477,7 +4721,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "3c632a35-bf86-4182-9475-84854a20f15a"
       }
-    }
+    },
+    "private": true
   },
   "magenta-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4497,7 +4742,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "030c6431-3ea5-429b-a492-1a01dd396d44"
       }
-    }
+    },
+    "private": true
   },
   "magenta-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4517,7 +4763,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "b6dd1b22-5f8f-46d8-924e-4ce02ad5a99f"
       }
-    }
+    },
+    "private": true
   },
   "magenta-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4537,7 +4784,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "950ba124-e6b5-47b6-b1b8-31960f7cc380"
       }
-    }
+    },
+    "private": true
   },
   "magenta-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4557,7 +4805,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "2fc90f48-a54e-4aae-9b9f-aa3c4d7e55de"
       }
-    }
+    },
+    "private": true
   },
   "pink-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4577,7 +4826,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "4c01ddf8-d689-4433-826c-75b33bc2214d"
       }
-    }
+    },
+    "private": true
   },
   "pink-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4597,7 +4847,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "d4e972fb-fbd5-4b37-bd20-9487ed47d243"
       }
-    }
+    },
+    "private": true
   },
   "pink-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4617,7 +4868,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "83e9b8e8-ff2a-49fc-9ac8-349c694c1aec"
       }
-    }
+    },
+    "private": true
   },
   "pink-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4637,7 +4889,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "ba838eaa-0dc0-4bbd-be25-300e8bd89272"
       }
-    }
+    },
+    "private": true
   },
   "pink-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4657,7 +4910,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "356a4b99-8ffc-4d11-b56e-a88c5e70194d"
       }
-    }
+    },
+    "private": true
   },
   "pink-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4677,7 +4931,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "527b5dcd-0896-4dbc-82f9-866297227eb0"
       }
-    }
+    },
+    "private": true
   },
   "pink-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4697,7 +4952,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "873c22cd-488b-45d4-a79d-0473fc4f3c7f"
       }
-    }
+    },
+    "private": true
   },
   "pink-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4717,7 +4973,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "b50fbb92-1897-469d-a867-d9f6e5070c2e"
       }
-    }
+    },
+    "private": true
   },
   "pink-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4737,7 +4994,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "85c314fe-cdfe-4542-856f-f58acfad1aee"
       }
-    }
+    },
+    "private": true
   },
   "pink-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4757,7 +5015,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "deac6200-0e75-47d5-9073-3aaa390f1cd1"
       }
-    }
+    },
+    "private": true
   },
   "pink-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4777,7 +5036,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "b9911ab3-fa6b-42e7-9247-c341b68ee151"
       }
-    }
+    },
+    "private": true
   },
   "pink-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4797,7 +5057,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "4c73d77d-95e3-4311-b644-2b55ad4552cf"
       }
-    }
+    },
+    "private": true
   },
   "pink-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4817,7 +5078,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "efa5d789-8e54-493d-9787-8e5dce4180a0"
       }
-    }
+    },
+    "private": true
   },
   "pink-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4837,7 +5099,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "4d10b352-648d-404a-a863-3fd3308b2696"
       }
-    }
+    },
+    "private": true
   },
   "pink-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4857,7 +5120,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "13813529-7eb8-4171-a40b-a719c430299b"
       }
-    }
+    },
+    "private": true
   },
   "pink-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4877,7 +5141,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "44800628-6a86-49de-b44f-256ca36c4127"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4897,7 +5162,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "094b2708-cb1f-4936-96ee-503cf113ab7a"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4917,7 +5183,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "e5a0aca5-4d22-4d1a-9732-6e0e2c98e72d"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4937,7 +5204,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "c4877ffd-985b-4260-b1c3-3ac37392315a"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4957,7 +5225,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "f136369b-3ac7-4041-871e-90c90f3da3a9"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4977,7 +5246,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "4320a8e7-3509-45c6-b133-02bf0e779a42"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -4997,7 +5267,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "1ce42e96-435f-4895-896d-268dcdf16b21"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5017,7 +5288,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "9ffcdab9-e422-4ece-b292-6b8ce227bef8"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5037,7 +5309,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "a6548e62-22e6-4089-b098-0a8bb60676ec"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5057,7 +5330,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "2084f7e5-221c-4a4e-96e0-fa0ff2fa40f1"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5077,7 +5351,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "7c82b1ca-e445-45a0-b7b2-5ed3030e92e7"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5097,7 +5372,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "e3e88d56-d236-41f7-8eaa-3804576b6161"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5117,7 +5393,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "1ca86f12-0424-40b5-a606-912e2fcc5cc1"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5137,7 +5414,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "07b5d5b0-8952-4901-a0e5-227fa3e1aacf"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5157,7 +5435,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "81180029-eec8-4d26-9fe0-3966aa372151"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5177,7 +5456,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "1162302d-4bcf-478a-a95e-660785220434"
       }
-    }
+    },
+    "private": true
   },
   "turquoise-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5197,7 +5477,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "21be860b-80bb-40a1-9aaf-20a97b2ddc77"
       }
-    }
+    },
+    "private": true
   },
   "brown-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5217,7 +5498,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "3d64c998-df63-4695-a1d1-00d78ed2097b"
       }
-    }
+    },
+    "private": true
   },
   "brown-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5237,7 +5519,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "5d0e6309-481d-40f9-81b9-7d0bee9cf794"
       }
-    }
+    },
+    "private": true
   },
   "brown-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5257,7 +5540,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "e710f0e9-90a7-4ed9-8d2b-6a8c9ed778db"
       }
-    }
+    },
+    "private": true
   },
   "brown-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5277,7 +5561,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "7a9223ac-0dee-4dd5-8b11-b04815683c6b"
       }
-    }
+    },
+    "private": true
   },
   "brown-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5297,7 +5582,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "bca8a6a6-557e-4930-b765-0dcc9867c42a"
       }
-    }
+    },
+    "private": true
   },
   "brown-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5317,7 +5603,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "ef14139b-0550-4a5a-b2f5-eb787bcf406d"
       }
-    }
+    },
+    "private": true
   },
   "brown-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5337,7 +5624,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "45f999be-146e-4b0f-97de-ef1f7e82d675"
       }
-    }
+    },
+    "private": true
   },
   "brown-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5357,7 +5645,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "2c0181c8-ef5c-46c8-bc3e-703d08f3692b"
       }
-    }
+    },
+    "private": true
   },
   "brown-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5377,7 +5666,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "6756882c-f521-49fc-b7c9-3dc8f4d39d5a"
       }
-    }
+    },
+    "private": true
   },
   "brown-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5397,7 +5687,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "a2a5c52d-7381-47b8-9b67-5d3c86e8ff21"
       }
-    }
+    },
+    "private": true
   },
   "brown-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5417,7 +5708,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "1c1c2c57-890d-4638-b219-5b5e1953ba57"
       }
-    }
+    },
+    "private": true
   },
   "brown-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5437,7 +5729,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "df9afc4f-bb87-4dae-b2b6-f7d27a590593"
       }
-    }
+    },
+    "private": true
   },
   "brown-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5457,7 +5750,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "1e9a6104-d427-4197-8e01-25673c917143"
       }
-    }
+    },
+    "private": true
   },
   "brown-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5477,7 +5771,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "2ceb2cda-a535-44eb-ae23-b922edcb8bb8"
       }
-    }
+    },
+    "private": true
   },
   "brown-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5497,7 +5792,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "19c96dc5-7a37-4381-a7e8-ac1c442afda6"
       }
-    }
+    },
+    "private": true
   },
   "brown-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5517,7 +5813,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "cb18b0b7-7ad5-419f-863c-fdbb05c624c3"
       }
-    }
+    },
+    "private": true
   },
   "silver-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5537,7 +5834,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "7e0c8012-9ec4-40c3-a572-dd551627e54f"
       }
-    }
+    },
+    "private": true
   },
   "silver-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5557,7 +5855,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "240ade94-eb1b-4ddd-b667-7c05af2b196a"
       }
-    }
+    },
+    "private": true
   },
   "silver-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5577,7 +5876,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "da36dc54-21c0-412f-baa1-ae3a2810b926"
       }
-    }
+    },
+    "private": true
   },
   "silver-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5597,7 +5897,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "a52e646b-54c7-419b-850e-1da7abc74dd3"
       }
-    }
+    },
+    "private": true
   },
   "silver-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5617,7 +5918,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "696e8452-cd1b-4ab8-b9d6-eb2b76bdf020"
       }
-    }
+    },
+    "private": true
   },
   "silver-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5637,7 +5939,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "b0f8e027-ba0e-4460-8d45-b0ada27327d9"
       }
-    }
+    },
+    "private": true
   },
   "silver-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5657,7 +5960,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "907d96cc-375b-49a7-abe0-afb229c98474"
       }
-    }
+    },
+    "private": true
   },
   "silver-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5677,7 +5981,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "8ed554bc-be40-4ebb-9a83-c85c73c0cb3d"
       }
-    }
+    },
+    "private": true
   },
   "silver-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5697,7 +6002,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "3f1bbfff-8a14-4984-a725-211aba36fa98"
       }
-    }
+    },
+    "private": true
   },
   "silver-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5717,7 +6023,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "28a8b564-c9fb-41ab-b989-47516f9c0135"
       }
-    }
+    },
+    "private": true
   },
   "silver-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5737,7 +6044,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "69a3ff9a-dec9-4a96-b54f-f9ca12568e59"
       }
-    }
+    },
+    "private": true
   },
   "silver-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5757,7 +6065,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "18013461-754d-434e-8b05-269dd307d45a"
       }
-    }
+    },
+    "private": true
   },
   "silver-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5777,7 +6086,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "8119e422-4eb8-44fc-bf69-b1f76963afca"
       }
-    }
+    },
+    "private": true
   },
   "silver-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5797,7 +6107,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "9313f4d5-1105-4cb0-81f4-a8a5109594a0"
       }
-    }
+    },
+    "private": true
   },
   "silver-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5817,7 +6128,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "dba91bae-1dae-4687-be68-d831a5bd42ba"
       }
-    }
+    },
+    "private": true
   },
   "silver-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5837,7 +6149,8 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "cd1b844a-29bf-4643-a246-4f124544e25d"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5857,7 +6170,8 @@
         "value": "rgb(246, 248, 252)",
         "uuid": "3c3b2fb7-053d-47ca-86a6-4d1ee07b6f3f"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5877,7 +6191,8 @@
         "value": "rgb(235, 239, 248)",
         "uuid": "07d13e6d-0df2-4eee-8550-ef033f954e9e"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5897,7 +6212,8 @@
         "value": "rgb(216, 224, 242)",
         "uuid": "74d44818-bbbd-44a3-b9f0-7131fb036498"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5917,7 +6233,8 @@
         "value": "rgb(192, 205, 234)",
         "uuid": "2a7d78f3-ad8d-4301-96e8-f2a4ed378c00"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5937,7 +6254,8 @@
         "value": "rgb(164, 183, 225)",
         "uuid": "c607ecc8-35ed-4d47-a683-54d57b816fbd"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5957,7 +6275,8 @@
         "value": "rgb(135, 160, 215)",
         "uuid": "d46ae80e-04ba-418f-8368-1d8c0633c0d1"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5977,7 +6296,8 @@
         "value": "rgb(113, 142, 208)",
         "uuid": "71085b67-c49c-4b1e-b708-6b38c16b9d37"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -5997,7 +6317,8 @@
         "value": "rgb(93, 127, 201)",
         "uuid": "e78bd82d-f4c0-4617-92bb-08a69153bacd"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -6017,7 +6338,8 @@
         "value": "rgb(74, 111, 195)",
         "uuid": "cdaaa5e1-7ca5-43a8-bdb4-3ef8fedbb30d"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -6037,7 +6359,8 @@
         "value": "rgb(61, 94, 165)",
         "uuid": "696315e6-4d82-49a0-8781-853beb0d1f5b"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -6057,7 +6380,8 @@
         "value": "rgb(52, 79, 140)",
         "uuid": "41f0e438-0ca6-4240-84e7-dedfcff1aa21"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -6077,7 +6401,8 @@
         "value": "rgb(42, 65, 114)",
         "uuid": "87e41d92-4099-4248-963c-394d43e33657"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -6097,7 +6422,8 @@
         "value": "rgb(34, 51, 91)",
         "uuid": "2c86bff2-dddd-4fea-b6da-99873fa74da3"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -6117,7 +6443,8 @@
         "value": "rgb(25, 39, 69)",
         "uuid": "2ec58374-b4c1-4e03-8f3f-57c747a7ed47"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-1500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -6137,7 +6464,8 @@
         "value": "rgb(18, 27, 48)",
         "uuid": "1adb9cd6-2ba1-4501-ab9d-f377ae07d399"
       }
-    }
+    },
+    "private": true
   },
   "cinnamon-1600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
@@ -6157,6 +6485,7 @@
         "value": "rgb(8, 12, 22)",
         "uuid": "321a9931-be34-4ce9-8180-8e7fd87e30f4"
       }
-    }
+    },
+    "private": true
   }
 }
