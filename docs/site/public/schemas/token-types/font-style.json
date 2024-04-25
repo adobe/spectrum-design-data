@@ -18,6 +18,7 @@
       "enum": ["italic", "normal"]
     },
     "component": {},
+    "private": {},
     "deprecated": {},
     "deprecated_comment": {},
     "uuid": {}

@@ -18,6 +18,7 @@
       "pattern": "^(?:-?((?:\\d+\\.?\\d*)|(?:\\.?\\d+))(px|rem|em|%))|0|\\d+dp$"
     },
     "component": {},
+    "private": {},
     "deprecated": {},
     "deprecated_comment": {},
     "uuid": {}
