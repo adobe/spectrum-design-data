@@ -1715,5 +1715,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{drop-shadow-color-200}",
     "uuid": "e475981f-97af-479c-859b-7619dd87c448"
+  },
+  "neutral-subtle-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "cc79fbaf-a2e1-4761-82e7-1dbea52acee8"
   }
 }
