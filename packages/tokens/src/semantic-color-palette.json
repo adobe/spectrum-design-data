@@ -418,5 +418,25 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{negative-color-300}",
     "uuid": "4b6aaf76-e0ab-4be0-81c0-d5f64cacee88"
+  },
+  "informative-subtle-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-200}",
+    "uuid": "62dfb07f-5eee-451c-9c77-745d8f714766"
+  },
+  "positive-subtle-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{green-200}",
+    "uuid": "57a1aa8f-5c06-4ff6-8d1c-0e278a433ebf"
+  },
+  "notice-subtle-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{orange-200}",
+    "uuid": "f0799e87-dbb2-4e71-8253-65f45eddc078"
+  },
+  "negative-subtle-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{red-200}",
+    "uuid": "8e9429cf-4c89-47be-bc6e-eeecc632aeb1"
   }
 }
