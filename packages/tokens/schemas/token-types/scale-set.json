@@ -46,6 +46,7 @@
       "required": ["mobile", "desktop"]
     },
     "component": {},
+    "private": {},
     "deprecated": {},
     "deprecated_comment": {},
     "uuid": {}
