@@ -133,13 +133,13 @@
     "uuid": "4e1d1cc5-736e-4e82-9054-5c1a74ac1aca"
   },
   "card-selection-background-color": {
-    "component": "cards",
+    "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-100}",
     "uuid": "622c6e86-dea6-416d-9f13-bb6ef112d3cb"
   },
   "card-selection-background-color-opacity": {
-    "component": "cards",
+    "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.95",
     "uuid": "ac039445-0bf8-4821-b02e-e7e06a416576"
