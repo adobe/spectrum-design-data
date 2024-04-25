@@ -1,5 +1,11 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.31
+
+### Minor Changes
+
+- [#327](https://github.com/adobe/spectrum-tokens/pull/327) [`3caa31d`](https://github.com/adobe/spectrum-tokens/commit/3caa31d014a3d49496422c38a93c3c7645da0373) Thanks [@GarthDB](https://github.com/GarthDB)! - Added `private` metadata to global tokens.
+
 ## 13.0.0-beta.30
 
 ### Minor Changes
