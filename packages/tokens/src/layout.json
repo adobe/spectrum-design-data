@@ -287,6 +287,21 @@
       }
     }
   },
+  "text-to-visual-400": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "3d393d59-b358-48a7-82c6-a7802408cd0d"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "b496071f-4151-4bc2-86eb-f2e41947e0f6"
+      }
+    }
+  },
   "text-to-control-75": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
