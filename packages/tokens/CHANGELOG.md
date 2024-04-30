@@ -1,5 +1,23 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.34
+
+### Minor Changes
+
+- [#334](https://github.com/adobe/spectrum-tokens/pull/334) [`4d28593`](https://github.com/adobe/spectrum-tokens/commit/4d28593c9d34414d72d78a1cc6c480d9ffdf82ce) Thanks [@nabuhasan](https://github.com/nabuhasan)! - S2 Popover tokens update
+
+  ## Token Diff
+
+  _Tokens added (3):_
+
+  - `popover-border-color`
+  - `popover-border-opacity`
+  - `popover-edge-to-content-area`
+
+  _Newly deprecated token (1):_
+
+  - `popover-top-to-content-area`
+
 ## 13.0.0-beta.33
 
 ### Minor Changes

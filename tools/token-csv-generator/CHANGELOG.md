@@ -1,5 +1,12 @@
 # token-csv-generator
 
+## 0.0.2-beta.5
+
+### Patch Changes
+
+- Updated dependencies [[`4d28593`](https://github.com/adobe/spectrum-tokens/commit/4d28593c9d34414d72d78a1cc6c480d9ffdf82ce)]:
+  - @adobe/spectrum-tokens@13.0.0-beta.34
+
 ## 0.0.2-beta.4
 
 ### Patch Changes
