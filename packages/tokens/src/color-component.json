@@ -372,5 +372,32 @@
         "uuid": "ce26d102-2e5e-4b11-b9bf-4d1b347c60c5"
       }
     }
+  },
+  "popover-border-color": {
+    "component": "popover",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-200}",
+    "uuid": "66da6f53-5446-43c1-bbe0-73b46763fde1"
+  },
+  "popover-border-opacity": {
+    "component": "popover",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "value": "0",
+        "uuid": "05c58363-1d34-4991-a7f7-7be7da4df50a"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "value": "1.0",
+        "uuid": "fa9feacc-0c82-41a7-badc-5803c45a703b"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "value": "0",
+        "uuid": "d8f81d4f-b921-4a41-89c1-cdc79d40901a"
+      }
+    }
   }
 }

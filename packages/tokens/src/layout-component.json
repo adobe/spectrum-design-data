@@ -1594,7 +1594,14 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{popover-edge-to-content-area}",
     "uuid": "f97488e8-b1c1-442e-b98c-0ae6cff0b774",
-    "deprecated": true
+    "deprecated": true,
+    "deprecated_comment": "Introduced as an error. Use popover-edge-to-content-area instead"
+  },
+  "popover-edge-to-content-area": {
+    "component": "popover",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{spacing-100}",
+    "uuid": "2a3bd47e-fde5-41d3-a585-f970bdefaf07"
   },
   "menu-item-label-to-description": {
     "component": "menu",
@@ -8069,25 +8076,5 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0",
     "uuid": "6f464689-0b87-4f38-b9a4-e5015acdd0d7"
-  },
-  "popover-edge-to-content-area": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{spacing-100}",
-    "uuid": "2a3bd47e-fde5-41d3-a585-f970bdefaf07"
-  },
-  "popover-border-opacity": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
-    "sets": {
-      "light": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
-        "value": "0",
-        "uuid": "05c58363-1d34-4991-a7f7-7be7da4df50a"
-      },
-      "dark": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
-        "value": "1.0",
-        "uuid": "fa9feacc-0c82-41a7-badc-5803c45a703b"
-      }
-    }
   }
 }
