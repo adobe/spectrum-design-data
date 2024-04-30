@@ -372,5 +372,10 @@
         "uuid": "ce26d102-2e5e-4b11-b9bf-4d1b347c60c5"
       }
     }
+  },
+  "popover-border-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-200}",
+    "uuid": "66da6f53-5446-43c1-bbe0-73b46763fde1"
   }
 }
