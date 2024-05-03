@@ -59,11 +59,6 @@
       "dark": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{gray-800}",
-        "uuid": "5dbb3e96-fe86-43a2-be8b-3ceecfe2d5ba"
-      },
-      "darkest": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{gray-800}",
         "uuid": "f783b8cb-d31f-46c2-b550-990639752510"
       },
       "wireframe": {
