@@ -3366,21 +3366,24 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{illustrated-message-large-title-font-size}",
     "uuid": "365ec548-431b-4e1e-9f9d-7b04d337f001",
-    "deprecated": true
+    "deprecated": true,
+    "deprecated_comment": "Use illustrated-message-medium-title-font-size instead"
   },
   "illustrated-message-cjk-title-size": {
     "component": "illustrated-message",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{illustrated-message-large-cjk-title-font-size}",
     "uuid": "e77279df-bc62-441a-8a30-5faa41d0df10",
-    "deprecated": true
+    "deprecated": true,
+    "deprecated_comment": "Use illustrated-message-medium-cjk-title-font-size instead"
   },
   "illustrated-message-body-size": {
     "component": "illustrated-message",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{illustrated-message-large-body-font-size}",
     "uuid": "4140710f-ae31-4ae3-b8b6-2d3eb6a1ae78",
-    "deprecated": true
+    "deprecated": true,
+    "deprecated_comment": "Use illustrated-message-medium-body-font-size instead"
   },
   "search-field-minimum-width-multiplier": {
     "component": "search-field",
@@ -3465,21 +3468,24 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{drop-zone-title-font-size}",
     "uuid": "edc68bfe-7ad3-4a12-81fa-ded8fb6fc2e3",
-    "deprecated": true
+    "deprecated": true,
+    "deprecated_comment": "Use drop-zone-title-font-size instead"
   },
   "drop-zone-cjk-title-size": {
     "component": "drop-zone",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{drop-zone-cjk-title-font-size}",
     "uuid": "013387e8-8925-4bb4-a8ee-94420141fde9",
-    "deprecated": true
+    "deprecated": true,
+    "deprecated_comment": "Use drop-zone-cjk-title-font-size instead"
   },
   "drop-zone-body-size": {
     "component": "drop-zone",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{drop-zone-body-font-size}",
     "uuid": "bb3fee51-24cc-4643-9f22-fa1592ab2457",
-    "deprecated": true
+    "deprecated": true,
+    "deprecated_comment": "Use drop-zone-body-font-size instead"
   },
   "coach-mark-width": {
     "component": "coach-mark",
