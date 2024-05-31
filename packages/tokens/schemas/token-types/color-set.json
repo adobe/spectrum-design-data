@@ -28,7 +28,7 @@
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json"
             }
           },
-          "required": ["light", "dark", "wireframe"]
+          "required": ["light", "dark"]
         },
         {
           "properties": {
@@ -42,7 +42,7 @@
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
             }
           },
-          "required": ["light", "dark", "wireframe"]
+          "required": ["light", "dark"]
         },
         {
           "properties": {
@@ -56,7 +56,7 @@
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json"
             }
           },
-          "required": ["light", "dark", "wireframe"]
+          "required": ["light", "dark"]
         }
       ]
     },
