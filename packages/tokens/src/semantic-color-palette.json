@@ -438,5 +438,30 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{red-200}",
     "uuid": "8e9429cf-4c89-47be-bc6e-eeecc632aeb1"
+  },
+  "icon-color-informative": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{informative-visual-color}",
+    "uuid": "2296b0de-6231-4f89-9992-499b67c6879c"
+  },
+  "icon-color-neutral": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{neutral-visual-color}",
+    "uuid": "29f5b73c-e8e8-4162-b9af-5a8e327baab8"
+  },
+  "icon-color-positive": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{positive-visual-color}",
+    "uuid": "02f093b3-ab51-42e7-8f6e-26bc7c7cba63"
+  },
+  "icon-color-notice": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{notice-visual-color}",
+    "uuid": "4bdb8681-f7a1-4bbe-b788-a64c6f9df6ea"
+  },
+  "icon-color-negative": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{negative-visual-color}",
+    "uuid": "adf2a3f0-d1cd-4b53-8a9c-47ab9cb7bb0f"
   }
 }
