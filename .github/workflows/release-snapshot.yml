@@ -1,0 +1,13 @@
+name: Release Snapshot
+
+on: workflow_dispatch
+
+jobs:
+  get-snapshot-tag:
+    name: Split branch name
+    runs-on: ubuntu-latest
+    steps:
+      - id: split
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: echo "::set-output name=fragment::${BRANCH##*/}"
