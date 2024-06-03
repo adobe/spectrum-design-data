@@ -75,5 +75,5 @@
     "deprecated_comment": {},
     "uuid": {}
   },
-  "required": ["sets"]
+  "required": ["sets", "uuid"]
 }

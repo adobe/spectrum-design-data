@@ -72,7 +72,8 @@
         "value": "13px",
         "uuid": "b7561ce1-e12e-4aed-9766-181f7eca309e"
       }
-    }
+    },
+    "uuid": "daa864c1-e91e-4357-bcfc-02f3a5037f9c"
   },
   "font-size-75": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -87,7 +88,8 @@
         "value": "15px",
         "uuid": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
       }
-    }
+    },
+    "uuid": "5cf4dd2a-2a85-4eb6-b163-fa6737e4f838"
   },
   "font-size-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -102,7 +104,8 @@
         "value": "17px",
         "uuid": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
       }
-    }
+    },
+    "uuid": "86103cc9-4510-45af-8139-a81ea3b69da7"
   },
   "font-size-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -117,7 +120,8 @@
         "value": "19px",
         "uuid": "7e51ff4e-2749-49d1-b9ed-75de92a73991"
       }
-    }
+    },
+    "uuid": "0cfbf6f7-7e79-44bb-af03-6355f412f590"
   },
   "font-size-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -132,7 +136,8 @@
         "value": "22px",
         "uuid": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
       }
-    }
+    },
+    "uuid": "cd34b2cb-e7fa-41dd-bd1e-cb1e8113554a"
   },
   "font-size-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -147,7 +152,8 @@
         "value": "24px",
         "uuid": "d5ed0e8d-01ac-495f-bd15-fecc30af17c4"
       }
-    }
+    },
+    "uuid": "c5ae539c-9b16-489a-a39b-c9cee1a1701b"
   },
   "font-size-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -162,7 +168,8 @@
         "value": "27px",
         "uuid": "a69a5079-1b5b-4ccf-946f-8b6e3fae4d7e"
       }
-    }
+    },
+    "uuid": "ff5914d7-5d19-4b21-b633-c742d95942db"
   },
   "font-size-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -177,7 +184,8 @@
         "value": "31px",
         "uuid": "ac892307-2559-48f5-9e2c-98dabbb0abc2"
       }
-    }
+    },
+    "uuid": "ed0c86e1-f062-405e-a1c4-ce74f62c0ea7"
   },
   "font-size-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -192,7 +200,8 @@
         "value": "34px",
         "uuid": "6bd6456c-b73b-4926-8e67-7b942e32bbc2"
       }
-    }
+    },
+    "uuid": "b2b59d6e-50f8-4e72-a5c5-993a87971e3d"
   },
   "font-size-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -207,7 +216,8 @@
         "value": "39px",
         "uuid": "bdfae93d-ae49-456b-af54-8620ea976ca8"
       }
-    }
+    },
+    "uuid": "3b3711a6-44fd-44b5-b273-e2c775a15986"
   },
   "font-size-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -222,7 +232,8 @@
         "value": "44px",
         "uuid": "5296e771-6d04-4e9a-b1fe-ab22d4dfd92b"
       }
-    }
+    },
+    "uuid": "b164fd8e-2d83-45fc-b636-dba832faad37"
   },
   "font-size-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -237,7 +248,8 @@
         "value": "49px",
         "uuid": "8b158ab0-7e82-4dab-a4d9-84cf7a71fa0a"
       }
-    }
+    },
+    "uuid": "db55c6a2-c72d-4e63-838c-5f30d467bb66"
   },
   "font-size-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -252,7 +264,8 @@
         "value": "55px",
         "uuid": "5eb96c78-c8f6-4e31-9bc8-fa62794ac4db"
       }
-    }
+    },
+    "uuid": "56149ad7-84a7-4067-bad8-c5b143dd0561"
   },
   "font-size-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -267,7 +280,8 @@
         "value": "62px",
         "uuid": "0ab38fb2-0de9-4be0-8967-8241379706be"
       }
-    }
+    },
+    "uuid": "164b0eae-cd17-4e2c-8f30-436c0df7d4c9"
   },
   "font-size-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
@@ -282,7 +296,8 @@
         "value": "70px",
         "uuid": "bd880141-81f6-47fe-a421-01124fe66b67"
       }
-    }
+    },
+    "uuid": "db26e411-a118-4bef-a413-eeb383e85f37"
   },
   "line-height-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
@@ -379,7 +394,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "e5bfbd82-a8e6-43dc-b2b6-dc1e171f48aa"
       }
-    }
+    },
+    "uuid": "2094ec97-c8de-46d7-93a4-1f49988bfbf2"
   },
   "heading-sans-serif-font-style": {
     "component": "heading",
@@ -403,7 +419,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "36bea3bb-06b8-4c66-87ad-ffc86be18243"
       }
-    }
+    },
+    "uuid": "2e852baa-60a2-4e7e-9e30-99c14d7e4fef"
   },
   "heading-serif-font-style": {
     "component": "heading",
@@ -427,7 +444,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "21643fcd-b1da-4057-8fb5-e75167c0d89f"
       }
-    }
+    },
+    "uuid": "203b2652-aa62-47f7-b4b5-52e22532de80"
   },
   "heading-cjk-font-style": {
     "component": "heading",
@@ -631,7 +649,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "723c8306-12fb-4cb5-9fd2-3ad40d57bb25"
       }
-    }
+    },
+    "uuid": "445edecf-360c-4c42-aaf2-3b7380678365"
   },
   "heading-sans-serif-emphasized-font-style": {
     "component": "heading",
@@ -655,7 +674,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "e9b3a7b0-ae46-48be-a143-f26463860d3f"
       }
-    }
+    },
+    "uuid": "aa539366-543c-4cf5-b326-8c6e8a09f846"
   },
   "heading-serif-emphasized-font-style": {
     "component": "heading",

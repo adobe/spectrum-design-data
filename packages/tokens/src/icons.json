@@ -35,7 +35,8 @@
         "value": "{blue-900}",
         "uuid": "20880dfd-57dc-486d-b0dd-c44002f340e3"
       }
-    }
+    },
+    "uuid": "a52ced5f-2e8d-4ab9-bddb-fbbf32860256"
   },
   "icon-color-green-primary-default": {
     "component": "icon",
@@ -61,7 +62,8 @@
         "value": "{green-900}",
         "uuid": "d6852796-baaa-4f95-9ce7-cc2fd5a829f1"
       }
-    }
+    },
+    "uuid": "d403d8a1-3ac2-4f6d-9434-6aebe4f23991"
   },
   "icon-color-red-primary-default": {
     "component": "icon",
@@ -87,7 +89,8 @@
         "value": "{red-900}",
         "uuid": "d524a471-2dce-4497-a650-30c2d6641eec"
       }
-    }
+    },
+    "uuid": "5b809bc6-8ac3-4ec1-a7bb-b88863b1905b"
   },
   "icon-color-yellow-primary-default": {
     "component": "icon",
@@ -113,7 +116,8 @@
         "value": "{yellow-400}",
         "uuid": "4a1eeded-e467-46be-a787-78555b2fe353"
       }
-    }
+    },
+    "uuid": "52b34bcf-a2dc-41a4-855c-0a786a234d5d"
   },
   "workflow-icon-size-50": {
     "component": "icon",
@@ -129,7 +133,8 @@
         "value": "18px",
         "uuid": "4c4cb541-7d42-4bb4-9c86-7197c4600896"
       }
-    }
+    },
+    "uuid": "1e2f7368-9813-4cda-aa32-a2d0bc03f41c"
   },
   "workflow-icon-size-75": {
     "component": "icon",
@@ -145,7 +150,8 @@
         "value": "20px",
         "uuid": "b720c214-babe-426d-9629-9ec60d5e8622"
       }
-    }
+    },
+    "uuid": "b2effa58-727a-4a52-8680-296b0f83f0aa"
   },
   "workflow-icon-size-100": {
     "component": "icon",
@@ -161,7 +167,8 @@
         "value": "22px",
         "uuid": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
       }
-    }
+    },
+    "uuid": "1ac9ea9c-59ab-41f7-966e-f1b5c290e4a1"
   },
   "workflow-icon-size-200": {
     "component": "icon",
@@ -177,7 +184,8 @@
         "value": "24px",
         "uuid": "9948e083-8c75-48f7-8e58-32c75ec76116"
       }
-    }
+    },
+    "uuid": "e8863648-66c4-4ffa-8aa2-53f91ca331c7"
   },
   "workflow-icon-size-300": {
     "component": "icon",
@@ -193,7 +201,8 @@
         "value": "28px",
         "uuid": "df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c"
       }
-    }
+    },
+    "uuid": "7d699674-dab8-4f5b-a022-51dc67b7fc45"
   },
   "arrow-icon-size-75": {
     "component": "icon",
@@ -209,7 +218,8 @@
         "value": "12px",
         "uuid": "6ff35aff-8a9f-466c-bdd3-dda460ccaee5"
       }
-    }
+    },
+    "uuid": "ec025bb5-a58e-486b-98f5-c8c2fde55a0a"
   },
   "arrow-icon-size-100": {
     "component": "icon",
@@ -225,7 +235,8 @@
         "value": "14px",
         "uuid": "e9b3eb08-2004-4ad3-bb13-a00a6cb536aa"
       }
-    }
+    },
+    "uuid": "2c9e49ab-e572-4ed5-90d0-5213dff5fec6"
   },
   "arrow-icon-size-200": {
     "component": "icon",
@@ -241,7 +252,8 @@
         "value": "16px",
         "uuid": "c7df43e2-7354-4f53-b453-dc9bf9060e64"
       }
-    }
+    },
+    "uuid": "a18e9723-eb3b-470c-82d8-b3544bf587d7"
   },
   "arrow-icon-size-300": {
     "component": "icon",
@@ -257,7 +269,8 @@
         "value": "16px",
         "uuid": "f6116604-efbe-4c6f-b047-29247d632174"
       }
-    }
+    },
+    "uuid": "fd4b3d4e-a9e9-4448-881a-9bd7fcda991a"
   },
   "arrow-icon-size-400": {
     "component": "icon",
@@ -273,7 +286,8 @@
         "value": "18px",
         "uuid": "35f055a9-8a33-42b2-a316-7e2ef0a4b99d"
       }
-    }
+    },
+    "uuid": "9101e9df-cc20-44b1-b183-8d9ac7146f0d"
   },
   "arrow-icon-size-500": {
     "component": "icon",
@@ -289,7 +303,8 @@
         "value": "22px",
         "uuid": "dcf16e1a-49ea-4888-85b7-012462a60f40"
       }
-    }
+    },
+    "uuid": "b86d209f-21d1-4c61-9c89-010b676f8389"
   },
   "arrow-icon-size-600": {
     "component": "icon",
@@ -305,7 +320,8 @@
         "value": "24px",
         "uuid": "2f5f49e5-9aba-4ea0-a8d9-0f0e4c086b89"
       }
-    }
+    },
+    "uuid": "ac841dee-47e8-47f3-b2b2-add8b4333eba"
   },
   "asterisk-icon-size-75": {
     "component": "icon",
@@ -327,7 +343,8 @@
         "value": "10px",
         "uuid": "f6f11ca3-b78b-4207-868f-f834c19e8d3d"
       }
-    }
+    },
+    "uuid": "bcd47b11-a4b1-4b1b-a082-36c3554d0eef"
   },
   "asterisk-icon-size-200": {
     "component": "icon",
@@ -343,7 +360,8 @@
         "value": "12px",
         "uuid": "3f1b200b-d341-41e4-ae7b-c981ccb492f7"
       }
-    }
+    },
+    "uuid": "8e6912ef-2ee2-4048-85e7-c758f2d0cced"
   },
   "asterisk-icon-size-300": {
     "component": "icon",
@@ -359,7 +377,8 @@
         "value": "12px",
         "uuid": "a1cdad1f-6537-4c35-a87b-45d8e161ee46"
       }
-    }
+    },
+    "uuid": "65b34b9b-ddfa-4cbd-bfb4-56bcc60eca86"
   },
   "checkmark-icon-size-50": {
     "component": "icon",
@@ -375,7 +394,8 @@
         "value": "12px",
         "uuid": "ee52f114-1ab6-430b-bd54-62a82bf3600e"
       }
-    }
+    },
+    "uuid": "968c7096-a064-444f-a449-6388bef7b74b"
   },
   "checkmark-icon-size-75": {
     "component": "icon",
@@ -391,7 +411,8 @@
         "value": "12px",
         "uuid": "99224b4e-751a-49ec-8db4-41c8cc4c7bf5"
       }
-    }
+    },
+    "uuid": "15df2603-7450-461b-b042-c952a90f65e5"
   },
   "checkmark-icon-size-100": {
     "component": "icon",
@@ -407,7 +428,8 @@
         "value": "14px",
         "uuid": "23247915-3cc0-4fdf-b21a-85b97019a219"
       }
-    }
+    },
+    "uuid": "9203c333-afaf-484d-8f4a-d26e6d88e70a"
   },
   "checkmark-icon-size-200": {
     "component": "icon",
@@ -423,7 +445,8 @@
         "value": "14px",
         "uuid": "d4e3f5ff-91d6-499e-b79e-b1d85c0c597b"
       }
-    }
+    },
+    "uuid": "c81d8bc2-63b7-4416-9451-0d6030d10c56"
   },
   "checkmark-icon-size-300": {
     "component": "icon",
@@ -439,7 +462,8 @@
         "value": "16px",
         "uuid": "d9b251b2-aa8a-46dc-9a2a-0eb46afea241"
       }
-    }
+    },
+    "uuid": "e05fceb5-a187-465f-951b-c39d047603ca"
   },
   "checkmark-icon-size-400": {
     "component": "icon",
@@ -455,7 +479,8 @@
         "value": "18px",
         "uuid": "c044459e-12a3-4cdd-9f22-db1d14f34164"
       }
-    }
+    },
+    "uuid": "8e9669a7-42aa-4f03-a7fd-39fb0a0cdc74"
   },
   "checkmark-icon-size-500": {
     "component": "icon",
@@ -471,7 +496,8 @@
         "value": "20px",
         "uuid": "29f107aa-b8a8-4a09-bf55-9c903c1005ed"
       }
-    }
+    },
+    "uuid": "43df0124-93a2-4014-934f-2919b4849ec1"
   },
   "checkmark-icon-size-600": {
     "component": "icon",
@@ -487,7 +513,8 @@
         "value": "24px",
         "uuid": "b52f4e53-06c2-4746-8063-e2bd99361174"
       }
-    }
+    },
+    "uuid": "c4a6e802-723f-4198-80a3-0c70ae5c8a8c"
   },
   "chevron-icon-size-50": {
     "component": "icon",
@@ -503,7 +530,8 @@
         "value": "8px",
         "uuid": "6d8ce7eb-a2a2-496c-9ce7-847f4da5fc0c"
       }
-    }
+    },
+    "uuid": "40f343b7-daf4-499e-8183-0140eb5bcedd"
   },
   "chevron-icon-size-75": {
     "component": "icon",
@@ -519,7 +547,8 @@
         "value": "12px",
         "uuid": "74dbb8c0-2e65-413d-8b52-7215993b5696"
       }
-    }
+    },
+    "uuid": "c53d444c-71c2-4b59-81ee-b2e0af7911c6"
   },
   "chevron-icon-size-100": {
     "component": "icon",
@@ -535,7 +564,8 @@
         "value": "14px",
         "uuid": "c4d6bea8-61b0-45a4-81e0-1e5dd7429463"
       }
-    }
+    },
+    "uuid": "f3f0a237-be83-48c7-9048-6e63b164d456"
   },
   "chevron-icon-size-200": {
     "component": "icon",
@@ -551,7 +581,8 @@
         "value": "14px",
         "uuid": "08bbd8dd-bb02-43b9-8e25-7709aee5ff52"
       }
-    }
+    },
+    "uuid": "34006e8c-3325-43cd-b1d6-b338b6237956"
   },
   "chevron-icon-size-300": {
     "component": "icon",
@@ -567,7 +598,8 @@
         "value": "16px",
         "uuid": "e6fdcac2-9916-45e2-a479-e87d17ece1f9"
       }
-    }
+    },
+    "uuid": "e00b08d9-9137-4f4b-9387-51ec17b391d3"
   },
   "chevron-icon-size-400": {
     "component": "icon",
@@ -583,7 +615,8 @@
         "value": "18px",
         "uuid": "ee913eaa-bdaf-44c0-a139-17c5d94b1d4a"
       }
-    }
+    },
+    "uuid": "c8b087cf-ad51-4d46-9dfe-ac2617942edd"
   },
   "chevron-icon-size-500": {
     "component": "icon",
@@ -599,7 +632,8 @@
         "value": "20px",
         "uuid": "95400787-7abb-4cad-830b-8a4042831860"
       }
-    }
+    },
+    "uuid": "c39f4b1b-967f-463f-880a-f6ba523fbcf3"
   },
   "chevron-icon-size-600": {
     "component": "icon",
@@ -615,7 +649,8 @@
         "value": "24px",
         "uuid": "350b77ab-6440-49c1-9b1c-a31c5c4f2f5f"
       }
-    }
+    },
+    "uuid": "5221f3ca-cc93-4b2e-ab74-35da255866ca"
   },
   "corner-triangle-icon-size-75": {
     "component": "icon",
@@ -631,7 +666,8 @@
         "value": "6px",
         "uuid": "434b019c-efde-437a-967b-b841ec95e621"
       }
-    }
+    },
+    "uuid": "bed0e624-9aa1-403a-b1cc-74c6afb84647"
   },
   "corner-triangle-icon-size-100": {
     "component": "icon",
@@ -647,7 +683,8 @@
         "value": "7px",
         "uuid": "1352ad8f-a8ec-459d-8ae3-71c27038a29d"
       }
-    }
+    },
+    "uuid": "1c3e00ad-6915-470a-b34a-853c88844cbc"
   },
   "corner-triangle-icon-size-200": {
     "component": "icon",
@@ -663,7 +700,8 @@
         "value": "8px",
         "uuid": "2be65bca-0f16-4754-bc8a-4a491ba87b90"
       }
-    }
+    },
+    "uuid": "0ff629b0-fcb9-4aee-9cde-68df68825de9"
   },
   "corner-triangle-icon-size-300": {
     "component": "icon",
@@ -679,7 +717,8 @@
         "value": "8px",
         "uuid": "d396d74a-425d-4f06-837f-349f81ebf486"
       }
-    }
+    },
+    "uuid": "09f106e8-600f-4868-984a-61e3b65a735e"
   },
   "cross-icon-size-75": {
     "component": "icon",
@@ -695,7 +734,8 @@
         "value": "10px",
         "uuid": "622d259d-b52b-409a-bf58-04705d8423f9"
       }
-    }
+    },
+    "uuid": "e426da6e-cf18-4f5d-8ba1-218f3ec51973"
   },
   "cross-icon-size-100": {
     "component": "icon",
@@ -711,7 +751,8 @@
         "value": "10px",
         "uuid": "11f924ca-5542-4864-b153-77363a32d690"
       }
-    }
+    },
+    "uuid": "4d4a0ad7-d306-44fd-9492-0b30e62eca8c"
   },
   "cross-icon-size-200": {
     "component": "icon",
@@ -727,7 +768,8 @@
         "value": "12px",
         "uuid": "11f65b04-c50d-45bb-86bd-34520aa7db61"
       }
-    }
+    },
+    "uuid": "b5324225-dbca-4fb7-a2d7-48b200c99f58"
   },
   "cross-icon-size-300": {
     "component": "icon",
@@ -743,7 +785,8 @@
         "value": "14px",
         "uuid": "37867ac1-4101-4553-98e1-c8a94fdd2d66"
       }
-    }
+    },
+    "uuid": "40c2d521-24a5-401a-8166-eb6f6635f46d"
   },
   "cross-icon-size-400": {
     "component": "icon",
@@ -759,7 +802,8 @@
         "value": "16px",
         "uuid": "2fed48b7-dd3d-4c3c-9d5c-3046934f5cfd"
       }
-    }
+    },
+    "uuid": "eac365fd-a811-47ab-9838-79b12db6d2b5"
   },
   "cross-icon-size-500": {
     "component": "icon",
@@ -775,7 +819,8 @@
         "value": "16px",
         "uuid": "a865d5f8-4798-4721-ab76-3b51067d6439"
       }
-    }
+    },
+    "uuid": "b2eff754-cfc5-4247-91b7-2f569c0114dd"
   },
   "cross-icon-size-600": {
     "component": "icon",
@@ -791,7 +836,8 @@
         "value": "18px",
         "uuid": "e12ac1ec-08f8-4d8b-8c4b-29b74cafe1a1"
       }
-    }
+    },
+    "uuid": "12fbc1b3-926f-419e-99f7-e42c7872c129"
   },
   "dash-icon-size-50": {
     "component": "icon",
@@ -807,7 +853,8 @@
         "value": "10px",
         "uuid": "ea331ff6-aa92-4cb4-936a-554a2404152d"
       }
-    }
+    },
+    "uuid": "f2859e6e-1d89-4b64-8d4d-dcfb11445164"
   },
   "dash-icon-size-75": {
     "component": "icon",
@@ -823,7 +870,8 @@
         "value": "10px",
         "uuid": "1b6d0e50-3ba2-43c9-8b8c-c220364f4434"
       }
-    }
+    },
+    "uuid": "0faea762-5ba2-4cd7-903c-776daa0cba6c"
   },
   "dash-icon-size-100": {
     "component": "icon",
@@ -839,7 +887,8 @@
         "value": "12px",
         "uuid": "9dc14737-973d-4f6e-8336-2e119c1f1af7"
       }
-    }
+    },
+    "uuid": "235518f5-3ded-4eaa-82e9-881cc76d2d02"
   },
   "dash-icon-size-200": {
     "component": "icon",
@@ -855,7 +904,8 @@
         "value": "14px",
         "uuid": "98ebf128-02f1-4d4b-a686-af8713a0f24b"
       }
-    }
+    },
+    "uuid": "45c3cf40-7250-4f8a-b25c-43550025fe8b"
   },
   "dash-icon-size-300": {
     "component": "icon",
@@ -871,7 +921,8 @@
         "value": "16px",
         "uuid": "ad59353e-3ed1-4e76-af87-020cebfa2664"
       }
-    }
+    },
+    "uuid": "0296d5a8-5022-43e0-91f4-465a174c0e33"
   },
   "dash-icon-size-400": {
     "component": "icon",
@@ -887,7 +938,8 @@
         "value": "18px",
         "uuid": "d2c45711-be18-4c85-8b23-f4d4f3d0b492"
       }
-    }
+    },
+    "uuid": "1967fd56-e60c-4994-ad5a-d84dc0f9c58f"
   },
   "dash-icon-size-500": {
     "component": "icon",
@@ -903,7 +955,8 @@
         "value": "20px",
         "uuid": "8d2ad303-095d-4f0c-b0c5-c1ec75b96819"
       }
-    }
+    },
+    "uuid": "5ae4eccd-7555-40c5-a59f-b17964d949ff"
   },
   "dash-icon-size-600": {
     "component": "icon",
@@ -919,6 +972,7 @@
         "value": "22px",
         "uuid": "2e81ce48-452d-401f-a44d-10ca427f031e"
       }
-    }
+    },
+    "uuid": "dc69f825-b868-4533-8ecc-1c17b4326f82"
   }
 }

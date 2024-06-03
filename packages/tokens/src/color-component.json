@@ -71,7 +71,8 @@
         "value": "{gray-200}",
         "uuid": "e7fe88a4-6ab3-4963-8f10-9908a5a83123"
       }
-    }
+    },
+    "uuid": "0b807f40-d63e-4482-8d53-18fadc9663d5"
   },
   "avatar-opacity-disabled": {
     "component": "avatar",

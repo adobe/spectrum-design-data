@@ -14,7 +14,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "f9fc7606-b699-46e7-b139-aeefc287923c"
       }
-    }
+    },
+    "uuid": "0dd9c008-b20f-4a51-be59-67d9530877ff"
   },
   "accent-color-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
@@ -31,7 +32,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "78e50d0b-78a0-46c4-8262-417143f00902"
       }
-    }
+    },
+    "uuid": "d4850a3d-cce3-4cd5-ba44-27281cad5934"
   },
   "accent-color-300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
@@ -48,7 +50,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "d014e1e8-a5f8-4169-8c43-d69afd07847a"
       }
-    }
+    },
+    "uuid": "89c05b32-63f5-46ed-abe1-a36247bd9797"
   },
   "accent-color-400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
@@ -65,7 +68,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "1b70bc67-7877-4f92-8ce4-1abd2665fab1"
       }
-    }
+    },
+    "uuid": "794b3679-1bcf-4c64-a55b-99be3f7676e5"
   },
   "accent-color-500": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
@@ -82,7 +86,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "06246e8e-44da-49a3-8d65-7f3ce1ec8128"
       }
-    }
+    },
+    "uuid": "6eee723c-d9dd-4b14-ab44-75779c44f59e"
   },
   "accent-color-600": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
@@ -99,7 +104,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "eaee7f34-1725-411e-9a23-2331167e08f5"
       }
-    }
+    },
+    "uuid": "11e391f6-66f0-4ed0-b70a-3f3d3a0e2f90"
   },
   "accent-color-700": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
@@ -116,7 +122,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "5c7ac5cc-4fe4-4392-a5c3-4274cd15a48e"
       }
-    }
+    },
+    "uuid": "fc2868a8-1b1b-4da7-a51f-7faa6e7f7d4d"
   },
   "accent-color-800": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
@@ -133,7 +140,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "3cf62c35-1e2e-4400-886f-473de9e8a958"
       }
-    }
+    },
+    "uuid": "85bd13e9-ff5a-419d-bc33-97fd44cf1789"
   },
   "accent-color-900": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
@@ -150,7 +158,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "42d37753-8b78-4328-a895-7b74d9a7aa86"
       }
-    }
+    },
+    "uuid": "23cb9c14-f3cf-430b-9d0c-4749160542d8"
   },
   "accent-color-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
@@ -167,7 +176,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "b848c6ce-f921-4303-b298-20e359a1aa2e"
       }
-    }
+    },
+    "uuid": "203cf947-661e-4e96-8d13-5f0d3e9237bf"
   },
   "accent-color-1100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
@@ -184,7 +194,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "46991cf0-e4e5-4c32-a140-4589e2456523"
       }
-    }
+    },
+    "uuid": "80493b68-bdd4-4478-8ec1-2049922382be"
   },
   "accent-color-1200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
@@ -201,7 +212,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "7de1e3f0-a5b3-4a09-955b-242ff78dbaa9"
       }
-    }
+    },
+    "uuid": "eeed3404-3bde-4bb6-975f-556ec92297bd"
   },
   "accent-color-1300": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
@@ -218,7 +230,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "a598813b-347f-4528-aa35-94b6642985db"
       }
-    }
+    },
+    "uuid": "0083814f-7761-4a52-97e3-ca154d7b8603"
   },
   "accent-color-1400": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
@@ -235,7 +248,8 @@
         "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "12c250df-6088-4c20-8b04-59814d53ed7a"
       }
-    }
+    },
+    "uuid": "1124ea0a-6ba1-4b7e-852e-db760d182a97"
   },
   "informative-color-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
