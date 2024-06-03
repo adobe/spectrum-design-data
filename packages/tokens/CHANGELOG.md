@@ -1,5 +1,11 @@
 # @adobe/spectrum-tokens
 
+## 12.26.0
+
+### Minor Changes
+
+- [#345](https://github.com/adobe/spectrum-tokens/pull/345) [`fe4c707`](https://github.com/adobe/spectrum-tokens/commit/fe4c707c5ae2cc89efe6439dc775cddc94b706b3) Thanks [@GarthDB](https://github.com/GarthDB)! - Added UUIDs to the base of set tokens.
+
 ## 12.25.0
 
 ### Minor Changes
