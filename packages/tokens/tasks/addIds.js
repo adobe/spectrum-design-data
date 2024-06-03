@@ -19,6 +19,7 @@ console.log(files);
 
 const VALUE = "value";
 const UUID = "uuid";
+const SETS = "sets";
 const uuids = [];
 
 // dumb function to check if something is an object
@@ -46,7 +47,7 @@ function findUUIDs(json) {
 // check for and add uuids
 function addUUIDs(json) {
   // if it is in want of uuid, give it one
-  if (json[VALUE] && !json[UUID]) {
+  if (!json[UUID] && (json[VALUE] || json[SETS])) {
     while (!json[UUID] || uuids.includes(json[UUID])) {
       json[UUID] = crypto.randomUUID(); // https://stackoverflow.com/questions/105034/how-do-i-create-a-guid-uuid#2117523
     }
