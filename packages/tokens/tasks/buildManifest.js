@@ -10,16 +10,14 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { glob } from "glob";
-import { writeFile } from "fs/promises";
-import { format } from "prettier";
+import { tokenFileNames, writeJson } from "../index.js";
+import { relative } from "path";
 
 const manifestFileName = "manifest.json";
-const files = await glob("src/**/*.json");
 
-await writeFile(
+await writeJson(
   manifestFileName,
-  await format(JSON.stringify(files), { parser: "json-stringify" }),
+  tokenFileNames.map((fileName) => relative(process.cwd(), fileName)),
 );
-//
-console.log(`Wrote ${manifestFileName} with ${files.length} files.`);
+
+console.log(`Wrote ${manifestFileName} with ${tokenFileNames.length} files.`);

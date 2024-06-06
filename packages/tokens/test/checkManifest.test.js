@@ -11,11 +11,12 @@ governing permissions and limitations under the License.
 */
 
 import test from "ava";
-import { glob } from "glob";
-import { readFile } from "fs/promises";
+import { tokenFileNames, readJson } from "../index.js";
+import { relative } from "path";
 
-test("check for uuids", async (t) => {
-  const manifest = JSON.parse(await readFile("manifest.json", "utf8"));
-  const fileNames = await glob("src/**/*.json");
-  t.deepEqual(manifest, fileNames);
+test("manifest.json file should list all of the token files", async (t) => {
+  t.deepEqual(
+    await readJson("manifest.json"),
+    tokenFileNames.map((fileName) => relative(process.cwd(), fileName)),
+  );
 });
