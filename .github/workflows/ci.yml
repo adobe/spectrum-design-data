@@ -16,3 +16,11 @@ jobs:
         if: success() || failure()
         with:
           access-token: ${{ secrets.GH_TOKEN }}
+      - name: Code coverage for @adobe/spectrum-tokens
+        id: code-coverage
+        uses: barecheck/code-coverage-action@v1
+        with:
+          barecheck-github-app-token: ${{ secrets.BARECHECK_GITHUB_APP_TOKEN }}
+          lcov-file: "./coverage/lcov.info"
+          app-name: "@adobe/spectrum-tokens"
+          workspace-path: "packages/tokens"

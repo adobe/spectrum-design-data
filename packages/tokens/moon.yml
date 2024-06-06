@@ -76,6 +76,10 @@ tasks:
     command:
       - pnpm
       - c8
+      - -r
+      - lcov
+      - -r
+      - text
       - ava
     platform: node
     inputs:
