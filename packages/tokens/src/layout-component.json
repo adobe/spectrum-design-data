@@ -8136,6 +8136,7 @@
     "uuid": "644593be-82da-4ae4-ae57-fabebd4513ca"
   },
   "breadcrumbs-separator-to-bottom-text-multiline": {
+    "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8151,6 +8152,7 @@
     }
   },
   "breadcrumbs-start-edge-to-text-large": {
+    "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8166,6 +8168,7 @@
     }
   },
   "breadcrumbs-start-edge-to-text-medium": {
+    "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8181,6 +8184,7 @@
     }
   },
   "breadcrumbs-start-edge-to-text-multiline": {
+    "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8196,6 +8200,7 @@
     }
   },
   "breadcrumbs-top-to-separator-large": {
+    "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8211,6 +8216,7 @@
     }
   },
   "breadcrumbs-top-to-separator-medium": {
+    "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8226,6 +8232,7 @@
     }
   },
   "breadcrumbs-top-to-separator-multiline": {
+    "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8241,11 +8248,13 @@
     }
   },
   "breadcrumbs-truncated-menu-to-separator": {
+    "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "0px",
     "uuid": "963bd7ed-cfc9-4a93-a8a6-a2340ec6479f"
   },
   "breadcrumbs-text-to-separator-large": {
+    "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8261,6 +8270,7 @@
     }
   },
   "breadcrumbs-text-to-separator-medium": {
+    "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8276,6 +8286,7 @@
     }
   },
   "breadcrumbs-text-to-separator-multiline": {
+    "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
