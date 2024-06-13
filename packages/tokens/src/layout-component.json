@@ -2724,7 +2724,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{breadcrumbs-start-edge-to-text-large}",
     "uuid": "a0542dab-98fb-45d8-b4a0-79cfd2cc4f1c",
-    "deprecated": true
+    "deprecated": true,
+    "deprecated_comment": "Use a sized token instead, e.g., breadcrumbs-start-edge-to-text-large."
   },
   "breadcrumbs-end-edge-to-text": {
     "component": "breadcrumbs",
@@ -2753,14 +2754,16 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{breadcrumbs-top-to-separator-large}",
     "uuid": "15e56281-5fc1-4b59-b815-fc333231e364",
-    "deprecated": true
+    "deprecated": true,
+    "deprecated_comment": "Use a sized token instead, e.g., breadcrumbs-top-to-separator-large."
   },
   "breadcrumbs-top-to-separator-icon-compact": {
     "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{breadcrumbs-top-to-separator-medium}",
     "uuid": "a63e8df1-124f-4f3e-9e1b-ba422b8d8257",
-    "deprecated": true
+    "deprecated": true,
+    "deprecated_comment": "Use a sized token instead, e.g., breadcrumbs-top-to-separator-medium."
   },
   "breadcrumbs-top-to-separator-icon-multiline": {
     "component": "breadcrumbs",
