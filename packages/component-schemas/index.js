@@ -11,22 +11,12 @@ governing permissions and limitations under the License.
 */
 
 import { glob } from "glob";
-
 import { resolve } from "path";
 import { readFile } from "fs/promises";
 import * as url from "url";
-import { writeFile } from "fs/promises";
-import { format } from "prettier";
 
-const readJson = async (fileName) =>
+export const readJson = async (fileName) =>
   JSON.parse(await readFile(fileName, "utf8"));
-
-const writeJson = async (fileName, jsonData) => {
-  await writeFile(
-    fileName,
-    await format(JSON.stringify(jsonData), { parser: "json-stringify" }),
-  );
-};
 
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
@@ -34,19 +24,9 @@ export const schemaFileNames = await glob(
   `${resolve(__dirname, "./schemas")}/**/*.json`,
 );
 
-export const getFile = async (schemaFileName) =>
+export const getSchemaFile = async (schemaFileName) =>
   await readJson(resolve(__dirname, "src", schemaFileName));
 
 export const getAllSchemas = async () => {
-  return await Promise.all(schemaFileNames.map(getFileTokens)).then(
-    (tokenFileDataAr) => {
-      return tokenFileDataAr.reduce(
-        (tokenDataAcc, tokenFileData) => ({
-          ...tokenDataAcc,
-          ...tokenFileData,
-        }),
-        {},
-      );
-    },
-  );
+  return await Promise.all(schemaFileNames.map(getSchemaFile));
 };

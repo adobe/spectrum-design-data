@@ -50,6 +50,7 @@ tasks:
     inputs:
       - "@globs(schemas)"
       - "@globs(tests)"
+      - index.js
     platform: node
   test-watch:
     command:

@@ -143,6 +143,10 @@ importers:
         version: 5.2.9(@types/node@20.12.7)
 
   packages/component-schemas:
+    dependencies:
+      glob:
+        specifier: ^10.3.12
+        version: 10.3.12
     devDependencies:
       ajv:
         specifier: ^8.12.0
@@ -150,9 +154,6 @@ importers:
       ajv-formats:
         specifier: ^3.0.1
         version: 3.0.1(ajv@8.12.0)
-      glob:
-        specifier: ^10.3.12
-        version: 10.3.12
 
   packages/tokens:
     devDependencies:
