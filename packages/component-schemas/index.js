@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 import { glob } from "glob";
-import { resolve } from "path";
+import { resolve, parse } from "path";
 import { readFile } from "fs/promises";
 import * as url from "url";
 
@@ -28,5 +28,17 @@ export const getSchemaFile = async (schemaFileName) =>
   await readJson(resolve(__dirname, "src", schemaFileName));
 
 export const getAllSchemas = async () => {
-  return await Promise.all(schemaFileNames.map(getSchemaFile));
+  return await Promise.all(
+    schemaFileNames.map(async (schemaFileName) => {
+      return {
+        slug: parse(schemaFileName).name,
+        data: await getSchemaFile(schemaFileName),
+      };
+    }),
+  ).then((schemaFileDataAr) => {
+    return schemaFileDataAr.reduce((schemaDataAcc, schemaFileData) => {
+      schemaDataAcc[schemaFileData.slug] = schemaFileData.data;
+      return schemaDataAcc;
+    }, {});
+  });
 };
