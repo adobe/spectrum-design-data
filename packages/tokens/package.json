@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-tokens",
-  "version": "13.0.0-beta.36",
+  "version": "13.0.0-beta.37",
   "description": "Design tokens for Spectrum, Adobe's design system",
   "type": "module",
   "main": "index.js",
