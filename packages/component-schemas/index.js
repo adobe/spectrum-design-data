@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 import { glob } from "glob";
-import { resolve } from "path";
+import { isAbsolute, resolve } from "path";
 import { readFile } from "fs/promises";
 import * as url from "url";
 
@@ -29,8 +29,19 @@ export const schemaFileNames = await glob(
   `${resolve(__dirname, "./schemas")}/**/*.json`,
 );
 
-export const getSchemaFile = async (schemaFileName) =>
-  await readJson(resolve(__dirname, "src", schemaFileName));
+/**
+ * Accepts either a schema name or an absolute path
+ *
+ * @param schemaFileName
+ * @return {Promise<any>}
+ */
+export const getSchemaFile = async (schemaFileName) => {
+  let filePath = resolve(__dirname, "schemas", schemaFileName);
+  if (isAbsolute(schemaFileName)) {
+    filePath = schemaFileName;
+  }
+  return await readJson(resolve(filePath));
+};
 
 export const getAllSlugs = async () => {
   return await Promise.all(schemaFileNames.map(getSchemaFile))

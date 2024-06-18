@@ -28,7 +28,24 @@ test("the number of schema returned by getAllSchemas should match the number of 
   t.is(schemaFileNames.length, allSchemas.length);
 });
 test("getSchemaFile should fetch schema data", async (t) => {
-  t.snapshot(await getSchemaFile(schemaFileNames[0]));
+  const relativeSchemaComponent = await getSchemaFile("component.json");
+  t.is(relativeSchemaComponent.title, "Component");
+
+  const relativeSchemaActionBar = await getSchemaFile(
+    "components/action-bar.json",
+  );
+  t.is(relativeSchemaActionBar.title, "Action bar");
+
+  const absoluteSchemaComponent = await getSchemaFile(
+    "/Users/karstens/Developer/github/adobe/spectrum-tokens/packages/component-schemas/schemas/component.json",
+  );
+  t.is(absoluteSchemaComponent.title, "Component");
+
+  const absoluteSchemaActionBar = await getSchemaFile(
+    "/Users/karstens/Developer/github/adobe/spectrum-tokens/packages/component-schemas/schemas/components/action-bar.json",
+  );
+  t.is(absoluteSchemaActionBar.title, "Action bar");
+  // t.snapshot(await getSchemaFile(schemaFileNames[0]));
 });
 test("getSlugFromDocumentationUrl should return last part of documentationUrl", (t) => {
   t.is(
