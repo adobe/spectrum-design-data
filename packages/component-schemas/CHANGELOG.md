@@ -1,5 +1,11 @@
 # @adobe/spectrum-component-api-schemas
 
+## 0.0.0-schema-20240620220450
+
+### Minor Changes
+
+- [#353](https://github.com/adobe/spectrum-tokens/pull/353) [`64379eb`](https://github.com/adobe/spectrum-tokens/commit/64379ebeaf9402fe77ca1adfd020f42df60c60d9) Thanks [@karstens](https://github.com/karstens)! - Added schema for search-field and fixed some path bugs in testing
+
 ## 0.0.0-schema-20240618053842
 
 ### Minor Changes
