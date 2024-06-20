@@ -1,0 +1,50 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/search-field.json",
+  "title": "Search field",
+  "description": "A search field is used for searching and filtering items.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/search-field/"
+  },
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "width": {
+      "type": "number"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m",
+      "pattern": "^(x?s|m|x{0,3}l)$"
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "description": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "default",
+        "hover",
+        "focus + hover",
+        "focus + not hover",
+        "keyboard focus"
+      ],
+      "default": "default"
+    }
+  }
+}

@@ -37,12 +37,12 @@ test("getSchemaFile should fetch schema data", async (t) => {
   t.is(relativeSchemaActionBar.title, "Action bar");
 
   const absoluteSchemaComponent = await getSchemaFile(
-    "/Users/karstens/Developer/github/adobe/spectrum-tokens/packages/component-schemas/schemas/component.json",
+    resolve(__dirname, "schemas", "component.json"),
   );
   t.is(absoluteSchemaComponent.title, "Component");
 
   const absoluteSchemaActionBar = await getSchemaFile(
-    "/Users/karstens/Developer/github/adobe/spectrum-tokens/packages/component-schemas/schemas/components/action-bar.json",
+    resolve(__dirname, "schemas", "components", "action-bar.json"),
   );
   t.is(absoluteSchemaActionBar.title, "Action bar");
   // t.snapshot(await getSchemaFile(schemaFileNames[0]));
