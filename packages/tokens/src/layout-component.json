@@ -8287,6 +8287,7 @@
     }
   },
   "contextual-help-body-font-size": {
+    "component": "contextual-help",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8302,6 +8303,7 @@
     }
   },
   "contextual-help-title-font-size": {
+    "component": "contextual-help",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
