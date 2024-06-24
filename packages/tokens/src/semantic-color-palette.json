@@ -401,23 +401,27 @@
   },
   "negative-subdued-background-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{negative-color-200}",
-    "uuid": "a553db3e-a051-4023-87eb-da6545b983b2"
+    "value": "{negative-subtle-background-color-default}",
+    "uuid": "a553db3e-a051-4023-87eb-da6545b983b2",
+    "deprecated": true
   },
   "negative-subdued-background-color-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{negative-color-300}",
-    "uuid": "9513cf13-8537-443f-81ce-f9d88292ba32"
+    "uuid": "9513cf13-8537-443f-81ce-f9d88292ba32",
+    "deprecated": true
   },
   "negative-subdued-background-color-down": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{negative-color-300}",
-    "uuid": "1eea917c-52e7-4295-b0e1-d33c2e73a137"
+    "uuid": "1eea917c-52e7-4295-b0e1-d33c2e73a137",
+    "deprecated": true
   },
   "negative-subdued-background-color-key-focus": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{negative-color-300}",
-    "uuid": "4b6aaf76-e0ab-4be0-81c0-d5f64cacee88"
+    "uuid": "4b6aaf76-e0ab-4be0-81c0-d5f64cacee88",
+    "deprecated": true
   },
   "informative-subtle-background-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
