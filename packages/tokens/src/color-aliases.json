@@ -1722,5 +1722,40 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-100}",
     "uuid": "cc79fbaf-a2e1-4761-82e7-1dbea52acee8"
+  },
+  "static-black-text-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{black}",
+    "uuid": "9b7919b5-764c-4f93-b4c7-39d8bf7f2b51"
+  },
+  "static-white-text-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{white}",
+    "uuid": "13ee65f0-4bb9-4213-905d-92c1b788a702"
+  },
+  "track-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-300}",
+    "uuid": "6f2bb13a-8579-495c-8fe3-0046b1f99b01"
+  },
+  "static-black-track-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{transparent-black-300}",
+    "uuid": "c6d40ce0-bcee-4b56-9e63-a51ee1579ef0"
+  },
+  "static-white-track-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{transparent-white-300}",
+    "uuid": "23791534-8963-4ff8-bfb4-15108da47103"
+  },
+  "static-black-track-indicator-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{transparent-black-900}",
+    "uuid": "0599d3b0-4d9e-4a12-ae0e-8f60e3533ab9"
+  },
+  "static-white-track-indicator-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{transparent-white-900}",
+    "uuid": "a1cbc282-1376-48d1-b8bb-92f10aef7c6f"
   }
 }
