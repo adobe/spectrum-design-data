@@ -8363,6 +8363,7 @@
     "uuid": "6fa9bbc8-4c96-45a4-b133-bb2556a003de"
   },
   "accordion-content-area-edge-to-content-small": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8378,6 +8379,7 @@
     }
   },
   "accordion-content-area-edge-to-content-medium": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8393,6 +8395,7 @@
     }
   },
   "accordion-content-area-edge-to-content-large": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8408,6 +8411,7 @@
     }
   },
   "accordion-content-area-edge-to-content-extra-large": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8423,6 +8427,7 @@
     }
   },
   "accordion-disclosure-indicator-to-text-small": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8438,6 +8443,7 @@
     }
   },
   "accordion-disclosure-indicator-to-text-medium": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8453,6 +8459,7 @@
     }
   },
   "accordion-disclosure-indicator-to-text-large": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8468,6 +8475,7 @@
     }
   },
   "accordion-disclosure-indicator-to-text-extra-large": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8483,11 +8491,13 @@
     }
   },
   "accordion-item-to-divider": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "0px",
     "uuid": "9a2c9dee-7acf-4083-9c66-685454444f8c"
   },
   "meter-thickness-medium": {
+    "component": "meter",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8503,6 +8513,7 @@
     }
   },
   "meter-thickness-extra-large": {
+    "component": "meter",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
