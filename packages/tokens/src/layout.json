@@ -2279,6 +2279,11 @@
     "value": "0px",
     "uuid": "0c76c925-4d29-49a3-b882-e946bd7fe9f1"
   },
+  "drop-shadow-x-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "cb6d74fe-cc32-47ff-bf8b-74597643a8a6"
+  },
   "drop-shadow-y-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "1px",
@@ -2289,6 +2294,11 @@
     "value": "2px",
     "uuid": "d2d0320a-6984-4b3f-8f5d-ccb88892a26c"
   },
+  "drop-shadow-y-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "5d09089b-c0c5-4122-a3be-3e989562acda"
+  },
   "drop-shadow-blur-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "6px",
@@ -2298,6 +2308,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "2b08d425-ecf2-4891-83cd-005a2d5e76ce"
+  },
+  "drop-shadow-blur-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "34812e0c-7ccf-49c2-884a-6fecd45f7c5a"
   },
   "drop-shadow-emphasized-default-x": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
@@ -2343,5 +2358,20 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{drop-shadow-blur-200}",
     "uuid": "f3487a86-3aea-4527-8b5c-287c0bddad6c"
+  },
+  "drop-shadow-dragged-x": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{drop-shadow-x-300}",
+    "uuid": "be5c80b4-5769-491b-9550-fcf94f0c762e"
+  },
+  "drop-shadow-dragged-y": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{drop-shadow-y-300}",
+    "uuid": "ff8d4fda-72fa-4256-b2c8-f22a9d3e644f"
+  },
+  "drop-shadow-dragged-blur": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{drop-shadow-blur-300}",
+    "uuid": "f6015252-21fb-48f9-aadb-5ad050e3d590"
   }
 }

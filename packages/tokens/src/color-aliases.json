@@ -1703,6 +1703,21 @@
       }
     }
   },
+  "drop-shadow-color-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.2)",
+        "uuid": "84ced765-054d-44f4-9dbe-5be607f65a16"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.6)",
+        "uuid": "8fd7fa72-67c3-4004-b8b3-af55a4b9cada"
+      }
+    }
+  },
   "drop-shadow-emphasized-default-color": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{drop-shadow-color-100}",
@@ -1757,5 +1772,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{transparent-white-900}",
     "uuid": "a1cbc282-1376-48d1-b8bb-92f10aef7c6f"
+  },
+  "drop-shadow-dragged-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{drop-shadow-color-300}",
+    "uuid": "83c30113-68b5-475b-ba46-9179c9ff7e8d"
   }
 }
