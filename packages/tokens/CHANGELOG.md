@@ -1,5 +1,28 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.43
+
+### Minor Changes
+
+- [#384](https://github.com/adobe/spectrum-tokens/pull/384) [`681b4b0`](https://github.com/adobe/spectrum-tokens/commit/681b4b0094d31bae4c9b1b095fa59d6448c26cab) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added dragged drop shadow tokens that point to new 300 global drop shadow tokens
+
+  ## Design Motivation
+
+  These are new foundational drop shadow tokens that represent a higher elevation when items are dragged. The more prominent shadow also brings more visual focus to the dragged item. They will be used in the standard panel "dragged" state, as well as in future component updates, to be determined.
+
+  ## Token Diff
+
+  _Tokens added (8):_
+
+  - `drop-shadow-blur-300`
+  - `drop-shadow-color-300`
+  - `drop-shadow-dragged-blur`
+  - `drop-shadow-dragged-color`
+  - `drop-shadow-dragged-x`
+  - `drop-shadow-dragged-y`
+  - `drop-shadow-x-300`
+  - `drop-shadow-y-300`
+
 ## 13.0.0-beta.42
 
 ### Minor Changes
