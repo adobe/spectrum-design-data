@@ -407,6 +407,7 @@
     "uuid": "bfd387b8-0ce0-45ff-8d66-fc5de2f4900c"
   },
   "swatch-group-border-color": {
+    "component": "swatch-group",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-1000}",
     "uuid": "08b8d06a-5475-47bf-ad2e-9f52ee07345a"
