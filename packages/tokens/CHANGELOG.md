@@ -1,5 +1,31 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.42
+
+### Minor Changes
+
+- [#382](https://github.com/adobe/spectrum-tokens/pull/382) [`2af3850`](https://github.com/adobe/spectrum-tokens/commit/2af3850a554812fd9c1b3e6fd902a746c9ac42c7) Thanks [@nabuhasan](https://github.com/nabuhasan)! - Updated S2 swatch tokens and added swatch-group tokens in S2 Color and S2 Non-color data sets, respectively.
+
+  ## Design Motivation
+
+  Swatch and swatch group components are being formalized as Spectrum 2 components. These tokens define the design data needed for implementation. Changes include updated corner rounding, colors and spacing for spacious density.
+
+  For more information, [view Jira ticket](https://jira.corp.adobe.com/browse/SDS-13497).
+
+  ## Token Diff
+
+  _Tokens added (3):_
+
+  - `swatch-group-spacing-spacious`
+  - `swatch-group-border-opacity`
+  - `swatch-group-border-color`
+
+  _Tokens values updated (3):_
+
+  - `swatch-border-color`: `gray-900` -> `gray-1000`
+  - `swatch-border-opacity`: `0.51` -> `0.42`
+  - `swatch-disabled-icon-border-opacity`: `0.51` -> `0.42`
+
 ## 13.0.0-beta.41
 
 ### Minor Changes
