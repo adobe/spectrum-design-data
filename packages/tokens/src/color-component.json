@@ -2,13 +2,13 @@
   "swatch-border-color": {
     "component": "swatch",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{gray-900}",
+    "value": "{gray-1000}",
     "uuid": "7da5157d-7f25-405b-8de0-f3669565fb48"
   },
   "swatch-border-opacity": {
     "component": "swatch",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
-    "value": "0.51",
+    "value": "0.42",
     "uuid": "0e397a80-cf33-44ed-8b7d-1abaf4426bf5"
   },
   "swatch-disabled-icon-border-color": {
@@ -20,7 +20,7 @@
   "swatch-disabled-icon-border-opacity": {
     "component": "swatch",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
-    "value": "0.51",
+    "value": "0.42",
     "uuid": "cdbba3b6-cb51-4fec-88f0-273d4bb59a18"
   },
   "thumbnail-border-color": {
@@ -405,5 +405,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{blue-800}",
     "uuid": "bfd387b8-0ce0-45ff-8d66-fc5de2f4900c"
+  },
+  "swatch-group-border-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-1000}",
+    "uuid": "08b8d06a-5475-47bf-ad2e-9f52ee07345a"
   }
 }
