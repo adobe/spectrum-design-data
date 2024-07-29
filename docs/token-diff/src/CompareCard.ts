@@ -9,7 +9,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-import { html, css, LitElement, TemplateResult } from 'lit';
+import { html, css, LitElement, TemplateResult, PropertyValueMap } from 'lit';
 import '@spectrum-web-components/action-group/sp-action-group.js';
 import '@spectrum-web-components/action-button/sp-action-button.js';
 import '@spectrum-web-components/picker/sp-picker.js';
@@ -110,11 +110,25 @@ export class CompareCard extends LitElement {
     schema: { type: String },
   };
 
-  constructor(heading: string) {
+  constructor(
+    heading: string,
+    branchOrTag: string,
+    schema: string,
+    toggle: string,
+    branchOptions: string[],
+    tagOptions: string[],
+    branchSchemaOptions: string[],
+    tagSchemaOptions: string[],
+  ) {
     super();
     this.heading = heading;
-    this.__fetchBranchTagOptions('Github branch');
-    this.__fetchBranchTagOptions('Package release');
+    this.branchOrTag = branchOrTag;
+    this.schema = schema;
+    this.toggle = toggle;
+    this.branchOptions = branchOptions;
+    this.tagOptions = tagOptions;
+    this.branchSchemaOptions = branchSchemaOptions;
+    this.tagSchemaOptions = tagSchemaOptions;
   }
 
   __setGithubBranchToggle() {
@@ -127,56 +141,6 @@ export class CompareCard extends LitElement {
     this.toggle = 'Package release';
     this.__handleSelection(this.tagOptions[0]);
     this.__handleSelection(this.tagSchemaOptions[0]);
-  }
-
-  async __fetchBranchTagOptions(type: string) {
-    let oldOptions: string[] = [];
-    if (type === 'Github branch') {
-      oldOptions = this.branchOptions;
-      this.branchOptions = [];
-      const url = 'https://api.github.com/repos/adobe/spectrum-tokens/branches';
-      await fetch(url, {
-        method: 'GET',
-        headers: {
-          Authorization: `token ${githubAPIKey}`,
-        },
-      }).then(async response => {
-        const branches = await response.json();
-        this.__updateOptions(branches, this.branchOptions, oldOptions);
-      });
-    } else {
-      oldOptions = this.tagOptions;
-      this.tagOptions = [];
-      const url = 'https://api.github.com/repos/adobe/spectrum-tokens/tags';
-      await fetch(url, {
-        method: 'GET',
-        headers: {
-          Authorization: `token ${githubAPIKey}`,
-        },
-      }).then(async response => {
-        const tags = await response.json();
-        this.__updateOptions(tags, this.tagOptions, oldOptions);
-      });
-    }
-    await this.__fetchSchemaOptions();
-    this.__handleSelection(this.branchOrTag);
-    this.__handleSelection(this.schema);
-  }
-
-  async __fetchSchemaOptions() {
-    const source = 'https://raw.githubusercontent.com/adobe/spectrum-tokens/';
-    const url =
-      this.toggle !== 'Github branch'
-        ? source + '%40adobe/spectrum-tokens%40' + this.branchOrTag
-        : source + this.branchOrTag;
-    this.branchSchemaOptions = await this.__fetchTokens('manifest.json', url);
-    this.branchSchemaOptions.unshift('all');
-    this.tagSchemaOptions = await this.__fetchTokens('manifest.json', url);
-    this.tagSchemaOptions.unshift('all');
-  }
-
-  async __fetchTokens(tokenName: string, url: string) {
-    return (await fetch(`${url}/packages/tokens/${tokenName}`)).json();
   }
 
   __updateOptions(
@@ -246,9 +210,25 @@ export class CompareCard extends LitElement {
     this.dispatchEvent(new CustomEvent('selection', options));
   }
 
-  @property({ type: String }) heading = 'Version A';
+  firstUpdated() {
+    if (this.toggle === 'Github branch') {
+      const branchToggle = this.shadowRoot?.getElementById('branch-toggle');
+      if (branchToggle) {
+        branchToggle.setAttribute('selected', '');
+        this.__setGithubBranchToggle();
+      }
+    } else {
+      const tagToggle = this.shadowRoot?.getElementById('tag-toggle');
+      if (tagToggle) {
+        tagToggle.setAttribute('selected', '');
+        this.__setReleaseToggle();
+      }
+    }
+  }
 
-  @property({ type: String }) toggle = 'Github branch';
+  @property({ type: String }) heading = '';
+
+  @property({ type: String }) toggle = '';
 
   @property({ type: Array }) branchOptions: string[] = [];
 
@@ -258,9 +238,11 @@ export class CompareCard extends LitElement {
 
   @property({ type: Array }) tagSchemaOptions: string[] = [];
 
-  @property({ type: String }) branchOrTag = 'beta';
+  @property({ type: String }) branchOrTag = '';
 
-  @property({ type: String }) schema = 'all';
+  @property({ type: String }) schema = '';
+
+  @property({ type: String }) branchOrTagKey = '';
 
   protected override render(): TemplateResult {
     return html`
@@ -271,23 +253,23 @@ export class CompareCard extends LitElement {
             <sp-action-group compact selects="single" class="section">
               <sp-action-button
                 toggles
-                selected
                 @click=${this.__setGithubBranchToggle}
+                id="branch-toggle"
               >
                 Github branch
               </sp-action-button>
-              <sp-action-button toggles @click=${this.__setReleaseToggle}>
+              <sp-action-button
+                toggles
+                @click=${this.__setReleaseToggle}
+                id="tag-toggle"
+              >
                 Package release
               </sp-action-button>
             </sp-action-group>
             <sp-picker
               class="picker section"
-              label=${this.toggle === 'Github branch'
-                ? this.branchOptions[0]
-                : this.tagOptions[0]}
-              value=${this.toggle === 'Github branch'
-                ? this.branchOptions[0]
-                : this.tagOptions[0]}
+              label=${this.branchOrTag}
+              value=${this.branchOrTag}
             >
               ${this.toggle === 'Github branch'
                 ? this.__createMenuItem(this.branchOptions, true)
@@ -296,15 +278,7 @@ export class CompareCard extends LitElement {
             <sp-field-label for="schemaSelection" size="m"
               >Schema</sp-field-label
             >
-            <sp-picker
-              class="picker"
-              label=${this.toggle === 'Github branch'
-                ? this.branchSchemaOptions[0]
-                : this.tagSchemaOptions[0]}
-              value=${this.toggle === 'Github branch'
-                ? this.branchSchemaOptions[0]
-                : this.tagSchemaOptions[0]}
-            >
+            <sp-picker class="picker" label=${this.schema} value=${this.schema}>
               ${this.toggle === 'Github branch'
                 ? this.__createMenuItem(this.branchSchemaOptions, false)
                 : this.__createMenuItem(this.tagSchemaOptions, false)}

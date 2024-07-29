@@ -20,6 +20,7 @@ import './compare-card.js';
 import './DiffReport.js';
 import './diff-report.js';
 import { DiffReport } from './DiffReport.js';
+import { githubAPIKey } from '../github-api-key.js';
 // import { tokenDiff } from '@adobe/token-diff-generator/src/lib/index.js';
 
 export class TokenDiff extends LitElement {
@@ -80,6 +81,10 @@ export class TokenDiff extends LitElement {
   @property({ type: String }) updatedSchema = '';
   @property({ type: String }) originalVers = '';
   @property({ type: String }) updatedVers = '';
+  @property({ type: Array }) branchOptions: string[] = [];
+  @property({ type: Array }) tagOptions: string[] = [];
+  @property({ type: Array }) branchSchemaOptions: string[] = [];
+  @property({ type: Array }) tagSchemaOptions: string[] = [];
 
   __originalCardListener(e: CustomEvent) {
     this.__updatedProperty(true, e.detail);
@@ -120,9 +125,16 @@ export class TokenDiff extends LitElement {
     diffReport.updatedBranchOrTag = this.updatedBranchOrTag;
     diffReport.originalSchema = this.originalSchema;
     diffReport.updatedSchema = this.updatedSchema;
-    let encodedObject = encodeURIComponent(JSON.stringify(this.jsonObj));
     let url = new URL(
-      'http://localhost:8000' + '/demo/object=' + encodedObject,
+      'http://localhost:8000' +
+        '/demo?original_branch_tag=' +
+        this.originalBranchOrTag +
+        '&updated_branch_tag=' +
+        this.updatedBranchOrTag +
+        '&original_schema=' +
+        this.originalSchema +
+        '&updated_schema=' +
+        this.updatedSchema,
     );
     diffReport.url = url.href;
     if (report) {
@@ -135,6 +147,97 @@ export class TokenDiff extends LitElement {
       this.dispatchEvent(new CustomEvent('urlChange', options));
       window.history.pushState(this.jsonObj, 'Report', url.href);
     }
+  }
+
+  async __fetchBranchTagOptions(type: string) {
+    const url =
+      type === 'branch'
+        ? 'https://api.github.com/repos/adobe/spectrum-tokens/branches'
+        : 'https://api.github.com/repos/adobe/spectrum-tokens/releases';
+    return await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `token ${githubAPIKey}`,
+      },
+    }).then(async response => {
+      const arr: any[] | PromiseLike<any[]> = [];
+      const obj = await response.json();
+      Object.values(obj).forEach((value: any) => {
+        arr.push(value.name);
+      });
+      return arr;
+    });
+  }
+
+  async __fetchSchemaOptions(branchOrTagKey: string, branchOrTag: string) {
+    let schemaOptions = [];
+    const source = 'https://raw.githubusercontent.com/adobe/spectrum-tokens/';
+    let branchOrTagArr = branchOrTag.split('@');
+    const url =
+      branchOrTagKey !== 'branch'
+        ? source +
+          '%40adobe/spectrum-tokens%40' +
+          branchOrTagArr[branchOrTagArr.length - 1]
+        : source + branchOrTag;
+    schemaOptions = await this.__fetchTokens('manifest.json', url);
+    schemaOptions.unshift('all');
+    return schemaOptions;
+  }
+
+  async __fetchTokens(tokenName: string, url: string) {
+    return (await fetch(`${url}/packages/tokens/${tokenName}`)).json();
+  }
+
+  async firstUpdated() {
+    const currentUrl = window.location.href;
+    const firstQuestionMark = currentUrl.indexOf('?');
+    this.branchOptions = await this.__fetchBranchTagOptions('branch');
+    this.branchSchemaOptions = await this.__fetchSchemaOptions(
+      'branch',
+      this.branchOptions[0],
+    );
+    if (firstQuestionMark > 0) {
+      const parameters = currentUrl.substring(firstQuestionMark + 1);
+      const paramSplit = parameters.split('&');
+      this.originalBranchOrTag = paramSplit[0]
+        .substring(paramSplit[0].indexOf('=') + 1)
+        .replaceAll('%20', ' ')
+        .replaceAll('%40', '@');
+      this.originalVers = this.branchOptions.includes(this.originalBranchOrTag)
+        ? 'branch'
+        : 'tag';
+      this.updatedBranchOrTag = paramSplit[1]
+        .substring(paramSplit[1].indexOf('=') + 1)
+        .replaceAll('%20', ' ')
+        .replaceAll('%40', '@');
+      this.updatedVers = this.branchOptions.includes(this.updatedBranchOrTag)
+        ? 'branch'
+        : 'tag';
+      this.originalSchema = paramSplit[2]
+        .substring(paramSplit[2].indexOf('=') + 1)
+        .replaceAll('%20', ' ')
+        .replaceAll('%40', '@');
+      this.updatedSchema = paramSplit[3]
+        .substring(paramSplit[3].indexOf('=') + 1)
+        .replaceAll('%20', ' ')
+        .replaceAll('%40', '@');
+      this.__generateReport();
+    } else {
+      this.originalBranchOrTag = this.updatedBranchOrTag =
+        this.branchOptions[0];
+      this.originalSchema = this.updatedSchema = this.branchSchemaOptions[0];
+    }
+    this.tagOptions = await this.__fetchBranchTagOptions('tag');
+    this.tagSchemaOptions = await this.__fetchSchemaOptions(
+      'tag',
+      this.tagOptions[0].substring(1),
+    );
+    this.originalVers = this.branchOptions.includes(this.originalBranchOrTag)
+      ? 'branch'
+      : 'tag';
+    this.updatedVers = this.branchOptions.includes(this.updatedBranchOrTag)
+      ? 'branch'
+      : 'tag';
   }
 
   @property({ type: Object }) jsonObj = {
@@ -264,10 +367,24 @@ export class TokenDiff extends LitElement {
             <compare-card
               @selection=${this.__originalCardListener}
               heading="Version A"
+              .branchOrTag=${this.originalBranchOrTag}
+              .schema=${this.originalSchema}
+              .toggle=${this.originalVers}
+              .branchOptions=${this.branchOptions}
+              .tagOptions=${this.tagOptions}
+              .branchSchemaOptions=${this.branchSchemaOptions}
+              .tagSchemaOptions=${this.tagSchemaOptions}
             ></compare-card>
             <compare-card
               @selection=${this.__updatedCardListener}
               heading="Version B"
+              .branchOrTag=${this.updatedBranchOrTag}
+              .schema=${this.updatedSchema}
+              .toggle=${this.updatedVers}
+              .branchOptions=${this.branchOptions}
+              .tagOptions=${this.tagOptions}
+              .branchSchemaOptions=${this.branchSchemaOptions}
+              .tagSchemaOptions=${this.tagSchemaOptions}
             ></compare-card>
           </div>
           <div class="page compare-button">

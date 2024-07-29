@@ -9,7 +9,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-import { html, css, LitElement, TemplateResult, noChange } from 'lit';
+import { html, css, LitElement, TemplateResult } from 'lit';
 import { property } from 'lit/decorators.js';
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
@@ -143,11 +143,6 @@ export class DiffReport extends LitElement {
       Object.keys(this.tokenDiffJSON.updated.deleted).length +
       Object.keys(this.tokenDiffJSON.updated.updated).length +
       Object.keys(this.tokenDiffJSON.updated.renamed).length;
-    // let queryString = this.url; // window.location.search
-    // let objectString = queryString.split('=')[1];
-    // let decodedObject = JSON.parse(decodeURIComponent(objectString));
-
-    // console.log(decodedObject); // { name: 'John', age: 30 }
   }
 
   @property() tokenDiffJSON: any = {
@@ -263,7 +258,7 @@ export class DiffReport extends LitElement {
         <sp-theme theme="spectrum" color="light" scale="medium">
           <sp-overlay trigger="trigger@click" type="auto">
             <sp-toast open variant="info">
-              The report url has been copied to your clipboard!
+              The report contents have been copied to your clipboard!
             </sp-toast>
           </sp-overlay>
           <div class="share-header">
