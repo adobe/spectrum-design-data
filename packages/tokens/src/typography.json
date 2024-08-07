@@ -1537,7 +1537,7 @@
   "code-cjk-strong-font-weight": {
     "component": "code",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{black-font-weight}",
+    "value": "{bold-font-weight}",
     "uuid": "ed73f5fc-5b7a-4414-8f1c-325e7944a9e1"
   },
   "code-cjk-strong-font-style": {
@@ -1585,7 +1585,7 @@
   "code-cjk-strong-emphasized-font-weight": {
     "component": "code",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{black-font-weight}",
+    "value": "{bold-font-weight}",
     "uuid": "8ed5c5e0-ff72-4937-98fd-fd09f1fab288"
   },
   "code-cjk-strong-emphasized-font-style": {
