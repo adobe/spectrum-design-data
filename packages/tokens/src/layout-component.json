@@ -2816,12 +2816,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "18px",
+        "value": "20px",
         "uuid": "6aa2d529-0e10-4eaf-8786-f38e04e4d438"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "22px",
+        "value": "24px",
         "uuid": "f23636e9-93e2-444d-a95b-1311a7e074f3"
       }
     }
@@ -2832,12 +2832,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "20px",
+        "value": "24px",
         "uuid": "f3293ec2-befd-49e8-a280-b5a1827aa40c"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "26px",
+        "value": "28px",
         "uuid": "a2833b95-ba74-4caf-89e6-8294465d2780"
       }
     }
@@ -2848,12 +2848,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "22px",
+        "value": "28px",
         "uuid": "a17f3911-00ad-4d52-a474-dc5d4e3341d1"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "28px",
+        "value": "32px",
         "uuid": "7bfa97a1-39a8-4a30-af13-31ce1393098a"
       }
     }
@@ -2864,12 +2864,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "26px",
+        "value": "32px",
         "uuid": "337f89c8-5b8a-4cd9-a32d-31f2d9804b2e"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "32px",
+        "value": "36px",
         "uuid": "b0bd14f7-9642-4e20-90c4-68f38a53e72c"
       }
     }
@@ -2880,12 +2880,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "28px",
+        "value": "36px",
         "uuid": "f7ee2f39-d2ea-44ce-a5e6-e9a2bb8af52e"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "36px",
+        "value": "40px",
         "uuid": "44237baf-1128-445d-8337-a943c6ac0019"
       }
     }
@@ -2896,12 +2896,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "32px",
+        "value": "40px",
         "uuid": "9088ecf5-e278-48fe-a7cc-bdf77d15772f"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "40px",
+        "value": "44px",
         "uuid": "db33d97e-15e4-4248-a8cf-4b69d745a2e0"
       }
     }
@@ -2912,12 +2912,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "36px",
+        "value": "44px",
         "uuid": "15634a63-05f3-4fb8-989a-cb3ad46b8946"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "46px",
+        "value": "48px",
         "uuid": "9ea7c014-2c8d-403f-ad7f-fa3c08a3a46d"
       }
     }
@@ -2928,13 +2928,133 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "40px",
+        "value": "48px",
         "uuid": "92260f9e-ad2a-4e46-ad65-d83d99f7e7b7"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "50px",
+        "value": "52px",
         "uuid": "0bec4f0f-efb2-44f9-a131-28f8fe248c40"
+      }
+    }
+  },
+  "avatar-size-800": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "52px",
+        "uuid": "4c3c7ee0-637c-4c0f-b79b-ba8d4f8aaf9d"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "56px",
+        "uuid": "99cf09f1-da56-4961-a805-723b68f718c2"
+      }
+    }
+  },
+  "avatar-size-900": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "56px",
+        "uuid": "531b56b5-3abd-4bcc-a4fa-9cceb08b0b8d"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "64px",
+        "uuid": "e774036a-23b9-4d74-b878-5d8edf20355f"
+      }
+    }
+  },
+  "avatar-size-1000": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "64px",
+        "uuid": "7f677464-22fe-47c5-b4da-e6c60740aafe"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "72px",
+        "uuid": "c723eb21-c020-40d5-a225-5857c8b4f0c9"
+      }
+    }
+  },
+  "avatar-size-1100": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "72px",
+        "uuid": "63e8bd84-a7e2-4aed-9ac8-44ae2fe70424"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "80px",
+        "uuid": "371af425-26e6-4891-a195-b4dbee5e17b9"
+      }
+    }
+  },
+  "avatar-size-1200": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "80px",
+        "uuid": "d8af9c52-b267-4c77-8ca2-ffa5dc27a45e"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "88px",
+        "uuid": "49075645-054f-4b42-8b8a-7fa4971b2ca9"
+      }
+    }
+  },
+  "avatar-size-1300": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "88px",
+        "uuid": "77d45064-5013-417e-9663-a91e97e40d01"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "96px",
+        "uuid": "b8372421-023d-4d86-b792-eb1c9fd8230c"
+      }
+    }
+  },
+  "avatar-size-1400": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "96px",
+        "uuid": "974ccab6-b9d9-4101-ba6c-69dd75b8602f"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "104px",
+        "uuid": "c46a76c1-77af-4e15-96e1-9e7f16000de5"
+      }
+    }
+  },
+  "avatar-size-1500": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "104px",
+        "uuid": "2ab3cbdf-5791-41ca-b6e3-66d5a4970f32"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "112px",
+        "uuid": "06359a10-02d1-4886-a841-940b5ffbb0f0"
       }
     }
   },
@@ -8561,5 +8681,150 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.2",
     "uuid": "19968846-dad0-42eb-b6a8-af65f3a910ff"
+  },
+  "avatar-border-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{border-width-100}",
+    "uuid": "2d4cd3ad-cc2c-4ad5-9475-c73882c5201e"
+  },
+  "avatar-group-size-50": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{avatar-size-50}",
+    "uuid": "d55ab204-ee6c-47e3-a21b-25543c8fc36b"
+  },
+  "avatar-group-size-75": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{avatar-size-75}",
+    "uuid": "420c8327-fa41-4919-9e01-4d58178d739b"
+  },
+  "avatar-group-size-100": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{avatar-size-100}",
+    "uuid": "1c869018-8c56-4c10-acea-7fc6e838aa09"
+  },
+  "avatar-group-size-200": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{avatar-size-200}",
+    "uuid": "590ef940-55ea-4690-a403-e4b47a185a64"
+  },
+  "avatar-group-size-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{avatar-size-300}",
+    "uuid": "5e60d980-21db-4bbd-b321-a20808571411"
+  },
+  "avatar-group-size-400": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{avatar-size-400}",
+    "uuid": "80e446ee-0091-4c6e-9158-e15fbc6207a4"
+  },
+  "avatar-group-size-500": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{avatar-size-500}",
+    "uuid": "4bf63b03-931b-47ce-bb1a-4bd4e2cd82c1"
+  },
+  "avatar-to-avatar-50": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-4px",
+        "uuid": "4328bc86-01d4-4467-b99a-33099effe781"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-5px",
+        "uuid": "b395e912-9061-44bd-ab77-840cde0f3e80"
+      }
+    }
+  },
+  "avatar-to-avatar-75": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-5px",
+        "uuid": "4970f7de-506d-4e2c-9412-8ebd268c5da3"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-6px",
+        "uuid": "889a7ebb-86b7-4615-87ee-e75aa4b48d60"
+      }
+    }
+  },
+  "avatar-to-avatar-100": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-6px",
+        "uuid": "273888c7-abc9-4af8-802a-e8ecf864f2fa"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-7px",
+        "uuid": "bacd5b38-1eed-49d6-9513-f363315f2a23"
+      }
+    }
+  },
+  "avatar-to-avatar-200": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-7px",
+        "uuid": "629d5ce9-487d-4ee9-be0d-5ff24c66d174"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-8px",
+        "uuid": "7815e63c-1d4f-4ee0-a656-a6053595ad59"
+      }
+    }
+  },
+  "avatar-to-avatar-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-8px",
+        "uuid": "e345324b-640f-4f45-88c6-4765ca97ea22"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-9px",
+        "uuid": "04481b80-1c05-416a-95cf-c0c85147ce2e"
+      }
+    }
+  },
+  "avatar-to-avatar-400": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-9px",
+        "uuid": "63c5deff-94da-4981-ba9a-fd46b4372830"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-10px",
+        "uuid": "5c733ac6-d7b9-44f0-8827-1d8232ca5332"
+      }
+    }
+  },
+  "avatar-to-avatar-500": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-10px",
+        "uuid": "8b6b74b4-e7c3-4f7c-a2b6-f410fcc17a83"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "-11px",
+        "uuid": "c980c4f4-f2c5-4963-873e-de275f3353d1"
+      }
+    }
   }
 }

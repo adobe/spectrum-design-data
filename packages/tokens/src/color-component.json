@@ -411,5 +411,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-1000}",
     "uuid": "08b8d06a-5475-47bf-ad2e-9f52ee07345a"
+  },
+  "avatar-border-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-25}",
+    "uuid": "bae79ea7-2b3e-4d43-af42-7deab67acc7c"
   }
 }
