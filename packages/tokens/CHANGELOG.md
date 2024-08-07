@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- [#390](https://github.com/adobe/spectrum-tokens/pull/390) [`cc9c304`](https://github.com/adobe/spectrum-tokens/commit/cc9c3048893058c3f01d6f1ce4688d8ab3716397) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated code tokens for S2
+- [#390](https://github.com/adobe/spectrum-tokens/pull/390) [`cc9c304`](https://github.com/adobe/spectrum-tokens/commit/cc9c3048893058c3f01d6f1ce4688d8ab3716397) Thanks [@lynnhao](https://github.com/lynnhao)! - Updated code tokens for S2
 
   ## Design Motivation
 
