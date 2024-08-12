@@ -1,0 +1,53 @@
+{
+  "help-text-top-to-workflow-icon-medium": {
+    "component": "help-text",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "3px",
+        "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "b690bd12-855e-444d-8b76-a7ae948e3f52"
+      }
+    },
+    "uuid": "86ac0bd3-7ea6-4f80-9c73-c0c77616f246"
+  },
+  "status-light-dot-size-extra-large": {
+    "component": "status-light",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "5e27b361-988c-42ac-8c66-f7d1ba00632d"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "38b8d9c8-d340-4123-88bc-f739cfde91e9"
+      }
+    },
+    "uuid": "c1561e03-afdd-4c60-ba43-9c850aefd20a"
+  },
+  "status-light-top-to-dot-large": {
+    "component": "status-light",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "ead22722-10f9-4cfe-a387-65f5d86ca520"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "19px",
+        "uuid": "8d9d872f-7c55-4a94-a80d-c1f2c8834f5d"
+      }
+    },
+    "uuid": "abebffcd-877a-40ed-b538-10928353d74e"
+  }
+}

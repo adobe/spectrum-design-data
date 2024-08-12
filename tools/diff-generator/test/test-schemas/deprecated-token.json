@@ -1,0 +1,10 @@
+{
+  "swatch-border-color": {
+    "component": "swatch",
+    "deprecated": true,
+    "deprecated_comment": "insert random deprecated comment",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-900}",
+    "uuid": "7da5157d-7f25-405b-8de0-f3669565fb48"
+  }
+}

@@ -1,0 +1,273 @@
+{
+  "swatch-border-color": {
+    "component": "swatch",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-900}",
+    "uuid": "7da5157d-7f25-405b-8de0-f3669565fb48"
+  },
+  "swatch-border-opacity": {
+    "component": "swatch",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.51",
+    "uuid": "0e397a80-cf33-44ed-8b7d-1abaf4426bf5"
+  },
+  "swatch-disabled-icon-border-color": {
+    "component": "swatch",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{black}",
+    "uuid": "c49cd7ae-7657-458b-871a-6b4f28bca535"
+  },
+  "swatch-disabled-icon-border-opacity": {
+    "component": "swatch",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.51",
+    "uuid": "cdbba3b6-cb51-4fec-88f0-273d4bb59a18"
+  },
+  "thumbnail-border-color": {
+    "component": "thumbnail",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-800}",
+    "uuid": "5bd226f1-0a6b-42bc-80af-4a9dde99e9e9"
+  },
+  "thumbnail-border-opacity": {
+    "component": "thumbnail",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "58bd04e9-5b85-44d8-8474-96e157701070"
+  },
+  "thumbnail-opacity-disabled": {
+    "component": "thumbnail",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{opacity-disabled}",
+    "uuid": "92418bcd-5f0f-4f26-9a96-51f8c9e871bf"
+  },
+  "opacity-checkerboard-square-light": {
+    "component": "opacity-checkerboard",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{white}",
+    "uuid": "c7e50676-3f61-49c3-a35f-2532fdb02360"
+  },
+  "opacity-checkerboard-square-dark": {
+    "component": "opacity-checkerboard",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "84a7cd5e-bb2b-4bb5-bb5f-f5839ae3a761"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-800}",
+        "uuid": "5dbb3e96-fe86-43a2-be8b-3ceecfe2d5ba"
+      },
+      "darkest": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-800}",
+        "uuid": "f783b8cb-d31f-46c2-b550-990639752510"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "e7fe88a4-6ab3-4963-8f10-9908a5a83123"
+      }
+    },
+    "uuid": "0b807f40-d63e-4482-8d53-18fadc9663d5"
+  },
+  "avatar-opacity-disabled": {
+    "component": "avatar",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{opacity-disabled}",
+    "uuid": "84d25d1b-f9e4-4a9e-8cd0-92367ff00637"
+  },
+  "i-like-ice-cream": {
+    "component": "color-area",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-900}",
+    "uuid": "70fc4674-0f09-48f5-8850-48b4b38c2f01"
+  },
+  "color-area-border-opacity": {
+    "component": "color-area",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "fba1851e-0056-4cdf-938d-6d61550bbe3c"
+  },
+  "color-slider-border-color": {
+    "component": "color-slider",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-900}",
+    "uuid": "0c85e7fa-f950-436c-a68a-dd7fb8dfac9e"
+  },
+  "color-slider-border-opacity": {
+    "component": "color-slider",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "8271b69e-6542-4b17-b0f0-72567e16c41b"
+  },
+  "color-loupe-drop-shadow-color": {
+    "component": "color-loupe",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{transparent-black-300}",
+    "uuid": "918b8089-d89f-45d2-8c9c-f3f13f81b0b9"
+  },
+  "color-loupe-inner-border": {
+    "component": "color-loupe",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{transparent-black-200}",
+    "uuid": "d2c4cb48-8a90-461d-95bc-d882ba01472b"
+  },
+  "color-loupe-outer-border": {
+    "component": "color-loupe",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{white}",
+    "uuid": "4e1d1cc5-736e-4e82-9054-5c1a74ac1aca"
+  },
+  "card-selection-background-color": {
+    "component": "cards",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "622c6e86-dea6-416d-9f13-bb6ef112d3cb"
+  },
+  "card-selection-background-color-opacity": {
+    "component": "cards",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.95",
+    "uuid": "ac039445-0bf8-4821-b02e-e7e06a416576"
+  },
+  "drop-zone-background-color": {
+    "component": "drop-zone",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{accent-visual-color}",
+    "uuid": "866f3613-c12f-4475-87b1-ad86ef2ce153"
+  },
+  "drop-zone-background-color-opacity": {
+    "component": "drop-zone",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "ee5ed78b-230c-4b37-9d76-1787a975bb63"
+  },
+  "drop-zone-background-color-opacity-filled": {
+    "component": "drop-zone",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.3",
+    "uuid": "ca70550a-b11a-438f-9c70-ff1eeba532cc"
+  },
+  "coach-mark-pagination-color": {
+    "component": "coach-mark",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-600}",
+    "uuid": "f8cefe70-db2c-489e-bbbe-964050e96ab6"
+  },
+  "color-handle-inner-border-color": {
+    "component": "color-handle",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{black}",
+    "uuid": "0c93f310-d7c6-474b-8f07-0e8e76e2756e"
+  },
+  "color-handle-inner-border-opacity": {
+    "component": "color-handle",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.42",
+    "uuid": "72b473c6-ec9b-4830-a0f8-48b80070e7b8"
+  },
+  "color-handle-outer-border-color": {
+    "component": "color-handle",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{black}",
+    "uuid": "e4733356-090e-4bb7-b32d-ab9df30fb785"
+  },
+  "color-handle-outer-border-opacity": {
+    "component": "color-handle",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{color-handle-inner-border-opacity}",
+    "uuid": "0a0eff89-7e7d-4b7f-bcfa-a85e33e5798a"
+  },
+  "color-handle-drop-shadow-color": {
+    "component": "color-handle",
+    "deprecated": true,
+    "deprecated_comment": "Express does not need a separate design for Color loupe and Color handle components",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{drop-shadow-color}",
+    "uuid": "97dfaf7f-ac2d-4517-84cc-6f692f712fc5"
+  },
+  "floating-action-button-drop-shadow-color": {
+    "component": "floating-action-button",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{transparent-black-300}",
+    "uuid": "d66d3a56-1ba0-4ce7-a263-eb46a4d17af0"
+  },
+  "floating-action-button-shadow-color": {
+    "component": "floating-action-button",
+    "deprecated": true,
+    "deprecated_comment": "Use `floating-action-button-drop-shadow-color` instead",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{floating-action-button-drop-shadow-color}",
+    "uuid": "f843b1b7-4b2f-496e-a679-b0372e49d575"
+  },
+  "table-row-hover-color": {
+    "component": "table",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-900}",
+    "uuid": "44aedb76-5483-4ac3-a6f5-8cf71c2bd376"
+  },
+  "table-row-hover-opacity": {
+    "component": "table",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.07",
+    "uuid": "e287d553-3712-4d6e-98f0-6075107e85fe"
+  },
+  "table-selected-row-background-color": {
+    "component": "table",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{informative-background-color-default}",
+    "uuid": "b7537f50-bd49-44b6-a171-19943d443d24"
+  },
+  "table-selected-row-background-opacity": {
+    "component": "table",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "61b3aa04-0e7e-44b8-a4c8-8442a4ebf549"
+  },
+  "table-selected-row-background-color-non-emphasized": {
+    "component": "table",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{neutral-background-color-selected-default}",
+    "uuid": "8578067a-6ce0-4059-84ad-4688c71df156"
+  },
+  "table-selected-row-background-opacity-non-emphasized": {
+    "component": "table",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "1ef41e27-3dea-4589-ad7a-140a03a77384"
+  },
+  "table-row-down-opacity": {
+    "component": "table",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "75ae742c-e96e-494f-9880-746bb2849575"
+  },
+  "table-selected-row-background-opacity-hover": {
+    "component": "table",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.15",
+    "uuid": "ce2851bc-8ae1-4b27-8cd6-f191c9cd7fe9"
+  },
+  "table-selected-row-background-opacity-non-emphasized-hover": {
+    "component": "table",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.15",
+    "uuid": "6a093ea1-f07e-4673-b52f-5b28a2e080d0"
+  },
+  "i-like-pizza": {
+    "component": "table",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.07",
+    "uuid": "1234"
+  },
+  "hi-how-are-you": {
+    "component": "color-handle",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.42",
+    "uuid": "234"
+  }
+}

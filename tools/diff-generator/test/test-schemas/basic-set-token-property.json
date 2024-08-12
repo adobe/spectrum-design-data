@@ -1,0 +1,28 @@
+{
+  "celery-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{celery-600}",
+        "uuid": "d4fd682d-4bef-4a92-bf14-90ce02b534e6"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{celery-800}",
+        "uuid": "87f5b73a-19b1-40f7-991b-0d4b6bfc4a99"
+      },
+      "darkest": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{celery-800}",
+        "uuid": "a9ab7a59-9cab-47fb-876d-6f0af93dc5df"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{celery-1100}",
+        "uuid": "3e44abd8-ea12-4c0a-9007-4a6edaa3b962"
+      }
+    },
+    "uuid": "2c159320-bf17-48b6-9d09-b2d037f937d1"
+  }
+}

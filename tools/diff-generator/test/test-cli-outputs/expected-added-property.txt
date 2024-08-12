@@ -1,0 +1,27 @@
+WARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!
+
+**Tokens Changed (1)**
+
+shirlsli/diff-generator-cli-tests | shirlsli/file-import-tests
+
+latest | latest
+-------------------------------------------------------------------------------------------
+
+
+🆕 Updated (1)
+
+   🆕 Added Properties (1)
+
+      "celery-background-color-default"
+
+         sets.random-property.$schema
+
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+
+         sets.random-property.value
+
+            spinach-100
+
+         sets.random-property.uuid
+
+            1234

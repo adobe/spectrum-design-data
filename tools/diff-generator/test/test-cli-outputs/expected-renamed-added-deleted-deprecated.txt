@@ -1,0 +1,43 @@
+WARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!
+
+**Tokens Changed (10)**
+
+shirlsli/diff-generator-cli-tests | shirlsli/file-import-tests
+
+latest | latest
+-------------------------------------------------------------------------------------------
+
+
+📝 Renamed (2)
+
+   "color-area-border-color" -> "i-like-ice-cream"
+
+   "color-handle-inner-border-color" -> "i-like-char-siu"
+
+
+
+🕒 Newly Deprecated (2)
+
+   "color-slider-border-color": "insert random deprecated comment"
+
+   "color-loupe-outer-border": "insert random deprecated comment"
+
+
+
+🔼 Added (2)
+
+   "i-like-pizza"
+
+   "hi-how-are-you"
+
+
+
+🔽 Deleted (4)
+
+   "floating-action-button-drop-shadow-color"
+
+   "floating-action-button-shadow-color"
+
+   "table-selected-row-background-opacity-non-emphasized"
+
+   "table-selected-row-background-opacity-non-emphasized-hover"

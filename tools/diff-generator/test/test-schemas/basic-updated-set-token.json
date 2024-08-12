@@ -1,0 +1,28 @@
+{
+  "overlay-opacity": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "0.4",
+        "uuid": "26b9803c-577f-4a29-badd-dfc459e8b73e"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "value": "0.5",
+        "uuid": "df41eb51-872f-458d-9439-910064f74b7b"
+      },
+      "darkest": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "value": "0.8",
+        "uuid": "31d5b502-6266-4309-8f8a-3892e6e158da"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/wireframe.json",
+        "value": "0",
+        "uuid": "93b904da-5d1f-4fd9-aa26-5aabe19df108"
+      }
+    },
+    "uuid": "bc377afe-9055-45f9-8906-9f83ee07dada"
+  }
+}

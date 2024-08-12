@@ -1,0 +1,119 @@
+WARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!
+
+**Tokens Changed (17)**
+
+shirlsli/file-import-tests | @adobe/spectrum-tokens@12.26.0
+-------------------------------------------------------------------------------------------
+
+
+📝 Renamed (3)
+
+   "i-like-dim-sum" -> "blue-600"
+
+   "i-like-passion-fruit-green-tea" -> "red-400"
+
+   "i-like-sushi" -> "table-selected-row-background-opacity-non-emphasized"
+
+
+
+⏰ Newly "Un-deprecated" (3)
+
+   "black-font-weight"
+
+   "font-size-800"
+
+   "informative-color-100"
+
+
+
+🔼 Added (2)
+
+   "spacing-1000"
+
+   "text-to-visual-100"
+
+
+
+🔽 Deleted (4)
+
+   "i-like-dosas"
+
+   "i-like-panang-curry"
+
+   "i-like-fried-chicken"
+
+   "i-like-frozen-yogurt"
+
+
+
+🆕 Updated (5)
+
+   🆕 Added Properties (2)
+
+      "neutral-subdued-background-color-hover"
+
+         sets.darkest.$schema
+
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+
+         sets.darkest.value
+
+            gray-300
+
+         sets.darkest.uuid
+
+            2d72c9fc-22d0-4e4d-9b00-fae4b30a47b5
+
+      "accent-background-color-hover"
+
+         sets.darkest.$schema
+
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+
+         sets.darkest.value
+
+            accent-color-500
+
+         sets.darkest.uuid
+
+            9e140a94-c11f-470b-b7af-49880e58d4ce
+
+
+
+   🆕 Deleted Properties (1)
+
+      "accent-background-color-down"
+
+         sets.definite-a-real-property.$schema
+
+            "adobe link"
+
+         sets.definite-a-real-property.value
+
+            woohoo!
+
+         sets.definite-a-real-property.uuid
+
+            7890
+
+
+
+   🆕 Updated Properties (2)
+
+      "neutral-background-color-selected-down"
+
+         sets.express.value
+
+            updated -> gray-900
+
+      "informative-background-color-hover"
+
+         $schema
+
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/i-like-koalas.json" -> 
+
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json"
+
+         sets.light.value
+
+            some-value-was-changed -> informative-color-1000

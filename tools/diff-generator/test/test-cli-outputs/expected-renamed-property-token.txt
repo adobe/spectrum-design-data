@@ -1,0 +1,48 @@
+WARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!
+
+
+**Tokens Changed (3)**
+-------------------------------------------------------------------------------------------
+
+
+🆕 Updated (3)
+
+   🆕 Renamed Properties (1)
+
+      "wireframe" -> "i-like-waffle-fries"
+
+
+
+   🆕 Added Properties (1)
+
+      "celery-background-color-default"
+
+         sets.added-property.$schema
+
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/some-property-type.json"
+
+         sets.added-property.value
+
+            celery-1100
+
+         sets.added-property.uuid
+
+            1234
+
+
+
+   🆕 Deleted Properties (1)
+
+      "celery-background-color-default"
+
+         sets.darkest.$schema
+
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+
+         sets.darkest.value
+
+            celery-800
+
+         sets.darkest.uuid
+
+            a9ab7a59-9cab-47fb-876d-6f0af93dc5df
