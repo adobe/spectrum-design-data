@@ -8,7 +8,8 @@
     "system-set-merge": "0.0.1",
     "token-manifest-builder": "0.0.1",
     "transform-tokens-json": "0.0.1",
-    "token-csv-generator": "0.0.1"
+    "token-csv-generator": "0.0.1",
+    "@adobe/token-diff-generator": "1.0.1"
   },
   "changesets": [
     "angry-zoos-applaud",
@@ -33,6 +34,7 @@
     "gold-bags-talk",
     "good-baboons-doubt",
     "good-peas-mix",
+    "green-knives-scream",
     "happy-students-vanish",
     "khaki-teachers-do",
     "kind-geese-hope",

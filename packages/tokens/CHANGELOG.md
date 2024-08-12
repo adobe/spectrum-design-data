@@ -1,5 +1,32 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.46
+
+### Minor Changes
+
+- [#396](https://github.com/adobe/spectrum-tokens/pull/396) [`4fcfe5b`](https://github.com/adobe/spectrum-tokens/commit/4fcfe5bd83214a7ca3644646bbf0f38802a20f43) Thanks [@larz0](https://github.com/larz0)! - Added brand new tokens for the S2 Standard Panel:
+
+  ## Design Motivation
+
+  Added tokens needed for the new S2 standard panel component.
+
+  ## Token Diff
+
+  _Tokens Added (12):_
+
+  - `standard-panel-width`
+  - `standard-panel-minimum-width`
+  - `standard-panel-maximum-width`
+  - `standard-panel-top-to-close-button-compact`
+  - `standard-panel-top-to-close-button-regular`
+  - `standard-panel-top-to-close-button-spacious`
+  - `standard-panel-edge-to-close-button-compact`
+  - `standard-panel-edge-to-close-button-regular`
+  - `standard-panel-edge-to-close-button-spacious`
+  - `standard-panel-title-font-size`
+  - `standard-panel-gripper-color`
+  - `standard-panel-gripper-color-drag`
+
 ## 13.0.0-beta.45
 
 ### Minor Changes
