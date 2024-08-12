@@ -54,3 +54,23 @@ async function fetchTokens(tokenName, version, location) {
       console.log(e);
     });
 }
+
+export async function fetchBranchTagOptions(type) {
+  const url =
+    type === "branch"
+      ? "https://api.github.com/repos/adobe/spectrum-tokens/branches"
+      : "https://api.github.com/repos/adobe/spectrum-tokens/releases";
+  return await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `token ${githubAPIKey}`,
+    },
+  }).then(async (response) => {
+    const arr = [];
+    const obj = await response.json();
+    Object.values(obj).forEach((value) => {
+      arr.push(value.name);
+    });
+    return arr;
+  });
+}

@@ -40,13 +40,14 @@ export default function tokenDiff(original, updated) {
     newTokens,
     deprecatedTokens,
   );
-  return formatResult(
+  let formatted = formatResult(
     renamedTokens,
     deprecatedTokens,
     newTokens,
     deletedTokens,
     updatedTokens,
   );
+  return formatted;
 }
 
 /**
