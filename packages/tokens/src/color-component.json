@@ -417,5 +417,25 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-25}",
     "uuid": "bae79ea7-2b3e-4d43-af42-7deab67acc7c"
+  },
+  "standard-panel-gripper-color-drag": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-800}",
+        "uuid": "69e2d0b3-6807-4e46-9f8a-72bf49439f36"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-800}",
+        "uuid": "e0533561-893d-4947-a0bb-d29c0bb42a2b"
+      }
+    }
+  },
+  "standard-panel-gripper-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-200}",
+    "uuid": "71840c7b-acdd-45b9-a228-5091591f5405"
   }
 }
