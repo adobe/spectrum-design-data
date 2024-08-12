@@ -1,9 +1,9 @@
 on: pull_request
 
 jobs:
-  example_comment_pr:
+  generate-report:
     runs-on: ubuntu-latest
-    name: An example job to comment a PR
+    name: Generate token diff report
     steps:
       - name: PR comment with file
         uses: thollander/actions-comment-pull-request@v2
