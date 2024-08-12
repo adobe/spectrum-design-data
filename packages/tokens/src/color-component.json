@@ -419,6 +419,7 @@
     "uuid": "bae79ea7-2b3e-4d43-af42-7deab67acc7c"
   },
   "standard-panel-gripper-color-drag": {
+    "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
     "sets": {
       "light": {
@@ -434,6 +435,7 @@
     }
   },
   "standard-panel-gripper-color": {
+    "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-200}",
     "uuid": "71840c7b-acdd-45b9-a228-5091591f5405"

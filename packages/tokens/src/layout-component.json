@@ -8881,51 +8881,61 @@
     "uuid": "6b577e2a-09c0-42bb-8b94-42034df63036"
   },
   "standard-panel-width": {
+    "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "260px",
     "uuid": "41cd9d92-4d69-4aaa-9c95-e980aa5eb992"
   },
   "standard-panel-minimum-width": {
+    "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "200px",
     "uuid": "37ab7428-8175-409f-8e74-55e51a962139"
   },
   "standard-panel-maximum-width": {
+    "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "400px",
     "uuid": "11400ef3-c995-41bc-8a9d-eb389d95f360"
   },
   "standard-panel-top-to-close-button-compact": {
+    "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "5px",
     "uuid": "66f385cd-b60b-42dd-bfdc-aba2db6e35a2"
   },
   "standard-panel-top-to-close-button-regular": {
+    "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "9px",
     "uuid": "968a056e-4397-4a71-91f1-a0f1ebb6f751"
   },
   "standard-panel-top-to-close-button-spacious": {
+    "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "17px",
     "uuid": "96572147-20a9-4089-9904-0a0efa42a5af"
   },
   "standard-panel-edge-to-close-button-compact": {
+    "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "3px",
     "uuid": "6364d657-804c-4753-832d-09bfdf5ad36a"
   },
   "standard-panel-edge-to-close-button-regular": {
+    "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "7px",
     "uuid": "f2c9847f-2c3f-4e2e-94ed-59b6cc58f34a"
   },
   "standard-panel-edge-to-close-button-spacious": {
+    "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "15px",
     "uuid": "b9c04337-a6f5-42db-9bf9-a761c0d9f876"
   },
   "standard-panel-title-font-size": {
+    "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{title-size-s}",
     "uuid": "ce8278ea-da1b-4a42-bf7d-4018c9e9d18e"
