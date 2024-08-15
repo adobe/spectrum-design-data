@@ -12,8 +12,9 @@ governing permissions and limitations under the License.
 import tokenDiff from ".";
 import fileImport, { fetchBranchTagOptions } from "./file-import.js";
 import { writeFile } from "fs/promises";
+import { readFileSync } from "fs";
 
-async function getReleaseLine(reportStyleFunc) {
+async function getReleaseLine() {
   const styleFunc = reportStyleFunc || markdownFormatter; // default formatter will be markdown
   const oldVersion = await fetchBranchTagOptions("version")[0].name;
   const [originalSchema, updatedSchema] = await Promise.all([
@@ -22,10 +23,11 @@ async function getReleaseLine(reportStyleFunc) {
   ]);
   const report = tokenDiff(originalSchema, updatedSchema);
   styleFunc(report, oldVersion);
-  return;
+  const styledReport = readFileSync("./reports/report.txt").toString();
+  return styledReport; // return report file as string
 }
 
-async function getDependencyReleaseLine() {}
+async function getDependencyReleaseLine() {} // i'm not sure what the difference between the two functions is
 
 module.exports = {
   getReleaseLine,
@@ -79,7 +81,6 @@ export async function markdownFormatter(report, oldVersion) {
   } catch (e) {
     console.error("Writing to file failed", e);
   }
-  return markdown;
 }
 
 function markdownRenamed(tokenName, token) {
