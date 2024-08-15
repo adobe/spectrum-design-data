@@ -1,6 +1,6 @@
 {
   "name": "@adobe/token-diff-generator",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "Creates diffs for tokens",
   "type": "module",
   "scripts": {
@@ -10,7 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/adobe/spectrum-tokens.git"
   },
-  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
+  "author": "Shirley Li <shirleyli@adobe.com> https://github.com/shirlsli",
+  "contributors": [
+    "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)"
+  ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/adobe/spectrum-tokens/issues"
