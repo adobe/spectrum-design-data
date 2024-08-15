@@ -25,14 +25,12 @@
       "light": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
         "value": "0.4",
-        "uuid": "26b9803c-577f-4a29-badd-dfc459e8b73e",
-        "deprecated": true
+        "uuid": "26b9803c-577f-4a29-badd-dfc459e8b73e"
       },
       "dark": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
         "value": "0.6",
-        "uuid": "31d5b502-6266-4309-8f8a-3892e6e158da",
-        "deprecated": true
+        "uuid": "31d5b502-6266-4309-8f8a-3892e6e158da"
       },
       "wireframe": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
