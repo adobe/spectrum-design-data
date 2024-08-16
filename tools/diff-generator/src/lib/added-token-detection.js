@@ -15,6 +15,7 @@ governing permissions and limitations under the License.
  * @param {object} renamed - the token data that were renamed
  * @param {object} deprecatedTokens - the newly deprecated tokens
  * @param {object} changes - the changed token data
+ * @param {object} original - token data to compare against
  * @returns {object} addedTokens - a JSON object containing the added tokens
  */
 
