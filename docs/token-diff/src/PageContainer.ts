@@ -19,7 +19,6 @@ import '@spectrum-web-components/theme/src/themes.js';
 import '@spectrum-web-components/overlay/sp-overlay.js';
 import '@spectrum-web-components/popover/sp-popover.js';
 import '@spectrum-web-components/divider/sp-divider.js';
-import { property } from 'lit/decorators.js';
 
 export class PageContainer extends LitElement {
   static styles = css`
