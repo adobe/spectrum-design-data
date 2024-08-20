@@ -10,9 +10,10 @@
   "type": "object",
   "properties": {
     "value": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 5
+      "type": "number",
+      "enum": [0, 1, 2, 3, 4, 5],
+      "default": 0,
+      "description": "From 0 to 5"
     },
     "isEmphasized": {
       "type": "boolean",

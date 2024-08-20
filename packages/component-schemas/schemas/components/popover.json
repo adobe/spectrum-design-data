@@ -10,7 +10,7 @@
   "type": "object",
   "properties": {
     "width": {
-      "type": "integer"
+      "type": "number"
     },
     "height": {
       "type": "number"
