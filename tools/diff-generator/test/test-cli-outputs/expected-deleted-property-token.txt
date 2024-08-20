@@ -1,0 +1,18 @@
+WARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!
+
+
+**Tokens Changed (1)**
+
+latest | latest
+-------------------------------------------------------------------------------------------
+
+
+🆕 Updated (1)
+
+   🆕 Deleted Properties (1)
+
+      "overlay-opacity"
+
+         sets.some-new-property.value
+
+            0.8

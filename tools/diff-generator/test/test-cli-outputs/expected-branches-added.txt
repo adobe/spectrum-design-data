@@ -1,0 +1,19 @@
+WARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!
+
+**Tokens Changed (4)**
+
+shirlsli/diff-generator-cli-tests | shirlsli/file-import-tests
+
+latest | latest
+-------------------------------------------------------------------------------------------
+
+
+🔼 Added (4)
+
+   "i-like-dosas"
+
+   "i-like-panang-curry"
+
+   "i-like-fried-chicken"
+
+   "i-like-frozen-yogurt"

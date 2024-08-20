@@ -1,0 +1,25 @@
+WARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!
+
+**Tokens Changed (3)**
+
+shirlsli/diff-generator-cli-tests | shirlsli/file-import-tests
+
+latest | latest
+-------------------------------------------------------------------------------------------
+
+
+📝 Renamed (1)
+
+   "help-text-top-to-workflow-icon-medium" -> "i-like-lemon-coconut-muffins"
+
+
+
+🔼 Added (1)
+
+   "gray-100"
+
+
+
+🔽 Deleted (1)
+
+   "status-light-dot-size-extra-large"

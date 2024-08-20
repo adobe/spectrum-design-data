@@ -1,0 +1,18 @@
+{
+  "workflow-icon-size-50": {
+    "component": "icon",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "1423caf1-75ca-4ca8-aa6a-22dcf3655b0e"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "4c4cb541-7d42-4bb4-9c86-7197c4600896"
+      }
+    }
+  }
+}

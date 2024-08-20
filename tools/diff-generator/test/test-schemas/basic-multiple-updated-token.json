@@ -1,0 +1,8 @@
+{
+  "swatch-border-color": {
+    "component": "swatch",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    "value": "{blue-200}",
+    "uuid": "7da5157d-7f25-405b-8de0-f3669565fb48"
+  }
+}

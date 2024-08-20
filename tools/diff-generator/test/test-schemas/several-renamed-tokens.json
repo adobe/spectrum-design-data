@@ -1,0 +1,20 @@
+{
+  "swatch-color": {
+    "component": "swatch",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-900}",
+    "uuid": "7da5157d-7f25-405b-8de0-f3669565fb48"
+  },
+  "swatch-opacity": {
+    "component": "swatch",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.51",
+    "uuid": "0e397a80-cf33-44ed-8b7d-1abaf4426bf5"
+  },
+  "swatch-disabled-icon-border-color": {
+    "component": "swatch",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{black}",
+    "uuid": "c49cd7ae-7657-458b-871a-6b4f28bca535"
+  }
+}

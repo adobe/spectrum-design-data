@@ -7,6 +7,7 @@ projects:
   site: "docs/site"
   root: "."
   csvGenerator: tools/token-csv-generator
+  diff: "tools/diff-generator"
 vcs:
   manager: "git"
   defaultBranch: "main"

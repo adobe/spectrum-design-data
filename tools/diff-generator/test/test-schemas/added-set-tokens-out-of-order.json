@@ -1,0 +1,87 @@
+{
+  "background-layer-2-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-50}",
+        "uuid": "b7b2bf98-b96a-40ca-b51e-5876d3418085"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "dd462fc7-bd79-4b52-9411-adf317832989"
+      },
+      "darkest": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "e30b7936-6ae7-4ada-8892-94a1f67d55c9"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-50}",
+        "uuid": "6556a64d-5944-4d65-a6cc-9c6121044ac7"
+      }
+    }
+  },
+  "overlay-opacity": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "value": "0.4",
+        "uuid": "26b9803c-577f-4a29-badd-dfc459e8b73e"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "value": "0.5",
+        "uuid": "df41eb51-872f-458d-9439-910064f74b7b"
+      },
+      "darkest": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "value": "0.6",
+        "uuid": "31d5b502-6266-4309-8f8a-3892e6e158da"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "value": "0.4",
+        "uuid": "93b904da-5d1f-4fd9-aa26-5aabe19df108"
+      }
+    },
+    "uuid": "bc377afe-9055-45f9-8906-9f83ee07dada"
+  },
+  "help-text-top-to-workflow-icon-medium": {
+    "component": "help-text",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
+        "value": "3px",
+        "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "b690bd12-855e-444d-8b76-a7ae948e3f52"
+      }
+    },
+    "uuid": "86ac0bd3-7ea6-4f80-9c73-c0c77616f246"
+  },
+  "neutral-background-color-selected-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-700}",
+        "uuid": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc"
+      },
+      "express": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-800}",
+        "deprecated": true,
+        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
+        "uuid": "60caae29-d389-421e-a574-b26bcaeed3bf"
+      }
+    }
+  }
+}

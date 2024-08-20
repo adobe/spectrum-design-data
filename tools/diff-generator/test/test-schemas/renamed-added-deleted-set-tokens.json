@@ -1,0 +1,63 @@
+{
+  "i-like-lemon-coconut-muffins": {
+    "component": "help-text",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "3px",
+        "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "b690bd12-855e-444d-8b76-a7ae948e3f52"
+      }
+    },
+    "uuid": "86ac0bd3-7ea6-4f80-9c73-c0c77616f246"
+  },
+  "gray-100": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgb(248, 248, 248)",
+        "uuid": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgb(50, 50, 50)",
+        "uuid": "4500355e-ce60-4046-b692-71301b6b1348"
+      },
+      "darkest": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgb(29, 29, 29)",
+        "uuid": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgb(244, 246, 252)",
+        "uuid": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
+      }
+    },
+    "private": true,
+    "uuid": "55a0effe-1758-4b2f-908c-d36e460880b8"
+  },
+  "status-light-top-to-dot-large": {
+    "component": "status-light",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "ead22722-10f9-4cfe-a387-65f5d86ca520"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "19px",
+        "uuid": "8d9d872f-7c55-4a94-a80d-c1f2c8834f5d"
+      }
+    },
+    "uuid": "abebffcd-877a-40ed-b538-10928353d74e"
+  }
+}

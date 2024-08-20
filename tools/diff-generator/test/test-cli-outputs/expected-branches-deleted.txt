@@ -1,0 +1,15 @@
+WARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!
+
+**Tokens Changed (2)**
+
+shirlsli/diff-generator-cli-tests | shirlsli/file-import-tests
+
+latest | latest
+-------------------------------------------------------------------------------------------
+
+
+🔽 Deleted (2)
+
+   "spacing-1000"
+
+   "text-to-visual-100"

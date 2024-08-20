@@ -16,6 +16,7 @@ Packages in this monorepo:
 - [Spectrum Tokens](packages/tokens/) design tokens for Spectrum, Adobe's design system.
 - [Spectrum Token Visualizer Tool](docs/visualizer/) a visualizer for inspecting tokens. Published as a [static site](https://opensource.adobe.com/spectrum-tokens/visualizer/), not an NPM package.
 - [Spectrum Tokens Docs](docs/site/) a static site to show the component options API and other token data.
+- [Spectrum Token Diff Generator](tools/diff-generator/) a library and cli tool that reports changes made between two schema/releases/branches.
 
 ## Setup monorepo locally
 
