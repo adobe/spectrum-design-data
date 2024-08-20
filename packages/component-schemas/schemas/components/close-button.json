@@ -20,7 +20,7 @@
     "staticColor": {
       "type": "string",
       "enum": ["white", "black"],
-      "default": null
+      "description": "Static color must not be set for the default version of this component."
     },
     "isDisabled": {
       "type": "boolean",
