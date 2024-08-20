@@ -22,9 +22,8 @@
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m",
-      "pattern": "^(x?s|m|x{0,3}l)$"
+      "enum": ["xs", "s", "m", "l", "xl"],
+      "default": "m"
     },
     "isQuiet": {
       "type": "boolean",
