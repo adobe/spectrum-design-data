@@ -31,7 +31,7 @@
     "@spectrum-web-components/slider": "^0.44.0",
     "@spectrum-web-components/switch": "^0.44.0",
     "@spectrum-web-components/textfield": "^0.44.0",
-    "@spectrum-web-components/theme": "^0.44.0",
+    "@spectrum-web-components/theme": "^0.45.0",
     "@spectrum-web-components/toast": "^0.44.0",
     "@spectrum-web-components/tooltip": "^0.44.0",
     "lit": "^3.1.4"
