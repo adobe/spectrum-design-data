@@ -424,24 +424,64 @@
     "deprecated": true
   },
   "informative-subtle-background-color-default": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{blue-200}",
-    "uuid": "62dfb07f-5eee-451c-9c77-745d8f714766"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{informative-color-200}",
+        "uuid": "62dfb07f-5eee-451c-9c77-745d8f714766"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{informative-color-300}",
+        "uuid": "4cbe010f-0608-47e3-bf27-c7da70a70b9e"
+      }
+    }
   },
   "positive-subtle-background-color-default": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{green-200}",
-    "uuid": "57a1aa8f-5c06-4ff6-8d1c-0e278a433ebf"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{positive-color-200}",
+        "uuid": "57a1aa8f-5c06-4ff6-8d1c-0e278a433ebf"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{positive-color-300}",
+        "uuid": "c7644c81-1b2c-40ee-b3a6-b25e88fc34ea"
+      }
+    }
   },
   "notice-subtle-background-color-default": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{orange-200}",
-    "uuid": "f0799e87-dbb2-4e71-8253-65f45eddc078"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{notice-color-200}",
+        "uuid": "f0799e87-dbb2-4e71-8253-65f45eddc078"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{notice-color-300}",
+        "uuid": "c9bfd62b-95c7-47d3-bace-ce3f2bfaade8"
+      }
+    }
   },
   "negative-subtle-background-color-default": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{red-200}",
-    "uuid": "8e9429cf-4c89-47be-bc6e-eeecc632aeb1"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{negative-color-200}",
+        "uuid": "8e9429cf-4c89-47be-bc6e-eeecc632aeb1"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{negative-color-300}",
+        "uuid": "c7575b76-8035-4037-8bd5-e8bdb82bddc3"
+      }
+    }
   },
   "icon-color-informative": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
@@ -467,5 +507,20 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{negative-visual-color}",
     "uuid": "adf2a3f0-d1cd-4b53-8a9c-47ab9cb7bb0f"
+  },
+  "accent-subtle-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{accent-color-200}",
+        "uuid": "97293b77-c21d-4ba1-bd2c-5d1de37d75eb"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{accent-color-300}",
+        "uuid": "c120499e-98c4-442d-971f-31dee8d16c4d"
+      }
+    }
   }
 }

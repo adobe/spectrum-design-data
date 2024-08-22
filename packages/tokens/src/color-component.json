@@ -420,19 +420,9 @@
   },
   "standard-panel-gripper-color-drag": {
     "component": "standard-panel",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
-    "sets": {
-      "light": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{gray-800}",
-        "uuid": "69e2d0b3-6807-4e46-9f8a-72bf49439f36"
-      },
-      "dark": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{gray-800}",
-        "uuid": "e0533561-893d-4947-a0bb-d29c0bb42a2b"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-800}",
+    "uuid": "69e2d0b3-6807-4e46-9f8a-72bf49439f36"
   },
   "standard-panel-gripper-color": {
     "component": "standard-panel",
