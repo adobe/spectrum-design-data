@@ -1,86 +1,296 @@
 {
   "white": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgb(255, 255, 255)",
-    "uuid": "9b799da8-2130-417e-b7ee-5e1154a89837",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgb(255, 255, 255)",
+        "uuid": "9b799da8-2130-417e-b7ee-5e1154a89837"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgb(255, 255, 255)",
+        "uuid": "4991f956-c2d6-4e96-9826-a1db42efd527"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgb(255, 255, 255)",
+        "uuid": "dc38638c-b0d6-4289-b8d2-bebe0aca6b4a"
+      }
+    },
     "private": true
   },
   "transparent-white-25": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(255, 255, 255, 0)",
-    "uuid": "98a7279b-e21c-41ae-9bae-8b9b2b243e35",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0)",
+        "uuid": "98a7279b-e21c-41ae-9bae-8b9b2b243e35"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0)",
+        "uuid": "36836eeb-c856-4d93-9749-ccba9ae0a0dd"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0)",
+        "uuid": "656ea89d-3637-4d4b-adfe-609e52a733dc"
+      }
+    },
     "private": true
   },
   "transparent-white-50": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(255, 255, 255, 0.04)",
-    "uuid": "db1dbf26-fa48-42e1-b724-7953b0a6a543",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.04)",
+        "uuid": "db1dbf26-fa48-42e1-b724-7953b0a6a543"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.04)",
+        "uuid": "c3f8bb0d-0da4-46aa-917d-7dd87967e032"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.04)",
+        "uuid": "147f9ab4-6229-4801-9000-d653708786b4"
+      }
+    },
     "private": true
   },
   "transparent-white-75": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(255, 255, 255, 0.07)",
-    "uuid": "28d11d38-570d-4d99-b581-855781b972c5",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.07)",
+        "uuid": "28d11d38-570d-4d99-b581-855781b972c5"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.07)",
+        "uuid": "619029b2-6fa5-4666-b887-93050805aaa8"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.07)",
+        "uuid": "3a8ffab7-3ef1-459d-89e7-0c2c3c5cdf32"
+      }
+    },
     "private": true
   },
   "transparent-white-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(255, 255, 255, 0.11)",
-    "uuid": "a1b64a62-7c78-415e-a9be-c86acbf361ca",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.11)",
+        "uuid": "a1b64a62-7c78-415e-a9be-c86acbf361ca"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.11)",
+        "uuid": "4bf0daef-44bf-4dcc-b8d5-3a82cb11bb15"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.11)",
+        "uuid": "fe302876-cf94-4500-8e24-c63a89b131e4"
+      }
+    },
     "private": true
   },
   "transparent-white-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(255, 255, 255, 0.14)",
-    "uuid": "936db837-bc5a-40b0-a0e8-8e39b9fc62cb",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.14)",
+        "uuid": "936db837-bc5a-40b0-a0e8-8e39b9fc62cb"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.14)",
+        "uuid": "97c06fc2-f6d1-429d-8af7-1bf696d65ad1"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.14)",
+        "uuid": "aea9e896-ef9f-4e74-abf7-61fc7286f600"
+      }
+    },
     "private": true
   },
   "transparent-white-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(255, 255, 255, 0.17)",
-    "uuid": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.17)",
+        "uuid": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.17)",
+        "uuid": "fd032f5d-57cc-49a3-b9ec-503ed93c3fd0"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.17)",
+        "uuid": "f12f3c87-25c1-4699-8d41-c50eba1decc0"
+      }
+    },
     "private": true
   },
   "transparent-white-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(255, 255, 255, 0.21)",
-    "uuid": "12e610d4-e3dc-4e86-9c09-09d86915b6f1",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.21)",
+        "uuid": "12e610d4-e3dc-4e86-9c09-09d86915b6f1"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.21)",
+        "uuid": "9a0d6111-830e-4766-9d0d-faa59e9b4129"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.21)",
+        "uuid": "63fdb0df-6961-4ebe-9127-abb2248bf2bf"
+      }
+    },
     "private": true
   },
   "transparent-white-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(255, 255, 255, 0.39)",
-    "uuid": "89c1380f-3e8e-4895-b025-027cee7ecd5b",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.39)",
+        "uuid": "89c1380f-3e8e-4895-b025-027cee7ecd5b"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.39)",
+        "uuid": "7a8e8bc8-8901-4692-92a6-5aa7e1b4c8e4"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.39)",
+        "uuid": "0985cbac-035e-49e3-b688-a0b2250997f5"
+      }
+    },
     "private": true
   },
   "transparent-white-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(255, 255, 255, 0.51)",
-    "uuid": "b24431ee-5c72-4a73-8733-746c6f5d77c0",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.51)",
+        "uuid": "b24431ee-5c72-4a73-8733-746c6f5d77c0"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.51)",
+        "uuid": "35cf5848-f813-43ad-8546-47c463541254"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.51)",
+        "uuid": "fe2a4643-ecef-4b59-9421-7baaa012d7c7"
+      }
+    },
     "private": true
   },
   "transparent-white-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(255, 255, 255, 0.66)",
-    "uuid": "3ecc14ec-a21e-47ba-8225-915509a532af",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.66)",
+        "uuid": "3ecc14ec-a21e-47ba-8225-915509a532af"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.66)",
+        "uuid": "f283c695-2fd7-4c57-894e-2d23268a79fd"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.66)",
+        "uuid": "3eaf7f8c-5382-4a8d-a149-75de72a21be2"
+      }
+    },
     "private": true
   },
   "transparent-white-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(255, 255, 255, 0.85)",
-    "uuid": "b85836bf-af47-412a-900a-4ec5ad0733b2",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.85)",
+        "uuid": "b85836bf-af47-412a-900a-4ec5ad0733b2"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.85)",
+        "uuid": "504a6e8a-d593-4bd2-bde6-979236d2b1e0"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.85)",
+        "uuid": "56c2d70d-fe09-4aa2-a0ca-d0eed01191fd"
+      }
+    },
     "private": true
   },
   "transparent-white-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(255, 255, 255, 0.94)",
-    "uuid": "c5c823c6-1911-4e0e-ba2f-5105f467e108",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.94)",
+        "uuid": "c5c823c6-1911-4e0e-ba2f-5105f467e108"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.94)",
+        "uuid": "b4414f26-9a65-4f03-a096-ffd408c335e6"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.94)",
+        "uuid": "d05fa3e7-3410-4f10-805f-7ae0928afc65"
+      }
+    },
     "private": true
   },
   "transparent-white-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgb(255, 255, 255)",
-    "uuid": "1409a50a-9a9d-463d-957f-fa2e4f98a0cd",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgb(255, 255, 255)",
+        "uuid": "1409a50a-9a9d-463d-957f-fa2e4f98a0cd"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgb(255, 255, 255)",
+        "uuid": "7999ff9d-883c-4502-9444-36ec5a572464"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgb(255, 255, 255)",
+        "uuid": "b50c4730-178a-432e-a4f1-61ee61a60776"
+      }
+    },
     "private": true
   },
   "black": {
@@ -90,75 +300,255 @@
     "private": true
   },
   "transparent-black-25": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(0, 0, 0, 0)",
-    "uuid": "d0867b86-6245-4c02-8617-ea7fd5c80288",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0)",
+        "uuid": "d0867b86-6245-4c02-8617-ea7fd5c80288"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0)",
+        "uuid": "e8321e01-5206-4a78-882d-47405a6065ba"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0)",
+        "uuid": "10791529-e742-4513-a124-312691eaae3d"
+      }
+    },
     "private": true
   },
   "transparent-black-50": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(0, 0, 0, 0.03)",
-    "uuid": "d6aa176c-30bd-423f-b05f-4360672bd87e",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.03)",
+        "uuid": "d6aa176c-30bd-423f-b05f-4360672bd87e"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.03)",
+        "uuid": "228387c9-a5c3-4aa1-9e4c-a65d84fea99b"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.03)",
+        "uuid": "3d313a19-a4f2-4342-8513-fa6977c48c3e"
+      }
+    },
     "private": true
   },
   "transparent-black-75": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(0, 0, 0, 0.05)",
-    "uuid": "d33a66ea-ca60-416f-9e92-967dbbb1e983",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.05)",
+        "uuid": "d33a66ea-ca60-416f-9e92-967dbbb1e983"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.05)",
+        "uuid": "27fef00f-d114-45aa-b94c-c8fac605f351"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.05)",
+        "uuid": "2479ec8f-366f-4730-bab1-926ff666af87"
+      }
+    },
     "private": true
   },
   "transparent-black-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(0, 0, 0, 0.09)",
-    "uuid": "7565eb32-d745-4fc3-8779-a717f8ba910a",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.09)",
+        "uuid": "7565eb32-d745-4fc3-8779-a717f8ba910a"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.09)",
+        "uuid": "699fb95a-015c-45de-be32-ba750b6c16f8"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.09)",
+        "uuid": "97200793-c043-4161-860b-c99f778bc630"
+      }
+    },
     "private": true
   },
   "transparent-black-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(0, 0, 0, 0.12)",
-    "uuid": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.12)",
+        "uuid": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.12)",
+        "uuid": "84a8c61c-4059-4828-918f-b70996ffeafb"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.12)",
+        "uuid": "b774cd14-76cf-456b-8415-fe585f5de4bf"
+      }
+    },
     "private": true
   },
   "transparent-black-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(0, 0, 0, 0.15)",
-    "uuid": "16a871e1-d9df-42bb-8889-99059d70e82e",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.15)",
+        "uuid": "16a871e1-d9df-42bb-8889-99059d70e82e"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.15)",
+        "uuid": "0294bb74-f403-47b9-aef7-8a63a7a3c5ab"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.15)",
+        "uuid": "7db20091-bee1-47c9-a082-b75a86bc9fc3"
+      }
+    },
     "private": true
   },
   "transparent-black-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(0, 0, 0, 0.22)",
-    "uuid": "b769453b-586c-4dd2-b3a1-ddf5964160bc",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.22)",
+        "uuid": "b769453b-586c-4dd2-b3a1-ddf5964160bc"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.22)",
+        "uuid": "034be0c8-8fcf-48f5-8bd2-d11bf4cba93c"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.22)",
+        "uuid": "dd94f693-5492-4cf3-9474-1af06d3fb0d6"
+      }
+    },
     "private": true
   },
   "transparent-black-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(0, 0, 0, 0.44)",
-    "uuid": "cebedd9f-9e4b-47cf-addb-45d8ff9c9179",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.44)",
+        "uuid": "cebedd9f-9e4b-47cf-addb-45d8ff9c9179"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.44)",
+        "uuid": "5b23dafc-45f9-40fc-9502-1844ec612bb1"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.44)",
+        "uuid": "83aab72b-a338-4c84-b98c-edd485ae64a5"
+      }
+    },
     "private": true
   },
   "transparent-black-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(0, 0, 0, 0.56)",
-    "uuid": "199e19a5-bf7d-4933-8425-d7d5881e4cf5",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.56)",
+        "uuid": "199e19a5-bf7d-4933-8425-d7d5881e4cf5"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.56)",
+        "uuid": "763a8a56-6256-46e7-90bf-01a79bf9f2f6"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.56)",
+        "uuid": "22fe6fb6-3b0f-4a9c-afef-39748c6491e3"
+      }
+    },
     "private": true
   },
   "transparent-black-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(0, 0, 0, 0.69)",
-    "uuid": "56da822f-98ea-4ad1-b993-3f052de45f36",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.69)",
+        "uuid": "56da822f-98ea-4ad1-b993-3f052de45f36"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.69)",
+        "uuid": "df49b786-f1b1-4e1d-ad4a-62de014ccf92"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.69)",
+        "uuid": "3f5ff65d-342d-433b-b10b-c9f20c6f1f94"
+      }
+    },
     "private": true
   },
   "transparent-black-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(0, 0, 0, 0.84)",
-    "uuid": "3e89f180-b0f0-4de0-904b-c80f0210a361",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.84)",
+        "uuid": "3e89f180-b0f0-4de0-904b-c80f0210a361"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.84)",
+        "uuid": "82cbfab1-b325-43bd-b78d-f1d75fe26178"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.84)",
+        "uuid": "3195e066-92b6-45b8-8108-b708ae599142"
+      }
+    },
     "private": true
   },
   "transparent-black-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    "value": "rgba(0, 0, 0, 0.93)",
-    "uuid": "c0a331f9-53e3-4c72-b5e3-139d730a1752",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.93)",
+        "uuid": "c0a331f9-53e3-4c72-b5e3-139d730a1752"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.93)",
+        "uuid": "ddbacddc-7f8a-45be-8acc-b97090170ae9"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.93)",
+        "uuid": "2632aa6a-5aed-488a-bab0-ca7a7f838f5d"
+      }
+    },
     "private": true
   },
   "transparent-black-1000": {
