@@ -59,6 +59,22 @@
     "value": "normal",
     "uuid": "25668698-bf78-46f4-bc6c-8fea068ddb34"
   },
+  "font-size-25": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
+        "value": "10px",
+        "uuid": "26ab49ea-7e86-4f0d-812e-ef1ba794c8a8"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
+        "value": "12px",
+        "uuid": "5946a4e5-8bed-4dd7-aa73-9ebe232f9790"
+      }
+    },
+    "uuid": "f0c5ab51-5fc0-417d-a57a-edd12a62847e"
+  },
   "font-size-50": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
@@ -298,6 +314,11 @@
       }
     },
     "uuid": "db26e411-a118-4bef-a413-eeb383e85f37"
+  },
+  "letter-spacing": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "0em",
+    "uuid": "d8caf3aa-1261-411f-b383-18f87334c117"
   },
   "line-height-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
