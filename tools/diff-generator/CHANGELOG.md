@@ -1,5 +1,11 @@
 # @adobe/token-diff-generator
 
+## 1.1.0
+
+### Minor Changes
+
+- [#407](https://github.com/adobe/spectrum-tokens/pull/407) [`c186fb8`](https://github.com/adobe/spectrum-tokens/commit/c186fb8e2129bc2f4e40aa00b06984b34cabe63b) Thanks [@GarthDB](https://github.com/GarthDB)! - Replaced --test with --local to make it easier to compare released changes with a local branch'
+
 ## 1.0.1
 
 ### Patch Changes
