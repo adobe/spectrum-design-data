@@ -11,19 +11,44 @@ governing permissions and limitations under the License.
 */
 
 import test from "ava";
-import { getAllTokens } from "../index.js";
+import { getAllTokens, isDeprecated } from "../index.js";
 
-test("getAllTokens", async (t) => {
+test("Single set properties shouldn't be deprecated", async (t) => {
   const tokens = await getAllTokens();
-  console.log(tokens);
   for (const [tokenName, token] of Object.entries(tokens)) {
     if (
       Object.hasOwn(token, "sets") &&
-      !Object.hasOwn(token, "deprecated") &&
+      !isDeprecated(token) &&
       JSON.stringify(token.sets).indexOf("deprecated") > -1
     ) {
-      console.log(tokenName);
+      t.truthy(
+        Object.values(token.sets).every((setValue) =>
+          Object.hasOwn(setValue, "deprecated"),
+        ),
+      );
     }
   }
-  t.fail();
+  t.pass();
+});
+
+test("Sets should have unique values", async (t) => {
+  const tokens = await getAllTokens();
+  const result = Object.keys(tokens).filter((tokenName) => {
+    const token = tokens[tokenName];
+    if (Object.hasOwn(token, "sets") && !isDeprecated(token)) {
+      const setValues = Object.keys(token.sets).reduce(
+        (accumulator, currentValue) =>
+          currentValue != "wireframe"
+            ? [...accumulator, token.sets[currentValue].value]
+            : accumulator,
+        [],
+      );
+      if (setValues.length != new Set(setValues).size) {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  });
+  t.deepEqual(result, [], `${result.length} Duplicate sets found`);
 });
