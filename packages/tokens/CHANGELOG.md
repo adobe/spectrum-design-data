@@ -1,5 +1,315 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.47
+
+### Minor Changes
+
+- [`75a573b`](https://github.com/adobe/spectrum-tokens/commit/75a573bcbb7b71ecdf5f246682755de24dae5afc) Thanks [@GarthDB](https://github.com/GarthDB)! - S2 subtle and visual colors update
+  Updated S2 Table tokens
+
+  <details><summary>Tokens added (42):</summary>
+
+  - `illustrated-message-maximum-width`
+  - `side-focus-indicator`
+  - `table-row-bottom-to-text-extra-large`
+  - `table-row-bottom-to-text-extra-large-regular`
+  - `table-row-bottom-to-text-large`
+  - `table-row-bottom-to-text-large-regular`
+  - `table-row-bottom-to-text-medium`
+  - `table-row-bottom-to-text-medium-regular`
+  - `table-row-bottom-to-text-small`
+  - `table-row-bottom-to-text-small-regular`
+  - `table-row-checkbox-to-top-extra-large`
+  - `table-row-checkbox-to-top-extra-large-regular`
+  - `table-row-checkbox-to-top-large`
+  - `table-row-checkbox-to-top-large-regular`
+  - `table-row-checkbox-to-top-medium`
+  - `table-row-checkbox-to-top-medium-regular`
+  - `table-row-checkbox-to-top-small`
+  - `table-row-checkbox-to-top-small-regular`
+  - `table-row-height-extra-large`
+  - `table-row-height-extra-large-regular`
+  - `table-row-height-large`
+  - `table-row-height-large-regular`
+  - `table-row-height-medium`
+  - `table-row-height-medium-regular`
+  - `table-row-height-small`
+  - `table-row-height-small-regular`
+  - `table-row-top-to-text-extra-large`
+  - `table-row-top-to-text-extra-large-regular`
+  - `table-row-top-to-text-large`
+  - `table-row-top-to-text-large-regular`
+  - `table-row-top-to-text-medium`
+  - `table-row-top-to-text-medium-regular`
+  - `table-row-top-to-text-small`
+  - `table-row-top-to-text-small-regular`
+  - `table-thumbnail-to-top-minimum-extra-large`
+  - `table-thumbnail-to-top-minimum-extra-large-regular`
+  - `table-thumbnail-to-top-minimum-large`
+  - `table-thumbnail-to-top-minimum-large-regular`
+  - `table-thumbnail-to-top-minimum-medium`
+  - `table-thumbnail-to-top-minimum-medium-regular`
+  - `table-thumbnail-to-top-minimum-small`
+  - `table-thumbnail-to-top-minimum-small-regular`
+
+  </details>
+
+  <details><summary>Tokens updated (101):</summary>
+
+  - `informative-subtle-background-color-default`
+    - light: `blue-200` -> `informative-color-200`
+    - dark: `blue-200` -> `informative-color-300`
+  - `positive-subtle-background-color-default`
+    - light: `green-200` -> `positive-color-200`
+    - dark: `green-200` -> `positive-color-300`
+  - `notice-subtle-background-color-default`
+    - light: `orange-200` -> `notice-color-200`
+    - dark: `orange-200` -> `notice-color-300`
+  - `negative-subtle-background-color-default`
+    - light: `red-200` -> `negative-color-200`
+    - dark: `red-200` -> `negative-color-300`
+  - `table-column-header-row-top-to-text-medium`
+    - desktop: `7px` -> `6px`
+  - `table-row-height-small-regular`
+    - desktop: `32px` -> `table-row-height-small`
+    - mobile: `40px` -> `table-row-height-small`
+  - `table-row-height-medium-regular`
+    - desktop: `40px` -> `table-row-height-medium`
+    - mobile: `50px` -> `table-row-height-medium`
+  - `table-row-height-large-regular`
+    - desktop: `48px` -> `table-row-height-large`
+    - mobile: `60px` -> `table-row-height-large`
+  - `table-row-height-extra-large-regular`
+    - desktop: `56px` -> `table-row-height-extra-large`
+    - mobile: `70px` -> `table-row-height-extra-large`
+  - `table-row-top-to-text-small-regular`
+    - desktop: `8px` -> `table-row-top-to-text-small`
+    - mobile: `10px` -> `table-row-top-to-text-small`
+  - `table-row-top-to-text-medium-regular`
+    - desktop: `11px` -> `table-row-top-to-text-medium`
+    - mobile: `14px` -> `table-row-top-to-text-medium`
+  - `table-row-top-to-text-large-regular`
+    - desktop: `14px` -> `table-row-top-to-text-large`
+    - mobile: `18px` -> `table-row-top-to-text-large`
+  - `table-row-top-to-text-extra-large-regular`
+    - desktop: `17px` -> `table-row-top-to-text-extra-large`
+    - mobile: `21px` -> `table-row-top-to-text-extra-large`
+  - `table-row-bottom-to-text-small-regular`
+    - desktop: `9px` -> `table-row-bottom-to-text-small`
+    - mobile: `11px` -> `table-row-bottom-to-text-small`
+  - `table-row-bottom-to-text-medium-regular`
+    - desktop: `12px` -> `table-row-bottom-to-text-medium`
+    - mobile: `15px` -> `table-row-bottom-to-text-medium`
+  - `table-row-bottom-to-text-large-regular`
+    - desktop: `14px` -> `table-row-bottom-to-text-large`
+    - mobile: `18px` -> `table-row-bottom-to-text-large`
+  - `table-row-bottom-to-text-extra-large-regular`
+    - desktop: `17px` -> `table-row-bottom-to-text-extra-large`
+    - mobile: `22px` -> `table-row-bottom-to-text-extra-large`
+  - `table-row-top-to-text-medium-spacious`
+    - mobile: `18px` -> `16px`
+  - `table-header-row-checkbox-to-top-medium`
+    - desktop: `9px` -> `8px`
+    - mobile: `13px` -> `11px`
+  - `table-row-checkbox-to-top-small-regular`
+    - desktop: `10px` -> `table-row-checkbox-to-top-small`
+    - mobile: `14px` -> `table-row-checkbox-to-top-small`
+  - `table-row-checkbox-to-top-medium-compact`
+    - desktop: `9px` -> `8px`
+    - mobile: `13px` -> `11px`
+  - `table-row-checkbox-to-top-medium-regular`
+    - desktop: `13px` -> `table-row-checkbox-to-top-medium`
+    - mobile: `18px` -> `table-row-checkbox-to-top-medium`
+  - `table-row-checkbox-to-top-medium-spacious`
+    - desktop: `17px` -> `16px`
+    - mobile: `23px` -> `21px`
+  - `table-row-checkbox-to-top-large-regular`
+    - desktop: `16px` -> `table-row-checkbox-to-top-large`
+    - mobile: `22px` -> `table-row-checkbox-to-top-large`
+  - `table-row-checkbox-to-top-extra-large-regular`
+    - desktop: `19px` -> `table-row-checkbox-to-top-extra-large`
+    - mobile: `26px` -> `table-row-checkbox-to-top-extra-large`
+  - `table-thumbnail-to-top-minimum-small-regular`
+    - desktop: `5px` -> `table-thumbnail-to-top-minimum-small`
+    - mobile: `6px` -> `table-thumbnail-to-top-minimum-small`
+  - `table-thumbnail-to-top-minimum-medium-regular`
+    - desktop: `7px` -> `table-thumbnail-to-top-minimum-medium`
+    - mobile: `9px` -> `table-thumbnail-to-top-minimum-medium`
+  - `table-thumbnail-to-top-minimum-large-regular`
+    - desktop: `8px` -> `table-thumbnail-to-top-minimum-large`
+    - mobile: `10px` -> `table-thumbnail-to-top-minimum-large`
+  - `table-thumbnail-to-top-minimum-extra-large-regular`
+    - desktop: `8px` -> `table-thumbnail-to-top-minimum-extra-large`
+    - mobile: `10px` -> `table-thumbnail-to-top-minimum-extra-large`
+  - `blue-800`
+    - dark: `rgb(69, 110, 254)` -> `rgb(64, 105, 253)`
+  - `red-800`
+    - dark: `rgb(230, 54, 35)` -> `rgb(223, 52, 34)`
+  - `orange-800`
+    - dark: `rgb(205, 86, 0)` -> `rgb(199, 82, 0)`
+  - `yellow-800`
+    - dark: `rgb(169, 110, 0)` -> `rgb(164, 106, 0)`
+  - `chartreuse-800`
+    - dark: `rgb(109, 131, 0)` -> `rgb(106, 127, 0)`
+  - `celery-800`
+    - dark: `rgb(69, 138, 19)` -> `rgb(66, 134, 18)`
+  - `green-800`
+    - dark: `rgb(6, 140, 82)` -> `rgb(6, 136, 80)`
+  - `seafoam-800`
+    - dark: `rgb(8, 138, 116)` -> `rgb(8, 134, 112)`
+  - `cyan-800`
+    - dark: `rgb(15, 128, 194)` -> `rgb(13, 125, 186)`
+  - `indigo-800`
+    - dark: `rgb(119, 97, 252)` -> `rgb(116, 91, 252)`
+  - `purple-800`
+    - dark: `rgb(161, 84, 229)` -> `rgb(157, 78, 228)`
+  - `fuchsia-800`
+    - dark: `rgb(192, 64, 212)` -> `rgb(186, 60, 206)`
+  - `magenta-800`
+    - dark: `rgb(231, 41, 105)` -> `rgb(224, 38, 101)`
+  - `pink-800`
+    - dark: `rgb(220, 47, 156)` -> `rgb(213, 45, 151)`
+  - `turquoise-800`
+    - dark: `rgb(9, 135, 147)` -> `rgb(9, 131, 142)`
+  - `brown-800`
+    - dark: `rgb(148, 118, 73)` -> `rgb(143, 114, 69)`
+  - `silver-800`
+    - dark: `rgb(123, 123, 123)` -> `rgb(118, 118, 118)`
+  - `cinnamon-800`
+    - dark: `rgb(179, 103, 64)` -> `rgb(176, 98, 59)`
+  - `accent-background-color-default`
+    - dark: `accent-color-700` -> `accent-color-800`
+  - `accent-background-color-hover`
+    - dark: `accent-color-600` -> `accent-color-700`
+  - `accent-background-color-down`
+    - dark: `accent-color-600` -> `accent-color-700`
+  - `accent-background-color-key-focus`
+    - dark: `accent-color-600` -> `accent-color-700`
+  - `informative-background-color-default`
+    - dark: `informative-color-700` -> `informative-color-800`
+  - `informative-background-color-hover`
+    - dark: `informative-color-600` -> `informative-color-700`
+  - `informative-background-color-down`
+    - dark: `informative-color-600` -> `informative-color-700`
+  - `informative-background-color-key-focus`
+    - dark: `informative-color-600` -> `informative-color-700`
+  - `negative-background-color-default`
+    - dark: `negative-color-700` -> `negative-color-800`
+  - `negative-background-color-hover`
+    - dark: `negative-color-600` -> `negative-color-700`
+  - `negative-background-color-down`
+    - dark: `negative-color-600` -> `negative-color-700`
+  - `negative-background-color-key-focus`
+    - dark: `negative-color-600` -> `negative-color-700`
+  - `positive-background-color-default`
+    - dark: `positive-color-700` -> `positive-color-800`
+  - `positive-background-color-hover`
+    - dark: `positive-color-600` -> `positive-color-700`
+  - `positive-background-color-down`
+    - dark: `positive-color-600` -> `positive-color-700`
+  - `positive-background-color-key-focus`
+    - dark: `positive-color-600` -> `positive-color-700`
+  - `red-background-color-default`
+    - dark: `red-700` -> `red-800`
+  - `green-background-color-default`
+    - dark: `green-700` -> `green-800`
+  - `seafoam-background-color-default`
+    - dark: `seafoam-700` -> `seafoam-800`
+  - `cyan-background-color-default`
+    - dark: `cyan-700` -> `cyan-800`
+  - `blue-background-color-default`
+    - dark: `blue-700` -> `blue-800`
+  - `indigo-background-color-default`
+    - dark: `indigo-700` -> `indigo-800`
+  - `purple-background-color-default`
+    - dark: `purple-700` -> `purple-800`
+  - `fuchsia-background-color-default`
+    - dark: `fuchsia-700` -> `fuchsia-800`
+  - `magenta-background-color-default`
+    - dark: `magenta-700` -> `magenta-800`
+  - `negative-visual-color`
+    - dark: `negative-color-700` -> `negative-color-900`
+  - `notice-visual-color`
+    - light: `notice-color-700` -> `notice-color-800`
+  - `positive-visual-color`
+    - light: `positive-color-700` -> `positive-color-800`
+    - dark: `positive-color-800` -> `positive-color-900`
+  - `brown-background-color-default`
+    - dark: `brown-700` -> `brown-800`
+  - `cinnamon-background-color-default`
+    - dark: `cinnamon-700` -> `cinnamon-800`
+  - `pink-background-color-default`
+    - dark: `pink-700` -> `pink-800`
+  - `silver-background-color-default`
+    - dark: `silver-700` -> `silver-800`
+  - `turquoise-background-color-default`
+    - dark: `turquoise-700` -> `turquoise-800`
+  - `neutral-subtle-background-color-default`
+    - light: `gray-100` -> `gray-100`
+    - dark: `gray-100` -> `gray-300`
+  - `accent-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `accent-color-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `accent-color-300`
+  - `gray-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `gray-100`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `gray-300`
+  - `blue-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `blue-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `blue-300`
+  - `green-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `green-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `green-300`
+  - `orange-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `orange-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `orange-300`
+  - `red-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `red-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `red-300`
+  - `brown-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `brown-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `brown-300`
+  - `cinnamon-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `cinnamon-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `cinnamon-300`
+  - `celery-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `celery-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `celery-300`
+  - `chartreuse-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `chartreuse-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `chartreuse-300`
+  - `cyan-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `cyan-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `cyan-300`
+  - `fuchsia-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `fuchsia-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `fuchsia-300`
+  - `indigo-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `indigo-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `indigo-300`
+  - `magenta-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `magenta-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `magenta-300`
+  - `pink-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `pink-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `pink-300`
+  - `purple-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `purple-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `purple-300`
+  - `seafoam-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `seafoam-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `seafoam-300`
+  - `silver-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `silver-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `silver-300`
+  - `turquoise-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `turquoise-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `turquoise-300`
+  - `yellow-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `yellow-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `yellow-300`
+
+  </details>
+
 ## 13.0.0-beta.46
 
 ### Minor Changes
