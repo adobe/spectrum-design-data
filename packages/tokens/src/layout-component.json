@@ -9960,5 +9960,15 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{component-height-100}",
     "uuid": "4aaef8d2-aa58-46b8-837c-15d794cfcdb5"
+  },
+  "heading-cjk-size-xxxxl": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{font-size-1400}",
+    "uuid": "3b954e15-341a-40f4-a47e-9abd2813fec4"
+  },
+  "heading-size-xxxxl": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{font-size-1500}",
+    "uuid": "517d86cc-2e66-4cdc-8841-cb32db9e56f4"
   }
 }

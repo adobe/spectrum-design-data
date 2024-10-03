@@ -396,41 +396,47 @@
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{light-font-weight}",
-    "uuid": "ff84a748-5923-451d-967c-a346d2dee46c"
+    "uuid": "ff84a748-5923-451d-967c-a346d2dee46c",
+    "deprecated": true
   },
   "heading-sans-serif-light-font-style": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{default-font-style}",
-    "uuid": "c5551fd5-4ee2-4c93-b91f-9ed295fa63a4"
+    "uuid": "c5551fd5-4ee2-4c93-b91f-9ed295fa63a4",
+    "deprecated": true
   },
   "heading-serif-light-font-weight": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{regular-font-weight}",
-    "uuid": "66958795-6459-4750-8c68-dc39ab383837"
+    "uuid": "66958795-6459-4750-8c68-dc39ab383837",
+    "deprecated": true
   },
   "heading-serif-light-font-style": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{default-font-style}",
-    "uuid": "5f30418a-aa76-434e-bca9-902d5be0d929"
+    "uuid": "5f30418a-aa76-434e-bca9-902d5be0d929",
+    "deprecated": true
   },
   "heading-cjk-light-font-weight": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{light-font-weight}",
-    "uuid": "9da0ba4c-b4e3-4052-8b2e-d2fde714bb9d"
+    "uuid": "9da0ba4c-b4e3-4052-8b2e-d2fde714bb9d",
+    "deprecated": true
   },
   "heading-cjk-light-font-style": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{default-font-style}",
-    "uuid": "b5704c75-2914-4268-9023-7f7452e826c1"
+    "uuid": "b5704c75-2914-4268-9023-7f7452e826c1",
+    "deprecated": true
   },
   "heading-sans-serif-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{bold-font-weight}",
+    "value": "{extra-bold-font-weight}",
     "uuid": "1d4d09b4-021a-48e8-a724-bfecc13df325"
   },
   "heading-sans-serif-font-style": {
@@ -488,7 +494,7 @@
   "heading-cjk-heavy-font-weight": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{black-font-weight}",
+    "value": "{extra-bold-font-weight}",
     "uuid": "73c20d2f-1227-46bc-8548-102358405b0b"
   },
   "heading-cjk-heavy-font-style": {
@@ -501,37 +507,43 @@
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{bold-font-weight}",
-    "uuid": "75437f9a-7ee8-4194-b4b3-0746be097396"
+    "uuid": "75437f9a-7ee8-4194-b4b3-0746be097396",
+    "deprecated": true
   },
   "heading-sans-serif-light-strong-font-style": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{default-font-style}",
-    "uuid": "67271ca0-c9fd-4047-a615-6314d7333f7a"
+    "uuid": "67271ca0-c9fd-4047-a615-6314d7333f7a",
+    "deprecated": true
   },
   "heading-serif-light-strong-font-weight": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{bold-font-weight}",
-    "uuid": "29ad1c96-62e4-4143-88e8-fc8e08913a52"
+    "uuid": "29ad1c96-62e4-4143-88e8-fc8e08913a52",
+    "deprecated": true
   },
   "heading-serif-light-strong-font-style": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{default-font-style}",
-    "uuid": "73906871-24e5-48cc-9140-ec700c08d144"
+    "uuid": "73906871-24e5-48cc-9140-ec700c08d144",
+    "deprecated": true
   },
   "heading-cjk-light-strong-font-weight": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{extra-bold-font-weight}",
-    "uuid": "5ca91bc2-215b-4cbb-b966-80bfffd569ad"
+    "uuid": "5ca91bc2-215b-4cbb-b966-80bfffd569ad",
+    "deprecated": true
   },
   "heading-cjk-light-strong-font-style": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{default-font-style}",
-    "uuid": "be854057-43b1-40ce-bdc7-69960cd7638c"
+    "uuid": "be854057-43b1-40ce-bdc7-69960cd7638c",
+    "deprecated": true
   },
   "heading-sans-serif-strong-font-weight": {
     "component": "heading",
@@ -609,41 +621,47 @@
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{light-font-weight}",
-    "uuid": "e882ea46-8f0a-4313-84f5-85bb8d9f1f5e"
+    "uuid": "e882ea46-8f0a-4313-84f5-85bb8d9f1f5e",
+    "deprecated": true
   },
   "heading-sans-serif-light-emphasized-font-style": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{italic-font-style}",
-    "uuid": "5f88eb81-7052-4c21-9896-f14cb09f0e70"
+    "uuid": "5f88eb81-7052-4c21-9896-f14cb09f0e70",
+    "deprecated": true
   },
   "heading-serif-light-emphasized-font-weight": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{regular-font-weight}",
-    "uuid": "b5f79fde-07f7-4c07-897e-0bfdf27e2839"
+    "uuid": "b5f79fde-07f7-4c07-897e-0bfdf27e2839",
+    "deprecated": true
   },
   "heading-serif-light-emphasized-font-style": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{italic-font-style}",
-    "uuid": "7bd831cd-3fe0-402b-a105-f65b8e8023e2"
+    "uuid": "7bd831cd-3fe0-402b-a105-f65b8e8023e2",
+    "deprecated": true
   },
   "heading-cjk-light-emphasized-font-weight": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{regular-font-weight}",
-    "uuid": "aea9787b-ee0b-40cc-9089-5973e52b18bd"
+    "uuid": "aea9787b-ee0b-40cc-9089-5973e52b18bd",
+    "deprecated": true
   },
   "heading-cjk-light-emphasized-font-style": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{default-font-style}",
-    "uuid": "dac03eec-6910-4176-bfca-33f8a57cf3d7"
+    "uuid": "dac03eec-6910-4176-bfca-33f8a57cf3d7",
+    "deprecated": true
   },
   "heading-sans-serif-emphasized-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{bold-font-weight}",
+    "value": "{extra-bold-font-weight}",
     "uuid": "e4a183fd-53c5-4dbb-afd1-6308e2e74f80"
   },
   "heading-sans-serif-emphasized-font-style": {
@@ -715,37 +733,43 @@
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{bold-font-weight}",
-    "uuid": "c297a503-fc3c-4939-8c5a-6611b9b04719"
+    "uuid": "c297a503-fc3c-4939-8c5a-6611b9b04719",
+    "deprecated": true
   },
   "heading-sans-serif-light-strong-emphasized-font-style": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{italic-font-style}",
-    "uuid": "bc5d65e0-e13a-424c-a260-9268a0dee66c"
+    "uuid": "bc5d65e0-e13a-424c-a260-9268a0dee66c",
+    "deprecated": true
   },
   "heading-serif-light-strong-emphasized-font-weight": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{bold-font-weight}",
-    "uuid": "98c61df3-057d-4345-881e-0c04628757f3"
+    "uuid": "98c61df3-057d-4345-881e-0c04628757f3",
+    "deprecated": true
   },
   "heading-serif-light-strong-emphasized-font-style": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{italic-font-style}",
-    "uuid": "71c8e302-6bc1-4f45-b804-c847dd153d1b"
+    "uuid": "71c8e302-6bc1-4f45-b804-c847dd153d1b",
+    "deprecated": true
   },
   "heading-cjk-light-strong-emphasized-font-weight": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{extra-bold-font-weight}",
-    "uuid": "83cc347c-7a1a-4665-9de4-cf19903f1043"
+    "uuid": "83cc347c-7a1a-4665-9de4-cf19903f1043",
+    "deprecated": true
   },
   "heading-cjk-light-strong-emphasized-font-style": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{default-font-style}",
-    "uuid": "9136e25e-563b-4485-bad7-41809d5317de"
+    "uuid": "9136e25e-563b-4485-bad7-41809d5317de",
+    "deprecated": true
   },
   "heading-sans-serif-strong-emphasized-font-weight": {
     "component": "heading",
@@ -852,31 +876,32 @@
   "heading-size-s": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-300}",
+    "value": "{font-size-400}",
     "uuid": "96673fee-b75c-4867-9041-48362af044bc"
   },
   "heading-size-xs": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-200}",
+    "value": "{font-size-300}",
     "uuid": "4f179af6-c31f-48f8-927c-a45150668ad3"
   },
   "heading-size-xxs": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{font-size-100}",
-    "uuid": "82a831b4-b624-475b-b2be-4eb949e48626"
+    "uuid": "82a831b4-b624-475b-b2be-4eb949e48626",
+    "deprecated": true
   },
   "heading-cjk-size-xxxl": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-1300}",
+    "value": "{font-size-1200}",
     "uuid": "5a44e177-2478-4bb0-9212-ba2df64c8b00"
   },
   "heading-cjk-size-xxl": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-900}",
+    "value": "{font-size-1000}",
     "uuid": "fbf59302-1ad2-4327-bfde-d638a0ca2429"
   },
   "heading-cjk-size-xl": {
@@ -913,7 +938,8 @@
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{font-size-100}",
-    "uuid": "bddd6a96-c280-47ca-8858-20df055e488d"
+    "uuid": "bddd6a96-c280-47ca-8858-20df055e488d",
+    "deprecated": true
   },
   "heading-line-height": {
     "component": "heading",
