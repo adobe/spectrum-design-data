@@ -4322,6 +4322,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-height-small instead."
   },
   "table-row-height-small": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -4355,6 +4356,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-height-medium instead."
   },
   "table-row-height-medium": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -4388,6 +4390,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-height-large instead."
   },
   "table-row-height-large": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -4421,6 +4424,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-height-extra-large instead."
   },
   "table-row-height-extra-large": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -4566,6 +4570,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-small instead."
   },
   "table-row-top-to-text-small": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -4599,6 +4604,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-medium instead."
   },
   "table-row-top-to-text-medium": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -4632,6 +4638,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-large instead."
   },
   "table-row-top-to-text-large": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -4665,6 +4672,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-extra-large instead."
   },
   "table-row-top-to-text-extra-large": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -4698,6 +4706,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-small instead."
   },
   "table-row-bottom-to-text-small": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -4731,6 +4740,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-medium instead."
   },
   "table-row-bottom-to-text-medium": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -4764,6 +4774,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-large instead."
   },
   "table-row-bottom-to-text-large": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -4797,6 +4808,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-extra-large instead."
   },
   "table-row-bottom-to-text-extra-large": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -5066,6 +5078,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-small instead."
   },
   "table-row-checkbox-to-top-small": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -5131,6 +5144,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-medium instead."
   },
   "table-row-checkbox-to-top-medium": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -5196,6 +5210,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-large instead."
   },
   "table-row-checkbox-to-top-large": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -5261,6 +5276,7 @@
     "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-extra-large instead."
   },
   "table-row-checkbox-to-top-extra-large": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -5438,6 +5454,7 @@
     "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-small instead."
   },
   "table-thumbnail-to-top-minimum-small": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -5471,6 +5488,7 @@
     "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-medium instead."
   },
   "table-thumbnail-to-top-minimum-medium": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -5504,6 +5522,7 @@
     "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-large instead."
   },
   "table-thumbnail-to-top-minimum-large": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -5537,6 +5556,7 @@
     "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-extra-large instead."
   },
   "table-thumbnail-to-top-minimum-extra-large": {
+    "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -9281,17 +9301,14 @@
     "value": "{title-size-s}",
     "uuid": "ce8278ea-da1b-4a42-bf7d-4018c9e9d18e"
   },
-  "side-focus-indicator": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "4px",
-    "uuid": "d33433fd-6430-4769-a0b8-6d8c32a64803"
-  },
   "illustrated-message-horizontal-maximum-width": {
+    "component": "illustrated-message",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "535px",
     "uuid": "4413ee4d-86b1-4d88-b2ee-64c0939698b9"
   },
   "illustrated-message-vertical-maximum-width": {
+    "component": "illustrated-message",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "380px",
     "uuid": "95c055b0-f688-4405-8426-1b2302e32ebd"

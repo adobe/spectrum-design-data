@@ -492,6 +492,11 @@
     "value": "2px",
     "uuid": "693651ef-71c7-4096-91a5-1c84cb861021"
   },
+  "side-focus-indicator": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "d33433fd-6430-4769-a0b8-6d8c32a64803"
+  },
   "border-width-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "1px",
