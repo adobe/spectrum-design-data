@@ -34,6 +34,14 @@ export const writeJson = async (fileName, jsonData) => {
   );
 };
 
+export const isDeprecated = (token) =>
+  (Object.hasOwn(token, "deprecated") && token.deprecated == true) ||
+  (Object.hasOwn(token, "sets") &&
+    Object.values(token.sets).every(
+      (setValue) =>
+        Object.hasOwn(setValue, "deprecated") && setValue.deprecated == true,
+    ));
+
 export const getFileTokens = async (tokenFileName) =>
   await readJson(resolve(__dirname, "src", tokenFileName));
 
