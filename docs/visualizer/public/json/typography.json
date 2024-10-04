@@ -629,11 +629,11 @@
   },
   "heading-margin-top-multiplier": {
     "component": "heading",
-    "value": "0.88888889"
+    "value": 0.88888889
   },
   "heading-margin-bottom-multiplier": {
     "component": "heading",
-    "value": "0.25"
+    "value": 0.25
   },
   "body-sans-serif-font-family": {
     "component": "body",
@@ -781,7 +781,7 @@
   },
   "body-margin-multiplier": {
     "component": "body",
-    "value": "0.75"
+    "value": 0.75
   },
   "detail-sans-serif-font-family": {
     "component": "detail",
@@ -1013,11 +1013,11 @@
   },
   "detail-margin-top-mulitplier": {
     "component": "detail",
-    "value": "0.88888889"
+    "value": 0.88888889
   },
   "detail-margin-bottom-multiplier": {
     "component": "detail",
-    "value": "0.25"
+    "value": 0.25
   },
   "detail-letter-spacing": {
     "component": "detail",
