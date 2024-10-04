@@ -54,7 +54,11 @@ async function run() {
 async function getNewTokens() {
   try {
     await access(localTokenPath);
-    return JSON.parse(await readFile(localTokenPath, { encoding: "utf8" }));
+    return JSON.parse(
+      convertNumberStringsToNumbers(
+        await readFile(localTokenPath, { encoding: "utf8" }),
+      ),
+    );
   } catch {
     console.error("cannot access");
   }
@@ -72,7 +76,11 @@ async function getOldTokens() {
   const oldTokenPath = join(tmpDir.path, "package", tokenPath);
   await access(oldTokenPath);
   console.log(`Comparing against ${stdout.trim()}`);
-  return JSON.parse(await readFile(oldTokenPath, { encoding: "utf8" }));
+  return JSON.parse(
+    convertNumberStringsToNumbers(
+      await readFile(oldTokenPath, { encoding: "utf8" }),
+    ),
+  );
 }
 
 function calculatePossibleRenames(diffResult, oldTokens, newTokens) {
@@ -89,6 +97,12 @@ function calculatePossibleRenames(diffResult, oldTokens, newTokens) {
     if (allValueMatches.length > 0) {
       diffResult.possiblyRenamed[deletedTokenName] = allValueMatches;
     }
+  });
+}
+
+function convertNumberStringsToNumbers(dataString) {
+  return dataString.replace(/"([\d]*\.?[\d]*)"/g, (match, p1) => {
+    return p1;
   });
 }
 
