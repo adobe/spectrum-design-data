@@ -1,5 +1,57 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.49
+
+### Minor Changes
+
+- [#418](https://github.com/adobe/spectrum-tokens/pull/418) [`45ed87b`](https://github.com/adobe/spectrum-tokens/commit/45ed87b43af53370f74fc46c545b4c13005f381c) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## Design Motivation
+
+  Made the following changes to component typography tokens for both mobile and desktop.
+
+  ## Token Diff
+
+  _Tokens added (2):_
+
+  - `heading-cjk-size-xxxxl`
+  - `heading-size-xxxxl`
+
+  _Tokens changed (7):_
+
+  - `heading-sans-serif-font-weight`: `bold-font-weight` -> `extra-bold-font-weight`
+  - `heading-cjk-heavy-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
+  - `heading-sans-serif-emphasized-font-weight`: `bold-font-weight` -> `extra-bold-font-weight`
+  - `heading-size-s`: `font-size-300` -> `font-size-400`
+  - `heading-size-xs`: `font-size-200` -> `font-size-300`
+  - `heading-cjk-size-xxxl`: `font-size-1300` -> `font-size-1200`
+  - `heading-cjk-size-xxl`: `font-size-900` -> `font-size-1000`
+
+- [#422](https://github.com/adobe/spectrum-tokens/pull/422) [`4673d13`](https://github.com/adobe/spectrum-tokens/commit/4673d1383602d81484ae346dd278a28a26f5d91b) Thanks [@GarthDB](https://github.com/GarthDB)! - Added tokens for s2 detail typography
+
+  _New tokens (6)_
+
+  - `detail-cjk-size-xs`
+  - `detail-cjk-size-s`
+  - `detail-cjk-size-m`
+  - `detail-cjk-size-l`
+  - `detail-cjk-size-xl`
+  - `detail-size-xs`
+
+  _Updated token values (13)_
+
+  - `detail-sans-serif-font-weight`: `bold-font-weight` -> `medium-font-weight`
+  - `detail-serif-font-weight`: `bold-font-weight` -> `medium-font-weight`
+  - `detail-cjk-font-weight`: `extra-bold-font-weight` -> `bold-font-weight`
+  - `detail-cjk-strong-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
+  - `detail-sans-serif-emphasized-font-weight`: `bold-font-weight` -> `regular-font-weight`
+  - `detail-serif-emphasized-font-weight`: `bold-font-weight` -> `medium-font-weight`
+  - `detail-cjk-emphasized-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
+  - `detail-cjk-strong-emphasized-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
+  - `detail-size-xl`: `font-size-200` -> `font-size-300`
+  - `detail-size-l`: `font-size-100` -> `font-size-200`
+  - `detail-size-m`: `font-size-75` -> `font-size-100`
+  - `detail-size-s`: `font-size-50` -> `font-size-75`
+  - `detail-color`: `gray-900` -> `gray-600`
+
 ## 13.0.0-beta.48
 
 ### Minor Changes
