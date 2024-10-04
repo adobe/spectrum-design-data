@@ -51,7 +51,7 @@
   },
   "corner-radius-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": 0.5,
+    "value": "0.5",
     "uuid": "e4ad85b2-97bf-48cf-a5a9-3ff3d1fada5b"
   },
   "drop-shadow-x": {
@@ -2165,7 +2165,7 @@
   },
   "component-size-width-ratio-down": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": 0.3333,
+    "value": "0.3333",
     "uuid": "4ee7342c-f2ef-4554-af0f-011052ff6177"
   },
   "component-size-minimum-perspective-down": {
@@ -2386,12 +2386,12 @@
   },
   "gradient-stop-2-genai": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/gradient-stop.json",
-    "value": 0.3333,
+    "value": "0.3333",
     "uuid": "224504c9-be85-4402-8c96-e9b3e3b7a45f"
   },
   "gradient-stop-3-genai": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/gradient-stop.json",
-    "value": 1,
+    "value": "1",
     "uuid": "57f4b9b1-4994-48b5-ad14-5683b0ab034b"
   },
   "gradient-stop-1-premium": {
@@ -2401,12 +2401,12 @@
   },
   "gradient-stop-2-premium": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/gradient-stop.json",
-    "value": 0.6666,
+    "value": "0.6666",
     "uuid": "579ad392-4529-457d-ab3e-4cef782beec1"
   },
   "gradient-stop-3-premium": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/gradient-stop.json",
-    "value": 1,
+    "value": "1",
     "uuid": "ace894a3-3aa5-4307-a80c-3881c8a31642"
   }
 }

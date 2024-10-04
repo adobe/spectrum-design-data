@@ -351,22 +351,22 @@
   },
   "line-height-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": 1.3,
+    "value": "1.3",
     "uuid": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
   },
   "line-height-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": 1.5,
+    "value": "1.5",
     "uuid": "832f2589-0e75-48dd-bbe3-e3f5b98e6c97"
   },
   "cjk-line-height-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": 1.5,
+    "value": "1.5",
     "uuid": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
   },
   "cjk-line-height-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": 1.7,
+    "value": "1.7",
     "uuid": "c5a5d186-54b3-44a0-b1c6-e9b102871015"
   },
   "cjk-letter-spacing": {
@@ -966,13 +966,13 @@
   "heading-margin-top-multiplier": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": 0.88888889,
+    "value": "0.88888889",
     "uuid": "008fa04b-6d74-416b-a6ae-ceec90f08642"
   },
   "heading-margin-bottom-multiplier": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": 0.25,
+    "value": "0.25",
     "uuid": "dd2035b4-506f-41ab-a656-de3668d44e0f"
   },
   "heading-color": {
@@ -1245,7 +1245,7 @@
   "body-margin-multiplier": {
     "component": "body",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": 0.75,
+    "value": "0.75",
     "uuid": "8f2e9283-4cbc-4374-9757-ed8d68542c89"
   },
   "body-color": {
@@ -1623,13 +1623,13 @@
   "detail-margin-top-multiplier": {
     "component": "detail",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": 0.88888889,
+    "value": "0.88888889",
     "uuid": "5d34c3b5-fddd-420b-bfe4-0dee4e07701c"
   },
   "detail-margin-bottom-multiplier": {
     "component": "detail",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": 0.25,
+    "value": "0.25",
     "uuid": "35ac24a4-0338-44c6-b780-120a0af0fc51"
   },
   "detail-letter-spacing": {
@@ -1658,42 +1658,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-600}",
     "uuid": "5f6b9d7a-2433-44fa-8de5-1fb40137e334"
-  },
-  "detail-cjk-size-xs": {
-    "component": "detail",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-25}",
-    "uuid": "e6d8e8ae-d9a3-42fb-b4c7-f2e893b926f1"
-  },
-  "detail-cjk-size-s": {
-    "component": "detail",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-50}",
-    "uuid": "8eb0f29f-71a1-4aa5-a3ed-98a373baf620"
-  },
-  "detail-cjk-size-m": {
-    "component": "detail",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-75}",
-    "uuid": "236c73fb-d3bc-4390-8682-dd06fbd92d23"
-  },
-  "detail-cjk-size-l": {
-    "component": "detail",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-100}",
-    "uuid": "92399d83-aa71-4207-b533-4fe69e6271e2"
-  },
-  "detail-cjk-size-xl": {
-    "component": "detail",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-200}",
-    "uuid": "533265d4-7304-4688-b2fb-379a086b20bf"
-  },
-  "detail-size-xs": {
-    "component": "detail",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-50}",
-    "uuid": "b33a59b4-1ec2-4f09-8cb3-9bfd09d7c695"
   },
   "code-font-family": {
     "component": "code",
