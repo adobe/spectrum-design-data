@@ -1,5 +1,11 @@
 # @adobe/token-diff-generator
 
+## 1.1.1
+
+### Patch Changes
+
+- [#423](https://github.com/adobe/spectrum-tokens/pull/423) [`9a36be0`](https://github.com/adobe/spectrum-tokens/commit/9a36be01e5c0305dea7d8d9bdbd33c86d9a53399) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed issue when version number was hardcoded.
+
 ## 1.1.0
 
 ### Minor Changes
