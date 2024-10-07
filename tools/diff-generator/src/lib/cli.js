@@ -20,18 +20,32 @@ import * as emoji from "node-emoji";
 
 import { Command } from "commander";
 
+import { readFileSync } from "fs";
+
 const yellow = chalk.hex("F3EE7E");
 const red = chalk.hex("F37E7E");
 const green = chalk.hex("7EF383");
 const white = chalk.white;
+
+// Read the content of package.json
+const packageJsonContent = readFileSync("./package.json", "utf8");
+// Parse the JSON data
+const packageInfo = JSON.parse(packageJsonContent);
+// Access the version property
+const version = packageInfo.version;
 
 const program = new Command();
 
 program
   .name("tdiff")
   .description("CLI to a Spectrum token diff generator")
-  .version("0.0.1");
-
+  .version(version);
+program
+  .command("version")
+  .description("Returns the current package version number for tdiff")
+  .action(() => {
+    console.log(version);
+  });
 program
   .command("report")
   .description("Generates a diff report for two inputted schema")
