@@ -2408,5 +2408,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/gradient-stop.json",
     "value": 1,
     "uuid": "ace894a3-3aa5-4307-a80c-3881c8a31642"
+  },
+  "window-to-edge": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{spacing-600}",
+    "uuid": "a3e53161-c38a-4ee0-88c2-4a36fd530e51"
   }
 }

@@ -9961,12 +9961,8 @@
     "value": "{component-height-100}",
     "uuid": "4aaef8d2-aa58-46b8-837c-15d794cfcdb5"
   },
-  "window-to-edge": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{spacing-600}",
-    "uuid": "a3e53161-c38a-4ee0-88c2-4a36fd530e51"
-  },
   "in-field-stepper-to-end-small": {
+    "component": "in-field-stepper",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -9982,16 +9978,19 @@
     }
   },
   "in-field-stepper-to-end-medium": {
+    "component": "in-field-stepper",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "3px",
     "uuid": "fe42bdd0-de02-4814-b498-038b26a3c0e7"
   },
   "in-field-stepper-to-end-large": {
+    "component": "in-field-stepper",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "4px",
     "uuid": "cb3e458d-7dcd-484d-9028-220d08c9f129"
   },
   "in-field-stepper-to-end-extra-large": {
+    "component": "in-field-stepper",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10007,6 +10006,7 @@
     }
   },
   "number-field-with-stepper-minimum-width-small": {
+    "component": "number-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10022,6 +10022,7 @@
     }
   },
   "number-field-with-stepper-minimum-width-medium": {
+    "component": "number-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10037,6 +10038,7 @@
     }
   },
   "number-field-with-stepper-minimum-width-large": {
+    "component": "number-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10052,6 +10054,7 @@
     }
   },
   "number-field-with-stepper-minimum-width-extra-large": {
+    "component": "number-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10067,6 +10070,7 @@
     }
   },
   "number-field-visual-to-in-field-stepper-small": {
+    "component": "number-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10082,6 +10086,7 @@
     }
   },
   "number-field-visual-to-in-field-stepper-medium": {
+    "component": "number-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10097,6 +10102,7 @@
     }
   },
   "number-field-visual-to-in-field-stepper-large": {
+    "component": "number-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10112,6 +10118,7 @@
     }
   },
   "number-field-visual-to-in-field-stepper-extra-large": {
+    "component": "number-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10127,16 +10134,19 @@
     }
   },
   "number-field-minimum-width-multiplier": {
+    "component": "number-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "1.25",
+    "value": 1.25,
     "uuid": "9e24d9b5-1c8b-4693-b10e-8922d519d7e0"
   },
   "takeover-dialog-height": {
+    "component": "takeover-dialog",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "1.00em",
     "uuid": "be327284-79fe-40b7-b996-8ad176d40d8e"
   },
   "takeover-dialog-width": {
+    "component": "takeover-dialog",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "1.00em",
     "uuid": "bb70e39d-c686-4cd2-a991-6b51fa16d9df"
