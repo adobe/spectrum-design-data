@@ -28,7 +28,7 @@ test("cli should return correct version number", async (t) => {
         .expect((result) => {
           t.true(result.stdout.includes(packageJSON.version));
         })
-        .run("./src/lib/cli.js version")
+        .run("./src/lib/cli.js --version")
         .end(resolve);
     } catch (error) {
       reject(error);

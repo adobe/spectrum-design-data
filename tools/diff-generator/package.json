@@ -4,7 +4,8 @@
   "description": "Creates diffs for tokens",
   "type": "module",
   "scripts": {
-    "test": "c8 ava"
+    "test": "c8 ava",
+    "prepare": "node update-version.js"
   },
   "repository": {
     "type": "git",
