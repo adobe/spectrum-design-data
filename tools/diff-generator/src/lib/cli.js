@@ -157,11 +157,13 @@ const printStyleRenamed = (result, token, log, i) => {
  * @param {object} i - the number of times to indent
  */
 const printStyleDeprecated = (result, token, log, i) => {
+  let comment = result[token]["deprecated_comment"];
   log(
     indent(
       yellow(`"${token}"`) +
-        white(": ") +
-        yellow(`"${result[token]["deprecated_comment"]}"`),
+        (typeof comment === "string" && comment.length
+          ? this.white(": ") + this.yellow(`"${comment}"`)
+          : ""),
       i,
     ),
   );
