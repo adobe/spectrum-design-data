@@ -1,6 +1,6 @@
 {
   "name": "@adobe/token-diff-generator",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Creates diffs for tokens",
   "type": "module",
   "scripts": {
