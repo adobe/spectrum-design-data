@@ -1,5 +1,11 @@
 # @adobe/token-diff-generator
 
+## 1.1.2
+
+### Patch Changes
+
+- [#430](https://github.com/adobe/spectrum-tokens/pull/430) [`fccd972`](https://github.com/adobe/spectrum-tokens/commit/fccd97294e300ff6e755334c3bff83da0caf1247) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix version number in cli using a prepare script in the package.json file
+
 ## 1.1.1
 
 ### Patch Changes
