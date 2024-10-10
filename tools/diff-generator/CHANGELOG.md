@@ -1,5 +1,11 @@
 # @adobe/token-diff-generator
 
+## 1.2.0
+
+### Minor Changes
+
+- [`254ba19`](https://github.com/adobe/spectrum-tokens/commit/254ba1927b78d8c5cefbdb4fe35f3aff162efaee) Thanks [@GarthDB](https://github.com/GarthDB)! - minor fixes to diff tool comparisons
+
 ## 1.1.2
 
 ### Patch Changes

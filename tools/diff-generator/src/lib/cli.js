@@ -26,7 +26,7 @@ const green = chalk.hex("7EF383");
 const white = chalk.white;
 
 /* this is updated by the npm prepare script using update-version.js */
-const version = "1.1.2";
+const version = "1.2.0";
 
 const program = new Command();
 
