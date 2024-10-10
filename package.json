@@ -6,7 +6,8 @@
     "moon": "moon",
     "pre-commit": "lint-staged",
     "prepare": "husky || true",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "version": "changeset version && moon run :version"
   },
   "repository": {
     "type": "git",
