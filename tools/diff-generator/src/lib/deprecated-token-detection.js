@@ -34,8 +34,10 @@ export default function detectDeprecatedTokens(renamedTokens, changes) {
   });
   Object.keys(changes.deleted).forEach((token) => {
     const t = possibleMistakenRevert[token]; // a token marked as deleted
-    if (t === undefined || (typeof t !== "string" && !("deprecated" in t))) {
+    if (t === undefined || !wasUndeprecated(t)) {
       delete possibleMistakenRevert[token];
+    } else {
+      delete changes.deleted[token];
     }
   });
   result.deprecated = deprecatedTokens;
@@ -53,6 +55,22 @@ function isDeprecated(tokenObj) {
 
     Object.keys(tokenObj).forEach((property) => {
       result = result || isDeprecated(tokenObj[property]);
+    });
+
+    return result;
+  }
+}
+
+function wasUndeprecated(tokenObj) {
+  if (typeof tokenObj !== "object") {
+    return false;
+  } else if ("deprecated" in tokenObj && tokenObj.deprecated === undefined) {
+    return true;
+  } else {
+    let result = false;
+
+    Object.keys(tokenObj).forEach((property) => {
+      result = result || wasUndeprecated(tokenObj[property]);
     });
 
     return result;
