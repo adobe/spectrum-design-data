@@ -1741,7 +1741,7 @@
   "button-minimum-width-multiplier": {
     "component": "button",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "2.25",
+    "value": 2.25,
     "uuid": "68b6ac88-d229-460d-8d59-3f5c141db358"
   },
   "tooltip-tip-width": {
@@ -2105,7 +2105,7 @@
   "swatch-rectangle-width-multiplier": {
     "component": "swatch",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "2",
+    "value": 2,
     "uuid": "b3157e9d-82a0-429e-b987-8c240a669af7"
   },
   "swatch-slash-thickness-extra-small": {
@@ -3449,7 +3449,7 @@
   "picker-minimum-width-multiplier": {
     "component": "picker",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "2",
+    "value": 2,
     "uuid": "67b68a30-ae00-4da2-9730-99196a2eaf96"
   },
   "picker-visual-to-disclosure-icon-small": {
@@ -3554,7 +3554,7 @@
   "text-field-minimum-width-multiplier": {
     "component": "text-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "1.5",
+    "value": 1.5,
     "uuid": "875bbeaf-b4b7-41b9-8e6f-d6a57ec03049"
   },
   "text-area-minimum-width": {
@@ -3594,13 +3594,13 @@
   "combo-box-minimum-width-multiplier": {
     "component": "combo-box",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "2.5",
+    "value": 2.5,
     "uuid": "eabcc77a-f263-43ed-9944-9daa78a56b66"
   },
   "combo-box-quiet-minimum-width-multiplier": {
     "component": "combo-box",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "2",
+    "value": 2,
     "uuid": "4798728b-9a97-4ce1-b703-0182b1513e8b"
   },
   "combo-box-visual-to-field-button-small": {
@@ -4809,7 +4809,7 @@
   "search-field-minimum-width-multiplier": {
     "component": "search-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "3",
+    "value": 3,
     "uuid": "c4b2177d-4468-4180-be27-69d26a51ba0b"
   },
   "color-loupe-height": {
