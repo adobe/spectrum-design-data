@@ -59,6 +59,22 @@
     "value": "normal",
     "uuid": "25668698-bf78-46f4-bc6c-8fea068ddb34"
   },
+  "font-size-25": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
+        "value": "10px",
+        "uuid": "26ab49ea-7e86-4f0d-812e-ef1ba794c8a8"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
+        "value": "12px",
+        "uuid": "5946a4e5-8bed-4dd7-aa73-9ebe232f9790"
+      }
+    },
+    "uuid": "f0c5ab51-5fc0-417d-a57a-edd12a62847e"
+  },
   "font-size-50": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
@@ -299,29 +315,34 @@
     },
     "uuid": "db26e411-a118-4bef-a413-eeb383e85f37"
   },
+  "letter-spacing": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "0em",
+    "uuid": "d8caf3aa-1261-411f-b383-18f87334c117"
+  },
   "line-height-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "1.3",
+    "value": 1.3,
     "uuid": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
   },
   "line-height-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "1.5",
+    "value": 1.5,
     "uuid": "832f2589-0e75-48dd-bbe3-e3f5b98e6c97"
   },
   "cjk-line-height-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "1.5",
+    "value": 1.5,
     "uuid": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
   },
   "cjk-line-height-200": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "1.7",
+    "value": 1.7,
     "uuid": "c5a5d186-54b3-44a0-b1c6-e9b102871015"
   },
   "cjk-letter-spacing": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "0.05em",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{letter-spacing}",
     "uuid": "12e27721-35f5-4d03-95f3-3fc9e1cf50e4"
   },
   "heading-sans-serif-font-family": {
@@ -480,7 +501,7 @@
   "heading-cjk-heavy-font-weight": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{black-font-weight}",
+    "value": "{extra-bold-font-weight}",
     "uuid": "73c20d2f-1227-46bc-8548-102358405b0b"
   },
   "heading-cjk-heavy-font-style": {
@@ -890,13 +911,13 @@
   "heading-cjk-size-xxxl": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-1300}",
+    "value": "{font-size-1200}",
     "uuid": "5a44e177-2478-4bb0-9212-ba2df64c8b00"
   },
   "heading-cjk-size-xxl": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-900}",
+    "value": "{font-size-1000}",
     "uuid": "fbf59302-1ad2-4327-bfde-d638a0ca2429"
   },
   "heading-cjk-size-xl": {
@@ -920,19 +941,19 @@
   "heading-cjk-size-s": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-300}",
+    "value": "{font-size-200}",
     "uuid": "c1242a8c-ca10-40d0-8fc4-67bbbce8fc5f"
   },
   "heading-cjk-size-xs": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-200}",
+    "value": "{font-size-100}",
     "uuid": "132688a7-917d-44b9-a34f-a7135599b299"
   },
   "heading-cjk-size-xxs": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{font-size-100}",
+    "value": "{font-size-75}",
     "uuid": "bddd6a96-c280-47ca-8858-20df055e488d"
   },
   "heading-line-height": {
@@ -950,13 +971,13 @@
   "heading-margin-top-multiplier": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "0.88888889",
+    "value": 0.88888889,
     "uuid": "008fa04b-6d74-416b-a6ae-ceec90f08642"
   },
   "heading-margin-bottom-multiplier": {
     "component": "heading",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "0.25",
+    "value": 0.25,
     "uuid": "dd2035b4-506f-41ab-a656-de3668d44e0f"
   },
   "heading-color": {
@@ -1046,7 +1067,7 @@
   "body-cjk-strong-font-weight": {
     "component": "body",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{black-font-weight}",
+    "value": "{extra-bold-font-weight}",
     "uuid": "d79de2c4-ca7c-4316-ac44-fee1a66983d7"
   },
   "body-cjk-strong-font-style": {
@@ -1118,7 +1139,7 @@
   "body-cjk-strong-emphasized-font-weight": {
     "component": "body",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{black-font-weight}",
+    "value": "{extra-bold-font-weight}",
     "uuid": "54020791-a975-4e5d-a905-8bffcc9d2d93"
   },
   "body-cjk-strong-emphasized-font-style": {
@@ -1184,7 +1205,7 @@
   "body-margin-multiplier": {
     "component": "body",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "0.75",
+    "value": 0.75,
     "uuid": "8f2e9283-4cbc-4374-9757-ed8d68542c89"
   },
   "body-color": {
@@ -1310,7 +1331,7 @@
   "detail-cjk-strong-font-weight": {
     "component": "detail",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{black-font-weight}",
+    "value": "{extra-bold-font-weight}",
     "uuid": "ef2997f3-276c-4662-8644-9514590114f4"
   },
   "detail-cjk-strong-font-style": {
@@ -1382,7 +1403,7 @@
   "detail-cjk-emphasized-font-weight": {
     "component": "detail",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{black-font-weight}",
+    "value": "{extra-bold-font-weight}",
     "uuid": "aa70fa2d-87ee-4e67-b230-85f400ddd7d1"
   },
   "detail-cjk-emphasized-font-style": {
@@ -1454,7 +1475,7 @@
   "detail-cjk-strong-emphasized-font-weight": {
     "component": "detail",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{black-font-weight}",
+    "value": "{extra-bold-font-weight}",
     "uuid": "a7007c07-15a4-4671-bd3b-7406f4b374bb"
   },
   "detail-cjk-strong-emphasized-font-style": {
@@ -1538,13 +1559,13 @@
   "detail-margin-top-multiplier": {
     "component": "detail",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "0.88888889",
+    "value": 0.88888889,
     "uuid": "5d34c3b5-fddd-420b-bfe4-0dee4e07701c"
   },
   "detail-margin-bottom-multiplier": {
     "component": "detail",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "0.25",
+    "value": 0.25,
     "uuid": "35ac24a4-0338-44c6-b780-120a0af0fc51"
   },
   "detail-letter-spacing": {

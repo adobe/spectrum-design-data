@@ -24,14 +24,11 @@
             "dark": {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json"
             },
-            "darkest": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json"
-            },
             "wireframe": {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json"
             }
           },
-          "required": ["light", "dark", "darkest", "wireframe"]
+          "required": ["light", "dark"]
         },
         {
           "properties": {
@@ -41,14 +38,11 @@
             "dark": {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
             },
-            "darkest": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
-            },
             "wireframe": {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
             }
           },
-          "required": ["light", "dark", "darkest", "wireframe"]
+          "required": ["light", "dark"]
         },
         {
           "properties": {
@@ -58,14 +52,11 @@
             "dark": {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json"
             },
-            "darkest": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json"
-            },
             "wireframe": {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json"
             }
           },
-          "required": ["light", "dark", "darkest", "wireframe"]
+          "required": ["light", "dark"]
         }
       ]
     },
@@ -73,11 +64,7 @@
     "private": {},
     "deprecated": {},
     "deprecated_comment": {},
-    "uuid": {
-      "type": "string",
-      "pattern": "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$",
-      "format": "uuid"
-    }
+    "uuid": {}
   },
-  "required": ["sets", "uuid"]
+  "required": ["sets"]
 }

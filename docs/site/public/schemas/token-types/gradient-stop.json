@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-  "title": "Multiplier",
-  "description": "A float used to multiply a value by a given amount. Also used as a line-height multiplier.",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/gradient-stop.json",
+  "title": "Color Stop",
+  "description": "Gradient stop positions, being a ratio along the gradient's axis. Start is 0, end is 1.",
   "type": "object",
   "allOf": [
     {
@@ -11,11 +11,12 @@
   ],
   "properties": {
     "$schema": {
-      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json"
+      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/gradient-stop.json"
     },
     "value": {
       "type": "number",
-      "pattern": "^(?:\\d+\\.?\\d*)|(?:\\.?\\d+)$"
+      "minimum": 0,
+      "maximum": 1
     },
     "component": {},
     "private": {},

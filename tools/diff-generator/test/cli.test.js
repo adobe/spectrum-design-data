@@ -20,16 +20,15 @@ const path = fs.realpathSync("./") + "/test/";
 const schemaPath = "test-schemas/";
 const outputPath = "test-cli-outputs/";
 
-test.skip("cli should return correct version number", async (t) => {
+test("cli should return correct version number", async (t) => {
   t.plan(1);
   return new Promise((resolve, reject) => {
     try {
       nixt()
         .expect((result) => {
-          console.log(packageJSON.version);
-          t.is(result.stdout, packageJSON.version);
+          t.true(result.stdout.includes(packageJSON.version));
         })
-        .run("pnpm tdiff --version")
+        .run("./src/lib/cli.js --version")
         .end(resolve);
     } catch (error) {
       reject(error);
@@ -55,7 +54,7 @@ test("check cli output for simple diff", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report -y -t ${path}${schemaPath}entire-schema.json ${path}${schemaPath}renamed-added-deleted-deprecated-updated-reverted-tokens.json`,
+          `./src/lib/cli.js report -y -t ${path}${schemaPath}entire-schema.json ${path}${schemaPath}renamed-added-deleted-deprecated-updated-reverted-tokens.json`,
         )
         .end(resolve);
     } catch (error) {
@@ -82,7 +81,7 @@ test("check cli output for updated (added) property", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report -t ${path}${schemaPath}basic-set-token-property.json ${path}${schemaPath}added-property-set-token.json`,
+          `./src/lib/cli.js report -t ${path}${schemaPath}basic-set-token-property.json ${path}${schemaPath}added-property-set-token.json`,
         )
         .end(resolve);
     } catch (error) {
@@ -109,7 +108,7 @@ test("check cli output for updated (deleted) property", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report -t ${path}${schemaPath}added-property-set-token.json ${path}${schemaPath}basic-set-token-property.json`,
+          `./src/lib/cli.js report -t ${path}${schemaPath}added-property-set-token.json ${path}${schemaPath}basic-set-token-property.json`,
         )
         .end(resolve);
     } catch (error) {
@@ -136,7 +135,7 @@ test("check cli output for renamed, added, and deleted tokens", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report -t ${path}${schemaPath}several-set-tokens.json ${path}${schemaPath}renamed-added-deleted-set-tokens.json`,
+          `./src/lib/cli.js report -t ${path}${schemaPath}several-set-tokens.json ${path}${schemaPath}renamed-added-deleted-set-tokens.json`,
         )
         .end(resolve);
     } catch (error) {
@@ -163,7 +162,7 @@ test("check cli output for renamed, added, deleted, and deprecated tokens", asyn
           }
         })
         .run(
-          `pnpm tdiff report -t ${path}${schemaPath}entire-schema.json ${path}${schemaPath}renamed-added-deleted-deprecated-tokens.json`,
+          `./src/lib/cli.js report -t ${path}${schemaPath}entire-schema.json ${path}${schemaPath}renamed-added-deleted-deprecated-tokens.json`,
         )
         .end(resolve);
     } catch (error) {
@@ -190,7 +189,7 @@ test("check cli output for added non-schema property", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report -t ${path}${schemaPath}basic-set-token.json ${path}${schemaPath}added-non-schema-property-token.json`,
+          `./src/lib/cli.js report -t ${path}${schemaPath}basic-set-token.json ${path}${schemaPath}added-non-schema-property-token.json`,
         )
         .end(resolve);
     } catch (error) {
@@ -217,7 +216,7 @@ test("check cli output for deleted non-schema property", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report -t ${path}${schemaPath}added-non-schema-property-token.json ${path}${schemaPath}basic-set-token.json`,
+          `./src/lib/cli.js report -t ${path}${schemaPath}added-non-schema-property-token.json ${path}${schemaPath}basic-set-token.json`,
         )
         .end(resolve);
     } catch (error) {
@@ -244,7 +243,34 @@ test("check cli output for renamed property", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report -t ${path}${schemaPath}basic-set-token-property.json ${path}${schemaPath}renamed-added-deleted-property-set-token.json`,
+          `./src/lib/cli.js report -t ${path}${schemaPath}basic-set-token-property.json ${path}${schemaPath}renamed-added-deleted-property-set-token.json`,
+        )
+        .end(resolve);
+    } catch (error) {
+      reject(error);
+    }
+  });
+});
+
+test("check cli output testing local and remote branch", async (t) => {
+  t.plan(1);
+  return new Promise((resolve, reject) => {
+    try {
+      nixt()
+        .expect(async () => {
+          try {
+            const expectedFileName = `${path}${outputPath}expected-local-branch.txt`;
+            await access(expectedFileName);
+            const expected = await readFile(expectedFileName, {
+              encoding: "utf8",
+            });
+            t.snapshot(expected.trim());
+          } catch (error) {
+            reject(error);
+          }
+        })
+        .run(
+          `./src/lib/cli.js report -l packages/tokens/src -ntb shirlsli/file-import-tests`,
         )
         .end(resolve);
     } catch (error) {
