@@ -15,7 +15,7 @@ governing permissions and limitations under the License.
 import tokenDiff from "./index.js";
 import chalk from "chalk";
 import inquirer from "inquirer";
-import fileImport from "./file-import.js";
+import fileImport, { loadLocalData } from "./file-import.js";
 import * as emoji from "node-emoji";
 
 import { Command } from "commander";
@@ -25,13 +25,15 @@ const red = chalk.hex("F37E7E");
 const green = chalk.hex("7EF383");
 const white = chalk.white;
 
+/* this is updated by the npm prepare script using update-version.js */
+const version = "1.2.0";
+
 const program = new Command();
 
 program
   .name("tdiff")
   .description("CLI to a Spectrum token diff generator")
-  .version("0.0.1");
-
+  .version(version);
 program
   .command("report")
   .description("Generates a diff report for two inputted schema")
@@ -52,37 +54,62 @@ program
     "-ntb, --new-token-branch <newBranch>",
     "indicates which branch to fetch updated token data from",
   )
-  .option("-t, --test <tokens...>", "indicates switch to testing mode")
   .option(
     "-tn, --token-names <tokens...>",
     "indicates specific tokens to compare",
   )
+  .option("-l, --local <path>", "indicates to compare to local data")
   .action(async (options) => {
     try {
-      const [originalFile, updatedFile] =
-        options.test !== undefined
-          ? await Promise.all([
-              fileImport(options.test[0], "test"),
-              fileImport(options.test[1], "test"),
-            ])
-          : await Promise.all([
-              fileImport(
-                options.tokenNames,
-                options.oldTokenVersion,
-                options.oldTokenBranch,
-              ),
-              fileImport(
-                options.tokenNames,
-                options.newTokenVersion,
-                options.newTokenBranch,
-              ),
-            ]);
+      const [originalFile, updatedFile] = await determineFiles(options);
       const result = tokenDiff(originalFile, updatedFile);
-      cliCheck(originalFile, result, options);
+      cliCheck(result, options);
     } catch (e) {
       console.error(red("\n" + e + "\n"));
     }
   });
+
+async function determineFiles(options) {
+  if (options.local && (options.newTokenBranch || options.newTokenVersion)) {
+    return await Promise.all([
+      loadLocalData(options.local, options.tokenNames),
+      fileImport(
+        options.tokenNames,
+        options.newTokenVersion,
+        options.newTokenBranch,
+      ),
+    ]);
+  } else if (
+    options.local &&
+    (options.oldTokenBranch || options.oldTokenVersion)
+  ) {
+    return await Promise.all([
+      fileImport(
+        options.tokenNames,
+        options.oldTokenVersion,
+        options.oldTokenBranch,
+      ),
+      loadLocalData(options.local, options.tokenNames),
+    ]);
+  } else if (options.local) {
+    return await Promise.all([
+      loadLocalData(options.local, options.tokenNames),
+    ]);
+  } else {
+    return await Promise.all([
+      fileImport(
+        options.tokenNames,
+        options.oldTokenVersion,
+        options.oldTokenBranch,
+      ),
+      fileImport(
+        options.tokenNames,
+        options.newTokenVersion,
+        options.newTokenBranch,
+      ),
+    ]);
+  }
+}
 
 program.parse();
 
@@ -118,11 +145,13 @@ const printStyleRenamed = (result, token, log, i) => {
  * @param {object} i - the number of times to indent
  */
 const printStyleDeprecated = (result, token, log, i) => {
+  let comment = result[token]["deprecated_comment"];
   log(
     indent(
       yellow(`"${token}"`) +
-        white(": ") +
-        yellow(`"${result[token]["deprecated_comment"]}"`),
+        (typeof comment === "string" && comment.length
+          ? this.white(": ") + this.yellow(`"${comment}"`)
+          : ""),
       i,
     ),
   );
@@ -153,11 +182,10 @@ const printStyleUpdated = (result, token, log, i) => {
 /**
  * Checks for previously deprecated tokens whose deprecated status is removed and asks
  * the user if that is intended
- * @param {object} originalFile - the original token
  * @param {object} result - the updated token report
  * @param {object} options - an array holding the values of options inputted from command line
  */
-async function cliCheck(originalFile, result, options) {
+async function cliCheck(result, options) {
   const log = console.log;
   log(
     red(
@@ -191,7 +219,12 @@ async function cliCheck(originalFile, result, options) {
       ])
       .then((response) => {
         if (response.confirmation) {
-          console.clear();
+          // console.clear();
+          log(
+            white(
+              "\n-------------------------------------------------------------------------------------------",
+            ),
+          );
           return printReport(result, log, options);
         } else {
           log(
