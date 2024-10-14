@@ -75,7 +75,7 @@ tdiff report
 | `-ntv`    | `--new-token-version` | `<newVersion>` | npm package version/github tag to pull new tokens from |
 | `-otb`    | `--old-token-branch`  | `<oldBranch>`  | branch to fetch old token data from                    |
 | `-ntb`    | `--new-token-branch`  | `<newBranch>`  | branch to fetch new token data from                    |
-| `-t`      | `--test`              | `<tokens...>`  | indicates test mode and runs only on tokens passed in  |
+| `-l`      | `--local`             | `<path>`       | local path within repository to fetch token data from  |
 | `-tn`     | `--token-names`       | `<tokens...>`  | indicates specific tokens to compare                   |
 
 ### Usage examples
@@ -84,4 +84,10 @@ This is how you can compare between branches and/or versions.
 
 ```
 tdiff report -otv shirlsli/diff-generator-cli-tests -ntb shirlsli/file-import-tests
+```
+
+This is how you can compare specific token files from a remote branch with your local data.
+
+```
+tdiff report -otb shirlsli/file-import-tests -l packages/tokens/src -tn color-aliases.json color-component.json
 ```
