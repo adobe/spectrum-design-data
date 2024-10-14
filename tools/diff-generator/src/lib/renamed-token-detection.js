@@ -22,6 +22,8 @@ export default function detectRenamedTokens(original, added) {
   Object.keys(added).forEach((change) => {
     Object.keys(original).forEach((originalToken) => {
       if (
+        added[change].uuid &&
+        original[originalToken].uuid &&
         original[originalToken].uuid === added[change].uuid &&
         originalToken !== change
       ) {
