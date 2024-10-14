@@ -10,6 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 import { access, readFile } from "fs/promises";
+import { existsSync } from "fs";
+import path from "path";
+import { glob, globSync } from "glob";
 
 const source = "https://raw.githubusercontent.com/adobe/spectrum-tokens/";
 
@@ -26,18 +29,61 @@ export default async function fileImport(
 ) {
   const version = givenVersion || "latest";
   const location = givenLocation || "main";
+  const result = {};
   const tokenNames =
     givenTokenNames || (await fetchTokens("manifest.json", version, location));
-  if (givenVersion === "test") {
-    await access(tokenNames);
-    return JSON.parse(await readFile(tokenNames, { encoding: "utf8" }));
-  }
-  const result = {};
   for (let i = 0; i < tokenNames.length; i++) {
-    const tokens = await fetchTokens(tokenNames[i], version, location);
+    const name = givenTokenNames ? "src/" + tokenNames[i] : tokenNames[i];
+    const tokens = await fetchTokens(name, version, location);
     Object.assign(result, tokens);
   }
   return result;
+}
+
+export async function loadLocalData(dirName, tokenNames) {
+  try {
+    const startDir = process.cwd();
+    const root = getRootPath(startDir, "pnpm-lock.yaml");
+    const fileNames = await glob(`${dirName}/*.json`, {
+      ignore: ["node_modules/**", "coverage/**"],
+      cwd: "../../",
+    }); // i.e. packages/tokens/src
+    return tokenNames
+      ? loadData(
+          root.substring(0, root.lastIndexOf("/")) + "/" + dirName + "/",
+          tokenNames,
+        )
+      : loadData(root.substring(0, root.lastIndexOf("/")) + "/", fileNames);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+async function loadData(startDir, tokenNames) {
+  let result = {};
+  for (let i = 0; i < tokenNames.length; i++) {
+    const tokenPath =
+      startDir + tokenNames[i].trim().replaceAll('"', "").replace(",", "");
+    await access(tokenPath);
+    const temp = JSON.parse(await readFile(tokenPath, { encoding: "utf8" }));
+    Object.assign(result, temp);
+  }
+  return result;
+}
+
+function getRootPath(startDir, targetDir) {
+  let curDir = startDir;
+  while (existsSync(curDir)) {
+    const curDirPath = path.join(curDir, targetDir);
+    if (existsSync(curDirPath)) {
+      return curDirPath;
+    }
+    const parentDir = path.dirname(curDir);
+    if (parentDir === curDir) {
+      return null;
+    }
+    curDir = parentDir;
+  }
 }
 
 async function fetchTokens(tokenName, version, location) {
