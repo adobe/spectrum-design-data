@@ -26,6 +26,9 @@
             },
             {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            },
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json"
             }
           ]
         },
@@ -39,6 +42,9 @@
             },
             {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            },
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json"
             }
           ]
         }
@@ -49,11 +55,7 @@
     "private": {},
     "deprecated": {},
     "deprecated_comment": {},
-    "uuid": {
-      "type": "string",
-      "pattern": "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$",
-      "format": "uuid"
-    }
+    "uuid": {}
   },
-  "required": ["sets", "uuid"]
+  "required": ["sets"]
 }
