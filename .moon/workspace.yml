@@ -7,7 +7,6 @@ projects:
   root: "."
   csvGenerator: tools/token-csv-generator
   diff: "tools/diff-generator"
-  tdiff: "docs/token-diff"
 vcs:
   manager: "git"
   defaultBranch: "main"

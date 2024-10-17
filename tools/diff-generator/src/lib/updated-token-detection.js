@@ -155,7 +155,10 @@ function includeOldProperties(
     ) {
       return;
     }
-    if (typeof curTokenLevel[property] === "string") {
+    if (
+      typeof curTokenLevel[property] === "string" ||
+      typeof curTokenLevel[property] === "number"
+    ) {
       const newValue = curTokenLevel[property];
       const path = !properties.includes(".")
         ? property

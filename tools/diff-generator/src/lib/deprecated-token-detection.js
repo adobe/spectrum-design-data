@@ -26,7 +26,7 @@ export default function detectDeprecatedTokens(renamedTokens, changes) {
   const possibleMistakenRevert = { ...changes.deleted };
   Object.keys(changes.added).forEach((token) => {
     if (
-      (token !== undefined && !deprecatedTokens[token].deprecated) ||
+      (token !== undefined && !isDeprecated(deprecatedTokens[token])) ||
       renamedTokens[token] !== undefined
     ) {
       delete deprecatedTokens[token];
@@ -34,11 +34,45 @@ export default function detectDeprecatedTokens(renamedTokens, changes) {
   });
   Object.keys(changes.deleted).forEach((token) => {
     const t = possibleMistakenRevert[token]; // a token marked as deleted
-    if (t === undefined || (typeof t !== "string" && !("deprecated" in t))) {
+    if (t === undefined || !wasUndeprecated(t)) {
       delete possibleMistakenRevert[token];
+    } else {
+      delete changes.deleted[token];
     }
   });
   result.deprecated = deprecatedTokens;
   result.reverted = possibleMistakenRevert;
   return result;
+}
+
+function isDeprecated(tokenObj) {
+  if (typeof tokenObj !== "object") {
+    return false;
+  } else if (tokenObj.deprecated) {
+    return true;
+  } else {
+    let result = false;
+
+    Object.keys(tokenObj).forEach((property) => {
+      result = result || isDeprecated(tokenObj[property]);
+    });
+
+    return result;
+  }
+}
+
+function wasUndeprecated(tokenObj) {
+  if (typeof tokenObj !== "object") {
+    return false;
+  } else if ("deprecated" in tokenObj && tokenObj.deprecated === undefined) {
+    return true;
+  } else {
+    let result = false;
+
+    Object.keys(tokenObj).forEach((property) => {
+      result = result || wasUndeprecated(tokenObj[property]);
+    });
+
+    return result;
+  }
 }

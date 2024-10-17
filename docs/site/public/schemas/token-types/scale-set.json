@@ -26,6 +26,9 @@
             },
             {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            },
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json"
             }
           ]
         },
@@ -39,6 +42,9 @@
             },
             {
               "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            },
+            {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json"
             }
           ]
         }

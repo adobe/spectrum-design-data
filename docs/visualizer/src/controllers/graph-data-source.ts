@@ -208,7 +208,7 @@ export class GraphDataSource {
       const rawValues: string[] = [];
       foundValues.forEach((foundValueItem) => {
         const valuePath = foundValueItem.path;
-        let foundValue = foundValueItem.value;
+        let foundValue = foundValueItem.value.toString();
         // is this found value a downstream adjacency?
         // if so, add it to the graph...
         if (

@@ -78,8 +78,6 @@
       "express": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{gray-800}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
         "uuid": "60caae29-d389-421e-a574-b26bcaeed3bf"
       }
     }
