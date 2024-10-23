@@ -14,7 +14,7 @@
       "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json"
     },
     "value": {
-      "type": "string",
+      "type": "number",
       "pattern": "^(?:\\d+\\.?\\d*)|(?:\\.?\\d+)$"
     },
     "component": {},

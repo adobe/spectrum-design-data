@@ -1,0 +1,118 @@
+WARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!
+
+
+**Tokens Changed (17)**
+-------------------------------------------------------------------------------------------
+
+
+📝 Renamed (3)
+
+   "blue-600" -> "i-like-dim-sum"
+
+   "red-400" -> "i-like-passion-fruit-green-tea"
+
+   "table-selected-row-background-opacity-non-emphasized" -> "i-like-sushi"
+
+
+
+🕒 Newly Deprecated (3)
+
+   "black-font-weight": "here is an another totally informative comment"
+
+   "font-size-800": "this is totally not not deprecated"
+
+   "informative-color-100": "here is a totally informative comment"
+
+
+
+🔼 Added (4)
+
+   "i-like-dosas"
+
+   "i-like-panang-curry"
+
+   "i-like-fried-chicken"
+
+   "i-like-frozen-yogurt"
+
+
+
+🔽 Deleted (2)
+
+   "spacing-1000"
+
+   "text-to-visual-100"
+
+
+
+🆕 Updated (5)
+
+   🆕 Added Properties (1)
+
+      "accent-background-color-down"
+
+         sets.definite-a-real-property.$schema
+
+            "adobe link"
+
+         sets.definite-a-real-property.value
+
+            woohoo!
+
+         sets.definite-a-real-property.uuid
+
+            7890
+
+
+
+   🆕 Deleted Properties (2)
+
+      "neutral-subdued-background-color-hover"
+
+         sets.darkest.$schema
+
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+
+         sets.darkest.value
+
+            gray-300
+
+         sets.darkest.uuid
+
+            2d72c9fc-22d0-4e4d-9b00-fae4b30a47b5
+
+      "accent-background-color-hover"
+
+         sets.darkest.$schema
+
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+
+         sets.darkest.value
+
+            accent-color-500
+
+         sets.darkest.uuid
+
+            9e140a94-c11f-470b-b7af-49880e58d4ce
+
+
+
+   🆕 Updated Properties (2)
+
+      "neutral-background-color-selected-down"
+
+         sets.express.value
+
+            gray-900 -> updated
+
+      "informative-background-color-hover"
+
+         $schema
+
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json" -> 
+
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/i-like-koalas.json"
+
+         sets.light.value
+
+            informative-color-1000 -> some-value-was-changed

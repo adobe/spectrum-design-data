@@ -3,7 +3,7 @@
   "private": true,
   "access": "restricted",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adobe/spectrum-tokens.git"
@@ -14,26 +14,26 @@
   },
   "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/docs/visualizer#readme",
   "devDependencies": {
-    "@types/node": "^20.14.11",
-    "typescript": "^5.5.3",
-    "vite": "^5.3.4"
+    "@types/node": "^22.7.5",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.8"
   },
   "dependencies": {
-    "@spectrum-web-components/action-button": "^0.44.0",
-    "@spectrum-web-components/button": "^0.44.0",
-    "@spectrum-web-components/button-group": "^0.44.0",
-    "@spectrum-web-components/field-group": "^0.44.0",
-    "@spectrum-web-components/field-label": "^0.44.0",
-    "@spectrum-web-components/link": "^0.44.0",
-    "@spectrum-web-components/overlay": "^0.44.0",
-    "@spectrum-web-components/popover": "^0.44.0",
-    "@spectrum-web-components/search": "^0.44.0",
-    "@spectrum-web-components/slider": "^0.44.0",
-    "@spectrum-web-components/switch": "^0.44.0",
-    "@spectrum-web-components/textfield": "^0.44.0",
-    "@spectrum-web-components/theme": "^0.44.0",
-    "@spectrum-web-components/toast": "^0.44.0",
-    "@spectrum-web-components/tooltip": "^0.44.0",
-    "lit": "^3.1.4"
+    "@spectrum-web-components/action-button": "^0.48.1",
+    "@spectrum-web-components/button": "^0.48.1",
+    "@spectrum-web-components/button-group": "^0.48.1",
+    "@spectrum-web-components/field-group": "^0.48.1",
+    "@spectrum-web-components/field-label": "^0.48.1",
+    "@spectrum-web-components/link": "^0.48.1",
+    "@spectrum-web-components/overlay": "^0.48.1",
+    "@spectrum-web-components/popover": "^0.48.1",
+    "@spectrum-web-components/search": "^0.48.1",
+    "@spectrum-web-components/slider": "^0.48.1",
+    "@spectrum-web-components/switch": "^0.48.1",
+    "@spectrum-web-components/textfield": "^0.48.1",
+    "@spectrum-web-components/theme": "^0.48.1",
+    "@spectrum-web-components/toast": "^0.48.1",
+    "@spectrum-web-components/tooltip": "^0.48.1",
+    "lit": "^3.2.1"
   }
 }
