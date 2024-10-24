@@ -10142,13 +10142,13 @@
   "takeover-dialog-height": {
     "component": "takeover-dialog",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "1.00em",
+    "value": "1.00%",
     "uuid": "be327284-79fe-40b7-b996-8ad176d40d8e"
   },
   "takeover-dialog-width": {
     "component": "takeover-dialog",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "1.00em",
+    "value": "100%",
     "uuid": "bb70e39d-c686-4cd2-a991-6b51fa16d9df"
   }
 }
