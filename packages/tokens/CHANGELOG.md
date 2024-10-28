@@ -1,5 +1,17 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.52
+
+### Patch Changes
+
+- [#444](https://github.com/adobe/spectrum-tokens/pull/444) [`51904cd`](https://github.com/adobe/spectrum-tokens/commit/51904cdabfcb165a560c58664c8bc75be601f28b) Thanks [@GarthDB](https://github.com/GarthDB)! - fixing a typo with takeover-dialog-height
+
+  ## Token Diff
+
+  **Updated Token (1):**
+
+  - `takeover-dialog-height`: `1.00%` -> `100%`
+
 ## 13.0.0-beta.51
 
 ### Patch Changes
