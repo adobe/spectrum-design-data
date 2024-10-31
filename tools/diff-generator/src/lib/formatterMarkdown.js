@@ -77,7 +77,7 @@ class MarkdownFormatter extends CLIFormatter {
     return str.replace(/{|}/g, "");
   }
 
-  printStyleColored(token, color) {
+  printStyleColored(token) {
     this.log(this.indent(this.hilite(token), 1));
   }
 

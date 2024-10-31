@@ -244,9 +244,7 @@ export class CLIFormatter {
       Object.keys(result.updated.deleted).length +
       Object.keys(result.updated.updated).length +
       Object.keys(result.updated.renamed).length;
-    outputFunction("pest");
     this.log = outputFunction;
-    this.log("test");
     this.log(this.neutral("\n**Tokens Changed (" + totalTokens + ")**"));
     let originalSchema = "";
     let updatedSchema = "";
