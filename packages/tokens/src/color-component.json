@@ -447,5 +447,25 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-800}",
     "uuid": "4bbb81b1-09fb-4ebe-80b5-cebb75c13839"
+  },
+  "tree-view-row-background-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "39d26185-da40-47b5-b4b3-e47689129256"
+  },
+  "tree-view-selected-row-background-color-emphasized": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{informative-background-color-default}",
+    "uuid": "65854450-ed1a-49ea-ab29-d257b8a0569e"
+  },
+  "tree-view-selected-row-background-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "8f19994d-f49a-42ea-97bd-98ab1d76d02d"
+  },
+  "tree-view-selected-row-background-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "c325ed8f-8248-40c3-a0f0-efba57638f24"
   }
 }
