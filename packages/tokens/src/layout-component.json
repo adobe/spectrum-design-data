@@ -10152,6 +10152,7 @@
     "uuid": "bb70e39d-c686-4cd2-a991-6b51fa16d9df"
   },
   "tree-view-disclosure-indicator-height": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10167,6 +10168,7 @@
     }
   },
   "tree-view-disclosure-indicator-width": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10182,6 +10184,7 @@
     }
   },
   "tree-view-minimum-height": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10197,6 +10200,7 @@
     }
   },
   "tree-view-minimum-width": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10212,6 +10216,7 @@
     }
   },
   "tree-view-bottom-to-label": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10227,6 +10232,7 @@
     }
   },
   "tree-view-drag-handle-to-checkbox": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10242,6 +10248,7 @@
     }
   },
   "tree-view-edge-to-checkbox": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10257,6 +10264,7 @@
     }
   },
   "tree-view-edge-to-drag-handle": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10272,6 +10280,7 @@
     }
   },
   "tree-view-end-edge-to-action-area": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10287,11 +10296,13 @@
     }
   },
   "tree-view-header-to-item": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "-1px",
     "uuid": "8f92e6b8-907f-42b2-81d6-83d1786495bf"
   },
   "tree-view-item-to-header": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10307,16 +10318,19 @@
     }
   },
   "tree-view-item-to-item": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "-1px",
     "uuid": "9a04f19a-9e2a-43b9-9b1f-3385aef214ac"
   },
   "tree-view-item-to-item-detached": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "2px",
     "uuid": "c7c837c3-47ad-4ef1-a2eb-e4629628eb44"
   },
   "tree-view-label-to-action-area": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10332,6 +10346,7 @@
     }
   },
   "tree-view-level-increment": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10347,6 +10362,7 @@
     }
   },
   "tree-view-minimum-top-to-context-area": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10362,6 +10378,7 @@
     }
   },
   "tree-view-top-to-action-button": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10377,6 +10394,7 @@
     }
   },
   "tree-view-top-to-checkbox": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10392,6 +10410,7 @@
     }
   },
   "tree-view-top-to-disclosure-indicator": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10407,6 +10426,7 @@
     }
   },
   "tree-view-top-to-drag-handle": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10422,6 +10442,7 @@
     }
   },
   "tree-view-top-to-label": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -10437,11 +10458,13 @@
     }
   },
   "tree-view-selected-row-background-opacity-emphasized": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.1",
     "uuid": "d31772fd-95f3-413d-ab20-826033d71938"
   },
   "tree-view-selected-row-background-opacity-emphasized-hover": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "a83e023c-dc92-4b3e-8375-351bbf8ec9bb"
