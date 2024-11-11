@@ -34,3 +34,28 @@ tasks:
       - update-version.js
     local: true
     platform: node
+
+  prettier: # prettier on the code using default settings
+    command:
+      - prettier
+      - --write
+      - "./src"
+    local: true
+
+  eslint: # eslint on the code using default js/node settings
+    command:
+      - eslint
+      - --config
+      - "./eslint.config.js"
+      - "./src"
+      - --fix
+    local: true
+
+  format: # prettier + eslint
+    command: "noop"
+    local: true
+    deps:
+      - "~:prettier"
+      - "~:eslint"
+    options:
+      runDepsInParallel: false

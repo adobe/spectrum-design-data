@@ -112,3 +112,6 @@ dist
 # moon
 .moon/cache
 .moon/docker
+
+# visual studio code
+.vscode/

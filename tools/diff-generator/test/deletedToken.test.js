@@ -11,11 +11,11 @@ governing permissions and limitations under the License.
 */
 
 import test from "ava";
+import { detailedDiff } from "../src/lib/diff.js";
 import detectDeletedTokens from "../src/lib/deleted-token-detection.js";
 import updated from "./test-schemas/basic-original-token.json" with { type: "json" };
 import original from "./test-schemas/new-token.json" with { type: "json" };
 import renamedBasic from "./test-schemas/basic-renamed-token.json" with { type: "json" };
-import { detailedDiff } from "deep-object-diff";
 import detectRenamedTokens from "../src/lib/renamed-token-detection.js";
 import severalSetTokens from "./test-schemas/several-set-tokens.json" with { type: "json" };
 import deletedSetTokens from "./test-schemas/deleted-set-token.json" with { type: "json" };

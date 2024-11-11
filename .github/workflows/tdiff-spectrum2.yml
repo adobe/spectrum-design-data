@@ -1,0 +1,11 @@
+name: TDIFF - SPECTRUM 2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  tdiff:
+    uses: ./.github/workflows/_tdiff.yml
+    with:
+      root: beta # the spectrum-tokens data we want to compare against (branch of the repo)
+    secrets: inherit

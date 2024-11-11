@@ -9,7 +9,9 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-import { detailedDiff } from "deep-object-diff";
+
+import { detailedDiff } from "./diff.js";
+import { assert, isBoolean, isNumber, isObject, isString } from "./helpers.js";
 
 /**
  * Detects updates made to tokens
@@ -18,136 +20,168 @@ import { detailedDiff } from "deep-object-diff";
  * @param {object} changes - the changed token data
  * @returns {object} updatedTokens - a JSON object containing the updated tokens (with new name, if renamed)
  */
-export default function detectUpdatedTokens(
+export default function detectModifiedTokens(
   renamed,
   original,
   changes,
   newTokens,
   deprecatedTokens,
 ) {
-  const updatedTokens = {
+  const modifiedTokens = {
     renamed: {},
     added: {},
     deleted: {},
     updated: { ...changes.updated },
   };
-  Object.keys(changes.added).forEach((token) => {
-    if (renamed[token] !== undefined) {
+
+  // checks new stuff
+  Object.keys(changes.added).forEach((tokenName) => {
+    if (renamed[tokenName] !== undefined) {
       const tokenDiff = detailedDiff(
-        original[renamed[token]["old-name"]],
-        changes.added[token],
+        original[renamed[tokenName]["old-name"]],
+        changes.added[tokenName],
       ).updated;
       if (Object.keys(tokenDiff).length !== 0) {
-        updatedTokens.updated[token] = tokenDiff;
+        modifiedTokens.updated[tokenName] = tokenDiff;
       }
     } else if (
-      newTokens[token] === undefined &&
-      original[token] !== undefined &&
-      deprecatedTokens.deprecated[token] === undefined
+      newTokens[tokenName] === undefined &&
+      original[tokenName] !== undefined &&
+      deprecatedTokens.deprecated[tokenName] === undefined
     ) {
-      updatedTokens.added[token] = changes.added[token];
-      formatJSON(
-        updatedTokens,
-        updatedTokens.added[token],
-        token,
+      modifiedTokens.added[tokenName] = changes.added[tokenName];
+      parseTokenChanges(
+        modifiedTokens,
+        modifiedTokens.added[tokenName],
+        tokenName,
         original,
         renamed,
         false,
       );
     }
   });
-  Object.keys(changes.deleted).forEach((token) => {
-    const t = changes.deleted[token];
+
+  // checks removed stuff
+  Object.keys(changes.deleted).forEach((tokenName) => {
+    const t = changes.deleted[tokenName];
     if (t !== undefined && !("deprecated" in t)) {
       const tokenDiff = detailedDiff(
         t, // switching the order to easily get change
-        original[token],
+        original[tokenName],
       ).updated;
-      updatedTokens.deleted[token] = tokenDiff;
-      formatJSON(
-        updatedTokens,
-        updatedTokens.deleted[token],
-        token,
+
+      modifiedTokens.deleted[tokenName] = tokenDiff;
+      parseTokenChanges(
+        modifiedTokens,
+        modifiedTokens.deleted[tokenName],
+        tokenName,
         original,
         renamed,
         false,
       );
     }
   });
-  Object.keys(updatedTokens.updated).forEach((token) => {
-    formatJSON(
-      updatedTokens,
-      updatedTokens.updated[token],
-      token,
+
+  // checks changed stuff
+  Object.keys(modifiedTokens.updated).forEach((tokenName) => {
+    parseTokenChanges(
+      modifiedTokens,
+      modifiedTokens.updated[tokenName],
+      tokenName,
       original,
       renamed,
       true,
     );
   });
-  return updatedTokens;
+
+  /// !!! there should be a verification step to ensure all the data was processed otherwise
+  /// !!! we get a weird blitz in the output section
+
+  return modifiedTokens;
 }
 
 /**
- * Appends original token properties to updatedTokens JSON
- * @param {object} tokens - the updated tokens (added, deleted, or updated)
- * @param {string} properties - the path containing all the keys required to traverse through to get to value
+ * Appends original token properties to modifiedTokens JSON
+ * @param {object} tokenChanges - the updated tokens (added, deleted, or updated)
+ * @param {string} tokenName - the path containing all the keys required to traverse through to get to value
  * @param {object} original - the original token
  * @param {object} renamed - a JSON object containing the renamed tokens
  * @param {boolean} update - a boolean indicating whether token property is added, deleted, or updated
  */
-function formatJSON(
-  updatedTokens,
-  tokens,
-  properties,
+function parseTokenChanges(
+  modifiedTokens,
+  tokenChanges,
+  tokenName,
   original,
   renamed,
   update,
 ) {
-  if (renamed[properties] !== undefined) {
-    includeOldProperties(
-      updatedTokens,
-      tokens,
-      tokens,
-      properties,
-      original,
-      original[renamed[properties]["old-name"]],
-      renamed,
-      update,
-    );
+  assert(isObject(modifiedTokens));
+  assert(isObject(tokenChanges));
+  assert(isString(tokenName));
+  assert(isObject(original));
+  assert(isObject(renamed));
+  assert(isBoolean(update));
+
+  // we'll use the original token data in the result, but we'll need to hunt around
+  // for it if the token name was changed
+  let originalToken;
+  if (!renamed[tokenName]) {
+    originalToken = original[tokenName];
   } else {
-    includeOldProperties(
-      updatedTokens,
-      tokens,
-      tokens,
-      properties,
-      original,
-      original[properties],
-      renamed,
+    originalToken = original[renamed[tokenName]["old-name"]];
+  }
+
+  // we start checking properties starting from the root of the token changes and original token data tree objects
+  try {
+    checkProperties(
+      modifiedTokens,
+      tokenChanges,
+      tokenChanges,
+      originalToken,
+      originalToken,
       update,
     );
+  } catch (error) {
+    console.error(
+      "FAILED TO PARSE DIFF RESULT FOR: " +
+        "\n" +
+        tokenName +
+        "\n" +
+        JSON.stringify(tokenChanges, null, 2),
+    );
+    throw error;
   }
 }
 
 /**
  * Traverses original and result token to insert the original value, path to the value, and new value
- * @param {object} token - the current token from updatedTokens
- * @param {object} curTokenLevel - the current key
- * @param {string} properties - a string containing the path to get to the value
- * @param {object} originalToken - the original token
- * @param {object} curOriginalLevel - the current key for original token
+ * @param {object} rootTokenLevel - the current token from updatedTokens
+ * @param {object} currentTokenLevel - the current key
+ * @param {string} currentTokenPath - a string containing the path to get to the value
+ * @param {object} rootOriginalLevel - the original token
+ * @param {object} currentOriginalLevel - the current key for original token
  * @param {object} renamed - the renamed tokens
  */
-function includeOldProperties(
-  updatedTokens,
-  token,
-  curTokenLevel,
-  properties,
-  originalToken,
-  curOriginalLevel,
-  renamed,
+function checkProperties(
+  modifiedTokens,
+  rootTokenLevel,
+  currentTokenLevel,
+  rootOriginalLevel,
+  currentOriginalLevel,
   update,
+  currentTokenPath = "",
 ) {
-  Object.keys(curTokenLevel).forEach((property) => {
+  assert(isObject(modifiedTokens));
+  assert(isObject(rootTokenLevel));
+  assert(isObject(currentTokenLevel));
+  assert(isObject(rootOriginalLevel));
+  assert(isObject(currentOriginalLevel));
+  assert(isBoolean(update));
+  assert(isString(currentTokenPath));
+
+  Object.keys(currentTokenLevel).forEach((property) => {
+    // these are part of the result, so we've already processed them
     if (
       property === "path" ||
       property === "new-value" ||
@@ -155,79 +189,121 @@ function includeOldProperties(
     ) {
       return;
     }
+
+    const propertyPath = currentTokenPath.length
+      ? currentTokenPath + "." + property
+      : property;
+
     if (
-      typeof curTokenLevel[property] === "string" ||
-      typeof curTokenLevel[property] === "number"
+      isString(currentTokenLevel[property]) ||
+      isBoolean(currentTokenLevel[property]) ||
+      isNumber(currentTokenLevel[property])
     ) {
-      const newValue = curTokenLevel[property];
-      const path = !properties.includes(".")
-        ? property
-        : `${properties.substring(properties.indexOf(".") + 1)}.${property}`;
-      curTokenLevel[property] = update
-        ? JSON.parse(`{ 
-        "new-value": "${newValue}",
-        "path": "${path}",
-        "original-value": "${curOriginalLevel[property]}"
-        }`)
-        : JSON.parse(`{ 
-          "new-value": "${newValue}",
-          "path": "${path}"
-          }`);
-      return;
+      // we've got an actual property we want to log in the result (values, uuids, schemas, and whatnot)
+      handleLeafProperty(
+        property,
+        propertyPath,
+        currentTokenLevel,
+        currentOriginalLevel,
+        update,
+      );
+    } else if (isObject(currentTokenLevel[property])) {
+      // we've got an object that has properties in it we need to check (probably set stuff!)
+      handleBranchProperty(
+        modifiedTokens,
+        rootTokenLevel,
+        currentTokenLevel,
+        rootOriginalLevel,
+        currentOriginalLevel,
+        update,
+        property,
+        propertyPath,
+      );
+    } else {
+      throw new Error(
+        "UNHANDLED PROPERTY DATA TYPE: " + typeof currentTokenLevel[property],
+      );
     }
-    const nextProperties = properties + "." + property;
-    const keys = nextProperties.split(".");
-    curOriginalLevel = originalToken;
-    curTokenLevel = token;
-    keys.forEach((key) => {
-      if (curOriginalLevel[key] === undefined) {
+  });
+}
+
+function handleLeafProperty(
+  property,
+  propertyPath,
+  currentTokenLevel,
+  currentOriginalLevel,
+  update,
+) {
+  const newValue = currentTokenLevel[property];
+  if (update) {
+    // a property value is being updated
+    currentTokenLevel[property] = JSON.parse(`{
+      "path": "${propertyPath}",
+      "new-value": "${newValue}",
+      "original-value": "${currentOriginalLevel[property]}"
+    }`);
+  } else {
+    // a property value is either being added or removed
+    currentTokenLevel[property] = JSON.parse(`{
+      "path": "${propertyPath}",
+      "new-value": "${newValue}"
+    }`);
+  }
+}
+
+function handleBranchProperty(
+  modifiedTokens,
+  rootTokenLevel,
+  currentTokenLevel,
+  rootOriginalLevel,
+  currentOriginalLevel,
+  update,
+  property,
+  currentTokenPath,
+) {
+  // adjust the token objects to the new depth
+  currentTokenLevel = currentTokenLevel[property];
+
+  if (currentOriginalLevel && currentOriginalLevel[property] !== undefined) {
+    currentOriginalLevel = currentOriginalLevel[property];
+  }
+
+  if (!update) {
+    // this checks for renamed branches, by checking uuids
+    Object.keys(currentOriginalLevel).forEach((originalProp) => {
+      Object.keys(currentTokenLevel).forEach((curProp) => {
         if (
-          renamed[key] !== undefined &&
-          curOriginalLevel[renamed[key]["old-name"]] !== undefined
+          currentTokenLevel[curProp] !== undefined &&
+          isObject(currentOriginalLevel[originalProp]) &&
+          isObject(currentTokenLevel[curProp]) &&
+          currentOriginalLevel[originalProp].uuid !== undefined &&
+          currentTokenLevel[curProp].uuid !== undefined &&
+          currentOriginalLevel[originalProp].uuid ===
+            currentTokenLevel[curProp].uuid &&
+          originalProp !== curProp
         ) {
-          curOriginalLevel = curOriginalLevel[renamed[key]["old-name"]];
+          modifiedTokens.renamed[curProp] = {
+            "old-name": originalProp,
+          };
+          delete currentTokenLevel[curProp];
         }
-      } else {
-        curOriginalLevel = curOriginalLevel[key];
-      }
-      curTokenLevel =
-        curTokenLevel[key] === undefined ? token : curTokenLevel[key];
-    });
-    if (!update) {
-      Object.keys(curOriginalLevel).forEach((originalProp) => {
-        Object.keys(curTokenLevel).forEach((curProp) => {
-          if (
-            curTokenLevel[curProp] !== undefined &&
-            typeof curOriginalLevel[originalProp] !== "string" &&
-            typeof curTokenLevel[curProp] !== "string" &&
-            curOriginalLevel[originalProp].uuid !== undefined &&
-            curTokenLevel[curProp].uuid !== undefined &&
-            curOriginalLevel[originalProp].uuid ===
-              curTokenLevel[curProp].uuid &&
-            originalProp !== curProp
-          ) {
-            updatedTokens.renamed[curProp] = {
-              "old-name": originalProp,
-            };
-            delete curTokenLevel[curProp];
+        Object.keys(modifiedTokens.renamed).forEach((prop) => {
+          if (modifiedTokens.renamed[prop]["old-name"] === curProp) {
+            delete currentTokenLevel[curProp];
           }
-          Object.keys(updatedTokens["renamed"]).forEach((prop) => {
-            if (updatedTokens["renamed"][prop]["old-name"] === curProp) {
-              delete curTokenLevel[curProp];
-            }
-          });
         });
       });
-    }
-    includeOldProperties(
-      updatedTokens,
-      token,
-      curTokenLevel,
-      nextProperties,
-      originalToken,
-      curOriginalLevel,
-      renamed,
-      update,
-    );
-  });
+    });
+  }
+
+  // check the properties at this depth
+  checkProperties(
+    modifiedTokens,
+    rootTokenLevel,
+    currentTokenLevel,
+    rootOriginalLevel,
+    currentOriginalLevel,
+    update,
+    currentTokenPath,
+  );
 }
