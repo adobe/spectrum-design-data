@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-tokens",
-  "version": "0.0.0-s2-foundations-20241021172855",
+  "version": "0.0.0-s2-foundations-20241121221506",
   "description": "Design tokens for Spectrum, Adobe's design system",
   "type": "module",
   "main": "index.js",
