@@ -10480,5 +10480,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{spacing-300}",
     "uuid": "72e276ce-d6ee-4bcf-9955-91c833b8b2cd"
+  },
+  "color-wheel-border-opacity": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "be8fac27-b644-492e-a89d-6c87cfecb8a1"
   }
 }
