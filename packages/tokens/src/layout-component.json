@@ -10470,11 +10470,13 @@
     "uuid": "a83e023c-dc92-4b3e-8375-351bbf8ec9bb"
   },
   "action-bar-minimum-width": {
+    "component": "action-bar",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "176px",
     "uuid": "9fb582b4-38e6-43d0-9b94-69964fb24c9f"
   },
   "action-bar-label-to-action-group-area": {
+    "component": "action-bar",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{spacing-300}",
     "uuid": "72e276ce-d6ee-4bcf-9955-91c833b8b2cd"
