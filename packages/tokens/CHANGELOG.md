@@ -1,5 +1,20 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.55
+
+### Minor Changes
+
+- [#461](https://github.com/adobe/spectrum-tokens/pull/461) [`2f90bff`](https://github.com/adobe/spectrum-tokens/commit/2f90bffe5c0dc0a4cc6811eb104e0984d8714d53) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added two new tokens for color wheel border. One for color and one for opacity.
+
+  ## Token Diff
+
+  <details open><summary>Added (2)</summary>
+
+  - `color-wheel-border-opacity`
+  - `color-wheel-border-color`
+
+  </details>
+
 ## 13.0.0-beta.54
 
 ### Minor Changes
