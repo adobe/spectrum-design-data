@@ -2413,5 +2413,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{spacing-600}",
     "uuid": "a3e53161-c38a-4ee0-88c2-4a36fd530e51"
+  },
+  "component-size-maximum-perspective-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "96px",
+    "uuid": "437f2e57-2aa6-41b5-bdcc-e4993dc42168"
   }
 }
