@@ -473,8 +473,15 @@
     "uuid": "c325ed8f-8248-40c3-a0f0-efba57638f24"
   },
   "color-wheel-border-color": {
+    "component": "color-wheel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-1000}",
     "uuid": "a60c3946-dff7-4245-bdcd-b61445066e48"
+  },
+  "color-wheel-border-opacity": {
+    "component": "color-wheel",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "be8fac27-b644-492e-a89d-6c87cfecb8a1"
   }
 }
