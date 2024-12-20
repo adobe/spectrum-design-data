@@ -1,5 +1,23 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.56
+
+### Minor Changes
+
+- [#463](https://github.com/adobe/spectrum-tokens/pull/463) [`1ae8051`](https://github.com/adobe/spectrum-tokens/commit/1ae80516c48b70b87a8cd81cde75af8755188d45) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added a component-size-maximum-perspective-down token, which defines that components larger than 96px would appear to scale down more.
+
+  ## Design Motivation
+
+  This token is used in larger components that support a down state that scales, like the select box.
+
+  ## Token Diff
+
+  <details open><summary>Added (1)</summary>
+
+  - `component-size-maximum-perspective-down`
+
+  </details>
+
 ## 13.0.0-beta.55
 
 ### Minor Changes
