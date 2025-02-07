@@ -1,5 +1,29 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.57
+
+### Minor Changes
+
+- [#466](https://github.com/adobe/spectrum-tokens/pull/466) [`53ac0c8`](https://github.com/adobe/spectrum-tokens/commit/53ac0c8ffb8836c636ca990d5802b61eb4ad7c61) Thanks [@larz0](https://github.com/larz0)! - Updated popover border colors:
+
+  popover-border-color: transparent-white-25 (light theme)
+  popover-border-color: gray-400 (dark theme)
+
+  ## Design Motivation
+
+  We've received feedback from Adobe Concept (Kelly Hurlburt) that `1px` `gray-200` border in dark theme doesn't provide sufficient visual contrast when used on `background-color-layer-2`.
+
+  ## Token Diff
+
+  Updated (1)
+
+  `popover-border-color`:
+
+  - `schema`: `alias.json` -> `color-set.json`
+  - `value`: `gray-200` ->
+    - `light.value`: `transparent-white-25`
+    - `dark.value`: `gray-400`
+
 ## 13.0.0-beta.56
 
 ### Minor Changes
