@@ -5329,5 +5329,55 @@
     },
     "private": true,
     "uuid": "336a0cef-c962-4847-9eba-2d6e9571c790"
+  },
+  "static-blue-900": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    "value": "rgb(59, 99, 251)",
+    "uuid": "a77887aa-da75-41bd-8bc1-43e41ab5132f"
+  },
+  "static-blue-1000": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    "value": "rgb(39, 77, 234)",
+    "uuid": "fe65be29-fd3b-4712-84c9-d8ef84a94a53"
+  },
+  "static-fuchsia-900": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    "value": "rgb(181, 57, 200)",
+    "uuid": "6d329081-9b84-47d5-a7ec-e01726a22c3c"
+  },
+  "static-fuchsia-1000": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    "value": "rgb(156, 40, 175)",
+    "uuid": "b7318f1c-ce64-43f3-b405-f71554b22f69"
+  },
+  "static-indigo-900": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    "value": "rgb(113, 85, 250)",
+    "uuid": "b458f7a4-eb22-4741-9a5a-f65c9f4a4e63"
+  },
+  "static-indigo-1000": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    "value": "rgb(99, 56, 238)",
+    "uuid": "c938f37b-23a3-424a-b6de-9fe3289e9b46"
+  },
+  "static-magenta-900": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    "value": "rgb(217, 35, 97)",
+    "uuid": "dff48efb-7044-427f-94ad-625e1a5780ab"
+  },
+  "static-magenta-1000": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    "value": "rgb(186, 22, 80)",
+    "uuid": "a8375133-a8ba-4537-83ab-83b6948adcd8"
+  },
+  "static-red-900": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    "value": "rgb(215, 50, 32)",
+    "uuid": "f76d5058-5a46-4678-b467-2f7cb1b97297"
+  },
+  "static-red-1000": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    "value": "rgb(183, 40, 24)",
+    "uuid": "c6d6fd48-385e-4e39-98e7-e4d7d7f060ed"
   }
 }
