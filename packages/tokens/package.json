@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-tokens",
-  "version": "13.0.0-beta.58",
+  "version": "0.0.0-s2-composite-drop-shadow-20250304212317",
   "description": "Design tokens for Spectrum, Adobe's design system",
   "type": "module",
   "main": "index.js",
