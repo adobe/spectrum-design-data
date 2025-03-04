@@ -2070,5 +2070,86 @@
         "uuid": "fcb0fe04-3498-4cfa-964d-5134bbcc74c6"
       }
     }
+  },
+  "drop-shadow-emphasized-default-ambient": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json",
+        "value": {
+          "x": "0px",
+          "y": "2px",
+          "blur": "8px",
+          "spread": "0px",
+          "color": "rgba(0,0,0,0.08)"
+        },
+        "uuid": "5543d503-e37c-4db2-9f4e-b92f38288ceb"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json",
+        "value": {
+          "x": "0px",
+          "y": "2px",
+          "blur": "8px",
+          "spread": "0px",
+          "color": "rgba(0,0,0,0.2)"
+        },
+        "uuid": "074feead-56ca-449f-a9e9-8482b86d9837"
+      }
+    }
+  },
+  "drop-shadow-emphasized-default-transition": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json",
+        "value": {
+          "x": "0px",
+          "y": "1px",
+          "blur": "4px",
+          "spread": "0px",
+          "color": "rgba(0,0,0,0.04)"
+        },
+        "uuid": "4c9f2e38-8266-4c55-8a52-6505f70633ff"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json",
+        "value": {
+          "x": "0px",
+          "y": "1px",
+          "blur": "4px",
+          "spread": "0px",
+          "color": "rgba(0,0,0,0.1)"
+        },
+        "uuid": "ca7e5fb0-3769-4ee6-a7cc-51d34b44ccad"
+      }
+    }
+  },
+  "drop-shadow-emphasized-default-transition-key": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json",
+        "value": {
+          "x": "0px",
+          "y": "0px",
+          "blur": "1px",
+          "spread": "0px",
+          "color": "rgba(0,0,0,0.08)"
+        },
+        "uuid": "3b089e74-5396-4f13-a6bf-d9eda8e3040c"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json",
+        "value": {
+          "x": "0px",
+          "y": "0px",
+          "blur": "1px",
+          "spread": "0px",
+          "color": "rgba(0,0,0,0.2)"
+        },
+        "uuid": "dd8f9556-49d3-4318-ae25-78bc1bc6c99a"
+      }
+    }
   }
 }

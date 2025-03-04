@@ -9,18 +9,38 @@
       "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json"
     }
   ],
-  "properties": {
-    "$schema": {
-      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json"
+  "anyOf": [
+    {
+      "properties": {
+        "$schema": {
+          "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json"
+        },
+        "value": {
+          "type": "number",
+          "multipleOf": 0.00000001
+        },
+        "component": {},
+        "private": {},
+        "deprecated": {},
+        "deprecated_comment": {},
+        "uuid": {}
+      }
     },
-    "value": {
-      "type": "number",
-      "pattern": "^(?:\\d+\\.?\\d*)|(?:\\.?\\d+)$"
-    },
-    "component": {},
-    "private": {},
-    "deprecated": {},
-    "deprecated_comment": {},
-    "uuid": {}
-  }
+    {
+      "properties": {
+        "$schema": {
+          "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json"
+        },
+        "value": {
+          "type": "number",
+          "multipleOf": 0.0003
+        },
+        "component": {},
+        "private": {},
+        "deprecated": {},
+        "deprecated_comment": {},
+        "uuid": {}
+      }
+    }
+  ]
 }

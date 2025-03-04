@@ -57,6 +57,20 @@
             }
           },
           "required": ["light", "dark"]
+        },
+        {
+          "properties": {
+            "light": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json"
+            },
+            "dark": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json"
+            },
+            "wireframe": {
+              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json"
+            }
+          },
+          "required": ["light", "dark"]
         }
       ]
     },
