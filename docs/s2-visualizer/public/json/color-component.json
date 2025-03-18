@@ -1,0 +1,69 @@
+{
+  "swatch-border-color": {
+    "component": "swatch",
+    "value": "{gray-900}"
+  },
+  "swatch-border-opacity": {
+    "component": "swatch",
+    "value": "0.51"
+  },
+  "swatch-disabled-icon-border-color": {
+    "component": "swatch",
+    "value": "{black}"
+  },
+  "swatch-disabled-icon-border-opacity": {
+    "component": "swatch",
+    "value": "0.51"
+  },
+  "thumbnail-border-color": {
+    "component": "thumbnail",
+    "value": "{gray-800}"
+  },
+  "thumbnail-border-opacity": {
+    "component": "thumbnail",
+    "value": "0.1"
+  },
+  "thumbnail-opacity-disabled": {
+    "component": "thumbnail",
+    "value": "{opacity-disabled}"
+  },
+  "opacity-checkerboard-square-light": {
+    "component": "opacity-checkerboard",
+    "value": "{white}"
+  },
+  "opacity-checkerboard-square-dark": {
+    "component": "opacity-checkerboard",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "value": "{gray-200}"
+      },
+      "dark": {
+        "value": "{gray-800}"
+      },
+      "darkest": {
+        "value": "{gray-800}"
+      }
+    }
+  },
+  "avatar-opacity-disabled": {
+    "component": "avatar",
+    "value": "{opacity-disabled}"
+  },
+  "color-area-border-color": {
+    "component": "color-area",
+    "value": "{gray-900}"
+  },
+  "color-area-border-opacity": {
+    "component": "color-area",
+    "value": "0.1"
+  },
+  "color-slider-border-color": {
+    "component": "color-slider",
+    "value": "{gray-900}"
+  },
+  "color-slider-border-opacity": {
+    "component": "color-slider",
+    "value": "0.1"
+  }
+}

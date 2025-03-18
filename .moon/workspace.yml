@@ -3,9 +3,11 @@ $schema: "https://moonrepo.dev/schemas/workspace.json"
 projects:
   tokens: "packages/tokens"
   visualizer: "docs/visualizer"
+  s2-visualizer: "docs/s2-visualizer"
   site: "docs/site"
-  root: "."
   csvGenerator: tools/token-csv-generator
+  transform-tokens-json: "tools/transform-tokens-json"
+  root: "."
   diff: "tools/diff-generator"
   tdiff: "docs/token-diff"
 vcs:

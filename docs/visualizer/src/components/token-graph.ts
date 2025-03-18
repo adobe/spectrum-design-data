@@ -403,13 +403,13 @@ export class TokenGraph extends LitElement {
                 isOnAncestorPath && isOnDescendentPath
                   ? "selectionConnection"
                   : // orange
-                  isOnAncestorPath
-                  ? "ancestorPath"
-                  : // blue
-                  isOnDescendentPath
-                  ? "descendentPath"
-                  : // purple
-                    "descendentPath"; // may momentarily have this color on defocus before the next render pass
+                    isOnAncestorPath
+                    ? "ancestorPath"
+                    : // blue
+                      isOnDescendentPath
+                      ? "descendentPath"
+                      : // purple
+                        "descendentPath"; // may momentarily have this color on defocus before the next render pass
 
               // const labelColor = isInHoverUpstream ? "#D341D5" : "#FFFFFF";
               // const labelColor = "#000000";

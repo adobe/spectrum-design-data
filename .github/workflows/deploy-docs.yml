@@ -36,6 +36,7 @@ jobs:
       - run: moon setup
       - run: moon run site:export
       - run: moon run visualizer:build
+      - run: moon run s2-visualizer:build
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

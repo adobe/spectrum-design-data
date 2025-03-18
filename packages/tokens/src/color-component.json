@@ -2,13 +2,13 @@
   "swatch-border-color": {
     "component": "swatch",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{gray-900}",
+    "value": "{gray-1000}",
     "uuid": "7da5157d-7f25-405b-8de0-f3669565fb48"
   },
   "swatch-border-opacity": {
     "component": "swatch",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
-    "value": "0.51",
+    "value": "0.42",
     "uuid": "0e397a80-cf33-44ed-8b7d-1abaf4426bf5"
   },
   "swatch-disabled-icon-border-color": {
@@ -20,7 +20,7 @@
   "swatch-disabled-icon-border-opacity": {
     "component": "swatch",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
-    "value": "0.51",
+    "value": "0.42",
     "uuid": "cdbba3b6-cb51-4fec-88f0-273d4bb59a18"
   },
   "thumbnail-border-color": {
@@ -59,11 +59,6 @@
       "dark": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{gray-800}",
-        "uuid": "5dbb3e96-fe86-43a2-be8b-3ceecfe2d5ba"
-      },
-      "darkest": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{gray-800}",
         "uuid": "f783b8cb-d31f-46c2-b550-990639752510"
       },
       "wireframe": {
@@ -71,8 +66,7 @@
         "value": "{gray-200}",
         "uuid": "e7fe88a4-6ab3-4963-8f10-9908a5a83123"
       }
-    },
-    "uuid": "0b807f40-d63e-4482-8d53-18fadc9663d5"
+    }
   },
   "avatar-opacity-disabled": {
     "component": "avatar",
@@ -83,7 +77,7 @@
   "color-area-border-color": {
     "component": "color-area",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{gray-900}",
+    "value": "{gray-1000}",
     "uuid": "70fc4674-0f09-48f5-8850-48b4b38c2f01"
   },
   "color-area-border-opacity": {
@@ -95,7 +89,7 @@
   "color-slider-border-color": {
     "component": "color-slider",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{gray-900}",
+    "value": "{gray-1000}",
     "uuid": "0c85e7fa-f950-436c-a68a-dd7fb8dfac9e"
   },
   "color-slider-border-opacity": {
@@ -107,8 +101,24 @@
   "color-loupe-drop-shadow-color": {
     "component": "color-loupe",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{transparent-black-300}",
-    "uuid": "918b8089-d89f-45d2-8c9c-f3f13f81b0b9"
+    "value": "{drop-shadow-elevated-color}",
+    "uuid": "918b8089-d89f-45d2-8c9c-f3f13f81b0b9",
+    "deprecated": true,
+    "deprecated_comment": "Use `drop-shadow-elevated-color` instead"
+  },
+  "color-loupe-drop-shadow-y": {
+    "component": "color-loupe",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{drop-shadow-elevated-y}",
+    "uuid": "c9af5d60-11b1-4fc3-972e-6a607120657b",
+    "deprecated": true
+  },
+  "color-loupe-drop-shadow-blur": {
+    "component": "color-loupe",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{drop-shadow-elevated-blur}",
+    "uuid": "86caa027-9e9e-4a5f-aa38-058f0a96bc9d",
+    "deprecated": true
   },
   "color-loupe-inner-border": {
     "component": "color-loupe",
@@ -123,13 +133,13 @@
     "uuid": "4e1d1cc5-736e-4e82-9054-5c1a74ac1aca"
   },
   "card-selection-background-color": {
-    "component": "cards",
+    "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-100}",
     "uuid": "622c6e86-dea6-416d-9f13-bb6ef112d3cb"
   },
   "card-selection-background-color-opacity": {
-    "component": "cards",
+    "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.95",
     "uuid": "ac039445-0bf8-4821-b02e-e7e06a416576"
@@ -184,9 +194,9 @@
   },
   "color-handle-drop-shadow-color": {
     "component": "color-handle",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "deprecated": true,
     "deprecated_comment": "Express does not need a separate design for Color loupe and Color handle components",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{drop-shadow-color}",
     "uuid": "97dfaf7f-ac2d-4517-84cc-6f692f712fc5"
   },
@@ -198,11 +208,11 @@
   },
   "floating-action-button-shadow-color": {
     "component": "floating-action-button",
-    "deprecated": true,
-    "deprecated_comment": "Use `floating-action-button-drop-shadow-color` instead",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{floating-action-button-drop-shadow-color}",
-    "uuid": "f843b1b7-4b2f-496e-a679-b0372e49d575"
+    "uuid": "f843b1b7-4b2f-496e-a679-b0372e49d575",
+    "deprecated": true,
+    "deprecated_comment": "Use `floating-action-button-drop-shadow-color` instead"
   },
   "table-row-hover-color": {
     "component": "table",
@@ -257,5 +267,247 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "6a093ea1-f07e-4673-b52f-5b28a2e080d0"
+  },
+  "menu-item-background-color-default": {
+    "component": "menu-item",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "f4d97d6a-c1f3-4ef5-b7e5-8fbee1365a83"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "9b9e8b32-46b8-470d-85b9-352c00e90138"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "9f60dd0a-2a38-4f0d-a83c-3acf777a622a"
+      }
+    }
+  },
+  "menu-item-background-color-hover": {
+    "component": "menu-item",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "857e82a6-537e-4534-9084-353c5401f567"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "f68ff159-e886-4519-b95e-e93879a2f535"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "d3d08f7a-c516-4f0c-9377-4824d615ab66"
+      }
+    }
+  },
+  "menu-item-background-color-down": {
+    "component": "menu-item",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "d609bd79-ab48-4a7a-95b1-da5a88ac5338"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "7ccdd9e8-3677-4de8-b9df-19efa80d88c0"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "a8911c6e-f480-4a7d-b7fe-e20a45fb8b2a"
+      }
+    }
+  },
+  "menu-item-background-color-keyboard-focus": {
+    "component": "menu-item",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "dd044387-57b9-4867-90fa-b3c4c4a62e5c"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "ae9dc785-2406-407e-ab47-d42d6fbf65f6"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "541a7020-5cf5-4ebd-ac1f-2b776d5925af"
+      }
+    }
+  },
+  "menu-item-background-color-disabled": {
+    "component": "menu-item",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "211d6540-cf9d-4d80-815b-885844283fa6"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "0e2c2900-180c-443a-86ff-49170166e616"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "ce26d102-2e5e-4b11-b9bf-4d1b347c60c5"
+      }
+    }
+  },
+  "popover-border-color": {
+    "component": "popover",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{transparent-white-25}",
+        "uuid": "66da6f53-5446-43c1-bbe0-73b46763fde1"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-400}",
+        "uuid": "825dc035-7b1c-4ddd-b1a9-be1546dae7e3"
+      }
+    }
+  },
+  "popover-border-opacity": {
+    "component": "popover",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "value": "0",
+        "uuid": "05c58363-1d34-4991-a7f7-7be7da4df50a"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "value": "1.0",
+        "uuid": "fa9feacc-0c82-41a7-badc-5803c45a703b"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "value": "0",
+        "uuid": "d8f81d4f-b921-4a41-89c1-cdc79d40901a"
+      }
+    }
+  },
+  "coach-indicator-color": {
+    "component": "coach-indicator",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-800}",
+    "uuid": "bfd387b8-0ce0-45ff-8d66-fc5de2f4900c"
+  },
+  "swatch-group-border-color": {
+    "component": "swatch-group",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-1000}",
+    "uuid": "08b8d06a-5475-47bf-ad2e-9f52ee07345a"
+  },
+  "avatar-border-color": {
+    "component": "avatar",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-25}",
+    "uuid": "bae79ea7-2b3e-4d43-af42-7deab67acc7c"
+  },
+  "standard-panel-gripper-color-drag": {
+    "component": "standard-panel",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-800}",
+    "uuid": "69e2d0b3-6807-4e46-9f8a-72bf49439f36"
+  },
+  "standard-panel-gripper-color": {
+    "component": "standard-panel",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-200}",
+    "uuid": "71840c7b-acdd-45b9-a228-5091591f5405"
+  },
+  "bar-panel-gripper-color": {
+    "component": "bar-panel",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-200}",
+    "uuid": "5a46c025-32b4-4bda-bab0-5ab0fb69ca8e"
+  },
+  "bar-panel-gripper-color-drag": {
+    "component": "bar-panel",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-800}",
+    "uuid": "16431c28-23e4-4077-bcfa-138f90583282"
+  },
+  "select-box-selected-border-color": {
+    "component": "select-box",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-800}",
+    "uuid": "4bbb81b1-09fb-4ebe-80b5-cebb75c13839"
+  },
+  "tree-view-row-background-hover": {
+    "component": "tree-view",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "39d26185-da40-47b5-b4b3-e47689129256"
+  },
+  "tree-view-selected-row-background-color-emphasized": {
+    "component": "tree-view",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{informative-background-color-default}",
+    "uuid": "65854450-ed1a-49ea-ab29-d257b8a0569e"
+  },
+  "tree-view-selected-row-background-default": {
+    "component": "tree-view",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "8f19994d-f49a-42ea-97bd-98ab1d76d02d"
+  },
+  "tree-view-selected-row-background-hover": {
+    "component": "tree-view",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "c325ed8f-8248-40c3-a0f0-efba57638f24"
+  },
+  "color-wheel-border-color": {
+    "component": "color-wheel",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-1000}",
+    "uuid": "a60c3946-dff7-4245-bdcd-b61445066e48"
+  },
+  "color-wheel-border-opacity": {
+    "component": "color-wheel",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "be8fac27-b644-492e-a89d-6c87cfecb8a1"
+  },
+  "action-bar-border-color": {
+    "component": "action-bar",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{transparent-white-25}",
+        "uuid": "166159cc-9353-4d22-90f0-64718533d73a"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{gray-400}",
+        "uuid": "dac0d761-d8c1-4b1f-bfbe-766651122ecf"
+      }
+    }
   }
 }

@@ -220,9 +220,8 @@ export class GraphController {
   async hydrateFromJson() {
     const filters = this.appState.setFilters;
 
-    this.completeGraphModel = await this.graphDataSource.getFilteredGraphModel(
-      filters,
-    );
+    this.completeGraphModel =
+      await this.graphDataSource.getFilteredGraphModel(filters);
 
     this.listOfComponents = await this.graphDataSource.getAllComponentNames();
 

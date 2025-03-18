@@ -51,7 +51,7 @@ interface RawSpectrumTokenJson {
 }
 
 const SOURCE_PATH =
-  "https://raw.githubusercontent.com/adobe/spectrum-tokens/main/packages/tokens/";
+  "https://raw.githubusercontent.com/adobe/spectrum-tokens/s1-legacy/packages/tokens/";
 
 const MANIFEST_JSON = "manifest.json";
 

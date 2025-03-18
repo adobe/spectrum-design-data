@@ -1,255 +1,83 @@
 {
   "accent-color-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-100}",
-        "uuid": "2e080bb5-6f2c-4fd9-96a2-bf9fc19d2649"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-100}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "f9fc7606-b699-46e7-b139-aeefc287923c"
-      }
-    },
-    "uuid": "0dd9c008-b20f-4a51-be59-67d9530877ff"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-100}",
+    "uuid": "2e080bb5-6f2c-4fd9-96a2-bf9fc19d2649"
   },
   "accent-color-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-200}",
-        "uuid": "cf583998-4dfd-4222-a554-8e05ed7fb5d6"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-200}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "78e50d0b-78a0-46c4-8262-417143f00902"
-      }
-    },
-    "uuid": "d4850a3d-cce3-4cd5-ba44-27281cad5934"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-200}",
+    "uuid": "cf583998-4dfd-4222-a554-8e05ed7fb5d6"
   },
   "accent-color-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-300}",
-        "uuid": "ea67f054-1f42-427e-a768-beb8d21de2a3"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-300}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "d014e1e8-a5f8-4169-8c43-d69afd07847a"
-      }
-    },
-    "uuid": "89c05b32-63f5-46ed-abe1-a36247bd9797"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-300}",
+    "uuid": "ea67f054-1f42-427e-a768-beb8d21de2a3"
   },
   "accent-color-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-400}",
-        "uuid": "a249e4b1-e6f9-4ef3-96c6-1559059839a7"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-400}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "1b70bc67-7877-4f92-8ce4-1abd2665fab1"
-      }
-    },
-    "uuid": "794b3679-1bcf-4c64-a55b-99be3f7676e5"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-400}",
+    "uuid": "a249e4b1-e6f9-4ef3-96c6-1559059839a7"
   },
   "accent-color-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-500}",
-        "uuid": "c1c0e6fb-ce21-49d7-91bb-73ce873aa69f"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-500}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "06246e8e-44da-49a3-8d65-7f3ce1ec8128"
-      }
-    },
-    "uuid": "6eee723c-d9dd-4b14-ab44-75779c44f59e"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-500}",
+    "uuid": "c1c0e6fb-ce21-49d7-91bb-73ce873aa69f"
   },
   "accent-color-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-600}",
-        "uuid": "5a2000be-5640-4389-a128-b2c164ad2253"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-600}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "eaee7f34-1725-411e-9a23-2331167e08f5"
-      }
-    },
-    "uuid": "11e391f6-66f0-4ed0-b70a-3f3d3a0e2f90"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-600}",
+    "uuid": "5a2000be-5640-4389-a128-b2c164ad2253"
   },
   "accent-color-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-700}",
-        "uuid": "a8fbe39b-db6d-4bb4-a7c5-8a235060d2ae"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-700}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "5c7ac5cc-4fe4-4392-a5c3-4274cd15a48e"
-      }
-    },
-    "uuid": "fc2868a8-1b1b-4da7-a51f-7faa6e7f7d4d"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-700}",
+    "uuid": "a8fbe39b-db6d-4bb4-a7c5-8a235060d2ae"
   },
   "accent-color-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-800}",
-        "uuid": "87a2c8f0-54fd-4939-8f42-3124fde1e49e"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-800}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "3cf62c35-1e2e-4400-886f-473de9e8a958"
-      }
-    },
-    "uuid": "85bd13e9-ff5a-419d-bc33-97fd44cf1789"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-800}",
+    "uuid": "87a2c8f0-54fd-4939-8f42-3124fde1e49e"
   },
   "accent-color-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-900}",
-        "uuid": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-900}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "42d37753-8b78-4328-a895-7b74d9a7aa86"
-      }
-    },
-    "uuid": "23cb9c14-f3cf-430b-9d0c-4749160542d8"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-900}",
+    "uuid": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54"
   },
   "accent-color-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-1000}",
-        "uuid": "9bf3fa2f-75d3-44d3-ae30-d88893665366"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-1000}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "b848c6ce-f921-4303-b298-20e359a1aa2e"
-      }
-    },
-    "uuid": "203cf947-661e-4e96-8d13-5f0d3e9237bf"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-1000}",
+    "uuid": "9bf3fa2f-75d3-44d3-ae30-d88893665366"
   },
   "accent-color-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-1100}",
-        "uuid": "f7f853a5-f091-4a7e-8aea-68d060c840f0"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-1100}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "46991cf0-e4e5-4c32-a140-4589e2456523"
-      }
-    },
-    "uuid": "80493b68-bdd4-4478-8ec1-2049922382be"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-1100}",
+    "uuid": "f7f853a5-f091-4a7e-8aea-68d060c840f0"
   },
   "accent-color-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-1200}",
-        "uuid": "7c141cdb-1e5e-468a-ba48-0df01b275402"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-1200}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "7de1e3f0-a5b3-4a09-955b-242ff78dbaa9"
-      }
-    },
-    "uuid": "eeed3404-3bde-4bb6-975f-556ec92297bd"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-1200}",
+    "uuid": "7c141cdb-1e5e-468a-ba48-0df01b275402"
   },
   "accent-color-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-1300}",
-        "uuid": "f7307eba-e311-41a8-bb50-0b1e96833dfa"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-1300}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "a598813b-347f-4528-aa35-94b6642985db"
-      }
-    },
-    "uuid": "0083814f-7761-4a52-97e3-ca154d7b8603"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-1300}",
+    "uuid": "f7307eba-e311-41a8-bb50-0b1e96833dfa"
   },
   "accent-color-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
-    "sets": {
-      "spectrum": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{blue-1400}",
-        "uuid": "06585cf4-a924-49b2-b6c8-f0e80b57c576"
-      },
-      "express": {
-        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{indigo-1400}",
-        "deprecated": true,
-        "deprecated_comment": "Express will merge with Spectrum with the release of Spectrum 2.",
-        "uuid": "12c250df-6088-4c20-8b04-59814d53ed7a"
-      }
-    },
-    "uuid": "1124ea0a-6ba1-4b7e-852e-db760d182a97"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-1400}",
+    "uuid": "06585cf4-a924-49b2-b6c8-f0e80b57c576"
+  },
+  "accent-color-1500": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-1500}",
+    "uuid": "c43d9991-8929-4b1c-8631-670eef6bde83"
+  },
+  "accent-color-1600": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-1600}",
+    "uuid": "4b70c929-f48d-403d-9607-5963203433dc"
   },
   "informative-color-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
@@ -321,6 +149,16 @@
     "value": "{blue-1400}",
     "uuid": "b178b13b-93ee-422c-af98-3bf89105754b"
   },
+  "informative-color-1500": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-1500}",
+    "uuid": "beeee44c-dc6b-4892-949e-67f069fc4a94"
+  },
+  "informative-color-1600": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-1600}",
+    "uuid": "68aa069d-d8a6-413a-b330-0ec6af905e6d"
+  },
   "negative-color-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{red-100}",
@@ -390,6 +228,16 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{red-1400}",
     "uuid": "58824d04-e2c0-4f0c-a3d7-9b88a01bf28d"
+  },
+  "negative-color-1500": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{red-1500}",
+    "uuid": "b4c1f747-e665-43bb-a1a9-1bf9f252471d"
+  },
+  "negative-color-1600": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{red-1600}",
+    "uuid": "62beb7ee-c347-4cd7-a84b-40c84fcbc135"
   },
   "notice-color-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
@@ -461,6 +309,16 @@
     "value": "{orange-1400}",
     "uuid": "4eccc44a-1cd5-4d9e-8627-18f7a363d3c8"
   },
+  "notice-color-1500": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{orange-1500}",
+    "uuid": "3da89d37-cf33-4408-b316-05bb61c25759"
+  },
+  "notice-color-1600": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{orange-1600}",
+    "uuid": "67e534f5-5421-493c-9324-624f0fd491f3"
+  },
   "positive-color-100": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{green-100}",
@@ -530,5 +388,139 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{green-1400}",
     "uuid": "eb2fdab7-ea9e-42a3-a3d1-f9beec0c7b66"
+  },
+  "positive-color-1500": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{green-1500}",
+    "uuid": "2381ba55-11ff-4ef0-a770-dfd402650d5d"
+  },
+  "positive-color-1600": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{green-1600}",
+    "uuid": "de206438-991f-4580-8aa1-1488acb03a09"
+  },
+  "negative-subdued-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{negative-subtle-background-color-default}",
+    "uuid": "a553db3e-a051-4023-87eb-da6545b983b2",
+    "deprecated": true
+  },
+  "negative-subdued-background-color-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{negative-color-300}",
+    "uuid": "9513cf13-8537-443f-81ce-f9d88292ba32",
+    "deprecated": true
+  },
+  "negative-subdued-background-color-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{negative-color-300}",
+    "uuid": "1eea917c-52e7-4295-b0e1-d33c2e73a137",
+    "deprecated": true
+  },
+  "negative-subdued-background-color-key-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{negative-color-300}",
+    "uuid": "4b6aaf76-e0ab-4be0-81c0-d5f64cacee88",
+    "deprecated": true
+  },
+  "informative-subtle-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{informative-color-200}",
+        "uuid": "62dfb07f-5eee-451c-9c77-745d8f714766"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{informative-color-300}",
+        "uuid": "4cbe010f-0608-47e3-bf27-c7da70a70b9e"
+      }
+    }
+  },
+  "positive-subtle-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{positive-color-200}",
+        "uuid": "57a1aa8f-5c06-4ff6-8d1c-0e278a433ebf"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{positive-color-300}",
+        "uuid": "c7644c81-1b2c-40ee-b3a6-b25e88fc34ea"
+      }
+    }
+  },
+  "notice-subtle-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{notice-color-200}",
+        "uuid": "f0799e87-dbb2-4e71-8253-65f45eddc078"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{notice-color-300}",
+        "uuid": "c9bfd62b-95c7-47d3-bace-ce3f2bfaade8"
+      }
+    }
+  },
+  "negative-subtle-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{negative-color-200}",
+        "uuid": "8e9429cf-4c89-47be-bc6e-eeecc632aeb1"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{negative-color-300}",
+        "uuid": "c7575b76-8035-4037-8bd5-e8bdb82bddc3"
+      }
+    }
+  },
+  "icon-color-informative": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{informative-visual-color}",
+    "uuid": "2296b0de-6231-4f89-9992-499b67c6879c"
+  },
+  "icon-color-neutral": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{neutral-visual-color}",
+    "uuid": "29f5b73c-e8e8-4162-b9af-5a8e327baab8"
+  },
+  "icon-color-positive": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{positive-visual-color}",
+    "uuid": "02f093b3-ab51-42e7-8f6e-26bc7c7cba63"
+  },
+  "icon-color-notice": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{notice-visual-color}",
+    "uuid": "4bdb8681-f7a1-4bbe-b788-a64c6f9df6ea"
+  },
+  "icon-color-negative": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{negative-visual-color}",
+    "uuid": "adf2a3f0-d1cd-4b53-8a9c-47ab9cb7bb0f"
+  },
+  "accent-subtle-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{accent-color-200}",
+        "uuid": "97293b77-c21d-4ba1-bd2c-5d1de37d75eb"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{accent-color-300}",
+        "uuid": "c120499e-98c4-442d-971f-31dee8d16c4d"
+      }
+    }
   }
 }

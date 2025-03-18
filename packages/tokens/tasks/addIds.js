@@ -1,5 +1,5 @@
 /*
-Copyright 2023 Adobe. All rights reserved.
+Copyright 2024 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,12 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { glob } from "glob";
 import crypto from "crypto"; // (not the fake money)
 import { writeFile, readFile } from "fs/promises";
-
-const files = await glob("src/**/*.json");
-console.log(files);
+import { tokenFileNames, writeJson } from "../index.js";
 
 const VALUE = "value";
 const UUID = "uuid";
@@ -64,7 +61,7 @@ function addUUIDs(json) {
 }
 
 // run through the files and find uuids
-for (const fileName of files) {
+for (const fileName of tokenFileNames) {
   const fileData = await readFile(fileName, "utf8");
   const fileJSON = JSON.parse(fileData);
 
@@ -72,7 +69,7 @@ for (const fileName of files) {
 }
 
 // run through the files and add uuids
-for (const fileName of files) {
+for (const fileName of tokenFileNames) {
   const fileData = await readFile(fileName, "utf8");
   const fileJSON = JSON.parse(fileData);
 
@@ -80,7 +77,7 @@ for (const fileName of files) {
 
   addUUIDs(fileJSON);
 
-  await writeFile(fileName, JSON.stringify(fileJSON, null, 2));
+  await writeJson(fileName, fileJSON);
 
   if (uuids.length !== existing) {
     console.log(`  added: ${fileName} ${uuids.length - existing} uuids`);

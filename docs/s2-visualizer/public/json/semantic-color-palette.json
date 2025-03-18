@@ -1,0 +1,324 @@
+{
+  "accent-color-100": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-100}"
+      },
+      "express": {
+        "value": "{indigo-100}"
+      }
+    }
+  },
+  "accent-color-200": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-200}"
+      },
+      "express": {
+        "value": "{indigo-200}"
+      }
+    }
+  },
+  "accent-color-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-300}"
+      },
+      "express": {
+        "value": "{indigo-300}"
+      }
+    }
+  },
+  "accent-color-400": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-400}"
+      },
+      "express": {
+        "value": "{indigo-400}"
+      }
+    }
+  },
+  "accent-color-500": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-500}"
+      },
+      "express": {
+        "value": "{indigo-500}"
+      }
+    }
+  },
+  "accent-color-600": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-600}"
+      },
+      "express": {
+        "value": "{indigo-600}"
+      }
+    }
+  },
+  "accent-color-700": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-700}"
+      },
+      "express": {
+        "value": "{indigo-700}"
+      }
+    }
+  },
+  "accent-color-800": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-800}"
+      },
+      "express": {
+        "value": "{indigo-800}"
+      }
+    }
+  },
+  "accent-color-900": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-900}"
+      },
+      "express": {
+        "value": "{indigo-900}"
+      }
+    }
+  },
+  "accent-color-1000": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-1000}"
+      },
+      "express": {
+        "value": "{indigo-1000}"
+      }
+    }
+  },
+  "accent-color-1100": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-1100}"
+      },
+      "express": {
+        "value": "{indigo-1100}"
+      }
+    }
+  },
+  "accent-color-1200": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-1200}"
+      },
+      "express": {
+        "value": "{indigo-1200}"
+      }
+    }
+  },
+  "accent-color-1300": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-1300}"
+      },
+      "express": {
+        "value": "{indigo-1300}"
+      }
+    }
+  },
+  "accent-color-1400": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    "sets": {
+      "spectrum": {
+        "value": "{blue-1400}"
+      },
+      "express": {
+        "value": "{indigo-1400}"
+      }
+    }
+  },
+  "informative-color-100": {
+    "value": "{blue-100}"
+  },
+  "informative-color-200": {
+    "value": "{blue-200}"
+  },
+  "informative-color-300": {
+    "value": "{blue-300}"
+  },
+  "informative-color-400": {
+    "value": "{blue-400}"
+  },
+  "informative-color-500": {
+    "value": "{blue-500}"
+  },
+  "informative-color-600": {
+    "value": "{blue-600}"
+  },
+  "informative-color-700": {
+    "value": "{blue-700}"
+  },
+  "informative-color-800": {
+    "value": "{blue-800}"
+  },
+  "informative-color-900": {
+    "value": "{blue-900}"
+  },
+  "informative-color-1000": {
+    "value": "{blue-1000}"
+  },
+  "informative-color-1100": {
+    "value": "{blue-1100}"
+  },
+  "informative-color-1200": {
+    "value": "{blue-1200}"
+  },
+  "informative-color-1300": {
+    "value": "{blue-1300}"
+  },
+  "informative-color-1400": {
+    "value": "{blue-1400}"
+  },
+  "negative-color-100": {
+    "value": "{red-100}"
+  },
+  "negative-color-200": {
+    "value": "{red-200}"
+  },
+  "negative-color-300": {
+    "value": "{red-300}"
+  },
+  "negative-color-400": {
+    "value": "{red-400}"
+  },
+  "negative-color-500": {
+    "value": "{red-500}"
+  },
+  "negative-color-600": {
+    "value": "{red-600}"
+  },
+  "negative-color-700": {
+    "value": "{red-700}"
+  },
+  "negative-color-800": {
+    "value": "{red-800}"
+  },
+  "negative-color-900": {
+    "value": "{red-900}"
+  },
+  "negative-color-1000": {
+    "value": "{red-1000}"
+  },
+  "negative-color-1100": {
+    "value": "{red-1100}"
+  },
+  "negative-color-1200": {
+    "value": "{red-1200}"
+  },
+  "negative-color-1300": {
+    "value": "{red-1300}"
+  },
+  "negative-color-1400": {
+    "value": "{red-1400}"
+  },
+  "notice-color-100": {
+    "value": "{orange-100}"
+  },
+  "notice-color-200": {
+    "value": "{orange-200}"
+  },
+  "notice-color-300": {
+    "value": "{orange-300}"
+  },
+  "notice-color-400": {
+    "value": "{orange-400}"
+  },
+  "notice-color-500": {
+    "value": "{orange-500}"
+  },
+  "notice-color-600": {
+    "value": "{orange-600}"
+  },
+  "notice-color-700": {
+    "value": "{orange-700}"
+  },
+  "notice-color-800": {
+    "value": "{orange-800}"
+  },
+  "notice-color-900": {
+    "value": "{orange-900}"
+  },
+  "notice-color-1000": {
+    "value": "{orange-1000}"
+  },
+  "notice-color-1100": {
+    "value": "{orange-1100}"
+  },
+  "notice-color-1200": {
+    "value": "{orange-1200}"
+  },
+  "notice-color-1300": {
+    "value": "{orange-1300}"
+  },
+  "notice-color-1400": {
+    "value": "{orange-1400}"
+  },
+  "positive-color-100": {
+    "value": "{green-100}"
+  },
+  "positive-color-200": {
+    "value": "{green-200}"
+  },
+  "positive-color-300": {
+    "value": "{green-300}"
+  },
+  "positive-color-400": {
+    "value": "{green-400}"
+  },
+  "positive-color-500": {
+    "value": "{green-500}"
+  },
+  "positive-color-600": {
+    "value": "{green-600}"
+  },
+  "positive-color-700": {
+    "value": "{green-700}"
+  },
+  "positive-color-800": {
+    "value": "{green-800}"
+  },
+  "positive-color-900": {
+    "value": "{green-900}"
+  },
+  "positive-color-1000": {
+    "value": "{green-1000}"
+  },
+  "positive-color-1100": {
+    "value": "{green-1100}"
+  },
+  "positive-color-1200": {
+    "value": "{green-1200}"
+  },
+  "positive-color-1300": {
+    "value": "{green-1300}"
+  },
+  "positive-color-1400": {
+    "value": "{green-1400}"
+  }
+}

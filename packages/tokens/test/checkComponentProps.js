@@ -17,9 +17,13 @@ test("ensure all component tokens are have component data", async (t) => {
   const tokenData = {
     ...(await getFileTokens("color-component.json")),
     ...(await getFileTokens("layout-component.json")),
+    ...(await getFileTokens("icons.json")),
   };
-  const result = Object.keys(tokenData).filter(
-    (tokenName) => !Object.hasOwn(tokenData[tokenName], "component"),
-  );
+  const result = Object.keys(tokenData).filter((tokenName) => {
+    return (
+      !Object.hasOwn(tokenData[tokenName], "component") ||
+      tokenName.indexOf(tokenData[tokenName].component) != 0
+    );
+  });
   t.deepEqual(result, []);
 });

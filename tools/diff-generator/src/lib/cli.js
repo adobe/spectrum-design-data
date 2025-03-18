@@ -27,7 +27,7 @@ import storeOutput from "./store-output.js";
 import { githubAPIKey } from "../../github-api-key.js";
 
 /* this is updated by the npm prepare script using update-version.js */
-const version = "1.2.0";
+const version = "1.3.0";
 
 const program = new Command();
 
