@@ -1,5 +1,26 @@
 # @adobe/spectrum-tokens
 
+## 0.0.0-s2-composite-drop-shadow-20250319174850
+
+### Minor Changes
+
+- [`eacdbc4`](https://github.com/adobe/spectrum-tokens/commit/eacdbc434cdbae0022b779160dfa74e9a0779be5) Thanks [@GarthDB](https://github.com/GarthDB)! - New composite token type for drop shadow
+
+  ## Token Diff
+
+  **Tokens Changed (3)**
+  main | <code>snapshot-s2-composite-drop-shadow</code>
+
+  ***
+
+  <details open><summary>Added (3)</summary>
+
+  - `drop-shadow-emphasized-default-ambient`
+  - `drop-shadow-emphasized-default-transition`
+  - `drop-shadow-emphasized-default-transition-key`
+
+  </details>
+
 ## 13.1.0
 
 ### Minor Changes

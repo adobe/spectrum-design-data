@@ -1,5 +1,12 @@
 # token-csv-generator
 
+## 0.0.0-s2-composite-drop-shadow-20250319174850
+
+### Patch Changes
+
+- Updated dependencies [[`eacdbc4`](https://github.com/adobe/spectrum-tokens/commit/eacdbc434cdbae0022b779160dfa74e9a0779be5)]:
+  - @adobe/spectrum-tokens@0.0.0-s2-composite-drop-shadow-20250319174850
+
 ## 0.0.7
 
 ### Patch Changes
