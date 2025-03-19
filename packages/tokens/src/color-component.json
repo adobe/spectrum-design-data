@@ -134,9 +134,19 @@
   },
   "card-selection-background-color": {
     "component": "card",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{gray-100}",
-    "uuid": "622c6e86-dea6-416d-9f13-bb6ef112d3cb"
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{transparent-white-600}",
+        "uuid": "622c6e86-dea6-416d-9f13-bb6ef112d3cb"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{transparent-black-600}",
+        "uuid": "81c0608b-c977-490e-b8d7-830d0676fdad"
+      }
+    }
   },
   "card-selection-background-color-opacity": {
     "component": "card",
@@ -509,5 +519,15 @@
         "uuid": "dac0d761-d8c1-4b1f-bfbe-766651122ecf"
       }
     }
+  },
+  "card-background-well-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "c9c0e684-6b6c-4314-9b5b-7ba5e3333071"
+  },
+  "card-background-loading-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "6022f845-b182-493f-bdae-f86f6336efaa"
   }
 }
