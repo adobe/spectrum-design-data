@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-tokens",
-  "version": "0.0.0-s2-composite-drop-shadow-20250304212317",
+  "version": "13.1.0",
   "description": "Design tokens for Spectrum, Adobe's design system",
   "type": "module",
   "main": "index.js",
@@ -28,6 +28,7 @@
     "ajv-formats": "^3.0.1",
     "deep-object-diff": "^1.1.9",
     "find-duplicated-property-keys": "^1.2.9",
+    "glob": "^11.0.0",
     "style-dictionary": "^3.9.2",
     "style-dictionary-sets": "^2.3.0",
     "tar": "^7.4.3",

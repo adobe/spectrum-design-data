@@ -1,6 +1,6 @@
 {
   "name": "@adobe/token-diff-generator",
-  "version": "1.0.1",
+  "version": "1.3.0",
   "description": "Creates diffs for tokens",
   "type": "module",
   "scripts": {
@@ -23,15 +23,19 @@
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
     "deep-object-diff": "^1.1.9",
-    "emojilib": "^3.0.12",
-    "inquirer": "^9.2.23",
+    "emojilib": "^4.0.0",
+    "glob": "^11.0.0",
+    "inquirer": "^12.0.0",
     "nixt": "^0.5.1",
     "node-emoji": "^2.1.3",
-    "tar": "^7.0.1",
+    "tar": "^7.4.3",
     "tmp-promise": "^3.0.3"
   },
   "devDependencies": {
-    "c8": "^9.1.0"
+    "@eslint/js": "^9.13.0",
+    "c8": "^10.1.2",
+    "eslint": "^9.13.0",
+    "globals": "^15.11.0"
   },
   "bin": {
     "tdiff": "./src/lib/cli.js"

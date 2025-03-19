@@ -6,7 +6,8 @@
     "moon": "moon",
     "pre-commit": "lint-staged",
     "prepare": "husky || true",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "version": "changeset version && moon run :version"
   },
   "repository": {
     "type": "git",
@@ -23,10 +24,11 @@
   "homepage": "https://github.com/adobe/spectrum-tokens#readme",
   "devDependencies": {
     "@action-validator/core": "^0.6.0",
-    "@changesets/cli": "^2.27.8",
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.9",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
-    "@moonrepo/cli": "^1.28.3",
+    "@moonrepo/cli": "^1.29.0",
     "ava": "^6.1.3",
     "glob": "^11.0.0",
     "husky": "^9.1.6",
@@ -36,8 +38,5 @@
   "engines": {
     "node": "~20.12"
   },
-  "packageManager": "pnpm@9.11.0",
-  "dependencies": {
-    "@changesets/changelog-github": "^0.5.0"
-  }
+  "packageManager": "pnpm@9.12.1"
 }

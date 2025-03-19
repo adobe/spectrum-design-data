@@ -1,4 +1,6 @@
-Note: for [Spectrum 2](https://s2.spectrum.adobe.com/) tokens, look at the [`beta` branch](https://github.com/adobe/spectrum-tokens/tree/beta) and `beta` tagged packages on [NPM](https://www.npmjs.com/package/@adobe/spectrum-tokens?activeTab=versions).
+Note: for [Spectrum 2](https://s2.spectrum.adobe.com/) token data has been graduated to the `main` branch. If you need access to the S1 data, use the [`s1-legacy` branch](https://github.com/adobe/spectrum-tokens/tree/s1-legacy) and `v12.x.x` packages on [NPM](https://www.npmjs.com/package/@adobe/spectrum-tokens?activeTab=versions).
+
+The [Spectrum token visualizer](https://opensource.adobe.com/spectrum-tokens/visualizer/) shows the token data for S1. For Spectrum 2 data, use [opensource.adobe.com/spectrum-tokens/s2-visualizer/](https://opensource.adobe.com/spectrum-tokens/s2-visualizer/).
 
 # Spectrum Tokens Monorepo
 
@@ -15,7 +17,9 @@ Packages in this monorepo:
 
 - [Spectrum Tokens](packages/tokens/) design tokens for Spectrum, Adobe's design system.
 - [Spectrum Token Visualizer Tool](docs/visualizer/) a visualizer for inspecting tokens. Published as a [static site](https://opensource.adobe.com/spectrum-tokens/visualizer/), not an NPM package.
+- [Spectrum Token Visualizer Tool S2](docs/s2-visualizer/) a version of the visualizer that shows the Spectrum 2 data. Published as a [static site](https://opensource.adobe.com/spectrum-tokens/s2-visualizer/).
 - [Spectrum Tokens Docs](docs/site/) a static site to show the component options API and other token data.
+- [Spectrum Token Diff Generator](tools/diff-generator/) a library and cli tool that reports changes made between two schema/releases/branches.
 
 ## Setup monorepo locally
 

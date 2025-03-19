@@ -1,4 +1,4 @@
-# Snapshot report for `test/deprecateExpress.test.js`
+# Snapshot report for `packages/tokens/test/deprecateExpress.test.js`
 
 The actual snapshot is saved in `deprecateExpress.test.js.snap`.
 

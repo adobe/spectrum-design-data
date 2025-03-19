@@ -1,0 +1,44 @@
+name: (tdiff)
+
+on:
+  workflow_call:
+    inputs:
+      root:
+        required: true
+        type: string
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The '${{ github.workflow }}' was triggered by a ${{ github.event_name }} event."
+      - run: echo "🔎 The name of your branch is ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} and your repository is ${{ github.repository }}."
+      - name: GET BRANCH NAME
+        shell: bash
+        run: echo "branch=$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} | sed -r 's/[\/]+/\//g')" >> $GITHUB_OUTPUT
+        id: extract_branch
+      - name: CHECKOUT TDIFF from ${{ github.repository }}/main
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          path: ./
+          ref: main
+      - name: SETUP NODE
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.12.2"
+      - name: NPM INSTALL
+        working-directory: ./tools/diff-generator
+        run: |
+          pwd && 
+          npm install
+      - name: CREATE REPORT
+        working-directory: ./tools/diff-generator
+        run: |
+          node src/lib/cli.js report -otb ${{ inputs.root }} -ntb ${{ steps.extract_branch.outputs.branch }} --repo ${{ github.repository }} --format markdown --output logs/output.md
+      - name: ADD SUMMARY
+        working-directory: ./tools/diff-generator
+        run: |
+          cat ./logs/output.md >> $GITHUB_STEP_SUMMARY
+      - name: COMPLETE
+        run: echo "🍏 This job's status is ${{ job.status }}."
