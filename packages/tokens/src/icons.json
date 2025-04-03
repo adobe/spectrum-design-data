@@ -29,7 +29,7 @@
       "wireframe": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{blue-900}",
-        "uuid": "20880dfd-57dc-486d-b0dd-c44002f340e3"
+        "uuid": "a306b28e-f698-427d-a576-439b2ab378fc"
       }
     }
   },
@@ -56,7 +56,7 @@
       "wireframe": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{red-900}",
-        "uuid": "d524a471-2dce-4497-a650-30c2d6641eec"
+        "uuid": "16bbb033-224a-43e6-881c-bd29ffd70d1b"
       }
     }
   },
@@ -77,7 +77,7 @@
       "wireframe": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{yellow-400}",
-        "uuid": "4a1eeded-e467-46be-a787-78555b2fe353"
+        "uuid": "fc16cbe3-7cf3-4744-a571-5bd2bdcef29e"
       }
     }
   },
@@ -106,6 +106,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{blue-900}",
         "uuid": "17dd2bcd-e66f-4c86-8335-47bd3828a2cf"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{blue-1000}",
+        "uuid": "95cd46ba-7b1f-4ae4-86c1-1957c007a6a2"
       }
     }
   },
@@ -122,6 +127,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{blue-1000}",
         "uuid": "b775d1a5-2951-4d51-9a48-265f46e8edc3"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{blue-1100}",
+        "uuid": "c32c7711-0889-4f62-afe6-4b744166a66e"
       }
     }
   },
@@ -138,6 +148,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{brown-700}",
         "uuid": "bd6c966d-0b33-4f68-9b84-9e7ae0082805"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{brown-800}",
+        "uuid": "afdc8658-f6a4-4205-af17-553c04cca24d"
       }
     }
   },
@@ -154,6 +169,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{brown-800}",
         "uuid": "00757309-91b4-4a6a-9897-32db62d9e94b"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{brown-900}",
+        "uuid": "bffb9e2b-565a-4774-8f57-ef03768b4176"
       }
     }
   },
@@ -170,6 +190,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{brown-900}",
         "uuid": "ac16c318-bf3a-49f7-a696-a7aaf8eb4335"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{brown-1000}",
+        "uuid": "b2474c42-cecc-4f91-b3e9-a0855a79d5ed"
       }
     }
   },
@@ -186,6 +211,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{celery-900}",
         "uuid": "c7a01756-b63e-4f18-b700-26b3f183e2c8"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{celery-700}",
+        "uuid": "c3f8622e-4ee4-4a68-be5d-c7b9f583c686"
       }
     }
   },
@@ -202,6 +232,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{celery-1000}",
         "uuid": "44a0a5c5-7131-42c4-859d-fa9541dff287"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{celery-800}",
+        "uuid": "a32205e0-b208-4539-9fe4-5eb2d7464d91"
       }
     }
   },
@@ -218,6 +253,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{celery-1100}",
         "uuid": "a16feeab-27da-4d04-af0b-2a45cc14982c"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{celery-900}",
+        "uuid": "f9fa057e-58f4-472f-8ab7-6bae7d1d27eb"
       }
     }
   },
@@ -234,6 +274,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{chartreuse-1000}",
         "uuid": "a407df08-a00b-421a-b999-d37097debc26"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{chartreuse-600}",
+        "uuid": "6bfd7aea-dfd9-47ee-9f18-e4431886e1cf"
       }
     }
   },
@@ -250,6 +295,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{chartreuse-1100}",
         "uuid": "a63751a9-4d3d-4dfb-9028-3aaecf11df47"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{chartreuse-700}",
+        "uuid": "6d3438e5-cc32-4c26-960d-434b24dbb1e0"
       }
     }
   },
@@ -266,6 +316,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{chartreuse-1200}",
         "uuid": "a8dcf645-ae32-4870-90bf-4d802837cf08"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{chartreuse-800}",
+        "uuid": "d00300aa-5990-483d-8218-229169e9cd74"
       }
     }
   },
@@ -318,6 +373,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{fuchsia-700}",
         "uuid": "ec2b1658-d174-49c9-a36a-7f80d97a1ee8"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{fuchsia-900}",
+        "uuid": "75b0d002-84b7-4c75-8c74-3b1ff15ff10a"
       }
     }
   },
@@ -334,6 +394,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{fuchsia-800}",
         "uuid": "0a66c0d9-0a0a-4f0d-9bb3-cbdb2bc12842"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{fuchsia-1000}",
+        "uuid": "53acea92-bc9f-4c41-93b9-e18cde613305"
       }
     }
   },
@@ -350,6 +415,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{fuchsia-900}",
         "uuid": "6964ef24-8178-4513-8d9a-5240973622fb"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{fuchsia-1100}",
+        "uuid": "625728db-30ec-41d7-9f6f-0ce9c0201c66"
       }
     }
   },
@@ -378,6 +448,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{indigo-700}",
         "uuid": "2e4457c1-e637-4f22-909d-643dd535b5fd"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{indigo-900}",
+        "uuid": "05f75802-5062-422a-8a39-f7e8f71ce17e"
       }
     }
   },
@@ -394,6 +469,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{indigo-800}",
         "uuid": "fc9ef846-e264-498c-9b7a-be9a9164f3d3"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{indigo-1000}",
+        "uuid": "735472d9-0220-4e7e-a06b-9f3504cad201"
       }
     }
   },
@@ -410,6 +490,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{indigo-900}",
         "uuid": "f21187bf-8dbe-4eee-9ce9-c76d08517a6c"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{indigo-1100}",
+        "uuid": "1f2e8832-16e1-4030-a5ef-16f5b5c663d0"
       }
     }
   },
@@ -426,6 +511,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{magenta-700}",
         "uuid": "7b3f5848-6a8c-47fe-aacd-ad2f1af53306"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{magenta-900}",
+        "uuid": "d0802b2a-faba-4530-8f50-dc22e6962d44"
       }
     }
   },
@@ -442,6 +532,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{magenta-800}",
         "uuid": "23dc0d7b-fb23-460a-b9f1-7a9a7496c107"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{magenta-1000}",
+        "uuid": "3e368eed-b2f7-4e9e-9935-421ef0f86f9f"
       }
     }
   },
@@ -458,6 +553,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{magenta-900}",
         "uuid": "042aa474-5cf0-4cdc-a75d-19eac80a0ade"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{magenta-1100}",
+        "uuid": "ddfb3e51-e724-48b4-aecc-dcfe000eec11"
       }
     }
   },
@@ -474,6 +574,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{orange-900}",
         "uuid": "1ea9d171-f3ba-40fd-bd0b-1e0ebaf68f01"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{orange-700}",
+        "uuid": "41b694b3-5805-4ee7-aca0-88527dc6120b"
       }
     }
   },
@@ -490,6 +595,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{orange-1000}",
         "uuid": "d35dd0cd-49b0-4430-9fe6-9dcf0e9e5874"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{orange-800}",
+        "uuid": "1c3bc51c-edf8-4c2b-af93-44d7ffeb46b2"
       }
     }
   },
@@ -506,6 +616,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{orange-1100}",
         "uuid": "4534a7d3-b2b0-4e94-8366-030ac144031c"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{orange-900}",
+        "uuid": "b00737a5-c111-42fe-9378-47a79139e11a"
       }
     }
   },
@@ -522,6 +637,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{pink-700}",
         "uuid": "4a4d6a11-1343-40c7-b7d3-d25d6f1d4ed3"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{pink-800}",
+        "uuid": "1e0b6862-10cd-4860-9bf7-9cbce71e7f81"
       }
     }
   },
@@ -538,6 +658,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{pink-800}",
         "uuid": "88bf5d43-7655-43e6-8844-a94f4696bde0"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{pink-900}",
+        "uuid": "8a64d036-a935-442a-b596-5d4d0fd001a9"
       }
     }
   },
@@ -554,6 +679,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{pink-900}",
         "uuid": "b4ead77c-aec3-4dc5-85c4-ab0e62231232"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{pink-1000}",
+        "uuid": "c31819e9-6bf1-4048-94bc-ee6f04b82474"
       }
     }
   },
@@ -570,6 +700,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{purple-700}",
         "uuid": "50b28c39-4b4e-43dc-b742-e85a892e843a"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{purple-900}",
+        "uuid": "1b6ce540-0839-4ba2-bf98-51fb499113a4"
       }
     }
   },
@@ -586,6 +721,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{purple-800}",
         "uuid": "2e9e7c94-5454-41d9-95e3-8e1e91c41f14"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{purple-1000}",
+        "uuid": "ec923982-6694-44bc-8f75-ebe1c76ba09a"
       }
     }
   },
@@ -602,6 +742,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{purple-900}",
         "uuid": "0ff09a0f-33db-40ee-9b36-ed7db52aafbd"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{purple-1100}",
+        "uuid": "bf3e3302-4798-4b35-a37b-0d5fcd89b556"
       }
     }
   },
@@ -618,6 +763,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{red-800}",
         "uuid": "362d9053-52d9-478a-aec9-b56fd805826a"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{red-1000}",
+        "uuid": "ece07052-dff3-483e-a6b8-1d12b0d94d8a"
       }
     }
   },
@@ -634,6 +784,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{red-900}",
         "uuid": "d44cbe6f-b3e1-4048-b26c-c98e9be970f5"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{red-1100}",
+        "uuid": "02527b17-485a-4a59-b62e-5aa8bfca7df7"
       }
     }
   },
@@ -668,6 +823,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{silver-800}",
         "uuid": "839005ad-8e22-4e1b-a83b-1fe5be08acb2"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{silver-700}",
+        "uuid": "928c1a80-e248-4e00-aed8-5ddf764a5d22"
       }
     }
   },
@@ -684,6 +844,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{silver-900}",
         "uuid": "a6b610b6-915d-4c40-85ee-9b9fee0b5bd3"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{silver-800}",
+        "uuid": "cd0a41af-19ed-48fc-b659-d34cb37d4cef"
       }
     }
   },
@@ -700,6 +865,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{silver-1000}",
         "uuid": "44ddf65f-494c-4329-b17e-c791c7cfe779"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{silver-900}",
+        "uuid": "dc071b6f-788a-4a83-b1c0-17ae536c01e7"
       }
     }
   },
@@ -716,6 +886,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{turquoise-800}",
         "uuid": "9566904a-3610-4668-9fe4-71ece5a58398"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{turquoise-700}",
+        "uuid": "3c39dea2-cdc4-4042-a134-7197a60ba8dd"
       }
     }
   },
@@ -732,6 +907,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{turquoise-900}",
         "uuid": "a727a9f5-8f36-4e50-b8a4-3383f309785f"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{turquoise-800}",
+        "uuid": "2aca1631-0249-47dc-aa3b-44a51f5ea220"
       }
     }
   },
@@ -748,6 +928,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{turquoise-1000}",
         "uuid": "1bbe2749-ba61-4e00-871f-cb3c6decd07c"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{turquoise-900}",
+        "uuid": "0c3db762-fa21-497c-9a32-007e41ab24d6"
       }
     }
   },
@@ -764,6 +949,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{yellow-1300}",
         "uuid": "4f50d025-f259-4130-bb6c-6fc30474e99d"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{yellow-500}",
+        "uuid": "f4edf76c-b3f4-4455-b1d5-e222fa79b146"
       }
     }
   },
@@ -780,6 +970,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{yellow-1400}",
         "uuid": "f92ad869-5610-46a4-8314-bee58a039d0d"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{yellow-600}",
+        "uuid": "24f49675-e169-4996-9993-c4a8941e8fab"
       }
     }
   },
@@ -802,6 +997,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{blue-300}",
         "uuid": "29c9205e-d39d-419a-b6e1-4e0544a3ca7c"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{blue-200}",
+        "uuid": "2bfc538f-30ae-4e45-92ef-bb7ad72f1396"
       }
     }
   },
@@ -818,6 +1018,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{brown-400}",
         "uuid": "8da7787f-2d39-4801-a5ea-1b3e69d505a6"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{brown-200}",
+        "uuid": "2f1fba9a-25b3-4ac7-aaee-7d6da1292da8"
       }
     }
   },
@@ -834,6 +1039,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{celery-400}",
         "uuid": "88437eca-ac07-4a83-930a-10861a8ed839"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{celery-100}",
+        "uuid": "2b519299-a5c9-47d9-bf52-51ce26410073"
       }
     }
   },
@@ -850,6 +1060,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{chartreuse-400}",
         "uuid": "cad79edb-8add-4b83-ad3e-fcbed050e037"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{chartreuse-200}",
+        "uuid": "ec1c5d08-dd5e-40f5-adee-06ffecb36ed6"
       }
     }
   },
@@ -866,6 +1081,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{cinnamon-300}",
         "uuid": "cb5eed01-b2f0-4410-8a71-2bf361d61fcc"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{cinnamon-200}",
+        "uuid": "61eaba25-d605-412f-ae11-5f36fd0061c8"
       }
     }
   },
@@ -882,6 +1102,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{cyan-400}",
         "uuid": "a5fd0ad9-999f-469d-b224-b60e06313cdb"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{cyan-100}",
+        "uuid": "b85aef89-a234-4386-9c46-22e2caa3b4f6"
       }
     }
   },
@@ -904,6 +1129,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{green-400}",
         "uuid": "176c986b-8658-4b3e-b559-4080f4fd7834"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{green-100}",
+        "uuid": "3231780c-e233-4a60-b063-1c3a383669a3"
       }
     }
   },
@@ -920,6 +1150,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{indigo-100}",
         "uuid": "85432c93-7c00-435b-8298-2ba817cb58bd"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{indigo-200}",
+        "uuid": "67cfb253-49f0-4a14-a83c-140324ef5bc0"
       }
     }
   },
@@ -942,6 +1177,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{orange-300}",
         "uuid": "73e28358-35bb-4643-a1b8-ae3fd3de206f"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{orange-200}",
+        "uuid": "a6f69b6d-496f-40bb-96a5-f04efa4ce8bc"
       }
     }
   },
@@ -970,6 +1210,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{red-300}",
         "uuid": "1fbda732-e276-4dec-8ec7-faeff6cba3a7"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{red-200}",
+        "uuid": "12859f90-c49c-4508-bc0d-df4d9512c864"
       }
     }
   },
@@ -986,6 +1231,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{seafoam-400}",
         "uuid": "39ff1a28-8c57-490f-8cf7-eb63fd3b7ebb"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{seafoam-200}",
+        "uuid": "bc3ce9f1-cde9-4609-b4ab-c78a15ac064c"
       }
     }
   },
@@ -1002,6 +1252,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{silver-400}",
         "uuid": "a2c48afa-59de-43af-8ec4-2c573948ae52"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{silver-200}",
+        "uuid": "b2e8e8ac-001a-4a4e-bcc9-9508ba954ece"
       }
     }
   },
@@ -1018,6 +1273,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{turquoise-400}",
         "uuid": "3d251526-b63d-412c-bb54-712d36c73e8e"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{turquoise-200}",
+        "uuid": "a5b3d3f5-785b-4969-9389-12c1f7b2f26d"
       }
     }
   },
@@ -1034,6 +1294,11 @@
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
         "value": "{yellow-400}",
         "uuid": "0dd236ab-7af8-418e-88dd-0cb45cf5da13"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "value": "{yellow-100}",
+        "uuid": "5a5e15ab-e73b-4997-be67-39534d98e823"
       }
     }
   },
