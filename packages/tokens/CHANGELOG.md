@@ -1,5 +1,19 @@
 # @adobe/spectrum-tokens
 
+## 13.3.0
+
+### Minor Changes
+
+- [#487](https://github.com/adobe/spectrum-tokens/pull/487) [`07e15af`](https://github.com/adobe/spectrum-tokens/commit/07e15afbbce289bdd69f09690247205bf89bbea3) Thanks [@larz0](https://github.com/larz0)! - Token added for segmented control
+
+  ## Token Diff
+
+  <details open><summary>Added (1)</summary>
+
+  - `segmented-control-item-maximum-width`
+
+  </details>
+
 ## 13.2.0
 
 ### Minor Changes
