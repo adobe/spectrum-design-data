@@ -10836,6 +10836,7 @@
     "uuid": "a603a785-8cd8-4caf-a2b4-cfe3371cc10e"
   },
   "segmented-control-item-maximum-width": {
+    "component": "segmented-control",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "265px",
     "uuid": "efa7a73d-611e-44a1-8ea5-0bad83ef77de"

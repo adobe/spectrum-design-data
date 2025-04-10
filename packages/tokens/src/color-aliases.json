@@ -35,8 +35,7 @@
       "wireframe": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
         "value": "0.4",
-        "uuid": "93b904da-5d1f-4fd9-aa26-5aabe19df108",
-        "deprecated": true
+        "uuid": "93b904da-5d1f-4fd9-aa26-5aabe19df108"
       }
     }
   },

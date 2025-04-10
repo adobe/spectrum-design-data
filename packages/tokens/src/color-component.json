@@ -426,8 +426,7 @@
       "wireframe": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
         "value": "0",
-        "uuid": "d8f81d4f-b921-4a41-89c1-cdc79d40901a",
-        "deprecated": true
+        "uuid": "d8f81d4f-b921-4a41-89c1-cdc79d40901a"
       }
     }
   },
