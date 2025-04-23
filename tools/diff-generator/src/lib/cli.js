@@ -41,28 +41,28 @@ program
   .command("report")
   .description("Generates a diff report for two inputted schema")
   .option(
-    "-otv, --old-token-version <oldVersion>",
+    "--otv, --old-token-version <oldVersion>",
     "indicates which github tag to pull old tokens from",
   )
   .option(
-    "-ntv, --new-token-version <newVersion>",
+    "--ntv, --new-token-version <newVersion>",
     "indicates which github tag to pull new tokens from",
   )
   .option(
-    "-otb, --old-token-branch <oldBranch>",
+    "--otb, --old-token-branch <oldBranch>",
     "indicates which branch to fetch old token data from",
   )
   .option(
-    "-ntb, --new-token-branch <newBranch>",
+    "--ntb, --new-token-branch <newBranch>",
     "indicates which branch to fetch updated token data from",
   )
   .option(
-    "-tn, --token-names <tokens...>",
+    "--tn, --token-names <tokens...>",
     "indicates specific tokens to compare",
   )
   .option("-l, --local <path>", "indicates to compare to local data")
   .option("-r, --repo <name>", "github repository to target")
-  .option("-gak, --githubAPIKey <key>", "github api key to use")
+  .option("-g, --githubAPIKey <key>", "github api key to use")
   .option("-f, --format <format>", "cli (default) or markdown")
   .option("-o, --output <path>", "file path to store diff output")
   .option("-d, --debug <path>", "file path to store diff json")
