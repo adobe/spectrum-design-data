@@ -70,14 +70,14 @@ tdiff report
 
 | Shorthand | Name                  | Argument(s)    | Description                                           |
 | --------- | --------------------- | -------------- | ----------------------------------------------------- |
-| `-otv`    | `--old-token-version` | `<oldVersion>` | github tag to pull old tokens from                    |
-| `-ntv`    | `--new-token-version` | `<newVersion>` | github tag to pull new tokens from                    |
-| `-otb`    | `--old-token-branch`  | `<oldBranch>`  | branch to fetch old token data from                   |
-| `-ntb`    | `--new-token-branch`  | `<newBranch>`  | branch to fetch new token data from                   |
+| `--otv`   | `--old-token-version` | `<oldVersion>` | github tag to pull old tokens from                    |
+| `--ntv`   | `--new-token-version` | `<newVersion>` | github tag to pull new tokens from                    |
+| `--otb`   | `--old-token-branch`  | `<oldBranch>`  | branch to fetch old token data from                   |
+| `--ntb`   | `--new-token-branch`  | `<newBranch>`  | branch to fetch new token data from                   |
 | `-l`      | `--local`             | `<path>`       | local path within repository to fetch token data from |
-| `-tn`     | `--token-names`       | `<tokens...>`  | indicates specific tokens to compare                  |
+| `-n`      | `--token-names`       | `<tokens...>`  | indicates specific tokens to compare                  |
 | `-r`      | `--repo`              | `<repo>`       | git repo to use if you want to use a fork             |
-| `-gak`    | `--githubAPIKey`      | `<key>`        | github api key to use when fetching from github       |
+| `-g`      | `--githubAPIKey`      | `<key>`        | github api key to use when fetching from github       |
 | `-f`      | `--format`            | `<format>`     | choose result format cli (default) or markdown        |
 | `-o`      | `--output`            | `<path>`       | choose where to store result output, if available     |
 | `-d`      | `--debug`             | `<path>`       | optional path to store unformatted result output      |
@@ -87,15 +87,15 @@ tdiff report
 This is how you can compare between branches and/or versions.
 
 ```
-tdiff report -otv shirlsli/diff-generator-cli-tests -ntb shirlsli/file-import-tests
+tdiff report --otv shirlsli/diff-generator-cli-tests --ntb shirlsli/file-import-tests
 ```
 
 This is how you can compare specific token files from a remote branch with your local data.
 
 ```
-tdiff report -otb shirlsli/file-import-tests -l packages/tokens/src -tn color-aliases.json color-component.json
+tdiff report --otb shirlsli/file-import-tests -l packages/tokens/src -n color-aliases.json color-component.json
 ```
 
 ```
-tdiff report -otv "@adobe/spectrum-tokens@13.0.0-beta.46" -ntv "@adobe/spectrum-tokens@13.0.0-beta.47" --format markdown --output logs/output.md
+tdiff report --otv "@adobe/spectrum-tokens@13.0.0-beta.46" --ntv "@adobe/spectrum-tokens@13.0.0-beta.47" --format markdown --output logs/output.md
 ```

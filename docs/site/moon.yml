@@ -41,7 +41,7 @@ tasks:
     command:
       - rimraf
       - -g
-      - "../../site/!(visualizer)"
+      - "'../../site/!(visualizer)'"
     platform: node
     inputs:
       - "@globs(target)"
