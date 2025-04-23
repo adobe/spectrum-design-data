@@ -1,5 +1,22 @@
 # @adobe/spectrum-tokens
 
+## 14.0.0
+
+### Major Changes
+
+- [#490](https://github.com/adobe/spectrum-tokens/pull/490) [`ab7b1f5`](https://github.com/adobe/spectrum-tokens/commit/ab7b1f5505230330cf343825a8d0bfff0a7538c5) Thanks [@GarthDB](https://github.com/GarthDB)! - The latest version of [commander](https://www.npmjs.com/package/commander) requires that each option short flag can only consist of a single character.
+
+  Changes:
+
+  | Old flag | New flag |
+  | -------- | -------- |
+  | `-otv`   | `--otv`  |
+  | `-ntv`   | `--ntv`  |
+  | `-otb`   | `--otb`  |
+  | `-ntb`   | `--ntb`  |
+  | `-tn`    | `-n`     |
+  | `-gak`   | `-g`     |
+
 ## 13.3.0
 
 ### Minor Changes
