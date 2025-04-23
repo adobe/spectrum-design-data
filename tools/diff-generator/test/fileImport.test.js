@@ -16,7 +16,6 @@ import fs from "fs";
 import { access, readFile } from "fs/promises";
 
 const path = fs.realpathSync("./") + "/test/";
-const schemaPath = "test-schemas/";
 const outputPath = "test-cli-outputs/";
 
 test("checking file import for two branches (both main)", async (t) => {
