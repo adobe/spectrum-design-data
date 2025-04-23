@@ -1,5 +1,22 @@
 # @adobe/token-diff-generator
 
+## 2.0.0
+
+### Major Changes
+
+- [`312a3d2`](https://github.com/adobe/spectrum-tokens/commit/312a3d263bb0d72cd40db180a19c4d5282d5649d) Thanks [@GarthDB](https://github.com/GarthDB)! - The latest version of [commander](https://www.npmjs.com/package/commander) requires that each option short flag can only consist of a single character.
+
+  Changes:
+
+  | Old flag | New flag |
+  | -------- | -------- |
+  | `-otv`   | `--otv`  |
+  | `-ntv`   | `--ntv`  |
+  | `-otb`   | `--otb`  |
+  | `-ntb`   | `--ntb`  |
+  | `-tn`    | `-n`     |
+  | `-gak`   | `-g`     |
+
 ## 1.3.0
 
 ### Minor Changes
