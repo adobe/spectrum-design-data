@@ -57,7 +57,7 @@ program
     "indicates which branch to fetch updated token data from",
   )
   .option(
-    "--tn, --token-names <tokens...>",
+    "-n, --token-names <tokens...>",
     "indicates specific tokens to compare",
   )
   .option("-l, --local <path>", "indicates to compare to local data")
