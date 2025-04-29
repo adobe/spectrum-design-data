@@ -10842,91 +10842,109 @@
     "uuid": "efa7a73d-611e-44a1-8ea5-0bad83ef77de"
   },
   "steplist-step-default-width-small": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "46px",
     "uuid": "5fe717d5-b262-46d8-8386-5a94070337c2"
   },
   "steplist-step-default-width-medium": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "54px",
     "uuid": "8606a7f5-fa38-4081-b0a6-4633e7442bd1"
   },
   "steplist-step-default-width-large": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "70px",
     "uuid": "f4bae4c5-208e-45d7-94ac-6c9355087224"
   },
   "steplist-step-default-width-extra-large": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "78px",
     "uuid": "0b435546-8368-4fb1-a8a1-c50b14b26ae2"
   },
   "steplist-step-default-height-small": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "46px",
     "uuid": "205e9849-ecb4-4df6-8f59-a6d9b1458a72"
   },
   "steplist-step-default-height-medium": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "54px",
     "uuid": "732ea53c-5929-4d31-beef-4ffd60f79c0e"
   },
   "steplist-step-default-height-large": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "70px",
     "uuid": "912f3b78-d09e-4700-a637-5fefc71960c2"
   },
   "steplist-step-default-height-extra-large": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "78px",
     "uuid": "201dc21b-a416-443c-afca-6801cabf31a5"
   },
   "steplist-visual-size-small": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "a65898ec-6a5a-4e4a-8a75-358e78a8345d"
   },
   "steplist-visual-size-medium": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "a94843d0-9ef6-423f-b963-7b9ad658ce40"
   },
   "steplist-visual-size-large": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "24px",
     "uuid": "7f7539e6-5d8f-4f24-99a7-9338a3a3c630"
   },
   "steplist-visual-size-extra-large": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "32px",
     "uuid": "1b147315-b106-4d2a-80cb-9be0eed84b7e"
   },
   "steplist-track-thickness-medium": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "2px",
     "uuid": "d4db995b-1eff-44cc-8abc-93324a3af119"
   },
   "steplist-step-to-track-size-small": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "6px",
     "uuid": "80d29ff2-a2ca-4987-9fa2-6799ba6aa416"
   },
   "steplist-step-to-track-size-medium": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "7px",
     "uuid": "3a6f8cf2-d250-4af6-8641-f0ffd4c789b3"
   },
   "steplist-step-to-track-size-large": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "e8d064e4-3bdb-4fef-97e8-db596d5d2fab"
   },
   "steplist-step-to-track-size-extra-large": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "9px",
     "uuid": "bbff5dad-42bf-44f0-a34d-b6733360d28b"
   },
   "steplist-bottom-to-text": {
+    "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "1px",
     "uuid": "a52c893c-8c03-43a5-88ed-3cd230365b84"
