@@ -1,0 +1,290 @@
+[
+  {
+    "component": "Menu",
+    "tokenCount": 148
+  },
+  {
+    "component": "Action button",
+    "tokenCount": 135
+  },
+  {
+    "component": "Badge",
+    "tokenCount": 133
+  },
+  {
+    "component": "Picker",
+    "tokenCount": 125
+  },
+  {
+    "component": "Switch",
+    "tokenCount": 117
+  },
+  {
+    "component": "Radio button + radio group",
+    "tokenCount": 104
+  },
+  {
+    "component": "Checkbox + checkbox group",
+    "tokenCount": 101
+  },
+  {
+    "component": "Table",
+    "tokenCount": 98
+  },
+  {
+    "component": "Tree view",
+    "tokenCount": 98
+  },
+  {
+    "component": "Text field",
+    "tokenCount": 95
+  },
+  {
+    "component": "Text area",
+    "tokenCount": 91
+  },
+  {
+    "component": "Combo box",
+    "tokenCount": 90
+  },
+  {
+    "component": "Number field",
+    "tokenCount": 89
+  },
+  {
+    "component": "Tag",
+    "tokenCount": 87
+  },
+  {
+    "component": "Slider",
+    "tokenCount": 75
+  },
+  {
+    "component": "Typography, Heading",
+    "tokenCount": 74
+  },
+  {
+    "component": "Accordion",
+    "tokenCount": 72
+  },
+  {
+    "component": "Breadcrumbs",
+    "tokenCount": 70
+  },
+  {
+    "component": "Search field",
+    "tokenCount": 64
+  },
+  {
+    "component": "Side navigation",
+    "tokenCount": 61
+  },
+  {
+    "component": "Select box",
+    "tokenCount": 56
+  },
+  {
+    "component": "Status light",
+    "tokenCount": 54
+  },
+  {
+    "component": "Toast",
+    "tokenCount": 54
+  },
+  {
+    "component": "Typography, Body",
+    "tokenCount": 49
+  },
+  {
+    "component": "In-line alert",
+    "tokenCount": 47
+  },
+  {
+    "component": "Typography, Title",
+    "tokenCount": 47
+  },
+  {
+    "component": "Drop zone",
+    "tokenCount": 45
+  },
+  {
+    "component": "Swatch + swatch group",
+    "tokenCount": 44
+  },
+  {
+    "component": "Typography, Detail",
+    "tokenCount": 44
+  },
+  {
+    "component": "In-field button",
+    "tokenCount": 43
+  },
+  {
+    "component": "Tabs",
+    "tokenCount": 43
+  },
+  {
+    "component": "Close button",
+    "tokenCount": 40
+  },
+  {
+    "component": "Illustrated message",
+    "tokenCount": 40
+  },
+  {
+    "component": "Standard dialog",
+    "tokenCount": 40
+  },
+  {
+    "component": "Typography, Foundations",
+    "tokenCount": 39
+  },
+  {
+    "component": "Field label",
+    "tokenCount": 37
+  },
+  {
+    "component": "Link",
+    "tokenCount": 37
+  },
+  {
+    "component": "Segmented control",
+    "tokenCount": 37
+  },
+  {
+    "component": "Help text",
+    "tokenCount": 36
+  },
+  {
+    "component": "Typography, Code",
+    "tokenCount": 31
+  },
+  {
+    "component": "Coach mark",
+    "tokenCount": 29
+  },
+  {
+    "component": "Meter",
+    "tokenCount": 29
+  },
+  {
+    "component": "Progress bar",
+    "tokenCount": 29
+  },
+  {
+    "component": "Avatar group",
+    "tokenCount": 28
+  },
+  {
+    "component": "Rating",
+    "tokenCount": 28
+  },
+  {
+    "component": "Alert dialog",
+    "tokenCount": 27
+  },
+  {
+    "component": "Alert banner",
+    "tokenCount": 25
+  },
+  {
+    "component": "Workflow icon sizes and spacing",
+    "tokenCount": 24
+  },
+  {
+    "component": "Avatar",
+    "tokenCount": 23
+  },
+  {
+    "component": "Bar panel",
+    "tokenCount": 23
+  },
+  {
+    "component": "Tag group",
+    "tokenCount": 23
+  },
+  {
+    "component": "Drop shadow - single layer",
+    "tokenCount": 22
+  },
+  {
+    "component": "Thumbnail",
+    "tokenCount": 21
+  },
+  {
+    "component": "Contextual help",
+    "tokenCount": 19
+  },
+  {
+    "component": "Tooltip",
+    "tokenCount": 19
+  },
+  {
+    "component": "Action bar",
+    "tokenCount": 18
+  },
+  {
+    "component": "Color loupe",
+    "tokenCount": 14
+  },
+  {
+    "component": "Popover",
+    "tokenCount": 14
+  },
+  {
+    "component": "Divider",
+    "tokenCount": 13
+  },
+  {
+    "component": "In-field progress circle",
+    "tokenCount": 13
+  },
+  {
+    "component": "Progress circle",
+    "tokenCount": 13
+  },
+  {
+    "component": "Coach indicator",
+    "tokenCount": 12
+  },
+  {
+    "component": "Color handle",
+    "tokenCount": 12
+  },
+  {
+    "component": "Color slider",
+    "tokenCount": 11
+  },
+  {
+    "component": "Corner rounding",
+    "tokenCount": 11
+  },
+  {
+    "component": "Color area",
+    "tokenCount": 9
+  },
+  {
+    "component": "Button group",
+    "tokenCount": 8
+  },
+  {
+    "component": "Color wheel",
+    "tokenCount": 8
+  },
+  {
+    "component": "Down state",
+    "tokenCount": 8
+  },
+  {
+    "component": "Action group",
+    "tokenCount": 6
+  },
+  {
+    "component": "Opacity checkerboard",
+    "tokenCount": 4
+  },
+  {
+    "component": "Action menu",
+    "tokenCount": 2
+  }
+]

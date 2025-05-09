@@ -1,0 +1,2944 @@
+<!DOCTYPE html>
+<html lang="en" class="spectrum spectrum--medium">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="//www.adobe.com/favicon.ico" />
+    <meta http-equiv="expires" content="0" />
+    <title>Spectrum 2 Tokens Viewer</title>
+    <script>
+      // Immediately set theme before page renders
+      const savedTheme = localStorage.getItem("theme") || "light";
+      document.documentElement.classList.add(`spectrum--${savedTheme}`);
+
+      // Restore color format from sessionStorage
+      const savedFormat = sessionStorage.getItem("colorFormat") || "hexAlpha";
+    </script>
+    <link rel="stylesheet" href="css/viewer.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-container">
+        <div class="title-container">
+          <div class="s2-logo"></div>
+          <h1>Spectrum 2 Tokens Viewer <span class="beta-tag">BETA</span></h1>
+        </div>
+        <div class="header-actions">
+          <div class="format-picker">
+            <label for="colorFormat">Color format</label>
+            <select id="colorFormat">
+              <option value="original">RGB and RGBA</option>
+              <option value="hexAlpha" selected>Hex (alpha)</option>
+            </select>
+          </div>
+          <button class="theme-toggle">
+            <span class="theme-icon">Light switch</span>
+          </button>
+        </div>
+      </div>
+      <search class="search-container">
+        <input
+          type="search"
+          class="search-input"
+          placeholder="Search tokens, values, or components..."
+          id="searchInput"
+        />
+      </search>
+      <div class="tabs">
+        <div class="tab-buttons">
+          <div class="tab-group">
+            <button class="tab-button active" data-tab="palette">
+              Color palette
+            </button>
+            <button class="tab-button" data-tab="semantic">
+              Semantic colors
+            </button>
+            <button class="tab-button" data-tab="aliases">Color aliases</button>
+            <button class="tab-button" data-tab="components">
+              Component colors
+            </button>
+            <button class="tab-button" data-tab="icons">Icons</button>
+            <button class="tab-button" data-tab="layout">Layout</button>
+            <button class="tab-button" data-tab="layout-component">
+              Component layout
+            </button>
+            <button class="tab-button" data-tab="typography">Typography</button>
+          </div>
+        </div>
+
+        <!-- Add a select dropdown for mobile view -->
+        <div class="mobile-tab-selector">
+          <select id="tabSelect">
+            <option value="palette">Color palette</option>
+            <option value="semantic">Semantic colors</option>
+            <option value="aliases">Color aliases</option>
+            <option value="components">Component colors</option>
+            <option value="icons">Icons</option>
+            <option value="layout">Layout</option>
+            <option value="layout-component">Component layout</option>
+            <option value="typography">Typography</option>
+          </select>
+        </div>
+
+        <div class="grid-container" id="gridContainer">
+          <div id="palette" class="tab-content active"></div>
+          <div id="semantic" class="tab-content"></div>
+          <div id="aliases" class="tab-content"></div>
+          <div id="components" class="tab-content"></div>
+          <div id="layout" class="tab-content"></div>
+          <div id="layout-component" class="tab-content"></div>
+          <div id="icons" class="tab-content"></div>
+          <div id="typography" class="tab-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Configuration object for JSON files
+      const config = {
+        jsonFiles: [
+          "/packages/tokens/src/color-palette.json",
+          "/packages/tokens/src/color-aliases.json",
+          "/packages/tokens/src/semantic-color-palette.json",
+          "/packages/tokens/src/color-component.json",
+          "/packages/tokens/src/icons.json",
+          "/packages/tokens/src/layout.json",
+          "/packages/tokens/src/layout-component.json",
+          "/packages/tokens/src/typography.json",
+        ],
+      };
+
+      // Cache DOM element references
+      const DOM = {
+        colorFormat: document.getElementById("colorFormat"),
+        searchInput: document.getElementById("searchInput"),
+        gridContainer: document.getElementById("gridContainer"),
+      };
+
+      const sourceFileMapping = {
+        palette: "color-palette.json",
+        aliases: "color-aliases.json",
+        semantic: "semantic-color-palette.json",
+        components: "color-component.json",
+        icons: "icons.json",
+        layout: "layout.json",
+        "layout-component": "layout-component.json",
+        typography: "typography.json",
+      };
+
+      // Unified Token Resolver class
+      class TokenResolver {
+        constructor(sources, tokenType = "color") {
+          this.sources = sources;
+          this.tokenType = tokenType;
+          this.cache = new Map();
+          this.resolving = new Set();
+        }
+
+        // Get source for a token
+        getTokenSource(tokenName) {
+          for (const [sourceName, source] of Object.entries(this.sources)) {
+            if (source[tokenName]) {
+              return sourceName;
+            }
+          }
+          return null;
+        }
+
+        // Main resolution method
+        resolve(tokenReference, context = "light") {
+          // Handle numeric values directly (especially for layout tokens)
+          if (typeof tokenReference === "number") {
+            return tokenReference;
+          }
+
+          if (
+            !tokenReference ||
+            typeof tokenReference !== "string" ||
+            !tokenReference.includes("{")
+          ) {
+            return tokenReference;
+          }
+
+          // Strip curly braces
+          const tokenName = tokenReference.replace(/[{}]/g, "");
+
+          // Check cache first
+          const cacheKey = `${tokenName}:${context}`;
+          if (this.cache.has(cacheKey)) {
+            return this.cache.get(cacheKey);
+          }
+
+          // Detect circular references
+          if (this.resolving.has(cacheKey)) {
+            console.warn(`Circular reference detected for token: ${tokenName}`);
+            return tokenReference;
+          }
+          this.resolving.add(cacheKey);
+
+          try {
+            const result = this.resolveToken(tokenName, context);
+            this.cache.set(cacheKey, result);
+            return result;
+          } finally {
+            this.resolving.delete(cacheKey);
+          }
+        }
+
+        // Internal resolution logic
+        resolveToken(tokenName, context) {
+          // Check each source in priority order
+          for (const [sourceName, source] of Object.entries(this.sources)) {
+            const token = source[tokenName];
+            if (!token) continue;
+
+            // Handle context-specific values (theme for colors, platform for layout)
+            if (token.sets?.[context]?.value) {
+              return this.resolveValue(token.sets[context].value, context);
+            }
+            // Handle single values
+            if (token.value) {
+              return this.resolveValue(token.value, context);
+            }
+          }
+
+          return null;
+        }
+
+        // Resolve raw values or further references
+        resolveValue(value, context) {
+          // If it's a reference (has curly braces), resolve it
+          if (typeof value === "string" && value.includes("{")) {
+            return this.resolve(value, context);
+          }
+
+          // Handle string numeric values
+          if (ValueFormatter.isType.numeric(value)) {
+            // If it's already a number, return as is
+            if (typeof value === "number") return value;
+            // Otherwise convert string to number
+            return parseFloat(value);
+          }
+
+          // Handle RGBA object format (for color type only)
+          if (
+            this.tokenType === "color" &&
+            typeof value === "object" &&
+            value !== null &&
+            value.r !== undefined
+          ) {
+            // Use ValueFormatter's modern method directly
+            return ValueFormatter.colorConverter.toRGBString(value);
+          }
+
+          // Return raw values as-is
+          return value;
+        }
+
+        // Get the full resolution chain for debugging/display
+        getResolutionChain(tokenReference, context = "light") {
+          const chain = [];
+          let current = tokenReference;
+          const seen = new Set();
+
+          // Handle numeric values directly
+          if (typeof current === "number") {
+            chain.push(current);
+            return chain;
+          }
+
+          while (
+            current &&
+            typeof current === "string" &&
+            current.includes("{")
+          ) {
+            chain.push(current);
+            const tokenName = current.replace(/[{}]/g, "");
+
+            if (seen.has(tokenName)) {
+              chain.push("(circular reference)");
+              break;
+            }
+            seen.add(tokenName);
+
+            // Find next reference in chain
+            let found = false;
+            for (const source of Object.values(this.sources)) {
+              const token = source[tokenName];
+              if (token) {
+                current = token.sets?.[context]?.value || token.value;
+                found = true;
+                break;
+              }
+            }
+
+            if (!found) break;
+          }
+
+          if (current) chain.push(current);
+          return chain;
+        }
+      }
+
+      /**
+       * Factory function to get the appropriate resolver based on the type
+       * @param {string} type - The type of resolver to get ('color' or 'layout')
+       * @param {Object} data - The data sources for the resolver
+       * @returns {TokenResolver} The appropriate resolver instance
+       */
+      class TokenResolverFactory {
+        /**
+         * Creates the appropriate resolver for a token type
+         * @param {string} type The token type ('color', 'layout', etc.)
+         * @param {Object} data Source data objects
+         * @returns {TokenResolver} The resolver instance
+         */
+        static createResolver(type, data = {}) {
+          switch (type) {
+            case "color":
+              return new TokenResolver(
+                {
+                  colorPalette: data.colorPalette || {},
+                  aliases: data.aliases || {},
+                  semanticColors: data.semanticColors || {},
+                  componentColors: data.componentColors || {},
+                },
+                "color"
+              );
+            case "layout":
+              return new TokenResolver(
+                {
+                  typographyTokens: data.typographyTokens || {},
+                  layoutTokens: data.layoutTokens || {},
+                  componentLayoutTokens: data.componentLayoutTokens || {},
+                  semanticLayoutTokens: data.semanticLayoutTokens || {},
+                },
+                "layout"
+              );
+            default:
+              throw new Error(`Unknown resolver type: ${type}`);
+          }
+        }
+      }
+
+      // Replace the current ValueFormatter with a more modular design
+      const ValueFormatter = {
+        // A cache for converted colors to improve performance
+        _colorCache: new Map(),
+
+        /**
+         * Get a cached value or compute and cache it
+         */
+        _getCachedValue(key, computeFn) {
+          if (this._colorCache.has(key)) {
+            return this._colorCache.get(key);
+          }
+          const value = computeFn();
+          this._colorCache.set(key, value);
+          return value;
+        },
+
+        /**
+         * Type checking utilities
+         */
+        isType: {
+          numeric(value) {
+            if (typeof value === "number") return true;
+            if (typeof value === "string") {
+              return /^-?\d*\.?\d+$/.test(value.trim());
+            }
+            return false;
+          },
+
+          color(value) {
+            if (!value) return false;
+
+            // Check for object format
+            if (typeof value === "object" && value !== null) {
+              return (
+                value.r !== undefined &&
+                value.g !== undefined &&
+                value.b !== undefined
+              );
+            }
+
+            if (typeof value !== "string") return false;
+
+            // Check for hex color format
+            if (
+              /^#([A-Fa-f0-9]{3,4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/.test(value)
+            ) {
+              return true;
+            }
+
+            // Check for rgb/rgba format
+            if (
+              /^rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(?:,\s*[\d.]+\s*)?\)$/.test(
+                value
+              )
+            ) {
+              return true;
+            }
+
+            // Check for token references
+            if (value.includes("{") && value.includes("}")) {
+              return true;
+            }
+
+            return false;
+          },
+
+          tokenReference(value) {
+            return (
+              typeof value === "string" &&
+              value.includes("{") &&
+              value.includes("}")
+            );
+          },
+        },
+
+        /**
+         * Unified color conversion module - single source of truth for all color transformations
+         */
+        colorConverter: {
+          /**
+           * Convert any color format to RGBA object (core conversion method)
+           */
+          toRGBA(color) {
+            if (!color) return null;
+
+            // If already a valid RGBA object, normalize it
+            if (
+              typeof color === "object" &&
+              color !== null &&
+              color.r !== undefined
+            ) {
+              return {
+                r: Math.round(color.r),
+                g: Math.round(color.g),
+                b: Math.round(color.b),
+                a: color.a !== undefined ? color.a : 1,
+              };
+            }
+
+            if (typeof color !== "string") return null;
+
+            // Handle hex format
+            if (color.startsWith("#")) {
+              return this._hexToRGBA(color);
+            }
+
+            // Handle rgb(a) format
+            if (color.startsWith("rgb")) {
+              return this._rgbStringToRGBA(color);
+            }
+
+            return null;
+          },
+
+          /**
+           * Private helper for hex conversion
+           */
+          _hexToRGBA(hex) {
+            let r,
+              g,
+              b,
+              a = 1;
+
+            if (hex.length === 4 || hex.length === 5) {
+              // #RGB or #RGBA format
+              r = parseInt(hex[1] + hex[1], 16);
+              g = parseInt(hex[2] + hex[2], 16);
+              b = parseInt(hex[3] + hex[3], 16);
+              if (hex.length === 5) {
+                a = parseInt(hex[4] + hex[4], 16) / 255;
+              }
+            } else if (hex.length === 7 || hex.length === 9) {
+              // #RRGGBB or #RRGGBBAA format
+              r = parseInt(hex.substring(1, 3), 16);
+              g = parseInt(hex.substring(3, 5), 16);
+              b = parseInt(hex.substring(5, 7), 16);
+              if (hex.length === 9) {
+                a = parseInt(hex.substring(7, 9), 16) / 255;
+              }
+            } else {
+              return null;
+            }
+
+            return { r, g, b, a };
+          },
+
+          /**
+           * Private helper for RGB string conversion
+           */
+          _rgbStringToRGBA(rgbStr) {
+            const rgbaMatch = rgbStr.match(
+              /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/
+            );
+            if (rgbaMatch) {
+              const [_, r, g, b, a] = rgbaMatch;
+              return {
+                r: parseInt(r, 10),
+                g: parseInt(g, 10),
+                b: parseInt(b, 10),
+                a: a !== undefined ? parseFloat(a) : 1,
+              };
+            }
+            return null;
+          },
+
+          /**
+           * Convert RGBA to hex (with optional alpha)
+           */
+          toHex(rgba, includeAlpha = true) {
+            if (!rgba) return null;
+
+            // Convert to RGBA object first if not already
+            const rgbaObj = typeof rgba !== "object" ? this.toRGBA(rgba) : rgba;
+            if (!rgbaObj) return null;
+
+            // Convert to hex
+            const hex =
+              "#" +
+              Math.round(rgbaObj.r).toString(16).padStart(2, "0") +
+              Math.round(rgbaObj.g).toString(16).padStart(2, "0") +
+              Math.round(rgbaObj.b).toString(16).padStart(2, "0");
+
+            // Add alpha if needed and it's not 1
+            if (includeAlpha && rgbaObj.a !== 1) {
+              const alphaHex = Math.round(rgbaObj.a * 255)
+                .toString(16)
+                .padStart(2, "0");
+              return hex + alphaHex;
+            }
+
+            return hex;
+          },
+
+          /**
+           * Convert RGBA to rgb/rgba string
+           */
+          toRGBString(rgba) {
+            if (!rgba) return null;
+
+            // Convert to RGBA object first if not already
+            const rgbaObj = typeof rgba !== "object" ? this.toRGBA(rgba) : rgba;
+            if (!rgbaObj) return null;
+
+            // Use rgb() if alpha is 1, otherwise use rgba()
+            if (rgbaObj.a === 1) {
+              return `rgb(${Math.round(rgbaObj.r)}, ${Math.round(
+                rgbaObj.g
+              )}, ${Math.round(rgbaObj.b)})`;
+            } else {
+              return `rgba(${Math.round(rgbaObj.r)}, ${Math.round(
+                rgbaObj.g
+              )}, ${Math.round(rgbaObj.b)}, ${rgbaObj.a})`;
+            }
+          },
+
+          /**
+           * Get alpha percentage string
+           */
+          getAlphaPercentage(rgba) {
+            if (!rgba || rgba.a === 1) return "";
+            return ` (${Math.round(rgba.a * 100)}%)`;
+          },
+
+          /**
+           * Convert to any format - single point of entry for all color conversions
+           */
+          convertTo(color, format = "hexAlpha") {
+            // Handle special cases
+            if (color === null || color === undefined) return color;
+
+            // Generate cache key
+            const cacheKey = `${color}:${format}`;
+
+            // Return cached or compute
+            return ValueFormatter._getCachedValue(cacheKey, () => {
+              // Convert to RGBA first
+              const rgba = this.toRGBA(color);
+              if (!rgba) return color; // Return original if invalid
+
+              // Convert to requested format
+              switch (format) {
+                case "hex":
+                  return this.toHex(rgba, false);
+                case "hexAlpha":
+                  const hex = this.toHex(rgba, true);
+                  return rgba.a < 1 ? hex + this.getAlphaPercentage(rgba) : hex;
+                case "rgba":
+                  return this.toRGBString(rgba);
+                default:
+                  return color;
+              }
+            });
+          },
+        },
+
+        /**
+         * Number formatting
+         */
+        numberFormatter: {
+          format(value, precision = 3) {
+            // Convert to number if string
+            const num = typeof value === "string" ? parseFloat(value) : value;
+
+            // Handle integers
+            if (Number.isInteger(num)) {
+              return String(num);
+            }
+
+            // Handle decimals with precision
+            const decimalPlaces = (num.toString().split(".")[1] || "").length;
+            return decimalPlaces <= precision
+              ? String(num)
+              : num.toFixed(precision);
+          },
+        },
+
+        /**
+         * Auto-detect the type of a value
+         */
+        detectValueType(value) {
+          if (this.isType.numeric(value)) {
+            return "number";
+          } else if (this.isType.color(value)) {
+            return "color";
+          } else {
+            return "text";
+          }
+        },
+
+        /**
+         * Resolves a token value if resolver is provided
+         * @param {string} value Token value to resolve
+         * @param {Object} resolver Token resolver to use
+         * @param {string} theme Theme context
+         * @returns {string} Resolved value
+         */
+        resolveTokenValue(value, resolver, theme = "light") {
+          if (resolver && typeof value === "string" && value.includes("{")) {
+            return resolver.resolve(value, theme) || value;
+          }
+          return value;
+        },
+
+        /**
+         * Main formatter function - unified interface for all value types
+         * @param {any} value Value to format
+         * @param {Object} options Formatting options
+         * @returns {string} Formatted value
+         */
+        format(value, options = {}) {
+          // Default options
+          const settings = {
+            format: "hexAlpha", // Default color format
+            valueType: "auto", // Auto-detect type
+            precision: 3, // Number precision
+            ...options,
+          };
+
+          // Handle null values
+          if (value === null || value === undefined) return value;
+
+          // Auto-detect value type if needed
+          if (settings.valueType === "auto") {
+            settings.valueType = this.detectValueType(value);
+          }
+
+          // Format based on detected type
+          switch (settings.valueType) {
+            case "color":
+              // Return token references as-is
+              if (this.isType.tokenReference(value)) return value;
+
+              // Format numeric values as numbers
+              if (typeof value === "number") {
+                return this.numberFormatter.format(value);
+              }
+
+              // Convert color to requested format
+              return this.colorConverter.convertTo(value, settings.format);
+
+            case "number":
+              return this.numberFormatter.format(value, settings.precision);
+
+            default:
+              return String(value);
+          }
+        },
+
+        // Public convenience methods for direct formatting
+        formatColor(value, format = "hexAlpha") {
+          return this.format(value, { valueType: "color", format });
+        },
+
+        formatNumber(value, precision = 3) {
+          return this.format(value, { valueType: "number", precision });
+        },
+      };
+
+      // Security utility class for input sanitization
+      class SecurityUtils {
+        /**
+         * Sanitizes user input to prevent XSS attacks
+         * @param {string} input Input string to sanitize
+         * @returns {string} Sanitized string with HTML special characters escaped
+         */
+        static sanitizeInput(input) {
+          if (typeof input !== "string") return input;
+
+          return input.replace(/[<>&"']/g, (char) => {
+            return {
+              "<": "&lt;",
+              ">": "&gt;",
+              "&": "&amp;",
+              '"': "&quot;",
+              "'": "&#39;",
+            }[char];
+          });
+        }
+
+        /**
+         * Sanitizes input specifically for use in HTML attributes
+         * @param {string} input Input string to sanitize
+         * @returns {string} Sanitized string for attribute use
+         */
+        static sanitizeForAttribute(input) {
+          if (typeof input !== "string") return input;
+          return input.replace(/[&"']/g, (char) => {
+            return {
+              "&": "&amp;",
+              '"': "&quot;",
+              "'": "&#39;",
+            }[char];
+          });
+        }
+      }
+
+      // Update color display creation to handle format
+      function updateColorDisplays(format) {
+        // Update color values
+        const colorValues = document.querySelectorAll(".color-value");
+        colorValues.forEach((valueElement) => {
+          const originalValue = valueElement.dataset.originalValue;
+          if (originalValue) {
+            valueElement.textContent = ValueFormatter.formatColor(
+              originalValue,
+              format
+            );
+          }
+        });
+
+        // Update value chains using the standardized handler
+        TokenChainHandler.updateAllChains(format);
+      }
+
+      // Implement value display factory - focused solely on creating DOM elements
+      class ValueDisplayFactory {
+        /**
+         * Creates a display component for a token value
+         * @param {any} value The token value
+         * @param {string} valueType Type of value ('color', 'number', etc.)
+         * @param {Object} options Display options
+         * @returns {HTMLElement} Display component
+         */
+        static createValueDisplay(value, valueType, options = {}) {
+          // Auto-detect value type if not specified
+          if (!valueType || valueType === "auto") {
+            valueType = ValueFormatter.detectValueType(value);
+          }
+
+          // Create appropriate display based on value type
+          switch (valueType) {
+            case "color":
+              return this.createColorDisplay(value, options);
+            case "number":
+              return this.createNumberDisplay(value, options);
+            case "text":
+            default:
+              return this.createTextDisplay(value, options);
+          }
+        }
+
+        /**
+         * Creates a display for color values with swatch and text
+         * @param {string} value The color value
+         * @param {Object} options Display options
+         * @returns {HTMLElement} Color display component
+         */
+        static createColorDisplay(value, options = {}) {
+          const container = ElementFactory.createDiv({
+            className: "color-cell",
+          });
+
+          // Resolve token reference if needed
+          const resolvedValue = ValueFormatter.resolveTokenValue(
+            value,
+            options.resolver,
+            options.theme || "light"
+          );
+
+          // Add color swatch if appropriate and not explicitly disabled
+          if (
+            ValueFormatter.isType.color(value) &&
+            options.displaySwatch !== false
+          ) {
+            ElementFactory.appendDiv(container, {
+              className: "color-swatch",
+              style: { backgroundColor: resolvedValue || "transparent" },
+            });
+          }
+
+          // Format the value according to requested format
+          const formattedValue = ValueFormatter.formatColor(
+            value,
+            options.format || "hexAlpha"
+          );
+
+          // Add color value text
+          ElementFactory.appendSpan(container, {
+            className: "color-value",
+            dataset: { originalValue: value },
+            textContent: formattedValue,
+          });
+
+          return container;
+        }
+
+        /**
+         * Creates a display for numeric values
+         * @param {number|string} value The numeric value
+         * @param {Object} options Display options
+         * @returns {HTMLElement} Number display component
+         */
+        static createNumberDisplay(value, options = {}) {
+          // Get formatted value from ValueFormatter
+          const formattedValue = ValueFormatter.formatNumber(
+            value,
+            options.precision || 3
+          );
+
+          // Add unit if specified
+          const displayText = options.unit
+            ? formattedValue + options.unit
+            : formattedValue;
+
+          return ElementFactory.createDiv({
+            className: "number-display",
+            textContent: displayText,
+          });
+        }
+
+        /**
+         * Creates a display for text values
+         * @param {string} value The text value
+         * @param {Object} options Display options
+         * @returns {HTMLElement} Text display component
+         */
+        static createTextDisplay(value, options = {}) {
+          return ElementFactory.createDiv({
+            className: "text-display",
+            textContent: String(value),
+          });
+        }
+      }
+
+      // Implement CellRendererFactory to standardize cell rendering
+      class CellRendererFactory {
+        /**
+         * Creates a cell for a specific token name
+         * @param {Object} token Token data
+         * @param {string} tokenName Name of the token
+         * @param {Object} options Options for rendering
+         * @returns {HTMLElement} The rendered cell
+         */
+        static createNameCell(token, tokenName, options = {}) {
+          const cell = ElementFactory.createTd();
+          const tokenNameContainer = ElementFactory.createDiv({
+            className: "token-name",
+          });
+
+          // Add prefix with special styling
+          const prefix = ElementFactory.createSpan({
+            className: "token-prefix",
+            textContent: "--spectrum-",
+          });
+
+          // Add the actual token name
+          const nameText = ElementFactory.createSpan({
+            textContent: tokenName,
+          });
+
+          // Assemble the elements
+          ElementFactory.appendExisting(tokenNameContainer, prefix);
+          ElementFactory.appendExisting(tokenNameContainer, nameText);
+          ElementFactory.appendExisting(cell, tokenNameContainer);
+
+          return cell;
+        }
+
+        /**
+         * Creates a value cell for a token
+         * @param {Object} token Token data
+         * @param {string} tokenName Name of the token
+         * @param {Object} options Options for rendering
+         * @returns {HTMLElement} The rendered cell
+         */
+        static createValueCell(token, tokenName, options = {}) {
+          const cell = ElementFactory.createTd();
+          const theme = options.theme || "light"; // Default to light theme
+          const tokenType = options.valueType || "auto";
+
+          // Get appropriate value based on theme and token structure
+          let value;
+          if (theme === "desktop" || theme === "mobile") {
+            value = token.sets?.[theme]?.value ?? token.value ?? "";
+          } else {
+            value = token.sets?.[theme]?.value || token.value || "#000000";
+          }
+
+          // Determine if we should display swatches based on options
+          const shouldDisplaySwatch = !(
+            options.valueType === "layout" ||
+            options.valueType === "typography" ||
+            tokenType === "layout" ||
+            tokenType === "typography"
+          );
+
+          // Create a token display using ValueDisplayFactory and append it to the cell
+          const valueDisplay = ValueDisplayFactory.createValueDisplay(
+            value,
+            tokenType,
+            {
+              theme,
+              resolver: options.resolver,
+              format: DOM.colorFormat.value,
+              displaySwatch: shouldDisplaySwatch,
+            }
+          );
+
+          // Append the value display to the cell
+          ElementFactory.appendExisting(cell, valueDisplay);
+
+          // Add resolution chain if resolver is provided
+          if (options.resolver) {
+            const chain = TokenChainHandler.getResolutionChain(
+              options.resolver,
+              value,
+              theme
+            );
+            TokenChainHandler.addResolutionChainToCell(cell, chain, theme);
+          }
+
+          return cell;
+        }
+
+        /**
+         * Creates an actions cell for a token
+         * @param {Object} token Token data
+         * @param {string} tokenName Name of the token
+         * @param {Object} options Options for rendering
+         * @returns {HTMLElement} The rendered cell
+         */
+        static createActionsCell(token, tokenName, options = {}) {
+          const cell = ElementFactory.createTd();
+          const impactButton = ElementFactory.createButton({
+            className: "row-action",
+            textContent: "See impact",
+            dataset: { tokenName },
+          });
+          ElementFactory.appendExisting(cell, impactButton);
+
+          // Try to get component count from cached data if available
+          if (window.cachedTokenData && window.cachedTokenData[tokenName]) {
+            const impactData = window.cachedTokenData[tokenName];
+            const count = impactData.componentsCount || 0;
+            impactButton.textContent = `See impact (${count})`;
+          } else {
+            // Set a data attribute that we can update later when data is available
+            impactButton.dataset.pendingCount = true;
+          }
+
+          return cell;
+        }
+      }
+
+      // Generic table factory for creating and managing tables
+      class TableFactory {
+        /**
+         * Creates a table with the given configuration
+         * @param {Object} options Configuration options
+         * @returns {HTMLElement} The created table element
+         */
+        static createTable(options = {}) {
+          // Create table element
+          const table = ElementFactory.createTable({
+            className: options.tableClass || "color-table",
+            style: options.width ? { width: options.width } : undefined,
+          });
+
+          // Create header section
+          if (options.headers && options.headers.length > 0) {
+            const headerRow = ElementFactory.createTr();
+            this.appendHeaderCells({
+              headerRow,
+              headers: options.headers,
+            });
+
+            const thead = ElementFactory.createThead({}, [headerRow]);
+            table.appendChild(thead);
+          }
+
+          // Create body section
+          const tbody = ElementFactory.createTbody();
+          if (options.rows && options.rows.length > 0) {
+            this.appendDataRows({
+              tbody,
+              rows: options.rows,
+              cellRenderer: options.cellRenderer,
+            });
+          }
+          table.appendChild(tbody);
+
+          return table;
+        }
+
+        /**
+         * Appends header cells to a header row
+         * @param {Object} options Configuration options
+         * @param {HTMLElement} options.headerRow The header row element
+         * @param {Array} options.headers Header definitions
+         */
+        static appendHeaderCells(options = {}) {
+          const { headerRow, headers } = options;
+
+          if (!headerRow || !headers) {
+            console.warn("Missing required parameters for appendHeaderCells");
+            return;
+          }
+
+          headers.forEach((header) => {
+            const thProps = {};
+
+            if (typeof header === "string") {
+              thProps.textContent = header;
+            } else {
+              thProps.textContent = header.text || header.header || "";
+              if (header.width) {
+                thProps.style = { width: header.width };
+              }
+            }
+
+            const th = ElementFactory.createTh(thProps);
+            headerRow.appendChild(th);
+          });
+        }
+
+        /**
+         * Appends data rows to table body
+         * @param {Object} options Configuration options
+         * @param {HTMLElement} options.tbody The table body element
+         * @param {Array} options.rows Row data
+         * @param {Function} options.cellRenderer Custom cell renderer function
+         */
+        static appendDataRows(options = {}) {
+          const { tbody, rows, cellRenderer } = options;
+
+          if (!tbody || !rows) {
+            console.warn("Missing required parameters for appendDataRows");
+            return;
+          }
+
+          rows.forEach((rowData) => {
+            const rowProps = {};
+
+            // Apply row-level properties
+            if (rowData.highlight) {
+              rowProps.style = { backgroundColor: rowData.highlight };
+            }
+
+            if (rowData.dataset) {
+              rowProps.dataset = rowData.dataset;
+            }
+
+            const row = ElementFactory.createTr(rowProps);
+
+            // Handle different row data formats
+            if (rowData.cells) {
+              // Format: { cells: [...] }
+              this.appendCellsToRow({ row, cells: rowData.cells });
+            } else if (cellRenderer) {
+              // Custom renderer format
+              cellRenderer(row, rowData, options);
+            }
+
+            tbody.appendChild(row);
+          });
+        }
+
+        /**
+         * Appends cells to a row
+         * @param {Object} options Configuration options
+         * @param {HTMLElement} options.row The row element
+         * @param {Array} options.cells Cell data
+         */
+        static appendCellsToRow(options = {}) {
+          const { row, cells } = options;
+
+          if (!row || !cells) {
+            console.warn("Missing required parameters for appendCellsToRow");
+            return;
+          }
+
+          cells.forEach((cell) => {
+            let tdProps = {};
+            let children = [];
+
+            if (typeof cell === "string") {
+              tdProps.textContent = cell;
+            } else if (cell instanceof Element) {
+              children = [cell];
+            } else if (cell.html) {
+              // Parse HTML content safely
+              const tempDiv = document.createElement("div");
+              tempDiv.textContent = cell.html;
+              children = [tempDiv];
+
+              console.warn(
+                "html property in table cells is deprecated for security reasons."
+              );
+            } else {
+              tdProps.textContent = cell.text || "";
+            }
+
+            const td = ElementFactory.createTd(tdProps, children);
+            row.appendChild(td);
+          });
+        }
+      }
+
+      /**
+       * Specialized factory for token-specific tables
+       * Uses TableFactory for the actual table creation but adds token-specific data handling
+       */
+      class TokenTableFactory {
+        /**
+         * Process token data into row format for tables
+         * @param {Object} tokenData Raw token data
+         * @returns {Array} Processed rows for table
+         */
+        static processTokenData(tokenData) {
+          // Sort tokens by name using natural sorting
+          const collator = new Intl.Collator(undefined, {
+            numeric: true,
+            sensitivity: "base",
+          });
+          const sortedTokens = Object.entries(tokenData).sort(([a], [b]) =>
+            collator.compare(a, b)
+          );
+
+          // Create rows for tokens
+          return sortedTokens
+            .filter(([_, token]) => !token.deprecated)
+            .map(([tokenName, token]) => ({
+              dataset: { tokenName },
+              token,
+              tokenName,
+            }));
+        }
+
+        /**
+         * Create a token-specific cell renderer function
+         * @param {Array} columnConfig Column configuration
+         * @param {Object} resolver Token resolver
+         * @param {Object} customRenderFunctions Optional custom renderers
+         * @returns {Function} Cell renderer function
+         */
+        static createTokenCellRenderer(
+          columnConfig,
+          resolver,
+          customRenderFunctions
+        ) {
+          return (row, rowData, _) => {
+            // Create cells for each column
+            columnConfig.forEach((column) => {
+              let cell;
+
+              // Use custom renderer if provided
+              if (customRenderFunctions && customRenderFunctions[column.id]) {
+                cell = customRenderFunctions[column.id](
+                  rowData.token,
+                  rowData.tokenName,
+                  column,
+                  resolver
+                );
+              } else {
+                // Use default cell renderer
+                switch (column.id) {
+                  case "name":
+                    cell = CellRendererFactory.createNameCell(
+                      rowData.token,
+                      rowData.tokenName,
+                      column
+                    );
+                    break;
+                  case "value":
+                    cell = CellRendererFactory.createValueCell(
+                      rowData.token,
+                      rowData.tokenName,
+                      {
+                        ...column,
+                        resolver: resolver,
+                      }
+                    );
+                    break;
+                  case "actions":
+                    cell = CellRendererFactory.createActionsCell(
+                      rowData.token,
+                      rowData.tokenName,
+                      column
+                    );
+                    break;
+                  default:
+                    cell = ElementFactory.createTd({
+                      textContent: rowData.tokenName || "Unknown",
+                    });
+                }
+              }
+
+              row.appendChild(cell);
+            });
+          };
+        }
+
+        /**
+         * Creates a table for any token type
+         * @param {Object} options Configuration options
+         * @returns {HTMLElement} The created table element
+         */
+        static createTable(options) {
+          const {
+            tokenData,
+            tokenType,
+            resolver,
+            columnConfig,
+            customRenderFunctions,
+          } = options;
+
+          // Process token data into rows
+          const rows = this.processTokenData(tokenData);
+
+          // Create cell renderer
+          const cellRenderer = this.createTokenCellRenderer(
+            columnConfig,
+            resolver,
+            customRenderFunctions
+          );
+
+          // Prepare table configuration
+          const tableOptions = {
+            tableClass: "color-table",
+            headers: columnConfig.map((column) => ({
+              text: column.header,
+              width: column.width,
+            })),
+            rows,
+            cellRenderer,
+          };
+
+          // Use TableFactory to create the actual table
+          return TableFactory.createTable(tableOptions);
+        }
+      }
+
+      // Define standard column configurations
+      const COLUMN_CONFIGS = (() => {
+        // Create base column config that can be customized for different token types
+        const createColumnConfig = (valueProps) => [
+          { id: "name", header: "Name", width: "30%" },
+          { ...valueProps.light, width: "28%" },
+          { ...valueProps.dark, width: "28%" },
+          { id: "actions", header: "Actions", width: "14%" },
+        ];
+
+        return {
+          color: createColumnConfig({
+            light: { id: "value", header: "Light value", theme: "light" },
+            dark: { id: "value", header: "Dark value", theme: "dark" },
+          }),
+
+          layout: createColumnConfig({
+            light: {
+              id: "value",
+              header: "Desktop value",
+              theme: "desktop",
+              valueType: "layout",
+            },
+            dark: {
+              id: "value",
+              header: "Mobile value",
+              theme: "mobile",
+              valueType: "layout",
+            },
+          }),
+
+          typography: createColumnConfig({
+            light: {
+              id: "value",
+              header: "Desktop value",
+              theme: "desktop",
+              valueType: "typography",
+            },
+            dark: {
+              id: "value",
+              header: "Mobile value",
+              theme: "mobile",
+              valueType: "typography",
+            },
+          }),
+        };
+      })();
+
+      // Unified tab handler function
+      function setupTabHandlers() {
+        const tabButtons = document.querySelectorAll(".tab-button");
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const tabId = button.dataset.tab;
+
+            // Remove active class from all buttons and content
+            tabButtons.forEach((btn) => btn.classList.remove("active"));
+            document
+              .querySelectorAll(".tab-content")
+              .forEach((content) => content.classList.remove("active"));
+
+            // Add active class to clicked button and corresponding content
+            button.classList.add("active");
+            document.getElementById(tabId).classList.add("active");
+
+            // Remove body ID for normal content
+            document.body.id = "";
+          });
+        });
+      }
+
+      // Update search functionality
+      function setupSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
+        const tables = document.querySelectorAll(".color-table");
+        const searchContainer = document.querySelector(".search-container");
+
+        function filterContent(searchTerm) {
+          const tabButtonsContainer = document.querySelector(".tab-buttons");
+          tabButtonsContainer.classList.add("tab-buttons-hidden");
+
+          // Add search-results ID to body when filtering
+          document.body.id = "search-results-view";
+
+          tabContents.forEach((content) => {
+            content.classList.add("active");
+            const table = content.querySelector(".color-table");
+            if (table) {
+              let visibleRows = 0;
+              const rows = table.querySelectorAll("tbody tr");
+
+              rows.forEach((row) => {
+                // Get all text content from the row
+                const rowText = row.textContent.toLowerCase();
+
+                const isMatch = rowText.includes(searchTerm);
+                row.classList.toggle("table-hidden", !isMatch);
+                if (isMatch) visibleRows++;
+              });
+
+              table.classList.toggle("table-hidden", visibleRows === 0);
+            }
+          });
+        }
+
+        searchInput.addEventListener("input", (e) => {
+          const rawInput = e.target.value;
+          const searchTerm = SecurityUtils.sanitizeInput(
+            rawInput.toLowerCase()
+          );
+
+          if (searchTerm) {
+            filterContent(searchTerm);
+          } else {
+            // Instead of refreshing the page, reset the view
+            const tabButtonsContainer = document.querySelector(".tab-buttons");
+            tabButtonsContainer.classList.remove("tab-buttons-hidden");
+
+            // Remove search-results ID from body
+            document.body.id = "";
+
+            // Hide all content except the active one
+            tabContents.forEach((content) => {
+              content.classList.remove("active");
+            });
+
+            // Find and show the active tab content
+            const activeTab =
+              document.querySelector(".tab-button.active").dataset.tab;
+            document.getElementById(activeTab).classList.add("active");
+
+            // Show all rows in tables
+            document
+              .querySelectorAll(".color-table tbody tr")
+              .forEach((row) => {
+                row.classList.remove("table-hidden");
+              });
+
+            // Show all tables
+            document.querySelectorAll(".color-table").forEach((table) => {
+              table.classList.remove("table-hidden");
+            });
+          }
+        });
+      }
+
+      // Theme management with consolidated class
+      class ThemeManager {
+        static getCurrentTheme() {
+          if (document.documentElement.classList.contains("spectrum--dark")) {
+            return "dark";
+          }
+          return "light";
+        }
+
+        static setTheme(theme) {
+          // Remove existing theme classes
+          document.documentElement.classList.remove(
+            "spectrum--light",
+            "spectrum--dark"
+          );
+          // Add new theme class
+          document.documentElement.classList.add(`spectrum--${theme}`);
+          localStorage.setItem("theme", theme);
+          this.updateThemeButton(theme);
+        }
+
+        static toggleTheme() {
+          const currentTheme = this.getCurrentTheme();
+          const newTheme = currentTheme === "light" ? "dark" : "light";
+          this.setTheme(newTheme);
+        }
+
+        static updateThemeButton(theme) {
+          const button = document.querySelector(".theme-toggle");
+          const icon = button.querySelector(".theme-icon");
+          icon.textContent = theme === "light" ? "Dark switch" : "Light switch";
+        }
+
+        static initTheme() {
+          const savedTheme = localStorage.getItem("theme") || "light";
+          // No need to set initial theme here since it's done in the inline script
+          this.updateThemeButton(savedTheme);
+        }
+      }
+
+      // Helper function to fetch and validate the data
+      async function fetchJsonData(path) {
+        try {
+          const response = await fetch(path);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return await response.json();
+        } catch (error) {
+          console.error(`Error fetching ${path}:`, error);
+          return null;
+        }
+      }
+
+      // Helper function to fetch and validate all data files
+      async function fetchAndValidateData() {
+        const dataPromises = config.jsonFiles.map(fetchJsonData);
+        const results = await Promise.all(dataPromises);
+        const validData = results.filter((result) => result !== null);
+
+        console.log("Fetched data:", validData);
+
+        if (validData.length === 0) {
+          document.getElementById("gridContainer").innerHTML =
+            "<p>No data was loaded. Please check the console for errors.</p>";
+          return null;
+        }
+
+        return validData;
+      }
+
+      async function init() {
+        try {
+          // Fetch and process data
+          const validData = await fetchAndValidateData();
+          if (!validData) return;
+
+          // Destructure the data
+          const [
+            colorPalette,
+            aliases,
+            semanticPalette,
+            componentColors,
+            icons,
+            layoutTokens,
+            layoutComponent,
+            typography,
+          ] = validData;
+
+          // Store data globally for reference
+          window.colorPaletteData = colorPalette;
+          window.aliasesData = aliases;
+          window.semanticColorsData = semanticPalette;
+          window.componentColorsData = componentColors;
+          window.iconsData = icons;
+          window.layoutTokensData = layoutTokens;
+          window.layoutComponentData = layoutComponent;
+          window.typographyData = typography;
+
+          // Set selected color format from sessionStorage
+          if (typeof savedFormat !== "undefined") {
+            DOM.colorFormat.value = savedFormat;
+          }
+
+          // Create resolvers
+          const resolvers = createResolvers(validData);
+
+          // Initialize UI components
+          initializeGrids(validData, resolvers);
+          initializeEventListeners();
+
+          // Initialize additional features
+          ThemeManager.initTheme();
+
+          // Initialize impact buttons after everything else is loaded
+          initImpactButtons();
+
+          // Prefetch impact data to update buttons with counts
+          prefetchImpactData();
+
+          // Apply saved format to existing color displays
+          if (typeof savedFormat !== "undefined") {
+            updateColorDisplays(savedFormat);
+          }
+        } catch (error) {
+          handleInitError(error);
+        }
+      }
+
+      // Helper function to create resolvers
+      function createResolvers(data) {
+        const [
+          colorPalette,
+          aliases,
+          semanticPalette,
+          componentColors,
+          icons,
+          layoutTokens,
+          layoutComponent,
+          typography,
+        ] = data;
+
+        return {
+          color: TokenResolverFactory.createResolver("color", {
+            colorPalette,
+            aliases,
+            semanticColors: semanticPalette,
+            componentColors,
+          }),
+          layout: TokenResolverFactory.createResolver("layout", {
+            layoutTokens,
+            componentLayoutTokens: layoutComponent,
+            typographyTokens: typography,
+          }),
+        };
+      }
+
+      // Helper function to initialize grids
+      function initializeGrids(data, resolvers) {
+        const [
+          colorPalette,
+          aliases,
+          semanticPalette,
+          componentColors,
+          icons,
+          layoutTokens,
+          layoutComponent,
+          typography,
+        ] = data;
+
+        // Create color grids
+        appendGrid({
+          containerId: "palette",
+          gridType: "color",
+          tokenData: colorPalette,
+          resolver: resolvers.color,
+          colorPalette,
+          aliases,
+          semanticData: semanticPalette,
+        });
+
+        appendGrid({
+          containerId: "semantic",
+          gridType: "color",
+          tokenData: semanticPalette,
+          resolver: resolvers.color,
+          colorPalette,
+          aliases,
+          semanticData: semanticPalette,
+        });
+
+        appendGrid({
+          containerId: "aliases",
+          gridType: "color",
+          tokenData: aliases,
+          resolver: resolvers.color,
+          colorPalette,
+          aliases,
+          semanticData: semanticPalette,
+        });
+
+        appendGrid({
+          containerId: "components",
+          gridType: "color",
+          tokenData: componentColors,
+          resolver: resolvers.color,
+          colorPalette,
+          aliases,
+          semanticData: semanticPalette,
+        });
+
+        appendGrid({
+          containerId: "icons",
+          gridType: "color",
+          tokenData: icons,
+          resolver: resolvers.color,
+          colorPalette,
+          aliases,
+          semanticData: semanticPalette,
+        });
+
+        // Create layout grids
+        appendGrid({
+          containerId: "layout",
+          gridType: "layout",
+          tokenData: layoutTokens,
+          resolver: resolvers.layout,
+        });
+
+        appendGrid({
+          containerId: "layout-component",
+          gridType: "layout",
+          tokenData: layoutComponent,
+          resolver: resolvers.layout,
+        });
+
+        // Create typography grid
+        appendGrid({
+          containerId: "typography",
+          gridType: "typography",
+          tokenData: typography,
+          resolver: resolvers.layout,
+        });
+      }
+
+      // Unified grid append function
+      function appendGrid(options) {
+        const {
+          containerId,
+          gridType,
+          tokenData,
+          resolver,
+          colorPalette,
+          aliases,
+          semanticData,
+          componentColors,
+        } = options;
+
+        // Create a resolver if one wasn't provided (for color grids only)
+        let effectiveResolver = resolver;
+        if (gridType === "color" && !effectiveResolver) {
+          effectiveResolver = TokenResolverFactory.createResolver("color", {
+            colorPalette,
+            aliases,
+            semanticColors: tokenData,
+            componentColors: semanticData || componentColors,
+          });
+        }
+
+        // Create grid directly using TokenTableFactory for all grid types
+        const grid = TokenTableFactory.createTable({
+          tokenData,
+          tokenType: gridType,
+          resolver: effectiveResolver,
+          columnConfig: COLUMN_CONFIGS[gridType],
+        });
+
+        // Get the container and append the grid
+        const container = document.getElementById(containerId);
+        if (container) {
+          ElementFactory.appendExisting(container, grid);
+        }
+      }
+
+      // Helper function to initialize event listeners
+      function initializeEventListeners() {
+        // Set up tab switching
+        setupTabHandlers();
+
+        // Set up mobile tab select
+        setupMobileTabSelect();
+
+        // Set up format picker
+        DOM.colorFormat.addEventListener("change", (e) => {
+          const format = e.target.value;
+          // Update all color displays and resolution chains consistently
+          updateColorDisplays(format);
+          // Save format to sessionStorage
+          sessionStorage.setItem("colorFormat", format);
+        });
+
+        // Set up theme toggle
+        document
+          .querySelector(".theme-toggle")
+          .addEventListener(
+            "click",
+            ThemeManager.toggleTheme.bind(ThemeManager)
+          );
+
+        // Set up search functionality
+        setupSearch();
+      }
+
+      // Helper function to handle init errors
+      function handleInitError(error) {
+        console.error("Error initializing application:", error);
+        document.getElementById("gridContainer").innerHTML =
+          "<p>Error loading data. Please try again later.</p>";
+      }
+
+      // Add this new class for standardized chain handling
+      class TokenChainHandler {
+        /**
+         * Get resolution chain from any resolver
+         * @param {Object} resolver Token resolver to use
+         * @param {string} value Token value to resolve
+         * @param {string} context Context (light/dark/desktop/mobile)
+         * @returns {Array} Chain of resolution from token reference to final value
+         */
+        static getResolutionChain(resolver, value, context) {
+          if (!resolver || !value) return [];
+
+          // If the resolver already has the method, use it directly
+          if (resolver.getResolutionChain) {
+            return resolver.getResolutionChain(value, context || "light");
+          }
+
+          // Otherwise, fall back to default implementation
+          // Determine default context based on resolver type
+          const defaultContext =
+            resolver.tokenType === "layout" ? "desktop" : "light";
+          const param = context || defaultContext;
+
+          // Simple implementation for resolvers without the method
+          const result = [value];
+          if (typeof value === "string" && value.includes("{")) {
+            const resolved = resolver.resolve(value, param);
+            if (resolved) result.push(resolved);
+          }
+          return result;
+        }
+
+        /**
+         * Add resolution chain to a cell
+         * Central method for displaying token chains in the UI
+         * @param {HTMLElement} cell Target cell to add the chain to
+         * @param {Array} chain Resolution chain to display
+         * @param {string} theme Current theme context
+         */
+        static addResolutionChainToCell(cell, chain, theme) {
+          if (!chain || chain.length <= 1) return;
+
+          // Create chain container
+          const chainContainer = ElementFactory.createDiv({
+            className: "resolution-chain",
+          });
+
+          // Skip the first item in the chain (the redundant one)
+          chain.slice(1).forEach((ref, index) => {
+            let textContent;
+            let props = {
+              className: "value-chain",
+            };
+
+            // Add special styling for the final raw value
+            if (index === chain.length - 2) {
+              const formattedValue = ValueFormatter.formatColor(
+                ref,
+                DOM.colorFormat.value
+              );
+              textContent = `${index === 0 ? "→" : "  →"} ${formattedValue}`;
+              props.className += " raw-value";
+              // Store the original value for later formatting
+              props.dataset = { originalValue: ref };
+            } else {
+              textContent = `${index === 0 ? "→" : "  →"} ${ref}`;
+            }
+
+            const referenceText = ElementFactory.createDiv({
+              ...props,
+              textContent,
+            });
+
+            ElementFactory.appendExisting(chainContainer, referenceText);
+          });
+
+          ElementFactory.appendExisting(cell, chainContainer);
+        }
+
+        /**
+         * Create and return a resolution chain element
+         * Similar to addResolutionChainToCell but returns an element instead
+         * @param {Array} chain Resolution chain to display
+         * @param {string} format Color format to use
+         * @returns {HTMLElement} Resolution chain container element
+         */
+        static createResolutionChainElement(chain, format) {
+          if (!chain || chain.length <= 1) return null;
+
+          const chainContainer = ElementFactory.createDiv({
+            className: "resolution-chain",
+          });
+
+          // Skip the first item in the chain (the redundant one)
+          chain.slice(1).forEach((ref, index) => {
+            let textContent;
+            let props = {
+              className: "value-chain",
+            };
+
+            // Add special styling for the final raw value
+            if (index === chain.length - 2) {
+              const formattedValue = ValueFormatter.formatColor(ref, format);
+              textContent = `${index === 0 ? "→" : "  →"} ${formattedValue}`;
+              props.className += " raw-value";
+              props.dataset = { originalValue: ref };
+            } else {
+              textContent = `${index === 0 ? "→" : "  →"} ${ref}`;
+            }
+
+            ElementFactory.appendDiv(chainContainer, {
+              ...props,
+              textContent,
+            });
+          });
+
+          return chainContainer;
+        }
+
+        /**
+         * Update all resolution chains to use a specific format
+         * @param {string} format Color format to use
+         */
+        static updateAllChains(format) {
+          document
+            .querySelectorAll(".value-chain.raw-value")
+            .forEach((element) => {
+              const originalValue = element.dataset.originalValue;
+              if (originalValue) {
+                const formattedValue = ValueFormatter.formatColor(
+                  originalValue,
+                  format
+                );
+                // Extract the arrow prefix and preserve it
+                const arrowPrefix = element.textContent.match(/^(→|  →)/)[0];
+                element.textContent = `${arrowPrefix} ${formattedValue} `;
+              }
+            });
+        }
+      }
+
+      // Centralized element factory to standardize element creation
+      class ElementFactory {
+        /**
+         * Creates any HTML element with specified properties
+         * @param {string} tagName The HTML tag to create
+         * @param {Object} props Properties to set on the element (className, id, dataset, attributes, style, etc.)
+         * @param {Array|Node} children Child elements or text content to append
+         * @returns {HTMLElement} The created element
+         */
+        static createElement(tagName, props = {}, children = []) {
+          const element = document.createElement(tagName);
+
+          // Apply properties to the element
+          if (props.className) element.className = props.className;
+          if (props.id) element.id = props.id;
+          if (props.textContent !== undefined)
+            element.textContent = SecurityUtils.sanitizeInput(
+              props.textContent
+            );
+
+          // Handle HTML content safely by parsing and appending
+          if (props.innerHTML !== undefined) {
+            // We're replacing innerHTML with createTextNode for security
+            // If formatted text is needed, use the children parameter with appropriate elements
+            console.warn(
+              "innerHTML usage is deprecated for security reasons. Use children parameter instead."
+            );
+            element.appendChild(document.createTextNode(props.innerHTML));
+          }
+
+          // Handle style properties
+          if (props.style) {
+            Object.entries(props.style).forEach(([key, value]) => {
+              element.style[key] = value;
+            });
+          }
+
+          // Handle dataset properties
+          if (props.dataset) {
+            Object.entries(props.dataset).forEach(([key, value]) => {
+              element.dataset[key] = SecurityUtils.sanitizeForAttribute(value);
+            });
+          }
+
+          // Handle attributes
+          if (props.attributes) {
+            Object.entries(props.attributes).forEach(([key, value]) => {
+              element.setAttribute(
+                key,
+                SecurityUtils.sanitizeForAttribute(value)
+              );
+            });
+          }
+
+          // Handle event listeners
+          if (props.events) {
+            Object.entries(props.events).forEach(([event, handler]) => {
+              element.addEventListener(event, handler);
+            });
+          }
+
+          // Add children
+          if (children) {
+            if (!Array.isArray(children)) {
+              children = [children];
+            }
+
+            children.forEach((child) => {
+              if (typeof child === "string") {
+                element.appendChild(
+                  document.createTextNode(SecurityUtils.sanitizeInput(child))
+                );
+              } else if (child instanceof Node) {
+                element.appendChild(child);
+              }
+            });
+          }
+
+          return element;
+        }
+
+        /**
+         * Creates an element and appends it to a parent element
+         * @param {HTMLElement} parent The parent element to append to
+         * @param {string} tagName The HTML tag to create
+         * @param {Object} props Properties to set on the element
+         * @param {Array|Node} children Child elements or text content to append
+         * @returns {HTMLElement} The created and appended element
+         */
+        static appendToParent(parent, tagName, props = {}, children = []) {
+          const element = this.createElement(tagName, props, children);
+          parent.appendChild(element);
+          return element;
+        }
+
+        /**
+         * Appends an existing element to a parent element
+         * @param {HTMLElement} parent The parent element to append to
+         * @param {HTMLElement} element The element to append
+         * @returns {HTMLElement} The appended element
+         */
+        static appendExisting(parent, element) {
+          if (parent && element) {
+            parent.appendChild(element);
+          }
+          return element;
+        }
+
+        // Convenience methods for common elements
+        static createDiv(props = {}, children = []) {
+          return this.createElement("div", props, children);
+        }
+
+        static createSpan(props = {}, children = []) {
+          return this.createElement("span", props, children);
+        }
+
+        static createButton(props = {}, children = []) {
+          return this.createElement("button", props, children);
+        }
+
+        static createTable(props = {}, children = []) {
+          return this.createElement("table", props, children);
+        }
+
+        static createThead(props = {}, children = []) {
+          return this.createElement("thead", props, children);
+        }
+
+        static createTbody(props = {}, children = []) {
+          return this.createElement("tbody", props, children);
+        }
+
+        static createTr(props = {}, children = []) {
+          return this.createElement("tr", props, children);
+        }
+
+        static createTh(props = {}, children = []) {
+          return this.createElement("th", props, children);
+        }
+
+        static createTd(props = {}, children = []) {
+          return this.createElement("td", props, children);
+        }
+
+        static createDialog(props = {}, children = []) {
+          return this.createElement("dialog", props, children);
+        }
+
+        static createHeading(level, props = {}, children = []) {
+          return this.createElement(`h${level}`, props, children);
+        }
+
+        static createParagraph(props = {}, children = []) {
+          return this.createElement("p", props, children);
+        }
+
+        /**
+         * Convenience methods for appending common elements to a parent
+         */
+        static appendDiv(parent, props = {}, children = []) {
+          return this.appendToParent(parent, "div", props, children);
+        }
+
+        static appendSpan(parent, props = {}, children = []) {
+          return this.appendToParent(parent, "span", props, children);
+        }
+
+        static appendButton(parent, props = {}, children = []) {
+          return this.appendToParent(parent, "button", props, children);
+        }
+
+        static createSection(content, options = {}) {
+          const sectionProps = {
+            className: options.className,
+          };
+
+          if (options.marginBottom) {
+            sectionProps.style = { marginBottom: options.marginBottom };
+          }
+
+          let children = [];
+
+          if (typeof content === "string") {
+            sectionProps.textContent = content;
+          } else if (content instanceof Element) {
+            children = [content];
+          } else if (options.innerHTML) {
+            // Parse content instead of using innerHTML directly
+            const tempDiv = document.createElement("div");
+            const safeContent = document.createTextNode(
+              SecurityUtils.sanitizeInput(options.innerHTML)
+            );
+            tempDiv.appendChild(safeContent);
+            children = [tempDiv];
+
+            console.warn(
+              "innerHTML option in createSection is deprecated for security reasons."
+            );
+          }
+
+          return this.createDiv(sectionProps, children);
+        }
+
+        static createFormattedTable(headers, rows, options = {}) {
+          // Convert to TableFactory format
+          const tableOptions = {
+            tableClass: options.tableClass || "color-table",
+            width: options.width,
+            headers: headers,
+            rows: rows, // Pass through rows directly without mapping
+          };
+
+          return TableFactory.createTable(tableOptions);
+        }
+
+        static createWarningNote(content, options = {}) {
+          const warningProps = {
+            className: options.className || "warning-note",
+          };
+
+          if (typeof content === "string") {
+            // Replace innerHTML with safe DOM manipulation
+            const warningDiv = this.createDiv(warningProps);
+
+            // Sanitize the content first
+            const sanitizedContent = SecurityUtils.sanitizeInput(content);
+
+            // Parse content for any specific formatting needed
+            // For example, handle <strong> tags with dedicated spans
+            const strongRegex = /<strong>(.*?)<\/strong>/g;
+            let lastIndex = 0;
+            let match;
+
+            while ((match = strongRegex.exec(sanitizedContent)) !== null) {
+              // Add text before the <strong> tag
+              if (match.index > lastIndex) {
+                const textBefore = sanitizedContent.substring(
+                  lastIndex,
+                  match.index
+                );
+                warningDiv.appendChild(document.createTextNode(textBefore));
+              }
+
+              // Add the emphasized text
+              const strongText = this.createSpan({
+                className: "warning-emphasis",
+                textContent: match[1],
+              });
+              warningDiv.appendChild(strongText);
+
+              lastIndex = match.index + match[0].length;
+            }
+
+            // Add any remaining text
+            if (lastIndex < sanitizedContent.length) {
+              warningDiv.appendChild(
+                document.createTextNode(sanitizedContent.substring(lastIndex))
+              );
+            }
+
+            return warningDiv;
+          } else {
+            return this.createDiv(warningProps, [content]);
+          }
+        }
+
+        static createDetailsSection(options = {}) {
+          const section = this.createDiv({
+            className: "component-details-section",
+          });
+
+          if (options.title) {
+            const title = this.createHeading(3, {
+              textContent: options.title,
+              style: { marginBottom: "15px" },
+            });
+            section.appendChild(title);
+          }
+
+          if (options.content) {
+            if (typeof options.content === "string") {
+              section.appendChild(
+                this.createParagraph({ textContent: options.content })
+              );
+            } else if (options.content instanceof Element) {
+              section.appendChild(options.content);
+            } else if (Array.isArray(options.content)) {
+              options.content.forEach((item) => {
+                if (item instanceof Element) {
+                  section.appendChild(item);
+                }
+              });
+            }
+          }
+
+          return section;
+        }
+
+        /**
+         * Create action button (previously in UIComponentFactory)
+         */
+        static createActionButton(label, options = {}) {
+          const button = this.createButton({
+            className: "row-action",
+            textContent: label,
+          });
+
+          if (options.marginTop) {
+            button.style.marginTop = options.marginTop;
+          }
+
+          if (options.onClick) {
+            button.addEventListener("click", options.onClick);
+          }
+
+          if (options.disabled) {
+            button.disabled = true;
+          }
+
+          return button;
+        }
+      }
+
+      // Modal management system
+      class ModalManager {
+        // Singleton instance
+        static #instance;
+
+        // Static method to get the instance
+        static getInstance() {
+          if (!this.#instance) {
+            this.#instance = new ModalManager();
+          }
+          return this.#instance;
+        }
+
+        constructor() {
+          // Keep track of the current active modal
+          this.activeModal = null;
+          this.detailsManager = new ComponentDetailsManager(this);
+        }
+
+        // Create a modal dialog element
+        _createModalElement(className = "impact-modal") {
+          return ElementFactory.createDialog({ className });
+        }
+
+        // Create a modal header element
+        _createModalHeader(title, options = {}) {
+          const header = ElementFactory.createDiv({
+            className: "modal-header",
+          });
+
+          // Create title with formatted token name
+          const titleContainer = ElementFactory.createHeading(3, {
+            className: "modal-title",
+          });
+
+          // Add prefix with special styling if it's a token name
+          if (options.isTokenName) {
+            const prefix = ElementFactory.createSpan({
+              className: "token-prefix",
+              textContent: "--spectrum-",
+            });
+
+            const nameText = ElementFactory.createSpan({
+              textContent: title,
+            });
+
+            ElementFactory.appendExisting(titleContainer, prefix);
+            ElementFactory.appendExisting(titleContainer, nameText);
+          } else {
+            titleContainer.textContent = title;
+          }
+
+          header.appendChild(titleContainer);
+
+          if (options.addCloseButton) {
+            const closeButton = ElementFactory.createButton({
+              className: "modal-close-button",
+              textContent: "✕",
+              events: {
+                click: options.onClose || (() => {}),
+              },
+            });
+
+            header.appendChild(closeButton);
+          }
+
+          return header;
+        }
+
+        // Show impact modal for a token
+        showImpactModal(tokenName) {
+          // Exit if a modal is already open
+          if (document.querySelector(".impact-modal")) {
+            return;
+          }
+
+          // Create modal structure
+          const modal = this._createModalElement();
+          this.activeModal = modal;
+
+          // Create content container with the new class for scrollable content
+          const modalContent = ElementFactory.createDiv({
+            className: "impact-modal-content",
+          });
+
+          const content = ElementFactory.createDiv({
+            textContent: "Loading impact analysis data...",
+          });
+
+          // Add header with title and close button
+          const header = this._createModalHeader(tokenName, {
+            addCloseButton: true,
+            onClose: () => this.closeModal(),
+            isTokenName: true,
+          });
+
+          // Assemble and show modal with the new structure
+          ElementFactory.appendExisting(modalContent, header);
+          ElementFactory.appendExisting(modalContent, content);
+          ElementFactory.appendExisting(modal, modalContent);
+          ElementFactory.appendExisting(document.body, modal);
+          modal.showModal();
+
+          // Add modal event listeners
+          this.setupModalEventListeners(modal);
+
+          // Store the tokenName for reference
+          modal.dataset.tokenName = tokenName;
+
+          // Fetch and display impact data
+          this.detailsManager.fetchImpactData(tokenName, content);
+        }
+
+        // Close the current modal
+        closeModal() {
+          if (this.activeModal) {
+            this.activeModal.close();
+            this.activeModal = null;
+          }
+        }
+
+        // Set up event listeners for modal
+        setupModalEventListeners(modal) {
+          // Close when clicking backdrop
+          modal.addEventListener("click", (event) => {
+            if (event.target === modal) this.closeModal();
+          });
+
+          // Remove from DOM when closed
+          modal.addEventListener("close", () => {
+            modal.remove();
+            this.activeModal = null;
+          });
+
+          // Handle keyboard escape
+          modal.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") this.closeModal();
+          });
+
+          // Prevent wheel events from reaching the background
+          modal.addEventListener(
+            "wheel",
+            (event) => {
+              event.stopPropagation();
+            },
+            { passive: false }
+          );
+        }
+
+        // Helper to get the active modal element
+        getActiveModal() {
+          return this.activeModal;
+        }
+      }
+
+      // Component details management class
+      class ComponentDetailsManager {
+        constructor(modalManager) {
+          this.modalManager = modalManager;
+          this.cachedComponentData = null;
+          this.cachedTokenData = null;
+        }
+
+        // Fetch token impact data
+        async fetchImpactData(tokenName, contentElement) {
+          try {
+            // Use cached data if available - first check global cache, then instance cache
+            let data = window.cachedTokenData || this.cachedTokenData;
+
+            if (!data) {
+              data = await this.fetchData(
+                "data/token-impact-analysis/tokens-detailed.json",
+                "token impact"
+              );
+
+              // Cache the data for future use
+              if (data) {
+                this.cachedTokenData = data;
+                window.cachedTokenData = data;
+              }
+            }
+
+            // Clear content and display results
+            while (contentElement.firstChild) {
+              contentElement.removeChild(contentElement.firstChild);
+            }
+
+            if (data && data[tokenName]) {
+              this.displayTokenSummary(
+                data[tokenName],
+                contentElement,
+                tokenName
+              );
+            } else {
+              this.displayNoDataMessage(tokenName, contentElement);
+            }
+          } catch (error) {
+            this.displayErrorMessage(
+              error,
+              contentElement,
+              "loading impact analysis data"
+            );
+          }
+        }
+
+        // Generic data fetching method to reduce duplication
+        async fetchData(url, dataType) {
+          try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Network response was not ok`);
+            return await response.json();
+          } catch (error) {
+            console.error(`Error fetching ${dataType} data:`, error);
+            return null;
+          }
+        }
+
+        // Display token summary information
+        displayTokenSummary(tokenData, contentElement, tokenName) {
+          // Add summary section
+          const summaryContent = `
+            This token is used in <strong>${
+              tokenData.componentsCount
+            }</strong> component${
+            tokenData.componentsCount !== 1 ? "s" : ""
+          } with a total of <strong>${
+            tokenData.totalOccurrences
+          }</strong> occurrence${tokenData.totalOccurrences !== 1 ? "s" : ""}.
+          `;
+
+          // Create a summary section with proper DOM elements instead of innerHTML
+          const summarySection = ElementFactory.createSection(null, {
+            marginBottom: "20px",
+          });
+
+          // Create the summary content with proper DOM elements
+          const summaryContainer = ElementFactory.createDiv();
+
+          // Add text before first strong element
+          summaryContainer.appendChild(
+            document.createTextNode("This token is used in ")
+          );
+
+          // Add the component count with emphasis
+          const compCountElem = ElementFactory.createSpan({
+            className: "emphasis",
+            textContent: tokenData.componentsCount.toString(),
+          });
+          summaryContainer.appendChild(compCountElem);
+
+          // Add text after first strong element
+          const componentText = ` component${
+            tokenData.componentsCount !== 1 ? "s" : ""
+          } with a total of `;
+          summaryContainer.appendChild(document.createTextNode(componentText));
+
+          // Add the occurrences count with emphasis
+          const occCountElem = ElementFactory.createSpan({
+            className: "emphasis",
+            textContent: tokenData.totalOccurrences.toString(),
+          });
+          summaryContainer.appendChild(occCountElem);
+
+          // Add text after second strong element
+          const occurrencesText = ` occurrence${
+            tokenData.totalOccurrences !== 1 ? "s" : ""
+          }.`;
+          summaryContainer.appendChild(
+            document.createTextNode(occurrencesText)
+          );
+
+          // Add the summary container to the section
+          summarySection.appendChild(summaryContainer);
+
+          contentElement.appendChild(summarySection);
+
+          // Add components table
+          const headers = [
+            { text: "Component", width: "70%" },
+            { text: "Occurrences", width: "30%" },
+          ];
+
+          // Sort components by occurrences (descending)
+          const sortedComponents = [...tokenData.components].sort(
+            (a, b) => b.occurrences - a.occurrences
+          );
+
+          const rows = sortedComponents.map((comp) => ({
+            cells: [comp.component, comp.occurrences.toString()],
+          }));
+
+          contentElement.appendChild(
+            ElementFactory.createSection(
+              ElementFactory.createFormattedTable(headers, rows, {
+                width: "100%",
+              }),
+              { marginBottom: "20px" }
+            )
+          );
+
+          // Add details button
+          this.addDetailsButton(contentElement, tokenName);
+        }
+
+        // Add details button to the modal
+        addDetailsButton(contentElement, tokenName) {
+          const additionalInfo = ElementFactory.createDiv({
+            className: "additional-info",
+          });
+          const detailsButton = ElementFactory.createActionButton(
+            "Show details",
+            {
+              marginTop: "10px",
+              onClick: () =>
+                this.toggleComponentDetails(tokenName, detailsButton),
+            }
+          );
+
+          additionalInfo.appendChild(detailsButton);
+          contentElement.appendChild(additionalInfo);
+        }
+
+        // Toggle component details visibility
+        async toggleComponentDetails(tokenName, button) {
+          const activeModal = this.modalManager.getActiveModal();
+          if (!activeModal) return;
+
+          const detailsSection = activeModal.querySelector(
+            ".component-details-section"
+          );
+
+          // If section exists, toggle its visibility
+          if (detailsSection) {
+            if (detailsSection.style.display === "none") {
+              detailsSection.style.display = "block";
+              button.textContent = "Hide details";
+            } else {
+              detailsSection.style.display = "none";
+              button.textContent = "Show details";
+            }
+            return;
+          }
+
+          // Otherwise fetch and display the details
+          await this.fetchComponentDetails(tokenName, button);
+        }
+
+        // Fetch component details data
+        async fetchComponentDetails(tokenName, button) {
+          const activeModal = this.modalManager.getActiveModal();
+          if (!activeModal) return;
+
+          try {
+            // Update button state
+            this.setButtonState(button, "Loading...", true);
+
+            // Use cached data if available
+            let data = this.cachedComponentData;
+
+            if (!data) {
+              data = await this.fetchData(
+                "data/token-impact-analysis/components-detailed.json",
+                "component details"
+              );
+
+              // Cache the data for future use
+              if (data) {
+                this.cachedComponentData = data;
+              }
+            }
+
+            if (!data) {
+              throw new Error("Failed to load component data");
+            }
+
+            // Update button
+            button = this.setButtonState(button, "Hide details", false, () =>
+              this.toggleComponentDetails(tokenName, button)
+            );
+
+            // Display the component details
+            this.displayComponentDetails(data, tokenName);
+          } catch (error) {
+            this.handleComponentDetailsError(error, button);
+          }
+        }
+
+        // Set button state - extracted to reduce duplicate code
+        setButtonState(button, text, disabled, onClick = null) {
+          if (!button) return;
+
+          button.textContent = text;
+          button.disabled = disabled;
+
+          if (onClick) {
+            // Remove existing click event listeners first
+            const newButton = button.cloneNode(true);
+            button.parentNode.replaceChild(newButton, button);
+            newButton.addEventListener("click", onClick);
+            return newButton;
+          }
+
+          return button;
+        }
+
+        // Handle component details fetch errors
+        handleComponentDetailsError(error, button) {
+          console.error("Error fetching component details:", error);
+          button = this.setButtonState(button, "Show details", false);
+
+          const activeModal = this.modalManager.getActiveModal();
+          if (!activeModal) return;
+
+          // Find the content container
+          const modalContent = activeModal.querySelector(
+            ".impact-modal-content"
+          );
+          if (!modalContent) return;
+
+          // Remove any existing error message
+          const existingError = modalContent.querySelector(
+            ".component-details-error"
+          );
+          if (existingError) existingError.remove();
+
+          // Create error message using ElementFactory
+          const errorMessage = ElementFactory.createSection(
+            "Error loading component details. Please try again.",
+            {
+              className: "component-details-error",
+              style: "color: #cc0000;",
+            }
+          );
+
+          modalContent.appendChild(errorMessage);
+        }
+
+        // Display component details in the modal
+        displayComponentDetails(data, tokenName) {
+          const activeModal = this.modalManager.getActiveModal();
+          if (!activeModal) return;
+
+          // Find the content container
+          const modalContent = activeModal.querySelector(
+            ".impact-modal-content"
+          );
+          if (!modalContent) return;
+
+          // Remove any existing component details section
+          const existingDetails = modalContent.querySelector(
+            ".component-details-section"
+          );
+          if (existingDetails) existingDetails.remove();
+
+          // Find components that use this token
+          const componentsUsingToken = this.getComponentsUsingToken(
+            data,
+            tokenName
+          );
+
+          if (componentsUsingToken.length > 0) {
+            // Create details table
+            const detailsTable = this.createDetailsTable(componentsUsingToken);
+
+            // Prepare content elements
+            const contentElements = [detailsTable];
+
+            // Add warning for high dependency components if needed
+            const highDependencyComponents = componentsUsingToken.filter(
+              (comp) => (comp.occurrences / comp.totalTokens) * 100 > 5
+            );
+
+            if (highDependencyComponents.length > 0) {
+              contentElements.push(
+                this.createHighDependencyWarning(highDependencyComponents)
+              );
+            }
+
+            // Create and add the details section
+            const componentDetails = ElementFactory.createDetailsSection({
+              title: "Token usage details",
+              content: contentElements,
+            });
+
+            modalContent.appendChild(componentDetails);
+          } else {
+            // Create empty state section
+            const componentDetails = ElementFactory.createDetailsSection({
+              content: "No detailed component data found for this token.",
+            });
+
+            modalContent.appendChild(componentDetails);
+          }
+        }
+
+        // Get components using a token
+        getComponentsUsingToken(data, tokenName) {
+          const componentsUsingToken = [];
+
+          for (const [componentName, componentData] of Object.entries(data)) {
+            if (
+              componentData.tokenCounts &&
+              componentData.tokenCounts[tokenName]
+            ) {
+              componentsUsingToken.push({
+                name: componentName,
+                occurrences: componentData.tokenCounts[tokenName],
+                totalTokens: componentData.totalTokenOccurrences,
+              });
+            }
+          }
+
+          // Sort by occurrences
+          return componentsUsingToken.sort(
+            (a, b) => b.occurrences - a.occurrences
+          );
+        }
+
+        // Create details table
+        createDetailsTable(componentsUsingToken) {
+          // Use the TableFactory pattern instead of manual table creation
+          const headers = [
+            { text: "Component", width: "40%" },
+            { text: "Uses of this token", width: "20%" },
+            { text: "Total tokens in component", width: "20%" },
+            { text: "Dependency %", width: "20%" },
+          ];
+
+          const rows = componentsUsingToken.map((comp) => {
+            const dependencyPercentage = (
+              (comp.occurrences / comp.totalTokens) *
+              100
+            ).toFixed(1);
+            const isHighDependency = parseFloat(dependencyPercentage) > 5;
+
+            return {
+              highlight: isHighDependency ? "rgba(255, 200, 200, 0.3)" : null,
+              cells: [
+                comp.name,
+                comp.occurrences.toString(),
+                comp.totalTokens.toString(),
+                `${dependencyPercentage}%`,
+              ],
+            };
+          });
+
+          return ElementFactory.createFormattedTable(headers, rows, {
+            width: "100%",
+          });
+        }
+
+        // Create high dependency warning
+        createHighDependencyWarning(highDependencyComponents) {
+          const container = ElementFactory.createDiv({
+            className: "high-dependency-warning",
+          });
+
+          // Create the emphasized note prefix
+          const notePrefix = ElementFactory.createSpan({
+            className: "warning-emphasis",
+            textContent: "Note:",
+          });
+          container.appendChild(notePrefix);
+
+          // Add space after "Note:"
+          container.appendChild(document.createTextNode(" "));
+
+          // Build component count text
+          const countText = `${highDependencyComponents.length} component${
+            highDependencyComponents.length !== 1 ? "s" : ""
+          } ha${
+            highDependencyComponents.length === 1 ? "s" : "ve"
+          } a high dependency (>5%) on this token.`;
+          container.appendChild(document.createTextNode(countText));
+
+          // Add line break
+          container.appendChild(document.createElement("br"));
+
+          // Add impact message
+          const impactText =
+            "Changes to this token may significantly impact these components.";
+          container.appendChild(document.createTextNode(impactText));
+
+          return ElementFactory.createWarningNote(container);
+        }
+
+        // Display no data message
+        displayNoDataMessage(tokenName, contentElement) {
+          const noDataMessage = ElementFactory.createDiv();
+
+          // Create formatted token name with prefix
+          const tokenContainer = ElementFactory.createSpan({
+            className: "token-name",
+          });
+          const prefix = ElementFactory.createSpan({
+            className: "token-prefix",
+            textContent: "--spectrum-",
+          });
+          const nameText = ElementFactory.createSpan({
+            textContent: tokenName,
+          });
+
+          ElementFactory.appendExisting(tokenContainer, prefix);
+          ElementFactory.appendExisting(tokenContainer, nameText);
+
+          // Add text with the formatted token
+          const messageText = document.createTextNode(
+            " probably isn't being used."
+          );
+          ElementFactory.appendExisting(noDataMessage, tokenContainer);
+          ElementFactory.appendExisting(noDataMessage, messageText);
+
+          contentElement.appendChild(noDataMessage);
+        }
+
+        // Display error message
+        displayErrorMessage(error, contentElement, context) {
+          console.error(`Error ${context}:`, error);
+
+          // Clear the content element
+          while (contentElement.firstChild) {
+            contentElement.removeChild(contentElement.firstChild);
+          }
+
+          // Create error message using ElementFactory
+          const errorMessage = ElementFactory.createSection(
+            `Error ${context}. Please try again.`,
+            { style: "color: #cc0000;" }
+          );
+
+          contentElement.appendChild(errorMessage);
+        }
+
+        // Add method to create token chain display if needed
+        createTokenChainDisplay(tokenName, format) {
+          // For token references, try to find its resolution chain
+          if (ValueFormatter.isType.tokenReference(tokenName)) {
+            // Find the appropriate resolver
+            let resolver = null;
+            if (tokenName.includes("color")) {
+              resolver = TokenResolverFactory.createResolver("color", {
+                colorPalette: window.colorPaletteData || {},
+                aliases: window.aliasesData || {},
+                semanticColors: window.semanticColorsData || {},
+                componentColors: window.componentColorsData || {},
+              });
+            }
+
+            if (resolver) {
+              const chain = TokenChainHandler.getResolutionChain(
+                resolver,
+                tokenName
+              );
+              if (chain && chain.length > 1) {
+                return TokenChainHandler.createResolutionChainElement(
+                  chain,
+                  format || DOM.colorFormat.value
+                );
+              }
+            }
+          }
+
+          return null;
+        }
+      }
+
+      // Add the initImpactButtons function
+      function initImpactButtons() {
+        console.log("Initializing impact button handlers");
+
+        // Use a single event delegation approach instead of individual handlers
+        document.addEventListener("click", function (e) {
+          if (
+            e.target &&
+            e.target.classList.contains("row-action") &&
+            e.target.textContent.includes("See impact")
+          ) {
+            const row = e.target.closest("tr");
+            if (row) {
+              const tokenName =
+                row.dataset.tokenName || e.target.dataset.tokenName;
+              if (tokenName) {
+                ModalManager.getInstance().showImpactModal(tokenName);
+              }
+            }
+          }
+        });
+      }
+
+      // Add a function to prefetch impact data
+      async function prefetchImpactData() {
+        try {
+          const response = await fetch(
+            "data/token-impact-analysis/tokens-detailed.json"
+          );
+          if (!response.ok) throw new Error("Failed to fetch impact data");
+
+          const data = await response.json();
+          // Cache the data globally
+          window.cachedTokenData = data;
+
+          // Update all buttons with pending counts
+          const buttons = document.querySelectorAll(
+            '.row-action[data-pending-count="true"]'
+          );
+          buttons.forEach((button) => {
+            const tokenName = button.dataset.tokenName;
+            if (data[tokenName]) {
+              const count = data[tokenName].componentsCount || 0;
+              button.textContent = `See impact (${count})`;
+            }
+            // Remove the pending attribute
+            delete button.dataset.pendingCount;
+          });
+        } catch (error) {
+          console.error("Error prefetching impact data:", error);
+        }
+      }
+
+      // Add the mobile tab handler function
+      function setupMobileTabSelect() {
+        const tabSelect = document.getElementById("tabSelect");
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        // Set initial selection
+        const activeTab =
+          document.querySelector(".tab-button.active").dataset.tab;
+        tabSelect.value = activeTab;
+
+        // Add change event listener
+        tabSelect.addEventListener("change", (e) => {
+          const selectedTabId = e.target.value;
+
+          // Hide all tab content
+          tabContents.forEach((content) => content.classList.remove("active"));
+
+          // Show selected content
+          document.getElementById(selectedTabId).classList.add("active");
+
+          // Update tab buttons state (for larger screens when they become visible again)
+          tabButtons.forEach((btn) => {
+            btn.classList.toggle("active", btn.dataset.tab === selectedTabId);
+          });
+
+          // Remove body ID for normal content
+          document.body.id = "";
+        });
+      }
+
+      // Start the application when the page loads
+      window.addEventListener("load", init);
+    </script>
+  </body>
+</html>
