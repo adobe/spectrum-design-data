@@ -1,5 +1,25 @@
 # @adobe/spectrum-tokens
 
+## 13.6.0
+
+### Minor Changes
+
+- [#497](https://github.com/adobe/spectrum-tokens/pull/497) [`fc0682e`](https://github.com/adobe/spectrum-tokens/commit/fc0682e16765f3beb9a823cc9b2f9f2464b6ccc6) Thanks [@larz0](https://github.com/larz0)! - Added horizontal card tokens
+
+  ## Design Motivation
+
+  These tokens are needed for horizontal cards.
+
+  ## Token Diff
+
+  <details open><summary>Added (3)</summary>
+
+  - `card-horizontal-edge-to-content-compact`
+  - `card-horizontal-edge-to-content-default`
+  - `card-horizontal-edge-to-content-spacious`
+
+  </details>
+
 ## 13.5.0
 
 ### Minor Changes
