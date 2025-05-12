@@ -10951,16 +10951,19 @@
     "uuid": "a52c893c-8c03-43a5-88ed-3cd230365b84"
   },
   "card-horizontal-edge-to-content-compact": {
+    "component": "card-horizontal",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "fd732759-52ab-45b7-9949-9d9352091efe"
   },
   "card-horizontal-edge-to-content-default": {
+    "component": "card-horizontal",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "45af5962-8d41-476d-a92d-befa408b47b7"
   },
   "card-horizontal-edge-to-content-spacious": {
+    "component": "card-horizontal",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "20px",
     "uuid": "104c7b60-387b-4550-b0eb-573915d28f42"
