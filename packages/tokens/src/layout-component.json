@@ -10967,5 +10967,100 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "20px",
     "uuid": "104c7b60-387b-4550-b0eb-573915d28f42"
+  },
+  "accordion-edge-to-content-area-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "b594a566-9649-497d-bf8f-289ec3f59689"
+  },
+  "accordion-edge-to-content-area-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "11px",
+    "uuid": "77894e1e-8b67-468d-a3d0-d9a7c87d1a52"
+  },
+  "accordion-edge-to-content-area-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "56633713-ae34-4a8a-8cfd-39508e4c4b0a"
+  },
+  "accordion-edge-to-content-area-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "17px",
+    "uuid": "75bc2d16-cf6b-48ef-a2e5-0516835af468"
+  },
+  "date-field-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "152px",
+    "uuid": "ebc4d09b-03c8-475a-af01-9bfcd590d92b"
+  },
+  "date-picker-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "152px",
+    "uuid": "69c201ab-f9d3-4a02-8fc9-ff96ff38eed4"
+  },
+  "time-field-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "2.5",
+    "uuid": "21bb1275-44e7-49be-926a-66966e969a6f"
+  },
+  "single-calendar-popover-minimum-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "320px",
+    "uuid": "1f0b1cd3-1f15-4a60-a01f-a04f4fb913dd"
+  },
+  "double-calendar-popover-minimum-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "320px",
+    "uuid": "70cf1c19-7b41-4556-8db2-07fc7ad19666"
+  },
+  "triple-calendar-popover-minimum-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "320px",
+    "uuid": "19c4d5a5-6ccb-407e-afa7-79f19286837b"
+  },
+  "single-calendar-popover-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "320px",
+    "uuid": "7f880ee3-c074-4370-a132-c22dbe0d5880"
+  },
+  "double-calendar-popover-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "616px",
+    "uuid": "5c1de210-df6c-4a3a-8cc7-b9766a676f2f"
+  },
+  "triple-calendar-popover-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "912px",
+    "uuid": "1ccfcd2c-6de7-4a25-b6b7-0b40acc702c6"
+  },
+  "segmented-text-field-gap": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "9e790995-7d43-4ce2-8ac0-a1c79c607575"
+  },
+  "date-picker-visual-to-field-button": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "da7f0c10-fa1b-4700-8acf-01feebdeed7f"
+  },
+  "date-field-text-to-visual": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "4725710f-67b2-4000-b4e8-e67a68cd75f5"
+  },
+  "time-field-text-to-visual": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "9953fcd9-ac62-49bd-beb2-926dc9fbb8c8"
+  },
+  "date-picker-text-to-visual": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "c6c92147-8ee5-408b-9590-adede6abc935"
+  },
+  "segmented-text-field-rounding": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "dc329712-c5ba-45cf-8ae0-8e42aad2fda9"
   }
 }
