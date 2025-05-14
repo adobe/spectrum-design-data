@@ -11040,18 +11040,6 @@
     "value": "20px",
     "uuid": "4725710f-67b2-4000-b4e8-e67a68cd75f5"
   },
-  "time-field-minimum-width": {
-    "component": "time-field",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": 2.5,
-    "uuid": "21bb1275-44e7-49be-926a-66966e969a6f"
-  },
-  "time-field-text-to-visual": {
-    "component": "time-field",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "20px",
-    "uuid": "9953fcd9-ac62-49bd-beb2-926dc9fbb8c8"
-  },
   "date-picker-visual-to-field-button": {
     "component": "date-picker",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
@@ -11069,6 +11057,18 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "152px",
     "uuid": "69c201ab-f9d3-4a02-8fc9-ff96ff38eed4"
+  },
+  "time-field-minimum-width": {
+    "component": "time-field",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
+    "value": 2.5,
+    "uuid": "21bb1275-44e7-49be-926a-66966e969a6f"
+  },
+  "time-field-text-to-visual": {
+    "component": "time-field",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "9953fcd9-ac62-49bd-beb2-926dc9fbb8c8"
   },
   "segmented-text-field-gap": {
     "component": "segmented-text-field",
