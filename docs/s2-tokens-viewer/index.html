@@ -2939,6 +2939,32 @@
 
       // Start the application when the page loads
       window.addEventListener("load", init);
+
+      // Display the current package version
+      async function fetchAndDisplayVersion() {
+        try {
+          const response = await fetch('/packages/tokens/package.json');
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const packageJson = await response.json();
+          const version = packageJson.version;
+          if (version) {
+            const betaTagElement = document.querySelector('.beta-tag');
+            if (betaTagElement) {
+              betaTagElement.textContent = `v${version}`;
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching or displaying version:', error);
+          // Optionally, keep the default text or display an error
+          const betaTagElement = document.querySelector('.beta-tag');
+          if (betaTagElement) {
+            betaTagElement.textContent = 'BETA'; // Fallback text
+          }
+        }
+      }
+      window.addEventListener("load", fetchAndDisplayVersion);
     </script>
   </body>
 </html>
