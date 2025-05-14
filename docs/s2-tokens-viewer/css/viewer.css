@@ -541,7 +541,7 @@ table td {
   white-space: nowrap;
 }
 
-.beta-tag {
+.package-version-tag {
   font-size: 0.5em;
   background-color: var(--spectrum-background-layer-1-color);
   color: var(--spectrum-neutral-content-color-default);
