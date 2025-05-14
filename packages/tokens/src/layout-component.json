@@ -10999,8 +10999,8 @@
     "uuid": "69c201ab-f9d3-4a02-8fc9-ff96ff38eed4"
   },
   "time-field-minimum-width": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "2.5",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
+    "value": 2.5,
     "uuid": "21bb1275-44e7-49be-926a-66966e969a6f"
   },
   "single-calendar-popover-minimum-height": {
