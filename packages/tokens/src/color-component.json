@@ -546,5 +546,45 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-100}",
     "uuid": "6022f845-b182-493f-bdae-f86f6336efaa"
+  },
+  "stack-item-background-color-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "022a6244-ce6c-4c3f-82a1-e2f5118d3c5e"
+  },
+  "stack-item-background-color-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "c99360a4-de28-48e6-80ad-93adb714d388"
+  },
+  "stack-item-background-color-key-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "a0251da6-7517-4712-85a1-29ca7f16ef91"
+  },
+  "stack-item-selected-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "uuid": "128c4963-471a-44e3-9fb5-328d92d0266d"
+  },
+  "stack-item-selected-background-color-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-200}",
+    "uuid": "a1bcd6c6-ef3e-42e4-8d88-2fafe2b318da"
+  },
+  "stack-item-selected-background-color-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-200}",
+    "uuid": "1ad58d16-66da-44ae-829e-9ee1ff56a857"
+  },
+  "stack-item-selected-background-color-key-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{gray-200}",
+    "uuid": "93f433f2-2d0b-4225-8b39-b10000808360"
+  },
+  "stack-item-selected-background-color-emphasized": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{accent-background-color-default}",
+    "uuid": "95685612-09b7-477f-9c13-06eb58abe5c8"
   }
 }
