@@ -1,5 +1,50 @@
 # @adobe/spectrum-tokens
 
+## 13.9.0
+
+### Minor Changes
+
+- [#504](https://github.com/adobe/spectrum-tokens/pull/504) [`6ec680a`](https://github.com/adobe/spectrum-tokens/commit/6ec680adb5f0372f86afdb415f1122630e6ac596) Thanks [@larz0](https://github.com/larz0)! - Added list view tokens
+
+  ## Design Motivation
+
+  These are the required tokens for the list view component.
+
+  ## Token Diff
+
+  <details open><summary>Added (28)</summary>
+
+  - `visual-to-control-100`
+  - `label-to-description-0`
+  - `list-view-minimum-height`
+  - `list-view-minimum-width`
+  - `list-view-item-top-corner-radius`
+  - `list-view-item-bottom-corner-radius`
+  - `list-view-end-edge-to-content`
+  - `stack-item-selected-background-opacity-emphasized`
+  - `stack-item-selected-background-opacity-emphasized-hover`
+  - `stack-item-selected-background-opacity-emphasized-down`
+  - `stack-item-selected-background-opacity-emphasized-key-focus`
+  - `stack-item-header-minimum-width`
+  - `stack-item-start-edge-to-content`
+  - `stack-item-drag-handle-to-control`
+  - `stack-item-text-to-control`
+  - `stack-item-edge-to-control`
+  - `stack-item-edge-to-visual`
+  - `stack-item-action-to-navigation`
+  - `stack-item-header-to-item`
+  - `stack-item-item-to-item`
+  - `stack-item-background-color-hover`
+  - `stack-item-background-color-down`
+  - `stack-item-background-color-key-focus`
+  - `stack-item-selected-background-color-default`
+  - `stack-item-selected-background-color-hover`
+  - `stack-item-selected-background-color-down`
+  - `stack-item-selected-background-color-key-focus`
+  - `stack-item-selected-background-color-emphasized`
+
+  </details>
+
 ## 13.8.0
 
 ### Minor Changes
