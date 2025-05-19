@@ -8345,6 +8345,7 @@
     }
   },
   "link-out-icon-size-300": {
+    "component": "link-out-icon",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -8360,6 +8361,7 @@
     }
   },
   "link-out-icon-size-400": {
+    "component": "link-out-icon",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11090,8 +11092,8 @@
   },
   "time-field-minimum-width": {
     "component": "time-field",
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "2.5",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
+    "value": 2.5,
     "uuid": "21bb1275-44e7-49be-926a-66966e969a6f"
   },
   "time-field-text-to-visual": {
@@ -11113,6 +11115,7 @@
     "uuid": "dc329712-c5ba-45cf-8ae0-8e42aad2fda9"
   },
   "add-icon-size-50": {
+    "component": "add-icon",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11128,6 +11131,7 @@
     }
   },
   "add-icon-size-75": {
+    "component": "add-icon",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11143,6 +11147,7 @@
     }
   },
   "add-icon-size-100": {
+    "component": "add-icon",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11158,6 +11163,7 @@
     }
   },
   "add-icon-size-200": {
+    "component": "add-icon",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11173,6 +11179,7 @@
     }
   },
   "add-icon-size-300": {
+    "component": "add-icon",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11188,6 +11195,7 @@
     }
   },
   "drag-handle-icon-size-75": {
+    "component": "drag-handle-icon",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11203,6 +11211,7 @@
     }
   },
   "drag-handle-icon-size-100": {
+    "component": "drag-handle-icon",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11218,6 +11227,7 @@
     }
   },
   "drag-handle-icon-size-200": {
+    "component": "drag-handle-icon",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11233,6 +11243,7 @@
     }
   },
   "drag-handle-icon-size-300": {
+    "component": "drag-handle-icon",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11248,11 +11259,13 @@
     }
   },
   "gripper-icon-size-100": {
+    "component": "gripper-icon",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "24px",
     "uuid": "e6f95e88-636d-4d3a-8966-8c811dc697d6"
   },
   "tag-field-default-width-small": {
+    "component": "tag-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11268,6 +11281,7 @@
     }
   },
   "tag-field-default-width-medium": {
+    "component": "tag-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11283,6 +11297,7 @@
     }
   },
   "tag-field-default-width-large": {
+    "component": "tag-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11298,6 +11313,7 @@
     }
   },
   "tag-field-minimum-width": {
+    "component": "tag-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11313,6 +11329,7 @@
     }
   },
   "tag-field-minimum-height-small": {
+    "component": "tag-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11328,6 +11345,7 @@
     }
   },
   "tag-field-minimum-height-medium": {
+    "component": "tag-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11343,6 +11361,7 @@
     }
   },
   "tag-field-minimum-height-large": {
+    "component": "tag-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11358,6 +11377,7 @@
     }
   },
   "tag-field-edge-to-content-small": {
+    "component": "tag-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11373,6 +11393,7 @@
     }
   },
   "tag-field-edge-to-content-medium": {
+    "component": "tag-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11388,6 +11409,7 @@
     }
   },
   "tag-field-edge-to-content-large": {
+    "component": "tag-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
