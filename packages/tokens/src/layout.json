@@ -377,6 +377,26 @@
       }
     }
   },
+  "visual-to-control-100": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "0a392deb-fee3-4968-bc52-1377f9e23307"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "16b8c9c7-a601-4ff9-bf9d-c5a118738506"
+      }
+    }
+  },
+  "label-to-description-0": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "4a00c810-c099-4de1-85b8-aaa7ed9538bb"
+  },
   "component-height-50": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
