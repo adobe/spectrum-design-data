@@ -1,5 +1,12 @@
 # token-csv-generator
 
+## 0.0.0-adobe-clean-vf-20250521220237
+
+### Patch Changes
+
+- Updated dependencies [[`63ac943`](https://github.com/adobe/spectrum-tokens/commit/63ac9431142066ed18ee01f6bf16bd51595a7048)]:
+  - @adobe/spectrum-tokens@0.0.0-adobe-clean-vf-20250521220237
+
 ## 0.0.15
 
 ### Patch Changes
