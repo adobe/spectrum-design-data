@@ -9,6 +9,7 @@ projects:
   transform-tokens-json: "tools/transform-tokens-json"
   root: "."
   diff: "tools/diff-generator"
+  tdiff: "docs/token-diff"
 vcs:
   manager: "git"
   defaultBranch: "main"
