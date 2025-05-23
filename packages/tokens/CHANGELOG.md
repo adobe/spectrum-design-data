@@ -1,5 +1,148 @@
 # @adobe/spectrum-tokens
 
+## 13.9.0
+
+### Minor Changes
+
+- [#504](https://github.com/adobe/spectrum-tokens/pull/504) [`6ec680a`](https://github.com/adobe/spectrum-tokens/commit/6ec680adb5f0372f86afdb415f1122630e6ac596) Thanks [@larz0](https://github.com/larz0)! - Added list view tokens
+
+  ## Design Motivation
+
+  These are the required tokens for the list view component.
+
+  ## Token Diff
+
+  <details open><summary>Added (28)</summary>
+
+  - `visual-to-control-100`
+  - `label-to-description-0`
+  - `list-view-minimum-height`
+  - `list-view-minimum-width`
+  - `list-view-item-top-corner-radius`
+  - `list-view-item-bottom-corner-radius`
+  - `list-view-end-edge-to-content`
+  - `stack-item-selected-background-opacity-emphasized`
+  - `stack-item-selected-background-opacity-emphasized-hover`
+  - `stack-item-selected-background-opacity-emphasized-down`
+  - `stack-item-selected-background-opacity-emphasized-key-focus`
+  - `stack-item-header-minimum-width`
+  - `stack-item-start-edge-to-content`
+  - `stack-item-drag-handle-to-control`
+  - `stack-item-text-to-control`
+  - `stack-item-edge-to-control`
+  - `stack-item-edge-to-visual`
+  - `stack-item-action-to-navigation`
+  - `stack-item-header-to-item`
+  - `stack-item-item-to-item`
+  - `stack-item-background-color-hover`
+  - `stack-item-background-color-down`
+  - `stack-item-background-color-key-focus`
+  - `stack-item-selected-background-color-default`
+  - `stack-item-selected-background-color-hover`
+  - `stack-item-selected-background-color-down`
+  - `stack-item-selected-background-color-key-focus`
+  - `stack-item-selected-background-color-emphasized`
+
+  </details>
+
+## 13.8.0
+
+### Minor Changes
+
+- [#502](https://github.com/adobe/spectrum-tokens/pull/502) [`26845e5`](https://github.com/adobe/spectrum-tokens/commit/26845e5885168bdfb7191b246b2ad41def39dc15) Thanks [@larz0](https://github.com/larz0)! - Tag field and missing icon tokens
+
+  ## Design Motivation
+
+  - These are the required tokens for the tag fields component.
+  - These UI icons already exist and are being used in number field, menu items, swatch and list view.
+  - This was brought up on Slack by the CSS team in the implementation channel
+    When we initially added the first batch of UI icons size tokens, these specific icons were not used in components yet, but now are, which is why they're missing.
+
+  ## Token Diff
+
+  <details open><summary>Added (22)</summary>
+
+  - `link-out-icon-size-300`
+  - `link-out-icon-size-400`
+  - `add-icon-size-50`
+  - `add-icon-size-75`
+  - `add-icon-size-100`
+  - `add-icon-size-200`
+  - `add-icon-size-300`
+  - `drag-handle-icon-size-75`
+  - `drag-handle-icon-size-100`
+  - `drag-handle-icon-size-200`
+  - `drag-handle-icon-size-300`
+  - `gripper-icon-size-100`
+  - `tag-field-default-width-small`
+  - `tag-field-default-width-medium`
+  - `tag-field-default-width-large`
+  - `tag-field-minimum-width`
+  - `tag-field-minimum-height-small`
+  - `tag-field-minimum-height-medium`
+  - `tag-field-minimum-height-large`
+  - `tag-field-edge-to-content-small`
+  - `tag-field-edge-to-content-medium`
+  - `tag-field-edge-to-content-large`
+
+  </details>
+
+## 13.7.0
+
+### Minor Changes
+
+- [#499](https://github.com/adobe/spectrum-tokens/pull/499) [`0c1a81b`](https://github.com/adobe/spectrum-tokens/commit/0c1a81b6c5715e4de1d423b6bc7a59ce4fe30d2f) Thanks [@larz0](https://github.com/larz0)! - Added new accodion tokens
+
+  ## Design Motivation
+
+  These tokens are required for the accordion component.
+
+  ## Token Diff
+
+  <details open><summary>Added (19)<br /></summary>
+
+  - `accordion-edge-to-content-area-small`
+  - `accordion-edge-to-content-area-medium`
+  - `accordion-edge-to-content-area-large`
+  - `accordion-edge-to-content-area-extra-large`
+  - `single-calendar-popover-minimum-width`
+  - `single-calendar-popover-minimum-height`
+  - `double-calendar-popover-minimum-width`
+  - `double-calendar-popover-minimum-height`
+  - `triple-calendar-popover-minimum-width`
+  - `triple-calendar-popover-minimum-height`
+  - `date-field-minimum-width`
+  - `date-field-text-to-visual`
+  - `time-field-minimum-width`
+  - `time-field-text-to-visual`
+  - `date-picker-visual-to-field-button`
+  - `date-picker-text-to-visual`
+  - `date-picker-minimum-width`
+  - `segmented-text-field-gap`
+  - `segmented-text-field-rounding`
+
+  </details>
+
+## 13.6.0
+
+### Minor Changes
+
+- [#497](https://github.com/adobe/spectrum-tokens/pull/497) [`fc0682e`](https://github.com/adobe/spectrum-tokens/commit/fc0682e16765f3beb9a823cc9b2f9f2464b6ccc6) Thanks [@larz0](https://github.com/larz0)! - Added horizontal card tokens
+
+  ## Design Motivation
+
+  These tokens are needed for horizontal cards.
+
+  ## Token Diff
+
+  <details open><summary>Added (3)</summary>
+
+  - `card-horizontal-edge-to-content-compact`
+  - `card-horizontal-edge-to-content-default`
+  - `card-horizontal-edge-to-content-spacious`
+
+  </details>
+
 ## 13.5.0
 
 ### Minor Changes
