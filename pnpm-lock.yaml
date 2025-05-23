@@ -41,6 +41,8 @@ importers:
         specifier: ^3.5.3
         version: 3.5.3
 
+  docs/s2-tokens-viewer: {}
+
   docs/s2-visualizer:
     dependencies:
       "@spectrum-web-components/action-button":
