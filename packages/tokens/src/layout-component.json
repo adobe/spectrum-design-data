@@ -11041,7 +11041,7 @@
   "time-field-minimum-width": {
     "component": "time-field",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json",
-    "value": "2.5",
+    "value": 2.5,
     "description": "2.5x height of field",
     "uuid": "21bb1275-44e7-49be-926a-66966e969a6f"
   },
@@ -11582,6 +11582,7 @@
     "uuid": "3862f137-37f5-44c3-a31b-68834d8e1c3c"
   },
   "accordion-bottom-to-text-extra-large": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11597,6 +11598,7 @@
     }
   },
   "accordion-bottom-to-text-large": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11612,6 +11614,7 @@
     }
   },
   "accordion-bottom-to-text-medium": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11627,6 +11630,7 @@
     }
   },
   "accordion-bottom-to-text-small": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11642,6 +11646,7 @@
     }
   },
   "accordion-top-to-text-extra-large": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11657,6 +11662,7 @@
     }
   },
   "accordion-top-to-text-large": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11672,6 +11678,7 @@
     }
   },
   "accordion-top-to-text-medium": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11687,6 +11694,7 @@
     }
   },
   "accordion-top-to-text-small": {
+    "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
