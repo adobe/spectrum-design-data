@@ -1,5 +1,30 @@
 # @adobe/spectrum-tokens
 
+## 13.10.1
+
+### Patch Changes
+
+- [#517](https://github.com/adobe/spectrum-tokens/pull/517) [`8f8f8a6`](https://github.com/adobe/spectrum-tokens/commit/8f8f8a60b7adf5105ced4f914cf30928117ddc5e) Thanks [@larz0](https://github.com/larz0)! - `accordion-top-to-text-medium` values in desktop and mobile were incorrect due to changelog error.
+  Corrected `accordion-focus-indicator-gap` values. Corrections weren't recorded in the changelog.
+
+  ## Design motivation
+
+  This is a bug fix.
+
+  ## Token diff
+
+  Updated (2)
+
+  <details open><summary>Updated Properties (2)</summary>
+
+  - `accordion-focus-indicator-gap`
+    - value: `0px` -> `2px`
+  - `accordion-top-to-text-medium`
+    - desktop.value: `12px` -> `9px`
+    - mobile.value: `16px` -> `10px`
+
+  </details>
+
 ## 13.10.0
 
 ### Minor Changes
