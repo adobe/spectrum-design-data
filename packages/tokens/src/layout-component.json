@@ -4019,7 +4019,7 @@
   "accordion-focus-indicator-gap": {
     "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "0px",
+    "value": "2px",
     "uuid": "318c5cda-be1b-416b-b1b7-b962e5f45c0c"
   },
   "accordion-content-area-top-to-content": {
@@ -11683,12 +11683,12 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "12px",
+        "value": "9px",
         "uuid": "728ad09d-0820-4c71-9974-57386f3d62d2"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-        "value": "16px",
+        "value": "10px",
         "uuid": "2d7e81ba-1390-4607-8ee2-5d322d3e0bae"
       }
     }
