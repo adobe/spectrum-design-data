@@ -27,7 +27,12 @@
         "magenta",
         "fuchsia",
         "purple",
-        "seafoam"
+        "seafoam",
+        "pink",
+        "turquoise",
+        "cinnamon",
+        "brown",
+        "silver"
       ],
       "default": "informative"
     },

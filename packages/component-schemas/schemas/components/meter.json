@@ -25,13 +25,16 @@
     },
     "size": {
       "type": "string",
-      "enum": ["small", "large"],
-      "default": "large"
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
     },
     "value": {
       "type": "number",
       "minimum": 0,
       "maximum": 1
+    },
+    "helpText": {
+      "type": "string"
     }
   }
 }
