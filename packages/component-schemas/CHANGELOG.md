@@ -1,5 +1,62 @@
 # @adobe/spectrum-component-api-schemas
 
+## 1.0.0
+
+### Major Changes
+
+- [#520](https://github.com/adobe/spectrum-tokens/pull/520) [`2964807`](https://github.com/adobe/spectrum-tokens/commit/2964807641908e40820bea0556b3b0542503223b) Thanks [@GarthDB](https://github.com/GarthDB) and [@AmunMRa](https://github.com/AmunMRa)! - S2 components batch 1
+
+  ## Changes
+
+  ### Properties Added
+
+  - component: search-field
+    - `helpText`
+    - `placeholder`
+    - `state`:
+      - `down`
+  - component: status-light
+    - `variant`
+      - `seafoam`
+      - `pink`
+      - `turquoise`
+      - `cinnamon`
+      - `brown`
+      - `silver`
+  - component: text-area
+    - `helpText`
+  - component: text-field
+    - `helpText`
+
+  ### Properties removed
+
+  - component: search-field
+    - `isQuiet`
+  - component: text-area
+    - `isQuiet`
+    - `isReadOnly`
+  - component: text-field
+    - `isQuiet`
+    - `isReadOnly`
+
+  ### Properties updated
+
+  - component: meter
+    - `size`:
+      - `enum`: `["small", "large"]` -> `["s", "m", "l", "xl"]`
+      - `default`: `large` -> `m`
+  - component: popover
+    - `showTip`:
+      - `default`: `false` -> `true`
+    - `placement`:
+      - `default`: `bottom` -> `top`
+    - `offset`:
+      - `default`: `6` -> `8`
+
+  ### New Component
+
+  - select-box
+
 ## 0.0.0
 
 ### Minor Changes
