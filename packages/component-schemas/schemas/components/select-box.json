@@ -17,6 +17,9 @@
       "enum": ["horizontal", "vertical"],
       "default": "horizontal"
     },
+    "body": {
+      "type": "string"
+    },
     "isSelected": {
       "type": "boolean",
       "default": false

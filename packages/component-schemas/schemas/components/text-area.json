@@ -66,8 +66,7 @@
       "type": "string"
     },
     "errorMessage": {
-      "type": "string",
-      "default": null
+      "type": "string"
     },
     "inputType": {
       "type": "string",
