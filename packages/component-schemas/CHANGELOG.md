@@ -1,5 +1,22 @@
 # @adobe/spectrum-component-api-schemas
 
+## 1.0.1
+
+### Patch Changes
+
+- [#523](https://github.com/adobe/spectrum-tokens/pull/523) [`9c5a2ac`](https://github.com/adobe/spectrum-tokens/commit/9c5a2ac5fccb29b6f106396b21d91aab949043d4) Thanks [@GarthDB](https://github.com/GarthDB)! - S2 components batch 1 (part 2)
+
+  ## Changes
+
+  ### Properties added
+  - component: select-box
+    - `body`
+
+  ### Properties updated
+  - component: text-area
+    - `errorMessage`
+      - removed: `"default": null`
+
 ## 1.0.0
 
 ### Major Changes
@@ -9,7 +26,6 @@
   ## Changes
 
   ### Properties Added
-
   - component: search-field
     - `helpText`
     - `placeholder`
@@ -29,7 +45,6 @@
     - `helpText`
 
   ### Properties removed
-
   - component: search-field
     - `isQuiet`
   - component: text-area
@@ -40,7 +55,6 @@
     - `isReadOnly`
 
   ### Properties updated
-
   - component: meter
     - `size`:
       - `enum`: `["small", "large"]` -> `["s", "m", "l", "xl"]`
@@ -54,7 +68,6 @@
       - `default`: `6` -> `8`
 
   ### New Component
-
   - select-box
 
 ## 0.0.0
