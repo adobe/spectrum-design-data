@@ -3470,6 +3470,7 @@
     "deprecated_comment": "This token has been deprecated, use card-minimum-width-default instead."
   },
   "card-minimum-width-default": {
+    "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "100px",
     "uuid": "3a11949c-f1ac-490b-8416-f4883402d105"
@@ -10314,6 +10315,7 @@
     "deprecated_comment": "This token has been deprecated, use tree-view-item-to-item-default instead."
   },
   "tree-view-item-to-item-default": {
+    "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "-1px",
     "uuid": "7d44a2b5-0aa6-4770-81da-8dbd87013906"
