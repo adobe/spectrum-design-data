@@ -26,7 +26,7 @@
   },
   "sans-serif-font-family": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-family.json",
-    "value": "Adobe Clean",
+    "value": "Adobe Clean Spectrum VF",
     "uuid": "a552c422-c51c-458a-87b0-c6fe5178bf4b"
   },
   "serif-font-family": {
@@ -2120,5 +2120,170 @@
         "uuid": "185be0f6-8283-4068-80f1-68ee8dd06c25"
       }
     }
+  },
+  "component-xs-regular": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-50}",
+      "fontWeight": "{regular-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-50}"
+    },
+    "uuid": "5dca28f2-77f5-4b29-85f3-0075bf2cbe7f"
+  },
+  "component-xs-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-50}",
+      "fontWeight": "{medium-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-50}"
+    },
+    "uuid": "8bf6d008-d3d8-446d-afe8-62613b1c53a2"
+  },
+  "component-xs-bold": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-50}",
+      "fontWeight": "{bold-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-50}"
+    },
+    "uuid": "dc560f13-3f9d-47ed-9adf-646c24fd5a0a"
+  },
+  "component-s-regular": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-75}",
+      "fontWeight": "{regular-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-75}"
+    },
+    "uuid": "cde5212c-520d-4657-8184-f07739ffed07"
+  },
+  "component-s-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-75}",
+      "fontWeight": "{medium-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-75}"
+    },
+    "uuid": "afa00f39-1fe1-4026-8693-189e6d051eb3"
+  },
+  "component-s-bold": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-75}",
+      "fontWeight": "{bold-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-75}"
+    },
+    "uuid": "6510c875-e551-43f2-9e84-111cfccafce8"
+  },
+  "component-m-regular": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-100}",
+      "fontWeight": "{regular-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-100}"
+    },
+    "uuid": "567a8eff-028f-4de1-b58a-a0473775219f"
+  },
+  "component-m-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-100}",
+      "fontWeight": "{medium-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-100}"
+    },
+    "uuid": "633b828a-8623-4905-9dda-5a7b989768d7"
+  },
+  "component-m-bold": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-100}",
+      "fontWeight": "{bold-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-100}"
+    },
+    "uuid": "48422ecb-3993-4a96-b785-7661b9f662d2"
+  },
+  "component-l-regular": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-200}",
+      "fontWeight": "{regular-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-200}"
+    },
+    "uuid": "5a58a097-2235-4302-a6ed-6c1fa854c523"
+  },
+  "component-l-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-200}",
+      "fontWeight": "{medium-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-200}"
+    },
+    "uuid": "aa7cd308-279c-4c0f-ab5e-5053341c963b"
+  },
+  "component-l-bold": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-200}",
+      "fontWeight": "{bold-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-200}"
+    },
+    "uuid": "861ac736-b95b-4350-b40b-0dde0036c796"
+  },
+  "component-xl-regular": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-300}",
+      "fontWeight": "{regular-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-300}"
+    },
+    "uuid": "5096f188-f728-4db4-8cd9-cc23b08956e1"
+  },
+  "component-xl-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-300}",
+      "fontWeight": "{medium-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-300}"
+    },
+    "uuid": "657ca53c-178e-4526-9c37-e023499f3659"
+  },
+  "component-xl-bold": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+    "value": {
+      "fontFamily": "{sans-serif-font-family}",
+      "fontSize": "{font-size-300}",
+      "fontWeight": "{bold-font-weight}",
+      "letterSpacing": "{letter-spacing}",
+      "lineHeight": "{line-height-font-size-300}"
+    },
+    "uuid": "1e7e87a6-cf8f-4827-ba46-ca6a9152a6d7"
   }
 }
