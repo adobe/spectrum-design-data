@@ -1,5 +1,54 @@
 # @adobe/spectrum-tokens
 
+## 13.11.0
+
+### Minor Changes
+
+- [#525](https://github.com/adobe/spectrum-tokens/pull/525) [`db6d0ed`](https://github.com/adobe/spectrum-tokens/commit/db6d0ed669e013e6f3ff52aea89fc7a5e798149a) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - composite tokens
+
+  <details open><summary>Newly Deprecated (2)</summary>
+  - `card-minimum-width`: This token has been deprecated, use card-minimum-width-default instead.
+  - `tree-view-item-to-item`: This token has been deprecated, use tree-view-item-to-item-default instead.
+
+  </details>
+  <details open><summary>Added (22)</summary>
+  - `component-xs-regular`
+  - `component-xs-medium`
+  - `component-xs-bold`
+  - `component-s-regular`
+  - `component-s-medium`
+  - `component-s-bold`
+  - `component-m-regular`
+  - `component-m-medium`
+  - `component-m-bold`
+  - `component-l-regular`
+  - `component-l-medium`
+  - `component-l-bold`
+  - `component-xl-regular`
+  - `component-xl-medium`
+  - `component-xl-bold`
+  - `component-padding-vertical-50`
+  - `component-padding-vertical-75`
+  - `component-padding-vertical-100`
+  - `component-padding-vertical-200`
+  - `component-padding-vertical-300`
+  - `card-minimum-width-default`
+  - `tree-view-item-to-item-default`
+
+  </details>
+
+  <details open><summary>Updated Properties (3)</summary>
+  - `sans-serif-font-family`
+    value: Adobe Clean -> Adobe Clean Spectrum VF
+  - `card-minimum-width`
+    schema: dimension.json -> alias.json
+    value: 100px -> card-minimum-width-default
+  - `tree-view-item-to-item`
+    schema: dimension.json -> alias.json
+    value: -1px -> tree-view-item-to-item-default
+
+  </details>
+
 ## 13.10.1
 
 ### Patch Changes
@@ -16,7 +65,6 @@
   Updated (2)
 
   <details open><summary>Updated Properties (2)</summary>
-
   - `accordion-focus-indicator-gap`
     - value: `0px` -> `2px`
   - `accordion-top-to-text-medium`
@@ -38,7 +86,6 @@
   ## Token Diff
 
   <details open><summary>Newly Deprecated (8)</summary>
-
   - `accordion-top-to-text-regular-small`
   - `accordion-top-to-text-regular-medium`
   - `accordion-top-to-text-regular-large`
@@ -51,7 +98,6 @@
   </details>
 
   <details open><summary>Added (20)</summary>
-
   - `field-top-to-disclosure-icon-compact-small`
   - `field-top-to-disclosure-icon-small`
   - `field-top-to-disclosure-icon-spacious-small`
@@ -76,7 +122,6 @@
   </details>
 
   <details open><summary>Added Properties (3)</summary>
-
   - `accordion-top-to-text-compact-small`
   - `desktop.schema`: dimension.json
   - `desktop.value`: 3px
@@ -109,7 +154,6 @@
   ## Token Diff
 
   <details open><summary>Added (28)</summary>
-
   - `visual-to-control-100`
   - `label-to-description-0`
   - `list-view-minimum-height`
@@ -148,7 +192,6 @@
 - [#502](https://github.com/adobe/spectrum-tokens/pull/502) [`26845e5`](https://github.com/adobe/spectrum-tokens/commit/26845e5885168bdfb7191b246b2ad41def39dc15) Thanks [@larz0](https://github.com/larz0)! - Tag field and missing icon tokens
 
   ## Design Motivation
-
   - These are the required tokens for the tag fields component.
   - These UI icons already exist and are being used in number field, menu items, swatch and list view.
   - This was brought up on Slack by the CSS team in the implementation channel
@@ -157,7 +200,6 @@
   ## Token Diff
 
   <details open><summary>Added (22)</summary>
-
   - `link-out-icon-size-300`
   - `link-out-icon-size-400`
   - `add-icon-size-50`
@@ -196,7 +238,6 @@
   ## Token Diff
 
   <details open><summary>Added (19)<br /></summary>
-
   - `accordion-edge-to-content-area-small`
   - `accordion-edge-to-content-area-medium`
   - `accordion-edge-to-content-area-large`
@@ -232,7 +273,6 @@
   ## Token Diff
 
   <details open><summary>Added (3)</summary>
-
   - `card-horizontal-edge-to-content-compact`
   - `card-horizontal-edge-to-content-default`
   - `card-horizontal-edge-to-content-spacious`
@@ -253,13 +293,11 @@
 
   <details open>
   <summary>Newly Deprecated (1)</summary>
-
   - `drop-zone-content-maximum-width`
 
   </details>
   <details open>
   <summary>Added (18)</summary>
-
   - `line-height-font-size-25`
   - `line-height-font-size-50`
   - `line-height-font-size-75`
@@ -294,7 +332,6 @@
   ## Token Diff
 
   <details open><summary>Added (18)</summary>
-
   - `steplist-step-default-width-small`
   - `steplist-step-default-width-medium`
   - `steplist-step-default-width-large`
@@ -325,7 +362,6 @@
   ## Token Diff
 
   <details open><summary>Added (1)</summary>
-
   - `segmented-control-item-maximum-width`
 
   </details>
@@ -349,7 +385,6 @@
   Updated (174)
 
   <details><summary>Added Properties (82)</summary>
-
   - `informative-subtle-background-color-default`
     - `wireframe.schema`: `alias.json`
     - `wireframe.value`: `informative-color-200`
@@ -681,7 +716,6 @@
 
   </details>
   <details><summary>Updated Properties (92)</summary>
-
   - `icon-color-blue-primary-default`
     - `wireframe.uuid`: `20880dfd-57dc-486d-b0dd-c44002f340e3` -> `a306b28e-f698-427d-a576-439b2ab378fc`
   - `icon-color-red-primary-default`
@@ -928,7 +962,6 @@
   ***
 
   <details open><summary>Added (61)</summary>
-
   - `card-edge-to-content-compact-extra-small`
   - `card-edge-to-content-default-extra-small`
   - `card-edge-to-content-spacious-extra-small`
@@ -996,7 +1029,6 @@
   #### Updated (3)
 
   <details open><summary>Added Properties (1)</summary>
-
   - `card-selection-background-color`
     - `light.schema`: `alias.json`
     - `light.value`: `transparent-white-600`
@@ -1007,14 +1039,12 @@
 
   </details>
   <details open><summary>Deleted Properties (1)</summary>
-
   - `card-selection-background-color`
     - `value`: `gray-100`
     - `uuid`: `622c6e86-dea6-416d-9f13-bb6ef112d3cb`
 
   </details>
   <details open><summary>Updated Properties (1)</summary>
-
   - `card-selection-background-color`
     - `schema`: `alias.json` -> `color-set.json`
 
@@ -8210,7 +8240,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (10):_
-
   - `static-blue-900`
   - `static-blue-1000`
   - `static-fuchsia-900`
@@ -8237,7 +8266,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (13):_
-
   - `body-cjk-size-l`
   - `body-cjk-size-m`
   - `body-cjk-size-s`
@@ -8253,7 +8281,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `letter-spacing`
 
   _Token values updated (14):_
-
   - `body-cjk-strong-emphasized-font-weight`
   - `body-cjk-strong-font-weight`
   - `cjk-letter-spacing`
@@ -8290,7 +8317,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   **Updated Token (1):**
-
   - `takeover-dialog-height`: `1.00%` -> `100%`
 
 ## 13.0.0-beta.51
@@ -8302,7 +8328,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   **Updated Tokens (2):**
-
   - `takeover-dialog-height`: `1.00em` -> `1.00%`
   - `takeover-dialog-width`: `1.00em` -> `100%`
 
@@ -8315,7 +8340,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (16):_
-
   - `in-field-stepper-to-end-extra-large`
   - `in-field-stepper-to-end-large`
   - `in-field-stepper-to-end-medium`
@@ -8344,12 +8368,10 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (2):_
-
   - `heading-cjk-size-xxxxl`
   - `heading-size-xxxxl`
 
   _Tokens changed (7):_
-
   - `heading-sans-serif-font-weight`: `bold-font-weight` -> `extra-bold-font-weight`
   - `heading-cjk-heavy-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
   - `heading-sans-serif-emphasized-font-weight`: `bold-font-weight` -> `extra-bold-font-weight`
@@ -8361,7 +8383,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
 - [#422](https://github.com/adobe/spectrum-tokens/pull/422) [`4673d13`](https://github.com/adobe/spectrum-tokens/commit/4673d1383602d81484ae346dd278a28a26f5d91b) Thanks [@GarthDB](https://github.com/GarthDB)! - Added tokens for s2 detail typography
 
   _New tokens (6)_
-
   - `detail-cjk-size-xs`
   - `detail-cjk-size-s`
   - `detail-cjk-size-m`
@@ -8370,7 +8391,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `detail-size-xs`
 
   _Updated token values (13)_
-
   - `detail-sans-serif-font-weight`: `bold-font-weight` -> `medium-font-weight`
   - `detail-serif-font-weight`: `bold-font-weight` -> `medium-font-weight`
   - `detail-cjk-font-weight`: `extra-bold-font-weight` -> `bold-font-weight`
@@ -8390,15 +8410,12 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
 ### Minor Changes
 
 - [#415](https://github.com/adobe/spectrum-tokens/pull/415) [`caca973`](https://github.com/adobe/spectrum-tokens/commit/caca973300d34fc688fb828633b1da2ba8284990) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - 1. New typography tokens:
-
   - Letter spacing, text-align, cjk
-
   1. New gradient stop tokens
   1. New component tokens for bar panel, rating, segmented control, slider, select box
   1. New static color tokens
 
   _Tokens added (51):_
-
   - `letter-spacing`
   - `text-align-start`
   - `text-align-center`
@@ -8452,7 +8469,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `select-box-selected-border-color`
 
   _Token values updated (9):_
-
   - `font-size-1200`
     - `desktop`: `50px` -> `51px`
   - `font-size-1300`
@@ -8481,7 +8497,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   Updated S2 Table tokens
 
   <details><summary>Tokens added (42):</summary>
-
   - `illustrated-message-maximum-width`
   - `side-focus-indicator`
   - `table-row-bottom-to-text-extra-large`
@@ -8528,7 +8543,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   </details>
 
   <details><summary>Tokens updated (101):</summary>
-
   - `informative-subtle-background-color-default`
     - light: `blue-200` -> `informative-color-200`
     - dark: `blue-200` -> `informative-color-300`
@@ -8796,7 +8810,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens Added (12):_
-
   - `standard-panel-width`
   - `standard-panel-minimum-width`
   - `standard-panel-maximum-width`
@@ -8823,7 +8836,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (5):_
-
   - `code-cjk-size-l`
   - `code-cjk-size-m`
   - `code-cjk-size-s`
@@ -8831,7 +8843,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `code-cjk-size-xs`
 
   _Token values updated (2):_
-
   - `code-cjk-strong-emphasized-font-weight`
   - `code-cjk-strong-font-weight`
 
@@ -8842,7 +8853,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
 - [#388](https://github.com/adobe/spectrum-tokens/pull/388) [`58425e6`](https://github.com/adobe/spectrum-tokens/commit/58425e67b2d4cbd716205d4d502cc823245811fe) Thanks [@lynnhao](https://github.com/lynnhao)! - Updated avatar and avatar group tokens
 
   ## Description
-
   - Updated avatar size tokens, including all sizes from `75` to `700`
   - Added new avatar size tokens, from `800` to `1500`
   - Added new avatar border thickness and color tokens
@@ -8850,7 +8860,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - Added avatar group spacing tokens, from `50` to `500`
 
   ## Motivation and context
-
   - Avatar: added new sizes and updated existing sizes to better match other components and work across a variety of use cases.
     - ⚠️ Important note: Accepting updates from this release will update the avatar sizes. The largest change in size is 8px. In some cases, you may want to relink to a new size. View the migration guide below to find the closest recommended size:
 
@@ -8879,7 +8888,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (24):_
-
   - `avatar-border-color`
   - `avatar-border-width`
   - `avatar-group-size-100`
@@ -8906,7 +8914,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `avatar-to-avatar-75`
 
   _Token values updated (8):_
-
   - `avatar-size-100`
   - `avatar-size-200`
   - `avatar-size-300`
@@ -8929,7 +8936,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (8):_
-
   - `drop-shadow-blur-300`
   - `drop-shadow-color-300`
   - `drop-shadow-dragged-blur`
@@ -8954,13 +8960,11 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (3):_
-
   - `swatch-group-spacing-spacious`
   - `swatch-group-border-opacity`
   - `swatch-group-border-color`
 
   _Tokens values updated (3):_
-
   - `swatch-border-color`: `gray-900` -> `gray-1000`
   - `swatch-border-opacity`: `0.51` -> `0.42`
   - `swatch-disabled-icon-border-opacity`: `0.51` -> `0.42`
@@ -8970,7 +8974,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
 ### Minor Changes
 
 - [#375](https://github.com/adobe/spectrum-tokens/pull/375) [`6e3be6d`](https://github.com/adobe/spectrum-tokens/commit/6e3be6d8a458efa1752a8dd1360f03fa83f84c37) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - [Updated thumbnail size tokens and added new tokens](https://github.com/adobe/spectrum-tokens-studio-data/pull/144)
-
   - [Updated S2 Action bar tokens](https://github.com/adobe/spectrum-tokens-studio-data/pull/149)
 
   ## Design Motivation
@@ -9000,7 +9003,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (8):_
-
   - `action-bar-top-to-content-area`
   - `action-bar-bottom-to-content-area`
   - `action-bar-edge-to-content-area`
@@ -9011,12 +9013,10 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `text-to-control-50`
 
   _Tokens updated (2):_
-
   - `action-bar-height`
   - `action-bar-top-to-item-counter`
 
   _Token values updated (11):_
-
   - `thumbnail-size-75`
     - `desktop`: `18px` -> `20px`
     - `mobile`: `22px` -> `24px`
@@ -9056,18 +9056,15 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
 ### Minor Changes
 
 - [#373](https://github.com/adobe/spectrum-tokens/pull/373) [`e04bddf`](https://github.com/adobe/spectrum-tokens/commit/e04bddf65549c87cd314b54966fe066ae649b7f7) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - Updated S2 accordion tokens (non-color) in respective desktop and mobile layout sets
-
   - Added S2 meter tokens, including both color and non-color.
 
   ## Design Motivation
-
   - Accordion component is being formalized as a Spectrum 2 component. These net-new tokens define the design data needed for implementation. Introducing content-area-edge-to-content tokens enhances inclusivity for various design patterns. For more information, [view Jira ticket](https://jira.corp.adobe.com/browse/SDS-13435).
   - Meter component is being formalized as a Spectrum 2 component. These net-new tokens define the design data needed for implementation. Introducing static tokens enables us to standardize the use of tokens across various components with indicators and tracks. This includes progress bars, progress circles, and potentially sliders in the future. For more information, [view Jira ticket](https://jira.corp.adobe.com/browse/SDS-13414).
 
   ## Token Diff
 
   _Tokens added (18):_
-
   - `accordion-content-area-edge-to-content-extra-large`
   - `accordion-content-area-edge-to-content-large`
   - `accordion-content-area-edge-to-content-medium`
@@ -9088,12 +9085,10 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `track-color`
 
   _Newly deprecated tokens (2):_
-
   - `accordion-edge-to-disclosure-indicator`
   - `accordion-disclosure-indicator-to-text`
 
   _Tokens updated (1):_
-
   - `meter-thickness-large`
 
 ## 13.0.0-beta.39
@@ -9105,7 +9100,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (8):_
-
   - `coach-indicator-collapsed-gap`
   - `coach-indicator-collapsed-ring-rounding-increment`
   - `coach-indicator-collapsed-ring-thickness`
@@ -9120,19 +9114,16 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
 ### Minor Changes
 
 - [#360](https://github.com/adobe/spectrum-tokens/pull/360) [`f73a0b4`](https://github.com/adobe/spectrum-tokens/commit/f73a0b40464f1c73f2d9e8f6cf97da926e392ac7) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - Fixed token type from Sizing to Font size for contextual-help-body-size and `contextual-help-title-size`
-
   - Renamed tokens by deprecating previous ones and creating new ones, with font in the token name
     Updated value of `contextual-help-title-font-size`
 
   Marked the the following tokens in Tokens Studio for deprecation:
-
   - `negative-subdued-background-color-default` ( --> points to `negative-subtle-background-color-default`)
   - `negative-subdued-background-color-hover`
   - `negative-subdued-background-color-down`
   - `negative-subdued-background-color-key-focus`
 
   ## Design motivation
-
   - The updated type sorts them correctly in the Tokens Studio data
   - The updated value reflects the latest design for Spectrum 2, using the new title style instead of heading
   - The negative-subdued tokens were deprecated because the tag "error" variant has been deprecated and are no longer needed in the system. A new "subtle" token has been added for the in-line alert use case.
@@ -9140,12 +9131,10 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token diff
 
   _Tokens added (2):_
-
   - `contextual-help-body-font-size`
   - `contextual-help-title-font-size`
 
   _Newly deprecated Tokens (6):_
-
   - `contextual-help-body-size`
   - `contextual-help-title-size`
   - `negative-subdued-background-color-default`
@@ -9164,7 +9153,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ### Change 1: Updated terminology to align with t-shirt sizes
 
   Previously in S1, the breadcrumb variants were default, compact, and multiline. However, in S2, we have aligned breadcrumb to t-shirt sizes, resulting in the following changes:
-
   - Breadcrumbs (default) -> Breadcrumbs (L)
   - Breadcrumbs (compact) -> Breadcrumbs (M)
   - Breadcrumbs (multiline) -> Breadcrumbs (multiline)
@@ -9172,14 +9160,12 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ### Change 2: Updated truncated menu button sizes and spacing
 
   Other structural changes
-
   - In S1 all variants used M sized action button – now we use S, M, L sized action buttons for respective sizes.
   - In S1 all variants had same spacing 8px around chevron, now we use different spacings for all the three variants
 
   ## Token Diff
 
   _Tokens added (11):_
-
   - `breadcrumbs-separator-to-bottom-text-multiline`
   - `breadcrumbs-start-edge-to-text-large`
   - `breadcrumbs-start-edge-to-text-medium`
@@ -9193,7 +9179,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `breadcrumbs-text-to-separator-multiline`
 
   _Newly deprecated tokens (13):_
-
   - `breadcrumbs-height`
   - `breadcrumbs-height-compact`
   - `breadcrumbs-top-to-text`
@@ -9209,7 +9194,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `breadcrumbs-top-to-truncated-menu-compact`
 
   _Token values updated (20):_
-
   - `breadcrumbs-top-to-separator-icon-multiline`
   - `breadcrumbs-top-to-text-multiline`
   - `breadcrumbs-bottom-to-text-multiline`
@@ -9244,7 +9228,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token diff
 
   _Tokens added (78):_
-
   - `icon-color-blue-background`
   - `icon-color-blue-primary-down`
   - `icon-color-blue-primary-hover`
@@ -9331,7 +9314,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
 - [#337](https://github.com/adobe/spectrum-tokens/pull/337) [`df2ab7e`](https://github.com/adobe/spectrum-tokens/commit/df2ab7ed77d385593342a3ced7bfded94bd8af8e) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated illustrated message and drop zone tokens
 
   ## Design Motivation
-
   - The previous tokens had the incorrect types. By fixing the type, they can reference the updated tokens that are replacing them.
   - Illustrated message now has three sizes (S, M, L) in Spectrum 2 to cover a wider range of use cases
   - Component font size tokens now specify font in the token name
@@ -9339,7 +9321,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (12):_
-
   - `drop-zone-body-font-size`
   - `drop-zone-cjk-title-font-size`
   - `drop-zone-title-font-size`
@@ -9354,7 +9335,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `illustrated-message-small-title-font-size`
 
   _Newly deprecated tokens (6):_
-
   - `drop-zone-body-size`
   - `drop-zone-cjk-title-size`
   - `drop-zone-title-size`
@@ -9363,7 +9343,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `illustrated-message-title-size`
 
   _Token value updated (1):_
-
   - `drop-zone-border-dash-gap`
 
 ## 13.0.0-beta.34
@@ -9375,13 +9354,11 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (3):_
-
   - `popover-border-color`
   - `popover-border-opacity`
   - `popover-edge-to-content-area`
 
   _Newly deprecated token (1):_
-
   - `popover-top-to-content-area`
 
 ## 13.0.0-beta.33
@@ -9393,7 +9370,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (23):_
-
   - `link-out-icon-size-100`
   - `link-out-icon-size-200`
   - `link-out-icon-size-75`
@@ -9419,7 +9395,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `text-to-visual-400`
 
   _Token values updated (1):_
-
   - `menu-item-section-divider-height`
 
 ## 13.0.0-beta.32
@@ -9431,7 +9406,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (5):_
-
   - `informative-subtle-background-color-default`
   - `negative-subtle-background-color-default`
   - `neutral-subtle-background-color-default`
@@ -9453,7 +9427,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (10):_
-
   - `standard-dialog-body-font-size`
   - `standard-dialog-maximum-width-large`
   - `standard-dialog-maximum-width-medium`
@@ -9466,7 +9439,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `status-light-text-to-visual-75`
 
   _Token values updated (10):_
-
   - `alert-banner-to-top-workflow-icon`
   - `alert-banner-top-to-workflow-icon`
   - `status-light-dot-size-extra-large`
@@ -9489,7 +9461,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Token values updated (4):_
-
   - `component-pill-edge-to-visual-only-100`
   - `component-pill-edge-to-visual-only-200`
   - `component-pill-edge-to-visual-only-300`
@@ -9500,7 +9471,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Newly deprecated tokens (2):_
-
   - `color-loupe-drop-shadow-color`
   - `drop-shadow-color`
 
@@ -9519,13 +9489,11 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (6):_
-
   - `coach-mark-body-font-size`
   - `coach-mark-pagination-body-font-size`
   - `coach-mark-title-font-size`
 
   _Newly deprecated tokens (3):_
-
   - `coach-mark-body-size`
   - `coach-mark-pagination-body-size`
   - `coach-mark-title-size`
@@ -9539,14 +9507,12 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (4):_
-
   - `alert-dialog-description-font-size`
   - `alert-dialog-description-size`
   - `alert-dialog-title-font-size`
   - `alert-dialog-title-size`
 
   _Newly deprecated tokens (2):_
-
   - `alert-dialog-description-size`
   - `alert-dialog-title-size`
 
@@ -9563,7 +9529,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (15):_
-
   - `combo-box-visual-to-field-button`
   - `combo-box-visual-to-field-button-extra-large`
   - `combo-box-visual-to-field-button-large`
@@ -9581,7 +9546,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `in-field-progress-circle-size-75`
 
   _Newly deprecated tokens (6):_
-
   - `combo-box-quiet-minimum-width-multiplier`
   - `combo-box-visual-to-field-button-small`
   - `combo-box-visual-to-field-button-medium`
@@ -9598,7 +9562,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Newly deprecated tokens (2):_
-
   - `color-loupe-drop-shadow-blur`
   - `color-loupe-drop-shadow-y`
 
@@ -9616,7 +9579,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (24):_
-
   - `drop-shadow-blur`
   - `drop-shadow-blur-100`
   - `drop-shadow-blur-200`
@@ -9643,12 +9605,10 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `drop-shadow-y-200`
 
   _Tokens deleted (2):_
-
   - `drop-shadow-blur`
   - `drop-shadow-y`
 
   _Token values updated (2):_
-
   - `color-handle-drop-shadow-color`
   - `drop-shadow-color`
 
@@ -9663,7 +9623,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (7):_
-
   - `field-default-width-extra-large`
   - `field-default-width-large`
   - `field-default-width-medium`
@@ -9673,14 +9632,12 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `tag-minimum-width-small`
 
   _Token values updated (4):_
-
   - `field-top-to-progress-circle-extra-large`
   - `field-top-to-progress-circle-large`
   - `field-top-to-progress-circle-medium`
   - `field-top-to-progress-circle-small`
 
   _Newly Deprecated Tokens (4):_
-
   - `field-width-extra-large`
   - `field-width-large`
   - `field-width-medium`
@@ -9695,11 +9652,9 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (1):_
-
   - `accordion-top-to-text-spacious-small`
 
   _Newly deprecated token (1):_
-
   - `accordion-small-top-to-text-spacious`
 
 ## 13.0.0-beta.22
@@ -9717,12 +9672,10 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (2):_
-
   - `alert-banner-top-to-alert-icon`
   - `title-color`
 
   _Token values updated (2):_
-
   - `alert-dialog-description-size`
   - `alert-dialog-title-size`
 
@@ -9741,12 +9694,10 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (2):_
-
   - `opacity-checkerboard-square-size-medium`
   - `opacity-checkerboard-square-size-small`
 
   _Newly deprecated token (1):_
-
   - `opacity-checkerboard-square-size`
 
 ## 13.0.0-beta.20
@@ -9762,7 +9713,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (45):_
-
   - `title-cjk-emphasized-font-style`
   - `title-cjk-emphasized-font-weight`
   - `title-cjk-font-family`
@@ -9822,21 +9772,18 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (4):_
-
   - `field-width-small`
   - `field-width-medium`
   - `field-width-large`
   - `field-width-extra-large`
 
   _Updated token values (4):_
-
   - `side-label-character-count-top-margin-small`
   - `side-label-character-count-top-margin-medium`
   - `side-label-character-count-top-margin-large`
   - `side-label-character-count-top-margin-extra-large`
 
   _Newly deprecated tokens (8):_
-
   - `field-width`
   - `field-edge-to-text-quiet`
   - `field-edge-to-border-quiet`
@@ -9860,7 +9807,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Token value updated (1):_
-
   - `color-area-border-color`
 
 - 7b5f18b: Update alert banner for Spectrum 2
@@ -9872,7 +9818,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Token values updated (5):_
-
   - `alert-banner-bottom-to-text`
   - `alert-banner-minimum-height`
   - `alert-banner-top-to-text`
@@ -9890,7 +9835,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Token values updated (5):_
-
   - `toast-height`
   - `toast-top-to-workflow-icon`
   - `toast-top-to-text`
@@ -9911,7 +9855,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (10):_
-
   - `brown-background-color-default`
   - `brown-visual-color`
   - `cinnamon-background-color-default`
@@ -9924,7 +9867,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `turquoise-visual-color`
 
   _Token values updated (27):_
-
   - `accent-background-color-default`
   - `accent-background-color-down`
   - `accent-background-color-hover`
@@ -9968,7 +9910,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Token values updated (2):_
-
   - `color-slider-border-color`
   - `color-slider-border-rounding`
 
@@ -9985,7 +9926,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (9):_
-
   - `tag-edge-to-clear-icon-large`
   - `tag-edge-to-clear-icon-medium`
   - `tag-edge-to-clear-icon-small`
@@ -10015,7 +9955,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (12):_
-
   - `negative-subdued-background-color-default`
   - `negative-subdued-background-color-down`
   - `negative-subdued-background-color-hover`
@@ -10030,7 +9969,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `switch-handle-size-small`
 
   _Token values updated (8):_
-
   - `switch-control-height-extra-large`
   - `switch-control-height-large`
   - `switch-control-height-medium`
@@ -10049,7 +9987,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens values updated (46):_
-
   - `accordion-disclosure-indicator-to-text`
   - `accordion-edge-to-disclosure-indicator`
   - `accordion-edge-to-text`
@@ -10102,20 +10039,17 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
 ### Minor Changes
 
 - ef600c4: ## Design Motivation
-
   - The updated tooltip component in Spectrum 2 has a larger, slightly rounded tip
   - Added tokens for horizontal and vertical orientation
 
   ## Tokens Diff
 
   _Tokens added (3):_
-
   - `divider-horizontal-minimum-width`
   - `divider-vertical-minimum-height`
   - `tooltip-tip-corner-radius`
 
   _Token values updated (2):_
-
   - `tooltip-tip-height`
   - `tooltip-tip-width`
 
@@ -10136,7 +10070,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Token values updated (4):_
-
   - `field-label-top-margin-extra-large`
   - `field-label-top-margin-large`
   - `field-label-top-margin-medium`
@@ -10159,7 +10092,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Token values updated (1):_
-
   - `text-to-visual-300`
 
 - 6579966: existing corner-radius tokens, adding net-new global corner radius tokens, and introducing new alias names that point to these global values.
@@ -10173,7 +10105,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (23):_
-
   - `corner-radius-0`
   - `corner-radius-300`
   - `corner-radius-400`
@@ -10199,7 +10130,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   - `corner-radius-small-size-extra-large`
 
   _Token values updated (3):_
-
   - `corner-radius-75`
   - `corner-radius-100`
   - `corner-radius-200`
@@ -10215,7 +10145,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Token values updated (5):_
-
   - `component-edge-to-visual-only-100`
   - `component-edge-to-visual-only-200`
   - `component-edge-to-visual-only-300`
@@ -10227,7 +10156,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Newly deprecated tokens (4):_
-
   - `help-text-top-to-workflow-icon-extra-large`: use `component-edge-to-visual-only-300`
   - `help-text-top-to-workflow-icon-large`: use `component-edge-to-visual-only-200`
   - `help-text-top-to-workflow-icon-medium`: use `component-edge-to-visual-only-100`
@@ -10252,13 +10180,11 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Tokens Diff
 
   _Tokens added (3):_
-
   - `component-size-difference-down`
   - `component-size-minimum-perspective-down`
   - `component-size-width-ratio-down`
 
   _Token values updated (15):_
-
   - `component-top-to-workflow-icon-100`
   - `component-top-to-workflow-icon-200`
   - `component-top-to-workflow-icon-300`
@@ -10288,12 +10214,10 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (2):_
-
   - `background-elevated-color`
   - `background-pasteboard-color`
 
   _Token values updated (1):_
-
   - `background-base-color`
 
 ## 13.0.0-beta.7
@@ -10305,7 +10229,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Token values updated (328):_
-
   - `accent-background-color-default`
   - `accent-background-color-down`
   - `accent-background-color-hover`
@@ -10650,7 +10573,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (17):_
-
   - `cinnamon-100`
   - `cinnamon-200`
   - `cinnamon-300`
@@ -10677,7 +10599,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Token values updated (1):_
-
   - `notice-background-color-default`: `light`: `notice-color-800` -> `notice-color-600`
 
 ## 13.0.0-beta.5
@@ -10696,7 +10617,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   <details><summary><strong>Token values updated (246):</strong></summary>
-
   - `accent-background-color-default`
   - `accent-background-color-down`
   - `accent-background-color-hover`
@@ -10957,7 +10877,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   <details><summary><strong>Tokens added (64):</strong></summary>
-
   - `brown-100`
   - `brown-1000`
   - `brown-1100`
@@ -11034,7 +10953,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Token values updated (5):_
-
   - `neutral-background-color-default`: changed from a color-set to a single value of a reference of `gray-800`
   - `neutral-background-color-down`: changed from a color-set to a single value of a reference of `gray-900`
   - `neutral-background-color-hover`: changed from a color-set to a single value of a reference of `gray-900`
@@ -11054,7 +10972,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens added (51):_
-
   - `checkbox-control-size-extra-large`
   - `checkbox-control-size-large`
   - `checkbox-control-size-medium`
@@ -11120,7 +11037,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   <details><summary><strong>Tokens added (46):</strong></summary>
-
   - `accent-color-1500`
   - `accent-color-1600`
   - `blue-1500`
@@ -11171,7 +11087,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   </details>
 
   <details><summary><strong>Token values updated (408):</strong></summary>
-
   - `accent-background-color-default`
   - `accent-background-color-down`
   - `accent-background-color-hover`
@@ -11596,7 +11511,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   <details><summary><strong>Token values updated (358):</strong></summary>
-
   - `accent-background-color-default`
   - `accent-background-color-down`
   - `accent-background-color-hover`
@@ -11969,7 +11883,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   <details><summary><strong>Tokens values updated (102):</strong></summary>
-
   - `accent-background-color-default`
   - `accent-background-color-down`
   - `accent-background-color-hover`
@@ -12090,7 +12003,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ### Token Diff
 
   _Tokens added (6):_
-
   - `icon-color-blue-primary-default`
   - `icon-color-green-primary-default`
   - `icon-color-inverse`
@@ -12107,7 +12019,6 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ## Token Diff
 
   _Tokens update (2):_
-
   - `opacity-checkerboard-square-dark`
   - `overlay-opacity`
 
@@ -12124,11 +12035,9 @@ Spectrum 2 is what’s next. It’s more than just a design refresh: it’s a se
   ### Token diff
 
   _Renamed token:_
-
   - `meter-default-width` -> `meter-width`
 
   _Token added for deprecation and rename:_
-
   - `meter-default-width`
 
 ## 12.17.0
@@ -12185,7 +12094,6 @@ _Tokens added (1):_
   ## Token Diff
 
   _Tokens added (19):_
-
   - `in-field-button-edge-to-disclosure-icon-stacked-extra-large`
   - `in-field-button-edge-to-disclosure-icon-stacked-large`
   - `in-field-button-edge-to-disclosure-icon-stacked-medium`
@@ -12221,7 +12129,6 @@ _Tokens added (1):_
   ## Token diff
 
   _Tokens added (88):_
-
   - `table-border-divider-width`
   - `table-checkbox-to-text`
   - `table-column-header-row-bottom-to-text-extra-large`
@@ -12320,7 +12227,6 @@ _Tokens added (1):_
   ## Token Diff
 
   _Tokens updated (51):_
-
   - `accent-content-color-selected`
   - `neutral-subdued-content-color-selected`
   - `tab-item-bottom-to-text-compact-extra-large`
@@ -12382,7 +12288,6 @@ _Tokens added (1):_
   ## Token diff
 
   _Tokens added (51):_
-
   - `accent-content-color-selected`
   - `neutral-subdued-content-color-selected`
   - `tab-item-bottom-to-text-compact-extra-large`
@@ -12444,11 +12349,9 @@ _Tokens added (1):_
   ## Token Diff
 
   _Token added (1):_
-
   - `picker-end-edge-to-disclosure-icon-quiet`
 
   _Newly deprecated token (1):_
-
   - `picker-end-edge-to-disclousure-icon-quiet`
 
 ## 12.10.0
@@ -12472,7 +12375,6 @@ _Tokens added (1):_
   ## Token Diff
 
   The following tokens have update `component` metadata property (all have been set to `coach-mark`):
-
   - `coach-mark-minimum-width`
   - `coach-mark-edge-to-content`
   - `coach-mark-pagination-text-to-bottom-edge`
@@ -12492,11 +12394,9 @@ _Tokens added (1):_
   ## Token Diff
 
   _Token added (1):_
-
   - `floating-action-button-drop-shadow-color`
 
   _Newly deprecated token (1):_
-
   - `floating-action-button-shadow-color` (use `floating-action-button-drop-shadow-color` instead)
 
 ## 12.8.0
@@ -12508,7 +12408,6 @@ _Tokens added (1):_
   ## Token Diff
 
   _Token values updated (2):_
-
   - `color-handle-inner-border-opacity` (to remove express specific values)
   - `color-handle-outer-border-opacity` (to remove express specific values)
 
