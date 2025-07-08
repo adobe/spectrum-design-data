@@ -3463,9 +3463,16 @@
   },
   "card-minimum-width": {
     "component": "card",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{card-minimum-width-default}",
+    "uuid": "55db9f3d-621d-4d23-b3d0-c0f2b0f3f9b0",
+    "deprecated": true,
+    "deprecated_comment": "This token has been deprecated, use card-minimum-width-default instead."
+  },
+  "card-minimum-width-default": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "100px",
-    "uuid": "55db9f3d-621d-4d23-b3d0-c0f2b0f3f9b0"
+    "uuid": "3a11949c-f1ac-490b-8416-f4883402d105"
   },
   "card-preview-minimum-height": {
     "component": "card",
@@ -10300,9 +10307,16 @@
   },
   "tree-view-item-to-item": {
     "component": "tree-view",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{tree-view-item-to-item-default}",
+    "uuid": "9a04f19a-9e2a-43b9-9b1f-3385aef214ac",
+    "deprecated": true,
+    "deprecated_comment": "This token has been deprecated, use tree-view-item-to-item-default instead."
+  },
+  "tree-view-item-to-item-default": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "-1px",
-    "uuid": "9a04f19a-9e2a-43b9-9b1f-3385aef214ac"
+    "uuid": "7d44a2b5-0aa6-4770-81da-8dbd87013906"
   },
   "tree-view-item-to-item-detached": {
     "component": "tree-view",
