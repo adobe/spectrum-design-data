@@ -1,0 +1,248 @@
+# Spectrum Tokens Monorepo - LLM Context
+
+## Project Overview
+
+This is Adobe's **Spectrum Design System** monorepo containing design tokens, component schemas, visualization tools, and utilities. It's the source of truth for Adobe's design system tokens used across all Spectrum implementations.
+
+**Repository**: https://github.com/adobe/spectrum-tokens
+**License**: Apache-2.0
+**Language**: JavaScript/TypeScript (ES modules)
+**Package Manager**: pnpm with moon task runner
+
+## What are Design Tokens?
+
+Design tokens are **name-value pairs** that store design decisions (colors, spacing, typography, etc.) in a platform-agnostic way. They ensure consistency across design tools and code implementations.
+
+Example:
+```json
+{
+  "background-color-default": {
+    "value": "#FFFFFF",
+    "type": "color"
+  }
+}
+```
+
+## Spectrum Versions
+
+- **Spectrum 1 (S1)**: Legacy version, available in `s1-legacy` branch
+- **Spectrum 2 (S2)**: Current version, graduated to `main` branch (what you're working with)
+
+## Repository Structure
+
+### Core Packages (`packages/`)
+
+#### `packages/tokens/`
+- **Purpose**: Main design tokens for Spectrum
+- **NPM Package**: `@adobe/spectrum-tokens`
+- **Key Files**:
+  - `src/` - Source JSON token files
+  - `dist/` - Compiled output
+  - `schemas/token-types/` - Token type definitions
+- **Token Types**: Colors, spacing, typography, icons, layout, etc.
+- **Versioning**: Semantic versioning with automated releases
+
+#### `packages/component-schemas/`
+- **Purpose**: JSON schemas for component APIs
+- **NPM Package**: `@adobe/spectrum-component-api-schemas`
+- **Key Files**:
+  - `schemas/components/` - ~55 component schemas (button, text-field, etc.)
+  - `schemas/types/` - Shared type definitions
+  - `schemas/component.json` - Base component schema
+- **Categories**: actions, containers, data visualization, feedback, inputs, navigation, status, typography
+
+### Documentation (`docs/`)
+
+#### `docs/visualizer/`
+- **Purpose**: Interactive token visualization tool for S1
+- **URL**: https://opensource.adobe.com/spectrum-tokens/visualizer/
+- **Tech**: Vite + LitElement + TypeScript
+- **Features**: Token graph visualization, filtering, search
+
+#### `docs/s2-visualizer/`
+- **Purpose**: S2 version of the visualizer
+- **URL**: https://opensource.adobe.com/spectrum-tokens/s2-visualizer/
+- **Features**: Same as visualizer but for S2 data
+
+#### `docs/site/`
+- **Purpose**: Documentation website
+- **Tech**: Next.js
+- **Content**: Component APIs, token documentation
+
+#### `docs/s2-tokens-viewer/`
+- **Purpose**: S2 token viewer with impact analysis
+- **Features**: Token usage analysis, component relationships
+
+### Tools (`tools/`)
+
+#### `tools/diff-generator/`
+- **Purpose**: Generate diffs between token versions
+- **NPM Package**: `@adobe/token-diff-generator`
+- **Features**: Added/deleted/renamed token detection
+- **CLI**: Compare releases, branches, or local files
+
+#### `tools/token-csv-generator/`
+- **Purpose**: Export tokens to CSV format
+- **Use Case**: Sharing token data with designers
+
+#### `tools/transform-tokens-json/`
+- **Purpose**: One-time token transformations
+- **Use Case**: Bulk updates to token structures
+
+### Templates (`templates/`)
+
+#### `templates/node-tool/`
+- **Purpose**: Template for creating new Node.js tools
+- **Usage**: Scaffold new tools in the monorepo
+
+## Key Concepts
+
+### Token Schema Structure
+```json
+{
+  "token-name": {
+    "value": "...",
+    "type": "color|dimension|string|...",
+    "$schema": "path/to/schema.json",
+    "uuid": "unique-identifier",
+    "deprecated": true,
+    "alias": "new-token-name"
+  }
+}
+```
+
+### Component Schema Structure
+```json
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/button.json",
+  "title": "Button",
+  "description": "...",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "..."
+  },
+  "type": "object",
+  "properties": {
+    "variant": {
+      "type": "string",
+      "enum": ["accent", "negative", "primary", "secondary"],
+      "default": "accent"
+    }
+  }
+}
+```
+
+### Token Categories
+- **Color**: Background, border, text colors
+- **Dimension**: Spacing, sizing, border radius
+- **Typography**: Font families, sizes, weights
+- **Icon**: Workflow icons, UI icons
+- **Layout**: Grid, breakpoints, container sizes
+
+### Component Categories
+- **Actions**: button, action-button, action-group, action-bar
+- **Inputs**: text-field, text-area, checkbox, radio-group, select-box
+- **Navigation**: breadcrumbs, tabs, menu, side-navigation
+- **Containers**: popover, tray, dialog, alert-dialog
+- **Data Visualization**: meter, progress-bar, progress-circle
+- **Feedback**: alert-banner, toast, in-line-alert, status-light
+- **Status**: badge, tag, rating
+- **Typography**: heading, body, detail, code
+
+## Development Workflow
+
+### Technology Stack
+- **Package Manager**: pnpm (v10.11.0)
+- **Task Runner**: moon (https://moonrepo.dev/)
+- **Versioning**: Changesets for automated releases
+- **Code Quality**: Prettier, commitlint, husky
+- **Testing**: AVA test runner
+- **Node Version**: ~20.12
+
+### Common Commands
+```bash
+# Install dependencies
+pnpm i
+
+# Build all packages
+pnpm moon run :build
+
+# Run all tests
+pnpm moon run :test
+
+# Start visualizer development
+pnpm moon run visualizer:dev
+
+# Generate token diff
+pnpm generateDiffResult
+```
+
+### Versioning Strategy
+- **Patch (x.x.n+1)**: Bug fixes, typos
+- **Minor (x.n+1.0)**: New tokens, value changes, deprecations
+- **Major (n+1.0.0)**: Breaking changes, deleted tokens
+
+### Release Process
+- All commits to `main` → stable release with `latest` tag
+- Commits to `next`/`next-major` → prerelease with `next` tag
+- Uses conventional commits and semantic-release
+
+## Common Use Cases
+
+### For LLMs Working with This Codebase
+
+1. **Token Discovery**: Find tokens by name, type, or usage
+2. **Component Schema Validation**: Validate component configurations
+3. **Token Diff Analysis**: Compare token changes between versions
+4. **Documentation Generation**: Create docs from schemas
+5. **Migration Assistance**: Help with S1 → S2 migrations
+
+### File Patterns to Understand
+
+- `packages/tokens/src/*.json` - Token definitions
+- `packages/component-schemas/schemas/components/*.json` - Component schemas
+- `docs/*/src/**/*.ts` - Visualization tool source code
+- `tools/*/src/**/*.js` - Utility tool implementations
+
+### Important Data Structures
+
+1. **Token Objects**: Have value, type, $schema, uuid
+2. **Component Schemas**: JSON Schema format with meta information
+3. **Manifest Files**: List available tokens/components
+4. **Diff Objects**: Show added/deleted/changed tokens
+
+## Working with the Codebase
+
+### When Reading Token Files
+- Focus on `value`, `type`, and `$schema` properties
+- Check for `deprecated` and `alias` properties
+- UUID is used for tracking renames across versions
+
+### When Reading Component Schemas
+- `properties` object defines component API
+- `meta.category` for grouping
+- `enum` arrays for valid values
+- `default` values for optional properties
+
+### When Building Tools
+- Use existing utilities in `tools/` as examples
+- Follow the Node.js tool template pattern
+- Implement proper error handling and validation
+- Use pnpm workspaces for dependencies
+
+### When Generating Documentation
+- Component schemas are self-documenting
+- Use `meta.documentationUrl` for external links
+- Token types have schema definitions
+- Visualizer tools show relationships
+
+## Integration Points
+
+- **Style Dictionary**: Used for token compilation
+- **JSON Schema**: Used for validation
+- **GitHub Actions**: Automated releases and validation
+- **NPM**: Package distribution
+- **GitHub Pages**: Static site hosting
+
+This monorepo is the foundational source of truth for Adobe's Spectrum design system, providing both the design tokens and the schemas that define how components should be implemented across platforms. 
