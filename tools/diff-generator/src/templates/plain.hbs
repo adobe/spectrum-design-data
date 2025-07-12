@@ -1,0 +1,84 @@
+{{! Plain text template for CLI output }}
+TOKENS CHANGED: {{totalTokens result}}
+
+{{#if options.oldTokenBranch}}{{options.oldTokenBranch}} | {{/if}}{{#if options.oldTokenVersion}}{{options.oldTokenVersion}} | {{/if}}{{#if options.newTokenBranch}}{{options.newTokenBranch}}{{/if}}{{#if options.newTokenVersion}}{{options.newTokenVersion}}{{/if}}
+
+{{#if (hasKeys result.renamed)}}
+RENAMED ({{renamed.length}}):
+{{#each renamed}}
+   {{oldName}} -> {{name}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.deprecated)}}
+NEWLY DEPRECATED ({{deprecated.length}}):
+{{#each deprecated}}
+   {{name}}{{#if comment}} - {{comment}}{{/if}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.reverted)}}
+NEWLY UN-DEPRECATED ({{reverted.length}}):
+{{#each reverted}}
+   {{name}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.added)}}
+ADDED ({{added.length}}):
+{{#each added}}
+   {{name}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.deleted)}}
+DELETED ({{deleted.length}}):
+{{#each deleted}}
+   {{name}}
+{{/each}}
+
+{{/if}}
+{{#if (totalUpdatedTokens result.updated)}}
+UPDATED ({{totalUpdatedTokens result.updated}}):
+
+{{#if (hasKeys result.updated.renamed)}}
+   RENAMED PROPERTIES ({{updated.renamed.length}}):
+{{#each updated.renamed}}
+      {{name}}:
+{{#each changes}}
+         {{cleanPath path}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}
+{{/each}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.updated.added)}}
+   ADDED PROPERTIES ({{updated.added.length}}):
+{{#each updated.added}}
+      {{name}}:
+{{#each changes}}
+         {{cleanPath path}}: {{newValue}}
+{{/each}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.updated.deleted)}}
+   DELETED PROPERTIES ({{updated.deleted.length}}):
+{{#each updated.deleted}}
+      {{name}}:
+{{#each changes}}
+         {{cleanPath path}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}
+{{/each}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.updated.updated)}}
+   UPDATED PROPERTIES ({{updated.updated.length}}):
+{{#each updated.updated}}
+      {{name}}:
+{{#each changes}}
+         {{cleanPath path}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}
+{{/each}}
+{{/each}}
+
+{{/if}}
+{{/if}} 

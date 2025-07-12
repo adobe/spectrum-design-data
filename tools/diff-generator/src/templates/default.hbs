@@ -1,0 +1,136 @@
+{{! Default template for token diff reports }}
+{{! This template generates markdown-style output similar to the existing markdown formatter }}
+
+**Tokens Changed ({{totalTokens result}})**
+
+{{#if options.oldTokenBranch}}
+{{options.oldTokenBranch}} | {{/if}}{{#if options.oldTokenVersion}}
+{{options.oldTokenVersion}} | {{/if}}{{#if options.newTokenBranch}}
+**{{options.newTokenBranch}}**{{/if}}{{#if options.newTokenVersion}}
+**{{options.newTokenVersion}}**{{/if}}
+
+-------------------------------------------------------------------------------------------
+
+{{#if (hasKeys result.renamed)}}
+<details open><summary>
+
+**Renamed ({{renamed.length}})**
+
+</summary>
+{{#each renamed}}
+&ensp;&ensp;{{neutral oldName}} -> {{hilite name}}<br />
+{{/each}}
+</details>
+{{/if}}
+
+{{#if (hasKeys result.deprecated)}}
+<details open><summary>
+
+**Newly Deprecated ({{deprecated.length}})**
+
+</summary>
+{{#each deprecated}}
+&ensp;&ensp;{{hilite name}}{{#if comment}}: {{neutral comment}}{{/if}}<br />
+{{/each}}
+</details>
+{{/if}}
+
+{{#if (hasKeys result.reverted)}}
+<details open><summary>
+
+**Newly "Un-deprecated" ({{reverted.length}})**
+
+</summary>
+{{#each reverted}}
+&ensp;&ensp;{{hilite name}}<br />
+{{/each}}
+</details>
+{{/if}}
+
+{{#if (hasKeys result.added)}}
+<details open><summary>
+
+**Added ({{added.length}})**
+
+</summary>
+{{#each added}}
+&ensp;&ensp;{{hilite name}}<br />
+{{/each}}
+</details>
+{{/if}}
+
+{{#if (hasKeys result.deleted)}}
+<details open><summary>
+
+**Deleted ({{deleted.length}})**
+
+</summary>
+{{#each deleted}}
+&ensp;&ensp;{{hilite name}}<br />
+{{/each}}
+</details>
+{{/if}}
+
+{{#if (totalUpdatedTokens result.updated)}}
+**Updated ({{totalUpdatedTokens result.updated}})**
+
+{{#if (hasKeys result.updated.renamed)}}
+<details open><summary>
+
+&ensp;&ensp;**Renamed Properties ({{updated.renamed.length}})**
+
+</summary>
+{{#each updated.renamed}}
+&ensp;&ensp;&ensp;&ensp;{{hilite name}}<br />
+{{#each changes}}
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{neutral (cleanPath path)}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}<br />
+{{/each}}
+{{/each}}
+</details>
+{{/if}}
+
+{{#if (hasKeys result.updated.added)}}
+<details open><summary>
+
+&ensp;&ensp;**Added Properties ({{updated.added.length}})**
+
+</summary>
+{{#each updated.added}}
+&ensp;&ensp;&ensp;&ensp;{{hilite name}}<br />
+{{#each changes}}
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{neutral (cleanPath path)}}: {{newValue}}<br />
+{{/each}}
+{{/each}}
+</details>
+{{/if}}
+
+{{#if (hasKeys result.updated.deleted)}}
+<details open><summary>
+
+&ensp;&ensp;**Deleted Properties ({{updated.deleted.length}})**
+
+</summary>
+{{#each updated.deleted}}
+&ensp;&ensp;&ensp;&ensp;{{hilite name}}<br />
+{{#each changes}}
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{neutral (cleanPath path)}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}<br />
+{{/each}}
+{{/each}}
+</details>
+{{/if}}
+
+{{#if (hasKeys result.updated.updated)}}
+<details open><summary>
+
+&ensp;&ensp;**Updated Properties ({{updated.updated.length}})**
+
+</summary>
+{{#each updated.updated}}
+&ensp;&ensp;&ensp;&ensp;{{hilite name}}<br />
+{{#each changes}}
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{neutral (cleanPath path)}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}<br />
+{{/each}}
+{{/each}}
+</details>
+{{/if}}
+{{/if}} 
