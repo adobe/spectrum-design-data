@@ -22,6 +22,9 @@ const red = chalk.hex("F37E7E");
 
 import cliFormatter from "./formatterCLI.js";
 import markdownFormatter from "./formatterMarkdown.js";
+import handlebarsFormatter, {
+  HandlebarsFormatter,
+} from "./formatterHandlebars.js";
 import storeOutput from "./store-output.js";
 
 import { githubAPIKey } from "../../github-api-key.js";
@@ -63,7 +66,15 @@ program
   .option("-l, --local <path>", "indicates to compare to local data")
   .option("-r, --repo <name>", "github repository to target")
   .option("-g, --githubAPIKey <key>", "github api key to use")
-  .option("-f, --format <format>", "cli (default) or markdown")
+  .option("-f, --format <format>", "cli (default), markdown, or handlebars")
+  .option(
+    "-t, --template <template>",
+    "template name for handlebars format (default, json, plain)",
+  )
+  .option(
+    "--template-dir <dir>",
+    "custom template directory for handlebars format",
+  )
   .option("-o, --output <path>", "file path to store diff output")
   .option("-d, --debug <path>", "file path to store diff json")
   .action(async (options) => {
@@ -158,6 +169,21 @@ function printReport(result, log, options) {
     switch (options.format) {
       case "markdown":
         reportFormatter = markdownFormatter;
+        reportFunction = (input) => {
+          reportOutput.push(input);
+        };
+        break;
+
+      case "handlebars":
+        // Create a new instance with custom options
+        const handlebarsOptions = {};
+        if (options.template) {
+          handlebarsOptions.template = options.template;
+        }
+        if (options.templateDir) {
+          handlebarsOptions.templateDir = options.templateDir;
+        }
+        reportFormatter = new HandlebarsFormatter(handlebarsOptions);
         reportFunction = (input) => {
           reportOutput.push(input);
         };
