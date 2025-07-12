@@ -68,19 +68,21 @@ tdiff report
 
 ### Options
 
-| Shorthand | Name                  | Argument(s)    | Description                                           |
-| --------- | --------------------- | -------------- | ----------------------------------------------------- |
-| `--otv`   | `--old-token-version` | `<oldVersion>` | github tag to pull old tokens from                    |
-| `--ntv`   | `--new-token-version` | `<newVersion>` | github tag to pull new tokens from                    |
-| `--otb`   | `--old-token-branch`  | `<oldBranch>`  | branch to fetch old token data from                   |
-| `--ntb`   | `--new-token-branch`  | `<newBranch>`  | branch to fetch new token data from                   |
-| `-l`      | `--local`             | `<path>`       | local path within repository to fetch token data from |
-| `-n`      | `--token-names`       | `<tokens...>`  | indicates specific tokens to compare                  |
-| `-r`      | `--repo`              | `<repo>`       | git repo to use if you want to use a fork             |
-| `-g`      | `--githubAPIKey`      | `<key>`        | github api key to use when fetching from github       |
-| `-f`      | `--format`            | `<format>`     | choose result format cli (default) or markdown        |
-| `-o`      | `--output`            | `<path>`       | choose where to store result output, if available     |
-| `-d`      | `--debug`             | `<path>`       | optional path to store unformatted result output      |
+| Shorthand | Name                  | Argument(s)    | Description                                                 |
+| --------- | --------------------- | -------------- | ----------------------------------------------------------- |
+| `--otv`   | `--old-token-version` | `<oldVersion>` | github tag to pull old tokens from                          |
+| `--ntv`   | `--new-token-version` | `<newVersion>` | github tag to pull new tokens from                          |
+| `--otb`   | `--old-token-branch`  | `<oldBranch>`  | branch to fetch old token data from                         |
+| `--ntb`   | `--new-token-branch`  | `<newBranch>`  | branch to fetch new token data from                         |
+| `-l`      | `--local`             | `<path>`       | local path within repository to fetch token data from       |
+| `-n`      | `--token-names`       | `<tokens...>`  | indicates specific tokens to compare                        |
+| `-r`      | `--repo`              | `<repo>`       | git repo to use if you want to use a fork                   |
+| `-g`      | `--githubAPIKey`      | `<key>`        | github api key to use when fetching from github             |
+| `-f`      | `--format`            | `<format>`     | choose result format cli (default), markdown, or handlebars |
+| `-t`      | `--template`          | `<template>`   | template name for handlebars format (default, json, plain)  |
+|           | `--template-dir`      | `<dir>`        | custom template directory for handlebars format             |
+| `-o`      | `--output`            | `<path>`       | choose where to store result output, if available           |
+| `-d`      | `--debug`             | `<path>`       | optional path to store unformatted result output            |
 
 ### Usage examples
 
@@ -99,3 +101,43 @@ tdiff report --otb shirlsli/file-import-tests -l packages/tokens/src -n color-al
 ```
 tdiff report --otv "@adobe/spectrum-tokens@13.0.0-beta.46" --ntv "@adobe/spectrum-tokens@13.0.0-beta.47" --format markdown --output logs/output.md
 ```
+
+This is how you can use the new handlebars formatter with different templates:
+
+```
+tdiff report --otv "@adobe/spectrum-tokens@13.0.0-beta.46" --ntv "@adobe/spectrum-tokens@13.0.0-beta.47" --format handlebars --template json --output logs/output.json
+```
+
+```
+tdiff report --otb main --ntb feature-branch --format handlebars --template plain --output logs/diff.txt
+```
+
+### Handlebars Formatter
+
+The new handlebars formatter provides flexible templating capabilities for customizing the output format of token diff reports.
+
+**Built-in Templates:**
+
+- `default` - Markdown-style output similar to the existing markdown formatter
+- `json` - Structured JSON output with full diff details
+- `plain` - Clean plain text output for CLI consumption
+- `summary` - High-level summary with statistics only
+
+**Custom Templates:**
+You can create custom templates in the `src/templates/` directory or specify a custom template directory with `--template-dir`.
+
+**Template Features:**
+
+- Full access to diff data through Handlebars helpers
+- Built-in helpers for common formatting tasks
+- Support for conditional logic and loops
+- Easy to extend with custom helpers
+
+**Available Helpers:**
+
+- `totalTokens` - Calculate total number of changed tokens
+- `totalUpdatedTokens` - Calculate total number of tokens with property updates
+- `hasKeys` - Check if an object has properties
+- `cleanPath` - Clean up property paths
+- `formatDate` - Format timestamps
+- `hilite`, `error`, `passing`, `neutral` - Text formatting helpers

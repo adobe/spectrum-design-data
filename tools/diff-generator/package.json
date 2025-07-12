@@ -24,6 +24,7 @@
     "commander": "^13.1.0",
     "deep-object-diff": "^1.1.9",
     "emojilib": "^4.0.2",
+    "handlebars": "^4.7.8",
     "inquirer": "^12.5.2",
     "nixt": "^0.5.1",
     "node-emoji": "^2.2.0",
