@@ -17,33 +17,37 @@
 **Renamed ({{renamed.length}})**
 
 </summary>
+
 {{#each renamed}}
-&ensp;&ensp;{{oldName}} -> {{name}}<br />
+- `{{oldName}}` -> `{{name}}`
 {{/each}}
+
 </details>
 {{/if}}
-
 {{#if (hasKeys result.deprecated)}}
 <details open><summary>
 
 **Newly Deprecated ({{deprecated.length}})**
 
 </summary>
+
 {{#each deprecated}}
-&ensp;&ensp;{{name}}{{#if comment}}: {{comment}}{{/if}}<br />
+- `{{name}}`{{#if comment}}: {{comment}}{{/if}}
 {{/each}}
+
 </details>
 {{/if}}
-
 {{#if (hasKeys result.reverted)}}
 <details open><summary>
 
 **Newly "Un-deprecated" ({{reverted.length}})**
 
 </summary>
+
 {{#each reverted}}
-&ensp;&ensp;{{name}}<br />
+- `{{name}}`
 {{/each}}
+
 </details>
 {{/if}}
 
@@ -54,11 +58,11 @@
 
 </summary>
 {{#each added}}
-&ensp;&ensp;{{name}}<br />
+- `{{name}}`
 {{/each}}
+
 </details>
 {{/if}}
-
 {{#if (hasKeys result.deleted)}}
 <details open><summary>
 
@@ -66,56 +70,61 @@
 
 </summary>
 {{#each deleted}}
-&ensp;&ensp;{{name}}<br />
+- `{{name}}`
 {{/each}}
+
 </details>
 {{/if}}
-
 {{#if (totalUpdatedTokens result.updated)}}
+
 **Updated ({{totalUpdatedTokens result.updated}})**
 
 {{#if (hasKeys result.updated.renamed)}}
 <details open><summary>
 
-&ensp;&ensp;**Renamed Properties ({{updated.renamed.length}})**
+**Renamed Properties ({{updated.renamed.length}})**
 
 </summary>
+
 {{#each updated.renamed}}
-&ensp;&ensp;&ensp;&ensp;{{name}}<br />
+- `{{name}}`
 {{#each changes}}
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{cleanPath path}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}<br />
+  - `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{originalValue}}` -> `{{newValue}}`{{/if}}
 {{/each}}
 {{/each}}
+
 </details>
 {{/if}}
 
 {{#if (hasKeys result.updated.added)}}
 <details open><summary>
 
-&ensp;&ensp;**Added Properties ({{updated.added.length}})**
+**Added Properties ({{updated.added.length}})**
 
 </summary>
 {{#each updated.added}}
-&ensp;&ensp;&ensp;&ensp;{{name}}<br />
+- `{{name}}`
 {{#each changes}}
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{cleanPath path}}: {{newValue}}<br />
+  - `{{cleanPath path}}`: `{{newValue}}`
 {{/each}}
 {{/each}}
+
 </details>
 {{/if}}
 
 {{#if (hasKeys result.updated.deleted)}}
 <details open><summary>
 
-&ensp;&ensp;**Deleted Properties ({{updated.deleted.length}})**
+**Deleted Properties ({{updated.deleted.length}})**
 
 </summary>
 {{#each updated.deleted}}
-&ensp;&ensp;&ensp;&ensp;{{name}}<br />
+- `{{name}}`
 {{#each changes}}
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{cleanPath path}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}<br />
+  - `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}{{originalValue}} -> `{{newValue}}`{{/if}}
 {{/each}}
 {{/each}}
+
 </details>
 {{/if}}
 
@@ -126,11 +135,12 @@
 
 </summary>
 {{#each updated.updated}}
-&ensp;&ensp;&ensp;&ensp;{{name}}<br />
+- `{{name}}`
 {{#each changes}}
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{cleanPath path}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}<br />
+  - `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{originalValue}}` -> `{{newValue}}`{{/if}}
 {{/each}}
 {{/each}}
+
 </details>
 {{/if}}
-{{/if}} 
+{{/if}}

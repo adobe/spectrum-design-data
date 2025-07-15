@@ -24,7 +24,7 @@ class HandlebarsFormatter extends CLIFormatter {
     super();
     this.templateDir =
       options.templateDir || path.join(__dirname, "../templates");
-    this.template = options.template || "default";
+    this.template = options.template || "markdown";
     this.compiledTemplate = null;
     this.registerHelpers();
   }

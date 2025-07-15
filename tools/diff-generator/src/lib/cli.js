@@ -21,7 +21,6 @@ import chalk from "chalk";
 const red = chalk.hex("F37E7E");
 
 import cliFormatter from "./formatterCLI.js";
-import markdownFormatter from "./formatterMarkdown.js";
 import handlebarsFormatter, {
   HandlebarsFormatter,
 } from "./formatterHandlebars.js";
@@ -69,7 +68,7 @@ program
   .option("-f, --format <format>", "cli (default), markdown, or handlebars")
   .option(
     "-t, --template <template>",
-    "template name for handlebars format (default, json, plain)",
+    "template name for handlebars format (markdown, json, plain)",
   )
   .option(
     "--template-dir <dir>",
@@ -168,7 +167,8 @@ function printReport(result, log, options) {
     let reportFunction;
     switch (options.format) {
       case "markdown":
-        reportFormatter = markdownFormatter;
+        // Use handlebars formatter with markdown template for markdown output
+        reportFormatter = new HandlebarsFormatter({ template: "markdown" });
         reportFunction = (input) => {
           reportOutput.push(input);
         };

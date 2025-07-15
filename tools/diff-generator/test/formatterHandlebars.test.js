@@ -110,7 +110,7 @@ test("HandlebarsFormatter constructor - default options", (t) => {
   const formatter = new HandlebarsFormatter();
 
   t.truthy(formatter.templateDir);
-  t.is(formatter.template, "default");
+  t.is(formatter.template, "markdown");
   t.is(formatter.compiledTemplate, null);
 });
 
@@ -247,7 +247,7 @@ test("HandlebarsFormatter helper - totalUpdatedTokens", (t) => {
 
 test("HandlebarsFormatter loadTemplate - loads existing template", (t) => {
   const formatter = new HandlebarsFormatter();
-  const template = formatter.loadTemplate("default");
+  const template = formatter.loadTemplate("markdown");
 
   t.is(typeof template, "function");
 });
