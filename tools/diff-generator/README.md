@@ -140,4 +140,3 @@ You can create custom templates in the `src/templates/` directory or specify a c
 - `hasKeys` - Check if an object has properties
 - `cleanPath` - Clean up property paths
 - `formatDate` - Format timestamps
-- `hilite`, `error`, `passing`, `neutral` - Text formatting helpers

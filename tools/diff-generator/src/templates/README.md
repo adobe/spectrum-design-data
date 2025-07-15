@@ -68,13 +68,6 @@ Your template receives the following data:
 - `{{objectValues obj}}` - Get object values as array
 - `{{objectEntries obj}}` - Get object entries as array
 
-### Text Formatting Helpers
-
-- `{{hilite text}}` - Highlight text (default: `<code>text</code>`)
-- `{{error text}}` - Error formatting (default: `<strong>text</strong>`)
-- `{{passing text}}` - Passing/success formatting
-- `{{neutral text}}` - Neutral formatting
-
 ### Utility Helpers
 
 - `{{repeat str count}}` - Repeat string count times

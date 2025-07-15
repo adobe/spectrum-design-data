@@ -130,10 +130,6 @@ test("HandlebarsFormatter registerHelpers - registers all helpers", (t) => {
   const formatter = new HandlebarsFormatter();
 
   // Test that helpers are registered
-  t.truthy(Handlebars.helpers.hilite);
-  t.truthy(Handlebars.helpers.error);
-  t.truthy(Handlebars.helpers.passing);
-  t.truthy(Handlebars.helpers.neutral);
   t.truthy(Handlebars.helpers.repeat);
   t.truthy(Handlebars.helpers.hasKeys);
   t.truthy(Handlebars.helpers.objectKeys);
@@ -146,20 +142,6 @@ test("HandlebarsFormatter registerHelpers - registers all helpers", (t) => {
   t.truthy(Handlebars.helpers.formatDate);
   t.truthy(Handlebars.helpers.totalTokens);
   t.truthy(Handlebars.helpers.totalUpdatedTokens);
-});
-
-test("HandlebarsFormatter helper - hilite", (t) => {
-  const formatter = new HandlebarsFormatter();
-  const result = Handlebars.helpers.hilite("test");
-
-  t.is(result.toString(), "<code>test</code>");
-});
-
-test("HandlebarsFormatter helper - error", (t) => {
-  const formatter = new HandlebarsFormatter();
-  const result = Handlebars.helpers.error("error text");
-
-  t.is(result.toString(), "<strong>error text</strong>");
 });
 
 test("HandlebarsFormatter helper - repeat", (t) => {

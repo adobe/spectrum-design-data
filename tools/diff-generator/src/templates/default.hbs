@@ -18,7 +18,7 @@
 
 </summary>
 {{#each renamed}}
-&ensp;&ensp;{{neutral oldName}} -> {{hilite name}}<br />
+&ensp;&ensp;{{oldName}} -> {{name}}<br />
 {{/each}}
 </details>
 {{/if}}
@@ -30,7 +30,7 @@
 
 </summary>
 {{#each deprecated}}
-&ensp;&ensp;{{hilite name}}{{#if comment}}: {{neutral comment}}{{/if}}<br />
+&ensp;&ensp;{{name}}{{#if comment}}: {{comment}}{{/if}}<br />
 {{/each}}
 </details>
 {{/if}}
@@ -42,7 +42,7 @@
 
 </summary>
 {{#each reverted}}
-&ensp;&ensp;{{hilite name}}<br />
+&ensp;&ensp;{{name}}<br />
 {{/each}}
 </details>
 {{/if}}
@@ -54,7 +54,7 @@
 
 </summary>
 {{#each added}}
-&ensp;&ensp;{{hilite name}}<br />
+&ensp;&ensp;{{name}}<br />
 {{/each}}
 </details>
 {{/if}}
@@ -66,7 +66,7 @@
 
 </summary>
 {{#each deleted}}
-&ensp;&ensp;{{hilite name}}<br />
+&ensp;&ensp;{{name}}<br />
 {{/each}}
 </details>
 {{/if}}
@@ -81,9 +81,9 @@
 
 </summary>
 {{#each updated.renamed}}
-&ensp;&ensp;&ensp;&ensp;{{hilite name}}<br />
+&ensp;&ensp;&ensp;&ensp;{{name}}<br />
 {{#each changes}}
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{neutral (cleanPath path)}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}<br />
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{cleanPath path}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}<br />
 {{/each}}
 {{/each}}
 </details>
@@ -96,9 +96,9 @@
 
 </summary>
 {{#each updated.added}}
-&ensp;&ensp;&ensp;&ensp;{{hilite name}}<br />
+&ensp;&ensp;&ensp;&ensp;{{name}}<br />
 {{#each changes}}
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{neutral (cleanPath path)}}: {{newValue}}<br />
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{cleanPath path}}: {{newValue}}<br />
 {{/each}}
 {{/each}}
 </details>
@@ -111,9 +111,9 @@
 
 </summary>
 {{#each updated.deleted}}
-&ensp;&ensp;&ensp;&ensp;{{hilite name}}<br />
+&ensp;&ensp;&ensp;&ensp;{{name}}<br />
 {{#each changes}}
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{neutral (cleanPath path)}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}<br />
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{cleanPath path}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}<br />
 {{/each}}
 {{/each}}
 </details>
@@ -126,9 +126,9 @@
 
 </summary>
 {{#each updated.updated}}
-&ensp;&ensp;&ensp;&ensp;{{hilite name}}<br />
+&ensp;&ensp;&ensp;&ensp;{{name}}<br />
 {{#each changes}}
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{neutral (cleanPath path)}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}<br />
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;{{cleanPath path}}: {{#if (ifEquals type "schema")}}{{lastPathPart originalValue}} -> {{lastPathPart newValue}}{{else}}{{originalValue}} -> {{newValue}}{{/if}}<br />
 {{/each}}
 {{/each}}
 </details>

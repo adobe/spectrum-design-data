@@ -33,26 +33,6 @@ class HandlebarsFormatter extends CLIFormatter {
    * Register Handlebars helpers for common formatting tasks
    */
   registerHelpers() {
-    // Helper to highlight text (can be overridden by templates)
-    Handlebars.registerHelper("hilite", (text) => {
-      return new Handlebars.SafeString(`<code>${text}</code>`);
-    });
-
-    // Helper to format errors (can be overridden by templates)
-    Handlebars.registerHelper("error", (text) => {
-      return new Handlebars.SafeString(`<strong>${text}</strong>`);
-    });
-
-    // Helper to format passing text (can be overridden by templates)
-    Handlebars.registerHelper("passing", (text) => {
-      return new Handlebars.SafeString(text);
-    });
-
-    // Helper to format neutral text (can be overridden by templates)
-    Handlebars.registerHelper("neutral", (text) => {
-      return new Handlebars.SafeString(text);
-    });
-
     // Helper to repeat a string
     Handlebars.registerHelper("repeat", (str, count) => {
       return new Handlebars.SafeString(str.repeat(count));
