@@ -29,7 +29,7 @@ import storeOutput from "./store-output.js";
 import { githubAPIKey } from "../../github-api-key.js";
 
 /* this is updated by the npm prepare script using update-version.js */
-const version = "2.0.0";
+const version = "2.1.0";
 
 const program = new Command();
 
