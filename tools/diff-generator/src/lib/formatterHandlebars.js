@@ -60,7 +60,16 @@ class HandlebarsFormatter extends CLIFormatter {
 
     // Helper for conditional logic
     Handlebars.registerHelper("ifEquals", (arg1, arg2, options) => {
-      return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+      // Check if used as a subexpression (no options.fn available)
+      if (!options || typeof options.fn !== "function") {
+        return arg1 == arg2;
+      }
+      // Used as block helper
+      return arg1 == arg2
+        ? options.fn(this)
+        : options.inverse
+          ? options.inverse(this)
+          : "";
     });
 
     // Helper to clean up schema URLs

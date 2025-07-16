@@ -24,13 +24,17 @@ jobs:
         with:
           auto-install: true
 
+      - name: Install dependencies
+        working-directory: ./tools/diff-generator
+        run: pnpm install
+
       - name: Generate token diff report
         id: diff
         working-directory: ./tools/diff-generator
         run: |
           # Generate the diff report
           set +e  # Don't exit on command failure
-          pnpm tdiff report \
+          ./src/lib/cli.js report \
             --otb ${{ github.base_ref }} \
             --ntb ${{ github.head_ref }} \
             --repo ${{ github.repository }} \

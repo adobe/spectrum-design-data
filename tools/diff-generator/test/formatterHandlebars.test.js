@@ -586,3 +586,41 @@ Added: {{added.length}}
   t.false(fullOutput.includes("<details>"));
   t.true(fullOutput.includes("Token Changes: 9"));
 });
+
+test("HandlebarsFormatter with markdown template", (t) => {
+  const formatter = new HandlebarsFormatter({ template: "markdown" });
+  const output = [];
+
+  const outputFunction = (text) => {
+    output.push(text);
+  };
+
+  const result = formatter.printReport(
+    mockTokenDiffResult,
+    outputFunction,
+    mockOptions,
+  );
+
+  t.true(result);
+
+  const fullOutput = output.join("");
+
+  t.snapshot(fullOutput);
+
+  // Should contain markdown-specific formatting (HTML elements)
+  t.true(fullOutput.includes("details"));
+  t.true(fullOutput.includes("summary"));
+  t.true(fullOutput.includes("strong"));
+
+  // Should contain the main header
+  t.true(fullOutput.includes("Tokens Changed"));
+
+  // Should contain branch information
+  t.true(fullOutput.includes("main"));
+  t.true(fullOutput.includes("feature"));
+
+  // Should not contain plain text formatting (contrast with plain template)
+  t.false(fullOutput.includes("TOKENS CHANGED:"));
+  t.false(fullOutput.includes("RENAMED ("));
+  t.false(fullOutput.includes("ADDED ("));
+});

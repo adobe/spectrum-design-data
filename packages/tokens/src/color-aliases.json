@@ -1461,7 +1461,7 @@
     "sets": {
       "light": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        "value": "{brown-800}",
+        "value": "{brown-700}",
         "uuid": "12fd4bac-b0ef-4285-a0e4-5947526a91a9"
       },
       "dark": {
@@ -1475,6 +1475,11 @@
         "uuid": "349dc3c5-fd57-403c-bc42-2a60b8325bd3"
       }
     }
+  },
+  "a-new-token": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{brown-800}",
+    "uuid": "a25ac05c-c108-4caf-a77e-79b4fd36ee93"
   },
   "cinnamon-visual-color": {
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",

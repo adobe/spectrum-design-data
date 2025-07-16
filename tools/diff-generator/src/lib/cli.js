@@ -151,11 +151,6 @@ program.parse();
  */
 async function cliCheck(result, options) {
   const log = console.log;
-  log(
-    cliFormatter.error(
-      "\nWARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!\n",
-    ),
-  );
 
   return printReport(result, log, options);
 }
@@ -198,7 +193,6 @@ function printReport(result, log, options) {
       storeOutput(options.debug, JSON.stringify(result, null, 2));
     }
 
-    reportFunction(new Date().toLocaleString());
     const exit = reportFormatter.printReport(result, reportFunction, options)
       ? 0
       : 1;

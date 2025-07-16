@@ -1,50 +1,34 @@
 {{! Default template for token diff reports }}
-{{! This template generates markdown-style output similar to the existing markdown formatter }}
 
-**Tokens Changed ({{totalTokens result}})**
+## Tokens Changed ({{totalTokens result}})
 
-{{#if options.oldTokenBranch}}
-{{options.oldTokenBranch}} | {{/if}}{{#if options.oldTokenVersion}}
-{{options.oldTokenVersion}} | {{/if}}{{#if options.newTokenBranch}}
-**{{options.newTokenBranch}}**{{/if}}{{#if options.newTokenVersion}}
-**{{options.newTokenVersion}}**{{/if}}
-
--------------------------------------------------------------------------------------------
+{{#if options.oldTokenBranch}}**Original Branch:** `{{options.oldTokenBranch}}`{{/if}}
+{{#if options.oldTokenVersion}}**Original Version:** `{{options.oldTokenVersion}}`{{/if}}
+{{#if options.newTokenBranch}}**New Branch:** `{{options.newTokenBranch}}`{{/if}}
+{{#if options.newTokenVersion}}**New Version:** `{{options.newTokenVersion}}`{{/if}}
 
 {{#if (hasKeys result.renamed)}}
-<details open><summary>
-
-**Renamed ({{renamed.length}})**
-
-</summary>
-
-{{#each renamed}}
+<details open><summary><strong>Renamed ({{renamed.length}})</strong></summary>
+  
+{{#each renamed~}}
 - `{{oldName}}` -> `{{name}}`
 {{/each}}
 
 </details>
 {{/if}}
 {{#if (hasKeys result.deprecated)}}
-<details open><summary>
-
-**Newly Deprecated ({{deprecated.length}})**
-
-</summary>
-
-{{#each deprecated}}
+<details open><summary><strong>Newly Deprecated ({{deprecated.length}})</strong></summary>
+  
+{{#each deprecated~}}
 - `{{name}}`{{#if comment}}: {{comment}}{{/if}}
 {{/each}}
 
 </details>
 {{/if}}
 {{#if (hasKeys result.reverted)}}
-<details open><summary>
-
-**Newly "Un-deprecated" ({{reverted.length}})**
-
-</summary>
-
-{{#each reverted}}
+<details open><summary><strong>Newly "Un-deprecated" ({{reverted.length}})</strong></summary>
+  
+{{#each reverted~}}
 - `{{name}}`
 {{/each}}
 
@@ -52,44 +36,34 @@
 {{/if}}
 
 {{#if (hasKeys result.added)}}
-<details open><summary>
-
-**Added ({{added.length}})**
-
-</summary>
-{{#each added}}
+<details open><summary><strong>Added ({{added.length}})</strong></summary>
+  
+{{#each added~}}
 - `{{name}}`
 {{/each}}
 
 </details>
 {{/if}}
 {{#if (hasKeys result.deleted)}}
-<details open><summary>
-
-**Deleted ({{deleted.length}})**
-
-</summary>
-{{#each deleted}}
+<details open><summary><strong>Deleted ({{deleted.length}})</strong></summary>
+  
+{{#each deleted~}}
 - `{{name}}`
 {{/each}}
 
 </details>
 {{/if}}
 {{#if (totalUpdatedTokens result.updated)}}
-
-**Updated ({{totalUpdatedTokens result.updated}})**
-
+  
+### Updated ({{totalUpdatedTokens result.updated}})
+  
 {{#if (hasKeys result.updated.renamed)}}
-<details open><summary>
-
-**Renamed Properties ({{updated.renamed.length}})**
-
-</summary>
-
-{{#each updated.renamed}}
+<details open><summary><strong>Renamed Properties ({{updated.renamed.length}})</strong></summary>
+  
+{{#each updated.renamed~}}
 - `{{name}}`
-{{#each changes}}
-  - `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{originalValue}}` -> `{{newValue}}`{{/if}}
+{{#each change}}
+	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{originalValue}}` -> `{{newValue}}`{{/if}}
 {{/each}}
 {{/each}}
 
@@ -97,15 +71,12 @@
 {{/if}}
 
 {{#if (hasKeys result.updated.added)}}
-<details open><summary>
-
-**Added Properties ({{updated.added.length}})**
-
-</summary>
-{{#each updated.added}}
+<details open><summary><strong>Added Properties ({{updated.added.length}})</strong></summary>
+  
+{{#each updated.added~}}
 - `{{name}}`
 {{#each changes}}
-  - `{{cleanPath path}}`: `{{newValue}}`
+	- `{{cleanPath path}}`: `{{newValue}}`
 {{/each}}
 {{/each}}
 
@@ -113,15 +84,12 @@
 {{/if}}
 
 {{#if (hasKeys result.updated.deleted)}}
-<details open><summary>
-
-**Deleted Properties ({{updated.deleted.length}})**
-
-</summary>
-{{#each updated.deleted}}
+<details open><summary><strong>Deleted Properties ({{updated.deleted.length}})</strong></summary>
+  
+{{#each updated.deleted~}}
 - `{{name}}`
 {{#each changes}}
-  - `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}{{originalValue}} -> `{{newValue}}`{{/if}}
+	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}{{originalValue}} -> `{{newValue}}`{{/if}}
 {{/each}}
 {{/each}}
 
@@ -129,15 +97,12 @@
 {{/if}}
 
 {{#if (hasKeys result.updated.updated)}}
-<details open><summary>
-
-&ensp;&ensp;**Updated Properties ({{updated.updated.length}})**
-
-</summary>
-{{#each updated.updated}}
+<details open><summary><strong>Updated Properties ({{updated.updated.length}})</strong></summary>
+  
+{{#each updated.updated~}}
 - `{{name}}`
 {{#each changes}}
-  - `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{originalValue}}` -> `{{newValue}}`{{/if}}
+	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{originalValue}}` -> `{{newValue}}`{{/if}}
 {{/each}}
 {{/each}}
 
