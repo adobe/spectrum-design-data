@@ -11,7 +11,13 @@
   "bugs": {
     "url": "https://github.com/adobe/spectrum-tokens/issues"
   },
+  "scripts": {
+    "prepare": "mkdir -p packages/tokens/src/ && cp -r node_modules/@adobe/spectrum-tokens/src/ packages/tokens/src/"
+  },
   "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/docs/site#readme",
   "keywords": [],
-  "author": "Larz (http://larz.co)"
+  "author": "Larz (http://larz.co)",
+  "dependencies": {
+    "@adobe/spectrum-tokens": "workspace:*"
+  }
 }

@@ -41,7 +41,11 @@ importers:
         specifier: ^3.5.3
         version: 3.6.1
 
-  docs/s2-tokens-viewer: {}
+  docs/s2-tokens-viewer:
+    dependencies:
+      "@adobe/spectrum-tokens":
+        specifier: workspace:*
+        version: link:../../packages/tokens
 
   docs/s2-visualizer:
     dependencies:
