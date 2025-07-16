@@ -12,7 +12,7 @@
     "url": "https://github.com/adobe/spectrum-tokens/issues"
   },
   "scripts": {
-    "prepare": "mkdir -p tokens && cp -r node_modules/@adobe/spectrum-tokens/src/ tokens"
+    "prepare": "mkdir -p tokens && cp -r node_modules/@adobe/spectrum-tokens/src/ tokens && cp -r node_modules/@adobe/spectrum-tokens/package.json tokens/"
   },
   "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/docs/site#readme",
   "keywords": [],

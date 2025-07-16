@@ -2943,7 +2943,7 @@
       // Display the current package version
       async function fetchAndDisplayVersion() {
         try {
-          const response = await fetch('/packages/tokens/package.json');
+          const response = await fetch('tokens/package.json');
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
