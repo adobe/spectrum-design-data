@@ -19,11 +19,13 @@ governing permissions and limitations under the License.
 // These wrappers sanitize the object data by just running the results through
 // some JSON conversion.
 
-import { diff as _diff } from "deep-object-diff";
-import { addedDiff as _addedDiff } from "deep-object-diff";
-import { deletedDiff as _deletedDiff } from "deep-object-diff";
-import { updatedDiff as _updatedDiff } from "deep-object-diff";
-import { detailedDiff as _detailedDiff } from "deep-object-diff";
+import {
+  diff as _diff,
+  addedDiff as _addedDiff,
+  deletedDiff as _deletedDiff,
+  updatedDiff as _updatedDiff,
+  detailedDiff as _detailedDiff,
+} from "deep-object-diff";
 import { isObject } from "./helpers.js";
 
 function sanitize(diff) {
