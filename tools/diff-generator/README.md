@@ -114,10 +114,11 @@ tdiff report --otb main --ntb feature-branch --format handlebars --template plai
 
 ### Handlebars Formatter
 
-The new handlebars formatter provides flexible templating capabilities for customizing the output format of token diff reports.
+The handlebars formatter provides flexible templating capabilities for customizing the output format of token diff reports. **As of v2.2.0, all output formats use the unified Handlebars template system with chalk-powered colors for better maintainability, consistency, and terminal compatibility. The legacy CLI formatter has been completely replaced.**
 
 **Built-in Templates:**
 
+- `cli` - Terminal-friendly output with colors (default for CLI format)
 - `default` - Markdown-style output similar to the existing markdown formatter
 - `json` - Structured JSON output with full diff details
 - `plain` - Clean plain text output for CLI consumption
@@ -140,3 +141,8 @@ You can create custom templates in the `src/templates/` directory or specify a c
 - `hasKeys` - Check if an object has properties
 - `cleanPath` - Clean up property paths
 - `formatDate` - Format timestamps
+- `hilite`, `error`, `passing`, `neutral` - Terminal color helpers powered by chalk
+- `bold`, `dim`, `emphasis` - Text formatting helpers using chalk
+- `indent` - Helper for proper indentation (3 spaces per level)
+- `concat` - Helper to concatenate strings
+- `quote` - Helper to wrap text in quotes
