@@ -245,6 +245,129 @@ test("HandlebarsFormatter helper - totalUpdatedTokens", (t) => {
   t.is(result, 4);
 });
 
+// Tests for chalk color helpers
+test("HandlebarsFormatter helper - hilite", (t) => {
+  const formatter = new HandlebarsFormatter();
+  const result = Handlebars.helpers.hilite("test text");
+  t.truthy(result);
+  t.truthy(result.toString().includes("test text"));
+});
+
+test("HandlebarsFormatter helper - error", (t) => {
+  const formatter = new HandlebarsFormatter();
+  const result = Handlebars.helpers.error("error text");
+  t.truthy(result);
+  t.truthy(result.toString().includes("error text"));
+});
+
+test("HandlebarsFormatter helper - passing", (t) => {
+  const formatter = new HandlebarsFormatter();
+  const result = Handlebars.helpers.passing("success text");
+  t.truthy(result);
+  t.truthy(result.toString().includes("success text"));
+});
+
+test("HandlebarsFormatter helper - neutral", (t) => {
+  const formatter = new HandlebarsFormatter();
+  const result = Handlebars.helpers.neutral("neutral text");
+  t.truthy(result);
+  t.truthy(result.toString().includes("neutral text"));
+});
+
+test("HandlebarsFormatter helper - bold", (t) => {
+  const formatter = new HandlebarsFormatter();
+  const result = Handlebars.helpers.bold("bold text");
+  t.truthy(result);
+  t.truthy(result.toString().includes("bold text"));
+});
+
+test("HandlebarsFormatter helper - dim", (t) => {
+  const formatter = new HandlebarsFormatter();
+  const result = Handlebars.helpers.dim("dim text");
+  t.truthy(result);
+  t.truthy(result.toString().includes("dim text"));
+});
+
+test("HandlebarsFormatter helper - emphasis", (t) => {
+  const formatter = new HandlebarsFormatter();
+  const result = Handlebars.helpers.emphasis("emphasis text");
+  t.truthy(result);
+  t.truthy(result.toString().includes("emphasis text"));
+});
+
+// Tests for utility helpers
+test("HandlebarsFormatter helper - indent", (t) => {
+  const formatter = new HandlebarsFormatter();
+  const result = Handlebars.helpers.indent(2);
+  t.is(result.toString(), "      "); // 6 spaces (3 * 2)
+});
+
+test("HandlebarsFormatter helper - concat", (t) => {
+  const formatter = new HandlebarsFormatter();
+  const result = Handlebars.helpers.concat("hello", " ", "world", {});
+  t.is(result, "hello world");
+});
+
+test("HandlebarsFormatter helper - quote", (t) => {
+  const formatter = new HandlebarsFormatter();
+  const result = Handlebars.helpers.quote("text");
+  t.is(result, '"text"');
+});
+
+test("HandlebarsFormatter helper - arrow", (t) => {
+  const formatter = new HandlebarsFormatter();
+  const result = Handlebars.helpers.arrow("from", "to");
+  t.is(result, "from -> to");
+});
+
+// Test ifEquals helper with inverse branch
+test("HandlebarsFormatter helper - ifEquals with inverse", (t) => {
+  const formatter = new HandlebarsFormatter();
+
+  // Test as block helper with inverse
+  const mockOptions = {
+    fn: () => "true branch",
+    inverse: () => "false branch",
+  };
+
+  const resultTrue = Handlebars.helpers.ifEquals(1, 1, mockOptions);
+  t.is(resultTrue, "true branch");
+
+  const resultFalse = Handlebars.helpers.ifEquals(1, 2, mockOptions);
+  t.is(resultFalse, "false branch");
+});
+
+test("HandlebarsFormatter helper - ifEquals without inverse", (t) => {
+  const formatter = new HandlebarsFormatter();
+
+  // Test as block helper without inverse
+  const mockOptions = {
+    fn: () => "true branch",
+    // No inverse property
+  };
+
+  const resultTrue = Handlebars.helpers.ifEquals(1, 1, mockOptions);
+  t.is(resultTrue, "true branch");
+
+  const resultFalse = Handlebars.helpers.ifEquals(1, 2, mockOptions);
+  t.is(resultFalse, "");
+});
+
+test("HandlebarsFormatter helper - ifEquals as subexpression", (t) => {
+  const formatter = new HandlebarsFormatter();
+
+  // Test as subexpression (no options.fn)
+  const resultTrue = Handlebars.helpers.ifEquals(1, 1);
+  t.true(resultTrue);
+
+  const resultFalse = Handlebars.helpers.ifEquals(1, 2);
+  t.false(resultFalse);
+
+  // Test with options but no fn
+  const resultWithOptionsNoFn = Handlebars.helpers.ifEquals(1, 1, {});
+  t.true(resultWithOptionsNoFn);
+});
+
 test("HandlebarsFormatter loadTemplate - loads existing template", (t) => {
   const formatter = new HandlebarsFormatter();
   const template = formatter.loadTemplate("markdown");
@@ -379,6 +502,42 @@ test("HandlebarsFormatter log setter - handles text cleaning", (t) => {
   );
 
   t.is(mockLog[0], "Test with  and color.json");
+});
+
+test("HandlebarsFormatter log getter - returns log function", (t) => {
+  const formatter = new HandlebarsFormatter();
+  const mockLog = [];
+  const mockLogFunction = (input) => {
+    mockLog.push(input);
+  };
+
+  formatter.log = mockLogFunction;
+
+  // Test that the getter returns a function (the setter creates a wrapper)
+  t.is(typeof formatter.log, "function");
+
+  // Test that the returned function works correctly
+  formatter.log("test message");
+  t.is(mockLog[0], "test message");
+});
+
+test("HandlebarsFormatter log setter - direct assignment", (t) => {
+  const formatter = new HandlebarsFormatter();
+  const mockLog = [];
+
+  // Direct assignment to test the basic setter (lines 34-35)
+  const simpleLogFunction = (input) => {
+    mockLog.push(input);
+  };
+
+  formatter._log = simpleLogFunction;
+
+  // Verify it was set correctly
+  t.is(formatter._log, simpleLogFunction);
+
+  // Test through getter
+  formatter._log("test message");
+  t.is(mockLog[0], "test message");
 });
 
 test("HandlebarsFormatter printReport - generates report successfully", (t) => {
@@ -585,4 +744,65 @@ Added: {{added.length}}
   t.false(fullOutput.includes("<strong>"));
   t.false(fullOutput.includes("<details>"));
   t.true(fullOutput.includes("Token Changes: 9"));
+});
+
+test("HandlebarsFormatter with markdown template", (t) => {
+  const formatter = new HandlebarsFormatter({ template: "markdown" });
+  const output = [];
+
+  const outputFunction = (text) => {
+    output.push(text);
+  };
+
+  const result = formatter.printReport(
+    mockTokenDiffResult,
+    outputFunction,
+    mockOptions,
+  );
+
+  t.true(result);
+
+  const fullOutput = output.join("");
+
+  t.snapshot(fullOutput);
+
+  // Should contain markdown-specific formatting (HTML elements)
+  t.true(fullOutput.includes("details"));
+  t.true(fullOutput.includes("summary"));
+  t.true(fullOutput.includes("strong"));
+
+  // Should contain the main header
+  t.true(fullOutput.includes("Tokens Changed"));
+
+  // Should contain branch information
+  t.true(fullOutput.includes("main"));
+  t.true(fullOutput.includes("feature"));
+
+  // Should not contain plain text formatting (contrast with plain template)
+  t.false(fullOutput.includes("TOKENS CHANGED:"));
+  t.false(fullOutput.includes("RENAMED ("));
+  t.false(fullOutput.includes("ADDED ("));
+});
+
+// Test the default export singleton formatter
+test("Default exported formatter instance", async (t) => {
+  const { default: defaultFormatter } = await import(
+    "../src/lib/formatterHandlebars.js"
+  );
+
+  t.truthy(defaultFormatter);
+  t.is(typeof defaultFormatter.printReport, "function");
+  t.is(typeof defaultFormatter.registerHelpers, "function");
+
+  // Test that it works
+  const output = [];
+  const result = defaultFormatter.printReport(
+    mockTokenDiffResult,
+    (msg) => output.push(msg),
+    mockOptions,
+  );
+
+  t.true(result);
+  t.is(output.length, 1);
+  t.truthy(output[0]);
 });
