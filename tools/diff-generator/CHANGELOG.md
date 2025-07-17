@@ -1,5 +1,21 @@
 # @adobe/token-diff-generator
 
+## 2.2.0
+
+### Minor Changes
+
+- [#540](https://github.com/adobe/spectrum-tokens/pull/540) [`47692c3`](https://github.com/adobe/spectrum-tokens/commit/47692c3d3a1bc388ce02f098aef491277e08779d) Thanks [@GarthDB](https://github.com/GarthDB)! - # Improve code quality and developer experience
+  - Remove unused dependencies (`emojilib`, `inquirer`, `tar`, `tmp-promise`) reducing package size
+  - Add comprehensive ESLint configuration with enhanced error detection and auto-fixing
+  - Replace experimental JSON imports with standard approach to eliminate Node.js warnings
+  - Remove legacy `formatterCLI.js` code (401 lines) replaced by Handlebars templates
+  - Add development tooling: `ava.config.js`, lint scripts (`pnpm run lint`, `pnpm run lint:fix`)
+  - Enhance package.json metadata with better description, keywords, and npm publishing configuration
+  - Improve test infrastructure with centralized JSON loading utilities
+  - Fix documentation version consistency and test schema issues
+
+  All changes are backward compatible. No migration required.
+
 ## 2.1.0
 
 ### Minor Changes
