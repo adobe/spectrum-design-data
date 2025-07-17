@@ -1,14 +1,54 @@
 {
   "name": "@adobe/token-diff-generator",
   "version": "2.1.0",
-  "description": "Creates diffs for tokens",
+  "description": "Generate comprehensive diffs between design token sets with support for multiple output formats including CLI, JSON, and Markdown. Detects added, deleted, renamed, deprecated, and updated tokens across different schema versions.",
+  "keywords": [
+    "design-tokens",
+    "diff",
+    "comparison",
+    "spectrum",
+    "adobe",
+    "cli",
+    "json",
+    "markdown",
+    "handlebars",
+    "tokens",
+    "design-system",
+    "schema",
+    "versioning"
+  ],
   "type": "module",
-  "scripts": {
-    "test": "c8 ava"
+  "main": "./src/lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./src/lib/index.js",
+      "types": "./src/lib/index.d.ts"
+    },
+    "./cli": "./src/lib/cli.js"
   },
+  "bin": {
+    "tdiff": "./src/lib/cli.js"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "c8 ava",
+    "lint": "eslint src/ test/",
+    "lint:fix": "eslint src/ test/ --fix"
+  },
+  "engines": {
+    "node": ">=20.12.0",
+    "pnpm": ">=10.11.0"
+  },
+  "packageManager": "pnpm@10.11.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adobe/spectrum-tokens.git"
+    "url": "git+https://github.com/adobe/spectrum-tokens.git",
+    "directory": "tools/diff-generator"
   },
   "author": "Shirley Li <shirleyli@adobe.com> https://github.com/shirlsli",
   "contributors": [
@@ -18,26 +58,31 @@
   "bugs": {
     "url": "https://github.com/adobe/spectrum-tokens/issues"
   },
-  "homepage": "https://github.com/adobe/spectrum-tokens#readme",
+  "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/tools/diff-generator#readme",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/adobe-spectrum"
+  },
+  "directories": {
+    "lib": "src/lib",
+    "test": "test"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "dependencies": {
     "chalk": "^5.4.1",
     "commander": "^13.1.0",
     "deep-object-diff": "^1.1.9",
-    "emojilib": "^4.0.2",
     "handlebars": "^4.7.8",
-    "inquirer": "^12.5.2",
-    "nixt": "^0.5.1",
-    "node-emoji": "^2.2.0",
-    "tar": "^7.4.3",
-    "tmp-promise": "^3.0.3"
+    "node-emoji": "^2.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.1",
     "c8": "^10.1.3",
     "eslint": "^9.25.1",
-    "globals": "^16.0.0"
-  },
-  "bin": {
-    "tdiff": "./src/lib/cli.js"
+    "globals": "^16.0.0",
+    "nixt": "^0.5.1"
   }
 }
