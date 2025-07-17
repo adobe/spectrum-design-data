@@ -14,7 +14,7 @@ import test from "ava";
 import { cliCheck, printReport } from "../src/lib/cli.js";
 
 // Mock data for testing
-const mockTokenData = {
+const _mockTokenData = {
   "test-token": {
     value: "#FF0000",
     type: "color",
@@ -203,7 +203,7 @@ test("printReport › handles errors gracefully", (t) => {
   const options = {};
 
   try {
-    const result = printReport(invalidResult, mockLog, options);
+    const _result = printReport(invalidResult, mockLog, options);
     t.true(errorCalled);
   } finally {
     // Restore console.error

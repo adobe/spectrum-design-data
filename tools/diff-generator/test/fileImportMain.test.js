@@ -148,7 +148,7 @@ test("LocalFileSystem - getRootPath successfully finds target", (t) => {
   // Test successful case to ensure our edge case tests don't break normal functionality
 
   const mockFS = {
-    existsSync: (path) => {
+    existsSync: (_path) => {
       // Return true for both directory and target file
       return true;
     },
@@ -188,7 +188,7 @@ test("Integration - fileImport to loadLocalData workflow (coverage test)", async
       "../../packages/tokens", // relative path
       ["src/color-palette.json"], // tokenNames with src/ prefix
     );
-  } catch (error) {
+  } catch (_error) {
     // If local loading fails due to path issues, that's OK for coverage
     localResult = {}; // Mock result for test completion
   }

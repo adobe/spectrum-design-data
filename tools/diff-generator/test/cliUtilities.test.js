@@ -614,7 +614,7 @@ test("createProgram › returns configured commander program", (t) => {
   t.truthy(program.version());
 
   // Check that commands are registered
-  const commands = program.commands;
+  const { commands } = program;
   t.true(commands.length > 0);
   t.is(commands[0].name(), "report");
 });
@@ -642,7 +642,7 @@ test("determineFiles › backward compatibility function", async (t) => {
 test("printReport › error handling in catch block", (t) => {
   // Mock console.error to capture the error handling path
   const originalConsoleError = console.error;
-  let errorMessages = [];
+  const errorMessages = [];
   console.error = (msg) => {
     errorMessages.push(msg);
   };

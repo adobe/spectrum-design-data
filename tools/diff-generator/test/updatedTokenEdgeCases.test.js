@@ -125,7 +125,7 @@ test("updatedToken › error handling for unhandled property data types (null)",
     const deprecated = detectDeprecatedTokens(renamed, diff);
     const added = detectNewTokens(renamed, deprecated, diff.added, original);
 
-    const result = detectUpdatedTokens(
+    const _result = detectUpdatedTokens(
       renamed,
       original,
       diff,
@@ -169,7 +169,7 @@ test("updatedToken › error handling for unhandled property data types (undefin
     const deprecated = detectDeprecatedTokens(renamed, diff);
     const added = detectNewTokens(renamed, deprecated, diff.added, original);
 
-    const result = detectUpdatedTokens(
+    const _result = detectUpdatedTokens(
       renamed,
       original,
       diff,

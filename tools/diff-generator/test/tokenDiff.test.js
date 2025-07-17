@@ -12,18 +12,30 @@ governing permissions and limitations under the License.
 
 import test from "ava";
 import tokenDiff from "../src/lib/index.js";
-import basicToken from "./test-schemas/basic-original-token.json" with { type: "json" };
-import basicRenamedToken from "./test-schemas/basic-renamed-token.json" with { type: "json" };
-import originalEntireSchema from "./test-schemas/entire-schema.json" with { type: "json" };
-import addedRenamedTokens from "./test-schemas/added-renamed-tokens.json" with { type: "json" };
-import renamedAddedDeletedTokens from "./test-schemas/renamed-added-deleted-tokens.json" with { type: "json" };
-import severalSetTokens from "./test-schemas/several-set-tokens.json" with { type: "json" };
-import renamedAddedDeletedSetTokens from "./test-schemas/renamed-added-deleted-set-tokens.json" with { type: "json" };
-import rADDepTokens from "./test-schemas/renamed-added-deleted-deprecated-tokens.json" with { type: "json" };
-import rADDepUTokens from "./test-schemas/renamed-added-deleted-deprecated-updated-tokens.json" with { type: "json" };
-import rADDepURevTokens from "./test-schemas/renamed-added-deleted-deprecated-updated-reverted-tokens.json" with { type: "json" };
-import basicSetTokenProperty from "./test-schemas/basic-set-token-property.json" with { type: "json" };
-import addedPropertySetToken from "./test-schemas/added-property-set-token.json" with { type: "json" };
+import { loadTestSchema } from "./utils/json-loader.js";
+
+const basicToken = loadTestSchema("basic-original-token.json");
+const basicRenamedToken = loadTestSchema("basic-renamed-token.json");
+const originalEntireSchema = loadTestSchema("entire-schema.json");
+const addedRenamedTokens = loadTestSchema("added-renamed-tokens.json");
+const renamedAddedDeletedTokens = loadTestSchema(
+  "renamed-added-deleted-tokens.json",
+);
+const severalSetTokens = loadTestSchema("several-set-tokens.json");
+const renamedAddedDeletedSetTokens = loadTestSchema(
+  "renamed-added-deleted-set-tokens.json",
+);
+const rADDepTokens = loadTestSchema(
+  "renamed-added-deleted-deprecated-tokens.json",
+);
+const rADDepUTokens = loadTestSchema(
+  "renamed-added-deleted-deprecated-updated-tokens.json",
+);
+const rADDepURevTokens = loadTestSchema(
+  "renamed-added-deleted-deprecated-updated-reverted-tokens.json",
+);
+const basicSetTokenProperty = loadTestSchema("basic-set-token-property.json");
+const addedPropertySetToken = loadTestSchema("added-property-set-token.json");
 
 const expectedRenamed = {
   added: {},

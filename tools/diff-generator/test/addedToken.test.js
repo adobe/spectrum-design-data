@@ -15,15 +15,19 @@ import { detailedDiff } from "../src/lib/diff.js";
 import detectRenamedTokens from "../src/lib/renamed-token-detection.js";
 import detectNewTokens from "../src/lib/added-token-detection.js";
 import detectDeprecatedTokens from "../src/lib/deprecated-token-detection.js";
-import original from "./test-schemas/basic-original-token.json" with { type: "json" };
-import updated from "./test-schemas/new-token.json" with { type: "json" };
-import originalSeveral from "./test-schemas/several-original-tokens.json" with { type: "json" };
-import updatedSeveral from "./test-schemas/several-added-tokens.json" with { type: "json" };
-import originalEntireSchema from "./test-schemas/entire-schema.json" with { type: "json" };
-import addedRenamedTokens from "./test-schemas/added-renamed-tokens.json" with { type: "json" };
-import basicSetToken from "./test-schemas/basic-set-token.json" with { type: "json" };
-import addedSetToken from "./test-schemas/added-set-token.json" with { type: "json" };
-import addedSeveralSetTokens from "./test-schemas/added-set-tokens-out-of-order.json" with { type: "json" };
+import { loadTestSchema } from "./utils/json-loader.js";
+
+const original = loadTestSchema("basic-original-token.json");
+const updated = loadTestSchema("new-token.json");
+const originalSeveral = loadTestSchema("several-original-tokens.json");
+const updatedSeveral = loadTestSchema("several-added-tokens.json");
+const originalEntireSchema = loadTestSchema("entire-schema.json");
+const addedRenamedTokens = loadTestSchema("added-renamed-tokens.json");
+const basicSetToken = loadTestSchema("basic-set-token.json");
+const addedSetToken = loadTestSchema("added-set-token.json");
+const addedSeveralSetTokens = loadTestSchema(
+  "added-set-tokens-out-of-order.json",
+);
 
 const expectedOneToken = {
   "swatch-border-opacity": {

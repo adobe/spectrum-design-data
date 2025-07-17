@@ -15,7 +15,7 @@ import nixt from "nixt";
 import fs from "fs";
 import { access, readFile } from "fs/promises";
 
-const path = fs.realpathSync("./") + "/test/";
+const path = `${fs.realpathSync("./")}/test/`;
 const outputPath = "test-cli-outputs/";
 
 test("checking file import for two branches (both main)", async (t) => {

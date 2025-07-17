@@ -14,9 +14,11 @@ import test from "ava";
 import nixt from "nixt";
 import fs from "fs";
 import { access, readFile } from "fs/promises";
-import packageJSON from "../package.json" with { type: "json" };
+import { loadJSON } from "./utils/json-loader.js";
 
-const path = fs.realpathSync("./") + "/test/";
+const packageJSON = loadJSON("../../package.json");
+
+const path = `${fs.realpathSync("./")}/test/`;
 const schemaPath = "test-schemas/";
 const outputPath = "test-cli-outputs/";
 
@@ -271,7 +273,7 @@ test("check cli output testing local and remote branch", async (t) => {
           }
         })
         .run(
-          `./src/lib/cli.js report -l packages/tokens/src -ntb shirlsli/file-import-tests`,
+          "./src/lib/cli.js report -l packages/tokens/src -ntb shirlsli/file-import-tests",
         )
         .end(resolve);
     } catch (error) {

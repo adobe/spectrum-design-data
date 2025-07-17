@@ -524,7 +524,7 @@ test("TokenLoader - full integration with real token structure", async (t) => {
 });
 
 test("LocalFileSystem - full directory traversal", (t) => {
-  let checkPaths = [];
+  const checkPaths = [];
   const mockFS = {
     existsSync: (path) => {
       checkPaths.push(path);

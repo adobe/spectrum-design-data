@@ -38,7 +38,7 @@ test("isObject - returns false for non-objects", (t) => {
 test("isString - returns true for strings", (t) => {
   t.true(isString("hello"));
   t.true(isString(""));
-  t.true(isString(new String("hello")));
+  t.true(isString(String("hello")));
 });
 
 test("isString - returns false for non-strings", (t) => {

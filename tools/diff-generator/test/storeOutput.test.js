@@ -38,7 +38,7 @@ const cleanup = (filePath) => {
     if (fs.existsSync(dir) && fs.readdirSync(dir).length === 0) {
       fs.rmdirSync(dir);
     }
-  } catch (error) {
+  } catch (_error) {
     // Ignore cleanup errors
   }
 };
