@@ -114,7 +114,7 @@ tdiff report --otb main --ntb feature-branch --format handlebars --template plai
 
 ### Handlebars Formatter
 
-The handlebars formatter provides flexible templating capabilities for customizing the output format of token diff reports. **As of v2.2.0, all output formats use the unified Handlebars template system with chalk-powered colors for better maintainability, consistency, and terminal compatibility. The legacy CLI formatter has been completely replaced.**
+The handlebars formatter provides flexible templating capabilities for customizing the output format of token diff reports. **As of v2.1.0, all output formats use the unified Handlebars template system with chalk-powered colors for better maintainability, consistency, and terminal compatibility. The legacy CLI formatter has been completely replaced.**
 
 **Built-in Templates:**
 
