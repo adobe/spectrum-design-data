@@ -30,7 +30,7 @@ const defaultRepo = "adobe/spectrum-tokens/";
 export function buildTokenURL(tokenName, version, location, repo) {
   const repoURL = source + (repo && repo.length ? repo : defaultRepo);
   const link =
-    version !== "latest" ? repoURL + "/" + version : repoURL + "/" + location;
+    version !== "latest" ? `${repoURL}/${version}` : `${repoURL}/${location}`;
   const url = `${link}/packages/tokens/${tokenName}`.replaceAll("//", "/");
   // Fix the protocol double slash that gets replaced incorrectly
   return url.replace("https:/", "https://");
@@ -45,7 +45,7 @@ export function buildFetchOptions(githubAPIKey) {
   return githubAPIKey && githubAPIKey.length
     ? {
         headers: {
-          Authorization: "Bearer " + githubAPIKey,
+          Authorization: `Bearer ${githubAPIKey}`,
         },
       }
     : {};
@@ -68,7 +68,7 @@ export function cleanTokenPath(startDir, tokenName) {
  * @returns {Array<string>} Processed token names
  */
 export function processTokenNames(tokenNames, hasGivenTokenNames) {
-  return tokenNames.map((name) => (hasGivenTokenNames ? "src/" + name : name));
+  return tokenNames.map((name) => (hasGivenTokenNames ? `src/${name}` : name));
 }
 
 // ===== PHASE 2: DEPENDENCY-INJECTED SERVICE CLASSES =====
@@ -151,7 +151,7 @@ export class LocalFileSystem {
    * @returns {Promise<object>} Merged JSON data from all files
    */
   async loadData(startDir, tokenNames) {
-    let result = {};
+    const result = {};
     for (let i = 0; i < tokenNames.length; i++) {
       const tokenPath = cleanTokenPath(startDir, tokenNames[i]);
       await this.fs.access(tokenPath);
@@ -221,7 +221,10 @@ export class TokenLoader {
       ));
 
     // Process token names
-    const processedNames = processTokenNames(tokenNames, !!givenTokenNames);
+    const processedNames = processTokenNames(
+      tokenNames,
+      Boolean(givenTokenNames),
+    );
 
     // Load each token file
     for (const name of processedNames) {
@@ -257,13 +260,12 @@ export class TokenLoader {
 
       if (tokenNames) {
         return await this.localFS.loadData(
-          basePath + "/" + dirName + "/",
+          `${basePath}/${dirName}/`,
           tokenNames,
         );
-      } else {
-        const fileNames = await this.localFS.getTokenFiles(dirName);
-        return await this.localFS.loadData(basePath + "/", fileNames);
       }
+      const fileNames = await this.localFS.getTokenFiles(dirName);
+      return await this.localFS.loadData(`${basePath}/`, fileNames);
     } catch (error) {
       console.error(error);
       throw error;

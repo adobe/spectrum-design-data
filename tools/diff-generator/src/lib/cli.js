@@ -16,9 +16,7 @@ import tokenDiff from "./index.js";
 import fileImport, { loadLocalData } from "./file-import.js";
 import { Command } from "commander";
 import chalk from "chalk";
-import handlebarsFormatter, {
-  HandlebarsFormatter,
-} from "./formatterHandlebars.js";
+import { HandlebarsFormatter } from "./formatterHandlebars.js";
 import storeOutput from "./store-output.js";
 import { githubAPIKey } from "../../github-api-key.js";
 
@@ -65,9 +63,8 @@ export function determineStrategy(options) {
     return "remote-local";
   } else if (options.local) {
     return "local-only";
-  } else {
-    return "remote-remote";
   }
+  return "remote-remote";
 }
 
 /**
@@ -82,15 +79,17 @@ export function createFormatterConfig(options) {
         type: "handlebars",
         options: { template: "markdown" },
       };
-    case "handlebars":
+    case "handlebars": {
       const handlebarsOptions = {};
       if (options.template) handlebarsOptions.template = options.template;
-      if (options.templateDir)
+      if (options.templateDir) {
         handlebarsOptions.templateDir = options.templateDir;
+      }
       return {
         type: "handlebars",
         options: handlebarsOptions,
       };
+    }
     case "cli":
     default:
       return {
@@ -178,12 +177,13 @@ export class FileResolver {
           this.loadLocalData(options.local, options.tokenNames),
         ]);
 
-      case "local-only":
+      case "local-only": {
         const localData = await this.loadLocalData(
           options.local,
           options.tokenNames,
         );
         return [localData];
+      }
 
       case "remote-remote":
         return await Promise.all([
@@ -223,7 +223,7 @@ export class ReportFormatter {
    * @returns {object} Formatter instance and output function
    */
   createFormatter(config) {
-    let reportOutput = [];
+    const reportOutput = [];
     let formatter;
     let outputFunction;
 
@@ -499,7 +499,7 @@ export function printReport(result, log, options) {
     console.error(error);
     return console.error(
       chalk.red(
-        `Error: either could not format and print the result or failed along the way\n`,
+        "Error: either could not format and print the result or failed along the way\n",
       ),
     );
   }

@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 export function isObject(a) {
   return (
-    !!a &&
+    Boolean(a) &&
     (typeof a === "object" ||
       (a.constructor &&
         (a.constructor === Object || a.constructor.name === "Object")))
