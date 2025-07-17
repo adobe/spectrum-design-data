@@ -85,3 +85,54 @@ test("checking if multiple set tokens are deleted", (t) => {
     expectedTwoDeletedSetTokens,
   );
 });
+
+test("deleted token detection with empty renamed object", (t) => {
+  const deleted = {
+    "test-token": undefined,
+    "another-token": undefined,
+  };
+  const renamed = {}; // Empty renamed object
+
+  const result = detectDeletedTokens(renamed, deleted);
+  t.deepEqual(result, deleted); // Should return all tokens as deleted when no renames
+});
+
+test("deleted token detection with deprecated token", (t) => {
+  const deleted = {
+    "deprecated-token": { deprecated: "This token is deprecated" },
+    "regular-token": undefined,
+  };
+  const renamed = {};
+
+  const result = detectDeletedTokens(renamed, deleted);
+  // Both tokens should remain: deprecated-token stays because it has deprecated property,
+  // regular-token stays because it's undefined (doesn't pass first condition)
+  t.deepEqual(result, {
+    "deprecated-token": { deprecated: "This token is deprecated" },
+    "regular-token": undefined,
+  });
+});
+
+test("deleted token detection - OR condition first branch", (t) => {
+  const deleted = {
+    "test-token": { value: "something" }, // exists and no deprecated property
+  };
+  const renamed = {
+    "some-other-token": { "old-name": "different-token" },
+  };
+
+  const result = detectDeletedTokens(renamed, deleted);
+  t.deepEqual(result, {}); // Should be removed by first branch of OR condition
+});
+
+test("deleted token detection - OR condition second branch", (t) => {
+  const deleted = {
+    "old-token-name": { deprecated: "deprecated" }, // Has deprecated (first branch false)
+  };
+  const renamed = {
+    "new-token": { "old-name": "old-token-name" }, // Second branch of OR should trigger
+  };
+
+  const result = detectDeletedTokens(renamed, deleted);
+  t.deepEqual(result, {}); // Should be removed by second branch of OR condition
+});
