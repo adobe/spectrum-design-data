@@ -17,7 +17,7 @@ const [packageFile, cliFile] = await Promise.all([
 await writeFile(
   cliFilePath,
   cliFile.replace(
-    /const version = \"([^\"]*)\";/,
+    /const version = "([^"]*)";/,
     `const version = "${packageFile.version}";`,
   ),
 );
