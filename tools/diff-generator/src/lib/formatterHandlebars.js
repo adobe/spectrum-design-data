@@ -10,8 +10,8 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { CLIFormatter } from "./formatterCLI.js";
 import Handlebars from "handlebars";
+import chalk from "chalk";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -19,13 +19,13 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-class HandlebarsFormatter extends CLIFormatter {
+class HandlebarsFormatter {
   constructor(options = {}) {
-    super();
     this.templateDir =
       options.templateDir || path.join(__dirname, "../templates");
     this.template = options.template || "markdown";
     this.compiledTemplate = null;
+    this._log = null;
     this.registerHelpers();
   }
 
@@ -60,7 +60,16 @@ class HandlebarsFormatter extends CLIFormatter {
 
     // Helper for conditional logic
     Handlebars.registerHelper("ifEquals", (arg1, arg2, options) => {
-      return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+      // Check if used as a subexpression (no options.fn available)
+      if (!options || typeof options.fn !== "function") {
+        return arg1 == arg2;
+      }
+      // Used as block helper
+      return arg1 == arg2
+        ? options.fn(this)
+        : options.inverse
+          ? options.inverse(this)
+          : "";
     });
 
     // Helper to clean up schema URLs
@@ -109,6 +118,58 @@ class HandlebarsFormatter extends CLIFormatter {
         Object.keys(updated.updated).length +
         Object.keys(updated.renamed).length
       );
+    });
+
+    // Color helpers for CLI output using chalk
+    Handlebars.registerHelper("hilite", (text) => {
+      return new Handlebars.SafeString(chalk.yellow(text));
+    });
+
+    Handlebars.registerHelper("error", (text) => {
+      return new Handlebars.SafeString(chalk.red(text));
+    });
+
+    Handlebars.registerHelper("passing", (text) => {
+      return new Handlebars.SafeString(chalk.green(text));
+    });
+
+    Handlebars.registerHelper("neutral", (text) => {
+      return new Handlebars.SafeString(chalk.white(text));
+    });
+
+    // Additional chalk-powered formatting helpers
+    Handlebars.registerHelper("bold", (text) => {
+      return new Handlebars.SafeString(chalk.bold(text));
+    });
+
+    Handlebars.registerHelper("dim", (text) => {
+      return new Handlebars.SafeString(chalk.dim(text));
+    });
+
+    Handlebars.registerHelper("emphasis", (text) => {
+      return new Handlebars.SafeString(chalk.bold.yellow(text));
+    });
+
+    // Helper for proper indentation (3 spaces per level)
+    Handlebars.registerHelper("indent", (level) => {
+      return new Handlebars.SafeString("   ".repeat(level));
+    });
+
+    // Helper to concatenate strings
+    Handlebars.registerHelper("concat", (...args) => {
+      // Remove the options object from the end
+      args.pop();
+      return args.join("");
+    });
+
+    // Helper to wrap text in quotes
+    Handlebars.registerHelper("quote", (text) => {
+      return `"${text}"`;
+    });
+
+    // Helper for arrow formatting
+    Handlebars.registerHelper("arrow", (from, to) => {
+      return `${from} -> ${to}`;
     });
   }
 
