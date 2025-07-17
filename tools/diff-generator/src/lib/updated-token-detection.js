@@ -145,10 +145,7 @@ function parseTokenChanges(
   } catch (error) {
     console.error(
       "FAILED TO PARSE DIFF RESULT FOR: " +
-        "\n" +
-        tokenName +
-        "\n" +
-        JSON.stringify(tokenChanges, null, 2),
+        `\n${tokenName}\n${JSON.stringify(tokenChanges, null, 2)}`,
     );
     throw error;
   }
@@ -191,7 +188,7 @@ function checkProperties(
     }
 
     const propertyPath = currentTokenPath.length
-      ? currentTokenPath + "." + property
+      ? `${currentTokenPath}.${property}`
       : property;
 
     if (
@@ -221,7 +218,7 @@ function checkProperties(
       );
     } else {
       throw new Error(
-        "UNHANDLED PROPERTY DATA TYPE: " + typeof currentTokenLevel[property],
+        `UNHANDLED PROPERTY DATA TYPE: ${typeof currentTokenLevel[property]}`,
       );
     }
   });

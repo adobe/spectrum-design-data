@@ -50,15 +50,14 @@ function isDeprecated(tokenObj) {
     return false;
   } else if (tokenObj.deprecated) {
     return true;
-  } else {
-    let result = false;
-
-    Object.keys(tokenObj).forEach((property) => {
-      result = result || isDeprecated(tokenObj[property]);
-    });
-
-    return result;
   }
+  let result = false;
+
+  Object.keys(tokenObj).forEach((property) => {
+    result = result || isDeprecated(tokenObj[property]);
+  });
+
+  return result;
 }
 
 function wasUndeprecated(tokenObj) {
@@ -66,13 +65,12 @@ function wasUndeprecated(tokenObj) {
     return false;
   } else if ("deprecated" in tokenObj && tokenObj.deprecated === undefined) {
     return true;
-  } else {
-    let result = false;
-
-    Object.keys(tokenObj).forEach((property) => {
-      result = result || wasUndeprecated(tokenObj[property]);
-    });
-
-    return result;
   }
+  let result = false;
+
+  Object.keys(tokenObj).forEach((property) => {
+    result = result || wasUndeprecated(tokenObj[property]);
+  });
+
+  return result;
 }

@@ -254,8 +254,8 @@ class HandlebarsFormatter {
   prepareTemplateData(result, options) {
     const templateData = {
       timestamp: new Date(),
-      result: result,
-      options: options,
+      result,
+      options,
 
       // Process each section with enhanced data
       renamed: Object.entries(result.renamed).map(([token, data]) => ({
