@@ -1,0 +1,6 @@
+{
+  "test-token-2": {
+    "value": "#00ff00",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json"
+  }
+}
