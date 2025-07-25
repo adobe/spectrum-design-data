@@ -18,10 +18,9 @@ import { Command } from "commander";
 import chalk from "chalk";
 import { HandlebarsFormatter } from "./formatterHandlebars.js";
 import storeOutput from "./store-output.js";
-import { githubAPIKey } from "./github-api-key.js";
 
 const red = chalk.hex("F37E7E");
-const version = "2.2.1";
+const version = "2.2.0";
 
 // ===== PHASE 1: PURE UTILITY FUNCTIONS (easily testable) =====
 
@@ -366,7 +365,7 @@ export class CLIApplication {
  * @param {string} apiKey - GitHub API key
  * @returns {Command} Configured commander program
  */
-export function createProgram(app, apiKey) {
+export function createProgram(app) {
   const program = new Command();
 
   program
@@ -412,8 +411,7 @@ export function createProgram(app, apiKey) {
     .option("-o, --output <path>", "file path to store diff output")
     .option("-d, --debug <path>", "file path to store diff json")
     .action(async (options) => {
-      const gak = options.githubAPIKey || apiKey;
-      const exitCode = await app.execute(options, gak);
+      const exitCode = await app.execute(options, options.githubAPIKey);
       process.exit(exitCode);
     });
 
@@ -432,9 +430,12 @@ export async function determineFiles(options) {
   const normalizedOptions = normalizeOptions(options);
   const strategy = determineStrategy(normalizedOptions);
   const resolver = new FileResolver();
-  const gak = normalizedOptions.githubAPIKey || githubAPIKey;
 
-  return await resolver.resolveFiles(strategy, normalizedOptions, gak);
+  return await resolver.resolveFiles(
+    strategy,
+    normalizedOptions,
+    normalizedOptions.githubAPIKey,
+  );
 }
 
 /**
@@ -507,6 +508,6 @@ export function printReport(result, log, options) {
 
 // Only execute CLI when run directly, not when imported
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const program = createProgram(defaultApp, githubAPIKey);
+  const program = createProgram(defaultApp);
   program.parse();
 }
