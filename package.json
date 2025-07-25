@@ -28,7 +28,7 @@
     "@changesets/cli": "^2.29.2",
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
-    "@moonrepo/cli": "^1.35.1",
+    "@moonrepo/cli": "^1.39.1",
     "ava": "^6.2.0",
     "glob": "^11.0.2",
     "husky": "^9.1.7",
@@ -38,5 +38,5 @@
   "engines": {
     "node": "~20.12"
   },
-  "packageManager": "pnpm@10.11.0"
+  "packageManager": "pnpm@10.13.1"
 }
