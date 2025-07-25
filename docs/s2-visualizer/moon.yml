@@ -9,7 +9,7 @@
 # governing permissions and limitations under the License.
 $schema: "https://moonrepo.dev/schemas/project.json"
 stack: frontend
-type: application
+layer: application
 tags:
   - docs
   - site
