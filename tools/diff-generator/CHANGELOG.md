@@ -1,5 +1,11 @@
 # @adobe/token-diff-generator
 
+## 2.2.1
+
+### Patch Changes
+
+- [#542](https://github.com/adobe/spectrum-tokens/pull/542) [`0086702`](https://github.com/adobe/spectrum-tokens/commit/0086702ff124460246a0d2cb166e96552d852d11) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed missing github-api-key.js file in published package.
+
 ## 2.2.0
 
 ### Minor Changes
