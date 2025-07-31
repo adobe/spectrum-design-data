@@ -1,5 +1,11 @@
 # @adobe/spectrum-component-api-schemas
 
+## 1.0.2
+
+### Patch Changes
+
+- [#545](https://github.com/adobe/spectrum-tokens/pull/545) [`ebc79f6`](https://github.com/adobe/spectrum-tokens/commit/ebc79f6f91bce28a64cddfc2cc5548ddcf30389d) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed a typo where meter had `valueLable` instead of `valueLabel`.
+
 ## 1.0.1
 
 ### Patch Changes
