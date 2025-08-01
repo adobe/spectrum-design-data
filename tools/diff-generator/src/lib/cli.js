@@ -353,7 +353,28 @@ export class CLIApplication {
 
       return exitCode;
     } catch (error) {
-      console.error(error);
+      // Provide context based on the type of error
+      let contextualError = `Token diff operation failed: ${error.message}`;
+
+      if (error.message.includes("Failed to load remote tokens")) {
+        contextualError = `Remote token loading failed: ${error.message}`;
+      } else if (
+        error.message.includes("Failed to load") ||
+        error.message.includes("Token file not found")
+      ) {
+        contextualError = `Local file access failed: ${error.message}`;
+      } else if (
+        error.message.includes("fetch") ||
+        error.message.includes("Network")
+      ) {
+        contextualError = `Network error occurred: ${error.message}`;
+      } else if (error.message.includes("JSON")) {
+        contextualError = `Data parsing error: ${error.message}`;
+      } else if (error.message.includes("Template not found")) {
+        contextualError = `Template formatting error: ${error.message}`;
+      }
+
+      console.error(contextualError);
       return 1;
     }
   }

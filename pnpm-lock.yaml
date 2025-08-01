@@ -256,15 +256,15 @@ importers:
 
   tools/diff-generator:
     dependencies:
+      "@adobe/optimized-diff":
+        specifier: workspace:*
+        version: link:../optimized-diff
       chalk:
         specifier: ^5.4.1
         version: 5.4.1
       commander:
         specifier: ^13.1.0
         version: 13.1.0
-      deep-object-diff:
-        specifier: ^1.1.9
-        version: 1.1.9
       handlebars:
         specifier: ^4.7.8
         version: 4.7.8
@@ -287,6 +287,15 @@ importers:
       nixt:
         specifier: ^0.5.1
         version: 0.5.1
+
+  tools/optimized-diff:
+    devDependencies:
+      ava:
+        specifier: ^6.4.0
+        version: 6.4.0(rollup@4.44.1)
+      deep-object-diff:
+        specifier: ^1.1.9
+        version: 1.1.9
 
   tools/token-csv-generator:
     dependencies:

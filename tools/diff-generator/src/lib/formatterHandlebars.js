@@ -174,19 +174,37 @@ class HandlebarsFormatter {
   }
 
   /**
-   * Load and compile a template
-   * @param {string} templateName - Name of the template to load
+   * Load and compile a Handlebars template
+   * @param {string} templateName - Name of the template file (without .hbs extension)
    * @returns {Function} Compiled Handlebars template
    */
   loadTemplate(templateName) {
     const templatePath = path.join(this.templateDir, `${templateName}.hbs`);
 
     if (!fs.existsSync(templatePath)) {
-      throw new Error(`Template not found: ${templatePath}`);
+      throw new Error(
+        `Template file not found: "${templatePath}". Available templates should be in ${this.templateDir} with .hbs extension.`,
+      );
     }
 
-    const templateSource = fs.readFileSync(templatePath, "utf8");
-    return Handlebars.compile(templateSource);
+    try {
+      const templateSource = fs.readFileSync(templatePath, "utf8");
+      return Handlebars.compile(templateSource);
+    } catch (error) {
+      if (error.code === "EACCES") {
+        throw new Error(
+          `Permission denied reading template file "${templatePath}". Check file permissions.`,
+        );
+      } else if (error.message.includes("Parse error")) {
+        throw new Error(
+          `Invalid Handlebars syntax in template "${templateName}": ${error.message}`,
+        );
+      } else {
+        throw new Error(
+          `Failed to load template "${templateName}" from "${templatePath}": ${error.message}`,
+        );
+      }
+    }
   }
 
   /**
@@ -358,7 +376,25 @@ class HandlebarsFormatter {
       this.log(output);
       return true;
     } catch (error) {
-      console.error("Error in HandlebarsFormatter:", error);
+      let contextualError = `Template processing failed: ${error.message}`;
+
+      if (error.message.includes("Template file not found")) {
+        contextualError = `Template loading error: ${error.message}`;
+      } else if (
+        error.message.includes("Handlebars syntax") ||
+        error.message.includes("Parse error")
+      ) {
+        contextualError = `Template syntax error in "${this.template}": ${error.message}`;
+      } else if (error.message.includes("Permission denied")) {
+        contextualError = `File access error: ${error.message}`;
+      } else if (
+        error.name === "ReferenceError" ||
+        error.message.includes("is not defined")
+      ) {
+        contextualError = `Template variable error in "${this.template}": ${error.message}. Check that all required data is available.`;
+      }
+
+      console.error(`HandlebarsFormatter error: ${contextualError}`);
       return false;
     }
   }
