@@ -116,13 +116,22 @@ test("storeOutput - handles invalid paths gracefully", (t) => {
     process.platform === "win32" ? "\\0\\invalid" : "/dev/null/invalid";
   const testContent = "test content";
 
-  // This should not throw, but should log errors
-  t.notThrows(() => {
-    storeOutput(invalidPath, testContent);
-  });
+  // This should throw with enhanced error context
+  t.throws(
+    () => {
+      storeOutput(invalidPath, testContent);
+    },
+    { message: /Failed to write output file/ },
+  );
 
-  // Verify error was logged
-  t.true(logs.some((log) => log.includes("FAILED TO WRITE OUTPUT FILE")));
+  // Verify error was logged (our enhanced error handling logs before throwing)
+  t.true(
+    errors.some(
+      (error) =>
+        typeof error === "string" &&
+        error.includes("Failed to write output file"),
+    ),
+  );
   t.true(errors.length > 0);
 
   // Restore console methods
