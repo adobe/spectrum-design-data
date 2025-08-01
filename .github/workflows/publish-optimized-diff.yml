@@ -1,0 +1,85 @@
+name: Publish Optimized Diff
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (test without publishing)"
+        required: false
+        default: false
+        type: boolean
+
+concurrency: publish-optimized-diff
+
+jobs:
+  publish:
+    name: Publish @adobe/optimized-diff
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
+
+      - uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+
+      - run: moon setup
+
+      - name: Run tests
+        run: moon run optimized-diff:test
+
+      - name: Configure npm for publishing
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          npm config set provenance true
+
+      - name: Get current version
+        id: version
+        working-directory: tools/optimized-diff
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Publishing current version: $CURRENT_VERSION"
+
+      - name: Publish to npm (dry run)
+        if: ${{ github.event.inputs.dry_run }}
+        working-directory: tools/optimized-diff
+        run: npm publish --dry-run
+
+      - name: Publish to npm
+        if: ${{ !github.event.inputs.dry_run }}
+        working-directory: tools/optimized-diff
+        run: npm publish
+
+      - name: Create and push git tag
+        if: ${{ !github.event.inputs.dry_run }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag "optimized-diff-v${{ steps.version.outputs.current_version }}"
+          git push origin "optimized-diff-v${{ steps.version.outputs.current_version }}"
+
+      - name: Create GitHub Release
+        if: ${{ !github.event.inputs.dry_run }}
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: "optimized-diff-v${{ steps.version.outputs.current_version }}"
+          release_name: "@adobe/optimized-diff v${{ steps.version.outputs.current_version }}"
+          body: |
+            ## @adobe/optimized-diff v${{ steps.version.outputs.current_version }}
+
+            Published from commit: ${{ github.sha }}
+
+            ### Installation
+            ```bash
+            npm install @adobe/optimized-diff@${{ steps.version.outputs.current_version }}
+            ```
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.current_version, '-') }}
