@@ -75,6 +75,7 @@
     "chalk": "^5.4.1",
     "commander": "^13.1.0",
     "deep-object-diff": "^1.1.9",
+    "glob": "^11.0.2",
     "handlebars": "^4.7.8",
     "node-emoji": "^2.2.0"
   },
