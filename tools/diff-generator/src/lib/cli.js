@@ -20,7 +20,7 @@ import { HandlebarsFormatter } from "./formatterHandlebars.js";
 import storeOutput from "./store-output.js";
 
 const red = chalk.hex("F37E7E");
-const version = "2.2.1";
+const version = "2.3.0";
 
 // ===== PHASE 1: PURE UTILITY FUNCTIONS (easily testable) =====
 
