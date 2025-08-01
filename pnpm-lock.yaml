@@ -281,6 +281,9 @@ importers:
       eslint:
         specifier: ^9.25.1
         version: 9.29.0(jiti@2.4.2)
+      glob:
+        specifier: ^11.0.3
+        version: 11.0.3
       globals:
         specifier: ^16.0.0
         version: 16.2.0
