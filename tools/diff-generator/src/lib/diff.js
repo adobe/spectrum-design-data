@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-// SAFETY WRAPPERS FOR deep-object-diff
+// SAFETY WRAPPERS FOR @adobe/optimized-diff
 //
 // The dependency library can return Objects as values from the source input,
 // which can break tests when test data re-used. The results from the diffs are
@@ -25,7 +25,7 @@ import {
   deletedDiff as _deletedDiff,
   updatedDiff as _updatedDiff,
   detailedDiff as _detailedDiff,
-} from "deep-object-diff";
+} from "@adobe/optimized-diff";
 import { isObject } from "./helpers.js";
 
 function sanitize(diff) {
