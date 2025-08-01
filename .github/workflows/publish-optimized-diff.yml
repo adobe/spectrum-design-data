@@ -1,13 +1,6 @@
 name: Publish Optimized Diff
 
-on:
-  workflow_dispatch:
-    inputs:
-      dry_run:
-        description: "Dry run (test without publishing)"
-        required: false
-        default: false
-        type: boolean
+on: workflow_dispatch
 
 concurrency: publish-optimized-diff
 
@@ -46,18 +39,11 @@ jobs:
           echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
           echo "Publishing current version: $CURRENT_VERSION"
 
-      - name: Publish to npm (dry run)
-        if: ${{ github.event.inputs.dry_run }}
-        working-directory: tools/optimized-diff
-        run: npm publish --dry-run
-
       - name: Publish to npm
-        if: ${{ !github.event.inputs.dry_run }}
         working-directory: tools/optimized-diff
         run: npm publish
 
       - name: Create and push git tag
-        if: ${{ !github.event.inputs.dry_run }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -65,7 +51,6 @@ jobs:
           git push origin "optimized-diff-v${{ steps.version.outputs.current_version }}"
 
       - name: Create GitHub Release
-        if: ${{ !github.event.inputs.dry_run }}
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -82,4 +67,3 @@ jobs:
             npm install @adobe/optimized-diff@${{ steps.version.outputs.current_version }}
             ```
           draft: false
-          prerelease: ${{ contains(steps.version.outputs.current_version, '-') }}
