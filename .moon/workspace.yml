@@ -10,6 +10,7 @@ projects:
   transform-tokens-json: "tools/transform-tokens-json"
   root: "."
   diff: "tools/diff-generator"
+  optimized-diff: "tools/optimized-diff"
   viewer: "docs/s2-tokens-viewer"
 vcs:
   manager: "git"
