@@ -20,6 +20,7 @@ This release introduces significant performance improvements to the token diff g
 
 - **Integrated optimized diff algorithm** for dramatically improved performance
 - **Maintains full backward compatibility** with existing API
+- **Fixed missing `glob` dependency** that was causing runtime errors
 - **Comprehensive performance analysis** and optimization documentation
 - **Enhanced test suite** for optimization validation
 - **Improved memory efficiency** and better scaling characteristics
