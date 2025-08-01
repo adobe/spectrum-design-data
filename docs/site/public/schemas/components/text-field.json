@@ -29,10 +29,6 @@
       "enum": ["s", "m", "l", "xl"],
       "default": "m"
     },
-    "isQuiet": {
-      "type": "boolean",
-      "default": false
-    },
     "necessityIndicator": {
       "type": "string",
       "enum": ["text", "icon"],
@@ -59,17 +55,11 @@
       "type": "boolean",
       "default": false
     },
-    "isReadOnly": {
-      "type": "boolean",
-      "default": false
-    },
-    "description": {
-      "type": "string",
-      "default": null
+    "helpText": {
+      "type": "string"
     },
     "errorMessage": {
-      "type": "string",
-      "default": null
+      "type": "string"
     },
     "state": {
       "type": "string",
