@@ -115,3 +115,7 @@ dist
 
 # visual studio code
 .vscode/
+
+# test temporary directories
+temp-*
+**/test/temp-*
