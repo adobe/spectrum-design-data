@@ -1,0 +1,42 @@
+{
+  "name": "@adobe/optimized-diff",
+  "version": "1.0.0",
+  "description": "High-performance deep object diff algorithm with significant performance improvements over generic libraries",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./engine": "./src/engine.js"
+  },
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-tokens.git"
+  },
+  "keywords": [
+    "diff",
+    "deep-diff",
+    "object-diff",
+    "algorithm",
+    "performance",
+    "optimization",
+    "javascript",
+    "comparison"
+  ],
+  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-tokens/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-tokens#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "ava": "^6.4.0",
+    "deep-object-diff": "^1.1.9"
+  },
+  "publishConfig": {
+    "provenance": true
+  }
+}

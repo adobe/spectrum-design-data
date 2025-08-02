@@ -156,7 +156,7 @@ test("RemoteTokenFetcher - handles fetch error", async (t) => {
       await fetcher.fetchTokens("missing.json", "v1.0.0", "main", "", "");
     },
     {
-      message: /404: Not Found/,
+      message: /Failed to fetch remote token file "missing\.json"/,
     },
   );
 });
@@ -223,7 +223,7 @@ test("RemoteTokenFetcher - handles server error", async (t) => {
       await fetcher.fetchTokens("test.json", "v1.0.0", "main", "", "");
     },
     {
-      message: /500: Internal Server Error/,
+      message: /Failed to fetch remote token file "test\.json"/,
     },
   );
 });
@@ -312,15 +312,16 @@ test("LocalFileSystem - loadData handles file access error", async (t) => {
       await fs.loadData("/base/", ["missing.json"]);
     },
     {
-      message: "File not found",
+      message:
+        /Failed to load token file "\/base\/missing\.json": File not found/,
     },
   );
 });
 
 test("LocalFileSystem - loadData handles JSON parse error", async (t) => {
   const mockFS = {
-    access: async () => {},
-    readFile: async () => "invalid json",
+    access: async () => {}, // Mock successful access
+    readFile: async () => "invalid json {",
   };
 
   const fs = new LocalFileSystem(mockFS);
@@ -329,9 +330,48 @@ test("LocalFileSystem - loadData handles JSON parse error", async (t) => {
     async () => {
       await fs.loadData("/base/", ["invalid.json"]);
     },
-    {
-      message: /Unexpected token/,
+    { message: /Invalid JSON in token file/ },
+  );
+});
+
+test("LocalFileSystem - loadData handles permission errors", async (t) => {
+  const mockFS = {
+    access: async () => {
+      const error = new Error("Permission denied");
+      error.code = "EACCES";
+      throw error;
     },
+    readFile: async () => "content",
+  };
+
+  const fs = new LocalFileSystem(mockFS);
+
+  await t.throwsAsync(
+    async () => {
+      await fs.loadData("/base/", ["restricted.json"]);
+    },
+    { message: /Permission denied accessing token file/ },
+  );
+});
+
+test("LocalFileSystem - loadData handles generic errors", async (t) => {
+  const mockFS = {
+    access: async () => {
+      // Throw a generic error that doesn't match specific codes
+      const error = new Error("Some unexpected filesystem error");
+      error.code = "EOTHER";
+      throw error;
+    },
+    readFile: async () => "content",
+  };
+
+  const fs = new LocalFileSystem(mockFS);
+
+  await t.throwsAsync(
+    async () => {
+      await fs.loadData("/base/", ["generic-error.json"]);
+    },
+    { message: /Failed to load token file.*Some unexpected filesystem error/ },
   );
 });
 
@@ -464,7 +504,8 @@ test("TokenLoader - loadLocalTokens throws when root not found", async (t) => {
       await loader.loadLocalTokens("tokens", ["test.json"]);
     },
     {
-      message: "Could not find project root (pnpm-lock.yaml)",
+      message:
+        /Failed to load specific token files \[test\.json\]: Could not find project root \(pnpm-lock\.yaml\)/,
     },
   );
 });
@@ -485,7 +526,8 @@ test("TokenLoader - loadLocalTokens handles and rethrows errors", async (t) => {
       await loader.loadLocalTokens("tokens", ["test.json"]);
     },
     {
-      message: "File system error",
+      message:
+        /Failed to load specific token files \[test\.json\]: File system error/,
     },
   );
 });

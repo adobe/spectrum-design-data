@@ -24,21 +24,21 @@
       "default": "m",
       "pattern": "^(x?s|m|x{0,3}l)$"
     },
-    "isQuiet": {
-      "type": "boolean",
-      "default": false
+    "helpText": {
+      "type": "string"
+    },
+    "placeholder": {
+      "type": "string"
     },
     "isDisabled": {
       "type": "boolean",
       "default": false
     },
-    "description": {
-      "type": "string"
-    },
     "state": {
       "type": "string",
       "enum": [
         "default",
+        "down",
         "hover",
         "focus + hover",
         "focus + not hover",

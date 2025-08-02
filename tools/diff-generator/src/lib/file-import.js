@@ -94,16 +94,31 @@ export class RemoteTokenFetcher {
     const url = buildTokenURL(tokenName, version, location, repo);
     const options = buildFetchOptions(githubAPIKey);
 
-    const result = await this.fetchFn(url, options);
+    try {
+      const result = await this.fetchFn(url, options);
 
-    if (result && result.status === 200) {
-      try {
-        return await result.json();
-      } catch (error) {
-        throw new Error(`Failed to parse JSON from ${url}: ${error.message}`);
+      if (result && result.status === 200) {
+        try {
+          return await result.json();
+        } catch (error) {
+          throw new Error(
+            `Failed to parse JSON from remote token file "${tokenName}" at ${url}: ${error.message}`,
+          );
+        }
+      } else {
+        throw new Error(
+          `Failed to fetch remote token file "${tokenName}" from ${url}: ${result.status} ${result.statusText}`,
+        );
       }
-    } else {
-      throw new Error(`${url}\n\t${result.status}: ${result.statusText}`);
+    } catch (error) {
+      // Re-throw with additional context if it's a network error
+      if (error.message.includes("fetch")) {
+        throw new Error(
+          `Network error while fetching remote token file "${tokenName}" from ${url}: ${error.message}`,
+        );
+      }
+      // Re-throw our own enhanced errors as-is
+      throw error;
     }
   }
 }
@@ -154,10 +169,33 @@ export class LocalFileSystem {
     const result = {};
     for (let i = 0; i < tokenNames.length; i++) {
       const tokenPath = cleanTokenPath(startDir, tokenNames[i]);
-      await this.fs.access(tokenPath);
-      const content = await this.fs.readFile(tokenPath, { encoding: "utf8" });
-      const temp = JSON.parse(content);
-      Object.assign(result, temp);
+      try {
+        await this.fs.access(tokenPath);
+        const content = await this.fs.readFile(tokenPath, { encoding: "utf8" });
+        const temp = JSON.parse(content);
+        Object.assign(result, temp);
+      } catch (error) {
+        if (error.code === "ENOENT") {
+          throw new Error(
+            `Token file not found: "${tokenPath}". Check that the file exists and the path is correct.`,
+          );
+        } else if (
+          error.name === "SyntaxError" ||
+          error.message.includes("JSON")
+        ) {
+          throw new Error(
+            `Invalid JSON in token file "${tokenPath}": ${error.message}`,
+          );
+        } else if (error.code === "EACCES") {
+          throw new Error(
+            `Permission denied accessing token file "${tokenPath}". Check file permissions.`,
+          );
+        } else {
+          throw new Error(
+            `Failed to load token file "${tokenPath}": ${error.message}`,
+          );
+        }
+      }
     }
     return result;
   }
@@ -205,40 +243,50 @@ export class TokenLoader {
     givenRepo,
     githubAPIKey,
   ) {
-    const version = givenVersion || "latest";
-    const location = givenLocation || "main";
-    const result = {};
+    try {
+      const version = givenVersion || "latest";
+      const location = givenLocation || "main";
+      const result = {};
 
-    // Get list of token files to load
-    const tokenNames =
-      givenTokenNames ||
-      (await this.remoteFetcher.fetchTokens(
-        "manifest.json",
-        version,
-        location,
-        givenRepo,
-        githubAPIKey,
-      ));
+      // Get list of token files to load
+      const tokenNames =
+        givenTokenNames ||
+        (await this.remoteFetcher.fetchTokens(
+          "manifest.json",
+          version,
+          location,
+          givenRepo,
+          githubAPIKey,
+        ));
 
-    // Process token names
-    const processedNames = processTokenNames(
-      tokenNames,
-      Boolean(givenTokenNames),
-    );
-
-    // Load each token file
-    for (const name of processedNames) {
-      const tokens = await this.remoteFetcher.fetchTokens(
-        name,
-        version,
-        location,
-        givenRepo,
-        githubAPIKey,
+      // Process token names
+      const processedNames = processTokenNames(
+        tokenNames,
+        Boolean(givenTokenNames),
       );
-      Object.assign(result, tokens);
-    }
 
-    return result;
+      // Load each token file
+      for (const name of processedNames) {
+        const tokens = await this.remoteFetcher.fetchTokens(
+          name,
+          version,
+          location,
+          givenRepo,
+          githubAPIKey,
+        );
+        Object.assign(result, tokens);
+      }
+
+      return result;
+    } catch (error) {
+      const repoInfo = givenRepo || "adobe/spectrum-tokens";
+      const versionInfo = givenVersion
+        ? `version ${givenVersion}`
+        : `branch ${givenLocation || "main"}`;
+      throw new Error(
+        `Failed to load remote tokens from ${repoInfo} (${versionInfo}): ${error.message}`,
+      );
+    }
   }
 
   /**
@@ -253,7 +301,9 @@ export class TokenLoader {
       const root = this.localFS.getRootPath(startDir, "pnpm-lock.yaml");
 
       if (!root) {
-        throw new Error("Could not find project root (pnpm-lock.yaml)");
+        throw new Error(
+          `Could not find project root (pnpm-lock.yaml) starting from "${startDir}". Make sure you're running from within a valid project directory.`,
+        );
       }
 
       const basePath = root.substring(0, root.lastIndexOf("/"));
@@ -267,8 +317,12 @@ export class TokenLoader {
       const fileNames = await this.localFS.getTokenFiles(dirName);
       return await this.localFS.loadData(`${basePath}/`, fileNames);
     } catch (error) {
-      console.error(error);
-      throw error;
+      const operation = tokenNames
+        ? `load specific token files [${tokenNames.join(", ")}]`
+        : `load all token files from "${dirName}"`;
+
+      console.error(`Error during local token loading: ${error.message}`);
+      throw new Error(`Failed to ${operation}: ${error.message}`);
     }
   }
 }

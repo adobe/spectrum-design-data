@@ -29,10 +29,6 @@
       "enum": ["s", "m", "l", "xl"],
       "default": "m"
     },
-    "isQuiet": {
-      "type": "boolean",
-      "default": false
-    },
     "necessityIndicator": {
       "type": "string",
       "enum": ["text", "icon"],
@@ -58,10 +54,6 @@
       "type": "boolean",
       "default": false
     },
-    "isReadOnly": {
-      "type": "boolean",
-      "default": false
-    },
     "hideDragIcon": {
       "type": "boolean",
       "default": false
@@ -70,13 +62,11 @@
       "type": "number",
       "description": "If undefined, height is dynamic and grows with input text."
     },
-    "description": {
-      "type": "string",
-      "default": null
+    "helpText": {
+      "type": "string"
     },
     "errorMessage": {
-      "type": "string",
-      "default": null
+      "type": "string"
     },
     "inputType": {
       "type": "string",

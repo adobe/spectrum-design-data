@@ -2,6 +2,27 @@
   "mcpServers": {
     "changesets Docs": {
       "url": "https://gitmcp.io/changesets/changesets"
+    },
+    "ava Docs": {
+      "url": "https://gitmcp.io/avajs/ava"
+    },
+    "moon Docs": {
+      "url": "https://gitmcp.io/moonrepo/moon"
+    },
+    "handlebars.js Docs": {
+      "url": "https://gitmcp.io/handlebars-lang/handlebars.js"
+    },
+    "pnpm Docs": {
+      "url": "https://gitmcp.io/pnpm/pnpm"
+    },
+    "commitlint Docs": {
+      "url": "https://gitmcp.io/conventional-changelog/commitlint"
+    },
+    "GitHub cli Docs": {
+      "url": "https://gitmcp.io/cli/cli"
+    },
+    "nixt Docs": {
+      "url": "https://gitmcp.io/vesln/nixt"
     }
   }
 }

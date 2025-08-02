@@ -22,11 +22,11 @@ import tokenDiff from “@adobe/token-diff-generator”;
 
 ## Token diff generator library
 
-The token diff generator library holds the functions used to generate diffs between two compilations of design tokens. It uses the deep-object-diff open-source library to extract a JSON object containing the changes, and then runs that JSON object through various functions to tailor the result specifically for design tokens.
+The token diff generator library holds the functions used to generate diffs between two compilations of design tokens. It uses the @adobe/optimized-diff library to extract a JSON object containing the changes, and then runs that JSON object through various functions to tailor the result specifically for design tokens.
 
-An example of tailoring involves detecting when tokens are renamed. The deep-object-diff library is unable to tell whether or not a token has been renamed due to it being designed for general JSON objects. Instead, it will mark the new name as a new token being added to the schema and the old name as a deleted token.
+An example of tailoring involves detecting when tokens are renamed. The optimized-diff library is unable to tell whether or not a token has been renamed due to it being designed for general JSON objects. Instead, it will mark the new name as a new token being added to the schema and the old name as a deleted token.
 
-This is where the token diff generator comes in. It goes through the changes detected by deep-object-diff and checks if a token is renamed via its uuid. Since the token diff generator relies on all tokens having their own uuid, the library—including the CLI and web version—will not work for versions of spectrum-tokens before the @adobe/spectrum-tokens@12.26.0 release.
+This is where the token diff generator comes in. It goes through the changes detected by @adobe/optimized-diff and checks if a token is renamed via its uuid. Since the token diff generator relies on all tokens having their own uuid, the library—including the CLI and web version—will not work for versions of spectrum-tokens before the @adobe/spectrum-tokens@12.26.0 release.
 
 ### Usage examples
 

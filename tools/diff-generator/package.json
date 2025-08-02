@@ -1,6 +1,6 @@
 {
   "name": "@adobe/token-diff-generator",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Generate comprehensive diffs between design token sets with support for multiple output formats including CLI, JSON, and Markdown. Detects added, deleted, renamed, deprecated, and updated tokens across different schema versions.",
   "keywords": [
     "design-tokens",
@@ -72,9 +72,10 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
+    "@adobe/optimized-diff": "workspace:*",
     "chalk": "^5.4.1",
     "commander": "^13.1.0",
-    "deep-object-diff": "^1.1.9",
+    "glob": "^11.0.3",
     "handlebars": "^4.7.8",
     "node-emoji": "^2.2.0"
   },
