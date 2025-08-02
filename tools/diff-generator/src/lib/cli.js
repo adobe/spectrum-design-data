@@ -18,9 +18,10 @@ import { Command } from "commander";
 import chalk from "chalk";
 import { HandlebarsFormatter } from "./formatterHandlebars.js";
 import storeOutput from "./store-output.js";
+import packageJson from "../../package.json" with { type: "json" };
 
 const red = chalk.hex("F37E7E");
-const version = "2.3.0";
+const version = packageJson.version;
 
 // ===== PHASE 1: PURE UTILITY FUNCTIONS (easily testable) =====
 
