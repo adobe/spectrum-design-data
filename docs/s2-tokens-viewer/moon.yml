@@ -16,39 +16,15 @@ tags:
 tasks:
   clean:
     command:
-      - mkdir
-      - -p
-      - ../../site/s2-tokens-viewer/
-      - "&&"
-      - rm
-      - -rf
-      - ../../site/s2-tokens-viewer
-      - "&&"
-      - mkdir
-      - -p
-      - ../../site/s2-tokens-viewer
+      - sh
+      - -c
+      - "mkdir -p ../../site/s2-tokens-viewer/ && rm -rf ../../site/s2-tokens-viewer && mkdir -p ../../site/s2-tokens-viewer"
     platform: system
   export:
     command:
-      - cp
-      - -r
-      - ./index.html
-      - ../../site/s2-tokens-viewer/
-      - "&&"
-      - cp
-      - -r
-      - ./css
-      - ../../site/s2-tokens-viewer/
-      - "&&"
-      - cp
-      - -r
-      - ./data
-      - ../../site/s2-tokens-viewer/
-      - "&&"
-      - cp
-      - -r
-      - ./tokens
-      - ../../site/s2-tokens-viewer/
+      - sh
+      - -c
+      - "cp -r ./index.html ../../site/s2-tokens-viewer/ && cp -r ./css ../../site/s2-tokens-viewer/ && cp -r ./data ../../site/s2-tokens-viewer/ && cp -r ./tokens ../../site/s2-tokens-viewer/"
     deps:
       - ~:clean
     platform: system
