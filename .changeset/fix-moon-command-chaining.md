@@ -1,5 +1,5 @@
 ---
-"@spectrum-tools/s2-tokens-viewer": patch
+"s2-tokens-viewer": patch
 ---
 
 Fix moon.yml command chaining syntax for newer moon version
