@@ -1,5 +1,13 @@
 # s2-tokens-viewer
 
+## 0.1.2
+
+### Patch Changes
+
+- [#544](https://github.com/adobe/spectrum-tokens/pull/544) [`18dc0e1`](https://github.com/adobe/spectrum-tokens/commit/18dc0e12537e73d7290ae9b227754b5240807cf3) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix moon.yml command chaining syntax for newer moon version
+
+  Updated command chaining in moon.yml tasks to use proper shell syntax instead of && as array elements. This resolves issues with the viewer:export task failing after moon version update.
+
 ## 0.1.1
 
 ### Patch Changes
