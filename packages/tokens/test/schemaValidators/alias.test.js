@@ -29,8 +29,7 @@ const validate = await ajv.compile(
 test("Every token schema should validate against the definition", (t) => {
   const alias = {
     component: "swatch",
-    $schema:
-      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    $schema: "alias.json",
     value: "{gray-900}",
     uuid: "7da5157d-7f25-405b-8de0-f3669565fb48",
   };
