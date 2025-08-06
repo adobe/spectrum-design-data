@@ -2,7 +2,7 @@
 
 Current url of deployed static site: [https://opensource.adobe.com/spectrum-tokens/visualizer/](https://opensource.adobe.com/spectrum-tokens/visualizer/)
 
-<img width="1491" alt="Screenshot 2023-02-28 at 2 40 02 PM" src="https://github.com/adobe/spectrum-tokens/assets/125516/3c57f2de-c42e-41a5-abed-e5da294339f0">
+<img width="1491" alt="Screenshot 2023-02-28 at 2 40 02 PM" src="https://github.com/adobe/spectrum-design-data/assets/125516/3c57f2de-c42e-41a5-abed-e5da294339f0">
 
 ## Setup for local development
 
@@ -63,9 +63,9 @@ git push
 
 ## What is this prototype? How does it work?
 
-The Spectrum Tokens source-of-truth is persisted in this public GitHub repo: https://github.com/adobe/spectrum-tokens
+The Spectrum Tokens source-of-truth is persisted in this public GitHub repo: https://github.com/adobe/spectrum-design-data
 
-Within that repository, the tokens are stored in a series of JSON files: https://github.com/adobe/spectrum-tokens/tree/beta/src
+Within that repository, the tokens are stored in a series of JSON files: https://github.com/adobe/spectrum-design-data/tree/beta/src
 
 This json data structure models a directed graph of conditional relationships between tokens, meant to represent the dynamic value assignments that Spectrum clients have access to when using particular filter configurations, such as 'Spectrum/Light/Desktop' or 'Express/Darkest/Mobile'.
 

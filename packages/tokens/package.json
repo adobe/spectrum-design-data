@@ -8,7 +8,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adobe/spectrum-tokens.git"
+    "url": "git+https://github.com/adobe/spectrum-design-data.git"
   },
   "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
   "contributors": [
@@ -16,12 +16,12 @@
   ],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/adobe/spectrum-tokens/issues"
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
   },
   "publishConfig": {
     "provenance": true
   },
-  "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/packages/tokens#readme",
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/packages/tokens#readme",
   "devDependencies": {
     "@adobe/token-diff-generator": "workspace:*",
     "ajv": "^8.17.1",
