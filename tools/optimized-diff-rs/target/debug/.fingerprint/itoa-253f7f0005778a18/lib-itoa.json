@@ -1,0 +1,19 @@
+{
+  "rustc": 5585755218383029683,
+  "features": "[]",
+  "target": 16990797089513230490,
+  "profile": 8344124108420085910,
+  "path": 4332193308066325154,
+  "deps": [],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "debug/.fingerprint/itoa-253f7f0005778a18/dep-lib-itoa"
+      }
+    }
+  ],
+  "rustflags": [],
+  "metadata": 851671291587502216,
+  "config": 2202906307356721367,
+  "compile_kind": 0
+}

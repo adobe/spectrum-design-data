@@ -1,0 +1,1212 @@
+{
+  "spectrum-token-0": {
+    "description": "Updated design token for color #0",
+    "metadata": {
+      "category": "category-0",
+      "deprecated": false,
+      "lastModified": "2024-01-15T10:30:00Z",
+      "private": true,
+      "tags": ["tag-0", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-0",
+    "type": "color",
+    "value": "#000000"
+  },
+  "spectrum-token-1": {
+    "description": "Updated design token for color #1",
+    "metadata": {
+      "category": "category-1",
+      "deprecated": false,
+      "lastModified": "2024-01-15T10:30:00Z",
+      "private": false,
+      "tags": ["tag-1", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-1",
+    "type": "dimension",
+    "value": "#000001"
+  },
+  "spectrum-token-10": {
+    "description": "A design token for color #10",
+    "metadata": {
+      "category": "category-0",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-10",
+    "type": "dimension",
+    "value": "#FF000A"
+  },
+  "spectrum-token-11": {
+    "description": "A design token for color #11",
+    "metadata": {
+      "category": "category-1",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-11",
+    "type": "typography",
+    "value": "#FF000B"
+  },
+  "spectrum-token-12": {
+    "description": "A design token for color #12",
+    "metadata": {
+      "category": "category-2",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-12",
+    "type": "color",
+    "value": "#FF000C"
+  },
+  "spectrum-token-13": {
+    "description": "A design token for color #13",
+    "metadata": {
+      "category": "category-3",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-13",
+    "type": "dimension",
+    "value": "#FF000D"
+  },
+  "spectrum-token-14": {
+    "description": "A design token for color #14",
+    "metadata": {
+      "category": "category-4",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-14",
+    "type": "typography",
+    "value": "#FF000E"
+  },
+  "spectrum-token-15": {
+    "description": "A design token for color #15",
+    "metadata": {
+      "category": "category-5",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-15",
+    "type": "color",
+    "value": "#FF000F"
+  },
+  "spectrum-token-16": {
+    "description": "A design token for color #16",
+    "metadata": {
+      "category": "category-6",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-16",
+    "type": "dimension",
+    "value": "#FF0010"
+  },
+  "spectrum-token-17": {
+    "description": "A design token for color #17",
+    "metadata": {
+      "category": "category-7",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-17",
+    "type": "typography",
+    "value": "#FF0011"
+  },
+  "spectrum-token-18": {
+    "description": "A design token for color #18",
+    "metadata": {
+      "category": "category-8",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-18",
+    "type": "color",
+    "value": "#FF0012"
+  },
+  "spectrum-token-19": {
+    "description": "A design token for color #19",
+    "metadata": {
+      "category": "category-9",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-19",
+    "type": "dimension",
+    "value": "#FF0013"
+  },
+  "spectrum-token-2": {
+    "description": "Updated design token for color #2",
+    "metadata": {
+      "category": "category-2",
+      "deprecated": false,
+      "lastModified": "2024-01-15T10:30:00Z",
+      "private": false,
+      "tags": ["tag-2", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-2",
+    "type": "typography",
+    "value": "#000002"
+  },
+  "spectrum-token-20": {
+    "description": "A design token for color #20",
+    "metadata": {
+      "category": "category-0",
+      "deprecated": false,
+      "private": true,
+      "tags": ["tag-0", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-20",
+    "type": "typography",
+    "value": "#FF0014"
+  },
+  "spectrum-token-21": {
+    "description": "A design token for color #21",
+    "metadata": {
+      "category": "category-1",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-21",
+    "type": "color",
+    "value": "#FF0015"
+  },
+  "spectrum-token-22": {
+    "description": "A design token for color #22",
+    "metadata": {
+      "category": "category-2",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-22",
+    "type": "dimension",
+    "value": "#FF0016"
+  },
+  "spectrum-token-23": {
+    "description": "A design token for color #23",
+    "metadata": {
+      "category": "category-3",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-23",
+    "type": "typography",
+    "value": "#FF0017"
+  },
+  "spectrum-token-24": {
+    "description": "A design token for color #24",
+    "metadata": {
+      "category": "category-4",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-24",
+    "type": "color",
+    "value": "#FF0018"
+  },
+  "spectrum-token-25": {
+    "description": "A design token for color #25",
+    "metadata": {
+      "category": "category-5",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-25",
+    "type": "dimension",
+    "value": "#FF0019"
+  },
+  "spectrum-token-26": {
+    "description": "A design token for color #26",
+    "metadata": {
+      "category": "category-6",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-26",
+    "type": "typography",
+    "value": "#FF001A"
+  },
+  "spectrum-token-27": {
+    "description": "A design token for color #27",
+    "metadata": {
+      "category": "category-7",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-27",
+    "type": "color",
+    "value": "#FF001B"
+  },
+  "spectrum-token-28": {
+    "description": "A design token for color #28",
+    "metadata": {
+      "category": "category-8",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-28",
+    "type": "dimension",
+    "value": "#FF001C"
+  },
+  "spectrum-token-29": {
+    "description": "A design token for color #29",
+    "metadata": {
+      "category": "category-9",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-29",
+    "type": "typography",
+    "value": "#FF001D"
+  },
+  "spectrum-token-3": {
+    "description": "Updated design token for color #3",
+    "metadata": {
+      "category": "category-3",
+      "deprecated": false,
+      "lastModified": "2024-01-15T10:30:00Z",
+      "private": false,
+      "tags": ["tag-3", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-3",
+    "type": "color",
+    "value": "#000003"
+  },
+  "spectrum-token-30": {
+    "description": "A design token for color #30",
+    "metadata": {
+      "category": "category-0",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-30",
+    "type": "color",
+    "value": "#FF001E"
+  },
+  "spectrum-token-31": {
+    "description": "A design token for color #31",
+    "metadata": {
+      "category": "category-1",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-31",
+    "type": "dimension",
+    "value": "#FF001F"
+  },
+  "spectrum-token-32": {
+    "description": "A design token for color #32",
+    "metadata": {
+      "category": "category-2",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-32",
+    "type": "typography",
+    "value": "#FF0020"
+  },
+  "spectrum-token-33": {
+    "description": "A design token for color #33",
+    "metadata": {
+      "category": "category-3",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-33",
+    "type": "color",
+    "value": "#FF0021"
+  },
+  "spectrum-token-34": {
+    "description": "A design token for color #34",
+    "metadata": {
+      "category": "category-4",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-34",
+    "type": "dimension",
+    "value": "#FF0022"
+  },
+  "spectrum-token-35": {
+    "description": "A design token for color #35",
+    "metadata": {
+      "category": "category-5",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-35",
+    "type": "typography",
+    "value": "#FF0023"
+  },
+  "spectrum-token-36": {
+    "description": "A design token for color #36",
+    "metadata": {
+      "category": "category-6",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-36",
+    "type": "color",
+    "value": "#FF0024"
+  },
+  "spectrum-token-37": {
+    "description": "A design token for color #37",
+    "metadata": {
+      "category": "category-7",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-37",
+    "type": "dimension",
+    "value": "#FF0025"
+  },
+  "spectrum-token-38": {
+    "description": "A design token for color #38",
+    "metadata": {
+      "category": "category-8",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-38",
+    "type": "typography",
+    "value": "#FF0026"
+  },
+  "spectrum-token-39": {
+    "description": "A design token for color #39",
+    "metadata": {
+      "category": "category-9",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-39",
+    "type": "color",
+    "value": "#FF0027"
+  },
+  "spectrum-token-4": {
+    "description": "Updated design token for color #4",
+    "metadata": {
+      "category": "category-4",
+      "deprecated": false,
+      "lastModified": "2024-01-15T10:30:00Z",
+      "private": false,
+      "tags": ["tag-4", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-4",
+    "type": "dimension",
+    "value": "#000004"
+  },
+  "spectrum-token-40": {
+    "description": "A design token for color #40",
+    "metadata": {
+      "category": "category-0",
+      "deprecated": false,
+      "private": true,
+      "tags": ["tag-0", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-40",
+    "type": "dimension",
+    "value": "#FF0028"
+  },
+  "spectrum-token-41": {
+    "description": "A design token for color #41",
+    "metadata": {
+      "category": "category-1",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-41",
+    "type": "typography",
+    "value": "#FF0029"
+  },
+  "spectrum-token-42": {
+    "description": "A design token for color #42",
+    "metadata": {
+      "category": "category-2",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-42",
+    "type": "color",
+    "value": "#FF002A"
+  },
+  "spectrum-token-43": {
+    "description": "A design token for color #43",
+    "metadata": {
+      "category": "category-3",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-43",
+    "type": "dimension",
+    "value": "#FF002B"
+  },
+  "spectrum-token-44": {
+    "description": "A design token for color #44",
+    "metadata": {
+      "category": "category-4",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-44",
+    "type": "typography",
+    "value": "#FF002C"
+  },
+  "spectrum-token-45": {
+    "description": "A design token for color #45",
+    "metadata": {
+      "category": "category-5",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-45",
+    "type": "color",
+    "value": "#FF002D"
+  },
+  "spectrum-token-46": {
+    "description": "A design token for color #46",
+    "metadata": {
+      "category": "category-6",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-46",
+    "type": "dimension",
+    "value": "#FF002E"
+  },
+  "spectrum-token-47": {
+    "description": "A design token for color #47",
+    "metadata": {
+      "category": "category-7",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-47",
+    "type": "typography",
+    "value": "#FF002F"
+  },
+  "spectrum-token-48": {
+    "description": "A design token for color #48",
+    "metadata": {
+      "category": "category-8",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-48",
+    "type": "color",
+    "value": "#FF0030"
+  },
+  "spectrum-token-49": {
+    "description": "A design token for color #49",
+    "metadata": {
+      "category": "category-9",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-49",
+    "type": "dimension",
+    "value": "#FF0031"
+  },
+  "spectrum-token-5": {
+    "description": "Updated design token for color #5",
+    "metadata": {
+      "category": "category-5",
+      "deprecated": false,
+      "lastModified": "2024-01-15T10:30:00Z",
+      "private": false,
+      "tags": ["tag-0", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-5",
+    "type": "typography",
+    "value": "#000005"
+  },
+  "spectrum-token-50": {
+    "description": "A design token for color #50",
+    "metadata": {
+      "category": "category-0",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-50",
+    "type": "typography",
+    "value": "#FF0032"
+  },
+  "spectrum-token-51": {
+    "description": "A design token for color #51",
+    "metadata": {
+      "category": "category-1",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-51",
+    "type": "color",
+    "value": "#FF0033"
+  },
+  "spectrum-token-52": {
+    "description": "A design token for color #52",
+    "metadata": {
+      "category": "category-2",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-52",
+    "type": "dimension",
+    "value": "#FF0034"
+  },
+  "spectrum-token-53": {
+    "description": "A design token for color #53",
+    "metadata": {
+      "category": "category-3",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-53",
+    "type": "typography",
+    "value": "#FF0035"
+  },
+  "spectrum-token-54": {
+    "description": "A design token for color #54",
+    "metadata": {
+      "category": "category-4",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-54",
+    "type": "color",
+    "value": "#FF0036"
+  },
+  "spectrum-token-55": {
+    "description": "A design token for color #55",
+    "metadata": {
+      "category": "category-5",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-55",
+    "type": "dimension",
+    "value": "#FF0037"
+  },
+  "spectrum-token-56": {
+    "description": "A design token for color #56",
+    "metadata": {
+      "category": "category-6",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-56",
+    "type": "typography",
+    "value": "#FF0038"
+  },
+  "spectrum-token-57": {
+    "description": "A design token for color #57",
+    "metadata": {
+      "category": "category-7",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-57",
+    "type": "color",
+    "value": "#FF0039"
+  },
+  "spectrum-token-58": {
+    "description": "A design token for color #58",
+    "metadata": {
+      "category": "category-8",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-58",
+    "type": "dimension",
+    "value": "#FF003A"
+  },
+  "spectrum-token-59": {
+    "description": "A design token for color #59",
+    "metadata": {
+      "category": "category-9",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-59",
+    "type": "typography",
+    "value": "#FF003B"
+  },
+  "spectrum-token-6": {
+    "description": "Updated design token for color #6",
+    "metadata": {
+      "category": "category-6",
+      "deprecated": false,
+      "lastModified": "2024-01-15T10:30:00Z",
+      "private": false,
+      "tags": ["tag-1", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-6",
+    "type": "color",
+    "value": "#000006"
+  },
+  "spectrum-token-60": {
+    "description": "A design token for color #60",
+    "metadata": {
+      "category": "category-0",
+      "deprecated": false,
+      "private": true,
+      "tags": ["tag-0", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-60",
+    "type": "color",
+    "value": "#FF003C"
+  },
+  "spectrum-token-61": {
+    "description": "A design token for color #61",
+    "metadata": {
+      "category": "category-1",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-61",
+    "type": "dimension",
+    "value": "#FF003D"
+  },
+  "spectrum-token-62": {
+    "description": "A design token for color #62",
+    "metadata": {
+      "category": "category-2",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-62",
+    "type": "typography",
+    "value": "#FF003E"
+  },
+  "spectrum-token-63": {
+    "description": "A design token for color #63",
+    "metadata": {
+      "category": "category-3",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-63",
+    "type": "color",
+    "value": "#FF003F"
+  },
+  "spectrum-token-64": {
+    "description": "A design token for color #64",
+    "metadata": {
+      "category": "category-4",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-64",
+    "type": "dimension",
+    "value": "#FF0040"
+  },
+  "spectrum-token-65": {
+    "description": "A design token for color #65",
+    "metadata": {
+      "category": "category-5",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-65",
+    "type": "typography",
+    "value": "#FF0041"
+  },
+  "spectrum-token-66": {
+    "description": "A design token for color #66",
+    "metadata": {
+      "category": "category-6",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-66",
+    "type": "color",
+    "value": "#FF0042"
+  },
+  "spectrum-token-67": {
+    "description": "A design token for color #67",
+    "metadata": {
+      "category": "category-7",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-67",
+    "type": "dimension",
+    "value": "#FF0043"
+  },
+  "spectrum-token-68": {
+    "description": "A design token for color #68",
+    "metadata": {
+      "category": "category-8",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-68",
+    "type": "typography",
+    "value": "#FF0044"
+  },
+  "spectrum-token-69": {
+    "description": "A design token for color #69",
+    "metadata": {
+      "category": "category-9",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-69",
+    "type": "color",
+    "value": "#FF0045"
+  },
+  "spectrum-token-7": {
+    "description": "Updated design token for color #7",
+    "metadata": {
+      "category": "category-7",
+      "deprecated": false,
+      "lastModified": "2024-01-15T10:30:00Z",
+      "private": false,
+      "tags": ["tag-2", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-7",
+    "type": "dimension",
+    "value": "#000007"
+  },
+  "spectrum-token-70": {
+    "description": "A design token for color #70",
+    "metadata": {
+      "category": "category-0",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-70",
+    "type": "dimension",
+    "value": "#FF0046"
+  },
+  "spectrum-token-71": {
+    "description": "A design token for color #71",
+    "metadata": {
+      "category": "category-1",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-71",
+    "type": "typography",
+    "value": "#FF0047"
+  },
+  "spectrum-token-72": {
+    "description": "A design token for color #72",
+    "metadata": {
+      "category": "category-2",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-72",
+    "type": "color",
+    "value": "#FF0048"
+  },
+  "spectrum-token-73": {
+    "description": "A design token for color #73",
+    "metadata": {
+      "category": "category-3",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-73",
+    "type": "dimension",
+    "value": "#FF0049"
+  },
+  "spectrum-token-74": {
+    "description": "A design token for color #74",
+    "metadata": {
+      "category": "category-4",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-74",
+    "type": "typography",
+    "value": "#FF004A"
+  },
+  "spectrum-token-75": {
+    "description": "A design token for color #75",
+    "metadata": {
+      "category": "category-5",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-75",
+    "type": "color",
+    "value": "#FF004B"
+  },
+  "spectrum-token-76": {
+    "description": "A design token for color #76",
+    "metadata": {
+      "category": "category-6",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-76",
+    "type": "dimension",
+    "value": "#FF004C"
+  },
+  "spectrum-token-77": {
+    "description": "A design token for color #77",
+    "metadata": {
+      "category": "category-7",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-77",
+    "type": "typography",
+    "value": "#FF004D"
+  },
+  "spectrum-token-78": {
+    "description": "A design token for color #78",
+    "metadata": {
+      "category": "category-8",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-78",
+    "type": "color",
+    "value": "#FF004E"
+  },
+  "spectrum-token-79": {
+    "description": "A design token for color #79",
+    "metadata": {
+      "category": "category-9",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-79",
+    "type": "dimension",
+    "value": "#FF004F"
+  },
+  "spectrum-token-8": {
+    "description": "Updated design token for color #8",
+    "metadata": {
+      "category": "category-8",
+      "deprecated": false,
+      "lastModified": "2024-01-15T10:30:00Z",
+      "private": false,
+      "tags": ["tag-3", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-8",
+    "type": "typography",
+    "value": "#000008"
+  },
+  "spectrum-token-80": {
+    "description": "A design token for color #80",
+    "metadata": {
+      "category": "category-0",
+      "deprecated": false,
+      "private": true,
+      "tags": ["tag-0", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-80",
+    "type": "typography",
+    "value": "#FF0050"
+  },
+  "spectrum-token-81": {
+    "description": "A design token for color #81",
+    "metadata": {
+      "category": "category-1",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-81",
+    "type": "color",
+    "value": "#FF0051"
+  },
+  "spectrum-token-82": {
+    "description": "A design token for color #82",
+    "metadata": {
+      "category": "category-2",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-82",
+    "type": "dimension",
+    "value": "#FF0052"
+  },
+  "spectrum-token-83": {
+    "description": "A design token for color #83",
+    "metadata": {
+      "category": "category-3",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-83",
+    "type": "typography",
+    "value": "#FF0053"
+  },
+  "spectrum-token-84": {
+    "description": "A design token for color #84",
+    "metadata": {
+      "category": "category-4",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-84",
+    "type": "color",
+    "value": "#FF0054"
+  },
+  "spectrum-token-85": {
+    "description": "A design token for color #85",
+    "metadata": {
+      "category": "category-5",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-85",
+    "type": "dimension",
+    "value": "#FF0055"
+  },
+  "spectrum-token-86": {
+    "description": "A design token for color #86",
+    "metadata": {
+      "category": "category-6",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-86",
+    "type": "typography",
+    "value": "#FF0056"
+  },
+  "spectrum-token-87": {
+    "description": "A design token for color #87",
+    "metadata": {
+      "category": "category-7",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-87",
+    "type": "color",
+    "value": "#FF0057"
+  },
+  "spectrum-token-88": {
+    "description": "A design token for color #88",
+    "metadata": {
+      "category": "category-8",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-88",
+    "type": "dimension",
+    "value": "#FF0058"
+  },
+  "spectrum-token-89": {
+    "description": "A design token for color #89",
+    "metadata": {
+      "category": "category-9",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-89",
+    "type": "typography",
+    "value": "#FF0059"
+  },
+  "spectrum-token-9": {
+    "description": "Updated design token for color #9",
+    "metadata": {
+      "category": "category-9",
+      "deprecated": false,
+      "lastModified": "2024-01-15T10:30:00Z",
+      "private": false,
+      "tags": ["tag-4", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-9",
+    "type": "color",
+    "value": "#000009"
+  },
+  "spectrum-token-90": {
+    "description": "A design token for color #90",
+    "metadata": {
+      "category": "category-0",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-90",
+    "type": "color",
+    "value": "#FF005A"
+  },
+  "spectrum-token-91": {
+    "description": "A design token for color #91",
+    "metadata": {
+      "category": "category-1",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-91",
+    "type": "dimension",
+    "value": "#FF005B"
+  },
+  "spectrum-token-92": {
+    "description": "A design token for color #92",
+    "metadata": {
+      "category": "category-2",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-92",
+    "type": "typography",
+    "value": "#FF005C"
+  },
+  "spectrum-token-93": {
+    "description": "A design token for color #93",
+    "metadata": {
+      "category": "category-3",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-93",
+    "type": "color",
+    "value": "#FF005D"
+  },
+  "spectrum-token-94": {
+    "description": "A design token for color #94",
+    "metadata": {
+      "category": "category-4",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-94",
+    "type": "dimension",
+    "value": "#FF005E"
+  },
+  "spectrum-token-95": {
+    "description": "A design token for color #95",
+    "metadata": {
+      "category": "category-5",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-0", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-95",
+    "type": "typography",
+    "value": "#FF005F"
+  },
+  "spectrum-token-96": {
+    "description": "A design token for color #96",
+    "metadata": {
+      "category": "category-6",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-1", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-96",
+    "type": "color",
+    "value": "#FF0060"
+  },
+  "spectrum-token-97": {
+    "description": "A design token for color #97",
+    "metadata": {
+      "category": "category-7",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-2", "type-1", "spectrum"]
+    },
+    "name": "spectrum-token-97",
+    "type": "dimension",
+    "value": "#FF0061"
+  },
+  "spectrum-token-98": {
+    "description": "A design token for color #98",
+    "metadata": {
+      "category": "category-8",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-3", "type-2", "spectrum"]
+    },
+    "name": "spectrum-token-98",
+    "type": "typography",
+    "value": "#FF0062"
+  },
+  "spectrum-token-99": {
+    "description": "A design token for color #99",
+    "metadata": {
+      "category": "category-9",
+      "deprecated": false,
+      "private": false,
+      "tags": ["tag-4", "type-0", "spectrum"]
+    },
+    "name": "spectrum-token-99",
+    "type": "color",
+    "value": "#FF0063"
+  }
+}

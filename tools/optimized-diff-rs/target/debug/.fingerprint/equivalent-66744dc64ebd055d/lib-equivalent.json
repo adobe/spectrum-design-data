@@ -1,0 +1,19 @@
+{
+  "rustc": 5585755218383029683,
+  "features": "[]",
+  "target": 1277625336079947695,
+  "profile": 8987646332441898785,
+  "path": 1130774898440593067,
+  "deps": [],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "debug/.fingerprint/equivalent-66744dc64ebd055d/dep-lib-equivalent"
+      }
+    }
+  ],
+  "rustflags": [],
+  "metadata": 11354133330758095842,
+  "config": 2202906307356721367,
+  "compile_kind": 0
+}

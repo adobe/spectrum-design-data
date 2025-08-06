@@ -1,0 +1,23 @@
+{
+  "rustc": 5585755218383029683,
+  "features": "[]",
+  "target": 14244666192833683721,
+  "profile": 11736316127369858332,
+  "path": 8116117122436641834,
+  "deps": [
+    [2708224962819854390, "serde_json", false, 2521576880510344584],
+    [10633404241517405153, "serde", false, 1255511330253249623],
+    [18254085203861546790, "optimized_diff", false, 2391425012548928778]
+  ],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "debug/.fingerprint/optimized-diff-rs-fdcdeeaaec43dfac/dep-example-performance_comparison"
+      }
+    }
+  ],
+  "rustflags": [],
+  "metadata": 14133742877872102222,
+  "config": 2202906307356721367,
+  "compile_kind": 0
+}

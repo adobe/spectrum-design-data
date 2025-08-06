@@ -1,0 +1,23 @@
+{
+  "rustc": 5585755218383029683,
+  "features": "[]",
+  "target": 17454585501534244611,
+  "profile": 6269190295429226618,
+  "path": 14520323671197034479,
+  "deps": [
+    [2708224962819854390, "serde_json", false, 6916186555099762514],
+    [10633404241517405153, "serde", false, 1085262370176436872],
+    [18254085203861546790, "optimized_diff", false, 7982352174629063589]
+  ],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "release/.fingerprint/optimized-diff-rs-20e00ebeb7dc1b92/dep-example-release_benchmark"
+      }
+    }
+  ],
+  "rustflags": [],
+  "metadata": 14133742877872102222,
+  "config": 2202906307356721367,
+  "compile_kind": 0
+}
