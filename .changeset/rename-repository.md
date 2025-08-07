@@ -1,4 +1,5 @@
 ---
+"@adobe/spectrum-tokens": minor
 ---
 
 Repository has been renamed from `spectrum-tokens` to `spectrum-design-data` to better reflect that this monorepo contains more than just design tokens. All GitHub repository URLs and documentation have been updated to reference the new repository location at `github.com/adobe/spectrum-design-data`.
@@ -12,5 +13,13 @@ The following files were updated:
 - Documentation in `docs/visualizer/README.md`
 - Schema URLs in token files to reference the new hosted location
 - Test files with schema references
+
+**Schema Reference Simplification:**
+As part of this change, all JSON Schema references have been simplified from absolute URLs to relative paths:
+
+- Token files now use relative `$schema` references (e.g., `"alias.json"` instead of `"https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"`)
+- Schema definition files updated to use relative `$id` and `$ref` values
+- Maintains full JSON Schema validation functionality with cleaner, more maintainable syntax
+- Significantly reduces file size and improves readability
 
 Note: Historical changelog entries that reference the old repository name in commit and PR URLs are intentionally preserved for historical accuracy.
