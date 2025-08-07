@@ -1,17 +1,17 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+  "$id": "scale-set.json",
   "title": "Scale set",
   "description": "A set that contains dimension values that change based on platform scale.",
   "type": "object",
   "allOf": [
     {
-      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/set.json"
+      "$ref": "set.json"
     }
   ],
   "properties": {
     "$schema": {
-      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json"
+      "const": "scale-set.json"
     },
     "sets": {
       "type": "object",
@@ -19,32 +19,32 @@
         "mobile": {
           "anyOf": [
             {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json"
+              "$ref": "dimension.json"
             },
             {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json"
+              "$ref": "font-size.json"
             },
             {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+              "$ref": "alias.json"
             },
             {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json"
+              "$ref": "multiplier.json"
             }
           ]
         },
         "desktop": {
           "anyOf": [
             {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json"
+              "$ref": "dimension.json"
             },
             {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json"
+              "$ref": "font-size.json"
             },
             {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+              "$ref": "alias.json"
             },
             {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/multiplier.json"
+              "$ref": "multiplier.json"
             }
           ]
         }

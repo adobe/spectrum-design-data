@@ -1,17 +1,17 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/text-align.json",
+  "$id": "text-align.json",
   "title": "Text align",
   "description": "Sets the horizontal alignment of the inline-level content inside a block element",
   "type": "object",
   "allOf": [
     {
-      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json"
+      "$ref": "token.json"
     }
   ],
   "properties": {
     "$schema": {
-      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/text-align.json"
+      "const": "text-align.json"
     },
     "value": {
       "type": "string",

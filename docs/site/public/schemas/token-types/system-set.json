@@ -1,17 +1,17 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+  "$id": "system-set.json",
   "title": "System set",
   "description": "A set that contains tokens that change based on system.",
   "type": "object",
   "allOf": [
     {
-      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/set.json"
+      "$ref": "set.json"
     }
   ],
   "properties": {
     "$schema": {
-      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json"
+      "const": "system-set.json"
     },
     "sets": {
       "type": "object",
@@ -19,10 +19,10 @@
         {
           "properties": {
             "spectrum": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json"
+              "$ref": "token.json"
             },
             "express": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json"
+              "$ref": "token.json"
             }
           },
           "required": ["spectrum", "express"]
@@ -30,10 +30,10 @@
         {
           "properties": {
             "spectrum": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+              "$ref": "alias.json"
             },
             "express": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+              "$ref": "alias.json"
             }
           },
           "required": ["spectrum", "express"]
@@ -41,10 +41,10 @@
         {
           "properties": {
             "spectrum": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json"
+              "$ref": "color-set.json"
             },
             "express": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json"
+              "$ref": "color-set.json"
             }
           },
           "required": ["spectrum", "express"]
@@ -52,10 +52,10 @@
         {
           "properties": {
             "spectrum": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json"
+              "$ref": "scale-set.json"
             },
             "express": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json"
+              "$ref": "scale-set.json"
             }
           },
           "required": ["spectrum", "express"]
@@ -63,10 +63,10 @@
         {
           "properties": {
             "spectrum": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json"
+              "$ref": "dimension.json"
             },
             "express": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json"
+              "$ref": "scale-set.json"
             }
           },
           "required": ["spectrum", "express"]
