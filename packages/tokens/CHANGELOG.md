@@ -1,5 +1,43 @@
 # @adobe/spectrum-tokens
 
+## 13.13.0
+
+### Minor Changes
+
+- [#559](https://github.com/adobe/spectrum-tokens/pull/559) [`1d4973e`](https://github.com/adobe/spectrum-tokens/commit/1d4973e78d814575da231c2c4080ead8a190d2fc) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## Token sync from Spectrum Tokens Studio
+
+  ### Design motivation
+
+  A new visual treatment for select box.
+
+  ### Token changes
+
+  ## Tokens Changed (4)
+
+  **Original Branch:** `main`
+  **New Branch:** `tokens-sync/patch-spectrum2-from-main`
+
+  <details open><summary><strong>Added (1)</strong></summary>
+  - `select-box-horizontal-minimum-width`
+  </details>
+
+  ### Updated (3)
+
+  <details open><summary><strong>Added Properties (1)</strong></summary>
+  - `select-box-edge-to-checkbox` - `value`: `8px` - `uuid`: `70a20970-ebd9-48a7-8324-44d352f79978`
+  </details>
+  <details open><summary><strong>Deleted Properties (1)</strong></summary>
+
+  - `select-box-edge-to-checkbox` - `desktop.schema`: -> `dimension.json` - `desktop.value`: -> `12px` - `desktop.uuid`: -> `70a20970-ebd9-48a7-8324-44d352f79978` - `mobile.schema`: -> `dimension.json` - `mobile.value`: -> `15px` - `mobile.uuid`: -> `f028974a-20d1-4e03-af77-921b1dfc2469`
+  </details>
+  <details open><summary><strong>Updated Properties (1)</strong></summary>
+  - `select-box-edge-to-checkbox` - `schema`: `scale-set.json` -> `dimension.json`
+  </details>
+
+  ### References
+  - Tokens Studio PR: https://github.com/adobe/spectrum-tokens-studio-data/pull/275
+  - Spectrum Tokens PR: https://github.com/adobe/spectrum-tokens/pull/559
+
 ## 13.12.0
 
 ### Minor Changes
