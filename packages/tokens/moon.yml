@@ -46,13 +46,6 @@ tasks:
       - dist
     local: true
     platform: system
-  generateDiffResult:
-    command:
-      - node
-      - tasks/diff.js
-    deps:
-      - ~:buildTokens
-    platform: node
   test:
     command:
       - pnpm
