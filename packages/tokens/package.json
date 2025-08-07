@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/packages/tokens#readme",
   "devDependencies": {
-    "@adobe/token-diff-generator": "workspace:*",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
     "deep-object-diff": "^1.1.9",
