@@ -1,0 +1,43 @@
+{
+  "name": "@adobe/spectrum-tokens-release-analyzer",
+  "version": "0.1.0",
+  "description": "Analyzes Spectrum Tokens release history and generates data for change frequency visualization",
+  "type": "module",
+  "main": "./src/index.js",
+  "bin": {
+    "release-analyzer": "./src/cli.js"
+  },
+  "scripts": {
+    "test": "ava"
+  },
+  "engines": {
+    "node": ">=20.12.0",
+    "pnpm": ">=10.11.0"
+  },
+  "packageManager": "pnpm@10.11.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-tokens.git",
+    "directory": "tools/release-analyzer"
+  },
+  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-tokens/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/tools/release-analyzer#readme",
+  "keywords": [
+    "spectrum",
+    "tokens",
+    "release",
+    "analysis",
+    "visualization",
+    "change-tracking"
+  ],
+  "dependencies": {
+    "commander": "^13.1.0"
+  },
+  "devDependencies": {
+    "ava": "^6.0.0"
+  }
+}
