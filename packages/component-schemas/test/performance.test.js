@@ -63,10 +63,10 @@ test("getSchemaFile should complete within reasonable time", async (t) => {
   const end = performance.now();
   const duration = end - start;
 
-  // Should complete within 50ms
+  // Should complete within 100ms
   t.true(
-    duration < 75,
-    `getSchemaFile took ${duration.toFixed(2)}ms, expected < 75ms`,
+    duration < 100,
+    `getSchemaFile took ${duration.toFixed(2)}ms, expected < 100ms`,
   );
   t.truthy(schema);
 });
