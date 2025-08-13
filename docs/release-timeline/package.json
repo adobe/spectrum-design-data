@@ -1,0 +1,25 @@
+{
+  "name": "spectrum-tokens-release-timeline",
+  "private": true,
+  "access": "restricted",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Interactive timeline visualization of Spectrum Tokens release history",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-tokens.git",
+    "directory": "docs/release-timeline"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-tokens/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/docs/release-timeline#readme",
+  "scripts": {
+    "build": "node scripts/update-data.js && node scripts/build-site.js",
+    "dev": "python3 -m http.server 8080"
+  },
+  "dependencies": {
+    "d3": "^7.9.0"
+  }
+}
