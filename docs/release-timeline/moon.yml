@@ -50,7 +50,7 @@ tasks:
       - ~:updateData
 
   clean:
-    command: [rimraf, "/site/release-timeline"]
-    platform: node
+    command: [rm, -rf, "/site/release-timeline"]
+    platform: system
     inputs:
       - "@globs(target)"
