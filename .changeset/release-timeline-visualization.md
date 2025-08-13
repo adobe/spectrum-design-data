@@ -1,4 +1,6 @@
 ---
+"@adobe/spectrum-tokens-release-analyzer": minor
+"spectrum-tokens-release-timeline": minor
 ---
 
 Add release timeline visualization and analysis tools for Spectrum Tokens change tracking.

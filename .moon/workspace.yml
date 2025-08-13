@@ -12,6 +12,8 @@ projects:
   diff: "tools/diff-generator"
   optimized-diff: "tools/optimized-diff"
   viewer: "docs/s2-tokens-viewer"
+  release-analyzer: "tools/release-analyzer"
+  release-timeline: "docs/release-timeline"
 vcs:
   manager: "git"
   defaultBranch: "main"

@@ -11,6 +11,7 @@
 $schema: "https://moonrepo.dev/schemas/project.json"
 stack: frontend
 layer: application
+id: "release-timeline"
 tags:
   - docs
   - visualization
@@ -18,15 +19,14 @@ tags:
 
 fileGroups:
   target:
-    - "/site/release-timeline"
+    - "/site/release-timeline/**/*"
 
 tasks:
   updateData:
     command: [node, scripts/update-data.js]
     platform: node
     inputs:
-      - "../../tools/release-analyzer/src/**/*.js"
-      - "../../packages/tokens/CHANGELOG.md"
+      - "scripts/update-data.js"
     outputs:
       - "public/data/releases.json"
 
@@ -50,7 +50,7 @@ tasks:
       - ~:updateData
 
   clean:
-    command: [rimraf, "../../site/release-timeline"]
+    command: [rimraf, "/site/release-timeline"]
     platform: node
     inputs:
       - "@globs(target)"

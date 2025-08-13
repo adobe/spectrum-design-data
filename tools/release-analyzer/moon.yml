@@ -1,4 +1,7 @@
-type: "node"
+$schema: "https://moonrepo.dev/schemas/project.json"
+stack: infrastructure
+layer: tool
+id: "release-analyzer"
 
 tasks:
   test:
