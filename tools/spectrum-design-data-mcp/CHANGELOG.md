@@ -1,5 +1,22 @@
 # @adobe/spectrum-design-data-mcp
 
+## 1.0.0
+
+### Major Changes
+
+- [#568](https://github.com/adobe/spectrum-tokens/pull/568) [`34028ea`](https://github.com/adobe/spectrum-tokens/commit/34028eaf2ba3940baa8044fda2655adc6153fb97) Thanks [@GarthDB](https://github.com/GarthDB)! - Initial release of Spectrum Design Data MCP server
+
+  This is the first release of the Model Context Protocol server that provides AI tools with structured access to Adobe Spectrum design system data, including design tokens and component API schemas.
+
+  Features:
+  - Query design tokens by name, type, or category
+  - Find tokens for specific component use cases
+  - Get component-specific token recommendations
+  - Access component API schemas and validation
+  - Type definitions and schema validation tools
+
+  This enables AI assistants to provide intelligent design guidance and automate design token usage across the Spectrum ecosystem.
+
 ## 0.2.0
 
 ### Minor Changes
