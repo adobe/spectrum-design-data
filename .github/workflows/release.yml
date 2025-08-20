@@ -43,13 +43,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Commit updated release timeline
+      - name: Commit updated release timeline data
         if: steps.changesets.outputs.published == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add site/release-timeline/
-          git diff --staged --quiet || git commit -m "chore: update release timeline visualization data
+          git add docs/release-timeline/public/data/releases.json
+          git diff --staged --quiet || git commit -m "chore: update release timeline data
 
           Updated release timeline data following release of ${{ steps.changesets.outputs.publishedPackages }}"
           git push
