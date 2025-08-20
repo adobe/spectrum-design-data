@@ -15,11 +15,29 @@ This repo uses:
 
 Packages in this monorepo:
 
+## Core Packages
+
 - [Spectrum Tokens](packages/tokens/) design tokens for Spectrum, Adobe's design system.
-- [Spectrum Token Visualizer Tool](docs/visualizer/) a visualizer for inspecting tokens. Published as a [static site](https://opensource.adobe.com/spectrum-tokens/visualizer/), not an NPM package.
+- [Spectrum Component Schemas](packages/component-schemas/) JSON schemas for validating Spectrum component APIs and properties.
+
+## Documentation & Visualization
+
+- [Spectrum Token Visualizer Tool](docs/visualizer/) a visualizer for inspecting S1 tokens. Published as a [static site](https://opensource.adobe.com/spectrum-tokens/visualizer/).
 - [Spectrum Token Visualizer Tool S2](docs/s2-visualizer/) a version of the visualizer that shows the Spectrum 2 data. Published as a [static site](https://opensource.adobe.com/spectrum-tokens/s2-visualizer/).
+- [Spectrum S2 Tokens Viewer](docs/s2-tokens-viewer/) an enhanced token viewer with component usage analysis for Spectrum 2 tokens.
 - [Spectrum Tokens Docs](docs/site/) a static site to show the component options API and other token data.
+- [Release Timeline Visualization](docs/release-timeline/) interactive charts showing release frequency and development activity patterns. Published as a [static site](https://opensource.adobe.com/spectrum-tokens/release-timeline/).
+
+## Development Tools
+
 - [Spectrum Token Diff Generator](tools/diff-generator/) a library and cli tool that reports changes made between two schema/releases/branches.
+- [Optimized Diff Engine](tools/optimized-diff/) high-performance diff algorithm for large token datasets.
+- [Release Analyzer](tools/release-analyzer/) tool for analyzing release history and generating data for change frequency visualization.
+- [Token Changeset Generator](tools/token-changeset-generator/) automates creation of changeset files from token diff analysis.
+- [Token CSV Generator](tools/token-csv-generator/) exports token data to CSV format for analysis and reporting.
+- [Transform Tokens JSON](tools/transform-tokens-json/) utilities for merging and transforming token data between formats.
+- [Token Manifest Builder](tools/token-manifest-builder/) generates manifest files for token distribution.
+- [Spectrum Design Data MCP](tools/spectrum-design-data-mcp/) Model Context Protocol server providing AI assistants with structured access to Spectrum design system data.
 
 ## Setup monorepo locally
 
