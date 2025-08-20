@@ -6,8 +6,10 @@
     "ava Docs": {
       "url": "https://gitmcp.io/avajs/ava"
     },
-    "moon Docs": {
-      "url": "https://gitmcp.io/moonrepo/moon"
+    "moon": {
+      "command": "moon",
+      "args": ["mcp"],
+      "cwd": "${workspaceFolder}"
     },
     "handlebars.js Docs": {
       "url": "https://gitmcp.io/handlebars-lang/handlebars.js"
@@ -23,6 +25,11 @@
     },
     "nixt Docs": {
       "url": "https://gitmcp.io/vesln/nixt"
+    },
+    "spectrum-design-data": {
+      "command": "node",
+      "args": ["tools/spectrum-design-data-mcp/src/cli.js"],
+      "cwd": "${workspaceFolder}"
     }
   }
 }

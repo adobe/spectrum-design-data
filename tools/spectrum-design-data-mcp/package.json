@@ -1,0 +1,60 @@
+{
+  "name": "@adobe/spectrum-design-data-mcp",
+  "version": "0.2.0",
+  "description": "Model Context Protocol server for Spectrum design data including tokens, schemas, and component anatomy",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "spectrum",
+    "design-tokens",
+    "component-schemas",
+    "component-anatomy",
+    "design-data",
+    "design-system",
+    "adobe",
+    "ai-tools"
+  ],
+  "type": "module",
+  "main": "./src/index.js",
+  "bin": {
+    "spectrum-design-data-mcp": "./src/cli.js"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "ava"
+  },
+  "engines": {
+    "node": ">=20.12.0",
+    "pnpm": ">=10.11.0"
+  },
+  "packageManager": "pnpm@10.11.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-tokens.git",
+    "directory": "tools/spectrum-design-data-mcp"
+  },
+  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-tokens/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/tools/spectrum-design-data-mcp#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@adobe/spectrum-tokens": "workspace:*",
+    "@adobe/spectrum-component-api-schemas": "workspace:*",
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "commander": "^13.1.0"
+  },
+  "devDependencies": {
+    "ava": "^6.0.1"
+  }
+}
