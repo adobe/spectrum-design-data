@@ -25,11 +25,6 @@
     },
     "nixt Docs": {
       "url": "https://gitmcp.io/vesln/nixt"
-    },
-    "spectrum-design-data": {
-      "command": "node",
-      "args": ["tools/spectrum-design-data-mcp/src/cli.js"],
-      "cwd": "${workspaceFolder}"
     }
   }
 }
