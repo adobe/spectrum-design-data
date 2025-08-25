@@ -15,6 +15,8 @@ import chalk from "chalk";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+// Import shared formatter for future migrations
+import { HandlebarsFormatter as SharedHandlebarsFormatter } from "@adobe/spectrum-diff-core";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -402,8 +404,6 @@ class HandlebarsFormatter {
 
 export { HandlebarsFormatter };
 
-let formatter;
-
-if (!formatter) formatter = new HandlebarsFormatter();
-
-export default formatter;
+// Create a default instance for compatibility with shared core patterns
+const defaultFormatter = new HandlebarsFormatter();
+export default defaultFormatter;
