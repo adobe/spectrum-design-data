@@ -40,6 +40,7 @@ This is the Spectrum Tokens project, a monorepo containing design tokens, compon
 - Scope is optional but recommended for clarity
 - Description should be present tense and lowercase
 - Breaking changes must include `!` after type/scope or `BREAKING CHANGE:` in footer
+- **Character limits**: Subject line max 72 chars, body/footer lines max 100 chars (enforced by commitlint)
 - Examples: `feat(tokens): add new color palette`, `fix(diff): handle edge case`
 
 ### Package Management
