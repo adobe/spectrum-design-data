@@ -73,6 +73,7 @@
   },
   "dependencies": {
     "@adobe/optimized-diff": "workspace:*",
+    "@adobe/spectrum-diff-core": "workspace:*",
     "chalk": "^5.4.1",
     "commander": "^13.1.0",
     "glob": "^11.0.3",
