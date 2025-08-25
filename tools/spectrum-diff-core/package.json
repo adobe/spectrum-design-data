@@ -1,0 +1,88 @@
+{
+  "name": "@adobe/spectrum-diff-core",
+  "version": "1.0.0",
+  "description": "Shared core library for Spectrum diff generation tools (tokens, component schemas, etc.)",
+  "keywords": [
+    "design-tokens",
+    "component-schemas",
+    "diff",
+    "comparison",
+    "spectrum",
+    "adobe",
+    "cli",
+    "json",
+    "markdown",
+    "handlebars",
+    "design-system",
+    "schema",
+    "versioning"
+  ],
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "types": "./src/index.d.ts"
+    },
+    "./cli": "./src/cli/index.js",
+    "./formatters": "./src/formatters/index.js",
+    "./core": "./src/core/index.js"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "c8 ava",
+    "lint": "eslint src/ test/",
+    "lint:fix": "eslint src/ test/ --fix"
+  },
+  "engines": {
+    "node": ">=20.12.0",
+    "pnpm": ">=10.11.0"
+  },
+  "packageManager": "pnpm@10.11.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-tokens.git",
+    "directory": "tools/spectrum-diff-core"
+  },
+  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
+  "contributors": [
+    "Shirley Li <shirleyli@adobe.com> https://github.com/shirlsli"
+  ],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-tokens/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/tools/spectrum-diff-core#readme",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/adobe-spectrum"
+  },
+  "directories": {
+    "lib": "src",
+    "test": "test"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@adobe/optimized-diff": "workspace:*",
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "glob": "^11.0.3",
+    "handlebars": "^4.7.8",
+    "node-emoji": "^2.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.1",
+    "c8": "^10.1.3",
+    "eslint": "^9.25.1",
+    "esmock": "^2.7.1",
+    "globals": "^16.0.0"
+  }
+}

@@ -1,0 +1,37 @@
+project:
+  name: "spectrum-diff-core"
+  description: "Shared core library for Spectrum diff generation tools"
+  language: "javascript"
+  type: "library"
+
+tasks:
+  install:
+    command: [pnpm, install]
+    platform: node
+
+  build:
+    command: [echo, "No build step required for this library"]
+    platform: node
+
+  lint:
+    command: [pnpm, lint]
+    platform: node
+    deps: [install]
+
+  lint-fix:
+    command: [pnpm, lint:fix]
+    platform: node
+    deps: [install]
+
+  test:
+    command: [pnpm, test]
+    platform: node
+    deps: [install]
+    inputs:
+      - "src/**/*"
+      - "test/**/*"
+      - "ava.config.js"
+      - "package.json"
+
+  ci:
+    deps: [lint, test]
