@@ -10,27 +10,11 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-export function isObject(a) {
-  return (
-    Boolean(a) &&
-    (typeof a === "object" ||
-      (a.constructor &&
-        (a.constructor === Object || a.constructor.name === "Object")))
-  );
-}
-
-export function isString(a) {
-  return typeof a === "string" || a instanceof String;
-}
-
-export function isBoolean(a) {
-  return typeof a === "boolean";
-}
-
-export function isNumber(a) {
-  return typeof a === "number";
-}
-
-export function assert(condition, message) {
-  if (!condition) throw new Error(message ? message : undefined);
-}
+// Re-export helpers from shared core for backward compatibility
+export {
+  isObject,
+  isString,
+  isBoolean,
+  isNumber,
+  assert,
+} from "@adobe/spectrum-diff-core";

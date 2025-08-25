@@ -30,8 +30,8 @@ test("isObject - returns false for non-objects", (t) => {
   t.false(isObject(undefined));
   t.false(isObject(42));
   t.false(isObject("string"));
-  // Arrays are objects in JavaScript, so isObject returns true for them
-  t.true(isObject([]));
+  // Arrays should not be considered objects for our purposes
+  t.false(isObject([]));
   t.false(isObject(true));
 });
 
