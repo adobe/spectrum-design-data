@@ -1,0 +1,40 @@
+{{#if summary.hasBreakingChanges}}
+{{error "🚨 BREAKING CHANGES DETECTED"}}
+{{else}}
+{{passing "✅ No Breaking Changes"}}
+{{/if}}
+
+{{bold "Component Schema Diff Report"}}
+
+{{#if summary.totalComponents.added}}
+{{hilite "📦 Added Components:"}} {{summary.totalComponents.added}}
+{{#each changes.added}}
+  {{passing "+"}} {{@key}}
+{{/each}}
+{{/if}}
+
+{{#if summary.totalComponents.deleted}}
+{{error "❌ Deleted Components:"}} {{summary.totalComponents.deleted}}
+{{#each changes.deleted}}
+  {{error "-"}} {{@key}}
+{{/each}}
+{{/if}}
+
+{{#if changes.updated.breaking}}
+{{error "💥 Breaking Updates:"}}
+{{#each changes.updated.breaking}}
+  {{error "~"}} {{@key}}
+{{/each}}
+{{/if}}
+
+{{#if changes.updated.nonBreaking}}
+{{neutral "🔄 Non-Breaking Updates:"}}
+{{#each changes.updated.nonBreaking}}
+  {{neutral "~"}} {{@key}}
+{{/each}}
+{{/if}}
+
+{{bold "Summary:"}}
+- Breaking Changes: {{error summary.breakingChanges}}
+- Non-Breaking Changes: {{passing summary.nonBreakingChanges}}
+- Total Components Affected: {{summary.totalComponents.added}} added, {{summary.totalComponents.deleted}} deleted, {{summary.totalComponents.updated}} updated
