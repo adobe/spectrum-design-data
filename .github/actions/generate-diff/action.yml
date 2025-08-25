@@ -67,9 +67,9 @@ runs:
             --output ${{ inputs.output-file }}
         elif [[ "${{ inputs.tool }}" == "component-diff-generator" ]]; then
           # Component diff generator CLI with remote support
-          node src/cli.js \
-            --original-branch ${{ inputs.base-ref }} \
-            --updated-branch ${{ inputs.head-ref }} \
+          node src/cli.js report \
+            --osb ${{ inputs.base-ref }} \
+            --nsb ${{ inputs.head-ref }} \
             --repo ${{ inputs.repository }} \
             --format ${{ inputs.format }} \
             --output ${{ inputs.output-file }} \

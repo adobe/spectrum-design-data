@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/index.js",
   "bin": {
-    "cdiff": "src/cli.js"
+    "sdiff": "src/cli.js"
   },
   "scripts": {
     "test": "c8 ava",

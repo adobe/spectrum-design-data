@@ -25,18 +25,36 @@ pnpm test
 ### CLI
 
 ```bash
-# Compare component schemas between directories
-cdiff --original-dir path/to/original --updated-dir path/to/updated
+# Compare component schemas between versions (GitHub tags)
+sdiff report --osv v1.0.0 --nsv v1.1.0 --format markdown --output report.md
+
+# Compare between branches
+sdiff report --osb main --nsb feature/new-components
+
+# Compare remote version to local
+sdiff report --osv v1.0.0 --local packages/component-schemas
 
 # Show only breaking changes
-cdiff --breaking-only
+sdiff report --osv v1.0.0 --nsv v1.1.0 --breaking-only
 
-# Output as JSON
-cdiff --format json
-
-# Output to file
-cdiff --output changes.md --format markdown
+# Output formats
+sdiff report --osv v1.0.0 --nsv v1.1.0 --format json        # JSON output
+sdiff report --osv v1.0.0 --nsv v1.1.0 --format markdown    # Markdown output
+sdiff report --osv v1.0.0 --nsv v1.1.0 --format cli         # CLI output (default)
 ```
+
+### CLI Options
+
+- `--osv, --old-schema-version <version>` - Old component schema version (GitHub tag)
+- `--nsv, --new-schema-version <version>` - New component schema version (GitHub tag)
+- `--osb, --old-schema-branch <branch>` - Old component schema branch
+- `--nsb, --new-schema-branch <branch>` - New component schema branch
+- `--local <dir>` - Local component schemas directory (default: packages/component-schemas)
+- `--repo <repo>` - Repository in owner/repo format
+- `--format <format>` - Output format: cli, markdown, json (default: cli)
+- `--output <file>` - Output file path
+- `--breaking-only` - Show only breaking changes
+- `--github-token <token>` - GitHub API token for private repos
 
 ### Programmatic API
 

@@ -25,18 +25,29 @@ const version = packageJson.version;
 const program = new Command();
 
 program
-  .name("cdiff")
-  .description("Generate diff reports for Spectrum component schema changes")
-  .version(version)
+  .name("sdiff")
+  .description("CLI for Spectrum component schema diff generator")
+  .version(version);
+
+program
+  .command("report")
+  .description("Generates a diff report for component schemas")
   .option("-f, --format <format>", "Output format (cli, markdown, json)", "cli")
   .option("-o, --output <file>", "Output file path")
   .option("--breaking-only", "Show only breaking changes")
-  .option("--original-dir <dir>", "Original component schemas directory")
-  .option("--updated-dir <dir>", "Updated component schemas directory")
-  .option("--original-branch <branch>", "Original branch for remote comparison")
-  .option("--updated-branch <branch>", "Updated branch for remote comparison")
+  .option("--local <dir>", "Local component schemas directory for comparison")
   .option("--repo <repo>", "Repository in owner/repo format")
   .option("--github-token <token>", "GitHub API token")
+  .option(
+    "--osv, --old-schema-version <version>",
+    "Old component schema version (GitHub tag)",
+  )
+  .option(
+    "--nsv, --new-schema-version <version>",
+    "New component schema version (GitHub tag)",
+  )
+  .option("--osb, --old-schema-branch <branch>", "Old component schema branch")
+  .option("--nsb, --new-schema-branch <branch>", "New component schema branch")
   .action(async (options) => {
     try {
       const loader = new ComponentLoader();
@@ -45,69 +56,69 @@ program
 
       let originalData, updatedData;
 
+      // Normalize options (support both new and legacy names)
+      const oldVersion = options.oldSchemaVersion || options.osv;
+      const newVersion = options.newSchemaVersion || options.nsv;
+      const oldBranch = options.oldSchemaBranch || options.osb;
+      const newBranch = options.newSchemaBranch || options.nsb;
+      const localDir = options.local || "packages/component-schemas";
+
       // Determine loading strategy
-      if (options.originalBranch && options.updatedBranch) {
+      if ((oldVersion || oldBranch) && (newVersion || newBranch)) {
         // Remote-to-remote comparison
-        console.log(
-          chalk.blue(
-            `Comparing ${options.originalBranch} → ${options.updatedBranch} (remote)`,
-          ),
-        );
+        const oldRef = oldVersion || oldBranch;
+        const newRef = newVersion || newBranch;
+        console.log(chalk.blue(`Comparing ${oldRef} → ${newRef} (remote)`));
+
         originalData = await loader.loadRemoteComponents(
           null, // fileNames
-          "latest", // version
-          options.originalBranch, // location
+          oldVersion ? oldVersion : "latest", // version
+          oldVersion ? oldVersion : oldBranch, // location
           options.repo,
           options.githubToken,
         );
         updatedData = await loader.loadRemoteComponents(
           null, // fileNames
-          "latest", // version
-          options.updatedBranch, // location
+          newVersion ? newVersion : "latest", // version
+          newVersion ? newVersion : newBranch, // location
           options.repo,
           options.githubToken,
         );
-      } else if (options.originalBranch) {
+      } else if (oldVersion || oldBranch) {
         // Remote-to-local comparison
-        const localDir = options.updatedDir || "packages/component-schemas";
+        const oldRef = oldVersion || oldBranch;
         console.log(
-          chalk.blue(
-            `Comparing ${options.originalBranch} (remote) → ${localDir} (local)`,
-          ),
+          chalk.blue(`Comparing ${oldRef} (remote) → ${localDir} (local)`),
         );
+
         originalData = await loader.loadRemoteComponents(
           null, // fileNames
-          "latest", // version
-          options.originalBranch, // location
+          oldVersion ? oldVersion : "latest", // version
+          oldVersion ? oldVersion : oldBranch, // location
           options.repo,
           options.githubToken,
         );
         updatedData = await loader.loadLocalComponents(localDir);
-      } else if (options.updatedBranch) {
+      } else if (newVersion || newBranch) {
         // Local-to-remote comparison
-        const localDir = options.originalDir || "packages/component-schemas";
+        const newRef = newVersion || newBranch;
         console.log(
-          chalk.blue(
-            `Comparing ${localDir} (local) → ${options.updatedBranch} (remote)`,
-          ),
+          chalk.blue(`Comparing ${localDir} (local) → ${newRef} (remote)`),
         );
+
         originalData = await loader.loadLocalComponents(localDir);
         updatedData = await loader.loadRemoteComponents(
           null, // fileNames
-          "latest", // version
-          options.updatedBranch, // location
+          newVersion ? newVersion : "latest", // version
+          newVersion ? newVersion : newBranch, // location
           options.repo,
           options.githubToken,
         );
       } else {
-        // Local-to-local comparison
-        const originalDir = options.originalDir || "packages/component-schemas";
-        const updatedDir = options.updatedDir || "packages/component-schemas";
-        console.log(
-          chalk.blue(`Comparing ${originalDir} → ${updatedDir} (local)`),
-        );
-        originalData = await loader.loadLocalComponents(originalDir);
-        updatedData = await loader.loadLocalComponents(updatedDir);
+        // Local-only comparison (current working vs staged/committed)
+        console.log(chalk.blue(`Comparing local schemas in ${localDir}`));
+        originalData = await loader.loadLocalComponents(localDir);
+        updatedData = await loader.loadLocalComponents(localDir);
       }
 
       console.log(chalk.blue("Analyzing changes..."));
