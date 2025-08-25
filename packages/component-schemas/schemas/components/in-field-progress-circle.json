@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/in-field-progress-circle.json",
+  "title": "In field progress circle",
+  "description": "In field progress circles indicate progress for loading states within form fields and input areas.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/in-field-progress-circle/"
+  },
+  "type": "object",
+  "properties": {
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "staticColor": {
+      "type": "string",
+      "enum": ["white", "black"]
+    }
+  }
+}
