@@ -33,19 +33,82 @@ program
   .option("--breaking-only", "Show only breaking changes")
   .option("--original-dir <dir>", "Original component schemas directory")
   .option("--updated-dir <dir>", "Updated component schemas directory")
+  .option("--original-branch <branch>", "Original branch for remote comparison")
+  .option("--updated-branch <branch>", "Updated branch for remote comparison")
+  .option("--repo <repo>", "Repository in owner/repo format")
+  .option("--github-token <token>", "GitHub API token")
   .action(async (options) => {
     try {
       const loader = new ComponentLoader();
 
-      // For now, just do a simple local-to-local comparison
-      const originalDir = options.originalDir || "packages/component-schemas";
-      const updatedDir = options.updatedDir || "packages/component-schemas";
-
       console.log(chalk.blue("Loading component schemas..."));
 
-      // Load current schemas (this is a placeholder - in real usage you'd compare versions)
-      const originalData = await loader.loadLocalComponents(originalDir);
-      const updatedData = await loader.loadLocalComponents(updatedDir);
+      let originalData, updatedData;
+
+      // Determine loading strategy
+      if (options.originalBranch && options.updatedBranch) {
+        // Remote-to-remote comparison
+        console.log(
+          chalk.blue(
+            `Comparing ${options.originalBranch} → ${options.updatedBranch} (remote)`,
+          ),
+        );
+        originalData = await loader.loadRemoteComponents(
+          null, // fileNames
+          "latest", // version
+          options.originalBranch, // location
+          options.repo,
+          options.githubToken,
+        );
+        updatedData = await loader.loadRemoteComponents(
+          null, // fileNames
+          "latest", // version
+          options.updatedBranch, // location
+          options.repo,
+          options.githubToken,
+        );
+      } else if (options.originalBranch) {
+        // Remote-to-local comparison
+        const localDir = options.updatedDir || "packages/component-schemas";
+        console.log(
+          chalk.blue(
+            `Comparing ${options.originalBranch} (remote) → ${localDir} (local)`,
+          ),
+        );
+        originalData = await loader.loadRemoteComponents(
+          null, // fileNames
+          "latest", // version
+          options.originalBranch, // location
+          options.repo,
+          options.githubToken,
+        );
+        updatedData = await loader.loadLocalComponents(localDir);
+      } else if (options.updatedBranch) {
+        // Local-to-remote comparison
+        const localDir = options.originalDir || "packages/component-schemas";
+        console.log(
+          chalk.blue(
+            `Comparing ${localDir} (local) → ${options.updatedBranch} (remote)`,
+          ),
+        );
+        originalData = await loader.loadLocalComponents(localDir);
+        updatedData = await loader.loadRemoteComponents(
+          null, // fileNames
+          "latest", // version
+          options.updatedBranch, // location
+          options.repo,
+          options.githubToken,
+        );
+      } else {
+        // Local-to-local comparison
+        const originalDir = options.originalDir || "packages/component-schemas";
+        const updatedDir = options.updatedDir || "packages/component-schemas";
+        console.log(
+          chalk.blue(`Comparing ${originalDir} → ${updatedDir} (local)`),
+        );
+        originalData = await loader.loadLocalComponents(originalDir);
+        updatedData = await loader.loadLocalComponents(updatedDir);
+      }
 
       console.log(chalk.blue("Analyzing changes..."));
 
@@ -150,11 +213,128 @@ async function outputResult(diffResult, options) {
       );
     }
   } else if (format === "json") {
-    console.log(JSON.stringify(diffResult, null, 2));
+    const output = JSON.stringify(diffResult, null, 2);
+    console.log(output);
+    if (options.output) {
+      const fs = await import("fs/promises");
+      await fs.writeFile(options.output, output);
+      console.log(chalk.blue(`Report saved to: ${options.output}`));
+    }
+  } else if (format === "markdown") {
+    const output = generateMarkdownReport(diffResult);
+    console.log(output);
+    if (options.output) {
+      const fs = await import("fs/promises");
+      await fs.writeFile(options.output, output);
+      console.log(chalk.blue(`Report saved to: ${options.output}`));
+    }
   } else {
     console.error(red(`Unsupported format: ${format}`));
     process.exit(1);
   }
+}
+
+/**
+ * Generate markdown report from diff result
+ */
+function generateMarkdownReport(diffResult) {
+  let markdown = "";
+
+  // Check if there are any changes at all
+  const hasAnyChanges =
+    (diffResult.changes.added &&
+      Object.keys(diffResult.changes.added).length > 0) ||
+    (diffResult.changes.deleted &&
+      Object.keys(diffResult.changes.deleted).length > 0) ||
+    (diffResult.changes.updated?.breaking &&
+      Object.keys(diffResult.changes.updated.breaking).length > 0) ||
+    (diffResult.changes.updated?.nonBreaking &&
+      Object.keys(diffResult.changes.updated.nonBreaking).length > 0);
+
+  if (!hasAnyChanges) {
+    return "No component schema changes detected.";
+  }
+
+  // Header with breaking change status
+  if (diffResult.summary.hasBreakingChanges) {
+    markdown += "# 🚨 Component Schema Changes - Breaking Changes Detected\n\n";
+    markdown += `**⚠️ This PR introduces ${diffResult.summary.breakingChanges} breaking change(s) to component schemas.**\n\n`;
+  } else {
+    markdown += "# 🧩 Component Schema Changes - No Breaking Changes\n\n";
+  }
+
+  // Summary table
+  markdown += "## Summary\n\n";
+  markdown += "| Change Type | Count |\n";
+  markdown += "|-------------|-------|\n";
+  markdown += `| Added Components | ${Object.keys(diffResult.changes.added || {}).length} |\n`;
+  markdown += `| Deleted Components | ${Object.keys(diffResult.changes.deleted || {}).length} |\n`;
+  markdown += `| Updated Components | ${Object.keys(diffResult.changes.updated?.breaking || {}).length + Object.keys(diffResult.changes.updated?.nonBreaking || {}).length} |\n`;
+  markdown += `| **Breaking Changes** | **${diffResult.summary.breakingChanges || 0}** |\n`;
+  markdown += `| Non-Breaking Changes | ${diffResult.summary.nonBreakingChanges || 0} |\n\n`;
+
+  // Detailed changes
+  if (
+    diffResult.changes.added &&
+    Object.keys(diffResult.changes.added).length > 0
+  ) {
+    markdown += "## 📦 Added Components\n\n";
+    Object.keys(diffResult.changes.added).forEach((component) => {
+      markdown += `- \`${component}\` - New component schema\n`;
+    });
+    markdown += "\n";
+  }
+
+  if (
+    diffResult.changes.deleted &&
+    Object.keys(diffResult.changes.deleted).length > 0
+  ) {
+    markdown += "## ❌ Deleted Components ⚠️ **BREAKING**\n\n";
+    Object.keys(diffResult.changes.deleted).forEach((component) => {
+      markdown += `- \`${component}\` - Component schema removed\n`;
+    });
+    markdown += "\n";
+  }
+
+  if (
+    diffResult.changes.updated?.breaking &&
+    Object.keys(diffResult.changes.updated.breaking).length > 0
+  ) {
+    markdown += "## 💥 Breaking Updates ⚠️ **BREAKING**\n\n";
+    Object.keys(diffResult.changes.updated.breaking).forEach((component) => {
+      markdown += `- \`${component}\` - Schema changes that break backward compatibility\n`;
+    });
+    markdown += "\n";
+  }
+
+  if (
+    diffResult.changes.updated?.nonBreaking &&
+    Object.keys(diffResult.changes.updated.nonBreaking).length > 0
+  ) {
+    markdown += "## 🔄 Non-Breaking Updates\n\n";
+    Object.keys(diffResult.changes.updated.nonBreaking).forEach((component) => {
+      markdown += `- \`${component}\` - Compatible schema changes\n`;
+    });
+    markdown += "\n";
+  }
+
+  // Footer
+  markdown += "---\n\n";
+  if (diffResult.summary.hasBreakingChanges) {
+    markdown += "### ⚠️ Breaking Change Guidelines\n\n";
+    markdown += "When introducing breaking changes:\n";
+    markdown +=
+      "1. **Version bump**: Ensure this triggers a major version bump\n";
+    markdown += "2. **Migration guide**: Document how consumers should adapt\n";
+    markdown +=
+      "3. **Deprecation**: Consider deprecating before removing when possible\n";
+    markdown += "4. **Communication**: Notify affected teams of the changes\n";
+  } else {
+    markdown +=
+      "*This diff was generated automatically and contains only backward-compatible changes.*\n";
+  }
+
+  return markdown;
 }
 
 // Parse arguments and run
