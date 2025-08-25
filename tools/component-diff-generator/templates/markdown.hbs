@@ -1,0 +1,67 @@
+# Component Schema Diff Report
+
+{{#if summary.hasBreakingChanges}}
+## 🚨 Breaking Changes Detected
+
+This PR introduces **{{summary.breakingChanges}} breaking change(s)** to component schemas. Please review carefully and ensure proper versioning.
+{{else}}
+## ✅ No Breaking Changes
+
+This PR contains only non-breaking changes to component schemas.
+{{/if}}
+
+## Summary
+
+| Change Type | Count |
+|-------------|-------|
+| Added Components | {{summary.totalComponents.added}} |
+| Deleted Components | {{summary.totalComponents.deleted}} |
+| Updated Components | {{summary.totalComponents.updated}} |
+| **Breaking Changes** | **{{summary.breakingChanges}}** |
+| Non-Breaking Changes | {{summary.nonBreakingChanges}} |
+
+{{#if summary.totalComponents.added}}
+## 📦 Added Components
+
+{{#each changes.added}}
+- `{{@key}}` - New component schema
+{{/each}}
+{{/if}}
+
+{{#if summary.totalComponents.deleted}}
+## ❌ Deleted Components ⚠️ **BREAKING**
+
+{{#each changes.deleted}}
+- `{{@key}}` - Component schema removed
+{{/each}}
+{{/if}}
+
+{{#if changes.updated.breaking}}
+## 💥 Breaking Updates ⚠️ **BREAKING**
+
+{{#each changes.updated.breaking}}
+- `{{@key}}` - Schema changes that break backward compatibility
+{{/each}}
+{{/if}}
+
+{{#if changes.updated.nonBreaking}}
+## 🔄 Non-Breaking Updates
+
+{{#each changes.updated.nonBreaking}}
+- `{{@key}}` - Compatible schema changes
+{{/each}}
+{{/if}}
+
+---
+
+{{#if summary.hasBreakingChanges}}
+### ⚠️ Breaking Change Guidelines
+
+When introducing breaking changes:
+1. **Version bump**: Ensure this triggers a major version bump
+2. **Migration guide**: Document how consumers should adapt
+3. **Deprecation**: Consider deprecating before removing when possible
+4. **Communication**: Notify affected teams of the changes
+{{else}}
+*This diff was generated automatically and contains only backward-compatible changes.*
+{{/if}}

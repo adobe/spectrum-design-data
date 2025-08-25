@@ -1,0 +1,9 @@
+type: "library"
+
+tasks:
+  lint:
+    command: [pnpm, eslint, .]
+    platform: node
+  test:
+    command: [pnpm, ava, test]
+    platform: node
