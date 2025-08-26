@@ -21,6 +21,7 @@ jobs:
           auto-install: true
 
       - run: moon setup
+      - run: pnpm install
 
       - name: Lint changeset files
         run: pnpm changeset-lint check --fail-on-warnings
