@@ -1,5 +1,12 @@
 # @adobe/token-diff-generator
 
+## 2.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`cd74579`](https://github.com/adobe/spectrum-tokens/commit/cd745798b88a137ee6fac8734cc872626fd09060)]:
+  - @adobe/spectrum-diff-core@1.1.0
+
 ## 2.3.0
 
 ### Minor Changes
