@@ -93,8 +93,12 @@ runs:
           echo "diff_content<<EOF" >> $GITHUB_OUTPUT
           cat "${{ inputs.output-file }}" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+        elif [ $exit_code -eq 0 ] && [ -f "${{ inputs.output-file }}" ]; then
+          # Command succeeded but file exists but is empty (no changes)
+          echo "diff_generated=false" >> $GITHUB_OUTPUT
+          echo "diff_content=No changes detected." >> $GITHUB_OUTPUT
         elif [ $exit_code -eq 0 ]; then
-          # Command succeeded but no changes detected
+          # Command succeeded but no output file created
           echo "diff_generated=false" >> $GITHUB_OUTPUT
           echo "diff_content=No changes detected." >> $GITHUB_OUTPUT
         else
