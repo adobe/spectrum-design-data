@@ -1,5 +1,14 @@
 # @adobe/token-diff-generator
 
+## 2.5.0
+
+### Minor Changes
+
+- [`6fe3d3a`](https://github.com/adobe/spectrum-tokens/commit/6fe3d3a64e0da4e07cef86e70590b5af65a70470) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(diff-tools): improve error handling and GitHub PR comment format
+  - Align component diff generator GitHub PR comment format with token diff style
+  - Add comprehensive error handling and test coverage for both tools
+  - Improve reliability and developer experience with consistent tooling
+
 ## 2.4.0
 
 ### Minor Changes
