@@ -199,7 +199,7 @@ export class BaseCLI {
       )
       .option(
         `-${this.fileNamesFlag}, --file-names <files...>`,
-        `indicates specific files to compare`,
+        "indicates specific files to compare",
       )
       .option("-r, --repo <repo>", "git repo to use if you want to use a fork")
       .option(

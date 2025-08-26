@@ -70,15 +70,43 @@ program
         const newRef = newVersion || newBranch;
         console.log(chalk.blue(`Comparing ${oldRef} → ${newRef} (remote)`));
 
+        // First discover all files from both branches to capture additions/deletions
+        console.log(
+          chalk.blue("Discovering component files from both branches..."),
+        );
+        const [oldFiles, newFiles] = await Promise.all([
+          loader.discoverRemoteComponentFiles(
+            oldVersion ? oldVersion : "latest",
+            oldVersion ? oldVersion : oldBranch,
+            options.repo,
+            options.githubToken,
+          ),
+          loader.discoverRemoteComponentFiles(
+            newVersion ? newVersion : "latest",
+            newVersion ? newVersion : newBranch,
+            options.repo,
+            options.githubToken,
+          ),
+        ]);
+
+        // Take union of all files from both branches
+        const allFiles = [...new Set([...oldFiles, ...newFiles])];
+        console.log(
+          chalk.blue(
+            `Found ${allFiles.length} total component files across both branches`,
+          ),
+        );
+
+        // Load components using the unified file list
         originalData = await loader.loadRemoteComponents(
-          null, // fileNames
+          allFiles, // Use unified file list
           oldVersion ? oldVersion : "latest", // version
           oldVersion ? oldVersion : oldBranch, // location
           options.repo,
           options.githubToken,
         );
         updatedData = await loader.loadRemoteComponents(
-          null, // fileNames
+          allFiles, // Use unified file list
           newVersion ? newVersion : "latest", // version
           newVersion ? newVersion : newBranch, // location
           options.repo,
@@ -91,8 +119,28 @@ program
           chalk.blue(`Comparing ${oldRef} (remote) → ${localDir} (local)`),
         );
 
+        // Discover files from both remote and local to capture all possible files
+        console.log(
+          chalk.blue("Discovering component files from remote and local..."),
+        );
+        const [remoteFiles, localFiles] = await Promise.all([
+          loader.discoverRemoteComponentFiles(
+            oldVersion ? oldVersion : "latest",
+            oldVersion ? oldVersion : oldBranch,
+            options.repo,
+            options.githubToken,
+          ),
+          loader.getLocalComponentFiles(localDir),
+        ]);
+
+        // Take union of all files
+        const allFiles = [...new Set([...remoteFiles, ...localFiles])];
+        console.log(
+          chalk.blue(`Found ${allFiles.length} total component files`),
+        );
+
         originalData = await loader.loadRemoteComponents(
-          null, // fileNames
+          allFiles, // Use unified file list
           oldVersion ? oldVersion : "latest", // version
           oldVersion ? oldVersion : oldBranch, // location
           options.repo,
@@ -106,9 +154,29 @@ program
           chalk.blue(`Comparing ${localDir} (local) → ${newRef} (remote)`),
         );
 
+        // Discover files from both local and remote to capture all possible files
+        console.log(
+          chalk.blue("Discovering component files from local and remote..."),
+        );
+        const [localFiles, remoteFiles] = await Promise.all([
+          loader.getLocalComponentFiles(localDir),
+          loader.discoverRemoteComponentFiles(
+            newVersion ? newVersion : "latest",
+            newVersion ? newVersion : newBranch,
+            options.repo,
+            options.githubToken,
+          ),
+        ]);
+
+        // Take union of all files
+        const allFiles = [...new Set([...localFiles, ...remoteFiles])];
+        console.log(
+          chalk.blue(`Found ${allFiles.length} total component files`),
+        );
+
         originalData = await loader.loadLocalComponents(localDir);
         updatedData = await loader.loadRemoteComponents(
-          null, // fileNames
+          allFiles, // Use unified file list
           newVersion ? newVersion : "latest", // version
           newVersion ? newVersion : newBranch, // location
           options.repo,

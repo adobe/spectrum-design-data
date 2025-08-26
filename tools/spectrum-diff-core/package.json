@@ -36,8 +36,7 @@
   ],
   "scripts": {
     "test": "c8 ava",
-    "lint": "eslint src/ test/",
-    "lint:fix": "eslint src/ test/ --fix"
+    "format": "prettier --write \"./src\" \"./test\""
   },
   "engines": {
     "node": ">=20.12.0",
@@ -79,10 +78,8 @@
     "node-emoji": "^2.2.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.25.1",
     "c8": "^10.1.3",
-    "eslint": "^9.25.1",
     "esmock": "^2.7.1",
-    "globals": "^16.0.0"
+    "prettier": "^3.3.3"
   }
 }

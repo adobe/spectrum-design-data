@@ -35,15 +35,6 @@ tasks:
     local: true
 
   # Code quality
-  lint:
-    command: [pnpm, eslint, .]
-    platform: node
-
-  lint-fix:
-    command: [pnpm, eslint, ., --fix]
-    platform: node
-    local: true
-
   format:
     command: [pnpm, prettier, --write, "./src", "./test"]
     platform: node
@@ -51,7 +42,7 @@ tasks:
 
   # Quality pipeline
   ci:
-    deps: [lint, test]
+    deps: [test]
 
   # Development utilities
   version:

@@ -96,15 +96,221 @@ export class ComponentLoader extends FileLoader {
     givenRepo,
     githubAPIKey,
   ) {
-    return await this.loadRemoteFiles(
-      givenFileNames,
-      givenVersion,
-      givenLocation,
-      givenRepo,
-      githubAPIKey,
-      COMPONENT_PACKAGE_PATH,
-      null, // No manifest file for components yet
-    );
+    // If specific files provided, use them; otherwise discover all available files
+    let fileNames = givenFileNames;
+
+    if (!fileNames) {
+      // Dynamically discover component schema files from the remote branch
+      fileNames = await this.discoverRemoteComponentFiles(
+        givenVersion || "latest",
+        givenLocation || "main",
+        givenRepo,
+        githubAPIKey,
+      );
+    }
+
+    // Load individual component files and key by component name
+    const result = {};
+    for (const fileName of fileNames) {
+      try {
+        const componentData = await this.remoteFetcher.fetchFile(
+          fileName,
+          givenVersion || "latest",
+          givenLocation || "main",
+          givenRepo,
+          COMPONENT_PACKAGE_PATH,
+          githubAPIKey,
+        );
+        // Use the filename without extension as the component key
+        const componentName = fileName.split("/").pop().replace(".json", "");
+        result[componentName] = componentData;
+      } catch (error) {
+        // File might not exist in this branch - this is expected for new/deleted components
+        console.debug(
+          `Debug: Could not load component file ${fileName}: ${error.message}`,
+        );
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Discovers all component schema files from a remote branch
+   * @param {string} version - Package version or "latest"
+   * @param {string} location - Branch name
+   * @param {string} repo - Repository name
+   * @param {string} githubAPIKey - API key for authentication
+   * @returns {Promise<Array<string>>} List of discovered component file paths
+   */
+  async discoverRemoteComponentFiles(version, location, repo, githubAPIKey) {
+    try {
+      // Try to fetch the GitHub API directory listing
+      const repoName = repo || "adobe/spectrum-tokens";
+      const branch = version === "latest" ? location : version;
+      const apiUrl = `https://api.github.com/repos/${repoName}/contents/packages/component-schemas/schemas`;
+
+      const options = githubAPIKey
+        ? { headers: { Authorization: `token ${githubAPIKey}` } }
+        : {};
+
+      const response = await fetch(`${apiUrl}?ref=${branch}`, options);
+
+      if (response.ok) {
+        const contents = await response.json();
+        const files = [];
+
+        // Process directory contents recursively
+        for (const item of contents) {
+          if (item.type === "file" && item.name.endsWith(".json")) {
+            files.push(`schemas/${item.name}`);
+          } else if (item.type === "dir") {
+            // Recursively get files from subdirectories (like components/, types/)
+            const subFiles = await this.getFilesFromDirectory(
+              `${apiUrl}/${item.name}`,
+              branch,
+              options,
+              `schemas/${item.name}`,
+            );
+            files.push(...subFiles);
+          }
+        }
+
+        return files;
+      } else {
+        console.warn(
+          `Could not discover files via GitHub API (${response.status}), using fallback list`,
+        );
+        return this.getFallbackComponentFiles();
+      }
+    } catch (error) {
+      console.warn(
+        `Could not discover files via GitHub API: ${error.message}, using fallback list`,
+      );
+      return this.getFallbackComponentFiles();
+    }
+  }
+
+  /**
+   * Gets files from a directory via GitHub API
+   * @param {string} dirUrl - API URL for the directory
+   * @param {string} branch - Branch name
+   * @param {object} options - Fetch options
+   * @param {string} pathPrefix - Path prefix to prepend to file names
+   * @returns {Promise<Array<string>>} List of file paths
+   */
+  async getFilesFromDirectory(dirUrl, branch, options, pathPrefix) {
+    try {
+      const response = await fetch(`${dirUrl}?ref=${branch}`, options);
+      if (response.ok) {
+        const contents = await response.json();
+        return contents
+          .filter((item) => item.type === "file" && item.name.endsWith(".json"))
+          .map((item) => `${pathPrefix}/${item.name}`);
+      }
+      return [];
+    } catch (error) {
+      console.debug(`Could not list directory ${dirUrl}: ${error.message}`);
+      return [];
+    }
+  }
+
+  /**
+   * Returns fallback list of component files when dynamic discovery fails
+   * @returns {Array<string>} Fallback file list
+   */
+  getFallbackComponentFiles() {
+    return [
+      "schemas/component.json",
+      "schemas/components/action-bar.json",
+      "schemas/components/action-button.json",
+      "schemas/components/action-group.json",
+      "schemas/components/alert-banner.json",
+      "schemas/components/alert-dialog.json",
+      "schemas/components/avatar.json",
+      "schemas/components/badge.json",
+      "schemas/components/body.json",
+      "schemas/components/bottom-navigation-android.json",
+      "schemas/components/breadcrumbs.json",
+      "schemas/components/button-group.json",
+      "schemas/components/button.json",
+      "schemas/components/checkbox-group.json",
+      "schemas/components/checkbox.json",
+      "schemas/components/close-button.json",
+      "schemas/components/coach-indicator.json",
+      "schemas/components/code.json",
+      "schemas/components/color-area.json",
+      "schemas/components/color-loupe.json",
+      "schemas/components/color-slider.json",
+      "schemas/components/color-wheel.json",
+      "schemas/components/combo-box.json",
+      "schemas/components/contextual-help.json",
+      "schemas/components/detail.json",
+      "schemas/components/divider.json",
+      "schemas/components/field-label.json",
+      "schemas/components/heading.json",
+      "schemas/components/help-text.json",
+      "schemas/components/in-field-progress-button.json",
+      "schemas/components/in-field-progress-circle.json",
+      "schemas/components/in-line-alert.json",
+      "schemas/components/link.json",
+      "schemas/components/menu.json",
+      "schemas/components/meter.json",
+      "schemas/components/opacity-checkerboard.json",
+      "schemas/components/picker.json",
+      "schemas/components/popover.json",
+      "schemas/components/progress-bar.json",
+      "schemas/components/progress-circle.json",
+      "schemas/components/radio-button.json",
+      "schemas/components/radio-group.json",
+      "schemas/components/rating.json",
+      "schemas/components/scroll-zoom-bar.json",
+      "schemas/components/search-field.json",
+      "schemas/components/select-box.json",
+      "schemas/components/side-navigation.json",
+      "schemas/components/slider.json",
+      "schemas/components/status-light.json",
+      "schemas/components/swatch-group.json",
+      "schemas/components/swatch.json",
+      "schemas/components/switch.json",
+      "schemas/components/tab-bar-ios.json",
+      "schemas/components/tabs.json",
+      "schemas/components/tag.json",
+      "schemas/components/text-area.json",
+      "schemas/components/text-field.json",
+      "schemas/components/thumbnail.json",
+      "schemas/components/toast.json",
+      "schemas/components/tooltip.json",
+      "schemas/components/tray.json",
+      "schemas/components/tree-view.json",
+      "schemas/types/hex-color.json",
+      "schemas/types/typography-classification.json",
+      "schemas/types/typography-script.json",
+      "schemas/types/workflow-icon.json",
+    ];
+  }
+
+  /**
+   * Gets list of local component files
+   * @param {string} dirName - Directory containing schema files
+   * @returns {Promise<Array<string>>} List of component file paths
+   */
+  async getLocalComponentFiles(dirName) {
+    try {
+      const allFiles = await this.localFS.getFiles(dirName, "*.json");
+      return allFiles.map((filePath) => {
+        // Convert absolute paths to relative schema paths
+        const relativePath = filePath.replace(dirName + "/", "");
+        return relativePath.startsWith("schemas/")
+          ? relativePath
+          : `schemas/${relativePath}`;
+      });
+    } catch (error) {
+      console.warn(
+        `Warning: Could not discover local component files: ${error.message}`,
+      );
+      return [];
+    }
   }
 
   /**
@@ -114,7 +320,24 @@ export class ComponentLoader extends FileLoader {
    * @returns {Promise<object>} Merged schema data
    */
   async loadLocalComponents(dirName, fileNames) {
-    return await this.loadLocalFiles(dirName, fileNames, "*.json");
+    // Load all files using shared core
+    const allFiles = await this.localFS.getFiles(dirName, "*.json");
+    const result = {};
+
+    for (const filePath of allFiles) {
+      try {
+        const fileData = await this.localFS.loadData([filePath]);
+        // Extract component name from file path
+        const componentName = filePath.split("/").pop().replace(".json", "");
+        result[componentName] = fileData;
+      } catch (error) {
+        console.warn(
+          `Warning: Could not load local component file ${filePath}: ${error.message}`,
+        );
+      }
+    }
+
+    return result;
   }
 }
 
