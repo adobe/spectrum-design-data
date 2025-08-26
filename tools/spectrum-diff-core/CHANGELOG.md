@@ -1,5 +1,13 @@
 # @adobe/spectrum-diff-core
 
+## 1.1.1
+
+### Patch Changes
+
+- [`2a137c3`](https://github.com/adobe/spectrum-tokens/commit/2a137c376bd1b7a4cc445db6bb70d8466389d5e6) Thanks [@GarthDB](https://github.com/GarthDB)! - fix(ci): resolve GitHub Actions output formatting for empty diff reports
+
+  This patch ensures component diff workflows handle empty output correctly without causing EOF delimiter errors in GitHub Actions.
+
 ## 1.1.0
 
 ### Minor Changes

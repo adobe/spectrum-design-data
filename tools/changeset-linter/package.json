@@ -1,6 +1,6 @@
 {
   "name": "@adobe/changeset-linter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Linting tool to enforce concise changeset files",
   "type": "module",
   "main": "src/index.js",

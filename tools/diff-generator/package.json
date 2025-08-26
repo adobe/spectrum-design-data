@@ -1,6 +1,6 @@
 {
   "name": "@adobe/token-diff-generator",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Generate comprehensive diffs between design token sets with support for multiple output formats including CLI, JSON, and Markdown. Detects added, deleted, renamed, deprecated, and updated tokens across different schema versions.",
   "keywords": [
     "design-tokens",

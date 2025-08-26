@@ -1,5 +1,12 @@
 # @adobe/spectrum-component-diff-generator
 
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`2a137c3`](https://github.com/adobe/spectrum-tokens/commit/2a137c376bd1b7a4cc445db6bb70d8466389d5e6)]:
+  - @adobe/spectrum-diff-core@1.1.1
+
 ## 1.3.0
 
 ### Minor Changes

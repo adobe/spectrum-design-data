@@ -1,5 +1,12 @@
 # @adobe/token-changeset-generator
 
+## 0.2.4
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/token-diff-generator@2.5.1
+
 ## 0.2.3
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @adobe/spectrum-design-data-mcp
 
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [[`163fe7c`](https://github.com/adobe/spectrum-tokens/commit/163fe7c13bb00c639d202195a398126b6c25b58f)]:
+  - @adobe/spectrum-component-api-schemas@2.0.0
+
 ## 1.0.0
 
 ### Major Changes

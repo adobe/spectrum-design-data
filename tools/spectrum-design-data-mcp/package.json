@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-design-data-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Model Context Protocol server for Spectrum design data including tokens, schemas, and component anatomy",
   "keywords": [
     "mcp",

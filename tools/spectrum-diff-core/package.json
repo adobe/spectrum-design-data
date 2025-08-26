@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-diff-core",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Shared core library for Spectrum diff generation tools (tokens, component schemas, etc.)",
   "keywords": [
     "design-tokens",
