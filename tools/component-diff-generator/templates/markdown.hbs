@@ -1,55 +1,58 @@
-# Component Schema Diff Report
+## Component Schemas Changed ({{summary.totalComponents.added}} added, {{summary.totalComponents.deleted}} deleted, {{summary.totalComponents.updated}} updated)
+
+{{#if options.oldSchemaBranch}}**Original Branch:** `{{options.oldSchemaBranch}}`{{/if}}
+{{#if options.oldSchemaVersion}}**Original Version:** `{{options.oldSchemaVersion}}`{{/if}}
+{{#if options.newSchemaBranch}}**New Branch:** `{{options.newSchemaBranch}}`{{/if}}
+{{#if options.newSchemaVersion}}**New Version:** `{{options.newSchemaVersion}}`{{/if}}
 
 {{#if summary.hasBreakingChanges}}
-## 🚨 Breaking Changes Detected
+### 🚨 Breaking Changes Detected
 
 This PR introduces **{{summary.breakingChanges}} breaking change(s)** to component schemas. Please review carefully and ensure proper versioning.
 {{else}}
-## ✅ No Breaking Changes
+### ✅ No Breaking Changes
 
 This PR contains only non-breaking changes to component schemas.
 {{/if}}
 
-## Summary
-
-| Change Type | Count |
-|-------------|-------|
-| Added Components | {{summary.totalComponents.added}} |
-| Deleted Components | {{summary.totalComponents.deleted}} |
-| Updated Components | {{summary.totalComponents.updated}} |
-| **Breaking Changes** | **{{summary.breakingChanges}}** |
-| Non-Breaking Changes | {{summary.nonBreakingChanges}} |
-
-{{#if summary.totalComponents.added}}
-## 📦 Added Components
+{{#if (hasKeys changes.added)}}
+<details open><summary><strong>📦 Added Components ({{summary.totalComponents.added}})</strong></summary>
 
 {{#each changes.added}}
 - `{{@key}}` - New component schema
 {{/each}}
+
+</details>
 {{/if}}
 
-{{#if summary.totalComponents.deleted}}
-## ❌ Deleted Components ⚠️ **BREAKING**
+{{#if (hasKeys changes.deleted)}}
+<details open><summary><strong>❌ Deleted Components ({{summary.totalComponents.deleted}}) ⚠️ BREAKING</strong></summary>
 
 {{#each changes.deleted}}
 - `{{@key}}` - Component schema removed
 {{/each}}
+
+</details>
 {{/if}}
 
-{{#if changes.updated.breaking}}
-## 💥 Breaking Updates ⚠️ **BREAKING**
+{{#if (hasKeys changes.updated.breaking)}}
+<details open><summary><strong>💥 Breaking Updates ⚠️ BREAKING</strong></summary>
 
 {{#each changes.updated.breaking}}
 - `{{@key}}` - Schema changes that break backward compatibility
 {{/each}}
+
+</details>
 {{/if}}
 
-{{#if changes.updated.nonBreaking}}
-## 🔄 Non-Breaking Updates
+{{#if (hasKeys changes.updated.nonBreaking)}}
+<details><summary><strong>🔄 Non-Breaking Updates</strong></summary>
 
 {{#each changes.updated.nonBreaking}}
 - `{{@key}}` - Compatible schema changes
 {{/each}}
+
+</details>
 {{/if}}
 
 ---

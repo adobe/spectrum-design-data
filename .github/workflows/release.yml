@@ -51,7 +51,7 @@ jobs:
           git add docs/release-timeline/public/data/releases.json
           if ! git diff --staged --quiet; then
             git commit -m "chore: update release timeline data" \
-                       -m "Updated release timeline data following release of ${{ steps.changesets.outputs.publishedPackages }}"
+                       -m "Updated following package release"
             git push
           fi
 

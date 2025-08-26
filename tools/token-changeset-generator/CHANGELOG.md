@@ -1,5 +1,12 @@
 # @adobe/token-changeset-generator
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated dependencies [[`e4053fb`](https://github.com/adobe/spectrum-tokens/commit/e4053fb7a92c000c6c6efde1766766e8fa6aa0d2)]:
+  - @adobe/token-diff-generator@2.4.0
+
 ## 0.2.1
 
 ### Patch Changes

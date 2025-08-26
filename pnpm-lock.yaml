@@ -257,6 +257,22 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  tools/changeset-linter:
+    dependencies:
+      chalk:
+        specifier: ^5.3.0
+        version: 5.4.1
+      commander:
+        specifier: ^12.1.0
+        version: 12.1.0
+      glob:
+        specifier: ^11.0.0
+        version: 11.0.3
+    devDependencies:
+      ava:
+        specifier: ^6.4.0
+        version: 6.4.0(rollup@4.44.1)
+
   tools/component-diff-generator:
     dependencies:
       "@adobe/spectrum-diff-core":
@@ -2176,6 +2192,13 @@ packages:
         integrity: sha512-sH5ZSPr+7UStsloltmDh7Ce5fb8XPlHyoPzTpyyMuYCtervL65+ubVZ6Q61cFtFl62UyJlc8/JwERRbAFPUqgw==,
       }
     engines: { node: ">=8.0.0" }
+
+  commander@12.1.0:
+    resolution:
+      {
+        integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==,
+      }
+    engines: { node: ">=18" }
 
   commander@13.1.0:
     resolution:
@@ -6033,6 +6056,8 @@ snapshots:
       chalk: 2.4.2
       table-layout: 1.0.2
       typical: 5.2.0
+
+  commander@12.1.0: {}
 
   commander@13.1.0: {}
 

@@ -168,10 +168,11 @@ test("analyzeDeletedComponents - categorizes all as breaking", (t) => {
 });
 
 test("isComponentChangeBreaking - adding required property", (t) => {
-  const changes = {
+  // Component-specific changes structure (after categorizeComponentChanges fix)
+  const componentChanges = {
     added: {
-      button: {
-        required: ["size"], // This indicates a required property was added
+      required: {
+        1: "size", // This indicates a required property was added (as detected by detailedDiff)
       },
     },
     deleted: {},
@@ -179,49 +180,56 @@ test("isComponentChangeBreaking - adding required property", (t) => {
   };
 
   t.true(
-    isComponentChangeBreaking(changes, buttonSchema, breakingButtonSchema),
+    isComponentChangeBreaking(
+      componentChanges,
+      buttonSchema,
+      breakingButtonSchema,
+    ),
   );
 });
 
 test("isComponentChangeBreaking - removing property", (t) => {
-  const changes = {
+  // Component-specific changes structure
+  const componentChanges = {
     added: {},
     deleted: {
-      button: {
-        properties: {
-          size: { type: "string" },
-        },
+      properties: {
+        size: { type: "string" },
       },
     },
     updated: {},
   };
 
-  t.true(isComponentChangeBreaking(changes, buttonSchema, {}));
+  t.true(isComponentChangeBreaking(componentChanges, buttonSchema, {}));
 });
 
 test("isComponentChangeBreaking - schema changes are breaking", (t) => {
-  const changes = {
+  // Component-specific changes structure
+  const componentChanges = {
     added: {},
     deleted: {},
     updated: {
-      button: {
-        title: "Updated Button Component",
-      },
+      title: "Updated Button Component",
     },
   };
 
-  t.true(isComponentChangeBreaking(changes, buttonSchema, updatedButtonSchema));
+  t.true(
+    isComponentChangeBreaking(
+      componentChanges,
+      buttonSchema,
+      updatedButtonSchema,
+    ),
+  );
 });
 
 test("isComponentChangeBreaking - adding enum value is non-breaking", (t) => {
-  const changes = {
+  // Component-specific changes structure
+  const componentChanges = {
     added: {
-      button: {
-        properties: {
-          variant: {
-            enum: {
-              2: "tertiary", // Added enum value
-            },
+      properties: {
+        variant: {
+          enum: {
+            2: "tertiary", // Added enum value
           },
         },
       },
@@ -231,17 +239,20 @@ test("isComponentChangeBreaking - adding enum value is non-breaking", (t) => {
   };
 
   t.false(
-    isComponentChangeBreaking(changes, buttonSchema, updatedButtonSchema),
+    isComponentChangeBreaking(
+      componentChanges,
+      buttonSchema,
+      updatedButtonSchema,
+    ),
   );
 });
 
 test("isComponentChangeBreaking - adding optional property is non-breaking", (t) => {
-  const changes = {
+  // Component-specific changes structure
+  const componentChanges = {
     added: {
-      button: {
-        properties: {
-          disabled: { type: "boolean" },
-        },
+      properties: {
+        disabled: { type: "boolean" },
       },
     },
     deleted: {},
@@ -249,6 +260,10 @@ test("isComponentChangeBreaking - adding optional property is non-breaking", (t)
   };
 
   t.false(
-    isComponentChangeBreaking(changes, buttonSchema, updatedButtonSchema),
+    isComponentChangeBreaking(
+      componentChanges,
+      buttonSchema,
+      updatedButtonSchema,
+    ),
   );
 });
