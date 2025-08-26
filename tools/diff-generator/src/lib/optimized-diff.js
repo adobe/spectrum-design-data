@@ -96,7 +96,7 @@ function analyzeValueDifference(original, updated) {
 
   // If types are different, it's an update
   if (typeof original !== typeof updated) {
-    return { added: {}, updated: updated, deleted: {} };
+    return { added: {}, updated, deleted: {} };
   }
 
   // Handle arrays (but not strings, which are array-like)
@@ -162,7 +162,7 @@ function analyzeValueDifference(original, updated) {
   }
 
   // For primitive values that are different
-  return { added: {}, updated: updated, deleted: {} };
+  return { added: {}, updated, deleted: {} };
 }
 
 /**

@@ -21,7 +21,7 @@ import storeOutput from "./store-output.js";
 import packageJson from "../../package.json" with { type: "json" };
 
 const red = chalk.hex("F37E7E");
-const version = packageJson.version;
+const { version } = packageJson;
 
 // ===== PHASE 1: PURE UTILITY FUNCTIONS (easily testable) =====
 

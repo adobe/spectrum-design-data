@@ -1,0 +1,99 @@
+name: Generate Diff Report
+description: Generates a diff report for tokens or components with shared logic
+
+inputs:
+  tool:
+    description: "Diff tool to use (token-diff-generator or component-diff-generator)"
+    required: true
+  base-ref:
+    description: "Base branch/ref for comparison"
+    required: true
+  head-ref:
+    description: "Head branch/ref for comparison"
+    required: true
+  repository:
+    description: "Repository name in owner/repo format"
+    required: true
+  format:
+    description: "Output format (cli, markdown, json)"
+    required: false
+    default: "markdown"
+  output-file:
+    description: "Output file path"
+    required: false
+    default: "/tmp/diff-report.md"
+  github-token:
+    description: "GitHub token for API access"
+    required: false
+
+outputs:
+  diff-generated:
+    description: "Whether diff was generated (true/false/error)"
+    value: ${{ steps.generate.outputs.diff_generated }}
+  diff-content:
+    description: "Generated diff content"
+    value: ${{ steps.generate.outputs.diff_content }}
+
+runs:
+  using: composite
+  steps:
+    - name: Setup toolchain
+      uses: moonrepo/setup-toolchain@v0
+      with:
+        auto-install: true
+
+    - name: Install dependencies
+      shell: bash
+      working-directory: ./tools/${{ inputs.tool }}
+      run: pnpm install
+
+    - name: Generate diff report
+      id: generate
+      shell: bash
+      working-directory: ./tools/${{ inputs.tool }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: |
+        # Generate the diff report
+        set +e  # Don't exit on command failure
+
+        if [[ "${{ inputs.tool }}" == "diff-generator" ]]; then
+          # Token diff generator CLI
+          ./src/lib/cli.js report \
+            --otb ${{ inputs.base-ref }} \
+            --ntb ${{ inputs.head-ref }} \
+            --repo ${{ inputs.repository }} \
+            --format ${{ inputs.format }} \
+            --output ${{ inputs.output-file }}
+        elif [[ "${{ inputs.tool }}" == "component-diff-generator" ]]; then
+          # Component diff generator CLI with remote support
+          node src/cli.js report \
+            --osb ${{ inputs.base-ref }} \
+            --nsb ${{ inputs.head-ref }} \
+            --repo ${{ inputs.repository }} \
+            --format ${{ inputs.format }} \
+            --output ${{ inputs.output-file }} \
+            --github-token $GITHUB_TOKEN
+        else
+          echo "Unknown tool: ${{ inputs.tool }}"
+          exit 1
+        fi
+
+        exit_code=$?
+        set -e  # Re-enable exit on failure
+
+        # Check if the command succeeded and output file exists
+        if [ $exit_code -eq 0 ] && [ -f "${{ inputs.output-file }}" ] && [ -s "${{ inputs.output-file }}" ]; then
+          echo "diff_generated=true" >> $GITHUB_OUTPUT
+          echo "diff_content<<EOF" >> $GITHUB_OUTPUT
+          cat "${{ inputs.output-file }}" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        elif [ $exit_code -eq 0 ]; then
+          # Command succeeded but no changes detected
+          echo "diff_generated=false" >> $GITHUB_OUTPUT
+          echo "diff_content=No changes detected." >> $GITHUB_OUTPUT
+        else
+          # Command failed
+          echo "diff_generated=error" >> $GITHUB_OUTPUT
+          echo "diff_content=Error generating diff report. Exit code: $exit_code" >> $GITHUB_OUTPUT
+        fi

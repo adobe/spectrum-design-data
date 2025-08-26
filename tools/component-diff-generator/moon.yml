@@ -9,19 +9,19 @@
 # governing permissions and limitations under the License.
 
 $schema: "https://moonrepo.dev/schemas/project.json"
-id: "token-diff-generator"
+id: "component-diff-generator"
 layer: tool
 
 tasks:
   # Core functionality
   diff:
-    command: [node, src/lib/index.js]
+    command: [node, src/cli.js, report]
     platform: node
     deps: [test]
 
   # Testing
   test:
-    command: [pnpm, ava]
+    command: [pnpm, ava, test]
     platform: node
     inputs:
       - "src/**/*"
@@ -30,7 +30,7 @@ tasks:
       - "package.json"
 
   test-watch:
-    command: [pnpm, ava, --watch]
+    command: [pnpm, ava, test, --watch]
     platform: node
     local: true
 
@@ -43,9 +43,3 @@ tasks:
   # Quality pipeline
   ci:
     deps: [test]
-
-  # Development utilities
-  version:
-    command: [node, update-version.js]
-    platform: node
-    local: true

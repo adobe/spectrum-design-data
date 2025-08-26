@@ -10,11 +10,13 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-// Re-export diff functions from shared core for backward compatibility
+// Main entry point for the component diff generator
+export { default as componentDiff } from "./lib/component-diff.js";
 export {
-  diff,
-  addedDiff,
-  deletedDiff,
-  updatedDiff,
-  detailedDiff,
-} from "@adobe/spectrum-diff-core";
+  default as componentFileImport,
+  loadLocalComponentData,
+  ComponentLoader,
+  buildComponentURL,
+  cleanComponentPath,
+  processComponentFileNames,
+} from "./lib/component-file-import.js";

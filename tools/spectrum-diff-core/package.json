@@ -1,9 +1,10 @@
 {
-  "name": "@adobe/token-diff-generator",
-  "version": "2.3.1",
-  "description": "Generate comprehensive diffs between design token sets with support for multiple output formats including CLI, JSON, and Markdown. Detects added, deleted, renamed, deprecated, and updated tokens across different schema versions.",
+  "name": "@adobe/spectrum-diff-core",
+  "version": "1.1.0",
+  "description": "Shared core library for Spectrum diff generation tools (tokens, component schemas, etc.)",
   "keywords": [
     "design-tokens",
+    "component-schemas",
     "diff",
     "comparison",
     "spectrum",
@@ -12,22 +13,20 @@
     "json",
     "markdown",
     "handlebars",
-    "tokens",
     "design-system",
     "schema",
     "versioning"
   ],
   "type": "module",
-  "main": "./src/lib/index.js",
+  "main": "./src/index.js",
   "exports": {
     ".": {
-      "import": "./src/lib/index.js",
-      "types": "./src/lib/index.d.ts"
+      "import": "./src/index.js",
+      "types": "./src/index.d.ts"
     },
-    "./cli": "./src/lib/cli.js"
-  },
-  "bin": {
-    "tdiff": "./src/lib/cli.js"
+    "./cli": "./src/cli/index.js",
+    "./formatters": "./src/formatters/index.js",
+    "./core": "./src/core/index.js"
   },
   "files": [
     "src/",
@@ -47,23 +46,23 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adobe/spectrum-tokens.git",
-    "directory": "tools/diff-generator"
+    "directory": "tools/spectrum-diff-core"
   },
-  "author": "Shirley Li <shirleyli@adobe.com> https://github.com/shirlsli",
+  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
   "contributors": [
-    "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)"
+    "Shirley Li <shirleyli@adobe.com> https://github.com/shirlsli"
   ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/adobe/spectrum-tokens/issues"
   },
-  "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/tools/diff-generator#readme",
+  "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/tools/spectrum-diff-core#readme",
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/adobe-spectrum"
   },
   "directories": {
-    "lib": "src/lib",
+    "lib": "src",
     "test": "test"
   },
   "publishConfig": {
@@ -72,7 +71,6 @@
   },
   "dependencies": {
     "@adobe/optimized-diff": "workspace:*",
-    "@adobe/spectrum-diff-core": "workspace:*",
     "chalk": "^5.4.1",
     "commander": "^13.1.0",
     "glob": "^11.0.3",
@@ -81,7 +79,7 @@
   },
   "devDependencies": {
     "c8": "^10.1.3",
-    "nixt": "^0.5.1",
+    "esmock": "^2.7.1",
     "prettier": "^3.3.3"
   }
 }

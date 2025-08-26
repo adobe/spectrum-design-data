@@ -10,11 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-// Re-export diff functions from shared core for backward compatibility
-export {
-  diff,
-  addedDiff,
-  deletedDiff,
-  updatedDiff,
-  detailedDiff,
-} from "@adobe/spectrum-diff-core";
+// Core utilities
+export * from "./helpers.js";
+export * from "./diff.js";
+export * from "./file-import.js";
