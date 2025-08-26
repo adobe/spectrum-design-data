@@ -42,15 +42,13 @@ runs:
       with:
         auto-install: true
 
-    - name: Install dependencies
+    - name: Setup moon
       shell: bash
-      working-directory: ./tools/${{ inputs.tool }}
-      run: pnpm install
+      run: moon setup
 
     - name: Generate diff report
       id: generate
       shell: bash
-      working-directory: ./tools/${{ inputs.tool }}
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
       run: |
@@ -59,6 +57,7 @@ runs:
 
         if [[ "${{ inputs.tool }}" == "diff-generator" ]]; then
           # Token diff generator CLI
+          cd ./tools/${{ inputs.tool }}
           ./src/lib/cli.js report \
             --otb ${{ inputs.base-ref }} \
             --ntb ${{ inputs.head-ref }} \
@@ -67,6 +66,7 @@ runs:
             --output ${{ inputs.output-file }}
         elif [[ "${{ inputs.tool }}" == "component-diff-generator" ]]; then
           # Component diff generator CLI with remote support
+          cd ./tools/${{ inputs.tool }}
           node src/cli.js report \
             --osb ${{ inputs.base-ref }} \
             --nsb ${{ inputs.head-ref }} \
