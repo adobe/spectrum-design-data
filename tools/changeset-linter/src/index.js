@@ -27,6 +27,8 @@ const LINT_RULES = {
   diffSectionPatterns: [
     /## Tokens Changed/i,
     /## Components Changed/i,
+    /## Component Schema Diff Report/i,
+    /Generated using `@adobe\/spectrum-component-diff-generator`/i,
     /\*\*Original Branch:\*\*/i,
     /\*\*New Branch:\*\*/i,
     /\*\*Added \(\d+\)\*\*/i,
