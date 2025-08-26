@@ -13,13 +13,13 @@ governing permissions and limitations under the License.
 
 import { Command } from "commander";
 import chalk from "chalk";
-import { HandlebarsFormatter } from "@adobe/spectrum-diff-core";
+
 import componentDiff from "./lib/component-diff.js";
 import { ComponentLoader } from "./lib/component-file-import.js";
 import packageJson from "../package.json" with { type: "json" };
 
 const red = chalk.hex("F37E7E");
-const version = packageJson.version;
+const { version } = packageJson;
 
 // Create CLI program
 const program = new Command();

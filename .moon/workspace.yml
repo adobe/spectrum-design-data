@@ -10,6 +10,8 @@ projects:
   transform-tokens-json: "tools/transform-tokens-json"
   root: "."
   diff: "tools/diff-generator"
+  componentDiff: "tools/component-diff-generator"
+  spectrumDiffCore: "tools/spectrum-diff-core"
   optimized-diff: "tools/optimized-diff"
   viewer: "docs/s2-tokens-viewer"
   release-analyzer: "tools/release-analyzer"

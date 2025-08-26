@@ -1,37 +1,48 @@
-project:
-  name: "spectrum-diff-core"
-  description: "Shared core library for Spectrum diff generation tools"
-  language: "javascript"
-  type: "library"
+# Copyright 2024 Adobe. All rights reserved.
+# This file is licensed to you under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License. You may obtain a copy
+# of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+# OF ANY KIND, either express or implied. See the License for the specific language
+# governing permissions and limitations under the License.
+
+$schema: "https://moonrepo.dev/schemas/project.json"
+id: "spectrum-diff-core"
+type: library
 
 tasks:
-  install:
-    command: [pnpm, install]
-    platform: node
-
-  build:
-    command: [echo, "No build step required for this library"]
-    platform: node
-
-  lint:
-    command: [pnpm, lint]
-    platform: node
-    deps: [install]
-
-  lint-fix:
-    command: [pnpm, lint:fix]
-    platform: node
-    deps: [install]
-
+  # Testing
   test:
     command: [pnpm, test]
     platform: node
-    deps: [install]
     inputs:
       - "src/**/*"
       - "test/**/*"
       - "ava.config.js"
       - "package.json"
 
+  test-watch:
+    command: [pnpm, ava, --watch]
+    platform: node
+    local: true
+
+  # Code quality
+  lint:
+    command: [pnpm, eslint, .]
+    platform: node
+
+  lint-fix:
+    command: [pnpm, eslint, ., --fix]
+    platform: node
+    local: true
+
+  format:
+    command: [pnpm, prettier, --write, "./src", "./test"]
+    platform: node
+    local: true
+
+  # Quality pipeline
   ci:
     deps: [lint, test]
