@@ -1,5 +1,15 @@
 # @adobe/spectrum-component-api-schemas
 
+## 2.0.0
+
+### Major Changes
+
+- [`afa3e42`](https://github.com/adobe/spectrum-tokens/commit/afa3e42b695571b44cec5ca79974f74361d22851) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(component-schemas): add S2 Batch 2 components with breaking changes
+  - Add 6 new component schemas (coach-indicator, in-field-progress-button, etc.)
+  - Update avatar, badge, and checkbox components with breaking changes
+  - Expand size options and add new interaction states
+  - Major version bump required due to breaking schema changes
+
 ## 1.0.2
 
 ### Patch Changes
