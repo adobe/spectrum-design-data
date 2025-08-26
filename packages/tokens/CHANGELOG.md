@@ -1,5 +1,13 @@
 # @adobe/spectrum-tokens
 
+## 13.14.0
+
+### Minor Changes
+
+- [`336f672`](https://github.com/adobe/spectrum-tokens/commit/336f67216dfd875f0feb65c10059d9f3fe6dcaf7) Thanks [@larz0](https://github.com/larz0)! - SDS-14319 generic avatar updates (Pre-multidimensional-theming)
+
+  Source: [spectrum-tokens-studio-data#281](https://github.com/adobe/spectrum-tokens-studio-data/pull/281)
+
 ## 13.13.0
 
 ### Minor Changes
@@ -27,7 +35,6 @@
   - `select-box-edge-to-checkbox` - `value`: `8px` - `uuid`: `70a20970-ebd9-48a7-8324-44d352f79978`
   </details>
   <details open><summary><strong>Deleted Properties (1)</strong></summary>
-
   - `select-box-edge-to-checkbox` - `desktop.schema`: -> `dimension.json` - `desktop.value`: -> `12px` - `desktop.uuid`: -> `70a20970-ebd9-48a7-8324-44d352f79978` - `mobile.schema`: -> `dimension.json` - `mobile.value`: -> `15px` - `mobile.uuid`: -> `f028974a-20d1-4e03-af77-921b1dfc2469`
   </details>
   <details open><summary><strong>Updated Properties (1)</strong></summary>
