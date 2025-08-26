@@ -7,7 +7,8 @@
     "pre-commit": "lint-staged",
     "prepare": "husky || true",
     "release": "changeset publish",
-    "version": "changeset version && moon run :version"
+    "version": "changeset version && moon run :version",
+    "changeset-lint": "node tools/changeset-linter/src/cli.js"
   },
   "repository": {
     "type": "git",
