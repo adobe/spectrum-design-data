@@ -206,8 +206,17 @@ program
         diffResult = filterBreakingChanges(diffResult);
       }
 
+      // Add processed branch/version info to options for template
+      const outputOptions = {
+        ...options,
+        oldSchemaBranch: oldBranch,
+        newSchemaBranch: newBranch,
+        oldSchemaVersion: oldVersion,
+        newSchemaVersion: newVersion,
+      };
+
       // Format and output result
-      await outputResult(diffResult, options);
+      await outputResult(diffResult, outputOptions);
     } catch (error) {
       console.error(red(`Error: ${error.message}`));
       process.exit(1);
@@ -309,10 +318,10 @@ async function outputResult(diffResult, options) {
   } else if (format === "markdown") {
     // Prepare options for template
     const templateOptions = {
-      oldSchemaBranch: oldBranch,
-      newSchemaBranch: newBranch,
-      oldSchemaVersion: oldVersion,
-      newSchemaVersion: newVersion,
+      oldSchemaBranch: options.oldSchemaBranch,
+      newSchemaBranch: options.newSchemaBranch,
+      oldSchemaVersion: options.oldSchemaVersion,
+      newSchemaVersion: options.newSchemaVersion,
     };
     const output = generateMarkdownReport(diffResult, templateOptions);
     console.log(output);
