@@ -46,6 +46,11 @@ runs:
       shell: bash
       run: moon setup
 
+    - name: Install tool dependencies
+      shell: bash
+      working-directory: ./tools/${{ inputs.tool }}
+      run: pnpm install --frozen-lockfile
+
     - name: Generate diff report
       id: generate
       shell: bash
