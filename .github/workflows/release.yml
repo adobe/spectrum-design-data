@@ -49,10 +49,11 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add docs/release-timeline/public/data/releases.json
-          git diff --staged --quiet || git commit -m "chore: update release timeline data
-
-          Updated release timeline data following release of ${{ steps.changesets.outputs.publishedPackages }}"
-          git push
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: update release timeline data" \
+                       -m "Updated release timeline data following release of ${{ steps.changesets.outputs.publishedPackages }}"
+            git push
+          fi
 
       # - name: Send a Slack notification if a publish happens
       # if: steps.changesets.outputs.published == 'true'
