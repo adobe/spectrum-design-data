@@ -13,6 +13,10 @@ governing permissions and limitations under the License.
 
 import { Command } from "commander";
 import chalk from "chalk";
+import Handlebars from "handlebars";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
 import componentDiff from "./lib/component-diff.js";
 import { ComponentLoader } from "./lib/component-file-import.js";
@@ -20,6 +24,9 @@ import packageJson from "../package.json" with { type: "json" };
 
 const red = chalk.hex("F37E7E");
 const { version } = packageJson;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Create CLI program
 const program = new Command();
@@ -300,7 +307,14 @@ async function outputResult(diffResult, options) {
       console.log(chalk.blue(`Report saved to: ${options.output}`));
     }
   } else if (format === "markdown") {
-    const output = generateMarkdownReport(diffResult);
+    // Prepare options for template
+    const templateOptions = {
+      oldSchemaBranch: oldBranch,
+      newSchemaBranch: newBranch,
+      oldSchemaVersion: oldVersion,
+      newSchemaVersion: newVersion,
+    };
+    const output = generateMarkdownReport(diffResult, templateOptions);
     console.log(output);
     if (options.output) {
       const fs = await import("fs/promises");
@@ -314,106 +328,51 @@ async function outputResult(diffResult, options) {
 }
 
 /**
- * Generate markdown report from diff result
+ * Generate markdown report from diff result using Handlebars template
  */
-function generateMarkdownReport(diffResult) {
-  let markdown = "";
+function generateMarkdownReport(diffResult, options = {}) {
+  try {
+    // Check if there are any changes at all
+    const hasAnyChanges =
+      (diffResult.changes.added &&
+        Object.keys(diffResult.changes.added).length > 0) ||
+      (diffResult.changes.deleted &&
+        Object.keys(diffResult.changes.deleted).length > 0) ||
+      (diffResult.changes.updated?.breaking &&
+        Object.keys(diffResult.changes.updated.breaking).length > 0) ||
+      (diffResult.changes.updated?.nonBreaking &&
+        Object.keys(diffResult.changes.updated.nonBreaking).length > 0);
 
-  // Check if there are any changes at all
-  const hasAnyChanges =
-    (diffResult.changes.added &&
-      Object.keys(diffResult.changes.added).length > 0) ||
-    (diffResult.changes.deleted &&
-      Object.keys(diffResult.changes.deleted).length > 0) ||
-    (diffResult.changes.updated?.breaking &&
-      Object.keys(diffResult.changes.updated.breaking).length > 0) ||
-    (diffResult.changes.updated?.nonBreaking &&
-      Object.keys(diffResult.changes.updated.nonBreaking).length > 0);
+    if (!hasAnyChanges) {
+      return "No component schema changes detected.";
+    }
 
-  if (!hasAnyChanges) {
-    return "No component schema changes detected.";
+    // Register necessary Handlebars helpers
+    if (!Handlebars.helpers.hasKeys) {
+      Handlebars.registerHelper("hasKeys", (obj) => {
+        return obj && Object.keys(obj).length > 0;
+      });
+    }
+
+    // Load and compile the Handlebars template
+    const templatePath = path.join(__dirname, "../templates/markdown.hbs");
+    const templateSource = fs.readFileSync(templatePath, "utf8");
+    const template = Handlebars.compile(templateSource);
+
+    // Prepare template data
+    const templateData = {
+      summary: diffResult.summary,
+      changes: diffResult.changes,
+      options: options,
+    };
+
+    // Render the template
+    return template(templateData);
+  } catch (error) {
+    console.error(red(`Error generating markdown report: ${error.message}`));
+    // Fallback to simple message
+    return `Error generating component diff report: ${error.message}`;
   }
-
-  // Header with breaking change status
-  if (diffResult.summary.hasBreakingChanges) {
-    markdown += "# 🚨 Component Schema Changes - Breaking Changes Detected\n\n";
-    markdown += `**⚠️ This PR introduces ${diffResult.summary.breakingChanges} breaking change(s) to component schemas.**\n\n`;
-  } else {
-    markdown += "# 🧩 Component Schema Changes - No Breaking Changes\n\n";
-  }
-
-  // Summary table
-  markdown += "## Summary\n\n";
-  markdown += "| Change Type | Count |\n";
-  markdown += "|-------------|-------|\n";
-  markdown += `| Added Components | ${Object.keys(diffResult.changes.added || {}).length} |\n`;
-  markdown += `| Deleted Components | ${Object.keys(diffResult.changes.deleted || {}).length} |\n`;
-  markdown += `| Updated Components | ${Object.keys(diffResult.changes.updated?.breaking || {}).length + Object.keys(diffResult.changes.updated?.nonBreaking || {}).length} |\n`;
-  markdown += `| **Breaking Changes** | **${diffResult.summary.breakingChanges || 0}** |\n`;
-  markdown += `| Non-Breaking Changes | ${diffResult.summary.nonBreakingChanges || 0} |\n\n`;
-
-  // Detailed changes
-  if (
-    diffResult.changes.added &&
-    Object.keys(diffResult.changes.added).length > 0
-  ) {
-    markdown += "## 📦 Added Components\n\n";
-    Object.keys(diffResult.changes.added).forEach((component) => {
-      markdown += `- \`${component}\` - New component schema\n`;
-    });
-    markdown += "\n";
-  }
-
-  if (
-    diffResult.changes.deleted &&
-    Object.keys(diffResult.changes.deleted).length > 0
-  ) {
-    markdown += "## ❌ Deleted Components ⚠️ **BREAKING**\n\n";
-    Object.keys(diffResult.changes.deleted).forEach((component) => {
-      markdown += `- \`${component}\` - Component schema removed\n`;
-    });
-    markdown += "\n";
-  }
-
-  if (
-    diffResult.changes.updated?.breaking &&
-    Object.keys(diffResult.changes.updated.breaking).length > 0
-  ) {
-    markdown += "## 💥 Breaking Updates ⚠️ **BREAKING**\n\n";
-    Object.keys(diffResult.changes.updated.breaking).forEach((component) => {
-      markdown += `- \`${component}\` - Schema changes that break backward compatibility\n`;
-    });
-    markdown += "\n";
-  }
-
-  if (
-    diffResult.changes.updated?.nonBreaking &&
-    Object.keys(diffResult.changes.updated.nonBreaking).length > 0
-  ) {
-    markdown += "## 🔄 Non-Breaking Updates\n\n";
-    Object.keys(diffResult.changes.updated.nonBreaking).forEach((component) => {
-      markdown += `- \`${component}\` - Compatible schema changes\n`;
-    });
-    markdown += "\n";
-  }
-
-  // Footer
-  markdown += "---\n\n";
-  if (diffResult.summary.hasBreakingChanges) {
-    markdown += "### ⚠️ Breaking Change Guidelines\n\n";
-    markdown += "When introducing breaking changes:\n";
-    markdown +=
-      "1. **Version bump**: Ensure this triggers a major version bump\n";
-    markdown += "2. **Migration guide**: Document how consumers should adapt\n";
-    markdown +=
-      "3. **Deprecation**: Consider deprecating before removing when possible\n";
-    markdown += "4. **Communication**: Notify affected teams of the changes\n";
-  } else {
-    markdown +=
-      "*This diff was generated automatically and contains only backward-compatible changes.*\n";
-  }
-
-  return markdown;
 }
 
 // Parse arguments and run

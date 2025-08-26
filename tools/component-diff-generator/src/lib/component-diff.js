@@ -79,7 +79,12 @@ export function categorizeComponentChanges(original, updated, changes) {
         changes.deleted[componentName] ||
         changes.updated[componentName])
     ) {
-      result.updated[componentName] = changes;
+      // Pass only the component-specific changes
+      result.updated[componentName] = {
+        added: changes.added[componentName] || {},
+        deleted: changes.deleted[componentName] || {},
+        updated: changes.updated[componentName] || {},
+      };
     }
   }
 
@@ -186,12 +191,12 @@ export function isComponentChangeBreaking(
   // Check for added required properties (breaking)
   if (changes.added) {
     const addedChanges = changes.added;
-    // Navigate through the component changes to find required field changes
-    for (const componentName of Object.keys(addedChanges)) {
-      const componentChanges = addedChanges[componentName];
-      if (componentChanges.required) {
-        return true;
-      }
+    // Check if required fields were added directly to this component
+    if (
+      addedChanges.required &&
+      Object.keys(addedChanges.required).length > 0
+    ) {
+      return true;
     }
   }
 
@@ -199,13 +204,11 @@ export function isComponentChangeBreaking(
   // In a real implementation, you'd want to check if enum values were removed
 
   // Check for title or schema changes (potentially breaking)
-  if (changes.updated) {
+  if (changes.updated && Object.keys(changes.updated).length > 0) {
     const updatedChanges = changes.updated;
-    for (const componentName of Object.keys(updatedChanges)) {
-      const componentChanges = updatedChanges[componentName];
-      if (componentChanges.title || componentChanges.$schema) {
-        return true;
-      }
+    // Check if title or $schema fields were updated directly in this component
+    if (updatedChanges.title || updatedChanges.$schema) {
+      return true;
     }
   }
 
