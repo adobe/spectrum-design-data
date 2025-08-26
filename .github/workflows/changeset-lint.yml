@@ -23,4 +23,4 @@ jobs:
       - run: moon setup
 
       - name: Lint changeset files
-        run: pnpm changeset-lint check --fail-on-warnings
+        run: moon run root:changeset-lint -- check --fail-on-warnings

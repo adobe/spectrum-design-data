@@ -34,3 +34,8 @@ tasks:
       - changeset publish
     platform: node
     local: true
+  changeset-lint:
+    command:
+      - node
+      - tools/changeset-linter/src/cli.js
+    platform: node
