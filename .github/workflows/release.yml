@@ -54,7 +54,7 @@ jobs:
           if ! git diff --staged --quiet; then
             git commit -m "chore: update release timeline data" \
                        -m "Updated following package release"
-            git push
+            git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
           fi
 
       # - name: Send a Slack notification if a publish happens
