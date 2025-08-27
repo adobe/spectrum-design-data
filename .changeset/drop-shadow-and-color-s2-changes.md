@@ -1,5 +1,5 @@
 ---
-"@adobe/spectrum-tokens": patch
+"@adobe/spectrum-tokens": minor
 ---
 
 feat: updates from spectrum-tokens sync
