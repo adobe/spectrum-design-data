@@ -37,26 +37,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Update release timeline data
-        if: steps.changesets.outputs.published == 'true'
-        run: moon run release-timeline:build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
-      - name: Commit updated release timeline data
-        if: steps.changesets.outputs.published == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add docs/release-timeline/public/data/releases.json
-          if ! git diff --staged --quiet; then
-            git commit -m "chore: update release timeline data" \
-                       -m "Updated following package release"
-            git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
-          fi
-
       # - name: Send a Slack notification if a publish happens
       # if: steps.changesets.outputs.published == 'true'
       # You can do something when a publish happens.

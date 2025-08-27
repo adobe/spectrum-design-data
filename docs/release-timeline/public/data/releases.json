@@ -1,16 +1,16 @@
 {
   "stats": {
-    "total": 220,
+    "total": 222,
     "byType": {
       "legacy": 84,
-      "stable": 51,
+      "stable": 53,
       "beta": 61,
       "snapshot": 24
     },
-    "snapshotFeatures": 11,
+    "snapshotFeatures": 10,
     "dateRange": {
       "earliest": "2022-03-11",
-      "latest": "2025-08-07"
+      "latest": "2025-08-27"
     }
   },
   "timeline": [
@@ -1190,18 +1190,6 @@
       }
     },
     {
-      "date": "2023-05-30",
-      "type": "snapshot",
-      "version": "0.0.0",
-      "tag": "@adobe/spectrum-tokens@0.0.0-in-field-button-20230530211053",
-      "feature": "in-field-button",
-      "major": 0,
-      "minor": 0,
-      "patch": 0,
-      "prerelease": null,
-      "changeScope": null
-    },
-    {
       "date": "2023-05-31",
       "type": "snapshot",
       "version": "0.0.0",
@@ -1444,23 +1432,6 @@
       "changeScope": null
     },
     {
-      "date": "2023-08-18",
-      "type": "stable",
-      "version": "12.17.0",
-      "tag": "@adobe/spectrum-tokens@12.17.0",
-      "feature": null,
-      "major": 12,
-      "minor": 17,
-      "patch": 0,
-      "changeScope": {
-        "total": 0,
-        "added": 0,
-        "updated": 0,
-        "deleted": 0,
-        "score": 1
-      }
-    },
-    {
       "date": "2023-08-23",
       "type": "stable",
       "version": "12.18.0",
@@ -1633,7 +1604,13 @@
       "major": 12,
       "minor": 20,
       "patch": 0,
-      "changeScope": null
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
     },
     {
       "date": "2023-09-26",
@@ -1680,7 +1657,13 @@
       "major": 12,
       "minor": 21,
       "patch": 0,
-      "changeScope": null
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
     },
     {
       "date": "2023-10-31",
@@ -1691,7 +1674,13 @@
       "major": 12,
       "minor": 22,
       "patch": 0,
-      "changeScope": null
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
     },
     {
       "date": "2023-11-01",
@@ -1720,7 +1709,13 @@
       "major": 12,
       "minor": 22,
       "patch": 1,
-      "changeScope": null
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
     },
     {
       "date": "2023-11-16",
@@ -1731,7 +1726,13 @@
       "major": 12,
       "minor": 23,
       "patch": 0,
-      "changeScope": null
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
     },
     {
       "date": "2023-11-16",
@@ -1742,7 +1743,13 @@
       "major": 12,
       "minor": 23,
       "patch": 1,
-      "changeScope": null
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
     },
     {
       "date": "2023-12-04",
@@ -1771,7 +1778,13 @@
       "major": 12,
       "minor": 23,
       "patch": 2,
-      "changeScope": null
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
     },
     {
       "date": "2023-12-11",
@@ -1782,7 +1795,13 @@
       "major": 12,
       "minor": 23,
       "patch": 3,
-      "changeScope": null
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
     },
     {
       "date": "2023-12-13",
@@ -1937,7 +1956,13 @@
       "major": 12,
       "minor": 24,
       "patch": 0,
-      "changeScope": null
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
     },
     {
       "date": "2024-02-06",
@@ -2261,6 +2286,18 @@
         "deleted": 0,
         "score": 5
       }
+    },
+    {
+      "date": "2024-04-22",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20240422210530",
+      "feature": "s2-foundations",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null,
+      "changeScope": null
     },
     {
       "date": "2024-04-22",
@@ -3220,6 +3257,57 @@
         "deleted": 0,
         "score": 2
       }
+    },
+    {
+      "date": "2025-08-26",
+      "type": "stable",
+      "version": "13.14.0",
+      "tag": "@adobe/spectrum-tokens@13.14.0",
+      "feature": null,
+      "major": 13,
+      "minor": 14,
+      "patch": 0,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2025-08-27",
+      "type": "stable",
+      "version": "13.14.1",
+      "tag": "@adobe/spectrum-tokens@13.14.1",
+      "feature": null,
+      "major": 13,
+      "minor": 14,
+      "patch": 1,
+      "changeScope": {
+        "total": 33,
+        "added": 33,
+        "updated": 0,
+        "deleted": 0,
+        "score": 5
+      }
+    },
+    {
+      "date": "2025-08-27",
+      "type": "stable",
+      "version": "13.15.0",
+      "tag": "@adobe/spectrum-tokens@13.15.0",
+      "feature": null,
+      "major": 13,
+      "minor": 15,
+      "patch": 0,
+      "changeScope": {
+        "total": 43,
+        "added": 43,
+        "updated": 0,
+        "deleted": 0,
+        "score": 5
+      }
     }
   ],
   "snapshotFeatures": [
@@ -3231,17 +3319,6 @@
           "tag": "@adobe/spectrum-tokens@0.0.0-tabs-20230503165321",
           "date": "2023-05-03",
           "timestamp": "20230503165321"
-        }
-      ]
-    },
-    {
-      "feature": "in-field-button",
-      "count": 1,
-      "releases": [
-        {
-          "tag": "@adobe/spectrum-tokens@0.0.0-in-field-button-20230530211053",
-          "date": "2023-05-30",
-          "timestamp": "20230530211053"
         }
       ]
     },
@@ -3332,8 +3409,13 @@
     },
     {
       "feature": "s2-foundations",
-      "count": 6,
+      "count": 7,
       "releases": [
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20240422210530",
+          "date": "2024-04-22",
+          "timestamp": "20240422210530"
+        },
         {
           "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20240422210545",
           "date": "2024-04-22",
