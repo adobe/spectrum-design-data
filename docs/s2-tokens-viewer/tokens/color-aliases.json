@@ -2300,24 +2300,24 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json",
     "value": [
       {
-        "x": "0",
-        "y": "2",
-        "blur": "8",
-        "spread": "0",
+        "x": "0px",
+        "y": "2px",
+        "blur": "8px",
+        "spread": "0px",
         "color": "{drop-shadow-ambient-color}"
       },
       {
-        "x": "0",
-        "y": "1",
-        "blur": "4",
-        "spread": "0",
+        "x": "0px",
+        "y": "1px",
+        "blur": "4px",
+        "spread": "0px",
         "color": "{drop-shadow-transition-color}"
       },
       {
-        "x": "0",
-        "y": "0",
-        "blur": "1",
-        "spread": "0",
+        "x": "0px",
+        "y": "0px",
+        "blur": "1px",
+        "spread": "0px",
         "color": "{drop-shadow-emphasized-key-color}"
       }
     ],
@@ -2327,24 +2327,24 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json",
     "value": [
       {
-        "x": "0",
-        "y": "4",
-        "blur": "12",
-        "spread": "0",
+        "x": "0px",
+        "y": "4px",
+        "blur": "12px",
+        "spread": "0px",
         "color": "{drop-shadow-ambient-color}"
       },
       {
-        "x": "0",
-        "y": "2",
-        "blur": "6",
-        "spread": "0",
+        "x": "0px",
+        "y": "2px",
+        "blur": "6px",
+        "spread": "0px",
         "color": "{drop-shadow-transition-color}"
       },
       {
-        "x": "0",
-        "y": "0",
-        "blur": "2",
-        "spread": "0",
+        "x": "0px",
+        "y": "0px",
+        "blur": "2px",
+        "spread": "0px",
         "color": "{drop-shadow-emphasized-key-color}"
       }
     ],
@@ -2354,24 +2354,24 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json",
     "value": [
       {
-        "x": "0",
-        "y": "4",
-        "blur": "12",
-        "spread": "0",
+        "x": "0px",
+        "y": "4px",
+        "blur": "12px",
+        "spread": "0px",
         "color": "{drop-shadow-ambient-color}"
       },
       {
-        "x": "0",
-        "y": "2",
-        "blur": "6",
-        "spread": "0",
+        "x": "0px",
+        "y": "2px",
+        "blur": "6px",
+        "spread": "0px",
         "color": "{drop-shadow-transition-color}"
       },
       {
-        "x": "0",
-        "y": "0",
-        "blur": "2",
-        "spread": "0",
+        "x": "0px",
+        "y": "0px",
+        "blur": "2px",
+        "spread": "0px",
         "color": "{drop-shadow-elevated-key-color}"
       }
     ],
@@ -2381,24 +2381,24 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json",
     "value": [
       {
-        "x": "0",
-        "y": "12",
-        "blur": "16",
-        "spread": "0",
+        "x": "0px",
+        "y": "12px",
+        "blur": "16px",
+        "spread": "0px",
         "color": "{drop-shadow-ambient-color}"
       },
       {
-        "x": "0",
-        "y": "6",
-        "blur": "8",
-        "spread": "0",
+        "x": "0px",
+        "y": "6px",
+        "blur": "8px",
+        "spread": "0px",
         "color": "{drop-shadow-transition-color}"
       },
       {
-        "x": "0",
-        "y": "0",
-        "blur": "6",
-        "spread": "0",
+        "x": "0px",
+        "y": "0px",
+        "blur": "6px",
+        "spread": "0px",
         "color": "{drop-shadow-dragged-key-color}"
       }
     ],

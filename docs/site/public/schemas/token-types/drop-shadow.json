@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json",
+  "title": "Drop Shadow",
+  "description": "A composite token that defines a drop shadow.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json"
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/drop-shadow.json"
+    },
+    "value": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "string",
+            "pattern": "^(?:-?((?:\\d+\\.?\\d*)|(?:\\.?\\d+))(px|rem|em|%))|0|\\d+dp$"
+          },
+          "y": {
+            "type": "string",
+            "pattern": "^(?:-?((?:\\d+\\.?\\d*)|(?:\\.?\\d+))(px|rem|em|%))|0|\\d+dp$"
+          },
+          "blur": {
+            "type": "string",
+            "pattern": "^(?:-?((?:\\d+\\.?\\d*)|(?:\\.?\\d+))(px|rem|em|%))|0|\\d+dp$"
+          },
+          "spread": {
+            "type": "string",
+            "pattern": "^(?:-?((?:\\d+\\.?\\d*)|(?:\\.?\\d+))(px|rem|em|%))|0|\\d+dp$"
+          },
+          "color": {
+            "type": "string"
+          }
+        },
+        "required": ["x", "y", "blur", "spread", "color"]
+      },
+      "minItems": 1
+    },
+    "component": {},
+    "private": {},
+    "deprecated": {},
+    "deprecated_comment": {},
+    "uuid": {}
+  }
+}
