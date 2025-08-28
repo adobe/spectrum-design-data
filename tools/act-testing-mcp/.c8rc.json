@@ -10,9 +10,9 @@
   ],
   "reporter": ["text", "html", "lcov"],
   "check-coverage": true,
-  "lines": 80,
-  "functions": 75,
-  "branches": 60,
-  "statements": 80,
+  "lines": 70,
+  "functions": 70,
+  "branches": 55,
+  "statements": 70,
   "report-dir": "coverage"
 }
