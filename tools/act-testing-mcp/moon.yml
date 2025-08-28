@@ -27,6 +27,7 @@ tasks:
     command: "ava test/**/*.test.js --watch"
     description: "Run tests in watch mode"
     platform: "node"
+    local: true
     deps: ["install"]
 
   install:
