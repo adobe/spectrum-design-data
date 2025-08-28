@@ -1,0 +1,16 @@
+# Act configuration for spectrum-tokens
+--container-architecture linux/amd64
+--platform ubuntu-latest=catthehacker/ubuntu:act-latest
+--platform ubuntu-20.04=catthehacker/ubuntu:act-20.04
+--platform ubuntu-22.04=catthehacker/ubuntu:act-22.04
+
+# Use medium-sized images (good balance of size and compatibility)
+-P catthehacker/ubuntu:act-latest
+
+# Enable more verbose output
+--verbose
+
+# Set some useful environment variables
+--env ACTIONS_STEP_DEBUG=false
+--env RUNNER_DEBUG=false
+

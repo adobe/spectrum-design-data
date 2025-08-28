@@ -12,6 +12,7 @@ This repo uses:
 - [Prettier](https://prettier.io/) for code formatting/linting
 - [commitlint](https://commitlint.js.org/) and [Convetional Commits](https://www.conventionalcommits.org/en/v1.0.0/) to standardize commit messages
 - [husky](https://typicode.github.io/husky/) to automate formatting of committed files and linting of commit messages
+- [act](https://github.com/nektos/act) for local GitHub Actions testing (see [`tools/act-testing-mcp`](tools/act-testing-mcp/))
 
 Packages in this monorepo:
 

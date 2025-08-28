@@ -1,0 +1,38 @@
+{
+  "name": "@spectrum-tokens/act-testing-mcp",
+  "version": "1.0.0",
+  "description": "MCP for testing GitHub Actions workflows locally using act - optimized for spectrum-tokens",
+  "type": "module",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "node index.js",
+    "test": "ava test/**/*.test.js",
+    "test:coverage": "c8 ava test/**/*.test.js",
+    "test:watch": "ava test/**/*.test.js --watch",
+    "dev": "node --inspect index.js",
+    "compatibility:baseline": "node scripts/check-act-compatibility.js create-baseline",
+    "compatibility:check": "node scripts/check-act-compatibility.js check",
+    "compatibility:report": "node scripts/check-act-compatibility.js report"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "ava": "^6.4.0",
+    "c8": "^10.1.2"
+  },
+  "keywords": [
+    "mcp",
+    "github-actions",
+    "act",
+    "testing",
+    "spectrum-tokens"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adobe/spectrum-tokens",
+    "directory": "tools/act-testing-mcp"
+  }
+}

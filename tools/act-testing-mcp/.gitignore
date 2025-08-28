@@ -1,0 +1,14 @@
+# Coverage reports
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+
+# Test artifacts
+.ava-cache/
+.act-baseline.json
+
+# IDE
+.vscode/
+.idea/

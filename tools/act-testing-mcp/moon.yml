@@ -1,0 +1,53 @@
+type: "tool"
+
+tasks:
+  dev:
+    command: "node --inspect index.js"
+    description: "Run MCP server in debug mode"
+    platform: "node"
+
+  start:
+    command: "node index.js"
+    description: "Start MCP server"
+    platform: "node"
+
+  test:
+    command: "ava test/**/*.test.js"
+    description: "Run tests"
+    platform: "node"
+    deps: ["install"]
+
+  test-coverage:
+    command: "c8 ava test/**/*.test.js"
+    description: "Run tests with coverage"
+    platform: "node"
+    deps: ["install"]
+
+  test-watch:
+    command: "ava test/**/*.test.js --watch"
+    description: "Run tests in watch mode"
+    platform: "node"
+    deps: ["install"]
+
+  install:
+    command: "pnpm install"
+    description: "Install dependencies"
+    platform: "node"
+
+  compatibility-baseline:
+    command: "node scripts/check-act-compatibility.js create-baseline"
+    description: "Create act compatibility baseline"
+    platform: "node"
+    deps: ["install"]
+
+  compatibility-check:
+    command: "node scripts/check-act-compatibility.js check"
+    description: "Check act compatibility against baseline"
+    platform: "node"
+    deps: ["install"]
+
+  compatibility-report:
+    command: "node scripts/check-act-compatibility.js report"
+    description: "Generate detailed compatibility report"
+    platform: "node"
+    deps: ["install"]

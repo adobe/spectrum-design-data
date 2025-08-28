@@ -17,6 +17,7 @@ projects:
   release-analyzer: "tools/release-analyzer"
   release-timeline: "docs/release-timeline"
   spectrum-design-data-mcp: "tools/spectrum-design-data-mcp"
+  act-testing-mcp: "tools/act-testing-mcp"
 vcs:
   manager: "git"
   defaultBranch: "main"

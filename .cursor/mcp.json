@@ -1,30 +1,23 @@
 {
   "mcpServers": {
-    "changesets Docs": {
-      "url": "https://gitmcp.io/changesets/changesets"
+    "act-docs": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github",
+        "--owner",
+        "nektos",
+        "--repo",
+        "act"
+      ]
     },
-    "ava Docs": {
-      "url": "https://gitmcp.io/avajs/ava"
-    },
-    "moon": {
-      "command": "moon",
-      "args": ["mcp"],
-      "cwd": "${workspaceFolder}"
-    },
-    "handlebars.js Docs": {
-      "url": "https://gitmcp.io/handlebars-lang/handlebars.js"
-    },
-    "pnpm Docs": {
-      "url": "https://gitmcp.io/pnpm/pnpm"
-    },
-    "commitlint Docs": {
-      "url": "https://gitmcp.io/conventional-changelog/commitlint"
-    },
-    "GitHub cli Docs": {
-      "url": "https://gitmcp.io/cli/cli"
-    },
-    "nixt Docs": {
-      "url": "https://gitmcp.io/vesln/nixt"
+    "spectrum-act-testing": {
+      "command": "node",
+      "args": ["./tools/act-testing-mcp/index.js"],
+      "env": {
+        "PROJECT_ROOT": "/Users/garthdb/Spectrum/spectrum-tokens",
+        "ACT_BINARY": "act"
+      }
     }
   }
 }
