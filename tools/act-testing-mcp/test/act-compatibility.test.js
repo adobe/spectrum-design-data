@@ -2,11 +2,6 @@ import test from "ava";
 import { execSync } from "child_process";
 import { runActCommand, getWorkflows } from "../utils/act-helpers.js";
 
-// Set shorter timeouts for act tests since they can be slow
-test.configure({
-  timeout: "10s",
-});
-
 // Test to ensure act command structure hasn't changed
 test("act version command still works as expected", (t) => {
   const result = runActCommand(["--version"]);
