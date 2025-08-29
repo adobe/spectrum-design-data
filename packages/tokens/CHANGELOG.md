@@ -1,5 +1,19 @@
 # @adobe/spectrum-tokens
 
+## 13.15.1
+
+### Patch Changes
+
+- [#593](https://github.com/adobe/spectrum-tokens/pull/593) [`1e860c4`](https://github.com/adobe/spectrum-tokens/commit/1e860c4436c58ceca6f4500ea7e24d6d8cdd20c8) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - SDS-15337: Standard panel gripper color update
+
+  Source: [spectrum-tokens-studio-data#283](https://github.com/adobe/spectrum-tokens-studio-data/pull/283)
+
+  ## Token Changes
+
+  ### Updated (1)
+  - `standard-panel-gripper-color`
+    - `value`: `{gray-200}` -> `{gray-500}`
+
 ## 13.15.0
 
 ### Minor Changes
