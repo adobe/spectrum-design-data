@@ -45,7 +45,7 @@ tasks:
     command: "node scripts/check-act-compatibility.js check"
     description: "Check act compatibility against baseline"
     platform: "node"
-    deps: ["install"]
+    deps: ["install", "compatibility-baseline"]
 
   compatibility-report:
     command: "node scripts/check-act-compatibility.js report"
