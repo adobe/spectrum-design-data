@@ -1,10 +1,23 @@
 import { execSync } from "child_process";
 import { existsSync, writeFileSync } from "fs";
-import { join } from "path";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 
-// Get project root from environment or default
-export const PROJECT_ROOT =
-  process.env.PROJECT_ROOT || "/Users/garthdb/Spectrum/spectrum-tokens";
+// Get project root dynamically
+function findProjectRoot() {
+  if (process.env.PROJECT_ROOT) {
+    return process.env.PROJECT_ROOT;
+  }
+
+  // Get the directory of this file
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+
+  // Navigate up from tools/act-testing-mcp/utils/ to project root
+  return join(__dirname, "../../../");
+}
+
+export const PROJECT_ROOT = findProjectRoot();
 export const ACT_BINARY = process.env.ACT_BINARY || "act";
 
 /**
