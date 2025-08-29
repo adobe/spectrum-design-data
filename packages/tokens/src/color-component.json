@@ -457,7 +457,7 @@
   "standard-panel-gripper-color": {
     "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{gray-200}",
+    "value": "{gray-500}",
     "uuid": "71840c7b-acdd-45b9-a228-5091591f5405"
   },
   "bar-panel-gripper-color": {
