@@ -46,7 +46,8 @@
   "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/tools/spectrum-design-data-mcp#readme",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "provenance": true
   },
   "dependencies": {
     "@adobe/spectrum-tokens": "workspace:*",

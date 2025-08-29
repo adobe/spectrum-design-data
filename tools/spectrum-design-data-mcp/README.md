@@ -10,10 +10,30 @@ This MCP server enables AI assistants to query and interact with Spectrum design
 - **Component Schemas**: API definitions and validation schemas for Spectrum components
 - **Future**: Component anatomy, design patterns, and guidelines
 
+## Prerequisites
+
+- **Node.js 20+**
+
 ## Installation
 
 ```bash
 npm install -g @adobe/spectrum-design-data-mcp
+```
+
+### Verifying Package Integrity
+
+This package is published with npm provenance for enhanced supply-chain security. You can verify the package's attestations:
+
+```bash
+npm audit signatures
+```
+
+Or clone and run locally:
+
+```bash
+git clone https://github.com/adobe/spectrum-tokens.git
+cd spectrum-tokens/tools/spectrum-design-data-mcp
+pnpm install
 ```
 
 ## Usage
@@ -49,11 +69,57 @@ The server runs locally and communicates via stdio with MCP-compatible AI client
 - **`validate-component-props`**: Validate component properties against schemas
 - **`get-type-schemas`**: Get type definitions used in schemas
 
-## Configuration with AI Clients
+## Configuration
 
-### Claude Desktop
+### MCP Setup
 
-Add to your Claude Desktop configuration:
+Add to your MCP configuration (e.g., `.cursor/mcp.json` for Cursor IDE):
+
+#### Option 1: Using npx (Recommended)
+
+```json
+{
+  "mcpServers": {
+    "spectrum-design-data": {
+      "command": "npx",
+      "args": ["@adobe/spectrum-design-data-mcp"]
+    }
+  }
+}
+```
+
+#### Option 2: Using global installation
+
+```json
+{
+  "mcpServers": {
+    "spectrum-design-data": {
+      "command": "@adobe/spectrum-design-data-mcp"
+    }
+  }
+}
+```
+
+#### Option 3: Local development
+
+```json
+{
+  "mcpServers": {
+    "spectrum-design-data": {
+      "command": "node",
+      "args": [
+        "./path/to/spectrum-tokens/tools/spectrum-design-data-mcp/src/index.js"
+      ]
+    }
+  }
+}
+```
+
+> **Note**: Using `npx` (Option 1) is recommended as it avoids PATH issues and ensures you always use the latest version. This approach mirrors other MCP servers like Browser MCP and resolves common NPX availability problems.
+
+### Claude Desktop (Legacy Configuration)
+
+For older Claude Desktop configurations:
 
 ```json
 {
@@ -150,6 +216,38 @@ AI: I'll validate those button properties against the Spectrum schema.
 The configuration is valid! All required properties are present and the types match the expected schema.
 ```
 
+## Troubleshooting
+
+### Installation Issues
+
+```bash
+# Check Node.js version
+node --version  # Should be 20+
+
+# Clear npm cache if needed
+npm cache clean --force
+
+# Verify package installation
+npm list -g @adobe/spectrum-design-data-mcp
+```
+
+### MCP Connection Issues
+
+1. Verify the MCP configuration file path
+2. Check that Node.js path is correct
+3. Ensure the package is installed globally or use npx
+4. Restart your AI client after configuration changes
+
+### Package Verification
+
+```bash
+# Verify package integrity
+npm audit signatures
+
+# Check for security vulnerabilities
+npm audit
+```
+
 ## Development
 
 ### Building from Source
@@ -181,6 +279,21 @@ src/
     └── schemas.js       # Schema data access
 ```
 
+## Security
+
+### Supply Chain Security
+
+- **🔐 NPM Provenance**: Published with npm provenance attestations for verifiable builds
+- **🛡️ Security Audits**: Regular dependency security audits
+- **📦 Verified Packages**: All dependencies are audited and verified
+
+### Best Practices
+
+- Always verify package integrity using `npm audit signatures`
+- Keep the package updated to the latest version
+- Use npx for the most secure and up-to-date execution
+- Report security issues through the [GitHub security advisory](https://github.com/adobe/spectrum-tokens/security/advisories)
+
 ## License
 
 Apache-2.0 © Adobe
@@ -188,3 +301,9 @@ Apache-2.0 © Adobe
 ## Contributing
 
 This project is part of the Spectrum Design System. Please see the main [contribution guidelines](../../CONTRIBUTING.md) for details on how to contribute.
+
+## Support
+
+- Create an [issue](https://github.com/adobe/spectrum-tokens/issues) for bug reports or feature requests
+- Check the [documentation](https://github.com/adobe/spectrum-tokens/tree/main/tools/spectrum-design-data-mcp) for detailed guides
+- Review [existing issues](https://github.com/adobe/spectrum-tokens/issues?q=label%3Amcp) for solutions
