@@ -1,6 +1,6 @@
 import { writeFileSync, readFileSync, existsSync } from "fs";
 import { join } from "path";
-import { runActCommand, PROJECT_ROOT } from "./act-helpers.js";
+import { runActCommand, PROJECT_ROOT, isActAvailable } from "./act-helpers.js";
 
 const BASELINE_FILE = join(
   PROJECT_ROOT,
@@ -19,7 +19,14 @@ export function createActBaseline() {
     listOutput: null,
     dryRunBehavior: null,
     errorPatterns: [],
+    actAvailable: isActAvailable(),
   };
+
+  // If act is not available, return minimal baseline
+  if (!baseline.actAvailable) {
+    console.log("⚠️  Act not available - creating minimal baseline");
+    return baseline;
+  }
 
   // Capture version
   const versionResult = runActCommand(["--version"]);
@@ -93,6 +100,16 @@ export function compareWithBaseline() {
     return {
       hasBaseline: false,
       message: "No baseline found. Run createBaseline() first.",
+    };
+  }
+
+  // Check if act is currently available
+  if (!isActAvailable()) {
+    return {
+      hasBaseline: true,
+      actAvailable: false,
+      message: "Act not available - skipping compatibility check",
+      differences: [],
     };
   }
 

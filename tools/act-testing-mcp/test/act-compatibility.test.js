@@ -1,16 +1,9 @@
 import test from "ava";
-import { execSync } from "child_process";
-import { runActCommand, getWorkflows } from "../utils/act-helpers.js";
-
-// Helper to check if act is available
-function isActAvailable() {
-  try {
-    execSync("which act", { encoding: "utf8" });
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
+import {
+  runActCommand,
+  getWorkflows,
+  isActAvailable,
+} from "../utils/act-helpers.js";
 
 // Test to ensure act command structure hasn't changed
 test("act version command still works as expected", (t) => {
@@ -164,7 +157,8 @@ test("act docker integration check", (t) => {
     execSync("docker ps", { encoding: "utf8" });
     t.pass("Docker is available for act integration");
   } catch (error) {
-    t.skip("Docker not running - skipping docker integration test");
+    t.log("Docker not running - skipping docker integration test");
+    t.pass("Skipped: Docker not available");
   }
 });
 

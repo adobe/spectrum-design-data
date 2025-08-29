@@ -127,6 +127,19 @@ export function createEventFile(eventData) {
 }
 
 /**
+ * Check if act is available in the system
+ * @returns {boolean} True if act is available
+ */
+export function isActAvailable() {
+  try {
+    execSync("which act", { encoding: "utf8" });
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+/**
  * Check if act and docker are available
  * @returns {object} Status of system requirements
  */
