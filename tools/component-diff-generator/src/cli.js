@@ -20,9 +20,12 @@ import { fileURLToPath } from "url";
 
 import componentDiff from "./lib/component-diff.js";
 import { ComponentLoader } from "./lib/component-file-import.js";
-import packageJson from "../package.json" with { type: "json" };
+import { readFileSync } from "fs";
 
 const red = chalk.hex("F37E7E");
+const packageJson = JSON.parse(
+  readFileSync(new URL("../package.json", import.meta.url), "utf8"),
+);
 const { version } = packageJson;
 
 const __filename = fileURLToPath(import.meta.url);

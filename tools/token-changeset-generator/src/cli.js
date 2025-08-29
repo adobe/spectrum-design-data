@@ -14,7 +14,11 @@ governing permissions and limitations under the License.
 
 import { Command } from "commander";
 import { generateTokenChangeset } from "./index.js";
-import packageJson from "../package.json" with { type: "json" };
+import { readFileSync } from "fs";
+
+const packageJson = JSON.parse(
+  readFileSync(new URL("../package.json", import.meta.url), "utf8"),
+);
 
 const program = new Command();
 

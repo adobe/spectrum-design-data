@@ -18,9 +18,12 @@ import { Command } from "commander";
 import chalk from "chalk";
 import { HandlebarsFormatter } from "./formatterHandlebars.js";
 import storeOutput from "./store-output.js";
-import packageJson from "../../package.json" with { type: "json" };
+import { readFileSync } from "fs";
 
 const red = chalk.hex("F37E7E");
+const packageJson = JSON.parse(
+  readFileSync(new URL("../../package.json", import.meta.url), "utf8"),
+);
 const { version } = packageJson;
 
 // ===== PHASE 1: PURE UTILITY FUNCTIONS (easily testable) =====
