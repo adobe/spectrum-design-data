@@ -11,4 +11,5 @@ Enhanced documentation with security and configuration improvements
 - Add dedicated security section with best practices
 - Add support section with links to issues and documentation
 
-These changes align the documentation with modern MCP server standards and improve user experience with better configuration options and security features.
+These changes align the documentation with modern MCP server standards
+and improve user experience with better configuration options and security features.
