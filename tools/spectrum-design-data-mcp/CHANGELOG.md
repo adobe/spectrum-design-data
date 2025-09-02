@@ -1,5 +1,20 @@
 # @adobe/spectrum-design-data-mcp
 
+## 1.0.6
+
+### Patch Changes
+
+- [#595](https://github.com/adobe/spectrum-tokens/pull/595) [`53bc11e`](https://github.com/adobe/spectrum-tokens/commit/53bc11e1bfcc3a839cfc5dfbd63f59cc5e87a1c3) Thanks [@GarthDB](https://github.com/GarthDB)! - Enhanced documentation with security and configuration improvements
+  - Add multiple MCP configuration options including recommended npx usage
+  - Add npm provenance support for enhanced supply-chain security
+  - Improve installation section with package integrity verification
+  - Add comprehensive troubleshooting section for common issues
+  - Add dedicated security section with best practices
+  - Add support section with links to issues and documentation
+
+  These changes align the documentation with modern MCP server standards
+  and improve user experience with better configuration options and security features.
+
 ## 1.0.5
 
 ### Patch Changes
