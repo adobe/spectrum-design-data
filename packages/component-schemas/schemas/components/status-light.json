@@ -45,7 +45,7 @@
       "type": "string",
       "enum": ["s", "m", "l", "xl"],
       "default": "m"
-    },
-    "required": ["label"]
-  }
+    }
+  },
+  "required": ["label"]
 }

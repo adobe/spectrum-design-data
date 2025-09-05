@@ -46,6 +46,5 @@
       "default": false,
       "description": "Set to true to allow multiple selections."
     }
-    }
   }
-
+}
