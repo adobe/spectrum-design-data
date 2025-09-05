@@ -32,7 +32,12 @@
         "turquoise",
         "cinnamon",
         "brown",
-        "silver"
+        "silver",
+        "gray",
+        "red",
+        "orange",
+        "green",
+        "cyan"
       ],
       "default": "informative"
     },
@@ -41,9 +46,6 @@
       "enum": ["s", "m", "l", "xl"],
       "default": "m"
     },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    }
+    "required": ["label"]
   }
 }
