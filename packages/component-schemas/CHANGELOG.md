@@ -1,5 +1,76 @@
 # @adobe/spectrum-component-api-schemas
 
+## 3.0.0
+
+### Major Changes
+
+- [#610](https://github.com/adobe/spectrum-tokens/pull/610) [`13d9202`](https://github.com/adobe/spectrum-tokens/commit/13d920273c02c78d3748522de6a7c7ee39b39814) Thanks [@GarthDB](https://github.com/GarthDB)! - Component schema improvements for Batch 1 components
+
+  Quality control pass on the Design API table for v0, ensuring schema consistency and completeness across S2 components.
+
+  ## Component Schemas Changed (0 added, 0 deleted, 11 updated)
+
+  **Original Branch:** `main`
+  **New Branch:** `component-schema-batch1-fixes`
+
+  ### 🚨 Breaking Changes Detected (5)
+
+  This release introduces **5 breaking change(s)** to component schemas. Please review carefully and ensure proper versioning.
+
+  <details open><summary><strong>💥 Breaking Updates</strong></summary>
+
+  **popover**
+  - Added: `hideTip` (boolean, default: false) - replaces removed `showTip`
+
+  **rating**
+  - Added: `value.minimum` (0), `value.maximum` (5), `value.multipleOf` (0.5)
+  - Updated: `value.description` - "From 0 to 5, can be a decimal to represent half stars"
+
+  **select-box**
+  - Added: `hideIllustration` (boolean, default: false) - replaces removed `showIllustration`
+  - Added: `isDisabled` (boolean, default: false)
+  - Added: `multiple` (boolean, default: false) - "Set to true to allow multiple selections"
+  - Updated: `orientation.default` changed to "vertical"
+
+  **status-light**
+  - Added: Colors to `variant.enum`: "gray", "red", "orange", "green", "cyan"
+  - Added: `required` - ["label"] - label is now required
+  - Removed: `isDisabled` property
+
+  **tooltip**
+  - Removed: "positive" from `variant.enum`
+  - Updated: `hasIcon.description` - "If the neutral variant, there is never an icon"
+
+  </details>
+
+  ### ✅ Non-Breaking Updates (6)
+
+  <details><summary><strong>🔄 Compatible Changes</strong></summary>
+
+  **help-text**
+  - Added: "negative" to `variant.enum`
+  - Added: `isDisabled.description` - "Help text cannot be both disabled and negative variant"
+
+  **meter**
+  - Added: `hideLabel` (boolean, default: false)
+
+  **progress-bar**
+  - Added: `staticColor` (string, enum: ["white"]) - "Static color can only be white, otherwise it is default"
+  - Added: `labelPosition` (string, enum: ["top", "side"], default: "top")
+  - Added: `hideLabel` (boolean, default: false)
+
+  **search-field**
+  - Added: `hideLabel` (boolean, default: false)
+  - Added: `icon` ($ref: workflow-icon.json) - "Icon must be present if the label is not defined"
+
+  **text-area**
+  - Added: `hideLabel` (boolean, default: false)
+
+  **text-field**
+  - Added: `hideLabel` (boolean, default: false)
+
+  </details>
+
 ## 2.0.0
 
 ### Major Changes

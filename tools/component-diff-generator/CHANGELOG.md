@@ -1,5 +1,13 @@
 # @adobe/spectrum-component-diff-generator
 
+## 1.3.2
+
+### Patch Changes
+
+- [`50a6e4b`](https://github.com/adobe/spectrum-tokens/commit/50a6e4b265a1cd9da47563b4cac4456c6781ffcc) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix null data handling in markdown report generation
+
+  Improve error handling in generateMarkdownReport function to properly validate diffResult input and prevent "Cannot read properties of null" errors during CI diff report generation. This fixes failures in the changeset release process when generating component schema diff reports.
+
 ## 1.3.1
 
 ### Patch Changes
