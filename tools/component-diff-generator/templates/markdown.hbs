@@ -39,7 +39,26 @@ This PR contains only non-breaking changes to component schemas.
 <details open><summary><strong>💥 Breaking Updates ⚠️ BREAKING</strong></summary>
 
 {{#each changes.updated.breaking}}
-- `{{@key}}` - Schema changes that break backward compatibility
+**{{@key}}**
+{{#if this.changes.added.properties}}
+{{#each this.changes.added.properties}}
+- Added: `{{@key}}`{{#if this.type}} ({{this.type}}{{#if this.default}}, default: {{this.default}}{{/if}}){{/if}}{{#if this.description}} - "{{this.description}}"{{/if}}
+{{/each}}
+{{/if}}
+{{#if this.changes.deleted.properties}}
+{{#each this.changes.deleted.properties}}
+- Removed: `{{@key}}` property
+{{/each}}
+{{/if}}
+{{#if this.changes.updated.properties}}
+{{#each this.changes.updated.properties}}
+- Updated: `{{@key}}`{{#if this.default}} - default changed to "{{this.default}}"{{/if}}{{#if this.description}} - "{{this.description}}"{{/if}}
+{{/each}}
+{{/if}}
+{{#if this.changes.added.required}}
+- Added: `required` - [{{#each this.changes.added.required}}"{{this}}"{{#unless @last}}, {{/unless}}{{/each}}]
+{{/if}}
+
 {{/each}}
 
 </details>
@@ -49,7 +68,23 @@ This PR contains only non-breaking changes to component schemas.
 <details><summary><strong>🔄 Non-Breaking Updates</strong></summary>
 
 {{#each changes.updated.nonBreaking}}
-- `{{@key}}` - Compatible schema changes
+**{{@key}}**
+{{#if this.changes.added.properties}}
+{{#each this.changes.added.properties}}
+- Added: `{{@key}}`{{#if this.type}} ({{this.type}}{{#if this.default}}, default: {{this.default}}{{/if}}){{/if}}{{#if this.description}} - "{{this.description}}"{{/if}}
+{{/each}}
+{{/if}}
+{{#if this.changes.deleted.properties}}
+{{#each this.changes.deleted.properties}}
+- Removed: `{{@key}}` property
+{{/each}}
+{{/if}}
+{{#if this.changes.updated.properties}}
+{{#each this.changes.updated.properties}}
+- Updated: `{{@key}}`{{#if this.default}} - default changed to "{{this.default}}"{{/if}}{{#if this.description}} - "{{this.description}}"{{/if}}
+{{/each}}
+{{/if}}
+
 {{/each}}
 
 </details>
