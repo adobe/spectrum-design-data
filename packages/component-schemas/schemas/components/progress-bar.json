@@ -14,8 +14,22 @@
       "enum": ["default", "over background"],
       "default": "default"
     },
+    "staticColor": {
+      "type": "string",
+      "enum": ["white"],
+      "description": "Static color can only be white, otherwise it is default."
+    },
     "label": {
       "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "enum": ["top", "side"],
+      "default": "top"
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
     },
     "value": {
       "type": "number",
