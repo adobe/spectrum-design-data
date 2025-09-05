@@ -15,7 +15,7 @@
     "orientation": {
       "type": "string",
       "enum": ["horizontal", "vertical"],
-      "default": "horizontal"
+      "default": "vertical"
     },
     "body": {
       "type": "string"
@@ -24,7 +24,7 @@
       "type": "boolean",
       "default": false
     },
-    "showIllustration": {
+    "hideIllustration": {
       "type": "boolean",
       "default": false
     },
@@ -32,10 +32,20 @@
       "type": "boolean",
       "default": false
     },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
     "state": {
       "type": "string",
       "enum": ["default", "down", "hover", "keyboard focus"],
       "default": "default"
+    },
+    "multiple": {
+      "type": "boolean",
+      "default": false,
+      "description": "Set to true to allow multiple selections."
+    }
     }
   }
-}
+
