@@ -14,7 +14,7 @@
     },
     "variant": {
       "type": "string",
-      "enum": ["neutral"],
+      "enum": ["neutral", "negative"],
       "default": "neutral"
     },
     "hideIcon": {
@@ -29,7 +29,8 @@
     },
     "isDisabled": {
       "type": "boolean",
-      "default": false
+      "default": false,
+      "description": "Help text cannot be both disabled and negative variant."
     }
   }
 }
