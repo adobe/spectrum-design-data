@@ -12,6 +12,14 @@
     "label": {
       "type": "string"
     },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/types/workflow-icon.json",
+      "description": "Icon must be present if the label is not defined."
+    },
     "value": {
       "type": "string"
     },
