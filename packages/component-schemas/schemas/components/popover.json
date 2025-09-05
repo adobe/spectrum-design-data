@@ -15,9 +15,9 @@
     "height": {
       "type": "number"
     },
-    "showTip": {
+    "hideTip": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "placement": {
       "type": "string",
