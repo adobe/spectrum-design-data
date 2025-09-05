@@ -344,6 +344,15 @@ async function outputResult(diffResult, options) {
  */
 function generateMarkdownReport(diffResult, options = {}) {
   try {
+    // Validate diffResult input
+    if (!diffResult || typeof diffResult !== "object") {
+      return "Error generating component diff report: Invalid data provided";
+    }
+
+    if (!diffResult.summary || !diffResult.changes) {
+      return "Error generating component diff report: Missing required data structure";
+    }
+
     // Check if there are any changes at all
     const hasAnyChanges =
       (diffResult.changes.added &&
