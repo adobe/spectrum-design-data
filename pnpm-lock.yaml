@@ -341,6 +341,15 @@ importers:
         specifier: ^3.3.3
         version: 3.6.1
 
+  tools/lexicon-optimizer:
+    dependencies:
+      "@adobe/spectrum-tokens":
+        specifier: workspace:*
+        version: link:../../packages/tokens
+      commander:
+        specifier: ^11.1.0
+        version: 11.1.0
+
   tools/optimized-diff:
     devDependencies:
       ava:
@@ -2192,6 +2201,13 @@ packages:
         integrity: sha512-sH5ZSPr+7UStsloltmDh7Ce5fb8XPlHyoPzTpyyMuYCtervL65+ubVZ6Q61cFtFl62UyJlc8/JwERRbAFPUqgw==,
       }
     engines: { node: ">=8.0.0" }
+
+  commander@11.1.0:
+    resolution:
+      {
+        integrity: sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==,
+      }
+    engines: { node: ">=16" }
 
   commander@12.1.0:
     resolution:
@@ -6056,6 +6072,8 @@ snapshots:
       chalk: 2.4.2
       table-layout: 1.0.2
       typical: 5.2.0
+
+  commander@11.1.0: {}
 
   commander@12.1.0: {}
 
