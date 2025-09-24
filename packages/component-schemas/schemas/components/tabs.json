@@ -14,12 +14,39 @@
       "enum": ["horizontal", "vertical"],
       "default": "vertical"
     },
-    "size": {
-      "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
-    },
-    "density": {
+    "items": {
+      "type": "array",
+      "description": "An array of tab items.",
+      "items": {
+        "type": "object",
+        "properties": {
+        "label": {
+        "type": "string",
+        "description": "The text displayed for the tab item."
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether the tab is disabled."
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "keyboard focus"],
+        "default": "default",
+        "description": "The interaction state of the tab item."
+      },
+      "contentVariant": {
+        "type": "string",
+        "enum": ["label-only", "icon-only", "icon-label"],
+        "default": "icon-label",
+        "description": "Controls whether the tab displays a label, an icon, or both."
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "density": {
       "type": "string",
       "enum": ["compact", "regular"],
       "default": "regular"
@@ -28,10 +55,6 @@
       "type": "boolean",
       "default": false,
       "description": "This overrides density and is only applicable to horizontal tabs."
-    },
-    "isQuiet": {
-      "type": "boolean",
-      "default": false
     },
     "isEmphasized": {
       "type": "boolean",
@@ -49,6 +72,10 @@
       "type": "string",
       "enum": ["manual", "automatic"],
       "default": "manual"
+            }
+          }
+        }
+      }
     }
   }
-}
+
