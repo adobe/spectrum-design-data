@@ -13,6 +13,60 @@
       "type": "string",
       "enum": ["default", "hover", "down", "keyboard focus", "drag and drop"],
       "default": "default"
+    },
+    "isMultiline": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the breadcrumb items will wrap to multiple lines."
+    },
+    "size": {
+      "type": "string",
+      "enum": ["m", "l"],
+      "default": "m",
+      "description": "Controls the overall size of the breadcrumb component."
+    },
+    "items": {
+      "type": "array",
+      "description": "An array of breadcrumb items.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The text displayed for the breadcrumb item."
+          },
+          "href": {
+            "type": "string",
+            "description": "Optional URL the breadcrumb item links to."
+          },
+          "isCurrent": {
+            "type": "boolean",
+            "description": "Indicates if the breadcrumb item represents the current page.",
+            "default": false
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": ["label"]
+        }
+      },
+      "separator": {
+        "type": "string",
+        "enum": ["chevron", "none"],
+        "default": "chevron",
+        "description": "The separator icon used between breadcrumb items."
+    },
+    "isTruncated": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the breadcrumb item is truncated and displayed as icon only."
+    },
+    "sizeOverride": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "description": "Overrides the size of the breadcrumb items when isMultiline is true."
     }
   }
 }
