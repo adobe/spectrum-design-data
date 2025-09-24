@@ -11,12 +11,22 @@
   "properties": {
     "state": {
       "type": "string",
-      "enum": ["default", "hover", "down", "keyboard focus"],
+      "enum": [
+        "default",
+        "hover",
+        "down",
+        "keyboard focus"
+      ],
       "default": "default"
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
+      "enum": [
+        "s",
+        "m",
+        "l",
+        "xl"
+      ],
       "default": "m"
     },
     "isQuiet": {
@@ -29,7 +39,11 @@
     },
     "density": {
       "type": "string",
-      "enum": ["compact", "regular", "spacious"],
+      "enum": [
+        "compact",
+        "regular",
+        "spacious"
+      ],
       "default": "regular"
     },
     "items": {
@@ -62,7 +76,9 @@
             "description": "If true, the accordion item includes an action button."
           }
         },
-        "required": ["label"]
+        "required": [
+          "label"
+        ]
       }
     },
     "isMultiple": {
