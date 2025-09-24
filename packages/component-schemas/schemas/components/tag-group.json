@@ -1,0 +1,31 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/tag-group.json",
+  "title": "Tag group",
+  "description": "A tag group is a collection of tags that represent a set of related items.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/tag-group/"
+  },
+  "type": "object",
+  "properties": {
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l"],
+      "default": "m"
+    },
+    "labelPosition": {
+      "type": "string",
+      "enum": ["top", "side"],
+      "default": "top"
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "actionLabel": {
+        "type": "string",
+        "description": "If undefined, this button does not appear."
+        }
+      }
+    }
