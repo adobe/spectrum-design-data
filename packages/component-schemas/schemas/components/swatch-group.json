@@ -11,12 +11,21 @@
   "properties": {
     "size": {
       "type": "string",
-      "enum": ["xs", "s", "m", "l"],
+      "enum": [
+        "xs",
+        "s",
+        "m",
+        "l"
+      ],
       "default": "m"
     },
     "density": {
       "type": "string",
-      "enum": ["compact", "regular", "spacious"],
+      "enum": [
+        "compact",
+        "regular",
+        "spacious"
+      ],
       "default": "regular"
     },
     "enableSelection": {
@@ -26,7 +35,10 @@
     "selectionMode": {
       "type": "string",
       "description": "Only applicable if selection is enabled.",
-      "enum": ["single", "multiple"],
+      "enum": [
+        "single",
+        "multiple"
+      ],
       "default": "single"
     },
     "allowsEmptySelection": {
@@ -36,9 +48,13 @@
     },
     "cornerRadius": {
       "type": "string",
-      "enum": ["none", "full", "partial"],
+      "enum": [
+        "none",
+        "full",
+        "partial"
+      ],
       "default": "none",
       "description": "Determines the corner radius of each swatch in the group. Partial refers to corner-radius-75."
-        }
-      }
     }
+  }
+}

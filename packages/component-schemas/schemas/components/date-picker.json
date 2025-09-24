@@ -1,157 +1,171 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/date-picker.json",
-  "title": "Date picker",
-  "description": "A date picker lets users enter a single date or a date range. It includes a calendar popover and a field.",
-  "meta": {
-    "category": "inputs",
-    "documentationUrl": "https://react-spectrum.adobe.com/react-spectrum/DatePicker.html#props"
-  },
-  "type": "object",
-  "properties": {
-    "variant": {
-      "type": "string",
-      "enum": ["single", "double", "triple"],
-      "default": "single",
-      "description": "Controls the number of months displayed in the calendar popover."
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+    "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/date-picker.json",
+    "title": "Date picker",
+    "description": "A date picker lets users enter a single date or a date range. It includes a calendar popover and a field.",
+    "meta": {
+        "category": "inputs",
+        "documentationUrl": "https://react-spectrum.adobe.com/react-spectrum/DatePicker.html#props"
     },
-    "selectedDate": {
-      "type": "string",
-      "description": "The currently selected date. Used when selectionMode is single."
-    },
-    "selectedRange": {
-      "type": "object",
-      "description": "The currently selected date range, used when selectionMode is range.",
-      "properties": {
-        "start": {
-          "type": "string",
-          "description": "Range start date."
+    "type": "object",
+    "properties": {
+        "variant": {
+            "type": "string",
+            "enum": [
+                "single",
+                "double",
+                "triple"
+            ],
+            "default": "single",
+            "description": "Controls the number of months displayed in the calendar popover."
         },
-        "end": {
-          "type": "string",
-          "description": "Range end date."
-        }
-      }
-    },
-    "dateField": {
-      "type": "object",
-      "description": "Configuration for the date input field.",
-      "properties": {
-        "label": {
-          "type": "string",
-          "description": "Optional text label displayed with the date field."
+        "selectedDate": {
+            "type": "string",
+            "description": "The currently selected date. Used when selectionMode is single."
         },
-        "labelPosition": {
-          "type": "string",
-          "enum": ["top", "side"],
-          "default": "top"
-        },
-        "hideLabel": {
-          "type": "boolean",
-          "default": false
-        },
-        "isDisabled": {
-          "type": "boolean",
-          "default": false
-        },
-        "isReadOnly": {
-          "type": "boolean",
-          "default": false
-        },
-        "isRequired": {
-          "type": "boolean",
-          "default": false
-        },
-        "isError": {
-          "type": "boolean",
-          "default": false,
-          "description": "If there is an error, this property overrides show valid icon."
-        },
-        "state": {
-          "type": "string",
-          "enum": [
-            "default",
-            "hover",
-            "hover (in-field button)",
-            "focus + hover",
-            "focus + open",
-            "focus + not hover",
-            "keyboard focus"
-          ],
-          "default": "default"
-        }
-      }
-    },
-    "calendarPopover": {
-      "type": "object",
-      "description": "Configuration for the calendar popover.",
-      "properties": {
-        "isDisabled": {
-          "type": "boolean",
-          "default": false
-        },
-        "minValue": {
-          "type": "string",
-          "description": "The minimum allowed date that a user may select."
-        },
-        "maxValue": {
-          "type": "string",
-          "description": "The maximum allowed date that a user may select (ISO format string)."
-        },
-        "currentMonth": {
-          "type": "number",
-          "minimum": 1,
-          "maximum": 12,
-          "description": "The month currently displayed in the calendar (1 = January, 12 = December)."
-        },
-        "currentYear": {
-          "type": "number",
-          "description": "The year currently displayed in the calendar (Gregorian year number)."
-        },
-        "selectionMode": {
-          "type": "string",
-          "enum": ["single", "range"],
-          "default": "single",
-          "description": "Controls whether the calendar allows selecting a single date or a date range."
-        },
-        "showTimeZone": {
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to show a time zone indicator in the popover."
-        },
-        "isError": {
-          "type": "boolean",
-          "default": false,
-          "description": "If the calendar popover is in an error state."
-        },
-        "timeFields": {
-          "type": "object",
-          "description": "Optional start and end time fields displayed within the calendar popover.",
-          "properties": {
-            "showStartTime": {
-              "type": "boolean",
-              "default": false,
-              "description": "If true, displays a start time field."
-            },
-            "showEndTime": {
-              "type": "boolean",
-              "default": false,
-              "description": "If true, displays an end time field."
-            },
-            "granularity": {
-              "type": "string",
-              "enum": ["hour", "minute", "second"],
-              "default": "minute",
-              "description": "The level of time granularity for the time fields."
-            },
-            "is24Hour": {
-              "type": "boolean",
-              "default": false,
-              "description": "If true, displays time in 24-hour format instead of AM/PM."
+        "selectedRange": {
+            "type": "object",
+            "description": "The currently selected date range, used when selectionMode is range.",
+            "properties": {
+                "start": {
+                    "type": "string",
+                    "description": "Range start date."
+                },
+                "end": {
+                    "type": "string",
+                    "description": "Range end date."
+                }
             }
-          }
+        },
+        "dateField": {
+            "type": "object",
+            "description": "Configuration for the date input field.",
+            "properties": {
+                "label": {
+                    "type": "string",
+                    "description": "Optional text label displayed with the date field."
+                },
+                "labelPosition": {
+                    "type": "string",
+                    "enum": [
+                        "top",
+                        "side"
+                    ],
+                    "default": "top"
+                },
+                "hideLabel": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "isDisabled": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "isReadOnly": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "isRequired": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "isError": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If there is an error, this property overrides show valid icon."
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "default",
+                        "hover",
+                        "hover (in-field button)",
+                        "focus + hover",
+                        "focus + open",
+                        "focus + not hover",
+                        "keyboard focus"
+                    ],
+                    "default": "default"
+                }
+            }
+        },
+        "calendarPopover": {
+            "type": "object",
+            "description": "Configuration for the calendar popover.",
+            "properties": {
+                "isDisabled": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "minValue": {
+                    "type": "string",
+                    "description": "The minimum allowed date that a user may select."
+                },
+                "maxValue": {
+                    "type": "string",
+                    "description": "The maximum allowed date that a user may select (ISO format string)."
+                },
+                "currentMonth": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 12,
+                    "description": "The month currently displayed in the calendar (1 = January, 12 = December)."
+                },
+                "currentYear": {
+                    "type": "number",
+                    "description": "The year currently displayed in the calendar (Gregorian year number)."
+                },
+                "selectionMode": {
+                    "type": "string",
+                    "enum": [
+                        "single",
+                        "range"
+                    ],
+                    "default": "single",
+                    "description": "Controls whether the calendar allows selecting a single date or a date range."
+                },
+                "showTimeZone": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to show a time zone indicator in the popover."
+                },
+                "isError": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If the calendar popover is in an error state."
+                },
+                "timeFields": {
+                    "type": "object",
+                    "description": "Optional start and end time fields displayed within the calendar popover.",
+                    "properties": {
+                        "showStartTime": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "If true, displays a start time field."
+                        },
+                        "showEndTime": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "If true, displays an end time field."
+                        },
+                        "granularity": {
+                            "type": "string",
+                            "enum": [
+                                "hour",
+                                "minute",
+                                "second"
+                            ],
+                            "default": "minute",
+                            "description": "The level of time granularity for the time fields."
+                        },
+                        "is24Hour": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "If true, displays time in 24-hour format instead of AM/PM."
+                        }
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }

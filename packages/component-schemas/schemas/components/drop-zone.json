@@ -1,41 +1,45 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/drop-zone.json",
-  "title": "Drop zone",
-  "description": "A drop zone allows users to drag and drop files or other content into a designated area.",
-  "meta": {
-    "category": "inputs",
-    "documentationUrl": "https://react-spectrum.adobe.com/react-spectrum/DropZone.html#props"
-  },
-  "type": "object",
-  "properties": {
-    "accept": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "description": "File types that are accepted by the drop zone."
-      }
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+    "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/drop-zone.json",
+    "title": "Drop zone",
+    "description": "A drop zone allows users to drag and drop files or other content into a designated area.",
+    "meta": {
+        "category": "inputs",
+        "documentationUrl": "https://react-spectrum.adobe.com/react-spectrum/DropZone.html#props"
     },
-    "size": {
-      "type": "string",
-      "enum": ["s", "m", "l"],
-      "default": "m"
-    },
-    "actionLabel": {
-      "type": "string",
-      "description": "If undefined, this button does not appear."
-    },
-    "onDrop": {
-      "type": "string",
-      "description": "Callback function called when files are dropped onto the drop zone."
-    },
-    "onDragOver": {
-      "type": "string",
-      "description": "Callback function called when a file is dragged over the drop zone."
-    },
-    "onDragLeave": {
-      "type": "string",
-      "description": "Callback function called when a file is dragged out of the drop zone."
+    "type": "object",
+    "properties": {
+        "accept": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "description": "File types that are accepted by the drop zone."
+            }
+        },
+        "size": {
+            "type": "string",
+            "enum": [
+                "s",
+                "m",
+                "l"
+            ],
+            "default": "m"
+        },
+        "actionLabel": {
+            "type": "string",
+            "description": "If undefined, this button does not appear."
+        },
+        "onDrop": {
+            "type": "string",
+            "description": "Callback function called when files are dropped onto the drop zone."
+        },
+        "onDragOver": {
+            "type": "string",
+            "description": "Callback function called when a file is dragged over the drop zone."
+        },
+        "onDragLeave": {
+            "type": "string",
+            "description": "Callback function called when a file is dragged out of the drop zone."
+        }
     }
-  }
 }

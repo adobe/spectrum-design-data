@@ -15,17 +15,29 @@
     },
     "size": {
       "type": "string",
-      "enum": ["xs", "s", "m", "l"],
+      "enum": [
+        "xs",
+        "s",
+        "m",
+        "l"
+      ],
       "default": "m"
     },
     "shape": {
       "type": "string",
-      "enum": ["square", "rectangle"],
+      "enum": [
+        "square",
+        "rectangle"
+      ],
       "default": "square"
     },
     "cornerRounding": {
       "type": "string",
-      "enum": ["none", "partial", "full"],
+      "enum": [
+        "none",
+        "partial",
+        "full"
+      ],
       "default": "none",
       "description": "Determines the corner radius of the swatch. Partial refers to corner-radius-75."
     },
@@ -39,7 +51,12 @@
     },
     "state": {
       "type": "string",
-      "enum": ["default", "hover", "down", "keyboard focus"],
+      "enum": [
+        "default",
+        "hover",
+        "down",
+        "keyboard focus"
+      ],
       "default": "default"
     }
   }

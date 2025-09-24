@@ -11,7 +11,10 @@
   "properties": {
     "orientation": {
       "type": "string",
-      "enum": ["horizontal", "vertical"],
+      "enum": [
+        "horizontal",
+        "vertical"
+      ],
       "default": "horizontal"
     },
     "items": {
@@ -20,57 +23,73 @@
       "items": {
         "type": "object",
         "properties": {
-        "label": {
-        "type": "string",
-        "description": "The text displayed for the tab item."
-      },
-      "isDisabled": {
-        "type": "boolean",
-        "default": false,
-        "description": "Whether the tab is disabled."
-      },
-      "state": {
-        "type": "string",
-        "enum": ["default", "hover", "keyboard focus"],
-        "default": "default",
-        "description": "The interaction state of the tab item."
-      },
-      "contentVariant": {
-        "type": "string",
-        "enum": ["label-only", "icon-only", "icon-label"],
-        "default": "icon-label",
-        "description": "Controls whether the tab displays a label, an icon, or both."
-      },
-      "density": {
-      "type": "string",
-      "enum": ["compact", "regular"],
-      "default": "regular"
-    },
-    "isFluid": {
-      "type": "boolean",
-      "default": false,
-      "description": "This overrides density and is only applicable to horizontal tabs."
-    },
-    "isEmphasized": {
-      "type": "boolean",
-      "default": false
-    },
-    "alignment": {
-      "type": "string",
-      "enum": ["start", "center"],
-      "default": "start"
-    },
-    "selectedItem": {
-      "description": "(list of available items)"
-    },
-    "keyboardActivation": {
-      "type": "string",
-      "enum": ["manual", "automatic"],
-      "default": "manual"
-            }
+          "label": {
+            "type": "string",
+            "description": "The text displayed for the tab item."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the tab is disabled."
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "default",
+              "hover",
+              "keyboard focus"
+            ],
+            "default": "default",
+            "description": "The interaction state of the tab item."
+          },
+          "contentVariant": {
+            "type": "string",
+            "enum": [
+              "label-only",
+              "icon-only",
+              "icon-label"
+            ],
+            "default": "icon-label",
+            "description": "Controls whether the tab displays a label, an icon, or both."
+          },
+          "density": {
+            "type": "string",
+            "enum": [
+              "compact",
+              "regular"
+            ],
+            "default": "regular"
+          },
+          "isFluid": {
+            "type": "boolean",
+            "default": false,
+            "description": "This overrides density and is only applicable to horizontal tabs."
+          },
+          "isEmphasized": {
+            "type": "boolean",
+            "default": false
+          },
+          "alignment": {
+            "type": "string",
+            "enum": [
+              "start",
+              "center"
+            ],
+            "default": "start"
+          },
+          "selectedItem": {
+            "description": "(list of available items)"
+          },
+          "keyboardActivation": {
+            "type": "string",
+            "enum": [
+              "manual",
+              "automatic"
+            ],
+            "default": "manual"
           }
         }
       }
     }
   }
-
+}
