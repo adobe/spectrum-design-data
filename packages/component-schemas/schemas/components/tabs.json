@@ -12,7 +12,7 @@
     "orientation": {
       "type": "string",
       "enum": ["horizontal", "vertical"],
-      "default": "vertical"
+      "default": "horizontal"
     },
     "items": {
       "type": "array",
@@ -40,11 +40,6 @@
         "enum": ["label-only", "icon-only", "icon-label"],
         "default": "icon-label",
         "description": "Controls whether the tab displays a label, an icon, or both."
-      },
-      "size": {
-        "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
       },
       "density": {
       "type": "string",
