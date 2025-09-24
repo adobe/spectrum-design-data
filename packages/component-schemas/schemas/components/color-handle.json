@@ -1,0 +1,23 @@
+{
+"$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/color-handle.json",
+  "title": "Color handle",
+  "description": "Color handles allow users to select and adjust colors in a color picker.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/color-handle/"
+  },
+  "type": "object",
+  "properties": {
+    "channel": {
+      "type": "string",
+      "enum": ["hue", "saturation", "lightness", "red", "green", "blue", "alpha"],
+      "default": "hue",
+      "description": "Which channel of the color this handle controls. Use 'alpha' for opacity."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
