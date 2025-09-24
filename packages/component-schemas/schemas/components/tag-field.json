@@ -1,0 +1,42 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/tag-field.json",
+  "title": "Tag field",
+  "description": "A tag field is an input field that allows users to enter and manage tags.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/tag-field/"
+  },
+  "type": "object",
+  "properties": {
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l"],
+      "default": "m"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "default",
+        "hover",
+        "focus + hover",
+        "focus + not hover",
+        "keyboard focus"
+      ],
+      "default": "default"
+    },
+    "style": {
+      "type": "string",
+      "enum": ["keyword", "icon", "thumbnail", "avatar"],
+      "default": "keyword"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
