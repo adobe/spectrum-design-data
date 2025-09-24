@@ -61,6 +61,7 @@
           "default": false,
           "description": "If true, the accordion item includes an action button."
         }
+        }
       },
       "required": ["label"]
     }
@@ -69,6 +70,5 @@
     "type": "boolean",
     "default": false,
     "description": "If true, multiple accordion items can be expanded at the same time."
-}
-}
+  }
 }
