@@ -17,9 +17,27 @@
         "positive",
         "notice",
         "negative",
-        "neutral"
+        "accent"
       ],
       "default": "neutral"
+    },
+    "style": {
+      "type": "string",
+      "enum": ["bold", "subtle", "outline"],
+      "default": "outline",
+        "description": "The visual style of the alert."
+      },
+      "href": {
+      "type": "string",
+      "description": "Optional URL within in-line alert content like a 'Learn more' link."
+    },
+    "heading": {
+      "type": "string",
+      "description": "Optional heading text displayed at the top of the alert."
+    },
+    "actionLabel": {
+      "type": "string",
+      "description": "If undefined, this button does not appear."
     }
   }
 }
