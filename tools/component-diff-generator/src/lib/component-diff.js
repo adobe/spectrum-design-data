@@ -176,6 +176,11 @@ function enhanceChangeDescriptions(changes, originalSchema, updatedSchema) {
 
         // Remove from deleted since it's really an update
         delete enhanced.deleted.properties[propName];
+
+        // Also remove from added if it exists there (property updates often appear in both)
+        if (enhanced.added.properties?.[propName]) {
+          delete enhanced.added.properties[propName];
+        }
       }
     }
 
@@ -185,6 +190,12 @@ function enhanceChangeDescriptions(changes, originalSchema, updatedSchema) {
       Object.keys(enhanced.deleted.properties).length === 0
     ) {
       delete enhanced.deleted.properties;
+    }
+    if (
+      enhanced.added.properties &&
+      Object.keys(enhanced.added.properties).length === 0
+    ) {
+      delete enhanced.added.properties;
     }
   }
 

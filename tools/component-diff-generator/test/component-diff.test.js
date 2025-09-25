@@ -352,9 +352,11 @@ test("componentDiff - enhanced change descriptions for menu component", (t) => {
     ),
   );
 
-  // Should NOT have these properties in deleted anymore
+  // Should NOT have these properties in deleted or added anymore
   t.falsy(menuChanges.deleted?.properties?.container);
   t.falsy(menuChanges.deleted?.properties?.selectionMode);
+  t.falsy(menuChanges.added?.properties?.container);
+  t.falsy(menuChanges.added?.properties?.selectionMode);
 });
 
 test("isComponentChangeBreaking - removing default null is non-breaking", (t) => {
