@@ -15,7 +15,10 @@
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "enum": ["top", "side"]
+      "enum": [
+        "top",
+        "side"
+      ]
     },
     "placeholder": {
       "type": "string"
@@ -29,7 +32,12 @@
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
+      "enum": [
+        "s",
+        "m",
+        "l",
+        "xl"
+      ],
       "default": "m"
     },
     "isQuiet": {
@@ -38,7 +46,10 @@
     },
     "necessityIndicator": {
       "type": "string",
-      "enum": ["text", "icon"],
+      "enum": [
+        "text",
+        "icon"
+      ],
       "default": "icon"
     },
     "isRequired": {
@@ -47,7 +58,10 @@
     },
     "menuContainer": {
       "type": "string",
-      "enum": ["popover", "tray"],
+      "enum": [
+        "popover",
+        "tray"
+      ],
       "default": "popover"
     },
     "isDisabled": {
@@ -55,10 +69,6 @@
       "default": false
     },
     "isError": {
-      "type": "boolean",
-      "default": false
-    },
-    "isReadOnly": {
       "type": "boolean",
       "default": false
     },
