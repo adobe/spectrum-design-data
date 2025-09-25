@@ -16,6 +16,7 @@
     },
     "size": {
       "type": "string",
+      "pattern": "^(x?s|m|x{0,3}l)$",
       "enum": ["s", "m", "l", "xl"],
       "default": "m"
     },
