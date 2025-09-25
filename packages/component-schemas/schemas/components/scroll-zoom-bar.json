@@ -31,7 +31,7 @@
       "type": "boolean",
       "default": false
     },
-    "isDetatched": {
+    "isDetached": {
       "type": "boolean",
       "default": false
     },
