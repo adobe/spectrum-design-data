@@ -321,6 +321,42 @@ test("componentDiff - correctly identifies menu component changes", (t) => {
   t.truthy(result.changes.updated.nonBreaking.menu);
 });
 
+test("componentDiff - enhanced change descriptions for menu component", (t) => {
+  const original = { menu: menuSchemaOriginal };
+  const updated = { menu: menuSchemaUpdated };
+
+  const result = componentDiff(original, updated);
+  const menuChanges = result.changes.updated.nonBreaking.menu.changes;
+
+  // Should have enhanced property descriptions
+  t.truthy(menuChanges.enhanced.properties);
+  t.truthy(menuChanges.enhanced.properties.container);
+  t.truthy(menuChanges.enhanced.properties.selectionMode);
+
+  // Container changes should be described properly
+  const containerChanges = menuChanges.enhanced.properties.container;
+  t.is(containerChanges.type, "property-update");
+  t.true(containerChanges.changes.includes("removed default: null"));
+
+  // SelectionMode changes should be described properly
+  const selectionModeChanges = menuChanges.enhanced.properties.selectionMode;
+  t.is(selectionModeChanges.type, "property-update");
+  t.true(
+    selectionModeChanges.changes.some((change) =>
+      change.includes("removed default: null"),
+    ),
+  );
+  t.true(
+    selectionModeChanges.changes.some((change) =>
+      change.includes('added enum values: "no selection"'),
+    ),
+  );
+
+  // Should NOT have these properties in deleted anymore
+  t.falsy(menuChanges.deleted?.properties?.container);
+  t.falsy(menuChanges.deleted?.properties?.selectionMode);
+});
+
 test("isComponentChangeBreaking - removing default null is non-breaking", (t) => {
   // This is what the actual diff produces for the menu component - empty objects for deleted properties
   const componentChanges = {
@@ -395,13 +431,29 @@ test("real menu issue from PR #613 - correct diff output", (t) => {
   // The changes structure should reflect actual changes, not false deletions
   const menuChanges = result.changes.updated.nonBreaking.menu.changes;
 
-  // Should show the enum addition
-  t.truthy(menuChanges.added.properties.selectionMode);
-  t.is(menuChanges.added.properties.selectionMode.enum["2"], "no selection");
+  // With enhanced change detection, properties should be properly analyzed
+  t.truthy(menuChanges.enhanced.properties);
+  t.truthy(menuChanges.enhanced.properties.container);
+  t.truthy(menuChanges.enhanced.properties.selectionMode);
 
-  // The deleted properties should show default: undefined (the default: null was removed)
-  t.deepEqual(menuChanges.deleted.properties.container, { default: undefined });
-  t.deepEqual(menuChanges.deleted.properties.selectionMode, {
-    default: undefined,
-  });
+  // Container changes should be properly described
+  const containerChanges = menuChanges.enhanced.properties.container;
+  t.true(containerChanges.changes.includes("removed default: null"));
+
+  // SelectionMode should have both changes described
+  const selectionModeChanges = menuChanges.enhanced.properties.selectionMode;
+  t.true(
+    selectionModeChanges.changes.some((change) =>
+      change.includes("removed default: null"),
+    ),
+  );
+  t.true(
+    selectionModeChanges.changes.some((change) =>
+      change.includes('added enum values: "no selection"'),
+    ),
+  );
+
+  // Should NOT be reported as deleted anymore
+  t.falsy(menuChanges.deleted?.properties?.container);
+  t.falsy(menuChanges.deleted?.properties?.selectionMode);
 });
