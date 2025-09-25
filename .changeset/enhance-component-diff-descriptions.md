@@ -2,27 +2,24 @@
 "@adobe/spectrum-component-diff-generator": minor
 ---
 
-feat(component-diff): enhance property change descriptions
+feat(component-diff): enhance property change descriptions and fix breaking change detection
 
-Significantly improves diff reporting by providing detailed change descriptions instead of confusing "deleted + added" reports for property updates.
+Improves diff reporting with detailed change descriptions instead of confusing
+"deleted + added" reports. Also fixes incorrect breaking change classification.
 
 **Enhanced Change Detection:**
 
-- Property updates now show specific changes (e.g., "removed default: null", "added enum values")
+- Property updates show specific changes (e.g., "removed default: null")
 - Eliminates false "property deleted" reports for property modifications
-- Provides clear descriptions for enum additions/removals, type changes, default value changes
+- Correctly identifies `default: null` removal as non-breaking
+- Correctly identifies enum value additions as non-breaking
 
 **Improved Output:**
 
-- `container` property updates: "removed default: null" (was: "property deleted")
-- `selectionMode` updates: "removed default: null, added enum values: 'no selection'" (was: "deleted + added")
-- Type changes clearly show "type changed from X to Y"
-- Default value changes show "default changed to X"
+- `container`: "removed default: null" (was: "property deleted")
+- `selectionMode`: "removed default: null, added enum values: 'no selection'"
+- Type changes show "type changed from X to Y"
+- Default changes show "default changed to X"
 
-**Template Updates:**
-
-- Enhanced Handlebars templates support new change description format
-- Prioritizes enhanced descriptions over raw diff output
-- Maintains backward compatibility with existing change detection
-
-This resolves confusion in PR reports where property updates were incorrectly shown as breaking deletions.
+This resolves confusion where property updates were incorrectly shown as breaking
+deletions and eliminates duplicate property reporting.
