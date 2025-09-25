@@ -2,24 +2,15 @@
 "@adobe/spectrum-component-diff-generator": minor
 ---
 
-feat(component-diff): enhance property change descriptions and fix breaking change detection
+feat(component-diff): enhance property change descriptions
 
-Improves diff reporting with detailed change descriptions instead of confusing
-"deleted + added" reports. Also fixes incorrect breaking change classification.
-
-**Enhanced Change Detection:**
+Improves diff reporting with clear change descriptions instead of confusing
+"deleted + added" reports. Fixes incorrect breaking change classification.
 
 - Property updates show specific changes (e.g., "removed default: null")
-- Eliminates false "property deleted" reports for property modifications
+- Eliminates false "property deleted" reports
 - Correctly identifies `default: null` removal as non-breaking
-- Correctly identifies enum value additions as non-breaking
+- Eliminates duplicate property reporting
 
-**Improved Output:**
-
-- `container`: "removed default: null" (was: "property deleted")
-- `selectionMode`: "removed default: null, added enum values: 'no selection'"
-- Type changes show "type changed from X to Y"
-- Default changes show "default changed to X"
-
-This resolves confusion where property updates were incorrectly shown as breaking
-deletions and eliminates duplicate property reporting.
+Example: `selectionMode` now shows "removed default: null, added enum values"
+instead of both "Added: selectionMode" and "Removed: selectionMode".
