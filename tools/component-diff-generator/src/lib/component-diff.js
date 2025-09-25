@@ -183,9 +183,53 @@ export function isComponentChangeBreaking(
   originalSchema,
   updatedSchema,
 ) {
-  // Check for deleted properties/fields (always breaking)
+  // Check for deleted properties that are truly deleted (not just updated)
   if (changes.deleted && Object.keys(changes.deleted).length > 0) {
-    return true;
+    // Special case: check if what appears to be "deleted" is actually just updated
+    if (changes.deleted.properties) {
+      const deletedProps = Object.keys(changes.deleted.properties);
+
+      for (const prop of deletedProps) {
+        // Check if this property still exists in the updated schema
+        if (!updatedSchema?.properties?.[prop]) {
+          // Property was truly deleted - breaking
+          return true;
+        } else {
+          // Property still exists, but check if we deleted specific values (like enum values)
+          const deletedContent = changes.deleted.properties[prop];
+          if (
+            deletedContent &&
+            typeof deletedContent === "object" &&
+            Object.keys(deletedContent).length > 0
+          ) {
+            // If there's actual deleted content, check what was deleted
+
+            // Removing enum values should be breaking
+            if (
+              deletedContent.enum &&
+              Object.keys(deletedContent.enum).length > 0
+            ) {
+              return true;
+            }
+
+            // Removing default values is typically non-breaking (especially default: null)
+            if (
+              Object.keys(deletedContent).length === 1 &&
+              "default" in deletedContent
+            ) {
+              // Only a default was removed - this is generally non-breaking
+              continue;
+            }
+
+            // Other property deletions within an existing property may be breaking
+            // Add other specific breaking change checks here as needed
+          }
+        }
+      }
+    } else {
+      // For non-property deletions, consider them breaking
+      return true;
+    }
   }
 
   // Check for added required properties (breaking)

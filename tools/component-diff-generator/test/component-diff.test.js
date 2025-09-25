@@ -267,3 +267,141 @@ test("isComponentChangeBreaking - adding optional property is non-breaking", (t)
     ),
   );
 });
+
+// Test cases for menu component issue
+const menuSchemaOriginal = {
+  $schema: "http://json-schema.org/draft-07/schema#",
+  $id: "https://example.com/menu.json",
+  title: "Menu Component",
+  type: "object",
+  properties: {
+    container: {
+      type: "string",
+      enum: ["popover", "tray"],
+      default: null,
+    },
+    selectionMode: {
+      type: "string",
+      enum: ["single", "multiple"],
+      default: null,
+    },
+  },
+};
+
+const menuSchemaUpdated = {
+  $schema: "http://json-schema.org/draft-07/schema#",
+  $id: "https://example.com/menu.json",
+  title: "Menu Component",
+  type: "object",
+  properties: {
+    container: {
+      type: "string",
+      enum: ["popover", "tray"],
+      // default: null removed
+    },
+    selectionMode: {
+      type: "string",
+      enum: ["single", "multiple", "no selection"],
+      // default: null removed, new enum value added
+    },
+  },
+};
+
+test("componentDiff - correctly identifies menu component changes", (t) => {
+  const original = { menu: menuSchemaOriginal };
+  const updated = { menu: menuSchemaUpdated };
+
+  const result = componentDiff(original, updated);
+
+  // Should detect these as non-breaking changes
+  t.false(result.summary.hasBreakingChanges);
+  t.is(result.summary.totalComponents.updated, 1);
+  t.is(result.summary.breakingChanges, 0);
+  t.is(result.summary.nonBreakingChanges, 1);
+  t.truthy(result.changes.updated.nonBreaking.menu);
+});
+
+test("isComponentChangeBreaking - removing default null is non-breaking", (t) => {
+  // This is what the actual diff produces for the menu component - empty objects for deleted properties
+  const componentChanges = {
+    added: {
+      properties: {
+        selectionMode: {
+          enum: {
+            2: "no selection",
+          },
+        },
+      },
+    },
+    deleted: {
+      properties: {
+        container: { default: undefined }, // default: null was removed
+        selectionMode: { default: undefined }, // default: null was removed
+      },
+    },
+    updated: {},
+  };
+
+  t.false(
+    isComponentChangeBreaking(
+      componentChanges,
+      menuSchemaOriginal,
+      menuSchemaUpdated,
+    ),
+  );
+});
+
+test("isComponentChangeBreaking - adding enum value to menu is non-breaking", (t) => {
+  // Simulate what the diff should detect for enum value addition
+  const componentChanges = {
+    added: {},
+    deleted: {},
+    updated: {
+      properties: {
+        selectionMode: {
+          enum: {
+            2: "no selection", // Adding a new enum value
+          },
+        },
+      },
+    },
+  };
+
+  t.false(
+    isComponentChangeBreaking(
+      componentChanges,
+      menuSchemaOriginal,
+      menuSchemaUpdated,
+    ),
+  );
+});
+
+test("real menu issue from PR #613 - correct diff output", (t) => {
+  // Test the exact scenario described in the original issue
+  const original = { menu: menuSchemaOriginal };
+  const updated = { menu: menuSchemaUpdated };
+
+  const result = componentDiff(original, updated);
+
+  // Should be classified as non-breaking
+  t.false(result.summary.hasBreakingChanges);
+  t.is(result.summary.breakingChanges, 0);
+  t.is(result.summary.nonBreakingChanges, 1);
+
+  // Should be in non-breaking updates
+  t.truthy(result.changes.updated.nonBreaking.menu);
+  t.falsy(result.changes.updated.breaking.menu);
+
+  // The changes structure should reflect actual changes, not false deletions
+  const menuChanges = result.changes.updated.nonBreaking.menu.changes;
+
+  // Should show the enum addition
+  t.truthy(menuChanges.added.properties.selectionMode);
+  t.is(menuChanges.added.properties.selectionMode.enum["2"], "no selection");
+
+  // The deleted properties should show default: undefined (the default: null was removed)
+  t.deepEqual(menuChanges.deleted.properties.container, { default: undefined });
+  t.deepEqual(menuChanges.deleted.properties.selectionMode, {
+    default: undefined,
+  });
+});

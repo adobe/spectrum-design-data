@@ -12,7 +12,7 @@ feat(component-schemas): add 10 new components with breaking changes to existing
 
 ### 🚨 Breaking Changes Detected
 
-This PR introduces **8 breaking change(s)** to component schemas. Please review carefully and ensure proper versioning.
+This PR introduces **7 breaking change(s)** to component schemas. Please review carefully and ensure proper versioning.
 
 <details open><summary><strong>📦 Added Components (10)</strong></summary>
 
@@ -45,12 +45,6 @@ This PR introduces **8 breaking change(s)** to component schemas. Please review 
 - Added: `href` (string) - "Optional URL within contextual help content like a 'Learn more' link."
 - Removed: `popoverOffset` property
 - Updated: `popoverOffset` - default changed to "8"
-
-**menu**
-
-- Added: `selectionMode`
-- Removed: `container` property
-- Removed: `selectionMode` property
 
 **radio-button**
 
@@ -92,6 +86,11 @@ This PR introduces **8 breaking change(s)** to component schemas. Please review 
 - Added: `separator` (string, default: chevron) - "The separator icon used between breadcrumb items."
 - Added: `isTruncated` (boolean) - "If true, the breadcrumb item is truncated and displayed as icon only."
 - Added: `sizeOverride` (string) - "Overrides the size of the breadcrumb items when isMultiline is true."
+
+**menu**
+
+- Updated: `container` - removed `default: null`
+- Updated: `selectionMode` - removed `default: null` and added `"no selection"` to enum
 
 **button-group**
 
