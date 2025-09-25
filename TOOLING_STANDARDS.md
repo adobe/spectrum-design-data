@@ -36,7 +36,7 @@ export default {
 
 **Status**: Required for all package management and workspace management
 
-- **Version**: `pnpm@10.11.0` (specified in `packageManager` field)
+- **Version**: `pnpm@10.17.1` (specified in `packageManager` field)
 - **Usage**: All package installation, updates, and script execution must use pnpm
 - **Workspace**: The project uses pnpm workspaces defined in `pnpm-workspace.yaml`
 - **Standards**:

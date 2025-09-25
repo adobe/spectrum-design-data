@@ -23,8 +23,8 @@
       "default": false
     },
     "label": {
-      "type": "boolean",
-      "default": true
+      "type": "string",
+      "description": "The text displayed next to a radio button."
     }
   }
 }

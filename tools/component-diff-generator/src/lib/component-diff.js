@@ -136,6 +136,135 @@ export function analyzeDeletedComponents(deleted) {
 }
 
 /**
+ * Enhances raw change data with more descriptive change types
+ * @param {Object} changes - Raw changes from detailedDiff
+ * @param {Object} originalSchema - Original component schema
+ * @param {Object} updatedSchema - Updated component schema
+ * @returns {Object} Enhanced changes with better descriptions
+ */
+function enhanceChangeDescriptions(changes, originalSchema, updatedSchema) {
+  const enhanced = {
+    added: { ...changes.added },
+    deleted: { ...changes.deleted },
+    updated: { ...changes.updated },
+    enhanced: {}, // New section for enhanced descriptions
+  };
+
+  // Analyze property changes for better descriptions
+  if (
+    changes.deleted?.properties &&
+    originalSchema?.properties &&
+    updatedSchema?.properties
+  ) {
+    for (const [propName, deletedContent] of Object.entries(
+      changes.deleted.properties,
+    )) {
+      const originalProp = originalSchema.properties[propName];
+      const updatedProp = updatedSchema.properties[propName];
+
+      // If property exists in both schemas, it's an update, not deletion + addition
+      if (originalProp && updatedProp) {
+        if (!enhanced.enhanced.properties) enhanced.enhanced.properties = {};
+
+        // Analyze what specifically changed
+        const changeDetails = analyzePropertyChange(
+          originalProp,
+          updatedProp,
+          deletedContent,
+        );
+        enhanced.enhanced.properties[propName] = changeDetails;
+
+        // Remove from deleted since it's really an update
+        delete enhanced.deleted.properties[propName];
+
+        // Also remove from added if it exists there (property updates often appear in both)
+        if (enhanced.added.properties?.[propName]) {
+          delete enhanced.added.properties[propName];
+        }
+      }
+    }
+
+    // Clean up empty objects
+    if (
+      enhanced.deleted.properties &&
+      Object.keys(enhanced.deleted.properties).length === 0
+    ) {
+      delete enhanced.deleted.properties;
+    }
+    if (
+      enhanced.added.properties &&
+      Object.keys(enhanced.added.properties).length === 0
+    ) {
+      delete enhanced.added.properties;
+    }
+  }
+
+  return enhanced;
+}
+
+/**
+ * Analyzes specific changes to a property and returns descriptive change info
+ * @param {Object} originalProp - Original property definition
+ * @param {Object} updatedProp - Updated property definition
+ * @param {Object} deletedContent - What was detected as deleted
+ * @returns {Object} Descriptive change information
+ */
+function analyzePropertyChange(originalProp, updatedProp, deletedContent) {
+  const changes = [];
+
+  // Check for default value changes
+  if ("default" in deletedContent) {
+    if (originalProp.default === null) {
+      changes.push(`removed default: null`);
+    } else if (originalProp.default !== undefined) {
+      changes.push(`removed default: ${JSON.stringify(originalProp.default)}`);
+    }
+  }
+
+  if (
+    updatedProp.default !== undefined &&
+    updatedProp.default !== originalProp.default
+  ) {
+    changes.push(`default changed to ${JSON.stringify(updatedProp.default)}`);
+  }
+
+  // Check for enum changes
+  if (originalProp.enum && updatedProp.enum) {
+    const originalEnums = new Set(originalProp.enum);
+    const updatedEnums = new Set(updatedProp.enum);
+
+    const addedEnums = [...updatedEnums].filter((e) => !originalEnums.has(e));
+    const removedEnums = [...originalEnums].filter((e) => !updatedEnums.has(e));
+
+    if (addedEnums.length > 0) {
+      changes.push(
+        `added enum values: ${addedEnums.map((e) => JSON.stringify(e)).join(", ")}`,
+      );
+    }
+    if (removedEnums.length > 0) {
+      changes.push(
+        `removed enum values: ${removedEnums.map((e) => JSON.stringify(e)).join(", ")}`,
+      );
+    }
+  }
+
+  // Check for type changes
+  if (originalProp.type !== updatedProp.type) {
+    changes.push(
+      `type changed from ${originalProp.type} to ${updatedProp.type}`,
+    );
+  }
+
+  return {
+    type: "property-update",
+    changes: changes,
+    description: updatedProp.description,
+    originalType: originalProp.type,
+    updatedType: updatedProp.type,
+  };
+}
+
+/**
  * Analyzes updated components and determines breaking vs non-breaking changes
  * @param {Object} updatedComponents - Components that have been updated
  * @param {Object} original - Original schemas for context
@@ -154,6 +283,14 @@ export function analyzeUpdatedComponents(
 
   Object.keys(updatedComponents).forEach((componentName) => {
     const componentChanges = updatedComponents[componentName];
+
+    // Enhance changes with better descriptions
+    const enhancedChanges = enhanceChangeDescriptions(
+      componentChanges,
+      original[componentName],
+      updatedSchemas[componentName],
+    );
+
     const isBreaking = isComponentChangeBreaking(
       componentChanges,
       original[componentName],
@@ -163,7 +300,7 @@ export function analyzeUpdatedComponents(
     const category = isBreaking ? "breaking" : "nonBreaking";
     result[category][componentName] = {
       type: "updated",
-      changes: componentChanges,
+      changes: enhancedChanges,
       isBreaking,
     };
   });
@@ -183,9 +320,53 @@ export function isComponentChangeBreaking(
   originalSchema,
   updatedSchema,
 ) {
-  // Check for deleted properties/fields (always breaking)
+  // Check for deleted properties that are truly deleted (not just updated)
   if (changes.deleted && Object.keys(changes.deleted).length > 0) {
-    return true;
+    // Special case: check if what appears to be "deleted" is actually just updated
+    if (changes.deleted.properties) {
+      const deletedProps = Object.keys(changes.deleted.properties);
+
+      for (const prop of deletedProps) {
+        // Check if this property still exists in the updated schema
+        if (!updatedSchema?.properties?.[prop]) {
+          // Property was truly deleted - breaking
+          return true;
+        } else {
+          // Property still exists, but check if we deleted specific values (like enum values)
+          const deletedContent = changes.deleted.properties[prop];
+          if (
+            deletedContent &&
+            typeof deletedContent === "object" &&
+            Object.keys(deletedContent).length > 0
+          ) {
+            // If there's actual deleted content, check what was deleted
+
+            // Removing enum values should be breaking
+            if (
+              deletedContent.enum &&
+              Object.keys(deletedContent.enum).length > 0
+            ) {
+              return true;
+            }
+
+            // Removing default values is typically non-breaking (especially default: null)
+            if (
+              Object.keys(deletedContent).length === 1 &&
+              "default" in deletedContent
+            ) {
+              // Only a default was removed - this is generally non-breaking
+              continue;
+            }
+
+            // Other property deletions within an existing property may be breaking
+            // Add other specific breaking change checks here as needed
+          }
+        }
+      }
+    } else {
+      // For non-property deletions, consider them breaking
+      return true;
+    }
   }
 
   // Check for added required properties (breaking)

@@ -11,10 +11,7 @@
   "properties": {
     "container": {
       "type": "string",
-      "enum": [
-        "popover",
-        "tray"
-      ]
+      "enum": ["popover", "tray"]
     },
     "label": {
       "type": "string"
@@ -31,28 +28,16 @@
     },
     "size": {
       "type": "string",
-      "enum": [
-        "s",
-        "m",
-        "l",
-        "xl"
-      ],
+      "enum": ["s", "m", "l", "xl"],
       "default": "m"
     },
     "selectionMode": {
       "type": "string",
-      "enum": [
-        "single",
-        "multiple"
-      ],
-      "default": "single"
+      "enum": ["single", "multiple", "no selection"]
     },
     "selectionStyle": {
       "type": "string",
-      "enum": [
-        "checkbox",
-        "switch"
-      ]
+      "enum": ["checkbox", "switch"]
     },
     "sectionHeader": {
       "type": "string"
@@ -71,12 +56,7 @@
     },
     "state": {
       "type": "string",
-      "enum": [
-        "default",
-        "hover",
-        "down",
-        "keyboard focus"
-      ],
+      "enum": ["default", "hover", "down", "keyboard focus"],
       "default": "default"
     }
   }

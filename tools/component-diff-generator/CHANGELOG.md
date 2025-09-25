@@ -1,5 +1,39 @@
 # @adobe/spectrum-component-diff-generator
 
+## 1.4.0
+
+### Minor Changes
+
+- [#613](https://github.com/adobe/spectrum-tokens/pull/613) [`433efdd`](https://github.com/adobe/spectrum-tokens/commit/433efdd18f9b0842ae55acac3cd0fbc1e5e5db58) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(component-diff): enhance property change descriptions
+
+  Improves diff reporting with clear change descriptions instead of confusing
+  "deleted + added" reports. Fixes incorrect breaking change classification.
+  - Property updates show specific changes (e.g., "removed default: null")
+  - Eliminates false "property deleted" reports
+  - Correctly identifies `default: null` removal as non-breaking
+  - Eliminates duplicate property reporting
+
+  Example: `selectionMode` now shows "removed default: null, added enum values"
+  instead of both "Added: selectionMode" and "Removed: selectionMode".
+
+### Patch Changes
+
+- [#613](https://github.com/adobe/spectrum-tokens/pull/613) [`433efdd`](https://github.com/adobe/spectrum-tokens/commit/433efdd18f9b0842ae55acac3cd0fbc1e5e5db58) Thanks [@GarthDB](https://github.com/GarthDB)! - fix(component-diff): correctly identify property updates vs deletions
+
+  Fixes issue where removing `default: null` values and updating enum arrays were
+  incorrectly reported as property deletions (breaking changes) instead of
+  property updates (non-breaking changes).
+
+  **Key Improvements:**
+  - Enhanced breaking change detection to distinguish property updates vs deletions
+  - Correctly identifies `default: null` removal as non-breaking
+  - Correctly identifies enum value additions as non-breaking
+  - Maintains accurate detection of actual breaking changes
+  - Added comprehensive test coverage for edge cases
+
+  This resolves the issue reported in PR #613 where menu component changes were
+  incorrectly flagged as breaking.
+
 ## 1.3.2
 
 ### Patch Changes

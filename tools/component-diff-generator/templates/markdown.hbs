@@ -40,6 +40,11 @@ This PR contains only non-breaking changes to component schemas.
 
 {{#each changes.updated.breaking}}
 **{{@key}}**
+{{#if this.changes.enhanced.properties}}
+{{#each this.changes.enhanced.properties}}
+- Updated: `{{@key}}` - {{#each this.changes}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}{{#if this.description}} - "{{this.description}}"{{/if}}
+{{/each}}
+{{/if}}
 {{#if this.changes.added.properties}}
 {{#each this.changes.added.properties}}
 - Added: `{{@key}}`{{#if this.type}} ({{this.type}}{{#if this.default}}, default: {{this.default}}{{/if}}){{/if}}{{#if this.description}} - "{{this.description}}"{{/if}}
@@ -69,6 +74,11 @@ This PR contains only non-breaking changes to component schemas.
 
 {{#each changes.updated.nonBreaking}}
 **{{@key}}**
+{{#if this.changes.enhanced.properties}}
+{{#each this.changes.enhanced.properties}}
+- Updated: `{{@key}}` - {{#each this.changes}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}{{#if this.description}} - "{{this.description}}"{{/if}}
+{{/each}}
+{{/if}}
 {{#if this.changes.added.properties}}
 {{#each this.changes.added.properties}}
 - Added: `{{@key}}`{{#if this.type}} ({{this.type}}{{#if this.default}}, default: {{this.default}}{{/if}}){{/if}}{{#if this.description}} - "{{this.description}}"{{/if}}

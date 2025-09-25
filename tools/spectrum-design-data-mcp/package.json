@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-design-data-mcp",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Model Context Protocol server for Spectrum design data including tokens, schemas, and component anatomy",
   "keywords": [
     "mcp",
@@ -30,9 +30,9 @@
   },
   "engines": {
     "node": ">=20.12.0",
-    "pnpm": ">=10.11.0"
+    "pnpm": ">=10.17.1"
   },
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.17.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adobe/spectrum-tokens.git",
