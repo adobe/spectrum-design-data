@@ -1,0 +1,109 @@
+{
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+    "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/calendar.json",
+    "title": "Calendar",
+    "description": "Calendars display days, weeks, and months, allowing users to select dates or ranges.",
+    "meta": {
+        "category": "inputs",
+        "documentationUrl": "https://spectrum.adobe.com/page/calendar/"
+    },
+    "type": "object",
+    "properties": {
+        "currentMonth": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 12,
+            "description": "The month currently displayed in the calendar (1 = January, 12 = December)."
+        },
+        "currentYear": {
+            "type": "number",
+            "description": "The year currently displayed in the calendar (Gregorian year number)."
+        },
+        "selectionMode": {
+            "type": "string",
+            "enum": [
+                "single",
+                "range"
+            ],
+            "default": "single",
+            "description": "Controls whether the calendar allows selecting a single date or a date range."
+        },
+        "isDisabled": {
+            "type": "boolean",
+            "default": false
+        },
+        "isError": {
+            "type": "boolean",
+            "default": false
+        },
+        "minValue": {
+            "type": "string",
+            "description": "The minimum allowed date that a user may select (ISO format string)."
+        },
+        "maxValue": {
+            "type": "string",
+            "description": "The maximum allowed date that a user may select (ISO format string)."
+        },
+        "showTimeZone": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether to show a time zone indicator in the calendar."
+        },
+        "days": {
+            "type": "array",
+            "description": "An array of days displayed in the current calendar view.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "description": "The date represented by this day (ISO format string)."
+                    },
+                    "isDisabled": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether this day is disabled."
+                    },
+                    "isSelected": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether this day is currently selected."
+                    },
+                    "isRangeStart": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether this day is the start of a selected range."
+                    },
+                    "isRangeEnd": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether this day is the end of a selected range."
+                    },
+                    "isUnavailable": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether this day is unavailable for selection. If true, the day appears with a strikethrough."
+                    },
+                    "isToday": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether this day represents the current date."
+                    },
+                    "state": {
+                        "type": "string",
+                        "enum": [
+                            "default",
+                            "hover",
+                            "keyboard focus"
+                        ],
+                        "default": "default",
+                        "description": "The interaction state of the day cell."
+                    }
+                },
+                "required": [
+                    "date"
+                ]
+            }
+        }
+    }
+}
