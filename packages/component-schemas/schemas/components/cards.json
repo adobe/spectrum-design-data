@@ -1,0 +1,258 @@
+{
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+    "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/cards.json",
+    "title": "Cards",
+    "description": "Cards group related content into distinct layouts depending on context.",
+    "meta": {
+        "category": "containers",
+        "documentationUrl": "https://spectrum.adobe.com/page/card/"
+    },
+    "type": "object",
+    "definitions": {
+        "baseCard": {
+            "type": "object",
+            "properties": {
+                "size": {
+                    "type": "string",
+                    "enum": [
+                        "xs",
+                        "s",
+                        "m",
+                        "l",
+                        "xl"
+                    ],
+                    "default": "m",
+                    "description": "Overall size of the card."
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "default",
+                        "hover",
+                        "pending"
+                    ],
+                    "default": "default",
+                    "description": "Interaction state of the card."
+                },
+                "isSelected": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether the card is selected."
+                },
+                "isQuiet": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Applies a quiet visual style."
+                },
+                "isDisabled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether the card is disabled."
+                },
+                "hideCheckbox": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If true, the selection checkbox is hidden."
+                },
+                "actionLabel": {
+                    "type": "string",
+                    "description": "Optional action button label."
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": "Optional metadata shown below the card."
+                }
+            }
+        }
+    },
+    "properties": {
+        "variant": {
+            "type": "string",
+            "enum": [
+                "asset",
+                "collection",
+                "flex",
+                "gallery",
+                "horizontal",
+                "product"
+            ],
+            "default": "asset",
+            "description": "Determines which card layout variant is used."
+        }
+    },
+    "oneOf": [
+        {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/baseCard"
+                },
+                {
+                    "properties": {
+                        "variant": {
+                            "const": "asset"
+                        },
+                        "title": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "image": {
+                            "type": "string",
+                            "description": "Preview image."
+                        },
+                        "previewVariant": {
+                            "type": "string",
+                            "enum": [
+                                "full-bleed",
+                                "half-horizontal",
+                                "two-thirds-horizontal",
+                                "half-vertical",
+                                "two-thirds-vertical"
+                            ],
+                            "default": "full-bleed",
+                            "description": "Layout style for the preview image."
+                        }
+                    },
+                    "required": [
+                        "image"
+                    ]
+                }
+            ]
+        },
+        {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/baseCard"
+                },
+                {
+                    "properties": {
+                        "variant": {
+                            "const": "collection"
+                        },
+                        "title": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "collectionName": {
+                            "type": "string"
+                        },
+                        "itemCount": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "collectionName"
+                    ]
+                }
+            ]
+        },
+        {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/baseCard"
+                },
+                {
+                    "properties": {
+                        "variant": {
+                            "const": "flex"
+                        },
+                        "title": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "content": {
+                            "type": "string",
+                            "description": "Flexible card content."
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "properties": {
+                "variant": {
+                    "const": "gallery"
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Image URLs for gallery display."
+                }
+            },
+            "required": [
+                "images"
+            ],
+            "additionalProperties": false
+        },
+        {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/baseCard"
+                },
+                {
+                    "properties": {
+                        "variant": {
+                            "const": "horizontal"
+                        },
+                        "title": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "thumbnail": {
+                            "type": "string",
+                            "description": "Thumbnail image on left or right."
+                        },
+                        "details": {
+                            "type": "string",
+                            "description": "Supporting text beside thumbnail."
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/baseCard"
+                },
+                {
+                    "properties": {
+                        "variant": {
+                            "const": "product"
+                        },
+                        "title": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "productName": {
+                            "type": "string"
+                        },
+                        "price": {
+                            "type": "string"
+                        },
+                        "thumbnail": {
+                            "type": "string",
+                            "description": "Thumbnail for the product."
+                        }
+                    },
+                    "required": [
+                        "productName",
+                        "price",
+                        "thumbnail"
+                    ]
+                }
+            ]
+        }
+    ]
+}
