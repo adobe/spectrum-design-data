@@ -1,0 +1,51 @@
+{
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+    "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/coachmark.json",
+    "title": "Coach mark",
+    "description": "Coach marks provide contextual guidance to users by highlighting specific interface elements.",
+    "meta": {
+        "category": "feedback",
+        "documentationUrl": "https://spectrum.adobe.com/page/coach-mark/"
+    },
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "hideImage": {
+            "type": "boolean",
+            "default": false,
+            "description": "Optional image to display in dialog."
+        },
+        "actions": {
+            "type": "object",
+            "description": "Configuration for coach mark actions.",
+            "properties": {
+                "topActionLabel": {
+                    "type": "string",
+                    "description": "Optional action button displayed at the top, often for a menu."
+                },
+                "footerContent": {
+                    "type": "string",
+                    "description": "Optional footer content to display in the dialog footer like a checkbox."
+                },
+                "primaryActionLabel": {
+                    "type": "string",
+                    "description": "Label for the primary footer action."
+                },
+                "secondaryActionLabel": {
+                    "type": "string",
+                    "description": "Label for the secondary footer action (optional)."
+                },
+                "cancelActionLabel": {
+                    "type": "string",
+                    "default": "cancel",
+                    "description": "Label for the cancel action (optional)."
+                }
+            }
+        }
+    }
+}
