@@ -5,7 +5,7 @@ This is the Spectrum Tokens project, a monorepo containing design tokens, compon
 
 ## Required Tools & Standards
 - **Testing**: AVA (required for all JavaScript/TypeScript testing)
-- **Package Management**: pnpm@10.11.0 (never use npm or yarn)
+- **Package Management**: pnpm@10.17.1 (never use npm or yarn)
 - **Monorepo Management**: moon (for task management and CI/CD)
 - **Release Management**: changesets (for version bumps and releases)
 - **Commit Messages**: commitlint with conventional commits (required for all git commits)

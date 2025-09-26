@@ -23,7 +23,7 @@ packages:
       {
         integrity: sha512-VfmOwN3bWAPVOaBQgAzlPMhACdk0DM/hKUQppzFyRB2z/kR20XH51zeXxfg4Y/Cr3ofa2JN1RMH+3S+w59ZYqQ==,
       }
-    engines: { node: ">=20.12.0", pnpm: ">=10.11.0" }
+    engines: { node: ">=20.12.0", pnpm: ">=10.17.1" }
     hasBin: true
 
   "@isaacs/balanced-match@4.0.1":

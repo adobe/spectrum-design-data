@@ -153,7 +153,7 @@ Example:
 ## Development Workflow
 
 ### Technology Stack
-- **Package Manager**: pnpm (v10.11.0)
+- **Package Manager**: pnpm (v10.17.1)
 - **Task Runner**: moon (https://moonrepo.dev/)
 - **Versioning**: Changesets for automated releases
 - **Code Quality**: Prettier, commitlint, husky

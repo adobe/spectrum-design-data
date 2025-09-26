@@ -1,0 +1,53 @@
+{
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+    "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/standard-dialog.json",
+    "title": "Standard dialog",
+    "description": "Standard dialogs display important information that users need to acknowledge. They appear over the interface and block further interactions until an action is selected.",
+    "meta": {
+        "category": "feedback",
+        "documentationUrl": "https://spectrum.adobe.com/page/standard-dialog/"
+    },
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "hideImage": {
+            "type": "boolean",
+            "default": false,
+            "description": "Optional image to display in dialog."
+        },
+        "size": {
+            "type": "string",
+            "enum": [
+                "s",
+                "m",
+                "l"
+            ],
+            "default": "m"
+        },
+        "hideCloseButton": {
+            "type": "boolean",
+            "default": false
+        },
+        "footerContent": {
+            "type": "string",
+            "description": "Optional footer content to display in the dialog footer like a checkbox."
+        },
+        "primaryActionLabel": {
+            "type": "string"
+        },
+        "secondaryActionLabel": {
+            "type": "string",
+            "description": "If undefined, this button does not appear."
+        },
+        "cancelActionLabel": {
+            "type": "string",
+            "default": "cancel",
+            "description": "If undefined, this button does not appear."
+        }
+    }
+}

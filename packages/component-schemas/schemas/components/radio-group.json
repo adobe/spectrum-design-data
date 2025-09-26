@@ -48,10 +48,6 @@
       "type": "boolean",
       "default": false
     },
-    "isReadOnly": {
-      "type": "boolean",
-      "default": false
-    },
     "errorMessage": {
       "type": "string"
     },

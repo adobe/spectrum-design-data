@@ -267,3 +267,195 @@ test("isComponentChangeBreaking - adding optional property is non-breaking", (t)
     ),
   );
 });
+
+// Test cases for menu component issue
+const menuSchemaOriginal = {
+  $schema: "http://json-schema.org/draft-07/schema#",
+  $id: "https://example.com/menu.json",
+  title: "Menu Component",
+  type: "object",
+  properties: {
+    container: {
+      type: "string",
+      enum: ["popover", "tray"],
+      default: null,
+    },
+    selectionMode: {
+      type: "string",
+      enum: ["single", "multiple"],
+      default: null,
+    },
+  },
+};
+
+const menuSchemaUpdated = {
+  $schema: "http://json-schema.org/draft-07/schema#",
+  $id: "https://example.com/menu.json",
+  title: "Menu Component",
+  type: "object",
+  properties: {
+    container: {
+      type: "string",
+      enum: ["popover", "tray"],
+      // default: null removed
+    },
+    selectionMode: {
+      type: "string",
+      enum: ["single", "multiple", "no selection"],
+      // default: null removed, new enum value added
+    },
+  },
+};
+
+test("componentDiff - correctly identifies menu component changes", (t) => {
+  const original = { menu: menuSchemaOriginal };
+  const updated = { menu: menuSchemaUpdated };
+
+  const result = componentDiff(original, updated);
+
+  // Should detect these as non-breaking changes
+  t.false(result.summary.hasBreakingChanges);
+  t.is(result.summary.totalComponents.updated, 1);
+  t.is(result.summary.breakingChanges, 0);
+  t.is(result.summary.nonBreakingChanges, 1);
+  t.truthy(result.changes.updated.nonBreaking.menu);
+});
+
+test("componentDiff - enhanced change descriptions for menu component", (t) => {
+  const original = { menu: menuSchemaOriginal };
+  const updated = { menu: menuSchemaUpdated };
+
+  const result = componentDiff(original, updated);
+  const menuChanges = result.changes.updated.nonBreaking.menu.changes;
+
+  // Should have enhanced property descriptions
+  t.truthy(menuChanges.enhanced.properties);
+  t.truthy(menuChanges.enhanced.properties.container);
+  t.truthy(menuChanges.enhanced.properties.selectionMode);
+
+  // Container changes should be described properly
+  const containerChanges = menuChanges.enhanced.properties.container;
+  t.is(containerChanges.type, "property-update");
+  t.true(containerChanges.changes.includes("removed default: null"));
+
+  // SelectionMode changes should be described properly
+  const selectionModeChanges = menuChanges.enhanced.properties.selectionMode;
+  t.is(selectionModeChanges.type, "property-update");
+  t.true(
+    selectionModeChanges.changes.some((change) =>
+      change.includes("removed default: null"),
+    ),
+  );
+  t.true(
+    selectionModeChanges.changes.some((change) =>
+      change.includes('added enum values: "no selection"'),
+    ),
+  );
+
+  // Should NOT have these properties in deleted or added anymore
+  t.falsy(menuChanges.deleted?.properties?.container);
+  t.falsy(menuChanges.deleted?.properties?.selectionMode);
+  t.falsy(menuChanges.added?.properties?.container);
+  t.falsy(menuChanges.added?.properties?.selectionMode);
+});
+
+test("isComponentChangeBreaking - removing default null is non-breaking", (t) => {
+  // This is what the actual diff produces for the menu component - empty objects for deleted properties
+  const componentChanges = {
+    added: {
+      properties: {
+        selectionMode: {
+          enum: {
+            2: "no selection",
+          },
+        },
+      },
+    },
+    deleted: {
+      properties: {
+        container: { default: undefined }, // default: null was removed
+        selectionMode: { default: undefined }, // default: null was removed
+      },
+    },
+    updated: {},
+  };
+
+  t.false(
+    isComponentChangeBreaking(
+      componentChanges,
+      menuSchemaOriginal,
+      menuSchemaUpdated,
+    ),
+  );
+});
+
+test("isComponentChangeBreaking - adding enum value to menu is non-breaking", (t) => {
+  // Simulate what the diff should detect for enum value addition
+  const componentChanges = {
+    added: {},
+    deleted: {},
+    updated: {
+      properties: {
+        selectionMode: {
+          enum: {
+            2: "no selection", // Adding a new enum value
+          },
+        },
+      },
+    },
+  };
+
+  t.false(
+    isComponentChangeBreaking(
+      componentChanges,
+      menuSchemaOriginal,
+      menuSchemaUpdated,
+    ),
+  );
+});
+
+test("real menu issue from PR #613 - correct diff output", (t) => {
+  // Test the exact scenario described in the original issue
+  const original = { menu: menuSchemaOriginal };
+  const updated = { menu: menuSchemaUpdated };
+
+  const result = componentDiff(original, updated);
+
+  // Should be classified as non-breaking
+  t.false(result.summary.hasBreakingChanges);
+  t.is(result.summary.breakingChanges, 0);
+  t.is(result.summary.nonBreakingChanges, 1);
+
+  // Should be in non-breaking updates
+  t.truthy(result.changes.updated.nonBreaking.menu);
+  t.falsy(result.changes.updated.breaking.menu);
+
+  // The changes structure should reflect actual changes, not false deletions
+  const menuChanges = result.changes.updated.nonBreaking.menu.changes;
+
+  // With enhanced change detection, properties should be properly analyzed
+  t.truthy(menuChanges.enhanced.properties);
+  t.truthy(menuChanges.enhanced.properties.container);
+  t.truthy(menuChanges.enhanced.properties.selectionMode);
+
+  // Container changes should be properly described
+  const containerChanges = menuChanges.enhanced.properties.container;
+  t.true(containerChanges.changes.includes("removed default: null"));
+
+  // SelectionMode should have both changes described
+  const selectionModeChanges = menuChanges.enhanced.properties.selectionMode;
+  t.true(
+    selectionModeChanges.changes.some((change) =>
+      change.includes("removed default: null"),
+    ),
+  );
+  t.true(
+    selectionModeChanges.changes.some((change) =>
+      change.includes('added enum values: "no selection"'),
+    ),
+  );
+
+  // Should NOT be reported as deleted anymore
+  t.falsy(menuChanges.deleted?.properties?.container);
+  t.falsy(menuChanges.deleted?.properties?.selectionMode);
+});

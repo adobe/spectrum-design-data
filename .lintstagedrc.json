@@ -1,4 +1,7 @@
 {
-  "**/*!(pnpm-lock).{js,jsx,ts,tsx,json,yml,yaml,md}": ["prettier --write"],
+  "**/*.{js,jsx,ts,tsx,json,yml,yaml,md}": ["prettier --write"],
+  "!**/pnpm-lock.yaml": [],
+  "!**/package-lock.json": [],
+  "!**/yarn.lock": [],
   ".changeset/*.md": ["pnpm changeset-lint check-file", "prettier --write"]
 }

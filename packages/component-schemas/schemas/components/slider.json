@@ -29,6 +29,11 @@
       "type": "number",
       "default": 100
     },
+    "isRange": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the slider will allow selection of a range of values by displaying two handles."
+    },
     "step": {
       "type": "number",
       "default": 1

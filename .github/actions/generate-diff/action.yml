@@ -90,9 +90,8 @@ runs:
         # Check if the command succeeded and output file exists
         if [ $exit_code -eq 0 ] && [ -f "${{ inputs.output-file }}" ] && [ -s "${{ inputs.output-file }}" ]; then
           echo "diff_generated=true" >> $GITHUB_OUTPUT
-          echo "diff_content<<EOF" >> $GITHUB_OUTPUT
-          cat "${{ inputs.output-file }}" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          # Use base64 encoding to safely pass multiline content
+          echo "diff_content=$(base64 -w 0 < "${{ inputs.output-file }}")" >> $GITHUB_OUTPUT
         elif [ $exit_code -eq 0 ] && [ -f "${{ inputs.output-file }}" ]; then
           # Command succeeded but file exists but is empty (no changes)
           echo "diff_generated=false" >> $GITHUB_OUTPUT
