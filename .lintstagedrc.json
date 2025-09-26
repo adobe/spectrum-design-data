@@ -1,7 +1,8 @@
 {
-  "**/*.{js,jsx,ts,tsx,json,yml,yaml,md}": ["prettier --write"],
+  "**/*.{js,jsx,ts,tsx,json,yml,yaml}": ["prettier --write"],
+  "**/*.md": ["remark"],
   "!**/pnpm-lock.yaml": [],
   "!**/package-lock.json": [],
   "!**/yarn.lock": [],
-  ".changeset/*.md": ["pnpm changeset-lint check-file", "prettier --write"]
+  ".changeset/*.md": ["pnpm changeset-lint check-file", "remark"]
 }
