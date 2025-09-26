@@ -1,5 +1,45 @@
 # @adobe/spectrum-component-api-schemas
 
+## 5.0.0
+
+### Major Changes
+
+- [#614](https://github.com/adobe/spectrum-tokens/pull/614) [`a772572`](https://github.com/adobe/spectrum-tokens/commit/a772572de88c54d279c20d7148f6ac91eb941d2a) Thanks [@AmunMRa](https://github.com/AmunMRa)! - # Component Schemas Changed (9 added, 0 deleted, 3 updated)
+
+  **Original Branch:** `main`
+
+  **New Branch:** `feat-batch4-schema-updates`
+
+  ## 🚨 Breaking Changes Detected
+
+  This PR introduces **2 breaking change(s)** to component schemas. Please review carefully and ensure proper versioning.
+
+  ### 📦 Added Components (9)
+  - `calendar` - New component schema
+  - `cards` - New component schema
+  - `coach-mark` - New component schema
+  - `illustrated-message` - New component schema
+  - `list-view` - New component schema
+  - `standard-dialog` - New component schema
+  - `standard-panel` - New component schema
+  - `table` - New component schema
+  - `takeover-dialog` - New component schema
+
+  ### 💥 Breaking Updates ⚠️ BREAKING
+
+  **picker**
+  - Removed: `isReadOnly` property
+
+  **side-navigation**
+  - Added: `items` (array) - "The list of navigation items."
+  - Added: `selectionMode` (string, default: single) - "How selection is handled for items."
+  - Added: `required` - ["items"]
+
+  ### 🔄 Non-Breaking Updates
+
+  **alert-banner**
+  - Added: `variant`
+
 ## 4.0.0
 
 ### Major Changes
