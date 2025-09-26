@@ -1,5 +1,69 @@
 # @adobe/spectrum-tokens
 
+## 13.16.0
+
+### Minor Changes
+
+- [#615](https://github.com/adobe/spectrum-tokens/pull/615) [`f64bee3`](https://github.com/adobe/spectrum-tokens/commit/f64bee3900c874775f2d3424516786a0d644d057) Thanks [@PaliwalSparsh](https://github.com/PaliwalSparsh)! - ## Token sync from Spectrum Tokens Studio
+
+  ### Design motivation
+
+  Changes are in service of nav selected state update
+
+  ### Token changes
+
+  ## Tokens Changed (20)
+
+  **Original Branch:** `main`
+  **New Branch:** `tokens-sync/patch-spectrum2-from-main`
+
+  <details open><summary><strong>Newly Deprecated (3)</strong></summary>
+  - `side-navigation-maximum-width`
+  - `side-navigation-with-icon-second-level-edge-to-text`
+  - `side-navigation-with-icon-third-level-edge-to-text`
+
+  </details>
+  <details open><summary><strong>Added (12)</strong></summary>
+  - `side-navigation-counter-to-disclosure`
+  - `side-navigation-edge-to-indicator`
+  - `side-navigation-indicator-to-content`
+  - `side-navigation-second-level-edge-to-indicator`
+  - `side-navigation-second-level-with-icon-edge-to-text`
+  - `side-navigation-second-level-with-icon-edge-to-indicator`
+  - `side-navigation-third-level-edge-to-indicator`
+  - `side-navigation-third-level-with-icon-edge-to-text`
+  - `side-navigation-third-level-with-icon-edge-to-indicator`
+  - `side-navigation-trailing-accessory-area-to-edge`
+  - `side-navigation-indicator-height`
+  - `side-navigation-indicator-thickness`
+
+  </details>
+
+  ### Updated (5)
+
+  <details open><summary><strong>Updated Properties (5)</strong></summary>
+  - `side-navigation-minimum-width`
+    - `desktop.value`: `160px` -> `144px`
+    - `mobile.value`: `200px` -> `180px`
+  - `side-navigation-second-level-edge-to-text`
+    - `desktop.value`: `24px` -> `38px`
+    - `mobile.value`: `30px` -> `44px`
+  - `side-navigation-third-level-edge-to-text`
+    - `desktop.value`: `36px` -> `64px`
+    - `mobile.value`: `45px` -> `70px`
+  - `side-navigation-with-icon-second-level-edge-to-text`
+    - `desktop.schema`: `dimension.json` -> `alias.json`
+    - `desktop.value`: `50px` -> `{side-navigation-second-level-with-icon-edge-to-text}`
+    - `mobile.schema`: `dimension.json` -> `alias.json`
+    - `mobile.value`: `62px` -> `{side-navigation-second-level-with-icon-edge-to-text}`
+  - `side-navigation-with-icon-third-level-edge-to-text` - `desktop.schema`: `dimension.json` -> `alias.json` - `desktop.value`: `62px` -> `{side-navigation-third-level-with-icon-edge-to-text}` - `mobile.schema`: `dimension.json` -> `alias.json` - `mobile.value`: `77px` -> `{side-navigation-third-level-with-icon-edge-to-text}`
+
+  </details>
+
+  ### References
+  - Tokens Studio PR: https://github.com/adobe/spectrum-tokens-studio-data/pull/284
+  - Spectrum Tokens PR: https://github.com/adobe/spectrum-tokens/pull/615
+
 ## 13.15.1
 
 ### Patch Changes
