@@ -199,7 +199,107 @@ function enhanceChangeDescriptions(changes, originalSchema, updatedSchema) {
     }
   }
 
+  // Analyze oneOf changes for better descriptions
+  if (changes.deleted?.oneOf || changes.added?.oneOf) {
+    if (!enhanced.enhanced.oneOf) enhanced.enhanced.oneOf = [];
+
+    // Analyze oneOf variant changes
+    const oneOfChanges = analyzeOneOfChanges(
+      changes.deleted?.oneOf,
+      changes.added?.oneOf,
+      originalSchema?.oneOf,
+      updatedSchema?.oneOf,
+    );
+
+    if (oneOfChanges.length > 0) {
+      enhanced.enhanced.oneOf = oneOfChanges;
+    }
+  }
+
   return enhanced;
+}
+
+/**
+ * Analyzes oneOf variant changes and returns descriptive change info
+ * @param {Object} deletedOneOf - Deleted oneOf variants
+ * @param {Object} addedOneOf - Added oneOf variants
+ * @param {Array} originalOneOf - Original oneOf array
+ * @param {Array} updatedOneOf - Updated oneOf array
+ * @returns {Array} Array of descriptive change information
+ */
+function analyzeOneOfChanges(
+  deletedOneOf,
+  addedOneOf,
+  originalOneOf,
+  updatedOneOf,
+) {
+  const changes = [];
+
+  if (!deletedOneOf && !addedOneOf) {
+    return changes;
+  }
+
+  // Handle deleted oneOf variants
+  if (deletedOneOf) {
+    for (const [index, deletedVariant] of Object.entries(deletedOneOf)) {
+      const variantIndex = parseInt(index);
+      const originalVariant = originalOneOf?.[variantIndex];
+
+      if (originalVariant) {
+        // Try to identify what type of variant this was
+        const variantType = identifyVariantType(originalVariant);
+        changes.push({
+          type: "variant-structure-change",
+          variantType: variantType,
+          change: `restructured ${variantType} variant to inherit baseCard properties`,
+          description: `Updated ${variantType} variant to use allOf pattern with baseCard reference for consistent state property support`,
+        });
+      }
+    }
+  }
+
+  // Handle added oneOf variants
+  if (addedOneOf) {
+    for (const [index, addedVariant] of Object.entries(addedOneOf)) {
+      const variantIndex = parseInt(index);
+      const updatedVariant = updatedOneOf?.[variantIndex];
+
+      if (updatedVariant) {
+        const variantType = identifyVariantType(updatedVariant);
+        changes.push({
+          type: "variant-structure-change",
+          variantType: variantType,
+          change: `restructured ${variantType} variant to inherit baseCard properties`,
+          description: `Updated ${variantType} variant to use allOf pattern with baseCard reference for consistent state property support`,
+        });
+      }
+    }
+  }
+
+  return changes;
+}
+
+/**
+ * Identifies the type of a oneOf variant based on its structure
+ * @param {Object} variant - The variant object
+ * @returns {string} The variant type
+ */
+function identifyVariantType(variant) {
+  // Check if it has allOf structure
+  if (variant.allOf && Array.isArray(variant.allOf)) {
+    for (const item of variant.allOf) {
+      if (item.properties?.variant?.const) {
+        return item.properties.variant.const;
+      }
+    }
+  }
+
+  // Check if it has direct variant property
+  if (variant.properties?.variant?.const) {
+    return variant.properties.variant.const;
+  }
+
+  return "unknown";
 }
 
 /**
