@@ -160,20 +160,26 @@
       ]
     },
     {
-      "properties": {
-        "variant": {
-          "const": "gallery"
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseCard"
         },
-        "images": {
-          "type": "array",
-          "items": {
-            "type": "string"
+        {
+          "properties": {
+            "variant": {
+              "const": "gallery"
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Image URLs for gallery display."
+            }
           },
-          "description": "Image URLs for gallery display."
+          "required": ["images"]
         }
-      },
-      "required": ["images"],
-      "additionalProperties": false
+      ]
     },
     {
       "allOf": [

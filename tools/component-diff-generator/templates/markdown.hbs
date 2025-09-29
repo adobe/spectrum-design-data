@@ -45,6 +45,11 @@ This PR contains only non-breaking changes to component schemas.
 - Updated: `{{@key}}` - {{#each this.changes}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}{{#if this.description}} - "{{this.description}}"{{/if}}
 {{/each}}
 {{/if}}
+{{#if this.changes.enhanced.oneOf}}
+{{#each this.changes.enhanced.oneOf}}
+- Schema Structure: {{this.change}}{{#if this.description}} - {{this.description}}{{/if}}
+{{/each}}
+{{/if}}
 {{#if this.changes.added.properties}}
 {{#each this.changes.added.properties}}
 - Added: `{{@key}}`{{#if this.type}} ({{this.type}}{{#if this.default}}, default: {{this.default}}{{/if}}){{/if}}{{#if this.description}} - "{{this.description}}"{{/if}}
