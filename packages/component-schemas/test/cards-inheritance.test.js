@@ -59,52 +59,59 @@ test("all card variants should inherit baseCard properties", async (t) => {
   );
 });
 
-test("gallery variant should include baseCard reference", async (t) => {
+test("gallery variant should include baseCard properties", async (t) => {
   const cardsSchema = await getSchemaBySlug("cards");
   const galleryVariant = cardsSchema.oneOf.find(
     (variant) =>
-      variant.allOf &&
-      variant.allOf.some(
-        (item) =>
-          item.properties &&
-          item.properties.variant &&
-          item.properties.variant.const === "gallery",
-      ),
+      variant.properties &&
+      variant.properties.variant &&
+      variant.properties.variant.const === "gallery",
   );
 
   t.truthy(galleryVariant, "Gallery variant should exist");
+  t.truthy(galleryVariant.properties, "Gallery variant should have properties");
+
+  // Check that baseCard properties are resolved directly
+  const hasBaseCardProperties =
+    galleryVariant.properties.size !== undefined &&
+    galleryVariant.properties.state !== undefined &&
+    galleryVariant.properties.isSelected !== undefined &&
+    galleryVariant.properties.isQuiet !== undefined &&
+    galleryVariant.properties.isDisabled !== undefined;
+
   t.true(
-    Array.isArray(galleryVariant.allOf),
-    "Gallery variant should use allOf structure",
+    hasBaseCardProperties,
+    "Gallery variant should have baseCard properties resolved",
   );
-
-  const hasBaseCardRef = galleryVariant.allOf.some(
-    (item) => item["$ref"] === "#/definitions/baseCard",
-  );
-
-  t.true(hasBaseCardRef, "Gallery variant should reference baseCard");
 });
 
 test("all card variants should have consistent structure", async (t) => {
   const cardsSchema = await getSchemaBySlug("cards");
   const variants = cardsSchema.oneOf;
 
-  // All variants should either:
-  // 1. Use allOf with baseCard reference, OR
-  // 2. Be the gallery variant (which now uses allOf)
+  // All variants should have resolved baseCard properties directly
   for (const variant of variants) {
-    if (variant.allOf) {
-      const hasBaseCardRef = variant.allOf.some(
-        (item) => item["$ref"] === "#/definitions/baseCard",
-      );
-      t.true(
-        hasBaseCardRef,
-        `Variant should reference baseCard: ${JSON.stringify(variant)}`,
-      );
-    } else {
-      // This should only be the old gallery variant structure, which we've fixed
-      t.fail(`Variant should use allOf structure: ${JSON.stringify(variant)}`);
-    }
+    t.truthy(
+      variant.properties,
+      `Variant should have properties: ${JSON.stringify(variant)}`,
+    );
+
+    // Check that baseCard properties are resolved
+    const hasBaseCardProperties =
+      variant.properties.size !== undefined &&
+      variant.properties.state !== undefined &&
+      variant.properties.isSelected !== undefined;
+
+    t.true(
+      hasBaseCardProperties,
+      `Variant should have baseCard properties resolved: ${JSON.stringify(variant)}`,
+    );
+
+    // Should not have allOf anymore (refs should be resolved)
+    t.falsy(
+      variant.allOf,
+      `Variant should not have allOf after ref resolution: ${JSON.stringify(variant)}`,
+    );
   }
 });
 

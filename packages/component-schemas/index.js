@@ -25,6 +25,89 @@ export const readJson = async (fileName) =>
 
 export const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
+/**
+ * Resolves $ref references in allOf properties by merging referenced schemas
+ * @param {Object} schema - The schema object to resolve references in
+ * @return {Object} - Schema with resolved references
+ */
+export const resolveRefs = (schema) => {
+  if (!schema || typeof schema !== "object") {
+    return schema;
+  }
+
+  // Create a deep copy to avoid mutating the original
+  const resolved = JSON.parse(JSON.stringify(schema));
+
+  // Helper function to resolve refs in allOf arrays
+  const resolveAllOfRefs = (obj) => {
+    if (!obj || typeof obj !== "object") {
+      return obj;
+    }
+
+    // Handle allOf arrays specifically
+    if (Array.isArray(obj.allOf)) {
+      const resolvedAllOf = obj.allOf.map((item) => {
+        if (item.$ref && item.$ref.startsWith("#/definitions/")) {
+          const refPath = item.$ref.replace("#/definitions/", "");
+          const referencedSchema = resolved.definitions?.[refPath];
+          if (referencedSchema) {
+            // Return the referenced schema properties merged with any additional properties
+            const { $ref, ...additionalProps } = item;
+            return {
+              ...JSON.parse(JSON.stringify(referencedSchema)),
+              ...additionalProps,
+            };
+          }
+        }
+        return resolveAllOfRefs(item);
+      });
+
+      // Merge all resolved schemas in allOf
+      const mergedSchema = {};
+      resolvedAllOf.forEach((resolvedItem) => {
+        if (resolvedItem && typeof resolvedItem === "object") {
+          // Deep merge properties
+          if (resolvedItem.properties) {
+            mergedSchema.properties = {
+              ...mergedSchema.properties,
+              ...resolvedItem.properties,
+            };
+          }
+          if (resolvedItem.required) {
+            mergedSchema.required = [
+              ...(mergedSchema.required || []),
+              ...(Array.isArray(resolvedItem.required)
+                ? resolvedItem.required
+                : [resolvedItem.required]),
+            ];
+          }
+          // Merge other properties
+          Object.keys(resolvedItem).forEach((key) => {
+            if (key !== "properties" && key !== "required") {
+              mergedSchema[key] = resolvedItem[key];
+            }
+          });
+        }
+      });
+
+      // Replace allOf with the merged properties
+      const { allOf, ...otherProps } = obj;
+      return { ...mergedSchema, ...otherProps };
+    }
+
+    // Recursively process nested objects
+    for (const [key, value] of Object.entries(obj)) {
+      if (typeof value === "object" && value !== null) {
+        obj[key] = resolveAllOfRefs(value);
+      }
+    }
+
+    return obj;
+  };
+
+  return resolveAllOfRefs(resolved);
+};
+
 export const schemaFileNames = await glob(
   `${resolve(__dirname, "./schemas")}/**/*.json`,
 );
@@ -73,10 +156,10 @@ export const getAllSchemas = async () => {
         Object.hasOwn(data.meta, "documentationUrl")
       ) {
         return {
-          ...data,
+          ...resolveRefs(data),
           ...{ slug: getSlugFromDocumentationUrl(data.meta.documentationUrl) },
         };
-      } else return data;
+      } else return resolveRefs(data);
     }),
   );
 };
@@ -91,5 +174,5 @@ export const getSchemaBySlug = async (slug) => {
     throw new Error(`Schema not found for slug: ${slug}`);
   }
   delete schema.slug;
-  return schema;
+  return resolveRefs(schema);
 };
