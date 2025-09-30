@@ -67,7 +67,7 @@
       "type": "string",
       "description": "Optional metadata shown below the card."
     },
-    "showAssets": {
+    "assetTypes": {
       "type": "array",
       "items": {
         "type": "string",
