@@ -59,6 +59,14 @@
       "default": false,
       "description": "If true, the selection checkbox is hidden."
     },
+    "title": {
+      "type": "string",
+      "description": "Optional card title."
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional description shown below the title."
+    },
     "actionLabel": {
       "type": "string",
       "description": "Optional action button label."
