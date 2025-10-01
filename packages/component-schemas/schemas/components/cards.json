@@ -94,6 +94,16 @@
       "default": "auto",
       "description": "How much of the card container the image or video occupies. Does not apply to document or thumbnail assets."
     },
+    "style": {
+      "type": "string",
+      "enum": [
+        "primary",
+        "secondary",
+        "tertiary"
+      ],
+      "default": "primary",
+      "description": "The style of the card."
+    },
     "imageRatio": {
       "type": "string",
       "enum": [
@@ -109,6 +119,6 @@
   },
   "required": [
     "variant",
-    "showAssets"
+    "assetTypes"
   ]
 }
