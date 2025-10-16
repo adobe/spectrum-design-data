@@ -64,7 +64,7 @@
   - `drop-zone` - New component schema
   - `number-field` - New component schema
   - `segmented-control` - New component schema
-  - `step-list` - New component schema
+  - `steplist` - New component schema
   - `tag-field` - New component schema
   - `tag-group` - New component schema
 
