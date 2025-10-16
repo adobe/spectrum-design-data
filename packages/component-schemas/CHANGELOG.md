@@ -1,5 +1,31 @@
 # [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)
 
+## 5.0.1
+
+### Patch Changes
+
+* [#621](https://github.com/adobe/spectrum-tokens/pull/621) [`ee2ceb5`](https://github.com/adobe/spectrum-tokens/commit/ee2ceb541dea5eb9b5267c861e44bfd804fd33a7) Thanks [@GarthDB](https://github.com/GarthDB)! - refactor(component-schemas): rename step-list to steplist
+
+  Renamed the `step-list` component schema to `steplist` for consistency with other single-word component names.
+
+  ## Components Changed (0 added, 1 deleted, 1 added)
+
+  **Original Branch:** `main`
+
+  **New Branch:** `refactor/rename-step-list-to-steplist`
+
+  ### 📦 Renamed Component
+
+  * `step-list` → `steplist` - Component schema renamed
+
+  ### Changes to steplist schema
+
+  * **$id**: Changed from `https://opensource.adobe.com/spectrum-tokens/schemas/components/step-list.json` to `https://opensource.adobe.com/spectrum-tokens/schemas/components/steplist.json`
+  * **title**: Changed from "Step list" to "Steplist"
+  * **documentationUrl**: Changed from `https://spectrum.adobe.com/page/step-list/` to `https://spectrum.adobe.com/page/steplist/`
+
+  All other properties remain unchanged. This is a non-breaking rename at the schema level, though consumers referencing the old filename will need to update their imports.
+
 ## 5.0.0
 
 ### Major Changes
