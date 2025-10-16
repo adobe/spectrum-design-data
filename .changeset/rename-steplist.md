@@ -6,7 +6,7 @@ refactor(component-schemas): rename step-list to steplist
 
 Renamed the `step-list` component schema to `steplist` for consistency with other single-word component names.
 
-## Component Schema Changes (0 added, 1 deleted, 1 added)
+## Components Changed (0 added, 1 deleted, 1 added)
 
 **Original Branch:** `main`
 
