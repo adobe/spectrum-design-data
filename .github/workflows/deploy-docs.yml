@@ -5,6 +5,14 @@ on:
   push:
     branches: [$default-branch]
 
+  # Runs after successful release
+  workflow_run:
+    workflows: ["Release"]
+    types:
+      - completed
+    branches:
+      - main
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -22,6 +30,8 @@ concurrency:
 
 jobs:
   deploy:
+    # Only run if triggered manually, by push, or if the release workflow succeeded
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
