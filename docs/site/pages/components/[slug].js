@@ -1,6 +1,10 @@
 import Head from "next/head";
 import Layout from "../../components/layout";
-import { getAllComponentSlugs, getComponentData } from "../../lib/components";
+import {
+  getAllComponentSlugs,
+  getComponentData,
+  getComponentSchemasVersion,
+} from "../../lib/components";
 
 function formatComponentPropertiesTable(componentData) {
   const properties = componentData.properties;
@@ -18,9 +22,7 @@ function formatComponentPropertiesTable(componentData) {
             result.defaultValue = "nothing";
           } else if (Object.hasOwn(properties[property], "enum")) {
             result.values = properties[property].enum.join(" / ");
-            result.defaultValue = properties[property].default
-              ? properties[property].default
-              : "";
+            result.defaultValue = properties[property].default ? properties[property].default : "";
           } else {
             result.values = "text";
             result.defaultValue = "-";
@@ -39,9 +41,11 @@ function formatComponentPropertiesTable(componentData) {
 
 export async function getStaticProps({ params }) {
   const componentData = await getComponentData(params.slug);
+  const version = await getComponentSchemasVersion();
   return {
     props: {
       componentData,
+      version,
     },
   };
 }
@@ -54,9 +58,9 @@ export async function getStaticPaths() {
   };
 }
 
-export default function Component({ componentData }) {
+export default function Component({ componentData, version }) {
   return (
-    <Layout>
+    <Layout version={version}>
       <Head>
         <title>{componentData.title}</title>
       </Head>
@@ -66,11 +70,7 @@ export default function Component({ componentData }) {
         <table className="spectrum-Table spectrum-Table--sizeM spectrum-Table--quiet">
           <thead className="spectrum-Table-head">
             <tr>
-              <th
-                className="spectrum-Table-headCell"
-                aria-sort="descending"
-                tabIndex="0"
-              >
+              <th className="spectrum-Table-headCell" aria-sort="descending" tabIndex="0">
                 Property
               </th>
               <th className="spectrum-Table-headCell" aria-sort="none">
@@ -85,15 +85,11 @@ export default function Component({ componentData }) {
               ({ values, description, property, defaultValue, required }) => (
                 <tr className="spectrum-Table-row" key={property}>
                   <td className="spectrum-Table-cell" tabIndex="0">
-                    <strong>
-                      {property.replace(/([A-Z])/g, " $1").toLowerCase()}
-                    </strong>
+                    <strong>{property.replace(/([A-Z])/g, " $1").toLowerCase()}</strong>
                   </td>
                   <td className="spectrum-Table-cell" tabIndex="0">
                     <div>{values}</div>
-                    {description ? (
-                      <div className="description">{description}</div>
-                    ) : undefined}
+                    {description ? <div className="description">{description}</div> : undefined}
                   </td>
                   <td className="spectrum-Table-cell" tabIndex="0">
                     {defaultValue}
@@ -102,7 +98,7 @@ export default function Component({ componentData }) {
                     {required}
                   </td>
                 </tr>
-              ),
+              )
             )}
           </tbody>
         </table>
