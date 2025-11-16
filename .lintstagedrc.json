@@ -1,11 +1,13 @@
 {
   "**/*.{js,jsx,ts,tsx,json,yml,yaml}": ["prettier --write"],
-  "**/*.md": ["remark --use remark-gfm --use remark-github --output"],
+  "**/*.md": [
+    "remark --use remark-frontmatter --use remark-gfm --use remark-github --output"
+  ],
+  "!**/.changeset/*.md": [],
   "!**/pnpm-lock.yaml": [],
   "!**/package-lock.json": [],
   "!**/yarn.lock": [],
   ".changeset/*.md": [
-    "pnpm changeset-lint check-file",
-    "remark --use remark-gfm --use remark-github --output"
+    "pnpm changeset-lint check-file"
   ]
 }
