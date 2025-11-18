@@ -24,7 +24,7 @@ test("fileImport - default export function", async (t) => {
     ["color-palette.json"], // givenTokenNames - no src/ prefix (gets added automatically)
     null, // givenVersion
     "main", // givenLocation - use main branch
-    "adobe/spectrum-tokens", // givenRepo
+    "adobe/spectrum-design-data", // givenRepo
     null, // githubAPIKey
   );
 
@@ -38,7 +38,7 @@ test("fileImport - default export with version", async (t) => {
     ["color-palette.json"], // no src/ prefix
     "@adobe/spectrum-tokens@12.26.0",
     null, // givenLocation
-    "adobe/spectrum-tokens",
+    "adobe/spectrum-design-data",
     null,
   );
 
@@ -177,7 +177,7 @@ test("Integration - fileImport to loadLocalData workflow (coverage test)", async
     ["color-palette.json"], // no src/ prefix
     null,
     "main",
-    "adobe/spectrum-tokens",
+    "adobe/spectrum-design-data",
     null,
   );
 
