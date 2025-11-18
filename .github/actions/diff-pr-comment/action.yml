@@ -64,6 +64,16 @@ runs:
         if [ "${{ inputs.diff-generated }}" == "true" ]; then
           # Decode base64 content and append to file
           echo "${{ inputs.diff-content }}" | base64 -d >> /tmp/comment_body.md
+        elif [ "${{ inputs.diff-generated }}" == "too-large" ]; then
+          # Diff too large case
+          echo "⚠️ **The diff output is too large to display in a PR comment.**" >> /tmp/comment_body.md
+          echo "" >> /tmp/comment_body.md
+          echo "${{ inputs.diff-content }}" >> /tmp/comment_body.md
+          echo "" >> /tmp/comment_body.md
+          echo "For large-scale changes like repository renames, please run the diff tool locally:" >> /tmp/comment_body.md
+          echo '```bash' >> /tmp/comment_body.md
+          echo "pnpm --filter @adobe/${{ inputs.diff-type }}-diff-generator exec -- tdiff report --otb ${{ github.base_ref }} --ntb ${{ github.head_ref }}" >> /tmp/comment_body.md
+          echo '```' >> /tmp/comment_body.md
         elif [ "${{ inputs.diff-generated }}" == "false" ]; then
           # No changes case
           echo "No ${{ steps.comment-details.outputs.description }} changes detected in this pull request." >> /tmp/comment_body.md

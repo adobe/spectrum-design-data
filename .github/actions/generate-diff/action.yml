@@ -89,9 +89,18 @@ runs:
 
         # Check if the command succeeded and output file exists
         if [ $exit_code -eq 0 ] && [ -f "${{ inputs.output-file }}" ] && [ -s "${{ inputs.output-file }}" ]; then
-          echo "diff_generated=true" >> $GITHUB_OUTPUT
-          # Use base64 encoding to safely pass multiline content
-          echo "diff_content=$(base64 -w 0 < "${{ inputs.output-file }}")" >> $GITHUB_OUTPUT
+          # Check file size (GitHub Actions output limit is ~1MB, base64 adds 33% overhead)
+          file_size=$(wc -c < "${{ inputs.output-file }}")
+          max_size=$((750 * 1024))  # 750KB limit to be safe
+          
+          if [ $file_size -gt $max_size ]; then
+            echo "diff_generated=too-large" >> $GITHUB_OUTPUT
+            echo "diff_content=Diff output is too large to display in PR comment (${file_size} bytes). Please check the workflow artifacts or run the diff tool locally." >> $GITHUB_OUTPUT
+          else
+            echo "diff_generated=true" >> $GITHUB_OUTPUT
+            # Use base64 encoding to safely pass multiline content
+            echo "diff_content=$(base64 -w 0 < "${{ inputs.output-file }}")" >> $GITHUB_OUTPUT
+          fi
         elif [ $exit_code -eq 0 ] && [ -f "${{ inputs.output-file }}" ]; then
           # Command succeeded but file exists but is empty (no changes)
           echo "diff_generated=false" >> $GITHUB_OUTPUT
