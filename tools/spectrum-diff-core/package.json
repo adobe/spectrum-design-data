@@ -45,7 +45,7 @@
   "packageManager": "pnpm@10.17.1",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adobe/spectrum-tokens.git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
     "directory": "tools/spectrum-diff-core"
   },
   "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
@@ -54,9 +54,9 @@
   ],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/adobe/spectrum-tokens/issues"
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
   },
-  "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/tools/spectrum-diff-core#readme",
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/tools/spectrum-diff-core#readme",
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/adobe-spectrum"

@@ -5,16 +5,16 @@
   "version": "0.1.8",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adobe/spectrum-tokens.git"
+    "url": "git+https://github.com/adobe/spectrum-design-data.git"
   },
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/adobe/spectrum-tokens/issues"
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
   },
   "scripts": {
     "prepare": "mkdir -p tokens && cp -r node_modules/@adobe/spectrum-tokens/src/ tokens && cp -r node_modules/@adobe/spectrum-tokens/package.json tokens/"
   },
-  "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/docs/site#readme",
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/docs/s2-tokens-viewer#readme",
   "keywords": [],
   "author": "Larz (http://larz.co)",
   "dependencies": {

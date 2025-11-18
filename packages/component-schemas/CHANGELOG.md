@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-* [#621](https://github.com/adobe/spectrum-tokens/pull/621) [`ee2ceb5`](https://github.com/adobe/spectrum-tokens/commit/ee2ceb541dea5eb9b5267c861e44bfd804fd33a7) Thanks [@GarthDB](https://github.com/GarthDB)! - refactor(component-schemas): rename step-list to steplist
+* [#621](https://github.com/adobe/spectrum-design-data/pull/621) [`ee2ceb5`](https://github.com/adobe/spectrum-design-data/commit/ee2ceb541dea5eb9b5267c861e44bfd804fd33a7) Thanks [@GarthDB](https://github.com/GarthDB)! - refactor(component-schemas): rename step-list to steplist
 
   Renamed the `step-list` component schema to `steplist` for consistency with other single-word component names.
 
@@ -20,7 +20,7 @@
 
   ### Changes to steplist schema
 
-  * **$id**: Changed from `https://opensource.adobe.com/spectrum-tokens/schemas/components/step-list.json` to `https://opensource.adobe.com/spectrum-tokens/schemas/components/steplist.json`
+  * **$id**: Changed from `https://opensource.adobe.com/spectrum-design-data/schemas/components/step-list.json` to `https://opensource.adobe.com/spectrum-design-data/schemas/components/steplist.json`
   * **title**: Changed from "Step list" to "Steplist"
   * **documentationUrl**: Changed from `https://spectrum.adobe.com/page/step-list/` to `https://spectrum.adobe.com/page/steplist/`
 
@@ -30,7 +30,7 @@
 
 ### Major Changes
 
-* [#614](https://github.com/adobe/spectrum-tokens/pull/614) [`a772572`](https://github.com/adobe/spectrum-tokens/commit/a772572de88c54d279c20d7148f6ac91eb941d2a) Thanks [@AmunMRa](https://github.com/AmunMRa)! - # Component Schemas Changed (9 added, 0 deleted, 3 updated)
+* [#614](https://github.com/adobe/spectrum-design-data/pull/614) [`a772572`](https://github.com/adobe/spectrum-design-data/commit/a772572de88c54d279c20d7148f6ac91eb941d2a) Thanks [@AmunMRa](https://github.com/AmunMRa)! - # Component Schemas Changed (9 added, 0 deleted, 3 updated)
 
   **Original Branch:** `main`
 
@@ -74,7 +74,7 @@
 
 ### Major Changes
 
-* [#613](https://github.com/adobe/spectrum-tokens/pull/613) [`433efdd`](https://github.com/adobe/spectrum-tokens/commit/433efdd18f9b0842ae55acac3cd0fbc1e5e5db58) Thanks [@AmunMRa](https://github.com/AmunMRa)! - feat(component-schemas): add 10 new components with breaking changes to existing schemas
+* [#613](https://github.com/adobe/spectrum-design-data/pull/613) [`433efdd`](https://github.com/adobe/spectrum-design-data/commit/433efdd18f9b0842ae55acac3cd0fbc1e5e5db58) Thanks [@AmunMRa](https://github.com/AmunMRa)! - feat(component-schemas): add 10 new components with breaking changes to existing schemas
 
   ## Component Schemas Changed (10 added, 0 deleted, 17 updated)
 
@@ -207,7 +207,7 @@
 
 ### Major Changes
 
-* [#610](https://github.com/adobe/spectrum-tokens/pull/610) [`13d9202`](https://github.com/adobe/spectrum-tokens/commit/13d920273c02c78d3748522de6a7c7ee39b39814) Thanks [@GarthDB](https://github.com/GarthDB)! - Component schema improvements for Batch 1 components
+* [#610](https://github.com/adobe/spectrum-design-data/pull/610) [`13d9202`](https://github.com/adobe/spectrum-design-data/commit/13d920273c02c78d3748522de6a7c7ee39b39814) Thanks [@GarthDB](https://github.com/GarthDB)! - Component schema improvements for Batch 1 components
 
   Quality control pass on the Design API table for v0, ensuring schema consistency and completeness across S2 components.
 
@@ -289,7 +289,7 @@
 
 ### Major Changes
 
-* [#581](https://github.com/adobe/spectrum-tokens/pull/581) [`163fe7c`](https://github.com/adobe/spectrum-tokens/commit/163fe7c13bb00c639d202195a398126b6c25b58f) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(component-schemas): add S2 Batch 2 components with breaking changes
+* [#581](https://github.com/adobe/spectrum-design-data/pull/581) [`163fe7c`](https://github.com/adobe/spectrum-design-data/commit/163fe7c13bb00c639d202195a398126b6c25b58f) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(component-schemas): add S2 Batch 2 components with breaking changes
   * Add 6 new component schemas (coach-indicator, in-field-progress-button, etc.)
   * Update avatar, badge, and checkbox components with breaking changes
   * Expand size options and add new interaction states
@@ -299,13 +299,13 @@
 
 ### Patch Changes
 
-* [#545](https://github.com/adobe/spectrum-tokens/pull/545) [`ebc79f6`](https://github.com/adobe/spectrum-tokens/commit/ebc79f6f91bce28a64cddfc2cc5548ddcf30389d) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed a typo where meter had `valueLable` instead of `valueLabel`.
+* [#545](https://github.com/adobe/spectrum-design-data/pull/545) [`ebc79f6`](https://github.com/adobe/spectrum-design-data/commit/ebc79f6f91bce28a64cddfc2cc5548ddcf30389d) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed a typo where meter had `valueLable` instead of `valueLabel`.
 
 ## 1.0.1
 
 ### Patch Changes
 
-* [#523](https://github.com/adobe/spectrum-tokens/pull/523) [`9c5a2ac`](https://github.com/adobe/spectrum-tokens/commit/9c5a2ac5fccb29b6f106396b21d91aab949043d4) Thanks [@GarthDB](https://github.com/GarthDB)! - S2 components batch 1 (part 2)
+* [#523](https://github.com/adobe/spectrum-design-data/pull/523) [`9c5a2ac`](https://github.com/adobe/spectrum-design-data/commit/9c5a2ac5fccb29b6f106396b21d91aab949043d4) Thanks [@GarthDB](https://github.com/GarthDB)! - S2 components batch 1 (part 2)
 
   ## Changes
 
@@ -324,7 +324,7 @@
 
 ### Major Changes
 
-* [#520](https://github.com/adobe/spectrum-tokens/pull/520) [`2964807`](https://github.com/adobe/spectrum-tokens/commit/2964807641908e40820bea0556b3b0542503223b) Thanks [@GarthDB](https://github.com/GarthDB) and [@AmunMRa](https://github.com/AmunMRa)! - S2 components batch 1
+* [#520](https://github.com/adobe/spectrum-design-data/pull/520) [`2964807`](https://github.com/adobe/spectrum-design-data/commit/2964807641908e40820bea0556b3b0542503223b) Thanks [@GarthDB](https://github.com/GarthDB) and [@AmunMRa](https://github.com/AmunMRa)! - S2 components batch 1
 
   ## Changes
 
@@ -381,34 +381,34 @@
 
 ### Minor Changes
 
-* [#353](https://github.com/adobe/spectrum-tokens/pull/353) [`71e674a`](https://github.com/adobe/spectrum-tokens/commit/71e674ad6baa630a900785ae21c9dcae93233b21) Thanks [@karstens](https://github.com/karstens)! - Release to latest branch
+* [#353](https://github.com/adobe/spectrum-design-data/pull/353) [`71e674a`](https://github.com/adobe/spectrum-design-data/commit/71e674ad6baa630a900785ae21c9dcae93233b21) Thanks [@karstens](https://github.com/karstens)! - Release to latest branch
 
 ## 0.0.0-schema-20240821152525
 
 ### Patch Changes
 
-* [#353](https://github.com/adobe/spectrum-tokens/pull/353) [`dc2d6c6`](https://github.com/adobe/spectrum-tokens/commit/dc2d6c6e12c1ea4fdc0d891b3fd50ea0b1697dd7) Thanks [@karstens](https://github.com/karstens)! - Making adjustments to bring the schema more in line with what was on the spectrum website.
+* [#353](https://github.com/adobe/spectrum-design-data/pull/353) [`dc2d6c6`](https://github.com/adobe/spectrum-design-data/commit/dc2d6c6e12c1ea4fdc0d891b3fd50ea0b1697dd7) Thanks [@karstens](https://github.com/karstens)! - Making adjustments to bring the schema more in line with what was on the spectrum website.
 
 ## 0.0.0-schema-20240620220450
 
 ### Minor Changes
 
-* [#353](https://github.com/adobe/spectrum-tokens/pull/353) [`64379eb`](https://github.com/adobe/spectrum-tokens/commit/64379ebeaf9402fe77ca1adfd020f42df60c60d9) Thanks [@karstens](https://github.com/karstens)! - Added schema for search-field and fixed some path bugs in testing
+* [#353](https://github.com/adobe/spectrum-design-data/pull/353) [`64379eb`](https://github.com/adobe/spectrum-design-data/commit/64379ebeaf9402fe77ca1adfd020f42df60c60d9) Thanks [@karstens](https://github.com/karstens)! - Added schema for search-field and fixed some path bugs in testing
 
 ## 0.0.0-schema-20240618053842
 
 ### Minor Changes
 
-* [#353](https://github.com/adobe/spectrum-tokens/pull/353) [`b5c1579`](https://github.com/adobe/spectrum-tokens/commit/b5c15792ec5f5e5c269bfa7bf58af3df42e648c1) Thanks [@karstens](https://github.com/karstens)! - Initial release
+* [#353](https://github.com/adobe/spectrum-design-data/pull/353) [`b5c1579`](https://github.com/adobe/spectrum-design-data/commit/b5c15792ec5f5e5c269bfa7bf58af3df42e648c1) Thanks [@karstens](https://github.com/karstens)! - Initial release
 
 ## 0.0.0-schema-20240614194147
 
 ### Patch Changes
 
-* [#353](https://github.com/adobe/spectrum-tokens/pull/353) [`9805167`](https://github.com/adobe/spectrum-tokens/commit/980516791c0bef9e2f0bbeffe6515f103f3ad7a2) Thanks [@karstens](https://github.com/karstens)! - fixed some bugs
+* [#353](https://github.com/adobe/spectrum-design-data/pull/353) [`9805167`](https://github.com/adobe/spectrum-design-data/commit/980516791c0bef9e2f0bbeffe6515f103f3ad7a2) Thanks [@karstens](https://github.com/karstens)! - fixed some bugs
 
 ## 0.0.0-schema-20240613154750
 
 ### Patch Changes
 
-* [#353](https://github.com/adobe/spectrum-tokens/pull/353) [`6ff5ad7`](https://github.com/adobe/spectrum-tokens/commit/6ff5ad7a75356f4b93d07a2818b357da19ce5b4b) Thanks [@karstens](https://github.com/karstens)! - Initial release
+* [#353](https://github.com/adobe/spectrum-design-data/pull/353) [`6ff5ad7`](https://github.com/adobe/spectrum-design-data/commit/6ff5ad7a75356f4b93d07a2818b357da19ce5b4b) Thanks [@karstens](https://github.com/karstens)! - Initial release

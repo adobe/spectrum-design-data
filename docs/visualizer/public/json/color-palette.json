@@ -60,7 +60,7 @@
     "value": "rgb(0, 0, 0)"
   },
   "gray-50": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 255, 255)"
@@ -77,7 +77,7 @@
     }
   },
   "gray-75": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(253, 253, 253)"
@@ -94,7 +94,7 @@
     }
   },
   "gray-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(248, 248, 248)"
@@ -111,7 +111,7 @@
     }
   },
   "gray-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(230, 230, 230)"
@@ -128,7 +128,7 @@
     }
   },
   "gray-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(213, 213, 213)"
@@ -145,7 +145,7 @@
     }
   },
   "gray-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(177, 177, 177)"
@@ -162,7 +162,7 @@
     }
   },
   "gray-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(144, 144, 144)"
@@ -179,7 +179,7 @@
     }
   },
   "gray-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(109, 109, 109)"
@@ -196,7 +196,7 @@
     }
   },
   "gray-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(70, 70, 70)"
@@ -213,7 +213,7 @@
     }
   },
   "gray-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(34, 34, 34)"
@@ -230,7 +230,7 @@
     }
   },
   "gray-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 0, 0)"
@@ -247,7 +247,7 @@
     }
   },
   "blue-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(224, 242, 255)"
@@ -264,7 +264,7 @@
     }
   },
   "blue-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(202, 232, 255)"
@@ -281,7 +281,7 @@
     }
   },
   "blue-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(181, 222, 255)"
@@ -298,7 +298,7 @@
     }
   },
   "blue-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(150, 206, 253)"
@@ -315,7 +315,7 @@
     }
   },
   "blue-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(120, 187, 250)"
@@ -332,7 +332,7 @@
     }
   },
   "blue-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(89, 167, 246)"
@@ -349,7 +349,7 @@
     }
   },
   "blue-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(56, 146, 243)"
@@ -366,7 +366,7 @@
     }
   },
   "blue-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(20, 122, 243)"
@@ -383,7 +383,7 @@
     }
   },
   "blue-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(2, 101, 220)"
@@ -400,7 +400,7 @@
     }
   },
   "blue-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 84, 182)"
@@ -417,7 +417,7 @@
     }
   },
   "blue-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 68, 145)"
@@ -434,7 +434,7 @@
     }
   },
   "blue-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 53, 113)"
@@ -451,7 +451,7 @@
     }
   },
   "blue-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 39, 84)"
@@ -468,7 +468,7 @@
     }
   },
   "blue-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 28, 60)"
@@ -485,7 +485,7 @@
     }
   },
   "red-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 235, 231)"
@@ -502,7 +502,7 @@
     }
   },
   "red-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 221, 214)"
@@ -519,7 +519,7 @@
     }
   },
   "red-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 205, 195)"
@@ -536,7 +536,7 @@
     }
   },
   "red-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 183, 169)"
@@ -553,7 +553,7 @@
     }
   },
   "red-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 155, 136)"
@@ -570,7 +570,7 @@
     }
   },
   "red-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 124, 101)"
@@ -587,7 +587,7 @@
     }
   },
   "red-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(247, 92, 70)"
@@ -604,7 +604,7 @@
     }
   },
   "red-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(234, 56, 41)"
@@ -621,7 +621,7 @@
     }
   },
   "red-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(211, 21, 16)"
@@ -638,7 +638,7 @@
     }
   },
   "red-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(180, 0, 0)"
@@ -655,7 +655,7 @@
     }
   },
   "red-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(147, 0, 0)"
@@ -672,7 +672,7 @@
     }
   },
   "red-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(116, 0, 0)"
@@ -689,7 +689,7 @@
     }
   },
   "red-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(89, 0, 0)"
@@ -706,7 +706,7 @@
     }
   },
   "red-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(67, 0, 0)"
@@ -723,7 +723,7 @@
     }
   },
   "orange-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 236, 204)"
@@ -740,7 +740,7 @@
     }
   },
   "orange-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 223, 173)"
@@ -757,7 +757,7 @@
     }
   },
   "orange-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(253, 210, 145)"
@@ -774,7 +774,7 @@
     }
   },
   "orange-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 187, 99)"
@@ -791,7 +791,7 @@
     }
   },
   "orange-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 160, 55)"
@@ -808,7 +808,7 @@
     }
   },
   "orange-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(246, 133, 17)"
@@ -825,7 +825,7 @@
     }
   },
   "orange-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(228, 111, 0)"
@@ -842,7 +842,7 @@
     }
   },
   "orange-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(203, 93, 0)"
@@ -859,7 +859,7 @@
     }
   },
   "orange-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(177, 76, 0)"
@@ -876,7 +876,7 @@
     }
   },
   "orange-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(149, 61, 0)"
@@ -893,7 +893,7 @@
     }
   },
   "orange-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(122, 47, 0)"
@@ -910,7 +910,7 @@
     }
   },
   "orange-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(97, 35, 0)"
@@ -927,7 +927,7 @@
     }
   },
   "orange-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(73, 25, 1)"
@@ -944,7 +944,7 @@
     }
   },
   "orange-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(53, 18, 1)"
@@ -961,7 +961,7 @@
     }
   },
   "yellow-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(251, 241, 152)"
@@ -978,7 +978,7 @@
     }
   },
   "yellow-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(248, 231, 80)"
@@ -995,7 +995,7 @@
     }
   },
   "yellow-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(248, 217, 4)"
@@ -1012,7 +1012,7 @@
     }
   },
   "yellow-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(232, 198, 0)"
@@ -1029,7 +1029,7 @@
     }
   },
   "yellow-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(215, 179, 0)"
@@ -1046,7 +1046,7 @@
     }
   },
   "yellow-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(196, 159, 0)"
@@ -1063,7 +1063,7 @@
     }
   },
   "yellow-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(176, 140, 0)"
@@ -1080,7 +1080,7 @@
     }
   },
   "yellow-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(155, 120, 0)"
@@ -1097,7 +1097,7 @@
     }
   },
   "yellow-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(133, 102, 0)"
@@ -1114,7 +1114,7 @@
     }
   },
   "yellow-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(112, 83, 0)"
@@ -1131,7 +1131,7 @@
     }
   },
   "yellow-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(91, 67, 0)"
@@ -1148,7 +1148,7 @@
     }
   },
   "yellow-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(72, 51, 0)"
@@ -1165,7 +1165,7 @@
     }
   },
   "yellow-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(54, 37, 0)"
@@ -1182,7 +1182,7 @@
     }
   },
   "yellow-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(40, 26, 0)"
@@ -1199,7 +1199,7 @@
     }
   },
   "chartreuse-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(219, 252, 110)"
@@ -1216,7 +1216,7 @@
     }
   },
   "chartreuse-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(203, 244, 67)"
@@ -1233,7 +1233,7 @@
     }
   },
   "chartreuse-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(188, 233, 42)"
@@ -1250,7 +1250,7 @@
     }
   },
   "chartreuse-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(170, 216, 22)"
@@ -1267,7 +1267,7 @@
     }
   },
   "chartreuse-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(152, 197, 10)"
@@ -1284,7 +1284,7 @@
     }
   },
   "chartreuse-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(135, 177, 3)"
@@ -1301,7 +1301,7 @@
     }
   },
   "chartreuse-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(118, 156, 0)"
@@ -1318,7 +1318,7 @@
     }
   },
   "chartreuse-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(103, 136, 0)"
@@ -1335,7 +1335,7 @@
     }
   },
   "chartreuse-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(87, 116, 0)"
@@ -1352,7 +1352,7 @@
     }
   },
   "chartreuse-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(72, 96, 0)"
@@ -1369,7 +1369,7 @@
     }
   },
   "chartreuse-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(58, 77, 0)"
@@ -1386,7 +1386,7 @@
     }
   },
   "chartreuse-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(44, 59, 0)"
@@ -1403,7 +1403,7 @@
     }
   },
   "chartreuse-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(33, 44, 0)"
@@ -1420,7 +1420,7 @@
     }
   },
   "chartreuse-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(24, 31, 0)"
@@ -1437,7 +1437,7 @@
     }
   },
   "celery-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(205, 252, 191)"
@@ -1454,7 +1454,7 @@
     }
   },
   "celery-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(174, 246, 157)"
@@ -1471,7 +1471,7 @@
     }
   },
   "celery-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(150, 238, 133)"
@@ -1488,7 +1488,7 @@
     }
   },
   "celery-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(114, 224, 106)"
@@ -1505,7 +1505,7 @@
     }
   },
   "celery-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(78, 207, 80)"
@@ -1522,7 +1522,7 @@
     }
   },
   "celery-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(39, 187, 54)"
@@ -1539,7 +1539,7 @@
     }
   },
   "celery-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(7, 167, 33)"
@@ -1556,7 +1556,7 @@
     }
   },
   "celery-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 145, 18)"
@@ -1573,7 +1573,7 @@
     }
   },
   "celery-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 124, 15)"
@@ -1590,7 +1590,7 @@
     }
   },
   "celery-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 103, 15)"
@@ -1607,7 +1607,7 @@
     }
   },
   "celery-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 83, 13)"
@@ -1624,7 +1624,7 @@
     }
   },
   "celery-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 64, 10)"
@@ -1641,7 +1641,7 @@
     }
   },
   "celery-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 48, 7)"
@@ -1658,7 +1658,7 @@
     }
   },
   "celery-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 34, 5)"
@@ -1675,7 +1675,7 @@
     }
   },
   "green-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(206, 248, 224)"
@@ -1692,7 +1692,7 @@
     }
   },
   "green-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(173, 244, 206)"
@@ -1709,7 +1709,7 @@
     }
   },
   "green-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(137, 236, 188)"
@@ -1726,7 +1726,7 @@
     }
   },
   "green-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(103, 222, 168)"
@@ -1743,7 +1743,7 @@
     }
   },
   "green-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(73, 204, 147)"
@@ -1760,7 +1760,7 @@
     }
   },
   "green-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(47, 184, 128)"
@@ -1777,7 +1777,7 @@
     }
   },
   "green-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(21, 164, 110)"
@@ -1794,7 +1794,7 @@
     }
   },
   "green-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 143, 93)"
@@ -1811,7 +1811,7 @@
     }
   },
   "green-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 122, 77)"
@@ -1828,7 +1828,7 @@
     }
   },
   "green-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 101, 62)"
@@ -1845,7 +1845,7 @@
     }
   },
   "green-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 81, 50)"
@@ -1862,7 +1862,7 @@
     }
   },
   "green-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(5, 63, 39)"
@@ -1879,7 +1879,7 @@
     }
   },
   "green-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(10, 46, 29)"
@@ -1896,7 +1896,7 @@
     }
   },
   "green-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(10, 32, 21)"
@@ -1913,7 +1913,7 @@
     }
   },
   "seafoam-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(206, 247, 243)"
@@ -1930,7 +1930,7 @@
     }
   },
   "seafoam-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(170, 241, 234)"
@@ -1947,7 +1947,7 @@
     }
   },
   "seafoam-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(140, 233, 226)"
@@ -1964,7 +1964,7 @@
     }
   },
   "seafoam-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(101, 218, 210)"
@@ -1981,7 +1981,7 @@
     }
   },
   "seafoam-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(63, 201, 193)"
@@ -1998,7 +1998,7 @@
     }
   },
   "seafoam-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(15, 181, 174)"
@@ -2015,7 +2015,7 @@
     }
   },
   "seafoam-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 161, 154)"
@@ -2032,7 +2032,7 @@
     }
   },
   "seafoam-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 140, 135)"
@@ -2049,7 +2049,7 @@
     }
   },
   "seafoam-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 119, 114)"
@@ -2066,7 +2066,7 @@
     }
   },
   "seafoam-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 99, 95)"
@@ -2083,7 +2083,7 @@
     }
   },
   "seafoam-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(12, 79, 76)"
@@ -2100,7 +2100,7 @@
     }
   },
   "seafoam-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(18, 60, 58)"
@@ -2117,7 +2117,7 @@
     }
   },
   "seafoam-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(18, 44, 43)"
@@ -2134,7 +2134,7 @@
     }
   },
   "seafoam-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(15, 31, 30)"
@@ -2151,7 +2151,7 @@
     }
   },
   "cyan-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(197, 248, 255)"
@@ -2168,7 +2168,7 @@
     }
   },
   "cyan-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(164, 240, 255)"
@@ -2185,7 +2185,7 @@
     }
   },
   "cyan-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(136, 231, 250)"
@@ -2202,7 +2202,7 @@
     }
   },
   "cyan-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(96, 216, 243)"
@@ -2219,7 +2219,7 @@
     }
   },
   "cyan-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(51, 197, 232)"
@@ -2236,7 +2236,7 @@
     }
   },
   "cyan-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(18, 176, 218)"
@@ -2253,7 +2253,7 @@
     }
   },
   "cyan-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(1, 156, 200)"
@@ -2270,7 +2270,7 @@
     }
   },
   "cyan-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 134, 180)"
@@ -2287,7 +2287,7 @@
     }
   },
   "cyan-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 113, 159)"
@@ -2304,7 +2304,7 @@
     }
   },
   "cyan-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 93, 137)"
@@ -2321,7 +2321,7 @@
     }
   },
   "cyan-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 74, 115)"
@@ -2338,7 +2338,7 @@
     }
   },
   "cyan-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 57, 93)"
@@ -2355,7 +2355,7 @@
     }
   },
   "cyan-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 42, 70)"
@@ -2372,7 +2372,7 @@
     }
   },
   "cyan-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(0, 30, 51)"
@@ -2389,7 +2389,7 @@
     }
   },
   "indigo-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(237, 238, 255)"
@@ -2406,7 +2406,7 @@
     }
   },
   "indigo-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(224, 226, 255)"
@@ -2423,7 +2423,7 @@
     }
   },
   "indigo-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(211, 213, 255)"
@@ -2440,7 +2440,7 @@
     }
   },
   "indigo-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(193, 196, 255)"
@@ -2457,7 +2457,7 @@
     }
   },
   "indigo-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(172, 175, 255)"
@@ -2474,7 +2474,7 @@
     }
   },
   "indigo-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(149, 153, 255)"
@@ -2491,7 +2491,7 @@
     }
   },
   "indigo-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(126, 132, 252)"
@@ -2508,7 +2508,7 @@
     }
   },
   "indigo-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(104, 109, 244)"
@@ -2525,7 +2525,7 @@
     }
   },
   "indigo-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(82, 88, 228)"
@@ -2542,7 +2542,7 @@
     }
   },
   "indigo-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(64, 70, 202)"
@@ -2559,7 +2559,7 @@
     }
   },
   "indigo-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(50, 54, 168)"
@@ -2576,7 +2576,7 @@
     }
   },
   "indigo-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(38, 41, 134)"
@@ -2593,7 +2593,7 @@
     }
   },
   "indigo-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(27, 30, 100)"
@@ -2610,7 +2610,7 @@
     }
   },
   "indigo-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(20, 22, 72)"
@@ -2627,7 +2627,7 @@
     }
   },
   "purple-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(246, 235, 255)"
@@ -2644,7 +2644,7 @@
     }
   },
   "purple-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(238, 221, 255)"
@@ -2661,7 +2661,7 @@
     }
   },
   "purple-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(230, 208, 255)"
@@ -2678,7 +2678,7 @@
     }
   },
   "purple-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(219, 187, 254)"
@@ -2695,7 +2695,7 @@
     }
   },
   "purple-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(204, 164, 253)"
@@ -2712,7 +2712,7 @@
     }
   },
   "purple-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(189, 139, 252)"
@@ -2729,7 +2729,7 @@
     }
   },
   "purple-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(174, 114, 249)"
@@ -2746,7 +2746,7 @@
     }
   },
   "purple-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(157, 87, 244)"
@@ -2763,7 +2763,7 @@
     }
   },
   "purple-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(137, 61, 231)"
@@ -2780,7 +2780,7 @@
     }
   },
   "purple-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(115, 38, 211)"
@@ -2797,7 +2797,7 @@
     }
   },
   "purple-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(93, 19, 183)"
@@ -2814,7 +2814,7 @@
     }
   },
   "purple-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(71, 12, 148)"
@@ -2831,7 +2831,7 @@
     }
   },
   "purple-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(51, 16, 106)"
@@ -2848,7 +2848,7 @@
     }
   },
   "purple-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(35, 15, 73)"
@@ -2865,7 +2865,7 @@
     }
   },
   "fuchsia-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 233, 252)"
@@ -2882,7 +2882,7 @@
     }
   },
   "fuchsia-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 218, 250)"
@@ -2899,7 +2899,7 @@
     }
   },
   "fuchsia-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(254, 199, 248)"
@@ -2916,7 +2916,7 @@
     }
   },
   "fuchsia-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(251, 174, 246)"
@@ -2933,7 +2933,7 @@
     }
   },
   "fuchsia-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(245, 146, 243)"
@@ -2950,7 +2950,7 @@
     }
   },
   "fuchsia-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(237, 116, 237)"
@@ -2967,7 +2967,7 @@
     }
   },
   "fuchsia-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(224, 85, 226)"
@@ -2984,7 +2984,7 @@
     }
   },
   "fuchsia-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(205, 58, 206)"
@@ -3001,7 +3001,7 @@
     }
   },
   "fuchsia-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(182, 34, 183)"
@@ -3018,7 +3018,7 @@
     }
   },
   "fuchsia-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(157, 3, 158)"
@@ -3035,7 +3035,7 @@
     }
   },
   "fuchsia-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(128, 0, 129)"
@@ -3052,7 +3052,7 @@
     }
   },
   "fuchsia-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(100, 6, 100)"
@@ -3069,7 +3069,7 @@
     }
   },
   "fuchsia-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(71, 14, 70)"
@@ -3086,7 +3086,7 @@
     }
   },
   "fuchsia-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(50, 13, 49)"
@@ -3103,7 +3103,7 @@
     }
   },
   "magenta-100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 234, 241)"
@@ -3120,7 +3120,7 @@
     }
   },
   "magenta-200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 220, 232)"
@@ -3137,7 +3137,7 @@
     }
   },
   "magenta-300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 202, 221)"
@@ -3154,7 +3154,7 @@
     }
   },
   "magenta-400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 178, 206)"
@@ -3171,7 +3171,7 @@
     }
   },
   "magenta-500": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(255, 149, 189)"
@@ -3188,7 +3188,7 @@
     }
   },
   "magenta-600": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(250, 119, 170)"
@@ -3205,7 +3205,7 @@
     }
   },
   "magenta-700": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(239, 90, 152)"
@@ -3222,7 +3222,7 @@
     }
   },
   "magenta-800": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(222, 61, 130)"
@@ -3239,7 +3239,7 @@
     }
   },
   "magenta-900": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(200, 34, 105)"
@@ -3256,7 +3256,7 @@
     }
   },
   "magenta-1000": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(173, 9, 85)"
@@ -3273,7 +3273,7 @@
     }
   },
   "magenta-1100": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(142, 0, 69)"
@@ -3290,7 +3290,7 @@
     }
   },
   "magenta-1200": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(112, 0, 55)"
@@ -3307,7 +3307,7 @@
     }
   },
   "magenta-1300": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(84, 3, 42)"
@@ -3324,7 +3324,7 @@
     }
   },
   "magenta-1400": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
       "light": {
         "value": "rgb(60, 6, 29)"

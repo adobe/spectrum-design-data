@@ -49,7 +49,7 @@ function generateMarkdownReport(diffResult, options = {}) {
 // Real-world Adobe Spectrum component schemas based on actual patterns
 const spectrumButtonV1 = {
   $schema: "https://json-schema.org/draft/2019-09/schema",
-  $id: "https://opensource.adobe.com/spectrum-tokens/schemas/components/button.json",
+  $id: "https://opensource.adobe.com/spectrum-design-data/schemas/components/button.json",
   title: "Button",
   type: "object",
   description:
@@ -81,7 +81,7 @@ const spectrumButtonV1 = {
 
 const spectrumButtonV2 = {
   $schema: "https://json-schema.org/draft/2019-09/schema",
-  $id: "https://opensource.adobe.com/spectrum-tokens/schemas/components/button.json",
+  $id: "https://opensource.adobe.com/spectrum-design-data/schemas/components/button.json",
   title: "Button",
   type: "object",
   description:
@@ -121,7 +121,7 @@ const spectrumButtonV2 = {
 
 const spectrumAlertV1 = {
   $schema: "https://json-schema.org/draft/2019-09/schema",
-  $id: "https://opensource.adobe.com/spectrum-tokens/schemas/components/alert-dialog.json",
+  $id: "https://opensource.adobe.com/spectrum-design-data/schemas/components/alert-dialog.json",
   title: "Alert Dialog",
   type: "object",
   description:
@@ -143,7 +143,7 @@ const spectrumAlertV1 = {
 
 const spectrumAlertV2Breaking = {
   $schema: "https://json-schema.org/draft/2019-09/schema",
-  $id: "https://opensource.adobe.com/spectrum-tokens/schemas/components/alert-dialog.json",
+  $id: "https://opensource.adobe.com/spectrum-design-data/schemas/components/alert-dialog.json",
   title: "Alert Dialog",
   type: "object",
   description:
@@ -245,7 +245,7 @@ test("real-world integration - complex multi-component Spectrum release", (t) =>
     alertDialog: spectrumAlertV1,
     progressBar: {
       $schema: "https://json-schema.org/draft/2019-09/schema",
-      $id: "https://opensource.adobe.com/spectrum-tokens/schemas/components/progress-bar.json",
+      $id: "https://opensource.adobe.com/spectrum-design-data/schemas/components/progress-bar.json",
       title: "Progress Bar",
       type: "object",
       properties: {
@@ -260,7 +260,7 @@ test("real-world integration - complex multi-component Spectrum release", (t) =>
     // Component to be removed
     deprecatedTooltip: {
       $schema: "https://json-schema.org/draft/2019-09/schema",
-      $id: "https://opensource.adobe.com/spectrum-tokens/schemas/components/tooltip.json",
+      $id: "https://opensource.adobe.com/spectrum-design-data/schemas/components/tooltip.json",
       title: "Tooltip (Deprecated)",
       type: "object",
       properties: {
@@ -275,7 +275,7 @@ test("real-world integration - complex multi-component Spectrum release", (t) =>
     progressBar: {
       // Non-breaking: added optional property
       $schema: "https://json-schema.org/draft/2019-09/schema",
-      $id: "https://opensource.adobe.com/spectrum-tokens/schemas/components/progress-bar.json",
+      $id: "https://opensource.adobe.com/spectrum-design-data/schemas/components/progress-bar.json",
       title: "Progress Bar",
       type: "object",
       properties: {
@@ -292,7 +292,7 @@ test("real-world integration - complex multi-component Spectrum release", (t) =>
     // New component added
     actionMenu: {
       $schema: "https://json-schema.org/draft/2019-09/schema",
-      $id: "https://opensource.adobe.com/spectrum-tokens/schemas/components/action-menu.json",
+      $id: "https://opensource.adobe.com/spectrum-design-data/schemas/components/action-menu.json",
       title: "Action Menu",
       type: "object",
       properties: {
@@ -410,7 +410,7 @@ test("real-world integration - performance with large Spectrum-scale schemas", (
   // Create schemas with realistic complexity for Spectrum components
   const createLargeSchema = (componentName, propertyCount = 50) => ({
     $schema: "https://json-schema.org/draft/2019-09/schema",
-    $id: `https://opensource.adobe.com/spectrum-tokens/schemas/components/${componentName}.json`,
+    $id: `https://opensource.adobe.com/spectrum-design-data/schemas/components/${componentName}.json`,
     title: componentName,
     type: "object",
     description: `A complex ${componentName} component with many properties.`,

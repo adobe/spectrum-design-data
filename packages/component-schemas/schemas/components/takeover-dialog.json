@@ -1,60 +1,54 @@
 {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-    "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/takeover-dialog.json",
-    "title": "Takeover dialog",
-    "description": "Takeover dialogs are larger, flexible dialogs that contain other components to support complex workflows.",
-    "meta": {
-        "category": "feedback",
-        "documentationUrl": "https://spectrum.adobe.com/page/takeover-dialog/"
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/takeover-dialog.json",
+  "title": "Takeover dialog",
+  "description": "Takeover dialogs are larger, flexible dialogs that contain other components to support complex workflows.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/takeover-dialog/"
+  },
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
     },
-    "type": "object",
-    "properties": {
-        "title": {
-            "type": "string"
-        },
-        "description": {
-            "type": "string"
-        },
-        "variant": {
+    "description": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["dialog", "full screen"],
+      "default": "dialog"
+    },
+    "primaryActionLabel": {
+      "type": "string"
+    },
+    "secondaryActionLabel": {
+      "type": "string",
+      "description": "If undefined, this button does not appear."
+    },
+    "cancelActionLabel": {
+      "type": "string",
+      "default": "cancel",
+      "description": "If undefined, this button does not appear."
+    },
+    "slots": {
+      "type": "array",
+      "description": "Areas where other components can be inserted (e.g. Side navigation, Steplist, Forms).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
             "type": "string",
-            "enum": [
-                "dialog",
-                "full screen"
-            ],
-            "default": "dialog"
-        },
-        "primaryActionLabel": {
-            "type": "string"
-        },
-        "secondaryActionLabel": {
+            "description": "Identifier for the slot (e.g. 'sidebar', 'content', 'footer')."
+          },
+          "component": {
             "type": "string",
-            "description": "If undefined, this button does not appear."
+            "description": "The type of component placed in this slot (e.g. side-navigation, steplist, form)."
+          }
         },
-        "cancelActionLabel": {
-            "type": "string",
-            "default": "cancel",
-            "description": "If undefined, this button does not appear."
-        },
-        "slots": {
-            "type": "array",
-            "description": "Areas where other components can be inserted (e.g. Side navigation, Steplist, Forms).",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "description": "Identifier for the slot (e.g. 'sidebar', 'content', 'footer')."
-                    },
-                    "component": {
-                        "type": "string",
-                        "description": "The type of component placed in this slot (e.g. side-navigation, steplist, form)."
-                    }
-                },
-                "required": [
-                    "name",
-                    "component"
-                ]
-            }
-        }
+        "required": ["name", "component"]
+      }
     }
+  }
 }

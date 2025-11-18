@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/side-navigation.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/side-navigation.json",
   "title": "Side navigation",
   "description": "Side navigation lets users navigate the entire content of a product or a section. These can be used for a single level or a multi-level navigation.",
   "meta": {
@@ -11,12 +11,7 @@
   "properties": {
     "state": {
       "type": "string",
-      "enum": [
-        "default",
-        "hover",
-        "down",
-        "keyboard focus"
-      ],
+      "enum": ["default", "hover", "down", "keyboard focus"],
       "default": "default"
     },
     "items": {
@@ -31,12 +26,7 @@
           },
           "state": {
             "type": "string",
-            "enum": [
-              "default",
-              "hover",
-              "down",
-              "keyboard focus"
-            ],
+            "enum": ["default", "hover", "down", "keyboard focus"],
             "default": "default",
             "description": "State of the navigation item."
           },
@@ -55,23 +45,15 @@
             "description": "Whether the item is disabled."
           }
         },
-        "required": [
-          "label"
-        ]
+        "required": ["label"]
       }
     },
     "selectionMode": {
       "type": "string",
-      "enum": [
-        "none",
-        "single",
-        "multiple"
-      ],
+      "enum": ["none", "single", "multiple"],
       "default": "single",
       "description": "How selection is handled for items."
     }
   },
-  "required": [
-    "items"
-  ]
+  "required": ["items"]
 }

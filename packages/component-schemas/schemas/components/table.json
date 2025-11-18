@@ -1,144 +1,118 @@
 {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-    "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/table.json",
-    "title": "Table",
-    "description": "Tables display information in rows and columns, allowing users to compare and scan structured data.",
-    "meta": {
-        "category": "data visualization",
-        "documentationUrl": "https://spectrum.adobe.com/page/table/"
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/table.json",
+  "title": "Table",
+  "description": "Tables display information in rows and columns, allowing users to compare and scan structured data.",
+  "meta": {
+    "category": "data visualization",
+    "documentationUrl": "https://spectrum.adobe.com/page/table/"
+  },
+  "type": "object",
+  "properties": {
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l"],
+      "default": "m",
+      "description": "Controls the density of table rows."
     },
-    "type": "object",
-    "properties": {
-        "size": {
-            "type": "string",
-            "enum": [
-                "s",
-                "m",
-                "l"
-            ],
-            "default": "m",
-            "description": "Controls the density of table rows."
+    "hideHeader": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the table header is hidden."
+    },
+    "header": {
+      "type": "object",
+      "description": "Configuration for the table header row.",
+      "properties": {
+        "alignment": {
+          "type": "string",
+          "enum": ["left", "right"],
+          "default": "left",
+          "description": "Alignment of the table header text."
         },
-        "hideHeader": {
-            "type": "boolean",
-            "default": false,
-            "description": "If true, the table header is hidden."
-        },
-        "header": {
-            "type": "object",
-            "description": "Configuration for the table header row.",
-            "properties": {
-                "alignment": {
-                    "type": "string",
-                    "enum": [
-                        "left",
-                        "right"
-                    ],
-                    "default": "left",
-                    "description": "Alignment of the table header text."
-                },
-                "state": {
-                    "type": "string",
-                    "enum": [
-                        "default",
-                        "hover",
-                        "down",
-                        "keyboard focus"
-                    ],
-                    "default": "default",
-                    "description": "Interaction state of the header row."
-                }
-            }
-        },
-        "density": {
-            "type": "string",
-            "enum": [
-                "compact",
-                "regular",
-                "spacious"
-            ],
-            "default": "regular"
-        },
-        "isQuiet": {
-            "type": "boolean",
-            "default": false,
-            "description": "If true, the table uses a quiet visual style."
-        },
-        "isSortable": {
-            "type": "boolean",
-            "default": false,
-            "description": "If true, table columns can be sorted."
-        },
-        "columns": {
-            "type": "array",
-            "description": "An array of column definitions for the table.",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "key": {
-                        "type": "string",
-                        "description": "Unique identifier for the column."
-                    },
-                    "label": {
-                        "type": "string",
-                        "description": "The header text displayed for the column."
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "text",
-                            "number",
-                            "avatar",
-                            "date",
-                            "sparkline",
-                            "select",
-                            "layout"
-                        ],
-                        "default": "text",
-                        "description": "Defines the data type for the column."
-                    },
-                    "resizing": {
-                        "type": "string",
-                        "enum": [
-                            "fluid",
-                            "fixed"
-                        ],
-                        "default": "fluid",
-                        "description": "Defines whether the column width is fluid or fixed."
-                    },
-                    "summary placement": {
-                        "type": "string",
-                        "enum": [
-                            "top",
-                            "bottom"
-                        ],
-                        "default": "bottom",
-                        "description": "Placement of the summary row for this column, if applicable."
-                    },
-                    "summary text": {
-                        "type": "string",
-                        "description": "Text to display in the summary row for this column, if applicable."
-                    },
-                    "isSortable": {
-                        "type": "boolean",
-                        "default": false,
-                        "description": "Whether this column is sortable."
-                    }
-                },
-                "required": [
-                    "key",
-                    "label",
-                    "type"
-                ]
-            }
-        },
-        "rows": {
-            "type": "array",
-            "description": "An array of row data for the table.",
-            "items": {
-                "type": "object",
-                "description": "Each object represents a single row, keyed by column IDs."
-            }
+        "state": {
+          "type": "string",
+          "enum": ["default", "hover", "down", "keyboard focus"],
+          "default": "default",
+          "description": "Interaction state of the header row."
         }
+      }
+    },
+    "density": {
+      "type": "string",
+      "enum": ["compact", "regular", "spacious"],
+      "default": "regular"
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the table uses a quiet visual style."
+    },
+    "isSortable": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, table columns can be sorted."
+    },
+    "columns": {
+      "type": "array",
+      "description": "An array of column definitions for the table.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Unique identifier for the column."
+          },
+          "label": {
+            "type": "string",
+            "description": "The header text displayed for the column."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "text",
+              "number",
+              "avatar",
+              "date",
+              "sparkline",
+              "select",
+              "layout"
+            ],
+            "default": "text",
+            "description": "Defines the data type for the column."
+          },
+          "resizing": {
+            "type": "string",
+            "enum": ["fluid", "fixed"],
+            "default": "fluid",
+            "description": "Defines whether the column width is fluid or fixed."
+          },
+          "summary placement": {
+            "type": "string",
+            "enum": ["top", "bottom"],
+            "default": "bottom",
+            "description": "Placement of the summary row for this column, if applicable."
+          },
+          "summary text": {
+            "type": "string",
+            "description": "Text to display in the summary row for this column, if applicable."
+          },
+          "isSortable": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this column is sortable."
+          }
+        },
+        "required": ["key", "label", "type"]
+      }
+    },
+    "rows": {
+      "type": "array",
+      "description": "An array of row data for the table.",
+      "items": {
+        "type": "object",
+        "description": "Each object represents a single row, keyed by column IDs."
+      }
     }
+  }
 }

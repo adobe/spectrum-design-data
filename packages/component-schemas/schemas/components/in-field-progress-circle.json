@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/in-field-progress-circle.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/in-field-progress-circle.json",
   "title": "In field progress circle",
   "description": "In field progress circles indicate progress for loading states within form fields and input areas.",
   "meta": {

@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/coach-indicator.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/coach-indicator.json",
   "title": "Coach indicator",
   "description": "Coach indicators help guide users through interfaces by highlighting important areas or features during onboarding and feature discovery.",
   "meta": {

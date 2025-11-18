@@ -72,10 +72,10 @@ const expectedUpdatedSeveralProperties = {
     "swatch-border-color": {
       $schema: {
         "new-value":
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
         path: "$schema",
         "original-value":
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
       },
       value: {
         "new-value": "{blue-200}",
@@ -84,10 +84,10 @@ const expectedUpdatedSeveralProperties = {
       },
       $schema: {
         "new-value":
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
         path: "$schema",
         "original-value":
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
       },
     },
   },
@@ -110,25 +110,25 @@ const expectedUpdatedSet = {
         light: {
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
             "original-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
             path: "sets.light.$schema",
           },
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
             "original-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
             path: "sets.light.$schema",
           },
         },
         wireframe: {
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/wireframe.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/wireframe.json",
             "original-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
             path: "sets.wireframe.$schema",
           },
           value: {
@@ -138,9 +138,9 @@ const expectedUpdatedSet = {
           },
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/wireframe.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/wireframe.json",
             "original-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
             path: "sets.wireframe.$schema",
           },
           value: {
@@ -162,32 +162,32 @@ const expectedSeveralUpdatedSet = {
     "help-text-top-to-workflow-icon-medium": {
       $schema: {
         "new-value":
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/token-set.json",
         path: "$schema",
         "original-value":
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
       },
       $schema: {
         "new-value":
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/token-set.json",
         path: "$schema",
         "original-value":
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
       },
       sets: {
         desktop: {
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/changing-two-schemas.json",
             "original-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
             path: "sets.desktop.$schema",
           },
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/changing-two-schemas.json",
             "original-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
             path: "sets.desktop.$schema",
           },
         },
@@ -248,16 +248,16 @@ const expectedUpdatedSetWithRename = {
     "i-like-fish-tacos": {
       $schema: {
         "new-value":
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scaly-fish.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scaly-fish.json",
         "original-value":
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
         path: "$schema",
       },
       $schema: {
         "new-value":
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scaly-fish.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scaly-fish.json",
         "original-value":
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
         path: "$schema",
       },
       sets: {
@@ -285,7 +285,7 @@ const expectedAddedProperty = {
         "random-property": {
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
             path: "sets.random-property.$schema",
           },
           value: {
@@ -298,7 +298,7 @@ const expectedAddedProperty = {
           },
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
             path: "sets.random-property.$schema",
           },
           value: {
@@ -326,7 +326,7 @@ const expectedDeletedProperty = {
         "random-property": {
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
             path: "sets.random-property.$schema",
           },
           value: {
@@ -352,7 +352,7 @@ const expectedAddedDeletedProperty = {
         "fun-times": {
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
             path: "sets.fun-times.$schema",
           },
           uuid: {
@@ -373,7 +373,7 @@ const expectedAddedDeletedProperty = {
         darkest: {
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
             path: "sets.darkest.$schema",
           },
           uuid: {
@@ -399,7 +399,7 @@ const expectedRenamedAddedDeletedProperty = {
         "added-property": {
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/some-property-type.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/some-property-type.json",
             path: "sets.added-property.$schema",
           },
           uuid: {
@@ -420,7 +420,7 @@ const expectedRenamedAddedDeletedProperty = {
         darkest: {
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
             path: "sets.darkest.$schema",
           },
           uuid: {
@@ -462,7 +462,7 @@ const expectedAddedInnerValue = {
         darkest: {
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
             path: "sets.darkest.$schema",
           },
           value: {
@@ -488,7 +488,7 @@ const expectedDeletedInnerValue = {
         darkest: {
           $schema: {
             "new-value":
-              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+              "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
             path: "sets.darkest.$schema",
           },
           value: {

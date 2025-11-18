@@ -1,106 +1,89 @@
 {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-    "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/list-view.json",
-    "title": "List view",
-    "description": "List views display rows of data or options that users can browse, select, and interact with.",
-    "meta": {
-        "category": "navigation",
-        "documentationUrl": "https://spectrum.adobe.com/page/list-view/"
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/list-view.json",
+  "title": "List view",
+  "description": "List views display rows of data or options that users can browse, select, and interact with.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/list-view/"
+  },
+  "type": "object",
+  "properties": {
+    "selectionMode": {
+      "type": "string",
+      "enum": ["none", "single", "multiple"],
+      "default": "single",
+      "description": "Defines how many items can be selected at once."
     },
-    "type": "object",
-    "properties": {
-        "selectionMode": {
+    "isQuiet": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the list view uses a quiet visual style."
+    },
+    "items": {
+      "type": "array",
+      "description": "An array of list view items.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
             "type": "string",
-            "enum": [
-                "none",
-                "single",
-                "multiple"
-            ],
-            "default": "single",
-            "description": "Defines how many items can be selected at once."
-        },
-        "isQuiet": {
+            "description": "Primary text displayed for the item."
+          },
+          "description": {
+            "type": "string",
+            "description": "Secondary text displayed under the label (optional)."
+          },
+          "hideCheckbox": {
             "type": "boolean",
             "default": false,
-            "description": "If true, the list view uses a quiet visual style."
+            "description": "If true, the checkbox is hidden."
+          },
+          "hideDragHandle": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the drag handle is hidden."
+          },
+          "hideNavigationIndicator": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the navigation indicator is hidden."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the item is disabled."
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the item is selected."
+          },
+          "overflowMode": {
+            "type": "string",
+            "enum": ["wrap", "truncate"],
+            "default": "truncate",
+            "description": "Defines how text should behave when it overflows the available space."
+          },
+          "itemRounding": {
+            "type": "string",
+            "enum": ["none", "top", "bottom"],
+            "default": "none",
+            "description": "Defines the border radius of the list view item."
+          },
+          "isEmphasized": {
+            "type": "boolean",
+            "default": false
+          },
+          "state": {
+            "type": "string",
+            "enum": ["default", "hover", "dragged"],
+            "default": "default",
+            "description": "The interaction state of the list view item."
+          }
         },
-        "items": {
-            "type": "array",
-            "description": "An array of list view items.",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "label": {
-                        "type": "string",
-                        "description": "Primary text displayed for the item."
-                    },
-                    "description": {
-                        "type": "string",
-                        "description": "Secondary text displayed under the label (optional)."
-                    },
-                    "hideCheckbox": {
-                        "type": "boolean",
-                        "default": false,
-                        "description": "If true, the checkbox is hidden."
-                    },
-                    "hideDragHandle": {
-                        "type": "boolean",
-                        "default": false,
-                        "description": "If true, the drag handle is hidden."
-                    },
-                    "hideNavigationIndicator": {
-                        "type": "boolean",
-                        "default": false,
-                        "description": "If true, the navigation indicator is hidden."
-                    },
-                    "isDisabled": {
-                        "type": "boolean",
-                        "default": false,
-                        "description": "If true, the item is disabled."
-                    },
-                    "isSelected": {
-                        "type": "boolean",
-                        "default": false,
-                        "description": "If true, the item is selected."
-                    },
-                    "overflowMode": {
-                        "type": "string",
-                        "enum": [
-                            "wrap",
-                            "truncate"
-                        ],
-                        "default": "truncate",
-                        "description": "Defines how text should behave when it overflows the available space."
-                    },
-                    "itemRounding": {
-                        "type": "string",
-                        "enum": [
-                            "none",
-                            "top",
-                            "bottom"
-                        ],
-                        "default": "none",
-                        "description": "Defines the border radius of the list view item."
-                    },
-                    "isEmphasized": {
-                        "type": "boolean",
-                        "default": false
-                    },
-                    "state": {
-                        "type": "string",
-                        "enum": [
-                            "default",
-                            "hover",
-                            "dragged"
-                        ],
-                        "default": "default",
-                        "description": "The interaction state of the list view item."
-                    }
-                },
-                "required": [
-                    "label"
-                ]
-            }
-        }
+        "required": ["label"]
+      }
     }
+  }
 }

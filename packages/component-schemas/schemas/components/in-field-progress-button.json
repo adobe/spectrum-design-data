@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/in-field-progress-button.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/in-field-progress-button.json",
   "title": "In field progress button",
   "description": "In field progress buttons provide interactive controls within form fields for actions like clearing, adding, or disclosing additional content.",
   "meta": {

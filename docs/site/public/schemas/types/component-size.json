@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/types/component-size.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/types/component-size.json",
   "title": "component-size",
   "description": "T-shirt sizes for components",
   "type": "string",

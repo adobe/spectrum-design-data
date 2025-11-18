@@ -77,7 +77,7 @@ class HandlebarsFormatter {
     // Helper to clean up schema URLs
     Handlebars.registerHelper("cleanSchemaUrl", (url) => {
       return url.replace(
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/",
         "",
       );
     });
@@ -349,7 +349,7 @@ class HandlebarsFormatter {
       // Clean up common replacements like the markdown formatter
       input = input.replaceAll("$", "");
       input = input.replaceAll(
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/",
         "",
       );
       fnc(input);
