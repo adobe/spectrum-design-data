@@ -173,6 +173,13 @@ class HandlebarsFormatter {
     Handlebars.registerHelper("arrow", (from, to) => {
       return `${from} -> ${to}`;
     });
+
+    // Helper to conditionally add 'open' attribute to details elements
+    // Returns ' open' (with leading space) if count <= threshold, empty string otherwise
+    Handlebars.registerHelper("detailsOpen", (count, options) => {
+      const threshold = options?.hash?.threshold || 20;
+      return count <= threshold ? " open" : "";
+    });
   }
 
   /**

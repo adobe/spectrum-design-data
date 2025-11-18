@@ -8,7 +8,7 @@
 {{#if options.newTokenVersion}}**New Version:** `{{options.newTokenVersion}}`{{/if}}
 
 {{#if (hasKeys result.renamed)}}
-<details open><summary><strong>Renamed ({{renamed.length}})</strong></summary>
+<details{{detailsOpen renamed.length}}><summary><strong>Renamed ({{renamed.length}})</strong></summary>
   
 {{#each renamed~}}
 - `{{oldName}}` -> `{{name}}`
@@ -17,7 +17,7 @@
 </details>
 {{/if}}
 {{#if (hasKeys result.deprecated)}}
-<details open><summary><strong>Newly Deprecated ({{deprecated.length}})</strong></summary>
+<details{{detailsOpen deprecated.length}}><summary><strong>Newly Deprecated ({{deprecated.length}})</strong></summary>
   
 {{#each deprecated~}}
 - `{{name}}`{{#if comment}}: {{comment}}{{/if}}
@@ -26,7 +26,7 @@
 </details>
 {{/if}}
 {{#if (hasKeys result.reverted)}}
-<details open><summary><strong>Newly "Un-deprecated" ({{reverted.length}})</strong></summary>
+<details{{detailsOpen reverted.length}}><summary><strong>Newly "Un-deprecated" ({{reverted.length}})</strong></summary>
   
 {{#each reverted~}}
 - `{{name}}`
@@ -36,7 +36,7 @@
 {{/if}}
 
 {{#if (hasKeys result.added)}}
-<details open><summary><strong>Added ({{added.length}})</strong></summary>
+<details{{detailsOpen added.length}}><summary><strong>Added ({{added.length}})</strong></summary>
   
 {{#each added~}}
 - `{{name}}`
@@ -45,7 +45,7 @@
 </details>
 {{/if}}
 {{#if (hasKeys result.deleted)}}
-<details open><summary><strong>Deleted ({{deleted.length}})</strong></summary>
+<details{{detailsOpen deleted.length}}><summary><strong>Deleted ({{deleted.length}})</strong></summary>
   
 {{#each deleted~}}
 - `{{name}}`
@@ -58,7 +58,7 @@
 ### Updated ({{totalUpdatedTokens result.updated}})
   
 {{#if (hasKeys result.updated.renamed)}}
-<details open><summary><strong>Renamed Properties ({{updated.renamed.length}})</strong></summary>
+<details{{detailsOpen updated.renamed.length}}><summary><strong>Renamed Properties ({{updated.renamed.length}})</strong></summary>
   
 {{#each updated.renamed~}}
 - `{{name}}`
@@ -71,7 +71,7 @@
 {{/if}}
 
 {{#if (hasKeys result.updated.added)}}
-<details open><summary><strong>Added Properties ({{updated.added.length}})</strong></summary>
+<details{{detailsOpen updated.added.length}}><summary><strong>Added Properties ({{updated.added.length}})</strong></summary>
   
 {{#each updated.added~}}
 - `{{name}}`
@@ -84,7 +84,7 @@
 {{/if}}
 
 {{#if (hasKeys result.updated.deleted)}}
-<details open><summary><strong>Deleted Properties ({{updated.deleted.length}})</strong></summary>
+<details{{detailsOpen updated.deleted.length}}><summary><strong>Deleted Properties ({{updated.deleted.length}})</strong></summary>
   
 {{#each updated.deleted~}}
 - `{{name}}`
@@ -97,7 +97,7 @@
 {{/if}}
 
 {{#if (hasKeys result.updated.updated)}}
-<details open><summary><strong>Updated Properties ({{updated.updated.length}})</strong></summary>
+<details{{detailsOpen updated.updated.length}}><summary><strong>Updated Properties ({{updated.updated.length}})</strong></summary>
   
 {{#each updated.updated~}}
 - `{{name}}`
