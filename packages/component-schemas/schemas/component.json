@@ -20,7 +20,10 @@
             "typography"
           ]
         },
-        "documentationUrl": { "type": "string", "format": "uri" }
+        "documentationUrl": {
+          "type": "string",
+          "format": "uri"
+        }
       },
       "required": ["category", "documentationUrl"]
     }

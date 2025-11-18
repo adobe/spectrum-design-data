@@ -6,7 +6,7 @@
   "type": "object",
   "allOf": [
     {
-      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/token.json"
+      "$ref": "token.json"
     }
   ],
   "properties": {

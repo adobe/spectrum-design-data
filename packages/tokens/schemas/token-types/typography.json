@@ -6,7 +6,7 @@
   "type": "object",
   "allOf": [
     {
-      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/token.json"
+      "$ref": "token.json"
     }
   ],
   "properties": {
@@ -16,11 +16,26 @@
     "value": {
       "type": "object",
       "properties": {
-        "fontFamily": { "type": "string", "pattern": "^\\{(\\w|-)*\\}$" },
-        "fontSize": { "type": "string", "pattern": "^\\{(\\w|-)*\\}$" },
-        "fontWeight": { "type": "string", "pattern": "^\\{(\\w|-)*\\}$" },
-        "letterSpacing": { "type": "string", "pattern": "^\\{(\\w|-)*\\}$" },
-        "lineHeight": { "type": "string", "pattern": "^\\{(\\w|-)*\\}$" }
+        "fontFamily": {
+          "type": "string",
+          "pattern": "^\\{(\\w|-)*\\}$"
+        },
+        "fontSize": {
+          "type": "string",
+          "pattern": "^\\{(\\w|-)*\\}$"
+        },
+        "fontWeight": {
+          "type": "string",
+          "pattern": "^\\{(\\w|-)*\\}$"
+        },
+        "letterSpacing": {
+          "type": "string",
+          "pattern": "^\\{(\\w|-)*\\}$"
+        },
+        "lineHeight": {
+          "type": "string",
+          "pattern": "^\\{(\\w|-)*\\}$"
+        }
       }
     },
     "component": {},
