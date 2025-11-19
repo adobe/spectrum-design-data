@@ -1,13 +1,13 @@
 export default {
   "**/*.{js,jsx,ts,tsx,json,yml,yaml}": ["prettier --write"],
   "**/*.md": (files) => {
-    // Filter out changeset files - they need special handling
-    const nonChangesetFiles = files.filter(
-      (file) => !file.includes(".changeset/"),
+    // Filter out changeset and CHANGELOG files - they need special handling
+    const processableFiles = files.filter(
+      (file) => !file.includes(".changeset/") && !file.includes("CHANGELOG.md"),
     );
-    if (nonChangesetFiles.length === 0) return [];
+    if (processableFiles.length === 0) return [];
     // Use -o flag (no path) to write back to same file
-    return nonChangesetFiles.map(
+    return processableFiles.map(
       (file) => `remark ${file} --use remark-gfm --use remark-github -o`,
     );
   },
