@@ -27,6 +27,7 @@ tasks:
       - "cp -r ./index.html ../../site/s2-tokens-viewer/ && cp -r ./css ../../site/s2-tokens-viewer/ && cp -r ./data ../../site/s2-tokens-viewer/ && cp -r ./tokens ../../site/s2-tokens-viewer/"
     deps:
       - ~:clean
+      - ^:InstallWorkspaceDeps
     platform: system
     outputs:
       - /site/
