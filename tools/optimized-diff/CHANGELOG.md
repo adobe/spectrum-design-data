@@ -4,7 +4,7 @@
 
 ### Major Changes
 
-- [#549](https://github.com/adobe/spectrum-tokens/pull/549) [`32db4f1`](https://github.com/adobe/spectrum-tokens/commit/32db4f1de2c6895b2fca7144add7978b751c87a0) Thanks [@GarthDB](https://github.com/GarthDB)! - **Performance Optimization: Introduce High-Performance Diff Algorithm**
+- [#549](https://github.com/adobe/spectrum-design-data/pull/549) [`32db4f1`](https://github.com/adobe/spectrum-design-data/commit/32db4f1de2c6895b2fca7144add7978b751c87a0) Thanks [@GarthDB](https://github.com/GarthDB)! - **Performance Optimization: Introduce High-Performance Diff Algorithm**
 
   This release introduces significant performance improvements to the token diff generation process:
 

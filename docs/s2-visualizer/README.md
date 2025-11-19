@@ -2,7 +2,7 @@
 
 Current url of deployed static site: <https://opensource.adobe.com/spectrum-design-data/s2-visualizer/>
 
-<img width="1491" alt="Screenshot 2023-02-28 at 2 40 02 PM" src="https://github.com/adobe/spectrum-tokens/assets/125516/3c57f2de-c42e-41a5-abed-e5da294339f0">
+<img width="1491" alt="Screenshot 2023-02-28 at 2 40 02 PM" src="https://github.com/adobe/spectrum-design-data/assets/125516/3c57f2de-c42e-41a5-abed-e5da294339f0">
 
 ## Setup for local development
 

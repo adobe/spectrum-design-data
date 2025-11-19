@@ -4,49 +4,49 @@
 
 ### Patch Changes
 
-* Updated dependencies \[[`ee2ceb5`](https://github.com/adobe/spectrum-tokens/commit/ee2ceb541dea5eb9b5267c861e44bfd804fd33a7)]:
-  * [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)[**@5**](https://github.com/5).0.1
+* Updated dependencies \[[`ee2ceb5`](https://github.com/adobe/spectrum-design-data/commit/ee2ceb541dea5eb9b5267c861e44bfd804fd33a7)]:
+  * [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)@5.0.1
 
 ## 1.0.10
 
 ### Patch Changes
 
-* Updated dependencies \[[`f64bee3`](https://github.com/adobe/spectrum-tokens/commit/f64bee3900c874775f2d3424516786a0d644d057)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)@13.16.0
+* Updated dependencies \[[`f64bee3`](https://github.com/adobe/spectrum-design-data/commit/f64bee3900c874775f2d3424516786a0d644d057)]:
+  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)@13.16.0
 
 ## 1.0.10
 
 ### Patch Changes
 
-* Updated dependencies \[[`f64bee3`](https://github.com/adobe/spectrum-tokens/commit/f64bee3900c874775f2d3424516786a0d644d057)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)@13.16.0
+* Updated dependencies \[[`f64bee3`](https://github.com/adobe/spectrum-design-data/commit/f64bee3900c874775f2d3424516786a0d644d057)]:
+  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)@13.16.0
 
 ## 1.0.9
 
 ### Patch Changes
 
-* Updated dependencies \[[`a772572`](https://github.com/adobe/spectrum-tokens/commit/a772572de88c54d279c20d7148f6ac91eb941d2a)]:
-  * [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)[**@5**](https://github.com/5).0.0
+* Updated dependencies \[[`a772572`](https://github.com/adobe/spectrum-design-data/commit/a772572de88c54d279c20d7148f6ac91eb941d2a)]:
+  * [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)@5.0.0
 
 ## 1.0.8
 
 ### Patch Changes
 
-* Updated dependencies \[[`433efdd`](https://github.com/adobe/spectrum-tokens/commit/433efdd18f9b0842ae55acac3cd0fbc1e5e5db58)]:
+* Updated dependencies \[[`433efdd`](https://github.com/adobe/spectrum-design-data/commit/433efdd18f9b0842ae55acac3cd0fbc1e5e5db58)]:
   * [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)[**@4**](https://github.com/4).0.0
 
 ## 1.0.7
 
 ### Patch Changes
 
-* Updated dependencies \[[`13d9202`](https://github.com/adobe/spectrum-tokens/commit/13d920273c02c78d3748522de6a7c7ee39b39814)]:
+* Updated dependencies \[[`13d9202`](https://github.com/adobe/spectrum-design-data/commit/13d920273c02c78d3748522de6a7c7ee39b39814)]:
   * [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)[**@3**](https://github.com/3).0.0
 
 ## 1.0.6
 
 ### Patch Changes
 
-* [#595](https://github.com/adobe/spectrum-tokens/pull/595) [`53bc11e`](https://github.com/adobe/spectrum-tokens/commit/53bc11e1bfcc3a839cfc5dfbd63f59cc5e87a1c3) Thanks [@GarthDB](https://github.com/GarthDB)! - Enhanced documentation with security and configuration improvements
+* [#595](https://github.com/adobe/spectrum-design-data/pull/595) [`53bc11e`](https://github.com/adobe/spectrum-design-data/commit/53bc11e1bfcc3a839cfc5dfbd63f59cc5e87a1c3) Thanks [@GarthDB](https://github.com/GarthDB)! - Enhanced documentation with security and configuration improvements
 
   * Add multiple MCP configuration options including recommended npx usage
   * Add npm provenance support for enhanced supply-chain security
@@ -62,42 +62,42 @@
 
 ### Patch Changes
 
-* Updated dependencies \[[`1e860c4`](https://github.com/adobe/spectrum-tokens/commit/1e860c4436c58ceca6f4500ea7e24d6d8cdd20c8)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)@13.15.1
+* Updated dependencies \[[`1e860c4`](https://github.com/adobe/spectrum-design-data/commit/1e860c4436c58ceca6f4500ea7e24d6d8cdd20c8)]:
+  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)@13.15.1
 
 ## 1.0.4
 
 ### Patch Changes
 
-* Updated dependencies \[[`3df7197`](https://github.com/adobe/spectrum-tokens/commit/3df7197e7da23c9bb107f7dfcd935b5c62a86041)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)@13.15.0
+* Updated dependencies \[[`3df7197`](https://github.com/adobe/spectrum-design-data/commit/3df7197e7da23c9bb107f7dfcd935b5c62a86041)]:
+  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)@13.15.0
 
 ## 1.0.3
 
 ### Patch Changes
 
-* Updated dependencies \[[`b4df84e`](https://github.com/adobe/spectrum-tokens/commit/b4df84e2f2ca246332907f9ddda94438288dd98e)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)@13.14.1
+* Updated dependencies \[[`b4df84e`](https://github.com/adobe/spectrum-design-data/commit/b4df84e2f2ca246332907f9ddda94438288dd98e)]:
+  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)@13.14.1
 
 ## 1.0.2
 
 ### Patch Changes
 
-* Updated dependencies \[[`336f672`](https://github.com/adobe/spectrum-tokens/commit/336f67216dfd875f0feb65c10059d9f3fe6dcaf7)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)@13.14.0
+* Updated dependencies \[[`336f672`](https://github.com/adobe/spectrum-design-data/commit/336f67216dfd875f0feb65c10059d9f3fe6dcaf7)]:
+  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)@13.14.0
 
 ## 1.0.1
 
 ### Patch Changes
 
-* Updated dependencies \[[`163fe7c`](https://github.com/adobe/spectrum-tokens/commit/163fe7c13bb00c639d202195a398126b6c25b58f)]:
+* Updated dependencies \[[`163fe7c`](https://github.com/adobe/spectrum-design-data/commit/163fe7c13bb00c639d202195a398126b6c25b58f)]:
   * [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)[**@2**](https://github.com/2).0.0
 
 ## 1.0.0
 
 ### Major Changes
 
-* [#568](https://github.com/adobe/spectrum-tokens/pull/568) [`34028ea`](https://github.com/adobe/spectrum-tokens/commit/34028eaf2ba3940baa8044fda2655adc6153fb97) Thanks [@GarthDB](https://github.com/GarthDB)! - Initial release of Spectrum Design Data MCP server
+* [#568](https://github.com/adobe/spectrum-design-data/pull/568) [`34028ea`](https://github.com/adobe/spectrum-design-data/commit/34028eaf2ba3940baa8044fda2655adc6153fb97) Thanks [@GarthDB](https://github.com/GarthDB)! - Initial release of Spectrum Design Data MCP server
 
   This is the first release of the Model Context Protocol server that provides AI tools with structured access to Adobe Spectrum design system data, including design tokens and component API schemas.
 

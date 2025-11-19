@@ -6,13 +6,13 @@ A Model Context Protocol (MCP) server that provides AI tools with structured acc
 
 This MCP server enables AI assistants to query and interact with Spectrum design data through a standardized protocol. It provides access to:
 
-- **Design Tokens**: Color palettes, typography, layout tokens, and semantic tokens
-- **Component Schemas**: API definitions and validation schemas for Spectrum components
-- **Future**: Component anatomy, design patterns, and guidelines
+* **Design Tokens**: Color palettes, typography, layout tokens, and semantic tokens
+* **Component Schemas**: API definitions and validation schemas for Spectrum components
+* **Future**: Component anatomy, design patterns, and guidelines
 
 ## Prerequisites
 
-- **Node.js 20+**
+* **Node.js 20+**
 
 ## Installation
 
@@ -31,7 +31,7 @@ npm audit signatures
 Or clone and run locally:
 
 ```bash
-git clone https://github.com/adobe/spectrum-tokens.git
+git clone https://github.com/adobe/spectrum-design-data.git
 cd spectrum-tokens/tools/spectrum-design-data-mcp
 pnpm install
 ```
@@ -54,20 +54,20 @@ The server runs locally and communicates via stdio with MCP-compatible AI client
 
 #### Token Tools
 
-- **`query-tokens`**: Search and retrieve design tokens by name, type, or category
-- **`find-tokens-by-use-case`** ⭐: Find appropriate tokens for specific component use cases (e.g., "button background", "text color", "error state")
-- **`get-component-tokens`** ⭐: Get all tokens related to a specific component type
-- **`get-design-recommendations`** ⭐: Get token recommendations for design decisions and component states
-- **`get-token-categories`**: List all available token categories
-- **`get-token-details`**: Get detailed information about a specific token
+* **`query-tokens`**: Search and retrieve design tokens by name, type, or category
+* **`find-tokens-by-use-case`** ⭐: Find appropriate tokens for specific component use cases (e.g., "button background", "text color", "error state")
+* **`get-component-tokens`** ⭐: Get all tokens related to a specific component type
+* **`get-design-recommendations`** ⭐: Get token recommendations for design decisions and component states
+* **`get-token-categories`**: List all available token categories
+* **`get-token-details`**: Get detailed information about a specific token
 
 #### Schema Tools
 
-- **`query-component-schemas`**: Search component API schemas
-- **`get-component-schema`**: Get the complete schema for a specific component
-- **`list-components`**: List all available components with schemas
-- **`validate-component-props`**: Validate component properties against schemas
-- **`get-type-schemas`**: Get type definitions used in schemas
+* **`query-component-schemas`**: Search component API schemas
+* **`get-component-schema`**: Get the complete schema for a specific component
+* **`list-components`**: List all available components with schemas
+* **`validate-component-props`**: Validate component properties against schemas
+* **`get-type-schemas`**: Get type definitions used in schemas
 
 ## Configuration
 
@@ -253,7 +253,7 @@ npm audit
 ### Building from Source
 
 ```bash
-git clone https://github.com/adobe/spectrum-tokens.git
+git clone https://github.com/adobe/spectrum-design-data.git
 cd spectrum-tokens
 pnpm install
 cd tools/spectrum-design-data-mcp
@@ -283,16 +283,16 @@ src/
 
 ### Supply Chain Security
 
-- **🔐 NPM Provenance**: Published with npm provenance attestations for verifiable builds
-- **🛡️ Security Audits**: Regular dependency security audits
-- **📦 Verified Packages**: All dependencies are audited and verified
+* **🔐 NPM Provenance**: Published with npm provenance attestations for verifiable builds
+* **🛡️ Security Audits**: Regular dependency security audits
+* **📦 Verified Packages**: All dependencies are audited and verified
 
 ### Best Practices
 
-- Always verify package integrity using `npm audit signatures`
-- Keep the package updated to the latest version
-- Use npx for the most secure and up-to-date execution
-- Report security issues through the [GitHub security advisory](https://github.com/adobe/spectrum-tokens/security/advisories)
+* Always verify package integrity using `npm audit signatures`
+* Keep the package updated to the latest version
+* Use npx for the most secure and up-to-date execution
+* Report security issues through the [GitHub security advisory](https://github.com/adobe/spectrum-design-data/security/advisories)
 
 ## License
 
@@ -304,6 +304,6 @@ This project is part of the Spectrum Design System. Please see the main [contrib
 
 ## Support
 
-- Create an [issue](https://github.com/adobe/spectrum-tokens/issues) for bug reports or feature requests
-- Check the [documentation](https://github.com/adobe/spectrum-tokens/tree/main/tools/spectrum-design-data-mcp) for detailed guides
-- Review [existing issues](https://github.com/adobe/spectrum-tokens/issues?q=label%3Amcp) for solutions
+* Create an [issue](https://github.com/adobe/spectrum-design-data/issues) for bug reports or feature requests
+* Check the [documentation](https://github.com/adobe/spectrum-design-data/tree/main/tools/spectrum-design-data-mcp) for detailed guides
+* Review [existing issues](https://github.com/adobe/spectrum-design-data/issues?q=label%3Amcp) for solutions

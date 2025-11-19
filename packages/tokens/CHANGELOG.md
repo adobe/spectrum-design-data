@@ -1,10 +1,10 @@
-# [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)
+# [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
 ## 13.16.0
 
 ### Minor Changes
 
-* [#615](https://github.com/adobe/spectrum-tokens/pull/615) [`f64bee3`](https://github.com/adobe/spectrum-tokens/commit/f64bee3900c874775f2d3424516786a0d644d057) Thanks [@PaliwalSparsh](https://github.com/PaliwalSparsh)! - ## Token sync from Spectrum Tokens Studio
+* [#615](https://github.com/adobe/spectrum-design-data/pull/615) [`f64bee3`](https://github.com/adobe/spectrum-design-data/commit/f64bee3900c874775f2d3424516786a0d644d057) Thanks [@PaliwalSparsh](https://github.com/PaliwalSparsh)! - ## Token sync from Spectrum Tokens Studio
 
   ### Design motivation
 
@@ -65,16 +65,16 @@
 
   ### References
 
-  * Tokens Studio PR: [adobe/spectrum-tokens-studio-data#284](https://github.com/adobe/spectrum-tokens-studio-data/pull/284)
-  * Spectrum Tokens PR: [#615](https://github.com/adobe/spectrum-tokens/pull/615)
+  * Tokens Studio PR: [adobe/spectrum-tokens-studio-data#284](https://github.com/adobe/spectrum-design-data-studio-data/pull/284)
+  * Spectrum Tokens PR: [#615](https://github.com/adobe/spectrum-design-data/pull/615)
 
 ## 13.15.1
 
 ### Patch Changes
 
-* [#593](https://github.com/adobe/spectrum-tokens/pull/593) [`1e860c4`](https://github.com/adobe/spectrum-tokens/commit/1e860c4436c58ceca6f4500ea7e24d6d8cdd20c8) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - SDS-15337: Standard panel gripper color update
+* [#593](https://github.com/adobe/spectrum-design-data/pull/593) [`1e860c4`](https://github.com/adobe/spectrum-design-data/commit/1e860c4436c58ceca6f4500ea7e24d6d8cdd20c8) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - SDS-15337: Standard panel gripper color update
 
-  Source: [spectrum-tokens-studio-data#283](https://github.com/adobe/spectrum-tokens-studio-data/pull/283)
+  Source: [spectrum-tokens-studio-data#283](https://github.com/adobe/spectrum-design-data-studio-data/pull/283)
 
   ## Token Changes
 
@@ -87,9 +87,9 @@
 
 ### Minor Changes
 
-* [#589](https://github.com/adobe/spectrum-tokens/pull/589) [`3df7197`](https://github.com/adobe/spectrum-tokens/commit/3df7197e7da23c9bb107f7dfcd935b5c62a86041) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - feat: updates from spectrum-tokens sync
+* [#589](https://github.com/adobe/spectrum-design-data/pull/589) [`3df7197`](https://github.com/adobe/spectrum-design-data/commit/3df7197e7da23c9bb107f7dfcd935b5c62a86041) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - feat: updates from spectrum-tokens sync
 
-  Source: [spectrum-tokens-studio-data#286](https://github.com/adobe/spectrum-tokens-studio-data/pull/286)
+  Source: [spectrum-tokens-studio-data#286](https://github.com/adobe/spectrum-design-data-studio-data/pull/286)
 
   ## Token Changes
 
@@ -150,11 +150,11 @@
 
 ### Patch Changes
 
-* [`b4df84e`](https://github.com/adobe/spectrum-tokens/commit/b4df84e2f2ca246332907f9ddda94438288dd98e) Thanks [@larz0](https://github.com/larz0)! - SDS-14319 generic avatar updates (Pre-multidimensional-theming) - Token Details
+* [`b4df84e`](https://github.com/adobe/spectrum-design-data/commit/b4df84e2f2ca246332907f9ddda94438288dd98e) Thanks [@larz0](https://github.com/larz0)! - SDS-14319 generic avatar updates (Pre-multidimensional-theming) - Token Details
 
   This update adds the missing token change details for the recent avatar updates.
 
-  Source: [spectrum-tokens-studio-data#281](https://github.com/adobe/spectrum-tokens-studio-data/pull/281)
+  Source: [spectrum-tokens-studio-data#281](https://github.com/adobe/spectrum-design-data-studio-data/pull/281)
 
   ## Token Changes
 
@@ -202,15 +202,15 @@
 
 ### Minor Changes
 
-* [`336f672`](https://github.com/adobe/spectrum-tokens/commit/336f67216dfd875f0feb65c10059d9f3fe6dcaf7) Thanks [@larz0](https://github.com/larz0)! - SDS-14319 generic avatar updates (Pre-multidimensional-theming)
+* [`336f672`](https://github.com/adobe/spectrum-design-data/commit/336f67216dfd875f0feb65c10059d9f3fe6dcaf7) Thanks [@larz0](https://github.com/larz0)! - SDS-14319 generic avatar updates (Pre-multidimensional-theming)
 
-  Source: [spectrum-tokens-studio-data#281](https://github.com/adobe/spectrum-tokens-studio-data/pull/281)
+  Source: [spectrum-tokens-studio-data#281](https://github.com/adobe/spectrum-design-data-studio-data/pull/281)
 
 ## 13.13.0
 
 ### Minor Changes
 
-* [#559](https://github.com/adobe/spectrum-tokens/pull/559) [`1d4973e`](https://github.com/adobe/spectrum-tokens/commit/1d4973e78d814575da231c2c4080ead8a190d2fc) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## Token sync from Spectrum Tokens Studio
+* [#559](https://github.com/adobe/spectrum-design-data/pull/559) [`1d4973e`](https://github.com/adobe/spectrum-design-data/commit/1d4973e78d814575da231c2c4080ead8a190d2fc) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## Token sync from Spectrum Tokens Studio
 
   ### Design motivation
 
@@ -249,14 +249,14 @@
 
   ### References
 
-  * Tokens Studio PR: [adobe/spectrum-tokens-studio-data#275](https://github.com/adobe/spectrum-tokens-studio-data/pull/275)
-  * Spectrum Tokens PR: [#559](https://github.com/adobe/spectrum-tokens/pull/559)
+  * Tokens Studio PR: [adobe/spectrum-tokens-studio-data#275](https://github.com/adobe/spectrum-design-data-studio-data/pull/275)
+  * Spectrum Tokens PR: [#559](https://github.com/adobe/spectrum-design-data/pull/559)
 
 ## 13.12.0
 
 ### Minor Changes
 
-* [#527](https://github.com/adobe/spectrum-tokens/pull/527) [`28cfacc`](https://github.com/adobe/spectrum-tokens/commit/28cfacce9072ebc7afe0434d6fec55d587ddd2ce) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Fixed accordion token values due to changelog error
+* [#527](https://github.com/adobe/spectrum-design-data/pull/527) [`28cfacc`](https://github.com/adobe/spectrum-design-data/commit/28cfacce9072ebc7afe0434d6fec55d587ddd2ce) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Fixed accordion token values due to changelog error
 
   ## Token Diff
 
@@ -266,7 +266,7 @@
 
   * `accordion-top-to-text-compact-medium`
     value: 5px
-    uuid: [`484c960`](https://github.com/adobe/spectrum-tokens/commit/484c9603)-07f1-4ba6-b1bf-7cfaec5d1594
+    uuid: [`484c960`](https://github.com/adobe/spectrum-design-data/commit/484c9603)-07f1-4ba6-b1bf-7cfaec5d1594
 
   </details>
   <details><summary>Deleted Properties (1)</summary>
@@ -274,10 +274,10 @@
   * `accordion-top-to-text-compact-medium`
     desktop.schema: dimension.json
     desktop.value: 8px
-    desktop.uuid: [`484c960`](https://github.com/adobe/spectrum-tokens/commit/484c9603)-07f1-4ba6-b1bf-7cfaec5d1594
+    desktop.uuid: [`484c960`](https://github.com/adobe/spectrum-design-data/commit/484c9603)-07f1-4ba6-b1bf-7cfaec5d1594
     mobile.schema: dimension.json
     mobile.value: 14px
-    mobile.uuid: [`4a7dda7`](https://github.com/adobe/spectrum-tokens/commit/4a7dda7f)-a45a-496c-8d38-cb4e4807e544
+    mobile.uuid: [`4a7dda7`](https://github.com/adobe/spectrum-design-data/commit/4a7dda7f)-a45a-496c-8d38-cb4e4807e544
 
   </details>
   <details><summary>Updated Properties (2)</summary>
@@ -294,7 +294,7 @@
 
 ### Minor Changes
 
-* [#525](https://github.com/adobe/spectrum-tokens/pull/525) [`db6d0ed`](https://github.com/adobe/spectrum-tokens/commit/db6d0ed669e013e6f3ff52aea89fc7a5e798149a) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - composite tokens
+* [#525](https://github.com/adobe/spectrum-design-data/pull/525) [`db6d0ed`](https://github.com/adobe/spectrum-design-data/commit/db6d0ed669e013e6f3ff52aea89fc7a5e798149a) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - composite tokens
 
   <details><summary>Newly Deprecated (2)</summary>
 
@@ -346,7 +346,7 @@
 
 ### Patch Changes
 
-* [#517](https://github.com/adobe/spectrum-tokens/pull/517) [`8f8f8a6`](https://github.com/adobe/spectrum-tokens/commit/8f8f8a60b7adf5105ced4f914cf30928117ddc5e) Thanks [@larz0](https://github.com/larz0)! - `accordion-top-to-text-medium` values in desktop and mobile were incorrect due to changelog error.
+* [#517](https://github.com/adobe/spectrum-design-data/pull/517) [`8f8f8a6`](https://github.com/adobe/spectrum-design-data/commit/8f8f8a60b7adf5105ced4f914cf30928117ddc5e) Thanks [@larz0](https://github.com/larz0)! - `accordion-top-to-text-medium` values in desktop and mobile were incorrect due to changelog error.
   Corrected `accordion-focus-indicator-gap` values. Corrections weren't recorded in the changelog.
 
   ## Design motivation
@@ -371,7 +371,7 @@
 
 ### Minor Changes
 
-* [#509](https://github.com/adobe/spectrum-tokens/pull/509) [`0387332`](https://github.com/adobe/spectrum-tokens/commit/038733232bec26f823d63b88f564ff2c962c50a1) Thanks [@larz0](https://github.com/larz0)! - Updated accordion tokens
+* [#509](https://github.com/adobe/spectrum-design-data/pull/509) [`0387332`](https://github.com/adobe/spectrum-design-data/commit/038733232bec26f823d63b88f564ff2c962c50a1) Thanks [@larz0](https://github.com/larz0)! - Updated accordion tokens
 
   ## Design Motivation
 
@@ -422,17 +422,17 @@
   * `accordion-top-to-text-compact-small`
   * `desktop.schema`: dimension.json
   * `desktop.value`: 3px
-  * `desktop.uuid`: [`d6cc404`](https://github.com/adobe/spectrum-tokens/commit/d6cc404c)-af92-43be-88e3-407fdcb6e068
+  * `desktop.uuid`: [`d6cc404`](https://github.com/adobe/spectrum-design-data/commit/d6cc404c)-af92-43be-88e3-407fdcb6e068
   * `mobile.schema`: dimension.json
   * `mobile.value`: 4px
-  * `mobile.uuid`: [`cfc8d28`](https://github.com/adobe/spectrum-tokens/commit/cfc8d280)-5ea0-47f2-bdcb-ae5e93627498
+  * `mobile.uuid`: [`cfc8d28`](https://github.com/adobe/spectrum-design-data/commit/cfc8d280)-5ea0-47f2-bdcb-ae5e93627498
   * `accordion-top-to-text-compact-medium`
   * `desktop.schema`: dimension.json
   * `desktop.value`: 8px
-  * `desktop.uuid`: [`484c960`](https://github.com/adobe/spectrum-tokens/commit/484c9603)-07f1-4ba6-b1bf-7cfaec5d1594
+  * `desktop.uuid`: [`484c960`](https://github.com/adobe/spectrum-design-data/commit/484c9603)-07f1-4ba6-b1bf-7cfaec5d1594
   * `mobile.schema`: dimension.json
   * `mobile.value`: 14px
-  * `mobile.uuid`: [`4a7dda7`](https://github.com/adobe/spectrum-tokens/commit/4a7dda7f)-a45a-496c-8d38-cb4e4807e544
+  * `mobile.uuid`: [`4a7dda7`](https://github.com/adobe/spectrum-design-data/commit/4a7dda7f)-a45a-496c-8d38-cb4e4807e544
   * `time-field-minimum-width`
   * `description`: 2.5x height of field
 
@@ -442,7 +442,7 @@
 
 ### Minor Changes
 
-* [#504](https://github.com/adobe/spectrum-tokens/pull/504) [`6ec680a`](https://github.com/adobe/spectrum-tokens/commit/6ec680adb5f0372f86afdb415f1122630e6ac596) Thanks [@larz0](https://github.com/larz0)! - Added list view tokens
+* [#504](https://github.com/adobe/spectrum-design-data/pull/504) [`6ec680a`](https://github.com/adobe/spectrum-design-data/commit/6ec680adb5f0372f86afdb415f1122630e6ac596) Thanks [@larz0](https://github.com/larz0)! - Added list view tokens
 
   ## Design Motivation
 
@@ -487,7 +487,7 @@
 
 ### Minor Changes
 
-* [#502](https://github.com/adobe/spectrum-tokens/pull/502) [`26845e5`](https://github.com/adobe/spectrum-tokens/commit/26845e5885168bdfb7191b246b2ad41def39dc15) Thanks [@larz0](https://github.com/larz0)! - Tag field and missing icon tokens
+* [#502](https://github.com/adobe/spectrum-design-data/pull/502) [`26845e5`](https://github.com/adobe/spectrum-design-data/commit/26845e5885168bdfb7191b246b2ad41def39dc15) Thanks [@larz0](https://github.com/larz0)! - Tag field and missing icon tokens
 
   ## Design Motivation
 
@@ -529,7 +529,7 @@
 
 ### Minor Changes
 
-* [#499](https://github.com/adobe/spectrum-tokens/pull/499) [`0c1a81b`](https://github.com/adobe/spectrum-tokens/commit/0c1a81b6c5715e4de1d423b6bc7a59ce4fe30d2f) Thanks [@larz0](https://github.com/larz0)! - Added new accodion tokens
+* [#499](https://github.com/adobe/spectrum-design-data/pull/499) [`0c1a81b`](https://github.com/adobe/spectrum-design-data/commit/0c1a81b6c5715e4de1d423b6bc7a59ce4fe30d2f) Thanks [@larz0](https://github.com/larz0)! - Added new accodion tokens
 
   ## Design Motivation
 
@@ -565,7 +565,7 @@
 
 ### Minor Changes
 
-* [#497](https://github.com/adobe/spectrum-tokens/pull/497) [`fc0682e`](https://github.com/adobe/spectrum-tokens/commit/fc0682e16765f3beb9a823cc9b2f9f2464b6ccc6) Thanks [@larz0](https://github.com/larz0)! - Added horizontal card tokens
+* [#497](https://github.com/adobe/spectrum-design-data/pull/497) [`fc0682e`](https://github.com/adobe/spectrum-design-data/commit/fc0682e16765f3beb9a823cc9b2f9f2464b6ccc6) Thanks [@larz0](https://github.com/larz0)! - Added horizontal card tokens
 
   ## Design Motivation
 
@@ -585,7 +585,7 @@
 
 ### Minor Changes
 
-* [#494](https://github.com/adobe/spectrum-tokens/pull/494) [`f569623`](https://github.com/adobe/spectrum-tokens/commit/f569623b790b1b9256b8b278619df80b6766fc58) Thanks [@larz0](https://github.com/larz0)! - Added vf-related-line-height tokens for desktop and mobile.
+* [#494](https://github.com/adobe/spectrum-design-data/pull/494) [`f569623`](https://github.com/adobe/spectrum-design-data/commit/f569623b790b1b9256b8b278619df80b6766fc58) Thanks [@larz0](https://github.com/larz0)! - Added vf-related-line-height tokens for desktop and mobile.
 
   ## Design Motivation
 
@@ -627,7 +627,7 @@
 
 ### Minor Changes
 
-* [#489](https://github.com/adobe/spectrum-tokens/pull/489) [`40ffdee`](https://github.com/adobe/spectrum-tokens/commit/40ffdee07a89f4c85331f95ef96b8dc07e3fb981) Thanks [@larz0](https://github.com/larz0)! - Added steplist tokens
+* [#489](https://github.com/adobe/spectrum-design-data/pull/489) [`40ffdee`](https://github.com/adobe/spectrum-design-data/commit/40ffdee07a89f4c85331f95ef96b8dc07e3fb981) Thanks [@larz0](https://github.com/larz0)! - Added steplist tokens
 
   ## Design Motivation
 
@@ -662,7 +662,7 @@
 
 ### Minor Changes
 
-* [#487](https://github.com/adobe/spectrum-tokens/pull/487) [`07e15af`](https://github.com/adobe/spectrum-tokens/commit/07e15afbbce289bdd69f09690247205bf89bbea3) Thanks [@larz0](https://github.com/larz0)! - Token added for segmented control
+* [#487](https://github.com/adobe/spectrum-design-data/pull/487) [`07e15af`](https://github.com/adobe/spectrum-design-data/commit/07e15afbbce289bdd69f09690247205bf89bbea3) Thanks [@larz0](https://github.com/larz0)! - Token added for segmented control
 
   ## Token Diff
 
@@ -676,7 +676,7 @@
 
 ### Minor Changes
 
-* [#485](https://github.com/adobe/spectrum-tokens/pull/485) [`5fd35fe`](https://github.com/adobe/spectrum-tokens/commit/5fd35fe524f293848c90cdc08a85e7220e7518e5) Thanks [@larz0](https://github.com/larz0)! - Added wireframe colors
+* [#485](https://github.com/adobe/spectrum-design-data/pull/485) [`5fd35fe`](https://github.com/adobe/spectrum-design-data/commit/5fd35fe524f293848c90cdc08a85e7220e7518e5) Thanks [@larz0](https://github.com/larz0)! - Added wireframe colors
 
   ## Design Motivation
 
@@ -1255,7 +1255,7 @@
 
 ### Minor Changes
 
-* [#482](https://github.com/adobe/spectrum-tokens/pull/482) [`5602504`](https://github.com/adobe/spectrum-tokens/commit/5602504f49313ff49f327ce1e4a31da8f4e9fedc) Thanks [@larz0](https://github.com/larz0) and [@PaliwalSparsh](https://github.com/PaliwalSparsh)! - Added tokens for S2 cards
+* [#482](https://github.com/adobe/spectrum-design-data/pull/482) [`5602504`](https://github.com/adobe/spectrum-design-data/commit/5602504f49313ff49f327ce1e4a31da8f4e9fedc) Thanks [@larz0](https://github.com/larz0) and [@PaliwalSparsh](https://github.com/PaliwalSparsh)! - Added tokens for S2 cards
 
   ## Design Motivation
 
@@ -1369,9 +1369,9 @@
 GA of Spectrum 2 data. Discussions of the merge plan can be found at the following links:
 
 ```
-- [S2 GA release plan and S1 future support plan](https://github.com/adobe/spectrum-tokens/discussions/473)
-- [Spectrum, S2, S2-foundations updated merge plan](https://github.com/adobe/spectrum-tokens/discussions/465)
-- [Spectrum Tokens 12.x.x to Spectrum 2 migration proposal](https://github.com/adobe/spectrum-tokens/discussions/338)
+- [S2 GA release plan and S1 future support plan](https://github.com/adobe/spectrum-design-data/discussions/473)
+- [Spectrum, S2, S2-foundations updated merge plan](https://github.com/adobe/spectrum-design-data/discussions/465)
+- [Spectrum Tokens 12.x.x to Spectrum 2 migration proposal](https://github.com/adobe/spectrum-design-data/discussions/338)
 ```
 
 #### Design Motivation
@@ -8547,7 +8547,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#468](https://github.com/adobe/spectrum-tokens/pull/468) [`1b5b205`](https://github.com/adobe/spectrum-tokens/commit/1b5b20557d7c5d6c88209debe0d38b529679f039) Thanks [@larz0](https://github.com/larz0)! - Added static colors (for premium gradients) to light, dark, darkest, and wireframe themes.
+* [#468](https://github.com/adobe/spectrum-design-data/pull/468) [`1b5b205`](https://github.com/adobe/spectrum-design-data/commit/1b5b20557d7c5d6c88209debe0d38b529679f039) Thanks [@larz0](https://github.com/larz0)! - Added static colors (for premium gradients) to light, dark, darkest, and wireframe themes.
 
   ## Design Motivation
 
@@ -8572,7 +8572,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#409](https://github.com/adobe/spectrum-tokens/pull/409) [`a61060a`](https://github.com/adobe/spectrum-tokens/commit/a61060a164a944907f236c8df7fcab31220cdd01) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Token changes for CJK typography improvements.
+* [#409](https://github.com/adobe/spectrum-design-data/pull/409) [`a61060a`](https://github.com/adobe/spectrum-design-data/commit/a61060a164a944907f236c8df7fcab31220cdd01) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Token changes for CJK typography improvements.
 
   Updated S1 tokens - typography, foundations
 
@@ -8619,19 +8619,19 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#345](https://github.com/adobe/spectrum-tokens/pull/345) [`fe4c707`](https://github.com/adobe/spectrum-tokens/commit/fe4c707c5ae2cc89efe6439dc775cddc94b706b3) Thanks [@GarthDB](https://github.com/GarthDB)! - Added UUIDs to the base of set tokens.
+* [#345](https://github.com/adobe/spectrum-design-data/pull/345) [`fe4c707`](https://github.com/adobe/spectrum-design-data/commit/fe4c707c5ae2cc89efe6439dc775cddc94b706b3) Thanks [@GarthDB](https://github.com/GarthDB)! - Added UUIDs to the base of set tokens.
 
 ## 12.25.0
 
 ### Minor Changes
 
-* [`413ef5a`](https://github.com/adobe/spectrum-tokens/commit/413ef5adad9083b7e133cc867e0436a879004ec8) Thanks [@GarthDB](https://github.com/GarthDB)! - Added `private` metadata to global tokens.
+* [`413ef5a`](https://github.com/adobe/spectrum-design-data/commit/413ef5adad9083b7e133cc867e0436a879004ec8) Thanks [@GarthDB](https://github.com/GarthDB)! - Added `private` metadata to global tokens.
 
 ## 12.24.1
 
 ### Patch Changes
 
-* [#444](https://github.com/adobe/spectrum-tokens/pull/444) [`51904cd`](https://github.com/adobe/spectrum-tokens/commit/51904cdabfcb165a560c58664c8bc75be601f28b) Thanks [@marissahuysentruyt](https://github.com/marissahuysentruyt)! - fixing a typo with takeover-dialog-height
+* [#444](https://github.com/adobe/spectrum-design-data/pull/444) [`51904cd`](https://github.com/adobe/spectrum-design-data/commit/51904cdabfcb165a560c58664c8bc75be601f28b) Thanks [@marissahuysentruyt](https://github.com/marissahuysentruyt)! - fixing a typo with takeover-dialog-height
 
   ## Token Diff
 
@@ -8643,7 +8643,7 @@ Updated (1592)
 
 ### Patch Changes
 
-* [#441](https://github.com/adobe/spectrum-tokens/pull/441) [`89949e4`](https://github.com/adobe/spectrum-tokens/commit/89949e4d0008baacec05359a83620fa45e35cf5e) Thanks [@GarthDB](https://github.com/GarthDB)! - Change takeover dialog dimensions to use percentages which were previously converted to ems by mistake.
+* [#441](https://github.com/adobe/spectrum-design-data/pull/441) [`89949e4`](https://github.com/adobe/spectrum-design-data/commit/89949e4d0008baacec05359a83620fa45e35cf5e) Thanks [@GarthDB](https://github.com/GarthDB)! - Change takeover dialog dimensions to use percentages which were previously converted to ems by mistake.
 
   ## Token Diff
 
@@ -8656,7 +8656,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#425](https://github.com/adobe/spectrum-tokens/pull/425) [`91f4536`](https://github.com/adobe/spectrum-tokens/commit/91f4536a416cf6c9e5b0b423bf3ead3233e808fc) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Adding S2 tokens for number field and takeover dialog components.
+* [#425](https://github.com/adobe/spectrum-design-data/pull/425) [`91f4536`](https://github.com/adobe/spectrum-design-data/commit/91f4536a416cf6c9e5b0b423bf3ead3233e808fc) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Adding S2 tokens for number field and takeover dialog components.
 
   ## Token Diff
 
@@ -8683,7 +8683,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#418](https://github.com/adobe/spectrum-tokens/pull/418) [`45ed87b`](https://github.com/adobe/spectrum-tokens/commit/45ed87b43af53370f74fc46c545b4c13005f381c) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## Design Motivation
+* [#418](https://github.com/adobe/spectrum-design-data/pull/418) [`45ed87b`](https://github.com/adobe/spectrum-design-data/commit/45ed87b43af53370f74fc46c545b4c13005f381c) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## Design Motivation
 
   Made the following changes to component typography tokens for both mobile and desktop.
 
@@ -8704,7 +8704,7 @@ Updated (1592)
   * `heading-cjk-size-xxxl`: `font-size-1300` -> `font-size-1200`
   * `heading-cjk-size-xxl`: `font-size-900` -> `font-size-1000`
 
-* [#422](https://github.com/adobe/spectrum-tokens/pull/422) [`4673d13`](https://github.com/adobe/spectrum-tokens/commit/4673d1383602d81484ae346dd278a28a26f5d91b) Thanks [@GarthDB](https://github.com/GarthDB)! - Added tokens for s2 detail typography
+* [#422](https://github.com/adobe/spectrum-design-data/pull/422) [`4673d13`](https://github.com/adobe/spectrum-design-data/commit/4673d1383602d81484ae346dd278a28a26f5d91b) Thanks [@GarthDB](https://github.com/GarthDB)! - Added tokens for s2 detail typography
 
   *New tokens (6)*
 
@@ -8735,7 +8735,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#415](https://github.com/adobe/spectrum-tokens/pull/415) [`caca973`](https://github.com/adobe/spectrum-tokens/commit/caca973300d34fc688fb828633b1da2ba8284990) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - 1. New typography tokens:
+* [#415](https://github.com/adobe/spectrum-design-data/pull/415) [`caca973`](https://github.com/adobe/spectrum-design-data/commit/caca973300d34fc688fb828633b1da2ba8284990) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - 1. New typography tokens:
 
   * Letter spacing, text-align, cjk
 
@@ -8823,7 +8823,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`75a573b`](https://github.com/adobe/spectrum-tokens/commit/75a573bcbb7b71ecdf5f246682755de24dae5afc) Thanks [@GarthDB](https://github.com/GarthDB)! - S2 subtle and visual colors update
+* [`75a573b`](https://github.com/adobe/spectrum-design-data/commit/75a573bcbb7b71ecdf5f246682755de24dae5afc) Thanks [@GarthDB](https://github.com/GarthDB)! - S2 subtle and visual colors update
   Updated S2 Table tokens
 
   <details><summary>Tokens added (42):</summary>
@@ -9133,7 +9133,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#396](https://github.com/adobe/spectrum-tokens/pull/396) [`4fcfe5b`](https://github.com/adobe/spectrum-tokens/commit/4fcfe5bd83214a7ca3644646bbf0f38802a20f43) Thanks [@larz0](https://github.com/larz0)! - Added brand new tokens for the S2 Standard Panel:
+* [#396](https://github.com/adobe/spectrum-design-data/pull/396) [`4fcfe5b`](https://github.com/adobe/spectrum-design-data/commit/4fcfe5bd83214a7ca3644646bbf0f38802a20f43) Thanks [@larz0](https://github.com/larz0)! - Added brand new tokens for the S2 Standard Panel:
 
   ## Design Motivation
 
@@ -9160,7 +9160,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#390](https://github.com/adobe/spectrum-tokens/pull/390) [`cc9c304`](https://github.com/adobe/spectrum-tokens/commit/cc9c3048893058c3f01d6f1ce4688d8ab3716397) Thanks [@lynnhao](https://github.com/lynnhao)! - Updated code tokens for S2
+* [#390](https://github.com/adobe/spectrum-design-data/pull/390) [`cc9c304`](https://github.com/adobe/spectrum-design-data/commit/cc9c3048893058c3f01d6f1ce4688d8ab3716397) Thanks [@lynnhao](https://github.com/lynnhao)! - Updated code tokens for S2
 
   ## Design Motivation
 
@@ -9185,7 +9185,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#388](https://github.com/adobe/spectrum-tokens/pull/388) [`58425e6`](https://github.com/adobe/spectrum-tokens/commit/58425e67b2d4cbd716205d4d502cc823245811fe) Thanks [@lynnhao](https://github.com/lynnhao)! - Updated avatar and avatar group tokens
+* [#388](https://github.com/adobe/spectrum-design-data/pull/388) [`58425e6`](https://github.com/adobe/spectrum-design-data/commit/58425e67b2d4cbd716205d4d502cc823245811fe) Thanks [@lynnhao](https://github.com/lynnhao)! - Updated avatar and avatar group tokens
 
   ## Description
 
@@ -9266,7 +9266,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#384](https://github.com/adobe/spectrum-tokens/pull/384) [`681b4b0`](https://github.com/adobe/spectrum-tokens/commit/681b4b0094d31bae4c9b1b095fa59d6448c26cab) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added dragged drop shadow tokens that point to new 300 global drop shadow tokens
+* [#384](https://github.com/adobe/spectrum-design-data/pull/384) [`681b4b0`](https://github.com/adobe/spectrum-design-data/commit/681b4b0094d31bae4c9b1b095fa59d6448c26cab) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added dragged drop shadow tokens that point to new 300 global drop shadow tokens
 
   ## Design Motivation
 
@@ -9289,7 +9289,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#382](https://github.com/adobe/spectrum-tokens/pull/382) [`2af3850`](https://github.com/adobe/spectrum-tokens/commit/2af3850a554812fd9c1b3e6fd902a746c9ac42c7) Thanks [@nabuhasan](https://github.com/nabuhasan)! - Updated S2 swatch tokens and added swatch-group tokens in S2 Color and S2 Non-color data sets, respectively.
+* [#382](https://github.com/adobe/spectrum-design-data/pull/382) [`2af3850`](https://github.com/adobe/spectrum-design-data/commit/2af3850a554812fd9c1b3e6fd902a746c9ac42c7) Thanks [@nabuhasan](https://github.com/nabuhasan)! - Updated S2 swatch tokens and added swatch-group tokens in S2 Color and S2 Non-color data sets, respectively.
 
   ## Design Motivation
 
@@ -9315,9 +9315,9 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#375](https://github.com/adobe/spectrum-tokens/pull/375) [`6e3be6d`](https://github.com/adobe/spectrum-tokens/commit/6e3be6d8a458efa1752a8dd1360f03fa83f84c37) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - [Updated thumbnail size tokens and added new tokens](https://github.com/adobe/spectrum-tokens-studio-data/pull/144)
+* [#375](https://github.com/adobe/spectrum-design-data/pull/375) [`6e3be6d`](https://github.com/adobe/spectrum-design-data/commit/6e3be6d8a458efa1752a8dd1360f03fa83f84c37) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - [Updated thumbnail size tokens and added new tokens](https://github.com/adobe/spectrum-design-data-studio-data/pull/144)
 
-  * [Updated S2 Action bar tokens](https://github.com/adobe/spectrum-tokens-studio-data/pull/149)
+  * [Updated S2 Action bar tokens](https://github.com/adobe/spectrum-design-data-studio-data/pull/149)
 
   ## Design Motivation
 
@@ -9401,7 +9401,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#373](https://github.com/adobe/spectrum-tokens/pull/373) [`e04bddf`](https://github.com/adobe/spectrum-tokens/commit/e04bddf65549c87cd314b54966fe066ae649b7f7) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - Updated S2 accordion tokens (non-color) in respective desktop and mobile layout sets
+* [#373](https://github.com/adobe/spectrum-design-data/pull/373) [`e04bddf`](https://github.com/adobe/spectrum-design-data/commit/e04bddf65549c87cd314b54966fe066ae649b7f7) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - Updated S2 accordion tokens (non-color) in respective desktop and mobile layout sets
 
   * Added S2 meter tokens, including both color and non-color.
 
@@ -9446,7 +9446,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#364](https://github.com/adobe/spectrum-tokens/pull/364) [`f96ffca`](https://github.com/adobe/spectrum-tokens/commit/f96ffca4990547f8ddc8341d141e0edc65b872d9) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added coach-indicator s2 tokens
+* [#364](https://github.com/adobe/spectrum-design-data/pull/364) [`f96ffca`](https://github.com/adobe/spectrum-design-data/commit/f96ffca4990547f8ddc8341d141e0edc65b872d9) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added coach-indicator s2 tokens
 
   ## Token Diff
 
@@ -9465,7 +9465,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#360](https://github.com/adobe/spectrum-tokens/pull/360) [`f73a0b4`](https://github.com/adobe/spectrum-tokens/commit/f73a0b40464f1c73f2d9e8f6cf97da926e392ac7) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - Fixed token type from Sizing to Font size for contextual-help-body-size and `contextual-help-title-size`
+* [#360](https://github.com/adobe/spectrum-design-data/pull/360) [`f73a0b4`](https://github.com/adobe/spectrum-design-data/commit/f73a0b40464f1c73f2d9e8f6cf97da926e392ac7) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - Fixed token type from Sizing to Font size for contextual-help-body-size and `contextual-help-title-size`
 
   * Renamed tokens by deprecating previous ones and creating new ones, with font in the token name
     Updated value of `contextual-help-title-font-size`
@@ -9503,7 +9503,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#355](https://github.com/adobe/spectrum-tokens/pull/355) [`783a200`](https://github.com/adobe/spectrum-tokens/commit/783a200983efa8e1f2cc31fd40ac3ed7298bb312) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated tokens according to updated token spec for Spectrum 2, including new and deprecated tokens
+* [#355](https://github.com/adobe/spectrum-design-data/pull/355) [`783a200`](https://github.com/adobe/spectrum-design-data/commit/783a200983efa8e1f2cc31fd40ac3ed7298bb312) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated tokens according to updated token spec for Spectrum 2, including new and deprecated tokens
 
   ## Design Motivation
 
@@ -9581,7 +9581,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#342](https://github.com/adobe/spectrum-tokens/pull/342) [`9da9532`](https://github.com/adobe/spectrum-tokens/commit/9da9532f1915070d289f7cce6f4e562c2565f889) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Newly defined S2 Icon colors by the Icons team were incorporated into our system. This includes updates to existing colors and new color additions. More details on icon colors can be found [in this document](https://paper.dropbox.com/doc/S2-Icon-colors-May-update--CPQCbAN3uvmfSCYV5UekAgYkAg-BqbGyRAAL87Ehoqm9WrCB) and [this Figma file](https://www.figma.com/design/KRqwJWgLuW4R7HwFUzKWiB/S2-Icon-color?node-id=0%3A1\&t=jRZwm9gOH4dyLwL7-1).
+* [#342](https://github.com/adobe/spectrum-design-data/pull/342) [`9da9532`](https://github.com/adobe/spectrum-design-data/commit/9da9532f1915070d289f7cce6f4e562c2565f889) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Newly defined S2 Icon colors by the Icons team were incorporated into our system. This includes updates to existing colors and new color additions. More details on icon colors can be found [in this document](https://paper.dropbox.com/doc/S2-Icon-colors-May-update--CPQCbAN3uvmfSCYV5UekAgYkAg-BqbGyRAAL87Ehoqm9WrCB) and [this Figma file](https://www.figma.com/design/KRqwJWgLuW4R7HwFUzKWiB/S2-Icon-color?node-id=0%3A1\&t=jRZwm9gOH4dyLwL7-1).
 
   ## Design motivation
 
@@ -9674,7 +9674,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#337](https://github.com/adobe/spectrum-tokens/pull/337) [`df2ab7e`](https://github.com/adobe/spectrum-tokens/commit/df2ab7ed77d385593342a3ced7bfded94bd8af8e) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated illustrated message and drop zone tokens
+* [#337](https://github.com/adobe/spectrum-design-data/pull/337) [`df2ab7e`](https://github.com/adobe/spectrum-design-data/commit/df2ab7ed77d385593342a3ced7bfded94bd8af8e) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated illustrated message and drop zone tokens
 
   ## Design Motivation
 
@@ -9716,7 +9716,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#334](https://github.com/adobe/spectrum-tokens/pull/334) [`4d28593`](https://github.com/adobe/spectrum-tokens/commit/4d28593c9d34414d72d78a1cc6c480d9ffdf82ce) Thanks [@nabuhasan](https://github.com/nabuhasan)! - S2 Popover tokens update
+* [#334](https://github.com/adobe/spectrum-design-data/pull/334) [`4d28593`](https://github.com/adobe/spectrum-design-data/commit/4d28593c9d34414d72d78a1cc6c480d9ffdf82ce) Thanks [@nabuhasan](https://github.com/nabuhasan)! - S2 Popover tokens update
 
   ## Token Diff
 
@@ -9734,7 +9734,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#331](https://github.com/adobe/spectrum-tokens/pull/331) [`0bbfedb`](https://github.com/adobe/spectrum-tokens/commit/0bbfedb9dbb63fdd5b20e91f65b3f958a833313b) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - S2 Menu token updates
+* [#331](https://github.com/adobe/spectrum-design-data/pull/331) [`0bbfedb`](https://github.com/adobe/spectrum-design-data/commit/0bbfedb9dbb63fdd5b20e91f65b3f958a833313b) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - S2 Menu token updates
 
   ## Token Diff
 
@@ -9772,7 +9772,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#325](https://github.com/adobe/spectrum-tokens/pull/325) [`095248e`](https://github.com/adobe/spectrum-tokens/commit/095248e26bdd1c8b65a61f3793646bb44093c38b) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added semantic aliases used by in-line alert.
+* [#325](https://github.com/adobe/spectrum-design-data/pull/325) [`095248e`](https://github.com/adobe/spectrum-design-data/commit/095248e26bdd1c8b65a61f3793646bb44093c38b) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added semantic aliases used by in-line alert.
 
   ## Token Diff
 
@@ -9788,13 +9788,13 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#327](https://github.com/adobe/spectrum-tokens/pull/327) [`3caa31d`](https://github.com/adobe/spectrum-tokens/commit/3caa31d014a3d49496422c38a93c3c7645da0373) Thanks [@GarthDB](https://github.com/GarthDB)! - Added `private` metadata to global tokens.
+* [#327](https://github.com/adobe/spectrum-design-data/pull/327) [`3caa31d`](https://github.com/adobe/spectrum-design-data/commit/3caa31d014a3d49496422c38a93c3c7645da0373) Thanks [@GarthDB](https://github.com/GarthDB)! - Added `private` metadata to global tokens.
 
 ## 13.0.0-beta.30
 
 ### Minor Changes
 
-* [#321](https://github.com/adobe/spectrum-tokens/pull/321) [`e392c49`](https://github.com/adobe/spectrum-tokens/commit/e392c497a4d474c9619a882ad9ab4948441712e0) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added new Standard dialog, status light, and updated alert-banner-top-to-workflow-icon tokens
+* [#321](https://github.com/adobe/spectrum-design-data/pull/321) [`e392c49`](https://github.com/adobe/spectrum-design-data/commit/e392c497a4d474c9619a882ad9ab4948441712e0) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added new Standard dialog, status light, and updated alert-banner-top-to-workflow-icon tokens
 
   ## Token Diff
 
@@ -9828,7 +9828,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#319](https://github.com/adobe/spectrum-tokens/pull/319) [`5f962fc`](https://github.com/adobe/spectrum-tokens/commit/5f962fc864c516213db58bece2c47a74c68cc985) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated values for component pill edge to visual only tokens for both desktop and mobile.
+* [#319](https://github.com/adobe/spectrum-design-data/pull/319) [`5f962fc`](https://github.com/adobe/spectrum-design-data/commit/5f962fc864c516213db58bece2c47a74c68cc985) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated values for component pill edge to visual only tokens for both desktop and mobile.
 
   These values are updated based on the new workflow icon size.
 
@@ -9841,7 +9841,7 @@ Updated (1592)
   * `component-pill-edge-to-visual-only-300`
   * `component-pill-edge-to-visual-only-75`
 
-* [#316](https://github.com/adobe/spectrum-tokens/pull/316) [`664ab0b`](https://github.com/adobe/spectrum-tokens/commit/664ab0bba68b9f4752599ed73c98b5d339414478) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - S2 Color loupe tokens update (color-only)
+* [#316](https://github.com/adobe/spectrum-design-data/pull/316) [`664ab0b`](https://github.com/adobe/spectrum-design-data/commit/664ab0bba68b9f4752599ed73c98b5d339414478) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - S2 Color loupe tokens update (color-only)
 
   ## Token Diff
 
@@ -9854,13 +9854,13 @@ Updated (1592)
 
 ### Patch Changes
 
-* [`1150331`](https://github.com/adobe/spectrum-tokens/commit/1150331): Removed duplicate tokens from src files.
+* [`1150331`](https://github.com/adobe/spectrum-design-data/commit/1150331): Removed duplicate tokens from src files.
 
 ## 13.0.0-beta.27
 
 ### Minor Changes
 
-* [`3236495`](https://github.com/adobe/spectrum-tokens/commit/3236495): Updated coach mark tokens for both desktop and mobile
+* [`3236495`](https://github.com/adobe/spectrum-design-data/commit/3236495): Updated coach mark tokens for both desktop and mobile
 
   ## Token Diff
 
@@ -9880,7 +9880,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`b59fa8f`](https://github.com/adobe/spectrum-tokens/commit/b59fa8f): Updated alert dialog tokens
+* [`b59fa8f`](https://github.com/adobe/spectrum-design-data/commit/b59fa8f): Updated alert dialog tokens
 
   ## Token Diff
 
@@ -9900,7 +9900,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`e79ddd6`](https://github.com/adobe/spectrum-tokens/commit/e79ddd6): S2 Combo box, In-field button and In-field progress circle updates
+* [`e79ddd6`](https://github.com/adobe/spectrum-design-data/commit/e79ddd6): S2 Combo box, In-field button and In-field progress circle updates
 
   ## Motivation and context
 
@@ -9935,7 +9935,7 @@ Updated (1592)
   * `combo-box-visual-to-field-button-extra-large`
   * `in-field-button-edge-to-fill`
 
-* [`e79ddd6`](https://github.com/adobe/spectrum-tokens/commit/e79ddd6): S2 Color loupe tokens update
+* [`e79ddd6`](https://github.com/adobe/spectrum-design-data/commit/e79ddd6): S2 Color loupe tokens update
 
   ## Design Motivation
 
@@ -9952,7 +9952,7 @@ Updated (1592)
 
 ### Major Changes
 
-* [`1c8f7ab`](https://github.com/adobe/spectrum-tokens/commit/1c8f7ab): Renamed previous drop shadow tokens from S1 and pointed them to the new `100` S2 drop shadow tokens
+* [`1c8f7ab`](https://github.com/adobe/spectrum-design-data/commit/1c8f7ab): Renamed previous drop shadow tokens from S1 and pointed them to the new `100` S2 drop shadow tokens
   Added new drop shadow tokens, `100`, `200`, `emphasized-default`, `emphasized-hover`, `elevated`.
 
   ## Design Motivation
@@ -10000,7 +10000,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`3230aba`](https://github.com/adobe/spectrum-tokens/commit/3230aba): Updated and added S2 drop shadow tokens
+* [`3230aba`](https://github.com/adobe/spectrum-design-data/commit/3230aba): Updated and added S2 drop shadow tokens
 
   ## Design Motivation
 
@@ -10036,7 +10036,7 @@ Updated (1592)
 
 ### Patch Changes
 
-* [`936f608`](https://github.com/adobe/spectrum-tokens/commit/936f608): Fixed misnamed accordion token.
+* [`936f608`](https://github.com/adobe/spectrum-design-data/commit/936f608): Fixed misnamed accordion token.
 
   ## Token Diff
 
@@ -10052,7 +10052,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`c42448c`](https://github.com/adobe/spectrum-tokens/commit/c42448c): Updated and added alert dialog tokens for both desktop and mobile.
+* [`c42448c`](https://github.com/adobe/spectrum-design-data/commit/c42448c): Updated and added alert dialog tokens for both desktop and mobile.
 
   ## Design Motivation
 
@@ -10072,13 +10072,13 @@ Updated (1592)
   * `alert-dialog-description-size`
   * `alert-dialog-title-size`
 
-* [`46a801c`](https://github.com/adobe/spectrum-tokens/commit/46a801c): Added tokens for S2 title color
+* [`46a801c`](https://github.com/adobe/spectrum-design-data/commit/46a801c): Added tokens for S2 title color
 
 ## 13.0.0-beta.21
 
 ### Minor Changes
 
-* [`d71bea1`](https://github.com/adobe/spectrum-tokens/commit/d71bea1): S2 Opacity checkerboard non-color token updates
+* [`d71bea1`](https://github.com/adobe/spectrum-design-data/commit/d71bea1): S2 Opacity checkerboard non-color token updates
 
   ## Design Motivation
 
@@ -10099,7 +10099,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`fb61f17`](https://github.com/adobe/spectrum-tokens/commit/fb61f17): Added Title typography tokens
+* [`fb61f17`](https://github.com/adobe/spectrum-design-data/commit/fb61f17): Added Title typography tokens
 
   ## Design Motivation
 
@@ -10159,7 +10159,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`723d3b0`](https://github.com/adobe/spectrum-tokens/commit/723d3b0): Updated, added, and deprecated tokens for text field and text area.
+* [`723d3b0`](https://github.com/adobe/spectrum-design-data/commit/723d3b0): Updated, added, and deprecated tokens for text field and text area.
 
   ## Design Motivation
 
@@ -10197,7 +10197,7 @@ Updated (1592)
   * `character-count-to-field-quiet-large`
   * `character-count-to-field-quiet-extra-large`
 
-* [`66b1edf`](https://github.com/adobe/spectrum-tokens/commit/66b1edf): Updated color of color-area-border-color token from gray.900 to gray.1000 in both light and dark sets.
+* [`66b1edf`](https://github.com/adobe/spectrum-design-data/commit/66b1edf): Updated color of color-area-border-color token from gray.900 to gray.1000 in both light and dark sets.
 
   ## Design motivation
 
@@ -10209,7 +10209,7 @@ Updated (1592)
 
   * `color-area-border-color`
 
-* [`7b5f18b`](https://github.com/adobe/spectrum-tokens/commit/7b5f18b): Update alert banner for Spectrum 2
+* [`7b5f18b`](https://github.com/adobe/spectrum-design-data/commit/7b5f18b): Update alert banner for Spectrum 2
 
   ## Design Motivation
 
@@ -10225,7 +10225,7 @@ Updated (1592)
   * `alert-banner-top-to-workflow-icon`
   * `search-field-minimum-width-multiplier`
 
-* [`4a84fdd`](https://github.com/adobe/spectrum-tokens/commit/4a84fdd): Spectrum 2 Toast Tokens
+* [`4a84fdd`](https://github.com/adobe/spectrum-design-data/commit/4a84fdd): Spectrum 2 Toast Tokens
 
   ## Design motivation
 
@@ -10247,7 +10247,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`940bd78`](https://github.com/adobe/spectrum-tokens/commit/940bd78): Updated background aliases in dark theme; added new non-semantic colors
+* [`940bd78`](https://github.com/adobe/spectrum-design-data/commit/940bd78): Updated background aliases in dark theme; added new non-semantic colors
 
   ## Design Motivation
 
@@ -10303,8 +10303,8 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`9072ae7`](https://github.com/adobe/spectrum-tokens/commit/9072ae7): `color-slider-border-color` token was updated to reference `gray-1000` instead of `gray-90`0 in both light and dark themes.
-* [`912e307`](https://github.com/adobe/spectrum-tokens/commit/912e307): Updated `color-slider-border-rounding` token to use 7px instead of 4px in desktop only.
+* [`9072ae7`](https://github.com/adobe/spectrum-design-data/commit/9072ae7): `color-slider-border-color` token was updated to reference `gray-1000` instead of `gray-90`0 in both light and dark themes.
+* [`912e307`](https://github.com/adobe/spectrum-design-data/commit/912e307): Updated `color-slider-border-rounding` token to use 7px instead of 4px in desktop only.
   This token value update is the same value used by alias token: `corner-radius-medium-size-small`.
 
   ## Design Motivation
@@ -10322,7 +10322,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`80a3fec`](https://github.com/adobe/spectrum-tokens/commit/80a3fec): New non-color tokens for S2 tag component added to both desktop and mobile layout.component sets.
+* [`80a3fec`](https://github.com/adobe/spectrum-design-data/commit/80a3fec): New non-color tokens for S2 tag component added to both desktop and mobile layout.component sets.
 
   ## Design Motivation
 
@@ -10346,8 +10346,8 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`c7c1d81`](https://github.com/adobe/spectrum-tokens/commit/c7c1d81): Added new semantic color aliases to Tokens Studio, in the S2 color tokens, alias sets for both light and dark themes.
-* [`4b78009`](https://github.com/adobe/spectrum-tokens/commit/4b78009): Updated values and added new tokens for Switch.
+* [`c7c1d81`](https://github.com/adobe/spectrum-design-data/commit/c7c1d81): Added new semantic color aliases to Tokens Studio, in the S2 color tokens, alias sets for both light and dark themes.
+* [`4b78009`](https://github.com/adobe/spectrum-design-data/commit/4b78009): Updated values and added new tokens for Switch.
 
   ## Design Motivation
 
@@ -10390,7 +10390,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`f004b0c`](https://github.com/adobe/spectrum-tokens/commit/f004b0c): The tokens listed in the diff below had identical values between sets and so were merged to single values to simplify the data.
+* [`f004b0c`](https://github.com/adobe/spectrum-design-data/commit/f004b0c): The tokens listed in the diff below had identical values between sets and so were merged to single values to simplify the data.
 
   ## Token Diff
 
@@ -10447,7 +10447,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`ef600c4`](https://github.com/adobe/spectrum-tokens/commit/ef600c4): ## Design Motivation
+* [`ef600c4`](https://github.com/adobe/spectrum-design-data/commit/ef600c4): ## Design Motivation
 
   * The updated tooltip component in Spectrum 2 has a larger, slightly rounded tip
   * Added tokens for horizontal and vertical orientation
@@ -10469,7 +10469,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`c87d743`](https://github.com/adobe/spectrum-tokens/commit/c87d743): Updates to spacing tokens for the S2 field label component include:
+* [`c87d743`](https://github.com/adobe/spectrum-design-data/commit/c87d743): Updates to spacing tokens for the S2 field label component include:
 
   Token: field-label-top-to-asterisk-\[medium, large, extra-large]. Only value for extra-large token required updating in the desktop scale. All other sizes presented accurate values.
 
@@ -10496,7 +10496,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`3c6303a`](https://github.com/adobe/spectrum-tokens/commit/3c6303a): Updated text-to-visual-300 mobile value from 11px to 10px.
+* [`3c6303a`](https://github.com/adobe/spectrum-design-data/commit/3c6303a): Updated text-to-visual-300 mobile value from 11px to 10px.
 
   ## Design Motivation
 
@@ -10508,7 +10508,7 @@ Updated (1592)
 
   * `text-to-visual-300`
 
-* [`6579966`](https://github.com/adobe/spectrum-tokens/commit/6579966): existing corner-radius tokens, adding net-new global corner radius tokens, and introducing new alias names that point to these global values.
+* [`6579966`](https://github.com/adobe/spectrum-design-data/commit/6579966): existing corner-radius tokens, adding net-new global corner radius tokens, and introducing new alias names that point to these global values.
 
   ## Design Motivation
 
@@ -10554,7 +10554,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`23d9085`](https://github.com/adobe/spectrum-tokens/commit/23d9085): Updated desktop and mobile values for component-edge-to-visual-only tokens.
+* [`23d9085`](https://github.com/adobe/spectrum-design-data/commit/23d9085): Updated desktop and mobile values for component-edge-to-visual-only tokens.
 
   Spacing changed due to new workflow icon sizes.
 
@@ -10568,7 +10568,7 @@ Updated (1592)
   * `component-edge-to-visual-only-50`
   * `component-edge-to-visual-only-75`
 
-* [`c5430b7`](https://github.com/adobe/spectrum-tokens/commit/c5430b7): Updated help-text-top-to-workflow-icon-\_ token values to point to component-top-to-workflow-icon-\_ tokens
+* [`c5430b7`](https://github.com/adobe/spectrum-design-data/commit/c5430b7): Updated help-text-top-to-workflow-icon-\_ token values to point to component-top-to-workflow-icon-\_ tokens
 
   ## Token Diff
 
@@ -10583,7 +10583,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`cf09c84`](https://github.com/adobe/spectrum-tokens/commit/cf09c84): Updated workflow-icon-size-50, 75, 100, 200, 300 with Spectrum 2 values in mobile and desktop.
+* [`cf09c84`](https://github.com/adobe/spectrum-design-data/commit/cf09c84): Updated workflow-icon-size-50, 75, 100, 200, 300 with Spectrum 2 values in mobile and desktop.
   Updated component-top-to-workflow and text-to-visual padding.
   Added 3 new non-color tokens for S2 component downstates in Tokens Studio.
 
@@ -10625,7 +10625,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`507f3c2`](https://github.com/adobe/spectrum-tokens/commit/507f3c2): Added new and updating existing background layer tokens to S2 set in Tokens Studio and S2/Variables. Also reordered token organization to reflect proper usage based on [S2 guidelines](https://s2.spectrum.corp.adobe.com/page/background-layers/#editing-contexts).
+* [`507f3c2`](https://github.com/adobe/spectrum-design-data/commit/507f3c2): Added new and updating existing background layer tokens to S2 set in Tokens Studio and S2/Variables. Also reordered token organization to reflect proper usage based on [S2 guidelines](https://s2.spectrum.corp.adobe.com/page/background-layers/#editing-contexts).
 
   ## Design Motivation
 
@@ -10646,7 +10646,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`4853f76`](https://github.com/adobe/spectrum-tokens/commit/4853f76): Added schema to all tokens and fixed values that didn't meet schema requirements
+* [`4853f76`](https://github.com/adobe/spectrum-design-data/commit/4853f76): Added schema to all tokens and fixed values that didn't meet schema requirements
 
   ## Token Diff
 
@@ -10985,7 +10985,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`6d1c661`](https://github.com/adobe/spectrum-tokens/commit/6d1c661): Added new Spectrum 2 color tokens for both light and dark themes:
+* [`6d1c661`](https://github.com/adobe/spectrum-design-data/commit/6d1c661): Added new Spectrum 2 color tokens for both light and dark themes:
 
   Cinnamon 100 to 1600
 
@@ -11014,7 +11014,7 @@ Updated (1592)
   * `cinnamon-1500`
   * `cinnamon-1600`
 
-* [`91d7e95`](https://github.com/adobe/spectrum-tokens/commit/91d7e95): Fixed bug in the light theme value for notice-background-color-default, from notice-color-800 to notice-color-600
+* [`91d7e95`](https://github.com/adobe/spectrum-design-data/commit/91d7e95): Fixed bug in the light theme value for notice-background-color-default, from notice-color-800 to notice-color-600
 
   ## Design Motivation
 
@@ -11030,7 +11030,7 @@ Updated (1592)
 
 ### Major Changes
 
-* [`0af2674`](https://github.com/adobe/spectrum-tokens/commit/0af2674): feat: new color values for spectrum2
+* [`0af2674`](https://github.com/adobe/spectrum-design-data/commit/0af2674): feat: new color values for spectrum2
 
   ## Design Motivation
 
@@ -11294,7 +11294,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`7b5ec24`](https://github.com/adobe/spectrum-tokens/commit/7b5ec24): feat: add new color tokens
+* [`7b5ec24`](https://github.com/adobe/spectrum-design-data/commit/7b5ec24): feat: add new color tokens
 
   ## Design Motivation
 
@@ -11375,7 +11375,7 @@ Updated (1592)
 
 ### Major Changes
 
-* [`a08dced`](https://github.com/adobe/spectrum-tokens/commit/a08dced): A handful of values transitioned from being defined per-set to being constants; set values are deprecated and root values are defined.
+* [`a08dced`](https://github.com/adobe/spectrum-design-data/commit/a08dced): A handful of values transitioned from being defined per-set to being constants; set values are deprecated and root values are defined.
 
   ## Token Diff
 
@@ -11389,13 +11389,13 @@ Updated (1592)
 
 ### Patch Changes
 
-* [`c0a10b4`](https://github.com/adobe/spectrum-tokens/commit/c0a10b4): fix: rgb used instead of rgba for a couple tokens
+* [`c0a10b4`](https://github.com/adobe/spectrum-design-data/commit/c0a10b4): fix: rgb used instead of rgba for a couple tokens
 
 ## 13.0.0-beta.3
 
 ### Patch Changes
 
-* [`a546ef7`](https://github.com/adobe/spectrum-tokens/commit/a546ef7): Returned some tokens that were removed by accident in the previous merging.
+* [`a546ef7`](https://github.com/adobe/spectrum-design-data/commit/a546ef7): Returned some tokens that were removed by accident in the previous merging.
 
   ## Token Diff
 
@@ -11457,7 +11457,7 @@ Updated (1592)
 
 ### Major Changes
 
-* [`ee15851`](https://github.com/adobe/spectrum-tokens/commit/ee15851): Updated color tokens to use S2 values
+* [`ee15851`](https://github.com/adobe/spectrum-design-data/commit/ee15851): Updated color tokens to use S2 values
 
   ## Design Motivation
 
@@ -11933,7 +11933,7 @@ Updated (1592)
 
 ### Major Changes
 
-* [`f1cb901`](https://github.com/adobe/spectrum-tokens/commit/f1cb901): Merged dark and darkest color sets. This was done by removing `dark` and renaming `darkest` to `dark`.
+* [`f1cb901`](https://github.com/adobe/spectrum-design-data/commit/f1cb901): Merged dark and darkest color sets. This was done by removing `dark` and renaming `darkest` to `dark`.
 
   ## Design Motivation
 
@@ -12308,7 +12308,7 @@ Updated (1592)
 
 ### Major Changes
 
-* [`4f518be`](https://github.com/adobe/spectrum-tokens/commit/4f518be): Merged Spectrum and Express system set data. This is part of the Spectrum 2 work that will no longer have two separate systems.
+* [`4f518be`](https://github.com/adobe/spectrum-design-data/commit/4f518be): Merged Spectrum and Express system set data. This is part of the Spectrum 2 work that will no longer have two separate systems.
 
   The merge takes the keeps the `value` and `uuid` from `spectrum`.
 
@@ -12425,13 +12425,13 @@ Updated (1592)
 
 ### Patch Changes
 
-* [`d9a6b7b`](https://github.com/adobe/spectrum-tokens/commit/d9a6b7b): Updated manifest.json file
+* [`d9a6b7b`](https://github.com/adobe/spectrum-design-data/commit/d9a6b7b): Updated manifest.json file
 
 ## 12.19.0
 
 ### Minor Changes
 
-* [`0c716de`](https://github.com/adobe/spectrum-tokens/commit/0c716de): Added icon tokens
+* [`0c716de`](https://github.com/adobe/spectrum-design-data/commit/0c716de): Added icon tokens
 
   ### Token Diff
 
@@ -12448,7 +12448,7 @@ Updated (1592)
 
 ### Patch Changes
 
-* [`6f5443e`](https://github.com/adobe/spectrum-tokens/commit/6f5443e): Added missing `wireframe` values for 2 color tokens
+* [`6f5443e`](https://github.com/adobe/spectrum-design-data/commit/6f5443e): Added missing `wireframe` values for 2 color tokens
 
   ## Token Diff
 
@@ -12461,7 +12461,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`bb89361`](https://github.com/adobe/spectrum-tokens/commit/bb89361): Update meter token from meter-default-width to meter-width.
+* [`bb89361`](https://github.com/adobe/spectrum-design-data/commit/bb89361): Update meter token from meter-default-width to meter-width.
 
   ### Design motivation
 
@@ -12481,7 +12481,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`687f6c3`](https://github.com/adobe/spectrum-tokens/commit/687f6c3): Updated coach-mark tokens
+* [`687f6c3`](https://github.com/adobe/spectrum-design-data/commit/687f6c3): Updated coach-mark tokens
 
 #### Token Diff
 
@@ -12502,7 +12502,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`25dc20d`](https://github.com/adobe/spectrum-tokens/commit/25dc20d): Add new menu-item token for section dividers
+* [`25dc20d`](https://github.com/adobe/spectrum-design-data/commit/25dc20d): Add new menu-item token for section dividers
 
 #### Token Diff
 
@@ -12514,7 +12514,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`fc12f6d`](https://github.com/adobe/spectrum-tokens/commit/fc12f6d): Added side-navigation token
+* [`fc12f6d`](https://github.com/adobe/spectrum-design-data/commit/fc12f6d): Added side-navigation token
 
 #### Token Diff
 
@@ -12526,7 +12526,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`cb9e3bf`](https://github.com/adobe/spectrum-tokens/commit/cb9e3bf): Added in-field button tokens
+* [`cb9e3bf`](https://github.com/adobe/spectrum-design-data/commit/cb9e3bf): Added in-field button tokens
 
   ## Token Diff
 
@@ -12556,13 +12556,13 @@ Updated (1592)
 
 ### Patch Changes
 
-* [`02459bf`](https://github.com/adobe/spectrum-tokens/commit/02459bf): Migrate dependencies to devDependencies as they are not needed downstream to leverage the package.
+* [`02459bf`](https://github.com/adobe/spectrum-design-data/commit/02459bf): Migrate dependencies to devDependencies as they are not needed downstream to leverage the package.
 
 ## 12.13.0
 
 ### Minor Changes
 
-* [`d740d2c`](https://github.com/adobe/spectrum-tokens/commit/d740d2c): added table tokens
+* [`d740d2c`](https://github.com/adobe/spectrum-design-data/commit/d740d2c): added table tokens
 
   ## Token diff
 
@@ -12661,7 +12661,7 @@ Updated (1592)
 
 ### Patch Changes
 
-* [`6365597`](https://github.com/adobe/spectrum-tokens/commit/6365597): Added IDs to previously publish tab tokens
+* [`6365597`](https://github.com/adobe/spectrum-design-data/commit/6365597): Added IDs to previously publish tab tokens
 
   ## Token Diff
 
@@ -12723,7 +12723,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`ba02b18`](https://github.com/adobe/spectrum-tokens/commit/ba02b18): Added tokens for the tabs component
+* [`ba02b18`](https://github.com/adobe/spectrum-design-data/commit/ba02b18): Added tokens for the tabs component
 
   ## Token diff
 
@@ -12785,7 +12785,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`1a57f08`](https://github.com/adobe/spectrum-tokens/commit/1a57f08): Fixed typo with `picker-end-edge-to-disclosure-icon-quiet` by adding a new token and deprecating `picker-end-edge-to-disclousure-icon-quiet`.
+* [`1a57f08`](https://github.com/adobe/spectrum-design-data/commit/1a57f08): Fixed typo with `picker-end-edge-to-disclosure-icon-quiet` by adding a new token and deprecating `picker-end-edge-to-disclousure-icon-quiet`.
 
   ## Token Diff
 
@@ -12801,7 +12801,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`0829c5d`](https://github.com/adobe/spectrum-tokens/commit/0829c5d): Added UUIDs to each token
+* [`0829c5d`](https://github.com/adobe/spectrum-design-data/commit/0829c5d): Added UUIDs to each token
 
   ## Token Diff
 
@@ -12813,7 +12813,7 @@ Updated (1592)
 
 ### Patch Changes
 
-* [`cace8d8`](https://github.com/adobe/spectrum-tokens/commit/cace8d8): Fixed component name typo
+* [`cace8d8`](https://github.com/adobe/spectrum-design-data/commit/cace8d8): Fixed component name typo
 
   ## Token Diff
 
@@ -12833,7 +12833,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`fe7a002`](https://github.com/adobe/spectrum-tokens/commit/fe7a002): Fixed typo by adding correct token (`floating-action-button-drop-shadow-color`) and deprecating incorrect token name (`floating-action-button-shadow-color`).
+* [`fe7a002`](https://github.com/adobe/spectrum-design-data/commit/fe7a002): Fixed typo by adding correct token (`floating-action-button-drop-shadow-color`) and deprecating incorrect token name (`floating-action-button-shadow-color`).
 
   ## Token Diff
 
@@ -12849,7 +12849,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`d639b4b`](https://github.com/adobe/spectrum-tokens/commit/d639b4b): Updated color-handle-inner-border-opacity to remove express specific value
+* [`d639b4b`](https://github.com/adobe/spectrum-design-data/commit/d639b4b): Updated color-handle-inner-border-opacity to remove express specific value
 
   ## Token Diff
 
@@ -12862,7 +12862,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`625cb7f`](https://github.com/adobe/spectrum-tokens/commit/625cb7f): Removed express specific token data for color handle
+* [`625cb7f`](https://github.com/adobe/spectrum-design-data/commit/625cb7f): Removed express specific token data for color handle
 
 ### Token Diff
 
@@ -12877,9 +12877,9 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`ee5bfd8`](https://github.com/adobe/spectrum-tokens/commit/ee5bfd8): Adding a couple tokens to floating action button that should have been included earlier.
-* [`853d8c3`](https://github.com/adobe/spectrum-tokens/commit/853d8c3): Removed express specific token data for color loupe and color handle
-* [`c9e76ab`](https://github.com/adobe/spectrum-tokens/commit/c9e76ab): Contextual help did not have any type specific tokens when it was initially defined.
+* [`ee5bfd8`](https://github.com/adobe/spectrum-design-data/commit/ee5bfd8): Adding a couple tokens to floating action button that should have been included earlier.
+* [`853d8c3`](https://github.com/adobe/spectrum-design-data/commit/853d8c3): Removed express specific token data for color loupe and color handle
+* [`c9e76ab`](https://github.com/adobe/spectrum-design-data/commit/c9e76ab): Contextual help did not have any type specific tokens when it was initially defined.
 
 ### Token Diff
 
@@ -12908,16 +12908,16 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`c1eaeee`](https://github.com/adobe/spectrum-tokens/commit/c1eaeee): Added new tokens for slider. Deprecated old slider tokens.
+* [`c1eaeee`](https://github.com/adobe/spectrum-design-data/commit/c1eaeee): Added new tokens for slider. Deprecated old slider tokens.
 
 ## 12.4.0
 
 ### Minor Changes
 
-* [`5406a24`](https://github.com/adobe/spectrum-tokens/commit/5406a24): Added `side-navigation` tokens.
+* [`5406a24`](https://github.com/adobe/spectrum-design-data/commit/5406a24): Added `side-navigation` tokens.
 
 ## 12.3.0
 
 ### Minor Changes
 
-* [`fc919d2`](https://github.com/adobe/spectrum-tokens/commit/fc919d2): Added tray token `tray-top-to-content-area`
+* [`fc919d2`](https://github.com/adobe/spectrum-design-data/commit/fc919d2): Added tray token `tray-top-to-content-area`

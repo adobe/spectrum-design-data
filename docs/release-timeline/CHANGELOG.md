@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- [#566](https://github.com/adobe/spectrum-tokens/pull/566) [`e0de953`](https://github.com/adobe/spectrum-tokens/commit/e0de953fb8ef5aba92782838094eeec3a4c78321) Thanks [@GarthDB](https://github.com/GarthDB)! - Add release timeline visualization and analysis tools for Spectrum Tokens change tracking.
+- [#566](https://github.com/adobe/spectrum-design-data/pull/566) [`e0de953`](https://github.com/adobe/spectrum-design-data/commit/e0de953fb8ef5aba92782838094eeec3a4c78321) Thanks [@GarthDB](https://github.com/GarthDB)! - Add release timeline visualization and analysis tools for Spectrum Tokens change tracking.
 
   This adds new internal tooling for analyzing and visualizing the frequency and scope of Spectrum Tokens releases:
   - **Release Analyzer Tool** (`tools/release-analyzer/`): Parses git tags and CHANGELOG.md to extract release data and change scope metrics

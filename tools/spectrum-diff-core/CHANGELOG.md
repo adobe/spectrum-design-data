@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [`2a137c3`](https://github.com/adobe/spectrum-tokens/commit/2a137c376bd1b7a4cc445db6bb70d8466389d5e6) Thanks [@GarthDB](https://github.com/GarthDB)! - fix(ci): resolve GitHub Actions output formatting for empty diff reports
+- [`2a137c3`](https://github.com/adobe/spectrum-design-data/commit/2a137c376bd1b7a4cc445db6bb70d8466389d5e6) Thanks [@GarthDB](https://github.com/GarthDB)! - fix(ci): resolve GitHub Actions output formatting for empty diff reports
 
   This patch ensures component diff workflows handle empty output correctly without causing EOF delimiter errors in GitHub Actions.
 
@@ -12,7 +12,7 @@
 
 ### Minor Changes
 
-- [#573](https://github.com/adobe/spectrum-tokens/pull/573) [`cd74579`](https://github.com/adobe/spectrum-tokens/commit/cd745798b88a137ee6fac8734cc872626fd09060) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(tools): add component schema diff generator with shared core library
+- [#573](https://github.com/adobe/spectrum-design-data/pull/573) [`cd74579`](https://github.com/adobe/spectrum-design-data/commit/cd745798b88a137ee6fac8734cc872626fd09060) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(tools): add component schema diff generator with shared core library
 
   **New Tools:**
   - `@adobe/spectrum-component-diff-generator` - CLI tool for comparing component schemas between versions/branches
