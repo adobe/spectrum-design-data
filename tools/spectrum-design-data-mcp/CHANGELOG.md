@@ -12,7 +12,7 @@
 ### Patch Changes
 
 * Updated dependencies \[[`f64bee3`](https://github.com/adobe/spectrum-tokens/commit/f64bee3900c874775f2d3424516786a0d644d057)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)[**@13**](https://github.com/13).16.0
+  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)@13.16.0
 
 ## 1.0.10
 
@@ -63,28 +63,28 @@
 ### Patch Changes
 
 * Updated dependencies \[[`1e860c4`](https://github.com/adobe/spectrum-tokens/commit/1e860c4436c58ceca6f4500ea7e24d6d8cdd20c8)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)[**@13**](https://github.com/13).15.1
+  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)@13.15.1
 
 ## 1.0.4
 
 ### Patch Changes
 
 * Updated dependencies \[[`3df7197`](https://github.com/adobe/spectrum-tokens/commit/3df7197e7da23c9bb107f7dfcd935b5c62a86041)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)[**@13**](https://github.com/13).15.0
+  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)@13.15.0
 
 ## 1.0.3
 
 ### Patch Changes
 
 * Updated dependencies \[[`b4df84e`](https://github.com/adobe/spectrum-tokens/commit/b4df84e2f2ca246332907f9ddda94438288dd98e)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)[**@13**](https://github.com/13).14.1
+  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)@13.14.1
 
 ## 1.0.2
 
 ### Patch Changes
 
 * Updated dependencies \[[`336f672`](https://github.com/adobe/spectrum-tokens/commit/336f67216dfd875f0feb65c10059d9f3fe6dcaf7)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)[**@13**](https://github.com/13).14.0
+  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)@13.14.0
 
 ## 1.0.1
 
