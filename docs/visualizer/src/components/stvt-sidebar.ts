@@ -250,14 +250,14 @@ export class StvtSidebar extends LitElement {
                   </p>
                   <sp-link
                     target="_new"
-                    href="https://github.com/adobe/spectrum-tokens"
+                    href="https://github.com/adobe/spectrum-design-data"
                     variant="secondary"
                     >Spectrum Tokens on GitHub</sp-link
                   >
                   <br />
                   <sp-link
                     target="_new"
-                    href="https://git.corp.adobe.com/aportill/stvt/"
+                    href="https://github.com/adobe/spectrum-design-data/tree/main/docs/visualizer"
                     variant="secondary"
                     >This Tool on GitHub</sp-link
                   >
