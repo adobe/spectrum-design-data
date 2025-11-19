@@ -108,7 +108,7 @@ tasks:
   "$schema": "https://unpkg.com/@changesets/config@2.3.0/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    { "repo": "adobe/spectrum-tokens" }
+    { "repo": "adobe/spectrum-design-data" }
   ],
   "commit": false,
   "access": "public",
