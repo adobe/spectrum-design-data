@@ -22,7 +22,9 @@ function formatComponentPropertiesTable(componentData) {
             result.defaultValue = "nothing";
           } else if (Object.hasOwn(properties[property], "enum")) {
             result.values = properties[property].enum.join(" / ");
-            result.defaultValue = properties[property].default ? properties[property].default : "";
+            result.defaultValue = properties[property].default
+              ? properties[property].default
+              : "";
           } else {
             result.values = "text";
             result.defaultValue = "-";
@@ -70,7 +72,11 @@ export default function Component({ componentData, version }) {
         <table className="spectrum-Table spectrum-Table--sizeM spectrum-Table--quiet">
           <thead className="spectrum-Table-head">
             <tr>
-              <th className="spectrum-Table-headCell" aria-sort="descending" tabIndex="0">
+              <th
+                className="spectrum-Table-headCell"
+                aria-sort="descending"
+                tabIndex="0"
+              >
                 Property
               </th>
               <th className="spectrum-Table-headCell" aria-sort="none">
@@ -85,11 +91,15 @@ export default function Component({ componentData, version }) {
               ({ values, description, property, defaultValue, required }) => (
                 <tr className="spectrum-Table-row" key={property}>
                   <td className="spectrum-Table-cell" tabIndex="0">
-                    <strong>{property.replace(/([A-Z])/g, " $1").toLowerCase()}</strong>
+                    <strong>
+                      {property.replace(/([A-Z])/g, " $1").toLowerCase()}
+                    </strong>
                   </td>
                   <td className="spectrum-Table-cell" tabIndex="0">
                     <div>{values}</div>
-                    {description ? <div className="description">{description}</div> : undefined}
+                    {description ? (
+                      <div className="description">{description}</div>
+                    ) : undefined}
                   </td>
                   <td className="spectrum-Table-cell" tabIndex="0">
                     {defaultValue}
@@ -98,7 +108,7 @@ export default function Component({ componentData, version }) {
                     {required}
                   </td>
                 </tr>
-              )
+              ),
             )}
           </tbody>
         </table>

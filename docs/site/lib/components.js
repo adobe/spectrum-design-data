@@ -7,7 +7,11 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 
 const isObject = (a) => {
-  return !!a && a.constructor && (a.constructor === Object || a.constructor.name === "Object");
+  return (
+    !!a &&
+    a.constructor &&
+    (a.constructor === Object || a.constructor.name === "Object")
+  );
 };
 
 const resolveSchemaDefinitions = (schema, ajv) => {
@@ -36,17 +40,27 @@ const resolveSchemaDefinitions = (schema, ajv) => {
   return result;
 };
 
-const readJSON = async (filePath) => JSON.parse(await readFile(filePath, "utf8"));
+const readJSON = async (filePath) =>
+  JSON.parse(await readFile(filePath, "utf8"));
 
 // Get the schemas directory from the installed package
 const getSchemasDir = () => {
   try {
     // Try to resolve the package
-    const packagePath = fileURLToPath(import.meta.resolve("@adobe/spectrum-component-api-schemas"));
+    const packagePath = fileURLToPath(
+      import.meta.resolve("@adobe/spectrum-component-api-schemas"),
+    );
     return path.join(dirname(packagePath), "schemas");
   } catch {
     // Fallback to relative path for development
-    return path.resolve(process.cwd(), "..", "..", "packages", "component-schemas", "schemas");
+    return path.resolve(
+      process.cwd(),
+      "..",
+      "..",
+      "packages",
+      "component-schemas",
+      "schemas",
+    );
   }
 };
 
@@ -57,7 +71,9 @@ const getValidator = async () => {
   const ajv = new Ajv();
   addFormats(ajv);
 
-  const componentSchema = await readJSON(path.join(schemaDir, "component.json"));
+  const componentSchema = await readJSON(
+    path.join(schemaDir, "component.json"),
+  );
   ajv.addMetaSchema(componentSchema);
 
   // Load type schemas from the package
@@ -90,7 +106,10 @@ export async function getSortedComponentsData() {
   const allComponentsData = await Promise.all(
     componentFiles.map(async (filePath) => {
       const schema = await readJSON(filePath);
-      if (Object.hasOwn(schema, "meta") && Object.hasOwn(schema.meta, "documentationUrl")) {
+      if (
+        Object.hasOwn(schema, "meta") &&
+        Object.hasOwn(schema.meta, "documentationUrl")
+      ) {
         const slug = getSlugFromDocumentationUrl(schema.meta.documentationUrl);
         const validate = ajv.compile(schema);
         return {
@@ -99,7 +118,7 @@ export async function getSortedComponentsData() {
         };
       }
       return null;
-    })
+    }),
   );
 
   return allComponentsData
@@ -120,11 +139,14 @@ export async function getAllComponentSlugs() {
   const slugs = await Promise.all(
     componentFiles.map(async (filePath) => {
       const schema = await readJSON(filePath);
-      if (Object.hasOwn(schema, "meta") && Object.hasOwn(schema.meta, "documentationUrl")) {
+      if (
+        Object.hasOwn(schema, "meta") &&
+        Object.hasOwn(schema.meta, "documentationUrl")
+      ) {
         return getSlugFromDocumentationUrl(schema.meta.documentationUrl);
       }
       return null;
-    })
+    }),
   );
 
   return slugs
@@ -164,7 +186,7 @@ export async function getComponentData(slug) {
 export async function getComponentSchemasVersion() {
   try {
     const packagePath = fileURLToPath(
-      import.meta.resolve("@adobe/spectrum-component-api-schemas/package.json")
+      import.meta.resolve("@adobe/spectrum-component-api-schemas/package.json"),
     );
     const packageJson = await readJSON(packagePath);
     return packageJson.version;
@@ -176,7 +198,7 @@ export async function getComponentSchemasVersion() {
       "..",
       "packages",
       "component-schemas",
-      "package.json"
+      "package.json",
     );
     const packageJson = await readJSON(packageJsonPath);
     return packageJson.version;

@@ -4,14 +4,14 @@
 
 ### Patch Changes
 
-- Updated dependencies [[`2a137c3`](https://github.com/adobe/spectrum-tokens/commit/2a137c376bd1b7a4cc445db6bb70d8466389d5e6)]:
+- Updated dependencies [[`2a137c3`](https://github.com/adobe/spectrum-design-data/commit/2a137c376bd1b7a4cc445db6bb70d8466389d5e6)]:
   - @adobe/spectrum-diff-core@1.1.1
 
 ## 2.5.0
 
 ### Minor Changes
 
-- [`6fe3d3a`](https://github.com/adobe/spectrum-tokens/commit/6fe3d3a64e0da4e07cef86e70590b5af65a70470) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(diff-tools): improve error handling and GitHub PR comment format
+- [`6fe3d3a`](https://github.com/adobe/spectrum-design-data/commit/6fe3d3a64e0da4e07cef86e70590b5af65a70470) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(diff-tools): improve error handling and GitHub PR comment format
   - Align component diff generator GitHub PR comment format with token diff style
   - Add comprehensive error handling and test coverage for both tools
   - Improve reliability and developer experience with consistent tooling
@@ -20,7 +20,7 @@
 
 ### Minor Changes
 
-- [#577](https://github.com/adobe/spectrum-tokens/pull/577) [`e4053fb`](https://github.com/adobe/spectrum-tokens/commit/e4053fb7a92c000c6c6efde1766766e8fa6aa0d2) Thanks [@GarthDB](https://github.com/GarthDB)! - **feat(diff-tools): improve error handling and GitHub PR comment format**
+- [#577](https://github.com/adobe/spectrum-design-data/pull/577) [`e4053fb`](https://github.com/adobe/spectrum-design-data/commit/e4053fb7a92c000c6c6efde1766766e8fa6aa0d2) Thanks [@GarthDB](https://github.com/GarthDB)! - **feat(diff-tools): improve error handling and GitHub PR comment format**
 
   This update significantly improves both diff tools with better error handling, comprehensive test coverage, and enhanced GitHub PR comment formatting.
 
@@ -70,14 +70,14 @@
 
 ### Patch Changes
 
-- Updated dependencies [[`cd74579`](https://github.com/adobe/spectrum-tokens/commit/cd745798b88a137ee6fac8734cc872626fd09060)]:
+- Updated dependencies [[`cd74579`](https://github.com/adobe/spectrum-design-data/commit/cd745798b88a137ee6fac8734cc872626fd09060)]:
   - @adobe/spectrum-diff-core@1.1.0
 
 ## 2.3.0
 
 ### Minor Changes
 
-- [#549](https://github.com/adobe/spectrum-tokens/pull/549) [`32db4f1`](https://github.com/adobe/spectrum-tokens/commit/32db4f1de2c6895b2fca7144add7978b751c87a0) Thanks [@GarthDB](https://github.com/GarthDB)! - **Performance Optimization: Introduce High-Performance Diff Algorithm**
+- [#549](https://github.com/adobe/spectrum-design-data/pull/549) [`32db4f1`](https://github.com/adobe/spectrum-design-data/commit/32db4f1de2c6895b2fca7144add7978b751c87a0) Thanks [@GarthDB](https://github.com/GarthDB)! - **Performance Optimization: Introduce High-Performance Diff Algorithm**
 
   This release introduces significant performance improvements to the token diff generation process:
 
@@ -107,20 +107,20 @@
 
 ### Patch Changes
 
-- Updated dependencies [[`32db4f1`](https://github.com/adobe/spectrum-tokens/commit/32db4f1de2c6895b2fca7144add7978b751c87a0)]:
+- Updated dependencies [[`32db4f1`](https://github.com/adobe/spectrum-design-data/commit/32db4f1de2c6895b2fca7144add7978b751c87a0)]:
   - @adobe/optimized-diff@2.0.0
 
 ## 2.2.1
 
 ### Patch Changes
 
-- [#542](https://github.com/adobe/spectrum-tokens/pull/542) [`0086702`](https://github.com/adobe/spectrum-tokens/commit/0086702ff124460246a0d2cb166e96552d852d11) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed missing github-api-key.js file in published package.
+- [#542](https://github.com/adobe/spectrum-design-data/pull/542) [`0086702`](https://github.com/adobe/spectrum-design-data/commit/0086702ff124460246a0d2cb166e96552d852d11) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed missing github-api-key.js file in published package.
 
 ## 2.2.0
 
 ### Minor Changes
 
-- [#540](https://github.com/adobe/spectrum-tokens/pull/540) [`47692c3`](https://github.com/adobe/spectrum-tokens/commit/47692c3d3a1bc388ce02f098aef491277e08779d) Thanks [@GarthDB](https://github.com/GarthDB)! - # Improve code quality and developer experience
+- [#540](https://github.com/adobe/spectrum-design-data/pull/540) [`47692c3`](https://github.com/adobe/spectrum-design-data/commit/47692c3d3a1bc388ce02f098aef491277e08779d) Thanks [@GarthDB](https://github.com/GarthDB)! - # Improve code quality and developer experience
   - Remove unused dependencies (`emojilib`, `inquirer`, `tar`, `tmp-promise`) reducing package size
   - Add comprehensive ESLint configuration with enhanced error detection and auto-fixing
   - Replace experimental JSON imports with standard approach to eliminate Node.js warnings
@@ -136,7 +136,7 @@
 
 ### Minor Changes
 
-- [#530](https://github.com/adobe/spectrum-tokens/pull/530) [`9b891f8`](https://github.com/adobe/spectrum-tokens/commit/9b891f86b0162144f2be614cec55bfa23b6bf041) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(diff-generator): add Handlebars formatter support with templates
+- [#530](https://github.com/adobe/spectrum-design-data/pull/530) [`9b891f8`](https://github.com/adobe/spectrum-design-data/commit/9b891f86b0162144f2be614cec55bfa23b6bf041) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(diff-generator): add Handlebars formatter support with templates
 
   Added comprehensive Handlebars support to the token diff generator:
   - **New Handlebars formatter**: Added `formatterHandlebars.js` with support for custom template rendering
@@ -155,7 +155,7 @@
 
 ### Major Changes
 
-- [`312a3d2`](https://github.com/adobe/spectrum-tokens/commit/312a3d263bb0d72cd40db180a19c4d5282d5649d) Thanks [@GarthDB](https://github.com/GarthDB)! - The latest version of [commander](https://www.npmjs.com/package/commander) requires that each option short flag can only consist of a single character.
+- [`312a3d2`](https://github.com/adobe/spectrum-design-data/commit/312a3d263bb0d72cd40db180a19c4d5282d5649d) Thanks [@GarthDB](https://github.com/GarthDB)! - The latest version of [commander](https://www.npmjs.com/package/commander) requires that each option short flag can only consist of a single character.
 
   Changes:
 
@@ -172,7 +172,7 @@
 
 ### Minor Changes
 
-- [#443](https://github.com/adobe/spectrum-tokens/pull/443) [`b371af5`](https://github.com/adobe/spectrum-tokens/commit/b371af50645fe04ef4aef286b7350e3113a4ff3a) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Format and output command line options added.
+- [#443](https://github.com/adobe/spectrum-design-data/pull/443) [`b371af5`](https://github.com/adobe/spectrum-design-data/commit/b371af50645fe04ef4aef286b7350e3113a4ff3a) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Format and output command line options added.
 
   ```
   Options:
@@ -194,34 +194,34 @@
 
 ### Minor Changes
 
-- [`254ba19`](https://github.com/adobe/spectrum-tokens/commit/254ba1927b78d8c5cefbdb4fe35f3aff162efaee) Thanks [@GarthDB](https://github.com/GarthDB)! - minor fixes to diff tool comparisons
+- [`254ba19`](https://github.com/adobe/spectrum-design-data/commit/254ba1927b78d8c5cefbdb4fe35f3aff162efaee) Thanks [@GarthDB](https://github.com/GarthDB)! - minor fixes to diff tool comparisons
 
 ## 1.1.2
 
 ### Patch Changes
 
-- [#430](https://github.com/adobe/spectrum-tokens/pull/430) [`fccd972`](https://github.com/adobe/spectrum-tokens/commit/fccd97294e300ff6e755334c3bff83da0caf1247) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix version number in cli using a prepare script in the package.json file
+- [#430](https://github.com/adobe/spectrum-design-data/pull/430) [`fccd972`](https://github.com/adobe/spectrum-design-data/commit/fccd97294e300ff6e755334c3bff83da0caf1247) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix version number in cli using a prepare script in the package.json file
 
 ## 1.1.1
 
 ### Patch Changes
 
-- [#423](https://github.com/adobe/spectrum-tokens/pull/423) [`9a36be0`](https://github.com/adobe/spectrum-tokens/commit/9a36be01e5c0305dea7d8d9bdbd33c86d9a53399) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed issue when version number was hardcoded.
+- [#423](https://github.com/adobe/spectrum-design-data/pull/423) [`9a36be0`](https://github.com/adobe/spectrum-design-data/commit/9a36be01e5c0305dea7d8d9bdbd33c86d9a53399) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed issue when version number was hardcoded.
 
 ## 1.1.0
 
 ### Minor Changes
 
-- [#407](https://github.com/adobe/spectrum-tokens/pull/407) [`c186fb8`](https://github.com/adobe/spectrum-tokens/commit/c186fb8e2129bc2f4e40aa00b06984b34cabe63b) Thanks [@GarthDB](https://github.com/GarthDB)! - Replaced --test with --local to make it easier to compare released changes with a local branch'
+- [#407](https://github.com/adobe/spectrum-design-data/pull/407) [`c186fb8`](https://github.com/adobe/spectrum-design-data/commit/c186fb8e2129bc2f4e40aa00b06984b34cabe63b) Thanks [@GarthDB](https://github.com/GarthDB)! - Replaced --test with --local to make it easier to compare released changes with a local branch'
 
 ## 1.0.1
 
 ### Patch Changes
 
-- [#394](https://github.com/adobe/spectrum-tokens/pull/394) [`71b38bd`](https://github.com/adobe/spectrum-tokens/commit/71b38bd99262e707ba6333a4d14d1e90ab95d502) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed author
+- [#394](https://github.com/adobe/spectrum-design-data/pull/394) [`71b38bd`](https://github.com/adobe/spectrum-design-data/commit/71b38bd99262e707ba6333a4d14d1e90ab95d502) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed author
 
 ## 1.0.0
 
 ### Major Changes
 
-- [#344](https://github.com/adobe/spectrum-tokens/pull/344) [`8a021e0`](https://github.com/adobe/spectrum-tokens/commit/8a021e0593d5d1bc190bbe6472747135f735791c) Thanks [@shirlsli](https://github.com/shirlsli)! - Initial release of the token diff generator library and cli
+- [#344](https://github.com/adobe/spectrum-design-data/pull/344) [`8a021e0`](https://github.com/adobe/spectrum-design-data/commit/8a021e0593d5d1bc190bbe6472747135f735791c) Thanks [@shirlsli](https://github.com/shirlsli)! - Initial release of the token diff generator library and cli

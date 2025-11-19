@@ -18,15 +18,27 @@ tasks:
     command:
       - sh
       - -c
-      - "mkdir -p ../../site/s2-tokens-viewer/ && rm -rf ../../site/s2-tokens-viewer && mkdir -p ../../site/s2-tokens-viewer"
+      - "mkdir -p ../../site && rm -rf ../../site/s2-tokens-viewer && mkdir -p ../../site/s2-tokens-viewer"
     platform: system
+  prepare:
+    command:
+      - sh
+      - -c
+      - "mkdir -p tokens && cp -r node_modules/@adobe/spectrum-tokens/src/ tokens && cp -r node_modules/@adobe/spectrum-tokens/package.json tokens/"
+    platform: system
+    deps:
+      - tokens:build
+    inputs:
+      - package.json
+    outputs:
+      - tokens/
   export:
     command:
       - sh
       - -c
-      - "cp -r ./index.html ../../site/s2-tokens-viewer/ && cp -r ./css ../../site/s2-tokens-viewer/ && cp -r ./data ../../site/s2-tokens-viewer/ && cp -r ./tokens ../../site/s2-tokens-viewer/"
+      - "mkdir -p ../../site/s2-tokens-viewer && cp -r ./index.html ../../site/s2-tokens-viewer/ && cp -r ./css ../../site/s2-tokens-viewer/ && cp -r ./data ../../site/s2-tokens-viewer/ && cp -r ./tokens ../../site/s2-tokens-viewer/"
     deps:
-      - ~:clean
+      - ~:prepare
     platform: system
     outputs:
-      - /site/
+      - /site/s2-tokens-viewer/

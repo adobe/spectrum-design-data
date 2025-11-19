@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- [#613](https://github.com/adobe/spectrum-tokens/pull/613) [`433efdd`](https://github.com/adobe/spectrum-tokens/commit/433efdd18f9b0842ae55acac3cd0fbc1e5e5db58) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(component-diff): enhance property change descriptions
+- [#613](https://github.com/adobe/spectrum-design-data/pull/613) [`433efdd`](https://github.com/adobe/spectrum-design-data/commit/433efdd18f9b0842ae55acac3cd0fbc1e5e5db58) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(component-diff): enhance property change descriptions
 
   Improves diff reporting with clear change descriptions instead of confusing
   "deleted + added" reports. Fixes incorrect breaking change classification.
@@ -18,7 +18,7 @@
 
 ### Patch Changes
 
-- [#613](https://github.com/adobe/spectrum-tokens/pull/613) [`433efdd`](https://github.com/adobe/spectrum-tokens/commit/433efdd18f9b0842ae55acac3cd0fbc1e5e5db58) Thanks [@GarthDB](https://github.com/GarthDB)! - fix(component-diff): correctly identify property updates vs deletions
+- [#613](https://github.com/adobe/spectrum-design-data/pull/613) [`433efdd`](https://github.com/adobe/spectrum-design-data/commit/433efdd18f9b0842ae55acac3cd0fbc1e5e5db58) Thanks [@GarthDB](https://github.com/GarthDB)! - fix(component-diff): correctly identify property updates vs deletions
 
   Fixes issue where removing `default: null` values and updating enum arrays were
   incorrectly reported as property deletions (breaking changes) instead of
@@ -38,7 +38,7 @@
 
 ### Patch Changes
 
-- [`50a6e4b`](https://github.com/adobe/spectrum-tokens/commit/50a6e4b265a1cd9da47563b4cac4456c6781ffcc) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix null data handling in markdown report generation
+- [`50a6e4b`](https://github.com/adobe/spectrum-design-data/commit/50a6e4b265a1cd9da47563b4cac4456c6781ffcc) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix null data handling in markdown report generation
 
   Improve error handling in generateMarkdownReport function to properly validate diffResult input and prevent "Cannot read properties of null" errors during CI diff report generation. This fixes failures in the changeset release process when generating component schema diff reports.
 
@@ -46,14 +46,14 @@
 
 ### Patch Changes
 
-- Updated dependencies [[`2a137c3`](https://github.com/adobe/spectrum-tokens/commit/2a137c376bd1b7a4cc445db6bb70d8466389d5e6)]:
+- Updated dependencies [[`2a137c3`](https://github.com/adobe/spectrum-design-data/commit/2a137c376bd1b7a4cc445db6bb70d8466389d5e6)]:
   - @adobe/spectrum-diff-core@1.1.1
 
 ## 1.3.0
 
 ### Minor Changes
 
-- [`6fe3d3a`](https://github.com/adobe/spectrum-tokens/commit/6fe3d3a64e0da4e07cef86e70590b5af65a70470) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(diff-tools): improve error handling and GitHub PR comment format
+- [`6fe3d3a`](https://github.com/adobe/spectrum-design-data/commit/6fe3d3a64e0da4e07cef86e70590b5af65a70470) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(diff-tools): improve error handling and GitHub PR comment format
   - Align component diff generator GitHub PR comment format with token diff style
   - Add comprehensive error handling and test coverage for both tools
   - Improve reliability and developer experience with consistent tooling
@@ -62,7 +62,7 @@
 
 ### Minor Changes
 
-- [#577](https://github.com/adobe/spectrum-tokens/pull/577) [`e4053fb`](https://github.com/adobe/spectrum-tokens/commit/e4053fb7a92c000c6c6efde1766766e8fa6aa0d2) Thanks [@GarthDB](https://github.com/GarthDB)! - **feat(diff-tools): improve error handling and GitHub PR comment format**
+- [#577](https://github.com/adobe/spectrum-design-data/pull/577) [`e4053fb`](https://github.com/adobe/spectrum-design-data/commit/e4053fb7a92c000c6c6efde1766766e8fa6aa0d2) Thanks [@GarthDB](https://github.com/GarthDB)! - **feat(diff-tools): improve error handling and GitHub PR comment format**
 
   This update significantly improves both diff tools with better error handling, comprehensive test coverage, and enhanced GitHub PR comment formatting.
 
@@ -112,7 +112,7 @@
 
 ### Minor Changes
 
-- [#573](https://github.com/adobe/spectrum-tokens/pull/573) [`cd74579`](https://github.com/adobe/spectrum-tokens/commit/cd745798b88a137ee6fac8734cc872626fd09060) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(tools): add component schema diff generator with shared core library
+- [#573](https://github.com/adobe/spectrum-design-data/pull/573) [`cd74579`](https://github.com/adobe/spectrum-design-data/commit/cd745798b88a137ee6fac8734cc872626fd09060) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(tools): add component schema diff generator with shared core library
 
   **New Tools:**
   - `@adobe/spectrum-component-diff-generator` - CLI tool for comparing component schemas between versions/branches
@@ -143,5 +143,5 @@
 
 ### Patch Changes
 
-- Updated dependencies [[`cd74579`](https://github.com/adobe/spectrum-tokens/commit/cd745798b88a137ee6fac8734cc872626fd09060)]:
+- Updated dependencies [[`cd74579`](https://github.com/adobe/spectrum-design-data/commit/cd745798b88a137ee6fac8734cc872626fd09060)]:
   - @adobe/spectrum-diff-core@1.1.0

@@ -11,14 +11,14 @@
 
 ### Patch Changes
 
-- Updated dependencies [[`6fe3d3a`](https://github.com/adobe/spectrum-tokens/commit/6fe3d3a64e0da4e07cef86e70590b5af65a70470)]:
+- Updated dependencies [[`6fe3d3a`](https://github.com/adobe/spectrum-design-data/commit/6fe3d3a64e0da4e07cef86e70590b5af65a70470)]:
   - @adobe/token-diff-generator@2.5.0
 
 ## 0.2.2
 
 ### Patch Changes
 
-- Updated dependencies [[`e4053fb`](https://github.com/adobe/spectrum-tokens/commit/e4053fb7a92c000c6c6efde1766766e8fa6aa0d2)]:
+- Updated dependencies [[`e4053fb`](https://github.com/adobe/spectrum-design-data/commit/e4053fb7a92c000c6c6efde1766766e8fa6aa0d2)]:
   - @adobe/token-diff-generator@2.4.0
 
 ## 0.2.1
@@ -32,7 +32,7 @@
 
 ### Minor Changes
 
-- [#559](https://github.com/adobe/spectrum-tokens/pull/559) [`d77ced3`](https://github.com/adobe/spectrum-tokens/commit/d77ced33a56092e71a7d9d14c5768bb9bb295eeb) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## New Token Changeset Generator Tool
+- [#559](https://github.com/adobe/spectrum-design-data/pull/559) [`d77ced3`](https://github.com/adobe/spectrum-design-data/commit/d77ced33a56092e71a7d9d14c5768bb9bb295eeb) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## New Token Changeset Generator Tool
 
   Added a new command line tool `@adobe/token-changeset-generator` to automate the creation of changeset files for Spectrum token changes synced from tokens studio.
 
@@ -50,8 +50,8 @@
 
   ```bash
   token-changeset generate \
-    --tokens-studio-pr https://github.com/adobe/spectrum-tokens-studio-data/pull/275 \
-    --spectrum-tokens-pr https://github.com/adobe/spectrum-tokens/pull/559
+    --tokens-studio-pr https://github.com/adobe/spectrum-design-data-studio-data/pull/275 \
+    --spectrum-tokens-pr https://github.com/adobe/spectrum-design-data/pull/559
   ```
 
   This tool streamlines the workflow for maintainers when syncing token changes from the design team's tokens studio data repository.

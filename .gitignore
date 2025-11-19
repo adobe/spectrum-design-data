@@ -119,3 +119,6 @@ dist
 # test temporary directories
 temp-*
 **/test/temp-*
+
+# auto-generated token files (copied by prepare scripts)
+docs/s2-tokens-viewer/tokens/
