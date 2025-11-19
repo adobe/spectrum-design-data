@@ -9,13 +9,13 @@ Current url of deployed static site: <https://opensource.adobe.com/spectrum-toke
 First, checkout the source code
 
 ```
-git clone git@github.com:adobe/spectrum-tokens.git
+git clone git@github.com:adobe/spectrum-design-data.git
 ```
 
 Navigate into the spectrum-token-visualization-tool directory.
 
 ```
-cd spectrum-tokens/docs/visualizer/
+cd spectrum-design-data/docs/visualizer/
 ```
 
 Install package dependencies
@@ -65,7 +65,7 @@ git push
 
 The Spectrum Tokens source-of-truth is persisted in this public GitHub repo: <https://github.com/adobe/spectrum-design-data>
 
-Within that repository, the tokens are stored in a series of JSON files: <https://github.com/adobe/spectrum-design-data/tree/beta/src>
+Within that repository, the tokens are stored in a series of JSON files: <https://github.com/adobe/spectrum-design-data/tree/s1-legacy/packages/tokens/src>
 
 This json data structure models a directed graph of conditional relationships between tokens, meant to represent the dynamic value assignments that Spectrum clients have access to when using particular filter configurations, such as 'Spectrum/Light/Desktop' or 'Express/Darkest/Mobile'.
 
