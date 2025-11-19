@@ -15,7 +15,7 @@ import path from "path";
 import { glob } from "glob";
 
 const source = "https://raw.githubusercontent.com/";
-const defaultRepo = "adobe/spectrum-tokens/";
+const defaultRepo = "adobe/spectrum-design-data/";
 
 // ===== PHASE 1: PURE UTILITY FUNCTIONS (easily testable) =====
 
@@ -279,7 +279,7 @@ export class TokenLoader {
 
       return result;
     } catch (error) {
-      const repoInfo = givenRepo || "adobe/spectrum-tokens";
+      const repoInfo = givenRepo || "adobe/spectrum-design-data";
       const versionInfo = givenVersion
         ? `version ${givenVersion}`
         : `branch ${givenLocation || "main"}`;
