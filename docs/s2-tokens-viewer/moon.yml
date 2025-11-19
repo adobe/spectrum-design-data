@@ -24,12 +24,14 @@ tasks:
     command:
       - sh
       - -c
-      - "mkdir -p tokens && cp -r node_modules/@adobe/spectrum-tokens/src/ tokens && cp -r node_modules/@adobe/spectrum-tokens/package.json tokens/"
+      - "mkdir -p tokens && rm -rf tokens/* && cp -r node_modules/@adobe/spectrum-tokens/src/* tokens/ && cp node_modules/@adobe/spectrum-tokens/package.json tokens/"
     platform: system
     deps:
       - tokens:build
     inputs:
       - package.json
+      - node_modules/@adobe/spectrum-tokens/src/**/*
+      - node_modules/@adobe/spectrum-tokens/package.json
     outputs:
       - tokens/
   export:

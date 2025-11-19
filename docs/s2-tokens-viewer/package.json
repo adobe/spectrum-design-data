@@ -12,7 +12,7 @@
     "url": "https://github.com/adobe/spectrum-design-data/issues"
   },
   "scripts": {
-    "prepare": "mkdir -p tokens && cp -r node_modules/@adobe/spectrum-tokens/src/ tokens && cp -r node_modules/@adobe/spectrum-tokens/package.json tokens/"
+    "prepare": "mkdir -p tokens && cp -r node_modules/@adobe/spectrum-tokens/src/* tokens/ && cp node_modules/@adobe/spectrum-tokens/package.json tokens/"
   },
   "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/docs/s2-tokens-viewer#readme",
   "keywords": [],
