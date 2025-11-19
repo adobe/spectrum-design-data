@@ -40,7 +40,7 @@ test("buildTokenURL - constructs URL with default repo", (t) => {
   const url = buildTokenURL("color-aliases.json", "v1.0.0", "main", "");
   t.is(
     url,
-    "https://raw.githubusercontent.com/adobe/spectrum-tokens/v1.0.0/packages/tokens/color-aliases.json",
+    "https://raw.githubusercontent.com/adobe/spectrum-design-data/v1.0.0/packages/tokens/color-aliases.json",
   );
 });
 
@@ -48,7 +48,7 @@ test("buildTokenURL - constructs URL with null repo", (t) => {
   const url = buildTokenURL("color-aliases.json", "v1.0.0", "main", null);
   t.is(
     url,
-    "https://raw.githubusercontent.com/adobe/spectrum-tokens/v1.0.0/packages/tokens/color-aliases.json",
+    "https://raw.githubusercontent.com/adobe/spectrum-design-data/v1.0.0/packages/tokens/color-aliases.json",
   );
 });
 
