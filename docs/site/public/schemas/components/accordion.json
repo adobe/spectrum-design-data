@@ -1,0 +1,74 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/accordion.json",
+  "title": "Accordion",
+  "description": "An accordion is a vertically stacked set of interactive headings that each contain a title and a content area.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/accordion/"
+  },
+  "type": "object",
+  "properties": {
+    "state": {
+      "type": "string",
+      "enum": ["default", "hover", "down", "keyboard focus"],
+      "default": "default"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "density": {
+      "type": "string",
+      "enum": ["compact", "regular", "spacious"],
+      "default": "regular"
+    },
+    "items": {
+      "type": "array",
+      "description": "An array of accordion items.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The text label displayed for the accordion item."
+          },
+          "content": {
+            "type": "string",
+            "description": "The content shown when the accordion item is expanded."
+          },
+          "isExpanded": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the accordion item is expanded by default."
+          },
+          "hasSwitch": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the accordion item includes a switch."
+          },
+          "hasActionButton": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the accordion item includes an action button."
+          }
+        },
+        "required": ["label"]
+      }
+    },
+    "isMultiple": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, multiple accordion items can be expanded at the same time."
+    }
+  }
+}

@@ -11,8 +11,7 @@
   "properties": {
     "container": {
       "type": "string",
-      "enum": ["popover", "tray"],
-      "default": null
+      "enum": ["popover", "tray"]
     },
     "label": {
       "type": "string"
@@ -34,8 +33,7 @@
     },
     "selectionMode": {
       "type": "string",
-      "enum": ["single", "multiple"],
-      "default": null
+      "enum": ["single", "multiple", "no selection"]
     },
     "selectionStyle": {
       "type": "string",

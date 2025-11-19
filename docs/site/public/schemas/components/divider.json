@@ -12,7 +12,7 @@
     "size": {
       "type": "string",
       "enum": ["s", "m", "l"],
-      "default": "small"
+      "default": "s"
     },
     "orientation": {
       "type": "string",

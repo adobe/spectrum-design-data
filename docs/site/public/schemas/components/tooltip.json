@@ -14,12 +14,12 @@
     },
     "variant": {
       "type": "string",
-      "enum": ["neutral", "informative", "positive", "negative"],
+      "enum": ["neutral", "informative", "negative"],
       "default": "neutral"
     },
     "hasIcon": {
       "type": "boolean",
-      "description": "If the neutral variant, there’s never an icon.",
+      "description": "If the neutral variant, there is never an icon.",
       "default": false
     },
     "maxWidth": {

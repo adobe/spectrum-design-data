@@ -6,7 +6,7 @@
   "type": "object",
   "allOf": [
     {
-      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/set.json"
+      "$ref": "set.json"
     }
   ],
   "properties": {
@@ -19,13 +19,13 @@
         {
           "properties": {
             "light": {
-              "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json"
+              "$ref": "color.json"
             },
             "dark": {
-              "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json"
+              "$ref": "color.json"
             },
             "wireframe": {
-              "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json"
+              "$ref": "color.json"
             }
           },
           "required": ["light", "dark", "wireframe"]
@@ -33,13 +33,13 @@
         {
           "properties": {
             "light": {
-              "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json"
+              "$ref": "alias.json"
             },
             "dark": {
-              "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json"
+              "$ref": "alias.json"
             },
             "wireframe": {
-              "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json"
+              "$ref": "alias.json"
             }
           },
           "required": ["light", "dark", "wireframe"]
@@ -47,13 +47,13 @@
         {
           "properties": {
             "light": {
-              "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json"
+              "$ref": "opacity.json"
             },
             "dark": {
-              "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json"
+              "$ref": "opacity.json"
             },
             "wireframe": {
-              "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json"
+              "$ref": "opacity.json"
             }
           },
           "required": ["light", "dark", "wireframe"]

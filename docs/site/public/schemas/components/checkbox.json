@@ -39,10 +39,7 @@
       "type": "boolean",
       "default": false
     },
-    "isReadOnly": {
-      "type": "boolean",
-      "default": false
-    },
+
     "state": {
       "type": "string",
       "enum": ["default", "hover", "down", "keyboard focus"],

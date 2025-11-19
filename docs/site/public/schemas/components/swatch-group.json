@@ -33,6 +33,12 @@
       "type": "boolean",
       "default": false,
       "description": "Only applicable if selection is enabled."
+    },
+    "cornerRadius": {
+      "type": "string",
+      "enum": ["none", "full", "partial"],
+      "default": "none",
+      "description": "Determines the corner radius of each swatch in the group. Partial refers to corner-radius-75."
     }
   }
 }

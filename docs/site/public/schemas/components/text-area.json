@@ -17,6 +17,10 @@
       "default": "top",
       "enum": ["top", "side"]
     },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
     "value": {
       "type": "string",
       "description": "from minValue to maxValue"

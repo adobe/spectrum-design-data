@@ -20,6 +20,11 @@
       "enum": ["s", "m", "l", "xl"],
       "default": "m"
     },
+    "overflowMode": {
+      "type": "string",
+      "enum": ["wrap", "collapse"],
+      "default": "wrap"
+    },
     "isDisabled": {
       "type": "boolean",
       "default": false

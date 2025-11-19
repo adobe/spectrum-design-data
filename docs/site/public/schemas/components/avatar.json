@@ -11,21 +11,34 @@
   "properties": {
     "size": {
       "type": "number",
-      "enum": [50, 75, 100, 200, 300, 400, 500, 600, 700],
-      "default": 100
+      "enum": [
+        50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200,
+        1300, 1400, 1500
+      ],
+      "default": 500
     },
     "image": {
       "type": "string",
-      "enum": ["text", "image"],
-      "default": "image"
+      "enum": [
+        "user image",
+        "gradient image",
+        "gradient",
+        "guest image",
+        "initials"
+      ],
+      "default": "user image"
     },
     "isDisabled": {
       "type": "boolean",
       "default": false
     },
+    "showStroke": {
+      "type": "boolean",
+      "default": false
+    },
     "state": {
       "type": "string",
-      "enum": ["default", "hover", "down", "keyboard focus"],
+      "enum": ["default", "down", "keyboard focus"],
       "default": "default"
     }
   }

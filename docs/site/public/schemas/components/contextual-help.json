@@ -44,8 +44,11 @@
     },
     "popoverOffset": {
       "type": "number",
-      "default": 6,
-      "description": "6 px (desktop) or 8 px (mobile)"
+      "default": 8
+    },
+    "href": {
+      "type": "string",
+      "description": "Optional URL within contextual help content like a 'Learn more' link."
     },
     "popoverCrossOffset": {
       "type": "number",

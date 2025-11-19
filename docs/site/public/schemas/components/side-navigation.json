@@ -13,6 +13,47 @@
       "type": "string",
       "enum": ["default", "hover", "down", "keyboard focus"],
       "default": "default"
+    },
+    "items": {
+      "type": "array",
+      "description": "The list of navigation items.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Text label for the navigation item."
+          },
+          "state": {
+            "type": "string",
+            "enum": ["default", "hover", "down", "keyboard focus"],
+            "default": "default",
+            "description": "State of the navigation item."
+          },
+          "icon": {
+            "type": "string",
+            "description": "Optional icon token for the navigation item."
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the item is currently selected."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the item is disabled."
+          }
+        },
+        "required": ["label"]
+      }
+    },
+    "selectionMode": {
+      "type": "string",
+      "enum": ["none", "single", "multiple"],
+      "default": "single",
+      "description": "How selection is handled for items."
     }
-  }
+  },
+  "required": ["items"]
 }

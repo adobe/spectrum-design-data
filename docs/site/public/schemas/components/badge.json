@@ -28,8 +28,27 @@
         "magenta",
         "fuchsia",
         "purple",
-        "seafoam"
+        "seafoam",
+        "accent",
+        "notice",
+        "gray",
+        "red",
+        "orange",
+        "chartreuse",
+        "celery",
+        "green",
+        "cyan",
+        "blue",
+        "pink",
+        "turquoise",
+        "brown",
+        "cinnamon",
+        "silver"
       ]
+    },
+    "style": {
+      "type": "string",
+      "enum": ["bold", "subtle", "outline"]
     },
     "fixed": {
       "type": "string",
