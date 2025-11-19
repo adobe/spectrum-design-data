@@ -257,7 +257,7 @@ export class StvtSidebar extends LitElement {
                   <br />
                   <sp-link
                     target="_new"
-                    href="https://git.corp.adobe.com/aportill/stvt/"
+                    href="https://github.com/adobe/spectrum-design-data/tree/main/docs/s2-visualizer"
                     variant="secondary"
                     >This Tool on GitHub</sp-link
                   >

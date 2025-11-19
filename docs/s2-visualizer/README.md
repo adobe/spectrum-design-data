@@ -1,6 +1,6 @@
 # Spectrum Token Visualization Tool
 
-Current url of deployed static site: <https://opensource.adobe.com/spectrum-design-data/visualizer/>
+Current url of deployed static site: <https://opensource.adobe.com/spectrum-design-data/s2-visualizer/>
 
 <img width="1491" alt="Screenshot 2023-02-28 at 2 40 02 PM" src="https://github.com/adobe/spectrum-design-data/assets/125516/3c57f2de-c42e-41a5-abed-e5da294339f0">
 
@@ -9,13 +9,13 @@ Current url of deployed static site: <https://opensource.adobe.com/spectrum-desi
 First, checkout the source code
 
 ```
-git clone git@github.com:adobe/spectrum-tokens.git
+git clone git@github.com:adobe/spectrum-design-data.git
 ```
 
-Navigate into the spectrum-token-visualization-tool directory.
+Navigate into the s2-visualizer directory.
 
 ```
-cd spectrum-tokens/docs/visualizer/
+cd spectrum-design-data/docs/s2-visualizer/
 ```
 
 Install package dependencies
@@ -27,7 +27,7 @@ pnpm install
 Startup the local development webserver
 
 ```
-pnpm moon run visualizer:dev
+pnpm moon run s2-visualizer:dev
 ```
 
 Now you can edit any project files, and your browser will hot-reload with your changes.
@@ -48,7 +48,7 @@ The static site is hosted from the `/docs` directory of the `main` branch.
 Build the static site locally. This will overwrite the contents of the /docs directory in the project.
 
 ```
-pnpm moon run visualizer:build
+pnpm moon run s2-visualizer:build
 ```
 
 Commit the updated static site files to the git repo.
@@ -65,7 +65,7 @@ git push
 
 The Spectrum Tokens source-of-truth is persisted in this public GitHub repo: <https://github.com/adobe/spectrum-design-data>
 
-Within that repository, the tokens are stored in a series of JSON files: <https://github.com/adobe/spectrum-design-data/tree/beta/src>
+Within that repository, the tokens are stored in a series of JSON files: <https://github.com/adobe/spectrum-design-data/tree/main/packages/tokens>
 
 This json data structure models a directed graph of conditional relationships between tokens, meant to represent the dynamic value assignments that Spectrum clients have access to when using particular filter configurations, such as 'Spectrum/Light/Desktop' or 'Express/Darkest/Mobile'.
 
