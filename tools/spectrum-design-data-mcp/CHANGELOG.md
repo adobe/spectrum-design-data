@@ -5,28 +5,28 @@
 ### Patch Changes
 
 * Updated dependencies \[[`ee2ceb5`](https://github.com/adobe/spectrum-design-data/commit/ee2ceb541dea5eb9b5267c861e44bfd804fd33a7)]:
-  * [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)@5.0.1
+  * @adobe/spectrum-component-api-schemas@[5.0.1](https://github.com/adobe/spectrum-component-api-schemas/releases/tag/@adobe/spectrum-component-api-schemas@5.0.1)
 
 ## 1.0.10
 
 ### Patch Changes
 
 * Updated dependencies \[[`f64bee3`](https://github.com/adobe/spectrum-design-data/commit/f64bee3900c874775f2d3424516786a0d644d057)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)@13.16.0
+  * @adobe/spectrum-tokens@[13.16.0](https://github.com/adobe/spectrum-design-data/releases/tag/@adobe/spectrum-tokens@13.16.0)
 
 ## 1.0.10
 
 ### Patch Changes
 
 * Updated dependencies \[[`f64bee3`](https://github.com/adobe/spectrum-design-data/commit/f64bee3900c874775f2d3424516786a0d644d057)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)@13.16.0
+  * @adobe/spectrum-tokens@[13.16.0](https://github.com/adobe/spectrum-design-data/releases/tag/@adobe/spectrum-tokens@13.16.0)
 
 ## 1.0.9
 
 ### Patch Changes
 
 * Updated dependencies \[[`a772572`](https://github.com/adobe/spectrum-design-data/commit/a772572de88c54d279c20d7148f6ac91eb941d2a)]:
-  * [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)@5.0.0
+  * @adobe/spectrum-component-api-schemas@[5.0.0](https://github.com/adobe/spectrum-component-api-schemas/releases/tag/@adobe/spectrum-component-api-schemas@5.0.0)
 
 ## 1.0.8
 
@@ -63,28 +63,28 @@
 ### Patch Changes
 
 * Updated dependencies \[[`1e860c4`](https://github.com/adobe/spectrum-design-data/commit/1e860c4436c58ceca6f4500ea7e24d6d8cdd20c8)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)@13.15.1
+  * @adobe/spectrum-tokens@[13.15.1](https://github.com/adobe/spectrum-design-data/releases/tag/@adobe/spectrum-tokens@13.15.1)
 
 ## 1.0.4
 
 ### Patch Changes
 
 * Updated dependencies \[[`3df7197`](https://github.com/adobe/spectrum-design-data/commit/3df7197e7da23c9bb107f7dfcd935b5c62a86041)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)@13.15.0
+  * @adobe/spectrum-tokens@[13.15.0](https://github.com/adobe/spectrum-design-data/releases/tag/@adobe/spectrum-tokens@13.15.0)
 
 ## 1.0.3
 
 ### Patch Changes
 
 * Updated dependencies \[[`b4df84e`](https://github.com/adobe/spectrum-design-data/commit/b4df84e2f2ca246332907f9ddda94438288dd98e)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)@13.14.1
+  * @adobe/spectrum-tokens@[13.14.1](https://github.com/adobe/spectrum-design-data/releases/tag/@adobe/spectrum-tokens@13.14.1)
 
 ## 1.0.2
 
 ### Patch Changes
 
 * Updated dependencies \[[`336f672`](https://github.com/adobe/spectrum-design-data/commit/336f67216dfd875f0feb65c10059d9f3fe6dcaf7)]:
-  * [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)@13.14.0
+  * @adobe/spectrum-tokens@[13.14.0](https://github.com/adobe/spectrum-design-data/releases/tag/@adobe/spectrum-tokens@13.14.0)
 
 ## 1.0.1
 
