@@ -7,14 +7,14 @@
   "description": "Interactive timeline visualization of Spectrum Tokens release history",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adobe/spectrum-tokens.git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
     "directory": "docs/release-timeline"
   },
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/adobe/spectrum-tokens/issues"
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
   },
-  "homepage": "https://github.com/adobe/spectrum-tokens/tree/main/docs/release-timeline#readme",
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/docs/release-timeline#readme",
   "scripts": {
     "build": "node scripts/update-data.js && node scripts/build-site.js",
     "dev": "python3 -m http.server 8080"

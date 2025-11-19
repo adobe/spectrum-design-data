@@ -11728,6 +11728,7 @@
     }
   },
   "side-navigation-counter-to-disclosure": {
+    "component": "side-navigation",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11743,6 +11744,7 @@
     }
   },
   "side-navigation-edge-to-indicator": {
+    "component": "side-navigation",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11758,6 +11760,7 @@
     }
   },
   "side-navigation-indicator-to-content": {
+    "component": "side-navigation",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11773,6 +11776,7 @@
     }
   },
   "side-navigation-second-level-edge-to-indicator": {
+    "component": "side-navigation",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11788,6 +11792,7 @@
     }
   },
   "side-navigation-second-level-with-icon-edge-to-text": {
+    "component": "side-navigation",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11803,6 +11808,7 @@
     }
   },
   "side-navigation-second-level-with-icon-edge-to-indicator": {
+    "component": "side-navigation",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11818,6 +11824,7 @@
     }
   },
   "side-navigation-third-level-edge-to-indicator": {
+    "component": "side-navigation",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11833,6 +11840,7 @@
     }
   },
   "side-navigation-third-level-with-icon-edge-to-text": {
+    "component": "side-navigation",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11848,6 +11856,7 @@
     }
   },
   "side-navigation-third-level-with-icon-edge-to-indicator": {
+    "component": "side-navigation",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11863,6 +11872,7 @@
     }
   },
   "side-navigation-trailing-accessory-area-to-edge": {
+    "component": "side-navigation",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11878,6 +11888,7 @@
     }
   },
   "side-navigation-indicator-height": {
+    "component": "side-navigation",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -11893,6 +11904,7 @@
     }
   },
   "side-navigation-indicator-thickness": {
+    "component": "side-navigation",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
     "value": "2px",
     "uuid": "6c2264d9-425a-4dec-9071-a47e0d2bfca6"

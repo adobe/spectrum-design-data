@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const siteTitle = "Spectrum Components API";
 
-export default function Layout({ children, home }) {
+export default function Layout({ children, home, version }) {
   return (
     <div>
       <Head>
@@ -24,6 +24,17 @@ export default function Layout({ children, home }) {
         <h2>
           <Link href="/">{siteTitle}</Link>
         </h2>
+        {version && (
+          <p
+            style={{
+              fontSize: "0.875rem",
+              color: "#6e6e6e",
+              margin: "0.5rem 0",
+            }}
+          >
+            Schema version: {version}
+          </p>
+        )}
       </header>
       <main>{children}</main>
       {!home && (

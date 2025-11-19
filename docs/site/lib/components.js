@@ -1,8 +1,10 @@
-import path from "path";
-import { readFile } from "fs/promises";
 import Ajv from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
+import path from "path";
+import { readFile } from "fs/promises";
 import { glob } from "glob";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 const isObject = (a) => {
   return (
@@ -41,19 +43,46 @@ const resolveSchemaDefinitions = (schema, ajv) => {
 const readJSON = async (filePath) =>
   JSON.parse(await readFile(filePath, "utf8"));
 
+// Get the schemas directory from the installed package
+const getSchemasDir = () => {
+  try {
+    // Try to resolve the package
+    const packagePath = fileURLToPath(
+      import.meta.resolve("@adobe/spectrum-component-api-schemas"),
+    );
+    return path.join(dirname(packagePath), "schemas");
+  } catch {
+    // Fallback to relative path for development
+    return path.resolve(
+      process.cwd(),
+      "..",
+      "..",
+      "packages",
+      "component-schemas",
+      "schemas",
+    );
+  }
+};
+
 const getValidator = async () => {
   const schemaDir = "public/schemas";
+  const schemasDir = getSchemasDir();
+
   const ajv = new Ajv();
   addFormats(ajv);
+
   const componentSchema = await readJSON(
     path.join(schemaDir, "component.json"),
   );
   ajv.addMetaSchema(componentSchema);
-  const schemaFiles = await glob(`${path.join(schemaDir, "types")}/*.json`);
-  for (const schemaFile of schemaFiles) {
+
+  // Load type schemas from the package
+  const typeSchemaFiles = await glob(`${schemasDir}/types/*.json`);
+  for (const schemaFile of typeSchemaFiles) {
     const schema = await readJSON(schemaFile);
     ajv.addSchema(schema);
   }
+
   for (const keyword of Object.keys(componentSchema.properties)) {
     ajv.addKeyword({
       keyword,
@@ -63,62 +92,115 @@ const getValidator = async () => {
   return ajv;
 };
 
-export async function getSortedComponentsData() {
-  const schemaDir = "public/schemas";
-  const ajv = await getValidator();
+const getSlugFromDocumentationUrl = (documentationUrl) =>
+  documentationUrl
+    .split("/")
+    .filter((part) => part !== "")
+    .pop();
 
-  const fileNames = await glob(`${schemaDir}/components/*.json`);
+export async function getSortedComponentsData() {
+  const ajv = await getValidator();
+  const schemasDir = getSchemasDir();
+  const componentFiles = await glob(`${schemasDir}/components/*.json`);
+
   const allComponentsData = await Promise.all(
-    fileNames.map(async (fileName) => {
-      const file = await readJSON(fileName);
-      // ajv.addSchema(file);
-      const validate = ajv.compile(file);
-      return {
-        slug: path.basename(fileName, ".json"),
-        ...resolveSchemaDefinitions(validate.schema, ajv),
-      };
+    componentFiles.map(async (filePath) => {
+      const schema = await readJSON(filePath);
+      if (
+        Object.hasOwn(schema, "meta") &&
+        Object.hasOwn(schema.meta, "documentationUrl")
+      ) {
+        const slug = getSlugFromDocumentationUrl(schema.meta.documentationUrl);
+        const validate = ajv.compile(schema);
+        return {
+          slug,
+          ...resolveSchemaDefinitions(validate.schema, ajv),
+        };
+      }
+      return null;
     }),
   );
-  return allComponentsData.sort((a, b) => {
-    if (a.slug > b.slug) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
+
+  return allComponentsData
+    .filter((data) => data !== null)
+    .sort((a, b) => {
+      if (a.slug > b.slug) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
 }
 
 export async function getAllComponentSlugs() {
-  const schemaDir = "public/schemas";
-  const fileNames = await glob(`${schemaDir}/components/*.json`);
-  return fileNames.map((fileName) => {
-    return {
-      params: {
-        slug: path.basename(fileName, ".json"),
-      },
-    };
-  });
+  const schemasDir = getSchemasDir();
+  const componentFiles = await glob(`${schemasDir}/components/*.json`);
+
+  const slugs = await Promise.all(
+    componentFiles.map(async (filePath) => {
+      const schema = await readJSON(filePath);
+      if (
+        Object.hasOwn(schema, "meta") &&
+        Object.hasOwn(schema.meta, "documentationUrl")
+      ) {
+        return getSlugFromDocumentationUrl(schema.meta.documentationUrl);
+      }
+      return null;
+    }),
+  );
+
+  return slugs
+    .filter((slug) => slug !== null)
+    .map((slug) => {
+      return {
+        params: {
+          slug,
+        },
+      };
+    });
 }
 
 export async function getComponentData(slug) {
-  // not sure, if this should use the public/schemas folder, like getAllComponentSlugs()
-  const schemaDir = path.resolve(
-    path.join(
+  const schemasDir = getSchemasDir();
+  const componentFiles = await glob(`${schemasDir}/components/*.json`);
+
+  for (const filePath of componentFiles) {
+    const schema = await readJSON(filePath);
+    if (
+      Object.hasOwn(schema, "meta") &&
+      Object.hasOwn(schema.meta, "documentationUrl") &&
+      getSlugFromDocumentationUrl(schema.meta.documentationUrl) === slug
+    ) {
+      const ajv = await getValidator();
+      const validate = ajv.compile(schema);
+      return {
+        slug,
+        ...resolveSchemaDefinitions(validate.schema, ajv),
+      };
+    }
+  }
+
+  throw new Error(`Schema not found for slug: ${slug}`);
+}
+
+export async function getComponentSchemasVersion() {
+  try {
+    const packagePath = fileURLToPath(
+      import.meta.resolve("@adobe/spectrum-component-api-schemas/package.json"),
+    );
+    const packageJson = await readJSON(packagePath);
+    return packageJson.version;
+  } catch {
+    // Fallback for development
+    const packageJsonPath = path.resolve(
       process.cwd(),
       "..",
       "..",
       "packages",
       "component-schemas",
-      "schemas",
-    ),
-  );
-  const file = await readJSON(
-    path.join(schemaDir, "components", `${slug}.json`),
-  );
-  const ajv = await getValidator();
-  const validate = ajv.compile(file);
-  return {
-    slug,
-    ...resolveSchemaDefinitions(validate.schema, ajv),
-  };
+      "package.json",
+    );
+    const packageJson = await readJSON(packageJsonPath);
+    return packageJson.version;
+  }
 }

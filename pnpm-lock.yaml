@@ -131,6 +131,9 @@ importers:
 
   docs/site:
     dependencies:
+      "@adobe/spectrum-component-api-schemas":
+        specifier: workspace:*
+        version: link:../../packages/component-schemas
       "@spectrum-css/link":
         specifier: ^5.1.3
         version: 5.2.0(@spectrum-css/tokens@14.6.0)

@@ -1,6 +1,10 @@
 import Head from "next/head";
 import Layout from "../../components/layout";
-import { getAllComponentSlugs, getComponentData } from "../../lib/components";
+import {
+  getAllComponentSlugs,
+  getComponentData,
+  getComponentSchemasVersion,
+} from "../../lib/components";
 
 function formatComponentPropertiesTable(componentData) {
   const properties = componentData.properties;
@@ -39,9 +43,11 @@ function formatComponentPropertiesTable(componentData) {
 
 export async function getStaticProps({ params }) {
   const componentData = await getComponentData(params.slug);
+  const version = await getComponentSchemasVersion();
   return {
     props: {
       componentData,
+      version,
     },
   };
 }
@@ -54,9 +60,9 @@ export async function getStaticPaths() {
   };
 }
 
-export default function Component({ componentData }) {
+export default function Component({ componentData, version }) {
   return (
-    <Layout>
+    <Layout version={version}>
       <Head>
         <title>{componentData.title}</title>
       </Head>
