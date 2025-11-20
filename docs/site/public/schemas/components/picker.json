@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/picker.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/picker.json",
   "title": "Picker",
   "description": "Pickers (sometimes known as \"dropdowns\" or \"selects\") allow users to choose from a list of options in a limited space. The list of options can change based on the context.",
   "meta": {
@@ -55,10 +55,6 @@
       "default": false
     },
     "isError": {
-      "type": "boolean",
-      "default": false
-    },
-    "isReadOnly": {
       "type": "boolean",
       "default": false
     },

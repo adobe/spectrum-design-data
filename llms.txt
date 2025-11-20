@@ -4,7 +4,7 @@
 
 This is Adobe's **Spectrum Design System** monorepo containing design tokens, component schemas, visualization tools, and utilities. It's the source of truth for Adobe's design system tokens used across all Spectrum implementations.
 
-**Repository**: https://github.com/adobe/spectrum-tokens
+**Repository**: https://github.com/adobe/spectrum-design-data
 **License**: Apache-2.0
 **Language**: JavaScript/TypeScript (ES modules)
 **Package Manager**: pnpm with moon task runner
@@ -55,13 +55,13 @@ Example:
 
 #### `docs/visualizer/`
 - **Purpose**: Interactive token visualization tool for S1
-- **URL**: https://opensource.adobe.com/spectrum-tokens/visualizer/
+- **URL**: https://opensource.adobe.com/spectrum-design-data/visualizer/
 - **Tech**: Vite + LitElement + TypeScript
 - **Features**: Token graph visualization, filtering, search
 
 #### `docs/s2-visualizer/`
 - **Purpose**: S2 version of the visualizer
-- **URL**: https://opensource.adobe.com/spectrum-tokens/s2-visualizer/
+- **URL**: https://opensource.adobe.com/spectrum-design-data/s2-visualizer/
 - **Features**: Same as visualizer but for S2 data
 
 #### `docs/site/`
@@ -114,8 +114,8 @@ Example:
 ### Component Schema Structure
 ```json
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/button.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/button.json",
   "title": "Button",
   "description": "...",
   "meta": {

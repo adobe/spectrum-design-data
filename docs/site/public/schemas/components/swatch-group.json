@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/swatch-group.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/swatch-group.json",
   "title": "Swatch group",
   "description": "A swatch group is a grouping of swatches that are related to each other.",
   "meta": {
@@ -33,6 +33,12 @@
       "type": "boolean",
       "default": false,
       "description": "Only applicable if selection is enabled."
+    },
+    "cornerRadius": {
+      "type": "string",
+      "enum": ["none", "full", "partial"],
+      "default": "none",
+      "description": "Determines the corner radius of each swatch in the group. Partial refers to corner-radius-75."
     }
   }
 }

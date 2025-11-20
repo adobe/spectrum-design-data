@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/contextual-help.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/contextual-help.json",
   "title": "Contextual help",
   "description": "Contextual help shows a user extra information about the state of either an adjacent component or an entire view. It explains a high-level topic about an experience and can point users to more information elsewhere.",
   "meta": {
@@ -44,8 +44,11 @@
     },
     "popoverOffset": {
       "type": "number",
-      "default": 6,
-      "description": "6 px (desktop) or 8 px (mobile)"
+      "default": 8
+    },
+    "href": {
+      "type": "string",
+      "description": "Optional URL within contextual help content like a 'Learn more' link."
     },
     "popoverCrossOffset": {
       "type": "number",

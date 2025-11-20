@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/search-field.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/search-field.json",
   "title": "Search field",
   "description": "A search field is used for searching and filtering items.",
   "meta": {
@@ -11,6 +11,14 @@
   "properties": {
     "label": {
       "type": "string"
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+      "description": "Icon must be present if the label is not defined."
     },
     "value": {
       "type": "string"

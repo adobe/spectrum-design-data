@@ -16,7 +16,7 @@ This PR contains only non-breaking changes to component schemas.
 {{/if}}
 
 {{#if (hasKeys changes.added)}}
-<details open><summary><strong>📦 Added Components ({{summary.totalComponents.added}})</strong></summary>
+<details{{detailsOpen summary.totalComponents.added}}><summary><strong>📦 Added Components ({{summary.totalComponents.added}})</strong></summary>
 
 {{#each changes.added}}
 - `{{@key}}` - New component schema
@@ -26,7 +26,7 @@ This PR contains only non-breaking changes to component schemas.
 {{/if}}
 
 {{#if (hasKeys changes.deleted)}}
-<details open><summary><strong>❌ Deleted Components ({{summary.totalComponents.deleted}}) ⚠️ BREAKING</strong></summary>
+<details{{detailsOpen summary.totalComponents.deleted}}><summary><strong>❌ Deleted Components ({{summary.totalComponents.deleted}}) ⚠️ BREAKING</strong></summary>
 
 {{#each changes.deleted}}
 - `{{@key}}` - Component schema removed
@@ -36,7 +36,7 @@ This PR contains only non-breaking changes to component schemas.
 {{/if}}
 
 {{#if (hasKeys changes.updated.breaking)}}
-<details open><summary><strong>💥 Breaking Updates ⚠️ BREAKING</strong></summary>
+<details{{detailsOpen (objectKeysLength changes.updated.breaking)}}><summary><strong>💥 Breaking Updates ⚠️ BREAKING</strong></summary>
 
 {{#each changes.updated.breaking}}
 **{{@key}}**

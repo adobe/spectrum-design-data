@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/badge.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/badge.json",
   "title": "Badge",
   "description": "Similar to status lights, badges are for showing a small amount of color-categorized metadata. They're ideal for getting a user''s attention.",
   "meta": {
@@ -14,7 +14,7 @@
       "description": "When the label is not defined, the badge appears as icon-only."
     },
     "icon": {
-      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/types/workflow-icon.json"
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json"
     },
     "variant": {
       "type": "string",
@@ -28,8 +28,27 @@
         "magenta",
         "fuchsia",
         "purple",
-        "seafoam"
+        "seafoam",
+        "accent",
+        "notice",
+        "gray",
+        "red",
+        "orange",
+        "chartreuse",
+        "celery",
+        "green",
+        "cyan",
+        "blue",
+        "pink",
+        "turquoise",
+        "brown",
+        "cinnamon",
+        "silver"
       ]
+    },
+    "style": {
+      "type": "string",
+      "enum": ["bold", "subtle", "outline"]
     },
     "fixed": {
       "type": "string",

@@ -54,7 +54,7 @@ shirlsli/file-import-tests | @adobe/spectrum-tokens@12.26.0
 
          sets.darkest.$schema
 
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json"
 
          sets.darkest.value
 
@@ -68,7 +68,7 @@ shirlsli/file-import-tests | @adobe/spectrum-tokens@12.26.0
 
          sets.darkest.$schema
 
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json"
 
          sets.darkest.value
 
@@ -110,9 +110,9 @@ shirlsli/file-import-tests | @adobe/spectrum-tokens@12.26.0
 
          $schema
 
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/i-like-koalas.json" -> 
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/i-like-koalas.json" -> 
 
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json"
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
 
          sets.light.value
 

@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/radio-group.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/radio-group.json",
   "title": "Radio Group",
   "description": "A radio group is a grouping of radio buttons that are related to each other.",
   "meta": {
@@ -45,10 +45,6 @@
       "default": false
     },
     "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
-    "isReadOnly": {
       "type": "boolean",
       "default": false
     },

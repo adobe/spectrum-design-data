@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/rating.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/rating.json",
   "title": "Rating",
   "description": "The rating component lets users apply a rating to an item or experience, such as an image, a forum post, an item for sale in a marketplace, and more.",
   "meta": {
@@ -11,9 +11,11 @@
   "properties": {
     "value": {
       "type": "number",
-      "enum": [0, 1, 2, 3, 4, 5],
+      "minimum": 0,
+      "maximum": 5,
       "default": 0,
-      "description": "From 0 to 5"
+      "multipleOf": 0.5,
+      "description": "From 0 to 5, can be a decimal to represent half stars"
     },
     "isEmphasized": {
       "type": "boolean",

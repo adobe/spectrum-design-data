@@ -60,14 +60,14 @@ const expectedManyAddedRenamed = {
     "i-like-pizza": {
       component: "table",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.07",
       uuid: "1234",
     },
     "hi-how-are-you": {
       component: "color-handle",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.42",
       uuid: "234",
     },
@@ -92,29 +92,29 @@ const expectedRenamedAddedDeleted = {
   added: {
     "gray-100": {
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
       sets: {
         light: {
           $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
           value: "rgb(248, 248, 248)",
           uuid: "64e2dbc2-05fa-43d7-80ae-d4d11c55348f",
         },
         dark: {
           $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
           value: "rgb(50, 50, 50)",
           uuid: "4500355e-ce60-4046-b692-71301b6b1348",
         },
         darkest: {
           $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
           value: "rgb(29, 29, 29)",
           uuid: "abd011c4-87a5-4b1f-82e2-e94d118f417f",
         },
         wireframe: {
           $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
           value: "rgb(244, 246, 252)",
           uuid: "3605974e-8f93-4907-81b3-fb6ab55d03f8",
         },
@@ -146,14 +146,14 @@ const expectedSeveralRenamedAddedDeleted = {
     "i-like-pizza": {
       component: "table",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.07",
       uuid: "1234",
     },
     "hi-how-are-you": {
       component: "color-handle",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.42",
       uuid: "234",
     },
@@ -189,14 +189,14 @@ const expectedSeveralRADDep = {
     "i-like-pizza": {
       component: "table",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.07",
       uuid: "1234",
     },
     "hi-how-are-you": {
       component: "color-handle",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.42",
       uuid: "234",
     },
@@ -239,14 +239,14 @@ const expectedSeveralRADDepU = {
     "i-like-pizza": {
       component: "table",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.07",
       uuid: "1234",
     },
     "hi-how-are-you": {
       component: "color-handle",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.42",
       uuid: "234",
     },
@@ -284,9 +284,9 @@ const expectedSeveralRADDepU = {
       "thumbnail-border-color": {
         $schema: {
           "new-value":
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/not-a-thumbnail.json",
           "original-value":
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
           path: "$schema",
         },
       },
@@ -343,14 +343,14 @@ const expectedSeveralRADDepURev = {
     "i-like-pizza": {
       component: "table",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.07",
       uuid: "1234",
     },
     "hi-how-are-you": {
       component: "color-handle",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.42",
       uuid: "234",
     },
@@ -393,9 +393,9 @@ const expectedSeveralRADDepURev = {
       "thumbnail-border-color": {
         $schema: {
           "new-value":
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/not-a-thumbnail.json",
           "original-value":
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
           path: "$schema",
         },
       },
@@ -460,7 +460,7 @@ const expectedAddedProperty = {
           "random-property": {
             $schema: {
               "new-value":
-                "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+                "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
               path: "sets.random-property.$schema",
             },
             value: {
@@ -495,7 +495,7 @@ const expectedDeletedProperty = {
           "random-property": {
             $schema: {
               "new-value":
-                "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+                "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
               path: "sets.random-property.$schema",
             },
             value: {

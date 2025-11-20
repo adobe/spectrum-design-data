@@ -144,7 +144,7 @@ async function fetchGitHubRelease(tag, githubToken) {
     }
 
     const response = await fetch(
-      `https://api.github.com/repos/adobe/spectrum-tokens/releases/tags/${encodedTag}`,
+      `https://api.github.com/repos/adobe/spectrum-design-data/releases/tags/${encodedTag}`,
       {
         headers,
       },

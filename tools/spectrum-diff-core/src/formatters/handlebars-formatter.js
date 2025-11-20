@@ -80,7 +80,7 @@ export class HandlebarsFormatter {
     Handlebars.registerHelper("cleanSchemaUrl", (url) => {
       if (!url) return "";
       return url.replace(
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/",
         "",
       );
     });

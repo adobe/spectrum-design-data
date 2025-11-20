@@ -83,7 +83,7 @@ This document consolidates research and strategic planning for building a **comp
 ### **Team Ownership Model**
 
 ```
-spectrum-tokens/
+spectrum-design-data/
 ├── base-design-system/          # 🔒 Core Spectrum Team
 │   ├── tokens/
 │   ├── schemas/

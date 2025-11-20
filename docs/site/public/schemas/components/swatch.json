@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/swatch.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/swatch.json",
   "title": "Swatch",
   "description": "A swatch shows a small sample of a fill — such as a color, gradient, texture, or material — that is intended to be applied to an object.",
   "meta": {
@@ -25,8 +25,9 @@
     },
     "cornerRounding": {
       "type": "string",
-      "enum": ["default", "full"],
-      "default": "default"
+      "enum": ["none", "partial", "full"],
+      "default": "none",
+      "description": "Determines the corner radius of the swatch. Partial refers to corner-radius-75."
     },
     "isSelected": {
       "type": "boolean",

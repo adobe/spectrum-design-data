@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/action-button.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/action-button.json",
   "title": "Action button",
   "description": "Action buttons allow users to perform an action or mark a selection. They're used for similar, task-based options within a workflow, and are ideal for interfaces where buttons aren't meant to draw a lot of attention.",
   "meta": {
@@ -17,7 +17,7 @@
       "default": false
     },
     "icon": {
-      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/types/workflow-icon.json",
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
       "description": "Icon must be present if the label is not defined."
     },
     "size": {
@@ -43,7 +43,7 @@
       "description": "Static color must not be set for the default version of this component."
     },
     "selectedTextColor": {
-      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/types/hex-color.json"
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
     },
     "hasHoldIcon": {
       "type": "boolean",

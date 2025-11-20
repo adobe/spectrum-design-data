@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/picker.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/picker.json",
   "title": "Picker",
   "description": "Pickers (sometimes known as \"dropdowns\" or \"selects\") allow users to choose from a list of options in a limited space. The list of options can change based on the context.",
   "meta": {
@@ -15,10 +15,7 @@
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "enum": [
-        "top",
-        "side"
-      ]
+      "enum": ["top", "side"]
     },
     "placeholder": {
       "type": "string"
@@ -32,12 +29,7 @@
     },
     "size": {
       "type": "string",
-      "enum": [
-        "s",
-        "m",
-        "l",
-        "xl"
-      ],
+      "enum": ["s", "m", "l", "xl"],
       "default": "m"
     },
     "isQuiet": {
@@ -46,10 +38,7 @@
     },
     "necessityIndicator": {
       "type": "string",
-      "enum": [
-        "text",
-        "icon"
-      ],
+      "enum": ["text", "icon"],
       "default": "icon"
     },
     "isRequired": {
@@ -58,10 +47,7 @@
     },
     "menuContainer": {
       "type": "string",
-      "enum": [
-        "popover",
-        "tray"
-      ],
+      "enum": ["popover", "tray"],
       "default": "popover"
     },
     "isDisabled": {

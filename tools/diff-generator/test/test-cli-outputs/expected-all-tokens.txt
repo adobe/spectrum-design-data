@@ -53,9 +53,9 @@ latest | latest
 
          $schema
 
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json" -> 
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json" -> 
 
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json"
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/not-a-thumbnail.json"
 
       "opacity-checkerboard-square-dark"
 

@@ -53,6 +53,19 @@ function generateMarkdownReport(diffResult, options = {}) {
       });
     }
 
+    if (!Handlebars.helpers.detailsOpen) {
+      Handlebars.registerHelper("detailsOpen", (count, options) => {
+        const threshold = options?.hash?.threshold || 20;
+        return count <= threshold ? " open" : "";
+      });
+    }
+
+    if (!Handlebars.helpers.objectKeysLength) {
+      Handlebars.registerHelper("objectKeysLength", (obj) => {
+        return obj ? Object.keys(obj).length : 0;
+      });
+    }
+
     // Load and compile the Handlebars template
     const templatePath = path.join(__dirname, "../templates/markdown.hbs");
     const templateSource = fs.readFileSync(templatePath, "utf8");

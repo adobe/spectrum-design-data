@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/types/workflow-icon.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
   "type": "string",
   "title": "workflow-icon",
   "enum": [

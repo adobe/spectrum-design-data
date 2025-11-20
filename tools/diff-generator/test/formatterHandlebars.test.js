@@ -39,7 +39,7 @@ const mockTokenDiffResult = {
   added: {
     "new-token": {
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
       value: "#ff0000",
     },
   },
@@ -198,7 +198,7 @@ test("HandlebarsFormatter helper - ifEquals", (t) => {
 test("HandlebarsFormatter helper - cleanSchemaUrl", (t) => {
   const formatter = new HandlebarsFormatter();
   const url =
-    "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json";
+    "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json";
   const result = Handlebars.helpers.cleanSchemaUrl(url);
 
   t.is(result, "color.json");
@@ -498,7 +498,7 @@ test("HandlebarsFormatter log setter - handles text cleaning", (t) => {
   };
 
   formatter.log(
-    "Test with $ and https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    "Test with $ and https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
   );
 
   t.is(mockLog[0], "Test with  and color.json");

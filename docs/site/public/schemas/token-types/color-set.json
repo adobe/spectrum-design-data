@@ -1,17 +1,17 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
   "title": "Color set",
   "description": "A set that contains color values that change based on color theme.",
   "type": "object",
   "allOf": [
     {
-      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/set.json"
+      "$ref": "set.json"
     }
   ],
   "properties": {
     "$schema": {
-      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json"
+      "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
     },
     "sets": {
       "type": "object",
@@ -19,13 +19,13 @@
         {
           "properties": {
             "light": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json"
+              "$ref": "color.json"
             },
             "dark": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json"
+              "$ref": "color.json"
             },
             "wireframe": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json"
+              "$ref": "color.json"
             }
           },
           "required": ["light", "dark", "wireframe"]
@@ -33,13 +33,13 @@
         {
           "properties": {
             "light": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+              "$ref": "alias.json"
             },
             "dark": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+              "$ref": "alias.json"
             },
             "wireframe": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+              "$ref": "alias.json"
             }
           },
           "required": ["light", "dark", "wireframe"]
@@ -47,13 +47,13 @@
         {
           "properties": {
             "light": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json"
+              "$ref": "opacity.json"
             },
             "dark": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json"
+              "$ref": "opacity.json"
             },
             "wireframe": {
-              "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json"
+              "$ref": "opacity.json"
             }
           },
           "required": ["light", "dark", "wireframe"]

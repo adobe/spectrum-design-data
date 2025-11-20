@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/color-loupe.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/color-loupe.json",
   "title": "Color loupe",
   "description": "A color loupe shows the output color that would otherwise be covered by a cursor, stylus, or finger during color selection.",
   "meta": {
@@ -10,7 +10,7 @@
   "type": "object",
   "properties": {
     "value": {
-      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/types/hex-color.json"
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
     },
     "state": {
       "type": "string",

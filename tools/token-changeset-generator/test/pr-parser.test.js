@@ -18,7 +18,8 @@ import {
 } from "../src/pr-parser.js";
 
 test("parsePRUrl should parse valid GitHub PR URLs", (t) => {
-  const url = "https://github.com/adobe/spectrum-tokens-studio-data/pull/275";
+  const url =
+    "https://github.com/adobe/spectrum-design-data-studio-data/pull/275";
   const result = parsePRUrl(url);
 
   t.is(result.owner, "adobe");

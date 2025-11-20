@@ -54,14 +54,14 @@ const updatedObj = {
 const tokenOriginal = {
   "color-red-500": {
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     value: "rgb(255, 0, 0)",
     uuid: "color-red-500-uuid",
     private: false,
   },
   "color-blue-500": {
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     value: "rgb(0, 0, 255)",
     uuid: "color-blue-500-uuid",
     private: false,
@@ -71,14 +71,14 @@ const tokenOriginal = {
 const tokenUpdated = {
   "color-red-500": {
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     value: "rgb(220, 0, 0)", // changed
     uuid: "color-red-500-uuid",
     private: false,
   },
   "color-blue-500": {
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     value: "rgb(0, 0, 255)",
     uuid: "color-blue-500-uuid",
     private: true, // changed
@@ -86,7 +86,7 @@ const tokenUpdated = {
   "color-green-500": {
     // added
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     value: "rgb(0, 255, 0)",
     uuid: "color-green-500-uuid",
     private: false,

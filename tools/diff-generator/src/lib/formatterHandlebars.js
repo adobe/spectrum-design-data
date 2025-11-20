@@ -77,7 +77,7 @@ class HandlebarsFormatter {
     // Helper to clean up schema URLs
     Handlebars.registerHelper("cleanSchemaUrl", (url) => {
       return url.replace(
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/",
         "",
       );
     });
@@ -172,6 +172,13 @@ class HandlebarsFormatter {
     // Helper for arrow formatting
     Handlebars.registerHelper("arrow", (from, to) => {
       return `${from} -> ${to}`;
+    });
+
+    // Helper to conditionally add 'open' attribute to details elements
+    // Returns ' open' (with leading space) if count <= threshold, empty string otherwise
+    Handlebars.registerHelper("detailsOpen", (count, options) => {
+      const threshold = options?.hash?.threshold || 20;
+      return count <= threshold ? " open" : "";
     });
   }
 
@@ -349,7 +356,7 @@ class HandlebarsFormatter {
       // Clean up common replacements like the markdown formatter
       input = input.replaceAll("$", "");
       input = input.replaceAll(
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/",
         "",
       );
       fnc(input);

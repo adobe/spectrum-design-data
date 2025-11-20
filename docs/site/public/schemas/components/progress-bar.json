@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/progress-bar.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/progress-bar.json",
   "title": "Progress bar",
   "description": "Progress bars show the progression of a system operation: downloading, uploading, processing, etc., in a visual way. They can represent either determinate or indeterminate progress.",
   "meta": {
@@ -14,8 +14,22 @@
       "enum": ["default", "over background"],
       "default": "default"
     },
+    "staticColor": {
+      "type": "string",
+      "enum": ["white"],
+      "description": "Static color can only be white, otherwise it is default."
+    },
     "label": {
       "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "enum": ["top", "side"],
+      "default": "top"
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
     },
     "value": {
       "type": "number",

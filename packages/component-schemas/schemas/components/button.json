@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/button.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/button.json",
   "title": "Button",
   "description": "Buttons allow users to perform an action or to navigate to another page. They have multiple styles for various needs, and are ideal for calling attention to where a user needs to do something in order to move forward in a flow.",
   "meta": {
@@ -17,7 +17,7 @@
       "default": false
     },
     "icon": {
-      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/types/workflow-icon.json",
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
       "description": "Icon must be present if the label is not defined."
     },
     "variant": {

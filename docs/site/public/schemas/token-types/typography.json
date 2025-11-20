@@ -1,26 +1,41 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
   "title": "Typography",
   "description": "A composite typography token.",
   "type": "object",
   "allOf": [
     {
-      "$ref": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token.json"
+      "$ref": "token.json"
     }
   ],
   "properties": {
     "$schema": {
-      "const": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/typography.json"
+      "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json"
     },
     "value": {
       "type": "object",
       "properties": {
-        "fontFamily": { "type": "string", "pattern": "^\\{(\\w|-)*\\}$" },
-        "fontSize": { "type": "string", "pattern": "^\\{(\\w|-)*\\}$" },
-        "fontWeight": { "type": "string", "pattern": "^\\{(\\w|-)*\\}$" },
-        "letterSpacing": { "type": "string", "pattern": "^\\{(\\w|-)*\\}$" },
-        "lineHeight": { "type": "string", "pattern": "^\\{(\\w|-)*\\}$" }
+        "fontFamily": {
+          "type": "string",
+          "pattern": "^\\{(\\w|-)*\\}$"
+        },
+        "fontSize": {
+          "type": "string",
+          "pattern": "^\\{(\\w|-)*\\}$"
+        },
+        "fontWeight": {
+          "type": "string",
+          "pattern": "^\\{(\\w|-)*\\}$"
+        },
+        "letterSpacing": {
+          "type": "string",
+          "pattern": "^\\{(\\w|-)*\\}$"
+        },
+        "lineHeight": {
+          "type": "string",
+          "pattern": "^\\{(\\w|-)*\\}$"
+        }
       }
     },
     "component": {},

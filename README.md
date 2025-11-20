@@ -1,6 +1,6 @@
 Note: for [Spectrum 2](https://s2.spectrum.adobe.com/) token data has been graduated to the `main` branch. If you need access to the S1 data, use the [`s1-legacy` branch](https://github.com/adobe/spectrum-design-data/tree/s1-legacy) and `v12.x.x` packages on [NPM](https://www.npmjs.com/package/@adobe/spectrum-tokens?activeTab=versions).
 
-The [Spectrum token visualizer](https://opensource.adobe.com/spectrum-tokens/visualizer/) shows the token data for S1. For Spectrum 2 data, use [opensource.adobe.com/spectrum-tokens/s2-visualizer/](https://opensource.adobe.com/spectrum-tokens/s2-visualizer/).
+The [Spectrum token visualizer](https://opensource.adobe.com/spectrum-design-data/visualizer/) shows the token data for S1. For Spectrum 2 data, use [opensource.adobe.com/spectrum-design-data/s2-visualizer/](https://opensource.adobe.com/spectrum-design-data/s2-visualizer/).
 
 # Spectrum Tokens Monorepo
 
@@ -22,11 +22,11 @@ Packages in this monorepo:
 
 ## Documentation & Visualization
 
-* [Spectrum Token Visualizer Tool](docs/visualizer/) a visualizer for inspecting S1 tokens. Published as a [static site](https://opensource.adobe.com/spectrum-tokens/visualizer/).
-* [Spectrum Token Visualizer Tool S2](docs/s2-visualizer/) a version of the visualizer that shows the Spectrum 2 data. Published as a [static site](https://opensource.adobe.com/spectrum-tokens/s2-visualizer/).
+* [Spectrum Token Visualizer Tool](docs/visualizer/) a visualizer for inspecting S1 tokens. Published as a [static site](https://opensource.adobe.com/spectrum-design-data/visualizer/).
+* [Spectrum Token Visualizer Tool S2](docs/s2-visualizer/) a version of the visualizer that shows the Spectrum 2 data. Published as a [static site](https://opensource.adobe.com/spectrum-design-data/s2-visualizer/).
 * [Spectrum S2 Tokens Viewer](docs/s2-tokens-viewer/) an enhanced token viewer with component usage analysis for Spectrum 2 tokens.
 * [Spectrum Tokens Docs](docs/site/) a static site to show the component options API and other token data.
-* [Release Timeline Visualization](docs/release-timeline/) interactive charts showing release frequency and development activity patterns. Published as a [static site](https://opensource.adobe.com/spectrum-tokens/release-timeline/).
+* [Release Timeline Visualization](docs/release-timeline/) interactive charts showing release frequency and development activity patterns. Published as a [static site](https://opensource.adobe.com/spectrum-design-data/release-timeline/).
 
 ## Development Tools
 

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
   "title": "Component",
   "type": "object",
   "properties": {
@@ -20,7 +20,10 @@
             "typography"
           ]
         },
-        "documentationUrl": { "type": "string", "format": "uri" }
+        "documentationUrl": {
+          "type": "string",
+          "format": "uri"
+        }
       },
       "required": ["category", "documentationUrl"]
     }

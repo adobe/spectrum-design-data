@@ -33,7 +33,7 @@ const expectedOneToken = {
   "swatch-border-opacity": {
     component: "swatch",
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     value: "{gray-900}",
     uuid: "0e397a80-cf33-44ed-8b7d-1abaf4426bf5",
   },
@@ -42,25 +42,25 @@ const expectedOneToken = {
 const expectedSeveral = {
   "focus-indicator-color": {
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     value: "{blue-800}",
     uuid: "fe914904-a368-414b-a4ac-21c0b0340d05",
   },
   "static-white-focus-indicator-color": {
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     value: "{white}",
     uuid: "1dd6dc5b-47a2-41eb-80fc-f06293ae8e13",
   },
   "static-black-focus-indicator-color": {
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     value: "{black}",
     uuid: "c6b8275b-f44e-43b4-b763-82dda94d963c",
   },
   "overlay-color": {
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     value: "{black}",
     uuid: "af66daa6-9e52-4e68-a605-86d1de4ee971",
   },
@@ -70,14 +70,14 @@ const expectedNotRenamed = {
   "i-like-pizza": {
     component: "table",
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     value: "0.07",
     uuid: "1234",
   },
   "hi-how-are-you": {
     component: "color-handle",
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     value: "0.42",
     uuid: "234",
   },
@@ -87,17 +87,17 @@ const expectedAddedSetToken = {
   "help-text-top-to-workflow-icon-medium": {
     component: "help-text",
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/token-set.json",
     sets: {
       desktop: {
         $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/changing-two-schemas.json",
         value: "3px",
         uuid: "d159b313-4def-493a-adcf-398e2d1fce9f",
       },
       mobile: {
         $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
         value: "9px",
         uuid: "b690bd12-855e-444d-8b76-a7ae948e3f52",
       },
@@ -109,29 +109,29 @@ const expectedAddedSetToken = {
 const expectedSeveralAddedSetTokens = {
   "background-layer-2-color": {
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     sets: {
       light: {
         $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
         value: "{gray-50}",
         uuid: "b7b2bf98-b96a-40ca-b51e-5876d3418085",
       },
       dark: {
         $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
         value: "{gray-100}",
         uuid: "dd462fc7-bd79-4b52-9411-adf317832989",
       },
       darkest: {
         $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
         value: "{gray-100}",
         uuid: "e30b7936-6ae7-4ada-8892-94a1f67d55c9",
       },
       wireframe: {
         $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
         value: "{gray-50}",
         uuid: "6556a64d-5944-4d65-a6cc-9c6121044ac7",
       },
@@ -140,17 +140,17 @@ const expectedSeveralAddedSetTokens = {
   "help-text-top-to-workflow-icon-medium": {
     component: "help-text",
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/token-set.json",
     sets: {
       desktop: {
         $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/changing-two-schemas.json",
         value: "3px",
         uuid: "d159b313-4def-493a-adcf-398e2d1fce9f",
       },
       mobile: {
         $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
         value: "9px",
         uuid: "b690bd12-855e-444d-8b76-a7ae948e3f52",
       },
@@ -159,17 +159,17 @@ const expectedSeveralAddedSetTokens = {
   },
   "neutral-background-color-selected-default": {
     $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/system-set.json",
     sets: {
       spectrum: {
         $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
         value: "{gray-700}",
         uuid: "fd1c9f2b-8358-4bd3-a5cc-d211673428bc",
       },
       express: {
         $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
         value: "{gray-800}",
         uuid: "60caae29-d389-421e-a574-b26bcaeed3bf",
       },

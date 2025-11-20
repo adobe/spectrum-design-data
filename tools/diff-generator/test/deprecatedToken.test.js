@@ -49,7 +49,7 @@ const expectedSeveralDeprecated = {
       deprecated: true,
       deprecated_comment: "insert random deprecated comment",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
       value: "{blue-800}",
       uuid: "fe914904-a368-414b-a4ac-21c0b0340d05",
     },
@@ -68,7 +68,7 @@ const expectedAddedDeprecated = {
       deprecated: true,
       deprecated_comment: "insert random deprecated comment",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
       value: "{blue-800}",
       uuid: "4567",
     },
@@ -76,7 +76,7 @@ const expectedAddedDeprecated = {
       deprecated: true,
       deprecated_comment: "insert random deprecated comment",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
       value: "{blue-800}",
       uuid: "1234",
     },

@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/button-group.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/button-group.json",
   "title": "Button group",
   "description": "A button group is a grouping of buttons whose actions are related to each other.",
   "meta": {
@@ -19,6 +19,11 @@
       "pattern": "^(x?s|m|x{0,3}l)$",
       "enum": ["s", "m", "l", "xl"],
       "default": "m"
+    },
+    "overflowMode": {
+      "type": "string",
+      "enum": ["wrap", "collapse"],
+      "default": "wrap"
     },
     "isDisabled": {
       "type": "boolean",

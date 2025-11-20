@@ -27,8 +27,9 @@ test("createChangesetContent should create proper changeset format", (t) => {
   const motivation = "This is the design motivation";
   const tokenDiff = "## Token Changes\n- Updated token-name";
   const tokensStudioPR =
-    "https://github.com/adobe/spectrum-tokens-studio-data/pull/275";
-  const spectrumTokensPR = "https://github.com/adobe/spectrum-tokens/pull/559";
+    "https://github.com/adobe/spectrum-design-data-studio-data/pull/275";
+  const spectrumTokensPR =
+    "https://github.com/adobe/spectrum-design-data/pull/559";
 
   const result = createChangesetContent(
     "minor",
@@ -56,12 +57,12 @@ test("createChangesetContent should create proper changeset format", (t) => {
   // Check references section
   t.true(
     result.includes(
-      "### References\n\n- Tokens Studio PR: https://github.com/adobe/spectrum-tokens-studio-data/pull/275",
+      "### References\n\n- Tokens Studio PR: https://github.com/adobe/spectrum-design-data-studio-data/pull/275",
     ),
   );
   t.true(
     result.includes(
-      "- Spectrum Tokens PR: https://github.com/adobe/spectrum-tokens/pull/559",
+      "- Spectrum Tokens PR: https://github.com/adobe/spectrum-design-data/pull/559",
     ),
   );
 });
@@ -69,8 +70,9 @@ test("createChangesetContent should create proper changeset format", (t) => {
 test("createChangesetContent should handle empty motivation", (t) => {
   const tokenDiff = "## Token Changes\n- Updated token-name";
   const tokensStudioPR =
-    "https://github.com/adobe/spectrum-tokens-studio-data/pull/275";
-  const spectrumTokensPR = "https://github.com/adobe/spectrum-tokens/pull/559";
+    "https://github.com/adobe/spectrum-design-data-studio-data/pull/275";
+  const spectrumTokensPR =
+    "https://github.com/adobe/spectrum-design-data/pull/559";
 
   const result = createChangesetContent(
     "patch",
@@ -91,8 +93,9 @@ test("createChangesetContent should handle empty motivation", (t) => {
 test("createChangesetContent should handle different bump types", (t) => {
   const tokenDiff = "## Token Changes";
   const tokensStudioPR =
-    "https://github.com/adobe/spectrum-tokens-studio-data/pull/275";
-  const spectrumTokensPR = "https://github.com/adobe/spectrum-tokens/pull/559";
+    "https://github.com/adobe/spectrum-design-data-studio-data/pull/275";
+  const spectrumTokensPR =
+    "https://github.com/adobe/spectrum-design-data/pull/559";
 
   const majorResult = createChangesetContent(
     "major",

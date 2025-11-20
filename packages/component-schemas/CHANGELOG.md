@@ -20,7 +20,7 @@
 
   ### Changes to steplist schema
 
-  * **$id**: Changed from `https://opensource.adobe.com/spectrum-tokens/schemas/components/step-list.json` to `https://opensource.adobe.com/spectrum-tokens/schemas/components/steplist.json`
+  * **$id**: Changed from `https://opensource.adobe.com/spectrum-design-data/schemas/components/step-list.json` to `https://opensource.adobe.com/spectrum-design-data/schemas/components/steplist.json`
   * **title**: Changed from "Step list" to "Steplist"
   * **documentationUrl**: Changed from `https://spectrum.adobe.com/page/step-list/` to `https://spectrum.adobe.com/page/steplist/`
 

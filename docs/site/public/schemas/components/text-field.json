@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/component.json",
-  "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/components/text-field.json",
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/text-field.json",
   "title": "Text field",
   "description": "Text fields allow users to input custom text entries with a keyboard. Various options can be shown with the field to communicate the input requirements.",
   "meta": {
@@ -16,6 +16,10 @@
       "type": "string",
       "default": "top",
       "enum": ["top", "side"]
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
     },
     "value": {
       "type": "string",
@@ -49,7 +53,7 @@
     "isError": {
       "type": "boolean",
       "default": false,
-      "description": "If there’s an error, this property overrides show valid icon."
+      "description": "If there is an error, this property overrides show valid icon."
     },
     "isDisabled": {
       "type": "boolean",
