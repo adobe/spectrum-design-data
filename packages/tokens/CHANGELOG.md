@@ -1,10 +1,27 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.0.0
+
+### Major Changes
+
+- [#632](https://github.com/adobe/spectrum-design-data/pull/632) [`fa28b11`](https://github.com/adobe/spectrum-design-data/commit/fa28b117c6b84776f4ebe9bb281c29e14e0d64b6) Thanks [@GarthDB](https://github.com/GarthDB)! - BREAKING CHANGE: Repository renamed from spectrum-tokens to
+  spectrum-design-data
+
+  **Breaking Changes:**
+  - JSON Schema `$id` URIs changed (spectrum-tokens → spectrum-design-data)
+  - External tools referencing schemas by `$id` must update references
+
+  **Changes:**
+  - Updated all GitHub repository and Pages URLs
+  - Updated schema base URIs to maintain consistency
+
+  **Note:** NPM package names unchanged. GitHub redirects are in place.
+
 ## 13.16.0
 
 ### Minor Changes
 
-* [#615](https://github.com/adobe/spectrum-design-data/pull/615) [`f64bee3`](https://github.com/adobe/spectrum-design-data/commit/f64bee3900c874775f2d3424516786a0d644d057) Thanks [@PaliwalSparsh](https://github.com/PaliwalSparsh)! - ## Token sync from Spectrum Tokens Studio
+- [#615](https://github.com/adobe/spectrum-design-data/pull/615) [`f64bee3`](https://github.com/adobe/spectrum-design-data/commit/f64bee3900c874775f2d3424516786a0d644d057) Thanks [@PaliwalSparsh](https://github.com/PaliwalSparsh)! - ## Token sync from Spectrum Tokens Studio
 
   ### Design motivation
 
@@ -18,76 +35,71 @@
   **New Branch:** `tokens-sync/patch-spectrum2-from-main`
 
   <details><summary><strong>Newly Deprecated (3)</strong></summary>
-
-  * `side-navigation-maximum-width`
-  * `side-navigation-with-icon-second-level-edge-to-text`
-  * `side-navigation-with-icon-third-level-edge-to-text`
+  - `side-navigation-maximum-width`
+  - `side-navigation-with-icon-second-level-edge-to-text`
+  - `side-navigation-with-icon-third-level-edge-to-text`
 
   </details>
   <details><summary><strong>Added (12)</strong></summary>
-
-  * `side-navigation-counter-to-disclosure`
-  * `side-navigation-edge-to-indicator`
-  * `side-navigation-indicator-to-content`
-  * `side-navigation-second-level-edge-to-indicator`
-  * `side-navigation-second-level-with-icon-edge-to-text`
-  * `side-navigation-second-level-with-icon-edge-to-indicator`
-  * `side-navigation-third-level-edge-to-indicator`
-  * `side-navigation-third-level-with-icon-edge-to-text`
-  * `side-navigation-third-level-with-icon-edge-to-indicator`
-  * `side-navigation-trailing-accessory-area-to-edge`
-  * `side-navigation-indicator-height`
-  * `side-navigation-indicator-thickness`
+  - `side-navigation-counter-to-disclosure`
+  - `side-navigation-edge-to-indicator`
+  - `side-navigation-indicator-to-content`
+  - `side-navigation-second-level-edge-to-indicator`
+  - `side-navigation-second-level-with-icon-edge-to-text`
+  - `side-navigation-second-level-with-icon-edge-to-indicator`
+  - `side-navigation-third-level-edge-to-indicator`
+  - `side-navigation-third-level-with-icon-edge-to-text`
+  - `side-navigation-third-level-with-icon-edge-to-indicator`
+  - `side-navigation-trailing-accessory-area-to-edge`
+  - `side-navigation-indicator-height`
+  - `side-navigation-indicator-thickness`
 
   </details>
 
   ### Updated (5)
 
   <details><summary><strong>Updated Properties (5)</strong></summary>
-
-  * `side-navigation-minimum-width`
-    * `desktop.value`: `160px` -> `144px`
-    * `mobile.value`: `200px` -> `180px`
-  * `side-navigation-second-level-edge-to-text`
-    * `desktop.value`: `24px` -> `38px`
-    * `mobile.value`: `30px` -> `44px`
-  * `side-navigation-third-level-edge-to-text`
-    * `desktop.value`: `36px` -> `64px`
-    * `mobile.value`: `45px` -> `70px`
-  * `side-navigation-with-icon-second-level-edge-to-text`
-    * `desktop.schema`: `dimension.json` -> `alias.json`
-    * `desktop.value`: `50px` -> `{side-navigation-second-level-with-icon-edge-to-text}`
-    * `mobile.schema`: `dimension.json` -> `alias.json`
-    * `mobile.value`: `62px` -> `{side-navigation-second-level-with-icon-edge-to-text}`
-  * `side-navigation-with-icon-third-level-edge-to-text` - `desktop.schema`: `dimension.json` -> `alias.json` - `desktop.value`: `62px` -> `{side-navigation-third-level-with-icon-edge-to-text}` - `mobile.schema`: `dimension.json` -> `alias.json` - `mobile.value`: `77px` -> `{side-navigation-third-level-with-icon-edge-to-text}`
+  - `side-navigation-minimum-width`
+    - `desktop.value`: `160px` -> `144px`
+    - `mobile.value`: `200px` -> `180px`
+  - `side-navigation-second-level-edge-to-text`
+    - `desktop.value`: `24px` -> `38px`
+    - `mobile.value`: `30px` -> `44px`
+  - `side-navigation-third-level-edge-to-text`
+    - `desktop.value`: `36px` -> `64px`
+    - `mobile.value`: `45px` -> `70px`
+  - `side-navigation-with-icon-second-level-edge-to-text`
+    - `desktop.schema`: `dimension.json` -> `alias.json`
+    - `desktop.value`: `50px` -> `{side-navigation-second-level-with-icon-edge-to-text}`
+    - `mobile.schema`: `dimension.json` -> `alias.json`
+    - `mobile.value`: `62px` -> `{side-navigation-second-level-with-icon-edge-to-text}`
+  - `side-navigation-with-icon-third-level-edge-to-text` - `desktop.schema`: `dimension.json` -> `alias.json` - `desktop.value`: `62px` -> `{side-navigation-third-level-with-icon-edge-to-text}` - `mobile.schema`: `dimension.json` -> `alias.json` - `mobile.value`: `77px` -> `{side-navigation-third-level-with-icon-edge-to-text}`
 
   </details>
 
   ### References
-
-  * Tokens Studio PR: [adobe/spectrum-tokens-studio-data#284](https://github.com/adobe/spectrum-design-data-studio-data/pull/284)
-  * Spectrum Tokens PR: [#615](https://github.com/adobe/spectrum-design-data/pull/615)
+  - Tokens Studio PR: [adobe/spectrum-tokens-studio-data#284](https://github.com/adobe/spectrum-design-data-studio-data/pull/284)
+  - Spectrum Tokens PR: [#615](https://github.com/adobe/spectrum-design-data/pull/615)
 
 ## 13.15.1
 
 ### Patch Changes
 
-* [#593](https://github.com/adobe/spectrum-design-data/pull/593) [`1e860c4`](https://github.com/adobe/spectrum-design-data/commit/1e860c4436c58ceca6f4500ea7e24d6d8cdd20c8) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - SDS-15337: Standard panel gripper color update
+- [#593](https://github.com/adobe/spectrum-design-data/pull/593) [`1e860c4`](https://github.com/adobe/spectrum-design-data/commit/1e860c4436c58ceca6f4500ea7e24d6d8cdd20c8) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - SDS-15337: Standard panel gripper color update
 
   Source: [spectrum-tokens-studio-data#283](https://github.com/adobe/spectrum-design-data-studio-data/pull/283)
 
   ## Token Changes
 
   ### Updated (1)
-
-  * `standard-panel-gripper-color`
-    * `value`: `{gray-200}` -> `{gray-500}`
+  - `standard-panel-gripper-color`
+    - `value`: `{gray-200}` -> `{gray-500}`
 
 ## 13.15.0
 
 ### Minor Changes
 
-* [#589](https://github.com/adobe/spectrum-design-data/pull/589) [`3df7197`](https://github.com/adobe/spectrum-design-data/commit/3df7197e7da23c9bb107f7dfcd935b5c62a86041) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - feat: updates from spectrum-tokens sync
+- [#589](https://github.com/adobe/spectrum-design-data/pull/589) [`3df7197`](https://github.com/adobe/spectrum-design-data/commit/3df7197e7da23c9bb107f7dfcd935b5c62a86041) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - feat: updates from spectrum-tokens sync
 
   Source: [spectrum-tokens-studio-data#286](https://github.com/adobe/spectrum-design-data-studio-data/pull/286)
 
@@ -99,50 +111,49 @@
   **New Branch:** tokens-sync/patch-spectrum2-from-main
 
   <details><summary><strong>Added (43)</strong></summary>
-
-  * `gradient-stop-1-avatar`
-  * `gradient-stop-2-avatar`
-  * `gradient-stop-3-avatar`
-  * `static-fuchsia-400`
-  * `static-fuchsia-600`
-  * `static-fuchsia-800`
-  * `static-indigo-400`
-  * `static-indigo-600`
-  * `static-indigo-800`
-  * `static-magenta-400`
-  * `static-magenta-600`
-  * `static-magenta-800`
-  * `static-red-400`
-  * `static-red-600`
-  * `static-red-800`
-  * `static-cyan-400`
-  * `static-cyan-600`
-  * `static-cyan-800`
-  * `static-chartreuse-400`
-  * `static-chartreuse-600`
-  * `static-chartreuse-800`
-  * `static-green-400`
-  * `static-green-600`
-  * `static-green-800`
-  * `static-orange-400`
-  * `static-orange-600`
-  * `static-orange-800`
-  * `static-purple-400`
-  * `static-purple-600`
-  * `static-purple-800`
-  * `static-turquoise-400`
-  * `static-turquoise-600`
-  * `static-turquoise-800`
-  * `drop-shadow-ambient-color`
-  * `drop-shadow-transition-color`
-  * `drop-shadow-emphasized-key-color`
-  * `drop-shadow-emphasized-hover-key-color`
-  * `drop-shadow-elevated-key-color`
-  * `drop-shadow-dragged-key-color`
-  * `drop-shadow-emphasized`
-  * `drop-shadow-emphasized-hover`
-  * `drop-shadow-elevated`
-  * `drop-shadow-dragged`
+  - `gradient-stop-1-avatar`
+  - `gradient-stop-2-avatar`
+  - `gradient-stop-3-avatar`
+  - `static-fuchsia-400`
+  - `static-fuchsia-600`
+  - `static-fuchsia-800`
+  - `static-indigo-400`
+  - `static-indigo-600`
+  - `static-indigo-800`
+  - `static-magenta-400`
+  - `static-magenta-600`
+  - `static-magenta-800`
+  - `static-red-400`
+  - `static-red-600`
+  - `static-red-800`
+  - `static-cyan-400`
+  - `static-cyan-600`
+  - `static-cyan-800`
+  - `static-chartreuse-400`
+  - `static-chartreuse-600`
+  - `static-chartreuse-800`
+  - `static-green-400`
+  - `static-green-600`
+  - `static-green-800`
+  - `static-orange-400`
+  - `static-orange-600`
+  - `static-orange-800`
+  - `static-purple-400`
+  - `static-purple-600`
+  - `static-purple-800`
+  - `static-turquoise-400`
+  - `static-turquoise-600`
+  - `static-turquoise-800`
+  - `drop-shadow-ambient-color`
+  - `drop-shadow-transition-color`
+  - `drop-shadow-emphasized-key-color`
+  - `drop-shadow-emphasized-hover-key-color`
+  - `drop-shadow-elevated-key-color`
+  - `drop-shadow-dragged-key-color`
+  - `drop-shadow-emphasized`
+  - `drop-shadow-emphasized-hover`
+  - `drop-shadow-elevated`
+  - `drop-shadow-dragged`
 
   </details>
 
@@ -150,7 +161,7 @@
 
 ### Patch Changes
 
-* [`b4df84e`](https://github.com/adobe/spectrum-design-data/commit/b4df84e2f2ca246332907f9ddda94438288dd98e) Thanks [@larz0](https://github.com/larz0)! - SDS-14319 generic avatar updates (Pre-multidimensional-theming) - Token Details
+- [`b4df84e`](https://github.com/adobe/spectrum-design-data/commit/b4df84e2f2ca246332907f9ddda94438288dd98e) Thanks [@larz0](https://github.com/larz0)! - SDS-14319 generic avatar updates (Pre-multidimensional-theming) - Token Details
 
   This update adds the missing token change details for the recent avatar updates.
 
@@ -161,40 +172,39 @@
   **Tokens Changed (33)**
 
   <details><summary><strong>Added (33)</strong></summary>
-
-  * `gradient-stop-1-avatar`
-  * `gradient-stop-2-avatar`
-  * `gradient-stop-3-avatar`
-  * `static-fuchsia-400`
-  * `static-fuchsia-600`
-  * `static-fuchsia-800`
-  * `static-indigo-400`
-  * `static-indigo-600`
-  * `static-indigo-800`
-  * `static-magenta-400`
-  * `static-magenta-600`
-  * `static-magenta-800`
-  * `static-red-400`
-  * `static-red-600`
-  * `static-red-800`
-  * `static-cyan-400`
-  * `static-cyan-600`
-  * `static-cyan-800`
-  * `static-chartreuse-400`
-  * `static-chartreuse-600`
-  * `static-chartreuse-800`
-  * `static-green-400`
-  * `static-green-600`
-  * `static-green-800`
-  * `static-orange-400`
-  * `static-orange-600`
-  * `static-orange-800`
-  * `static-purple-400`
-  * `static-purple-600`
-  * `static-purple-800`
-  * `static-turquoise-400`
-  * `static-turquoise-600`
-  * `static-turquoise-800`
+  - `gradient-stop-1-avatar`
+  - `gradient-stop-2-avatar`
+  - `gradient-stop-3-avatar`
+  - `static-fuchsia-400`
+  - `static-fuchsia-600`
+  - `static-fuchsia-800`
+  - `static-indigo-400`
+  - `static-indigo-600`
+  - `static-indigo-800`
+  - `static-magenta-400`
+  - `static-magenta-600`
+  - `static-magenta-800`
+  - `static-red-400`
+  - `static-red-600`
+  - `static-red-800`
+  - `static-cyan-400`
+  - `static-cyan-600`
+  - `static-cyan-800`
+  - `static-chartreuse-400`
+  - `static-chartreuse-600`
+  - `static-chartreuse-800`
+  - `static-green-400`
+  - `static-green-600`
+  - `static-green-800`
+  - `static-orange-400`
+  - `static-orange-600`
+  - `static-orange-800`
+  - `static-purple-400`
+  - `static-purple-600`
+  - `static-purple-800`
+  - `static-turquoise-400`
+  - `static-turquoise-600`
+  - `static-turquoise-800`
 
   </details>
 
@@ -202,7 +212,7 @@
 
 ### Minor Changes
 
-* [`336f672`](https://github.com/adobe/spectrum-design-data/commit/336f67216dfd875f0feb65c10059d9f3fe6dcaf7) Thanks [@larz0](https://github.com/larz0)! - SDS-14319 generic avatar updates (Pre-multidimensional-theming)
+- [`336f672`](https://github.com/adobe/spectrum-design-data/commit/336f67216dfd875f0feb65c10059d9f3fe6dcaf7) Thanks [@larz0](https://github.com/larz0)! - SDS-14319 generic avatar updates (Pre-multidimensional-theming)
 
   Source: [spectrum-tokens-studio-data#281](https://github.com/adobe/spectrum-design-data-studio-data/pull/281)
 
@@ -210,7 +220,7 @@
 
 ### Minor Changes
 
-* [#559](https://github.com/adobe/spectrum-design-data/pull/559) [`1d4973e`](https://github.com/adobe/spectrum-design-data/commit/1d4973e78d814575da231c2c4080ead8a190d2fc) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## Token sync from Spectrum Tokens Studio
+- [#559](https://github.com/adobe/spectrum-design-data/pull/559) [`1d4973e`](https://github.com/adobe/spectrum-design-data/commit/1d4973e78d814575da231c2c4080ead8a190d2fc) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## Token sync from Spectrum Tokens Studio
 
   ### Design motivation
 
@@ -224,54 +234,47 @@
   **New Branch:** `tokens-sync/patch-spectrum2-from-main`
 
   <details><summary><strong>Added (1)</strong></summary>
-
-  * `select-box-horizontal-minimum-width`
+  - `select-box-horizontal-minimum-width`
 
   </details>
 
   ### Updated (3)
 
   <details><summary><strong>Added Properties (1)</strong></summary>
-
-  * `select-box-edge-to-checkbox` - `value`: `8px` - `uuid`: `70a20970-ebd9-48a7-8324-44d352f79978`
+  - `select-box-edge-to-checkbox` - `value`: `8px` - `uuid`: `70a20970-ebd9-48a7-8324-44d352f79978`
 
   </details>
   <details><summary><strong>Deleted Properties (1)</strong></summary>
-
-  * `select-box-edge-to-checkbox` - `desktop.schema`: -> `dimension.json` - `desktop.value`: -> `12px` - `desktop.uuid`: -> `70a20970-ebd9-48a7-8324-44d352f79978` - `mobile.schema`: -> `dimension.json` - `mobile.value`: -> `15px` - `mobile.uuid`: -> `f028974a-20d1-4e03-af77-921b1dfc2469`
+  - `select-box-edge-to-checkbox` - `desktop.schema`: -> `dimension.json` - `desktop.value`: -> `12px` - `desktop.uuid`: -> `70a20970-ebd9-48a7-8324-44d352f79978` - `mobile.schema`: -> `dimension.json` - `mobile.value`: -> `15px` - `mobile.uuid`: -> `f028974a-20d1-4e03-af77-921b1dfc2469`
 
   </details>
   <details><summary><strong>Updated Properties (1)</strong></summary>
-
-  * `select-box-edge-to-checkbox` - `schema`: `scale-set.json` -> `dimension.json`
+  - `select-box-edge-to-checkbox` - `schema`: `scale-set.json` -> `dimension.json`
 
   </details>
 
   ### References
-
-  * Tokens Studio PR: [adobe/spectrum-tokens-studio-data#275](https://github.com/adobe/spectrum-design-data-studio-data/pull/275)
-  * Spectrum Tokens PR: [#559](https://github.com/adobe/spectrum-design-data/pull/559)
+  - Tokens Studio PR: [adobe/spectrum-tokens-studio-data#275](https://github.com/adobe/spectrum-design-data-studio-data/pull/275)
+  - Spectrum Tokens PR: [#559](https://github.com/adobe/spectrum-design-data/pull/559)
 
 ## 13.12.0
 
 ### Minor Changes
 
-* [#527](https://github.com/adobe/spectrum-design-data/pull/527) [`28cfacc`](https://github.com/adobe/spectrum-design-data/commit/28cfacce9072ebc7afe0434d6fec55d587ddd2ce) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Fixed accordion token values due to changelog error
+- [#527](https://github.com/adobe/spectrum-design-data/pull/527) [`28cfacc`](https://github.com/adobe/spectrum-design-data/commit/28cfacce9072ebc7afe0434d6fec55d587ddd2ce) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Fixed accordion token values due to changelog error
 
   ## Token Diff
 
   Updated (4)
 
   <details><summary>Added Properties (1)</summary>
-
-  * `accordion-top-to-text-compact-medium`
+  - `accordion-top-to-text-compact-medium`
     value: 5px
     uuid: [`484c960`](https://github.com/adobe/spectrum-design-data/commit/484c9603)-07f1-4ba6-b1bf-7cfaec5d1594
 
   </details>
   <details><summary>Deleted Properties (1)</summary>
-
-  * `accordion-top-to-text-compact-medium`
+  - `accordion-top-to-text-compact-medium`
     desktop.schema: dimension.json
     desktop.value: 8px
     desktop.uuid: [`484c960`](https://github.com/adobe/spectrum-design-data/commit/484c9603)-07f1-4ba6-b1bf-7cfaec5d1594
@@ -281,10 +284,9 @@
 
   </details>
   <details><summary>Updated Properties (2)</summary>
-
-  * `accordion-top-to-text-compact-medium`
+  - `accordion-top-to-text-compact-medium`
     schema: scale-set.json -> dimension.json
-  * `accordion-top-to-text-spacious-medium`
+  - `accordion-top-to-text-spacious-medium`
     desktop.value: 16px -> 13px
     mobile.value: 19px -> 15px
 
@@ -294,49 +296,46 @@
 
 ### Minor Changes
 
-* [#525](https://github.com/adobe/spectrum-design-data/pull/525) [`db6d0ed`](https://github.com/adobe/spectrum-design-data/commit/db6d0ed669e013e6f3ff52aea89fc7a5e798149a) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - composite tokens
+- [#525](https://github.com/adobe/spectrum-design-data/pull/525) [`db6d0ed`](https://github.com/adobe/spectrum-design-data/commit/db6d0ed669e013e6f3ff52aea89fc7a5e798149a) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - composite tokens
 
   <details><summary>Newly Deprecated (2)</summary>
-
-  * `card-minimum-width`: This token has been deprecated, use card-minimum-width-default instead.
-  * `tree-view-item-to-item`: This token has been deprecated, use tree-view-item-to-item-default instead.
+  - `card-minimum-width`: This token has been deprecated, use card-minimum-width-default instead.
+  - `tree-view-item-to-item`: This token has been deprecated, use tree-view-item-to-item-default instead.
 
   </details>
   <details><summary>Added (22)</summary>
-
-  * `component-xs-regular`
-  * `component-xs-medium`
-  * `component-xs-bold`
-  * `component-s-regular`
-  * `component-s-medium`
-  * `component-s-bold`
-  * `component-m-regular`
-  * `component-m-medium`
-  * `component-m-bold`
-  * `component-l-regular`
-  * `component-l-medium`
-  * `component-l-bold`
-  * `component-xl-regular`
-  * `component-xl-medium`
-  * `component-xl-bold`
-  * `component-padding-vertical-50`
-  * `component-padding-vertical-75`
-  * `component-padding-vertical-100`
-  * `component-padding-vertical-200`
-  * `component-padding-vertical-300`
-  * `card-minimum-width-default`
-  * `tree-view-item-to-item-default`
+  - `component-xs-regular`
+  - `component-xs-medium`
+  - `component-xs-bold`
+  - `component-s-regular`
+  - `component-s-medium`
+  - `component-s-bold`
+  - `component-m-regular`
+  - `component-m-medium`
+  - `component-m-bold`
+  - `component-l-regular`
+  - `component-l-medium`
+  - `component-l-bold`
+  - `component-xl-regular`
+  - `component-xl-medium`
+  - `component-xl-bold`
+  - `component-padding-vertical-50`
+  - `component-padding-vertical-75`
+  - `component-padding-vertical-100`
+  - `component-padding-vertical-200`
+  - `component-padding-vertical-300`
+  - `card-minimum-width-default`
+  - `tree-view-item-to-item-default`
 
   </details>
 
   <details><summary>Updated Properties (3)</summary>
-
-  * `sans-serif-font-family`
+  - `sans-serif-font-family`
     value: Adobe Clean -> Adobe Clean Spectrum VF
-  * `card-minimum-width`
+  - `card-minimum-width`
     schema: dimension.json -> alias.json
     value: 100px -> card-minimum-width-default
-  * `tree-view-item-to-item`
+  - `tree-view-item-to-item`
     schema: dimension.json -> alias.json
     value: -1px -> tree-view-item-to-item-default
 
@@ -346,7 +345,7 @@
 
 ### Patch Changes
 
-* [#517](https://github.com/adobe/spectrum-design-data/pull/517) [`8f8f8a6`](https://github.com/adobe/spectrum-design-data/commit/8f8f8a60b7adf5105ced4f914cf30928117ddc5e) Thanks [@larz0](https://github.com/larz0)! - `accordion-top-to-text-medium` values in desktop and mobile were incorrect due to changelog error.
+- [#517](https://github.com/adobe/spectrum-design-data/pull/517) [`8f8f8a6`](https://github.com/adobe/spectrum-design-data/commit/8f8f8a60b7adf5105ced4f914cf30928117ddc5e) Thanks [@larz0](https://github.com/larz0)! - `accordion-top-to-text-medium` values in desktop and mobile were incorrect due to changelog error.
   Corrected `accordion-focus-indicator-gap` values. Corrections weren't recorded in the changelog.
 
   ## Design motivation
@@ -358,12 +357,11 @@
   Updated (2)
 
   <details><summary>Updated Properties (2)</summary>
-
-  * `accordion-focus-indicator-gap`
-    * value: `0px` -> `2px`
-  * `accordion-top-to-text-medium`
-    * desktop.value: `12px` -> `9px`
-    * mobile.value: `16px` -> `10px`
+  - `accordion-focus-indicator-gap`
+    - value: `0px` -> `2px`
+  - `accordion-top-to-text-medium`
+    - desktop.value: `12px` -> `9px`
+    - mobile.value: `16px` -> `10px`
 
   </details>
 
@@ -371,7 +369,7 @@
 
 ### Minor Changes
 
-* [#509](https://github.com/adobe/spectrum-design-data/pull/509) [`0387332`](https://github.com/adobe/spectrum-design-data/commit/038733232bec26f823d63b88f564ff2c962c50a1) Thanks [@larz0](https://github.com/larz0)! - Updated accordion tokens
+- [#509](https://github.com/adobe/spectrum-design-data/pull/509) [`0387332`](https://github.com/adobe/spectrum-design-data/commit/038733232bec26f823d63b88f564ff2c962c50a1) Thanks [@larz0](https://github.com/larz0)! - Updated accordion tokens
 
   ## Design Motivation
 
@@ -380,61 +378,58 @@
   ## Token Diff
 
   <details><summary>Newly Deprecated (8)</summary>
-
-  * `accordion-top-to-text-regular-small`
-  * `accordion-top-to-text-regular-medium`
-  * `accordion-top-to-text-regular-large`
-  * `accordion-top-to-text-regular-extra-large`
-  * `accordion-bottom-to-text-regular-small`
-  * `accordion-bottom-to-text-regular-medium`
-  * `accordion-bottom-to-text-regular-large`
-  * `accordion-bottom-to-text-regular-extra-large`
+  - `accordion-top-to-text-regular-small`
+  - `accordion-top-to-text-regular-medium`
+  - `accordion-top-to-text-regular-large`
+  - `accordion-top-to-text-regular-extra-large`
+  - `accordion-bottom-to-text-regular-small`
+  - `accordion-bottom-to-text-regular-medium`
+  - `accordion-bottom-to-text-regular-large`
+  - `accordion-bottom-to-text-regular-extra-large`
 
   </details>
 
   <details><summary>Added (20)</summary>
-
-  * `field-top-to-disclosure-icon-compact-small`
-  * `field-top-to-disclosure-icon-small`
-  * `field-top-to-disclosure-icon-spacious-small`
-  * `field-top-to-disclosure-icon-compact-medium`
-  * `field-top-to-disclosure-icon-medium`
-  * `field-top-to-disclosure-icon-spacious-medium`
-  * `field-top-to-disclosure-icon-compact-large`
-  * `field-top-to-disclosure-icon-large`
-  * `field-top-to-disclosure-icon-spacious-large`
-  * `field-top-to-disclosure-icon-compact-extra-large`
-  * `field-top-to-disclosure-icon-extra-large`
-  * `field-top-to-disclosure-icon-spacious-extra-large`
-  * `accordion-bottom-to-text-extra-large`
-  * `accordion-bottom-to-text-large`
-  * `accordion-bottom-to-text-medium`
-  * `accordion-bottom-to-text-small`
-  * `accordion-top-to-text-extra-large`
-  * `accordion-top-to-text-large`
-  * `accordion-top-to-text-medium`
-  * `accordion-top-to-text-small`
+  - `field-top-to-disclosure-icon-compact-small`
+  - `field-top-to-disclosure-icon-small`
+  - `field-top-to-disclosure-icon-spacious-small`
+  - `field-top-to-disclosure-icon-compact-medium`
+  - `field-top-to-disclosure-icon-medium`
+  - `field-top-to-disclosure-icon-spacious-medium`
+  - `field-top-to-disclosure-icon-compact-large`
+  - `field-top-to-disclosure-icon-large`
+  - `field-top-to-disclosure-icon-spacious-large`
+  - `field-top-to-disclosure-icon-compact-extra-large`
+  - `field-top-to-disclosure-icon-extra-large`
+  - `field-top-to-disclosure-icon-spacious-extra-large`
+  - `accordion-bottom-to-text-extra-large`
+  - `accordion-bottom-to-text-large`
+  - `accordion-bottom-to-text-medium`
+  - `accordion-bottom-to-text-small`
+  - `accordion-top-to-text-extra-large`
+  - `accordion-top-to-text-large`
+  - `accordion-top-to-text-medium`
+  - `accordion-top-to-text-small`
 
   </details>
 
   <details><summary>Added Properties (3)</summary>
-
-  * `accordion-top-to-text-compact-small`
-  * `desktop.schema`: dimension.json
-  * `desktop.value`: 3px
-  * `desktop.uuid`: [`d6cc404`](https://github.com/adobe/spectrum-design-data/commit/d6cc404c)-af92-43be-88e3-407fdcb6e068
-  * `mobile.schema`: dimension.json
-  * `mobile.value`: 4px
-  * `mobile.uuid`: [`cfc8d28`](https://github.com/adobe/spectrum-design-data/commit/cfc8d280)-5ea0-47f2-bdcb-ae5e93627498
-  * `accordion-top-to-text-compact-medium`
-  * `desktop.schema`: dimension.json
-  * `desktop.value`: 8px
-  * `desktop.uuid`: [`484c960`](https://github.com/adobe/spectrum-design-data/commit/484c9603)-07f1-4ba6-b1bf-7cfaec5d1594
-  * `mobile.schema`: dimension.json
-  * `mobile.value`: 14px
-  * `mobile.uuid`: [`4a7dda7`](https://github.com/adobe/spectrum-design-data/commit/4a7dda7f)-a45a-496c-8d38-cb4e4807e544
-  * `time-field-minimum-width`
-  * `description`: 2.5x height of field
+  - `accordion-top-to-text-compact-small`
+  - `desktop.schema`: dimension.json
+  - `desktop.value`: 3px
+  - `desktop.uuid`: [`d6cc404`](https://github.com/adobe/spectrum-design-data/commit/d6cc404c)-af92-43be-88e3-407fdcb6e068
+  - `mobile.schema`: dimension.json
+  - `mobile.value`: 4px
+  - `mobile.uuid`: [`cfc8d28`](https://github.com/adobe/spectrum-design-data/commit/cfc8d280)-5ea0-47f2-bdcb-ae5e93627498
+  - `accordion-top-to-text-compact-medium`
+  - `desktop.schema`: dimension.json
+  - `desktop.value`: 8px
+  - `desktop.uuid`: [`484c960`](https://github.com/adobe/spectrum-design-data/commit/484c9603)-07f1-4ba6-b1bf-7cfaec5d1594
+  - `mobile.schema`: dimension.json
+  - `mobile.value`: 14px
+  - `mobile.uuid`: [`4a7dda7`](https://github.com/adobe/spectrum-design-data/commit/4a7dda7f)-a45a-496c-8d38-cb4e4807e544
+  - `time-field-minimum-width`
+  - `description`: 2.5x height of field
 
   </details>
 
@@ -442,7 +437,7 @@
 
 ### Minor Changes
 
-* [#504](https://github.com/adobe/spectrum-design-data/pull/504) [`6ec680a`](https://github.com/adobe/spectrum-design-data/commit/6ec680adb5f0372f86afdb415f1122630e6ac596) Thanks [@larz0](https://github.com/larz0)! - Added list view tokens
+- [#504](https://github.com/adobe/spectrum-design-data/pull/504) [`6ec680a`](https://github.com/adobe/spectrum-design-data/commit/6ec680adb5f0372f86afdb415f1122630e6ac596) Thanks [@larz0](https://github.com/larz0)! - Added list view tokens
 
   ## Design Motivation
 
@@ -451,35 +446,34 @@
   ## Token Diff
 
   <details><summary>Added (28)</summary>
-
-  * `visual-to-control-100`
-  * `label-to-description-0`
-  * `list-view-minimum-height`
-  * `list-view-minimum-width`
-  * `list-view-item-top-corner-radius`
-  * `list-view-item-bottom-corner-radius`
-  * `list-view-end-edge-to-content`
-  * `stack-item-selected-background-opacity-emphasized`
-  * `stack-item-selected-background-opacity-emphasized-hover`
-  * `stack-item-selected-background-opacity-emphasized-down`
-  * `stack-item-selected-background-opacity-emphasized-key-focus`
-  * `stack-item-header-minimum-width`
-  * `stack-item-start-edge-to-content`
-  * `stack-item-drag-handle-to-control`
-  * `stack-item-text-to-control`
-  * `stack-item-edge-to-control`
-  * `stack-item-edge-to-visual`
-  * `stack-item-action-to-navigation`
-  * `stack-item-header-to-item`
-  * `stack-item-item-to-item`
-  * `stack-item-background-color-hover`
-  * `stack-item-background-color-down`
-  * `stack-item-background-color-key-focus`
-  * `stack-item-selected-background-color-default`
-  * `stack-item-selected-background-color-hover`
-  * `stack-item-selected-background-color-down`
-  * `stack-item-selected-background-color-key-focus`
-  * `stack-item-selected-background-color-emphasized`
+  - `visual-to-control-100`
+  - `label-to-description-0`
+  - `list-view-minimum-height`
+  - `list-view-minimum-width`
+  - `list-view-item-top-corner-radius`
+  - `list-view-item-bottom-corner-radius`
+  - `list-view-end-edge-to-content`
+  - `stack-item-selected-background-opacity-emphasized`
+  - `stack-item-selected-background-opacity-emphasized-hover`
+  - `stack-item-selected-background-opacity-emphasized-down`
+  - `stack-item-selected-background-opacity-emphasized-key-focus`
+  - `stack-item-header-minimum-width`
+  - `stack-item-start-edge-to-content`
+  - `stack-item-drag-handle-to-control`
+  - `stack-item-text-to-control`
+  - `stack-item-edge-to-control`
+  - `stack-item-edge-to-visual`
+  - `stack-item-action-to-navigation`
+  - `stack-item-header-to-item`
+  - `stack-item-item-to-item`
+  - `stack-item-background-color-hover`
+  - `stack-item-background-color-down`
+  - `stack-item-background-color-key-focus`
+  - `stack-item-selected-background-color-default`
+  - `stack-item-selected-background-color-hover`
+  - `stack-item-selected-background-color-down`
+  - `stack-item-selected-background-color-key-focus`
+  - `stack-item-selected-background-color-emphasized`
 
   </details>
 
@@ -487,41 +481,39 @@
 
 ### Minor Changes
 
-* [#502](https://github.com/adobe/spectrum-design-data/pull/502) [`26845e5`](https://github.com/adobe/spectrum-design-data/commit/26845e5885168bdfb7191b246b2ad41def39dc15) Thanks [@larz0](https://github.com/larz0)! - Tag field and missing icon tokens
+- [#502](https://github.com/adobe/spectrum-design-data/pull/502) [`26845e5`](https://github.com/adobe/spectrum-design-data/commit/26845e5885168bdfb7191b246b2ad41def39dc15) Thanks [@larz0](https://github.com/larz0)! - Tag field and missing icon tokens
 
   ## Design Motivation
-
-  * These are the required tokens for the tag fields component.
-  * These UI icons already exist and are being used in number field, menu items, swatch and list view.
-  * This was brought up on Slack by the CSS team in the implementation channel
+  - These are the required tokens for the tag fields component.
+  - These UI icons already exist and are being used in number field, menu items, swatch and list view.
+  - This was brought up on Slack by the CSS team in the implementation channel
     When we initially added the first batch of UI icons size tokens, these specific icons were not used in components yet, but now are, which is why they're missing.
 
   ## Token Diff
 
   <details><summary>Added (22)</summary>
-
-  * `link-out-icon-size-300`
-  * `link-out-icon-size-400`
-  * `add-icon-size-50`
-  * `add-icon-size-75`
-  * `add-icon-size-100`
-  * `add-icon-size-200`
-  * `add-icon-size-300`
-  * `drag-handle-icon-size-75`
-  * `drag-handle-icon-size-100`
-  * `drag-handle-icon-size-200`
-  * `drag-handle-icon-size-300`
-  * `gripper-icon-size-100`
-  * `tag-field-default-width-small`
-  * `tag-field-default-width-medium`
-  * `tag-field-default-width-large`
-  * `tag-field-minimum-width`
-  * `tag-field-minimum-height-small`
-  * `tag-field-minimum-height-medium`
-  * `tag-field-minimum-height-large`
-  * `tag-field-edge-to-content-small`
-  * `tag-field-edge-to-content-medium`
-  * `tag-field-edge-to-content-large`
+  - `link-out-icon-size-300`
+  - `link-out-icon-size-400`
+  - `add-icon-size-50`
+  - `add-icon-size-75`
+  - `add-icon-size-100`
+  - `add-icon-size-200`
+  - `add-icon-size-300`
+  - `drag-handle-icon-size-75`
+  - `drag-handle-icon-size-100`
+  - `drag-handle-icon-size-200`
+  - `drag-handle-icon-size-300`
+  - `gripper-icon-size-100`
+  - `tag-field-default-width-small`
+  - `tag-field-default-width-medium`
+  - `tag-field-default-width-large`
+  - `tag-field-minimum-width`
+  - `tag-field-minimum-height-small`
+  - `tag-field-minimum-height-medium`
+  - `tag-field-minimum-height-large`
+  - `tag-field-edge-to-content-small`
+  - `tag-field-edge-to-content-medium`
+  - `tag-field-edge-to-content-large`
 
   </details>
 
@@ -529,7 +521,7 @@
 
 ### Minor Changes
 
-* [#499](https://github.com/adobe/spectrum-design-data/pull/499) [`0c1a81b`](https://github.com/adobe/spectrum-design-data/commit/0c1a81b6c5715e4de1d423b6bc7a59ce4fe30d2f) Thanks [@larz0](https://github.com/larz0)! - Added new accodion tokens
+- [#499](https://github.com/adobe/spectrum-design-data/pull/499) [`0c1a81b`](https://github.com/adobe/spectrum-design-data/commit/0c1a81b6c5715e4de1d423b6bc7a59ce4fe30d2f) Thanks [@larz0](https://github.com/larz0)! - Added new accodion tokens
 
   ## Design Motivation
 
@@ -538,26 +530,25 @@
   ## Token Diff
 
   <details><summary>Added (19)<br /></summary>
-
-  * `accordion-edge-to-content-area-small`
-  * `accordion-edge-to-content-area-medium`
-  * `accordion-edge-to-content-area-large`
-  * `accordion-edge-to-content-area-extra-large`
-  * `single-calendar-popover-minimum-width`
-  * `single-calendar-popover-minimum-height`
-  * `double-calendar-popover-minimum-width`
-  * `double-calendar-popover-minimum-height`
-  * `triple-calendar-popover-minimum-width`
-  * `triple-calendar-popover-minimum-height`
-  * `date-field-minimum-width`
-  * `date-field-text-to-visual`
-  * `time-field-minimum-width`
-  * `time-field-text-to-visual`
-  * `date-picker-visual-to-field-button`
-  * `date-picker-text-to-visual`
-  * `date-picker-minimum-width`
-  * `segmented-text-field-gap`
-  * `segmented-text-field-rounding`
+  - `accordion-edge-to-content-area-small`
+  - `accordion-edge-to-content-area-medium`
+  - `accordion-edge-to-content-area-large`
+  - `accordion-edge-to-content-area-extra-large`
+  - `single-calendar-popover-minimum-width`
+  - `single-calendar-popover-minimum-height`
+  - `double-calendar-popover-minimum-width`
+  - `double-calendar-popover-minimum-height`
+  - `triple-calendar-popover-minimum-width`
+  - `triple-calendar-popover-minimum-height`
+  - `date-field-minimum-width`
+  - `date-field-text-to-visual`
+  - `time-field-minimum-width`
+  - `time-field-text-to-visual`
+  - `date-picker-visual-to-field-button`
+  - `date-picker-text-to-visual`
+  - `date-picker-minimum-width`
+  - `segmented-text-field-gap`
+  - `segmented-text-field-rounding`
 
   </details>
 
@@ -565,7 +556,7 @@
 
 ### Minor Changes
 
-* [#497](https://github.com/adobe/spectrum-design-data/pull/497) [`fc0682e`](https://github.com/adobe/spectrum-design-data/commit/fc0682e16765f3beb9a823cc9b2f9f2464b6ccc6) Thanks [@larz0](https://github.com/larz0)! - Added horizontal card tokens
+- [#497](https://github.com/adobe/spectrum-design-data/pull/497) [`fc0682e`](https://github.com/adobe/spectrum-design-data/commit/fc0682e16765f3beb9a823cc9b2f9f2464b6ccc6) Thanks [@larz0](https://github.com/larz0)! - Added horizontal card tokens
 
   ## Design Motivation
 
@@ -574,10 +565,9 @@
   ## Token Diff
 
   <details><summary>Added (3)</summary>
-
-  * `card-horizontal-edge-to-content-compact`
-  * `card-horizontal-edge-to-content-default`
-  * `card-horizontal-edge-to-content-spacious`
+  - `card-horizontal-edge-to-content-compact`
+  - `card-horizontal-edge-to-content-default`
+  - `card-horizontal-edge-to-content-spacious`
 
   </details>
 
@@ -585,7 +575,7 @@
 
 ### Minor Changes
 
-* [#494](https://github.com/adobe/spectrum-design-data/pull/494) [`f569623`](https://github.com/adobe/spectrum-design-data/commit/f569623b790b1b9256b8b278619df80b6766fc58) Thanks [@larz0](https://github.com/larz0)! - Added vf-related-line-height tokens for desktop and mobile.
+- [#494](https://github.com/adobe/spectrum-design-data/pull/494) [`f569623`](https://github.com/adobe/spectrum-design-data/commit/f569623b790b1b9256b8b278619df80b6766fc58) Thanks [@larz0](https://github.com/larz0)! - Added vf-related-line-height tokens for desktop and mobile.
 
   ## Design Motivation
 
@@ -595,31 +585,29 @@
 
   <details>
   <summary>Newly Deprecated (1)</summary>
-
-  * `drop-zone-content-maximum-width`
+  - `drop-zone-content-maximum-width`
 
   </details>
   <details>
   <summary>Added (18)</summary>
-
-  * `line-height-font-size-25`
-  * `line-height-font-size-50`
-  * `line-height-font-size-75`
-  * `line-height-font-size-100`
-  * `line-height-font-size-200`
-  * `line-height-font-size-300`
-  * `line-height-font-size-400`
-  * `line-height-font-size-500`
-  * `line-height-font-size-600`
-  * `line-height-font-size-700`
-  * `line-height-font-size-800`
-  * `line-height-font-size-900`
-  * `line-height-font-size-1000`
-  * `line-height-font-size-1100`
-  * `line-height-font-size-1200`
-  * `line-height-font-size-1300`
-  * `line-height-font-size-1400`
-  * `line-height-font-size-1500`
+  - `line-height-font-size-25`
+  - `line-height-font-size-50`
+  - `line-height-font-size-75`
+  - `line-height-font-size-100`
+  - `line-height-font-size-200`
+  - `line-height-font-size-300`
+  - `line-height-font-size-400`
+  - `line-height-font-size-500`
+  - `line-height-font-size-600`
+  - `line-height-font-size-700`
+  - `line-height-font-size-800`
+  - `line-height-font-size-900`
+  - `line-height-font-size-1000`
+  - `line-height-font-size-1100`
+  - `line-height-font-size-1200`
+  - `line-height-font-size-1300`
+  - `line-height-font-size-1400`
+  - `line-height-font-size-1500`
 
   </details>
 
@@ -627,7 +615,7 @@
 
 ### Minor Changes
 
-* [#489](https://github.com/adobe/spectrum-design-data/pull/489) [`40ffdee`](https://github.com/adobe/spectrum-design-data/commit/40ffdee07a89f4c85331f95ef96b8dc07e3fb981) Thanks [@larz0](https://github.com/larz0)! - Added steplist tokens
+- [#489](https://github.com/adobe/spectrum-design-data/pull/489) [`40ffdee`](https://github.com/adobe/spectrum-design-data/commit/40ffdee07a89f4c85331f95ef96b8dc07e3fb981) Thanks [@larz0](https://github.com/larz0)! - Added steplist tokens
 
   ## Design Motivation
 
@@ -636,25 +624,24 @@
   ## Token Diff
 
   <details><summary>Added (18)</summary>
-
-  * `steplist-step-default-width-small`
-  * `steplist-step-default-width-medium`
-  * `steplist-step-default-width-large`
-  * `steplist-step-default-width-extra-large`
-  * `steplist-step-default-height-small`
-  * `steplist-step-default-height-medium`
-  * `steplist-step-default-height-large`
-  * `steplist-step-default-height-extra-large`
-  * `steplist-visual-size-small`
-  * `steplist-visual-size-medium`
-  * `steplist-visual-size-large`
-  * `steplist-visual-size-extra-large`
-  * `steplist-track-thickness-medium`
-  * `steplist-step-to-track-size-small`
-  * `steplist-step-to-track-size-medium`
-  * `steplist-step-to-track-size-large`
-  * `steplist-step-to-track-size-extra-large`
-  * `steplist-bottom-to-text`
+  - `steplist-step-default-width-small`
+  - `steplist-step-default-width-medium`
+  - `steplist-step-default-width-large`
+  - `steplist-step-default-width-extra-large`
+  - `steplist-step-default-height-small`
+  - `steplist-step-default-height-medium`
+  - `steplist-step-default-height-large`
+  - `steplist-step-default-height-extra-large`
+  - `steplist-visual-size-small`
+  - `steplist-visual-size-medium`
+  - `steplist-visual-size-large`
+  - `steplist-visual-size-extra-large`
+  - `steplist-track-thickness-medium`
+  - `steplist-step-to-track-size-small`
+  - `steplist-step-to-track-size-medium`
+  - `steplist-step-to-track-size-large`
+  - `steplist-step-to-track-size-extra-large`
+  - `steplist-bottom-to-text`
 
   </details>
 
@@ -662,13 +649,12 @@
 
 ### Minor Changes
 
-* [#487](https://github.com/adobe/spectrum-design-data/pull/487) [`07e15af`](https://github.com/adobe/spectrum-design-data/commit/07e15afbbce289bdd69f09690247205bf89bbea3) Thanks [@larz0](https://github.com/larz0)! - Token added for segmented control
+- [#487](https://github.com/adobe/spectrum-design-data/pull/487) [`07e15af`](https://github.com/adobe/spectrum-design-data/commit/07e15afbbce289bdd69f09690247205bf89bbea3) Thanks [@larz0](https://github.com/larz0)! - Token added for segmented control
 
   ## Token Diff
 
   <details><summary>Added (1)</summary>
-
-  * `segmented-control-item-maximum-width`
+  - `segmented-control-item-maximum-width`
 
   </details>
 
@@ -676,7 +662,7 @@
 
 ### Minor Changes
 
-* [#485](https://github.com/adobe/spectrum-design-data/pull/485) [`5fd35fe`](https://github.com/adobe/spectrum-design-data/commit/5fd35fe524f293848c90cdc08a85e7220e7518e5) Thanks [@larz0](https://github.com/larz0)! - Added wireframe colors
+- [#485](https://github.com/adobe/spectrum-design-data/pull/485) [`5fd35fe`](https://github.com/adobe/spectrum-design-data/commit/5fd35fe524f293848c90cdc08a85e7220e7518e5) Thanks [@larz0](https://github.com/larz0)! - Added wireframe colors
 
   ## Design Motivation
 
@@ -691,563 +677,561 @@
   Updated (174)
 
   <details><summary>Added Properties (82)</summary>
-
-  * `informative-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `informative-color-200`
-    * `wireframe.uuid`: `71ebebf0-95e7-45f7-9f6f-d14ef51cf4f0`
-  * `positive-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `positive-color-200`
-    * `wireframe.uuid`: `531be3e1-ddfa-4d3b-9a7f-73d7f0e38cd9`
-  * `notice-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `notice-color-200`
-    * `wireframe.uuid`: `163958bd-7303-4328-ad3c-b04f8dacaf32`
-  * `negative-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `negative-color-200`
-    * `wireframe.uuid`: `ea3ceaa2-235b-4c55-88b2-c0d744434d83`
-  * `accent-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `accent-color-200`
-    * `wireframe.uuid`: `5c9c8a1c-c4ac-45e5-ba5f-b08edd9f4297`
-  * `icon-color-blue-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `blue-1000`
-    * `wireframe.uuid`: `95cd46ba-7b1f-4ae4-86c1-1957c007a6a2`
-  * `icon-color-blue-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `blue-1100`
-    * `wireframe.uuid`: `c32c7711-0889-4f62-afe6-4b744166a66e`
-  * `icon-color-brown-primary-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `brown-800`
-    * `wireframe.uuid`: `afdc8658-f6a4-4205-af17-553c04cca24d`
-  * `icon-color-brown-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `brown-900`
-    * `wireframe.uuid`: `bffb9e2b-565a-4774-8f57-ef03768b4176`
-  * `icon-color-brown-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `brown-1000`
-    * `wireframe.uuid`: `b2474c42-cecc-4f91-b3e9-a0855a79d5ed`
-  * `icon-color-celery-primary-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `celery-700`
-    * `wireframe.uuid`: `c3f8622e-4ee4-4a68-be5d-c7b9f583c686`
-  * `icon-color-celery-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `celery-800`
-    * `wireframe.uuid`: `a32205e0-b208-4539-9fe4-5eb2d7464d91`
-  * `icon-color-celery-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `celery-900`
-    * `wireframe.uuid`: `f9fa057e-58f4-472f-8ab7-6bae7d1d27eb`
-  * `icon-color-chartreuse-primary-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `chartreuse-600`
-    * `wireframe.uuid`: `6bfd7aea-dfd9-47ee-9f18-e4431886e1cf`
-  * `icon-color-chartreuse-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `chartreuse-700`
-    * `wireframe.uuid`: `6d3438e5-cc32-4c26-960d-434b24dbb1e0`
-  * `icon-color-chartreuse-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `chartreuse-800`
-    * `wireframe.uuid`: `d00300aa-5990-483d-8218-229169e9cd74`
-  * `icon-color-fuchsia-primary-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `fuchsia-900`
-    * `wireframe.uuid`: `75b0d002-84b7-4c75-8c74-3b1ff15ff10a`
-  * `icon-color-fuchsia-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `fuchsia-1000`
-    * `wireframe.uuid`: `53acea92-bc9f-4c41-93b9-e18cde613305`
-  * `icon-color-fuchsia-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `fuchsia-1100`
-    * `wireframe.uuid`: `625728db-30ec-41d7-9f6f-0ce9c0201c66`
-  * `icon-color-indigo-primary-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `indigo-900`
-    * `wireframe.uuid`: `05f75802-5062-422a-8a39-f7e8f71ce17e`
-  * `icon-color-indigo-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `indigo-1000`
-    * `wireframe.uuid`: `735472d9-0220-4e7e-a06b-9f3504cad201`
-  * `icon-color-indigo-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `indigo-1100`
-    * `wireframe.uuid`: `1f2e8832-16e1-4030-a5ef-16f5b5c663d0`
-  * `icon-color-magenta-primary-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `magenta-900`
-    * `wireframe.uuid`: `d0802b2a-faba-4530-8f50-dc22e6962d44`
-  * `icon-color-magenta-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `magenta-1000`
-    * `wireframe.uuid`: `3e368eed-b2f7-4e9e-9935-421ef0f86f9f`
-  * `icon-color-magenta-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `magenta-1100`
-    * `wireframe.uuid`: `ddfb3e51-e724-48b4-aecc-dcfe000eec11`
-  * `icon-color-orange-primary-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `orange-700`
-    * `wireframe.uuid`: `41b694b3-5805-4ee7-aca0-88527dc6120b`
-  * `icon-color-orange-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `orange-800`
-    * `wireframe.uuid`: `1c3bc51c-edf8-4c2b-af93-44d7ffeb46b2`
-  * `icon-color-orange-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `orange-900`
-    * `wireframe.uuid`: `b00737a5-c111-42fe-9378-47a79139e11a`
-  * `icon-color-pink-primary-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `pink-800`
-    * `wireframe.uuid`: `1e0b6862-10cd-4860-9bf7-9cbce71e7f81`
-  * `icon-color-pink-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `pink-900`
-    * `wireframe.uuid`: `8a64d036-a935-442a-b596-5d4d0fd001a9`
-  * `icon-color-pink-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `pink-1000`
-    * `wireframe.uuid`: `c31819e9-6bf1-4048-94bc-ee6f04b82474`
-  * `icon-color-purple-primary-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `purple-900`
-    * `wireframe.uuid`: `1b6ce540-0839-4ba2-bf98-51fb499113a4`
-  * `icon-color-purple-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `purple-1000`
-    * `wireframe.uuid`: `ec923982-6694-44bc-8f75-ebe1c76ba09a`
-  * `icon-color-purple-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `purple-1100`
-    * `wireframe.uuid`: `bf3e3302-4798-4b35-a37b-0d5fcd89b556`
-  * `icon-color-red-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `red-1000`
-    * `wireframe.uuid`: `ece07052-dff3-483e-a6b8-1d12b0d94d8a`
-  * `icon-color-red-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `red-1100`
-    * `wireframe.uuid`: `02527b17-485a-4a59-b62e-5aa8bfca7df7`
-  * `icon-color-silver-primary-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `silver-700`
-    * `wireframe.uuid`: `928c1a80-e248-4e00-aed8-5ddf764a5d22`
-  * `icon-color-silver-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `silver-800`
-    * `wireframe.uuid`: `cd0a41af-19ed-48fc-b659-d34cb37d4cef`
-  * `icon-color-silver-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `silver-900`
-    * `wireframe.uuid`: `dc071b6f-788a-4a83-b1c0-17ae536c01e7`
-  * `icon-color-turquoise-primary-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `turquoise-700`
-    * `wireframe.uuid`: `3c39dea2-cdc4-4042-a134-7197a60ba8dd`
-  * `icon-color-turquoise-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `turquoise-800`
-    * `wireframe.uuid`: `2aca1631-0249-47dc-aa3b-44a51f5ea220`
-  * `icon-color-turquoise-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `turquoise-900`
-    * `wireframe.uuid`: `0c3db762-fa21-497c-9a32-007e41ab24d6`
-  * `icon-color-yellow-primary-hover`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `yellow-500`
-    * `wireframe.uuid`: `f4edf76c-b3f4-4455-b1d5-e222fa79b146`
-  * `icon-color-yellow-primary-down`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `yellow-600`
-    * `wireframe.uuid`: `24f49675-e169-4996-9993-c4a8941e8fab`
-  * `icon-color-blue-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `blue-200`
-    * `wireframe.uuid`: `2bfc538f-30ae-4e45-92ef-bb7ad72f1396`
-  * `icon-color-brown-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `brown-200`
-    * `wireframe.uuid`: `2f1fba9a-25b3-4ac7-aaee-7d6da1292da8`
-  * `icon-color-celery-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `celery-100`
-    * `wireframe.uuid`: `2b519299-a5c9-47d9-bf52-51ce26410073`
-  * `icon-color-chartreuse-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `chartreuse-200`
-    * `wireframe.uuid`: `ec1c5d08-dd5e-40f5-adee-06ffecb36ed6`
-  * `icon-color-cinnamon-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `cinnamon-200`
-    * `wireframe.uuid`: `61eaba25-d605-412f-ae11-5f36fd0061c8`
-  * `icon-color-cyan-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `cyan-100`
-    * `wireframe.uuid`: `b85aef89-a234-4386-9c46-22e2caa3b4f6`
-  * `icon-color-green-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `green-100`
-    * `wireframe.uuid`: `3231780c-e233-4a60-b063-1c3a383669a3`
-  * `icon-color-indigo-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `indigo-200`
-    * `wireframe.uuid`: `67cfb253-49f0-4a14-a83c-140324ef5bc0`
-  * `icon-color-orange-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `orange-200`
-    * `wireframe.uuid`: `a6f69b6d-496f-40bb-96a5-f04efa4ce8bc`
-  * `icon-color-red-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `red-200`
-    * `wireframe.uuid`: `12859f90-c49c-4508-bc0d-df4d9512c864`
-  * `icon-color-seafoam-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `seafoam-200`
-    * `wireframe.uuid`: `bc3ce9f1-cde9-4609-b4ab-c78a15ac064c`
-  * `icon-color-silver-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `silver-200`
-    * `wireframe.uuid`: `b2e8e8ac-001a-4a4e-bcc9-9508ba954ece`
-  * `icon-color-turquoise-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `turquoise-200`
-    * `wireframe.uuid`: `a5b3d3f5-785b-4969-9389-12c1f7b2f26d`
-  * `icon-color-yellow-background`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `yellow-100`
-    * `wireframe.uuid`: `5a5e15ab-e73b-4997-be67-39534d98e823`
-  * `card-selection-background-color`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `transparent-black-600`
-    * `wireframe.uuid`: `5dd9406f-9b36-43f1-8b35-b1bb7f2a4c8d`
-  * `popover-border-color`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `gray-200`
-    * `wireframe.uuid`: `92133ef4-9b81-4fbd-9736-8b83078ef053`
-  * `action-bar-border-color`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `transparent-white-25`
-    * `wireframe.uuid`: `e242c2e1-54db-40c5-98ee-abebdcd59f4d`
-  * `drop-shadow-color-300`
-    * `wireframe.schema`: `color.json`
-    * wireframe.value: rgba(0, 0, 0, 0.2)
-    * `wireframe.uuid`: `e91afe82-e2db-4c13-86cd-bcb2e866edf2`
-  * `neutral-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `gray-100`
-    * `wireframe.uuid`: `64b2528e-4c1b-4850-a67f-8bd7bb05d36c`
-  * `gray-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `gray-100`
-    * `wireframe.uuid`: `6529e76c-0c21-449f-a318-2629cf90a58a`
-  * `blue-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `blue-200`
-    * `wireframe.uuid`: `93563495-60af-4a84-b811-9672fc46a1cc`
-  * `green-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `green-200`
-    * `wireframe.uuid`: `3911fa84-a5b3-4ea1-b6ad-47f222482ddb`
-  * `orange-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `orange-200`
-    * `wireframe.uuid`: `a9671857-3e09-4132-a522-cd8f5b4cf8ff`
-  * `red-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `red-200`
-    * `wireframe.uuid`: `8a6b560b-50b2-4dbf-900b-0ed63233df8b`
-  * `brown-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `brown-200`
-    * `wireframe.uuid`: `ac6995d9-8982-4dac-ba85-4c79ec7850a1`
-  * `cinnamon-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `cinnamon-200`
-    * `wireframe.uuid`: `f326443a-8f5d-4aa2-8bbb-17dc7b0420d6`
-  * `celery-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `celery-200`
-    * `wireframe.uuid`: `2182ee3c-55aa-4d07-9cc1-f827c88ce3d6`
-  * `chartreuse-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `chartreuse-200`
-    * `wireframe.uuid`: `ab75a3ba-17ce-4aae-902f-2b3e0233b726`
-  * `cyan-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `cyan-200`
-    * `wireframe.uuid`: `2f72eaf9-547a-436e-86ab-695979db4f93`
-  * `fuchsia-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `fuchsia-200`
-    * `wireframe.uuid`: `28ef060d-098c-4388-b600-00f4f8fe49aa`
-  * `indigo-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `indigo-200`
-    * `wireframe.uuid`: `2110b943-24cf-4afd-81b2-31676f1400f8`
-  * `magenta-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `magenta-200`
-    * `wireframe.uuid`: `b526e518-47b2-4a1c-b54b-42596381b7fd`
-  * `pink-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `pink-200`
-    * `wireframe.uuid`: `d726501f-8920-4434-b397-b0974037161a`
-  * `purple-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `purple-200`
-    * `wireframe.uuid`: `1d628f99-7c9c-423d-a470-a260d84d0d8d`
-  * `seafoam-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `seafoam-200`
-    * `wireframe.uuid`: `0acaf55e-7e99-45f9-b99b-e461fa78a481`
-  * `silver-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `silver-200`
-    * `wireframe.uuid`: `ec3dddb5-3944-493c-b5c8-f08c3272dc06`
-  * `turquoise-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `turquoise-200`
-    * `wireframe.uuid`: `4e874813-4ebc-4855-bcb3-83024a6d1ba2`
-  * `yellow-subtle-background-color-default`
-    * `wireframe.schema`: `alias.json`
-    * `wireframe.value`: `yellow-200`
-    * `wireframe.uuid`: `a238d434-3d0b-48fe-a413-a07e9229cdda`
+  - `informative-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `informative-color-200`
+    - `wireframe.uuid`: `71ebebf0-95e7-45f7-9f6f-d14ef51cf4f0`
+  - `positive-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `positive-color-200`
+    - `wireframe.uuid`: `531be3e1-ddfa-4d3b-9a7f-73d7f0e38cd9`
+  - `notice-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `notice-color-200`
+    - `wireframe.uuid`: `163958bd-7303-4328-ad3c-b04f8dacaf32`
+  - `negative-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `negative-color-200`
+    - `wireframe.uuid`: `ea3ceaa2-235b-4c55-88b2-c0d744434d83`
+  - `accent-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `accent-color-200`
+    - `wireframe.uuid`: `5c9c8a1c-c4ac-45e5-ba5f-b08edd9f4297`
+  - `icon-color-blue-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `blue-1000`
+    - `wireframe.uuid`: `95cd46ba-7b1f-4ae4-86c1-1957c007a6a2`
+  - `icon-color-blue-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `blue-1100`
+    - `wireframe.uuid`: `c32c7711-0889-4f62-afe6-4b744166a66e`
+  - `icon-color-brown-primary-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `brown-800`
+    - `wireframe.uuid`: `afdc8658-f6a4-4205-af17-553c04cca24d`
+  - `icon-color-brown-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `brown-900`
+    - `wireframe.uuid`: `bffb9e2b-565a-4774-8f57-ef03768b4176`
+  - `icon-color-brown-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `brown-1000`
+    - `wireframe.uuid`: `b2474c42-cecc-4f91-b3e9-a0855a79d5ed`
+  - `icon-color-celery-primary-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `celery-700`
+    - `wireframe.uuid`: `c3f8622e-4ee4-4a68-be5d-c7b9f583c686`
+  - `icon-color-celery-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `celery-800`
+    - `wireframe.uuid`: `a32205e0-b208-4539-9fe4-5eb2d7464d91`
+  - `icon-color-celery-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `celery-900`
+    - `wireframe.uuid`: `f9fa057e-58f4-472f-8ab7-6bae7d1d27eb`
+  - `icon-color-chartreuse-primary-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `chartreuse-600`
+    - `wireframe.uuid`: `6bfd7aea-dfd9-47ee-9f18-e4431886e1cf`
+  - `icon-color-chartreuse-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `chartreuse-700`
+    - `wireframe.uuid`: `6d3438e5-cc32-4c26-960d-434b24dbb1e0`
+  - `icon-color-chartreuse-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `chartreuse-800`
+    - `wireframe.uuid`: `d00300aa-5990-483d-8218-229169e9cd74`
+  - `icon-color-fuchsia-primary-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `fuchsia-900`
+    - `wireframe.uuid`: `75b0d002-84b7-4c75-8c74-3b1ff15ff10a`
+  - `icon-color-fuchsia-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `fuchsia-1000`
+    - `wireframe.uuid`: `53acea92-bc9f-4c41-93b9-e18cde613305`
+  - `icon-color-fuchsia-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `fuchsia-1100`
+    - `wireframe.uuid`: `625728db-30ec-41d7-9f6f-0ce9c0201c66`
+  - `icon-color-indigo-primary-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `indigo-900`
+    - `wireframe.uuid`: `05f75802-5062-422a-8a39-f7e8f71ce17e`
+  - `icon-color-indigo-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `indigo-1000`
+    - `wireframe.uuid`: `735472d9-0220-4e7e-a06b-9f3504cad201`
+  - `icon-color-indigo-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `indigo-1100`
+    - `wireframe.uuid`: `1f2e8832-16e1-4030-a5ef-16f5b5c663d0`
+  - `icon-color-magenta-primary-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `magenta-900`
+    - `wireframe.uuid`: `d0802b2a-faba-4530-8f50-dc22e6962d44`
+  - `icon-color-magenta-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `magenta-1000`
+    - `wireframe.uuid`: `3e368eed-b2f7-4e9e-9935-421ef0f86f9f`
+  - `icon-color-magenta-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `magenta-1100`
+    - `wireframe.uuid`: `ddfb3e51-e724-48b4-aecc-dcfe000eec11`
+  - `icon-color-orange-primary-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `orange-700`
+    - `wireframe.uuid`: `41b694b3-5805-4ee7-aca0-88527dc6120b`
+  - `icon-color-orange-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `orange-800`
+    - `wireframe.uuid`: `1c3bc51c-edf8-4c2b-af93-44d7ffeb46b2`
+  - `icon-color-orange-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `orange-900`
+    - `wireframe.uuid`: `b00737a5-c111-42fe-9378-47a79139e11a`
+  - `icon-color-pink-primary-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `pink-800`
+    - `wireframe.uuid`: `1e0b6862-10cd-4860-9bf7-9cbce71e7f81`
+  - `icon-color-pink-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `pink-900`
+    - `wireframe.uuid`: `8a64d036-a935-442a-b596-5d4d0fd001a9`
+  - `icon-color-pink-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `pink-1000`
+    - `wireframe.uuid`: `c31819e9-6bf1-4048-94bc-ee6f04b82474`
+  - `icon-color-purple-primary-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `purple-900`
+    - `wireframe.uuid`: `1b6ce540-0839-4ba2-bf98-51fb499113a4`
+  - `icon-color-purple-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `purple-1000`
+    - `wireframe.uuid`: `ec923982-6694-44bc-8f75-ebe1c76ba09a`
+  - `icon-color-purple-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `purple-1100`
+    - `wireframe.uuid`: `bf3e3302-4798-4b35-a37b-0d5fcd89b556`
+  - `icon-color-red-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `red-1000`
+    - `wireframe.uuid`: `ece07052-dff3-483e-a6b8-1d12b0d94d8a`
+  - `icon-color-red-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `red-1100`
+    - `wireframe.uuid`: `02527b17-485a-4a59-b62e-5aa8bfca7df7`
+  - `icon-color-silver-primary-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `silver-700`
+    - `wireframe.uuid`: `928c1a80-e248-4e00-aed8-5ddf764a5d22`
+  - `icon-color-silver-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `silver-800`
+    - `wireframe.uuid`: `cd0a41af-19ed-48fc-b659-d34cb37d4cef`
+  - `icon-color-silver-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `silver-900`
+    - `wireframe.uuid`: `dc071b6f-788a-4a83-b1c0-17ae536c01e7`
+  - `icon-color-turquoise-primary-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `turquoise-700`
+    - `wireframe.uuid`: `3c39dea2-cdc4-4042-a134-7197a60ba8dd`
+  - `icon-color-turquoise-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `turquoise-800`
+    - `wireframe.uuid`: `2aca1631-0249-47dc-aa3b-44a51f5ea220`
+  - `icon-color-turquoise-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `turquoise-900`
+    - `wireframe.uuid`: `0c3db762-fa21-497c-9a32-007e41ab24d6`
+  - `icon-color-yellow-primary-hover`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `yellow-500`
+    - `wireframe.uuid`: `f4edf76c-b3f4-4455-b1d5-e222fa79b146`
+  - `icon-color-yellow-primary-down`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `yellow-600`
+    - `wireframe.uuid`: `24f49675-e169-4996-9993-c4a8941e8fab`
+  - `icon-color-blue-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `blue-200`
+    - `wireframe.uuid`: `2bfc538f-30ae-4e45-92ef-bb7ad72f1396`
+  - `icon-color-brown-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `brown-200`
+    - `wireframe.uuid`: `2f1fba9a-25b3-4ac7-aaee-7d6da1292da8`
+  - `icon-color-celery-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `celery-100`
+    - `wireframe.uuid`: `2b519299-a5c9-47d9-bf52-51ce26410073`
+  - `icon-color-chartreuse-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `chartreuse-200`
+    - `wireframe.uuid`: `ec1c5d08-dd5e-40f5-adee-06ffecb36ed6`
+  - `icon-color-cinnamon-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `cinnamon-200`
+    - `wireframe.uuid`: `61eaba25-d605-412f-ae11-5f36fd0061c8`
+  - `icon-color-cyan-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `cyan-100`
+    - `wireframe.uuid`: `b85aef89-a234-4386-9c46-22e2caa3b4f6`
+  - `icon-color-green-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `green-100`
+    - `wireframe.uuid`: `3231780c-e233-4a60-b063-1c3a383669a3`
+  - `icon-color-indigo-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `indigo-200`
+    - `wireframe.uuid`: `67cfb253-49f0-4a14-a83c-140324ef5bc0`
+  - `icon-color-orange-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `orange-200`
+    - `wireframe.uuid`: `a6f69b6d-496f-40bb-96a5-f04efa4ce8bc`
+  - `icon-color-red-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `red-200`
+    - `wireframe.uuid`: `12859f90-c49c-4508-bc0d-df4d9512c864`
+  - `icon-color-seafoam-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `seafoam-200`
+    - `wireframe.uuid`: `bc3ce9f1-cde9-4609-b4ab-c78a15ac064c`
+  - `icon-color-silver-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `silver-200`
+    - `wireframe.uuid`: `b2e8e8ac-001a-4a4e-bcc9-9508ba954ece`
+  - `icon-color-turquoise-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `turquoise-200`
+    - `wireframe.uuid`: `a5b3d3f5-785b-4969-9389-12c1f7b2f26d`
+  - `icon-color-yellow-background`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `yellow-100`
+    - `wireframe.uuid`: `5a5e15ab-e73b-4997-be67-39534d98e823`
+  - `card-selection-background-color`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `transparent-black-600`
+    - `wireframe.uuid`: `5dd9406f-9b36-43f1-8b35-b1bb7f2a4c8d`
+  - `popover-border-color`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `gray-200`
+    - `wireframe.uuid`: `92133ef4-9b81-4fbd-9736-8b83078ef053`
+  - `action-bar-border-color`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `transparent-white-25`
+    - `wireframe.uuid`: `e242c2e1-54db-40c5-98ee-abebdcd59f4d`
+  - `drop-shadow-color-300`
+    - `wireframe.schema`: `color.json`
+    - wireframe.value: rgba(0, 0, 0, 0.2)
+    - `wireframe.uuid`: `e91afe82-e2db-4c13-86cd-bcb2e866edf2`
+  - `neutral-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `gray-100`
+    - `wireframe.uuid`: `64b2528e-4c1b-4850-a67f-8bd7bb05d36c`
+  - `gray-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `gray-100`
+    - `wireframe.uuid`: `6529e76c-0c21-449f-a318-2629cf90a58a`
+  - `blue-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `blue-200`
+    - `wireframe.uuid`: `93563495-60af-4a84-b811-9672fc46a1cc`
+  - `green-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `green-200`
+    - `wireframe.uuid`: `3911fa84-a5b3-4ea1-b6ad-47f222482ddb`
+  - `orange-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `orange-200`
+    - `wireframe.uuid`: `a9671857-3e09-4132-a522-cd8f5b4cf8ff`
+  - `red-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `red-200`
+    - `wireframe.uuid`: `8a6b560b-50b2-4dbf-900b-0ed63233df8b`
+  - `brown-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `brown-200`
+    - `wireframe.uuid`: `ac6995d9-8982-4dac-ba85-4c79ec7850a1`
+  - `cinnamon-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `cinnamon-200`
+    - `wireframe.uuid`: `f326443a-8f5d-4aa2-8bbb-17dc7b0420d6`
+  - `celery-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `celery-200`
+    - `wireframe.uuid`: `2182ee3c-55aa-4d07-9cc1-f827c88ce3d6`
+  - `chartreuse-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `chartreuse-200`
+    - `wireframe.uuid`: `ab75a3ba-17ce-4aae-902f-2b3e0233b726`
+  - `cyan-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `cyan-200`
+    - `wireframe.uuid`: `2f72eaf9-547a-436e-86ab-695979db4f93`
+  - `fuchsia-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `fuchsia-200`
+    - `wireframe.uuid`: `28ef060d-098c-4388-b600-00f4f8fe49aa`
+  - `indigo-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `indigo-200`
+    - `wireframe.uuid`: `2110b943-24cf-4afd-81b2-31676f1400f8`
+  - `magenta-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `magenta-200`
+    - `wireframe.uuid`: `b526e518-47b2-4a1c-b54b-42596381b7fd`
+  - `pink-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `pink-200`
+    - `wireframe.uuid`: `d726501f-8920-4434-b397-b0974037161a`
+  - `purple-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `purple-200`
+    - `wireframe.uuid`: `1d628f99-7c9c-423d-a470-a260d84d0d8d`
+  - `seafoam-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `seafoam-200`
+    - `wireframe.uuid`: `0acaf55e-7e99-45f9-b99b-e461fa78a481`
+  - `silver-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `silver-200`
+    - `wireframe.uuid`: `ec3dddb5-3944-493c-b5c8-f08c3272dc06`
+  - `turquoise-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `turquoise-200`
+    - `wireframe.uuid`: `4e874813-4ebc-4855-bcb3-83024a6d1ba2`
+  - `yellow-subtle-background-color-default`
+    - `wireframe.schema`: `alias.json`
+    - `wireframe.value`: `yellow-200`
+    - `wireframe.uuid`: `a238d434-3d0b-48fe-a413-a07e9229cdda`
 
   </details>
   <details><summary>Updated Properties (92)</summary>
-
-  * `icon-color-blue-primary-default`
-    * `wireframe.uuid`: `20880dfd-57dc-486d-b0dd-c44002f340e3` -> `a306b28e-f698-427d-a576-439b2ab378fc`
-  * `icon-color-red-primary-default`
-    * `wireframe.uuid`: `d524a471-2dce-4497-a650-30c2d6641eec` -> `16bbb033-224a-43e6-881c-bd29ffd70d1b`
-  * `icon-color-yellow-primary-default`
-    * `wireframe.uuid`: `4a1eeded-e467-46be-a787-78555b2fe353` -> `fc16cbe3-7cf3-4744-a571-5bd2bdcef29e`
-  * `gray-25`
-    * `wireframe.value`: `rgb(255, 255, 255)` -> `rgb(254, 254, 255)`
-  * `gray-50`
-    * `wireframe.value`: `rgb(255, 255, 255)` -> `rgb(246, 248, 253)`
-  * `gray-75`
-    * `wireframe.value`: `rgb(253, 253, 254)` -> `rgb(241, 244, 251)`
-  * `gray-100`
-    * `wireframe.value`: `rgb(244, 246, 252)` -> `rgb(228, 234, 249)`
-  * `gray-200`
-    * `wireframe.value`: `rgb(230, 236, 248)` -> `rgb(214, 224, 246)`
-  * `gray-300`
-    * `wireframe.value`: `rgb(210, 220, 243)` -> `rgb(207, 219, 245)`
-  * `gray-400`
-    * `wireframe.value`: `rgb(183, 200, 235)` -> `rgb(180, 199, 239)`
-  * `gray-500`
-    * `wireframe.value`: `rgb(152, 176, 226)` -> `rgb(108, 142, 217)`
-  * `gray-600`
-    * `wireframe.value`: `rgb(113, 144, 210)` -> `rgb(72, 110, 194)`
-  * `gray-700`
-    * `wireframe.value`: `rgb(78, 112, 187)` -> `rgb(44, 77, 149)`
-  * `gray-800`
-    * `wireframe.value`: `rgb(73, 110, 194)` -> `rgb(25, 46, 93)`
-  * `gray-900`
-    * `wireframe.value`: `rgb(72, 110, 194)` -> `rgb(10, 19, 39)`
-  * `gray-1000`
-    * `wireframe.value`: `rgb(8, 12, 22)` -> `rgb(0, 0, 0)`
-  * `opacity-checkerboard-square-dark`
-    * `wireframe.uuid`: `e7fe88a4-6ab3-4963-8f10-9908a5a83123` -> `35fcf7b1-7140-4522-8410-48547aaf6fd6`
-  * `menu-item-background-color-default`
-    * `wireframe.uuid`: `9f60dd0a-2a38-4f0d-a83c-3acf777a622a` -> `ae0fb15e-c8a2-42c4-b973-0fb523003b79`
-  * `menu-item-background-color-hover`
-    * `wireframe.uuid`: `d3d08f7a-c516-4f0c-9377-4824d615ab66` -> `1329d684-6ac9-4f46-9bbc-046e2de5276e`
-  * `menu-item-background-color-down`
-    * `wireframe.uuid`: `a8911c6e-f480-4a7d-b7fe-e20a45fb8b2a` -> `e31108a0-1b8a-4d5e-b579-592a01619bd0`
-  * `menu-item-background-color-keyboard-focus`
-    * `wireframe.uuid`: `541a7020-5cf5-4ebd-ac1f-2b776d5925af` -> `e9b046ee-408e-4781-a2cd-1d321bde4529`
-  * `menu-item-background-color-disabled`
-    * `wireframe.uuid`: `ce26d102-2e5e-4b11-b9bf-4d1b347c60c5` -> `5924d0c5-6938-4660-8be3-9374bb3e5b0c`
-  * `background-layer-2-color`
-    * `wireframe.value`: `gray-50` -> `gray-25`
-    * `wireframe.uuid`: `6556a64d-5944-4d65-a6cc-9c6121044ac7` -> `b834a6a5-e582-4450-b87a-57fa23e12179`
-  * `neutral-subdued-background-color-default`
-    * `wireframe.value`: `gray-600` -> `gray-700`
-    * `wireframe.uuid`: `7a4f50a8-4e1b-49b4-b94a-6282c63bd5ea` -> `fdcab585-e3a9-4026-bf40-e7fdd01bf05b`
-  * `neutral-subdued-background-color-hover`
-    * `wireframe.value`: `gray-700` -> `gray-800`
-    * `wireframe.uuid`: `0e32d8e6-2f91-4d56-a717-8bfc17c0a2c6` -> `81fb8734-c8c3-4f6e-8a14-177ce1d7db02`
-  * `neutral-subdued-background-color-down`
-    * `wireframe.uuid`: `a4cbab05-1225-45a3-b612-194df4ab85ae` -> `6e62476c-b60b-4d33-97c5-5fdf1f3a7930`
-  * `neutral-subdued-background-color-key-focus`
-    * `wireframe.value`: `gray-700` -> `gray-800`
-    * `wireframe.uuid`: `ea153fd0-f7f2-41ab-8f65-8181b26a939b` -> `ee7dec87-de8b-4145-9985-f5ba78bc3a3b`
-  * `accent-background-color-default`
-    * `wireframe.uuid`: `ebd98dbc-0949-4fca-8fe1-4cd7d610e7a5` -> `1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18`
-  * `accent-background-color-hover`
-    * `wireframe.uuid`: `17ce0649-1b72-4e06-96a3-5137c8688233` -> `a4fb3dc6-b724-4e5d-bbc4-c4d985e85975`
-  * `accent-background-color-down`
-    * `wireframe.value`: `accent-color-1100` -> `accent-color-1000`
-    * `wireframe.uuid`: `8d496041-f129-4794-9d8b-e64bb685b0c1` -> `a5201034-a592-47c6-be78-050ae951043e`
-  * `accent-background-color-key-focus`
-    * `wireframe.uuid`: `98781a4d-1bcc-4ede-8d40-37c76e445b3d` -> `afb8dd77-7de2-4749-a594-1ff68b2fcd67`
-  * `informative-background-color-default`
-    * `wireframe.uuid`: `d3fda217-e0cb-4dd8-8d13-a22bcc648f4d` -> `02e7121e-71eb-4228-a61a-963d7f2a531b`
-  * `informative-background-color-hover`
-    * `wireframe.uuid`: `5d0b457c-b59e-4cd6-b8c5-fa934e9a56ae` -> `d0ad5e30-c689-4831-bbd0-2de373aa11b5`
-  * `informative-background-color-down`
-    * `wireframe.value`: `informative-color-1100` -> `informative-color-1000`
-    * `wireframe.uuid`: `e210cabe-f803-4a46-8da7-e35e003140d6` -> `109c9d4a-a024-4b41-9a99-4c0e671f1011`
-  * `informative-background-color-key-focus`
-    * `wireframe.uuid`: `1be73e4a-0817-435d-910c-0b0fc1825cbb` -> `5bcac2b7-7ebb-405a-bfe3-1785d4e6fde6`
-  * `negative-background-color-default`
-    * `wireframe.uuid`: `4720ac8b-47ae-443a-b393-89f08a1b52c6` -> `ebadb88b-90a3-492e-ba3c-e9f1232b5ce5`
-  * `negative-background-color-hover`
-    * `wireframe.uuid`: `8c39a7fc-c904-4cf7-8ccc-be459d1a9c0e` -> `b1104fe3-4965-411e-95d3-87f59cdbc756`
-  * `negative-background-color-down`
-    * `wireframe.value`: `negative-color-1100` -> `negative-color-1000`
-    * `wireframe.uuid`: `da8b206c-6b7c-4994-be3b-6e99e813ad30` -> `ce2e6ea6-c692-4cff-a2ac-f0c1c2e054ca`
-  * `negative-background-color-key-focus`
-    * `wireframe.uuid`: `3791aad5-91cc-4aed-af41-8033afe33bf6` -> `abcf178e-0e44-4f57-a62c-382cb9478be2`
-  * `positive-background-color-default`
-    * `wireframe.uuid`: `87a32594-ddb7-48f8-a322-6dc0b761dc05` -> `27688f39-6b46-4b40-a3c5-67694a0ff672`
-  * `positive-background-color-hover`
-    * `wireframe.uuid`: `e6572844-3118-460c-824f-b11b82e27180` -> `7c4bd8ad-72ce-4518-b91d-a7b7721fe920`
-  * `positive-background-color-down`
-    * `wireframe.value`: `positive-color-1100` -> `positive-color-1000`
-    * `wireframe.uuid`: `18af3356-ca03-4a36-bd15-b59bf11ee776` -> `45c598af-e0da-4e41-855a-55dfc77f198c`
-  * `positive-background-color-key-focus`
-    * `wireframe.uuid`: `2ca6e211-63f7-4c0e-b089-03905788c7f1` -> `74eef2ae-5b83-4a25-b882-5960f64ecef0`
-  * `notice-background-color-default`
-    * `wireframe.value`: `notice-color-1100` -> `notice-color-600`
-    * `wireframe.uuid`: `0fdc01c4-459a-4f74-a8e0-fdbe93f8138f` -> `85515d6c-4674-435f-a2d4-b9bf8311781e`
-  * `gray-background-color-default`
-    * `wireframe.uuid`: `c41bb795-182e-45c0-afea-4ae2148e37a4` -> `385372e9-8b04-45ea-a7a2-f1f62ac68ad6`
-  * `red-background-color-default`
-    * `wireframe.value`: `red-1100` -> `red-900`
-    * `wireframe.uuid`: `4b943658-87e5-4026-87de-0265d1f48a49` -> `3fb6aa49-631f-489b-9dab-63a5712d72da`
-  * `orange-background-color-default`
-    * `wireframe.value`: `orange-1100` -> `orange-600`
-    * `wireframe.uuid`: `55baa188-9e75-4e31-b2db-729dd47ed1dd` -> `37c3db03-6dd6-47e5-a03c-25663d116c52`
-  * `yellow-background-color-default`
-    * `wireframe.value`: `yellow-1100` -> `yellow-400`
-    * `wireframe.uuid`: `08e44ba2-3627-4ce0-b8f5-eea6ce277517` -> `ff49d6b0-4f39-4cbb-a580-db03b0579a71`
-  * `chartreuse-background-color-default`
-    * `wireframe.value`: `chartreuse-1100` -> `chartreuse-500`
-    * `wireframe.uuid`: `ebb64096-1155-4376-a13c-4a5db968253a` -> `67d55f09-a468-4174-9b59-13008b32b44e`
-  * `celery-background-color-default`
-    * `wireframe.value`: `celery-1100` -> `celery-600`
-    * `wireframe.uuid`: `3e44abd8-ea12-4c0a-9007-4a6edaa3b962` -> `b6e14409-7a61-46fc-80d0-2b7854baf871`
-  * `green-background-color-default`
-    * `wireframe.value`: `green-1100` -> `green-900`
-    * `wireframe.uuid`: `d9b7a966-e6c6-43a9-b2bd-6b72ff31aed7` -> `f7814be9-b21f-40ff-9d34-8c0a96eea93e`
-  * `seafoam-background-color-default`
-    * `wireframe.value`: `seafoam-1100` -> `seafoam-900`
-    * `wireframe.uuid`: `4152095a-615b-4562-b183-78f765f6b3b0` -> `e2f2ef18-aabf-44fd-b074-d94f75862f3d`
-  * `cyan-background-color-default`
-    * `wireframe.value`: `cyan-1100` -> `cyan-900`
-    * `wireframe.uuid`: `64bd4cb9-d698-4fb0-8b56-c0c519245549` -> `764bb832-de5a-4c21-b429-f911a931ead6`
-  * `blue-background-color-default`
-    * `wireframe.value`: `blue-1100` -> `blue-900`
-    * `wireframe.uuid`: `dd76a630-e1fd-4831-94db-8622af24f4da` -> `db8b9268-68dc-46be-aace-1adf8d85061b`
-  * `indigo-background-color-default`
-    * `wireframe.value`: `indigo-1100` -> `indigo-900`
-    * `wireframe.uuid`: `71e2c0b9-4513-4679-9b97-ef1c345ec343` -> `dedf817e-2883-4632-936c-207fdafe7469`
-  * `purple-background-color-default`
-    * `wireframe.value`: `purple-1100` -> `purple-900`
-    * `wireframe.uuid`: `cde24ea8-c181-42cb-9f71-0675628c5338` -> `720cfaa3-6bb1-4df1-946f-94fabae54e7b`
-  * `fuchsia-background-color-default`
-    * `wireframe.value`: `fuchsia-1100` -> `fuchsia-900`
-    * `wireframe.uuid`: `5eb86ed6-384e-4e72-a615-8bab097bbec8` -> `13e66afc-a9d8-46a9-8b15-310c5b35e52f`
-  * `magenta-background-color-default`
-    * `wireframe.value`: `magenta-1100` -> `magenta-900`
-    * `wireframe.uuid`: `299e780b-ddb9-444b-b416-2f33c9929be0` -> `c7b29eba-f8a3-43f7-b5b9-0c1a7f04bb38`
-  * `neutral-visual-color`
-    * `wireframe.uuid`: `96d8bbe9-5fc6-4260-8cb3-5888836c4708` -> `57233b29-bbc6-4f9e-83c1-9325fd6f964c`
-  * `accent-visual-color`
-    * `wireframe.value`: `accent-color-900` -> `accent-color-800`
-    * `wireframe.uuid`: `a65c3f83-e46a-4d31-a6f0-de3b87479ea3` -> `6e12afb7-c76e-4a83-acc2-f891953d5190`
-  * `informative-visual-color`
-    * `wireframe.value`: `informative-color-900` -> `informative-color-800`
-    * `wireframe.uuid`: `405f9ef3-b882-4c72-9f5e-47739a8ae9d6` -> `556d02fd-fecb-4772-92cb-921ac509bcae`
-  * `negative-visual-color`
-    * `wireframe.value`: `negative-color-900` -> `negative-color-800`
-    * `wireframe.uuid`: `ae218610-35ca-478d-8277-f032b1f85737` -> `9211e320-de05-4097-8350-fef2293be6a0`
-  * `notice-visual-color`
-    * `wireframe.value`: `notice-color-900` -> `notice-color-800`
-    * `wireframe.uuid`: `0cbb9365-59d0-4514-a352-b5379733c360` -> `e6e779ea-6015-467f-8df7-9027280bdea2`
-  * `positive-visual-color`
-    * `wireframe.value`: `positive-color-900` -> `positive-color-800`
-    * `wireframe.uuid`: `cb447264-e862-4880-b9a3-f23028c836ac` -> `96075e1a-6739-41c8-985b-af30b09be6c3`
-  * `gray-visual-color`
-    * `wireframe.uuid`: `25d6638d-5597-4307-9a90-5ea276ce68c7` -> `e8113995-d2ec-4089-a050-9b393eb9e403`
-  * `red-visual-color`
-    * `wireframe.value`: `red-900` -> `red-800`
-    * `wireframe.uuid`: `5fa19855-1c32-4fa7-9363-8edea0bad4e2` -> `834d0a71-9060-4ce0-8e25-8b062ef89b19`
-  * `orange-visual-color`
-    * `wireframe.value`: `orange-900` -> `orange-700`
-    * `wireframe.uuid`: `535ebae4-5308-4132-9ba7-2ead58c7af2d` -> `f76b6279-2d64-47fe-a531-1737a834b21a`
-  * `yellow-visual-color`
-    * `wireframe.value`: `yellow-900` -> `yellow-600`
-    * `wireframe.uuid`: `24e58c48-8597-40f1-96e0-90ae08910665` -> `c14eedf9-0f34-4a38-9b89-7c9b5f3e0af6`
-  * `chartreuse-visual-color`
-    * `wireframe.value`: `chartreuse-900` -> `chartreuse-600`
-    * `wireframe.uuid`: `cea3da59-71a3-4ac6-b475-877ea2444839` -> `a2cc3b6e-014f-4522-8d05-9e9d06464504`
-  * `celery-visual-color`
-    * `wireframe.value`: `celery-900` -> `celery-700`
-    * `wireframe.uuid`: `88890424-a280-473b-a529-027e7ac828ac` -> `d8adaaf1-b6a3-400a-853b-6ba5a5c873e7`
-  * `green-visual-color`
-    * `wireframe.value`: `green-900` -> `green-700`
-    * `wireframe.uuid`: `b2ca6377-9a7b-467f-8352-bda31fd4abbf` -> `4aba2da7-3eed-4a11-830c-58cc4f6bb6cb`
-  * `seafoam-visual-color`
-    * `wireframe.value`: `seafoam-900` -> `seafoam-700`
-    * `wireframe.uuid`: `7f641817-9a7d-4625-b534-3b7e38bb5eae` -> `15de4533-1a59-4a9f-899f-004a429471c7`
-  * `cyan-visual-color`
-    * `wireframe.value`: `cyan-900` -> `cyan-600`
-    * `wireframe.uuid`: `cf213ea9-796e-4263-8866-b16f66b95e97` -> `ad004c2f-8cab-45d5-8e22-921d3f0332ea`
-  * `blue-visual-color`
-    * `wireframe.value`: `blue-900` -> `blue-800`
-    * `wireframe.uuid`: `4d8f8afe-c348-459d-9006-bc60bd53df84` -> `0f058412-085d-4670-8cd5-964ed903a20a`
-  * `indigo-visual-color`
-    * `wireframe.value`: `indigo-900` -> `indigo-800`
-    * `wireframe.uuid`: `7c047042-0227-420d-b78f-193d4534b218` -> `056968e0-d29e-4b1c-a9b1-50853f6d159b`
-  * `purple-visual-color`
-    * `wireframe.value`: `purple-900` -> `purple-800`
-    * `wireframe.uuid`: `4b7780b2-d488-4446-88f8-cab0fd27bcd5` -> `ef836f5b-c6b9-4e6b-a671-e979dc53c407`
-  * `fuchsia-visual-color`
-    * `wireframe.value`: `fuchsia-900` -> `fuchsia-800`
-    * `wireframe.uuid`: `66316379-927a-4e47-a5dd-84eb0c82eba8` -> `656af4f3-a545-4445-9d2b-2c4a17ab46db`
-  * `magenta-visual-color`
-    * `wireframe.value`: `magenta-900` -> `magenta-800`
-    * `wireframe.uuid`: `4de213eb-5f57-45a2-bea7-5f1b402b81ff` -> `9bf3d052-42d1-454b-8ae6-ee0b40d9a9c8`
-  * `background-elevated-color`
-    * `wireframe.uuid`: `d9cb27b8-5535-4e3a-8ca5-6eda69b934af` -> `644ca621-9138-44e3-bdd7-123a9fccd9a6`
-  * `background-pasteboard-color`
-    * `wireframe.uuid`: `6a60aa01-d789-4d39-9867-2264e66d419c` -> `93e51c98-d83e-4dad-86b7-f060a80a601e`
-  * `brown-visual-color`
-    * `wireframe.uuid`: `986418d6-3e22-441d-ba7f-732ee47aad04` -> `349dc3c5-fd57-403c-bc42-2a60b8325bd3`
-  * `cinnamon-visual-color`
-    * `wireframe.uuid`: `0535836b-ff76-4619-8e53-20f400b9996c` -> `9022dc27-f9d9-4697-b808-ebe36d216f8b`
-  * `pink-visual-color`
-    * `wireframe.uuid`: `b2fc4b00-4b9e-4e57-9892-0b4a59df4868` -> `fcbf8451-ad82-4247-a867-a5d0034667b5`
-  * `silver-visual-color`
-    * `wireframe.uuid`: `dca6ce31-57d3-4bb9-8d6a-cc2c66a3a3f4` -> `7e749788-d92d-4ad5-b4d2-446e77c5a041`
-  * `turquoise-visual-color`
-    * `wireframe.uuid`: `47319d06-bec7-4520-893c-f4442b85cfd5` -> `bc700351-a33c-4164-9ba7-3f86733ebe54`
-  * `brown-background-color-default`
-    * `wireframe.uuid`: `5f0767be-3be9-4d10-a708-740565e1c457` -> `fbd8df06-a6c9-462b-ad25-a3f77016128e`
-  * `cinnamon-background-color-default`
-    * `wireframe.uuid`: `d2c78c57-304d-4d62-87b0-2adb4085552f` -> `8e940601-2401-46ff-a5fb-9137d12678b7`
-  * `pink-background-color-default`
-    * `wireframe.uuid`: `636ebb71-7386-4a6a-b0c3-5778dd993b22` -> `b60042cd-3ce7-4952-aeae-338d2b5fe98d`
-  * `silver-background-color-default`
-    * `wireframe.uuid`: `422a0b99-1222-4c78-ac55-615992ed607c` -> `e0bb7dad-7f1b-4b6e-b2fe-99f8b14f3240`
-  * `turquoise-background-color-default`
-    * `wireframe.uuid`: `73e40908-216f-406e-993f-287477753e65` -> `50eb3d20-ab84-4541-8807-551391016b54`
-  * `drop-shadow-color-100`
-    * `wireframe.uuid`: `8e496445-97fc-4ff6-96d4-81b0215b8ffe` -> `4110e60c-efd6-421d-9c5c-0356cfff8697`
-  * `drop-shadow-color-200`
-    * `wireframe.uuid`: `aa54be1b-bf30-42b7-91ec-09259bea0bd3` -> `6e379d86-d4cc-48d4-a8a4-8b4be9cfc912`
+  - `icon-color-blue-primary-default`
+    - `wireframe.uuid`: `20880dfd-57dc-486d-b0dd-c44002f340e3` -> `a306b28e-f698-427d-a576-439b2ab378fc`
+  - `icon-color-red-primary-default`
+    - `wireframe.uuid`: `d524a471-2dce-4497-a650-30c2d6641eec` -> `16bbb033-224a-43e6-881c-bd29ffd70d1b`
+  - `icon-color-yellow-primary-default`
+    - `wireframe.uuid`: `4a1eeded-e467-46be-a787-78555b2fe353` -> `fc16cbe3-7cf3-4744-a571-5bd2bdcef29e`
+  - `gray-25`
+    - `wireframe.value`: `rgb(255, 255, 255)` -> `rgb(254, 254, 255)`
+  - `gray-50`
+    - `wireframe.value`: `rgb(255, 255, 255)` -> `rgb(246, 248, 253)`
+  - `gray-75`
+    - `wireframe.value`: `rgb(253, 253, 254)` -> `rgb(241, 244, 251)`
+  - `gray-100`
+    - `wireframe.value`: `rgb(244, 246, 252)` -> `rgb(228, 234, 249)`
+  - `gray-200`
+    - `wireframe.value`: `rgb(230, 236, 248)` -> `rgb(214, 224, 246)`
+  - `gray-300`
+    - `wireframe.value`: `rgb(210, 220, 243)` -> `rgb(207, 219, 245)`
+  - `gray-400`
+    - `wireframe.value`: `rgb(183, 200, 235)` -> `rgb(180, 199, 239)`
+  - `gray-500`
+    - `wireframe.value`: `rgb(152, 176, 226)` -> `rgb(108, 142, 217)`
+  - `gray-600`
+    - `wireframe.value`: `rgb(113, 144, 210)` -> `rgb(72, 110, 194)`
+  - `gray-700`
+    - `wireframe.value`: `rgb(78, 112, 187)` -> `rgb(44, 77, 149)`
+  - `gray-800`
+    - `wireframe.value`: `rgb(73, 110, 194)` -> `rgb(25, 46, 93)`
+  - `gray-900`
+    - `wireframe.value`: `rgb(72, 110, 194)` -> `rgb(10, 19, 39)`
+  - `gray-1000`
+    - `wireframe.value`: `rgb(8, 12, 22)` -> `rgb(0, 0, 0)`
+  - `opacity-checkerboard-square-dark`
+    - `wireframe.uuid`: `e7fe88a4-6ab3-4963-8f10-9908a5a83123` -> `35fcf7b1-7140-4522-8410-48547aaf6fd6`
+  - `menu-item-background-color-default`
+    - `wireframe.uuid`: `9f60dd0a-2a38-4f0d-a83c-3acf777a622a` -> `ae0fb15e-c8a2-42c4-b973-0fb523003b79`
+  - `menu-item-background-color-hover`
+    - `wireframe.uuid`: `d3d08f7a-c516-4f0c-9377-4824d615ab66` -> `1329d684-6ac9-4f46-9bbc-046e2de5276e`
+  - `menu-item-background-color-down`
+    - `wireframe.uuid`: `a8911c6e-f480-4a7d-b7fe-e20a45fb8b2a` -> `e31108a0-1b8a-4d5e-b579-592a01619bd0`
+  - `menu-item-background-color-keyboard-focus`
+    - `wireframe.uuid`: `541a7020-5cf5-4ebd-ac1f-2b776d5925af` -> `e9b046ee-408e-4781-a2cd-1d321bde4529`
+  - `menu-item-background-color-disabled`
+    - `wireframe.uuid`: `ce26d102-2e5e-4b11-b9bf-4d1b347c60c5` -> `5924d0c5-6938-4660-8be3-9374bb3e5b0c`
+  - `background-layer-2-color`
+    - `wireframe.value`: `gray-50` -> `gray-25`
+    - `wireframe.uuid`: `6556a64d-5944-4d65-a6cc-9c6121044ac7` -> `b834a6a5-e582-4450-b87a-57fa23e12179`
+  - `neutral-subdued-background-color-default`
+    - `wireframe.value`: `gray-600` -> `gray-700`
+    - `wireframe.uuid`: `7a4f50a8-4e1b-49b4-b94a-6282c63bd5ea` -> `fdcab585-e3a9-4026-bf40-e7fdd01bf05b`
+  - `neutral-subdued-background-color-hover`
+    - `wireframe.value`: `gray-700` -> `gray-800`
+    - `wireframe.uuid`: `0e32d8e6-2f91-4d56-a717-8bfc17c0a2c6` -> `81fb8734-c8c3-4f6e-8a14-177ce1d7db02`
+  - `neutral-subdued-background-color-down`
+    - `wireframe.uuid`: `a4cbab05-1225-45a3-b612-194df4ab85ae` -> `6e62476c-b60b-4d33-97c5-5fdf1f3a7930`
+  - `neutral-subdued-background-color-key-focus`
+    - `wireframe.value`: `gray-700` -> `gray-800`
+    - `wireframe.uuid`: `ea153fd0-f7f2-41ab-8f65-8181b26a939b` -> `ee7dec87-de8b-4145-9985-f5ba78bc3a3b`
+  - `accent-background-color-default`
+    - `wireframe.uuid`: `ebd98dbc-0949-4fca-8fe1-4cd7d610e7a5` -> `1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18`
+  - `accent-background-color-hover`
+    - `wireframe.uuid`: `17ce0649-1b72-4e06-96a3-5137c8688233` -> `a4fb3dc6-b724-4e5d-bbc4-c4d985e85975`
+  - `accent-background-color-down`
+    - `wireframe.value`: `accent-color-1100` -> `accent-color-1000`
+    - `wireframe.uuid`: `8d496041-f129-4794-9d8b-e64bb685b0c1` -> `a5201034-a592-47c6-be78-050ae951043e`
+  - `accent-background-color-key-focus`
+    - `wireframe.uuid`: `98781a4d-1bcc-4ede-8d40-37c76e445b3d` -> `afb8dd77-7de2-4749-a594-1ff68b2fcd67`
+  - `informative-background-color-default`
+    - `wireframe.uuid`: `d3fda217-e0cb-4dd8-8d13-a22bcc648f4d` -> `02e7121e-71eb-4228-a61a-963d7f2a531b`
+  - `informative-background-color-hover`
+    - `wireframe.uuid`: `5d0b457c-b59e-4cd6-b8c5-fa934e9a56ae` -> `d0ad5e30-c689-4831-bbd0-2de373aa11b5`
+  - `informative-background-color-down`
+    - `wireframe.value`: `informative-color-1100` -> `informative-color-1000`
+    - `wireframe.uuid`: `e210cabe-f803-4a46-8da7-e35e003140d6` -> `109c9d4a-a024-4b41-9a99-4c0e671f1011`
+  - `informative-background-color-key-focus`
+    - `wireframe.uuid`: `1be73e4a-0817-435d-910c-0b0fc1825cbb` -> `5bcac2b7-7ebb-405a-bfe3-1785d4e6fde6`
+  - `negative-background-color-default`
+    - `wireframe.uuid`: `4720ac8b-47ae-443a-b393-89f08a1b52c6` -> `ebadb88b-90a3-492e-ba3c-e9f1232b5ce5`
+  - `negative-background-color-hover`
+    - `wireframe.uuid`: `8c39a7fc-c904-4cf7-8ccc-be459d1a9c0e` -> `b1104fe3-4965-411e-95d3-87f59cdbc756`
+  - `negative-background-color-down`
+    - `wireframe.value`: `negative-color-1100` -> `negative-color-1000`
+    - `wireframe.uuid`: `da8b206c-6b7c-4994-be3b-6e99e813ad30` -> `ce2e6ea6-c692-4cff-a2ac-f0c1c2e054ca`
+  - `negative-background-color-key-focus`
+    - `wireframe.uuid`: `3791aad5-91cc-4aed-af41-8033afe33bf6` -> `abcf178e-0e44-4f57-a62c-382cb9478be2`
+  - `positive-background-color-default`
+    - `wireframe.uuid`: `87a32594-ddb7-48f8-a322-6dc0b761dc05` -> `27688f39-6b46-4b40-a3c5-67694a0ff672`
+  - `positive-background-color-hover`
+    - `wireframe.uuid`: `e6572844-3118-460c-824f-b11b82e27180` -> `7c4bd8ad-72ce-4518-b91d-a7b7721fe920`
+  - `positive-background-color-down`
+    - `wireframe.value`: `positive-color-1100` -> `positive-color-1000`
+    - `wireframe.uuid`: `18af3356-ca03-4a36-bd15-b59bf11ee776` -> `45c598af-e0da-4e41-855a-55dfc77f198c`
+  - `positive-background-color-key-focus`
+    - `wireframe.uuid`: `2ca6e211-63f7-4c0e-b089-03905788c7f1` -> `74eef2ae-5b83-4a25-b882-5960f64ecef0`
+  - `notice-background-color-default`
+    - `wireframe.value`: `notice-color-1100` -> `notice-color-600`
+    - `wireframe.uuid`: `0fdc01c4-459a-4f74-a8e0-fdbe93f8138f` -> `85515d6c-4674-435f-a2d4-b9bf8311781e`
+  - `gray-background-color-default`
+    - `wireframe.uuid`: `c41bb795-182e-45c0-afea-4ae2148e37a4` -> `385372e9-8b04-45ea-a7a2-f1f62ac68ad6`
+  - `red-background-color-default`
+    - `wireframe.value`: `red-1100` -> `red-900`
+    - `wireframe.uuid`: `4b943658-87e5-4026-87de-0265d1f48a49` -> `3fb6aa49-631f-489b-9dab-63a5712d72da`
+  - `orange-background-color-default`
+    - `wireframe.value`: `orange-1100` -> `orange-600`
+    - `wireframe.uuid`: `55baa188-9e75-4e31-b2db-729dd47ed1dd` -> `37c3db03-6dd6-47e5-a03c-25663d116c52`
+  - `yellow-background-color-default`
+    - `wireframe.value`: `yellow-1100` -> `yellow-400`
+    - `wireframe.uuid`: `08e44ba2-3627-4ce0-b8f5-eea6ce277517` -> `ff49d6b0-4f39-4cbb-a580-db03b0579a71`
+  - `chartreuse-background-color-default`
+    - `wireframe.value`: `chartreuse-1100` -> `chartreuse-500`
+    - `wireframe.uuid`: `ebb64096-1155-4376-a13c-4a5db968253a` -> `67d55f09-a468-4174-9b59-13008b32b44e`
+  - `celery-background-color-default`
+    - `wireframe.value`: `celery-1100` -> `celery-600`
+    - `wireframe.uuid`: `3e44abd8-ea12-4c0a-9007-4a6edaa3b962` -> `b6e14409-7a61-46fc-80d0-2b7854baf871`
+  - `green-background-color-default`
+    - `wireframe.value`: `green-1100` -> `green-900`
+    - `wireframe.uuid`: `d9b7a966-e6c6-43a9-b2bd-6b72ff31aed7` -> `f7814be9-b21f-40ff-9d34-8c0a96eea93e`
+  - `seafoam-background-color-default`
+    - `wireframe.value`: `seafoam-1100` -> `seafoam-900`
+    - `wireframe.uuid`: `4152095a-615b-4562-b183-78f765f6b3b0` -> `e2f2ef18-aabf-44fd-b074-d94f75862f3d`
+  - `cyan-background-color-default`
+    - `wireframe.value`: `cyan-1100` -> `cyan-900`
+    - `wireframe.uuid`: `64bd4cb9-d698-4fb0-8b56-c0c519245549` -> `764bb832-de5a-4c21-b429-f911a931ead6`
+  - `blue-background-color-default`
+    - `wireframe.value`: `blue-1100` -> `blue-900`
+    - `wireframe.uuid`: `dd76a630-e1fd-4831-94db-8622af24f4da` -> `db8b9268-68dc-46be-aace-1adf8d85061b`
+  - `indigo-background-color-default`
+    - `wireframe.value`: `indigo-1100` -> `indigo-900`
+    - `wireframe.uuid`: `71e2c0b9-4513-4679-9b97-ef1c345ec343` -> `dedf817e-2883-4632-936c-207fdafe7469`
+  - `purple-background-color-default`
+    - `wireframe.value`: `purple-1100` -> `purple-900`
+    - `wireframe.uuid`: `cde24ea8-c181-42cb-9f71-0675628c5338` -> `720cfaa3-6bb1-4df1-946f-94fabae54e7b`
+  - `fuchsia-background-color-default`
+    - `wireframe.value`: `fuchsia-1100` -> `fuchsia-900`
+    - `wireframe.uuid`: `5eb86ed6-384e-4e72-a615-8bab097bbec8` -> `13e66afc-a9d8-46a9-8b15-310c5b35e52f`
+  - `magenta-background-color-default`
+    - `wireframe.value`: `magenta-1100` -> `magenta-900`
+    - `wireframe.uuid`: `299e780b-ddb9-444b-b416-2f33c9929be0` -> `c7b29eba-f8a3-43f7-b5b9-0c1a7f04bb38`
+  - `neutral-visual-color`
+    - `wireframe.uuid`: `96d8bbe9-5fc6-4260-8cb3-5888836c4708` -> `57233b29-bbc6-4f9e-83c1-9325fd6f964c`
+  - `accent-visual-color`
+    - `wireframe.value`: `accent-color-900` -> `accent-color-800`
+    - `wireframe.uuid`: `a65c3f83-e46a-4d31-a6f0-de3b87479ea3` -> `6e12afb7-c76e-4a83-acc2-f891953d5190`
+  - `informative-visual-color`
+    - `wireframe.value`: `informative-color-900` -> `informative-color-800`
+    - `wireframe.uuid`: `405f9ef3-b882-4c72-9f5e-47739a8ae9d6` -> `556d02fd-fecb-4772-92cb-921ac509bcae`
+  - `negative-visual-color`
+    - `wireframe.value`: `negative-color-900` -> `negative-color-800`
+    - `wireframe.uuid`: `ae218610-35ca-478d-8277-f032b1f85737` -> `9211e320-de05-4097-8350-fef2293be6a0`
+  - `notice-visual-color`
+    - `wireframe.value`: `notice-color-900` -> `notice-color-800`
+    - `wireframe.uuid`: `0cbb9365-59d0-4514-a352-b5379733c360` -> `e6e779ea-6015-467f-8df7-9027280bdea2`
+  - `positive-visual-color`
+    - `wireframe.value`: `positive-color-900` -> `positive-color-800`
+    - `wireframe.uuid`: `cb447264-e862-4880-b9a3-f23028c836ac` -> `96075e1a-6739-41c8-985b-af30b09be6c3`
+  - `gray-visual-color`
+    - `wireframe.uuid`: `25d6638d-5597-4307-9a90-5ea276ce68c7` -> `e8113995-d2ec-4089-a050-9b393eb9e403`
+  - `red-visual-color`
+    - `wireframe.value`: `red-900` -> `red-800`
+    - `wireframe.uuid`: `5fa19855-1c32-4fa7-9363-8edea0bad4e2` -> `834d0a71-9060-4ce0-8e25-8b062ef89b19`
+  - `orange-visual-color`
+    - `wireframe.value`: `orange-900` -> `orange-700`
+    - `wireframe.uuid`: `535ebae4-5308-4132-9ba7-2ead58c7af2d` -> `f76b6279-2d64-47fe-a531-1737a834b21a`
+  - `yellow-visual-color`
+    - `wireframe.value`: `yellow-900` -> `yellow-600`
+    - `wireframe.uuid`: `24e58c48-8597-40f1-96e0-90ae08910665` -> `c14eedf9-0f34-4a38-9b89-7c9b5f3e0af6`
+  - `chartreuse-visual-color`
+    - `wireframe.value`: `chartreuse-900` -> `chartreuse-600`
+    - `wireframe.uuid`: `cea3da59-71a3-4ac6-b475-877ea2444839` -> `a2cc3b6e-014f-4522-8d05-9e9d06464504`
+  - `celery-visual-color`
+    - `wireframe.value`: `celery-900` -> `celery-700`
+    - `wireframe.uuid`: `88890424-a280-473b-a529-027e7ac828ac` -> `d8adaaf1-b6a3-400a-853b-6ba5a5c873e7`
+  - `green-visual-color`
+    - `wireframe.value`: `green-900` -> `green-700`
+    - `wireframe.uuid`: `b2ca6377-9a7b-467f-8352-bda31fd4abbf` -> `4aba2da7-3eed-4a11-830c-58cc4f6bb6cb`
+  - `seafoam-visual-color`
+    - `wireframe.value`: `seafoam-900` -> `seafoam-700`
+    - `wireframe.uuid`: `7f641817-9a7d-4625-b534-3b7e38bb5eae` -> `15de4533-1a59-4a9f-899f-004a429471c7`
+  - `cyan-visual-color`
+    - `wireframe.value`: `cyan-900` -> `cyan-600`
+    - `wireframe.uuid`: `cf213ea9-796e-4263-8866-b16f66b95e97` -> `ad004c2f-8cab-45d5-8e22-921d3f0332ea`
+  - `blue-visual-color`
+    - `wireframe.value`: `blue-900` -> `blue-800`
+    - `wireframe.uuid`: `4d8f8afe-c348-459d-9006-bc60bd53df84` -> `0f058412-085d-4670-8cd5-964ed903a20a`
+  - `indigo-visual-color`
+    - `wireframe.value`: `indigo-900` -> `indigo-800`
+    - `wireframe.uuid`: `7c047042-0227-420d-b78f-193d4534b218` -> `056968e0-d29e-4b1c-a9b1-50853f6d159b`
+  - `purple-visual-color`
+    - `wireframe.value`: `purple-900` -> `purple-800`
+    - `wireframe.uuid`: `4b7780b2-d488-4446-88f8-cab0fd27bcd5` -> `ef836f5b-c6b9-4e6b-a671-e979dc53c407`
+  - `fuchsia-visual-color`
+    - `wireframe.value`: `fuchsia-900` -> `fuchsia-800`
+    - `wireframe.uuid`: `66316379-927a-4e47-a5dd-84eb0c82eba8` -> `656af4f3-a545-4445-9d2b-2c4a17ab46db`
+  - `magenta-visual-color`
+    - `wireframe.value`: `magenta-900` -> `magenta-800`
+    - `wireframe.uuid`: `4de213eb-5f57-45a2-bea7-5f1b402b81ff` -> `9bf3d052-42d1-454b-8ae6-ee0b40d9a9c8`
+  - `background-elevated-color`
+    - `wireframe.uuid`: `d9cb27b8-5535-4e3a-8ca5-6eda69b934af` -> `644ca621-9138-44e3-bdd7-123a9fccd9a6`
+  - `background-pasteboard-color`
+    - `wireframe.uuid`: `6a60aa01-d789-4d39-9867-2264e66d419c` -> `93e51c98-d83e-4dad-86b7-f060a80a601e`
+  - `brown-visual-color`
+    - `wireframe.uuid`: `986418d6-3e22-441d-ba7f-732ee47aad04` -> `349dc3c5-fd57-403c-bc42-2a60b8325bd3`
+  - `cinnamon-visual-color`
+    - `wireframe.uuid`: `0535836b-ff76-4619-8e53-20f400b9996c` -> `9022dc27-f9d9-4697-b808-ebe36d216f8b`
+  - `pink-visual-color`
+    - `wireframe.uuid`: `b2fc4b00-4b9e-4e57-9892-0b4a59df4868` -> `fcbf8451-ad82-4247-a867-a5d0034667b5`
+  - `silver-visual-color`
+    - `wireframe.uuid`: `dca6ce31-57d3-4bb9-8d6a-cc2c66a3a3f4` -> `7e749788-d92d-4ad5-b4d2-446e77c5a041`
+  - `turquoise-visual-color`
+    - `wireframe.uuid`: `47319d06-bec7-4520-893c-f4442b85cfd5` -> `bc700351-a33c-4164-9ba7-3f86733ebe54`
+  - `brown-background-color-default`
+    - `wireframe.uuid`: `5f0767be-3be9-4d10-a708-740565e1c457` -> `fbd8df06-a6c9-462b-ad25-a3f77016128e`
+  - `cinnamon-background-color-default`
+    - `wireframe.uuid`: `d2c78c57-304d-4d62-87b0-2adb4085552f` -> `8e940601-2401-46ff-a5fb-9137d12678b7`
+  - `pink-background-color-default`
+    - `wireframe.uuid`: `636ebb71-7386-4a6a-b0c3-5778dd993b22` -> `b60042cd-3ce7-4952-aeae-338d2b5fe98d`
+  - `silver-background-color-default`
+    - `wireframe.uuid`: `422a0b99-1222-4c78-ac55-615992ed607c` -> `e0bb7dad-7f1b-4b6e-b2fe-99f8b14f3240`
+  - `turquoise-background-color-default`
+    - `wireframe.uuid`: `73e40908-216f-406e-993f-287477753e65` -> `50eb3d20-ab84-4541-8807-551391016b54`
+  - `drop-shadow-color-100`
+    - `wireframe.uuid`: `8e496445-97fc-4ff6-96d4-81b0215b8ffe` -> `4110e60c-efd6-421d-9c5c-0356cfff8697`
+  - `drop-shadow-color-200`
+    - `wireframe.uuid`: `aa54be1b-bf30-42b7-91ec-09259bea0bd3` -> `6e379d86-d4cc-48d4-a8a4-8b4be9cfc912`
 
   </details>
 
@@ -1255,7 +1239,7 @@
 
 ### Minor Changes
 
-* [#482](https://github.com/adobe/spectrum-design-data/pull/482) [`5602504`](https://github.com/adobe/spectrum-design-data/commit/5602504f49313ff49f327ce1e4a31da8f4e9fedc) Thanks [@larz0](https://github.com/larz0) and [@PaliwalSparsh](https://github.com/PaliwalSparsh)! - Added tokens for S2 cards
+- [#482](https://github.com/adobe/spectrum-design-data/pull/482) [`5602504`](https://github.com/adobe/spectrum-design-data/commit/5602504f49313ff49f327ce1e4a31da8f4e9fedc) Thanks [@larz0](https://github.com/larz0) and [@PaliwalSparsh](https://github.com/PaliwalSparsh)! - Added tokens for S2 cards
 
   ## Design Motivation
 
@@ -1270,95 +1254,91 @@
   ***
 
   <details><summary>Added (61)</summary>
-
-  * `card-edge-to-content-compact-extra-small`
-  * `card-edge-to-content-default-extra-small`
-  * `card-edge-to-content-spacious-extra-small`
-  * `card-edge-to-content-compact-small`
-  * `card-edge-to-content-default-small`
-  * `card-edge-to-content-spacious-small`
-  * `card-edge-to-content-compact-medium`
-  * `card-edge-to-content-default-medium`
-  * `card-edge-to-content-spacious-medium`
-  * `card-edge-to-content-compact-large`
-  * `card-edge-to-content-default-large`
-  * `card-edge-to-content-spacious-large`
-  * `card-edge-to-content-compact-extra-large`
-  * `card-edge-to-content-default-extra-large`
-  * `card-edge-to-content-spacious-extra-large`
-  * `card-header-to-description`
-  * `card-description-to-footer`
-  * `card-selection-background-size-small`
-  * `card-selection-background-size-medium`
-  * `card-selection-background-size-large`
-  * `card-selection-background-size-extra-large`
-  * `card-minimum-width-extra-small`
-  * `card-minimum-width-small`
-  * `card-minimum-width-medium`
-  * `card-minimum-width-large`
-  * `card-minimum-width-extra-large`
-  * `card-default-width-extra-small`
-  * `card-default-width-small`
-  * `card-default-width-medium`
-  * `card-default-width-large`
-  * `card-default-width-extra-large`
-  * `card-maximum-width-extra-small`
-  * `card-maximum-width-small`
-  * `card-maximum-width-medium`
-  * `card-maximum-width-large`
-  * `card-maximum-width-extra-large`
-  * `card-minimum-height-extra-small`
-  * `card-minimum-height-small`
-  * `card-minimum-height-medium`
-  * `card-minimum-height-large`
-  * `card-minimum-height-extra-large`
-  * `collection-card-minimum-height-extra-small`
-  * `collection-card-minimum-height-small`
-  * `collection-card-minimum-height-medium`
-  * `collection-card-minimum-height-large`
-  * `collection-card-minimum-height-extra-large`
-  * `collection-card-minimum-height-hero-extra-small`
-  * `collection-card-minimum-height-hero-small`
-  * `collection-card-minimum-height-hero-medium`
-  * `collection-card-minimum-height-hero-large`
-  * `collection-card-minimum-height-hero-extra-large`
-  * `user-card-minimum-height-small`
-  * `user-card-minimum-height-medium`
-  * `user-card-minimum-height-large`
-  * `user-card-minimum-height-extra-large`
-  * `user-card-minimum-height-title-below-small`
-  * `user-card-minimum-height-title-below-medium`
-  * `user-card-minimum-height-title-below-large`
-  * `user-card-minimum-height-title-below-extra-large`
-  * `card-background-well-color`
-  * `card-background-loading-color`
+  - `card-edge-to-content-compact-extra-small`
+  - `card-edge-to-content-default-extra-small`
+  - `card-edge-to-content-spacious-extra-small`
+  - `card-edge-to-content-compact-small`
+  - `card-edge-to-content-default-small`
+  - `card-edge-to-content-spacious-small`
+  - `card-edge-to-content-compact-medium`
+  - `card-edge-to-content-default-medium`
+  - `card-edge-to-content-spacious-medium`
+  - `card-edge-to-content-compact-large`
+  - `card-edge-to-content-default-large`
+  - `card-edge-to-content-spacious-large`
+  - `card-edge-to-content-compact-extra-large`
+  - `card-edge-to-content-default-extra-large`
+  - `card-edge-to-content-spacious-extra-large`
+  - `card-header-to-description`
+  - `card-description-to-footer`
+  - `card-selection-background-size-small`
+  - `card-selection-background-size-medium`
+  - `card-selection-background-size-large`
+  - `card-selection-background-size-extra-large`
+  - `card-minimum-width-extra-small`
+  - `card-minimum-width-small`
+  - `card-minimum-width-medium`
+  - `card-minimum-width-large`
+  - `card-minimum-width-extra-large`
+  - `card-default-width-extra-small`
+  - `card-default-width-small`
+  - `card-default-width-medium`
+  - `card-default-width-large`
+  - `card-default-width-extra-large`
+  - `card-maximum-width-extra-small`
+  - `card-maximum-width-small`
+  - `card-maximum-width-medium`
+  - `card-maximum-width-large`
+  - `card-maximum-width-extra-large`
+  - `card-minimum-height-extra-small`
+  - `card-minimum-height-small`
+  - `card-minimum-height-medium`
+  - `card-minimum-height-large`
+  - `card-minimum-height-extra-large`
+  - `collection-card-minimum-height-extra-small`
+  - `collection-card-minimum-height-small`
+  - `collection-card-minimum-height-medium`
+  - `collection-card-minimum-height-large`
+  - `collection-card-minimum-height-extra-large`
+  - `collection-card-minimum-height-hero-extra-small`
+  - `collection-card-minimum-height-hero-small`
+  - `collection-card-minimum-height-hero-medium`
+  - `collection-card-minimum-height-hero-large`
+  - `collection-card-minimum-height-hero-extra-large`
+  - `user-card-minimum-height-small`
+  - `user-card-minimum-height-medium`
+  - `user-card-minimum-height-large`
+  - `user-card-minimum-height-extra-large`
+  - `user-card-minimum-height-title-below-small`
+  - `user-card-minimum-height-title-below-medium`
+  - `user-card-minimum-height-title-below-large`
+  - `user-card-minimum-height-title-below-extra-large`
+  - `card-background-well-color`
+  - `card-background-loading-color`
 
   </details>
 
   #### Updated (3)
 
   <details><summary>Added Properties (1)</summary>
-
-  * `card-selection-background-color`
-    * `light.schema`: `alias.json`
-    * `light.value`: `transparent-white-600`
-    * `light.uuid`: `622c6e86-dea6-416d-9f13-bb6ef112d3cb`
-    * `dark.schema`: `alias.json`
-    * `dark.value`: `transparent-black-600`
-    * `dark.uuid`: `81c0608b-c977-490e-b8d7-830d0676fdad`
+  - `card-selection-background-color`
+    - `light.schema`: `alias.json`
+    - `light.value`: `transparent-white-600`
+    - `light.uuid`: `622c6e86-dea6-416d-9f13-bb6ef112d3cb`
+    - `dark.schema`: `alias.json`
+    - `dark.value`: `transparent-black-600`
+    - `dark.uuid`: `81c0608b-c977-490e-b8d7-830d0676fdad`
 
   </details>
   <details><summary>Deleted Properties (1)</summary>
-
-  * `card-selection-background-color`
-    * `value`: `gray-100`
-    * `uuid`: `622c6e86-dea6-416d-9f13-bb6ef112d3cb`
+  - `card-selection-background-color`
+    - `value`: `gray-100`
+    - `uuid`: `622c6e86-dea6-416d-9f13-bb6ef112d3cb`
 
   </details>
   <details><summary>Updated Properties (1)</summary>
-
-  * `card-selection-background-color`
-    * `schema`: `alias.json` -> `color-set.json`
+  - `card-selection-background-color`
+    - `schema`: `alias.json` -> `color-set.json`
 
   </details>
 
@@ -8547,7 +8527,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#468](https://github.com/adobe/spectrum-design-data/pull/468) [`1b5b205`](https://github.com/adobe/spectrum-design-data/commit/1b5b20557d7c5d6c88209debe0d38b529679f039) Thanks [@larz0](https://github.com/larz0)! - Added static colors (for premium gradients) to light, dark, darkest, and wireframe themes.
+- [#468](https://github.com/adobe/spectrum-design-data/pull/468) [`1b5b205`](https://github.com/adobe/spectrum-design-data/commit/1b5b20557d7c5d6c88209debe0d38b529679f039) Thanks [@larz0](https://github.com/larz0)! - Added static colors (for premium gradients) to light, dark, darkest, and wireframe themes.
 
   ## Design Motivation
 
@@ -8555,24 +8535,23 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (10):*
-
-  * `static-blue-900`
-  * `static-blue-1000`
-  * `static-fuchsia-900`
-  * `static-fuchsia-1000`
-  * `static-indigo-900`
-  * `static-indigo-1000`
-  * `static-magenta-900`
-  * `static-magenta-1000`
-  * `static-red-900`
-  * `static-red-1000`
+  _Tokens added (10):_
+  - `static-blue-900`
+  - `static-blue-1000`
+  - `static-fuchsia-900`
+  - `static-fuchsia-1000`
+  - `static-indigo-900`
+  - `static-indigo-1000`
+  - `static-magenta-900`
+  - `static-magenta-1000`
+  - `static-red-900`
+  - `static-red-1000`
 
 ## 12.27.0
 
 ### Minor Changes
 
-* [#409](https://github.com/adobe/spectrum-design-data/pull/409) [`a61060a`](https://github.com/adobe/spectrum-design-data/commit/a61060a164a944907f236c8df7fcab31220cdd01) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Token changes for CJK typography improvements.
+- [#409](https://github.com/adobe/spectrum-design-data/pull/409) [`a61060a`](https://github.com/adobe/spectrum-design-data/commit/a61060a164a944907f236c8df7fcab31220cdd01) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Token changes for CJK typography improvements.
 
   Updated S1 tokens - typography, foundations
 
@@ -8582,550 +8561,535 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (13):*
+  _Tokens added (13):_
+  - `body-cjk-size-l`
+  - `body-cjk-size-m`
+  - `body-cjk-size-s`
+  - `body-cjk-size-xl`
+  - `body-cjk-size-xs`
+  - `body-cjk-size-xxl`
+  - `body-cjk-size-xxxl`
+  - `detail-cjk-size-l`
+  - `detail-cjk-size-m`
+  - `detail-cjk-size-s`
+  - `detail-cjk-size-xl`
+  - `font-size-25`
+  - `letter-spacing`
 
-  * `body-cjk-size-l`
-  * `body-cjk-size-m`
-  * `body-cjk-size-s`
-  * `body-cjk-size-xl`
-  * `body-cjk-size-xs`
-  * `body-cjk-size-xxl`
-  * `body-cjk-size-xxxl`
-  * `detail-cjk-size-l`
-  * `detail-cjk-size-m`
-  * `detail-cjk-size-s`
-  * `detail-cjk-size-xl`
-  * `font-size-25`
-  * `letter-spacing`
-
-  *Token values updated (14):*
-
-  * `body-cjk-strong-emphasized-font-weight`
-  * `body-cjk-strong-font-weight`
-  * `cjk-letter-spacing`
-  * `detail-cjk-emphasized-font-weight`
-  * `detail-cjk-strong-emphasized-font-weight`
-  * `detail-cjk-strong-font-weight`
-  * `drop-zone-cjk-title-size`
-  * `heading-cjk-heavy-font-weight`
-  * `heading-cjk-size-s`
-  * `heading-cjk-size-xs`
-  * `heading-cjk-size-xxl`
-  * `heading-cjk-size-xxs`
-  * `heading-cjk-size-xxxl`
-  * `illustrated-message-cjk-title-size`
+  _Token values updated (14):_
+  - `body-cjk-strong-emphasized-font-weight`
+  - `body-cjk-strong-font-weight`
+  - `cjk-letter-spacing`
+  - `detail-cjk-emphasized-font-weight`
+  - `detail-cjk-strong-emphasized-font-weight`
+  - `detail-cjk-strong-font-weight`
+  - `drop-zone-cjk-title-size`
+  - `heading-cjk-heavy-font-weight`
+  - `heading-cjk-size-s`
+  - `heading-cjk-size-xs`
+  - `heading-cjk-size-xxl`
+  - `heading-cjk-size-xxs`
+  - `heading-cjk-size-xxxl`
+  - `illustrated-message-cjk-title-size`
 
 ## 12.26.0
 
 ### Minor Changes
 
-* [#345](https://github.com/adobe/spectrum-design-data/pull/345) [`fe4c707`](https://github.com/adobe/spectrum-design-data/commit/fe4c707c5ae2cc89efe6439dc775cddc94b706b3) Thanks [@GarthDB](https://github.com/GarthDB)! - Added UUIDs to the base of set tokens.
+- [#345](https://github.com/adobe/spectrum-design-data/pull/345) [`fe4c707`](https://github.com/adobe/spectrum-design-data/commit/fe4c707c5ae2cc89efe6439dc775cddc94b706b3) Thanks [@GarthDB](https://github.com/GarthDB)! - Added UUIDs to the base of set tokens.
 
 ## 12.25.0
 
 ### Minor Changes
 
-* [`413ef5a`](https://github.com/adobe/spectrum-design-data/commit/413ef5adad9083b7e133cc867e0436a879004ec8) Thanks [@GarthDB](https://github.com/GarthDB)! - Added `private` metadata to global tokens.
+- [`413ef5a`](https://github.com/adobe/spectrum-design-data/commit/413ef5adad9083b7e133cc867e0436a879004ec8) Thanks [@GarthDB](https://github.com/GarthDB)! - Added `private` metadata to global tokens.
 
 ## 12.24.1
 
 ### Patch Changes
 
-* [#444](https://github.com/adobe/spectrum-design-data/pull/444) [`51904cd`](https://github.com/adobe/spectrum-design-data/commit/51904cdabfcb165a560c58664c8bc75be601f28b) Thanks [@marissahuysentruyt](https://github.com/marissahuysentruyt)! - fixing a typo with takeover-dialog-height
+- [#444](https://github.com/adobe/spectrum-design-data/pull/444) [`51904cd`](https://github.com/adobe/spectrum-design-data/commit/51904cdabfcb165a560c58664c8bc75be601f28b) Thanks [@marissahuysentruyt](https://github.com/marissahuysentruyt)! - fixing a typo with takeover-dialog-height
 
   ## Token Diff
 
   **Updated Token (1):**
-
-  * `takeover-dialog-height`: `1.00%` -> `100%`
+  - `takeover-dialog-height`: `1.00%` -> `100%`
 
 ## 13.0.0-beta.51
 
 ### Patch Changes
 
-* [#441](https://github.com/adobe/spectrum-design-data/pull/441) [`89949e4`](https://github.com/adobe/spectrum-design-data/commit/89949e4d0008baacec05359a83620fa45e35cf5e) Thanks [@GarthDB](https://github.com/GarthDB)! - Change takeover dialog dimensions to use percentages which were previously converted to ems by mistake.
+- [#441](https://github.com/adobe/spectrum-design-data/pull/441) [`89949e4`](https://github.com/adobe/spectrum-design-data/commit/89949e4d0008baacec05359a83620fa45e35cf5e) Thanks [@GarthDB](https://github.com/GarthDB)! - Change takeover dialog dimensions to use percentages which were previously converted to ems by mistake.
 
   ## Token Diff
 
   **Updated Tokens (2):**
-
-  * `takeover-dialog-height`: `1.00em` -> `1.00%`
-  * `takeover-dialog-width`: `1.00em` -> `100%`
+  - `takeover-dialog-height`: `1.00em` -> `1.00%`
+  - `takeover-dialog-width`: `1.00em` -> `100%`
 
 ## 13.0.0-beta.50
 
 ### Minor Changes
 
-* [#425](https://github.com/adobe/spectrum-design-data/pull/425) [`91f4536`](https://github.com/adobe/spectrum-design-data/commit/91f4536a416cf6c9e5b0b423bf3ead3233e808fc) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Adding S2 tokens for number field and takeover dialog components.
+- [#425](https://github.com/adobe/spectrum-design-data/pull/425) [`91f4536`](https://github.com/adobe/spectrum-design-data/commit/91f4536a416cf6c9e5b0b423bf3ead3233e808fc) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Adding S2 tokens for number field and takeover dialog components.
 
   ## Token Diff
 
-  *Tokens added (16):*
-
-  * `in-field-stepper-to-end-extra-large`
-  * `in-field-stepper-to-end-large`
-  * `in-field-stepper-to-end-medium`
-  * `in-field-stepper-to-end-small`
-  * `number-field-minimum-width-multiplier`
-  * `number-field-visual-to-in-field-stepper-extra-large`
-  * `number-field-visual-to-in-field-stepper-large`
-  * `number-field-visual-to-in-field-stepper-medium`
-  * `number-field-visual-to-in-field-stepper-small`
-  * `number-field-with-stepper-minimum-width-extra-large`
-  * `number-field-with-stepper-minimum-width-large`
-  * `number-field-with-stepper-minimum-width-medium`
-  * `number-field-with-stepper-minimum-width-small`
-  * `takeover-dialog-height`
-  * `takeover-dialog-width`
-  * `window-to-edge`
+  _Tokens added (16):_
+  - `in-field-stepper-to-end-extra-large`
+  - `in-field-stepper-to-end-large`
+  - `in-field-stepper-to-end-medium`
+  - `in-field-stepper-to-end-small`
+  - `number-field-minimum-width-multiplier`
+  - `number-field-visual-to-in-field-stepper-extra-large`
+  - `number-field-visual-to-in-field-stepper-large`
+  - `number-field-visual-to-in-field-stepper-medium`
+  - `number-field-visual-to-in-field-stepper-small`
+  - `number-field-with-stepper-minimum-width-extra-large`
+  - `number-field-with-stepper-minimum-width-large`
+  - `number-field-with-stepper-minimum-width-medium`
+  - `number-field-with-stepper-minimum-width-small`
+  - `takeover-dialog-height`
+  - `takeover-dialog-width`
+  - `window-to-edge`
 
 ## 13.0.0-beta.49
 
 ### Minor Changes
 
-* [#418](https://github.com/adobe/spectrum-design-data/pull/418) [`45ed87b`](https://github.com/adobe/spectrum-design-data/commit/45ed87b43af53370f74fc46c545b4c13005f381c) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## Design Motivation
+- [#418](https://github.com/adobe/spectrum-design-data/pull/418) [`45ed87b`](https://github.com/adobe/spectrum-design-data/commit/45ed87b43af53370f74fc46c545b4c13005f381c) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## Design Motivation
 
   Made the following changes to component typography tokens for both mobile and desktop.
 
   ## Token Diff
 
-  *Tokens added (2):*
+  _Tokens added (2):_
+  - `heading-cjk-size-xxxxl`
+  - `heading-size-xxxxl`
 
-  * `heading-cjk-size-xxxxl`
-  * `heading-size-xxxxl`
+  _Tokens changed (7):_
+  - `heading-sans-serif-font-weight`: `bold-font-weight` -> `extra-bold-font-weight`
+  - `heading-cjk-heavy-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
+  - `heading-sans-serif-emphasized-font-weight`: `bold-font-weight` -> `extra-bold-font-weight`
+  - `heading-size-s`: `font-size-300` -> `font-size-400`
+  - `heading-size-xs`: `font-size-200` -> `font-size-300`
+  - `heading-cjk-size-xxxl`: `font-size-1300` -> `font-size-1200`
+  - `heading-cjk-size-xxl`: `font-size-900` -> `font-size-1000`
 
-  *Tokens changed (7):*
+- [#422](https://github.com/adobe/spectrum-design-data/pull/422) [`4673d13`](https://github.com/adobe/spectrum-design-data/commit/4673d1383602d81484ae346dd278a28a26f5d91b) Thanks [@GarthDB](https://github.com/GarthDB)! - Added tokens for s2 detail typography
 
-  * `heading-sans-serif-font-weight`: `bold-font-weight` -> `extra-bold-font-weight`
-  * `heading-cjk-heavy-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
-  * `heading-sans-serif-emphasized-font-weight`: `bold-font-weight` -> `extra-bold-font-weight`
-  * `heading-size-s`: `font-size-300` -> `font-size-400`
-  * `heading-size-xs`: `font-size-200` -> `font-size-300`
-  * `heading-cjk-size-xxxl`: `font-size-1300` -> `font-size-1200`
-  * `heading-cjk-size-xxl`: `font-size-900` -> `font-size-1000`
+  _New tokens (6)_
+  - `detail-cjk-size-xs`
+  - `detail-cjk-size-s`
+  - `detail-cjk-size-m`
+  - `detail-cjk-size-l`
+  - `detail-cjk-size-xl`
+  - `detail-size-xs`
 
-* [#422](https://github.com/adobe/spectrum-design-data/pull/422) [`4673d13`](https://github.com/adobe/spectrum-design-data/commit/4673d1383602d81484ae346dd278a28a26f5d91b) Thanks [@GarthDB](https://github.com/GarthDB)! - Added tokens for s2 detail typography
-
-  *New tokens (6)*
-
-  * `detail-cjk-size-xs`
-  * `detail-cjk-size-s`
-  * `detail-cjk-size-m`
-  * `detail-cjk-size-l`
-  * `detail-cjk-size-xl`
-  * `detail-size-xs`
-
-  *Updated token values (13)*
-
-  * `detail-sans-serif-font-weight`: `bold-font-weight` -> `medium-font-weight`
-  * `detail-serif-font-weight`: `bold-font-weight` -> `medium-font-weight`
-  * `detail-cjk-font-weight`: `extra-bold-font-weight` -> `bold-font-weight`
-  * `detail-cjk-strong-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
-  * `detail-sans-serif-emphasized-font-weight`: `bold-font-weight` -> `regular-font-weight`
-  * `detail-serif-emphasized-font-weight`: `bold-font-weight` -> `medium-font-weight`
-  * `detail-cjk-emphasized-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
-  * `detail-cjk-strong-emphasized-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
-  * `detail-size-xl`: `font-size-200` -> `font-size-300`
-  * `detail-size-l`: `font-size-100` -> `font-size-200`
-  * `detail-size-m`: `font-size-75` -> `font-size-100`
-  * `detail-size-s`: `font-size-50` -> `font-size-75`
-  * `detail-color`: `gray-900` -> `gray-600`
+  _Updated token values (13)_
+  - `detail-sans-serif-font-weight`: `bold-font-weight` -> `medium-font-weight`
+  - `detail-serif-font-weight`: `bold-font-weight` -> `medium-font-weight`
+  - `detail-cjk-font-weight`: `extra-bold-font-weight` -> `bold-font-weight`
+  - `detail-cjk-strong-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
+  - `detail-sans-serif-emphasized-font-weight`: `bold-font-weight` -> `regular-font-weight`
+  - `detail-serif-emphasized-font-weight`: `bold-font-weight` -> `medium-font-weight`
+  - `detail-cjk-emphasized-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
+  - `detail-cjk-strong-emphasized-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
+  - `detail-size-xl`: `font-size-200` -> `font-size-300`
+  - `detail-size-l`: `font-size-100` -> `font-size-200`
+  - `detail-size-m`: `font-size-75` -> `font-size-100`
+  - `detail-size-s`: `font-size-50` -> `font-size-75`
+  - `detail-color`: `gray-900` -> `gray-600`
 
 ## 13.0.0-beta.48
 
 ### Minor Changes
 
-* [#415](https://github.com/adobe/spectrum-design-data/pull/415) [`caca973`](https://github.com/adobe/spectrum-design-data/commit/caca973300d34fc688fb828633b1da2ba8284990) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - 1. New typography tokens:
-
-  * Letter spacing, text-align, cjk
-
+- [#415](https://github.com/adobe/spectrum-design-data/pull/415) [`caca973`](https://github.com/adobe/spectrum-design-data/commit/caca973300d34fc688fb828633b1da2ba8284990) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - 1. New typography tokens:
+  - Letter spacing, text-align, cjk
   1. New gradient stop tokens
   2. New component tokens for bar panel, rating, segmented control, slider, select box
   3. New static color tokens
 
-  *Tokens added (51):*
+  _Tokens added (51):_
+  - `letter-spacing`
+  - `text-align-start`
+  - `text-align-center`
+  - `text-align-end`
+  - `body-size-xxs`
+  - `body-cjk-size-xxxl`
+  - `body-cjk-size-xxl`
+  - `body-cjk-size-xl`
+  - `body-cjk-size-l`
+  - `body-cjk-size-m`
+  - `body-cjk-size-s`
+  - `body-cjk-size-xs`
+  - `body-cjk-size-xxs`
+  - `gradient-stop-1-genai`
+  - `gradient-stop-2-genai`
+  - `gradient-stop-3-genai`
+  - `gradient-stop-1-premium`
+  - `gradient-stop-2-premium`
+  - `gradient-stop-3-premium`
+  - `bar-panel-width`
+  - `bar-panel-minimum-width`
+  - `bar-panel-maximum-width`
+  - `bar-panel-spacing-extra-spacious`
+  - `rating-top-to-content-area-small`
+  - `rating-bottom-to-content-area-small`
+  - `rating-edge-to-content-area-small`
+  - `rating-top-to-content-area-medium`
+  - `rating-bottom-to-content-area-medium`
+  - `rating-edge-to-content-area-medium`
+  - `rating-width-small`
+  - `rating-height-small`
+  - `rating-width-medium`
+  - `rating-height-medium`
+  - `segmented-control-selection-border-width`
+  - `slider-handle-precision-width`
+  - `slider-track-height-medium`
+  - `slider-track-height-large`
+  - `segmented-control-item-height`
+  - `static-blue-900`
+  - `static-blue-1000`
+  - `static-fuchsia-900`
+  - `static-fuchsia-1000`
+  - `static-indigo-900`
+  - `static-indigo-1000`
+  - `static-magenta-900`
+  - `static-magenta-1000`
+  - `static-red-900`
+  - `static-red-1000`
+  - `bar-panel-gripper-color`
+  - `bar-panel-gripper-color-drag`
+  - `select-box-selected-border-color`
 
-  * `letter-spacing`
-  * `text-align-start`
-  * `text-align-center`
-  * `text-align-end`
-  * `body-size-xxs`
-  * `body-cjk-size-xxxl`
-  * `body-cjk-size-xxl`
-  * `body-cjk-size-xl`
-  * `body-cjk-size-l`
-  * `body-cjk-size-m`
-  * `body-cjk-size-s`
-  * `body-cjk-size-xs`
-  * `body-cjk-size-xxs`
-  * `gradient-stop-1-genai`
-  * `gradient-stop-2-genai`
-  * `gradient-stop-3-genai`
-  * `gradient-stop-1-premium`
-  * `gradient-stop-2-premium`
-  * `gradient-stop-3-premium`
-  * `bar-panel-width`
-  * `bar-panel-minimum-width`
-  * `bar-panel-maximum-width`
-  * `bar-panel-spacing-extra-spacious`
-  * `rating-top-to-content-area-small`
-  * `rating-bottom-to-content-area-small`
-  * `rating-edge-to-content-area-small`
-  * `rating-top-to-content-area-medium`
-  * `rating-bottom-to-content-area-medium`
-  * `rating-edge-to-content-area-medium`
-  * `rating-width-small`
-  * `rating-height-small`
-  * `rating-width-medium`
-  * `rating-height-medium`
-  * `segmented-control-selection-border-width`
-  * `slider-handle-precision-width`
-  * `slider-track-height-medium`
-  * `slider-track-height-large`
-  * `segmented-control-item-height`
-  * `static-blue-900`
-  * `static-blue-1000`
-  * `static-fuchsia-900`
-  * `static-fuchsia-1000`
-  * `static-indigo-900`
-  * `static-indigo-1000`
-  * `static-magenta-900`
-  * `static-magenta-1000`
-  * `static-red-900`
-  * `static-red-1000`
-  * `bar-panel-gripper-color`
-  * `bar-panel-gripper-color-drag`
-  * `select-box-selected-border-color`
-
-  *Token values updated (9):*
-
-  * `font-size-1200`
-    * `desktop`: `50px` -> `51px`
-  * `font-size-1300`
-    * `desktop`: `60px` -> `58px`
-  * `cjk-letter-spacing`: `0.05em` -> `letter-spacing`
-  * `body-cjk-strong-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
-  * `body-cjk-strong-emphasized-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
-  * `slider-control-to-field-label-small`
-    * `desktop`: `5px` -> `-4px`
-    * `mobile`: `6px` -> `-8px`
-  * `slider-control-to-field-label-medium`
-    * `desktop`: `8px` -> `-12px`
-    * `mobile`: `10px` -> `-16px`
-  * `slider-control-to-field-label-large`
-    * `desktop`: `11px` -> `-16px`
-    * `mobile`: `14px` -> `-20px`
-  * `slider-control-to-field-label-extra-large`
-    * `desktop`: `14px` -> `-20px`
-    * `mobile`: `17px` -> `-28px`
+  _Token values updated (9):_
+  - `font-size-1200`
+    - `desktop`: `50px` -> `51px`
+  - `font-size-1300`
+    - `desktop`: `60px` -> `58px`
+  - `cjk-letter-spacing`: `0.05em` -> `letter-spacing`
+  - `body-cjk-strong-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
+  - `body-cjk-strong-emphasized-font-weight`: `black-font-weight` -> `extra-bold-font-weight`
+  - `slider-control-to-field-label-small`
+    - `desktop`: `5px` -> `-4px`
+    - `mobile`: `6px` -> `-8px`
+  - `slider-control-to-field-label-medium`
+    - `desktop`: `8px` -> `-12px`
+    - `mobile`: `10px` -> `-16px`
+  - `slider-control-to-field-label-large`
+    - `desktop`: `11px` -> `-16px`
+    - `mobile`: `14px` -> `-20px`
+  - `slider-control-to-field-label-extra-large`
+    - `desktop`: `14px` -> `-20px`
+    - `mobile`: `17px` -> `-28px`
 
 ## 13.0.0-beta.47
 
 ### Minor Changes
 
-* [`75a573b`](https://github.com/adobe/spectrum-design-data/commit/75a573bcbb7b71ecdf5f246682755de24dae5afc) Thanks [@GarthDB](https://github.com/GarthDB)! - S2 subtle and visual colors update
+- [`75a573b`](https://github.com/adobe/spectrum-design-data/commit/75a573bcbb7b71ecdf5f246682755de24dae5afc) Thanks [@GarthDB](https://github.com/GarthDB)! - S2 subtle and visual colors update
   Updated S2 Table tokens
 
   <details><summary>Tokens added (42):</summary>
-
-  * `illustrated-message-maximum-width`
-  * `side-focus-indicator`
-  * `table-row-bottom-to-text-extra-large`
-  * `table-row-bottom-to-text-extra-large-regular`
-  * `table-row-bottom-to-text-large`
-  * `table-row-bottom-to-text-large-regular`
-  * `table-row-bottom-to-text-medium`
-  * `table-row-bottom-to-text-medium-regular`
-  * `table-row-bottom-to-text-small`
-  * `table-row-bottom-to-text-small-regular`
-  * `table-row-checkbox-to-top-extra-large`
-  * `table-row-checkbox-to-top-extra-large-regular`
-  * `table-row-checkbox-to-top-large`
-  * `table-row-checkbox-to-top-large-regular`
-  * `table-row-checkbox-to-top-medium`
-  * `table-row-checkbox-to-top-medium-regular`
-  * `table-row-checkbox-to-top-small`
-  * `table-row-checkbox-to-top-small-regular`
-  * `table-row-height-extra-large`
-  * `table-row-height-extra-large-regular`
-  * `table-row-height-large`
-  * `table-row-height-large-regular`
-  * `table-row-height-medium`
-  * `table-row-height-medium-regular`
-  * `table-row-height-small`
-  * `table-row-height-small-regular`
-  * `table-row-top-to-text-extra-large`
-  * `table-row-top-to-text-extra-large-regular`
-  * `table-row-top-to-text-large`
-  * `table-row-top-to-text-large-regular`
-  * `table-row-top-to-text-medium`
-  * `table-row-top-to-text-medium-regular`
-  * `table-row-top-to-text-small`
-  * `table-row-top-to-text-small-regular`
-  * `table-thumbnail-to-top-minimum-extra-large`
-  * `table-thumbnail-to-top-minimum-extra-large-regular`
-  * `table-thumbnail-to-top-minimum-large`
-  * `table-thumbnail-to-top-minimum-large-regular`
-  * `table-thumbnail-to-top-minimum-medium`
-  * `table-thumbnail-to-top-minimum-medium-regular`
-  * `table-thumbnail-to-top-minimum-small`
-  * `table-thumbnail-to-top-minimum-small-regular`
+  - `illustrated-message-maximum-width`
+  - `side-focus-indicator`
+  - `table-row-bottom-to-text-extra-large`
+  - `table-row-bottom-to-text-extra-large-regular`
+  - `table-row-bottom-to-text-large`
+  - `table-row-bottom-to-text-large-regular`
+  - `table-row-bottom-to-text-medium`
+  - `table-row-bottom-to-text-medium-regular`
+  - `table-row-bottom-to-text-small`
+  - `table-row-bottom-to-text-small-regular`
+  - `table-row-checkbox-to-top-extra-large`
+  - `table-row-checkbox-to-top-extra-large-regular`
+  - `table-row-checkbox-to-top-large`
+  - `table-row-checkbox-to-top-large-regular`
+  - `table-row-checkbox-to-top-medium`
+  - `table-row-checkbox-to-top-medium-regular`
+  - `table-row-checkbox-to-top-small`
+  - `table-row-checkbox-to-top-small-regular`
+  - `table-row-height-extra-large`
+  - `table-row-height-extra-large-regular`
+  - `table-row-height-large`
+  - `table-row-height-large-regular`
+  - `table-row-height-medium`
+  - `table-row-height-medium-regular`
+  - `table-row-height-small`
+  - `table-row-height-small-regular`
+  - `table-row-top-to-text-extra-large`
+  - `table-row-top-to-text-extra-large-regular`
+  - `table-row-top-to-text-large`
+  - `table-row-top-to-text-large-regular`
+  - `table-row-top-to-text-medium`
+  - `table-row-top-to-text-medium-regular`
+  - `table-row-top-to-text-small`
+  - `table-row-top-to-text-small-regular`
+  - `table-thumbnail-to-top-minimum-extra-large`
+  - `table-thumbnail-to-top-minimum-extra-large-regular`
+  - `table-thumbnail-to-top-minimum-large`
+  - `table-thumbnail-to-top-minimum-large-regular`
+  - `table-thumbnail-to-top-minimum-medium`
+  - `table-thumbnail-to-top-minimum-medium-regular`
+  - `table-thumbnail-to-top-minimum-small`
+  - `table-thumbnail-to-top-minimum-small-regular`
 
   </details>
 
   <details><summary>Tokens updated (101):</summary>
-
-  * `informative-subtle-background-color-default`
-    * light: `blue-200` -> `informative-color-200`
-    * dark: `blue-200` -> `informative-color-300`
-  * `positive-subtle-background-color-default`
-    * light: `green-200` -> `positive-color-200`
-    * dark: `green-200` -> `positive-color-300`
-  * `notice-subtle-background-color-default`
-    * light: `orange-200` -> `notice-color-200`
-    * dark: `orange-200` -> `notice-color-300`
-  * `negative-subtle-background-color-default`
-    * light: `red-200` -> `negative-color-200`
-    * dark: `red-200` -> `negative-color-300`
-  * `table-column-header-row-top-to-text-medium`
-    * desktop: `7px` -> `6px`
-  * `table-row-height-small-regular`
-    * desktop: `32px` -> `table-row-height-small`
-    * mobile: `40px` -> `table-row-height-small`
-  * `table-row-height-medium-regular`
-    * desktop: `40px` -> `table-row-height-medium`
-    * mobile: `50px` -> `table-row-height-medium`
-  * `table-row-height-large-regular`
-    * desktop: `48px` -> `table-row-height-large`
-    * mobile: `60px` -> `table-row-height-large`
-  * `table-row-height-extra-large-regular`
-    * desktop: `56px` -> `table-row-height-extra-large`
-    * mobile: `70px` -> `table-row-height-extra-large`
-  * `table-row-top-to-text-small-regular`
-    * desktop: `8px` -> `table-row-top-to-text-small`
-    * mobile: `10px` -> `table-row-top-to-text-small`
-  * `table-row-top-to-text-medium-regular`
-    * desktop: `11px` -> `table-row-top-to-text-medium`
-    * mobile: `14px` -> `table-row-top-to-text-medium`
-  * `table-row-top-to-text-large-regular`
-    * desktop: `14px` -> `table-row-top-to-text-large`
-    * mobile: `18px` -> `table-row-top-to-text-large`
-  * `table-row-top-to-text-extra-large-regular`
-    * desktop: `17px` -> `table-row-top-to-text-extra-large`
-    * mobile: `21px` -> `table-row-top-to-text-extra-large`
-  * `table-row-bottom-to-text-small-regular`
-    * desktop: `9px` -> `table-row-bottom-to-text-small`
-    * mobile: `11px` -> `table-row-bottom-to-text-small`
-  * `table-row-bottom-to-text-medium-regular`
-    * desktop: `12px` -> `table-row-bottom-to-text-medium`
-    * mobile: `15px` -> `table-row-bottom-to-text-medium`
-  * `table-row-bottom-to-text-large-regular`
-    * desktop: `14px` -> `table-row-bottom-to-text-large`
-    * mobile: `18px` -> `table-row-bottom-to-text-large`
-  * `table-row-bottom-to-text-extra-large-regular`
-    * desktop: `17px` -> `table-row-bottom-to-text-extra-large`
-    * mobile: `22px` -> `table-row-bottom-to-text-extra-large`
-  * `table-row-top-to-text-medium-spacious`
-    * mobile: `18px` -> `16px`
-  * `table-header-row-checkbox-to-top-medium`
-    * desktop: `9px` -> `8px`
-    * mobile: `13px` -> `11px`
-  * `table-row-checkbox-to-top-small-regular`
-    * desktop: `10px` -> `table-row-checkbox-to-top-small`
-    * mobile: `14px` -> `table-row-checkbox-to-top-small`
-  * `table-row-checkbox-to-top-medium-compact`
-    * desktop: `9px` -> `8px`
-    * mobile: `13px` -> `11px`
-  * `table-row-checkbox-to-top-medium-regular`
-    * desktop: `13px` -> `table-row-checkbox-to-top-medium`
-    * mobile: `18px` -> `table-row-checkbox-to-top-medium`
-  * `table-row-checkbox-to-top-medium-spacious`
-    * desktop: `17px` -> `16px`
-    * mobile: `23px` -> `21px`
-  * `table-row-checkbox-to-top-large-regular`
-    * desktop: `16px` -> `table-row-checkbox-to-top-large`
-    * mobile: `22px` -> `table-row-checkbox-to-top-large`
-  * `table-row-checkbox-to-top-extra-large-regular`
-    * desktop: `19px` -> `table-row-checkbox-to-top-extra-large`
-    * mobile: `26px` -> `table-row-checkbox-to-top-extra-large`
-  * `table-thumbnail-to-top-minimum-small-regular`
-    * desktop: `5px` -> `table-thumbnail-to-top-minimum-small`
-    * mobile: `6px` -> `table-thumbnail-to-top-minimum-small`
-  * `table-thumbnail-to-top-minimum-medium-regular`
-    * desktop: `7px` -> `table-thumbnail-to-top-minimum-medium`
-    * mobile: `9px` -> `table-thumbnail-to-top-minimum-medium`
-  * `table-thumbnail-to-top-minimum-large-regular`
-    * desktop: `8px` -> `table-thumbnail-to-top-minimum-large`
-    * mobile: `10px` -> `table-thumbnail-to-top-minimum-large`
-  * `table-thumbnail-to-top-minimum-extra-large-regular`
-    * desktop: `8px` -> `table-thumbnail-to-top-minimum-extra-large`
-    * mobile: `10px` -> `table-thumbnail-to-top-minimum-extra-large`
-  * `blue-800`
-    * dark: `rgb(69, 110, 254)` -> `rgb(64, 105, 253)`
-  * `red-800`
-    * dark: `rgb(230, 54, 35)` -> `rgb(223, 52, 34)`
-  * `orange-800`
-    * dark: `rgb(205, 86, 0)` -> `rgb(199, 82, 0)`
-  * `yellow-800`
-    * dark: `rgb(169, 110, 0)` -> `rgb(164, 106, 0)`
-  * `chartreuse-800`
-    * dark: `rgb(109, 131, 0)` -> `rgb(106, 127, 0)`
-  * `celery-800`
-    * dark: `rgb(69, 138, 19)` -> `rgb(66, 134, 18)`
-  * `green-800`
-    * dark: `rgb(6, 140, 82)` -> `rgb(6, 136, 80)`
-  * `seafoam-800`
-    * dark: `rgb(8, 138, 116)` -> `rgb(8, 134, 112)`
-  * `cyan-800`
-    * dark: `rgb(15, 128, 194)` -> `rgb(13, 125, 186)`
-  * `indigo-800`
-    * dark: `rgb(119, 97, 252)` -> `rgb(116, 91, 252)`
-  * `purple-800`
-    * dark: `rgb(161, 84, 229)` -> `rgb(157, 78, 228)`
-  * `fuchsia-800`
-    * dark: `rgb(192, 64, 212)` -> `rgb(186, 60, 206)`
-  * `magenta-800`
-    * dark: `rgb(231, 41, 105)` -> `rgb(224, 38, 101)`
-  * `pink-800`
-    * dark: `rgb(220, 47, 156)` -> `rgb(213, 45, 151)`
-  * `turquoise-800`
-    * dark: `rgb(9, 135, 147)` -> `rgb(9, 131, 142)`
-  * `brown-800`
-    * dark: `rgb(148, 118, 73)` -> `rgb(143, 114, 69)`
-  * `silver-800`
-    * dark: `rgb(123, 123, 123)` -> `rgb(118, 118, 118)`
-  * `cinnamon-800`
-    * dark: `rgb(179, 103, 64)` -> `rgb(176, 98, 59)`
-  * `accent-background-color-default`
-    * dark: `accent-color-700` -> `accent-color-800`
-  * `accent-background-color-hover`
-    * dark: `accent-color-600` -> `accent-color-700`
-  * `accent-background-color-down`
-    * dark: `accent-color-600` -> `accent-color-700`
-  * `accent-background-color-key-focus`
-    * dark: `accent-color-600` -> `accent-color-700`
-  * `informative-background-color-default`
-    * dark: `informative-color-700` -> `informative-color-800`
-  * `informative-background-color-hover`
-    * dark: `informative-color-600` -> `informative-color-700`
-  * `informative-background-color-down`
-    * dark: `informative-color-600` -> `informative-color-700`
-  * `informative-background-color-key-focus`
-    * dark: `informative-color-600` -> `informative-color-700`
-  * `negative-background-color-default`
-    * dark: `negative-color-700` -> `negative-color-800`
-  * `negative-background-color-hover`
-    * dark: `negative-color-600` -> `negative-color-700`
-  * `negative-background-color-down`
-    * dark: `negative-color-600` -> `negative-color-700`
-  * `negative-background-color-key-focus`
-    * dark: `negative-color-600` -> `negative-color-700`
-  * `positive-background-color-default`
-    * dark: `positive-color-700` -> `positive-color-800`
-  * `positive-background-color-hover`
-    * dark: `positive-color-600` -> `positive-color-700`
-  * `positive-background-color-down`
-    * dark: `positive-color-600` -> `positive-color-700`
-  * `positive-background-color-key-focus`
-    * dark: `positive-color-600` -> `positive-color-700`
-  * `red-background-color-default`
-    * dark: `red-700` -> `red-800`
-  * `green-background-color-default`
-    * dark: `green-700` -> `green-800`
-  * `seafoam-background-color-default`
-    * dark: `seafoam-700` -> `seafoam-800`
-  * `cyan-background-color-default`
-    * dark: `cyan-700` -> `cyan-800`
-  * `blue-background-color-default`
-    * dark: `blue-700` -> `blue-800`
-  * `indigo-background-color-default`
-    * dark: `indigo-700` -> `indigo-800`
-  * `purple-background-color-default`
-    * dark: `purple-700` -> `purple-800`
-  * `fuchsia-background-color-default`
-    * dark: `fuchsia-700` -> `fuchsia-800`
-  * `magenta-background-color-default`
-    * dark: `magenta-700` -> `magenta-800`
-  * `negative-visual-color`
-    * dark: `negative-color-700` -> `negative-color-900`
-  * `notice-visual-color`
-    * light: `notice-color-700` -> `notice-color-800`
-  * `positive-visual-color`
-    * light: `positive-color-700` -> `positive-color-800`
-    * dark: `positive-color-800` -> `positive-color-900`
-  * `brown-background-color-default`
-    * dark: `brown-700` -> `brown-800`
-  * `cinnamon-background-color-default`
-    * dark: `cinnamon-700` -> `cinnamon-800`
-  * `pink-background-color-default`
-    * dark: `pink-700` -> `pink-800`
-  * `silver-background-color-default`
-    * dark: `silver-700` -> `silver-800`
-  * `turquoise-background-color-default`
-    * dark: `turquoise-700` -> `turquoise-800`
-  * `neutral-subtle-background-color-default`
-    * light: `gray-100` -> `gray-100`
-    * dark: `gray-100` -> `gray-300`
-  * `accent-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `accent-color-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `accent-color-300`
-  * `gray-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `gray-100`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `gray-300`
-  * `blue-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `blue-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `blue-300`
-  * `green-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `green-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `green-300`
-  * `orange-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `orange-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `orange-300`
-  * `red-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `red-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `red-300`
-  * `brown-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `brown-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `brown-300`
-  * `cinnamon-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `cinnamon-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `cinnamon-300`
-  * `celery-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `celery-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `celery-300`
-  * `chartreuse-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `chartreuse-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `chartreuse-300`
-  * `cyan-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `cyan-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `cyan-300`
-  * `fuchsia-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `fuchsia-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `fuchsia-300`
-  * `indigo-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `indigo-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `indigo-300`
-  * `magenta-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `magenta-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `magenta-300`
-  * `pink-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `pink-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `pink-300`
-  * `purple-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `purple-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `purple-300`
-  * `seafoam-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `seafoam-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `seafoam-300`
-  * `silver-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `silver-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `silver-300`
-  * `turquoise-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `turquoise-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `turquoise-300`
-  * `yellow-subtle-background-color-default`
-    * light: `rgba(0, 0, 0, 0.2)` -> `yellow-200`
-    * dark: `rgba(0, 0, 0, 0.6)` -> `yellow-300`
+  - `informative-subtle-background-color-default`
+    - light: `blue-200` -> `informative-color-200`
+    - dark: `blue-200` -> `informative-color-300`
+  - `positive-subtle-background-color-default`
+    - light: `green-200` -> `positive-color-200`
+    - dark: `green-200` -> `positive-color-300`
+  - `notice-subtle-background-color-default`
+    - light: `orange-200` -> `notice-color-200`
+    - dark: `orange-200` -> `notice-color-300`
+  - `negative-subtle-background-color-default`
+    - light: `red-200` -> `negative-color-200`
+    - dark: `red-200` -> `negative-color-300`
+  - `table-column-header-row-top-to-text-medium`
+    - desktop: `7px` -> `6px`
+  - `table-row-height-small-regular`
+    - desktop: `32px` -> `table-row-height-small`
+    - mobile: `40px` -> `table-row-height-small`
+  - `table-row-height-medium-regular`
+    - desktop: `40px` -> `table-row-height-medium`
+    - mobile: `50px` -> `table-row-height-medium`
+  - `table-row-height-large-regular`
+    - desktop: `48px` -> `table-row-height-large`
+    - mobile: `60px` -> `table-row-height-large`
+  - `table-row-height-extra-large-regular`
+    - desktop: `56px` -> `table-row-height-extra-large`
+    - mobile: `70px` -> `table-row-height-extra-large`
+  - `table-row-top-to-text-small-regular`
+    - desktop: `8px` -> `table-row-top-to-text-small`
+    - mobile: `10px` -> `table-row-top-to-text-small`
+  - `table-row-top-to-text-medium-regular`
+    - desktop: `11px` -> `table-row-top-to-text-medium`
+    - mobile: `14px` -> `table-row-top-to-text-medium`
+  - `table-row-top-to-text-large-regular`
+    - desktop: `14px` -> `table-row-top-to-text-large`
+    - mobile: `18px` -> `table-row-top-to-text-large`
+  - `table-row-top-to-text-extra-large-regular`
+    - desktop: `17px` -> `table-row-top-to-text-extra-large`
+    - mobile: `21px` -> `table-row-top-to-text-extra-large`
+  - `table-row-bottom-to-text-small-regular`
+    - desktop: `9px` -> `table-row-bottom-to-text-small`
+    - mobile: `11px` -> `table-row-bottom-to-text-small`
+  - `table-row-bottom-to-text-medium-regular`
+    - desktop: `12px` -> `table-row-bottom-to-text-medium`
+    - mobile: `15px` -> `table-row-bottom-to-text-medium`
+  - `table-row-bottom-to-text-large-regular`
+    - desktop: `14px` -> `table-row-bottom-to-text-large`
+    - mobile: `18px` -> `table-row-bottom-to-text-large`
+  - `table-row-bottom-to-text-extra-large-regular`
+    - desktop: `17px` -> `table-row-bottom-to-text-extra-large`
+    - mobile: `22px` -> `table-row-bottom-to-text-extra-large`
+  - `table-row-top-to-text-medium-spacious`
+    - mobile: `18px` -> `16px`
+  - `table-header-row-checkbox-to-top-medium`
+    - desktop: `9px` -> `8px`
+    - mobile: `13px` -> `11px`
+  - `table-row-checkbox-to-top-small-regular`
+    - desktop: `10px` -> `table-row-checkbox-to-top-small`
+    - mobile: `14px` -> `table-row-checkbox-to-top-small`
+  - `table-row-checkbox-to-top-medium-compact`
+    - desktop: `9px` -> `8px`
+    - mobile: `13px` -> `11px`
+  - `table-row-checkbox-to-top-medium-regular`
+    - desktop: `13px` -> `table-row-checkbox-to-top-medium`
+    - mobile: `18px` -> `table-row-checkbox-to-top-medium`
+  - `table-row-checkbox-to-top-medium-spacious`
+    - desktop: `17px` -> `16px`
+    - mobile: `23px` -> `21px`
+  - `table-row-checkbox-to-top-large-regular`
+    - desktop: `16px` -> `table-row-checkbox-to-top-large`
+    - mobile: `22px` -> `table-row-checkbox-to-top-large`
+  - `table-row-checkbox-to-top-extra-large-regular`
+    - desktop: `19px` -> `table-row-checkbox-to-top-extra-large`
+    - mobile: `26px` -> `table-row-checkbox-to-top-extra-large`
+  - `table-thumbnail-to-top-minimum-small-regular`
+    - desktop: `5px` -> `table-thumbnail-to-top-minimum-small`
+    - mobile: `6px` -> `table-thumbnail-to-top-minimum-small`
+  - `table-thumbnail-to-top-minimum-medium-regular`
+    - desktop: `7px` -> `table-thumbnail-to-top-minimum-medium`
+    - mobile: `9px` -> `table-thumbnail-to-top-minimum-medium`
+  - `table-thumbnail-to-top-minimum-large-regular`
+    - desktop: `8px` -> `table-thumbnail-to-top-minimum-large`
+    - mobile: `10px` -> `table-thumbnail-to-top-minimum-large`
+  - `table-thumbnail-to-top-minimum-extra-large-regular`
+    - desktop: `8px` -> `table-thumbnail-to-top-minimum-extra-large`
+    - mobile: `10px` -> `table-thumbnail-to-top-minimum-extra-large`
+  - `blue-800`
+    - dark: `rgb(69, 110, 254)` -> `rgb(64, 105, 253)`
+  - `red-800`
+    - dark: `rgb(230, 54, 35)` -> `rgb(223, 52, 34)`
+  - `orange-800`
+    - dark: `rgb(205, 86, 0)` -> `rgb(199, 82, 0)`
+  - `yellow-800`
+    - dark: `rgb(169, 110, 0)` -> `rgb(164, 106, 0)`
+  - `chartreuse-800`
+    - dark: `rgb(109, 131, 0)` -> `rgb(106, 127, 0)`
+  - `celery-800`
+    - dark: `rgb(69, 138, 19)` -> `rgb(66, 134, 18)`
+  - `green-800`
+    - dark: `rgb(6, 140, 82)` -> `rgb(6, 136, 80)`
+  - `seafoam-800`
+    - dark: `rgb(8, 138, 116)` -> `rgb(8, 134, 112)`
+  - `cyan-800`
+    - dark: `rgb(15, 128, 194)` -> `rgb(13, 125, 186)`
+  - `indigo-800`
+    - dark: `rgb(119, 97, 252)` -> `rgb(116, 91, 252)`
+  - `purple-800`
+    - dark: `rgb(161, 84, 229)` -> `rgb(157, 78, 228)`
+  - `fuchsia-800`
+    - dark: `rgb(192, 64, 212)` -> `rgb(186, 60, 206)`
+  - `magenta-800`
+    - dark: `rgb(231, 41, 105)` -> `rgb(224, 38, 101)`
+  - `pink-800`
+    - dark: `rgb(220, 47, 156)` -> `rgb(213, 45, 151)`
+  - `turquoise-800`
+    - dark: `rgb(9, 135, 147)` -> `rgb(9, 131, 142)`
+  - `brown-800`
+    - dark: `rgb(148, 118, 73)` -> `rgb(143, 114, 69)`
+  - `silver-800`
+    - dark: `rgb(123, 123, 123)` -> `rgb(118, 118, 118)`
+  - `cinnamon-800`
+    - dark: `rgb(179, 103, 64)` -> `rgb(176, 98, 59)`
+  - `accent-background-color-default`
+    - dark: `accent-color-700` -> `accent-color-800`
+  - `accent-background-color-hover`
+    - dark: `accent-color-600` -> `accent-color-700`
+  - `accent-background-color-down`
+    - dark: `accent-color-600` -> `accent-color-700`
+  - `accent-background-color-key-focus`
+    - dark: `accent-color-600` -> `accent-color-700`
+  - `informative-background-color-default`
+    - dark: `informative-color-700` -> `informative-color-800`
+  - `informative-background-color-hover`
+    - dark: `informative-color-600` -> `informative-color-700`
+  - `informative-background-color-down`
+    - dark: `informative-color-600` -> `informative-color-700`
+  - `informative-background-color-key-focus`
+    - dark: `informative-color-600` -> `informative-color-700`
+  - `negative-background-color-default`
+    - dark: `negative-color-700` -> `negative-color-800`
+  - `negative-background-color-hover`
+    - dark: `negative-color-600` -> `negative-color-700`
+  - `negative-background-color-down`
+    - dark: `negative-color-600` -> `negative-color-700`
+  - `negative-background-color-key-focus`
+    - dark: `negative-color-600` -> `negative-color-700`
+  - `positive-background-color-default`
+    - dark: `positive-color-700` -> `positive-color-800`
+  - `positive-background-color-hover`
+    - dark: `positive-color-600` -> `positive-color-700`
+  - `positive-background-color-down`
+    - dark: `positive-color-600` -> `positive-color-700`
+  - `positive-background-color-key-focus`
+    - dark: `positive-color-600` -> `positive-color-700`
+  - `red-background-color-default`
+    - dark: `red-700` -> `red-800`
+  - `green-background-color-default`
+    - dark: `green-700` -> `green-800`
+  - `seafoam-background-color-default`
+    - dark: `seafoam-700` -> `seafoam-800`
+  - `cyan-background-color-default`
+    - dark: `cyan-700` -> `cyan-800`
+  - `blue-background-color-default`
+    - dark: `blue-700` -> `blue-800`
+  - `indigo-background-color-default`
+    - dark: `indigo-700` -> `indigo-800`
+  - `purple-background-color-default`
+    - dark: `purple-700` -> `purple-800`
+  - `fuchsia-background-color-default`
+    - dark: `fuchsia-700` -> `fuchsia-800`
+  - `magenta-background-color-default`
+    - dark: `magenta-700` -> `magenta-800`
+  - `negative-visual-color`
+    - dark: `negative-color-700` -> `negative-color-900`
+  - `notice-visual-color`
+    - light: `notice-color-700` -> `notice-color-800`
+  - `positive-visual-color`
+    - light: `positive-color-700` -> `positive-color-800`
+    - dark: `positive-color-800` -> `positive-color-900`
+  - `brown-background-color-default`
+    - dark: `brown-700` -> `brown-800`
+  - `cinnamon-background-color-default`
+    - dark: `cinnamon-700` -> `cinnamon-800`
+  - `pink-background-color-default`
+    - dark: `pink-700` -> `pink-800`
+  - `silver-background-color-default`
+    - dark: `silver-700` -> `silver-800`
+  - `turquoise-background-color-default`
+    - dark: `turquoise-700` -> `turquoise-800`
+  - `neutral-subtle-background-color-default`
+    - light: `gray-100` -> `gray-100`
+    - dark: `gray-100` -> `gray-300`
+  - `accent-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `accent-color-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `accent-color-300`
+  - `gray-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `gray-100`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `gray-300`
+  - `blue-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `blue-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `blue-300`
+  - `green-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `green-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `green-300`
+  - `orange-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `orange-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `orange-300`
+  - `red-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `red-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `red-300`
+  - `brown-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `brown-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `brown-300`
+  - `cinnamon-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `cinnamon-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `cinnamon-300`
+  - `celery-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `celery-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `celery-300`
+  - `chartreuse-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `chartreuse-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `chartreuse-300`
+  - `cyan-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `cyan-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `cyan-300`
+  - `fuchsia-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `fuchsia-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `fuchsia-300`
+  - `indigo-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `indigo-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `indigo-300`
+  - `magenta-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `magenta-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `magenta-300`
+  - `pink-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `pink-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `pink-300`
+  - `purple-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `purple-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `purple-300`
+  - `seafoam-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `seafoam-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `seafoam-300`
+  - `silver-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `silver-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `silver-300`
+  - `turquoise-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `turquoise-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `turquoise-300`
+  - `yellow-subtle-background-color-default`
+    - light: `rgba(0, 0, 0, 0.2)` -> `yellow-200`
+    - dark: `rgba(0, 0, 0, 0.6)` -> `yellow-300`
 
   </details>
 
@@ -9133,7 +9097,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [#396](https://github.com/adobe/spectrum-design-data/pull/396) [`4fcfe5b`](https://github.com/adobe/spectrum-design-data/commit/4fcfe5bd83214a7ca3644646bbf0f38802a20f43) Thanks [@larz0](https://github.com/larz0)! - Added brand new tokens for the S2 Standard Panel:
+- [#396](https://github.com/adobe/spectrum-design-data/pull/396) [`4fcfe5b`](https://github.com/adobe/spectrum-design-data/commit/4fcfe5bd83214a7ca3644646bbf0f38802a20f43) Thanks [@larz0](https://github.com/larz0)! - Added brand new tokens for the S2 Standard Panel:
 
   ## Design Motivation
 
@@ -9141,26 +9105,25 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens Added (12):*
-
-  * `standard-panel-width`
-  * `standard-panel-minimum-width`
-  * `standard-panel-maximum-width`
-  * `standard-panel-top-to-close-button-compact`
-  * `standard-panel-top-to-close-button-regular`
-  * `standard-panel-top-to-close-button-spacious`
-  * `standard-panel-edge-to-close-button-compact`
-  * `standard-panel-edge-to-close-button-regular`
-  * `standard-panel-edge-to-close-button-spacious`
-  * `standard-panel-title-font-size`
-  * `standard-panel-gripper-color`
-  * `standard-panel-gripper-color-drag`
+  _Tokens Added (12):_
+  - `standard-panel-width`
+  - `standard-panel-minimum-width`
+  - `standard-panel-maximum-width`
+  - `standard-panel-top-to-close-button-compact`
+  - `standard-panel-top-to-close-button-regular`
+  - `standard-panel-top-to-close-button-spacious`
+  - `standard-panel-edge-to-close-button-compact`
+  - `standard-panel-edge-to-close-button-regular`
+  - `standard-panel-edge-to-close-button-spacious`
+  - `standard-panel-title-font-size`
+  - `standard-panel-gripper-color`
+  - `standard-panel-gripper-color-drag`
 
 ## 13.0.0-beta.45
 
 ### Minor Changes
 
-* [#390](https://github.com/adobe/spectrum-design-data/pull/390) [`cc9c304`](https://github.com/adobe/spectrum-design-data/commit/cc9c3048893058c3f01d6f1ce4688d8ab3716397) Thanks [@lynnhao](https://github.com/lynnhao)! - Updated code tokens for S2
+- [#390](https://github.com/adobe/spectrum-design-data/pull/390) [`cc9c304`](https://github.com/adobe/spectrum-design-data/commit/cc9c3048893058c3f01d6f1ce4688d8ab3716397) Thanks [@lynnhao](https://github.com/lynnhao)! - Updated code tokens for S2
 
   ## Design Motivation
 
@@ -9168,37 +9131,33 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (5):*
+  _Tokens added (5):_
+  - `code-cjk-size-l`
+  - `code-cjk-size-m`
+  - `code-cjk-size-s`
+  - `code-cjk-size-xl`
+  - `code-cjk-size-xs`
 
-  * `code-cjk-size-l`
-  * `code-cjk-size-m`
-  * `code-cjk-size-s`
-  * `code-cjk-size-xl`
-  * `code-cjk-size-xs`
-
-  *Token values updated (2):*
-
-  * `code-cjk-strong-emphasized-font-weight`
-  * `code-cjk-strong-font-weight`
+  _Token values updated (2):_
+  - `code-cjk-strong-emphasized-font-weight`
+  - `code-cjk-strong-font-weight`
 
 ## 13.0.0-beta.44
 
 ### Minor Changes
 
-* [#388](https://github.com/adobe/spectrum-design-data/pull/388) [`58425e6`](https://github.com/adobe/spectrum-design-data/commit/58425e67b2d4cbd716205d4d502cc823245811fe) Thanks [@lynnhao](https://github.com/lynnhao)! - Updated avatar and avatar group tokens
+- [#388](https://github.com/adobe/spectrum-design-data/pull/388) [`58425e6`](https://github.com/adobe/spectrum-design-data/commit/58425e67b2d4cbd716205d4d502cc823245811fe) Thanks [@lynnhao](https://github.com/lynnhao)! - Updated avatar and avatar group tokens
 
   ## Description
-
-  * Updated avatar size tokens, including all sizes from `75` to `700`
-  * Added new avatar size tokens, from `800` to `1500`
-  * Added new avatar border thickness and color tokens
-  * Added avatar group size tokens, from `50` to `500`
-  * Added avatar group spacing tokens, from `50` to `500`
+  - Updated avatar size tokens, including all sizes from `75` to `700`
+  - Added new avatar size tokens, from `800` to `1500`
+  - Added new avatar border thickness and color tokens
+  - Added avatar group size tokens, from `50` to `500`
+  - Added avatar group spacing tokens, from `50` to `500`
 
   ## Motivation and context
-
-  * Avatar: added new sizes and updated existing sizes to better match other components and work across a variety of use cases.
-    * ⚠️ Important note: Accepting updates from this release will update the avatar sizes. The largest change in size is 8px. In some cases, you may want to relink to a new size. View the migration guide below to find the closest recommended size:
+  - Avatar: added new sizes and updated existing sizes to better match other components and work across a variety of use cases.
+    - ⚠️ Important note: Accepting updates from this release will update the avatar sizes. The largest change in size is 8px. In some cases, you may want to relink to a new size. View the migration guide below to find the closest recommended size:
 
   | Former avatar size | Available avatar size                    |
   | :----------------- | :--------------------------------------- |
@@ -9224,49 +9183,47 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (24):*
+  _Tokens added (24):_
+  - `avatar-border-color`
+  - `avatar-border-width`
+  - `avatar-group-size-100`
+  - `avatar-group-size-200`
+  - `avatar-group-size-300`
+  - `avatar-group-size-400`
+  - `avatar-group-size-50`
+  - `avatar-group-size-500`
+  - `avatar-group-size-75`
+  - `avatar-size-1000`
+  - `avatar-size-1100`
+  - `avatar-size-1200`
+  - `avatar-size-1300`
+  - `avatar-size-1400`
+  - `avatar-size-1500`
+  - `avatar-size-800`
+  - `avatar-size-900`
+  - `avatar-to-avatar-100`
+  - `avatar-to-avatar-200`
+  - `avatar-to-avatar-300`
+  - `avatar-to-avatar-400`
+  - `avatar-to-avatar-50`
+  - `avatar-to-avatar-500`
+  - `avatar-to-avatar-75`
 
-  * `avatar-border-color`
-  * `avatar-border-width`
-  * `avatar-group-size-100`
-  * `avatar-group-size-200`
-  * `avatar-group-size-300`
-  * `avatar-group-size-400`
-  * `avatar-group-size-50`
-  * `avatar-group-size-500`
-  * `avatar-group-size-75`
-  * `avatar-size-1000`
-  * `avatar-size-1100`
-  * `avatar-size-1200`
-  * `avatar-size-1300`
-  * `avatar-size-1400`
-  * `avatar-size-1500`
-  * `avatar-size-800`
-  * `avatar-size-900`
-  * `avatar-to-avatar-100`
-  * `avatar-to-avatar-200`
-  * `avatar-to-avatar-300`
-  * `avatar-to-avatar-400`
-  * `avatar-to-avatar-50`
-  * `avatar-to-avatar-500`
-  * `avatar-to-avatar-75`
-
-  *Token values updated (8):*
-
-  * `avatar-size-100`
-  * `avatar-size-200`
-  * `avatar-size-300`
-  * `avatar-size-400`
-  * `avatar-size-500`
-  * `avatar-size-600`
-  * `avatar-size-700`
-  * `avatar-size-75`
+  _Token values updated (8):_
+  - `avatar-size-100`
+  - `avatar-size-200`
+  - `avatar-size-300`
+  - `avatar-size-400`
+  - `avatar-size-500`
+  - `avatar-size-600`
+  - `avatar-size-700`
+  - `avatar-size-75`
 
 ## 13.0.0-beta.43
 
 ### Minor Changes
 
-* [#384](https://github.com/adobe/spectrum-design-data/pull/384) [`681b4b0`](https://github.com/adobe/spectrum-design-data/commit/681b4b0094d31bae4c9b1b095fa59d6448c26cab) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added dragged drop shadow tokens that point to new 300 global drop shadow tokens
+- [#384](https://github.com/adobe/spectrum-design-data/pull/384) [`681b4b0`](https://github.com/adobe/spectrum-design-data/commit/681b4b0094d31bae4c9b1b095fa59d6448c26cab) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added dragged drop shadow tokens that point to new 300 global drop shadow tokens
 
   ## Design Motivation
 
@@ -9274,22 +9231,21 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (8):*
-
-  * `drop-shadow-blur-300`
-  * `drop-shadow-color-300`
-  * `drop-shadow-dragged-blur`
-  * `drop-shadow-dragged-color`
-  * `drop-shadow-dragged-x`
-  * `drop-shadow-dragged-y`
-  * `drop-shadow-x-300`
-  * `drop-shadow-y-300`
+  _Tokens added (8):_
+  - `drop-shadow-blur-300`
+  - `drop-shadow-color-300`
+  - `drop-shadow-dragged-blur`
+  - `drop-shadow-dragged-color`
+  - `drop-shadow-dragged-x`
+  - `drop-shadow-dragged-y`
+  - `drop-shadow-x-300`
+  - `drop-shadow-y-300`
 
 ## 13.0.0-beta.42
 
 ### Minor Changes
 
-* [#382](https://github.com/adobe/spectrum-design-data/pull/382) [`2af3850`](https://github.com/adobe/spectrum-design-data/commit/2af3850a554812fd9c1b3e6fd902a746c9ac42c7) Thanks [@nabuhasan](https://github.com/nabuhasan)! - Updated S2 swatch tokens and added swatch-group tokens in S2 Color and S2 Non-color data sets, respectively.
+- [#382](https://github.com/adobe/spectrum-design-data/pull/382) [`2af3850`](https://github.com/adobe/spectrum-design-data/commit/2af3850a554812fd9c1b3e6fd902a746c9ac42c7) Thanks [@nabuhasan](https://github.com/nabuhasan)! - Updated S2 swatch tokens and added swatch-group tokens in S2 Color and S2 Non-color data sets, respectively.
 
   ## Design Motivation
 
@@ -9299,25 +9255,22 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (3):*
+  _Tokens added (3):_
+  - `swatch-group-spacing-spacious`
+  - `swatch-group-border-opacity`
+  - `swatch-group-border-color`
 
-  * `swatch-group-spacing-spacious`
-  * `swatch-group-border-opacity`
-  * `swatch-group-border-color`
-
-  *Tokens values updated (3):*
-
-  * `swatch-border-color`: `gray-900` -> `gray-1000`
-  * `swatch-border-opacity`: `0.51` -> `0.42`
-  * `swatch-disabled-icon-border-opacity`: `0.51` -> `0.42`
+  _Tokens values updated (3):_
+  - `swatch-border-color`: `gray-900` -> `gray-1000`
+  - `swatch-border-opacity`: `0.51` -> `0.42`
+  - `swatch-disabled-icon-border-opacity`: `0.51` -> `0.42`
 
 ## 13.0.0-beta.41
 
 ### Minor Changes
 
-* [#375](https://github.com/adobe/spectrum-design-data/pull/375) [`6e3be6d`](https://github.com/adobe/spectrum-design-data/commit/6e3be6d8a458efa1752a8dd1360f03fa83f84c37) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - [Updated thumbnail size tokens and added new tokens](https://github.com/adobe/spectrum-design-data-studio-data/pull/144)
-
-  * [Updated S2 Action bar tokens](https://github.com/adobe/spectrum-design-data-studio-data/pull/149)
+- [#375](https://github.com/adobe/spectrum-design-data/pull/375) [`6e3be6d`](https://github.com/adobe/spectrum-design-data/commit/6e3be6d8a458efa1752a8dd1360f03fa83f84c37) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - [Updated thumbnail size tokens and added new tokens](https://github.com/adobe/spectrum-design-data-studio-data/pull/144)
+  - [Updated S2 Action bar tokens](https://github.com/adobe/spectrum-design-data-studio-data/pull/149)
 
   ## Design Motivation
 
@@ -9345,243 +9298,224 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (8):*
+  _Tokens added (8):_
+  - `action-bar-top-to-content-area`
+  - `action-bar-bottom-to-content-area`
+  - `action-bar-edge-to-content-area`
+  - `action-bar-close-button-to-counter`
+  - `action-bar-counter-font-size`
+  - `thumbnail-opacity-checkerboard-square-size`
+  - `thumbnail-corner-radius`
+  - `text-to-control-50`
 
-  * `action-bar-top-to-content-area`
-  * `action-bar-bottom-to-content-area`
-  * `action-bar-edge-to-content-area`
-  * `action-bar-close-button-to-counter`
-  * `action-bar-counter-font-size`
-  * `thumbnail-opacity-checkerboard-square-size`
-  * `thumbnail-corner-radius`
-  * `text-to-control-50`
+  _Tokens updated (2):_
+  - `action-bar-height`
+  - `action-bar-top-to-item-counter`
 
-  *Tokens updated (2):*
-
-  * `action-bar-height`
-  * `action-bar-top-to-item-counter`
-
-  *Token values updated (11):*
-
-  * `thumbnail-size-75`
-    * `desktop`: `18px` -> `20px`
-    * `mobile`: `22px` -> `24px`
-  * `thumbnail-size-100`
-    * `desktop`: `20px` -> `24px`
-    * `mobile`: `26px` -> `28px`
-  * `thumbnail-size-200`
-    * `desktop`: `22px` -> `28px`
-    * `mobile`: `28px` -> `32px`
-  * `thumbnail-size-300`
-    * `desktop`: `26px` -> `32px`
-    * `mobile`: `32px` -> `36px`
-  * `thumbnail-size-400`
-    * `desktop`: `28px` -> `36px`
-    * `mobile`: `36px` -> `40px`
-  * `thumbnail-size-500`
-    * `desktop`: `32px` -> `40px`
-    * `mobile`: `40px` -> `44px`
-  * `thumbnail-size-600`
-    * `desktop`: `36px` -> `44px`
-    * `mobile`: `46px` -> `48px`
-  * `thumbnail-size-700`
-    * `desktop`: `40px` -> `48px`
-    * `mobile`: `50px` -> `52px`
-  * `thumbnail-size-800`
-    * `desktop`: `44px` -> `52px`
-    * `mobile`: `55px` -> `56px`
-  * `thumbnail-size-900`
-    * `desktop`: `50px` -> `56px`
-    * `mobile`: `62px` -> `64px`
-  * `thumbnail-size-1000`
-    * `desktop`: `56px` -> `64px`
-    * `mobile`: `70px` -> `72px`
+  _Token values updated (11):_
+  - `thumbnail-size-75`
+    - `desktop`: `18px` -> `20px`
+    - `mobile`: `22px` -> `24px`
+  - `thumbnail-size-100`
+    - `desktop`: `20px` -> `24px`
+    - `mobile`: `26px` -> `28px`
+  - `thumbnail-size-200`
+    - `desktop`: `22px` -> `28px`
+    - `mobile`: `28px` -> `32px`
+  - `thumbnail-size-300`
+    - `desktop`: `26px` -> `32px`
+    - `mobile`: `32px` -> `36px`
+  - `thumbnail-size-400`
+    - `desktop`: `28px` -> `36px`
+    - `mobile`: `36px` -> `40px`
+  - `thumbnail-size-500`
+    - `desktop`: `32px` -> `40px`
+    - `mobile`: `40px` -> `44px`
+  - `thumbnail-size-600`
+    - `desktop`: `36px` -> `44px`
+    - `mobile`: `46px` -> `48px`
+  - `thumbnail-size-700`
+    - `desktop`: `40px` -> `48px`
+    - `mobile`: `50px` -> `52px`
+  - `thumbnail-size-800`
+    - `desktop`: `44px` -> `52px`
+    - `mobile`: `55px` -> `56px`
+  - `thumbnail-size-900`
+    - `desktop`: `50px` -> `56px`
+    - `mobile`: `62px` -> `64px`
+  - `thumbnail-size-1000`
+    - `desktop`: `56px` -> `64px`
+    - `mobile`: `70px` -> `72px`
 
 ## 13.0.0-beta.40
 
 ### Minor Changes
 
-* [#373](https://github.com/adobe/spectrum-design-data/pull/373) [`e04bddf`](https://github.com/adobe/spectrum-design-data/commit/e04bddf65549c87cd314b54966fe066ae649b7f7) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - Updated S2 accordion tokens (non-color) in respective desktop and mobile layout sets
-
-  * Added S2 meter tokens, including both color and non-color.
+- [#373](https://github.com/adobe/spectrum-design-data/pull/373) [`e04bddf`](https://github.com/adobe/spectrum-design-data/commit/e04bddf65549c87cd314b54966fe066ae649b7f7) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - Updated S2 accordion tokens (non-color) in respective desktop and mobile layout sets
+  - Added S2 meter tokens, including both color and non-color.
 
   ## Design Motivation
-
-  * Accordion component is being formalized as a Spectrum 2 component. These net-new tokens define the design data needed for implementation. Introducing content-area-edge-to-content tokens enhances inclusivity for various design patterns. For more information, [view Jira ticket](https://jira.corp.adobe.com/browse/SDS-13435).
-  * Meter component is being formalized as a Spectrum 2 component. These net-new tokens define the design data needed for implementation. Introducing static tokens enables us to standardize the use of tokens across various components with indicators and tracks. This includes progress bars, progress circles, and potentially sliders in the future. For more information, [view Jira ticket](https://jira.corp.adobe.com/browse/SDS-13414).
+  - Accordion component is being formalized as a Spectrum 2 component. These net-new tokens define the design data needed for implementation. Introducing content-area-edge-to-content tokens enhances inclusivity for various design patterns. For more information, [view Jira ticket](https://jira.corp.adobe.com/browse/SDS-13435).
+  - Meter component is being formalized as a Spectrum 2 component. These net-new tokens define the design data needed for implementation. Introducing static tokens enables us to standardize the use of tokens across various components with indicators and tracks. This includes progress bars, progress circles, and potentially sliders in the future. For more information, [view Jira ticket](https://jira.corp.adobe.com/browse/SDS-13414).
 
   ## Token Diff
 
-  *Tokens added (18):*
+  _Tokens added (18):_
+  - `accordion-content-area-edge-to-content-extra-large`
+  - `accordion-content-area-edge-to-content-large`
+  - `accordion-content-area-edge-to-content-medium`
+  - `accordion-content-area-edge-to-content-small`
+  - `accordion-disclosure-indicator-to-text-extra-large`
+  - `accordion-disclosure-indicator-to-text-large`
+  - `accordion-disclosure-indicator-to-text-medium`
+  - `accordion-disclosure-indicator-to-text-small`
+  - `accordion-item-to-divider`
+  - `meter-thickness-extra-large`
+  - `meter-thickness-medium`
+  - `static-black-text-color`
+  - `static-black-track-color`
+  - `static-black-track-indicator-color`
+  - `static-white-text-color`
+  - `static-white-track-color`
+  - `static-white-track-indicator-color`
+  - `track-color`
 
-  * `accordion-content-area-edge-to-content-extra-large`
-  * `accordion-content-area-edge-to-content-large`
-  * `accordion-content-area-edge-to-content-medium`
-  * `accordion-content-area-edge-to-content-small`
-  * `accordion-disclosure-indicator-to-text-extra-large`
-  * `accordion-disclosure-indicator-to-text-large`
-  * `accordion-disclosure-indicator-to-text-medium`
-  * `accordion-disclosure-indicator-to-text-small`
-  * `accordion-item-to-divider`
-  * `meter-thickness-extra-large`
-  * `meter-thickness-medium`
-  * `static-black-text-color`
-  * `static-black-track-color`
-  * `static-black-track-indicator-color`
-  * `static-white-text-color`
-  * `static-white-track-color`
-  * `static-white-track-indicator-color`
-  * `track-color`
+  _Newly deprecated tokens (2):_
+  - `accordion-edge-to-disclosure-indicator`
+  - `accordion-disclosure-indicator-to-text`
 
-  *Newly deprecated tokens (2):*
-
-  * `accordion-edge-to-disclosure-indicator`
-  * `accordion-disclosure-indicator-to-text`
-
-  *Tokens updated (1):*
-
-  * `meter-thickness-large`
+  _Tokens updated (1):_
+  - `meter-thickness-large`
 
 ## 13.0.0-beta.39
 
 ### Minor Changes
 
-* [#364](https://github.com/adobe/spectrum-design-data/pull/364) [`f96ffca`](https://github.com/adobe/spectrum-design-data/commit/f96ffca4990547f8ddc8341d141e0edc65b872d9) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added coach-indicator s2 tokens
+- [#364](https://github.com/adobe/spectrum-design-data/pull/364) [`f96ffca`](https://github.com/adobe/spectrum-design-data/commit/f96ffca4990547f8ddc8341d141e0edc65b872d9) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added coach-indicator s2 tokens
 
   ## Token Diff
 
-  *Tokens added (8):*
-
-  * `coach-indicator-collapsed-gap`
-  * `coach-indicator-collapsed-ring-rounding-increment`
-  * `coach-indicator-collapsed-ring-thickness`
-  * `coach-indicator-color`
-  * `coach-indicator-expanded-gap`
-  * `coach-indicator-expanded-ring-rounding-increment`
-  * `coach-indicator-expanded-ring-thickness`
-  * `coach-indicator-opacity`
+  _Tokens added (8):_
+  - `coach-indicator-collapsed-gap`
+  - `coach-indicator-collapsed-ring-rounding-increment`
+  - `coach-indicator-collapsed-ring-thickness`
+  - `coach-indicator-color`
+  - `coach-indicator-expanded-gap`
+  - `coach-indicator-expanded-ring-rounding-increment`
+  - `coach-indicator-expanded-ring-thickness`
+  - `coach-indicator-opacity`
 
 ## 13.0.0-beta.38
 
 ### Minor Changes
 
-* [#360](https://github.com/adobe/spectrum-design-data/pull/360) [`f73a0b4`](https://github.com/adobe/spectrum-design-data/commit/f73a0b40464f1c73f2d9e8f6cf97da926e392ac7) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - Fixed token type from Sizing to Font size for contextual-help-body-size and `contextual-help-title-size`
-
-  * Renamed tokens by deprecating previous ones and creating new ones, with font in the token name
+- [#360](https://github.com/adobe/spectrum-design-data/pull/360) [`f73a0b4`](https://github.com/adobe/spectrum-design-data/commit/f73a0b40464f1c73f2d9e8f6cf97da926e392ac7) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - - Fixed token type from Sizing to Font size for contextual-help-body-size and `contextual-help-title-size`
+  - Renamed tokens by deprecating previous ones and creating new ones, with font in the token name
     Updated value of `contextual-help-title-font-size`
 
   Marked the the following tokens in Tokens Studio for deprecation:
-
-  * `negative-subdued-background-color-default` ( --> points to `negative-subtle-background-color-default`)
-  * `negative-subdued-background-color-hover`
-  * `negative-subdued-background-color-down`
-  * `negative-subdued-background-color-key-focus`
+  - `negative-subdued-background-color-default` ( --> points to `negative-subtle-background-color-default`)
+  - `negative-subdued-background-color-hover`
+  - `negative-subdued-background-color-down`
+  - `negative-subdued-background-color-key-focus`
 
   ## Design motivation
-
-  * The updated type sorts them correctly in the Tokens Studio data
-  * The updated value reflects the latest design for Spectrum 2, using the new title style instead of heading
-  * The negative-subdued tokens were deprecated because the tag "error" variant has been deprecated and are no longer needed in the system. A new "subtle" token has been added for the in-line alert use case.
+  - The updated type sorts them correctly in the Tokens Studio data
+  - The updated value reflects the latest design for Spectrum 2, using the new title style instead of heading
+  - The negative-subdued tokens were deprecated because the tag "error" variant has been deprecated and are no longer needed in the system. A new "subtle" token has been added for the in-line alert use case.
 
   ## Token diff
 
-  *Tokens added (2):*
+  _Tokens added (2):_
+  - `contextual-help-body-font-size`
+  - `contextual-help-title-font-size`
 
-  * `contextual-help-body-font-size`
-  * `contextual-help-title-font-size`
-
-  *Newly deprecated Tokens (6):*
-
-  * `contextual-help-body-size`
-  * `contextual-help-title-size`
-  * `negative-subdued-background-color-default`
-  * `negative-subdued-background-color-hover`
-  * `negative-subdued-background-color-down`
-  * `negative-subdued-background-color-key-focus`
+  _Newly deprecated Tokens (6):_
+  - `contextual-help-body-size`
+  - `contextual-help-title-size`
+  - `negative-subdued-background-color-default`
+  - `negative-subdued-background-color-hover`
+  - `negative-subdued-background-color-down`
+  - `negative-subdued-background-color-key-focus`
 
 ## 13.0.0-beta.37
 
 ### Minor Changes
 
-* [#355](https://github.com/adobe/spectrum-design-data/pull/355) [`783a200`](https://github.com/adobe/spectrum-design-data/commit/783a200983efa8e1f2cc31fd40ac3ed7298bb312) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated tokens according to updated token spec for Spectrum 2, including new and deprecated tokens
+- [#355](https://github.com/adobe/spectrum-design-data/pull/355) [`783a200`](https://github.com/adobe/spectrum-design-data/commit/783a200983efa8e1f2cc31fd40ac3ed7298bb312) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated tokens according to updated token spec for Spectrum 2, including new and deprecated tokens
 
   ## Design Motivation
 
   ### Change 1: Updated terminology to align with t-shirt sizes
 
   Previously in S1, the breadcrumb variants were default, compact, and multiline. However, in S2, we have aligned breadcrumb to t-shirt sizes, resulting in the following changes:
-
-  * Breadcrumbs (default) -> Breadcrumbs (L)
-  * Breadcrumbs (compact) -> Breadcrumbs (M)
-  * Breadcrumbs (multiline) -> Breadcrumbs (multiline)
+  - Breadcrumbs (default) -> Breadcrumbs (L)
+  - Breadcrumbs (compact) -> Breadcrumbs (M)
+  - Breadcrumbs (multiline) -> Breadcrumbs (multiline)
 
   ### Change 2: Updated truncated menu button sizes and spacing
 
   Other structural changes
-
-  * In S1 all variants used M sized action button – now we use S, M, L sized action buttons for respective sizes.
-  * In S1 all variants had same spacing 8px around chevron, now we use different spacings for all the three variants
+  - In S1 all variants used M sized action button – now we use S, M, L sized action buttons for respective sizes.
+  - In S1 all variants had same spacing 8px around chevron, now we use different spacings for all the three variants
 
   ## Token Diff
 
-  *Tokens added (11):*
+  _Tokens added (11):_
+  - `breadcrumbs-separator-to-bottom-text-multiline`
+  - `breadcrumbs-start-edge-to-text-large`
+  - `breadcrumbs-start-edge-to-text-medium`
+  - `breadcrumbs-start-edge-to-text-multiline`
+  - `breadcrumbs-top-to-separator-large`
+  - `breadcrumbs-top-to-separator-medium`
+  - `breadcrumbs-top-to-separator-multiline`
+  - `breadcrumbs-truncated-menu-to-separator`
+  - `breadcrumbs-text-to-separator-large`
+  - `breadcrumbs-text-to-separator-medium`
+  - `breadcrumbs-text-to-separator-multiline`
 
-  * `breadcrumbs-separator-to-bottom-text-multiline`
-  * `breadcrumbs-start-edge-to-text-large`
-  * `breadcrumbs-start-edge-to-text-medium`
-  * `breadcrumbs-start-edge-to-text-multiline`
-  * `breadcrumbs-top-to-separator-large`
-  * `breadcrumbs-top-to-separator-medium`
-  * `breadcrumbs-top-to-separator-multiline`
-  * `breadcrumbs-truncated-menu-to-separator`
-  * `breadcrumbs-text-to-separator-large`
-  * `breadcrumbs-text-to-separator-medium`
-  * `breadcrumbs-text-to-separator-multiline`
+  _Newly deprecated tokens (13):_
+  - `breadcrumbs-height`
+  - `breadcrumbs-height-compact`
+  - `breadcrumbs-top-to-text`
+  - `breadcrumbs-top-to-text-compact`
+  - `breadcrumbs-bottom-to-text`
+  - `breadcrumbs-bottom-to-text-compact`
+  - `breadcrumbs-start-edge-to-text`
+  - `breadcrumbs-top-to-separator-icon`
+  - `breadcrumbs-top-to-separator-icon-compact`
+  - `breadcrumbs-top-to-separator-icon-multiline`
+  - `breadcrumbs-separator-icon-to-bottom-text-multiline`
+  - `breadcrumbs-truncated-menu-to-separator-icon`
+  - `breadcrumbs-top-to-truncated-menu-compact`
 
-  *Newly deprecated tokens (13):*
-
-  * `breadcrumbs-height`
-  * `breadcrumbs-height-compact`
-  * `breadcrumbs-top-to-text`
-  * `breadcrumbs-top-to-text-compact`
-  * `breadcrumbs-bottom-to-text`
-  * `breadcrumbs-bottom-to-text-compact`
-  * `breadcrumbs-start-edge-to-text`
-  * `breadcrumbs-top-to-separator-icon`
-  * `breadcrumbs-top-to-separator-icon-compact`
-  * `breadcrumbs-top-to-separator-icon-multiline`
-  * `breadcrumbs-separator-icon-to-bottom-text-multiline`
-  * `breadcrumbs-truncated-menu-to-separator-icon`
-  * `breadcrumbs-top-to-truncated-menu-compact`
-
-  *Token values updated (20):*
-
-  * `breadcrumbs-top-to-separator-icon-multiline`
-  * `breadcrumbs-top-to-text-multiline`
-  * `breadcrumbs-bottom-to-text-multiline`
-  * `breadcrumbs-height-multiline`
-  * `breadcrumbs-top-to-separator-icon-multiline`
-  * `breadcrumbs-top-to-text-multiline`
-  * `breadcrumbs-height`
-  * `breadcrumbs-height-compact`
-  * `breadcrumbs-truncated-menu-to-separator-icon`
-  * `breadcrumbs-truncated-menu-to-bottom-text`
-  * `breadcrumbs-bottom-to-text`
-  * `breadcrumbs-bottom-to-text-compact`
-  * `breadcrumbs-separator-icon-to-bottom-text-multiline`
-  * `breadcrumbs-start-edge-to-text`
-  * `breadcrumbs-top-to-separator-icon`
-  * `breadcrumbs-top-to-separator-icon-compact`
-  * `breadcrumbs-top-to-text`
-  * `breadcrumbs-top-to-text-compact`
-  * `breadcrumbs-top-to-truncated-menu`
-  * `breadcrumbs-top-to-truncated-menu-compact`
+  _Token values updated (20):_
+  - `breadcrumbs-top-to-separator-icon-multiline`
+  - `breadcrumbs-top-to-text-multiline`
+  - `breadcrumbs-bottom-to-text-multiline`
+  - `breadcrumbs-height-multiline`
+  - `breadcrumbs-top-to-separator-icon-multiline`
+  - `breadcrumbs-top-to-text-multiline`
+  - `breadcrumbs-height`
+  - `breadcrumbs-height-compact`
+  - `breadcrumbs-truncated-menu-to-separator-icon`
+  - `breadcrumbs-truncated-menu-to-bottom-text`
+  - `breadcrumbs-bottom-to-text`
+  - `breadcrumbs-bottom-to-text-compact`
+  - `breadcrumbs-separator-icon-to-bottom-text-multiline`
+  - `breadcrumbs-start-edge-to-text`
+  - `breadcrumbs-top-to-separator-icon`
+  - `breadcrumbs-top-to-separator-icon-compact`
+  - `breadcrumbs-top-to-text`
+  - `breadcrumbs-top-to-text-compact`
+  - `breadcrumbs-top-to-truncated-menu`
+  - `breadcrumbs-top-to-truncated-menu-compact`
 
 ## 13.0.0-beta.36
 
 ### Minor Changes
 
-* [#342](https://github.com/adobe/spectrum-design-data/pull/342) [`9da9532`](https://github.com/adobe/spectrum-design-data/commit/9da9532f1915070d289f7cce6f4e562c2565f889) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Newly defined S2 Icon colors by the Icons team were incorporated into our system. This includes updates to existing colors and new color additions. More details on icon colors can be found [in this document](https://paper.dropbox.com/doc/S2-Icon-colors-May-update--CPQCbAN3uvmfSCYV5UekAgYkAg-BqbGyRAAL87Ehoqm9WrCB) and [this Figma file](https://www.figma.com/design/KRqwJWgLuW4R7HwFUzKWiB/S2-Icon-color?node-id=0%3A1\&t=jRZwm9gOH4dyLwL7-1).
+- [#342](https://github.com/adobe/spectrum-design-data/pull/342) [`9da9532`](https://github.com/adobe/spectrum-design-data/commit/9da9532f1915070d289f7cce6f4e562c2565f889) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Newly defined S2 Icon colors by the Icons team were incorporated into our system. This includes updates to existing colors and new color additions. More details on icon colors can be found [in this document](https://paper.dropbox.com/doc/S2-Icon-colors-May-update--CPQCbAN3uvmfSCYV5UekAgYkAg-BqbGyRAAL87Ehoqm9WrCB) and [this Figma file](https://www.figma.com/design/KRqwJWgLuW4R7HwFUzKWiB/S2-Icon-color?node-id=0%3A1&t=jRZwm9gOH4dyLwL7-1).
 
   ## Design motivation
 
@@ -9589,318 +9523,300 @@ Updated (1592)
 
   ## Token diff
 
-  *Tokens added (78):*
-
-  * `icon-color-blue-background`
-  * `icon-color-blue-primary-down`
-  * `icon-color-blue-primary-hover`
-  * `icon-color-brown-background`
-  * `icon-color-brown-primary-default`
-  * `icon-color-brown-primary-down`
-  * `icon-color-brown-primary-hover`
-  * `icon-color-celery-background`
-  * `icon-color-celery-primary-default`
-  * `icon-color-celery-primary-down`
-  * `icon-color-celery-primary-hover`
-  * `icon-color-chartreuse-background`
-  * `icon-color-chartreuse-primary-default`
-  * `icon-color-chartreuse-primary-down`
-  * `icon-color-chartreuse-primary-hover`
-  * `icon-color-cinnamon-background`
-  * `icon-color-cinnamon-primary-default`
-  * `icon-color-cinnamon-primary-down`
-  * `icon-color-cinnamon-primary-hover`
-  * `icon-color-cyan-background`
-  * `icon-color-cyan-primary-default`
-  * `icon-color-cyan-primary-down`
-  * `icon-color-cyan-primary-hover`
-  * `icon-color-disabled-primary`
-  * `icon-color-emphasized-background`
-  * `icon-color-fuchsia-background`
-  * `icon-color-fuchsia-primary-default`
-  * `icon-color-fuchsia-primary-down`
-  * `icon-color-fuchsia-primary-hover`
-  * `icon-color-green-background`
-  * `icon-color-green-primary-down`
-  * `icon-color-green-primary-hover`
-  * `icon-color-indigo-background`
-  * `icon-color-indigo-primary-default`
-  * `icon-color-indigo-primary-down`
-  * `icon-color-indigo-primary-hover`
-  * `icon-color-informative`
-  * `icon-color-inverse-background`
-  * `icon-color-magenta-background`
-  * `icon-color-magenta-primary-default`
-  * `icon-color-magenta-primary-down`
-  * `icon-color-magenta-primary-hover`
-  * `icon-color-negative`
-  * `icon-color-neutral`
-  * `icon-color-notice`
-  * `icon-color-orange-background`
-  * `icon-color-orange-primary-default`
-  * `icon-color-orange-primary-down`
-  * `icon-color-orange-primary-hover`
-  * `icon-color-pink-background`
-  * `icon-color-pink-primary-default`
-  * `icon-color-pink-primary-down`
-  * `icon-color-pink-primary-hover`
-  * `icon-color-positive`
-  * `icon-color-primary-down`
-  * `icon-color-primary-hover`
-  * `icon-color-purple-background`
-  * `icon-color-purple-primary-default`
-  * `icon-color-purple-primary-down`
-  * `icon-color-purple-primary-hover`
-  * `icon-color-red-background`
-  * `icon-color-red-primary-down`
-  * `icon-color-red-primary-hover`
-  * `icon-color-seafoam-background`
-  * `icon-color-seafoam-primary-default`
-  * `icon-color-seafoam-primary-down`
-  * `icon-color-seafoam-primary-hover`
-  * `icon-color-silver-background`
-  * `icon-color-silver-primary-default`
-  * `icon-color-silver-primary-down`
-  * `icon-color-silver-primary-hover`
-  * `icon-color-turquoise-background`
-  * `icon-color-turquoise-primary-default`
-  * `icon-color-turquoise-primary-down`
-  * `icon-color-turquoise-primary-hover`
-  * `icon-color-yellow-background`
-  * `icon-color-yellow-primary-down`
-  * `icon-color-yellow-primary-hover`
+  _Tokens added (78):_
+  - `icon-color-blue-background`
+  - `icon-color-blue-primary-down`
+  - `icon-color-blue-primary-hover`
+  - `icon-color-brown-background`
+  - `icon-color-brown-primary-default`
+  - `icon-color-brown-primary-down`
+  - `icon-color-brown-primary-hover`
+  - `icon-color-celery-background`
+  - `icon-color-celery-primary-default`
+  - `icon-color-celery-primary-down`
+  - `icon-color-celery-primary-hover`
+  - `icon-color-chartreuse-background`
+  - `icon-color-chartreuse-primary-default`
+  - `icon-color-chartreuse-primary-down`
+  - `icon-color-chartreuse-primary-hover`
+  - `icon-color-cinnamon-background`
+  - `icon-color-cinnamon-primary-default`
+  - `icon-color-cinnamon-primary-down`
+  - `icon-color-cinnamon-primary-hover`
+  - `icon-color-cyan-background`
+  - `icon-color-cyan-primary-default`
+  - `icon-color-cyan-primary-down`
+  - `icon-color-cyan-primary-hover`
+  - `icon-color-disabled-primary`
+  - `icon-color-emphasized-background`
+  - `icon-color-fuchsia-background`
+  - `icon-color-fuchsia-primary-default`
+  - `icon-color-fuchsia-primary-down`
+  - `icon-color-fuchsia-primary-hover`
+  - `icon-color-green-background`
+  - `icon-color-green-primary-down`
+  - `icon-color-green-primary-hover`
+  - `icon-color-indigo-background`
+  - `icon-color-indigo-primary-default`
+  - `icon-color-indigo-primary-down`
+  - `icon-color-indigo-primary-hover`
+  - `icon-color-informative`
+  - `icon-color-inverse-background`
+  - `icon-color-magenta-background`
+  - `icon-color-magenta-primary-default`
+  - `icon-color-magenta-primary-down`
+  - `icon-color-magenta-primary-hover`
+  - `icon-color-negative`
+  - `icon-color-neutral`
+  - `icon-color-notice`
+  - `icon-color-orange-background`
+  - `icon-color-orange-primary-default`
+  - `icon-color-orange-primary-down`
+  - `icon-color-orange-primary-hover`
+  - `icon-color-pink-background`
+  - `icon-color-pink-primary-default`
+  - `icon-color-pink-primary-down`
+  - `icon-color-pink-primary-hover`
+  - `icon-color-positive`
+  - `icon-color-primary-down`
+  - `icon-color-primary-hover`
+  - `icon-color-purple-background`
+  - `icon-color-purple-primary-default`
+  - `icon-color-purple-primary-down`
+  - `icon-color-purple-primary-hover`
+  - `icon-color-red-background`
+  - `icon-color-red-primary-down`
+  - `icon-color-red-primary-hover`
+  - `icon-color-seafoam-background`
+  - `icon-color-seafoam-primary-default`
+  - `icon-color-seafoam-primary-down`
+  - `icon-color-seafoam-primary-hover`
+  - `icon-color-silver-background`
+  - `icon-color-silver-primary-default`
+  - `icon-color-silver-primary-down`
+  - `icon-color-silver-primary-hover`
+  - `icon-color-turquoise-background`
+  - `icon-color-turquoise-primary-default`
+  - `icon-color-turquoise-primary-down`
+  - `icon-color-turquoise-primary-hover`
+  - `icon-color-yellow-background`
+  - `icon-color-yellow-primary-down`
+  - `icon-color-yellow-primary-hover`
 
 ## 13.0.0-beta.35
 
 ### Minor Changes
 
-* [#337](https://github.com/adobe/spectrum-design-data/pull/337) [`df2ab7e`](https://github.com/adobe/spectrum-design-data/commit/df2ab7ed77d385593342a3ced7bfded94bd8af8e) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated illustrated message and drop zone tokens
+- [#337](https://github.com/adobe/spectrum-design-data/pull/337) [`df2ab7e`](https://github.com/adobe/spectrum-design-data/commit/df2ab7ed77d385593342a3ced7bfded94bd8af8e) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated illustrated message and drop zone tokens
 
   ## Design Motivation
-
-  * The previous tokens had the incorrect types. By fixing the type, they can reference the updated tokens that are replacing them.
-  * Illustrated message now has three sizes (S, M, L) in Spectrum 2 to cover a wider range of use cases
-  * Component font size tokens now specify font in the token name
+  - The previous tokens had the incorrect types. By fixing the type, they can reference the updated tokens that are replacing them.
+  - Illustrated message now has three sizes (S, M, L) in Spectrum 2 to cover a wider range of use cases
+  - Component font size tokens now specify font in the token name
 
   ## Token Diff
 
-  *Tokens added (12):*
+  _Tokens added (12):_
+  - `drop-zone-body-font-size`
+  - `drop-zone-cjk-title-font-size`
+  - `drop-zone-title-font-size`
+  - `illustrated-message-large-body-font-size`
+  - `illustrated-message-large-cjk-title-font-size`
+  - `illustrated-message-large-title-font-size`
+  - `illustrated-message-medium-body-font-size`
+  - `illustrated-message-medium-cjk-title-font-size`
+  - `illustrated-message-medium-title-font-size`
+  - `illustrated-message-small-body-font-size`
+  - `illustrated-message-small-cjk-title-font-size`
+  - `illustrated-message-small-title-font-size`
 
-  * `drop-zone-body-font-size`
-  * `drop-zone-cjk-title-font-size`
-  * `drop-zone-title-font-size`
-  * `illustrated-message-large-body-font-size`
-  * `illustrated-message-large-cjk-title-font-size`
-  * `illustrated-message-large-title-font-size`
-  * `illustrated-message-medium-body-font-size`
-  * `illustrated-message-medium-cjk-title-font-size`
-  * `illustrated-message-medium-title-font-size`
-  * `illustrated-message-small-body-font-size`
-  * `illustrated-message-small-cjk-title-font-size`
-  * `illustrated-message-small-title-font-size`
+  _Newly deprecated tokens (6):_
+  - `drop-zone-body-size`
+  - `drop-zone-cjk-title-size`
+  - `drop-zone-title-size`
+  - `illustrated-message-body-size`
+  - `illustrated-message-cjk-title-size`
+  - `illustrated-message-title-size`
 
-  *Newly deprecated tokens (6):*
-
-  * `drop-zone-body-size`
-  * `drop-zone-cjk-title-size`
-  * `drop-zone-title-size`
-  * `illustrated-message-body-size`
-  * `illustrated-message-cjk-title-size`
-  * `illustrated-message-title-size`
-
-  *Token value updated (1):*
-
-  * `drop-zone-border-dash-gap`
+  _Token value updated (1):_
+  - `drop-zone-border-dash-gap`
 
 ## 13.0.0-beta.34
 
 ### Minor Changes
 
-* [#334](https://github.com/adobe/spectrum-design-data/pull/334) [`4d28593`](https://github.com/adobe/spectrum-design-data/commit/4d28593c9d34414d72d78a1cc6c480d9ffdf82ce) Thanks [@nabuhasan](https://github.com/nabuhasan)! - S2 Popover tokens update
+- [#334](https://github.com/adobe/spectrum-design-data/pull/334) [`4d28593`](https://github.com/adobe/spectrum-design-data/commit/4d28593c9d34414d72d78a1cc6c480d9ffdf82ce) Thanks [@nabuhasan](https://github.com/nabuhasan)! - S2 Popover tokens update
 
   ## Token Diff
 
-  *Tokens added (3):*
+  _Tokens added (3):_
+  - `popover-border-color`
+  - `popover-border-opacity`
+  - `popover-edge-to-content-area`
 
-  * `popover-border-color`
-  * `popover-border-opacity`
-  * `popover-edge-to-content-area`
-
-  *Newly deprecated token (1):*
-
-  * `popover-top-to-content-area`
+  _Newly deprecated token (1):_
+  - `popover-top-to-content-area`
 
 ## 13.0.0-beta.33
 
 ### Minor Changes
 
-* [#331](https://github.com/adobe/spectrum-design-data/pull/331) [`0bbfedb`](https://github.com/adobe/spectrum-design-data/commit/0bbfedb9dbb63fdd5b20e91f65b3f958a833313b) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - S2 Menu token updates
+- [#331](https://github.com/adobe/spectrum-design-data/pull/331) [`0bbfedb`](https://github.com/adobe/spectrum-design-data/commit/0bbfedb9dbb63fdd5b20e91f65b3f958a833313b) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - S2 Menu token updates
 
   ## Token Diff
 
-  *Tokens added (23):*
+  _Tokens added (23):_
+  - `link-out-icon-size-100`
+  - `link-out-icon-size-200`
+  - `link-out-icon-size-75`
+  - `menu-item-background-color-default`
+  - `menu-item-background-color-disabled`
+  - `menu-item-background-color-down`
+  - `menu-item-background-color-hover`
+  - `menu-item-background-color-keyboard-focus`
+  - `menu-item-background-opacity`
+  - `menu-item-label-to-description`
+  - `menu-item-label-to-description-extra-large`
+  - `menu-item-label-to-description-large`
+  - `menu-item-label-to-description-medium`
+  - `menu-item-label-to-description-small`
+  - `menu-item-top-to-thumbnail-extra-large`
+  - `menu-item-top-to-thumbnail-large`
+  - `menu-item-top-to-thumbnail-medium`
+  - `menu-item-top-to-thumbnail-small`
+  - `menu-section-header-to-description-extra-large`
+  - `menu-section-header-to-description-large`
+  - `menu-section-header-to-description-medium`
+  - `menu-section-header-to-description-small`
+  - `text-to-visual-400`
 
-  * `link-out-icon-size-100`
-  * `link-out-icon-size-200`
-  * `link-out-icon-size-75`
-  * `menu-item-background-color-default`
-  * `menu-item-background-color-disabled`
-  * `menu-item-background-color-down`
-  * `menu-item-background-color-hover`
-  * `menu-item-background-color-keyboard-focus`
-  * `menu-item-background-opacity`
-  * `menu-item-label-to-description`
-  * `menu-item-label-to-description-extra-large`
-  * `menu-item-label-to-description-large`
-  * `menu-item-label-to-description-medium`
-  * `menu-item-label-to-description-small`
-  * `menu-item-top-to-thumbnail-extra-large`
-  * `menu-item-top-to-thumbnail-large`
-  * `menu-item-top-to-thumbnail-medium`
-  * `menu-item-top-to-thumbnail-small`
-  * `menu-section-header-to-description-extra-large`
-  * `menu-section-header-to-description-large`
-  * `menu-section-header-to-description-medium`
-  * `menu-section-header-to-description-small`
-  * `text-to-visual-400`
-
-  *Token values updated (1):*
-
-  * `menu-item-section-divider-height`
+  _Token values updated (1):_
+  - `menu-item-section-divider-height`
 
 ## 13.0.0-beta.32
 
 ### Minor Changes
 
-* [#325](https://github.com/adobe/spectrum-design-data/pull/325) [`095248e`](https://github.com/adobe/spectrum-design-data/commit/095248e26bdd1c8b65a61f3793646bb44093c38b) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added semantic aliases used by in-line alert.
+- [#325](https://github.com/adobe/spectrum-design-data/pull/325) [`095248e`](https://github.com/adobe/spectrum-design-data/commit/095248e26bdd1c8b65a61f3793646bb44093c38b) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added semantic aliases used by in-line alert.
 
   ## Token Diff
 
-  *Tokens added (5):*
-
-  * `informative-subtle-background-color-default`
-  * `negative-subtle-background-color-default`
-  * `neutral-subtle-background-color-default`
-  * `notice-subtle-background-color-default`
-  * `positive-subtle-background-color-default`
+  _Tokens added (5):_
+  - `informative-subtle-background-color-default`
+  - `negative-subtle-background-color-default`
+  - `neutral-subtle-background-color-default`
+  - `notice-subtle-background-color-default`
+  - `positive-subtle-background-color-default`
 
 ## 13.0.0-beta.31
 
 ### Minor Changes
 
-* [#327](https://github.com/adobe/spectrum-design-data/pull/327) [`3caa31d`](https://github.com/adobe/spectrum-design-data/commit/3caa31d014a3d49496422c38a93c3c7645da0373) Thanks [@GarthDB](https://github.com/GarthDB)! - Added `private` metadata to global tokens.
+- [#327](https://github.com/adobe/spectrum-design-data/pull/327) [`3caa31d`](https://github.com/adobe/spectrum-design-data/commit/3caa31d014a3d49496422c38a93c3c7645da0373) Thanks [@GarthDB](https://github.com/GarthDB)! - Added `private` metadata to global tokens.
 
 ## 13.0.0-beta.30
 
 ### Minor Changes
 
-* [#321](https://github.com/adobe/spectrum-design-data/pull/321) [`e392c49`](https://github.com/adobe/spectrum-design-data/commit/e392c497a4d474c9619a882ad9ab4948441712e0) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added new Standard dialog, status light, and updated alert-banner-top-to-workflow-icon tokens
+- [#321](https://github.com/adobe/spectrum-design-data/pull/321) [`e392c49`](https://github.com/adobe/spectrum-design-data/commit/e392c497a4d474c9619a882ad9ab4948441712e0) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added new Standard dialog, status light, and updated alert-banner-top-to-workflow-icon tokens
 
   ## Token Diff
 
-  *Tokens added (10):*
+  _Tokens added (10):_
+  - `standard-dialog-body-font-size`
+  - `standard-dialog-maximum-width-large`
+  - `standard-dialog-maximum-width-medium`
+  - `standard-dialog-maximum-width-small`
+  - `standard-dialog-minimum-width`
+  - `standard-dialog-title-font-size`
+  - `status-light-text-to-visual-100`
+  - `status-light-text-to-visual-200`
+  - `status-light-text-to-visual-300`
+  - `status-light-text-to-visual-75`
 
-  * `standard-dialog-body-font-size`
-  * `standard-dialog-maximum-width-large`
-  * `standard-dialog-maximum-width-medium`
-  * `standard-dialog-maximum-width-small`
-  * `standard-dialog-minimum-width`
-  * `standard-dialog-title-font-size`
-  * `status-light-text-to-visual-100`
-  * `status-light-text-to-visual-200`
-  * `status-light-text-to-visual-300`
-  * `status-light-text-to-visual-75`
-
-  *Token values updated (10):*
-
-  * `alert-banner-to-top-workflow-icon`
-  * `alert-banner-top-to-workflow-icon`
-  * `status-light-dot-size-extra-large`
-  * `status-light-dot-size-large`
-  * `status-light-dot-size-medium`
-  * `status-light-top-to-dot-extra-large`
-  * `status-light-top-to-dot-large`
-  * `status-light-top-to-dot-medium`
-  * `status-light-top-to-dot-small`
-  * `status-light-dot-size-small`
+  _Token values updated (10):_
+  - `alert-banner-to-top-workflow-icon`
+  - `alert-banner-top-to-workflow-icon`
+  - `status-light-dot-size-extra-large`
+  - `status-light-dot-size-large`
+  - `status-light-dot-size-medium`
+  - `status-light-top-to-dot-extra-large`
+  - `status-light-top-to-dot-large`
+  - `status-light-top-to-dot-medium`
+  - `status-light-top-to-dot-small`
+  - `status-light-dot-size-small`
 
 ## 13.0.0-beta.29
 
 ### Minor Changes
 
-* [#319](https://github.com/adobe/spectrum-design-data/pull/319) [`5f962fc`](https://github.com/adobe/spectrum-design-data/commit/5f962fc864c516213db58bece2c47a74c68cc985) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated values for component pill edge to visual only tokens for both desktop and mobile.
+- [#319](https://github.com/adobe/spectrum-design-data/pull/319) [`5f962fc`](https://github.com/adobe/spectrum-design-data/commit/5f962fc864c516213db58bece2c47a74c68cc985) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Updated values for component pill edge to visual only tokens for both desktop and mobile.
 
   These values are updated based on the new workflow icon size.
 
   ## Token Diff
 
-  *Token values updated (4):*
+  _Token values updated (4):_
+  - `component-pill-edge-to-visual-only-100`
+  - `component-pill-edge-to-visual-only-200`
+  - `component-pill-edge-to-visual-only-300`
+  - `component-pill-edge-to-visual-only-75`
 
-  * `component-pill-edge-to-visual-only-100`
-  * `component-pill-edge-to-visual-only-200`
-  * `component-pill-edge-to-visual-only-300`
-  * `component-pill-edge-to-visual-only-75`
-
-* [#316](https://github.com/adobe/spectrum-design-data/pull/316) [`664ab0b`](https://github.com/adobe/spectrum-design-data/commit/664ab0bba68b9f4752599ed73c98b5d339414478) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - S2 Color loupe tokens update (color-only)
+- [#316](https://github.com/adobe/spectrum-design-data/pull/316) [`664ab0b`](https://github.com/adobe/spectrum-design-data/commit/664ab0bba68b9f4752599ed73c98b5d339414478) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - S2 Color loupe tokens update (color-only)
 
   ## Token Diff
 
-  *Newly deprecated tokens (2):*
-
-  * `color-loupe-drop-shadow-color`
-  * `drop-shadow-color`
+  _Newly deprecated tokens (2):_
+  - `color-loupe-drop-shadow-color`
+  - `drop-shadow-color`
 
 ## 13.0.0-beta.28
 
 ### Patch Changes
 
-* [`1150331`](https://github.com/adobe/spectrum-design-data/commit/1150331): Removed duplicate tokens from src files.
+- [`1150331`](https://github.com/adobe/spectrum-design-data/commit/1150331): Removed duplicate tokens from src files.
 
 ## 13.0.0-beta.27
 
 ### Minor Changes
 
-* [`3236495`](https://github.com/adobe/spectrum-design-data/commit/3236495): Updated coach mark tokens for both desktop and mobile
+- [`3236495`](https://github.com/adobe/spectrum-design-data/commit/3236495): Updated coach mark tokens for both desktop and mobile
 
   ## Token Diff
 
-  *Tokens added (6):*
+  _Tokens added (6):_
+  - `coach-mark-body-font-size`
+  - `coach-mark-pagination-body-font-size`
+  - `coach-mark-title-font-size`
 
-  * `coach-mark-body-font-size`
-  * `coach-mark-pagination-body-font-size`
-  * `coach-mark-title-font-size`
-
-  *Newly deprecated tokens (3):*
-
-  * `coach-mark-body-size`
-  * `coach-mark-pagination-body-size`
-  * `coach-mark-title-size`
+  _Newly deprecated tokens (3):_
+  - `coach-mark-body-size`
+  - `coach-mark-pagination-body-size`
+  - `coach-mark-title-size`
 
 ## 13.0.0-beta.26
 
 ### Minor Changes
 
-* [`b59fa8f`](https://github.com/adobe/spectrum-design-data/commit/b59fa8f): Updated alert dialog tokens
+- [`b59fa8f`](https://github.com/adobe/spectrum-design-data/commit/b59fa8f): Updated alert dialog tokens
 
   ## Token Diff
 
-  *Tokens added (4):*
+  _Tokens added (4):_
+  - `alert-dialog-description-font-size`
+  - `alert-dialog-description-size`
+  - `alert-dialog-title-font-size`
+  - `alert-dialog-title-size`
 
-  * `alert-dialog-description-font-size`
-  * `alert-dialog-description-size`
-  * `alert-dialog-title-font-size`
-  * `alert-dialog-title-size`
-
-  *Newly deprecated tokens (2):*
-
-  * `alert-dialog-description-size`
-  * `alert-dialog-title-size`
+  _Newly deprecated tokens (2):_
+  - `alert-dialog-description-size`
+  - `alert-dialog-title-size`
 
 ## 13.0.0-beta.25
 
 ### Minor Changes
 
-* [`e79ddd6`](https://github.com/adobe/spectrum-design-data/commit/e79ddd6): S2 Combo box, In-field button and In-field progress circle updates
+- [`e79ddd6`](https://github.com/adobe/spectrum-design-data/commit/e79ddd6): S2 Combo box, In-field button and In-field progress circle updates
 
   ## Motivation and context
 
@@ -9908,34 +9824,32 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (15):*
+  _Tokens added (15):_
+  - `combo-box-visual-to-field-button`
+  - `combo-box-visual-to-field-button-extra-large`
+  - `combo-box-visual-to-field-button-large`
+  - `combo-box-visual-to-field-button-medium`
+  - `combo-box-visual-to-field-button-quiet`
+  - `combo-box-visual-to-field-button-small`
+  - `in-field-button-edge-to-fill-extra-large`
+  - `in-field-button-edge-to-fill-large`
+  - `in-field-button-edge-to-fill-medium`
+  - `in-field-button-edge-to-fill-small`
+  - `in-field-progress-circle-edge-to-fill`
+  - `in-field-progress-circle-size-100`
+  - `in-field-progress-circle-size-200`
+  - `in-field-progress-circle-size-300`
+  - `in-field-progress-circle-size-75`
 
-  * `combo-box-visual-to-field-button`
-  * `combo-box-visual-to-field-button-extra-large`
-  * `combo-box-visual-to-field-button-large`
-  * `combo-box-visual-to-field-button-medium`
-  * `combo-box-visual-to-field-button-quiet`
-  * `combo-box-visual-to-field-button-small`
-  * `in-field-button-edge-to-fill-extra-large`
-  * `in-field-button-edge-to-fill-large`
-  * `in-field-button-edge-to-fill-medium`
-  * `in-field-button-edge-to-fill-small`
-  * `in-field-progress-circle-edge-to-fill`
-  * `in-field-progress-circle-size-100`
-  * `in-field-progress-circle-size-200`
-  * `in-field-progress-circle-size-300`
-  * `in-field-progress-circle-size-75`
+  _Newly deprecated tokens (6):_
+  - `combo-box-quiet-minimum-width-multiplier`
+  - `combo-box-visual-to-field-button-small`
+  - `combo-box-visual-to-field-button-medium`
+  - `combo-box-visual-to-field-button-large`
+  - `combo-box-visual-to-field-button-extra-large`
+  - `in-field-button-edge-to-fill`
 
-  *Newly deprecated tokens (6):*
-
-  * `combo-box-quiet-minimum-width-multiplier`
-  * `combo-box-visual-to-field-button-small`
-  * `combo-box-visual-to-field-button-medium`
-  * `combo-box-visual-to-field-button-large`
-  * `combo-box-visual-to-field-button-extra-large`
-  * `in-field-button-edge-to-fill`
-
-* [`e79ddd6`](https://github.com/adobe/spectrum-design-data/commit/e79ddd6): S2 Color loupe tokens update
+- [`e79ddd6`](https://github.com/adobe/spectrum-design-data/commit/e79ddd6): S2 Color loupe tokens update
 
   ## Design Motivation
 
@@ -9943,16 +9857,15 @@ Updated (1592)
 
   ## Token Diff
 
-  *Newly deprecated tokens (2):*
-
-  * `color-loupe-drop-shadow-blur`
-  * `color-loupe-drop-shadow-y`
+  _Newly deprecated tokens (2):_
+  - `color-loupe-drop-shadow-blur`
+  - `color-loupe-drop-shadow-y`
 
 ## 13.0.0-beta.24
 
 ### Major Changes
 
-* [`1c8f7ab`](https://github.com/adobe/spectrum-design-data/commit/1c8f7ab): Renamed previous drop shadow tokens from S1 and pointed them to the new `100` S2 drop shadow tokens
+- [`1c8f7ab`](https://github.com/adobe/spectrum-design-data/commit/1c8f7ab): Renamed previous drop shadow tokens from S1 and pointed them to the new `100` S2 drop shadow tokens
   Added new drop shadow tokens, `100`, `200`, `emphasized-default`, `emphasized-hover`, `elevated`.
 
   ## Design Motivation
@@ -9961,46 +9874,43 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (24):*
+  _Tokens added (24):_
+  - `drop-shadow-blur`
+  - `drop-shadow-blur-100`
+  - `drop-shadow-blur-200`
+  - `drop-shadow-color`
+  - `drop-shadow-color-100`
+  - `drop-shadow-color-200`
+  - `drop-shadow-elevated-blur`
+  - `drop-shadow-elevated-color`
+  - `drop-shadow-elevated-x`
+  - `drop-shadow-elevated-y`
+  - `drop-shadow-emphasized-default-blur`
+  - `drop-shadow-emphasized-default-color`
+  - `drop-shadow-emphasized-default-x`
+  - `drop-shadow-emphasized-default-y`
+  - `drop-shadow-emphasized-hover-blur`
+  - `drop-shadow-emphasized-hover-color`
+  - `drop-shadow-emphasized-hover-x`
+  - `drop-shadow-emphasized-hover-y`
+  - `drop-shadow-x`
+  - `drop-shadow-x-100`
+  - `drop-shadow-x-200`
+  - `drop-shadow-y`
+  - `drop-shadow-y-100`
+  - `drop-shadow-y-200`
 
-  * `drop-shadow-blur`
-  * `drop-shadow-blur-100`
-  * `drop-shadow-blur-200`
-  * `drop-shadow-color`
-  * `drop-shadow-color-100`
-  * `drop-shadow-color-200`
-  * `drop-shadow-elevated-blur`
-  * `drop-shadow-elevated-color`
-  * `drop-shadow-elevated-x`
-  * `drop-shadow-elevated-y`
-  * `drop-shadow-emphasized-default-blur`
-  * `drop-shadow-emphasized-default-color`
-  * `drop-shadow-emphasized-default-x`
-  * `drop-shadow-emphasized-default-y`
-  * `drop-shadow-emphasized-hover-blur`
-  * `drop-shadow-emphasized-hover-color`
-  * `drop-shadow-emphasized-hover-x`
-  * `drop-shadow-emphasized-hover-y`
-  * `drop-shadow-x`
-  * `drop-shadow-x-100`
-  * `drop-shadow-x-200`
-  * `drop-shadow-y`
-  * `drop-shadow-y-100`
-  * `drop-shadow-y-200`
+  _Tokens deleted (2):_
+  - `drop-shadow-blur`
+  - `drop-shadow-y`
 
-  *Tokens deleted (2):*
-
-  * `drop-shadow-blur`
-  * `drop-shadow-y`
-
-  *Token values updated (2):*
-
-  * `color-handle-drop-shadow-color`
-  * `drop-shadow-color`
+  _Token values updated (2):_
+  - `color-handle-drop-shadow-color`
+  - `drop-shadow-color`
 
 ### Minor Changes
 
-* [`3230aba`](https://github.com/adobe/spectrum-design-data/commit/3230aba): Updated and added S2 drop shadow tokens
+- [`3230aba`](https://github.com/adobe/spectrum-design-data/commit/3230aba): Updated and added S2 drop shadow tokens
 
   ## Design Motivation
 
@@ -10008,51 +9918,46 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (7):*
+  _Tokens added (7):_
+  - `field-default-width-extra-large`
+  - `field-default-width-large`
+  - `field-default-width-medium`
+  - `field-default-width-small`
+  - `tag-minimum-width-large`
+  - `tag-minimum-width-medium`
+  - `tag-minimum-width-small`
 
-  * `field-default-width-extra-large`
-  * `field-default-width-large`
-  * `field-default-width-medium`
-  * `field-default-width-small`
-  * `tag-minimum-width-large`
-  * `tag-minimum-width-medium`
-  * `tag-minimum-width-small`
+  _Token values updated (4):_
+  - `field-top-to-progress-circle-extra-large`
+  - `field-top-to-progress-circle-large`
+  - `field-top-to-progress-circle-medium`
+  - `field-top-to-progress-circle-small`
 
-  *Token values updated (4):*
-
-  * `field-top-to-progress-circle-extra-large`
-  * `field-top-to-progress-circle-large`
-  * `field-top-to-progress-circle-medium`
-  * `field-top-to-progress-circle-small`
-
-  *Newly Deprecated Tokens (4):*
-
-  * `field-width-extra-large`
-  * `field-width-large`
-  * `field-width-medium`
-  * `field-width-small`
+  _Newly Deprecated Tokens (4):_
+  - `field-width-extra-large`
+  - `field-width-large`
+  - `field-width-medium`
+  - `field-width-small`
 
 ## 13.0.0-beta.23
 
 ### Patch Changes
 
-* [`936f608`](https://github.com/adobe/spectrum-design-data/commit/936f608): Fixed misnamed accordion token.
+- [`936f608`](https://github.com/adobe/spectrum-design-data/commit/936f608): Fixed misnamed accordion token.
 
   ## Token Diff
 
-  *Tokens added (1):*
+  _Tokens added (1):_
+  - `accordion-top-to-text-spacious-small`
 
-  * `accordion-top-to-text-spacious-small`
-
-  *Newly deprecated token (1):*
-
-  * `accordion-small-top-to-text-spacious`
+  _Newly deprecated token (1):_
+  - `accordion-small-top-to-text-spacious`
 
 ## 13.0.0-beta.22
 
 ### Minor Changes
 
-* [`c42448c`](https://github.com/adobe/spectrum-design-data/commit/c42448c): Updated and added alert dialog tokens for both desktop and mobile.
+- [`c42448c`](https://github.com/adobe/spectrum-design-data/commit/c42448c): Updated and added alert dialog tokens for both desktop and mobile.
 
   ## Design Motivation
 
@@ -10062,23 +9967,21 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (2):*
+  _Tokens added (2):_
+  - `alert-banner-top-to-alert-icon`
+  - `title-color`
 
-  * `alert-banner-top-to-alert-icon`
-  * `title-color`
+  _Token values updated (2):_
+  - `alert-dialog-description-size`
+  - `alert-dialog-title-size`
 
-  *Token values updated (2):*
-
-  * `alert-dialog-description-size`
-  * `alert-dialog-title-size`
-
-* [`46a801c`](https://github.com/adobe/spectrum-design-data/commit/46a801c): Added tokens for S2 title color
+- [`46a801c`](https://github.com/adobe/spectrum-design-data/commit/46a801c): Added tokens for S2 title color
 
 ## 13.0.0-beta.21
 
 ### Minor Changes
 
-* [`d71bea1`](https://github.com/adobe/spectrum-design-data/commit/d71bea1): S2 Opacity checkerboard non-color token updates
+- [`d71bea1`](https://github.com/adobe/spectrum-design-data/commit/d71bea1): S2 Opacity checkerboard non-color token updates
 
   ## Design Motivation
 
@@ -10086,20 +9989,18 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (2):*
+  _Tokens added (2):_
+  - `opacity-checkerboard-square-size-medium`
+  - `opacity-checkerboard-square-size-small`
 
-  * `opacity-checkerboard-square-size-medium`
-  * `opacity-checkerboard-square-size-small`
-
-  *Newly deprecated token (1):*
-
-  * `opacity-checkerboard-square-size`
+  _Newly deprecated token (1):_
+  - `opacity-checkerboard-square-size`
 
 ## 13.0.0-beta.20
 
 ### Minor Changes
 
-* [`fb61f17`](https://github.com/adobe/spectrum-design-data/commit/fb61f17): Added Title typography tokens
+- [`fb61f17`](https://github.com/adobe/spectrum-design-data/commit/fb61f17): Added Title typography tokens
 
   ## Design Motivation
 
@@ -10107,59 +10008,58 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (45):*
-
-  * `title-cjk-emphasized-font-style`
-  * `title-cjk-emphasized-font-weight`
-  * `title-cjk-font-family`
-  * `title-cjk-font-style`
-  * `title-cjk-font-weight`
-  * `title-cjk-line-height`
-  * `title-cjk-size-l`
-  * `title-cjk-size-m`
-  * `title-cjk-size-s`
-  * `title-cjk-size-xl`
-  * `title-cjk-size-xs`
-  * `title-cjk-size-xxl`
-  * `title-cjk-size-xxxl`
-  * `title-cjk-strong-emphasized-font-style`
-  * `title-cjk-strong-emphasized-font-weight`
-  * `title-cjk-strong-font-style`
-  * `title-cjk-strong-font-weight`
-  * `title-line-height`
-  * `title-margin-bottom-multiplier`
-  * `title-margin-top-multiplier`
-  * `title-sans-serif-emphasized-font-style`
-  * `title-sans-serif-emphasized-font-weight`
-  * `title-sans-serif-font-family`
-  * `title-sans-serif-font-style`
-  * `title-sans-serif-font-weight`
-  * `title-sans-serif-strong-emphasized-font-style`
-  * `title-sans-serif-strong-emphasized-font-weight`
-  * `title-sans-serif-strong-font-style`
-  * `title-sans-serif-strong-font-weight`
-  * `title-serif-emphasized-font-style`
-  * `title-serif-emphasized-font-weight`
-  * `title-serif-font-family`
-  * `title-serif-font-style`
-  * `title-serif-font-weight`
-  * `title-serif-strong-emphasized-font-style`
-  * `title-serif-strong-emphasized-font-weight`
-  * `title-serif-strong-font-style`
-  * `title-serif-strong-font-weight`
-  * `title-size-l`
-  * `title-size-m`
-  * `title-size-s`
-  * `title-size-xl`
-  * `title-size-xs`
-  * `title-size-xxl`
-  * `title-size-xxxl`
+  _Tokens added (45):_
+  - `title-cjk-emphasized-font-style`
+  - `title-cjk-emphasized-font-weight`
+  - `title-cjk-font-family`
+  - `title-cjk-font-style`
+  - `title-cjk-font-weight`
+  - `title-cjk-line-height`
+  - `title-cjk-size-l`
+  - `title-cjk-size-m`
+  - `title-cjk-size-s`
+  - `title-cjk-size-xl`
+  - `title-cjk-size-xs`
+  - `title-cjk-size-xxl`
+  - `title-cjk-size-xxxl`
+  - `title-cjk-strong-emphasized-font-style`
+  - `title-cjk-strong-emphasized-font-weight`
+  - `title-cjk-strong-font-style`
+  - `title-cjk-strong-font-weight`
+  - `title-line-height`
+  - `title-margin-bottom-multiplier`
+  - `title-margin-top-multiplier`
+  - `title-sans-serif-emphasized-font-style`
+  - `title-sans-serif-emphasized-font-weight`
+  - `title-sans-serif-font-family`
+  - `title-sans-serif-font-style`
+  - `title-sans-serif-font-weight`
+  - `title-sans-serif-strong-emphasized-font-style`
+  - `title-sans-serif-strong-emphasized-font-weight`
+  - `title-sans-serif-strong-font-style`
+  - `title-sans-serif-strong-font-weight`
+  - `title-serif-emphasized-font-style`
+  - `title-serif-emphasized-font-weight`
+  - `title-serif-font-family`
+  - `title-serif-font-style`
+  - `title-serif-font-weight`
+  - `title-serif-strong-emphasized-font-style`
+  - `title-serif-strong-emphasized-font-weight`
+  - `title-serif-strong-font-style`
+  - `title-serif-strong-font-weight`
+  - `title-size-l`
+  - `title-size-m`
+  - `title-size-s`
+  - `title-size-xl`
+  - `title-size-xs`
+  - `title-size-xxl`
+  - `title-size-xxxl`
 
 ## 13.0.0-beta.19
 
 ### Minor Changes
 
-* [`723d3b0`](https://github.com/adobe/spectrum-design-data/commit/723d3b0): Updated, added, and deprecated tokens for text field and text area.
+- [`723d3b0`](https://github.com/adobe/spectrum-design-data/commit/723d3b0): Updated, added, and deprecated tokens for text field and text area.
 
   ## Design Motivation
 
@@ -10167,37 +10067,34 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (4):*
+  _Tokens added (4):_
+  - `field-width-small`
+  - `field-width-medium`
+  - `field-width-large`
+  - `field-width-extra-large`
 
-  * `field-width-small`
-  * `field-width-medium`
-  * `field-width-large`
-  * `field-width-extra-large`
+  _Updated token values (4):_
+  - `side-label-character-count-top-margin-small`
+  - `side-label-character-count-top-margin-medium`
+  - `side-label-character-count-top-margin-large`
+  - `side-label-character-count-top-margin-extra-large`
 
-  *Updated token values (4):*
+  _Newly deprecated tokens (8):_
+  - `field-width`
+  - `field-edge-to-text-quiet`
+  - `field-edge-to-border-quiet`
+  - `field-edge-to-alert-icon-quiet`
+  - `field-edge-to-validation-icon-quiet`
+  - `field-label-to-component-quiet-small`
+  - `field-label-to-component-quiet-medium`
+  - `field-label-to-component-quiet-large`
+  - `field-label-to-component-quiet-extra-large`
+  - `character-count-to-field-quiet-small`
+  - `character-count-to-field-quiet-medium`
+  - `character-count-to-field-quiet-large`
+  - `character-count-to-field-quiet-extra-large`
 
-  * `side-label-character-count-top-margin-small`
-  * `side-label-character-count-top-margin-medium`
-  * `side-label-character-count-top-margin-large`
-  * `side-label-character-count-top-margin-extra-large`
-
-  *Newly deprecated tokens (8):*
-
-  * `field-width`
-  * `field-edge-to-text-quiet`
-  * `field-edge-to-border-quiet`
-  * `field-edge-to-alert-icon-quiet`
-  * `field-edge-to-validation-icon-quiet`
-  * `field-label-to-component-quiet-small`
-  * `field-label-to-component-quiet-medium`
-  * `field-label-to-component-quiet-large`
-  * `field-label-to-component-quiet-extra-large`
-  * `character-count-to-field-quiet-small`
-  * `character-count-to-field-quiet-medium`
-  * `character-count-to-field-quiet-large`
-  * `character-count-to-field-quiet-extra-large`
-
-* [`66b1edf`](https://github.com/adobe/spectrum-design-data/commit/66b1edf): Updated color of color-area-border-color token from gray.900 to gray.1000 in both light and dark sets.
+- [`66b1edf`](https://github.com/adobe/spectrum-design-data/commit/66b1edf): Updated color of color-area-border-color token from gray.900 to gray.1000 in both light and dark sets.
 
   ## Design motivation
 
@@ -10205,11 +10102,10 @@ Updated (1592)
 
   ## Token Diff
 
-  *Token value updated (1):*
+  _Token value updated (1):_
+  - `color-area-border-color`
 
-  * `color-area-border-color`
-
-* [`7b5f18b`](https://github.com/adobe/spectrum-design-data/commit/7b5f18b): Update alert banner for Spectrum 2
+- [`7b5f18b`](https://github.com/adobe/spectrum-design-data/commit/7b5f18b): Update alert banner for Spectrum 2
 
   ## Design Motivation
 
@@ -10217,15 +10113,14 @@ Updated (1592)
 
   ## Token Diff
 
-  *Token values updated (5):*
+  _Token values updated (5):_
+  - `alert-banner-bottom-to-text`
+  - `alert-banner-minimum-height`
+  - `alert-banner-top-to-text`
+  - `alert-banner-top-to-workflow-icon`
+  - `search-field-minimum-width-multiplier`
 
-  * `alert-banner-bottom-to-text`
-  * `alert-banner-minimum-height`
-  * `alert-banner-top-to-text`
-  * `alert-banner-top-to-workflow-icon`
-  * `search-field-minimum-width-multiplier`
-
-* [`4a84fdd`](https://github.com/adobe/spectrum-design-data/commit/4a84fdd): Spectrum 2 Toast Tokens
+- [`4a84fdd`](https://github.com/adobe/spectrum-design-data/commit/4a84fdd): Spectrum 2 Toast Tokens
 
   ## Design motivation
 
@@ -10235,19 +10130,18 @@ Updated (1592)
 
   ## Token Diff
 
-  *Token values updated (5):*
-
-  * `toast-height`
-  * `toast-top-to-workflow-icon`
-  * `toast-top-to-text`
-  * `toast-bottom-to-text`
-  * `color-area-border-rounding`
+  _Token values updated (5):_
+  - `toast-height`
+  - `toast-top-to-workflow-icon`
+  - `toast-top-to-text`
+  - `toast-bottom-to-text`
+  - `color-area-border-rounding`
 
 ## 13.0.0-beta.18
 
 ### Minor Changes
 
-* [`940bd78`](https://github.com/adobe/spectrum-design-data/commit/940bd78): Updated background aliases in dark theme; added new non-semantic colors
+- [`940bd78`](https://github.com/adobe/spectrum-design-data/commit/940bd78): Updated background aliases in dark theme; added new non-semantic colors
 
   ## Design Motivation
 
@@ -10256,55 +10150,53 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (10):*
+  _Tokens added (10):_
+  - `brown-background-color-default`
+  - `brown-visual-color`
+  - `cinnamon-background-color-default`
+  - `cinnamon-visual-color`
+  - `pink-background-color-default`
+  - `pink-visual-color`
+  - `silver-background-color-default`
+  - `silver-visual-color`
+  - `turquoise-background-color-default`
+  - `turquoise-visual-color`
 
-  * `brown-background-color-default`
-  * `brown-visual-color`
-  * `cinnamon-background-color-default`
-  * `cinnamon-visual-color`
-  * `pink-background-color-default`
-  * `pink-visual-color`
-  * `silver-background-color-default`
-  * `silver-visual-color`
-  * `turquoise-background-color-default`
-  * `turquoise-visual-color`
-
-  *Token values updated (27):*
-
-  * `accent-background-color-default`
-  * `accent-background-color-down`
-  * `accent-background-color-hover`
-  * `accent-background-color-key-focus`
-  * `celery-background-color-default`
-  * `chartreuse-background-color-default`
-  * `gray-background-color-default`
-  * `informative-background-color-default`
-  * `informative-background-color-down`
-  * `informative-background-color-hover`
-  * `informative-background-color-key-focus`
-  * `negative-background-color-default`
-  * `negative-background-color-down`
-  * `negative-background-color-hover`
-  * `negative-background-color-key-focus`
-  * `neutral-subdued-background-color-default`
-  * `neutral-subdued-background-color-down`
-  * `neutral-subdued-background-color-hover`
-  * `neutral-subdued-background-color-key-focus`
-  * `notice-background-color-default`
-  * `orange-background-color-default`
-  * `positive-background-color-default`
-  * `positive-background-color-down`
-  * `positive-background-color-hover`
-  * `positive-background-color-key-focus`
-  * `table-selected-row-background-color`
-  * `yellow-background-color-default`
+  _Token values updated (27):_
+  - `accent-background-color-default`
+  - `accent-background-color-down`
+  - `accent-background-color-hover`
+  - `accent-background-color-key-focus`
+  - `celery-background-color-default`
+  - `chartreuse-background-color-default`
+  - `gray-background-color-default`
+  - `informative-background-color-default`
+  - `informative-background-color-down`
+  - `informative-background-color-hover`
+  - `informative-background-color-key-focus`
+  - `negative-background-color-default`
+  - `negative-background-color-down`
+  - `negative-background-color-hover`
+  - `negative-background-color-key-focus`
+  - `neutral-subdued-background-color-default`
+  - `neutral-subdued-background-color-down`
+  - `neutral-subdued-background-color-hover`
+  - `neutral-subdued-background-color-key-focus`
+  - `notice-background-color-default`
+  - `orange-background-color-default`
+  - `positive-background-color-default`
+  - `positive-background-color-down`
+  - `positive-background-color-hover`
+  - `positive-background-color-key-focus`
+  - `table-selected-row-background-color`
+  - `yellow-background-color-default`
 
 ## 13.0.0-beta.17
 
 ### Minor Changes
 
-* [`9072ae7`](https://github.com/adobe/spectrum-design-data/commit/9072ae7): `color-slider-border-color` token was updated to reference `gray-1000` instead of `gray-90`0 in both light and dark themes.
-* [`912e307`](https://github.com/adobe/spectrum-design-data/commit/912e307): Updated `color-slider-border-rounding` token to use 7px instead of 4px in desktop only.
+- [`9072ae7`](https://github.com/adobe/spectrum-design-data/commit/9072ae7): `color-slider-border-color` token was updated to reference `gray-1000` instead of `gray-90`0 in both light and dark themes.
+- [`912e307`](https://github.com/adobe/spectrum-design-data/commit/912e307): Updated `color-slider-border-rounding` token to use 7px instead of 4px in desktop only.
   This token value update is the same value used by alias token: `corner-radius-medium-size-small`.
 
   ## Design Motivation
@@ -10313,16 +10205,15 @@ Updated (1592)
 
   ## Token Diff
 
-  *Token values updated (2):*
-
-  * `color-slider-border-color`
-  * `color-slider-border-rounding`
+  _Token values updated (2):_
+  - `color-slider-border-color`
+  - `color-slider-border-rounding`
 
 ## 13.0.0-beta.16
 
 ### Minor Changes
 
-* [`80a3fec`](https://github.com/adobe/spectrum-design-data/commit/80a3fec): New non-color tokens for S2 tag component added to both desktop and mobile layout.component sets.
+- [`80a3fec`](https://github.com/adobe/spectrum-design-data/commit/80a3fec): New non-color tokens for S2 tag component added to both desktop and mobile layout.component sets.
 
   ## Design Motivation
 
@@ -10330,24 +10221,23 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (9):*
-
-  * `tag-edge-to-clear-icon-large`
-  * `tag-edge-to-clear-icon-medium`
-  * `tag-edge-to-clear-icon-small`
-  * `tag-label-clear-icon-large`
-  * `tag-label-to-clear-icon-large`
-  * `tag-label-to-clear-icon-medium`
-  * `tag-label-to-clear-icon-small`
-  * `tag-maximum-width-multiplier`
-  * `tag-minimum-width-multiplier`
+  _Tokens added (9):_
+  - `tag-edge-to-clear-icon-large`
+  - `tag-edge-to-clear-icon-medium`
+  - `tag-edge-to-clear-icon-small`
+  - `tag-label-clear-icon-large`
+  - `tag-label-to-clear-icon-large`
+  - `tag-label-to-clear-icon-medium`
+  - `tag-label-to-clear-icon-small`
+  - `tag-maximum-width-multiplier`
+  - `tag-minimum-width-multiplier`
 
 ## 13.0.0-beta.15
 
 ### Minor Changes
 
-* [`c7c1d81`](https://github.com/adobe/spectrum-design-data/commit/c7c1d81): Added new semantic color aliases to Tokens Studio, in the S2 color tokens, alias sets for both light and dark themes.
-* [`4b78009`](https://github.com/adobe/spectrum-design-data/commit/4b78009): Updated values and added new tokens for Switch.
+- [`c7c1d81`](https://github.com/adobe/spectrum-design-data/commit/c7c1d81): Added new semantic color aliases to Tokens Studio, in the S2 color tokens, alias sets for both light and dark themes.
+- [`4b78009`](https://github.com/adobe/spectrum-design-data/commit/4b78009): Updated values and added new tokens for Switch.
 
   ## Design Motivation
 
@@ -10360,116 +10250,110 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (12):*
+  _Tokens added (12):_
+  - `negative-subdued-background-color-default`
+  - `negative-subdued-background-color-down`
+  - `negative-subdued-background-color-hover`
+  - `negative-subdued-background-color-key-focus`
+  - `switch-handle-selected-size-extra-large`
+  - `switch-handle-selected-size-large`
+  - `switch-handle-selected-size-medium`
+  - `switch-handle-selected-size-small`
+  - `switch-handle-size-extra-large`
+  - `switch-handle-size-large`
+  - `switch-handle-size-medium`
+  - `switch-handle-size-small`
 
-  * `negative-subdued-background-color-default`
-  * `negative-subdued-background-color-down`
-  * `negative-subdued-background-color-hover`
-  * `negative-subdued-background-color-key-focus`
-  * `switch-handle-selected-size-extra-large`
-  * `switch-handle-selected-size-large`
-  * `switch-handle-selected-size-medium`
-  * `switch-handle-selected-size-small`
-  * `switch-handle-size-extra-large`
-  * `switch-handle-size-large`
-  * `switch-handle-size-medium`
-  * `switch-handle-size-small`
-
-  *Token values updated (8):*
-
-  * `switch-control-height-extra-large`
-  * `switch-control-height-large`
-  * `switch-control-height-medium`
-  * `switch-control-height-small`
-  * `switch-control-width-extra-large`
-  * `switch-control-width-large`
-  * `switch-control-width-medium`
-  * `switch-control-width-small`
+  _Token values updated (8):_
+  - `switch-control-height-extra-large`
+  - `switch-control-height-large`
+  - `switch-control-height-medium`
+  - `switch-control-height-small`
+  - `switch-control-width-extra-large`
+  - `switch-control-width-large`
+  - `switch-control-width-medium`
+  - `switch-control-width-small`
 
 ## 13.0.0-beta.14
 
 ### Minor Changes
 
-* [`f004b0c`](https://github.com/adobe/spectrum-design-data/commit/f004b0c): The tokens listed in the diff below had identical values between sets and so were merged to single values to simplify the data.
+- [`f004b0c`](https://github.com/adobe/spectrum-design-data/commit/f004b0c): The tokens listed in the diff below had identical values between sets and so were merged to single values to simplify the data.
 
   ## Token Diff
 
-  *Tokens values updated (46):*
-
-  * `accordion-disclosure-indicator-to-text`
-  * `accordion-edge-to-disclosure-indicator`
-  * `accordion-edge-to-text`
-  * `accordion-focus-indicator-gap`
-  * `accordion-top-to-text-compact-medium`
-  * `accordion-top-to-text-compact-small`
-  * `action-button-edge-to-hold-icon-extra-small`
-  * `action-button-edge-to-hold-icon-small`
-  * `asterisk-icon-size-75`
-  * `background-base-color`
-  * `background-layer-1-color`
-  * `color-area-border-rounding`
-  * `corner-radius-0`
-  * `corner-radius-100`
-  * `corner-radius-1000`
-  * `corner-radius-200`
-  * `corner-radius-300`
-  * `corner-radius-400`
-  * `corner-radius-500`
-  * `corner-radius-600`
-  * `corner-radius-700`
-  * `corner-radius-75`
-  * `corner-radius-800`
-  * `corner-radius-extra-large-default`
-  * `corner-radius-full`
-  * `corner-radius-large-default`
-  * `corner-radius-medium-default`
-  * `corner-radius-medium-size-extra-large`
-  * `corner-radius-medium-size-extra-small`
-  * `corner-radius-medium-size-large`
-  * `corner-radius-medium-size-medium`
-  * `corner-radius-medium-size-small`
-  * `corner-radius-none`
-  * `corner-radius-small-default`
-  * `corner-radius-small-size-extra-large`
-  * `corner-radius-small-size-large`
-  * `corner-radius-small-size-medium`
-  * `corner-radius-small-size-small`
-  * `drop-shadow-x`
-  * `field-label-top-margin-extra-large`
-  * `field-label-top-margin-large`
-  * `field-label-top-margin-medium`
-  * `field-label-top-margin-small`
-  * `gray-background-color-default`
-  * `status-light-dot-size-small`
-  * `table-edge-to-content`
+  _Tokens values updated (46):_
+  - `accordion-disclosure-indicator-to-text`
+  - `accordion-edge-to-disclosure-indicator`
+  - `accordion-edge-to-text`
+  - `accordion-focus-indicator-gap`
+  - `accordion-top-to-text-compact-medium`
+  - `accordion-top-to-text-compact-small`
+  - `action-button-edge-to-hold-icon-extra-small`
+  - `action-button-edge-to-hold-icon-small`
+  - `asterisk-icon-size-75`
+  - `background-base-color`
+  - `background-layer-1-color`
+  - `color-area-border-rounding`
+  - `corner-radius-0`
+  - `corner-radius-100`
+  - `corner-radius-1000`
+  - `corner-radius-200`
+  - `corner-radius-300`
+  - `corner-radius-400`
+  - `corner-radius-500`
+  - `corner-radius-600`
+  - `corner-radius-700`
+  - `corner-radius-75`
+  - `corner-radius-800`
+  - `corner-radius-extra-large-default`
+  - `corner-radius-full`
+  - `corner-radius-large-default`
+  - `corner-radius-medium-default`
+  - `corner-radius-medium-size-extra-large`
+  - `corner-radius-medium-size-extra-small`
+  - `corner-radius-medium-size-large`
+  - `corner-radius-medium-size-medium`
+  - `corner-radius-medium-size-small`
+  - `corner-radius-none`
+  - `corner-radius-small-default`
+  - `corner-radius-small-size-extra-large`
+  - `corner-radius-small-size-large`
+  - `corner-radius-small-size-medium`
+  - `corner-radius-small-size-small`
+  - `drop-shadow-x`
+  - `field-label-top-margin-extra-large`
+  - `field-label-top-margin-large`
+  - `field-label-top-margin-medium`
+  - `field-label-top-margin-small`
+  - `gray-background-color-default`
+  - `status-light-dot-size-small`
+  - `table-edge-to-content`
 
 ## 13.0.0-beta.13
 
 ### Minor Changes
 
-* [`ef600c4`](https://github.com/adobe/spectrum-design-data/commit/ef600c4): ## Design Motivation
-
-  * The updated tooltip component in Spectrum 2 has a larger, slightly rounded tip
-  * Added tokens for horizontal and vertical orientation
+- [`ef600c4`](https://github.com/adobe/spectrum-design-data/commit/ef600c4): ## Design Motivation
+  - The updated tooltip component in Spectrum 2 has a larger, slightly rounded tip
+  - Added tokens for horizontal and vertical orientation
 
   ## Tokens Diff
 
-  *Tokens added (3):*
+  _Tokens added (3):_
+  - `divider-horizontal-minimum-width`
+  - `divider-vertical-minimum-height`
+  - `tooltip-tip-corner-radius`
 
-  * `divider-horizontal-minimum-width`
-  * `divider-vertical-minimum-height`
-  * `tooltip-tip-corner-radius`
-
-  *Token values updated (2):*
-
-  * `tooltip-tip-height`
-  * `tooltip-tip-width`
+  _Token values updated (2):_
+  - `tooltip-tip-height`
+  - `tooltip-tip-width`
 
 ## 13.0.0-beta.12
 
 ### Minor Changes
 
-* [`c87d743`](https://github.com/adobe/spectrum-design-data/commit/c87d743): Updates to spacing tokens for the S2 field label component include:
+- [`c87d743`](https://github.com/adobe/spectrum-design-data/commit/c87d743): Updates to spacing tokens for the S2 field label component include:
 
   Token: field-label-top-to-asterisk-\[medium, large, extra-large]. Only value for extra-large token required updating in the desktop scale. All other sizes presented accurate values.
 
@@ -10481,12 +10365,11 @@ Updated (1592)
 
   ## Token Diff
 
-  *Token values updated (4):*
-
-  * `field-label-top-margin-extra-large`
-  * `field-label-top-margin-large`
-  * `field-label-top-margin-medium`
-  * `field-label-top-to-asterisk-extra-large`
+  _Token values updated (4):_
+  - `field-label-top-margin-extra-large`
+  - `field-label-top-margin-large`
+  - `field-label-top-margin-medium`
+  - `field-label-top-to-asterisk-extra-large`
 
   ## Schema Diff
 
@@ -10496,7 +10379,7 @@ Updated (1592)
 
 ### Minor Changes
 
-* [`3c6303a`](https://github.com/adobe/spectrum-design-data/commit/3c6303a): Updated text-to-visual-300 mobile value from 11px to 10px.
+- [`3c6303a`](https://github.com/adobe/spectrum-design-data/commit/3c6303a): Updated text-to-visual-300 mobile value from 11px to 10px.
 
   ## Design Motivation
 
@@ -10504,11 +10387,10 @@ Updated (1592)
 
   ## Token Diff
 
-  *Token values updated (1):*
+  _Token values updated (1):_
+  - `text-to-visual-300`
 
-  * `text-to-visual-300`
-
-* [`6579966`](https://github.com/adobe/spectrum-design-data/commit/6579966): existing corner-radius tokens, adding net-new global corner radius tokens, and introducing new alias names that point to these global values.
+- [`6579966`](https://github.com/adobe/spectrum-design-data/commit/6579966): existing corner-radius tokens, adding net-new global corner radius tokens, and introducing new alias names that point to these global values.
 
   ## Design Motivation
 
@@ -10518,72 +10400,68 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (23):*
+  _Tokens added (23):_
+  - `corner-radius-0`
+  - `corner-radius-300`
+  - `corner-radius-400`
+  - `corner-radius-500`
+  - `corner-radius-600`
+  - `corner-radius-700`
+  - `corner-radius-800`
+  - `corner-radius-1000`
+  - `corner-radius-extra-large-default`
+  - `corner-radius-full`
+  - `corner-radius-large-default`
+  - `corner-radius-medium-default`
+  - `corner-radius-medium-size-extra-small`
+  - `corner-radius-medium-size-small`
+  - `corner-radius-medium-size-medium`
+  - `corner-radius-medium-size-large`
+  - `corner-radius-medium-size-extra-large`
+  - `corner-radius-none`
+  - `corner-radius-small-default`
+  - `corner-radius-small-size-small`
+  - `corner-radius-small-size-medium`
+  - `corner-radius-small-size-large`
+  - `corner-radius-small-size-extra-large`
 
-  * `corner-radius-0`
-  * `corner-radius-300`
-  * `corner-radius-400`
-  * `corner-radius-500`
-  * `corner-radius-600`
-  * `corner-radius-700`
-  * `corner-radius-800`
-  * `corner-radius-1000`
-  * `corner-radius-extra-large-default`
-  * `corner-radius-full`
-  * `corner-radius-large-default`
-  * `corner-radius-medium-default`
-  * `corner-radius-medium-size-extra-small`
-  * `corner-radius-medium-size-small`
-  * `corner-radius-medium-size-medium`
-  * `corner-radius-medium-size-large`
-  * `corner-radius-medium-size-extra-large`
-  * `corner-radius-none`
-  * `corner-radius-small-default`
-  * `corner-radius-small-size-small`
-  * `corner-radius-small-size-medium`
-  * `corner-radius-small-size-large`
-  * `corner-radius-small-size-extra-large`
-
-  *Token values updated (3):*
-
-  * `corner-radius-75`
-  * `corner-radius-100`
-  * `corner-radius-200`
+  _Token values updated (3):_
+  - `corner-radius-75`
+  - `corner-radius-100`
+  - `corner-radius-200`
 
 ## 13.0.0-beta.10
 
 ### Minor Changes
 
-* [`23d9085`](https://github.com/adobe/spectrum-design-data/commit/23d9085): Updated desktop and mobile values for component-edge-to-visual-only tokens.
+- [`23d9085`](https://github.com/adobe/spectrum-design-data/commit/23d9085): Updated desktop and mobile values for component-edge-to-visual-only tokens.
 
   Spacing changed due to new workflow icon sizes.
 
   ## Token Diff
 
-  *Token values updated (5):*
+  _Token values updated (5):_
+  - `component-edge-to-visual-only-100`
+  - `component-edge-to-visual-only-200`
+  - `component-edge-to-visual-only-300`
+  - `component-edge-to-visual-only-50`
+  - `component-edge-to-visual-only-75`
 
-  * `component-edge-to-visual-only-100`
-  * `component-edge-to-visual-only-200`
-  * `component-edge-to-visual-only-300`
-  * `component-edge-to-visual-only-50`
-  * `component-edge-to-visual-only-75`
-
-* [`c5430b7`](https://github.com/adobe/spectrum-design-data/commit/c5430b7): Updated help-text-top-to-workflow-icon-\_ token values to point to component-top-to-workflow-icon-\_ tokens
+- [`c5430b7`](https://github.com/adobe/spectrum-design-data/commit/c5430b7): Updated help-text-top-to-workflow-icon-\_ token values to point to component-top-to-workflow-icon-\_ tokens
 
   ## Token Diff
 
-  *Newly deprecated tokens (4):*
-
-  * `help-text-top-to-workflow-icon-extra-large`: use `component-edge-to-visual-only-300`
-  * `help-text-top-to-workflow-icon-large`: use `component-edge-to-visual-only-200`
-  * `help-text-top-to-workflow-icon-medium`: use `component-edge-to-visual-only-100`
-  * `help-text-top-to-workflow-icon-small`: use `component-edge-to-visual-only-75`
+  _Newly deprecated tokens (4):_
+  - `help-text-top-to-workflow-icon-extra-large`: use `component-edge-to-visual-only-300`
+  - `help-text-top-to-workflow-icon-large`: use `component-edge-to-visual-only-200`
+  - `help-text-top-to-workflow-icon-medium`: use `component-edge-to-visual-only-100`
+  - `help-text-top-to-workflow-icon-small`: use `component-edge-to-visual-only-75`
 
 ## 13.0.0-beta.9
 
 ### Minor Changes
 
-* [`cf09c84`](https://github.com/adobe/spectrum-design-data/commit/cf09c84): Updated workflow-icon-size-50, 75, 100, 200, 300 with Spectrum 2 values in mobile and desktop.
+- [`cf09c84`](https://github.com/adobe/spectrum-design-data/commit/cf09c84): Updated workflow-icon-size-50, 75, 100, 200, 300 with Spectrum 2 values in mobile and desktop.
   Updated component-top-to-workflow and text-to-visual padding.
   Added 3 new non-color tokens for S2 component downstates in Tokens Studio.
 
@@ -10597,35 +10475,33 @@ Updated (1592)
 
   ## Tokens Diff
 
-  *Tokens added (3):*
+  _Tokens added (3):_
+  - `component-size-difference-down`
+  - `component-size-minimum-perspective-down`
+  - `component-size-width-ratio-down`
 
-  * `component-size-difference-down`
-  * `component-size-minimum-perspective-down`
-  * `component-size-width-ratio-down`
-
-  *Token values updated (15):*
-
-  * `component-top-to-workflow-icon-100`
-  * `component-top-to-workflow-icon-200`
-  * `component-top-to-workflow-icon-300`
-  * `component-top-to-workflow-icon-50`
-  * `component-top-to-workflow-icon-75`
-  * `text-to-visual-100`
-  * `text-to-visual-200`
-  * `text-to-visual-300`
-  * `text-to-visual-50`
-  * `text-to-visual-75`
-  * `workflow-icon-size-100`
-  * `workflow-icon-size-200`
-  * `workflow-icon-size-300`
-  * `workflow-icon-size-50`
-  * `workflow-icon-size-75`
+  _Token values updated (15):_
+  - `component-top-to-workflow-icon-100`
+  - `component-top-to-workflow-icon-200`
+  - `component-top-to-workflow-icon-300`
+  - `component-top-to-workflow-icon-50`
+  - `component-top-to-workflow-icon-75`
+  - `text-to-visual-100`
+  - `text-to-visual-200`
+  - `text-to-visual-300`
+  - `text-to-visual-50`
+  - `text-to-visual-75`
+  - `workflow-icon-size-100`
+  - `workflow-icon-size-200`
+  - `workflow-icon-size-300`
+  - `workflow-icon-size-50`
+  - `workflow-icon-size-75`
 
 ## 13.0.0-beta.8
 
 ### Minor Changes
 
-* [`507f3c2`](https://github.com/adobe/spectrum-design-data/commit/507f3c2): Added new and updating existing background layer tokens to S2 set in Tokens Studio and S2/Variables. Also reordered token organization to reflect proper usage based on [S2 guidelines](https://s2.spectrum.corp.adobe.com/page/background-layers/#editing-contexts).
+- [`507f3c2`](https://github.com/adobe/spectrum-design-data/commit/507f3c2): Added new and updating existing background layer tokens to S2 set in Tokens Studio and S2/Variables. Also reordered token organization to reflect proper usage based on [S2 guidelines](https://s2.spectrum.corp.adobe.com/page/background-layers/#editing-contexts).
 
   ## Design Motivation
 
@@ -10633,359 +10509,356 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (2):*
+  _Tokens added (2):_
+  - `background-elevated-color`
+  - `background-pasteboard-color`
 
-  * `background-elevated-color`
-  * `background-pasteboard-color`
-
-  *Token values updated (1):*
-
-  * `background-base-color`
+  _Token values updated (1):_
+  - `background-base-color`
 
 ## 13.0.0-beta.7
 
 ### Minor Changes
 
-* [`4853f76`](https://github.com/adobe/spectrum-design-data/commit/4853f76): Added schema to all tokens and fixed values that didn't meet schema requirements
+- [`4853f76`](https://github.com/adobe/spectrum-design-data/commit/4853f76): Added schema to all tokens and fixed values that didn't meet schema requirements
 
   ## Token Diff
 
-  *Token values updated (328):*
-
-  * `accent-background-color-default`
-  * `accent-background-color-down`
-  * `accent-background-color-hover`
-  * `accent-background-color-key-focus`
-  * `accent-color-100`
-  * `accent-color-1000`
-  * `accent-color-1100`
-  * `accent-color-1200`
-  * `accent-color-1300`
-  * `accent-color-1400`
-  * `accent-color-200`
-  * `accent-color-300`
-  * `accent-color-400`
-  * `accent-color-500`
-  * `accent-color-600`
-  * `accent-color-700`
-  * `accent-color-800`
-  * `accent-color-900`
-  * `accent-content-color-default`
-  * `accent-content-color-down`
-  * `accent-content-color-hover`
-  * `accent-content-color-key-focus`
-  * `accent-content-color-selected`
-  * `accent-visual-color`
-  * `blue-100`
-  * `blue-1000`
-  * `blue-1100`
-  * `blue-1200`
-  * `blue-1300`
-  * `blue-1400`
-  * `blue-200`
-  * `blue-300`
-  * `blue-400`
-  * `blue-500`
-  * `blue-600`
-  * `blue-700`
-  * `blue-800`
-  * `blue-900`
-  * `blue-background-color-default`
-  * `blue-visual-color`
-  * `celery-100`
-  * `celery-1000`
-  * `celery-1100`
-  * `celery-1200`
-  * `celery-1300`
-  * `celery-1400`
-  * `celery-200`
-  * `celery-300`
-  * `celery-400`
-  * `celery-500`
-  * `celery-600`
-  * `celery-700`
-  * `celery-800`
-  * `celery-900`
-  * `celery-background-color-default`
-  * `celery-visual-color`
-  * `chartreuse-100`
-  * `chartreuse-1000`
-  * `chartreuse-1100`
-  * `chartreuse-1200`
-  * `chartreuse-1300`
-  * `chartreuse-1400`
-  * `chartreuse-200`
-  * `chartreuse-300`
-  * `chartreuse-400`
-  * `chartreuse-500`
-  * `chartreuse-600`
-  * `chartreuse-700`
-  * `chartreuse-800`
-  * `chartreuse-900`
-  * `chartreuse-background-color-default`
-  * `chartreuse-visual-color`
-  * `contextual-help-body-size`
-  * `cyan-100`
-  * `cyan-1000`
-  * `cyan-1100`
-  * `cyan-1200`
-  * `cyan-1300`
-  * `cyan-1400`
-  * `cyan-200`
-  * `cyan-300`
-  * `cyan-400`
-  * `cyan-500`
-  * `cyan-600`
-  * `cyan-700`
-  * `cyan-800`
-  * `cyan-900`
-  * `cyan-background-color-default`
-  * `cyan-visual-color`
-  * `drop-zone-background-color`
-  * `focus-indicator-color`
-  * `fuchsia-100`
-  * `fuchsia-1000`
-  * `fuchsia-1100`
-  * `fuchsia-1200`
-  * `fuchsia-1300`
-  * `fuchsia-1400`
-  * `fuchsia-200`
-  * `fuchsia-300`
-  * `fuchsia-400`
-  * `fuchsia-500`
-  * `fuchsia-600`
-  * `fuchsia-700`
-  * `fuchsia-800`
-  * `fuchsia-900`
-  * `fuchsia-background-color-default`
-  * `fuchsia-visual-color`
-  * `green-100`
-  * `green-1000`
-  * `green-1100`
-  * `green-1200`
-  * `green-1300`
-  * `green-1400`
-  * `green-200`
-  * `green-300`
-  * `green-400`
-  * `green-500`
-  * `green-600`
-  * `green-700`
-  * `green-800`
-  * `green-900`
-  * `green-background-color-default`
-  * `green-visual-color`
-  * `icon-color-blue-primary-default`
-  * `icon-color-green-primary-default`
-  * `icon-color-red-primary-default`
-  * `icon-color-yellow-primary-default`
-  * `indigo-100`
-  * `indigo-1000`
-  * `indigo-1100`
-  * `indigo-1200`
-  * `indigo-1300`
-  * `indigo-1400`
-  * `indigo-200`
-  * `indigo-300`
-  * `indigo-400`
-  * `indigo-500`
-  * `indigo-600`
-  * `indigo-700`
-  * `indigo-800`
-  * `indigo-900`
-  * `indigo-background-color-default`
-  * `indigo-visual-color`
-  * `informative-background-color-default`
-  * `informative-background-color-down`
-  * `informative-background-color-hover`
-  * `informative-background-color-key-focus`
-  * `informative-color-100`
-  * `informative-color-1000`
-  * `informative-color-1100`
-  * `informative-color-1200`
-  * `informative-color-1300`
-  * `informative-color-1400`
-  * `informative-color-200`
-  * `informative-color-300`
-  * `informative-color-400`
-  * `informative-color-500`
-  * `informative-color-600`
-  * `informative-color-700`
-  * `informative-color-800`
-  * `informative-color-900`
-  * `informative-visual-color`
-  * `magenta-100`
-  * `magenta-1000`
-  * `magenta-1100`
-  * `magenta-1200`
-  * `magenta-1300`
-  * `magenta-1400`
-  * `magenta-200`
-  * `magenta-300`
-  * `magenta-400`
-  * `magenta-500`
-  * `magenta-600`
-  * `magenta-700`
-  * `magenta-800`
-  * `magenta-900`
-  * `magenta-background-color-default`
-  * `magenta-visual-color`
-  * `navigational-indicator-top-to-back-icon-extra-large`
-  * `navigational-indicator-top-to-back-icon-large`
-  * `navigational-indicator-top-to-back-icon-medium`
-  * `navigational-indicator-top-to-back-icon-small`
-  * `negative-background-color-default`
-  * `negative-background-color-down`
-  * `negative-background-color-hover`
-  * `negative-background-color-key-focus`
-  * `negative-border-color-default`
-  * `negative-border-color-down`
-  * `negative-border-color-focus`
-  * `negative-border-color-focus-hover`
-  * `negative-border-color-hover`
-  * `negative-border-color-key-focus`
-  * `negative-color-100`
-  * `negative-color-1000`
-  * `negative-color-1100`
-  * `negative-color-1200`
-  * `negative-color-1300`
-  * `negative-color-1400`
-  * `negative-color-200`
-  * `negative-color-300`
-  * `negative-color-400`
-  * `negative-color-500`
-  * `negative-color-600`
-  * `negative-color-700`
-  * `negative-color-800`
-  * `negative-color-900`
-  * `negative-content-color-default`
-  * `negative-content-color-down`
-  * `negative-content-color-hover`
-  * `negative-content-color-key-focus`
-  * `negative-visual-color`
-  * `notice-background-color-default`
-  * `notice-color-100`
-  * `notice-color-1000`
-  * `notice-color-1100`
-  * `notice-color-1200`
-  * `notice-color-1300`
-  * `notice-color-1400`
-  * `notice-color-200`
-  * `notice-color-300`
-  * `notice-color-400`
-  * `notice-color-500`
-  * `notice-color-600`
-  * `notice-color-700`
-  * `notice-color-800`
-  * `notice-color-900`
-  * `notice-visual-color`
-  * `orange-100`
-  * `orange-1000`
-  * `orange-1100`
-  * `orange-1200`
-  * `orange-1300`
-  * `orange-1400`
-  * `orange-200`
-  * `orange-300`
-  * `orange-400`
-  * `orange-500`
-  * `orange-600`
-  * `orange-700`
-  * `orange-800`
-  * `orange-900`
-  * `orange-background-color-default`
-  * `orange-visual-color`
-  * `positive-background-color-default`
-  * `positive-background-color-down`
-  * `positive-background-color-hover`
-  * `positive-background-color-key-focus`
-  * `positive-color-100`
-  * `positive-color-1000`
-  * `positive-color-1100`
-  * `positive-color-1200`
-  * `positive-color-1300`
-  * `positive-color-1400`
-  * `positive-color-200`
-  * `positive-color-300`
-  * `positive-color-400`
-  * `positive-color-500`
-  * `positive-color-600`
-  * `positive-color-700`
-  * `positive-color-800`
-  * `positive-color-900`
-  * `positive-visual-color`
-  * `purple-100`
-  * `purple-1000`
-  * `purple-1100`
-  * `purple-1200`
-  * `purple-1300`
-  * `purple-1400`
-  * `purple-200`
-  * `purple-300`
-  * `purple-400`
-  * `purple-500`
-  * `purple-600`
-  * `purple-700`
-  * `purple-800`
-  * `purple-900`
-  * `purple-background-color-default`
-  * `purple-visual-color`
-  * `red-100`
-  * `red-1000`
-  * `red-1100`
-  * `red-1200`
-  * `red-1300`
-  * `red-1400`
-  * `red-200`
-  * `red-300`
-  * `red-400`
-  * `red-500`
-  * `red-600`
-  * `red-700`
-  * `red-800`
-  * `red-900`
-  * `red-background-color-default`
-  * `red-visual-color`
-  * `seafoam-100`
-  * `seafoam-1000`
-  * `seafoam-1100`
-  * `seafoam-1200`
-  * `seafoam-1300`
-  * `seafoam-1400`
-  * `seafoam-200`
-  * `seafoam-300`
-  * `seafoam-400`
-  * `seafoam-500`
-  * `seafoam-600`
-  * `seafoam-700`
-  * `seafoam-800`
-  * `seafoam-900`
-  * `seafoam-background-color-default`
-  * `seafoam-visual-color`
-  * `side-navigation-item-to-header`
-  * `table-selected-row-background-color`
-  * `yellow-100`
-  * `yellow-1000`
-  * `yellow-1100`
-  * `yellow-1200`
-  * `yellow-1300`
-  * `yellow-1400`
-  * `yellow-200`
-  * `yellow-300`
-  * `yellow-400`
-  * `yellow-500`
-  * `yellow-600`
-  * `yellow-700`
-  * `yellow-800`
-  * `yellow-900`
-  * `yellow-background-color-default`
-  * `yellow-visual-color`
+  _Token values updated (328):_
+  - `accent-background-color-default`
+  - `accent-background-color-down`
+  - `accent-background-color-hover`
+  - `accent-background-color-key-focus`
+  - `accent-color-100`
+  - `accent-color-1000`
+  - `accent-color-1100`
+  - `accent-color-1200`
+  - `accent-color-1300`
+  - `accent-color-1400`
+  - `accent-color-200`
+  - `accent-color-300`
+  - `accent-color-400`
+  - `accent-color-500`
+  - `accent-color-600`
+  - `accent-color-700`
+  - `accent-color-800`
+  - `accent-color-900`
+  - `accent-content-color-default`
+  - `accent-content-color-down`
+  - `accent-content-color-hover`
+  - `accent-content-color-key-focus`
+  - `accent-content-color-selected`
+  - `accent-visual-color`
+  - `blue-100`
+  - `blue-1000`
+  - `blue-1100`
+  - `blue-1200`
+  - `blue-1300`
+  - `blue-1400`
+  - `blue-200`
+  - `blue-300`
+  - `blue-400`
+  - `blue-500`
+  - `blue-600`
+  - `blue-700`
+  - `blue-800`
+  - `blue-900`
+  - `blue-background-color-default`
+  - `blue-visual-color`
+  - `celery-100`
+  - `celery-1000`
+  - `celery-1100`
+  - `celery-1200`
+  - `celery-1300`
+  - `celery-1400`
+  - `celery-200`
+  - `celery-300`
+  - `celery-400`
+  - `celery-500`
+  - `celery-600`
+  - `celery-700`
+  - `celery-800`
+  - `celery-900`
+  - `celery-background-color-default`
+  - `celery-visual-color`
+  - `chartreuse-100`
+  - `chartreuse-1000`
+  - `chartreuse-1100`
+  - `chartreuse-1200`
+  - `chartreuse-1300`
+  - `chartreuse-1400`
+  - `chartreuse-200`
+  - `chartreuse-300`
+  - `chartreuse-400`
+  - `chartreuse-500`
+  - `chartreuse-600`
+  - `chartreuse-700`
+  - `chartreuse-800`
+  - `chartreuse-900`
+  - `chartreuse-background-color-default`
+  - `chartreuse-visual-color`
+  - `contextual-help-body-size`
+  - `cyan-100`
+  - `cyan-1000`
+  - `cyan-1100`
+  - `cyan-1200`
+  - `cyan-1300`
+  - `cyan-1400`
+  - `cyan-200`
+  - `cyan-300`
+  - `cyan-400`
+  - `cyan-500`
+  - `cyan-600`
+  - `cyan-700`
+  - `cyan-800`
+  - `cyan-900`
+  - `cyan-background-color-default`
+  - `cyan-visual-color`
+  - `drop-zone-background-color`
+  - `focus-indicator-color`
+  - `fuchsia-100`
+  - `fuchsia-1000`
+  - `fuchsia-1100`
+  - `fuchsia-1200`
+  - `fuchsia-1300`
+  - `fuchsia-1400`
+  - `fuchsia-200`
+  - `fuchsia-300`
+  - `fuchsia-400`
+  - `fuchsia-500`
+  - `fuchsia-600`
+  - `fuchsia-700`
+  - `fuchsia-800`
+  - `fuchsia-900`
+  - `fuchsia-background-color-default`
+  - `fuchsia-visual-color`
+  - `green-100`
+  - `green-1000`
+  - `green-1100`
+  - `green-1200`
+  - `green-1300`
+  - `green-1400`
+  - `green-200`
+  - `green-300`
+  - `green-400`
+  - `green-500`
+  - `green-600`
+  - `green-700`
+  - `green-800`
+  - `green-900`
+  - `green-background-color-default`
+  - `green-visual-color`
+  - `icon-color-blue-primary-default`
+  - `icon-color-green-primary-default`
+  - `icon-color-red-primary-default`
+  - `icon-color-yellow-primary-default`
+  - `indigo-100`
+  - `indigo-1000`
+  - `indigo-1100`
+  - `indigo-1200`
+  - `indigo-1300`
+  - `indigo-1400`
+  - `indigo-200`
+  - `indigo-300`
+  - `indigo-400`
+  - `indigo-500`
+  - `indigo-600`
+  - `indigo-700`
+  - `indigo-800`
+  - `indigo-900`
+  - `indigo-background-color-default`
+  - `indigo-visual-color`
+  - `informative-background-color-default`
+  - `informative-background-color-down`
+  - `informative-background-color-hover`
+  - `informative-background-color-key-focus`
+  - `informative-color-100`
+  - `informative-color-1000`
+  - `informative-color-1100`
+  - `informative-color-1200`
+  - `informative-color-1300`
+  - `informative-color-1400`
+  - `informative-color-200`
+  - `informative-color-300`
+  - `informative-color-400`
+  - `informative-color-500`
+  - `informative-color-600`
+  - `informative-color-700`
+  - `informative-color-800`
+  - `informative-color-900`
+  - `informative-visual-color`
+  - `magenta-100`
+  - `magenta-1000`
+  - `magenta-1100`
+  - `magenta-1200`
+  - `magenta-1300`
+  - `magenta-1400`
+  - `magenta-200`
+  - `magenta-300`
+  - `magenta-400`
+  - `magenta-500`
+  - `magenta-600`
+  - `magenta-700`
+  - `magenta-800`
+  - `magenta-900`
+  - `magenta-background-color-default`
+  - `magenta-visual-color`
+  - `navigational-indicator-top-to-back-icon-extra-large`
+  - `navigational-indicator-top-to-back-icon-large`
+  - `navigational-indicator-top-to-back-icon-medium`
+  - `navigational-indicator-top-to-back-icon-small`
+  - `negative-background-color-default`
+  - `negative-background-color-down`
+  - `negative-background-color-hover`
+  - `negative-background-color-key-focus`
+  - `negative-border-color-default`
+  - `negative-border-color-down`
+  - `negative-border-color-focus`
+  - `negative-border-color-focus-hover`
+  - `negative-border-color-hover`
+  - `negative-border-color-key-focus`
+  - `negative-color-100`
+  - `negative-color-1000`
+  - `negative-color-1100`
+  - `negative-color-1200`
+  - `negative-color-1300`
+  - `negative-color-1400`
+  - `negative-color-200`
+  - `negative-color-300`
+  - `negative-color-400`
+  - `negative-color-500`
+  - `negative-color-600`
+  - `negative-color-700`
+  - `negative-color-800`
+  - `negative-color-900`
+  - `negative-content-color-default`
+  - `negative-content-color-down`
+  - `negative-content-color-hover`
+  - `negative-content-color-key-focus`
+  - `negative-visual-color`
+  - `notice-background-color-default`
+  - `notice-color-100`
+  - `notice-color-1000`
+  - `notice-color-1100`
+  - `notice-color-1200`
+  - `notice-color-1300`
+  - `notice-color-1400`
+  - `notice-color-200`
+  - `notice-color-300`
+  - `notice-color-400`
+  - `notice-color-500`
+  - `notice-color-600`
+  - `notice-color-700`
+  - `notice-color-800`
+  - `notice-color-900`
+  - `notice-visual-color`
+  - `orange-100`
+  - `orange-1000`
+  - `orange-1100`
+  - `orange-1200`
+  - `orange-1300`
+  - `orange-1400`
+  - `orange-200`
+  - `orange-300`
+  - `orange-400`
+  - `orange-500`
+  - `orange-600`
+  - `orange-700`
+  - `orange-800`
+  - `orange-900`
+  - `orange-background-color-default`
+  - `orange-visual-color`
+  - `positive-background-color-default`
+  - `positive-background-color-down`
+  - `positive-background-color-hover`
+  - `positive-background-color-key-focus`
+  - `positive-color-100`
+  - `positive-color-1000`
+  - `positive-color-1100`
+  - `positive-color-1200`
+  - `positive-color-1300`
+  - `positive-color-1400`
+  - `positive-color-200`
+  - `positive-color-300`
+  - `positive-color-400`
+  - `positive-color-500`
+  - `positive-color-600`
+  - `positive-color-700`
+  - `positive-color-800`
+  - `positive-color-900`
+  - `positive-visual-color`
+  - `purple-100`
+  - `purple-1000`
+  - `purple-1100`
+  - `purple-1200`
+  - `purple-1300`
+  - `purple-1400`
+  - `purple-200`
+  - `purple-300`
+  - `purple-400`
+  - `purple-500`
+  - `purple-600`
+  - `purple-700`
+  - `purple-800`
+  - `purple-900`
+  - `purple-background-color-default`
+  - `purple-visual-color`
+  - `red-100`
+  - `red-1000`
+  - `red-1100`
+  - `red-1200`
+  - `red-1300`
+  - `red-1400`
+  - `red-200`
+  - `red-300`
+  - `red-400`
+  - `red-500`
+  - `red-600`
+  - `red-700`
+  - `red-800`
+  - `red-900`
+  - `red-background-color-default`
+  - `red-visual-color`
+  - `seafoam-100`
+  - `seafoam-1000`
+  - `seafoam-1100`
+  - `seafoam-1200`
+  - `seafoam-1300`
+  - `seafoam-1400`
+  - `seafoam-200`
+  - `seafoam-300`
+  - `seafoam-400`
+  - `seafoam-500`
+  - `seafoam-600`
+  - `seafoam-700`
+  - `seafoam-800`
+  - `seafoam-900`
+  - `seafoam-background-color-default`
+  - `seafoam-visual-color`
+  - `side-navigation-item-to-header`
+  - `table-selected-row-background-color`
+  - `yellow-100`
+  - `yellow-1000`
+  - `yellow-1100`
+  - `yellow-1200`
+  - `yellow-1300`
+  - `yellow-1400`
+  - `yellow-200`
+  - `yellow-300`
+  - `yellow-400`
+  - `yellow-500`
+  - `yellow-600`
+  - `yellow-700`
+  - `yellow-800`
+  - `yellow-900`
+  - `yellow-background-color-default`
+  - `yellow-visual-color`
 
 ## 13.0.0-beta.6
 
 ### Minor Changes
 
-* [`6d1c661`](https://github.com/adobe/spectrum-design-data/commit/6d1c661): Added new Spectrum 2 color tokens for both light and dark themes:
+- [`6d1c661`](https://github.com/adobe/spectrum-design-data/commit/6d1c661): Added new Spectrum 2 color tokens for both light and dark themes:
 
   Cinnamon 100 to 1600
 
@@ -10995,26 +10868,25 @@ Updated (1592)
 
   ## Token Diff
 
-  *Tokens added (17):*
+  _Tokens added (17):_
+  - `cinnamon-100`
+  - `cinnamon-200`
+  - `cinnamon-300`
+  - `cinnamon-400`
+  - `cinnamon-500`
+  - `cinnamon-600`
+  - `cinnamon-700`
+  - `cinnamon-800`
+  - `cinnamon-900`
+  - `cinnamon-1000`
+  - `cinnamon-1100`
+  - `cinnamon-1200`
+  - `cinnamon-1300`
+  - `cinnamon-1400`
+  - `cinnamon-1500`
+  - `cinnamon-1600`
 
-  * `cinnamon-100`
-  * `cinnamon-200`
-  * `cinnamon-300`
-  * `cinnamon-400`
-  * `cinnamon-500`
-  * `cinnamon-600`
-  * `cinnamon-700`
-  * `cinnamon-800`
-  * `cinnamon-900`
-  * `cinnamon-1000`
-  * `cinnamon-1100`
-  * `cinnamon-1200`
-  * `cinnamon-1300`
-  * `cinnamon-1400`
-  * `cinnamon-1500`
-  * `cinnamon-1600`
-
-* [`91d7e95`](https://github.com/adobe/spectrum-design-data/commit/91d7e95): Fixed bug in the light theme value for notice-background-color-default, from notice-color-800 to notice-color-600
+- [`91d7e95`](https://github.com/adobe/spectrum-design-data/commit/91d7e95): Fixed bug in the light theme value for notice-background-color-default, from notice-color-800 to notice-color-600
 
   ## Design Motivation
 
@@ -11022,15 +10894,14 @@ Updated (1592)
 
   ## Token Diff
 
-  *Token values updated (1):*
-
-  * `notice-background-color-default`: `light`: `notice-color-800` -> `notice-color-600`
+  _Token values updated (1):_
+  - `notice-background-color-default`: `light`: `notice-color-800` -> `notice-color-600`
 
 ## 13.0.0-beta.5
 
 ### Major Changes
 
-* [`0af2674`](https://github.com/adobe/spectrum-design-data/commit/0af2674): feat: new color values for spectrum2
+- [`0af2674`](https://github.com/adobe/spectrum-design-data/commit/0af2674): feat: new color values for spectrum2
 
   ## Design Motivation
 
@@ -11042,259 +10913,258 @@ Updated (1592)
   ## Token Diff
 
   <details><summary><strong>Token values updated (246):</strong></summary>
-
-  * `accent-background-color-default`
-  * `accent-background-color-down`
-  * `accent-background-color-hover`
-  * `accent-background-color-key-focus`
-  * `accent-color-1000`
-  * `accent-color-200`
-  * `accent-color-300`
-  * `accent-color-400`
-  * `accent-color-500`
-  * `accent-color-600`
-  * `accent-color-700`
-  * `accent-color-800`
-  * `accent-color-900`
-  * `accent-content-color-default`
-  * `accent-content-color-down`
-  * `accent-content-color-hover`
-  * `accent-content-color-key-focus`
-  * `accent-content-color-selected`
-  * `accent-visual-color`
-  * `blue-1000`
-  * `blue-200`
-  * `blue-300`
-  * `blue-400`
-  * `blue-500`
-  * `blue-600`
-  * `blue-700`
-  * `blue-800`
-  * `blue-900`
-  * `blue-background-color-default`
-  * `blue-visual-color`
-  * `celery-1000`
-  * `celery-200`
-  * `celery-300`
-  * `celery-400`
-  * `celery-500`
-  * `celery-600`
-  * `celery-700`
-  * `celery-800`
-  * `celery-900`
-  * `celery-background-color-default`
-  * `celery-visual-color`
-  * `chartreuse-1000`
-  * `chartreuse-200`
-  * `chartreuse-300`
-  * `chartreuse-400`
-  * `chartreuse-500`
-  * `chartreuse-600`
-  * `chartreuse-700`
-  * `chartreuse-800`
-  * `chartreuse-900`
-  * `chartreuse-background-color-default`
-  * `chartreuse-visual-color`
-  * `cyan-1000`
-  * `cyan-300`
-  * `cyan-400`
-  * `cyan-500`
-  * `cyan-600`
-  * `cyan-700`
-  * `cyan-800`
-  * `cyan-900`
-  * `cyan-background-color-default`
-  * `cyan-visual-color`
-  * `drop-zone-background-color`
-  * `focus-indicator-color`
-  * `fuchsia-100`
-  * `fuchsia-1000`
-  * `fuchsia-1100`
-  * `fuchsia-1200`
-  * `fuchsia-1300`
-  * `fuchsia-1400`
-  * `fuchsia-1500`
-  * `fuchsia-1600`
-  * `fuchsia-200`
-  * `fuchsia-300`
-  * `fuchsia-400`
-  * `fuchsia-500`
-  * `fuchsia-600`
-  * `fuchsia-700`
-  * `fuchsia-800`
-  * `fuchsia-900`
-  * `fuchsia-background-color-default`
-  * `fuchsia-visual-color`
-  * `green-100`
-  * `green-1000`
-  * `green-200`
-  * `green-300`
-  * `green-400`
-  * `green-500`
-  * `green-600`
-  * `green-700`
-  * `green-800`
-  * `green-900`
-  * `green-background-color-default`
-  * `green-visual-color`
-  * `icon-color-blue-primary-default`
-  * `icon-color-green-primary-default`
-  * `icon-color-red-primary-default`
-  * `icon-color-yellow-primary-default`
-  * `indigo-1000`
-  * `indigo-300`
-  * `indigo-400`
-  * `indigo-500`
-  * `indigo-600`
-  * `indigo-700`
-  * `indigo-800`
-  * `indigo-900`
-  * `indigo-background-color-default`
-  * `indigo-visual-color`
-  * `informative-background-color-default`
-  * `informative-background-color-down`
-  * `informative-background-color-hover`
-  * `informative-background-color-key-focus`
-  * `informative-color-1000`
-  * `informative-color-200`
-  * `informative-color-300`
-  * `informative-color-400`
-  * `informative-color-500`
-  * `informative-color-600`
-  * `informative-color-700`
-  * `informative-color-800`
-  * `informative-color-900`
-  * `informative-visual-color`
-  * `magenta-100`
-  * `magenta-1000`
-  * `magenta-1100`
-  * `magenta-1200`
-  * `magenta-1300`
-  * `magenta-1400`
-  * `magenta-200`
-  * `magenta-300`
-  * `magenta-400`
-  * `magenta-500`
-  * `magenta-600`
-  * `magenta-700`
-  * `magenta-800`
-  * `magenta-900`
-  * `magenta-background-color-default`
-  * `magenta-visual-color`
-  * `negative-background-color-default`
-  * `negative-background-color-down`
-  * `negative-background-color-hover`
-  * `negative-background-color-key-focus`
-  * `negative-border-color-default`
-  * `negative-border-color-focus`
-  * `negative-border-color-hover`
-  * `negative-border-color-key-focus`
-  * `negative-color-1000`
-  * `negative-color-200`
-  * `negative-color-300`
-  * `negative-color-400`
-  * `negative-color-500`
-  * `negative-color-600`
-  * `negative-color-700`
-  * `negative-color-800`
-  * `negative-color-900`
-  * `negative-content-color-default`
-  * `negative-content-color-down`
-  * `negative-content-color-hover`
-  * `negative-content-color-key-focus`
-  * `negative-visual-color`
-  * `notice-background-color-default`
-  * `notice-color-1000`
-  * `notice-color-200`
-  * `notice-color-400`
-  * `notice-color-500`
-  * `notice-color-600`
-  * `notice-color-700`
-  * `notice-color-800`
-  * `notice-color-900`
-  * `notice-visual-color`
-  * `orange-1000`
-  * `orange-200`
-  * `orange-400`
-  * `orange-500`
-  * `orange-600`
-  * `orange-700`
-  * `orange-800`
-  * `orange-900`
-  * `orange-background-color-default`
-  * `orange-visual-color`
-  * `positive-background-color-default`
-  * `positive-background-color-down`
-  * `positive-background-color-hover`
-  * `positive-background-color-key-focus`
-  * `positive-color-100`
-  * `positive-color-1000`
-  * `positive-color-200`
-  * `positive-color-300`
-  * `positive-color-400`
-  * `positive-color-500`
-  * `positive-color-600`
-  * `positive-color-700`
-  * `positive-color-800`
-  * `positive-color-900`
-  * `positive-visual-color`
-  * `purple-1000`
-  * `purple-200`
-  * `purple-300`
-  * `purple-400`
-  * `purple-500`
-  * `purple-600`
-  * `purple-700`
-  * `purple-800`
-  * `purple-900`
-  * `purple-background-color-default`
-  * `purple-visual-color`
-  * `red-1000`
-  * `red-200`
-  * `red-300`
-  * `red-400`
-  * `red-500`
-  * `red-600`
-  * `red-700`
-  * `red-800`
-  * `red-900`
-  * `red-background-color-default`
-  * `red-visual-color`
-  * `seafoam-100`
-  * `seafoam-1000`
-  * `seafoam-1100`
-  * `seafoam-1200`
-  * `seafoam-1300`
-  * `seafoam-1400`
-  * `seafoam-1500`
-  * `seafoam-1600`
-  * `seafoam-200`
-  * `seafoam-300`
-  * `seafoam-400`
-  * `seafoam-500`
-  * `seafoam-600`
-  * `seafoam-700`
-  * `seafoam-800`
-  * `seafoam-900`
-  * `seafoam-background-color-default`
-  * `seafoam-visual-color`
-  * `table-selected-row-background-color`
-  * `yellow-1000`
-  * `yellow-300`
-  * `yellow-400`
-  * `yellow-500`
-  * `yellow-600`
-  * `yellow-700`
-  * `yellow-800`
-  * `yellow-900`
-  * `yellow-background-color-default`
-  * `yellow-visual-color`
+  - `accent-background-color-default`
+  - `accent-background-color-down`
+  - `accent-background-color-hover`
+  - `accent-background-color-key-focus`
+  - `accent-color-1000`
+  - `accent-color-200`
+  - `accent-color-300`
+  - `accent-color-400`
+  - `accent-color-500`
+  - `accent-color-600`
+  - `accent-color-700`
+  - `accent-color-800`
+  - `accent-color-900`
+  - `accent-content-color-default`
+  - `accent-content-color-down`
+  - `accent-content-color-hover`
+  - `accent-content-color-key-focus`
+  - `accent-content-color-selected`
+  - `accent-visual-color`
+  - `blue-1000`
+  - `blue-200`
+  - `blue-300`
+  - `blue-400`
+  - `blue-500`
+  - `blue-600`
+  - `blue-700`
+  - `blue-800`
+  - `blue-900`
+  - `blue-background-color-default`
+  - `blue-visual-color`
+  - `celery-1000`
+  - `celery-200`
+  - `celery-300`
+  - `celery-400`
+  - `celery-500`
+  - `celery-600`
+  - `celery-700`
+  - `celery-800`
+  - `celery-900`
+  - `celery-background-color-default`
+  - `celery-visual-color`
+  - `chartreuse-1000`
+  - `chartreuse-200`
+  - `chartreuse-300`
+  - `chartreuse-400`
+  - `chartreuse-500`
+  - `chartreuse-600`
+  - `chartreuse-700`
+  - `chartreuse-800`
+  - `chartreuse-900`
+  - `chartreuse-background-color-default`
+  - `chartreuse-visual-color`
+  - `cyan-1000`
+  - `cyan-300`
+  - `cyan-400`
+  - `cyan-500`
+  - `cyan-600`
+  - `cyan-700`
+  - `cyan-800`
+  - `cyan-900`
+  - `cyan-background-color-default`
+  - `cyan-visual-color`
+  - `drop-zone-background-color`
+  - `focus-indicator-color`
+  - `fuchsia-100`
+  - `fuchsia-1000`
+  - `fuchsia-1100`
+  - `fuchsia-1200`
+  - `fuchsia-1300`
+  - `fuchsia-1400`
+  - `fuchsia-1500`
+  - `fuchsia-1600`
+  - `fuchsia-200`
+  - `fuchsia-300`
+  - `fuchsia-400`
+  - `fuchsia-500`
+  - `fuchsia-600`
+  - `fuchsia-700`
+  - `fuchsia-800`
+  - `fuchsia-900`
+  - `fuchsia-background-color-default`
+  - `fuchsia-visual-color`
+  - `green-100`
+  - `green-1000`
+  - `green-200`
+  - `green-300`
+  - `green-400`
+  - `green-500`
+  - `green-600`
+  - `green-700`
+  - `green-800`
+  - `green-900`
+  - `green-background-color-default`
+  - `green-visual-color`
+  - `icon-color-blue-primary-default`
+  - `icon-color-green-primary-default`
+  - `icon-color-red-primary-default`
+  - `icon-color-yellow-primary-default`
+  - `indigo-1000`
+  - `indigo-300`
+  - `indigo-400`
+  - `indigo-500`
+  - `indigo-600`
+  - `indigo-700`
+  - `indigo-800`
+  - `indigo-900`
+  - `indigo-background-color-default`
+  - `indigo-visual-color`
+  - `informative-background-color-default`
+  - `informative-background-color-down`
+  - `informative-background-color-hover`
+  - `informative-background-color-key-focus`
+  - `informative-color-1000`
+  - `informative-color-200`
+  - `informative-color-300`
+  - `informative-color-400`
+  - `informative-color-500`
+  - `informative-color-600`
+  - `informative-color-700`
+  - `informative-color-800`
+  - `informative-color-900`
+  - `informative-visual-color`
+  - `magenta-100`
+  - `magenta-1000`
+  - `magenta-1100`
+  - `magenta-1200`
+  - `magenta-1300`
+  - `magenta-1400`
+  - `magenta-200`
+  - `magenta-300`
+  - `magenta-400`
+  - `magenta-500`
+  - `magenta-600`
+  - `magenta-700`
+  - `magenta-800`
+  - `magenta-900`
+  - `magenta-background-color-default`
+  - `magenta-visual-color`
+  - `negative-background-color-default`
+  - `negative-background-color-down`
+  - `negative-background-color-hover`
+  - `negative-background-color-key-focus`
+  - `negative-border-color-default`
+  - `negative-border-color-focus`
+  - `negative-border-color-hover`
+  - `negative-border-color-key-focus`
+  - `negative-color-1000`
+  - `negative-color-200`
+  - `negative-color-300`
+  - `negative-color-400`
+  - `negative-color-500`
+  - `negative-color-600`
+  - `negative-color-700`
+  - `negative-color-800`
+  - `negative-color-900`
+  - `negative-content-color-default`
+  - `negative-content-color-down`
+  - `negative-content-color-hover`
+  - `negative-content-color-key-focus`
+  - `negative-visual-color`
+  - `notice-background-color-default`
+  - `notice-color-1000`
+  - `notice-color-200`
+  - `notice-color-400`
+  - `notice-color-500`
+  - `notice-color-600`
+  - `notice-color-700`
+  - `notice-color-800`
+  - `notice-color-900`
+  - `notice-visual-color`
+  - `orange-1000`
+  - `orange-200`
+  - `orange-400`
+  - `orange-500`
+  - `orange-600`
+  - `orange-700`
+  - `orange-800`
+  - `orange-900`
+  - `orange-background-color-default`
+  - `orange-visual-color`
+  - `positive-background-color-default`
+  - `positive-background-color-down`
+  - `positive-background-color-hover`
+  - `positive-background-color-key-focus`
+  - `positive-color-100`
+  - `positive-color-1000`
+  - `positive-color-200`
+  - `positive-color-300`
+  - `positive-color-400`
+  - `positive-color-500`
+  - `positive-color-600`
+  - `positive-color-700`
+  - `positive-color-800`
+  - `positive-color-900`
+  - `positive-visual-color`
+  - `purple-1000`
+  - `purple-200`
+  - `purple-300`
+  - `purple-400`
+  - `purple-500`
+  - `purple-600`
+  - `purple-700`
+  - `purple-800`
+  - `purple-900`
+  - `purple-background-color-default`
+  - `purple-visual-color`
+  - `red-1000`
+  - `red-200`
+  - `red-300`
+  - `red-400`
+  - `red-500`
+  - `red-600`
+  - `red-700`
+  - `red-800`
+  - `red-900`
+  - `red-background-color-default`
+  - `red-visual-color`
+  - `seafoam-100`
+  - `seafoam-1000`
+  - `seafoam-1100`
+  - `seafoam-1200`
+  - `seafoam-1300`
+  - `seafoam-1400`
+  - `seafoam-1500`
+  - `seafoam-1600`
+  - `seafoam-200`
+  - `seafoam-300`
+  - `seafoam-400`
+  - `seafoam-500`
+  - `seafoam-600`
+  - `seafoam-700`
+  - `seafoam-800`
+  - `seafoam-900`
+  - `seafoam-background-color-default`
+  - `seafoam-visual-color`
+  - `table-selected-row-background-color`
+  - `yellow-1000`
+  - `yellow-300`
+  - `yellow-400`
+  - `yellow-500`
+  - `yellow-600`
+  - `yellow-700`
+  - `yellow-800`
+  - `yellow-900`
+  - `yellow-background-color-default`
+  - `yellow-visual-color`
 
   </details>
 
 ### Minor Changes
 
-* [`7b5ec24`](https://github.com/adobe/spectrum-design-data/commit/7b5ec24): feat: add new color tokens
+- [`7b5ec24`](https://github.com/adobe/spectrum-design-data/commit/7b5ec24): feat: add new color tokens
 
   ## Design Motivation
 
@@ -11303,71 +11173,70 @@ Updated (1592)
   ## Token Diff
 
   <details><summary><strong>Tokens added (64):</strong></summary>
-
-  * `brown-100`
-  * `brown-1000`
-  * `brown-1100`
-  * `brown-1200`
-  * `brown-1300`
-  * `brown-1400`
-  * `brown-1500`
-  * `brown-1600`
-  * `brown-200`
-  * `brown-300`
-  * `brown-400`
-  * `brown-500`
-  * `brown-600`
-  * `brown-700`
-  * `brown-800`
-  * `brown-900`
-  * `pink-100`
-  * `pink-1000`
-  * `pink-1100`
-  * `pink-1200`
-  * `pink-1300`
-  * `pink-1400`
-  * `pink-1500`
-  * `pink-1600`
-  * `pink-200`
-  * `pink-300`
-  * `pink-400`
-  * `pink-500`
-  * `pink-600`
-  * `pink-700`
-  * `pink-800`
-  * `pink-900`
-  * `silver-100`
-  * `silver-1000`
-  * `silver-1100`
-  * `silver-1200`
-  * `silver-1300`
-  * `silver-1400`
-  * `silver-1500`
-  * `silver-1600`
-  * `silver-200`
-  * `silver-300`
-  * `silver-400`
-  * `silver-500`
-  * `silver-600`
-  * `silver-700`
-  * `silver-800`
-  * `silver-900`
-  * `turquoise-100`
-  * `turquoise-1000`
-  * `turquoise-1100`
-  * `turquoise-1200`
-  * `turquoise-1300`
-  * `turquoise-1400`
-  * `turquoise-1500`
-  * `turquoise-1600`
-  * `turquoise-200`
-  * `turquoise-300`
-  * `turquoise-400`
-  * `turquoise-500`
-  * `turquoise-600`
-  * `turquoise-700`
-  * `turquoise-800`
-  * `turquoise-900`
+  - `brown-100`
+  - `brown-1000`
+  - `brown-1100`
+  - `brown-1200`
+  - `brown-1300`
+  - `brown-1400`
+  - `brown-1500`
+  - `brown-1600`
+  - `brown-200`
+  - `brown-300`
+  - `brown-400`
+  - `brown-500`
+  - `brown-600`
+  - `brown-700`
+  - `brown-800`
+  - `brown-900`
+  - `pink-100`
+  - `pink-1000`
+  - `pink-1100`
+  - `pink-1200`
+  - `pink-1300`
+  - `pink-1400`
+  - `pink-1500`
+  - `pink-1600`
+  - `pink-200`
+  - `pink-300`
+  - `pink-400`
+  - `pink-500`
+  - `pink-600`
+  - `pink-700`
+  - `pink-800`
+  - `pink-900`
+  - `silver-100`
+  - `silver-1000`
+  - `silver-1100`
+  - `silver-1200`
+  - `silver-1300`
+  - `silver-1400`
+  - `silver-1500`
+  - `silver-1600`
+  - `silver-200`
+  - `silver-300`
+  - `silver-400`
+  - `silver-500`
+  - `silver-600`
+  - `silver-700`
+  - `silver-800`
+  - `silver-900`
+  - `turquoise-100`
+  - `turquoise-1000`
+  - `turquoise-1100`
+  - `turquoise-1200`
+  - `turquoise-1300`
+  - `turquoise-1400`
+  - `turquoise-1500`
+  - `turquoise-1600`
+  - `turquoise-200`
+  - `turquoise-300`
+  - `turquoise-400`
+  - `turquoise-500`
+  - `turquoise-600`
+  - `turquoise-700`
+  - `turquoise-800`
+  - `turquoise-900`
 
   </details>
 
@@ -11375,89 +11244,87 @@ Updated (1592)
 
 ### Major Changes
 
-* [`a08dced`](https://github.com/adobe/spectrum-design-data/commit/a08dced): A handful of values transitioned from being defined per-set to being constants; set values are deprecated and root values are defined.
+- [`a08dced`](https://github.com/adobe/spectrum-design-data/commit/a08dced): A handful of values transitioned from being defined per-set to being constants; set values are deprecated and root values are defined.
 
   ## Token Diff
 
-  *Token values updated (5):*
-
-  * `neutral-background-color-default`: changed from a color-set to a single value of a reference of `gray-800`
-  * `neutral-background-color-down`: changed from a color-set to a single value of a reference of `gray-900`
-  * `neutral-background-color-hover`: changed from a color-set to a single value of a reference of `gray-900`
-  * `neutral-background-color-key-focus`: changed from a color-set to a single value of a reference of `gray-900`
-  * `notice-background-color-default`: changed from a color-set to a single value of a reference of `notice-color-800`
+  _Token values updated (5):_
+  - `neutral-background-color-default`: changed from a color-set to a single value of a reference of `gray-800`
+  - `neutral-background-color-down`: changed from a color-set to a single value of a reference of `gray-900`
+  - `neutral-background-color-hover`: changed from a color-set to a single value of a reference of `gray-900`
+  - `neutral-background-color-key-focus`: changed from a color-set to a single value of a reference of `gray-900`
+  - `notice-background-color-default`: changed from a color-set to a single value of a reference of `notice-color-800`
 
 ### Patch Changes
 
-* [`c0a10b4`](https://github.com/adobe/spectrum-design-data/commit/c0a10b4): fix: rgb used instead of rgba for a couple tokens
+- [`c0a10b4`](https://github.com/adobe/spectrum-design-data/commit/c0a10b4): fix: rgb used instead of rgba for a couple tokens
 
 ## 13.0.0-beta.3
 
 ### Patch Changes
 
-* [`a546ef7`](https://github.com/adobe/spectrum-design-data/commit/a546ef7): Returned some tokens that were removed by accident in the previous merging.
+- [`a546ef7`](https://github.com/adobe/spectrum-design-data/commit/a546ef7): Returned some tokens that were removed by accident in the previous merging.
 
   ## Token Diff
 
-  *Tokens added (51):*
-
-  * `checkbox-control-size-extra-large`
-  * `checkbox-control-size-large`
-  * `checkbox-control-size-medium`
-  * `checkbox-control-size-small`
-  * `checkbox-top-to-control-extra-large`
-  * `checkbox-top-to-control-large`
-  * `checkbox-top-to-control-medium`
-  * `checkbox-top-to-control-small`
-  * `color-area-border-rounding`
-  * `corner-radius-100`
-  * `corner-radius-200`
-  * `corner-radius-75`
-  * `drop-shadow-blur`
-  * `drop-shadow-x`
-  * `drop-shadow-y`
-  * `radio-button-control-size-extra-large`
-  * `radio-button-control-size-large`
-  * `radio-button-control-size-medium`
-  * `radio-button-control-size-small`
-  * `radio-button-top-to-control-extra-large`
-  * `radio-button-top-to-control-large`
-  * `radio-button-top-to-control-medium`
-  * `radio-button-top-to-control-small`
-  * `slider-bottom-to-handle-extra-large`
-  * `slider-bottom-to-handle-large`
-  * `slider-bottom-to-handle-medium`
-  * `slider-bottom-to-handle-small`
-  * `slider-control-height-extra-large`
-  * `slider-control-height-large`
-  * `slider-control-height-medium`
-  * `slider-control-height-small`
-  * `slider-handle-border-width-down-extra-large`
-  * `slider-handle-border-width-down-large`
-  * `slider-handle-border-width-down-medium`
-  * `slider-handle-border-width-down-small`
-  * `slider-handle-size-extra-large`
-  * `slider-handle-size-large`
-  * `slider-handle-size-medium`
-  * `slider-handle-size-small`
-  * `switch-control-height-extra-large`
-  * `switch-control-height-large`
-  * `switch-control-height-medium`
-  * `switch-control-height-small`
-  * `switch-control-width-extra-large`
-  * `switch-control-width-large`
-  * `switch-control-width-medium`
-  * `switch-control-width-small`
-  * `switch-top-to-control-extra-large`
-  * `switch-top-to-control-large`
-  * `switch-top-to-control-medium`
-  * `switch-top-to-control-small`
+  _Tokens added (51):_
+  - `checkbox-control-size-extra-large`
+  - `checkbox-control-size-large`
+  - `checkbox-control-size-medium`
+  - `checkbox-control-size-small`
+  - `checkbox-top-to-control-extra-large`
+  - `checkbox-top-to-control-large`
+  - `checkbox-top-to-control-medium`
+  - `checkbox-top-to-control-small`
+  - `color-area-border-rounding`
+  - `corner-radius-100`
+  - `corner-radius-200`
+  - `corner-radius-75`
+  - `drop-shadow-blur`
+  - `drop-shadow-x`
+  - `drop-shadow-y`
+  - `radio-button-control-size-extra-large`
+  - `radio-button-control-size-large`
+  - `radio-button-control-size-medium`
+  - `radio-button-control-size-small`
+  - `radio-button-top-to-control-extra-large`
+  - `radio-button-top-to-control-large`
+  - `radio-button-top-to-control-medium`
+  - `radio-button-top-to-control-small`
+  - `slider-bottom-to-handle-extra-large`
+  - `slider-bottom-to-handle-large`
+  - `slider-bottom-to-handle-medium`
+  - `slider-bottom-to-handle-small`
+  - `slider-control-height-extra-large`
+  - `slider-control-height-large`
+  - `slider-control-height-medium`
+  - `slider-control-height-small`
+  - `slider-handle-border-width-down-extra-large`
+  - `slider-handle-border-width-down-large`
+  - `slider-handle-border-width-down-medium`
+  - `slider-handle-border-width-down-small`
+  - `slider-handle-size-extra-large`
+  - `slider-handle-size-large`
+  - `slider-handle-size-medium`
+  - `slider-handle-size-small`
+  - `switch-control-height-extra-large`
+  - `switch-control-height-large`
+  - `switch-control-height-medium`
+  - `switch-control-height-small`
+  - `switch-control-width-extra-large`
+  - `switch-control-width-large`
+  - `switch-control-width-medium`
+  - `switch-control-width-small`
+  - `switch-top-to-control-extra-large`
+  - `switch-top-to-control-large`
+  - `switch-top-to-control-medium`
+  - `switch-top-to-control-small`
 
 ## 13.0.0-beta.2
 
 ### Major Changes
 
-* [`ee15851`](https://github.com/adobe/spectrum-design-data/commit/ee15851): Updated color tokens to use S2 values
+- [`ee15851`](https://github.com/adobe/spectrum-design-data/commit/ee15851): Updated color tokens to use S2 values
 
   ## Design Motivation
 
@@ -11466,466 +11333,464 @@ Updated (1592)
   ## Token Diff
 
   <details><summary><strong>Tokens added (46):</strong></summary>
-
-  * `accent-color-1500`
-  * `accent-color-1600`
-  * `blue-1500`
-  * `blue-1600`
-  * `celery-1500`
-  * `celery-1600`
-  * `chartreuse-1500`
-  * `chartreuse-1600`
-  * `cyan-1500`
-  * `cyan-1600`
-  * `fuchsia-1500`
-  * `fuchsia-1600`
-  * `gray-1000`
-  * `gray-25`
-  * `green-1500`
-  * `green-1600`
-  * `indigo-1500`
-  * `indigo-1600`
-  * `informative-color-1500`
-  * `informative-color-1600`
-  * `magenta-1500`
-  * `magenta-1600`
-  * `negative-color-1500`
-  * `negative-color-1600`
-  * `notice-color-1500`
-  * `notice-color-1600`
-  * `orange-1500`
-  * `orange-1600`
-  * `positive-color-1500`
-  * `positive-color-1600`
-  * `purple-1500`
-  * `purple-1600`
-  * `red-1500`
-  * `red-1600`
-  * `seafoam-1500`
-  * `seafoam-1600`
-  * `transparent-black-1000`
-  * `transparent-black-25`
-  * `transparent-black-50`
-  * `transparent-black-75`
-  * `transparent-white-1000`
-  * `transparent-white-25`
-  * `transparent-white-50`
-  * `transparent-white-75`
-  * `yellow-1500`
-  * `yellow-1600`
+  - `accent-color-1500`
+  - `accent-color-1600`
+  - `blue-1500`
+  - `blue-1600`
+  - `celery-1500`
+  - `celery-1600`
+  - `chartreuse-1500`
+  - `chartreuse-1600`
+  - `cyan-1500`
+  - `cyan-1600`
+  - `fuchsia-1500`
+  - `fuchsia-1600`
+  - `gray-1000`
+  - `gray-25`
+  - `green-1500`
+  - `green-1600`
+  - `indigo-1500`
+  - `indigo-1600`
+  - `informative-color-1500`
+  - `informative-color-1600`
+  - `magenta-1500`
+  - `magenta-1600`
+  - `negative-color-1500`
+  - `negative-color-1600`
+  - `notice-color-1500`
+  - `notice-color-1600`
+  - `orange-1500`
+  - `orange-1600`
+  - `positive-color-1500`
+  - `positive-color-1600`
+  - `purple-1500`
+  - `purple-1600`
+  - `red-1500`
+  - `red-1600`
+  - `seafoam-1500`
+  - `seafoam-1600`
+  - `transparent-black-1000`
+  - `transparent-black-25`
+  - `transparent-black-50`
+  - `transparent-black-75`
+  - `transparent-white-1000`
+  - `transparent-white-25`
+  - `transparent-white-50`
+  - `transparent-white-75`
+  - `yellow-1500`
+  - `yellow-1600`
 
   </details>
 
   <details><summary><strong>Token values updated (408):</strong></summary>
-
-  * `accent-background-color-default`
-  * `accent-background-color-down`
-  * `accent-background-color-hover`
-  * `accent-background-color-key-focus`
-  * `accent-color-100`
-  * `accent-color-1000`
-  * `accent-color-1100`
-  * `accent-color-1200`
-  * `accent-color-1300`
-  * `accent-color-1400`
-  * `accent-color-200`
-  * `accent-color-300`
-  * `accent-color-400`
-  * `accent-color-500`
-  * `accent-color-600`
-  * `accent-color-700`
-  * `accent-color-800`
-  * `accent-color-900`
-  * `accent-content-color-default`
-  * `accent-content-color-down`
-  * `accent-content-color-hover`
-  * `accent-content-color-key-focus`
-  * `accent-content-color-selected`
-  * `accent-visual-color`
-  * `background-base-color`
-  * `background-layer-1-color`
-  * `background-layer-2-color`
-  * `blue-100`
-  * `blue-1000`
-  * `blue-1100`
-  * `blue-1200`
-  * `blue-1300`
-  * `blue-1400`
-  * `blue-200`
-  * `blue-300`
-  * `blue-400`
-  * `blue-500`
-  * `blue-600`
-  * `blue-700`
-  * `blue-800`
-  * `blue-900`
-  * `blue-background-color-default`
-  * `blue-visual-color`
-  * `body-color`
-  * `card-selection-background-color`
-  * `celery-100`
-  * `celery-1000`
-  * `celery-1100`
-  * `celery-1200`
-  * `celery-1300`
-  * `celery-1400`
-  * `celery-200`
-  * `celery-300`
-  * `celery-400`
-  * `celery-500`
-  * `celery-600`
-  * `celery-700`
-  * `celery-800`
-  * `celery-900`
-  * `celery-background-color-default`
-  * `celery-visual-color`
-  * `chartreuse-100`
-  * `chartreuse-1000`
-  * `chartreuse-1100`
-  * `chartreuse-1200`
-  * `chartreuse-1300`
-  * `chartreuse-1400`
-  * `chartreuse-200`
-  * `chartreuse-300`
-  * `chartreuse-400`
-  * `chartreuse-500`
-  * `chartreuse-600`
-  * `chartreuse-700`
-  * `chartreuse-800`
-  * `chartreuse-900`
-  * `chartreuse-background-color-default`
-  * `chartreuse-visual-color`
-  * `coach-mark-pagination-color`
-  * `code-color`
-  * `color-area-border-color`
-  * `color-loupe-drop-shadow-color`
-  * `color-loupe-inner-border`
-  * `color-slider-border-color`
-  * `cyan-100`
-  * `cyan-1000`
-  * `cyan-1100`
-  * `cyan-1200`
-  * `cyan-1300`
-  * `cyan-1400`
-  * `cyan-200`
-  * `cyan-300`
-  * `cyan-400`
-  * `cyan-500`
-  * `cyan-600`
-  * `cyan-700`
-  * `cyan-800`
-  * `cyan-900`
-  * `cyan-background-color-default`
-  * `cyan-visual-color`
-  * `detail-color`
-  * `disabled-background-color`
-  * `disabled-border-color`
-  * `disabled-content-color`
-  * `disabled-static-black-background-color`
-  * `disabled-static-black-border-color`
-  * `disabled-static-black-content-color`
-  * `disabled-static-white-background-color`
-  * `disabled-static-white-border-color`
-  * `disabled-static-white-content-color`
-  * `drop-zone-background-color`
-  * `floating-action-button-drop-shadow-color`
-  * `floating-action-button-shadow-color`
-  * `focus-indicator-color`
-  * `fuchsia-100`
-  * `fuchsia-1000`
-  * `fuchsia-1100`
-  * `fuchsia-1200`
-  * `fuchsia-1300`
-  * `fuchsia-1400`
-  * `fuchsia-200`
-  * `fuchsia-300`
-  * `fuchsia-400`
-  * `fuchsia-500`
-  * `fuchsia-600`
-  * `fuchsia-700`
-  * `fuchsia-800`
-  * `fuchsia-900`
-  * `fuchsia-background-color-default`
-  * `fuchsia-visual-color`
-  * `gray-100`
-  * `gray-200`
-  * `gray-300`
-  * `gray-400`
-  * `gray-50`
-  * `gray-500`
-  * `gray-600`
-  * `gray-700`
-  * `gray-75`
-  * `gray-800`
-  * `gray-900`
-  * `gray-background-color-default`
-  * `gray-visual-color`
-  * `green-100`
-  * `green-1000`
-  * `green-1100`
-  * `green-1200`
-  * `green-1300`
-  * `green-1400`
-  * `green-200`
-  * `green-300`
-  * `green-400`
-  * `green-500`
-  * `green-600`
-  * `green-700`
-  * `green-800`
-  * `green-900`
-  * `green-background-color-default`
-  * `green-visual-color`
-  * `heading-color`
-  * `icon-color-blue-primary-default`
-  * `icon-color-green-primary-default`
-  * `icon-color-inverse`
-  * `icon-color-primary-default`
-  * `icon-color-red-primary-default`
-  * `icon-color-yellow-primary-default`
-  * `indigo-100`
-  * `indigo-1000`
-  * `indigo-1100`
-  * `indigo-1200`
-  * `indigo-1300`
-  * `indigo-1400`
-  * `indigo-200`
-  * `indigo-300`
-  * `indigo-400`
-  * `indigo-500`
-  * `indigo-600`
-  * `indigo-700`
-  * `indigo-800`
-  * `indigo-900`
-  * `indigo-background-color-default`
-  * `indigo-visual-color`
-  * `informative-background-color-default`
-  * `informative-background-color-down`
-  * `informative-background-color-hover`
-  * `informative-background-color-key-focus`
-  * `informative-color-100`
-  * `informative-color-1000`
-  * `informative-color-1100`
-  * `informative-color-1200`
-  * `informative-color-1300`
-  * `informative-color-1400`
-  * `informative-color-200`
-  * `informative-color-300`
-  * `informative-color-400`
-  * `informative-color-500`
-  * `informative-color-600`
-  * `informative-color-700`
-  * `informative-color-800`
-  * `informative-color-900`
-  * `informative-visual-color`
-  * `magenta-100`
-  * `magenta-1000`
-  * `magenta-1100`
-  * `magenta-1200`
-  * `magenta-1300`
-  * `magenta-1400`
-  * `magenta-200`
-  * `magenta-300`
-  * `magenta-400`
-  * `magenta-500`
-  * `magenta-600`
-  * `magenta-700`
-  * `magenta-800`
-  * `magenta-900`
-  * `magenta-background-color-default`
-  * `magenta-visual-color`
-  * `negative-background-color-default`
-  * `negative-background-color-down`
-  * `negative-background-color-hover`
-  * `negative-background-color-key-focus`
-  * `negative-border-color-default`
-  * `negative-border-color-down`
-  * `negative-border-color-focus`
-  * `negative-border-color-focus-hover`
-  * `negative-border-color-hover`
-  * `negative-border-color-key-focus`
-  * `negative-color-100`
-  * `negative-color-1000`
-  * `negative-color-1100`
-  * `negative-color-1200`
-  * `negative-color-1300`
-  * `negative-color-1400`
-  * `negative-color-200`
-  * `negative-color-300`
-  * `negative-color-400`
-  * `negative-color-500`
-  * `negative-color-600`
-  * `negative-color-700`
-  * `negative-color-800`
-  * `negative-color-900`
-  * `negative-content-color-default`
-  * `negative-content-color-down`
-  * `negative-content-color-hover`
-  * `negative-content-color-key-focus`
-  * `negative-visual-color`
-  * `neutral-background-color-default`
-  * `neutral-background-color-down`
-  * `neutral-background-color-hover`
-  * `neutral-background-color-key-focus`
-  * `neutral-background-color-selected-default`
-  * `neutral-background-color-selected-down`
-  * `neutral-background-color-selected-hover`
-  * `neutral-background-color-selected-key-focus`
-  * `neutral-content-color-default`
-  * `neutral-content-color-down`
-  * `neutral-content-color-focus`
-  * `neutral-content-color-focus-hover`
-  * `neutral-content-color-hover`
-  * `neutral-content-color-key-focus`
-  * `neutral-subdued-background-color-default`
-  * `neutral-subdued-background-color-down`
-  * `neutral-subdued-background-color-hover`
-  * `neutral-subdued-background-color-key-focus`
-  * `neutral-subdued-content-color-default`
-  * `neutral-subdued-content-color-down`
-  * `neutral-subdued-content-color-hover`
-  * `neutral-subdued-content-color-key-focus`
-  * `neutral-subdued-content-color-selected`
-  * `neutral-visual-color`
-  * `notice-background-color-default`
-  * `notice-color-100`
-  * `notice-color-1000`
-  * `notice-color-1100`
-  * `notice-color-1200`
-  * `notice-color-1300`
-  * `notice-color-1400`
-  * `notice-color-200`
-  * `notice-color-300`
-  * `notice-color-400`
-  * `notice-color-500`
-  * `notice-color-600`
-  * `notice-color-700`
-  * `notice-color-800`
-  * `notice-color-900`
-  * `notice-visual-color`
-  * `opacity-checkerboard-square-dark`
-  * `orange-100`
-  * `orange-1000`
-  * `orange-1100`
-  * `orange-1200`
-  * `orange-1300`
-  * `orange-1400`
-  * `orange-200`
-  * `orange-300`
-  * `orange-400`
-  * `orange-500`
-  * `orange-600`
-  * `orange-700`
-  * `orange-800`
-  * `orange-900`
-  * `orange-background-color-default`
-  * `orange-visual-color`
-  * `positive-background-color-default`
-  * `positive-background-color-down`
-  * `positive-background-color-hover`
-  * `positive-background-color-key-focus`
-  * `positive-color-100`
-  * `positive-color-1000`
-  * `positive-color-1100`
-  * `positive-color-1200`
-  * `positive-color-1300`
-  * `positive-color-1400`
-  * `positive-color-200`
-  * `positive-color-300`
-  * `positive-color-400`
-  * `positive-color-500`
-  * `positive-color-600`
-  * `positive-color-700`
-  * `positive-color-800`
-  * `positive-color-900`
-  * `positive-visual-color`
-  * `purple-100`
-  * `purple-1000`
-  * `purple-1100`
-  * `purple-1200`
-  * `purple-1300`
-  * `purple-1400`
-  * `purple-200`
-  * `purple-300`
-  * `purple-400`
-  * `purple-500`
-  * `purple-600`
-  * `purple-700`
-  * `purple-800`
-  * `purple-900`
-  * `purple-background-color-default`
-  * `purple-visual-color`
-  * `red-100`
-  * `red-1000`
-  * `red-1100`
-  * `red-1200`
-  * `red-1300`
-  * `red-1400`
-  * `red-200`
-  * `red-300`
-  * `red-400`
-  * `red-500`
-  * `red-600`
-  * `red-700`
-  * `red-800`
-  * `red-900`
-  * `red-background-color-default`
-  * `red-visual-color`
-  * `seafoam-100`
-  * `seafoam-1000`
-  * `seafoam-1100`
-  * `seafoam-1200`
-  * `seafoam-1300`
-  * `seafoam-1400`
-  * `seafoam-200`
-  * `seafoam-300`
-  * `seafoam-400`
-  * `seafoam-500`
-  * `seafoam-600`
-  * `seafoam-700`
-  * `seafoam-800`
-  * `seafoam-900`
-  * `seafoam-background-color-default`
-  * `seafoam-visual-color`
-  * `swatch-border-color`
-  * `table-row-hover-color`
-  * `table-selected-row-background-color`
-  * `table-selected-row-background-color-non-emphasized`
-  * `thumbnail-border-color`
-  * `transparent-black-100`
-  * `transparent-black-200`
-  * `transparent-black-300`
-  * `transparent-black-400`
-  * `transparent-black-500`
-  * `transparent-black-600`
-  * `transparent-black-700`
-  * `transparent-black-800`
-  * `transparent-black-900`
-  * `transparent-white-100`
-  * `transparent-white-200`
-  * `transparent-white-300`
-  * `transparent-white-400`
-  * `transparent-white-500`
-  * `transparent-white-600`
-  * `transparent-white-700`
-  * `transparent-white-800`
-  * `transparent-white-900`
-  * `yellow-100`
-  * `yellow-1000`
-  * `yellow-1100`
-  * `yellow-1200`
-  * `yellow-1300`
-  * `yellow-1400`
-  * `yellow-200`
-  * `yellow-300`
-  * `yellow-400`
-  * `yellow-500`
-  * `yellow-600`
-  * `yellow-700`
-  * `yellow-800`
-  * `yellow-900`
-  * `yellow-background-color-default`
-  * `yellow-visual-color`
+  - `accent-background-color-default`
+  - `accent-background-color-down`
+  - `accent-background-color-hover`
+  - `accent-background-color-key-focus`
+  - `accent-color-100`
+  - `accent-color-1000`
+  - `accent-color-1100`
+  - `accent-color-1200`
+  - `accent-color-1300`
+  - `accent-color-1400`
+  - `accent-color-200`
+  - `accent-color-300`
+  - `accent-color-400`
+  - `accent-color-500`
+  - `accent-color-600`
+  - `accent-color-700`
+  - `accent-color-800`
+  - `accent-color-900`
+  - `accent-content-color-default`
+  - `accent-content-color-down`
+  - `accent-content-color-hover`
+  - `accent-content-color-key-focus`
+  - `accent-content-color-selected`
+  - `accent-visual-color`
+  - `background-base-color`
+  - `background-layer-1-color`
+  - `background-layer-2-color`
+  - `blue-100`
+  - `blue-1000`
+  - `blue-1100`
+  - `blue-1200`
+  - `blue-1300`
+  - `blue-1400`
+  - `blue-200`
+  - `blue-300`
+  - `blue-400`
+  - `blue-500`
+  - `blue-600`
+  - `blue-700`
+  - `blue-800`
+  - `blue-900`
+  - `blue-background-color-default`
+  - `blue-visual-color`
+  - `body-color`
+  - `card-selection-background-color`
+  - `celery-100`
+  - `celery-1000`
+  - `celery-1100`
+  - `celery-1200`
+  - `celery-1300`
+  - `celery-1400`
+  - `celery-200`
+  - `celery-300`
+  - `celery-400`
+  - `celery-500`
+  - `celery-600`
+  - `celery-700`
+  - `celery-800`
+  - `celery-900`
+  - `celery-background-color-default`
+  - `celery-visual-color`
+  - `chartreuse-100`
+  - `chartreuse-1000`
+  - `chartreuse-1100`
+  - `chartreuse-1200`
+  - `chartreuse-1300`
+  - `chartreuse-1400`
+  - `chartreuse-200`
+  - `chartreuse-300`
+  - `chartreuse-400`
+  - `chartreuse-500`
+  - `chartreuse-600`
+  - `chartreuse-700`
+  - `chartreuse-800`
+  - `chartreuse-900`
+  - `chartreuse-background-color-default`
+  - `chartreuse-visual-color`
+  - `coach-mark-pagination-color`
+  - `code-color`
+  - `color-area-border-color`
+  - `color-loupe-drop-shadow-color`
+  - `color-loupe-inner-border`
+  - `color-slider-border-color`
+  - `cyan-100`
+  - `cyan-1000`
+  - `cyan-1100`
+  - `cyan-1200`
+  - `cyan-1300`
+  - `cyan-1400`
+  - `cyan-200`
+  - `cyan-300`
+  - `cyan-400`
+  - `cyan-500`
+  - `cyan-600`
+  - `cyan-700`
+  - `cyan-800`
+  - `cyan-900`
+  - `cyan-background-color-default`
+  - `cyan-visual-color`
+  - `detail-color`
+  - `disabled-background-color`
+  - `disabled-border-color`
+  - `disabled-content-color`
+  - `disabled-static-black-background-color`
+  - `disabled-static-black-border-color`
+  - `disabled-static-black-content-color`
+  - `disabled-static-white-background-color`
+  - `disabled-static-white-border-color`
+  - `disabled-static-white-content-color`
+  - `drop-zone-background-color`
+  - `floating-action-button-drop-shadow-color`
+  - `floating-action-button-shadow-color`
+  - `focus-indicator-color`
+  - `fuchsia-100`
+  - `fuchsia-1000`
+  - `fuchsia-1100`
+  - `fuchsia-1200`
+  - `fuchsia-1300`
+  - `fuchsia-1400`
+  - `fuchsia-200`
+  - `fuchsia-300`
+  - `fuchsia-400`
+  - `fuchsia-500`
+  - `fuchsia-600`
+  - `fuchsia-700`
+  - `fuchsia-800`
+  - `fuchsia-900`
+  - `fuchsia-background-color-default`
+  - `fuchsia-visual-color`
+  - `gray-100`
+  - `gray-200`
+  - `gray-300`
+  - `gray-400`
+  - `gray-50`
+  - `gray-500`
+  - `gray-600`
+  - `gray-700`
+  - `gray-75`
+  - `gray-800`
+  - `gray-900`
+  - `gray-background-color-default`
+  - `gray-visual-color`
+  - `green-100`
+  - `green-1000`
+  - `green-1100`
+  - `green-1200`
+  - `green-1300`
+  - `green-1400`
+  - `green-200`
+  - `green-300`
+  - `green-400`
+  - `green-500`
+  - `green-600`
+  - `green-700`
+  - `green-800`
+  - `green-900`
+  - `green-background-color-default`
+  - `green-visual-color`
+  - `heading-color`
+  - `icon-color-blue-primary-default`
+  - `icon-color-green-primary-default`
+  - `icon-color-inverse`
+  - `icon-color-primary-default`
+  - `icon-color-red-primary-default`
+  - `icon-color-yellow-primary-default`
+  - `indigo-100`
+  - `indigo-1000`
+  - `indigo-1100`
+  - `indigo-1200`
+  - `indigo-1300`
+  - `indigo-1400`
+  - `indigo-200`
+  - `indigo-300`
+  - `indigo-400`
+  - `indigo-500`
+  - `indigo-600`
+  - `indigo-700`
+  - `indigo-800`
+  - `indigo-900`
+  - `indigo-background-color-default`
+  - `indigo-visual-color`
+  - `informative-background-color-default`
+  - `informative-background-color-down`
+  - `informative-background-color-hover`
+  - `informative-background-color-key-focus`
+  - `informative-color-100`
+  - `informative-color-1000`
+  - `informative-color-1100`
+  - `informative-color-1200`
+  - `informative-color-1300`
+  - `informative-color-1400`
+  - `informative-color-200`
+  - `informative-color-300`
+  - `informative-color-400`
+  - `informative-color-500`
+  - `informative-color-600`
+  - `informative-color-700`
+  - `informative-color-800`
+  - `informative-color-900`
+  - `informative-visual-color`
+  - `magenta-100`
+  - `magenta-1000`
+  - `magenta-1100`
+  - `magenta-1200`
+  - `magenta-1300`
+  - `magenta-1400`
+  - `magenta-200`
+  - `magenta-300`
+  - `magenta-400`
+  - `magenta-500`
+  - `magenta-600`
+  - `magenta-700`
+  - `magenta-800`
+  - `magenta-900`
+  - `magenta-background-color-default`
+  - `magenta-visual-color`
+  - `negative-background-color-default`
+  - `negative-background-color-down`
+  - `negative-background-color-hover`
+  - `negative-background-color-key-focus`
+  - `negative-border-color-default`
+  - `negative-border-color-down`
+  - `negative-border-color-focus`
+  - `negative-border-color-focus-hover`
+  - `negative-border-color-hover`
+  - `negative-border-color-key-focus`
+  - `negative-color-100`
+  - `negative-color-1000`
+  - `negative-color-1100`
+  - `negative-color-1200`
+  - `negative-color-1300`
+  - `negative-color-1400`
+  - `negative-color-200`
+  - `negative-color-300`
+  - `negative-color-400`
+  - `negative-color-500`
+  - `negative-color-600`
+  - `negative-color-700`
+  - `negative-color-800`
+  - `negative-color-900`
+  - `negative-content-color-default`
+  - `negative-content-color-down`
+  - `negative-content-color-hover`
+  - `negative-content-color-key-focus`
+  - `negative-visual-color`
+  - `neutral-background-color-default`
+  - `neutral-background-color-down`
+  - `neutral-background-color-hover`
+  - `neutral-background-color-key-focus`
+  - `neutral-background-color-selected-default`
+  - `neutral-background-color-selected-down`
+  - `neutral-background-color-selected-hover`
+  - `neutral-background-color-selected-key-focus`
+  - `neutral-content-color-default`
+  - `neutral-content-color-down`
+  - `neutral-content-color-focus`
+  - `neutral-content-color-focus-hover`
+  - `neutral-content-color-hover`
+  - `neutral-content-color-key-focus`
+  - `neutral-subdued-background-color-default`
+  - `neutral-subdued-background-color-down`
+  - `neutral-subdued-background-color-hover`
+  - `neutral-subdued-background-color-key-focus`
+  - `neutral-subdued-content-color-default`
+  - `neutral-subdued-content-color-down`
+  - `neutral-subdued-content-color-hover`
+  - `neutral-subdued-content-color-key-focus`
+  - `neutral-subdued-content-color-selected`
+  - `neutral-visual-color`
+  - `notice-background-color-default`
+  - `notice-color-100`
+  - `notice-color-1000`
+  - `notice-color-1100`
+  - `notice-color-1200`
+  - `notice-color-1300`
+  - `notice-color-1400`
+  - `notice-color-200`
+  - `notice-color-300`
+  - `notice-color-400`
+  - `notice-color-500`
+  - `notice-color-600`
+  - `notice-color-700`
+  - `notice-color-800`
+  - `notice-color-900`
+  - `notice-visual-color`
+  - `opacity-checkerboard-square-dark`
+  - `orange-100`
+  - `orange-1000`
+  - `orange-1100`
+  - `orange-1200`
+  - `orange-1300`
+  - `orange-1400`
+  - `orange-200`
+  - `orange-300`
+  - `orange-400`
+  - `orange-500`
+  - `orange-600`
+  - `orange-700`
+  - `orange-800`
+  - `orange-900`
+  - `orange-background-color-default`
+  - `orange-visual-color`
+  - `positive-background-color-default`
+  - `positive-background-color-down`
+  - `positive-background-color-hover`
+  - `positive-background-color-key-focus`
+  - `positive-color-100`
+  - `positive-color-1000`
+  - `positive-color-1100`
+  - `positive-color-1200`
+  - `positive-color-1300`
+  - `positive-color-1400`
+  - `positive-color-200`
+  - `positive-color-300`
+  - `positive-color-400`
+  - `positive-color-500`
+  - `positive-color-600`
+  - `positive-color-700`
+  - `positive-color-800`
+  - `positive-color-900`
+  - `positive-visual-color`
+  - `purple-100`
+  - `purple-1000`
+  - `purple-1100`
+  - `purple-1200`
+  - `purple-1300`
+  - `purple-1400`
+  - `purple-200`
+  - `purple-300`
+  - `purple-400`
+  - `purple-500`
+  - `purple-600`
+  - `purple-700`
+  - `purple-800`
+  - `purple-900`
+  - `purple-background-color-default`
+  - `purple-visual-color`
+  - `red-100`
+  - `red-1000`
+  - `red-1100`
+  - `red-1200`
+  - `red-1300`
+  - `red-1400`
+  - `red-200`
+  - `red-300`
+  - `red-400`
+  - `red-500`
+  - `red-600`
+  - `red-700`
+  - `red-800`
+  - `red-900`
+  - `red-background-color-default`
+  - `red-visual-color`
+  - `seafoam-100`
+  - `seafoam-1000`
+  - `seafoam-1100`
+  - `seafoam-1200`
+  - `seafoam-1300`
+  - `seafoam-1400`
+  - `seafoam-200`
+  - `seafoam-300`
+  - `seafoam-400`
+  - `seafoam-500`
+  - `seafoam-600`
+  - `seafoam-700`
+  - `seafoam-800`
+  - `seafoam-900`
+  - `seafoam-background-color-default`
+  - `seafoam-visual-color`
+  - `swatch-border-color`
+  - `table-row-hover-color`
+  - `table-selected-row-background-color`
+  - `table-selected-row-background-color-non-emphasized`
+  - `thumbnail-border-color`
+  - `transparent-black-100`
+  - `transparent-black-200`
+  - `transparent-black-300`
+  - `transparent-black-400`
+  - `transparent-black-500`
+  - `transparent-black-600`
+  - `transparent-black-700`
+  - `transparent-black-800`
+  - `transparent-black-900`
+  - `transparent-white-100`
+  - `transparent-white-200`
+  - `transparent-white-300`
+  - `transparent-white-400`
+  - `transparent-white-500`
+  - `transparent-white-600`
+  - `transparent-white-700`
+  - `transparent-white-800`
+  - `transparent-white-900`
+  - `yellow-100`
+  - `yellow-1000`
+  - `yellow-1100`
+  - `yellow-1200`
+  - `yellow-1300`
+  - `yellow-1400`
+  - `yellow-200`
+  - `yellow-300`
+  - `yellow-400`
+  - `yellow-500`
+  - `yellow-600`
+  - `yellow-700`
+  - `yellow-800`
+  - `yellow-900`
+  - `yellow-background-color-default`
+  - `yellow-visual-color`
 
   </details>
 
@@ -11933,7 +11798,7 @@ Updated (1592)
 
 ### Major Changes
 
-* [`f1cb901`](https://github.com/adobe/spectrum-design-data/commit/f1cb901): Merged dark and darkest color sets. This was done by removing `dark` and renaming `darkest` to `dark`.
+- [`f1cb901`](https://github.com/adobe/spectrum-design-data/commit/f1cb901): Merged dark and darkest color sets. This was done by removing `dark` and renaming `darkest` to `dark`.
 
   ## Design Motivation
 
@@ -11942,365 +11807,364 @@ Updated (1592)
   ## Token Diff
 
   <details><summary><strong>Token values updated (358):</strong></summary>
-
-  * `accent-background-color-default`
-  * `accent-background-color-down`
-  * `accent-background-color-hover`
-  * `accent-background-color-key-focus`
-  * `accent-visual-color`
-  * `background-base-color`
-  * `background-layer-1-color`
-  * `background-layer-2-color`
-  * `blue-100`
-  * `blue-1000`
-  * `blue-1100`
-  * `blue-1200`
-  * `blue-1300`
-  * `blue-1400`
-  * `blue-200`
-  * `blue-300`
-  * `blue-400`
-  * `blue-500`
-  * `blue-600`
-  * `blue-700`
-  * `blue-800`
-  * `blue-900`
-  * `blue-background-color-default`
-  * `blue-visual-color`
-  * `body-color`
-  * `card-selection-background-color`
-  * `celery-100`
-  * `celery-1000`
-  * `celery-1100`
-  * `celery-1200`
-  * `celery-1300`
-  * `celery-1400`
-  * `celery-200`
-  * `celery-300`
-  * `celery-400`
-  * `celery-500`
-  * `celery-600`
-  * `celery-700`
-  * `celery-800`
-  * `celery-900`
-  * `celery-background-color-default`
-  * `celery-visual-color`
-  * `chartreuse-100`
-  * `chartreuse-1000`
-  * `chartreuse-1100`
-  * `chartreuse-1200`
-  * `chartreuse-1300`
-  * `chartreuse-1400`
-  * `chartreuse-200`
-  * `chartreuse-300`
-  * `chartreuse-400`
-  * `chartreuse-500`
-  * `chartreuse-600`
-  * `chartreuse-700`
-  * `chartreuse-800`
-  * `chartreuse-900`
-  * `chartreuse-background-color-default`
-  * `chartreuse-visual-color`
-  * `coach-mark-pagination-color`
-  * `code-color`
-  * `color-area-border-color`
-  * `color-slider-border-color`
-  * `cyan-100`
-  * `cyan-1000`
-  * `cyan-1100`
-  * `cyan-1200`
-  * `cyan-1300`
-  * `cyan-1400`
-  * `cyan-200`
-  * `cyan-300`
-  * `cyan-400`
-  * `cyan-500`
-  * `cyan-600`
-  * `cyan-700`
-  * `cyan-800`
-  * `cyan-900`
-  * `cyan-background-color-default`
-  * `cyan-visual-color`
-  * `detail-color`
-  * `disabled-background-color`
-  * `disabled-border-color`
-  * `disabled-content-color`
-  * `drop-shadow-color`
-  * `drop-zone-background-color`
-  * `focus-indicator-color`
-  * `fuchsia-100`
-  * `fuchsia-1000`
-  * `fuchsia-1100`
-  * `fuchsia-1200`
-  * `fuchsia-1300`
-  * `fuchsia-1400`
-  * `fuchsia-200`
-  * `fuchsia-300`
-  * `fuchsia-400`
-  * `fuchsia-500`
-  * `fuchsia-600`
-  * `fuchsia-700`
-  * `fuchsia-800`
-  * `fuchsia-900`
-  * `fuchsia-background-color-default`
-  * `fuchsia-visual-color`
-  * `gray-100`
-  * `gray-200`
-  * `gray-300`
-  * `gray-400`
-  * `gray-50`
-  * `gray-500`
-  * `gray-600`
-  * `gray-700`
-  * `gray-75`
-  * `gray-800`
-  * `gray-900`
-  * `gray-background-color-default`
-  * `gray-visual-color`
-  * `green-100`
-  * `green-1000`
-  * `green-1100`
-  * `green-1200`
-  * `green-1300`
-  * `green-1400`
-  * `green-200`
-  * `green-300`
-  * `green-400`
-  * `green-500`
-  * `green-600`
-  * `green-700`
-  * `green-800`
-  * `green-900`
-  * `green-background-color-default`
-  * `green-visual-color`
-  * `heading-color`
-  * `icon-color-blue-primary-default`
-  * `icon-color-green-primary-default`
-  * `icon-color-inverse`
-  * `icon-color-primary-default`
-  * `icon-color-red-primary-default`
-  * `icon-color-yellow-primary-default`
-  * `indigo-100`
-  * `indigo-1000`
-  * `indigo-1100`
-  * `indigo-1200`
-  * `indigo-1300`
-  * `indigo-1400`
-  * `indigo-200`
-  * `indigo-300`
-  * `indigo-400`
-  * `indigo-500`
-  * `indigo-600`
-  * `indigo-700`
-  * `indigo-800`
-  * `indigo-900`
-  * `indigo-background-color-default`
-  * `indigo-visual-color`
-  * `informative-background-color-default`
-  * `informative-background-color-down`
-  * `informative-background-color-hover`
-  * `informative-background-color-key-focus`
-  * `informative-color-100`
-  * `informative-color-1000`
-  * `informative-color-1100`
-  * `informative-color-1200`
-  * `informative-color-1300`
-  * `informative-color-1400`
-  * `informative-color-200`
-  * `informative-color-300`
-  * `informative-color-400`
-  * `informative-color-500`
-  * `informative-color-600`
-  * `informative-color-700`
-  * `informative-color-800`
-  * `informative-color-900`
-  * `informative-visual-color`
-  * `magenta-100`
-  * `magenta-1000`
-  * `magenta-1100`
-  * `magenta-1200`
-  * `magenta-1300`
-  * `magenta-1400`
-  * `magenta-200`
-  * `magenta-300`
-  * `magenta-400`
-  * `magenta-500`
-  * `magenta-600`
-  * `magenta-700`
-  * `magenta-800`
-  * `magenta-900`
-  * `magenta-background-color-default`
-  * `magenta-visual-color`
-  * `negative-background-color-default`
-  * `negative-background-color-down`
-  * `negative-background-color-hover`
-  * `negative-background-color-key-focus`
-  * `negative-border-color-default`
-  * `negative-border-color-down`
-  * `negative-border-color-focus`
-  * `negative-border-color-focus-hover`
-  * `negative-border-color-hover`
-  * `negative-border-color-key-focus`
-  * `negative-color-100`
-  * `negative-color-1000`
-  * `negative-color-1100`
-  * `negative-color-1200`
-  * `negative-color-1300`
-  * `negative-color-1400`
-  * `negative-color-200`
-  * `negative-color-300`
-  * `negative-color-400`
-  * `negative-color-500`
-  * `negative-color-600`
-  * `negative-color-700`
-  * `negative-color-800`
-  * `negative-color-900`
-  * `negative-content-color-default`
-  * `negative-content-color-down`
-  * `negative-content-color-hover`
-  * `negative-content-color-key-focus`
-  * `negative-visual-color`
-  * `neutral-background-color-default`
-  * `neutral-background-color-down`
-  * `neutral-background-color-hover`
-  * `neutral-background-color-key-focus`
-  * `neutral-content-color-default`
-  * `neutral-content-color-down`
-  * `neutral-content-color-focus`
-  * `neutral-content-color-focus-hover`
-  * `neutral-content-color-hover`
-  * `neutral-content-color-key-focus`
-  * `neutral-subdued-background-color-default`
-  * `neutral-subdued-background-color-down`
-  * `neutral-subdued-background-color-hover`
-  * `neutral-subdued-background-color-key-focus`
-  * `neutral-subdued-content-color-default`
-  * `neutral-subdued-content-color-down`
-  * `neutral-subdued-content-color-hover`
-  * `neutral-subdued-content-color-key-focus`
-  * `neutral-subdued-content-color-selected`
-  * `neutral-visual-color`
-  * `notice-background-color-default`
-  * `notice-color-100`
-  * `notice-color-1000`
-  * `notice-color-1100`
-  * `notice-color-1200`
-  * `notice-color-1300`
-  * `notice-color-1400`
-  * `notice-color-200`
-  * `notice-color-300`
-  * `notice-color-400`
-  * `notice-color-500`
-  * `notice-color-600`
-  * `notice-color-700`
-  * `notice-color-800`
-  * `notice-color-900`
-  * `notice-visual-color`
-  * `opacity-checkerboard-square-dark`
-  * `orange-100`
-  * `orange-1000`
-  * `orange-1100`
-  * `orange-1200`
-  * `orange-1300`
-  * `orange-1400`
-  * `orange-200`
-  * `orange-300`
-  * `orange-400`
-  * `orange-500`
-  * `orange-600`
-  * `orange-700`
-  * `orange-800`
-  * `orange-900`
-  * `orange-background-color-default`
-  * `orange-visual-color`
-  * `overlay-opacity`
-  * `positive-background-color-default`
-  * `positive-background-color-down`
-  * `positive-background-color-hover`
-  * `positive-background-color-key-focus`
-  * `positive-color-100`
-  * `positive-color-1000`
-  * `positive-color-1100`
-  * `positive-color-1200`
-  * `positive-color-1300`
-  * `positive-color-1400`
-  * `positive-color-200`
-  * `positive-color-300`
-  * `positive-color-400`
-  * `positive-color-500`
-  * `positive-color-600`
-  * `positive-color-700`
-  * `positive-color-800`
-  * `positive-color-900`
-  * `positive-visual-color`
-  * `purple-100`
-  * `purple-1000`
-  * `purple-1100`
-  * `purple-1200`
-  * `purple-1300`
-  * `purple-1400`
-  * `purple-200`
-  * `purple-300`
-  * `purple-400`
-  * `purple-500`
-  * `purple-600`
-  * `purple-700`
-  * `purple-800`
-  * `purple-900`
-  * `purple-background-color-default`
-  * `purple-visual-color`
-  * `red-100`
-  * `red-1000`
-  * `red-1100`
-  * `red-1200`
-  * `red-1300`
-  * `red-1400`
-  * `red-200`
-  * `red-300`
-  * `red-400`
-  * `red-500`
-  * `red-600`
-  * `red-700`
-  * `red-800`
-  * `red-900`
-  * `red-background-color-default`
-  * `red-visual-color`
-  * `seafoam-100`
-  * `seafoam-1000`
-  * `seafoam-1100`
-  * `seafoam-1200`
-  * `seafoam-1300`
-  * `seafoam-1400`
-  * `seafoam-200`
-  * `seafoam-300`
-  * `seafoam-400`
-  * `seafoam-500`
-  * `seafoam-600`
-  * `seafoam-700`
-  * `seafoam-800`
-  * `seafoam-900`
-  * `seafoam-background-color-default`
-  * `seafoam-visual-color`
-  * `swatch-border-color`
-  * `table-row-hover-color`
-  * `table-selected-row-background-color`
-  * `thumbnail-border-color`
-  * `yellow-100`
-  * `yellow-1000`
-  * `yellow-1100`
-  * `yellow-1200`
-  * `yellow-1300`
-  * `yellow-1400`
-  * `yellow-200`
-  * `yellow-300`
-  * `yellow-400`
-  * `yellow-500`
-  * `yellow-600`
-  * `yellow-700`
-  * `yellow-800`
-  * `yellow-900`
-  * `yellow-background-color-default`
-  * `yellow-visual-color`
+  - `accent-background-color-default`
+  - `accent-background-color-down`
+  - `accent-background-color-hover`
+  - `accent-background-color-key-focus`
+  - `accent-visual-color`
+  - `background-base-color`
+  - `background-layer-1-color`
+  - `background-layer-2-color`
+  - `blue-100`
+  - `blue-1000`
+  - `blue-1100`
+  - `blue-1200`
+  - `blue-1300`
+  - `blue-1400`
+  - `blue-200`
+  - `blue-300`
+  - `blue-400`
+  - `blue-500`
+  - `blue-600`
+  - `blue-700`
+  - `blue-800`
+  - `blue-900`
+  - `blue-background-color-default`
+  - `blue-visual-color`
+  - `body-color`
+  - `card-selection-background-color`
+  - `celery-100`
+  - `celery-1000`
+  - `celery-1100`
+  - `celery-1200`
+  - `celery-1300`
+  - `celery-1400`
+  - `celery-200`
+  - `celery-300`
+  - `celery-400`
+  - `celery-500`
+  - `celery-600`
+  - `celery-700`
+  - `celery-800`
+  - `celery-900`
+  - `celery-background-color-default`
+  - `celery-visual-color`
+  - `chartreuse-100`
+  - `chartreuse-1000`
+  - `chartreuse-1100`
+  - `chartreuse-1200`
+  - `chartreuse-1300`
+  - `chartreuse-1400`
+  - `chartreuse-200`
+  - `chartreuse-300`
+  - `chartreuse-400`
+  - `chartreuse-500`
+  - `chartreuse-600`
+  - `chartreuse-700`
+  - `chartreuse-800`
+  - `chartreuse-900`
+  - `chartreuse-background-color-default`
+  - `chartreuse-visual-color`
+  - `coach-mark-pagination-color`
+  - `code-color`
+  - `color-area-border-color`
+  - `color-slider-border-color`
+  - `cyan-100`
+  - `cyan-1000`
+  - `cyan-1100`
+  - `cyan-1200`
+  - `cyan-1300`
+  - `cyan-1400`
+  - `cyan-200`
+  - `cyan-300`
+  - `cyan-400`
+  - `cyan-500`
+  - `cyan-600`
+  - `cyan-700`
+  - `cyan-800`
+  - `cyan-900`
+  - `cyan-background-color-default`
+  - `cyan-visual-color`
+  - `detail-color`
+  - `disabled-background-color`
+  - `disabled-border-color`
+  - `disabled-content-color`
+  - `drop-shadow-color`
+  - `drop-zone-background-color`
+  - `focus-indicator-color`
+  - `fuchsia-100`
+  - `fuchsia-1000`
+  - `fuchsia-1100`
+  - `fuchsia-1200`
+  - `fuchsia-1300`
+  - `fuchsia-1400`
+  - `fuchsia-200`
+  - `fuchsia-300`
+  - `fuchsia-400`
+  - `fuchsia-500`
+  - `fuchsia-600`
+  - `fuchsia-700`
+  - `fuchsia-800`
+  - `fuchsia-900`
+  - `fuchsia-background-color-default`
+  - `fuchsia-visual-color`
+  - `gray-100`
+  - `gray-200`
+  - `gray-300`
+  - `gray-400`
+  - `gray-50`
+  - `gray-500`
+  - `gray-600`
+  - `gray-700`
+  - `gray-75`
+  - `gray-800`
+  - `gray-900`
+  - `gray-background-color-default`
+  - `gray-visual-color`
+  - `green-100`
+  - `green-1000`
+  - `green-1100`
+  - `green-1200`
+  - `green-1300`
+  - `green-1400`
+  - `green-200`
+  - `green-300`
+  - `green-400`
+  - `green-500`
+  - `green-600`
+  - `green-700`
+  - `green-800`
+  - `green-900`
+  - `green-background-color-default`
+  - `green-visual-color`
+  - `heading-color`
+  - `icon-color-blue-primary-default`
+  - `icon-color-green-primary-default`
+  - `icon-color-inverse`
+  - `icon-color-primary-default`
+  - `icon-color-red-primary-default`
+  - `icon-color-yellow-primary-default`
+  - `indigo-100`
+  - `indigo-1000`
+  - `indigo-1100`
+  - `indigo-1200`
+  - `indigo-1300`
+  - `indigo-1400`
+  - `indigo-200`
+  - `indigo-300`
+  - `indigo-400`
+  - `indigo-500`
+  - `indigo-600`
+  - `indigo-700`
+  - `indigo-800`
+  - `indigo-900`
+  - `indigo-background-color-default`
+  - `indigo-visual-color`
+  - `informative-background-color-default`
+  - `informative-background-color-down`
+  - `informative-background-color-hover`
+  - `informative-background-color-key-focus`
+  - `informative-color-100`
+  - `informative-color-1000`
+  - `informative-color-1100`
+  - `informative-color-1200`
+  - `informative-color-1300`
+  - `informative-color-1400`
+  - `informative-color-200`
+  - `informative-color-300`
+  - `informative-color-400`
+  - `informative-color-500`
+  - `informative-color-600`
+  - `informative-color-700`
+  - `informative-color-800`
+  - `informative-color-900`
+  - `informative-visual-color`
+  - `magenta-100`
+  - `magenta-1000`
+  - `magenta-1100`
+  - `magenta-1200`
+  - `magenta-1300`
+  - `magenta-1400`
+  - `magenta-200`
+  - `magenta-300`
+  - `magenta-400`
+  - `magenta-500`
+  - `magenta-600`
+  - `magenta-700`
+  - `magenta-800`
+  - `magenta-900`
+  - `magenta-background-color-default`
+  - `magenta-visual-color`
+  - `negative-background-color-default`
+  - `negative-background-color-down`
+  - `negative-background-color-hover`
+  - `negative-background-color-key-focus`
+  - `negative-border-color-default`
+  - `negative-border-color-down`
+  - `negative-border-color-focus`
+  - `negative-border-color-focus-hover`
+  - `negative-border-color-hover`
+  - `negative-border-color-key-focus`
+  - `negative-color-100`
+  - `negative-color-1000`
+  - `negative-color-1100`
+  - `negative-color-1200`
+  - `negative-color-1300`
+  - `negative-color-1400`
+  - `negative-color-200`
+  - `negative-color-300`
+  - `negative-color-400`
+  - `negative-color-500`
+  - `negative-color-600`
+  - `negative-color-700`
+  - `negative-color-800`
+  - `negative-color-900`
+  - `negative-content-color-default`
+  - `negative-content-color-down`
+  - `negative-content-color-hover`
+  - `negative-content-color-key-focus`
+  - `negative-visual-color`
+  - `neutral-background-color-default`
+  - `neutral-background-color-down`
+  - `neutral-background-color-hover`
+  - `neutral-background-color-key-focus`
+  - `neutral-content-color-default`
+  - `neutral-content-color-down`
+  - `neutral-content-color-focus`
+  - `neutral-content-color-focus-hover`
+  - `neutral-content-color-hover`
+  - `neutral-content-color-key-focus`
+  - `neutral-subdued-background-color-default`
+  - `neutral-subdued-background-color-down`
+  - `neutral-subdued-background-color-hover`
+  - `neutral-subdued-background-color-key-focus`
+  - `neutral-subdued-content-color-default`
+  - `neutral-subdued-content-color-down`
+  - `neutral-subdued-content-color-hover`
+  - `neutral-subdued-content-color-key-focus`
+  - `neutral-subdued-content-color-selected`
+  - `neutral-visual-color`
+  - `notice-background-color-default`
+  - `notice-color-100`
+  - `notice-color-1000`
+  - `notice-color-1100`
+  - `notice-color-1200`
+  - `notice-color-1300`
+  - `notice-color-1400`
+  - `notice-color-200`
+  - `notice-color-300`
+  - `notice-color-400`
+  - `notice-color-500`
+  - `notice-color-600`
+  - `notice-color-700`
+  - `notice-color-800`
+  - `notice-color-900`
+  - `notice-visual-color`
+  - `opacity-checkerboard-square-dark`
+  - `orange-100`
+  - `orange-1000`
+  - `orange-1100`
+  - `orange-1200`
+  - `orange-1300`
+  - `orange-1400`
+  - `orange-200`
+  - `orange-300`
+  - `orange-400`
+  - `orange-500`
+  - `orange-600`
+  - `orange-700`
+  - `orange-800`
+  - `orange-900`
+  - `orange-background-color-default`
+  - `orange-visual-color`
+  - `overlay-opacity`
+  - `positive-background-color-default`
+  - `positive-background-color-down`
+  - `positive-background-color-hover`
+  - `positive-background-color-key-focus`
+  - `positive-color-100`
+  - `positive-color-1000`
+  - `positive-color-1100`
+  - `positive-color-1200`
+  - `positive-color-1300`
+  - `positive-color-1400`
+  - `positive-color-200`
+  - `positive-color-300`
+  - `positive-color-400`
+  - `positive-color-500`
+  - `positive-color-600`
+  - `positive-color-700`
+  - `positive-color-800`
+  - `positive-color-900`
+  - `positive-visual-color`
+  - `purple-100`
+  - `purple-1000`
+  - `purple-1100`
+  - `purple-1200`
+  - `purple-1300`
+  - `purple-1400`
+  - `purple-200`
+  - `purple-300`
+  - `purple-400`
+  - `purple-500`
+  - `purple-600`
+  - `purple-700`
+  - `purple-800`
+  - `purple-900`
+  - `purple-background-color-default`
+  - `purple-visual-color`
+  - `red-100`
+  - `red-1000`
+  - `red-1100`
+  - `red-1200`
+  - `red-1300`
+  - `red-1400`
+  - `red-200`
+  - `red-300`
+  - `red-400`
+  - `red-500`
+  - `red-600`
+  - `red-700`
+  - `red-800`
+  - `red-900`
+  - `red-background-color-default`
+  - `red-visual-color`
+  - `seafoam-100`
+  - `seafoam-1000`
+  - `seafoam-1100`
+  - `seafoam-1200`
+  - `seafoam-1300`
+  - `seafoam-1400`
+  - `seafoam-200`
+  - `seafoam-300`
+  - `seafoam-400`
+  - `seafoam-500`
+  - `seafoam-600`
+  - `seafoam-700`
+  - `seafoam-800`
+  - `seafoam-900`
+  - `seafoam-background-color-default`
+  - `seafoam-visual-color`
+  - `swatch-border-color`
+  - `table-row-hover-color`
+  - `table-selected-row-background-color`
+  - `thumbnail-border-color`
+  - `yellow-100`
+  - `yellow-1000`
+  - `yellow-1100`
+  - `yellow-1200`
+  - `yellow-1300`
+  - `yellow-1400`
+  - `yellow-200`
+  - `yellow-300`
+  - `yellow-400`
+  - `yellow-500`
+  - `yellow-600`
+  - `yellow-700`
+  - `yellow-800`
+  - `yellow-900`
+  - `yellow-background-color-default`
+  - `yellow-visual-color`
 
     </details>
 
@@ -12308,116 +12172,115 @@ Updated (1592)
 
 ### Major Changes
 
-* [`4f518be`](https://github.com/adobe/spectrum-design-data/commit/4f518be): Merged Spectrum and Express system set data. This is part of the Spectrum 2 work that will no longer have two separate systems.
+- [`4f518be`](https://github.com/adobe/spectrum-design-data/commit/4f518be): Merged Spectrum and Express system set data. This is part of the Spectrum 2 work that will no longer have two separate systems.
 
   The merge takes the keeps the `value` and `uuid` from `spectrum`.
 
   ## Token Diff
 
   <details><summary><strong>Tokens values updated (102):</strong></summary>
-
-  * `accent-background-color-default`
-  * `accent-background-color-down`
-  * `accent-background-color-hover`
-  * `accent-background-color-key-focus`
-  * `accent-color-100`
-  * `accent-color-1000`
-  * `accent-color-1100`
-  * `accent-color-1200`
-  * `accent-color-1300`
-  * `accent-color-1400`
-  * `accent-color-200`
-  * `accent-color-300`
-  * `accent-color-400`
-  * `accent-color-500`
-  * `accent-color-600`
-  * `accent-color-700`
-  * `accent-color-800`
-  * `accent-color-900`
-  * `accent-content-color-default`
-  * `accent-content-color-down`
-  * `accent-content-color-hover`
-  * `accent-content-color-key-focus`
-  * `accent-content-color-selected`
-  * `accent-visual-color`
-  * `border-width-100`
-  * `checkbox-control-size-extra-large`
-  * `checkbox-control-size-large`
-  * `checkbox-control-size-medium`
-  * `checkbox-control-size-small`
-  * `checkbox-top-to-control-extra-large`
-  * `checkbox-top-to-control-large`
-  * `checkbox-top-to-control-medium`
-  * `checkbox-top-to-control-small`
-  * `color-area-border-rounding`
-  * `color-area-border-width`
-  * `color-handle-drop-shadow-color`
-  * `corner-radius-100`
-  * `corner-radius-200`
-  * `corner-radius-75`
-  * `drop-shadow-blur`
-  * `drop-shadow-x`
-  * `drop-shadow-y`
-  * `drop-zone-background-color`
-  * `heading-cjk-font-weight`
-  * `heading-sans-serif-emphasized-font-weight`
-  * `heading-sans-serif-font-weight`
-  * `heading-serif-emphasized-font-weight`
-  * `heading-serif-font-weight`
-  * `in-field-button-edge-to-fill`
-  * `in-field-button-fill-stacked-inner-border-rounding`
-  * `in-field-button-inner-edge-to-disclosure-icon-stacked-extra-large`
-  * `in-field-button-inner-edge-to-disclosure-icon-stacked-large`
-  * `in-field-button-inner-edge-to-disclosure-icon-stacked-medium`
-  * `in-field-button-inner-edge-to-disclosure-icon-stacked-small`
-  * `in-field-button-outer-edge-to-disclosure-icon-stacked-extra-large`
-  * `in-field-button-outer-edge-to-disclosure-icon-stacked-large`
-  * `in-field-button-outer-edge-to-disclosure-icon-stacked-medium`
-  * `in-field-button-stacked-inner-edge-to-fill`
-  * `neutral-background-color-selected-default`
-  * `neutral-background-color-selected-down`
-  * `neutral-background-color-selected-hover`
-  * `neutral-background-color-selected-key-focus`
-  * `picker-border-width`
-  * `radio-button-control-size-extra-large`
-  * `radio-button-control-size-large`
-  * `radio-button-control-size-medium`
-  * `radio-button-control-size-small`
-  * `radio-button-top-to-control-extra-large`
-  * `radio-button-top-to-control-large`
-  * `radio-button-top-to-control-medium`
-  * `radio-button-top-to-control-small`
-  * `slider-bottom-to-handle-extra-large`
-  * `slider-bottom-to-handle-large`
-  * `slider-bottom-to-handle-medium`
-  * `slider-bottom-to-handle-small`
-  * `slider-control-height-extra-large`
-  * `slider-control-height-large`
-  * `slider-control-height-medium`
-  * `slider-control-height-small`
-  * `slider-handle-border-width-down-extra-large`
-  * `slider-handle-border-width-down-large`
-  * `slider-handle-border-width-down-medium`
-  * `slider-handle-border-width-down-small`
-  * `slider-handle-gap`
-  * `slider-handle-size-extra-large`
-  * `slider-handle-size-large`
-  * `slider-handle-size-medium`
-  * `slider-handle-size-small`
-  * `slider-track-thickness`
-  * `switch-control-height-extra-large`
-  * `switch-control-height-large`
-  * `switch-control-height-medium`
-  * `switch-control-height-small`
-  * `switch-control-width-extra-large`
-  * `switch-control-width-large`
-  * `switch-control-width-medium`
-  * `switch-control-width-small`
-  * `switch-top-to-control-extra-large`
-  * `switch-top-to-control-large`
-  * `switch-top-to-control-medium`
-  * `switch-top-to-control-small`
-  * `table-selected-row-background-color-non-emphasized`
+  - `accent-background-color-default`
+  - `accent-background-color-down`
+  - `accent-background-color-hover`
+  - `accent-background-color-key-focus`
+  - `accent-color-100`
+  - `accent-color-1000`
+  - `accent-color-1100`
+  - `accent-color-1200`
+  - `accent-color-1300`
+  - `accent-color-1400`
+  - `accent-color-200`
+  - `accent-color-300`
+  - `accent-color-400`
+  - `accent-color-500`
+  - `accent-color-600`
+  - `accent-color-700`
+  - `accent-color-800`
+  - `accent-color-900`
+  - `accent-content-color-default`
+  - `accent-content-color-down`
+  - `accent-content-color-hover`
+  - `accent-content-color-key-focus`
+  - `accent-content-color-selected`
+  - `accent-visual-color`
+  - `border-width-100`
+  - `checkbox-control-size-extra-large`
+  - `checkbox-control-size-large`
+  - `checkbox-control-size-medium`
+  - `checkbox-control-size-small`
+  - `checkbox-top-to-control-extra-large`
+  - `checkbox-top-to-control-large`
+  - `checkbox-top-to-control-medium`
+  - `checkbox-top-to-control-small`
+  - `color-area-border-rounding`
+  - `color-area-border-width`
+  - `color-handle-drop-shadow-color`
+  - `corner-radius-100`
+  - `corner-radius-200`
+  - `corner-radius-75`
+  - `drop-shadow-blur`
+  - `drop-shadow-x`
+  - `drop-shadow-y`
+  - `drop-zone-background-color`
+  - `heading-cjk-font-weight`
+  - `heading-sans-serif-emphasized-font-weight`
+  - `heading-sans-serif-font-weight`
+  - `heading-serif-emphasized-font-weight`
+  - `heading-serif-font-weight`
+  - `in-field-button-edge-to-fill`
+  - `in-field-button-fill-stacked-inner-border-rounding`
+  - `in-field-button-inner-edge-to-disclosure-icon-stacked-extra-large`
+  - `in-field-button-inner-edge-to-disclosure-icon-stacked-large`
+  - `in-field-button-inner-edge-to-disclosure-icon-stacked-medium`
+  - `in-field-button-inner-edge-to-disclosure-icon-stacked-small`
+  - `in-field-button-outer-edge-to-disclosure-icon-stacked-extra-large`
+  - `in-field-button-outer-edge-to-disclosure-icon-stacked-large`
+  - `in-field-button-outer-edge-to-disclosure-icon-stacked-medium`
+  - `in-field-button-stacked-inner-edge-to-fill`
+  - `neutral-background-color-selected-default`
+  - `neutral-background-color-selected-down`
+  - `neutral-background-color-selected-hover`
+  - `neutral-background-color-selected-key-focus`
+  - `picker-border-width`
+  - `radio-button-control-size-extra-large`
+  - `radio-button-control-size-large`
+  - `radio-button-control-size-medium`
+  - `radio-button-control-size-small`
+  - `radio-button-top-to-control-extra-large`
+  - `radio-button-top-to-control-large`
+  - `radio-button-top-to-control-medium`
+  - `radio-button-top-to-control-small`
+  - `slider-bottom-to-handle-extra-large`
+  - `slider-bottom-to-handle-large`
+  - `slider-bottom-to-handle-medium`
+  - `slider-bottom-to-handle-small`
+  - `slider-control-height-extra-large`
+  - `slider-control-height-large`
+  - `slider-control-height-medium`
+  - `slider-control-height-small`
+  - `slider-handle-border-width-down-extra-large`
+  - `slider-handle-border-width-down-large`
+  - `slider-handle-border-width-down-medium`
+  - `slider-handle-border-width-down-small`
+  - `slider-handle-gap`
+  - `slider-handle-size-extra-large`
+  - `slider-handle-size-large`
+  - `slider-handle-size-medium`
+  - `slider-handle-size-small`
+  - `slider-track-thickness`
+  - `switch-control-height-extra-large`
+  - `switch-control-height-large`
+  - `switch-control-height-medium`
+  - `switch-control-height-small`
+  - `switch-control-width-extra-large`
+  - `switch-control-width-large`
+  - `switch-control-width-medium`
+  - `switch-control-width-small`
+  - `switch-top-to-control-extra-large`
+  - `switch-top-to-control-large`
+  - `switch-top-to-control-medium`
+  - `switch-top-to-control-small`
+  - `table-selected-row-background-color-non-emphasized`
 
   </details>
 
@@ -12425,43 +12288,41 @@ Updated (1592)
 
 ### Patch Changes
 
-* [`d9a6b7b`](https://github.com/adobe/spectrum-design-data/commit/d9a6b7b): Updated manifest.json file
+- [`d9a6b7b`](https://github.com/adobe/spectrum-design-data/commit/d9a6b7b): Updated manifest.json file
 
 ## 12.19.0
 
 ### Minor Changes
 
-* [`0c716de`](https://github.com/adobe/spectrum-design-data/commit/0c716de): Added icon tokens
+- [`0c716de`](https://github.com/adobe/spectrum-design-data/commit/0c716de): Added icon tokens
 
   ### Token Diff
 
-  *Tokens added (6):*
-
-  * `icon-color-blue-primary-default`
-  * `icon-color-green-primary-default`
-  * `icon-color-inverse`
-  * `icon-color-primary-default`
-  * `icon-color-red-primary-default`
-  * `icon-color-yellow-primary-default`
+  _Tokens added (6):_
+  - `icon-color-blue-primary-default`
+  - `icon-color-green-primary-default`
+  - `icon-color-inverse`
+  - `icon-color-primary-default`
+  - `icon-color-red-primary-default`
+  - `icon-color-yellow-primary-default`
 
 ## 12.18.1
 
 ### Patch Changes
 
-* [`6f5443e`](https://github.com/adobe/spectrum-design-data/commit/6f5443e): Added missing `wireframe` values for 2 color tokens
+- [`6f5443e`](https://github.com/adobe/spectrum-design-data/commit/6f5443e): Added missing `wireframe` values for 2 color tokens
 
   ## Token Diff
 
-  *Tokens update (2):*
-
-  * `opacity-checkerboard-square-dark`
-  * `overlay-opacity`
+  _Tokens update (2):_
+  - `opacity-checkerboard-square-dark`
+  - `overlay-opacity`
 
 ## 12.18.0
 
 ### Minor Changes
 
-* [`bb89361`](https://github.com/adobe/spectrum-design-data/commit/bb89361): Update meter token from meter-default-width to meter-width.
+- [`bb89361`](https://github.com/adobe/spectrum-design-data/commit/bb89361): Update meter token from meter-default-width to meter-width.
 
   ### Design motivation
 
@@ -12469,343 +12330,335 @@ Updated (1592)
 
   ### Token diff
 
-  *Renamed token:*
+  _Renamed token:_
+  - `meter-default-width` -> `meter-width`
 
-  * `meter-default-width` -> `meter-width`
-
-  *Token added for deprecation and rename:*
-
-  * `meter-default-width`
+  _Token added for deprecation and rename:_
+  - `meter-default-width`
 
 ## 12.17.0
 
 ### Minor Changes
 
-* [`687f6c3`](https://github.com/adobe/spectrum-design-data/commit/687f6c3): Updated coach-mark tokens
+- [`687f6c3`](https://github.com/adobe/spectrum-design-data/commit/687f6c3): Updated coach-mark tokens
 
 #### Token Diff
 
-*Tokens added (3):*
+_Tokens added (3):_
 
-* `coach-mark-maximum-width`
-* `coach-mark-media-height`
-* `coach-mark-width`
+- `coach-mark-maximum-width`
+- `coach-mark-media-height`
+- `coach-mark-width`
 
-*Token values updated (4):*
+_Token values updated (4):_
 
-* `coach-mark-minimum-width`: `mobile` from `208px` to `216px`
-* `coach-mark-title-size`: added `desktop` value
-* `coach-mark-body-size`: added `desktop` value
-* `coach-mark-pagination-body-size`: added `desktop` value
+- `coach-mark-minimum-width`: `mobile` from `208px` to `216px`
+- `coach-mark-title-size`: added `desktop` value
+- `coach-mark-body-size`: added `desktop` value
+- `coach-mark-pagination-body-size`: added `desktop` value
 
 ## 12.16.0
 
 ### Minor Changes
 
-* [`25dc20d`](https://github.com/adobe/spectrum-design-data/commit/25dc20d): Add new menu-item token for section dividers
+- [`25dc20d`](https://github.com/adobe/spectrum-design-data/commit/25dc20d): Add new menu-item token for section dividers
 
 #### Token Diff
 
-*Tokens added (1):*
+_Tokens added (1):_
 
-* `menu-item-section-divider-height`
+- `menu-item-section-divider-height`
 
 ## 12.15.0
 
 ### Minor Changes
 
-* [`fc12f6d`](https://github.com/adobe/spectrum-design-data/commit/fc12f6d): Added side-navigation token
+- [`fc12f6d`](https://github.com/adobe/spectrum-design-data/commit/fc12f6d): Added side-navigation token
 
 #### Token Diff
 
-*Tokens added (1):*
+_Tokens added (1):_
 
-* `side-navigation-bottom-to-text`
+- `side-navigation-bottom-to-text`
 
 ## 12.14.0
 
 ### Minor Changes
 
-* [`cb9e3bf`](https://github.com/adobe/spectrum-design-data/commit/cb9e3bf): Added in-field button tokens
+- [`cb9e3bf`](https://github.com/adobe/spectrum-design-data/commit/cb9e3bf): Added in-field button tokens
 
   ## Token Diff
 
-  *Tokens added (19):*
-
-  * `in-field-button-edge-to-disclosure-icon-stacked-extra-large`
-  * `in-field-button-edge-to-disclosure-icon-stacked-large`
-  * `in-field-button-edge-to-disclosure-icon-stacked-medium`
-  * `in-field-button-edge-to-disclosure-icon-stacked-small`
-  * `in-field-button-edge-to-fill`
-  * `in-field-button-fill-stacked-inner-border-rounding`
-  * `in-field-button-inner-edge-to-disclosure-icon-stacked-extra-large`
-  * `in-field-button-inner-edge-to-disclosure-icon-stacked-large`
-  * `in-field-button-inner-edge-to-disclosure-icon-stacked-medium`
-  * `in-field-button-inner-edge-to-disclosure-icon-stacked-small`
-  * `in-field-button-outer-edge-to-disclosure-icon-stacked-extra-large`
-  * `in-field-button-outer-edge-to-disclosure-icon-stacked-large`
-  * `in-field-button-outer-edge-to-disclosure-icon-stacked-medium`
-  * `in-field-button-outer-edge-to-disclosure-icon-stacked-small`
-  * `in-field-button-stacked-inner-edge-to-fill`
-  * `in-field-button-width-stacked-extra-large`
-  * `in-field-button-width-stacked-large`
-  * `in-field-button-width-stacked-medium`
-  * `in-field-button-width-stacked-small`
+  _Tokens added (19):_
+  - `in-field-button-edge-to-disclosure-icon-stacked-extra-large`
+  - `in-field-button-edge-to-disclosure-icon-stacked-large`
+  - `in-field-button-edge-to-disclosure-icon-stacked-medium`
+  - `in-field-button-edge-to-disclosure-icon-stacked-small`
+  - `in-field-button-edge-to-fill`
+  - `in-field-button-fill-stacked-inner-border-rounding`
+  - `in-field-button-inner-edge-to-disclosure-icon-stacked-extra-large`
+  - `in-field-button-inner-edge-to-disclosure-icon-stacked-large`
+  - `in-field-button-inner-edge-to-disclosure-icon-stacked-medium`
+  - `in-field-button-inner-edge-to-disclosure-icon-stacked-small`
+  - `in-field-button-outer-edge-to-disclosure-icon-stacked-extra-large`
+  - `in-field-button-outer-edge-to-disclosure-icon-stacked-large`
+  - `in-field-button-outer-edge-to-disclosure-icon-stacked-medium`
+  - `in-field-button-outer-edge-to-disclosure-icon-stacked-small`
+  - `in-field-button-stacked-inner-edge-to-fill`
+  - `in-field-button-width-stacked-extra-large`
+  - `in-field-button-width-stacked-large`
+  - `in-field-button-width-stacked-medium`
+  - `in-field-button-width-stacked-small`
 
 ## 12.13.1
 
 ### Patch Changes
 
-* [`02459bf`](https://github.com/adobe/spectrum-design-data/commit/02459bf): Migrate dependencies to devDependencies as they are not needed downstream to leverage the package.
+- [`02459bf`](https://github.com/adobe/spectrum-design-data/commit/02459bf): Migrate dependencies to devDependencies as they are not needed downstream to leverage the package.
 
 ## 12.13.0
 
 ### Minor Changes
 
-* [`d740d2c`](https://github.com/adobe/spectrum-design-data/commit/d740d2c): added table tokens
+- [`d740d2c`](https://github.com/adobe/spectrum-design-data/commit/d740d2c): added table tokens
 
   ## Token diff
 
-  *Tokens added (88):*
-
-  * `table-border-divider-width`
-  * `table-checkbox-to-text`
-  * `table-column-header-row-bottom-to-text-extra-large`
-  * `table-column-header-row-bottom-to-text-large`
-  * `table-column-header-row-bottom-to-text-medium`
-  * `table-column-header-row-bottom-to-text-small`
-  * `table-column-header-row-top-to-text-extra-large`
-  * `table-column-header-row-top-to-text-large`
-  * `table-column-header-row-top-to-text-medium`
-  * `table-column-header-row-top-to-text-small`
-  * `table-edge-to-content`
-  * `table-header-row-checkbox-to-top-extra-large`
-  * `table-header-row-checkbox-to-top-large`
-  * `table-header-row-checkbox-to-top-medium`
-  * `table-header-row-checkbox-to-top-small`
-  * `table-row-bottom-to-text-extra-large-compact`
-  * `table-row-bottom-to-text-extra-large-regular`
-  * `table-row-bottom-to-text-extra-large-spacious`
-  * `table-row-bottom-to-text-large-compact`
-  * `table-row-bottom-to-text-large-regular`
-  * `table-row-bottom-to-text-large-spacious`
-  * `table-row-bottom-to-text-medium-compact`
-  * `table-row-bottom-to-text-medium-regular`
-  * `table-row-bottom-to-text-medium-spacious`
-  * `table-row-bottom-to-text-small-compact`
-  * `table-row-bottom-to-text-small-regular`
-  * `table-row-bottom-to-text-small-spacious`
-  * `table-row-checkbox-to-top-extra-large-compact`
-  * `table-row-checkbox-to-top-extra-large-regular`
-  * `table-row-checkbox-to-top-extra-large-spacious`
-  * `table-row-checkbox-to-top-large-compact`
-  * `table-row-checkbox-to-top-large-regular`
-  * `table-row-checkbox-to-top-large-spacious`
-  * `table-row-checkbox-to-top-medium-compact`
-  * `table-row-checkbox-to-top-medium-regular`
-  * `table-row-checkbox-to-top-medium-spacious`
-  * `table-row-checkbox-to-top-small-compact`
-  * `table-row-checkbox-to-top-small-regular`
-  * `table-row-checkbox-to-top-small-spacious`
-  * `table-row-down-opacity`
-  * `table-row-height-extra-large-compact`
-  * `table-row-height-extra-large-regular`
-  * `table-row-height-extra-large-spacious`
-  * `table-row-height-large-compact`
-  * `table-row-height-large-regular`
-  * `table-row-height-large-spacious`
-  * `table-row-height-medium-compact`
-  * `table-row-height-medium-regular`
-  * `table-row-height-medium-spacious`
-  * `table-row-height-small-compact`
-  * `table-row-height-small-regular`
-  * `table-row-height-small-spacious`
-  * `table-row-hover-color`
-  * `table-row-hover-opacity`
-  * `table-row-top-to-text-extra-large-compact`
-  * `table-row-top-to-text-extra-large-regular`
-  * `table-row-top-to-text-extra-large-spacious`
-  * `table-row-top-to-text-large-compact`
-  * `table-row-top-to-text-large-regular`
-  * `table-row-top-to-text-large-spacious`
-  * `table-row-top-to-text-medium-compact`
-  * `table-row-top-to-text-medium-regular`
-  * `table-row-top-to-text-medium-spacious`
-  * `table-row-top-to-text-small-compact`
-  * `table-row-top-to-text-small-regular`
-  * `table-row-top-to-text-small-spacious`
-  * `table-section-header-row-height-extra-large`
-  * `table-section-header-row-height-large`
-  * `table-section-header-row-height-medium`
-  * `table-section-header-row-height-small`
-  * `table-selected-row-background-color`
-  * `table-selected-row-background-color-non-emphasized`
-  * `table-selected-row-background-opacity`
-  * `table-selected-row-background-opacity-hover`
-  * `table-selected-row-background-opacity-non-emphasized`
-  * `table-selected-row-background-opacity-non-emphasized-hover`
-  * `table-thumbnail-to-top-minimum-extra-large-compact`
-  * `table-thumbnail-to-top-minimum-extra-large-regular`
-  * `table-thumbnail-to-top-minimum-extra-large-spacious`
-  * `table-thumbnail-to-top-minimum-large-compact`
-  * `table-thumbnail-to-top-minimum-large-regular`
-  * `table-thumbnail-to-top-minimum-large-spacious`
-  * `table-thumbnail-to-top-minimum-medium-compact`
-  * `table-thumbnail-to-top-minimum-medium-regular`
-  * `table-thumbnail-to-top-minimum-medium-spacious`
-  * `table-thumbnail-to-top-minimum-small-compact`
-  * `table-thumbnail-to-top-minimum-small-regular`
-  * `table-thumbnail-to-top-minimum-small-spacious`
+  _Tokens added (88):_
+  - `table-border-divider-width`
+  - `table-checkbox-to-text`
+  - `table-column-header-row-bottom-to-text-extra-large`
+  - `table-column-header-row-bottom-to-text-large`
+  - `table-column-header-row-bottom-to-text-medium`
+  - `table-column-header-row-bottom-to-text-small`
+  - `table-column-header-row-top-to-text-extra-large`
+  - `table-column-header-row-top-to-text-large`
+  - `table-column-header-row-top-to-text-medium`
+  - `table-column-header-row-top-to-text-small`
+  - `table-edge-to-content`
+  - `table-header-row-checkbox-to-top-extra-large`
+  - `table-header-row-checkbox-to-top-large`
+  - `table-header-row-checkbox-to-top-medium`
+  - `table-header-row-checkbox-to-top-small`
+  - `table-row-bottom-to-text-extra-large-compact`
+  - `table-row-bottom-to-text-extra-large-regular`
+  - `table-row-bottom-to-text-extra-large-spacious`
+  - `table-row-bottom-to-text-large-compact`
+  - `table-row-bottom-to-text-large-regular`
+  - `table-row-bottom-to-text-large-spacious`
+  - `table-row-bottom-to-text-medium-compact`
+  - `table-row-bottom-to-text-medium-regular`
+  - `table-row-bottom-to-text-medium-spacious`
+  - `table-row-bottom-to-text-small-compact`
+  - `table-row-bottom-to-text-small-regular`
+  - `table-row-bottom-to-text-small-spacious`
+  - `table-row-checkbox-to-top-extra-large-compact`
+  - `table-row-checkbox-to-top-extra-large-regular`
+  - `table-row-checkbox-to-top-extra-large-spacious`
+  - `table-row-checkbox-to-top-large-compact`
+  - `table-row-checkbox-to-top-large-regular`
+  - `table-row-checkbox-to-top-large-spacious`
+  - `table-row-checkbox-to-top-medium-compact`
+  - `table-row-checkbox-to-top-medium-regular`
+  - `table-row-checkbox-to-top-medium-spacious`
+  - `table-row-checkbox-to-top-small-compact`
+  - `table-row-checkbox-to-top-small-regular`
+  - `table-row-checkbox-to-top-small-spacious`
+  - `table-row-down-opacity`
+  - `table-row-height-extra-large-compact`
+  - `table-row-height-extra-large-regular`
+  - `table-row-height-extra-large-spacious`
+  - `table-row-height-large-compact`
+  - `table-row-height-large-regular`
+  - `table-row-height-large-spacious`
+  - `table-row-height-medium-compact`
+  - `table-row-height-medium-regular`
+  - `table-row-height-medium-spacious`
+  - `table-row-height-small-compact`
+  - `table-row-height-small-regular`
+  - `table-row-height-small-spacious`
+  - `table-row-hover-color`
+  - `table-row-hover-opacity`
+  - `table-row-top-to-text-extra-large-compact`
+  - `table-row-top-to-text-extra-large-regular`
+  - `table-row-top-to-text-extra-large-spacious`
+  - `table-row-top-to-text-large-compact`
+  - `table-row-top-to-text-large-regular`
+  - `table-row-top-to-text-large-spacious`
+  - `table-row-top-to-text-medium-compact`
+  - `table-row-top-to-text-medium-regular`
+  - `table-row-top-to-text-medium-spacious`
+  - `table-row-top-to-text-small-compact`
+  - `table-row-top-to-text-small-regular`
+  - `table-row-top-to-text-small-spacious`
+  - `table-section-header-row-height-extra-large`
+  - `table-section-header-row-height-large`
+  - `table-section-header-row-height-medium`
+  - `table-section-header-row-height-small`
+  - `table-selected-row-background-color`
+  - `table-selected-row-background-color-non-emphasized`
+  - `table-selected-row-background-opacity`
+  - `table-selected-row-background-opacity-hover`
+  - `table-selected-row-background-opacity-non-emphasized`
+  - `table-selected-row-background-opacity-non-emphasized-hover`
+  - `table-thumbnail-to-top-minimum-extra-large-compact`
+  - `table-thumbnail-to-top-minimum-extra-large-regular`
+  - `table-thumbnail-to-top-minimum-extra-large-spacious`
+  - `table-thumbnail-to-top-minimum-large-compact`
+  - `table-thumbnail-to-top-minimum-large-regular`
+  - `table-thumbnail-to-top-minimum-large-spacious`
+  - `table-thumbnail-to-top-minimum-medium-compact`
+  - `table-thumbnail-to-top-minimum-medium-regular`
+  - `table-thumbnail-to-top-minimum-medium-spacious`
+  - `table-thumbnail-to-top-minimum-small-compact`
+  - `table-thumbnail-to-top-minimum-small-regular`
+  - `table-thumbnail-to-top-minimum-small-spacious`
 
 ## 12.12.1
 
 ### Patch Changes
 
-* [`6365597`](https://github.com/adobe/spectrum-design-data/commit/6365597): Added IDs to previously publish tab tokens
+- [`6365597`](https://github.com/adobe/spectrum-design-data/commit/6365597): Added IDs to previously publish tab tokens
 
   ## Token Diff
 
-  *Tokens updated (51):*
-
-  * `accent-content-color-selected`
-  * `neutral-subdued-content-color-selected`
-  * `tab-item-bottom-to-text-compact-extra-large`
-  * `tab-item-bottom-to-text-compact-large`
-  * `tab-item-bottom-to-text-compact-medium`
-  * `tab-item-bottom-to-text-compact-small`
-  * `tab-item-bottom-to-text-extra-large`
-  * `tab-item-bottom-to-text-large`
-  * `tab-item-bottom-to-text-medium`
-  * `tab-item-bottom-to-text-small`
-  * `tab-item-compact-height-extra-large`
-  * `tab-item-compact-height-large`
-  * `tab-item-compact-height-medium`
-  * `tab-item-compact-height-small`
-  * `tab-item-focus-indicator-gap-extra-large`
-  * `tab-item-focus-indicator-gap-large`
-  * `tab-item-focus-indicator-gap-medium`
-  * `tab-item-focus-indicator-gap-small`
-  * `tab-item-height-extra-large`
-  * `tab-item-height-large`
-  * `tab-item-height-medium`
-  * `tab-item-height-small`
-  * `tab-item-start-to-edge-extra-large`
-  * `tab-item-start-to-edge-large`
-  * `tab-item-start-to-edge-medium`
-  * `tab-item-start-to-edge-quiet`
-  * `tab-item-start-to-edge-small`
-  * `tab-item-to-tab-item-horizontal-extra-large`
-  * `tab-item-to-tab-item-horizontal-large`
-  * `tab-item-to-tab-item-horizontal-medium`
-  * `tab-item-to-tab-item-horizontal-small`
-  * `tab-item-to-tab-item-vertical-extra-large`
-  * `tab-item-to-tab-item-vertical-large`
-  * `tab-item-to-tab-item-vertical-medium`
-  * `tab-item-to-tab-item-vertical-small`
-  * `tab-item-top-to-text-compact-extra-large`
-  * `tab-item-top-to-text-compact-large`
-  * `tab-item-top-to-text-compact-medium`
-  * `tab-item-top-to-text-compact-small`
-  * `tab-item-top-to-text-extra-large`
-  * `tab-item-top-to-text-large`
-  * `tab-item-top-to-text-medium`
-  * `tab-item-top-to-text-small`
-  * `tab-item-top-to-workflow-icon-compact-extra-large`
-  * `tab-item-top-to-workflow-icon-compact-large`
-  * `tab-item-top-to-workflow-icon-compact-medium`
-  * `tab-item-top-to-workflow-icon-compact-small`
-  * `tab-item-top-to-workflow-icon-extra-large`
-  * `tab-item-top-to-workflow-icon-large`
-  * `tab-item-top-to-workflow-icon-medium`
-  * `tab-item-top-to-workflow-icon-small`
+  _Tokens updated (51):_
+  - `accent-content-color-selected`
+  - `neutral-subdued-content-color-selected`
+  - `tab-item-bottom-to-text-compact-extra-large`
+  - `tab-item-bottom-to-text-compact-large`
+  - `tab-item-bottom-to-text-compact-medium`
+  - `tab-item-bottom-to-text-compact-small`
+  - `tab-item-bottom-to-text-extra-large`
+  - `tab-item-bottom-to-text-large`
+  - `tab-item-bottom-to-text-medium`
+  - `tab-item-bottom-to-text-small`
+  - `tab-item-compact-height-extra-large`
+  - `tab-item-compact-height-large`
+  - `tab-item-compact-height-medium`
+  - `tab-item-compact-height-small`
+  - `tab-item-focus-indicator-gap-extra-large`
+  - `tab-item-focus-indicator-gap-large`
+  - `tab-item-focus-indicator-gap-medium`
+  - `tab-item-focus-indicator-gap-small`
+  - `tab-item-height-extra-large`
+  - `tab-item-height-large`
+  - `tab-item-height-medium`
+  - `tab-item-height-small`
+  - `tab-item-start-to-edge-extra-large`
+  - `tab-item-start-to-edge-large`
+  - `tab-item-start-to-edge-medium`
+  - `tab-item-start-to-edge-quiet`
+  - `tab-item-start-to-edge-small`
+  - `tab-item-to-tab-item-horizontal-extra-large`
+  - `tab-item-to-tab-item-horizontal-large`
+  - `tab-item-to-tab-item-horizontal-medium`
+  - `tab-item-to-tab-item-horizontal-small`
+  - `tab-item-to-tab-item-vertical-extra-large`
+  - `tab-item-to-tab-item-vertical-large`
+  - `tab-item-to-tab-item-vertical-medium`
+  - `tab-item-to-tab-item-vertical-small`
+  - `tab-item-top-to-text-compact-extra-large`
+  - `tab-item-top-to-text-compact-large`
+  - `tab-item-top-to-text-compact-medium`
+  - `tab-item-top-to-text-compact-small`
+  - `tab-item-top-to-text-extra-large`
+  - `tab-item-top-to-text-large`
+  - `tab-item-top-to-text-medium`
+  - `tab-item-top-to-text-small`
+  - `tab-item-top-to-workflow-icon-compact-extra-large`
+  - `tab-item-top-to-workflow-icon-compact-large`
+  - `tab-item-top-to-workflow-icon-compact-medium`
+  - `tab-item-top-to-workflow-icon-compact-small`
+  - `tab-item-top-to-workflow-icon-extra-large`
+  - `tab-item-top-to-workflow-icon-large`
+  - `tab-item-top-to-workflow-icon-medium`
+  - `tab-item-top-to-workflow-icon-small`
 
 ## 12.12.0
 
 ### Minor Changes
 
-* [`ba02b18`](https://github.com/adobe/spectrum-design-data/commit/ba02b18): Added tokens for the tabs component
+- [`ba02b18`](https://github.com/adobe/spectrum-design-data/commit/ba02b18): Added tokens for the tabs component
 
   ## Token diff
 
-  *Tokens added (51):*
-
-  * `accent-content-color-selected`
-  * `neutral-subdued-content-color-selected`
-  * `tab-item-bottom-to-text-compact-extra-large`
-  * `tab-item-bottom-to-text-compact-large`
-  * `tab-item-bottom-to-text-compact-medium`
-  * `tab-item-bottom-to-text-compact-small`
-  * `tab-item-bottom-to-text-extra-large`
-  * `tab-item-bottom-to-text-large`
-  * `tab-item-bottom-to-text-medium`
-  * `tab-item-bottom-to-text-small`
-  * `tab-item-compact-height-extra-large`
-  * `tab-item-compact-height-large`
-  * `tab-item-compact-height-medium`
-  * `tab-item-compact-height-small`
-  * `tab-item-focus-indicator-gap-extra-large`
-  * `tab-item-focus-indicator-gap-large`
-  * `tab-item-focus-indicator-gap-medium`
-  * `tab-item-focus-indicator-gap-small`
-  * `tab-item-height-extra-large`
-  * `tab-item-height-large`
-  * `tab-item-height-medium`
-  * `tab-item-height-small`
-  * `tab-item-start-to-edge-extra-large`
-  * `tab-item-start-to-edge-large`
-  * `tab-item-start-to-edge-medium`
-  * `tab-item-start-to-edge-quiet`
-  * `tab-item-start-to-edge-small`
-  * `tab-item-to-tab-item-horizontal-extra-large`
-  * `tab-item-to-tab-item-horizontal-large`
-  * `tab-item-to-tab-item-horizontal-medium`
-  * `tab-item-to-tab-item-horizontal-small`
-  * `tab-item-to-tab-item-vertical-extra-large`
-  * `tab-item-to-tab-item-vertical-large`
-  * `tab-item-to-tab-item-vertical-medium`
-  * `tab-item-to-tab-item-vertical-small`
-  * `tab-item-top-to-text-compact-extra-large`
-  * `tab-item-top-to-text-compact-large`
-  * `tab-item-top-to-text-compact-medium`
-  * `tab-item-top-to-text-compact-small`
-  * `tab-item-top-to-text-extra-large`
-  * `tab-item-top-to-text-large`
-  * `tab-item-top-to-text-medium`
-  * `tab-item-top-to-text-small`
-  * `tab-item-top-to-workflow-icon-compact-extra-large`
-  * `tab-item-top-to-workflow-icon-compact-large`
-  * `tab-item-top-to-workflow-icon-compact-medium`
-  * `tab-item-top-to-workflow-icon-compact-small`
-  * `tab-item-top-to-workflow-icon-extra-large`
-  * `tab-item-top-to-workflow-icon-large`
-  * `tab-item-top-to-workflow-icon-medium`
-  * `tab-item-top-to-workflow-icon-small`
+  _Tokens added (51):_
+  - `accent-content-color-selected`
+  - `neutral-subdued-content-color-selected`
+  - `tab-item-bottom-to-text-compact-extra-large`
+  - `tab-item-bottom-to-text-compact-large`
+  - `tab-item-bottom-to-text-compact-medium`
+  - `tab-item-bottom-to-text-compact-small`
+  - `tab-item-bottom-to-text-extra-large`
+  - `tab-item-bottom-to-text-large`
+  - `tab-item-bottom-to-text-medium`
+  - `tab-item-bottom-to-text-small`
+  - `tab-item-compact-height-extra-large`
+  - `tab-item-compact-height-large`
+  - `tab-item-compact-height-medium`
+  - `tab-item-compact-height-small`
+  - `tab-item-focus-indicator-gap-extra-large`
+  - `tab-item-focus-indicator-gap-large`
+  - `tab-item-focus-indicator-gap-medium`
+  - `tab-item-focus-indicator-gap-small`
+  - `tab-item-height-extra-large`
+  - `tab-item-height-large`
+  - `tab-item-height-medium`
+  - `tab-item-height-small`
+  - `tab-item-start-to-edge-extra-large`
+  - `tab-item-start-to-edge-large`
+  - `tab-item-start-to-edge-medium`
+  - `tab-item-start-to-edge-quiet`
+  - `tab-item-start-to-edge-small`
+  - `tab-item-to-tab-item-horizontal-extra-large`
+  - `tab-item-to-tab-item-horizontal-large`
+  - `tab-item-to-tab-item-horizontal-medium`
+  - `tab-item-to-tab-item-horizontal-small`
+  - `tab-item-to-tab-item-vertical-extra-large`
+  - `tab-item-to-tab-item-vertical-large`
+  - `tab-item-to-tab-item-vertical-medium`
+  - `tab-item-to-tab-item-vertical-small`
+  - `tab-item-top-to-text-compact-extra-large`
+  - `tab-item-top-to-text-compact-large`
+  - `tab-item-top-to-text-compact-medium`
+  - `tab-item-top-to-text-compact-small`
+  - `tab-item-top-to-text-extra-large`
+  - `tab-item-top-to-text-large`
+  - `tab-item-top-to-text-medium`
+  - `tab-item-top-to-text-small`
+  - `tab-item-top-to-workflow-icon-compact-extra-large`
+  - `tab-item-top-to-workflow-icon-compact-large`
+  - `tab-item-top-to-workflow-icon-compact-medium`
+  - `tab-item-top-to-workflow-icon-compact-small`
+  - `tab-item-top-to-workflow-icon-extra-large`
+  - `tab-item-top-to-workflow-icon-large`
+  - `tab-item-top-to-workflow-icon-medium`
+  - `tab-item-top-to-workflow-icon-small`
 
 ## 12.11.0
 
 ### Minor Changes
 
-* [`1a57f08`](https://github.com/adobe/spectrum-design-data/commit/1a57f08): Fixed typo with `picker-end-edge-to-disclosure-icon-quiet` by adding a new token and deprecating `picker-end-edge-to-disclousure-icon-quiet`.
+- [`1a57f08`](https://github.com/adobe/spectrum-design-data/commit/1a57f08): Fixed typo with `picker-end-edge-to-disclosure-icon-quiet` by adding a new token and deprecating `picker-end-edge-to-disclousure-icon-quiet`.
 
   ## Token Diff
 
-  *Token added (1):*
+  _Token added (1):_
+  - `picker-end-edge-to-disclosure-icon-quiet`
 
-  * `picker-end-edge-to-disclosure-icon-quiet`
-
-  *Newly deprecated token (1):*
-
-  * `picker-end-edge-to-disclousure-icon-quiet`
+  _Newly deprecated token (1):_
+  - `picker-end-edge-to-disclousure-icon-quiet`
 
 ## 12.10.0
 
 ### Minor Changes
 
-* [`0829c5d`](https://github.com/adobe/spectrum-design-data/commit/0829c5d): Added UUIDs to each token
+- [`0829c5d`](https://github.com/adobe/spectrum-design-data/commit/0829c5d): Added UUIDs to each token
 
   ## Token Diff
 
-  *Modified Tokens (1154)*
+  _Modified Tokens (1154)_
 
   Every token has a `uuid` property added to them.
 
@@ -12813,111 +12666,107 @@ Updated (1592)
 
 ### Patch Changes
 
-* [`cace8d8`](https://github.com/adobe/spectrum-design-data/commit/cace8d8): Fixed component name typo
+- [`cace8d8`](https://github.com/adobe/spectrum-design-data/commit/cace8d8): Fixed component name typo
 
   ## Token Diff
 
   The following tokens have update `component` metadata property (all have been set to `coach-mark`):
-
-  * `coach-mark-minimum-width`
-  * `coach-mark-edge-to-content`
-  * `coach-mark-pagination-text-to-bottom-edge`
-  * `coach-mark-width`
-  * `coach-mark-media-minimum-height`
-  * `coach-mark-media-height`
-  * `coach-mark-title-size`
-  * `coach-mark-body-size`
-  * `coach-mark-pagination-body-size`
+  - `coach-mark-minimum-width`
+  - `coach-mark-edge-to-content`
+  - `coach-mark-pagination-text-to-bottom-edge`
+  - `coach-mark-width`
+  - `coach-mark-media-minimum-height`
+  - `coach-mark-media-height`
+  - `coach-mark-title-size`
+  - `coach-mark-body-size`
+  - `coach-mark-pagination-body-size`
 
 ## 12.9.0
 
 ### Minor Changes
 
-* [`fe7a002`](https://github.com/adobe/spectrum-design-data/commit/fe7a002): Fixed typo by adding correct token (`floating-action-button-drop-shadow-color`) and deprecating incorrect token name (`floating-action-button-shadow-color`).
+- [`fe7a002`](https://github.com/adobe/spectrum-design-data/commit/fe7a002): Fixed typo by adding correct token (`floating-action-button-drop-shadow-color`) and deprecating incorrect token name (`floating-action-button-shadow-color`).
 
   ## Token Diff
 
-  *Token added (1):*
+  _Token added (1):_
+  - `floating-action-button-drop-shadow-color`
 
-  * `floating-action-button-drop-shadow-color`
-
-  *Newly deprecated token (1):*
-
-  * `floating-action-button-shadow-color` (use `floating-action-button-drop-shadow-color` instead)
+  _Newly deprecated token (1):_
+  - `floating-action-button-shadow-color` (use `floating-action-button-drop-shadow-color` instead)
 
 ## 12.8.0
 
 ### Minor Changes
 
-* [`d639b4b`](https://github.com/adobe/spectrum-design-data/commit/d639b4b): Updated color-handle-inner-border-opacity to remove express specific value
+- [`d639b4b`](https://github.com/adobe/spectrum-design-data/commit/d639b4b): Updated color-handle-inner-border-opacity to remove express specific value
 
   ## Token Diff
 
-  *Token values updated (2):*
-
-  * `color-handle-inner-border-opacity` (to remove express specific values)
-  * `color-handle-outer-border-opacity` (to remove express specific values)
+  _Token values updated (2):_
+  - `color-handle-inner-border-opacity` (to remove express specific values)
+  - `color-handle-outer-border-opacity` (to remove express specific values)
 
 ## 12.7.0
 
 ### Minor Changes
 
-* [`625cb7f`](https://github.com/adobe/spectrum-design-data/commit/625cb7f): Removed express specific token data for color handle
+- [`625cb7f`](https://github.com/adobe/spectrum-design-data/commit/625cb7f): Removed express specific token data for color handle
 
 ### Token Diff
 
-*Tokens values updated (4):*
+_Tokens values updated (4):_
 
-* `color-loupe-bottom-to-color-handle` (removed express specific token data)
-* `color-loupe-height` (removed express specific token data)
-* `color-loupe-inner-border-width` (removed express specific token data)
-* `color-loupe-width` (removed express specific token data)
+- `color-loupe-bottom-to-color-handle` (removed express specific token data)
+- `color-loupe-height` (removed express specific token data)
+- `color-loupe-inner-border-width` (removed express specific token data)
+- `color-loupe-width` (removed express specific token data)
 
 ## 12.6.0
 
 ### Minor Changes
 
-* [`ee5bfd8`](https://github.com/adobe/spectrum-design-data/commit/ee5bfd8): Adding a couple tokens to floating action button that should have been included earlier.
-* [`853d8c3`](https://github.com/adobe/spectrum-design-data/commit/853d8c3): Removed express specific token data for color loupe and color handle
-* [`c9e76ab`](https://github.com/adobe/spectrum-design-data/commit/c9e76ab): Contextual help did not have any type specific tokens when it was initially defined.
+- [`ee5bfd8`](https://github.com/adobe/spectrum-design-data/commit/ee5bfd8): Adding a couple tokens to floating action button that should have been included earlier.
+- [`853d8c3`](https://github.com/adobe/spectrum-design-data/commit/853d8c3): Removed express specific token data for color loupe and color handle
+- [`c9e76ab`](https://github.com/adobe/spectrum-design-data/commit/c9e76ab): Contextual help did not have any type specific tokens when it was initially defined.
 
 ### Token Diff
 
-*Tokens added (4):*
+_Tokens added (4):_
 
-* `floating-action-button-drop-shadow-y`
-* `floating-action-button-shadow-color`
-* `contextual-help-body-size`
-* `contextual-help-title-size`
+- `floating-action-button-drop-shadow-y`
+- `floating-action-button-shadow-color`
+- `contextual-help-body-size`
+- `contextual-help-title-size`
 
-*Tokens values updated (7):*
+_Tokens values updated (7):_
 
-* `color-handle-drop-shadow-blur`
-* `color-handle-drop-shadow-x`
-* `color-handle-drop-shadow-y`
-* `color-handle-outer-border-opacity`
-* `color-handle-outer-border-width`
-* `color-handle-size`
-* `color-handle-size-key-focus`
+- `color-handle-drop-shadow-blur`
+- `color-handle-drop-shadow-x`
+- `color-handle-drop-shadow-y`
+- `color-handle-outer-border-opacity`
+- `color-handle-outer-border-width`
+- `color-handle-size`
+- `color-handle-size-key-focus`
 
-*Newly deprecated tokens (1):*
+_Newly deprecated tokens (1):_
 
-* `color-handle-drop-shadow-color`
+- `color-handle-drop-shadow-color`
 
 ## 12.5.0
 
 ### Minor Changes
 
-* [`c1eaeee`](https://github.com/adobe/spectrum-design-data/commit/c1eaeee): Added new tokens for slider. Deprecated old slider tokens.
+- [`c1eaeee`](https://github.com/adobe/spectrum-design-data/commit/c1eaeee): Added new tokens for slider. Deprecated old slider tokens.
 
 ## 12.4.0
 
 ### Minor Changes
 
-* [`5406a24`](https://github.com/adobe/spectrum-design-data/commit/5406a24): Added `side-navigation` tokens.
+- [`5406a24`](https://github.com/adobe/spectrum-design-data/commit/5406a24): Added `side-navigation` tokens.
 
 ## 12.3.0
 
 ### Minor Changes
 
-* [`fc919d2`](https://github.com/adobe/spectrum-design-data/commit/fc919d2): Added tray token `tray-top-to-content-area`
+- [`fc919d2`](https://github.com/adobe/spectrum-design-data/commit/fc919d2): Added tray token `tray-top-to-content-area`

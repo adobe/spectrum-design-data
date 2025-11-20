@@ -1,5 +1,16 @@
 # @adobe/spectrum-component-diff-generator
 
+## 1.4.1
+
+### Patch Changes
+
+- [#632](https://github.com/adobe/spectrum-design-data/pull/632) [`fa28b11`](https://github.com/adobe/spectrum-design-data/commit/fa28b117c6b84776f4ebe9bb281c29e14e0d64b6) Thanks [@GarthDB](https://github.com/GarthDB)! - feat: auto-collapse details sections with more than 20 items
+
+  Diff report templates now automatically collapse `<details>` sections
+  when they contain more than 20 items, improving readability for large
+  diffs like repository-wide changes. Sections with 20 or fewer items
+  remain open by default for quick scanning.
+
 ## 1.4.0
 
 ### Minor Changes
