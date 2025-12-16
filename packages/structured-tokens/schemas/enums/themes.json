@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/enums/themes.json",
+  "title": "Theme Identifiers",
+  "description": "Valid theme/color scheme identifiers used in Spectrum token names",
+  "enum": ["light", "dark", "darkest", "wireframe", "express"]
+}

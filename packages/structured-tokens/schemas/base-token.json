@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/base-token.json",
+  "title": "Base Anonymous Token",
+  "description": "Base schema for all anonymous tokens",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri",
+      "description": "Reference to the original token type schema."
+    },
+    "name": {
+      "type": "object",
+      "description": "The name structure of the token.",
+      "properties": {
+        "original": {
+          "type": "string",
+          "description": "The original hyphen-delimited name of the token."
+        },
+        "structure": {
+          "type": "object",
+          "description": "The structured name components following the Token name structure wiki.",
+          "properties": {
+            "category": {
+              "type": "string",
+              "enum": [
+                "spacing",
+                "component-property",
+                "generic-property",
+                "semantic-alias",
+                "color-base",
+                "color-scale",
+                "gradient-color",
+                "typography-base",
+                "opacity-semantic",
+                "special",
+                "unknown"
+              ]
+            }
+          },
+          "required": ["category"]
+        },
+        "semanticComplexity": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of semantic fields in the name structure"
+        }
+      },
+      "required": ["original", "structure", "semanticComplexity"]
+    },
+    "deprecated": {
+      "type": "boolean",
+      "default": false
+    },
+    "deprecated_comment": {
+      "type": "string"
+    },
+    "component": {
+      "type": "string"
+    },
+    "private": {
+      "type": "boolean"
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "isValid": { "type": "boolean" },
+        "errors": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["isValid", "errors"]
+    }
+  },
+  "required": ["$schema", "name", "validation"]
+}

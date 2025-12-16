@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/semantic-alias-color-set-token.json",
+  "title": "Semantic Alias Color-Set Token",
+  "description": "Schema for semantic alias tokens with light/dark/wireframe color sets",
+  "allOf": [
+    {
+      "$ref": "color-set-token.json"
+    }
+  ],
+  "properties": {
+    "name": {
+      "type": "object",
+      "properties": {
+        "original": {
+          "type": "string",
+          "description": "Original hyphen-delimited token name"
+        },
+        "structure": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "const": "semantic-alias",
+              "description": "Token category"
+            },
+            "property": {
+              "type": "string",
+              "description": "Semantic property name (e.g., accent-background-color-default)"
+            },
+            "referencedToken": {
+              "type": "string",
+              "description": "The token being referenced (without curly braces)"
+            },
+            "notes": {
+              "type": "string",
+              "description": "Additional notes about the token"
+            }
+          },
+          "required": ["category", "property"],
+          "additionalProperties": true
+        },
+        "semanticComplexity": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Semantic complexity score"
+        }
+      },
+      "required": ["original", "structure", "semanticComplexity"]
+    }
+  },
+  "required": ["name", "$schema", "sets", "validation"]
+}

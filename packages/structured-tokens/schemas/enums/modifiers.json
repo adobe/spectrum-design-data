@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/enums/modifiers.json",
+  "title": "Modifiers",
+  "description": "Valid modifier/state names used in Spectrum token names",
+  "enum": [
+    "quiet",
+    "disabled",
+    "selected",
+    "hover",
+    "pressed",
+    "focus",
+    "active",
+    "error",
+    "valid",
+    "invalid",
+    "readonly",
+    "placeholder",
+    "required",
+    "emphasized",
+    "default",
+    "primary",
+    "secondary",
+    "negative",
+    "positive",
+    "notice",
+    "informative"
+  ]
+}

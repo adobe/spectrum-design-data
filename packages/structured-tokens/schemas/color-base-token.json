@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/color-base-token.json",
+  "title": "Base Color Token",
+  "description": "Schema for base color tokens (white, black)",
+  "allOf": [
+    {
+      "$ref": "base-token.json"
+    }
+  ],
+  "properties": {
+    "name": {
+      "type": "object",
+      "properties": {
+        "original": {
+          "type": "string",
+          "description": "Original hyphen-delimited token name"
+        },
+        "structure": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "const": "color-base",
+              "description": "Token category"
+            },
+            "color": {
+              "$ref": "enums/colors.json",
+              "description": "Base color name"
+            }
+          },
+          "required": ["category", "color"],
+          "additionalProperties": false
+        },
+        "semanticComplexity": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Semantic complexity score"
+        }
+      },
+      "required": ["original", "structure", "semanticComplexity"]
+    }
+  },
+  "required": ["name", "$schema", "value", "id"]
+}

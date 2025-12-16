@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/color-scale-scale-set-token.json",
+  "title": "Color Scale Set Token",
+  "description": "Schema for color scale tokens with light/dark/wireframe sets",
+  "allOf": [
+    {
+      "$ref": "color-set-token.json"
+    }
+  ],
+  "properties": {
+    "name": {
+      "type": "object",
+      "properties": {
+        "original": {
+          "type": "string",
+          "description": "Original hyphen-delimited token name"
+        },
+        "structure": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "const": "color-scale",
+              "description": "Token category"
+            },
+            "modifier": {
+              "$ref": "enums/color-modifiers.json",
+              "description": "Optional color modifier (transparent, static)"
+            },
+            "color": {
+              "$ref": "enums/colors.json",
+              "description": "Color name"
+            },
+            "index": {
+              "$ref": "enums/color-indices.json",
+              "description": "Color scale index"
+            }
+          },
+          "required": ["category", "color", "index"],
+          "additionalProperties": false
+        },
+        "semanticComplexity": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Semantic complexity score"
+        }
+      },
+      "required": ["original", "structure", "semanticComplexity"]
+    }
+  },
+  "required": ["name", "$schema", "sets", "validation"]
+}

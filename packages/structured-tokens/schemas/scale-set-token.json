@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/scale-set-token.json",
+  "title": "Scale-Set Anonymous Token",
+  "description": "An anonymous token with desktop/mobile scale sets.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri",
+      "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    },
+    "name": {
+      "type": "object",
+      "properties": {
+        "original": {
+          "type": "string",
+          "description": "The original hyphen-delimited name of the token."
+        },
+        "structure": {
+          "type": "object",
+          "description": "The structured name components."
+        }
+      },
+      "required": ["original", "structure"]
+    },
+    "sets": {
+      "type": "object",
+      "properties": {
+        "desktop": {
+          "type": "object",
+          "properties": {
+            "$schema": { "type": "string", "format": "uri" },
+            "value": {},
+            "uuid": { "type": "string", "format": "uuid" }
+          },
+          "required": ["$schema", "value", "uuid"]
+        },
+        "mobile": {
+          "type": "object",
+          "properties": {
+            "$schema": { "type": "string", "format": "uri" },
+            "value": {},
+            "uuid": { "type": "string", "format": "uuid" }
+          },
+          "required": ["$schema", "value", "uuid"]
+        }
+      },
+      "required": ["desktop", "mobile"]
+    },
+    "deprecated": {
+      "type": "boolean",
+      "default": false
+    },
+    "deprecated_comment": {
+      "type": "string"
+    },
+    "component": {
+      "type": "string"
+    },
+    "private": {
+      "type": "boolean"
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "isValid": { "type": "boolean" },
+        "errors": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["isValid", "errors"]
+    }
+  },
+  "required": ["$schema", "name", "sets", "validation"]
+}

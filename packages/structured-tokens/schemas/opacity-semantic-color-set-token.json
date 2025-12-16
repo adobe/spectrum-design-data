@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/opacity-semantic-color-set-token.json",
+  "title": "Opacity Semantic Color-Set Token",
+  "description": "Schema for semantic opacity tokens with theme-based color sets (light/dark/wireframe).",
+  "allOf": [{ "$ref": "scale-set-token.json" }],
+  "properties": {
+    "name": {
+      "type": "object",
+      "properties": {
+        "structure": {
+          "type": "object",
+          "properties": {
+            "category": { "const": "opacity-semantic" },
+            "property": {
+              "type": "string",
+              "description": "The full token name as property (e.g., 'overlay-opacity')"
+            },
+            "notes": {
+              "type": "string",
+              "description": "Additional context"
+            }
+          },
+          "required": ["category", "property"]
+        }
+      }
+    }
+  }
+}

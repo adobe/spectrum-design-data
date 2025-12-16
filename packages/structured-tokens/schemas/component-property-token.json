@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/component-property-token.json",
+  "title": "Component Property Token",
+  "description": "Schema for anonymous component property tokens.",
+  "allOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/regular-token.json"
+    }
+  ],
+  "properties": {
+    "name": {
+      "type": "object",
+      "properties": {
+        "structure": {
+          "type": "object",
+          "properties": {
+            "category": { "const": "component-property" },
+            "component": {
+              "$ref": "enums/components.json",
+              "description": "Component name"
+            },
+            "anatomyPart": {
+              "type": "string",
+              "description": "Optional anatomy part or sub-component (e.g., 'track' in 'color-control-track-width')"
+            },
+            "property": {
+              "$ref": "enums/properties.json",
+              "description": "Property name"
+            },
+            "index": { "$ref": "enums/sizes.json" },
+            "calculation": {
+              "type": "string",
+              "description": "Calculation or formula name (e.g., width-ratio, difference)"
+            },
+            "state": {
+              "$ref": "enums/states.json",
+              "description": "Component state (e.g., down, hover)"
+            }
+          },
+          "required": ["category", "component", "property"]
+        }
+      },
+      "required": ["structure"]
+    }
+  }
+}

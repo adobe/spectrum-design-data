@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/enums/color-modifiers.json",
+  "title": "Color Modifiers",
+  "description": "Valid color modifier values (transparent, static, etc.)",
+  "type": "string",
+  "enum": ["transparent", "static"]
+}

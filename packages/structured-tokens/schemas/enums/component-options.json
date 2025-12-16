@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/enums/component-options.json",
+  "title": "Component Options",
+  "description": "Valid component option values (sizes, variants, etc.)",
+  "type": "string",
+  "enum": [
+    "small",
+    "medium",
+    "large",
+    "extra-large",
+    "quiet",
+    "compact",
+    "spacious"
+  ]
+}

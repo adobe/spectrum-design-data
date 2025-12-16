@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/color-set-token.json",
+  "title": "Color-Set Anonymous Token",
+  "description": "An anonymous token with light/dark/wireframe color sets.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri",
+      "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+    },
+    "name": {
+      "type": "object",
+      "properties": {
+        "original": {
+          "type": "string",
+          "description": "The original hyphen-delimited name of the token."
+        },
+        "structure": {
+          "type": "object",
+          "description": "The structured name components."
+        },
+        "semanticComplexity": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of semantic fields in the name structure"
+        }
+      },
+      "required": ["original", "structure", "semanticComplexity"]
+    },
+    "sets": {
+      "type": "object",
+      "properties": {
+        "light": {
+          "type": "object",
+          "properties": {
+            "$schema": { "type": "string", "format": "uri" },
+            "value": {},
+            "uuid": { "type": "string", "format": "uuid" }
+          },
+          "required": ["$schema", "value", "uuid"]
+        },
+        "dark": {
+          "type": "object",
+          "properties": {
+            "$schema": { "type": "string", "format": "uri" },
+            "value": {},
+            "uuid": { "type": "string", "format": "uuid" }
+          },
+          "required": ["$schema", "value", "uuid"]
+        },
+        "wireframe": {
+          "type": "object",
+          "properties": {
+            "$schema": { "type": "string", "format": "uri" },
+            "value": {},
+            "uuid": { "type": "string", "format": "uuid" }
+          },
+          "required": ["$schema", "value", "uuid"]
+        }
+      },
+      "required": ["light", "dark", "wireframe"]
+    },
+    "deprecated": {
+      "type": "boolean",
+      "default": false
+    },
+    "deprecated_comment": {
+      "type": "string"
+    },
+    "component": {
+      "type": "string"
+    },
+    "private": {
+      "type": "boolean"
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "isValid": { "type": "boolean" },
+        "errors": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["isValid", "errors"]
+    }
+  },
+  "required": ["$schema", "name", "sets", "validation"]
+}

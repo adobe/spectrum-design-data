@@ -1,0 +1,1603 @@
+[
+  {
+    "id": "7da5157d-7f25-405b-8de0-f3669565fb48",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-1000}",
+    "name": {
+      "original": "swatch-border-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "swatch-border-color",
+        "referencedToken": "gray-1000",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "swatch",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "0e397a80-cf33-44ed-8b7d-1abaf4426bf5",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.42",
+    "name": {
+      "original": "swatch-border-opacity",
+      "structure": {
+        "category": "special",
+        "property": "swatch-border-opacity",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "swatch",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "c49cd7ae-7657-458b-871a-6b4f28bca535",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{black}",
+    "name": {
+      "original": "swatch-disabled-icon-border-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "swatch-disabled-icon-border-color",
+        "referencedToken": "black",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "swatch",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "cdbba3b6-cb51-4fec-88f0-273d4bb59a18",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.42",
+    "name": {
+      "original": "swatch-disabled-icon-border-opacity",
+      "structure": {
+        "category": "special",
+        "property": "swatch-disabled-icon-border-opacity",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "swatch",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "5bd226f1-0a6b-42bc-80af-4a9dde99e9e9",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-800}",
+    "name": {
+      "original": "thumbnail-border-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "thumbnail-border-color",
+        "referencedToken": "gray-800",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "thumbnail",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "58bd04e9-5b85-44d8-8474-96e157701070",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "name": {
+      "original": "thumbnail-border-opacity",
+      "structure": {
+        "category": "special",
+        "property": "thumbnail-border-opacity",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "thumbnail",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "92418bcd-5f0f-4f26-9a96-51f8c9e871bf",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{opacity-disabled}",
+    "name": {
+      "original": "thumbnail-opacity-disabled",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "thumbnail-opacity-disabled",
+        "referencedToken": "opacity-disabled",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "thumbnail",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "c7e50676-3f61-49c3-a35f-2532fdb02360",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{white}",
+    "name": {
+      "original": "opacity-checkerboard-square-light",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "opacity-checkerboard-square-light",
+        "referencedToken": "white",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "opacity-checkerboard",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "name": {
+      "original": "opacity-checkerboard-square-dark",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "opacity-checkerboard-square-dark",
+        "referencedToken": "gray-200",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "opacity-checkerboard",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "84a7cd5e-bb2b-4bb5-bb5f-f5839ae3a761"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-800}",
+        "uuid": "f783b8cb-d31f-46c2-b550-990639752510"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "35fcf7b1-7140-4522-8410-48547aaf6fd6"
+      }
+    },
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "84d25d1b-f9e4-4a9e-8cd0-92367ff00637",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{opacity-disabled}",
+    "name": {
+      "original": "avatar-opacity-disabled",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "avatar-opacity-disabled",
+        "referencedToken": "opacity-disabled",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "avatar",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "70fc4674-0f09-48f5-8850-48b4b38c2f01",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-1000}",
+    "name": {
+      "original": "color-area-border-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "color-area-border-color",
+        "referencedToken": "gray-1000",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "color-area",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "fba1851e-0056-4cdf-938d-6d61550bbe3c",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "name": {
+      "original": "color-area-border-opacity",
+      "structure": {
+        "category": "special",
+        "property": "color-area-border-opacity",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "color-area",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "0c85e7fa-f950-436c-a68a-dd7fb8dfac9e",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-1000}",
+    "name": {
+      "original": "color-slider-border-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "color-slider-border-color",
+        "referencedToken": "gray-1000",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "color-slider",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "8271b69e-6542-4b17-b0f0-72567e16c41b",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "name": {
+      "original": "color-slider-border-opacity",
+      "structure": {
+        "category": "special",
+        "property": "color-slider-border-opacity",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "color-slider",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "918b8089-d89f-45d2-8c9c-f3f13f81b0b9",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{drop-shadow-elevated-color}",
+    "name": {
+      "original": "color-loupe-drop-shadow-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "color-loupe-drop-shadow-color",
+        "referencedToken": "drop-shadow-elevated-color",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "color-loupe",
+    "deprecated": true,
+    "deprecated_comment": "Use `drop-shadow-elevated-color` instead",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "c9af5d60-11b1-4fc3-972e-6a607120657b",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{drop-shadow-elevated-y}",
+    "name": {
+      "original": "color-loupe-drop-shadow-y",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "color-loupe-drop-shadow-y",
+        "referencedToken": "drop-shadow-elevated-y",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "color-loupe",
+    "deprecated": true,
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "86caa027-9e9e-4a5f-aa38-058f0a96bc9d",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{drop-shadow-elevated-blur}",
+    "name": {
+      "original": "color-loupe-drop-shadow-blur",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "color-loupe-drop-shadow-blur",
+        "referencedToken": "drop-shadow-elevated-blur",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "color-loupe",
+    "deprecated": true,
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "d2c4cb48-8a90-461d-95bc-d882ba01472b",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{transparent-black-200}",
+    "name": {
+      "original": "color-loupe-inner-border",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "color-loupe-inner-border",
+        "referencedToken": "transparent-black-200",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "color-loupe",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "4e1d1cc5-736e-4e82-9054-5c1a74ac1aca",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{white}",
+    "name": {
+      "original": "color-loupe-outer-border",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "color-loupe-outer-border",
+        "referencedToken": "white",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "color-loupe",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "name": {
+      "original": "card-selection-background-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "card-selection-background-color",
+        "referencedToken": "transparent-white-600",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "card",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{transparent-white-600}",
+        "uuid": "622c6e86-dea6-416d-9f13-bb6ef112d3cb"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{transparent-black-600}",
+        "uuid": "81c0608b-c977-490e-b8d7-830d0676fdad"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{transparent-black-600}",
+        "uuid": "5dd9406f-9b36-43f1-8b35-b1bb7f2a4c8d"
+      }
+    },
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "ac039445-0bf8-4821-b02e-e7e06a416576",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.95",
+    "name": {
+      "original": "card-selection-background-color-opacity",
+      "structure": {
+        "category": "special",
+        "property": "card-selection-background-color-opacity",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "card",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "866f3613-c12f-4475-87b1-ad86ef2ce153",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{accent-visual-color}",
+    "name": {
+      "original": "drop-zone-background-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "drop-zone-background-color",
+        "referencedToken": "accent-visual-color",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "drop-zone",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "ee5ed78b-230c-4b37-9d76-1787a975bb63",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "name": {
+      "original": "drop-zone-background-color-opacity",
+      "structure": {
+        "category": "special",
+        "property": "drop-zone-background-color-opacity",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "drop-zone",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "ca70550a-b11a-438f-9c70-ff1eeba532cc",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.3",
+    "name": {
+      "original": "drop-zone-background-color-opacity-filled",
+      "structure": {
+        "category": "special",
+        "property": "drop-zone-background-color-opacity-filled",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "drop-zone",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "f8cefe70-db2c-489e-bbbe-964050e96ab6",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-600}",
+    "name": {
+      "original": "coach-mark-pagination-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "coach-mark-pagination-color",
+        "referencedToken": "gray-600",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "coach-mark",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "0c93f310-d7c6-474b-8f07-0e8e76e2756e",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{black}",
+    "name": {
+      "original": "color-handle-inner-border-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "color-handle-inner-border-color",
+        "referencedToken": "black",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "color-handle",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "72b473c6-ec9b-4830-a0f8-48b80070e7b8",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.42",
+    "name": {
+      "original": "color-handle-inner-border-opacity",
+      "structure": {
+        "category": "special",
+        "property": "color-handle-inner-border-opacity",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "color-handle",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "e4733356-090e-4bb7-b32d-ab9df30fb785",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{black}",
+    "name": {
+      "original": "color-handle-outer-border-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "color-handle-outer-border-color",
+        "referencedToken": "black",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "color-handle",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "0a0eff89-7e7d-4b7f-bcfa-a85e33e5798a",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{color-handle-inner-border-opacity}",
+    "name": {
+      "original": "color-handle-outer-border-opacity",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "color-handle-outer-border-opacity",
+        "referencedToken": "color-handle-inner-border-opacity",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "color-handle",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "97dfaf7f-ac2d-4517-84cc-6f692f712fc5",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{drop-shadow-color}",
+    "name": {
+      "original": "color-handle-drop-shadow-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "color-handle-drop-shadow-color",
+        "referencedToken": "drop-shadow-color",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "color-handle",
+    "deprecated": true,
+    "deprecated_comment": "Express does not need a separate design for Color loupe and Color handle components",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "d66d3a56-1ba0-4ce7-a263-eb46a4d17af0",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{transparent-black-300}",
+    "name": {
+      "original": "floating-action-button-drop-shadow-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "floating-action-button-drop-shadow-color",
+        "referencedToken": "transparent-black-300",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "floating-action-button",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "f843b1b7-4b2f-496e-a679-b0372e49d575",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{floating-action-button-drop-shadow-color}",
+    "name": {
+      "original": "floating-action-button-shadow-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "floating-action-button-shadow-color",
+        "referencedToken": "floating-action-button-drop-shadow-color",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "floating-action-button",
+    "deprecated": true,
+    "deprecated_comment": "Use `floating-action-button-drop-shadow-color` instead",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "44aedb76-5483-4ac3-a6f5-8cf71c2bd376",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-900}",
+    "name": {
+      "original": "table-row-hover-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "table-row-hover-color",
+        "referencedToken": "gray-900",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "table",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "e287d553-3712-4d6e-98f0-6075107e85fe",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.07",
+    "name": {
+      "original": "table-row-hover-opacity",
+      "structure": {
+        "category": "special",
+        "property": "table-row-hover-opacity",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "table",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "b7537f50-bd49-44b6-a171-19943d443d24",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{informative-background-color-default}",
+    "name": {
+      "original": "table-selected-row-background-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "table-selected-row-background-color",
+        "referencedToken": "informative-background-color-default",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "table",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "61b3aa04-0e7e-44b8-a4c8-8442a4ebf549",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "name": {
+      "original": "table-selected-row-background-opacity",
+      "structure": {
+        "category": "special",
+        "property": "table-selected-row-background-opacity",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "table",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "8578067a-6ce0-4059-84ad-4688c71df156",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{neutral-background-color-selected-default}",
+    "name": {
+      "original": "table-selected-row-background-color-non-emphasized",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "table-selected-row-background-color-non-emphasized",
+        "referencedToken": "neutral-background-color-selected-default",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "table",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "1ef41e27-3dea-4589-ad7a-140a03a77384",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "name": {
+      "original": "table-selected-row-background-opacity-non-emphasized",
+      "structure": {
+        "category": "special",
+        "property": "table-selected-row-background-opacity-non-emphasized",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "table",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "75ae742c-e96e-494f-9880-746bb2849575",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "name": {
+      "original": "table-row-down-opacity",
+      "structure": {
+        "category": "special",
+        "property": "table-row-down-opacity",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "table",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "ce2851bc-8ae1-4b27-8cd6-f191c9cd7fe9",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.15",
+    "name": {
+      "original": "table-selected-row-background-opacity-hover",
+      "structure": {
+        "category": "special",
+        "property": "table-selected-row-background-opacity-hover",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "table",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "6a093ea1-f07e-4673-b52f-5b28a2e080d0",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.15",
+    "name": {
+      "original": "table-selected-row-background-opacity-non-emphasized-hover",
+      "structure": {
+        "category": "special",
+        "property": "table-selected-row-background-opacity-non-emphasized-hover",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "table",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "name": {
+      "original": "menu-item-background-color-default",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "menu-item-background-color-default",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "menu-item",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "f4d97d6a-c1f3-4ef5-b7e5-8fbee1365a83"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "9b9e8b32-46b8-470d-85b9-352c00e90138"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "ae0fb15e-c8a2-42c4-b973-0fb523003b79"
+      }
+    },
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "name": {
+      "original": "menu-item-background-color-hover",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "menu-item-background-color-hover",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "menu-item",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "857e82a6-537e-4534-9084-353c5401f567"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "f68ff159-e886-4519-b95e-e93879a2f535"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "1329d684-6ac9-4f46-9bbc-046e2de5276e"
+      }
+    },
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "name": {
+      "original": "menu-item-background-color-down",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "menu-item-background-color-down",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "menu-item",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "d609bd79-ab48-4a7a-95b1-da5a88ac5338"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "7ccdd9e8-3677-4de8-b9df-19efa80d88c0"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "e31108a0-1b8a-4d5e-b579-592a01619bd0"
+      }
+    },
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "name": {
+      "original": "menu-item-background-color-keyboard-focus",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "menu-item-background-color-keyboard-focus",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "menu-item",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "dd044387-57b9-4867-90fa-b3c4c4a62e5c"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "ae9dc785-2406-407e-ab47-d42d6fbf65f6"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "e9b046ee-408e-4781-a2cd-1d321bde4529"
+      }
+    },
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "name": {
+      "original": "menu-item-background-color-disabled",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "menu-item-background-color-disabled",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "menu-item",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "211d6540-cf9d-4d80-815b-885844283fa6"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "0e2c2900-180c-443a-86ff-49170166e616"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "5924d0c5-6938-4660-8be3-9374bb3e5b0c"
+      }
+    },
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "name": {
+      "original": "popover-border-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "popover-border-color",
+        "referencedToken": "transparent-white-25",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "popover",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{transparent-white-25}",
+        "uuid": "66da6f53-5446-43c1-bbe0-73b46763fde1"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-400}",
+        "uuid": "825dc035-7b1c-4ddd-b1a9-be1546dae7e3"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "92133ef4-9b81-4fbd-9736-8b83078ef053"
+      }
+    },
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "name": {
+      "original": "popover-border-opacity",
+      "structure": {
+        "category": "special",
+        "property": "popover-border-opacity",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "popover",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+        "value": "0",
+        "uuid": "05c58363-1d34-4991-a7f7-7be7da4df50a"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+        "value": "1.0",
+        "uuid": "fa9feacc-0c82-41a7-badc-5803c45a703b"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+        "value": "0",
+        "uuid": "55ab7957-997f-41a7-b31d-0994a2f77859"
+      }
+    },
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "bfd387b8-0ce0-45ff-8d66-fc5de2f4900c",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{blue-800}",
+    "name": {
+      "original": "coach-indicator-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "coach-indicator-color",
+        "referencedToken": "blue-800",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "coach-indicator",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "08b8d06a-5475-47bf-ad2e-9f52ee07345a",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-1000}",
+    "name": {
+      "original": "swatch-group-border-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "swatch-group-border-color",
+        "referencedToken": "gray-1000",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "swatch-group",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "bae79ea7-2b3e-4d43-af42-7deab67acc7c",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-25}",
+    "name": {
+      "original": "avatar-border-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "avatar-border-color",
+        "referencedToken": "gray-25",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "avatar",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "69e2d0b3-6807-4e46-9f8a-72bf49439f36",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-800}",
+    "name": {
+      "original": "standard-panel-gripper-color-drag",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "standard-panel-gripper-color-drag",
+        "referencedToken": "gray-800",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "standard-panel",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "71840c7b-acdd-45b9-a228-5091591f5405",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-500}",
+    "name": {
+      "original": "standard-panel-gripper-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "standard-panel-gripper-color",
+        "referencedToken": "gray-500",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "standard-panel",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "5a46c025-32b4-4bda-bab0-5ab0fb69ca8e",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-200}",
+    "name": {
+      "original": "bar-panel-gripper-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "bar-panel-gripper-color",
+        "referencedToken": "gray-200",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "bar-panel",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "16431c28-23e4-4077-bcfa-138f90583282",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-800}",
+    "name": {
+      "original": "bar-panel-gripper-color-drag",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "bar-panel-gripper-color-drag",
+        "referencedToken": "gray-800",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "bar-panel",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "4bbb81b1-09fb-4ebe-80b5-cebb75c13839",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-800}",
+    "name": {
+      "original": "select-box-selected-border-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "select-box-selected-border-color",
+        "referencedToken": "gray-800",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "select-box",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "39d26185-da40-47b5-b4b3-e47689129256",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "name": {
+      "original": "tree-view-row-background-hover",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "tree-view-row-background-hover",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "tree-view",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "65854450-ed1a-49ea-ab29-d257b8a0569e",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{informative-background-color-default}",
+    "name": {
+      "original": "tree-view-selected-row-background-color-emphasized",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "tree-view-selected-row-background-color-emphasized",
+        "referencedToken": "informative-background-color-default",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "tree-view",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "8f19994d-f49a-42ea-97bd-98ab1d76d02d",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "name": {
+      "original": "tree-view-selected-row-background-default",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "tree-view-selected-row-background-default",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "tree-view",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "c325ed8f-8248-40c3-a0f0-efba57638f24",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "name": {
+      "original": "tree-view-selected-row-background-hover",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "tree-view-selected-row-background-hover",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "tree-view",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "a60c3946-dff7-4245-bdcd-b61445066e48",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-1000}",
+    "name": {
+      "original": "color-wheel-border-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "color-wheel-border-color",
+        "referencedToken": "gray-1000",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "color-wheel",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "be8fac27-b644-492e-a89d-6c87cfecb8a1",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "name": {
+      "original": "color-wheel-border-opacity",
+      "structure": {
+        "category": "special",
+        "property": "color-wheel-border-opacity",
+        "notes": "No index suffix detected"
+      },
+      "semanticComplexity": 1
+    },
+    "component": "color-wheel",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "name": {
+      "original": "action-bar-border-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "action-bar-border-color",
+        "referencedToken": "transparent-white-25",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "action-bar",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{transparent-white-25}",
+        "uuid": "166159cc-9353-4d22-90f0-64718533d73a"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-400}",
+        "uuid": "dac0d761-d8c1-4b1f-bfbe-766651122ecf"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{transparent-white-25}",
+        "uuid": "e242c2e1-54db-40c5-98ee-abebdcd59f4d"
+      }
+    },
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "c9c0e684-6b6c-4314-9b5b-7ba5e3333071",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "name": {
+      "original": "card-background-well-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "card-background-well-color",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "card",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "6022f845-b182-493f-bdae-f86f6336efaa",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "name": {
+      "original": "card-background-loading-color",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "card-background-loading-color",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "card",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "022a6244-ce6c-4c3f-82a1-e2f5118d3c5e",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "name": {
+      "original": "stack-item-background-color-hover",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "stack-item-background-color-hover",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "stack-item",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "c99360a4-de28-48e6-80ad-93adb714d388",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "name": {
+      "original": "stack-item-background-color-down",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "stack-item-background-color-down",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "stack-item",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "a0251da6-7517-4712-85a1-29ca7f16ef91",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "name": {
+      "original": "stack-item-background-color-key-focus",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "stack-item-background-color-key-focus",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "stack-item",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "128c4963-471a-44e3-9fb5-328d92d0266d",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-100}",
+    "name": {
+      "original": "stack-item-selected-background-color-default",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "stack-item-selected-background-color-default",
+        "referencedToken": "gray-100",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "stack-item",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "a1bcd6c6-ef3e-42e4-8d88-2fafe2b318da",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-200}",
+    "name": {
+      "original": "stack-item-selected-background-color-hover",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "stack-item-selected-background-color-hover",
+        "referencedToken": "gray-200",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "stack-item",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "1ad58d16-66da-44ae-829e-9ee1ff56a857",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-200}",
+    "name": {
+      "original": "stack-item-selected-background-color-down",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "stack-item-selected-background-color-down",
+        "referencedToken": "gray-200",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "stack-item",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "93f433f2-2d0b-4225-8b39-b10000808360",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-200}",
+    "name": {
+      "original": "stack-item-selected-background-color-key-focus",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "stack-item-selected-background-color-key-focus",
+        "referencedToken": "gray-200",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "stack-item",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "95685612-09b7-477f-9c13-06eb58abe5c8",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{accent-background-color-default}",
+    "name": {
+      "original": "stack-item-selected-background-color-emphasized",
+      "structure": {
+        "category": "semantic-alias",
+        "property": "stack-item-selected-background-color-emphasized",
+        "referencedToken": "accent-background-color-default",
+        "notes": "Semantic alias providing contextual naming"
+      },
+      "semanticComplexity": 2
+    },
+    "component": "stack-item",
+    "validation": {
+      "isValid": true,
+      "errors": []
+    }
+  }
+]
