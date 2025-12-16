@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/enums/colors.json",
+  "title": "Color Names",
+  "description": "Valid color names used in Spectrum color tokens",
+  "type": "string",
+  "enum": [
+    "white",
+    "black",
+    "blue",
+    "brown",
+    "celery",
+    "chartreuse",
+    "cinnamon",
+    "cyan",
+    "fuchsia",
+    "gray",
+    "green",
+    "indigo",
+    "magenta",
+    "orange",
+    "pink",
+    "purple",
+    "red",
+    "seafoam",
+    "silver",
+    "turquoise",
+    "yellow"
+  ]
+}

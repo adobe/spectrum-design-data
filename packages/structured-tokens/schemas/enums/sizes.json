@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/enums/sizes.json",
+  "title": "Size Scale Values",
+  "description": "Valid size scale values used in Spectrum token names",
+  "enum": [
+    "0",
+    "25",
+    "50",
+    "75",
+    "100",
+    "200",
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+    "900",
+    "1000",
+    "1100",
+    "1200",
+    "1300",
+    "1400",
+    "1500"
+  ]
+}

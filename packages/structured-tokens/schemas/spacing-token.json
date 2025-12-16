@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/spacing-token.json",
+  "title": "Spacing Token",
+  "description": "Schema for anonymous spacing tokens.",
+  "allOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/regular-token.json"
+    }
+  ],
+  "properties": {
+    "name": {
+      "type": "object",
+      "properties": {
+        "structure": {
+          "type": "object",
+          "properties": {
+            "category": { "const": "spacing" },
+            "component": {
+              "oneOf": [
+                { "$ref": "enums/components.json" },
+                { "type": "null" }
+              ],
+              "description": "Optional component name (can be null for component-agnostic spacing)"
+            },
+            "property": { "const": "spacing" },
+            "spaceBetween": {
+              "type": "object",
+              "properties": {
+                "from": { "$ref": "enums/anatomy-parts.json" },
+                "to": { "$ref": "enums/anatomy-parts.json" }
+              },
+              "required": ["from", "to"]
+            },
+            "index": { "$ref": "enums/sizes.json" },
+            "options": {
+              "type": "array",
+              "items": { "$ref": "enums/component-options.json" },
+              "description": "Component options like quiet, compact, extra-large"
+            }
+          },
+          "required": ["category", "property", "spaceBetween"]
+        }
+      },
+      "required": ["structure"]
+    }
+  }
+}

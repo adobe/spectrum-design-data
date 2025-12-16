@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/enums/platforms.json",
+  "title": "Platform Identifiers",
+  "description": "Valid platform/scale identifiers used in Spectrum token names",
+  "enum": ["desktop", "mobile", "android", "ios", "web"]
+}

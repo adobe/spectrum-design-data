@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/gradient-color-token.json",
+  "title": "Gradient Color Token",
+  "description": "Schema for gradient color stop tokens (e.g., gradient-stop-1-avatar)",
+  "allOf": [
+    {
+      "$ref": "base-token.json"
+    }
+  ],
+  "properties": {
+    "name": {
+      "type": "object",
+      "properties": {
+        "original": {
+          "type": "string",
+          "description": "Original hyphen-delimited token name"
+        },
+        "structure": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "const": "gradient-color",
+              "description": "Token category"
+            },
+            "property": {
+              "const": "gradient-stop",
+              "description": "Property name (gradient-stop)"
+            },
+            "index": {
+              "type": "string",
+              "pattern": "^[0-9]+$",
+              "description": "Gradient stop number"
+            },
+            "variant": {
+              "type": "string",
+              "description": "Gradient variant (e.g., avatar)"
+            }
+          },
+          "required": ["category", "property", "index", "variant"],
+          "additionalProperties": false
+        },
+        "semanticComplexity": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Semantic complexity score"
+        }
+      },
+      "required": ["original", "structure", "semanticComplexity"]
+    }
+  },
+  "required": ["name", "$schema", "value", "id"]
+}

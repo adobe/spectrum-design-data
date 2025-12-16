@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/generic-property-token.json",
+  "title": "Generic Property Token",
+  "description": "Schema for anonymous generic property tokens.",
+  "allOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/regular-token.json"
+    }
+  ],
+  "properties": {
+    "name": {
+      "type": "object",
+      "properties": {
+        "structure": {
+          "type": "object",
+          "properties": {
+            "category": { "const": "generic-property" },
+            "anatomyPart": {
+              "$ref": "enums/anatomy-parts.json",
+              "description": "Optional anatomy part name"
+            },
+            "property": {
+              "$ref": "enums/properties.json",
+              "description": "Property name"
+            },
+            "index": { "$ref": "enums/sizes.json" },
+            "variant": {
+              "type": "string",
+              "description": "Variant name (e.g., genai, premium)"
+            },
+            "options": {
+              "type": "array",
+              "items": { "$ref": "enums/component-options.json" },
+              "description": "Component options like small, medium, large"
+            }
+          },
+          "required": ["category", "property"]
+        }
+      },
+      "required": ["structure"]
+    }
+  }
+}

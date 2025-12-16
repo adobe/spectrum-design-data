@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/structured-token.json",
+  "title": "Anonymous Token",
+  "description": "An anonymous representation of a Spectrum design token (can be regular or scale-set)",
+  "oneOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/regular-token.json"
+    },
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/scale-set-token.json"
+    }
+  ]
+}

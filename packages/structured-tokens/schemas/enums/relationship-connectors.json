@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/enums/relationship-connectors.json",
+  "title": "Relationship Connectors",
+  "description": "Valid connectors used in spaceBetween relationships",
+  "enum": ["to"]
+}

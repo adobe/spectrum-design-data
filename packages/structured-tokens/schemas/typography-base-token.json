@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/typography-base-token.json",
+  "title": "Base Typography Token",
+  "description": "Schema for base typography tokens with direct values (font-weight, font-family, etc.)",
+  "allOf": [
+    {
+      "$ref": "base-token.json"
+    }
+  ],
+  "properties": {
+    "name": {
+      "type": "object",
+      "properties": {
+        "original": {
+          "type": "string",
+          "description": "Original hyphen-delimited token name"
+        },
+        "structure": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "const": "typography-base",
+              "description": "Token category"
+            },
+            "property": {
+              "type": "string",
+              "description": "The full token name as property"
+            },
+            "notes": {
+              "type": "string",
+              "description": "Additional notes"
+            }
+          },
+          "required": ["category", "property"],
+          "additionalProperties": true
+        },
+        "semanticComplexity": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Semantic complexity score"
+        }
+      },
+      "required": ["original", "structure", "semanticComplexity"]
+    }
+  },
+  "required": ["name", "$schema", "value", "id"]
+}

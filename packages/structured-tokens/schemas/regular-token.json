@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/regular-token.json",
+  "title": "Regular Anonymous Token",
+  "description": "Anonymous token with a single value at the top level",
+  "allOf": [
+    {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/base-token.json"
+    }
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the token."
+    },
+    "value": {
+      "description": "The value of the token.",
+      "anyOf": [
+        { "type": "string" },
+        { "type": "number" },
+        { "type": "object" },
+        { "type": "array" }
+      ]
+    }
+  },
+  "required": ["id", "value"]
+}

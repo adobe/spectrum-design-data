@@ -1,0 +1,27 @@
+{
+  "name": "@adobe/structured-tokens",
+  "version": "0.1.0",
+  "description": "Structured, schema-validated design tokens with parsed name parts for Spectrum",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "packages/structured-tokens"
+  },
+  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/packages/structured-tokens#readme",
+  "private": true,
+  "dependencies": {
+    "glob": "^11.0.3"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}

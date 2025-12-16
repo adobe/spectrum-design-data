@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/semantic-alias-token.json",
+  "title": "Semantic Alias Token",
+  "description": "Token that references another token to provide semantic or contextual naming.",
+  "allOf": [{ "$ref": "regular-token.json" }],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "pattern": "alias\\.json$",
+      "description": "Must be an alias token schema"
+    },
+    "value": {
+      "type": "string",
+      "pattern": "^\\{.+\\}$",
+      "description": "Must reference another token using {token-name} syntax"
+    },
+    "name": {
+      "type": "object",
+      "properties": {
+        "structure": {
+          "type": "object",
+          "properties": {
+            "category": { "const": "semantic-alias" },
+            "property": {
+              "type": "string",
+              "description": "The semantic property name"
+            },
+            "referencedToken": {
+              "type": "string",
+              "description": "The token being referenced (without curly braces)"
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": ["category", "property", "referencedToken"]
+        }
+      },
+      "required": ["structure"]
+    }
+  }
+}

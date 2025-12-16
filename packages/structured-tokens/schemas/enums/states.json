@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/enums/states.json",
+  "title": "Component States",
+  "description": "Valid component state values",
+  "type": "string",
+  "enum": [
+    "default",
+    "hover",
+    "down",
+    "focus",
+    "keyboard-focus",
+    "disabled",
+    "error"
+  ]
+}

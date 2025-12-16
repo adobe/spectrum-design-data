@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/structured-tokens/generic-property-scale-set-token.json",
+  "title": "Generic Property Scale-Set Token",
+  "description": "Schema for generic property tokens with desktop/mobile scale sets.",
+  "allOf": [{ "$ref": "scale-set-token.json" }],
+  "properties": {
+    "name": {
+      "type": "object",
+      "properties": {
+        "structure": {
+          "type": "object",
+          "properties": {
+            "category": { "const": "generic-property" },
+            "property": {
+              "type": "string",
+              "description": "Property name"
+            },
+            "index": { "$ref": "enums/sizes.json" }
+          },
+          "required": ["category", "property", "index"]
+        }
+      }
+    }
+  }
+}

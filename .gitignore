@@ -122,3 +122,6 @@ temp-*
 
 # auto-generated token files (copied by prepare scripts)
 docs/s2-tokens-viewer/tokens/
+
+# Token parser generated output files
+tools/token-name-parser/output/
