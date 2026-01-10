@@ -17,6 +17,7 @@
     "lint:fix": "eslint 'src/**/*.ts' --fix",
     "prettier": "prettier --check 'src/**/*.{ts,js,json}'",
     "prettier:fix": "prettier --write 'src/**/*.{ts,js,json}'",
+    "pretype-check": "pnpm run bundle-schemas",
     "type-check": "tsc --noEmit",
     "validate": "pnpm run type-check && pnpm run lint",
     "pretest": "tsc --project tsconfig.test.json",
