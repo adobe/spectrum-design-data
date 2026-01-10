@@ -66,6 +66,7 @@
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@figma/eslint-plugin-figma-plugins": "*",
     "@figma/plugin-typings": "^1.121.0",
     "@spectrum-web-components/bundle": "^1.10.0",

@@ -409,6 +409,9 @@ importers:
         specifier: ^0.5.21
         version: 0.5.21
     devDependencies:
+      "@eslint/js":
+        specifier: ^9.39.2
+        version: 9.39.2
       "@figma/eslint-plugin-figma-plugins":
         specifier: "*"
         version: 1.0.0(eslint@9.39.2(jiti@2.4.2))

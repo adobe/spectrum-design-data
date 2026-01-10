@@ -16,11 +16,9 @@
  **************************************************************************/
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function cout(msg: any) {
-  // eslint-disable-next-line no-prototype-builtins
   if (
     msg &&
-    msg.hasOwnProperty &&
-    msg.hasOwnProperty("stack") &&
+    Object.prototype.hasOwnProperty.call(msg, "stack") &&
     msg.stack.length
   ) {
     msg = msg.stack;
