@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "target": "ES2021"
+  },
+  "include": ["src/**/*.ts", "src/**/*.test.js"],
+  "exclude": ["node_modules", "dist"]
+}

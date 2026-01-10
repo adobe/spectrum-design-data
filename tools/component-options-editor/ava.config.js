@@ -16,7 +16,7 @@
  **************************************************************************/
 
 export default {
-  files: ["src/**/*.test.js"],
+  files: ["build/**/*.test.js"],
   environmentVariables: {
     NODE_ENV: "test",
   },

@@ -16,7 +16,7 @@
  **************************************************************************/
 
 import test from "ava";
-import { extractLineColumn } from "./jsonErrorUtils.ts";
+import { extractLineColumn } from "./jsonErrorUtils.js";
 
 // Basic functionality
 test("extractLineColumn - should return line 1, column 1 for position 0", (t) => {

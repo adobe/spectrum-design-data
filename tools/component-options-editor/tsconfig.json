@@ -16,5 +16,5 @@
     "typeRoots": ["./node_modules/@types", "./node_modules/@figma"]
   },
   "include": ["src/**/*.ts", "src/**/*.js"],
-  "exclude": ["src/**/*.test.ts", "node_modules"]
+  "exclude": ["src/**/*.test.js", "node_modules"]
 }

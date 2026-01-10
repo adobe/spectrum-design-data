@@ -16,7 +16,7 @@
  **************************************************************************/
 
 import test from "ava";
-import { validateComponentJSON, validateJSONString } from "./jsonValidator.ts";
+import { validateComponentJSON, validateJSONString } from "./jsonValidator.js";
 
 // Valid component data tests
 test("validateComponentJSON - should validate minimal valid component", (t) => {

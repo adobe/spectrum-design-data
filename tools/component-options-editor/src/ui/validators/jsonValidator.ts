@@ -15,10 +15,18 @@
  * from Adobe.
  **************************************************************************/
 
-import Ajv2020 from "ajv/dist/2020";
+import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import type { ValidateFunction } from "ajv";
-import componentOptionsSchema from "../../../component-options.json";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const componentOptionsSchema = JSON.parse(
+  readFileSync(join(__dirname, "../../../component-options.json"), "utf-8"),
+);
 
 export interface ValidationError {
   path: string;

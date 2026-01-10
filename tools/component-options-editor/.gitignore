@@ -5,6 +5,7 @@ node_modules
 
 out/
 dist/
+build/
 code.js
 
 # Generated files

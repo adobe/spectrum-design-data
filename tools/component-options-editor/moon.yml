@@ -29,6 +29,7 @@ tasks:
       - "@globs(configs)"
       - "package.json"
       - "manifest.json"
+      - "scripts/*.mjs"
     outputs:
       - "dist/"
     platform: node
@@ -40,6 +41,9 @@ tasks:
       - "@globs(sources)"
       - "@globs(tests)"
       - "ava.config.js"
+      - "tsconfig.test.json"
+    outputs:
+      - "build/"
     platform: node
   lint:
     command:
