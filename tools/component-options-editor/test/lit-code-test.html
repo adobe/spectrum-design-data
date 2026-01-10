@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lit-Code Editable Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        .status {
+            padding: 12px;
+            border-radius: 4px;
+            margin: 16px 0;
+            font-weight: bold;
+        }
+        .valid {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .invalid {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .validating {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .errors {
+            background: #f8d7da;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 16px 0;
+        }
+        .error-item {
+            margin: 8px 0;
+            padding: 8px;
+            background: white;
+            border-left: 4px solid #dc3545;
+        }
+        .log {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 16px;
+        }
+        .log-entry {
+            margin: 4px 0;
+            padding: 4px;
+        }
+        .log-entry.event {
+            color: #0066cc;
+        }
+        .log-entry.error {
+            color: #dc3545;
+        }
+        .log-entry.success {
+            color: #28a745;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 4px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #f0f0f0;
+        }
+        lit-code {
+            display: block;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Lit-Code Editable Mode Test</h1>
+    
+    <div class="container">
+        <h2>Test 1: Basic Editable Editor</h2>
+        <p>Try editing the JSON below. Events should be logged.</p>
+        
+        <div id="status1" class="status valid">✓ Valid JSON</div>
+        <div id="errors1" class="errors" style="display: none;"></div>
+        
+        <lit-code 
+            id="editor1"
+            editable 
+            linenumbers 
+            language="json">
+        </lit-code>
+        
+        <div>
+            <button onclick="test1.setValue()">Set New Value</button>
+            <button onclick="test1.getValue()">Get Value</button>
+            <button onclick="test1.clearLogs()">Clear Logs</button>
+        </div>
+        
+        <div id="log1" class="log"></div>
+    </div>
+
+    <div class="container">
+        <h2>Test 2: Reactive Updates</h2>
+        <p>Test external updates while editing.</p>
+        
+        <div id="status2" class="status valid">✓ Valid JSON</div>
+        
+        <lit-code 
+            id="editor2"
+            editable 
+            linenumbers 
+            language="json">
+        </lit-code>
+        
+        <div>
+            <button onclick="test2.externalUpdate()">External Update (simulates form change)</button>
+            <button onclick="test2.startAutoUpdate()">Start Auto-Update (every 1s)</button>
+            <button onclick="test2.stopAutoUpdate()">Stop Auto-Update</button>
+        </div>
+        
+        <div id="log2" class="log"></div>
+    </div>
+
+    <!-- Load dependencies from CDN -->
+    <script type="module">
+        import 'https://cdn.jsdelivr.net/npm/lit-code@0.1.12/+esm';
+        import Prism from 'https://cdn.jsdelivr.net/npm/prismjs@1.30.0/+esm';
+        
+        // Add JSON language support
+        Prism.languages.json = {
+            'property': {
+                pattern: /"(?:\\.|[^\\"\r\n])*"(?=\s*:)/,
+                greedy: true
+            },
+            'string': {
+                pattern: /"(?:\\.|[^\\"\r\n])*"(?!\s*:)/,
+                greedy: true
+            },
+            'number': /-?\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
+            'punctuation': /[{}[\],]/,
+            'operator': /:/,
+            'boolean': /\b(?:true|false)\b/,
+            'null': {
+                pattern: /\bnull\b/,
+                alias: 'keyword'
+            }
+        };
+
+        // Sample JSON data
+        const sampleJSON = {
+            "title": "Action button",
+            "meta": {
+                "category": "actions",
+                "documentationUrl": "https://spectrum.adobe.com/page/action-button/"
+            },
+            "options": [
+                {
+                    "title": "size",
+                    "type": "size",
+                    "defaultValue": "m",
+                    "items": ["s", "m", "l", "xl"]
+                }
+            ]
+        };
+
+        // Test 1: Basic event handling
+        window.test1 = {
+            editor: null,
+            logs: [],
+            
+            init() {
+                this.editor = document.getElementById('editor1');
+                this.log('Initializing editor...');
+                
+                // Set initial value
+                this.editor.code = JSON.stringify(sampleJSON, null, 2);
+                this.log('Initial code set', 'success');
+                
+                // Listen for various events
+                this.editor.addEventListener('update', (e) => {
+                    this.log(`@update event fired, detail type: ${typeof e.detail}`, 'event');
+                    if (e.detail) {
+                        this.log(`Detail value: ${e.detail.substring(0, 50)}...`, 'event');
+                        this.validate(e.detail);
+                    }
+                });
+                
+                this.editor.addEventListener('change', (e) => {
+                    this.log(`@change event fired`, 'event');
+                });
+                
+                this.editor.addEventListener('input', (e) => {
+                    this.log(`@input event fired`, 'event');
+                });
+                
+                // Try to access the code property periodically
+                setInterval(() => {
+                    if (this.editor.code) {
+                        document.getElementById('status1').textContent = 
+                            `Current length: ${this.editor.code.length} chars`;
+                    }
+                }, 1000);
+            },
+            
+            validate(jsonString) {
+                try {
+                    const data = JSON.parse(jsonString);
+                    document.getElementById('status1').className = 'status valid';
+                    document.getElementById('status1').textContent = '✓ Valid JSON';
+                    document.getElementById('errors1').style.display = 'none';
+                    this.log('Validation passed', 'success');
+                } catch (error) {
+                    document.getElementById('status1').className = 'status invalid';
+                    document.getElementById('status1').textContent = '✗ Invalid JSON';
+                    document.getElementById('errors1').style.display = 'block';
+                    document.getElementById('errors1').innerHTML = 
+                        `<div class="error-item">${error.message}</div>`;
+                    this.log(`Validation failed: ${error.message}`, 'error');
+                }
+            },
+            
+            setValue() {
+                const newData = {...sampleJSON, title: "Updated at " + new Date().toLocaleTimeString()};
+                this.editor.code = JSON.stringify(newData, null, 2);
+                this.log('Code updated programmatically', 'success');
+            },
+            
+            getValue() {
+                this.log(`Current value: ${this.editor.code}`, 'success');
+                alert('Check console for full value');
+                console.log(this.editor.code);
+            },
+            
+            log(message, type = 'info') {
+                const logEntry = document.createElement('div');
+                logEntry.className = `log-entry ${type}`;
+                logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                document.getElementById('log1').appendChild(logEntry);
+                document.getElementById('log1').scrollTop = document.getElementById('log1').scrollHeight;
+            },
+            
+            clearLogs() {
+                document.getElementById('log1').innerHTML = '';
+                this.log('Logs cleared', 'success');
+            }
+        };
+
+        // Test 2: External updates vs user editing
+        window.test2 = {
+            editor: null,
+            updateInterval: null,
+            isUserEditing: false,
+            updateCounter: 0,
+            
+            init() {
+                this.editor = document.getElementById('editor2');
+                this.editor.code = JSON.stringify(sampleJSON, null, 2);
+                
+                // Track when user is editing
+                this.editor.addEventListener('update', (e) => {
+                    this.log('User is editing...', 'event');
+                    this.isUserEditing = true;
+                    
+                    // Reset flag after 1 second of no updates
+                    clearTimeout(this.editTimeout);
+                    this.editTimeout = setTimeout(() => {
+                        this.isUserEditing = false;
+                        this.log('User finished editing', 'success');
+                    }, 1000);
+                });
+            },
+            
+            externalUpdate() {
+                if (this.isUserEditing) {
+                    this.log('Skipped update (user is editing)', 'error');
+                    return;
+                }
+                
+                const newData = {...sampleJSON, title: `External Update ${++this.updateCounter}`};
+                this.editor.code = JSON.stringify(newData, null, 2);
+                this.log(`External update #${this.updateCounter} applied`, 'success');
+            },
+            
+            startAutoUpdate() {
+                if (this.updateInterval) return;
+                this.log('Started auto-update', 'success');
+                this.updateInterval = setInterval(() => {
+                    this.externalUpdate();
+                }, 1000);
+            },
+            
+            stopAutoUpdate() {
+                if (this.updateInterval) {
+                    clearInterval(this.updateInterval);
+                    this.updateInterval = null;
+                    this.log('Stopped auto-update', 'success');
+                }
+            },
+            
+            log(message, type = 'info') {
+                const logEntry = document.createElement('div');
+                logEntry.className = `log-entry ${type}`;
+                logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                document.getElementById('log2').appendChild(logEntry);
+                document.getElementById('log2').scrollTop = document.getElementById('log2').scrollHeight;
+            }
+        };
+
+        // Initialize tests when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait a bit for lit-code to be ready
+            setTimeout(() => {
+                test1.init();
+                test2.init();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

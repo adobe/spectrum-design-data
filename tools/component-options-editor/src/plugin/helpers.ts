@@ -1,0 +1,32 @@
+/*************************************************************************
+ * ADOBE CONFIDENTIAL
+ * ___________________
+ *
+ * Copyright 2023 Adobe
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ **************************************************************************/
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function cout(msg: any) {
+  // eslint-disable-next-line no-prototype-builtins
+  if (
+    msg &&
+    msg.hasOwnProperty &&
+    msg.hasOwnProperty("stack") &&
+    msg.stack.length
+  ) {
+    msg = msg.stack;
+  }
+
+  console.log(msg);
+}
+
+export { cout };

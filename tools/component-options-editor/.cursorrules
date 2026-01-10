@@ -1,0 +1,259 @@
+# Component Options Editor - Cursor Rules
+
+## Project Context
+This is a Figma plugin built with TypeScript, Lit, and Spectrum Web Components. The plugin helps author component option schemas for Adobe Spectrum Design System components.
+
+## Technology Stack
+- **Framework**: Lit (Web Components)
+- **UI Library**: Spectrum Web Components (@spectrum-web-components/*)
+- **Language**: TypeScript
+- **Build**: Webpack
+- **Figma**: Plugin API
+- **Version Control**: Git with GitHub CLI
+
+## Code Quality Standards
+
+### TypeScript
+- Always use explicit types, avoid `any`
+- Use interfaces for data structures (see `src/index.d.ts`)
+- Enable strict mode compliance
+- Use type guards where appropriate
+- Document complex types with JSDoc comments
+
+### Lit Components
+- Use `@customElement` decorator for all custom elements
+- Use `@property` and `@query` decorators appropriately
+- Implement reactive properties with proper types
+- Use `html` template literals for rendering
+- Follow Lit lifecycle methods (connectedCallback, disconnectedCallback)
+- Clean up event listeners in disconnectedCallback
+
+### Spectrum Web Components
+- **ALWAYS use Spectrum Web Components for UI elements**
+- Prefer Spectrum components over native HTML elements
+- Import from `@spectrum-web-components/*` packages
+- Common components to use:
+  - `sp-button`, `sp-button-group`
+  - `sp-textfield`, `sp-field-label`, `sp-field-group`
+  - `sp-picker`, `sp-menu`, `sp-menu-item`
+  - `sp-checkbox`, `sp-radio`, `sp-radio-group`
+  - `sp-table` and related table elements
+  - `sp-action-button`, `sp-action-group`
+  - `sp-tabs`, `sp-tab`, `sp-tab-panel`
+  - `sp-icon` with workflow icons
+- Follow Spectrum design patterns and sizing (s, m, l, xl)
+- Use Spectrum color tokens and theming
+
+### Code Organization
+- One component per file
+- Place components in appropriate directories:
+  - `src/ui/app/` - main app components
+  - `src/ui/app/templates/` - reusable template components
+  - `src/ui/app/events/` - custom events
+  - `src/plugin/` - Figma plugin backend code
+- Keep files under 300 lines when possible
+- Extract reusable logic into helper functions
+
+### Naming Conventions
+- Components: PascalCase (e.g., `OptionForm`, `LitAppElement`)
+- Files: camelCase.ts (e.g., `optionForm.ts`, `litAppElement.ts`)
+- Properties: camelCase (e.g., `componentName`, `optionType`)
+- Events: kebab-case (e.g., `save-option`, `update-component`)
+- Constants: UPPER_SNAKE_CASE
+
+### Event Handling
+- Create custom events extending Event class (see `SaveOptionEvent`)
+- Use type-safe event dispatching
+- Document event payloads with interfaces
+- Clean up listeners properly
+
+### State Management
+- Use Lit reactive properties (`@property`)
+- Keep state as high as needed, as low as possible
+- Communicate between components via events
+- Store plugin data in Figma's plugin storage (`figma.currentPage.getPluginData`)
+
+## GitHub Integration
+
+### Using GitHub CLI
+- **ALWAYS use `gh` CLI for GitHub operations**
+- Update issues: `gh issue edit <number> --body "..."`
+- List issues: `gh issue list`
+- View issue: `gh issue view <number>`
+- Comment on issues: `gh issue comment <number> --body "..."`
+- Close issues: `gh issue close <number>`
+- Create PRs: `gh pr create`
+
+### Issue Management
+- **Update issue descriptions/checklists, NOT just comments**
+- When completing a task, use: `gh issue edit <number> --body "$(gh issue view <number> -c | sed 's/- \[ \] Task/- [x] Task/')"`
+- Keep issue bodies as single source of truth
+- Use tasklist format: `- [ ]` for tasks
+- Link related issues with `#<number>` in descriptions
+- Use labels appropriately: `enhancement`, `bug`, `documentation`
+
+### Commit Messages
+- **REQUIRED**: Follow conventional commits format (enforced by commitlint)
+- Format: `<type>(<scope>): <Subject starting with capital letter>`
+- Types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`
+- Scopes: `metadata`, `options`, `preview`, `json`, `edit`, `variants`, `ui`, `plugin`, `build`, `deps`
+- Subject must be sentence-case (capital first letter)
+- Reference issues: `feat(metadata): Add category picker (#1)`
+- Keep first line under 72 characters
+- Add detailed description in body when needed
+
+### Pre-commit Automation
+- **Husky pre-commit hook** runs automatically before each commit
+- **lint-staged** runs ESLint and Prettier on staged files only
+- Auto-fixes issues when possible
+- Commit will be rejected if linting fails
+- Commit message format is validated by commitlint
+
+### CI/CD & Branch Protection
+- **GitHub Actions CI** runs on all pushes and PRs
+  - Checks: ESLint, Prettier, TypeScript compilation, Build, Copyright
+  - Must pass before merging to main
+- **PR title validation** enforces conventional format
+- **Branch protection active on main and dev**:
+  - Main: Requires status checks, conversation resolution, linear history
+  - Dev: Requires status checks, allows force pushes for rebasing
+
+## Plugin-Specific Guidelines
+
+### Figma Plugin Backend (src/plugin/)
+- Keep plugin code minimal and focused on data persistence
+- Use `figma.ui.postMessage` for plugin → UI communication
+- Use `figma.ui.onmessage` for UI → plugin communication
+- Handle errors gracefully with try-catch
+- Log important operations with `cout` helper
+
+### UI Code (src/ui/)
+- All UI logic runs in iframe sandbox
+- Use `parent.postMessage` to communicate with plugin
+- Listen for messages with `window.addEventListener('message')`
+- Keep UI responsive and reactive
+- Show loading states when appropriate
+
+### Data Validation
+- Validate component metadata (required fields, URL format)
+- Validate option data before saving
+- Provide clear error messages to users
+- Match JSON schema from `component-options.json`
+
+### Build Process
+- Run `npm run build` before testing in Figma
+- Build outputs to `dist/` directory
+- Manifest paths in dist are relative (not `dist/...`)
+- Test changes in Figma's development mode
+
+## Development Workflow
+
+### Git Flow Strategy
+```
+main (protected, production)
+  └── dev (protected, development)
+      └── feature/issue-X-description (feature branches)
+```
+
+1. **Before starting work**:
+   - Check issue details: `gh issue view <number>`
+   - Create feature branch from dev: `git checkout dev && git pull && git checkout -b feature/issue-<number>-description`
+
+2. **During development**:
+   - Write clean, typed TypeScript
+   - Use Spectrum components
+   - Commit frequently with conventional commits (hooks will auto-fix formatting)
+   - Test in Figma frequently
+   - Keep commits atomic and well-described
+
+3. **Committing (automated checks run)**:
+   - Stage files: `git add <files>`
+   - Commit: `git commit -m "feat(scope): Description with capital letter"`
+   - **Pre-commit hook automatically runs**: ESLint --fix, Prettier --write
+   - **Commit-msg hook validates**: Conventional commit format
+   - Commit rejected if checks fail - fix issues and try again
+   - No need to run lint/prettier manually - hooks handle it!
+
+4. **Before pushing**:
+   - Optional: Run full validation: `npm run validate`
+   - Optional: Test build: `npm run build`
+   - Test plugin in Figma
+   - Push: `git push origin feature/issue-X-description`
+
+5. **Creating PRs**:
+   - Use `gh pr create --base dev` (merge to dev first, not main)
+   - PR title must follow conventional format: `feat(scope): Description`
+   - Reference issue: "Closes #<number>"
+   - Describe changes and testing done
+   - Wait for CI checks to pass (automated)
+   - Squash and merge when ready
+
+6. **After completing tasks**:
+   - Update issue checklist using `gh issue edit <number>`
+   - Delete feature branch after merge
+
+7. **Releases to Main**:
+   - Create PR from dev to main when ready for release
+   - More stringent checks apply on main branch
+   - Tag releases appropriately
+
+## npm Scripts Reference
+
+### Quality & Validation
+- `npm run lint` - Check TypeScript files with ESLint
+- `npm run lint:fix` - Auto-fix ESLint issues
+- `npm run prettier` - Check code formatting
+- `npm run prettier:fix` - Auto-format code
+- `npm run type-check` - Run TypeScript compiler without emitting files
+- `npm run validate` - Run all checks (type-check, lint, prettier)
+- `npm test` - Full validation + build (used in CI)
+- `npm run lint-staged` - Run on staged files (used by Husky)
+
+### Build & Development
+- `npm run build` - Full build (pack + assets)
+- `npm run pack` - Webpack build + inline
+- `npm run assets` - Copy assets to dist
+- `npm run clean` - Remove build/dist directories
+- `npm start` - Watch mode for development
+
+### Other
+- `npm run copyright` - Check copyright headers
+- `npm run format` - Run copyright + prettier + lint fixes
+
+## File References
+- Main app: `src/ui/app/litAppElement.ts`
+- Plugin backend: `src/plugin/plugin.ts`
+- Type definitions: `src/index.d.ts`
+- Schema reference: `component-options.json`
+- Build config: `webpack.config.js`
+- Package info: `package.json`
+- Cursor rules: `.cursorrules` (this file)
+- Branch protection plan: `.github/BRANCH_PROTECTION_PLAN.md`
+
+## Testing Checklist
+- [ ] TypeScript compiles without errors
+- [ ] Linter passes
+- [ ] Plugin builds successfully
+- [ ] Plugin loads in Figma without errors
+- [ ] UI renders correctly
+- [ ] Data persists after closing plugin
+- [ ] All Spectrum components function properly
+- [ ] Responsive to user interactions
+
+## Common Pitfalls to Avoid
+- ❌ Using native HTML inputs instead of Spectrum components
+- ❌ Forgetting to build before testing in Figma
+- ❌ Not cleaning up event listeners
+- ❌ Using `any` type
+- ❌ Commenting on issues instead of updating descriptions
+- ❌ Not referencing issues in commits
+- ❌ Hardcoding values that should be configurable
+- ❌ Forgetting to handle edge cases (empty arrays, null values)
+
+## Resources
+- [Lit Documentation](https://lit.dev/)
+- [Spectrum Web Components](https://opensource.adobe.com/spectrum-web-components/)
+- [Figma Plugin API](https://www.figma.com/plugin-docs/)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- [GitHub CLI Manual](https://cli.github.com/manual/)
+
