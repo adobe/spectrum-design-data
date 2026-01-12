@@ -1,0 +1,277 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "component",
+  "description": "Spectrum component names",
+  "values": [
+    {
+      "id": "accordion",
+      "label": "Accordion",
+      "documentationUrl": "https://spectrum.adobe.com/page/accordion/"
+    },
+    {
+      "id": "action-bar",
+      "label": "Action Bar",
+      "documentationUrl": "https://spectrum.adobe.com/page/action-bar/"
+    },
+    {
+      "id": "action-button",
+      "label": "Action Button",
+      "documentationUrl": "https://spectrum.adobe.com/page/action-button/"
+    },
+    {
+      "id": "action-group",
+      "label": "Action Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/action-group/"
+    },
+    {
+      "id": "alert-banner",
+      "label": "Alert Banner",
+      "documentationUrl": "https://spectrum.adobe.com/page/alert-banner/"
+    },
+    {
+      "id": "alert-dialog",
+      "label": "Alert Dialog",
+      "documentationUrl": "https://spectrum.adobe.com/page/alert-dialog/"
+    },
+    {
+      "id": "avatar",
+      "label": "Avatar",
+      "documentationUrl": "https://spectrum.adobe.com/page/avatar/"
+    },
+    {
+      "id": "avatar-group",
+      "label": "Avatar Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/avatar-group/"
+    },
+    {
+      "id": "badge",
+      "label": "Badge",
+      "documentationUrl": "https://spectrum.adobe.com/page/badge/"
+    },
+    {
+      "id": "breadcrumbs",
+      "label": "Breadcrumbs",
+      "documentationUrl": "https://spectrum.adobe.com/page/breadcrumbs/"
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "documentationUrl": "https://spectrum.adobe.com/page/button/"
+    },
+    {
+      "id": "button-group",
+      "label": "Button Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/button-group/"
+    },
+    {
+      "id": "calendar",
+      "label": "Calendar",
+      "documentationUrl": "https://spectrum.adobe.com/page/calendar/"
+    },
+    {
+      "id": "checkbox",
+      "label": "Checkbox",
+      "documentationUrl": "https://spectrum.adobe.com/page/checkbox/"
+    },
+    {
+      "id": "checkbox-group",
+      "label": "Checkbox Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/checkbox-group/"
+    },
+    {
+      "id": "close-button",
+      "label": "Close Button",
+      "documentationUrl": "https://spectrum.adobe.com/page/close-button/"
+    },
+    {
+      "id": "color-area",
+      "label": "Color Area",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-area/"
+    },
+    {
+      "id": "color-slider",
+      "label": "Color Slider",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-slider/"
+    },
+    {
+      "id": "color-wheel",
+      "label": "Color Wheel",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-wheel/"
+    },
+    {
+      "id": "combo-box",
+      "label": "Combo Box",
+      "documentationUrl": "https://spectrum.adobe.com/page/combo-box/"
+    },
+    {
+      "id": "contextual-help",
+      "label": "Contextual Help",
+      "documentationUrl": "https://spectrum.adobe.com/page/contextual-help/"
+    },
+    {
+      "id": "date-picker",
+      "label": "Date Picker",
+      "documentationUrl": "https://spectrum.adobe.com/page/date-picker/"
+    },
+    {
+      "id": "divider",
+      "label": "Divider",
+      "documentationUrl": "https://spectrum.adobe.com/page/divider/"
+    },
+    {
+      "id": "drop-zone",
+      "label": "Drop Zone",
+      "documentationUrl": "https://spectrum.adobe.com/page/drop-zone/"
+    },
+    {
+      "id": "field-label",
+      "label": "Field Label",
+      "documentationUrl": "https://spectrum.adobe.com/page/field-label/"
+    },
+    {
+      "id": "help-text",
+      "label": "Help Text",
+      "documentationUrl": "https://spectrum.adobe.com/page/help-text/"
+    },
+    {
+      "id": "illustrated-message",
+      "label": "Illustrated Message",
+      "documentationUrl": "https://spectrum.adobe.com/page/illustrated-message/"
+    },
+    {
+      "id": "in-line-alert",
+      "label": "In-Line Alert",
+      "documentationUrl": "https://spectrum.adobe.com/page/in-line-alert/"
+    },
+    {
+      "id": "link",
+      "label": "Link",
+      "documentationUrl": "https://spectrum.adobe.com/page/link/"
+    },
+    {
+      "id": "menu",
+      "label": "Menu",
+      "documentationUrl": "https://spectrum.adobe.com/page/menu/"
+    },
+    {
+      "id": "meter",
+      "label": "Meter",
+      "documentationUrl": "https://spectrum.adobe.com/page/meter/"
+    },
+    {
+      "id": "number-field",
+      "label": "Number Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/number-field/"
+    },
+    {
+      "id": "picker",
+      "label": "Picker",
+      "documentationUrl": "https://spectrum.adobe.com/page/picker/"
+    },
+    {
+      "id": "popover",
+      "label": "Popover",
+      "documentationUrl": "https://spectrum.adobe.com/page/popover/"
+    },
+    {
+      "id": "progress-bar",
+      "label": "Progress Bar",
+      "documentationUrl": "https://spectrum.adobe.com/page/progress-bar/"
+    },
+    {
+      "id": "progress-circle",
+      "label": "Progress Circle",
+      "documentationUrl": "https://spectrum.adobe.com/page/progress-circle/"
+    },
+    {
+      "id": "radio-button",
+      "label": "Radio Button",
+      "documentationUrl": "https://spectrum.adobe.com/page/radio-button/"
+    },
+    {
+      "id": "radio-group",
+      "label": "Radio Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/radio-group/"
+    },
+    {
+      "id": "rating",
+      "label": "Rating",
+      "documentationUrl": "https://spectrum.adobe.com/page/rating/"
+    },
+    {
+      "id": "search-field",
+      "label": "Search Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/search-field/"
+    },
+    {
+      "id": "select-box",
+      "label": "Select Box",
+      "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
+    },
+    {
+      "id": "slider",
+      "label": "Slider",
+      "documentationUrl": "https://spectrum.adobe.com/page/slider/"
+    },
+    {
+      "id": "status-light",
+      "label": "Status Light",
+      "documentationUrl": "https://spectrum.adobe.com/page/status-light/"
+    },
+    {
+      "id": "swatch",
+      "label": "Swatch",
+      "documentationUrl": "https://spectrum.adobe.com/page/swatch/"
+    },
+    {
+      "id": "switch",
+      "label": "Switch",
+      "documentationUrl": "https://spectrum.adobe.com/page/switch/"
+    },
+    {
+      "id": "table",
+      "label": "Table",
+      "documentationUrl": "https://spectrum.adobe.com/page/table/"
+    },
+    {
+      "id": "tabs",
+      "label": "Tabs",
+      "documentationUrl": "https://spectrum.adobe.com/page/tabs/"
+    },
+    {
+      "id": "tag",
+      "label": "Tag",
+      "documentationUrl": "https://spectrum.adobe.com/page/tag/"
+    },
+    {
+      "id": "tag-group",
+      "label": "Tag Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/tag-group/"
+    },
+    {
+      "id": "text-area",
+      "label": "Text Area",
+      "documentationUrl": "https://spectrum.adobe.com/page/text-area/"
+    },
+    {
+      "id": "text-field",
+      "label": "Text Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/text-field/"
+    },
+    {
+      "id": "toast",
+      "label": "Toast",
+      "documentationUrl": "https://spectrum.adobe.com/page/toast/"
+    },
+    {
+      "id": "tooltip",
+      "label": "Tooltip",
+      "documentationUrl": "https://spectrum.adobe.com/page/tooltip/"
+    },
+    {
+      "id": "tray",
+      "label": "Tray",
+      "documentationUrl": "https://spectrum.adobe.com/page/tray/"
+    }
+  ]
+}

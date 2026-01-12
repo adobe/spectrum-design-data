@@ -1,0 +1,91 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "scale",
+  "description": "Numeric scale values used in design tokens",
+  "values": [
+    {
+      "id": "50",
+      "label": "Scale 50",
+      "value": 50,
+      "category": "common",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "75",
+      "label": "Scale 75",
+      "value": 75,
+      "category": "common",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "100",
+      "label": "Scale 100",
+      "value": 100,
+      "category": "common",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "200",
+      "label": "Scale 200",
+      "value": 200,
+      "category": "common",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "300",
+      "label": "Scale 300",
+      "value": 300,
+      "category": "common",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "400",
+      "label": "Scale 400",
+      "value": 400,
+      "category": "common",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "500",
+      "label": "Scale 500",
+      "value": 500,
+      "category": "common",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "600",
+      "label": "Scale 600",
+      "value": 600,
+      "category": "extended",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "700",
+      "label": "Scale 700",
+      "value": 700,
+      "category": "extended",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "800",
+      "label": "Scale 800",
+      "value": 800,
+      "category": "extended",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "900",
+      "label": "Scale 900",
+      "value": 900,
+      "category": "extended",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "1000",
+      "label": "Scale 1000",
+      "value": 1000,
+      "category": "extended",
+      "usedIn": ["tokens"]
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "anatomy-term",
+  "description": "Anatomical part names used in design tokens and component structures",
+  "values": [
+    {
+      "id": "edge",
+      "label": "Edge",
+      "description": "The outer boundary or border of a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "visual",
+      "label": "Visual",
+      "description": "Visual elements like icons, images, or decorative elements",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "text",
+      "label": "Text",
+      "description": "Text content or labels",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "control",
+      "label": "Control",
+      "description": "Interactive control elements like checkboxes or radio buttons",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "border",
+      "label": "Border",
+      "description": "Border or outline of a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "background",
+      "label": "Background",
+      "description": "Background surface or fill",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "icon",
+      "label": "Icon",
+      "description": "Icon elements",
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "label",
+      "label": "Label",
+      "description": "Text labels",
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "content",
+      "label": "Content",
+      "description": "Main content area",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "top",
+      "label": "Top",
+      "description": "Top edge or boundary",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "bottom",
+      "label": "Bottom",
+      "description": "Bottom edge or boundary",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "start",
+      "label": "Start",
+      "description": "Start edge (left in LTR, right in RTL)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "end",
+      "label": "End",
+      "description": "End edge (right in LTR, left in RTL)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "body",
+      "label": "Body",
+      "description": "Main body or content container",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "header",
+      "label": "Header",
+      "description": "Header section",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "footer",
+      "label": "Footer",
+      "description": "Footer section",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "divider",
+      "label": "Divider",
+      "description": "Dividing line or separator",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "handle",
+      "label": "Handle",
+      "description": "Draggable handle element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "indicator",
+      "label": "Indicator",
+      "description": "Visual indicator or marker",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "track",
+      "label": "Track",
+      "description": "Track or rail element (e.g., in sliders)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "thumb",
+      "label": "Thumb",
+      "description": "Draggable thumb element (e.g., in sliders)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "avatar",
+      "label": "Avatar",
+      "description": "User avatar or profile image",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "badge",
+      "label": "Badge",
+      "description": "Badge or notification indicator",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "pill",
+      "label": "Pill",
+      "description": "Pill-shaped element",
+      "usedIn": ["tokens"]
+    }
+  ]
+}

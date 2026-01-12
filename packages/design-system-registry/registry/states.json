@@ -1,0 +1,72 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "state",
+  "description": "Interaction states for components",
+  "allowCustom": true,
+  "customPattern": "^[a-z][a-z0-9-]*(\\s\\+\\s[a-z][a-z0-9-]*)*$",
+  "values": [
+    {
+      "id": "default",
+      "label": "Default",
+      "description": "The default, resting state of a component",
+      "default": true,
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "hover",
+      "label": "Hover",
+      "description": "Mouse hover state",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "active",
+      "label": "Active",
+      "description": "Active or pressed state",
+      "usedIn": ["component-options", "component-schemas"]
+    },
+    {
+      "id": "focus",
+      "label": "Focus",
+      "description": "Focused state (generic)",
+      "usedIn": ["component-options", "component-schemas"]
+    },
+    {
+      "id": "keyboard-focus",
+      "label": "Keyboard Focus",
+      "aliases": ["keyboard focus"],
+      "description": "Focused via keyboard navigation",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "disabled",
+      "label": "Disabled",
+      "description": "Disabled or inactive state",
+      "usedIn": ["component-options", "component-schemas"]
+    },
+    {
+      "id": "down",
+      "label": "Down",
+      "description": "Pressed or down state (mouse button down)",
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "pending",
+      "label": "Pending",
+      "description": "Loading or pending state",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "selected",
+      "label": "Selected",
+      "description": "Selected or chosen state",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "drag-and-drop",
+      "label": "Drag and Drop",
+      "aliases": ["drag and drop"],
+      "description": "Being dragged or drag target state",
+      "usedIn": ["component-schemas"]
+    }
+  ]
+}

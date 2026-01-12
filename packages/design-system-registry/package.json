@@ -1,0 +1,47 @@
+{
+  "name": "@adobe/design-system-registry",
+  "version": "1.0.0",
+  "description": "A single source of truth for design system terminology used across Spectrum tokens, component schemas, and anatomy",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./registry/sizes.json": "./registry/sizes.json",
+    "./registry/states.json": "./registry/states.json",
+    "./registry/variants.json": "./registry/variants.json",
+    "./registry/anatomy-terms.json": "./registry/anatomy-terms.json",
+    "./registry/components.json": "./registry/components.json",
+    "./registry/scale-values.json": "./registry/scale-values.json",
+    "./registry/categories.json": "./registry/categories.json",
+    "./registry/platforms.json": "./registry/platforms.json"
+  },
+  "scripts": {
+    "validate": "node scripts/validate-registry.js",
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "packages/design-system-registry"
+  },
+  "author": "Garth Braithwaite <garthdb@gmail.com> (https://garthdb.com/)",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
+  },
+  "publishConfig": {
+    "provenance": true
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/packages/design-system-registry#readme",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20.12.0",
+    "pnpm": ">=10.17.1"
+  },
+  "packageManager": "pnpm@10.17.1",
+  "devDependencies": {
+    "@adobe/spectrum-component-api-schemas": "workspace:*",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "ava": "^6.0.1"
+  }
+}

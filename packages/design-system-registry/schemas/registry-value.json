@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "title": "Registry Value",
+  "description": "Schema for design system registry value entries",
+  "type": "object",
+  "required": ["type", "description", "values"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of registry (size, state, variant, etc.)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what this registry contains"
+    },
+    "allowCustom": {
+      "type": "boolean",
+      "description": "Whether custom values are allowed beyond the registry"
+    },
+    "customPattern": {
+      "type": "string",
+      "description": "Regex pattern for validating custom values"
+    },
+    "values": {
+      "type": "array",
+      "description": "Array of registry values",
+      "items": {
+        "$ref": "#/$defs/value"
+      }
+    }
+  },
+  "$defs": {
+    "value": {
+      "type": "object",
+      "required": ["id", "label"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this value"
+        },
+        "label": {
+          "type": "string",
+          "description": "Human-readable label"
+        },
+        "aliases": {
+          "type": "array",
+          "description": "Alternative names or spellings",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of this value"
+        },
+        "default": {
+          "type": "boolean",
+          "description": "Whether this is the default value"
+        },
+        "deprecated": {
+          "type": "boolean",
+          "description": "Whether this value is deprecated"
+        },
+        "usedIn": {
+          "type": "array",
+          "description": "Where this value is used (tokens, component-schemas, etc.)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "category": {
+          "type": "string",
+          "description": "Category or grouping for this value"
+        },
+        "value": {
+          "type": ["string", "number", "boolean"],
+          "description": "Actual value (if different from id)"
+        },
+        "documentationUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to documentation"
+        }
+      }
+    }
+  }
+}
