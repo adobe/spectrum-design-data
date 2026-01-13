@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CodeMirror Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/theme/material.css">
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { background: white; padding: 20px; margin: 20px 0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .CodeMirror { border: 1px solid #ddd; border-radius: 4px; height: 400px; font-size: 14px; }
+        .status { padding: 12px; border-radius: 4px; margin: 16px 0; font-weight: bold; }
+        .valid { background: #d4edda; color: #155724; }
+        .invalid { background: #f8d7da; color: #721c24; }
+        .log { background: #f0f0f0; padding: 10px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; margin-top: 16px; }
+        button { padding: 8px 16px; margin: 4px; border: 1px solid #ddd; border-radius: 4px; background: white; cursor: pointer; }
+        button:hover { background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>🧪 CodeMirror Editor Test</h1>
+    
+    <div class="container">
+        <h2>Test: CodeMirror with JSON Mode</h2>
+        <p>Compare this to lit-code - does editing work better?</p>
+        
+        <div id="status" class="status valid">✓ Valid JSON</div>
+        
+        <textarea id="editor"></textarea>
+        
+        <div>
+            <button onclick="setCode()">Set Code Programmatically</button>
+            <button onclick="getCode()">Get Code</button>
+            <button onclick="clearLogs()">Clear Logs</button>
+        </div>
+        
+        <div id="log" class="log"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/javascript/javascript.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/json/json.js"></script>
+    
+    <script>
+        const log = document.getElementById('log');
+        let validationTimeout;
+        
+        function addLog(msg, type = 'info') {
+            const div = document.createElement('div');
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            div.style.color = type === 'error' ? '#dc3545' : type === 'success' ? '#28a745' : '#333';
+            log.appendChild(div);
+            log.scrollTop = log.scrollHeight;
+            console.log(msg);
+        }
+        
+        // Initialize CodeMirror
+        const editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
+            mode: { name: 'javascript', json: true },
+            theme: 'material',
+            lineNumbers: true,
+            lineWrapping: true,
+            indentUnit: 2,
+            tabSize: 2,
+            autoCloseBrackets: true,
+            matchBrackets: true,
+            foldGutter: true,
+            gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
+        });
+        
+        // Set initial value
+        const initialJSON = {
+            "title": "Action button",
+            "meta": {
+                "category": "actions",
+                "documentationUrl": "https://spectrum.adobe.com/page/action-button/"
+            },
+            "options": [
+                {
+                    "title": "size",
+                    "type": "size",
+                    "defaultValue": "m",
+                    "items": ["s", "m", "l", "xl"]
+                }
+            ]
+        };
+        
+        editor.setValue(JSON.stringify(initialJSON, null, 2));
+        addLog('CodeMirror initialized with initial JSON', 'success');
+        
+        // Listen for changes
+        editor.on('change', (cm, change) => {
+            addLog(`Change event: ${change.origin} (${change.text.length} lines)`);
+            
+            // Debounced validation
+            clearTimeout(validationTimeout);
+            validationTimeout = setTimeout(() => {
+                validateJSON();
+            }, 500);
+        });
+        
+        // Validation function
+        function validateJSON() {
+            try {
+                const value = editor.getValue();
+                const data = JSON.parse(value);
+                
+                // Simple validation - check category
+                if (data.meta && data.meta.category) {
+                    const validCategories = ['actions', 'containers', 'data visualization', 'feedback', 'inputs', 'navigation', 'status', 'typography'];
+                    if (!validCategories.includes(data.meta.category)) {
+                        throw new Error(`Invalid category: ${data.meta.category}`);
+                    }
+                }
+                
+                document.getElementById('status').className = 'status valid';
+                document.getElementById('status').textContent = '✓ Valid JSON';
+                addLog('Validation passed', 'success');
+            } catch (error) {
+                document.getElementById('status').className = 'status invalid';
+                document.getElementById('status').textContent = `✗ ${error.message}`;
+                addLog(`Validation failed: ${error.message}`, 'error');
+            }
+        }
+        
+        // Initial validation
+        validateJSON();
+        
+        // Global functions for buttons
+        window.setCode = () => {
+            const newData = {
+                ...initialJSON,
+                title: "Updated at " + new Date().toLocaleTimeString()
+            };
+            editor.setValue(JSON.stringify(newData, null, 2));
+            addLog('Code set programmatically', 'success');
+        };
+        
+        window.getCode = () => {
+            const value = editor.getValue();
+            addLog(`Current code length: ${value.length} chars`);
+            console.log('Full code:', value);
+        };
+        
+        window.clearLogs = () => {
+            log.innerHTML = '';
+            addLog('Logs cleared', 'success');
+        };
+        
+        addLog('CodeMirror test ready - try editing!', 'success');
+    </script>
+</body>
+</html>

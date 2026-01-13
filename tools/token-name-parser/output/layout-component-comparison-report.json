@@ -1,0 +1,8023 @@
+{
+  "summary": {
+    "total": 997,
+    "matches": 997,
+    "mismatches": 0,
+    "errors": 0,
+    "matchRate": "100.00%"
+  },
+  "matches": [
+    {
+      "name": "checkbox-control-size-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkbox-control-size-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkbox-control-size-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkbox-control-size-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkbox-top-to-control-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkbox-top-to-control-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkbox-top-to-control-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkbox-top-to-control-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-control-width-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-control-width-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-control-width-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-control-width-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-control-height-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-control-height-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-control-height-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-control-height-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-top-to-control-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-top-to-control-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-top-to-control-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-top-to-control-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "radio-button-control-size-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "radio-button-control-size-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "radio-button-control-size-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "radio-button-control-size-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "radio-button-top-to-control-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "radio-button-top-to-control-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "radio-button-top-to-control-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "radio-button-top-to-control-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "radio-button-selection-indicator",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-text-to-asterisk-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-text-to-asterisk-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-text-to-asterisk-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-text-to-asterisk-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-top-to-asterisk-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-top-to-asterisk-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-top-to-asterisk-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-top-to-asterisk-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-top-margin-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-top-margin-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-top-margin-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-top-margin-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-to-component",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-to-component-quiet-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-to-component-quiet-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-to-component-quiet-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-label-to-component-quiet-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "help-text-top-to-workflow-icon-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "help-text-top-to-workflow-icon-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "help-text-top-to-workflow-icon-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "help-text-top-to-workflow-icon-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "help-text-to-component",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "status-light-dot-size-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "status-light-dot-size-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "status-light-dot-size-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "status-light-dot-size-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "status-light-top-to-dot-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "status-light-top-to-dot-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "status-light-top-to-dot-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "status-light-top-to-dot-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-button-edge-to-hold-icon-extra-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-button-edge-to-hold-icon-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-button-edge-to-hold-icon-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-button-edge-to-hold-icon-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-button-edge-to-hold-icon-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "button-minimum-width-multiplier",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tooltip-tip-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tooltip-tip-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tooltip-maximum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "divider-thickness-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "divider-thickness-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "divider-thickness-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "progress-circle-size-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "progress-circle-size-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "progress-circle-size-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "progress-circle-thickness-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "progress-circle-thickness-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "progress-circle-thickness-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "toast-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "toast-maximum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "toast-top-to-workflow-icon",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "toast-top-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "toast-bottom-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-bar-height",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-bar-top-to-item-counter",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-size-extra-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-size-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-size-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-size-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-rectangle-width-multiplier",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-slash-thickness-extra-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-slash-thickness-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-slash-thickness-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-slash-thickness-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "progress-bar-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "progress-bar-maximum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "progress-bar-thickness-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "progress-bar-thickness-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "progress-bar-thickness-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "progress-bar-thickness-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "meter-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "meter-maximum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "meter-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "meter-default-width",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "meter-thickness-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "meter-thickness-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-line-alert-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-top-to-avatar-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-top-to-avatar-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-top-to-avatar-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-top-to-cross-icon-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-top-to-cross-icon-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-top-to-cross-icon-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "popover-tip-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "popover-tip-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "popover-top-to-content-area",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "popover-edge-to-content-area",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-label-to-description",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-edge-to-content-not-selected-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-edge-to-content-not-selected-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-edge-to-content-not-selected-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-edge-to-content-not-selected-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-top-to-disclosure-icon-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-top-to-disclosure-icon-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-top-to-disclosure-icon-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-top-to-disclosure-icon-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-top-to-selected-icon-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-top-to-selected-icon-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-top-to-selected-icon-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-top-to-selected-icon-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-section-divider-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-track-thickness",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-height-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-height-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-height-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-height-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-size-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-size-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-size-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-size-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-border-width-down-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-border-width-down-medium",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-border-width-down-large",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-border-width-down-extra-large",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-gap",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-bottom-to-handle-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-bottom-to-handle-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-bottom-to-handle-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-bottom-to-handle-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-field-label-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-field-label-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-field-label-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-field-label-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "picker-minimum-width-multiplier",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "picker-visual-to-disclosure-icon-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "picker-visual-to-disclosure-icon-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "picker-visual-to-disclosure-icon-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "picker-visual-to-disclosure-icon-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "picker-border-width",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "picker-end-edge-to-disclousure-icon-quiet",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "picker-end-edge-to-disclosure-icon-quiet",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "text-field-minimum-width-multiplier",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "text-area-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "text-area-minimum-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "combo-box-minimum-width-multiplier",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "combo-box-quiet-minimum-width-multiplier",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "combo-box-visual-to-field-button-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "combo-box-visual-to-field-button-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "combo-box-visual-to-field-button-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "combo-box-visual-to-field-button-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "combo-box-visual-to-field-button-quiet",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-size-50",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-size-400",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-size-500",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-size-600",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-size-700",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-size-800",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-size-900",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-size-1000",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-dialog-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-dialog-maximum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-dialog-title-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-dialog-description-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "opacity-checkerboard-square-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "opacity-checkerboard-square-size-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "contextual-help-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "contextual-help-title-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "contextual-help-body-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-height",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-height-compact",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-height-multiline",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-top-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-top-to-text-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-top-to-text-multiline",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-bottom-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-bottom-to-text-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-bottom-to-text-multiline",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-start-edge-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-end-edge-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-top-text-to-bottom-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-top-to-separator-icon",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-top-to-separator-icon-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-top-to-separator-icon-multiline",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-separator-icon-to-bottom-text-multiline",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-truncated-menu-to-separator-icon",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-top-to-truncated-menu",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-top-to-truncated-menu-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-start-edge-to-truncated-menu",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-truncated-menu-to-bottom-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-50",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-400",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-500",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-600",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-700",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-800",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-900",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-1000",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-1100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-1200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-1300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-1400",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-size-1500",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-banner-minimum-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-banner-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-banner-to-top-workflow-icon",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-banner-top-to-workflow-icon",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-banner-to-top-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-banner-top-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-banner-to-bottom-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-banner-bottom-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "rating-indicator-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "rating-indicator-to-icon",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-area-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-area-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-area-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-area-minimum-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-area-border-width",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-area-border-rounding",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-wheel-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-wheel-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-wheel-color-area-margin",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-slider-length",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-slider-minimum-length",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-slider-border-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-slider-border-rounding",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "floating-action-button-drop-shadow-blur",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "floating-action-button-drop-shadow-y",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-maximum-width",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-title-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-cjk-title-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-body-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "search-field-minimum-width-multiplier",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-loupe-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-loupe-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-loupe-bottom-to-color-handle",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-loupe-outer-border-width",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-loupe-inner-border-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-minimum-width",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-minimum-width-default",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-preview-minimum-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-selection-background-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-zone-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-zone-content-maximum-width",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-zone-border-dash-length",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-zone-border-dash-gap",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-zone-title-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-zone-cjk-title-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-zone-body-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-maximum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-edge-to-content",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-pagination-text-to-bottom-edge",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-media-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-media-minimum-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-title-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-body-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-pagination-body-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-compact-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-regular-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-small-top-to-text-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-compact-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-regular-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-spacious-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-compact-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-regular-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-spacious-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-compact-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-regular-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-spacious-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-compact-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-regular-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-spacious-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-compact-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-regular-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-spacious-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-compact-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-regular-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-spacious-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-compact-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-regular-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-spacious-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-disclosure-indicator-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-edge-to-disclosure-indicator",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-edge-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-focus-indicator-gap",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-content-area-top-to-content",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-content-area-bottom-to-content",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-handle-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-handle-size-key-focus",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-handle-border-width",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-handle-inner-border-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-handle-outer-border-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-handle-drop-shadow-x",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-handle-drop-shadow-y",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-handle-drop-shadow-blur",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-column-header-row-top-to-text-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-column-header-row-top-to-text-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-column-header-row-top-to-text-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-column-header-row-top-to-text-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-column-header-row-bottom-to-text-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-column-header-row-bottom-to-text-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-column-header-row-bottom-to-text-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-column-header-row-bottom-to-text-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-small-compact",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-medium-compact",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-large-compact",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-extra-large-compact",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-small-regular",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-medium-regular",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-large-regular",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-extra-large-regular",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-small-spacious",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-medium-spacious",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-large-spacious",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-height-extra-large-spacious",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-small-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-medium-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-large-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-extra-large-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-small-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-medium-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-large-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-extra-large-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-small-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-medium-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-large-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-extra-large-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-small-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-medium-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-large-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-extra-large-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-small-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-medium-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-large-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-top-to-text-extra-large-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-small-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-medium-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-large-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-bottom-to-text-extra-large-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-edge-to-content",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-border-divider-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-checkbox-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-header-row-checkbox-to-top-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-header-row-checkbox-to-top-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-header-row-checkbox-to-top-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-header-row-checkbox-to-top-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-small-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-small-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-small-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-medium-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-medium-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-medium-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-large-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-large-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-large-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-extra-large-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-extra-large-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-checkbox-to-top-extra-large-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-section-header-row-height-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-section-header-row-height-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-section-header-row-height-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-section-header-row-height-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-small-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-medium-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-large-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-extra-large-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-small-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-medium-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-large-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-extra-large-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-small-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-medium-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-large-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-thumbnail-to-top-minimum-extra-large-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-height-small",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-height-medium",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-height-large",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-height-extra-large",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-compact-height-small",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-compact-height-medium",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-compact-height-large",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-compact-height-extra-large",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-to-tab-item-horizontal-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-to-tab-item-horizontal-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-to-tab-item-horizontal-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-to-tab-item-horizontal-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-to-tab-item-vertical-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-to-tab-item-vertical-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-to-tab-item-vertical-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-to-tab-item-vertical-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-start-to-edge-quiet",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-start-to-edge-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-start-to-edge-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-start-to-edge-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-start-to-edge-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-text-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-bottom-to-text-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-text-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-bottom-to-text-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-text-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-bottom-to-text-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-text-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-bottom-to-text-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-text-compact-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-bottom-to-text-compact-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-text-compact-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-bottom-to-text-compact-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-text-compact-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-bottom-to-text-compact-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-text-compact-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-bottom-to-text-compact-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-workflow-icon-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-workflow-icon-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-workflow-icon-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-workflow-icon-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-workflow-icon-compact-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-workflow-icon-compact-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-workflow-icon-compact-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-top-to-workflow-icon-compact-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-focus-indicator-gap-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-focus-indicator-gap-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-focus-indicator-gap-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tab-item-focus-indicator-gap-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-maximum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-second-level-edge-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-third-level-edge-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-with-icon-second-level-edge-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-with-icon-third-level-edge-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-item-to-item",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-item-to-header",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-bottom-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tray-top-to-content-area",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-width-stacked-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-width-stacked-medium",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-width-stacked-large",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-width-stacked-extra-large",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-fill-stacked-inner-border-rounding",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-edge-to-fill",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-stacked-inner-edge-to-fill",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-edge-to-disclosure-icon-stacked-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-edge-to-disclosure-icon-stacked-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-edge-to-disclosure-icon-stacked-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-edge-to-disclosure-icon-stacked-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-outer-edge-to-disclosure-icon-stacked-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-outer-edge-to-disclosure-icon-stacked-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-outer-edge-to-disclosure-icon-stacked-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-outer-edge-to-disclosure-icon-stacked-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-inner-edge-to-disclosure-icon-stacked-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-inner-edge-to-disclosure-icon-stacked-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-inner-edge-to-disclosure-icon-stacked-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-inner-edge-to-disclosure-icon-stacked-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "arrow-icon-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "arrow-icon-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "arrow-icon-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "arrow-icon-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "arrow-icon-size-400",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "arrow-icon-size-500",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "arrow-icon-size-600",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "asterisk-icon-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "asterisk-icon-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "asterisk-icon-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "asterisk-icon-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkmark-icon-size-50",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkmark-icon-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkmark-icon-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkmark-icon-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkmark-icon-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkmark-icon-size-400",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkmark-icon-size-500",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "checkmark-icon-size-600",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chevron-icon-size-50",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chevron-icon-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chevron-icon-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chevron-icon-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chevron-icon-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chevron-icon-size-400",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chevron-icon-size-500",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chevron-icon-size-600",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cross-icon-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cross-icon-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cross-icon-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cross-icon-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cross-icon-size-400",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cross-icon-size-500",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cross-icon-size-600",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "dash-icon-size-50",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "dash-icon-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "dash-icon-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "dash-icon-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "dash-icon-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "dash-icon-size-400",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "dash-icon-size-500",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "dash-icon-size-600",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-header-to-item",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "divider-vertical-minimum-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "divider-horizontal-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tooltip-tip-corner-radius",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-handle-size-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-handle-selected-size-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-handle-selected-size-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-handle-selected-size-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-handle-selected-size-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-handle-size-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-handle-size-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "switch-handle-size-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-minimum-width-multiplier",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-maximum-width-multiplier",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-label-to-clear-icon-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-label-to-clear-icon-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-label-to-clear-icon-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-edge-to-clear-icon-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-edge-to-clear-icon-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-edge-to-clear-icon-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-line-height",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-size-l",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-size-m",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-size-s",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-size-xl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-size-xs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-size-xxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-size-xxxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-cjk-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-line-height",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-margin-bottom-multiplier",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-margin-top-multiplier",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-sans-serif-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-sans-serif-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-sans-serif-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-sans-serif-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-sans-serif-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-sans-serif-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-sans-serif-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-sans-serif-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-sans-serif-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-serif-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-serif-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-serif-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-serif-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-serif-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-serif-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-serif-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-serif-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-serif-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-size-l",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-size-m",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-size-s",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-size-xl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-size-xs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-size-xxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-size-xxxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "opacity-checkerboard-square-size-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-banner-top-to-alert-icon",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-spacious-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-default-width-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-default-width-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-default-width-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "field-default-width-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-minimum-width-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-minimum-width-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-minimum-width-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "combo-box-visual-to-field-button",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-edge-to-fill-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-edge-to-fill-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-edge-to-fill-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-button-edge-to-fill-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-progress-circle-edge-to-fill",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-progress-circle-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-progress-circle-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-progress-circle-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-progress-circle-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-dialog-description-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "alert-dialog-title-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-body-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-pagination-body-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-title-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-dialog-title-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-dialog-body-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-dialog-maximum-width-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-dialog-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-dialog-maximum-width-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-dialog-maximum-width-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "status-light-text-to-visual-75",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "status-light-text-to-visual-100",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "status-light-text-to-visual-200",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "status-light-text-to-visual-300",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "link-out-icon-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "link-out-icon-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "link-out-icon-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "link-out-icon-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "link-out-icon-size-400",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-label-to-description-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-label-to-description-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-label-to-description-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-label-to-description-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-section-header-to-description-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-section-header-to-description-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-section-header-to-description-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-section-header-to-description-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-top-to-thumbnail-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-top-to-thumbnail-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-top-to-thumbnail-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-top-to-thumbnail-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-background-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-small-title-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-small-cjk-title-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-medium-title-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-medium-cjk-title-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-large-title-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-large-cjk-title-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-small-body-font-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-medium-body-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-large-body-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-zone-title-font-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-zone-cjk-title-font-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-zone-body-font-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-separator-to-bottom-text-multiline",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-start-edge-to-text-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-start-edge-to-text-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-start-edge-to-text-multiline",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-top-to-separator-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-top-to-separator-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-top-to-separator-multiline",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-truncated-menu-to-separator",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-text-to-separator-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-text-to-separator-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "breadcrumbs-text-to-separator-multiline",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "contextual-help-body-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "contextual-help-title-font-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-indicator-collapsed-ring-rounding-increment",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-indicator-expanded-ring-rounding-increment",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-indicator-collapsed-ring-thickness",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-indicator-expanded-ring-thickness",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-indicator-collapsed-gap",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-indicator-expanded-gap",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-indicator-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-content-area-edge-to-content-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-content-area-edge-to-content-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-content-area-edge-to-content-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-content-area-edge-to-content-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-disclosure-indicator-to-text-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-disclosure-indicator-to-text-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-disclosure-indicator-to-text-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-disclosure-indicator-to-text-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-item-to-divider",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "meter-thickness-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "meter-thickness-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-opacity-checkerboard-square-size",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-corner-radius",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-bar-top-to-content-area",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-bar-bottom-to-content-area",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-bar-edge-to-content-area",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-bar-close-button-to-counter",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-bar-counter-font-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-group-spacing-spacious",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-group-border-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-border-width",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-group-size-50",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-group-size-75",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-group-size-100",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-group-size-200",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-group-size-300",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-group-size-400",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-group-size-500",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-to-avatar-50",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-to-avatar-75",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-to-avatar-100",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-to-avatar-200",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-to-avatar-300",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-to-avatar-400",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-to-avatar-500",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-size-xl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-size-l",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-size-m",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-size-s",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-size-xs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-panel-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-panel-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-panel-maximum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-panel-top-to-close-button-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-panel-top-to-close-button-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-panel-top-to-close-button-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-panel-edge-to-close-button-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-panel-edge-to-close-button-regular",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-panel-edge-to-close-button-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-panel-title-font-size",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-horizontal-maximum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "illustrated-message-vertical-maximum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "bar-panel-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "bar-panel-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "bar-panel-maximum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "bar-panel-spacing-extra-spacious",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "rating-top-to-content-area-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "rating-bottom-to-content-area-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "rating-edge-to-content-area-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "rating-top-to-content-area-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "rating-bottom-to-content-area-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "rating-edge-to-content-area-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "rating-width-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "rating-height-small",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "rating-width-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "rating-height-medium",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-horizontal-minimum-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-horizontal-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-vertical-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-edge-to-checkbox",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-horizontal-end-to-content",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-horizontal-illustration-to-label",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-horizontal-label-to-description",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-horizontal-start-to-content",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-horizontal-top-to-content",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-top-to-checkbox",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-vertical-edge-to-content",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-vertical-illustration-to-label",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-field-label-editable-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-field-label-editable-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-field-label-editable-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-field-label-editable-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-field-label-side-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-field-label-side-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-field-label-side-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-field-label-side-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-text-field-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-text-field-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-text-field-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-control-to-text-field-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "segmented-control-selection-border-width",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-height-precision-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-height-precision-medium",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-height-precision-large",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-height-precision-extra-large",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-medium",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-large",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-extra-large",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-handle-precision-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-track-height-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "slider-track-height-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "segmented-control-item-height",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-stepper-to-end-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-stepper-to-end-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-stepper-to-end-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "in-field-stepper-to-end-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "number-field-with-stepper-minimum-width-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "number-field-with-stepper-minimum-width-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "number-field-with-stepper-minimum-width-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "number-field-with-stepper-minimum-width-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "number-field-visual-to-in-field-stepper-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "number-field-visual-to-in-field-stepper-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "number-field-visual-to-in-field-stepper-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "number-field-visual-to-in-field-stepper-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "number-field-minimum-width-multiplier",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "takeover-dialog-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "takeover-dialog-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-disclosure-indicator-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-disclosure-indicator-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-minimum-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-bottom-to-label",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-drag-handle-to-checkbox",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-edge-to-checkbox",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-edge-to-drag-handle",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-end-edge-to-action-area",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-header-to-item",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-item-to-header",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-item-to-item",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-item-to-item-default",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-item-to-item-detached",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-label-to-action-area",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-level-increment",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-minimum-top-to-context-area",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-top-to-action-button",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-top-to-checkbox",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-top-to-disclosure-indicator",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-top-to-drag-handle",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-top-to-label",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-selected-row-background-opacity-emphasized",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-selected-row-background-opacity-emphasized-hover",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-bar-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-bar-label-to-action-group-area",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-compact-extra-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-default-extra-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-spacious-extra-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-compact-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-default-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-spacious-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-compact-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-default-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-spacious-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-compact-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-default-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-spacious-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-compact-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-default-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-edge-to-content-spacious-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-header-to-description",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-description-to-footer",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-selection-background-size-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-selection-background-size-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-selection-background-size-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-selection-background-size-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-minimum-width-extra-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-minimum-width-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-minimum-width-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-minimum-width-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-minimum-width-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-default-width-extra-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-default-width-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-default-width-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-default-width-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-default-width-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-maximum-width-extra-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-maximum-width-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-maximum-width-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-maximum-width-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-maximum-width-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-minimum-height-extra-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-minimum-height-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-minimum-height-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-minimum-height-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-minimum-height-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "collection-card-minimum-height-extra-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "collection-card-minimum-height-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "collection-card-minimum-height-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "collection-card-minimum-height-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "collection-card-minimum-height-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "collection-card-minimum-height-hero-extra-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "collection-card-minimum-height-hero-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "collection-card-minimum-height-hero-medium",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "collection-card-minimum-height-hero-large",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "collection-card-minimum-height-hero-extra-large",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "user-card-minimum-height-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "user-card-minimum-height-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "user-card-minimum-height-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "user-card-minimum-height-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "user-card-minimum-height-title-below-small",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "user-card-minimum-height-title-below-medium",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "user-card-minimum-height-title-below-large",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "user-card-minimum-height-title-below-extra-large",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "segmented-control-item-maximum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-step-default-width-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-step-default-width-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-step-default-width-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-step-default-width-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-step-default-height-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-step-default-height-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-step-default-height-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-step-default-height-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-visual-size-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-visual-size-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-visual-size-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-visual-size-extra-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-track-thickness-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-step-to-track-size-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-step-to-track-size-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-step-to-track-size-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-step-to-track-size-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "steplist-bottom-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-horizontal-edge-to-content-compact",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-horizontal-edge-to-content-default",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-horizontal-edge-to-content-spacious",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-edge-to-content-area-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-edge-to-content-area-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-edge-to-content-area-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-edge-to-content-area-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "single-calendar-popover-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "single-calendar-popover-minimum-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "double-calendar-popover-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "double-calendar-popover-minimum-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "triple-calendar-popover-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "triple-calendar-popover-minimum-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "date-field-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "date-field-text-to-visual",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "date-picker-visual-to-field-button",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "date-picker-text-to-visual",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "date-picker-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "time-field-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "time-field-text-to-visual",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "segmented-text-field-gap",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "segmented-text-field-rounding",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "add-icon-size-50",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "add-icon-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "add-icon-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "add-icon-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "add-icon-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drag-handle-icon-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drag-handle-icon-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drag-handle-icon-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drag-handle-icon-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gripper-icon-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-field-default-width-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-field-default-width-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-field-default-width-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-field-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-field-minimum-height-small",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-field-minimum-height-medium",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-field-minimum-height-large",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-field-edge-to-content-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-field-edge-to-content-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tag-field-edge-to-content-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "list-view-minimum-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "list-view-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "list-view-item-top-corner-radius",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "list-view-item-bottom-corner-radius",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "list-view-end-edge-to-content",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-selected-background-opacity-emphasized",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-selected-background-opacity-emphasized-hover",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-selected-background-opacity-emphasized-down",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-selected-background-opacity-emphasized-key-focus",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-header-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-start-edge-to-content",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-drag-handle-to-control",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-text-to-control",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-edge-to-control",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-edge-to-visual",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-action-to-navigation",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-header-to-item",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-item-to-item",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-bottom-to-text-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-extra-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-large",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-medium",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accordion-top-to-text-small",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-horizontal-minimum-width",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-counter-to-disclosure",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-edge-to-indicator",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-indicator-to-content",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-second-level-edge-to-indicator",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-second-level-with-icon-edge-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-second-level-with-icon-edge-to-indicator",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-third-level-edge-to-indicator",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-third-level-with-icon-edge-to-text",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-third-level-with-icon-edge-to-indicator",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-trailing-accessory-area-to-edge",
+      "category": "spacing",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-indicator-height",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "side-navigation-indicator-thickness",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    }
+  ],
+  "mismatches": [],
+  "errors": [],
+  "statistics": {
+    "byCategory": {
+      "component-property": {
+        "total": 236,
+        "matches": 236,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      },
+      "spacing": {
+        "total": 461,
+        "matches": 461,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      },
+      "special": {
+        "total": 193,
+        "matches": 193,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      },
+      "semantic-alias": {
+        "total": 80,
+        "matches": 80,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      },
+      "typography-base": {
+        "total": 27,
+        "matches": 27,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      }
+    }
+  }
+}

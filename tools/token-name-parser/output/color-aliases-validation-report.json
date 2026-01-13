@@ -1,0 +1,229 @@
+{
+  "total": 169,
+  "valid": 150,
+  "invalid": 19,
+  "byCategory": {
+    "semantic-alias": {
+      "total": 150,
+      "valid": 150,
+      "invalid": 0
+    },
+    "special": {
+      "total": 16,
+      "valid": 0,
+      "invalid": 16
+    },
+    "component-property": {
+      "total": 3,
+      "valid": 0,
+      "invalid": 3
+    }
+  },
+  "invalidTokens": [
+    {
+      "tokenName": "overlay-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "overlay-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "opacity-disabled",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "opacity-disabled",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "background-opacity-default",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "background-opacity-default",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "background-opacity-hover",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "background-opacity-hover",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "background-opacity-down",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "background-opacity-down",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "background-opacity-key-focus",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "background-opacity-key-focus",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-shadow-color-100",
+      "category": "component-property",
+      "errors": [
+        "/$schema must be equal to constant",
+        "/sets must have required property 'desktop'",
+        "/sets must have required property 'mobile'"
+      ],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "drop-shadow",
+        "property": "color",
+        "index": "100"
+      }
+    },
+    {
+      "tokenName": "drop-shadow-color-200",
+      "category": "component-property",
+      "errors": [
+        "/$schema must be equal to constant",
+        "/sets must have required property 'desktop'",
+        "/sets must have required property 'mobile'"
+      ],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "drop-shadow",
+        "property": "color",
+        "index": "200"
+      }
+    },
+    {
+      "tokenName": "drop-shadow-color-300",
+      "category": "component-property",
+      "errors": [
+        "/$schema must be equal to constant",
+        "/sets must have required property 'desktop'",
+        "/sets must have required property 'mobile'"
+      ],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "drop-shadow",
+        "property": "color",
+        "index": "300"
+      }
+    },
+    {
+      "tokenName": "drop-shadow-ambient-color",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-shadow-ambient-color",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-shadow-transition-color",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-shadow-transition-color",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-shadow-emphasized-key-color",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-shadow-emphasized-key-color",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-shadow-emphasized-hover-key-color",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-shadow-emphasized-hover-key-color",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-shadow-elevated-key-color",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-shadow-elevated-key-color",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-shadow-dragged-key-color",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-shadow-dragged-key-color",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-shadow-emphasized",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-shadow-emphasized",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-shadow-emphasized-hover",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-shadow-emphasized-hover",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-shadow-elevated",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-shadow-elevated",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-shadow-dragged",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-shadow-dragged",
+        "notes": "No index suffix detected"
+      }
+    }
+  ]
+}
