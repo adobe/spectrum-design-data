@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-system-registry",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A single source of truth for design system terminology used across Spectrum tokens, component schemas, and anatomy",
   "type": "module",
   "main": "index.js",

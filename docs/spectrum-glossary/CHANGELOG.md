@@ -1,5 +1,29 @@
 # Changelog
 
+## 2.0.0
+
+### Major Changes
+
+- [#660](https://github.com/adobe/spectrum-design-data/pull/660) [`4051014`](https://github.com/adobe/spectrum-design-data/commit/4051014951c5c68c01b69be5ee156b4fc8fe98ed) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(docs): add Spectrum Design System Glossary web viewer
+
+  Comprehensive, searchable web interface for browsing Spectrum Design System
+  terminology with 179 terms across 11 registries.
+
+  **Key Features:**
+  - Full-text search with Fuse.js and advanced filters
+  - 21 enhanced definitions with platform-specific variations
+  - Static JSON API for programmatic access
+  - Dark mode, mobile responsive, WCAG 2.1 AA compliant
+  - Built with 11ty + Spectrum Web Components
+  - Integrated into main docs deployment workflow
+
+  **URL:** https://adobe.github.io/spectrum-design-data/glossary/
+
+### Patch Changes
+
+- Updated dependencies [[`4051014`](https://github.com/adobe/spectrum-design-data/commit/4051014951c5c68c01b69be5ee156b4fc8fe98ed)]:
+  - @adobe/design-system-registry@1.1.0
+
 All notable changes to the Spectrum Design System Glossary will be documented in this file.
 
 ## [1.0.0] - 2026-01-13
@@ -25,12 +49,14 @@ All notable changes to the Spectrum Design System Glossary will be documented in
 ### Features
 
 #### Core Functionality
+
 - Searchable interface with real-time results
 - Keyboard shortcuts (⌘K / Ctrl+K for search)
 - Category-based navigation
 - Alphabet navigation for long lists
 
 #### Term Detail Pages
+
 - Comprehensive definitions with superordinates
 - Essential characteristics lists
 - Platform variations with tabs
@@ -40,6 +66,7 @@ All notable changes to the Spectrum Design System Glossary will be documented in
 - Related terms suggestions
 
 #### Static JSON API
+
 - `/api/v1/glossary.json` - All terms
 - `/api/v1/search-index.json` - Optimized search index
 - `/api/v1/terms/{termId}.json` - Individual term data
@@ -48,6 +75,7 @@ All notable changes to the Spectrum Design System Glossary will be documented in
 - `/api/v1/stats.json` - Usage statistics
 
 #### Developer Experience
+
 - 11ty static site generation
 - Spectrum Web Components integration
 - ES modules support
