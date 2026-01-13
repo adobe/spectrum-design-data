@@ -1,0 +1,46 @@
+$schema: "https://moonrepo.dev/schemas/project.json"
+
+type: application
+language: javascript
+platform: node
+
+fileGroups:
+  sources:
+    - "src/**/*"
+  assets:
+    - "src/assets/**/*"
+  scripts:
+    - "scripts/**/*"
+  configs:
+    - ".eleventy.js"
+    - "package.json"
+
+tasks:
+  build:
+    command: pnpm build
+    platform: node
+    inputs:
+      - "@group(sources)"
+      - "@group(assets)"
+      - "@group(scripts)"
+      - "@group(configs)"
+      - "~:design-system-registry"
+    outputs:
+      - "dist"
+
+  export:
+    command: ./scripts/export-to-site.sh
+    deps:
+      - ~:build
+    platform: system
+    outputs:
+      - /site/glossary/
+
+  dev:
+    command: pnpm start
+    platform: node
+    local: true
+
+  clean:
+    command: pnpm clean
+    platform: node

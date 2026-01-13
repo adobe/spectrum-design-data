@@ -93,6 +93,32 @@ for (const file of registryFiles) {
     hasErrors = true;
   }
 
+  // Check that relatedTerms reference valid IDs
+  for (const value of registry.values) {
+    if (value.relatedTerms) {
+      for (const relatedId of value.relatedTerms) {
+        if (!ids.has(relatedId)) {
+          console.error(
+            `  ❌ Invalid relatedTerm "${relatedId}" in ${value.id} (term does not exist)`,
+          );
+          hasErrors = true;
+        }
+      }
+    }
+  }
+
+  // Check that governance.replacedBy references valid IDs
+  for (const value of registry.values) {
+    if (value.governance?.replacedBy) {
+      if (!ids.has(value.governance.replacedBy)) {
+        console.error(
+          `  ❌ Invalid governance.replacedBy "${value.governance.replacedBy}" in ${value.id} (term does not exist)`,
+        );
+        hasErrors = true;
+      }
+    }
+  }
+
   if (!hasErrors) {
     console.log(`  ✅ Valid (${registry.values.length} values)`);
   }

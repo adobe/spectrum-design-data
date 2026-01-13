@@ -85,6 +85,144 @@
           "type": "string",
           "format": "uri",
           "description": "URL to documentation"
+        },
+        "definition": {
+          "type": "object",
+          "description": "Structured definition following Spectrum naming methodology",
+          "properties": {
+            "superordinate": {
+              "type": "string",
+              "description": "The higher-level category or class this term belongs to"
+            },
+            "description": {
+              "type": "string",
+              "description": "Core definition explaining what it is and how it differs"
+            },
+            "essentialCharacteristics": {
+              "type": "array",
+              "description": "Key characteristics that distinguish this term",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "platforms": {
+          "type": "object",
+          "description": "Platform-specific terminology and notes",
+          "patternProperties": {
+            ".*": {
+              "type": "object",
+              "properties": {
+                "term": {
+                  "type": "string",
+                  "description": "Platform-specific term or name"
+                },
+                "notes": {
+                  "type": "string",
+                  "description": "Platform-specific implementation notes"
+                },
+                "reference": {
+                  "type": "string",
+                  "description": "Platform documentation reference"
+                }
+              }
+            }
+          }
+        },
+        "terminology": {
+          "type": "object",
+          "description": "Terminology metadata and classification",
+          "properties": {
+            "conceptType": {
+              "type": "string",
+              "enum": ["word", "term", "name", "concept"],
+              "description": "Classification per Spectrum naming guide"
+            },
+            "namingRationale": {
+              "type": "string",
+              "description": "Why this name was chosen"
+            },
+            "alternatives": {
+              "type": "array",
+              "description": "Alternative terms considered but not used",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "sources": {
+          "type": "array",
+          "description": "References to source documentation",
+          "items": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "wiki",
+                  "industry-standard",
+                  "platform-standard",
+                  "internal-doc",
+                  "research"
+                ],
+                "description": "Type of source"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to source"
+              },
+              "reference": {
+                "type": "string",
+                "description": "Text reference or citation"
+              },
+              "date": {
+                "type": "string",
+                "format": "date",
+                "description": "Date of source or last update"
+              }
+            }
+          }
+        },
+        "governance": {
+          "type": "object",
+          "description": "Governance and ownership metadata",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "Team or person responsible for this term"
+            },
+            "reviewDate": {
+              "type": "string",
+              "format": "date",
+              "description": "Last review date"
+            },
+            "nextReviewDate": {
+              "type": "string",
+              "format": "date",
+              "description": "Scheduled next review date"
+            },
+            "status": {
+              "type": "string",
+              "enum": ["draft", "review", "approved", "deprecated"],
+              "description": "Current status of this term"
+            },
+            "replacedBy": {
+              "type": "string",
+              "description": "If deprecated, the term that replaces this one"
+            }
+          }
+        },
+        "relatedTerms": {
+          "type": "array",
+          "description": "Related or cross-referenced terms",
+          "items": {
+            "type": "string",
+            "description": "ID of related term"
+          }
         }
       }
     }

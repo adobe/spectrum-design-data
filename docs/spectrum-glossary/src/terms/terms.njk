@@ -1,0 +1,225 @@
+---
+pagination:
+  data: collections.allTerms
+  size: 1
+  alias: term
+permalink: "/terms/{{ term.registryType }}/{{ term.id }}/index.html"
+eleventyComputed:
+  title: "{{ term.label or term.id }}"
+layout: layouts/base.njk
+---
+
+{% set title = term.label or term.id %}
+{% set description = term.definition.description if term.definition else term.description %}
+
+<article class="term-detail">
+  <header class="term-header">
+    <div class="term-title-section">
+      <h1>{{ term.label or term.id }}</h1>
+      <code class="term-id">{{ term.id }}</code>
+    </div>
+    
+    <div class="term-badges">
+      {% if term.default %}
+        <span class="badge badge-default">Default</span>
+      {% endif %}
+      {% if term.definition %}
+        <span class="badge badge-enhanced">Enhanced</span>
+      {% endif %}
+      {% if term.governance and term.governance.status %}
+        <span class="badge badge-status-{{ term.governance.status }}">{{ term.governance.status }}</span>
+      {% endif %}
+      <span class="badge badge-registry">{{ term.registryLabel or term.registryType }}</span>
+    </div>
+  </header>
+
+  {% if term.definition %}
+    <section class="definition-section">
+      <h2>Definition</h2>
+      <div class="definition-content">
+        {% if term.definition.superordinate %}
+          <p class="superordinate">{{ term.definition.superordinate }}</p>
+        {% endif %}
+        
+        <p class="definition-description">{{ term.definition.description }}</p>
+        
+        {% if term.definition.essentialCharacteristics and term.definition.essentialCharacteristics.length > 0 %}
+          <div class="essential-characteristics">
+            <h3>Essential Characteristics</h3>
+            <ul>
+              {% for char in term.definition.essentialCharacteristics %}
+                <li>{{ char }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  {% elif term.description %}
+    <section class="description-section">
+      <h2>Description</h2>
+      <p>{{ term.description }}</p>
+    </section>
+  {% endif %}
+
+  {% if term.aliases and term.aliases.length > 0 %}
+    <section class="aliases-section">
+      <h3>Aliases</h3>
+      <ul class="aliases-list">
+        {% for alias in term.aliases %}
+          <li><code>{{ alias }}</code></li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+
+  {% if term.usedIn and term.usedIn.length > 0 %}
+    <section class="usage-section">
+      <h3>Used In</h3>
+      <div class="usage-badges">
+        {% for use in term.usedIn %}
+          <span class="usage-badge">{{ use }}</span>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
+  {% if term.platforms %}
+    <section class="platforms-section">
+      <h2>Platform Variations</h2>
+      <sp-tabs selected="0">
+        {% for platformKey, platformData in term.platforms %}
+          <sp-tab label="{{ platformKey }}" value="{{ loop.index0 }}"></sp-tab>
+        {% endfor %}
+        
+        {% for platformKey, platformData in term.platforms %}
+          <sp-tab-panel value="{{ loop.index0 }}">
+            <div class="platform-content">
+              {% if platformData.term %}
+                <div class="platform-term">
+                  <strong>Platform Term:</strong> <code>{{ platformData.term }}</code>
+                </div>
+              {% endif %}
+              
+              {% if platformData.notes %}
+                <div class="platform-notes">
+                  <strong>Notes:</strong>
+                  <p>{{ platformData.notes }}</p>
+                </div>
+              {% endif %}
+              
+              {% if platformData.reference %}
+                <div class="platform-reference">
+                  <strong>Reference:</strong>
+                  <a href="{{ platformData.reference }}" target="_blank" rel="noopener noreferrer">
+                    {{ platformData.reference }}
+                  </a>
+                </div>
+              {% endif %}
+              
+              {% if platformData.codeExample %}
+                <div class="platform-code">
+                  <strong>Code Example:</strong>
+                  <pre><code>{{ platformData.codeExample }}</code></pre>
+                </div>
+              {% endif %}
+            </div>
+          </sp-tab-panel>
+        {% endfor %}
+      </sp-tabs>
+    </section>
+  {% endif %}
+
+  {% if term.terminology %}
+    <section class="terminology-section">
+      <h2>Terminology Metadata</h2>
+      <dl class="terminology-metadata">
+        {% if term.terminology.conceptType %}
+          <dt>Concept Type</dt>
+          <dd><span class="badge">{{ term.terminology.conceptType }}</span></dd>
+        {% endif %}
+        
+        {% if term.terminology.namingRationale %}
+          <dt>Naming Rationale</dt>
+          <dd>{{ term.terminology.namingRationale }}</dd>
+        {% endif %}
+        
+        {% if term.terminology.alternativesConsidered and term.terminology.alternativesConsidered.length > 0 %}
+          <dt>Alternatives Considered</dt>
+          <dd>
+            <ul>
+              {% for alt in term.terminology.alternativesConsidered %}
+                <li>{{ alt }}</li>
+              {% endfor %}
+            </ul>
+          </dd>
+        {% endif %}
+      </dl>
+    </section>
+  {% endif %}
+
+  {% if term.sources and term.sources.length > 0 %}
+    <section class="sources-section">
+      <h3>Sources</h3>
+      <ul class="sources-list">
+        {% for source in term.sources %}
+          <li>
+            {% if source.url %}
+              <a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">
+                {{ source.title or source.url }}
+              </a>
+            {% else %}
+              {{ source.title or source }}
+            {% endif %}
+            {% if source.date %}
+              <span class="source-date">({{ source.date }})</span>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+
+  {% if term.governance %}
+    <section class="governance-section">
+      <h3>Governance</h3>
+      <dl class="governance-metadata">
+        {% if term.governance.owner %}
+          <dt>Owner</dt>
+          <dd>{{ term.governance.owner }}</dd>
+        {% endif %}
+        
+        {% if term.governance.reviewDate %}
+          <dt>Review Date</dt>
+          <dd>{{ term.governance.reviewDate }}</dd>
+        {% endif %}
+        
+        {% if term.governance.status %}
+          <dt>Status</dt>
+          <dd><span class="badge badge-status-{{ term.governance.status }}">{{ term.governance.status }}</span></dd>
+        {% endif %}
+      </dl>
+    </section>
+  {% endif %}
+
+  {% if term.relatedTerms %}
+    {% from "components/related-terms.njk" import relatedTerms %}
+    {{ relatedTerms(term.relatedTerms, collections.allTerms) }}
+  {% endif %}
+
+  <section class="export-section">
+    <h3>Export</h3>
+    <div class="export-actions">
+      <sp-button size="s" onclick="copyJSON()">Copy JSON</sp-button>
+      <sp-button size="s" href="/api/v1/terms/{{ term.id }}.json">View JSON</sp-button>
+    </div>
+  </section>
+</article>
+
+<script>
+function copyJSON() {
+  const termData = {{ term | dump | safe }};
+  navigator.clipboard.writeText(JSON.stringify(termData, null, 2));
+  alert('JSON copied to clipboard!');
+}
+</script>

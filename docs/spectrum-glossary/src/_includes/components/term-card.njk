@@ -1,0 +1,42 @@
+{% macro termCard(term) %}
+<article class="term-card">
+  <header class="term-card-header">
+    <h3><a href="/terms/{{ term.registryType }}/{{ term.id }}/">{{ term.label or term.id }}</a></h3>
+    <div class="term-badges">
+      {% if term.default %}
+        <span class="badge badge-default">Default</span>
+      {% endif %}
+      {% if term.definition %}
+        <span class="badge badge-enhanced">Enhanced</span>
+      {% endif %}
+      {% if term.governance and term.governance.status %}
+        <span class="badge badge-status-{{ term.governance.status }}">{{ term.governance.status }}</span>
+      {% endif %}
+    </div>
+  </header>
+  
+  <div class="term-card-body">
+    {% if term.definition and term.definition.description %}
+      <p class="term-description">{{ term.definition.description }}</p>
+    {% elif term.description %}
+      <p class="term-description">{{ term.description }}</p>
+    {% endif %}
+    
+    {% if term.usedIn and term.usedIn.length > 0 %}
+      <div class="term-usage">
+        <span class="usage-label">Used in:</span>
+        {% for use in term.usedIn %}
+          <span class="usage-badge">{{ use }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  
+  <footer class="term-card-footer">
+    <span class="registry-type">{{ term.registryLabel or term.registryType }}</span>
+    {% if term.platforms %}
+      <span class="platform-count">{{ term.platforms | length }} platforms</span>
+    {% endif %}
+  </footer>
+</article>
+{% endmacro %}

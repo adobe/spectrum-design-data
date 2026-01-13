@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -48,6 +48,18 @@ export const categories = JSON.parse(
 
 export const platforms = JSON.parse(
   readFileSync(join(__dirname, "registry", "platforms.json"), "utf-8"),
+);
+
+export const navigationTerms = JSON.parse(
+  readFileSync(join(__dirname, "registry", "navigation-terms.json"), "utf-8"),
+);
+
+export const tokenTerminology = JSON.parse(
+  readFileSync(join(__dirname, "registry", "token-terminology.json"), "utf-8"),
+);
+
+export const glossary = JSON.parse(
+  readFileSync(join(__dirname, "registry", "glossary.json"), "utf-8"),
 );
 
 /**
@@ -97,4 +109,81 @@ export function getDefault(registry) {
  */
 export function getActiveValues(registry) {
   return registry.values.filter((v) => !v.deprecated);
+}
+
+/**
+ * Load a platform extension file
+ * @param {string} extensionPath - Path to the extension JSON file
+ * @returns {object} The extension object
+ */
+export function loadPlatformExtension(extensionPath) {
+  return JSON.parse(readFileSync(extensionPath, "utf-8"));
+}
+
+/**
+ * Get platform-specific term for a registry value
+ * @param {object} registry - The base registry object
+ * @param {string} termId - The term ID to look up
+ * @param {string} platform - The platform name
+ * @param {object} extension - Optional: The platform extension object
+ * @returns {object|undefined} Platform-specific term info or undefined
+ */
+export function getTermForPlatform(registry, termId, platform, extension) {
+  // First, find the base term
+  const baseTerm = findValue(registry, termId);
+  if (!baseTerm) return undefined;
+
+  // Check if the term has platform-specific info in its platforms property
+  if (baseTerm.platforms && baseTerm.platforms[platform]) {
+    return {
+      ...baseTerm,
+      platform: baseTerm.platforms[platform],
+    };
+  }
+
+  // If extension is provided, check for platform-specific overrides
+  if (extension && extension.platform === platform) {
+    const ext = extension.extensions.find((e) => e.termId === termId);
+    if (ext) {
+      return {
+        ...baseTerm,
+        platform: {
+          term: ext.platformTerm || baseTerm.label,
+          aliases: ext.platformAliases,
+          notes: ext.notes,
+          reference: ext.reference,
+          codeExample: ext.codeExample,
+          differences: ext.differences,
+        },
+      };
+    }
+  }
+
+  // Return base term if no platform-specific info found
+  return baseTerm;
+}
+
+/**
+ * Get all extensions for a specific platform
+ * @param {array} extensions - Array of extension objects
+ * @param {string} platform - The platform name
+ * @returns {array} Array of extensions for the platform
+ */
+export function getPlatformExtensions(extensions, platform) {
+  return extensions.filter((ext) => ext.platform === platform);
+}
+
+/**
+ * Load all platform extensions from a directory
+ * @param {string} extensionsDir - Path to the extensions directory
+ * @returns {array} Array of loaded extension objects
+ */
+export function loadAllPlatformExtensions(extensionsDir) {
+  const extensionFiles = readdirSync(extensionsDir).filter((f) =>
+    f.endsWith(".json"),
+  );
+
+  return extensionFiles.map((file) =>
+    loadPlatformExtension(join(extensionsDir, file)),
+  );
 }

@@ -10,14 +10,29 @@ The Design System Registry provides a centralized, validated registry of termino
 
 The package includes the following registries:
 
+### Core Registries
+
 * **sizes.json** - Size scale values (xs, s, m, l, xl, xxl, xxxl, numeric sizes)
-* **states.json** - Interaction states (default, hover, focus, disabled, etc.)
+* **states.json** - Interaction states (default, hover, focus, disabled, etc.) with enhanced definitions
 * **variants.json** - Color and style variants (accent, negative, primary, etc.)
 * **anatomy-terms.json** - Anatomical part names (edge, visual, text, icon, etc.)
 * **components.json** - Spectrum component names
 * **scale-values.json** - Numeric scale values (50, 75, 100, 200, etc.)
 * **categories.json** - Component categories (actions, inputs, navigation, etc.)
 * **platforms.json** - Platform names (desktop, mobile, web, iOS, Android)
+
+### Glossary Registries
+
+* **glossary.json** - General design system terminology and concepts
+* **navigation-terms.json** - Navigation-specific terminology (side navigation, header, nav items, etc.)
+* **token-terminology.json** - Token-specific concepts (component, object, scale, property, edge, visual)
+
+### Platform Extensions
+
+Platform-specific terminology extensions are available in `registry/platform-extensions/`:
+
+* **ios-states.json** - iOS-specific state terminology (UIControl.State, etc.)
+* **web-components-states.json** - Web Components state terminology (CSS pseudo-classes, etc.)
 
 ## Installation
 
@@ -31,6 +46,7 @@ pnpm add @adobe/design-system-registry
 
 ```javascript
 import {
+  // Core registries
   sizes,
   states,
   variants,
@@ -38,12 +54,37 @@ import {
   components,
   scaleValues,
   categories,
-  platforms
+  platforms,
+  
+  // Glossary registries
+  glossary,
+  navigationTerms,
+  tokenTerminology
 } from '@adobe/design-system-registry';
 
 // Access registry values
 console.log(sizes.values); // Array of size values
-console.log(states.values); // Array of state values
+console.log(states.values); // Array of state values with enhanced definitions
+console.log(glossary.values); // General glossary terms
+```
+
+### Enhanced Definitions
+
+Many registry values now include rich definitions following the [Spectrum Naming and Definition Writing Guide](https://wiki.corp.adobe.com/display/AdobeDesign/Spectrum+Design+System%3A+Naming+and+definition+writing+guide):
+
+```javascript
+import { states } from '@adobe/design-system-registry';
+
+const hoverState = states.values.find(v => v.id === 'hover');
+
+console.log(hoverState.definition.superordinate); // "interaction state"
+console.log(hoverState.definition.description); // Full definition
+console.log(hoverState.definition.essentialCharacteristics); // Array of key features
+console.log(hoverState.platforms.web); // Web-specific info
+console.log(hoverState.platforms.iOS); // iOS-specific info
+console.log(hoverState.sources); // Documentation references
+console.log(hoverState.governance); // Ownership and status
+console.log(hoverState.relatedTerms); // Cross-references
 ```
 
 ### Using Helper Functions
@@ -111,6 +152,8 @@ Each registry file follows this JSON structure:
 
 ### Value Properties
 
+#### Basic Properties
+
 * **id** (required): Unique identifier
 * **label** (required): Human-readable label
 * **aliases**: Alternative names or spellings
@@ -121,6 +164,17 @@ Each registry file follows this JSON structure:
 * **category**: Category or grouping
 * **value**: Actual value if different from ID
 * **documentationUrl**: URL to documentation
+
+#### Enhanced Glossary Properties
+
+* **definition**: Structured definition (superordinate, description, essentialCharacteristics)
+* **platforms**: Platform-specific terminology and notes
+* **terminology**: Classification and naming rationale (conceptType, namingRationale, alternatives)
+* **sources**: References to source documentation
+* **governance**: Ownership and review metadata (owner, reviewDate, status, replacedBy)
+* **relatedTerms**: IDs of related terms
+
+See [AUTHORING.md](AUTHORING.md) for detailed documentation on using these properties.
 
 ## Validation
 
@@ -141,6 +195,32 @@ The validation script checks for:
 * Duplicate aliases within a registry
 * Multiple default values
 * Required fields
+* Valid relatedTerms references
+* Valid governance.replacedBy references
+
+### Working with Platform Extensions
+
+Platform teams can extend the registry with platform-specific terminology:
+
+```javascript
+import { 
+  states, 
+  getTermForPlatform,
+  loadPlatformExtension 
+} from '@adobe/design-system-registry';
+
+// Load platform extension
+const iosStates = loadPlatformExtension('./registry/platform-extensions/ios-states.json');
+
+// Get platform-specific term
+const hoverTerm = getTermForPlatform(states, 'hover', 'iOS', iosStates);
+
+console.log(hoverTerm.platform.term); // "highlighted"
+console.log(hoverTerm.platform.reference); // "UIControl.State.highlighted"
+console.log(hoverTerm.platform.codeExample); // "button.isHighlighted = true"
+```
+
+See [PLATFORM\_EXTENSIONS.md](PLATFORM_EXTENSIONS.md) for detailed documentation.
 
 ## Development
 

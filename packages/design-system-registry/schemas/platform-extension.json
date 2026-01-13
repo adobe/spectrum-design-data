@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/platform-extension.json",
+  "title": "Platform Extension",
+  "description": "Schema for platform-specific terminology extensions",
+  "type": "object",
+  "required": ["platform", "extends", "extensions"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "platform": {
+      "type": "string",
+      "description": "The platform this extension is for (e.g., iOS, Android, Web Components, Qt)"
+    },
+    "platformVersion": {
+      "type": "string",
+      "description": "Optional platform version or framework version"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what this extension provides"
+    },
+    "extends": {
+      "type": "string",
+      "description": "Which registry this extends (sizes, states, variants, etc.)"
+    },
+    "extensions": {
+      "type": "array",
+      "description": "Array of term extensions",
+      "items": {
+        "$ref": "#/$defs/extension"
+      }
+    }
+  },
+  "$defs": {
+    "extension": {
+      "type": "object",
+      "required": ["termId"],
+      "properties": {
+        "termId": {
+          "type": "string",
+          "description": "The ID of the term being extended (must exist in the base registry)"
+        },
+        "platformTerm": {
+          "type": "string",
+          "description": "Platform-specific term or name"
+        },
+        "platformAliases": {
+          "type": "array",
+          "description": "Platform-specific aliases",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string",
+          "description": "Platform-specific implementation notes"
+        },
+        "reference": {
+          "type": "string",
+          "description": "Platform documentation reference or API name"
+        },
+        "codeExample": {
+          "type": "string",
+          "description": "Code example showing platform usage"
+        },
+        "differences": {
+          "type": "array",
+          "description": "Key differences from the base term",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

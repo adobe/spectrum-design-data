@@ -1,0 +1,58 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/platform-extension.json",
+  "platform": "Web Components",
+  "platformVersion": "Spectrum Web Components 0.x+",
+  "description": "Web Components-specific terminology for interaction states",
+  "extends": "states",
+  "extensions": [
+    {
+      "termId": "hover",
+      "platformTerm": "hover",
+      "notes": "Implemented via CSS :hover pseudo-class",
+      "reference": ":hover pseudo-class",
+      "codeExample": ":host(:hover) { ... }",
+      "differences": [
+        "Automatically handled by browser CSS",
+        "Works with any pointing device",
+        "No JavaScript required for basic hover states"
+      ]
+    },
+    {
+      "termId": "focus",
+      "platformTerm": "focused",
+      "platformAliases": ["focus"],
+      "notes": "Uses :focus and :focus-visible pseudo-classes",
+      "reference": ":focus-visible",
+      "codeExample": ":host(:focus-visible) { ... }",
+      "differences": [
+        "Distinguishes between programmatic and user-initiated focus",
+        ":focus-visible shows focus ring only for keyboard navigation",
+        "Better accessibility with :focus-visible support"
+      ]
+    },
+    {
+      "termId": "disabled",
+      "platformTerm": "disabled",
+      "notes": "Implemented via disabled attribute and :disabled pseudo-class",
+      "reference": "disabled attribute",
+      "codeExample": "<sp-button disabled>Label</sp-button>",
+      "differences": [
+        "Uses standard HTML disabled attribute",
+        "Prevents all interactions automatically",
+        "Affects tab order and screen reader behavior"
+      ]
+    },
+    {
+      "termId": "keyboard-focus",
+      "platformTerm": "focus-visible",
+      "notes": "Modern CSS uses :focus-visible for keyboard-only focus indication",
+      "reference": ":focus-visible pseudo-class",
+      "codeExample": ":host(:focus-visible) { outline: 2px solid blue; }",
+      "differences": [
+        "Only shows focus indicator for keyboard navigation",
+        "Hides focus ring for mouse/touch interactions",
+        "Improves UX while maintaining accessibility"
+      ]
+    }
+  ]
+}

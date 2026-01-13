@@ -1,0 +1,68 @@
+---
+layout: layouts/base.njk
+title: Home
+description: Spectrum Design System Glossary - A comprehensive collection of design terminology
+---
+
+<div class="hero-section">
+  <h1>Spectrum Design System Glossary</h1>
+  <p class="hero-description">
+    A comprehensive, searchable collection of design system terminology with {{ registry.stats.totalTerms }} terms 
+    across {{ registry.stats.registries }} registries, including {{ registry.stats.enhancedTerms }} enhanced definitions 
+    with platform-specific variations.
+  </p>
+  
+  {% include "components/search.njk" %}
+</div>
+
+<section class="stats-section">
+  <div class="stat-card">
+    <div class="stat-number">{{ registry.stats.totalTerms }}</div>
+    <div class="stat-label">Total Terms</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number">{{ registry.stats.enhancedTerms }}</div>
+    <div class="stat-label">Enhanced Definitions</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number">{{ registry.stats.registries }}</div>
+    <div class="stat-label">Registries</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number">{{ registry.stats.platforms }}</div>
+    <div class="stat-label">Platforms</div>
+  </div>
+</section>
+
+<section class="categories-section">
+  <h2>Browse by Category</h2>
+  <div class="category-grid">
+    {% for category in collections.categories %}
+      <a href="/categories/{{ category.id }}/" class="category-card">
+        <h3>{{ category.label }}</h3>
+        {% if category.description %}
+          <p>{{ category.description }}</p>
+        {% endif %}
+        <div class="category-count">{{ category.terms.length }} terms</div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="featured-terms-section">
+  <h2>Featured Terms</h2>
+  <div class="terms-grid">
+    {% set enhancedTerms = collections.allTerms | hasDefinition | sortByLabel | limit(6) %}
+    {% for term in enhancedTerms %}
+      {% from "components/term-card.njk" import termCard %}
+      {{ termCard(term) }}
+    {% endfor %}
+  </div>
+  <div class="view-all-link">
+    <a href="/categories/states/" class="view-all-button">View All Terms</a>
+  </div>
+</section>
+
+{% block scripts %}
+<script type="module" src="/assets/js/search.js"></script>
+{% endblock %}
