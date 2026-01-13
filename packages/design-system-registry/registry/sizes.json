@@ -1,0 +1,152 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "size",
+  "description": "Standard size scale values used across Spectrum",
+  "values": [
+    {
+      "id": "xs",
+      "label": "Extra Small",
+      "aliases": ["extra-small"],
+      "usedIn": ["component-options", "component-schemas"]
+    },
+    {
+      "id": "s",
+      "label": "Small",
+      "aliases": ["small"],
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "m",
+      "label": "Medium",
+      "aliases": ["medium"],
+      "default": true,
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "l",
+      "label": "Large",
+      "aliases": ["large"],
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "xl",
+      "label": "Extra Large",
+      "aliases": ["extra-large"],
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "xxl",
+      "label": "2X Large",
+      "aliases": [],
+      "usedIn": ["component-options", "component-schemas"]
+    },
+    {
+      "id": "xxxl",
+      "label": "3X Large",
+      "aliases": [],
+      "usedIn": ["component-options", "component-schemas"]
+    },
+    {
+      "id": "50",
+      "label": "Size 50",
+      "aliases": [],
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "75",
+      "label": "Size 75",
+      "aliases": [],
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "100",
+      "label": "Size 100",
+      "aliases": [],
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "200",
+      "label": "Size 200",
+      "aliases": [],
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "300",
+      "label": "Size 300",
+      "aliases": [],
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "400",
+      "label": "Size 400",
+      "aliases": [],
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "500",
+      "label": "Size 500",
+      "aliases": [],
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "600",
+      "label": "Size 600",
+      "aliases": [],
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "700",
+      "label": "Size 700",
+      "aliases": [],
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "800",
+      "label": "Size 800",
+      "aliases": [],
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "900",
+      "label": "Size 900",
+      "aliases": [],
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "1000",
+      "label": "Size 1000",
+      "aliases": [],
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "1100",
+      "label": "Size 1100",
+      "aliases": [],
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "1200",
+      "label": "Size 1200",
+      "aliases": [],
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "1300",
+      "label": "Size 1300",
+      "aliases": [],
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "1400",
+      "label": "Size 1400",
+      "aliases": [],
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "1500",
+      "label": "Size 1500",
+      "aliases": [],
+      "usedIn": ["component-schemas"]
+    }
+  ]
+}

@@ -1,0 +1,211 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "token-term",
+  "description": "Token-specific terminology for design token naming and structure",
+  "values": [
+    {
+      "id": "component",
+      "label": "Component",
+      "description": "In token naming, refers to the UI component the token is designed for",
+      "usedIn": ["tokens"],
+      "definition": {
+        "superordinate": "token name part",
+        "description": "A segment in a design token name that specifies which UI component or element the token value is intended for",
+        "essentialCharacteristics": [
+          "Appears in token names like 'button-background-color' or 'component-edge-to-text'",
+          "Helps scope tokens to specific UI elements",
+          "May be generic ('component') or specific ('button', 'checkbox')",
+          "Improves token discoverability and organization"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Standard term in design token methodology for component-specific tokens"
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "Spectrum Tokens Wiki - Terminology",
+          "url": "https://wiki.corp.adobe.com/display/AdobeDesign/Spectrum+tokens",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["object", "scale", "property"]
+    },
+    {
+      "id": "object",
+      "label": "Object",
+      "description": "In token naming, refers to the specific part or element being styled",
+      "usedIn": ["tokens"],
+      "definition": {
+        "superordinate": "token name part",
+        "description": "A segment in a design token name that specifies what part of a component is being styled (text, icon, border, etc.)",
+        "essentialCharacteristics": [
+          "Appears in token names like 'component-edge-to-text' or 'button-background'",
+          "Identifies the specific element receiving the design value",
+          "Common objects include: text, icon, visual, control, border, background",
+          "Helps create semantic, meaningful token names"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Describes what is being styled or measured in a design token"
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "Spectrum Tokens Wiki - Terminology",
+          "url": "https://wiki.corp.adobe.com/display/AdobeDesign/Spectrum+tokens",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["component", "property", "edge", "visual"]
+    },
+    {
+      "id": "scale",
+      "label": "Scale",
+      "description": "In token naming, refers to the size or intensity level",
+      "usedIn": ["tokens"],
+      "definition": {
+        "superordinate": "token name part",
+        "description": "A segment in a design token name that indicates size, spacing, or intensity using numeric values (50, 75, 100, etc.) or t-shirt sizes (s, m, l, xl)",
+        "essentialCharacteristics": [
+          "Provides graduated steps for spacing, sizing, and other properties",
+          "Common numeric scales: 50, 75, 100, 200, 300, 400, 500",
+          "T-shirt sizes also used: xs, s, m, l, xl, xxl, xxxl",
+          "Enables consistent scaling across the design system"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Indicates relative size or intensity in a graduated system"
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "Spectrum Tokens Wiki - Scale Values",
+          "url": "https://wiki.corp.adobe.com/display/AdobeDesign/Spectrum+tokens",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["component", "property"]
+    },
+    {
+      "id": "property",
+      "label": "Property",
+      "description": "In token naming, refers to the CSS/style property being defined",
+      "usedIn": ["tokens"],
+      "definition": {
+        "superordinate": "token name part",
+        "description": "A segment in a design token name that specifies what CSS or style property the token value applies to (color, size, spacing, etc.)",
+        "essentialCharacteristics": [
+          "Appears at the end of token names like 'button-background-color' or 'component-height'",
+          "Maps to CSS properties or style attributes",
+          "Common properties: color, size, width, height, spacing, border-width",
+          "Determines the type of value (color value, dimension, number, etc.)"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Directly corresponds to CSS/style properties for clarity"
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "Spectrum Tokens Wiki - Token Structure",
+          "url": "https://wiki.corp.adobe.com/display/AdobeDesign/Spectrum+tokens",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["component", "object"]
+    },
+    {
+      "id": "edge",
+      "label": "Edge",
+      "description": "In token naming, refers to the outer boundary of a component",
+      "usedIn": ["tokens", "anatomy"],
+      "definition": {
+        "superordinate": "spatial reference point",
+        "description": "The outermost boundary of a component, used as a reference point for measuring spacing and layout",
+        "essentialCharacteristics": [
+          "Used in spacing tokens like 'component-edge-to-text'",
+          "Refers to the component's bounding box",
+          "Different from 'visual' which may be inset from the edge",
+          "Critical for consistent component spacing"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Objective spatial term that clearly indicates the component boundary"
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "Spectrum Tokens Wiki - Terminology",
+          "url": "https://wiki.corp.adobe.com/display/AdobeDesign/Spectrum+tokens",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["visual", "component", "object"]
+    },
+    {
+      "id": "visual",
+      "label": "Visual",
+      "description": "In token naming, refers to the visible graphic element of a component",
+      "usedIn": ["tokens", "anatomy"],
+      "definition": {
+        "superordinate": "component part",
+        "description": "The visible graphic element within a component, which may be inset from the component's edge",
+        "essentialCharacteristics": [
+          "Used in spacing tokens like 'component-edge-to-visual'",
+          "Represents the visible content area",
+          "May have padding or spacing between edge and visual",
+          "Distinguishes between bounding box and visible content"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Objective term describing the visible content area"
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "Spectrum Tokens Wiki - Terminology",
+          "url": "https://wiki.corp.adobe.com/display/AdobeDesign/Spectrum+tokens",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["edge", "component", "object"]
+    }
+  ]
+}

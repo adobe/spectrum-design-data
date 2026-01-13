@@ -1,0 +1,30 @@
+<footer class="glossary-footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>Spectrum Design System Glossary</h3>
+      <p>{{ registry.stats.totalTerms }} terms | {{ registry.stats.enhancedTerms }} enhanced definitions</p>
+    </div>
+    
+    <div class="footer-section">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="https://spectrum.adobe.com" target="_blank" rel="noopener noreferrer">Spectrum Design System</a></li>
+        <li><a href="{{ meta.repository }}" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+        <li><a href="/api/v1/glossary.json">JSON API</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h4>Related Projects</h4>
+      <ul>
+        <li><a href="../../packages/design-system-registry/README.md">Design System Registry</a></li>
+        <li><a href="../../tools/spectrum-design-data-mcp/README.md">MCP Server</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="footer-legal">
+    <p>© {{ meta.author }} | Licensed under Apache-2.0</p>
+    <p>Last updated: {{ registry.stats.lastUpdated }}</p>
+  </div>
+</footer>

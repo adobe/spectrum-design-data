@@ -1,0 +1,184 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "state",
+  "description": "Interaction states for components",
+  "allowCustom": true,
+  "customPattern": "^[a-z][a-z0-9-]*(\\s\\+\\s[a-z][a-z0-9-]*)*$",
+  "values": [
+    {
+      "id": "default",
+      "label": "Default",
+      "description": "The default, resting state of a component",
+      "default": true,
+      "usedIn": ["tokens", "component-options", "component-schemas"],
+      "definition": {
+        "superordinate": "interaction state",
+        "description": "The initial, resting state of a user interface component before any user interaction occurs",
+        "essentialCharacteristics": [
+          "Represents the component's appearance without user interaction",
+          "The baseline state from which all other states transition",
+          "Should communicate the component's purpose and interactivity at a glance"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Industry-standard term used consistently across design systems and platforms"
+      },
+      "sources": [
+        {
+          "type": "industry-standard",
+          "reference": "Common UI design terminology",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Core Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["hover", "focus", "disabled"]
+    },
+    {
+      "id": "hover",
+      "label": "Hover",
+      "description": "Mouse hover state",
+      "usedIn": ["tokens", "component-options", "component-schemas"],
+      "definition": {
+        "superordinate": "interaction state",
+        "description": "The state when a pointer device (such as a mouse cursor) is positioned over a component's interactive area without pressing",
+        "essentialCharacteristics": [
+          "Triggered by pointer positioning, not by clicking or pressing",
+          "Provides visual feedback that the element is interactive",
+          "Should be subtle enough not to distract from the overall interface",
+          "Reversible when the pointer moves away"
+        ]
+      },
+      "platforms": {
+        "web": {
+          "term": "hover",
+          "notes": "CSS :hover pseudo-class",
+          "reference": "https://developer.mozilla.org/en-US/docs/Web/CSS/:hover"
+        },
+        "iOS": {
+          "term": "highlighted",
+          "notes": "iOS uses 'highlighted' for similar visual feedback on touch devices with pointer support",
+          "reference": "UIControl.State.highlighted"
+        }
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Standard interaction design term describing pointer-based feedback"
+      },
+      "sources": [
+        {
+          "type": "industry-standard",
+          "reference": "W3C CSS specification",
+          "url": "https://www.w3.org/TR/selectors-4/#hover-pseudo",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Core Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["default", "active", "focus"]
+    },
+    {
+      "id": "active",
+      "label": "Active",
+      "description": "Active or pressed state",
+      "usedIn": ["component-options", "component-schemas"]
+    },
+    {
+      "id": "focus",
+      "label": "Focus",
+      "description": "Focused state (generic)",
+      "usedIn": ["component-options", "component-schemas"]
+    },
+    {
+      "id": "keyboard-focus",
+      "label": "Keyboard Focus",
+      "aliases": ["keyboard focus"],
+      "description": "Focused via keyboard navigation",
+      "usedIn": ["tokens", "component-options", "component-schemas"],
+      "definition": {
+        "superordinate": "interaction state",
+        "description": "The state when a component receives focus through keyboard navigation, indicating it will respond to keyboard input",
+        "essentialCharacteristics": [
+          "Specifically indicates focus achieved through keyboard interaction (Tab, arrow keys)",
+          "Requires prominent visual indicator for accessibility (WCAG 2.4.7)",
+          "Different from generic focus to support :focus-visible patterns",
+          "Critical for keyboard-only users to understand their current position"
+        ]
+      },
+      "platforms": {
+        "web": {
+          "term": "keyboard-focus",
+          "notes": "Often implemented with :focus-visible pseudo-class",
+          "reference": "https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible"
+        },
+        "iOS": {
+          "term": "focused",
+          "notes": "UIFocusSystem for keyboard and pointer navigation",
+          "reference": "UIFocusSystem"
+        }
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Distinguishes keyboard-based focus from programmatic focus, following modern accessibility standards"
+      },
+      "sources": [
+        {
+          "type": "industry-standard",
+          "reference": "WCAG 2.4.7 Focus Visible",
+          "url": "https://www.w3.org/WAI/WCAG21/Understanding/focus-visible.html",
+          "date": "2025-01-12"
+        },
+        {
+          "type": "industry-standard",
+          "reference": "W3C :focus-visible specification",
+          "url": "https://www.w3.org/TR/selectors-4/#the-focus-visible-pseudo",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Core Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["focus", "default", "hover"]
+    },
+    {
+      "id": "disabled",
+      "label": "Disabled",
+      "description": "Disabled or inactive state",
+      "usedIn": ["component-options", "component-schemas"]
+    },
+    {
+      "id": "down",
+      "label": "Down",
+      "description": "Pressed or down state (mouse button down)",
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "pending",
+      "label": "Pending",
+      "description": "Loading or pending state",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "selected",
+      "label": "Selected",
+      "description": "Selected or chosen state",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "drag-and-drop",
+      "label": "Drag and Drop",
+      "aliases": ["drag and drop"],
+      "description": "Being dragged or drag target state",
+      "usedIn": ["component-schemas"]
+    }
+  ]
+}

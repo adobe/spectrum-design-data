@@ -1,0 +1,34 @@
+<header class="glossary-header">
+  <div class="header-content">
+    <div class="logo-section">
+      <a href="/" class="logo-link">
+        <svg class="spectrum-logo" width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M16 2L2 9v14l14 7 14-7V9L16 2z" fill="currentColor"/>
+        </svg>
+        <h1>Spectrum Glossary</h1>
+      </a>
+    </div>
+    
+    <nav class="main-nav" aria-label="Main navigation">
+      <ul>
+        {% for item in navigation %}
+          <li>
+            <a href="{{ item.url }}" 
+               {% if item.external %}target="_blank" rel="noopener noreferrer"{% endif %}>
+              {{ item.label }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+    
+    <div class="header-actions">
+      <sp-action-button id="theme-toggle" quiet>
+        <svg slot="icon" viewBox="0 0 18 18" width="18" height="18">
+          <path class="theme-icon-light" d="M9 0a1 1 0 011 1v1a1 1 0 11-2 0V1a1 1 0 011-1zm0 14a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM3.05 3.05a1 1 0 011.414 0l.707.707a1 1 0 11-1.414 1.414l-.707-.707a1 1 0 010-1.414zm11.314 10.607a1 1 0 011.414 0l.707.707a1 1 0 11-1.414 1.414l-.707-.707a1 1 0 010-1.414zM0 9a1 1 0 011-1h1a1 1 0 110 2H1a1 1 0 01-1-1zm14 0a1 1 0 011-1h1a1 1 0 110 2h-1a1 1 0 01-1-1zM3.05 14.95a1 1 0 010-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707a1 1 0 01-1.414 0zm10.607-11.314a1 1 0 010-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707a1 1 0 01-1.414 0z" fill="currentColor"/>
+          <path class="theme-icon-dark" d="M9 0a9 9 0 109 9 8.9 8.9 0 00-1.05-4.21 6.5 6.5 0 01-8.16 8.16A8.9 8.9 0 004.21 9 9 9 0 009 0z" fill="currentColor" style="display: none;"/>
+        </svg>
+      </sp-action-button>
+    </div>
+  </div>
+</header>

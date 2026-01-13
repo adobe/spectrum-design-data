@@ -1,0 +1,241 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "navigation-term",
+  "description": "Navigation-specific terminology for app frame and navigation components",
+  "values": [
+    {
+      "id": "side-navigation",
+      "label": "Side Navigation",
+      "aliases": ["side nav", "sidebar navigation"],
+      "description": "A navigation panel typically positioned on the left side of an application",
+      "usedIn": ["component-schemas", "anatomy"],
+      "definition": {
+        "superordinate": "navigation pattern",
+        "description": "A vertical panel containing navigation items, typically positioned on the left side of an application interface",
+        "essentialCharacteristics": [
+          "Provides persistent or collapsible access to main application sections",
+          "Can be resizable with drag functionality",
+          "Contains hierarchical navigation items",
+          "May include a state control (hamburger menu) to show/hide labels"
+        ]
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "App frame (browsing) CRD",
+          "url": "https://wiki.corp.adobe.com/pages/viewpage.action?pageId=3364319543",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Core Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["side-navigation-item", "navigation-item", "drag-area"]
+    },
+    {
+      "id": "side-navigation-item",
+      "label": "Side Navigation Item",
+      "aliases": ["side nav item"],
+      "description": "An individual item within side navigation",
+      "usedIn": ["component-schemas", "anatomy"],
+      "definition": {
+        "superordinate": "navigation element",
+        "description": "A clickable item within side navigation that represents a destination or section in the application",
+        "essentialCharacteristics": [
+          "Can be selected to indicate current location",
+          "Supports interaction states (default, hover, down, keyboard focus, disabled, selected, dragged, error)",
+          "May include an icon and label",
+          "Label may be hidden when side navigation is minimized"
+        ]
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "App frame (browsing) CRD",
+          "url": "https://wiki.corp.adobe.com/pages/viewpage.action?pageId=3364319543",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Core Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["side-navigation", "navigation-item"]
+    },
+    {
+      "id": "header",
+      "label": "Header",
+      "aliases": ["app header", "top bar"],
+      "description": "The top bar of an application frame",
+      "usedIn": ["component-schemas", "anatomy"],
+      "definition": {
+        "superordinate": "application frame component",
+        "description": "A horizontal bar at the top of an application that contains branding, navigation, and utility functions",
+        "essentialCharacteristics": [
+          "Spans the full width of the application",
+          "May contain header navigation items",
+          "Typically includes application branding or title",
+          "May include utility controls (search, settings, user profile)"
+        ]
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "App frame (browsing) CRD",
+          "url": "https://wiki.corp.adobe.com/pages/viewpage.action?pageId=3364319543",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Core Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["header-navigation-item", "side-navigation"]
+    },
+    {
+      "id": "header-navigation-item",
+      "label": "Header Navigation Item",
+      "description": "An individual navigation item within the header",
+      "usedIn": ["component-schemas", "anatomy"],
+      "definition": {
+        "superordinate": "navigation element",
+        "description": "A clickable item within the header that represents a destination or action",
+        "essentialCharacteristics": [
+          "Positioned horizontally within the header",
+          "Can be selected to indicate current location",
+          "Supports interaction states (default, hover, down, keyboard focus, disabled, selected)",
+          "Typically more compact than side navigation items"
+        ]
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "App frame (browsing) CRD",
+          "url": "https://wiki.corp.adobe.com/pages/viewpage.action?pageId=3364319543",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Core Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["header", "navigation-item", "side-navigation-item"]
+    },
+    {
+      "id": "navigation-item",
+      "label": "Navigation Item",
+      "aliases": ["nav item"],
+      "description": "A generic term for clickable navigation elements",
+      "usedIn": ["component-schemas", "tokens"],
+      "definition": {
+        "superordinate": "user interface element",
+        "description": "A clickable element that allows users to navigate to different sections or pages within an application",
+        "essentialCharacteristics": [
+          "Provides a destination or target location",
+          "Can be selected to show current location",
+          "Supports standard interaction states",
+          "May be part of various navigation patterns (side, top, breadcrumb, etc.)"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Generic term used across all navigation contexts in Spectrum"
+      },
+      "sources": [
+        {
+          "type": "industry-standard",
+          "reference": "Common navigation terminology",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Core Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["side-navigation-item", "header-navigation-item"]
+    },
+    {
+      "id": "drag-area",
+      "label": "Drag Area",
+      "description": "An area that can be dragged to resize the side navigation panel",
+      "usedIn": ["component-schemas", "anatomy"],
+      "definition": {
+        "superordinate": "interactive control",
+        "description": "A focusable area along the edge of the side navigation panel that allows users to resize the panel width",
+        "essentialCharacteristics": [
+          "Smaller when a scrollbar is present",
+          "Focusable for keyboard interactions",
+          "Meets WCAG 2.5.8 target size requirements via alternate method (hamburger icon)",
+          "Enables resizing as alternative to dragging (WCAG 2.5.7)"
+        ]
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "App frame (browsing) CRD - Dragging accessibility notes",
+          "url": "https://wiki.corp.adobe.com/pages/viewpage.action?pageId=3364319543",
+          "date": "2025-01-12"
+        },
+        {
+          "type": "industry-standard",
+          "reference": "WCAG 2.5.8 Target Size (Minimum)",
+          "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html",
+          "date": "2025-01-12"
+        },
+        {
+          "type": "industry-standard",
+          "reference": "WCAG 2.5.7 Dragging Movements",
+          "url": "https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Core Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["side-navigation", "state-control"]
+    },
+    {
+      "id": "state-control",
+      "label": "State Control",
+      "aliases": ["hamburger icon", "menu toggle"],
+      "description": "A control to show/hide side navigation labels or minimize/maximize the panel",
+      "usedIn": ["component-schemas", "anatomy"],
+      "definition": {
+        "superordinate": "interactive control",
+        "description": "A button control, typically represented by a hamburger icon, that toggles the visibility of side navigation labels or the panel size",
+        "essentialCharacteristics": [
+          "Provides alternate method for resizing (accessibility requirement)",
+          "Label changes based on state (e.g., 'Hide menu labels' when expanded)",
+          "Supports standard interaction states (default, hover, down, keyboard focus, disabled)",
+          "Ensures keyboard users can resize the panel"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Named for its function (controlling state) rather than appearance (hamburger)"
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "App frame (browsing) CRD",
+          "url": "https://wiki.corp.adobe.com/pages/viewpage.action?pageId=3364319543",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Core Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["side-navigation", "drag-area"]
+    }
+  ]
+}

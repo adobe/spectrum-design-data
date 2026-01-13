@@ -1,0 +1,176 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "variant",
+  "description": "Color and style variants used across components",
+  "values": [
+    {
+      "id": "accent",
+      "label": "Accent",
+      "description": "Primary accent color variant",
+      "category": "emphasis",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "negative",
+      "label": "Negative",
+      "description": "Destructive or negative action variant",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "primary",
+      "label": "Primary",
+      "description": "Primary emphasis variant",
+      "category": "emphasis",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "secondary",
+      "label": "Secondary",
+      "description": "Secondary emphasis variant",
+      "category": "emphasis",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "positive",
+      "label": "Positive",
+      "description": "Affirmative or positive action variant",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "notice",
+      "label": "Notice",
+      "description": "Notice or attention variant",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "informative",
+      "label": "Informative",
+      "description": "Informational variant",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "neutral",
+      "label": "Neutral",
+      "description": "Neutral variant",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "gray",
+      "label": "Gray",
+      "description": "Gray color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "red",
+      "label": "Red",
+      "description": "Red color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "orange",
+      "label": "Orange",
+      "description": "Orange color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "yellow",
+      "label": "Yellow",
+      "description": "Yellow color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "chartreuse",
+      "label": "Chartreuse",
+      "description": "Chartreuse color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "celery",
+      "label": "Celery",
+      "description": "Celery color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "green",
+      "label": "Green",
+      "description": "Green color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "seafoam",
+      "label": "Seafoam",
+      "description": "Seafoam color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "cyan",
+      "label": "Cyan",
+      "description": "Cyan color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "blue",
+      "label": "Blue",
+      "description": "Blue color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "indigo",
+      "label": "Indigo",
+      "description": "Indigo color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "purple",
+      "label": "Purple",
+      "description": "Purple color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "fuchsia",
+      "label": "Fuchsia",
+      "description": "Fuchsia color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "magenta",
+      "label": "Magenta",
+      "description": "Magenta color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "pink",
+      "label": "Pink",
+      "description": "Pink color variant",
+      "category": "color",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "over-background",
+      "label": "Over Background",
+      "aliases": ["over background"],
+      "description": "Designed to be used over backgrounds",
+      "category": "context",
+      "usedIn": ["component-schemas"]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "category",
+  "description": "Component categories for organization and discovery",
+  "values": [
+    {
+      "id": "actions",
+      "label": "Actions",
+      "description": "Components that allow users to perform actions",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "containers",
+      "label": "Containers",
+      "description": "Components that contain or organize other content",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "data-visualization",
+      "label": "Data Visualization",
+      "aliases": ["data visualization"],
+      "description": "Components for displaying data and charts",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "feedback",
+      "label": "Feedback",
+      "description": "Components that provide feedback to users",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "inputs",
+      "label": "Inputs",
+      "description": "Components for user input and data entry",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "navigation",
+      "label": "Navigation",
+      "description": "Components for navigation and wayfinding",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "status",
+      "label": "Status",
+      "description": "Components that indicate status or state",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "typography",
+      "label": "Typography",
+      "description": "Text and typography components",
+      "usedIn": ["component-schemas"]
+    }
+  ]
+}
