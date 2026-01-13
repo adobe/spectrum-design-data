@@ -4,11 +4,15 @@ import Fuse from "https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.mjs";
 let fuse = null;
 let searchData = [];
 
+// Get base path from window or default to empty string
+const getBasePath = () => window.BASE_PATH || "";
+
 // Initialize search
 async function initSearch() {
   try {
     // Load search index
-    const response = await fetch("/api/v1/search-index.json");
+    const basePath = getBasePath();
+    const response = await fetch(`${basePath}/api/v1/search-index.json`);
     searchData = await response.json();
 
     // Initialize Fuse.js
@@ -58,7 +62,7 @@ function displayResults(results, query) {
     .slice(0, 20)
     .map(
       ({ item, score }) => `
-    <a href="/terms/${item.id}/" class="search-result-item">
+    <a href="${getBasePath()}/terms/${item.id}/" class="search-result-item">
       <div class="result-header">
         <strong>${highlightMatch(item.label || item.id, query)}</strong>
         <span class="result-registry">${item.registryLabel || item.registryType}</span>

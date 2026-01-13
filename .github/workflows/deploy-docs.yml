@@ -3,7 +3,7 @@ name: Deploy Docs
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: [$default-branch]
+    branches: [main]
 
   # Runs after successful release
   workflow_run:

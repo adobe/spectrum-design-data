@@ -6,7 +6,7 @@
       {% for termId in termIds %}
         {% set relatedTerm = allTerms | termById(termId) %}
         {% if relatedTerm %}
-          <a href="/terms/{{ relatedTerm.registryType }}/{{ relatedTerm.id }}/" class="related-term-link">
+          <a href="{{ ('/terms/' ~ relatedTerm.registryType ~ '/' ~ relatedTerm.id ~ '/') | pathPrefix(basePath) }}" class="related-term-link">
             <div class="related-term-card">
               <strong>{{ relatedTerm.label or relatedTerm.id }}</strong>
               {% if relatedTerm.description %}

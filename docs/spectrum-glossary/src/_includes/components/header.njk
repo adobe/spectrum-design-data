@@ -1,7 +1,7 @@
 <header class="glossary-header">
   <div class="header-content">
     <div class="logo-section">
-      <a href="/" class="logo-link">
+      <a href="{{ '/' | pathPrefix(basePath) }}" class="logo-link">
         <svg class="spectrum-logo" width="32" height="32" viewBox="0 0 32 32" fill="none">
           <path d="M16 2L2 9v14l14 7 14-7V9L16 2z" fill="currentColor"/>
         </svg>
@@ -13,7 +13,7 @@
       <ul>
         {% for item in navigation %}
           <li>
-            <a href="{{ item.url }}" 
+            <a href="{{ item.url | pathPrefix(basePath) }}" 
                {% if item.external %}target="_blank" rel="noopener noreferrer"{% endif %}>
               {{ item.label }}
             </a>

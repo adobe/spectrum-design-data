@@ -1,7 +1,7 @@
 {% macro termCard(term) %}
 <article class="term-card">
   <header class="term-card-header">
-    <h3><a href="/terms/{{ term.registryType }}/{{ term.id }}/">{{ term.label or term.id }}</a></h3>
+    <h3><a href="{{ ('/terms/' ~ term.registryType ~ '/' ~ term.id ~ '/') | pathPrefix(basePath) }}">{{ term.label or term.id }}</a></h3>
     <div class="term-badges">
       {% if term.default %}
         <span class="badge badge-default">Default</span>

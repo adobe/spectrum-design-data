@@ -10,7 +10,7 @@
       <ul>
         <li><a href="https://spectrum.adobe.com" target="_blank" rel="noopener noreferrer">Spectrum Design System</a></li>
         <li><a href="{{ meta.repository }}" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
-        <li><a href="/api/v1/glossary.json">JSON API</a></li>
+        <li><a href="{{ '/api/v1/glossary.json' | pathPrefix(basePath) }}">JSON API</a></li>
       </ul>
     </div>
     

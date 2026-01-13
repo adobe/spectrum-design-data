@@ -10,7 +10,7 @@
   <title>{{ title }} | {{ meta.title }}</title>
   
   <!-- Spectrum CSS -->
-  <link rel="stylesheet" href="/assets/css/index.css">
+  <link rel="stylesheet" href="{{ '/assets/css/index.css' | pathPrefix(basePath) }}">
   
   <!-- Spectrum Web Components -->
   <script type="module" src="https://unpkg.com/@spectrum-web-components/theme@^0.49.0/theme-light.js"></script>
@@ -26,6 +26,8 @@
   
   <!-- Theme initialization -->
   <script>
+    // Base path for GitHub Pages deployment
+    window.BASE_PATH = {{ basePath | json }};
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.classList.add(`spectrum--${savedTheme}`);
   </script>
@@ -41,7 +43,7 @@
     {% include "components/footer.njk" %}
   </sp-theme>
   
-  <script src="/assets/js/theme.js"></script>
+  <script src="{{ '/assets/js/theme.js' | pathPrefix(basePath) }}"></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

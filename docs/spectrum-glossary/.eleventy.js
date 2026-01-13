@@ -98,6 +98,34 @@ export default async function (eleventyConfig) {
     return text.substring(0, length) + "...";
   });
 
+  // JSON filter for outputting JSON in templates
+  eleventyConfig.addFilter("json", function (value) {
+    return JSON.stringify(value);
+  });
+
+  // Path prefix filter for base path support
+  eleventyConfig.addFilter("pathPrefix", function (path, basePath) {
+    if (!path) return "";
+    // Don't prefix external URLs or URLs that already start with the base path
+    if (
+      path.startsWith("http://") ||
+      path.startsWith("https://") ||
+      path.startsWith("//")
+    ) {
+      return path;
+    }
+    if (basePath && path.startsWith(basePath)) {
+      return path;
+    }
+    // Ensure path starts with / and basePath doesn't end with /
+    const cleanPath = path.startsWith("/") ? path : `/${path}`;
+    const cleanBasePath =
+      basePath && basePath.endsWith("/")
+        ? basePath.slice(0, -1)
+        : basePath || "";
+    return cleanBasePath + cleanPath;
+  });
+
   // Markdown configuration
   const markdownIt = (await import("markdown-it")).default;
   const markdownItPrism = (await import("markdown-it-prism")).default;
