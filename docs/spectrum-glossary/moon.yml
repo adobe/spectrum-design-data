@@ -33,6 +33,7 @@ tasks:
     deps:
       - ~:build
     platform: system
+    local: true
     outputs:
       - /site/glossary/
 
