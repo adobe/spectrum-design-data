@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Lit-Code Test</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .test { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
+        lit-code { display: block; margin: 10px 0; }
+        .log { background: #f0f0f0; padding: 10px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <h1>Simple Lit-Code Test</h1>
+    
+    <div class="test">
+        <h2>Test: Editable with @update event</h2>
+        <p>Try typing in the editor below. Check console for events.</p>
+        <lit-code id="editor" editable linenumbers language="json"></lit-code>
+        <button onclick="setCode()">Set Code Programmatically</button>
+        <button onclick="getCode()">Get Code</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script type="module">
+        import 'https://cdn.jsdelivr.net/npm/lit-code@0.1.12/+esm';
+        
+        const editor = document.getElementById('editor');
+        const log = document.getElementById('log');
+        
+        function addLog(msg) {
+            const div = document.createElement('div');
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            log.appendChild(div);
+            log.scrollTop = log.scrollHeight;
+            console.log(msg);
+        }
+        
+        // Set initial code
+        editor.code = JSON.stringify({test: "initial"}, null, 2);
+        addLog('Initial code set');
+        
+        // Listen for events
+        editor.addEventListener('update', (e) => {
+            addLog(`@update fired - detail type: ${typeof e.detail}, value: ${e.detail ? e.detail.substring(0, 30) + '...' : 'null'}`);
+        });
+        
+        editor.addEventListener('change', (e) => {
+            addLog(`@change fired`);
+        });
+        
+        editor.addEventListener('input', (e) => {
+            addLog(`@input fired`);
+        });
+        
+        // Global functions for buttons
+        window.setCode = () => {
+            editor.code = JSON.stringify({test: "updated", time: new Date().toISOString()}, null, 2);
+            addLog('Code set programmatically');
+        };
+        
+        window.getCode = () => {
+            addLog(`Current code: ${editor.code ? editor.code.substring(0, 50) + '...' : 'null'}`);
+        };
+        
+        // Monitor code property changes
+        let lastCode = editor.code;
+        setInterval(() => {
+            if (editor.code !== lastCode) {
+                addLog(`Code property changed: ${editor.code.length} chars`);
+                lastCode = editor.code;
+            }
+        }, 500);
+    </script>
+</body>
+</html>

@@ -30,6 +30,7 @@ Packages in this monorepo:
 
 ## Development Tools
 
+* [Component Options Editor](tools/component-options-editor/) Figma plugin for authoring and editing Spectrum component option schemas with visual UI and JSON validation.
 * [Spectrum Token Diff Generator](tools/diff-generator/) a library and cli tool that reports changes made between two schema/releases/branches.
 * [Optimized Diff Engine](tools/optimized-diff/) high-performance diff algorithm for large token datasets.
 * [Release Analyzer](tools/release-analyzer/) tool for analyzing release history and generating data for change frequency visualization.
