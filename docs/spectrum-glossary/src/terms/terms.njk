@@ -211,7 +211,7 @@ layout: layouts/base.njk
     <h3>Export</h3>
     <div class="export-actions">
       <sp-button size="s" onclick="copyJSON()">Copy JSON</sp-button>
-      <sp-button size="s" href="/api/v1/terms/{{ term.id }}.json">View JSON</sp-button>
+      <sp-button size="s" href="{{ ('/api/v1/terms/' ~ term.id ~ '.json') | pathPrefix(basePath) }}">View JSON</sp-button>
     </div>
   </section>
 </article>

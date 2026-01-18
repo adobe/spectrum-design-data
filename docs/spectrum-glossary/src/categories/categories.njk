@@ -50,6 +50,6 @@ layout: layouts/base.njk
 </div>
 
 {% block scripts %}
-<script type="module" src="/assets/js/search.js"></script>
-<script type="module" src="/assets/js/filters.js"></script>
+<script type="module" src="{{ '/assets/js/search.js' | pathPrefix(basePath) }}"></script>
+<script type="module" src="{{ '/assets/js/filters.js' | pathPrefix(basePath) }}"></script>
 {% endblock %}

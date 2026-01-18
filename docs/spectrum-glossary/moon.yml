@@ -19,6 +19,8 @@ tasks:
   build:
     command: pnpm build
     platform: node
+    env:
+      BASE_PATH: "/spectrum-design-data/glossary"
     inputs:
       - "@group(sources)"
       - "@group(assets)"
@@ -33,7 +35,6 @@ tasks:
     deps:
       - ~:build
     platform: system
-    local: true
     outputs:
       - /site/glossary/
 
