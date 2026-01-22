@@ -41,11 +41,12 @@ jobs:
           commit: "chore: release"
           # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: pnpm release
+          # Skip npm auth setup - let npm CLI auto-detect OIDC (requires npm 11.5.1+)
+          skipNpmAuth: true
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          # NPM_TOKEN is not set - npm CLI will use OIDC authentication automatically
-
-      # - name: Send a Slack notification if a publish happens
-      # if: steps.changesets.outputs.published == 'true'
-      # You can do something when a publish happens.
-      # run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"
+          # NPM_TOKEN no longer needed - npm CLI auto-detects OIDC with id-token permission
+          # - name: Send a Slack notification if a publish happens
+          # if: steps.changesets.outputs.published == 'true'
+          # You can do something when a publish happens.
+          # run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"
