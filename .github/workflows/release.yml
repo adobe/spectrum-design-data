@@ -22,27 +22,24 @@ jobs:
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
-      - name: Setup npm registry (OIDC will auto-authenticate)
-        run: |
-          # Create minimal .npmrc without auth token
-          # npm CLI (11.5.1+) will auto-detect OIDC via id-token permission
-          cat > ~/.npmrc << 'EOF'
-          registry=https://registry.npmjs.org/
-          EOF
+      # No .npmrc setup needed - npm 11.6.2 (configured in .prototools) will
+      # auto-detect OIDC environment and handle authentication transparently
       - run: moon setup
       - run: moon run :build --query "projectSource~packages/*"
-      - name: Publish
+      - name: Create Release Pull Request
         id: changesets
         uses: changesets/action@v1
         with:
           # this expects you to have a npm script called version that runs some logic and then calls `changeset version`.
           # version: pnpm version
           commit: "chore: release"
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          # - name: Send a Slack notification if a publish happens
-          # if: steps.changesets.outputs.published == 'true'
-          # You can do something when a publish happens.
-          # run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"
+      # Custom publishing step to use npm 11.6.2's OIDC auto-detection
+      # changesets/action doesn't fully support OIDC yet (see issue #515)
+      - name: Publish to npm with OIDC
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        run: pnpm release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          # No NPM_TOKEN needed - npm 11.6.2 auto-detects OIDC via id-token permission
