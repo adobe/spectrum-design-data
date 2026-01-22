@@ -1,5 +1,25 @@
 # token-csv-generator
 
+## 0.0.27
+
+### Patch Changes
+
+- [#669](https://github.com/adobe/spectrum-design-data/pull/669) [`ae68c41`](https://github.com/adobe/spectrum-design-data/commit/ae68c412101b32b114d0d56893d1214f5225210a) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(tooling): add renamed property support to token processing tools
+
+  Updated token processing tools to extract and display the new `renamed` property:
+  - **MCP Token Processor**: Extracts `renamed`, `deprecated`, and `deprecated_comment`
+    properties in token results
+  - **CSV Generator**: Added `renamed`, `deprecated`, and `deprecated_comment` columns
+    to CSV export
+  - **Diff Generator**: Updated documentation - tool automatically tracks `renamed`
+    property changes
+
+  These updates support the new `renamed` property added to the token schema for
+  tracking 1:1 token replacements.
+
+- Updated dependencies [[`ae68c41`](https://github.com/adobe/spectrum-design-data/commit/ae68c412101b32b114d0d56893d1214f5225210a)]:
+  - @adobe/spectrum-tokens@14.1.0
+
 ## 0.0.26
 
 ### Patch Changes

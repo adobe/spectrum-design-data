@@ -1,6 +1,6 @@
 {
   "name": "@adobe/token-changeset-generator",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Generate changeset files for Spectrum token changes from tokens studio PR data",
   "keywords": [
     "design-tokens",
