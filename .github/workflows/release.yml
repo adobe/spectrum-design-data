@@ -22,6 +22,14 @@ jobs:
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
+      - name: Setup npm for OIDC authentication
+        run: |
+          # Create .npmrc for registry without auth token
+          # npm CLI (11.5.1+) will auto-detect OIDC and handle authentication
+          cat > ~/.npmrc << 'EOF'
+          registry=https://registry.npmjs.org/
+          //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+          EOF
       - run: moon setup
       - run: moon run :build --query "projectSource~packages/*"
       - name: Publish
@@ -33,11 +41,9 @@ jobs:
           commit: "chore: release"
           # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: pnpm release
-          # Skip npm auth setup - let npm CLI auto-detect OIDC (requires npm 11.5.1+)
-          skipNpmAuth: true
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          # NPM_TOKEN no longer needed - npm CLI auto-detects OIDC with id-token permission
+          # NPM_TOKEN is not set - npm CLI will use OIDC authentication automatically
 
       # - name: Send a Slack notification if a publish happens
       # if: steps.changesets.outputs.published == 'true'
