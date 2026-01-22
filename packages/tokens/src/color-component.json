@@ -104,7 +104,8 @@
     "value": "{drop-shadow-elevated-color}",
     "uuid": "918b8089-d89f-45d2-8c9c-f3f13f81b0b9",
     "deprecated": true,
-    "deprecated_comment": "Use `drop-shadow-elevated-color` instead"
+    "deprecated_comment": "Use `drop-shadow-elevated-color` instead",
+    "renamed": "drop-shadow-elevated-color"
   },
   "color-loupe-drop-shadow-y": {
     "component": "color-loupe",
@@ -212,6 +213,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "deprecated": true,
     "deprecated_comment": "Express does not need a separate design for Color loupe and Color handle components",
+    "renamed": "drop-shadow-color",
     "value": "{drop-shadow-color}",
     "uuid": "97dfaf7f-ac2d-4517-84cc-6f692f712fc5"
   },
@@ -227,7 +229,8 @@
     "value": "{floating-action-button-drop-shadow-color}",
     "uuid": "f843b1b7-4b2f-496e-a679-b0372e49d575",
     "deprecated": true,
-    "deprecated_comment": "Use `floating-action-button-drop-shadow-color` instead"
+    "deprecated_comment": "Use `floating-action-button-drop-shadow-color` instead",
+    "renamed": "floating-action-button-drop-shadow-color"
   },
   "table-row-hover-color": {
     "component": "table",

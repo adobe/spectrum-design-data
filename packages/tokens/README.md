@@ -22,9 +22,9 @@ This project uses [Semantic Versioning (semver)](https://semver.org/). It also u
 
 x.x.n+1 releases are for bug fixes and patches.
 
-- bug fixes
-- typos
-- mistakes
+* bug fixes
+* typos
+* mistakes
 
 Example: a token name changing from `detail-margin-top-mulitplier` to `detail-margin-top-multiplier` to fix a spelling mistake.
 
@@ -32,22 +32,35 @@ Example: a token name changing from `detail-margin-top-mulitplier` to `detail-ma
 
 x.n+1.0 releases are for new tokens and features.
 
-- adding new token
-- changing a value intentionally
-- adding deprecation metadata and aliased new tokens where applicable
+* adding new token
+* changing a value intentionally
+* adding deprecation metadata and aliased new tokens where applicable
 
 #### Major
 
 n+1.0.0 releases are for breaking changes.
 
-- deleting tokens
-- changing token value type (e.g., from a color to a dimension; anything that would break a parser expecting specific data types)
+* deleting tokens
+* changing token value type (e.g., from a color to a dimension; anything that would break a parser expecting specific data types)
 
 ## Deprecations
 
 ### Planned token name changes
 
 Tokens with a name changed will first be marked as deprecated, while a new token will be created with the new name; the deprecated token will then become an alias for the new token. Finally, the deprecated token will eventually be removed, most likely in the next major release if there has been sufficient time to notify teams. The required amount of time is still to be determined.
+
+### Token properties for deprecation tracking
+
+* `deprecated` (boolean): Marks a token as deprecated
+* `deprecated_comment` (string): Provides context about why the token is deprecated and migration guidance
+* `renamed` (string): For 1:1 token replacements, specifies the new token name that should be used instead
+
+When a token is renamed:
+
+1. Set `deprecated: true` on the old token
+2. Add `renamed: "new-token-name"` to specify the replacement
+3. Update `deprecated_comment` to provide additional context if needed
+4. The old token's `value` should typically alias to the new token
 
 ## Releases
 

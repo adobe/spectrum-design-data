@@ -106,10 +106,23 @@ Example:
     "$schema": "path/to/schema.json",
     "uuid": "unique-identifier",
     "deprecated": true,
-    "alias": "new-token-name"
+    "deprecated_comment": "Use new-token-name instead",
+    "renamed": "new-token-name",
+    "private": false,
+    "component": "button"
   }
 }
 ```
+
+**Key Properties:**
+- `value` (required): The token's value
+- `uuid` (required): UUID v4 identifier for tracking tokens across versions
+- `$schema` (required): Reference to the token type schema
+- `deprecated` (optional): Boolean marking the token as deprecated
+- `deprecated_comment` (optional): Human-readable deprecation message
+- `renamed` (optional): For 1:1 token replacements, specifies the new token name
+- `private` (optional): Boolean marking internal-only tokens
+- `component` (optional): Associated component name
 
 ### Component Schema Structure
 ```json
@@ -207,7 +220,7 @@ pnpm generateDiffResult
 
 ### Important Data Structures
 
-1. **Token Objects**: Have value, type, $schema, uuid
+1. **Token Objects**: Have value, type, $schema, uuid, and optional deprecated/renamed properties for lifecycle tracking
 2. **Component Schemas**: JSON Schema format with meta information
 3. **Manifest Files**: List available tokens/components
 4. **Diff Objects**: Show added/deleted/changed tokens
