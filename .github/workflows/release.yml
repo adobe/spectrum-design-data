@@ -22,6 +22,14 @@ jobs:
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
+      - name: Setup npm for OIDC authentication
+        run: |
+          # Create .npmrc for registry without auth token
+          # npm CLI (11.5.1+) will auto-detect OIDC and handle authentication
+          cat > ~/.npmrc << 'EOF'
+          registry=https://registry.npmjs.org/
+          //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+          EOF
       - run: moon setup
       - run: moon run :build --query "projectSource~packages/*"
       - name: Publish
@@ -38,8 +46,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           # NPM_TOKEN no longer needed - npm CLI auto-detects OIDC with id-token permission
-
-      # - name: Send a Slack notification if a publish happens
-      # if: steps.changesets.outputs.published == 'true'
-      # You can do something when a publish happens.
-      # run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"
+          # - name: Send a Slack notification if a publish happens
+          # if: steps.changesets.outputs.published == 'true'
+          # You can do something when a publish happens.
+          # run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"
