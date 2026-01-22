@@ -1,6 +1,6 @@
 # Token Diff Generator Library and CLI
 
-###### WARNING: Will either be inaccurate or will throw an error if used for releases or branches that use tokens from before @adobe/spectrum-tokens@12.26.0!
+###### WARNING: Will either be inaccurate or will throw an error if used for releases or branches that use tokens from before [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)@12.26.0!
 
 The token diff generator library and cli is a npm package containing the CLI and standalone Javascript library that you can use to generate reports detailing the changes made between two different Spectrum token schema. Both the CLI and the standalone Javascript library are located in the Spectrum Tokens monorepo.
 
@@ -22,11 +22,13 @@ import tokenDiff from “@adobe/token-diff-generator”;
 
 ## Token diff generator library
 
-The token diff generator library holds the functions used to generate diffs between two compilations of design tokens. It uses the @adobe/optimized-diff library to extract a JSON object containing the changes, and then runs that JSON object through various functions to tailor the result specifically for design tokens.
+The token diff generator library holds the functions used to generate diffs between two compilations of design tokens. It uses the [**@adobe/optimized-diff**](https://github.com/adobe/optimized-diff) library to extract a JSON object containing the changes, and then runs that JSON object through various functions to tailor the result specifically for design tokens.
 
 An example of tailoring involves detecting when tokens are renamed. The optimized-diff library is unable to tell whether or not a token has been renamed due to it being designed for general JSON objects. Instead, it will mark the new name as a new token being added to the schema and the old name as a deleted token.
 
-This is where the token diff generator comes in. It goes through the changes detected by @adobe/optimized-diff and checks if a token is renamed via its uuid. Since the token diff generator relies on all tokens having their own uuid, the library—including the CLI and web version—will not work for versions of spectrum-tokens before the @adobe/spectrum-tokens@12.26.0 release.
+This is where the token diff generator comes in. It goes through the changes detected by [**@adobe/optimized-diff**](https://github.com/adobe/optimized-diff) and checks if a token is renamed via its uuid. Since the token diff generator relies on all tokens having their own uuid, the library—including the CLI and web version—will not work for versions of spectrum-tokens before the [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-tokens)@12.26.0 release.
+
+Additionally, tokens may include a `renamed` property that explicitly indicates the new token name for 1:1 replacements. This property works alongside UUID-based rename detection to provide clear migration paths. When present, the `renamed` property is tracked in diffs like other token properties.
 
 ### Usage examples
 
@@ -118,31 +120,31 @@ The handlebars formatter provides flexible templating capabilities for customizi
 
 **Built-in Templates:**
 
-- `cli` - Terminal-friendly output with colors (default for CLI format)
-- `default` - Markdown-style output similar to the existing markdown formatter
-- `json` - Structured JSON output with full diff details
-- `plain` - Clean plain text output for CLI consumption
-- `summary` - High-level summary with statistics only
+* `cli` - Terminal-friendly output with colors (default for CLI format)
+* `default` - Markdown-style output similar to the existing markdown formatter
+* `json` - Structured JSON output with full diff details
+* `plain` - Clean plain text output for CLI consumption
+* `summary` - High-level summary with statistics only
 
 **Custom Templates:**
 You can create custom templates in the `src/templates/` directory or specify a custom template directory with `--template-dir`.
 
 **Template Features:**
 
-- Full access to diff data through Handlebars helpers
-- Built-in helpers for common formatting tasks
-- Support for conditional logic and loops
-- Easy to extend with custom helpers
+* Full access to diff data through Handlebars helpers
+* Built-in helpers for common formatting tasks
+* Support for conditional logic and loops
+* Easy to extend with custom helpers
 
 **Available Helpers:**
 
-- `totalTokens` - Calculate total number of changed tokens
-- `totalUpdatedTokens` - Calculate total number of tokens with property updates
-- `hasKeys` - Check if an object has properties
-- `cleanPath` - Clean up property paths
-- `formatDate` - Format timestamps
-- `hilite`, `error`, `passing`, `neutral` - Terminal color helpers powered by chalk
-- `bold`, `dim`, `emphasis` - Text formatting helpers using chalk
-- `indent` - Helper for proper indentation (3 spaces per level)
-- `concat` - Helper to concatenate strings
-- `quote` - Helper to wrap text in quotes
+* `totalTokens` - Calculate total number of changed tokens
+* `totalUpdatedTokens` - Calculate total number of tokens with property updates
+* `hasKeys` - Check if an object has properties
+* `cleanPath` - Clean up property paths
+* `formatDate` - Format timestamps
+* `hilite`, `error`, `passing`, `neutral` - Terminal color helpers powered by chalk
+* `bold`, `dim`, `emphasis` - Text formatting helpers using chalk
+* `indent` - Helper for proper indentation (3 spaces per level)
+* `concat` - Helper to concatenate strings
+* `quote` - Helper to wrap text in quotes

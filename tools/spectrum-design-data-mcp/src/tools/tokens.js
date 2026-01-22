@@ -236,6 +236,9 @@ export function createTokenTools() {
                 schema: token.$schema,
                 uuid: token.uuid,
                 private: token.private || false,
+                deprecated: token.deprecated || false,
+                deprecated_comment: token.deprecated_comment,
+                renamed: token.renamed,
                 relevanceReason: nameMatch ? "name match" : "description match",
               });
             }
@@ -293,6 +296,9 @@ export function createTokenTools() {
                 schema: token.$schema,
                 uuid: token.uuid,
                 private: token.private || false,
+                deprecated: token.deprecated || false,
+                deprecated_comment: token.deprecated_comment,
+                renamed: token.renamed,
               });
             }
           });
@@ -517,6 +523,11 @@ function processTokens(tokens, fileName, query, type) {
             value: value.$value || value.value,
             description: value.$description || value.description,
             extensions: value.$extensions || value.extensions,
+            uuid: value.uuid,
+            private: value.private || false,
+            deprecated: value.deprecated || false,
+            deprecated_comment: value.deprecated_comment,
+            renamed: value.renamed,
           });
         } else {
           // Recurse into nested objects

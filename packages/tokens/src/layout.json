@@ -1854,6 +1854,7 @@
   "field-width": {
     "deprecated": true,
     "deprecated_comment": "This token has been deprecated, use field-default-width-medium instead.",
+    "renamed": "field-default-width-medium",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "sets": {
       "desktop": {
@@ -1873,7 +1874,8 @@
     "value": "{field-default-width-small}",
     "uuid": "d316d676-b4cf-4d16-b89c-63ef1d969861",
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use field-default-width-small instead."
+    "deprecated_comment": "This token has been deprecated, use field-default-width-small instead.",
+    "renamed": "field-default-width-small"
   },
   "character-count-to-field-quiet-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -2278,21 +2280,24 @@
     "value": "{field-default-width-medium}",
     "uuid": "935927d3-b25e-468a-999a-938643901e50",
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use field-default-width-medium instead."
+    "deprecated_comment": "This token has been deprecated, use field-default-width-medium instead.",
+    "renamed": "field-default-width-medium"
   },
   "field-width-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{field-default-width-large}",
     "uuid": "cc43e053-1255-403f-aaf5-2182f5438592",
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use field-default-width-large instead."
+    "deprecated_comment": "This token has been deprecated, use field-default-width-large instead.",
+    "renamed": "field-default-width-large"
   },
   "field-width-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{field-default-width-extra-large}",
     "uuid": "a903b595-ffe8-43ae-af9b-7b6577191dc5",
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use field-default-width-extra-large instead."
+    "deprecated_comment": "This token has been deprecated, use field-default-width-extra-large instead.",
+    "renamed": "field-default-width-extra-large"
   },
   "drop-shadow-x-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

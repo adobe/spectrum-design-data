@@ -692,14 +692,16 @@
         "value": "{component-top-to-workflow-icon-75}",
         "uuid": "91cb19ef-63fc-4d98-a61e-a5f55951f656",
         "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-75"
+        "deprecated_comment": "Replaced with component-top-to-workflow-icon-75",
+        "renamed": "component-top-to-workflow-icon-75"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
         "value": "{component-top-to-workflow-icon-75}",
         "uuid": "00334ebf-5706-4a97-b02c-9f41642c4795",
         "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-75"
+        "deprecated_comment": "Replaced with component-top-to-workflow-icon-75",
+        "renamed": "component-top-to-workflow-icon-75"
       }
     }
   },
@@ -712,14 +714,16 @@
         "value": "{component-top-to-workflow-icon-100}",
         "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f",
         "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-100"
+        "deprecated_comment": "Replaced with component-top-to-workflow-icon-100",
+        "renamed": "component-top-to-workflow-icon-100"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
         "value": "{component-top-to-workflow-icon-100}",
         "uuid": "b690bd12-855e-444d-8b76-a7ae948e3f52",
         "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-100"
+        "deprecated_comment": "Replaced with component-top-to-workflow-icon-100",
+        "renamed": "component-top-to-workflow-icon-100"
       }
     }
   },
@@ -732,14 +736,16 @@
         "value": "{component-top-to-workflow-icon-200}",
         "uuid": "54cae12b-5f21-47b4-a964-6033bd025975",
         "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-200"
+        "deprecated_comment": "Replaced with component-top-to-workflow-icon-200",
+        "renamed": "component-top-to-workflow-icon-200"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
         "value": "{component-top-to-workflow-icon-200}",
         "uuid": "e2c40309-5b3d-485a-bafa-9015a5b751e7",
         "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-200"
+        "deprecated_comment": "Replaced with component-top-to-workflow-icon-200",
+        "renamed": "component-top-to-workflow-icon-200"
       }
     }
   },
@@ -752,14 +758,16 @@
         "value": "{component-top-to-workflow-icon-300}",
         "uuid": "bec914a9-5905-40ac-bd61-a727016c1228",
         "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-300"
+        "deprecated_comment": "Replaced with component-top-to-workflow-icon-300",
+        "renamed": "component-top-to-workflow-icon-300"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
         "value": "{component-top-to-workflow-icon-300}",
         "uuid": "251c39cc-f949-4055-aecb-42fc99f9d504",
         "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-300"
+        "deprecated_comment": "Replaced with component-top-to-workflow-icon-300",
+        "renamed": "component-top-to-workflow-icon-300"
       }
     }
   },
@@ -1421,6 +1429,7 @@
     "value": "{meter-width}",
     "deprecated": true,
     "deprecated_comment": "Token renamed, use `meter-width`",
+    "renamed": "meter-width",
     "uuid": "2633d29d-8a14-48e8-977c-bdb9a53b3bd5"
   },
   "meter-thickness-small": {
@@ -1575,7 +1584,8 @@
     "value": "{popover-edge-to-content-area}",
     "uuid": "f97488e8-b1c1-442e-b98c-0ae6cff0b774",
     "deprecated": true,
-    "deprecated_comment": "Introduced as an error. Use popover-edge-to-content-area instead"
+    "deprecated_comment": "Introduced as an error. Use popover-edge-to-content-area instead",
+    "renamed": "popover-edge-to-content-area"
   },
   "popover-edge-to-content-area": {
     "component": "popover",
@@ -2236,6 +2246,7 @@
     "value": "{picker-end-edge-to-disclosure-icon-quiet}",
     "deprecated": true,
     "deprecated_comment": "Use `picker-end-edge-to-disclosure-icon-quiet` instead",
+    "renamed": "picker-end-edge-to-disclosure-icon-quiet",
     "uuid": "c8bd227d-c72b-4f6a-9d93-0b595821dee0"
   },
   "picker-end-edge-to-disclosure-icon-quiet": {
@@ -2301,7 +2312,8 @@
     "value": "{combo-box-visual-to-field-button}",
     "uuid": "5d054a3e-e4bb-4ca3-b84a-51b3d7fa2cb8",
     "deprecated": true,
-    "deprecated_comment": "Replaced with combo-box-visual-to-field-button"
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button",
+    "renamed": "combo-box-visual-to-field-button"
   },
   "combo-box-visual-to-field-button-medium": {
     "component": "combo-box",
@@ -2309,7 +2321,8 @@
     "value": "{combo-box-visual-to-field-button}",
     "uuid": "c5a4baf2-effe-4d9a-92f3-b4ead5440d36",
     "deprecated": true,
-    "deprecated_comment": "Replaced with combo-box-visual-to-field-button"
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button",
+    "renamed": "combo-box-visual-to-field-button"
   },
   "combo-box-visual-to-field-button-large": {
     "component": "combo-box",
@@ -2317,7 +2330,8 @@
     "value": "{combo-box-visual-to-field-button}",
     "uuid": "356c4912-69c7-4a95-956b-c1aa78cb02cb",
     "deprecated": true,
-    "deprecated_comment": "Replaced with combo-box-visual-to-field-button"
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button",
+    "renamed": "combo-box-visual-to-field-button"
   },
   "combo-box-visual-to-field-button-extra-large": {
     "component": "combo-box",
@@ -2325,7 +2339,8 @@
     "value": "{combo-box-visual-to-field-button}",
     "uuid": "4a4ee415-1f25-4d36-928c-5ece0ce4abcc",
     "deprecated": true,
-    "deprecated_comment": "Replaced with combo-box-visual-to-field-button"
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button",
+    "renamed": "combo-box-visual-to-field-button"
   },
   "combo-box-visual-to-field-button-quiet": {
     "component": "combo-box",
@@ -2333,7 +2348,8 @@
     "value": "{combo-box-visual-to-field-button}",
     "uuid": "292cbbe1-1ba4-4369-9768-2051c07e6406",
     "deprecated": true,
-    "deprecated_comment": "Replaced with combo-box-visual-to-field-button"
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button",
+    "renamed": "combo-box-visual-to-field-button"
   },
   "thumbnail-size-50": {
     "component": "thumbnail",
@@ -2545,7 +2561,8 @@
     "value": "{alert-dialog-title-font-size}",
     "uuid": "9b7ce1fc-ea8a-4d7b-a926-0accbd6b1197",
     "deprecated": true,
-    "deprecated_comment": "Replace with alert-dialog-title-font-size"
+    "deprecated_comment": "Replace with alert-dialog-title-font-size",
+    "renamed": "alert-dialog-title-font-size"
   },
   "alert-dialog-description-size": {
     "component": "alert-dialog",
@@ -2553,11 +2570,13 @@
     "value": "{alert-dialog-description-font-size}",
     "uuid": "9dc42d1a-b87d-4a5d-a5a3-6afd4d5bd599",
     "deprecated": true,
-    "deprecated_comment": "Replace with alert-dialog-description-font-size"
+    "deprecated_comment": "Replace with alert-dialog-description-font-size",
+    "renamed": "alert-dialog-description-font-size"
   },
   "opacity-checkerboard-square-size": {
     "deprecated": true,
     "deprecated_comment": "This token has been deprecated, use opacity-checkerboard-square-size-medium instead.",
+    "renamed": "opacity-checkerboard-square-size-medium",
     "component": "opacity-checkerboard",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "sets": {
@@ -2705,7 +2724,8 @@
     "value": "{breadcrumbs-start-edge-to-text-large}",
     "uuid": "a0542dab-98fb-45d8-b4a0-79cfd2cc4f1c",
     "deprecated": true,
-    "deprecated_comment": "Use a sized token instead, e.g., breadcrumbs-start-edge-to-text-large."
+    "deprecated_comment": "Use a sized token instead, e.g., breadcrumbs-start-edge-to-text-large.",
+    "renamed": "breadcrumbs-start-edge-to-text-large"
   },
   "breadcrumbs-end-edge-to-text": {
     "component": "breadcrumbs",
@@ -2735,7 +2755,8 @@
     "value": "{breadcrumbs-top-to-separator-large}",
     "uuid": "15e56281-5fc1-4b59-b815-fc333231e364",
     "deprecated": true,
-    "deprecated_comment": "Use a sized token instead, e.g., breadcrumbs-top-to-separator-large."
+    "deprecated_comment": "Use a sized token instead, e.g., breadcrumbs-top-to-separator-large.",
+    "renamed": "breadcrumbs-top-to-separator-large"
   },
   "breadcrumbs-top-to-separator-icon-compact": {
     "component": "breadcrumbs",
@@ -2743,7 +2764,8 @@
     "value": "{breadcrumbs-top-to-separator-medium}",
     "uuid": "a63e8df1-124f-4f3e-9e1b-ba422b8d8257",
     "deprecated": true,
-    "deprecated_comment": "Use a sized token instead, e.g., breadcrumbs-top-to-separator-medium."
+    "deprecated_comment": "Use a sized token instead, e.g., breadcrumbs-top-to-separator-medium.",
+    "renamed": "breadcrumbs-top-to-separator-medium"
   },
   "breadcrumbs-top-to-separator-icon-multiline": {
     "component": "breadcrumbs",
@@ -3122,6 +3144,7 @@
     "value": "{alert-banner-top-to-workflow-icon}",
     "deprecated": true,
     "deprecated_comment": "Introduced as an error. Use alert-banner-top-to-workflow-icon instead",
+    "renamed": "alert-banner-top-to-workflow-icon",
     "uuid": "42b40d65-eed4-432e-8ede-74d89905d131"
   },
   "alert-banner-top-to-workflow-icon": {
@@ -3146,6 +3169,7 @@
     "value": "{alert-banner-top-to-text}",
     "deprecated": true,
     "deprecated_comment": "Introduced as an error. Use alert-banner-top-to-text instead",
+    "renamed": "alert-banner-top-to-text",
     "uuid": "8fefedaf-6e95-4a14-a8ba-08381f57bfeb"
   },
   "alert-banner-top-to-text": {
@@ -3170,6 +3194,7 @@
     "value": "{alert-banner-bottom-to-text}",
     "deprecated": true,
     "deprecated_comment": "Introduced as an error. Use alert-banner-bottom-to-text instead",
+    "renamed": "alert-banner-bottom-to-text",
     "uuid": "e2bd6435-6fbd-4030-9ff5-b034438b8d8a"
   },
   "alert-banner-bottom-to-text": {
@@ -3407,7 +3432,8 @@
     "value": "{illustrated-message-large-title-font-size}",
     "uuid": "365ec548-431b-4e1e-9f9d-7b04d337f001",
     "deprecated": true,
-    "deprecated_comment": "Use illustrated-message-medium-title-font-size instead"
+    "deprecated_comment": "Use illustrated-message-medium-title-font-size instead",
+    "renamed": "illustrated-message-medium-title-font-size"
   },
   "illustrated-message-cjk-title-size": {
     "component": "illustrated-message",
@@ -3415,7 +3441,8 @@
     "value": "{illustrated-message-large-cjk-title-font-size}",
     "uuid": "e77279df-bc62-441a-8a30-5faa41d0df10",
     "deprecated": true,
-    "deprecated_comment": "Use illustrated-message-medium-cjk-title-font-size instead"
+    "deprecated_comment": "Use illustrated-message-medium-cjk-title-font-size instead",
+    "renamed": "illustrated-message-medium-cjk-title-font-size"
   },
   "illustrated-message-body-size": {
     "component": "illustrated-message",
@@ -3423,7 +3450,8 @@
     "value": "{illustrated-message-large-body-font-size}",
     "uuid": "4140710f-ae31-4ae3-b8b6-2d3eb6a1ae78",
     "deprecated": true,
-    "deprecated_comment": "Use illustrated-message-medium-body-font-size instead"
+    "deprecated_comment": "Use illustrated-message-medium-body-font-size instead",
+    "renamed": "illustrated-message-medium-body-font-size"
   },
   "search-field-minimum-width-multiplier": {
     "component": "search-field",
@@ -3467,7 +3495,8 @@
     "value": "{card-minimum-width-default}",
     "uuid": "55db9f3d-621d-4d23-b3d0-c0f2b0f3f9b0",
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use card-minimum-width-default instead."
+    "deprecated_comment": "This token has been deprecated, use card-minimum-width-default instead.",
+    "renamed": "card-minimum-width-default"
   },
   "card-minimum-width-default": {
     "component": "card",
@@ -3518,7 +3547,8 @@
     "value": "{drop-zone-title-font-size}",
     "uuid": "edc68bfe-7ad3-4a12-81fa-ded8fb6fc2e3",
     "deprecated": true,
-    "deprecated_comment": "Use drop-zone-title-font-size instead"
+    "deprecated_comment": "Use drop-zone-title-font-size instead",
+    "renamed": "drop-zone-title-font-size"
   },
   "drop-zone-cjk-title-size": {
     "component": "drop-zone",
@@ -3526,7 +3556,8 @@
     "value": "{drop-zone-cjk-title-font-size}",
     "uuid": "013387e8-8925-4bb4-a8ee-94420141fde9",
     "deprecated": true,
-    "deprecated_comment": "Use drop-zone-cjk-title-font-size instead"
+    "deprecated_comment": "Use drop-zone-cjk-title-font-size instead",
+    "renamed": "drop-zone-cjk-title-font-size"
   },
   "drop-zone-body-size": {
     "component": "drop-zone",
@@ -3534,7 +3565,8 @@
     "value": "{drop-zone-body-font-size}",
     "uuid": "bb3fee51-24cc-4643-9f22-fa1592ab2457",
     "deprecated": true,
-    "deprecated_comment": "Use drop-zone-body-font-size instead"
+    "deprecated_comment": "Use drop-zone-body-font-size instead",
+    "renamed": "drop-zone-body-font-size"
   },
   "coach-mark-width": {
     "component": "coach-mark",
@@ -3654,7 +3686,8 @@
     "value": "{coach-mark-title-font-size}",
     "uuid": "331604db-3f28-472e-810d-9010ed2c8e33",
     "deprecated": true,
-    "deprecated_comment": "Replace with coach-mark-title-font-size"
+    "deprecated_comment": "Replace with coach-mark-title-font-size",
+    "renamed": "coach-mark-title-font-size"
   },
   "coach-mark-body-size": {
     "component": "coach-mark",
@@ -3662,7 +3695,8 @@
     "value": "{coach-mark-body-font-size}",
     "uuid": "eba9f466-deda-48d5-a120-14419d5a670f",
     "deprecated": true,
-    "deprecated_comment": "Replace with coach-mark-body-font-size"
+    "deprecated_comment": "Replace with coach-mark-body-font-size",
+    "renamed": "coach-mark-body-font-size"
   },
   "coach-mark-pagination-body-size": {
     "component": "coach-mark",
@@ -3670,7 +3704,8 @@
     "value": "{coach-mark-pagination-body-font-size}",
     "uuid": "df8bc8ae-b6fa-4414-93b7-c89d8097fe11",
     "deprecated": true,
-    "deprecated_comment": "Replace with coach-mark-pagination-body-font-size"
+    "deprecated_comment": "Replace with coach-mark-pagination-body-font-size",
+    "renamed": "coach-mark-pagination-body-font-size"
   },
   "accordion-top-to-text-compact-small": {
     "component": "accordion",
@@ -3704,14 +3739,16 @@
         "value": "9px",
         "uuid": "229fa20e-6d13-40b0-b19f-5cf6386f81ac",
         "deprecated": true,
-        "deprecated_comment": "Introduced as an error. Use accordion-top-to-text-spacious-small instead"
+        "deprecated_comment": "Introduced as an error. Use accordion-top-to-text-spacious-small instead",
+        "renamed": "accordion-top-to-text-spacious-small"
       },
       "mobile": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
         "value": "12px",
         "uuid": "bef73b91-db4f-4532-9f4d-f5a81ead625d",
         "deprecated": true,
-        "deprecated_comment": "Introduced as an error. Use accordion-top-to-text-spacious-small instead"
+        "deprecated_comment": "Introduced as an error. Use accordion-top-to-text-spacious-small instead",
+        "renamed": "accordion-top-to-text-spacious-small"
       }
     }
   },
@@ -4288,7 +4325,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-height-small instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-height-small instead.",
+    "renamed": "table-row-height-small"
   },
   "table-row-height-small": {
     "component": "table",
@@ -4322,7 +4360,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-height-medium instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-height-medium instead.",
+    "renamed": "table-row-height-medium"
   },
   "table-row-height-medium": {
     "component": "table",
@@ -4356,7 +4395,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-height-large instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-height-large instead.",
+    "renamed": "table-row-height-large"
   },
   "table-row-height-large": {
     "component": "table",
@@ -4390,7 +4430,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-height-extra-large instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-height-extra-large instead.",
+    "renamed": "table-row-height-extra-large"
   },
   "table-row-height-extra-large": {
     "component": "table",
@@ -4536,7 +4577,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-small instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-small instead.",
+    "renamed": "table-row-top-to-text-small"
   },
   "table-row-top-to-text-small": {
     "component": "table",
@@ -4570,7 +4612,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-medium instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-medium instead.",
+    "renamed": "table-row-top-to-text-medium"
   },
   "table-row-top-to-text-medium": {
     "component": "table",
@@ -4604,7 +4647,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-large instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-large instead.",
+    "renamed": "table-row-top-to-text-large"
   },
   "table-row-top-to-text-large": {
     "component": "table",
@@ -4638,7 +4682,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-extra-large instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-extra-large instead.",
+    "renamed": "table-row-top-to-text-extra-large"
   },
   "table-row-top-to-text-extra-large": {
     "component": "table",
@@ -4672,7 +4717,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-small instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-small instead.",
+    "renamed": "table-row-bottom-to-text-small"
   },
   "table-row-bottom-to-text-small": {
     "component": "table",
@@ -4706,7 +4752,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-medium instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-medium instead.",
+    "renamed": "table-row-bottom-to-text-medium"
   },
   "table-row-bottom-to-text-medium": {
     "component": "table",
@@ -4740,7 +4787,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-large instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-large instead.",
+    "renamed": "table-row-bottom-to-text-large"
   },
   "table-row-bottom-to-text-large": {
     "component": "table",
@@ -4774,7 +4822,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-extra-large instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-extra-large instead.",
+    "renamed": "table-row-bottom-to-text-extra-large"
   },
   "table-row-bottom-to-text-extra-large": {
     "component": "table",
@@ -5044,7 +5093,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-small instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-small instead.",
+    "renamed": "table-row-checkbox-to-top-small"
   },
   "table-row-checkbox-to-top-small": {
     "component": "table",
@@ -5110,7 +5160,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-medium instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-medium instead.",
+    "renamed": "table-row-checkbox-to-top-medium"
   },
   "table-row-checkbox-to-top-medium": {
     "component": "table",
@@ -5176,7 +5227,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-large instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-large instead.",
+    "renamed": "table-row-checkbox-to-top-large"
   },
   "table-row-checkbox-to-top-large": {
     "component": "table",
@@ -5242,7 +5294,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-extra-large instead."
+    "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-extra-large instead.",
+    "renamed": "table-row-checkbox-to-top-extra-large"
   },
   "table-row-checkbox-to-top-extra-large": {
     "component": "table",
@@ -5420,7 +5473,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-small instead."
+    "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-small instead.",
+    "renamed": "table-thumbnail-to-top-minimum-small"
   },
   "table-thumbnail-to-top-minimum-small": {
     "component": "table",
@@ -5454,7 +5508,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-medium instead."
+    "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-medium instead.",
+    "renamed": "table-thumbnail-to-top-minimum-medium"
   },
   "table-thumbnail-to-top-minimum-medium": {
     "component": "table",
@@ -5488,7 +5543,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-large instead."
+    "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-large instead.",
+    "renamed": "table-thumbnail-to-top-minimum-large"
   },
   "table-thumbnail-to-top-minimum-large": {
     "component": "table",
@@ -5522,7 +5578,8 @@
       }
     },
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-extra-large instead."
+    "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-extra-large instead.",
+    "renamed": "table-thumbnail-to-top-minimum-extra-large"
   },
   "table-thumbnail-to-top-minimum-extra-large": {
     "component": "table",
@@ -10298,7 +10355,8 @@
     "value": "{tree-view-item-to-item-default}",
     "uuid": "9a04f19a-9e2a-43b9-9b1f-3385aef214ac",
     "deprecated": true,
-    "deprecated_comment": "This token has been deprecated, use tree-view-item-to-item-default instead."
+    "deprecated_comment": "This token has been deprecated, use tree-view-item-to-item-default instead.",
+    "renamed": "tree-view-item-to-item-default"
   },
   "tree-view-item-to-item-default": {
     "component": "tree-view",
