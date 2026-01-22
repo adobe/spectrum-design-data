@@ -22,13 +22,12 @@ jobs:
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
-      - name: Setup npm for OIDC authentication
+      - name: Setup npm registry (OIDC will auto-authenticate)
         run: |
-          # Create .npmrc for registry without auth token
-          # npm CLI (11.5.1+) will auto-detect OIDC and handle authentication
+          # Create minimal .npmrc without auth token
+          # npm CLI (11.5.1+) will auto-detect OIDC via id-token permission
           cat > ~/.npmrc << 'EOF'
           registry=https://registry.npmjs.org/
-          //registry.npmjs.org/:_authToken=${NPM_TOKEN}
           EOF
       - run: moon setup
       - run: moon run :build --query "projectSource~packages/*"
