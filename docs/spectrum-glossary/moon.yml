@@ -27,14 +27,14 @@ tasks:
       - "@group(scripts)"
       - "@group(configs)"
       - "~:design-system-registry"
-    outputs:
-      - "dist"
+    # Don't cache dist as output - export task needs it to persist
 
   export:
     command: ./scripts/export-to-site.sh
     deps:
       - ~:build
     platform: system
+    local: true # Only needed for deploy-docs workflow, not CI
     outputs:
       - /site/glossary/
 
