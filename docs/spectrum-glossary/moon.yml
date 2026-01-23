@@ -34,8 +34,7 @@ tasks:
     deps:
       - ~:build
     platform: system
-    inputs:
-      - "dist"
+    local: true # Only needed for deploy-docs workflow, not CI
     outputs:
       - /site/glossary/
 
