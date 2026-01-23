@@ -19,10 +19,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: moonrepo/setup-toolchain@v0
+      # Set up Node.js without proto to test OIDC compatibility
+      - uses: actions/setup-node@v4
         with:
-          auto-install: true
-      # npm 11.6.2 configured in .prototools for OIDC support
+          node-version: "20.17.0"
+      # Install npm 11.6.2 (required for OIDC) - bypassing proto
+      - run: npm install -g npm@11.6.2
+      # Install pnpm directly
+      - run: npm install -g pnpm@10.17.1
+      # Install moon directly (bypassing proto)
+      - run: npm install -g @moonrepo/cli@1.39.1
       - run: moon setup
       - run: moon run :build --query "projectSource~packages/*"
       - name: Create Release Pull Request or Publish to npm
@@ -31,6 +37,6 @@ jobs:
         with:
           commit: "chore: release"
           publish: pnpm release
-          oidcAuth: true # Use OIDC with explicit env var passing (fixes proto shim compatibility)
+          oidcAuth: true # Test OIDC without proto shims
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
