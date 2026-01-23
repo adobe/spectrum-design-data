@@ -27,7 +27,7 @@ jobs:
       - run: moon run :build --query "projectSource~packages/*"
       - name: Create Release Pull Request or Publish to npm
         id: changesets
-        uses: GarthDB/changesets-action@v1.6.5
+        uses: GarthDB/changesets-action@v1.6.6
         with:
           # this expects you to have a npm script called version that runs some logic and then calls `changeset version`.
           # version: pnpm version
