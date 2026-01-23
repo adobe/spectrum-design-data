@@ -27,8 +27,7 @@ tasks:
       - "@group(scripts)"
       - "@group(configs)"
       - "~:design-system-registry"
-    outputs:
-      - "dist"
+    # Don't cache dist as output - export task needs it to persist
 
   export:
     command: ./scripts/export-to-site.sh
@@ -36,7 +35,7 @@ tasks:
       - ~:build
     platform: system
     inputs:
-      - "dist" # Required: moon caches outputs, need to declare as input to restore
+      - "dist"
     outputs:
       - /site/glossary/
 
