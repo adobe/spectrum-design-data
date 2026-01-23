@@ -25,15 +25,34 @@ jobs:
       # npm 11.6.2 configured in .prototools for OIDC support
       - run: moon setup
       - run: moon run :build --query "projectSource~packages/*"
-      - name: Create Release Pull Request or Publish to npm
+      - name: Verify OIDC environment
+        run: |
+          echo "Checking OIDC environment variables..."
+          echo "CI=$CI"
+          if [ -z "$ACTIONS_ID_TOKEN_REQUEST_URL" ]; then
+            echo "ERROR: ACTIONS_ID_TOKEN_REQUEST_URL not set!"
+            exit 1
+          fi
+          echo "ACTIONS_ID_TOKEN_REQUEST_URL is set"
+          if [ -z "$ACTIONS_ID_TOKEN_REQUEST_TOKEN" ]; then
+            echo "ERROR: ACTIONS_ID_TOKEN_REQUEST_TOKEN not set!"
+            exit 1
+          fi
+          echo "ACTIONS_ID_TOKEN_REQUEST_TOKEN is set"
+          echo "npm version: $(npm --version)"
+          echo "Checking for .npmrc files..."
+          ls -la ~/.npmrc 2>/dev/null || echo "No ~/.npmrc (good for OIDC)"
+      - name: Create Release Pull Request
         id: changesets
-        uses: GarthDB/changesets-action@v1.6.7
+        uses: changesets/action@v1
         with:
-          # this expects you to have a npm script called version that runs some logic and then calls `changeset version`.
-          # version: pnpm version
           commit: "chore: release"
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: pnpm release
-          oidcAuth: true # Use OIDC instead of NPM_TOKEN
+          # Don't use publish parameter - we'll publish manually
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Publish to npm with OIDC
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        run: |
+          echo "Publishing packages with OIDC..."
+          # Call changeset publish directly - npm should auto-detect OIDC
+          pnpm changeset publish
