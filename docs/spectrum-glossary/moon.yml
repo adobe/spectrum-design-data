@@ -35,6 +35,8 @@ tasks:
     deps:
       - ~:build
     platform: system
+    inputs:
+      - "dist" # Required: moon caches outputs, need to declare as input to restore
     outputs:
       - /site/glossary/
 
