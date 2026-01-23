@@ -27,10 +27,14 @@ jobs:
       - run: npm install -g npm@11.6.2
       # Install pnpm directly
       - run: npm install -g pnpm@10.17.1
-      # Install moon directly (bypassing proto)
-      - run: npm install -g @moonrepo/cli@1.39.1
-      - run: moon setup
-      - run: moon run :build --query "projectSource~packages/*"
+      # Install dependencies
+      - run: pnpm install --frozen-lockfile
+      # Build packages directly (bypassing moon - only tokens package has build tasks)
+      - name: Build tokens package
+        run: |
+          cd packages/tokens
+          node tasks/buildSpectrumTokens.js
+          node tasks/buildManifest.js
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: GarthDB/changesets-action@v1.6.8
