@@ -1,0 +1,35 @@
+{
+  "title": "Action Button",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/action-button/"
+  },
+  "options": [
+    {
+      "title": "icon",
+      "type": "icon",
+      "defaultValue": "Edit",
+      "description": "Icon must be present if the label is not defined.",
+      "required": false
+    },
+    {
+      "title": "size",
+      "type": "size",
+      "items": ["xs", "s", "m", "l", "xl"],
+      "defaultValue": "m",
+      "required": false
+    },
+    {
+      "title": "staticColor",
+      "type": "color",
+      "defaultValue": "#FFFFFF",
+      "required": false
+    },
+    {
+      "title": "isQuiet",
+      "type": "boolean",
+      "defaultValue": false,
+      "required": false
+    }
+  ]
+}

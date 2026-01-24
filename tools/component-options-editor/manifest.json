@@ -9,6 +9,7 @@
   "editorType": ["figma"],
   "ui": "dist/ui.html",
   "networkAccess": {
-    "allowedDomains": ["none"]
+    "allowedDomains": ["https://api.github.com"],
+    "reasoning": "Required to create pull requests with component schema changes directly to the adobe/spectrum-design-data repository"
   }
 }

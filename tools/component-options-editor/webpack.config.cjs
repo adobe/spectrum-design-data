@@ -43,7 +43,13 @@ module.exports = (env, argv) => ({
     },
     resolve: {
         // our supported source file types
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', '.js'],
+        // Polyfills for Node.js modules used by Octokit in browser
+        fallback: {
+            "buffer": require.resolve("buffer/"),
+            "stream": require.resolve("stream-browserify"),
+            "util": require.resolve("util/")
+        }
     },
     output: {
         filename: (pathData) => {
@@ -65,6 +71,13 @@ module.exports = (env, argv) => ({
             chunks: ['ui'],
             publicPath: '/',
             cache: false
+        }),
+        new webpack.ProvidePlugin({
+            Buffer: ['buffer', 'Buffer'],
+            process: 'process/browser.js'
+        }),
+        new webpack.DefinePlugin({
+            'process.env': JSON.stringify({})
         })
     ]
 });

@@ -1,0 +1,53 @@
+{
+  "title": "Edge Cases Test",
+  "meta": {
+    "category": "content",
+    "documentationUrl": "https://spectrum.adobe.com/page/test/"
+  },
+  "options": [
+    {
+      "title": "allSizesOption",
+      "type": "size",
+      "items": ["xs", "s", "m", "l", "xl", "xxl", "xxxl"],
+      "defaultValue": "m",
+      "required": false
+    },
+    {
+      "title": "stateOption",
+      "type": "state",
+      "items": [
+        "default",
+        "hover",
+        "active",
+        "focus",
+        "disabled",
+        "keyboard focus"
+      ],
+      "defaultValue": "default",
+      "required": false
+    },
+    {
+      "title": "requiredString",
+      "type": "string",
+      "required": true
+    },
+    {
+      "title": "dimensionOption",
+      "type": "dimension",
+      "defaultValue": 100,
+      "required": false
+    },
+    {
+      "title": "noDefaultEnum",
+      "type": "localEnum",
+      "items": ["option1", "option2", "option3"],
+      "required": false
+    },
+    {
+      "title": "stringWithDescription",
+      "type": "string",
+      "description": "This is a detailed description of the string option",
+      "required": false
+    }
+  ]
+}
