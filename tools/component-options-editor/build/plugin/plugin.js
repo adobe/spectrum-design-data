@@ -15,6 +15,7 @@
  * from Adobe.
  **************************************************************************/
 import { cout } from "./helpers";
+const GITHUB_PAT_KEY = "github-pat";
 /**
  * Send component options data for the current page to the UI.
  * Called on init and when page changes.
@@ -105,6 +106,25 @@ async function initUI() {
         JSON.stringify(systemOptionsData),
       );
       cout("Backend: saved system options");
+    }
+    // Handle GitHub PAT retrieval
+    if (msg.type === "get-github-pat") {
+      const pat = await figma.clientStorage.getAsync(GITHUB_PAT_KEY);
+      figma.ui.postMessage({
+        type: "github-pat-response",
+        pat: pat || "",
+      });
+      cout("Backend: sent GitHub PAT to UI");
+    }
+    // Handle GitHub PAT storage
+    if (msg.type === "store-github-pat") {
+      await figma.clientStorage.setAsync(GITHUB_PAT_KEY, msg.pat);
+      cout("Backend: stored GitHub PAT securely");
+    }
+    // Handle GitHub PAT deletion
+    if (msg.type === "delete-github-pat") {
+      await figma.clientStorage.deleteAsync(GITHUB_PAT_KEY);
+      cout("Backend: deleted GitHub PAT");
     }
   };
   cout("Backend: Complete Init UI");
