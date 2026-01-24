@@ -1,0 +1,79 @@
+{
+  "title": "Button",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/button/"
+  },
+  "options": [
+    {
+      "title": "label",
+      "type": "string",
+      "required": false
+    },
+    {
+      "title": "hideLabel",
+      "type": "boolean",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "title": "icon",
+      "type": "icon",
+      "description": "Icon must be present if the label is not defined.",
+      "required": false
+    },
+    {
+      "title": "variant",
+      "type": "localEnum",
+      "items": ["accent", "negative", "primary", "secondary"],
+      "defaultValue": "accent",
+      "required": false
+    },
+    {
+      "title": "staticColor",
+      "type": "localEnum",
+      "items": ["white", "black"],
+      "description": "Static color must not be set for the default version of this component.",
+      "required": false
+    },
+    {
+      "title": "style",
+      "type": "localEnum",
+      "items": ["fill", "outline"],
+      "defaultValue": "fill",
+      "required": false
+    },
+    {
+      "title": "size",
+      "type": "size",
+      "items": ["s", "m", "l", "xl"],
+      "defaultValue": "m",
+      "required": false
+    },
+    {
+      "title": "justified",
+      "type": "boolean",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "title": "isPending",
+      "type": "boolean",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "title": "isDisabled",
+      "type": "boolean",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "title": "state",
+      "type": "state",
+      "items": ["default", "hover", "down", "keyboard focus"],
+      "defaultValue": "default",
+      "required": false
+    }
+  ]
+}

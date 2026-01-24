@@ -65,6 +65,7 @@ import "./templates/schemaImporter";
 import "./templates/systemOptionsPanel";
 import "./templates/optionsPreview";
 import "./templates/validationErrors";
+import { githubAuthTemplate } from "./templates/githubAuth";
 import {
   DEFAULT_SYSTEM_OPTIONS,
   SystemOptionsUpdateEvent,
@@ -221,6 +222,17 @@ export class LitAppElement extends LitElement {
   @property({ type: Array }) systemOptions: Array<SystemOptionInterface> = [
     ...DEFAULT_SYSTEM_OPTIONS,
   ];
+
+  // GitHub integration properties
+  @property({ type: Boolean }) isGitHubAuthenticated = false;
+  @property({ type: String }) githubPAT = "";
+  @property({ type: Boolean }) isCreatingPR = false;
+  @property({ type: String }) prUrl = "";
+  @property({ type: String }) prError = "";
+  @property({ type: Boolean }) showPRSuccess = false;
+  @property({ type: Boolean }) showPRError = false;
+  @property({ type: String }) prDescription = "";
+  @property({ type: Boolean }) showDescriptionDialog = false;
 
   private validationTimeout: number | null = null;
   @property()
@@ -471,6 +483,194 @@ export class LitAppElement extends LitElement {
         return html``;
     }
   }
+
+  /**
+   * Load stored GitHub PAT from plugin storage
+   */
+  private loadStoredPAT() {
+    this.sendMessage("get-github-pat", {});
+  }
+
+  /**
+   * Handle GitHub authentication with PAT
+   */
+  private handleGitHubAuth = (token: string) => {
+    if (!token || token.trim() === "") {
+      return;
+    }
+    this.githubPAT = token;
+    this.isGitHubAuthenticated = true;
+    this.sendMessage("store-github-pat", { pat: token });
+    cout("FRONTEND: Stored GitHub PAT");
+  };
+
+  /**
+   * Handle GitHub authentication revocation
+   */
+  private handleGitHubRevoke = () => {
+    this.githubPAT = "";
+    this.isGitHubAuthenticated = false;
+    this.sendMessage("delete-github-pat", {});
+    this.showPRSuccess = false;
+    this.showPRError = false;
+    cout("FRONTEND: Revoked GitHub PAT");
+  };
+
+  /**
+   * Build component data from current state
+   */
+  private buildComponentData(): ComponentInterface {
+    return {
+      title: this.componentName,
+      meta: {
+        category: this.componentCategory,
+        documentationUrl: this.componentDocumentationURL,
+      },
+      options: this._componentOptions,
+    };
+  }
+
+  /**
+   * Validate component data before PR creation
+   */
+  private validateComponentForPR(): boolean {
+    if (!this.componentName || this.componentName.trim() === "") {
+      this.prError = "Component name is required";
+      this.showPRError = true;
+      return false;
+    }
+
+    if (!this.componentCategory || this.componentCategory === "") {
+      this.prError = "Component category is required";
+      this.showPRError = true;
+      return false;
+    }
+
+    if (
+      !this.componentDocumentationURL ||
+      this.componentDocumentationURL.trim() === ""
+    ) {
+      this.prError = "Documentation URL is required";
+      this.showPRError = true;
+      return false;
+    }
+
+    if (this.validationErrors.length > 0) {
+      this.prError = "Please fix validation errors before creating a PR";
+      this.showPRError = true;
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Show description dialog and get description from user
+   */
+  private async promptForDescription(): Promise<string | null> {
+    return new Promise((resolve) => {
+      this.showDescriptionDialog = true;
+      this.prDescription = "";
+
+      const handler = (e: Event) => {
+        if ((e as CustomEvent).detail?.action === "confirm") {
+          const description = this.prDescription;
+          this.showDescriptionDialog = false;
+          this.removeEventListener("description-dialog-close", handler);
+          resolve(description);
+        } else if ((e as CustomEvent).detail?.action === "cancel") {
+          this.showDescriptionDialog = false;
+          this.removeEventListener("description-dialog-close", handler);
+          resolve(null);
+        }
+      };
+
+      this.addEventListener("description-dialog-close", handler);
+    });
+  }
+
+  /**
+   * Handle PR creation button click
+   */
+  private handleCreatePR = async () => {
+    // Validate component
+    if (!this.validateComponentForPR()) {
+      return;
+    }
+
+    // Prompt for description
+    const description = await this.promptForDescription();
+    if (!description || description.trim() === "") {
+      return;
+    }
+
+    this.isCreatingPR = true;
+    this.showPRSuccess = false;
+    this.showPRError = false;
+
+    try {
+      // Dynamically import to reduce initial bundle size
+      const { createComponentSchemaPR } =
+        await import("../../services/prWorkflow");
+      const { getErrorMessage } = await import("../../services/errors");
+
+      const result = await createComponentSchemaPR({
+        pluginData: this.buildComponentData(),
+        description,
+        pat: this.githubPAT,
+      });
+
+      this.prUrl = result.prUrl;
+      this.showPRSuccess = true;
+      cout(`FRONTEND: PR created successfully: ${result.prUrl}`);
+    } catch (error: any) {
+      cout(`FRONTEND: PR creation failed: ${error.message}`);
+      const { getErrorMessage } = await import("../../services/errors");
+      this.prError = getErrorMessage(error);
+      this.showPRError = true;
+    } finally {
+      this.isCreatingPR = false;
+    }
+  };
+
+  /**
+   * Close PR success message
+   */
+  private closePRSuccess = () => {
+    this.showPRSuccess = false;
+    this.prUrl = "";
+  };
+
+  /**
+   * Close PR error message
+   */
+  private closePRError = () => {
+    this.showPRError = false;
+    this.prError = "";
+  };
+
+  /**
+   * Confirm description dialog
+   */
+  private confirmDescription = () => {
+    this.dispatchEvent(
+      new CustomEvent("description-dialog-close", {
+        detail: { action: "confirm" },
+      }),
+    );
+  };
+
+  /**
+   * Cancel description dialog
+   */
+  private cancelDescription = () => {
+    this.dispatchEvent(
+      new CustomEvent("description-dialog-close", {
+        detail: { action: "cancel" },
+      }),
+    );
+  };
+
   render() {
     return html`
       <sp-tabs selected="1" size="m">
@@ -661,7 +861,150 @@ export class LitAppElement extends LitElement {
             <div id="json-editor-container"></div>
           </div>
         </sp-tab-panel>
+        <sp-tab label="GitHub PR" value="5"></sp-tab>
+        <sp-tab-panel value="5">
+          <div style=${styleMap({ padding: "16px" })}>
+            <h3 class="spectrum-Heading spectrum-Heading--sizeS">
+              Create Pull Request
+            </h3>
+            <sp-divider class="spectrum-Divider--overwrite"></sp-divider>
+
+            <!-- GitHub Authentication -->
+            ${githubAuthTemplate(
+              this.isGitHubAuthenticated,
+              this.handleGitHubAuth,
+              this.handleGitHubRevoke,
+            )}
+
+            <!-- PR Success Message -->
+            ${this.showPRSuccess
+              ? html`
+                  <div
+                    style="background: var(--spectrum-global-color-green-100); border-left: 4px solid var(--spectrum-global-color-green-600); padding: 12px; border-radius: 4px; margin-bottom: 16px;"
+                  >
+                    <div style="font-weight: bold; margin-bottom: 8px;">
+                      Pull Request Created Successfully!
+                    </div>
+                    <a
+                      href="${this.prUrl}"
+                      target="_blank"
+                      style="color: var(--spectrum-global-color-blue-600);"
+                    >
+                      View PR: ${this.prUrl}
+                    </a>
+                    <sp-button
+                      quiet
+                      size="s"
+                      @click=${this.closePRSuccess}
+                      style="float: right;"
+                    >
+                      Dismiss
+                    </sp-button>
+                  </div>
+                `
+              : nothing}
+
+            <!-- PR Error Message -->
+            ${this.showPRError
+              ? html`
+                  <div
+                    style="background: var(--spectrum-global-color-red-100); border-left: 4px solid var(--spectrum-global-color-red-600); padding: 12px; border-radius: 4px; margin-bottom: 16px;"
+                  >
+                    <div style="font-weight: bold; margin-bottom: 8px;">
+                      Error Creating Pull Request
+                    </div>
+                    <div style="margin-bottom: 8px;">${this.prError}</div>
+                    <sp-button quiet size="s" @click=${this.closePRError}>
+                      Dismiss
+                    </sp-button>
+                  </div>
+                `
+              : nothing}
+
+            <!-- Create PR Button -->
+            ${this.isGitHubAuthenticated
+              ? html`
+                  <sp-button
+                    variant="accent"
+                    @click=${this.handleCreatePR}
+                    ?disabled=${this.isCreatingPR}
+                    style="width: 100%;"
+                  >
+                    ${this.isCreatingPR
+                      ? html`
+                          <sp-progress-circle
+                            indeterminate
+                            size="s"
+                          ></sp-progress-circle>
+                          Creating PR...
+                        `
+                      : "Create Pull Request"}
+                  </sp-button>
+
+                  <sp-help-text style="margin-top: 8px;">
+                    Creates a PR against
+                    adobe/spectrum-design-data/packages/component-schemas with
+                    your schema changes and an auto-generated changeset.
+                  </sp-help-text>
+                `
+              : html`
+                  <sp-help-text>
+                    Connect your GitHub account above to create pull requests
+                    directly from this plugin.
+                  </sp-help-text>
+                `}
+          </div>
+        </sp-tab-panel>
       </sp-tabs>
+
+      <!-- Description Dialog -->
+      ${this.showDescriptionDialog
+        ? html`
+            <div
+              style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;"
+            >
+              <div
+                style="background: white; padding: 24px; border-radius: 8px; max-width: 500px; width: 90%;"
+              >
+                <h3 class="spectrum-Heading spectrum-Heading--sizeS">
+                  Component Description
+                </h3>
+                <sp-divider style="margin: 16px 0;"></sp-divider>
+                <sp-field-label for="pr-description">
+                  Enter a description for this component (required for JSON
+                  Schema)
+                </sp-field-label>
+                <sp-textfield
+                  id="pr-description"
+                  multiline
+                  rows="4"
+                  placeholder="Describe what this component does and when to use it..."
+                  value=${this.prDescription}
+                  @input=${(e: Event) => {
+                    this.prDescription = (e.target as HTMLInputElement).value;
+                  }}
+                ></sp-textfield>
+                <div style="display: flex; gap: 8px; margin-top: 16px;">
+                  <sp-button
+                    variant="secondary"
+                    @click=${this.cancelDescription}
+                  >
+                    Cancel
+                  </sp-button>
+                  <sp-button
+                    variant="accent"
+                    @click=${this.confirmDescription}
+                    ?disabled=${!this.prDescription ||
+                    this.prDescription.trim() === ""}
+                  >
+                    Continue
+                  </sp-button>
+                </div>
+              </div>
+            </div>
+          `
+        : nothing}
+
       <div
         class="resize-handle"
         @mousedown=${this._onResizeHandleMouseDown}
@@ -699,6 +1042,8 @@ export class LitAppElement extends LitElement {
     );
     window.addEventListener("mousemove", this._onMouseMove);
     window.addEventListener("mouseup", this._onMouseUp);
+    // Load stored GitHub PAT
+    this.loadStoredPAT();
     // this tells the plugin to send data to the UI, otherwise the plugin sends the data _before_ the UI is initialized
     this.sendMessage("init-complete", {});
   }
@@ -862,6 +1207,12 @@ export class LitAppElement extends LitElement {
         this.systemOptions =
           event.data.pluginMessage.systemOptionsData.systemOptions;
       }
+    }
+    // Handle GitHub PAT response
+    if (event.data.pluginMessage?.type === "github-pat-response") {
+      this.githubPAT = event.data.pluginMessage.pat || "";
+      this.isGitHubAuthenticated = !!this.githubPAT;
+      cout("FRONTEND: Received GitHub PAT from backend");
     }
   };
 

@@ -1,0 +1,29 @@
+{
+  "title": "Button",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/button/"
+  },
+  "options": [
+    {
+      "title": "size",
+      "type": "size",
+      "items": ["s", "m", "l", "xl"],
+      "defaultValue": "m",
+      "required": false
+    },
+    {
+      "title": "variant",
+      "type": "localEnum",
+      "items": ["accent", "negative", "primary", "secondary"],
+      "defaultValue": "accent",
+      "required": false
+    },
+    {
+      "title": "isDisabled",
+      "type": "boolean",
+      "defaultValue": false,
+      "required": false
+    }
+  ]
+}
