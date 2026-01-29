@@ -206,6 +206,685 @@
         "status": "approved"
       },
       "relatedTerms": ["edge", "component", "object"]
+    },
+    {
+      "id": "structure",
+      "label": "Structure",
+      "description": "A reusable visual pattern or object category with shared styling that occurs across multiple component types",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "token taxonomy category",
+        "description": "An individual object or object category with shared styling that represents visual patterns occurring across many component varieties, distinct from components which represent specific UI elements",
+        "essentialCharacteristics": [
+          "Represents visual patterns that occur across multiple components",
+          "Distinct from components—describes structural patterns, not specific UI elements",
+          "Maintains shared, consistent styling",
+          "Can be combined and composed to create components"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Describes reusable visual patterns that form the building blocks of components"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": [
+        "substructure",
+        "base",
+        "list",
+        "table",
+        "container",
+        "drop-target",
+        "focus-ring",
+        "accessory",
+        "banner",
+        "text"
+      ]
+    },
+    {
+      "id": "base",
+      "label": "Base",
+      "description": "Basic UI elements and visual structures combined to create proportionally sized content or components",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "structure",
+        "description": "The foundational UI elements and visual structures that are combined and arranged to create proportionally relative sized content or components",
+        "essentialCharacteristics": [
+          "Foundation for basic components like Button and Textfield",
+          "Used for inner structures of complex components such as List Item and Tree View Item",
+          "Represents common pairing and compositional choices for recurring basic UI elements",
+          "Creates proportionally relative sized content"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Indicates the foundational nature of these structural elements"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["structure", "list", "accessory"]
+    },
+    {
+      "id": "list",
+      "label": "List",
+      "description": "A vertically or horizontally oriented collection of items with varying complexity",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "structure",
+        "description": "A collection of items arranged vertically or horizontally, where items can range from simple to complex and are composed of one or more base structures",
+        "essentialCharacteristics": [
+          "Contains items ranging from simple (Radio) to complex (List view, Tabs, Menu)",
+          "Items composed of one or more base structures in horizontal arrangement",
+          "Items arranged vertically or horizontally into the list",
+          "Supports varying degrees of item complexity"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Standard term for collections of items in UI design"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["structure", "base", "item", "table"]
+    },
+    {
+      "id": "table",
+      "label": "Table",
+      "description": "A grid structure arranging columns and rows of content",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "structure",
+        "description": "A grid-based structure that arranges content into intersecting columns and rows",
+        "essentialCharacteristics": [
+          "Arranges content in columns and rows",
+          "Provides grid-based layout structure",
+          "Used for tabular data presentation"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Standard term for grid-based data structures in UI design"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["structure", "list", "item"]
+    },
+    {
+      "id": "container",
+      "label": "Container",
+      "description": "A visible or invisible structure that houses custom content and components with consistent styling",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "structure",
+        "description": "A structure that houses custom content and components with consistent styling, which may be visible or invisible depending on use",
+        "essentialCharacteristics": [
+          "Can be visible or invisible",
+          "Houses custom content and components with consistent styling",
+          "Used in components like Popovers, Cards, and Select Boxes",
+          "Can provide spacing without visible styling (e.g., padding around side navigation)"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Describes the containing nature of this structural element"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["structure", "base"]
+    },
+    {
+      "id": "drop-target",
+      "label": "Drop Target",
+      "description": "Visual indication of a UI region that can accept drop operations",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "structure",
+        "description": "A consistently styled visual indication of a region within the UI that can accept drop operations during drag-and-drop interactions",
+        "essentialCharacteristics": [
+          "Indicates regions that accept drop operations",
+          "Styled consistently across the design system",
+          "Provides visual feedback during drag-and-drop interactions"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Describes the functional purpose of this visual indicator"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["structure", "focus-ring"]
+    },
+    {
+      "id": "focus-ring",
+      "label": "Focus Ring",
+      "description": "Visual indication of interactive keyboard focus on any UI element",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "structure",
+        "description": "A consistently styled visual indicator that shows keyboard focus on any interactive UI element",
+        "essentialCharacteristics": [
+          "Indicates keyboard focus on interactive elements",
+          "Styled consistently across all UI elements",
+          "Critical for keyboard accessibility"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Standard accessibility term for keyboard focus indication"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["structure", "drop-target"]
+    },
+    {
+      "id": "accessory",
+      "label": "Accessory",
+      "description": "Component-like structures used within basic components as secondary content or actions",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "structure",
+        "description": "Smaller component-like structures used within basic components as secondary content or actions, sized to fit within base structure boundaries while conforming to t-shirt sizing rules",
+        "essentialCharacteristics": [
+          "Intentionally smaller to fit within base structure boundaries",
+          "Conforms to t-shirt sizing rules for icon or text sizes",
+          "Used for interior sub-components or decorators of basic components",
+          "Examples include in-field buttons and Action button corner triangles",
+          "Distinct from structures like drill-in buttons which use base structures"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Describes the supplementary nature of these interior elements"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["structure", "base"]
+    },
+    {
+      "id": "banner",
+      "label": "Banner",
+      "description": "Horizontally-oriented, contained structure for drawing attention to non-permanent information or actions",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "structure",
+        "description": "A horizontally-oriented, contained structure that may float or be fixed, designed to draw user attention to non-permanent information or actions",
+        "essentialCharacteristics": [
+          "Horizontally oriented",
+          "May float or be fixed in position",
+          "Draws user attention to transient content",
+          "Contains non-permanent information or actions"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Standard UI term for attention-drawing horizontal elements"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["structure", "container"]
+    },
+    {
+      "id": "text",
+      "label": "Text",
+      "description": "Text content within a component or structure",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "structure",
+        "description": "The textual content element within a component or structure",
+        "essentialCharacteristics": [
+          "Represents textual content",
+          "Used within other structures and components"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Fundamental term for textual content in UI"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["structure", "base"]
+    },
+    {
+      "id": "substructure",
+      "label": "Substructure",
+      "description": "A structural element that exists within or as part of a larger structure",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "token taxonomy category",
+        "description": "A structural element that exists within or as part of a parent structure, representing smaller building blocks that compose structures",
+        "essentialCharacteristics": [
+          "Exists within or as part of a larger structure",
+          "Represents smaller building blocks",
+          "Can be used across different structure types"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Indicates the hierarchical relationship to parent structures"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["structure", "item"]
+    },
+    {
+      "id": "item",
+      "label": "Item",
+      "description": "An individual element of a collection, regardless of collection type",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "substructure",
+        "description": "An individual element within a collection, applicable regardless of the collection type it belongs to",
+        "essentialCharacteristics": [
+          "Individual element within a collection",
+          "Collection-agnostic—applies to any collection type",
+          "Building block for list, table, and other collection structures"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Generic term for collection elements that applies across structure types"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["substructure", "list", "table", "base"]
+    },
+    {
+      "id": "padding",
+      "label": "Padding",
+      "description": "The internal spacing from the edges of a component's boundary to its contents",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "property",
+        "description": "A stylistic attribute that defines the internal spacing from the edges of a component's boundary to its contents",
+        "essentialCharacteristics": [
+          "Defines space between component boundary edges and inner contents",
+          "Applied internally within a component",
+          "Platform-agnostic term with high comprehension across engineers and designers"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Standard CSS and design term for internal spacing from boundaries"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["property", "gap", "edge"]
+    },
+    {
+      "id": "gap",
+      "label": "Gap",
+      "description": "The internal spacing between child elements in a component, layout, or pattern",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "property",
+        "description": "A stylistic attribute that defines the internal spacing between child elements in a component, layout, or pattern",
+        "essentialCharacteristics": [
+          "Defines spacing between child elements, not from boundaries",
+          "Used in components, layouts, and patterns",
+          "Aligns with CSS gap property and Figma auto-layout gap",
+          "Preferred over 'spacing' for specificity and modern standards alignment"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Aligns with CSS gap property and Figma terminology, preferred over 'spacing' for specificity",
+        "alternatives": ["spacing"]
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["property", "padding"]
+    },
+    {
+      "id": "orientation",
+      "label": "Orientation",
+      "description": "The direction or order of structures and elements within a component or pattern",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "token taxonomy category",
+        "description": "A category describing the direction or order of structures and elements within a component or pattern",
+        "essentialCharacteristics": [
+          "Defines direction or order of elements",
+          "Options include horizontal (left to right, right to left) and vertical (top to bottom, bottom to top)",
+          "Applies to structures and elements within components or patterns"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Standard term for describing directional arrangement of elements"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["structure", "list"]
+    },
+    {
+      "id": "shape",
+      "label": "Shape",
+      "description": "Describes the geometric characteristics of a component's style attributes",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "token taxonomy category",
+        "description": "A category describing the geometric characteristics of a component's style attributes",
+        "essentialCharacteristics": [
+          "Describes geometric characteristics of styling",
+          "Applies to component style attributes",
+          "Includes variations like uniform dimensions"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Describes the geometric form characteristics of component styling"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["uniform", "padding"]
+    },
+    {
+      "id": "uniform",
+      "label": "Uniform",
+      "description": "Signifies that the shape of a component's style attributes is equal in all directions",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "shape",
+        "description": "A shape characteristic signifying that a component's style attributes are equal in all directions",
+        "essentialCharacteristics": [
+          "Equal values across dimensions (e.g., vertical and horizontal)",
+          "Results in symmetrical shapes (e.g., square padding when showing an icon only)",
+          "Applies to attributes like padding where dimensional equality matters"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Describes dimensional equality in component styling"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["shape", "padding"]
+    },
+    {
+      "id": "position",
+      "label": "Position",
+      "description": "The placement of an element relative to its container or viewport",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "token taxonomy category",
+        "description": "A category describing the placement of an element relative to its container or viewport",
+        "essentialCharacteristics": [
+          "Defines element placement",
+          "Relative to container or viewport",
+          "Includes variations like affixed positioning"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Standard term for describing element placement in layouts"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["affixed", "container"]
+    },
+    {
+      "id": "affixed",
+      "label": "Affixed",
+      "description": "The position of an element fixed relative to its container or the viewport",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "position",
+        "description": "A position characteristic where an element is fixed relative to its container or the viewport",
+        "essentialCharacteristics": [
+          "Element position is fixed relative to container or viewport",
+          "Maintains position regardless of content scrolling",
+          "Used for persistent UI elements like headers or toolbars"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Describes fixed positioning behavior relative to a reference point"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["position", "banner"]
+    },
+    {
+      "id": "size",
+      "label": "Size",
+      "description": "Relative t-shirt-size terms used to create relationships and patterns across tokens",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "token taxonomy category",
+        "description": "A category of relative t-shirt-size terms used to create relationships and patterns of usage across multiple tokens and token types",
+        "essentialCharacteristics": [
+          "Uses t-shirt size terminology (extra-small, small, medium, large, extra-large)",
+          "Creates relationships and patterns across multiple tokens and token types",
+          "Can construct standard components or be used irregularly for novel or custom components"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "T-shirt sizing is an industry-standard approach for relative sizing in design systems"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["scale", "base"]
     }
   ]
 }
