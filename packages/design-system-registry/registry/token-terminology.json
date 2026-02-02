@@ -245,6 +245,7 @@
         "list",
         "table",
         "container",
+        "group",
         "drop-target",
         "focus-ring",
         "accessory",
@@ -386,6 +387,40 @@
         "status": "review"
       },
       "relatedTerms": ["structure", "base"]
+    },
+    {
+      "id": "group",
+      "label": "Group",
+      "description": "A collection of similar or related UI elements, inputs, or actions grouped together",
+      "usedIn": ["tokens", "taxonomy"],
+      "definition": {
+        "superordinate": "structure",
+        "description": "A collection of similar or closely related UI elements, inputs, or actions that are grouped together to form a cohesive functional unit",
+        "essentialCharacteristics": [
+          "Groups similar or related elements together for cohesive interaction",
+          "Used in components like Button Group, Action Group, and Checkbox Group",
+          "Creates visual and functional unity among related items",
+          "Provides consistent spacing and alignment between grouped elements"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Describes the grouping nature of this structural pattern"
+      },
+      "sources": [
+        {
+          "type": "internal-doc",
+          "reference": "Spectrum Token Taxonomy",
+          "url": "https://www.dropbox.com/scl/fi/298zpbuvernq00219t6jf/Spectrum-Token-Taxonomies-Documentation-Draft.paper?rlkey=a9ov0sfe0yizifehxjg2zs1l8&dl=0",
+          "date": "2026-01-29"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2026-01-29",
+        "status": "review"
+      },
+      "relatedTerms": ["structure", "base", "list"]
     },
     {
       "id": "drop-target",
