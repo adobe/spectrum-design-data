@@ -3616,24 +3616,6 @@
     "comment": "Horizontal internal spacing for banner components",
     "uuid": "708b3000-34ad-441c-8bf7-d212dd74e725"
   },
-  "banner-gap-small": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "value": "{spacing-75}",
-    "comment": "Spacing between child elements for banner components at small size",
-    "uuid": "c53649d0-844f-4821-8470-cbec2179a4c5"
-  },
-  "banner-gap-medium": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "value": "{spacing-100}",
-    "comment": "Spacing between child elements for banner components at medium size",
-    "uuid": "020ed54a-fdd4-4157-bfd1-4ab69b48131c"
-  },
-  "banner-gap-large": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "value": "{spacing-400}",
-    "comment": "Spacing between child elements for banner components at large size",
-    "uuid": "6cfd3d1c-5d4c-484b-a359-e4324271f7d4"
-  },
   "focus-ring-gap": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-50}",
@@ -3666,5 +3648,59 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
     "uuid": "bd627aca-7ba2-43b3-8227-2e9bd281dac9"
+  },
+  "group-gap-extra-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-75}",
+    "uuid": "f1b8c4c2-f8a7-46f3-917f-831128c1c72a",
+    "comment": "Spacing between child elements at extra-small size"
+  },
+  "group-gap-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-85}",
+    "uuid": "bf5bbee8-53c0-4f3e-88c0-4f64a2da4931",
+    "comment": "Spacing between child elements at small size"
+  },
+  "group-gap-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-100}",
+    "uuid": "cdf163b3-e93a-48bf-b409-0e7731c78858",
+    "comment": "Spacing between child elements at medium size"
+  },
+  "group-gap-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-200}",
+    "uuid": "054ede6d-ad30-4e1b-b076-dc971d33e7f1",
+    "comment": "Spacing between child elements at large size"
+  },
+  "group-gap-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-300}",
+    "uuid": "73149a51-3ef8-4107-9865-a22dc0df077e",
+    "comment": "Spacing between child elements at extra-large size"
+  },
+  "group-gap-compact": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-50}",
+    "uuid": "d6a0fce4-2435-4df9-9cf8-e246b237f612",
+    "comment": "Spacing between child elements (compact density)"
+  },
+  "banner-padding-horizontal-compact": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-100}",
+    "uuid": "50168a82-7f71-4247-bf20-62099eb7da62",
+    "comment": "Horizontal internal spacing for banner components (compact density)"
+  },
+  "banner-gap-vertical": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-100}",
+    "uuid": "72570588-17ad-43f5-8c4b-2ea5d64dfdc3",
+    "comment": "Spacing between child elements for banner components"
+  },
+  "banner-gap-horizontal": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-400}",
+    "uuid": "6fbf9b3d-115b-4785-9aa6-16e392acf7ac",
+    "comment": "Spacing between child elements for banner components"
   }
 }

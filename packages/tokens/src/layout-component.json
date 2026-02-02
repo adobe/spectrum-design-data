@@ -9902,8 +9902,8 @@
     "value": "{spacing-100}",
     "uuid": "a9fc8786-060e-4663-9381-211621240b2f",
     "deprecated": true,
-    "deprecated_comment": "Use semantic token banner-padding-horizontal instead.",
-    "renamed": "banner-padding-horizontal"
+    "deprecated_comment": "Use semantic token banner-padding-horizontal-compact instead.",
+    "renamed": "banner-padding-horizontal-compact"
   },
   "action-bar-close-button-to-counter": {
     "component": "action-bar",
@@ -9911,8 +9911,8 @@
     "value": "{text-to-control-50}",
     "uuid": "bc54e89f-6740-4004-891e-c515f8f79693",
     "deprecated": true,
-    "deprecated_comment": "Use semantic token banner-gap-small instead.",
-    "renamed": "banner-gap-small"
+    "deprecated_comment": "Use semantic token group-gap-extra-small instead.",
+    "renamed": "group-gap-extra-small"
   },
   "action-bar-counter-font-size": {
     "component": "action-bar",
@@ -11534,8 +11534,8 @@
     "value": "{spacing-300}",
     "uuid": "72e276ce-d6ee-4bcf-9955-91c833b8b2cd",
     "deprecated": true,
-    "deprecated_comment": "Use semantic token banner-gap-large instead.",
-    "renamed": "banner-gap-large"
+    "deprecated_comment": "Use semantic token banner-gap-horizontal instead.",
+    "renamed": "banner-gap-horizontal"
   },
   "card-edge-to-content-compact-extra-small": {
     "component": "card",
