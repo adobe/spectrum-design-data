@@ -3091,483 +3091,580 @@
   "text-gap-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
-    "comment": "Spacing between child elements for text content at extra-small size"
+    "comment": "Spacing between child elements for text content at extra-small size",
+    "uuid": "11ad324c-470f-4c73-a9c8-b5087144c861"
   },
   "text-gap-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
-    "comment": "Spacing between child elements for text content at small size"
+    "comment": "Spacing between child elements for text content at small size",
+    "uuid": "2d78f957-5f37-4b6e-98ef-033b2563cd6f"
   },
   "text-gap-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
-    "comment": "Spacing between child elements for text content at medium size"
+    "comment": "Spacing between child elements for text content at medium size",
+    "uuid": "436a8be1-f5e8-4e31-bfaa-3f9556144989"
   },
   "text-gap-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
-    "comment": "Spacing between child elements for text content at large size"
+    "comment": "Spacing between child elements for text content at large size",
+    "uuid": "704a4240-8492-4eb7-8c9f-4d3f9c92220d"
   },
   "text-gap-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
-    "comment": "Spacing between child elements for text content at extra-large size"
+    "comment": "Spacing between child elements for text content at extra-large size",
+    "uuid": "29e1afcf-cb5b-4580-891f-d26235e793ed"
   },
   "base-gap-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
-    "comment": "Spacing between child elements for base UI elements at extra-small size"
+    "comment": "Spacing between child elements for base UI elements at extra-small size",
+    "uuid": "19ace75b-fceb-4764-83cd-85105e86c776"
   },
   "base-gap-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
-    "comment": "Spacing between child elements for base UI elements at small size"
+    "comment": "Spacing between child elements for base UI elements at small size",
+    "uuid": "13e210b0-0743-442d-a332-d96ae4fcee41"
   },
   "base-gap-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
-    "comment": "Spacing between child elements for base UI elements at medium size"
+    "comment": "Spacing between child elements for base UI elements at medium size",
+    "uuid": "981adcbb-77b4-4397-9241-c0ee71b64853"
   },
   "base-gap-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
-    "comment": "Spacing between child elements for base UI elements at large size"
+    "comment": "Spacing between child elements for base UI elements at large size",
+    "uuid": "331cefb4-e8f9-4e64-b5ef-ec418044948c"
   },
   "base-gap-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
-    "comment": "Spacing between child elements for base UI elements at extra-large size"
+    "comment": "Spacing between child elements for base UI elements at extra-large size",
+    "uuid": "dc685e20-770d-439b-ae66-6505645557e2"
   },
   "base-gap-2x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
-    "comment": "Spacing between child elements for base UI elements at 2x-large size"
+    "comment": "Spacing between child elements for base UI elements at 2x-large size",
+    "uuid": "45f02f53-74c2-499e-bfc2-9bc12569d55a"
   },
   "base-gap-3x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
-    "comment": "Spacing between child elements for base UI elements at 3x-large size"
+    "comment": "Spacing between child elements for base UI elements at 3x-large size",
+    "uuid": "a2e8d57c-afda-4863-b0ca-29f648d2cc3b"
   },
   "base-gap-4x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
-    "comment": "Spacing between child elements for base UI elements at 4x-large size"
+    "comment": "Spacing between child elements for base UI elements at 4x-large size",
+    "uuid": "a711dcba-2156-4cf3-b6b0-05dc2dc4fb4e"
   },
   "base-padding-horizontal-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
-    "comment": "Horizontal internal spacing for base UI elements at extra-small size"
+    "comment": "Horizontal internal spacing for base UI elements at extra-small size",
+    "uuid": "d137906d-f4b4-4dcb-91f1-fbdafa4608e1"
   },
   "base-padding-horizontal-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
-    "comment": "Horizontal internal spacing for base UI elements at small size"
+    "comment": "Horizontal internal spacing for base UI elements at small size",
+    "uuid": "f4aaccd1-c01f-4945-a2ae-f35e75b41dcd"
   },
   "base-padding-horizontal-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
-    "comment": "Horizontal internal spacing for base UI elements at medium size"
+    "comment": "Horizontal internal spacing for base UI elements at medium size",
+    "uuid": "4c0e0052-5eae-4d4a-abe2-b0a189423d87"
   },
   "base-padding-horizontal-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
-    "comment": "Horizontal internal spacing for base UI elements at large size"
+    "comment": "Horizontal internal spacing for base UI elements at large size",
+    "uuid": "d51c6735-f522-43f3-930a-de6b472f3872"
   },
   "base-padding-horizontal-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
-    "comment": "Horizontal internal spacing for base UI elements at extra-large size"
+    "comment": "Horizontal internal spacing for base UI elements at extra-large size",
+    "uuid": "7b4431cf-479a-484f-b8c1-3f5f40683f5b"
   },
   "base-padding-horizontal-2x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
-    "comment": "Horizontal internal spacing for base UI elements at 2x-large size"
+    "comment": "Horizontal internal spacing for base UI elements at 2x-large size",
+    "uuid": "23306552-f1e8-43f9-9359-2298e6bc0437"
   },
   "base-padding-horizontal-uniform-2x-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{base-padding-vertical-2x-small}",
-    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at 2x-small size"
+    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at 2x-small size",
+    "uuid": "2cd7c90c-2654-4c30-af7f-a4d0e7bcea45"
   },
   "base-padding-horizontal-uniform-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{base-padding-vertical-extra-small}",
-    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at extra-small size"
+    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at extra-small size",
+    "uuid": "ed824906-8da8-4533-bdb1-1afafc8671c1"
   },
   "base-padding-horizontal-uniform-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{base-padding-vertical-small}",
-    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at small size"
+    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at small size",
+    "uuid": "c062c6e5-0e95-4fdb-8f98-879528dfc051"
   },
   "base-padding-horizontal-uniform-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{base-padding-vertical-medium}",
-    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at medium size"
+    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at medium size",
+    "uuid": "2576f10b-ccc3-43b5-903d-f038f826fe88"
   },
   "base-padding-horizontal-uniform-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{base-padding-vertical-large}",
-    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at large size"
+    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at large size",
+    "uuid": "e8609625-b8a4-47b6-8da1-525d4cbde8f8"
   },
   "base-padding-horizontal-uniform-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{base-padding-vertical-extra-large}",
-    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at extra-large size"
+    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at extra-large size",
+    "uuid": "55bebc97-e200-4930-ab12-20dfd518711e"
   },
   "base-padding-horizontal-uniform-2x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{base-padding-vertical-2x-large}",
-    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at 2x-large size"
+    "comment": "Horizontal internal spacing with uniform dimensions for base UI elements at 2x-large size",
+    "uuid": "8400a90d-1a15-49e3-9faa-dd21e415d86a"
   },
   "base-padding-vertical-2x-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
-    "comment": "Vertical internal spacing for base UI elements at 2x-small size"
+    "comment": "Vertical internal spacing for base UI elements at 2x-small size",
+    "uuid": "b4fcadad-a85a-496c-9f40-660e46dda888"
   },
   "base-padding-vertical-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
-    "comment": "Vertical internal spacing for base UI elements at extra-small size"
+    "comment": "Vertical internal spacing for base UI elements at extra-small size",
+    "uuid": "96688c6c-5ab2-43e7-be62-48ee6aa67d73"
   },
   "base-padding-vertical-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
-    "comment": "Vertical internal spacing for base UI elements at small size"
+    "comment": "Vertical internal spacing for base UI elements at small size",
+    "uuid": "b88bf8d8-5872-44ae-8f17-90c813fcbc28"
   },
   "base-padding-vertical-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
-    "comment": "Vertical internal spacing for base UI elements at medium size"
+    "comment": "Vertical internal spacing for base UI elements at medium size",
+    "uuid": "9e6f53e4-a3ba-4577-bd97-3bb3e98b0a10"
   },
   "base-padding-vertical-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
-    "comment": "Vertical internal spacing for base UI elements at large size"
+    "comment": "Vertical internal spacing for base UI elements at large size",
+    "uuid": "9fcf6cfe-300d-4ac0-8d2e-83047efac9b9"
   },
   "base-padding-vertical-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "13px",
-    "comment": "Vertical internal spacing for base UI elements at extra-large size"
+    "comment": "Vertical internal spacing for base UI elements at extra-large size",
+    "uuid": "9ceca866-7532-4b27-9351-88f4b49ebb98"
   },
   "base-padding-vertical-2x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
-    "comment": "Vertical internal spacing for base UI elements at 2x-large size"
+    "comment": "Vertical internal spacing for base UI elements at 2x-large size",
+    "uuid": "38879514-748f-4769-9e47-5f70f73e910c"
   },
   "base-padding-vertical-3x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "19px",
-    "comment": "Vertical internal spacing for base UI elements at 3x-large size"
+    "comment": "Vertical internal spacing for base UI elements at 3x-large size",
+    "uuid": "7df7a862-7385-4045-848e-ccdde71d8657"
   },
   "accessory-item-padding-2x-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
-    "comment": "Internal spacing for accessory elements items at 2x-small size"
+    "comment": "Internal spacing for accessory elements items at 2x-small size",
+    "uuid": "8be2365a-c8fb-45b2-b4a1-d898fab5bcb7"
   },
   "accessory-item-padding-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "comment": "Internal spacing for accessory elements items at extra-small size"
+    "comment": "Internal spacing for accessory elements items at extra-small size",
+    "uuid": "61b4063c-be97-4b3c-9cd1-45e0456f6ef5"
   },
   "accessory-item-padding-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "comment": "Internal spacing for accessory elements items at small size"
+    "comment": "Internal spacing for accessory elements items at small size",
+    "uuid": "84e8f025-6308-45c3-8e42-15779b1da6a0"
   },
   "accessory-item-padding-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
-    "comment": "Internal spacing for accessory elements items at medium size"
+    "comment": "Internal spacing for accessory elements items at medium size",
+    "uuid": "91be82b4-f771-4a47-9198-8809f819c882"
   },
   "accessory-item-padding-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
-    "comment": "Internal spacing for accessory elements items at large size"
+    "comment": "Internal spacing for accessory elements items at large size",
+    "uuid": "4eb5d6f4-7fc4-4752-80a6-b96fbdccc3dc"
   },
   "accessory-item-padding-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
-    "comment": "Internal spacing for accessory elements items at extra-large size"
+    "comment": "Internal spacing for accessory elements items at extra-large size",
+    "uuid": "cb48a615-f47d-4fc2-ba12-431db8419c95"
   },
   "accessory-gap-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
-    "comment": "Spacing between child elements for accessory elements at extra-small size"
+    "comment": "Spacing between child elements for accessory elements at extra-small size",
+    "uuid": "db762782-184f-45ef-bc10-8630ab5c2644"
   },
   "accessory-gap-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
-    "comment": "Spacing between child elements for accessory elements at small size"
+    "comment": "Spacing between child elements for accessory elements at small size",
+    "uuid": "8a4209ca-8682-4bc7-b1ba-636ee4a93176"
   },
   "accessory-gap-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
-    "comment": "Spacing between child elements for accessory elements at medium size"
+    "comment": "Spacing between child elements for accessory elements at medium size",
+    "uuid": "4500c999-3b9a-4c30-8dc1-a366a9f2dba2"
   },
   "accessory-gap-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
-    "comment": "Spacing between child elements for accessory elements at large size"
+    "comment": "Spacing between child elements for accessory elements at large size",
+    "uuid": "527fd277-baa6-456f-b5e0-55013afe2fbc"
   },
   "accessory-gap-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
-    "comment": "Spacing between child elements for accessory elements at extra-large size"
+    "comment": "Spacing between child elements for accessory elements at extra-large size",
+    "uuid": "88bf4d12-5fa8-48b1-b8eb-2b02eff74a20"
   },
   "accessory-gap-2x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
-    "comment": "Spacing between child elements for accessory elements at 2x-large size"
+    "comment": "Spacing between child elements for accessory elements at 2x-large size",
+    "uuid": "2d02aa4e-a2bb-448d-abb9-22eb0828873f"
   },
   "accessory-gap-affixed-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "comment": "Spacing between child elements for accessory elements at extra-small size"
+    "comment": "Spacing between child elements for accessory elements at extra-small size",
+    "uuid": "eabf3de5-2d48-479f-b878-04be26c32c5d"
   },
   "accessory-gap-affixed-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "comment": "Spacing between child elements for accessory elements at small size"
+    "comment": "Spacing between child elements for accessory elements at small size",
+    "uuid": "8d84e614-2be9-449a-81ec-8ef880b81156"
   },
   "accessory-gap-affixed-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
-    "comment": "Spacing between child elements for accessory elements at medium size"
+    "comment": "Spacing between child elements for accessory elements at medium size",
+    "uuid": "e8a2fa52-eebf-4ad3-88d8-1f4f0d02efcb"
   },
   "accessory-gap-affixed-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
-    "comment": "Spacing between child elements for accessory elements at large size"
+    "comment": "Spacing between child elements for accessory elements at large size",
+    "uuid": "f9dbc59b-6059-460d-a696-78b43ea746c6"
   },
   "accessory-gap-affixed-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
-    "comment": "Spacing between child elements for accessory elements at extra-large size"
+    "comment": "Spacing between child elements for accessory elements at extra-large size",
+    "uuid": "ed4e9a48-32b7-4f5e-94ad-d52b9231aee4"
   },
   "accessory-gap-affixed-2x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
-    "comment": "Spacing between child elements for accessory elements at 2x-large size"
+    "comment": "Spacing between child elements for accessory elements at 2x-large size",
+    "uuid": "3935e9e7-08c4-4897-9637-e846335e77ed"
   },
   "list-item-padding-vertical-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-75}",
-    "comment": "Vertical internal spacing for list structures items (regular density)"
+    "comment": "Vertical internal spacing for list structures items (regular density)",
+    "uuid": "db1a7133-5172-44b3-9128-203400e89af5"
   },
   "list-item-padding-vertical-spacious": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "comment": "Vertical internal spacing for list structures items (spacious density)"
+    "comment": "Vertical internal spacing for list structures items (spacious density)",
+    "uuid": "afe34c6c-ac2f-4277-9b96-05009aa27a42"
   },
   "list-item-padding-horizontal": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-85}",
-    "comment": "Horizontal internal spacing for list structures items"
+    "comment": "Horizontal internal spacing for list structures items",
+    "uuid": "f5e89b7f-1f49-459e-ac92-31e82e3002f3"
   },
   "list-item-gap-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-50}",
-    "comment": "Spacing between child elements for list structures items at small size"
+    "comment": "Spacing between child elements for list structures items at small size",
+    "uuid": "7ad36584-9e59-4f36-bab7-015d141357e4"
   },
   "list-item-gap-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "comment": "Spacing between child elements for list structures items at medium size"
+    "comment": "Spacing between child elements for list structures items at medium size",
+    "uuid": "cd088468-5536-4b82-8b35-949aae588adb"
   },
   "list-gap-compact": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-50}",
-    "comment": "Spacing between child elements for list structures (compact density)"
+    "comment": "Spacing between child elements for list structures (compact density)",
+    "uuid": "0ab30f04-095a-478c-a0a2-0e28e8cbbf7f"
   },
   "list-gap-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-75}",
-    "comment": "Spacing between child elements for list structures (regular density)"
+    "comment": "Spacing between child elements for list structures (regular density)",
+    "uuid": "3dd72da9-940f-4736-9b42-488e8b9cc3ca"
   },
   "list-gap-spacious": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "comment": "Spacing between child elements for list structures (spacious density)"
+    "comment": "Spacing between child elements for list structures (spacious density)",
+    "uuid": "6c28d133-218d-4dd4-9dd3-5c704e222d22"
   },
   "list-indent-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-400}",
-    "comment": "Indentation for list structures at large size"
+    "comment": "Indentation for list structures at large size",
+    "uuid": "6c64aef4-4d8c-4022-b2bb-9cb21990392b"
   },
   "list-indent-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-300}",
-    "comment": "Indentation for list structures at medium size"
+    "comment": "Indentation for list structures at medium size",
+    "uuid": "c80e7f78-2a12-4728-9990-e29cf221f385"
   },
   "tab-gap-horizontal-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-350}",
-    "comment": "Spacing between child elements for tab components at small size"
+    "comment": "Spacing between child elements for tab components at small size",
+    "uuid": "58ef4355-08c9-4b33-b152-cfc2f02c5b8d"
   },
   "tab-gap-horizontal-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-400}",
-    "comment": "Spacing between child elements for tab components at medium size"
+    "comment": "Spacing between child elements for tab components at medium size",
+    "uuid": "3a2df85e-1c4b-461f-9a35-833917e74df0"
   },
   "tab-gap-horizontal-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-500}",
-    "comment": "Spacing between child elements for tab components at large size"
+    "comment": "Spacing between child elements for tab components at large size",
+    "uuid": "9efbed3d-4375-4576-a9b5-6383c9bf8250"
   },
   "tab-gap-horizontal-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-600}",
-    "comment": "Spacing between child elements for tab components at extra-large size"
+    "comment": "Spacing between child elements for tab components at extra-large size",
+    "uuid": "bf7f5583-2244-4aa6-964f-e64195464e5e"
   },
   "table-item-padding-compact": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "comment": "Internal spacing for table structures items (compact density)"
+    "comment": "Internal spacing for table structures items (compact density)",
+    "uuid": "5cdd8499-5011-4019-87b0-1a443141c2f2"
   },
   "table-item-padding-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-200}",
-    "comment": "Internal spacing for table structures items (regular density)"
+    "comment": "Internal spacing for table structures items (regular density)",
+    "uuid": "0c140b00-afb0-400e-b0ca-7232df755017"
   },
   "table-item-padding-spacious": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-300}",
-    "comment": "Internal spacing for table structures items (spacious density)"
+    "comment": "Internal spacing for table structures items (spacious density)",
+    "uuid": "960649e1-36c1-487a-84b0-252b3ea56f52"
   },
   "container-padding-2x-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-85}",
-    "comment": "Internal spacing for containers at 2x-small size"
+    "comment": "Internal spacing for containers at 2x-small size",
+    "uuid": "c87015e5-5353-48ed-8a71-f5d1d6fc564f"
   },
   "container-padding-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "comment": "Internal spacing for containers at extra-small size"
+    "comment": "Internal spacing for containers at extra-small size",
+    "uuid": "162629a4-ca68-4067-aeae-5664b1820a81"
   },
   "container-padding-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-200}",
-    "comment": "Internal spacing for containers at small size"
+    "comment": "Internal spacing for containers at small size",
+    "uuid": "6147fb89-c877-46de-be40-3023b713e169"
   },
   "container-padding-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-300}",
-    "comment": "Internal spacing for containers at medium size"
+    "comment": "Internal spacing for containers at medium size",
+    "uuid": "a93033cf-9701-4ab2-8218-8c89f9bf0fd8"
   },
   "container-padding-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-350}",
-    "comment": "Internal spacing for containers at large size"
+    "comment": "Internal spacing for containers at large size",
+    "uuid": "157e9ab7-7762-452b-953a-13989b7e0335"
   },
   "container-padding-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-400}",
-    "comment": "Internal spacing for containers at extra-large size"
+    "comment": "Internal spacing for containers at extra-large size",
+    "uuid": "a4427b26-0b1f-4d56-adf8-20ab225d4822"
   },
   "container-padding-2x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-500}",
-    "comment": "Internal spacing for containers at 2x-large size"
+    "comment": "Internal spacing for containers at 2x-large size",
+    "uuid": "65c3dcd7-baaa-435f-997d-5e2cd6545033"
   },
   "container-padding-3x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-600}",
-    "comment": "Internal spacing for containers at 3x-large size"
+    "comment": "Internal spacing for containers at 3x-large size",
+    "uuid": "053c0a55-953e-492b-8a23-6338e9c9afd1"
   },
   "container-gap-2x-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-85}",
-    "comment": "Spacing between child elements for containers at 2x-small size"
+    "comment": "Spacing between child elements for containers at 2x-small size",
+    "uuid": "706b19d6-c477-4435-9222-e5dd0fc97db3"
   },
   "container-gap-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "comment": "Spacing between child elements for containers at extra-small size"
+    "comment": "Spacing between child elements for containers at extra-small size",
+    "uuid": "bc2762ec-5c2d-47c9-ad75-c74a34b75d6e"
   },
   "container-gap-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-200}",
-    "comment": "Spacing between child elements for containers at small size"
+    "comment": "Spacing between child elements for containers at small size",
+    "uuid": "891ca550-31ba-4280-bde0-9c9dc9ac8bf1"
   },
   "container-gap-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-300}",
-    "comment": "Spacing between child elements for containers at medium size"
+    "comment": "Spacing between child elements for containers at medium size",
+    "uuid": "00d2e4de-8b6a-4cae-aaed-718d52c9f603"
   },
   "container-gap-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-350}",
-    "comment": "Spacing between child elements for containers at large size"
+    "comment": "Spacing between child elements for containers at large size",
+    "uuid": "22398d20-bbf6-4487-a626-5085c81b6ec5"
   },
   "container-gap-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-400}",
-    "comment": "Spacing between child elements for containers at extra-large size"
+    "comment": "Spacing between child elements for containers at extra-large size",
+    "uuid": "0e580b75-93a7-4a6f-9d50-4788f08f1cb7"
   },
   "container-gap-2x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-500}",
-    "comment": "Spacing between child elements for containers at 2x-large size"
+    "comment": "Spacing between child elements for containers at 2x-large size",
+    "uuid": "16d5328c-b06d-45fd-8ba9-405f6a6d5da3"
   },
   "popover-padding": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "comment": "Internal spacing for popover components"
+    "comment": "Internal spacing for popover components",
+    "uuid": "670a7517-67ca-4bb6-8bba-03174fd56aef"
   },
   "popover-gap": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "comment": "Spacing between child elements for popover components"
+    "comment": "Spacing between child elements for popover components",
+    "uuid": "1f8c1cef-7cb9-4de4-ae78-d7b5f7c4f75b"
   },
   "banner-padding-vertical": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-200}",
-    "comment": "Vertical internal spacing for banner components"
+    "comment": "Vertical internal spacing for banner components",
+    "uuid": "fab060e5-d5e8-4a07-8663-71adefe0bea1"
   },
   "banner-padding-horizontal": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "comment": "Horizontal internal spacing for banner components"
+    "comment": "Horizontal internal spacing for banner components",
+    "uuid": "708b3000-34ad-441c-8bf7-d212dd74e725"
   },
   "banner-gap-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-75}",
-    "comment": "Spacing between child elements for banner components at small size"
+    "comment": "Spacing between child elements for banner components at small size",
+    "uuid": "c53649d0-844f-4821-8470-cbec2179a4c5"
   },
   "banner-gap-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "comment": "Spacing between child elements for banner components at medium size"
+    "comment": "Spacing between child elements for banner components at medium size",
+    "uuid": "020ed54a-fdd4-4157-bfd1-4ab69b48131c"
   },
   "banner-gap-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-400}",
-    "comment": "Spacing between child elements for banner components at large size"
+    "comment": "Spacing between child elements for banner components at large size",
+    "uuid": "6cfd3d1c-5d4c-484b-a359-e4324271f7d4"
   },
   "focus-ring-gap": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-50}",
-    "comment": "Spacing between child elements for focus indicators"
+    "comment": "Spacing between child elements for focus indicators",
+    "uuid": "d8b3b56b-d4b9-4f01-9d4b-ad3ac8f3b1f3"
   },
   "drop-target-dash-length": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "comment": "Dash length for drop targets"
+    "comment": "Dash length for drop targets",
+    "uuid": "db44550e-a2b1-4ecb-bc60-4a0ad6dc976c"
   },
   "drop-target-dash-gap": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-85}",
-    "comment": "Dash gap spacing for drop targets"
+    "comment": "Dash gap spacing for drop targets",
+    "uuid": "98e1fd55-9f0a-43e0-b36a-5ebed247aeac"
   },
   "spacing-25": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "1px"
+    "value": "1px",
+    "uuid": "8ea4ce8b-fa57-4dd7-83c8-902c62cb4ae2"
   },
   "spacing-85": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "6px"
+    "value": "6px",
+    "uuid": "5136760b-e9d2-4eb1-912e-e6bdf98d2427"
   },
   "spacing-350": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "20px"
+    "value": "20px",
+    "uuid": "bd627aca-7ba2-43b3-8227-2e9bd281dac9"
   }
 }
