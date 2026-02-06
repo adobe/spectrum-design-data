@@ -44,7 +44,7 @@ export class GitHubService {
    */
   async validateToken(): Promise<boolean> {
     try {
-      const { data } = await this.octokit.users.getAuthenticated();
+      await this.octokit.users.getAuthenticated();
 
       // Check if we can access the repo
       await this.octokit.repos.get({
@@ -53,11 +53,11 @@ export class GitHubService {
       });
 
       return true;
-    } catch (error: any) {
+    } catch (error: unknown) {
       throw new GitHubAPIError(
         "Failed to validate GitHub token",
-        error.status,
-        error.response,
+        (error as { status?: number }).status,
+        (error as { response?: unknown }).response,
       );
     }
   }
@@ -76,11 +76,11 @@ export class GitHubService {
         user: data.login,
         scopes,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       throw new GitHubAPIError(
         "Failed to get token info",
-        error.status,
-        error.response,
+        (error as { status?: number }).status,
+        (error as { response?: unknown }).response,
       );
     }
   }
@@ -104,14 +104,14 @@ export class GitHubService {
       });
 
       return true;
-    } catch (error: any) {
-      if (error.status === 404) {
+    } catch (error: unknown) {
+      if ((error as { status?: number }).status === 404) {
         return false;
       }
       throw new GitHubAPIError(
         "Failed to check if schema exists",
-        error.status,
-        error.response,
+        (error as { status?: number }).status,
+        (error as { response?: unknown }).response,
       );
     }
   }
@@ -130,11 +130,11 @@ export class GitHubService {
       });
 
       return data.commit.sha;
-    } catch (error: any) {
+    } catch (error: unknown) {
       throw new GitHubAPIError(
         `Failed to get ${this.config.baseBranch} branch`,
-        error.status,
-        error.response,
+        (error as { status?: number }).status,
+        (error as { response?: unknown }).response,
       );
     }
   }
@@ -153,11 +153,11 @@ export class GitHubService {
         ref: `refs/heads/${branchName}`,
         sha: baseSHA,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       throw new GitHubAPIError(
         `Failed to create branch ${branchName}`,
-        error.status,
-        error.response,
+        (error as { status?: number }).status,
+        (error as { response?: unknown }).response,
       );
     }
   }
@@ -190,9 +190,9 @@ export class GitHubService {
         if ("sha" in data) {
           sha = data.sha;
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         // File doesn't exist, will create new
-        if (error.status !== 404) {
+        if ((error as { status?: number }).status !== 404) {
           throw error;
         }
       }
@@ -207,11 +207,11 @@ export class GitHubService {
         branch,
         sha,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       throw new GitHubAPIError(
         `Failed to commit file ${path}`,
-        error.status,
-        error.response,
+        (error as { status?: number }).status,
+        (error as { response?: unknown }).response,
       );
     }
   }
@@ -243,11 +243,11 @@ export class GitHubService {
         url: data.html_url,
         number: data.number,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       throw new GitHubAPIError(
         "Failed to create pull request",
-        error.status,
-        error.response,
+        (error as { status?: number }).status,
+        (error as { response?: unknown }).response,
       );
     }
   }

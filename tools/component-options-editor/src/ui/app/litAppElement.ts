@@ -612,7 +612,6 @@ export class LitAppElement extends LitElement {
       // Dynamically import to reduce initial bundle size
       const { createComponentSchemaPR } =
         await import("../../services/prWorkflow");
-      const { getErrorMessage } = await import("../../services/errors");
 
       const result = await createComponentSchemaPR({
         pluginData: this.buildComponentData(),
@@ -623,8 +622,10 @@ export class LitAppElement extends LitElement {
       this.prUrl = result.prUrl;
       this.showPRSuccess = true;
       cout(`FRONTEND: PR created successfully: ${result.prUrl}`);
-    } catch (error: any) {
-      cout(`FRONTEND: PR creation failed: ${error.message}`);
+    } catch (error: unknown) {
+      cout(
+        `FRONTEND: PR creation failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
       const { getErrorMessage } = await import("../../services/errors");
       this.prError = getErrorMessage(error);
       this.showPRError = true;

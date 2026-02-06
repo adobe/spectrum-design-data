@@ -23,7 +23,7 @@ export class GitHubAPIError extends Error {
   constructor(
     message: string,
     public statusCode?: number,
-    public response?: any,
+    public response?: unknown,
   ) {
     super(message);
     this.name = "GitHubAPIError";
@@ -36,7 +36,7 @@ export class GitHubAPIError extends Error {
  * @param error - Error object
  * @returns User-friendly error message
  */
-export function getErrorMessage(error: any): string {
+export function getErrorMessage(error: unknown): string {
   if (error instanceof GitHubAPIError) {
     if (error.statusCode === 401) {
       return "Invalid GitHub token. Please check your Personal Access Token and ensure it hasn't expired.";
@@ -55,7 +55,7 @@ export function getErrorMessage(error: any): string {
     }
   }
 
-  if (error.message) {
+  if (error instanceof Error && error.message) {
     return error.message;
   }
 
@@ -68,13 +68,19 @@ export function getErrorMessage(error: any): string {
  * @param error - Error object
  * @returns True if network-related error
  */
-export function isNetworkError(error: any): boolean {
+export function isNetworkError(error: unknown): boolean {
+  if (!(error instanceof Error)) {
+    return false;
+  }
+
+  const errorWithCode = error as Error & { code?: string };
+
   return (
     error.message?.includes("network") ||
     error.message?.includes("ENOTFOUND") ||
     error.message?.includes("ETIMEDOUT") ||
-    error.code === "ENOTFOUND" ||
-    error.code === "ETIMEDOUT"
+    errorWithCode.code === "ENOTFOUND" ||
+    errorWithCode.code === "ETIMEDOUT"
   );
 }
 
@@ -84,7 +90,7 @@ export function isNetworkError(error: any): boolean {
  * @param error - Error object
  * @returns True if authentication error
  */
-export function isAuthError(error: any): boolean {
+export function isAuthError(error: unknown): boolean {
   return (
     error instanceof GitHubAPIError &&
     (error.statusCode === 401 || error.statusCode === 403)

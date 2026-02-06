@@ -19,7 +19,7 @@
  * @fileoverview GitHub authentication UI template
  */
 
-import { html, nothing } from "lit";
+import { html } from "lit";
 
 /**
  * Render GitHub authentication panel
