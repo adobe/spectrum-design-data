@@ -1,0 +1,53 @@
+{
+  "name": "@adobe/component-schema-converter",
+  "version": "1.0.0",
+  "description": "Converts between Component Options Editor format and official Spectrum JSON Schema format",
+  "type": "module",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "exports": {
+    ".": "./src/index.js",
+    "./converters": "./src/converters/index.js",
+    "./validators": "./src/converters/validators.js",
+    "./utils": "./src/utils/index.js"
+  },
+  "scripts": {
+    "test": "ava",
+    "test:watch": "ava --watch",
+    "test:coverage": "c8 ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "packages/component-schema-converter"
+  },
+  "keywords": [
+    "spectrum",
+    "design-system",
+    "json-schema",
+    "converter",
+    "figma-plugin"
+  ],
+  "author": "Adobe",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/packages/component-schema-converter#readme",
+  "publishConfig": {
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=20.12.0",
+    "pnpm": ">=10.17.1"
+  },
+  "packageManager": "pnpm@10.17.1",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "devDependencies": {
+    "ava": "^6.0.1",
+    "c8": "^10.1.3"
+  }
+}
