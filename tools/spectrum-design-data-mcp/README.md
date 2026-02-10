@@ -77,28 +77,30 @@ Agent Skills are markdown guides that help AI agents use the Spectrum Design Dat
 
 ### Available Agent Skills
 
-* **[Component Builder](agent-skills/component-builder.md)**: Guides agents through building Spectrum components correctly by discovering schemas, finding tokens, and validating configurations
-* **[Token Finder](agent-skills/token-finder.md)**: Helps agents discover the right design tokens for colors, spacing, typography, and component styling
+* **[Component Builder](build-spectrum-components/component-builder.md)**: Guides agents through building Spectrum components correctly by discovering schemas, finding tokens, and validating configurations
+* **[Token Finder](build-spectrum-components/token-finder.md)**: Helps agents discover the right design tokens for colors, spacing, typography, and component styling
 
 ### How Agent Skills Work
 
 Agent Skills are documentation files that:
-- Guide AI agents through multi-step workflows
-- Orchestrate existing MCP tools into complete tasks
-- Provide examples and best practices
-- Help agents discover the right tools for specific use cases
+
+* Guide AI agents through multi-step workflows
+* Orchestrate existing MCP tools into complete tasks
+* Provide examples and best practices
+* Help agents discover the right tools for specific use cases
 
 Unlike MCP tools (which are executable functions), Agent Skills are **guidance documents** that tell agents how to combine tools to accomplish complex tasks.
 
 ### Using Agent Skills
 
 For AI agents working with Spectrum components:
+
 1. Read the relevant Agent Skill when a user asks about a covered task
 2. Follow the step-by-step workflow provided
 3. Call the MCP tools as directed by the skill
 4. Combine tool outputs into a complete solution
 
-See the [Agent Skills README](agent-skills/README.md) for more details.
+See the [Agent Skills README](build-spectrum-components/README.md) for more details.
 
 ### Related Resources
 
@@ -296,7 +298,7 @@ src/
 ├── data/                # Data access layer
 │   ├── tokens.js        # Token data access
 │   └── schemas.js       # Schema data access
-└── agent-skills/        # Agent Skills documentation
+└── build-spectrum-components/  # Agent Skills documentation
     ├── component-builder.md
     ├── token-finder.md
     └── README.md

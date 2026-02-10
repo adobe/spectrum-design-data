@@ -20,7 +20,15 @@ tasks:
     command:
       - pnpm
       - ava
+      - test
     platform: node
+    inputs:
+      - "src/**/*"
+      - "test/**/*"
+      - "ava.config.js"
+      - "package.json"
+  ci:
+    deps: [test]
   test-watch:
     command:
       - ava

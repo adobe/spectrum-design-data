@@ -7,20 +7,22 @@ This Agent Skill helps AI agents discover the right Spectrum design tokens for d
 ## When to Use
 
 Activate this skill when:
-- User asks about colors, spacing, typography, or other design tokens
-- User needs to find tokens for a specific design decision
-- User wants recommendations for styling components
-- User asks "what token should I use for..."
-- User needs help with design system values
+
+* User asks about colors, spacing, typography, or other design tokens
+* User needs to find tokens for a specific design decision
+* User wants recommendations for styling components
+* User asks "what token should I use for..."
+* User needs help with design system values
 
 ## Workflow
 
 ### Step 1: Understand the Design Intent
 
 Determine the semantic intent:
-- **Intent**: primary, secondary, accent, negative, positive, notice, informative
-- **State**: default, hover, focus, active, disabled, selected
-- **Context**: button, input, text, background, border, icon
+
+* **Intent**: primary, secondary, accent, negative, positive, notice, informative
+* **State**: default, hover, focus, active, disabled, selected
+* **Context**: button, input, text, background, border, icon
 
 ### Step 2: Get Design Recommendations
 
@@ -35,9 +37,10 @@ Use `get-design-recommendations` for semantic decisions:
 ```
 
 This returns high-confidence token recommendations organized by:
-- Colors (semantic and component)
-- Layout (spacing, sizing)
-- Typography (if text context)
+
+* Colors (semantic and component)
+* Layout (spacing, sizing)
+* Typography (if text context)
 
 ### Step 3: Find Tokens by Use Case
 
@@ -51,11 +54,12 @@ For specific use cases, use `find-tokens-by-use-case`:
 ```
 
 Common use cases:
-- **Colors**: "button background", "text color", "border color", "icon color"
-- **Spacing**: "spacing", "padding", "margin", "gap"
-- **Typography**: "font", "heading", "body text", "label"
-- **States**: "error state", "hover state", "disabled state", "selected state"
-- **Components**: "button", "input", "card", "modal"
+
+* **Colors**: "button background", "text color", "border color", "icon color"
+* **Spacing**: "spacing", "padding", "margin", "gap"
+* **Typography**: "font", "heading", "body text", "label"
+* **States**: "error state", "hover state", "disabled state", "selected state"
+* **Components**: "button", "input", "card", "modal"
 
 ### Step 4: Get Token Details
 
@@ -69,11 +73,12 @@ Once you've identified candidate tokens, use `get-token-details` for complete in
 ```
 
 This returns:
-- Token value
-- Description
-- Deprecation status
-- Related tokens
-- Usage information
+
+* Token value
+* Description
+* Deprecation status
+* Related tokens
+* Usage information
 
 ### Step 5: Explore Component Tokens
 
@@ -90,22 +95,24 @@ This returns all tokens related to a specific component, organized by category.
 ## Example: Finding Button Colors
 
 ### User Request
+
 "What colors should I use for a primary button?"
 
 ### Agent Workflow
 
 1. **Get recommendations**: `get-design-recommendations` with `{"intent": "primary", "context": "button"}`
-   - Returns: `accent-color-100`, `accent-color-200`, etc.
+   * Returns: `accent-color-100`, `accent-color-200`, etc.
 
 2. **Find by use case**: `find-tokens-by-use-case` with `{"useCase": "button background", "componentType": "button"}`
-   - Returns component-specific background tokens
+   * Returns component-specific background tokens
 
 3. **Get details**: `get-token-details` for each recommended token
-   - Verify values and check for deprecation
+   * Verify values and check for deprecation
 
 4. **Combine results**: Present both semantic and component-specific options
 
 ### Result
+
 ```json
 {
   "recommended": {
@@ -121,20 +128,22 @@ This returns all tokens related to a specific component, organized by category.
 ## Example: Finding Spacing Tokens
 
 ### User Request
+
 "What spacing should I use between form fields?"
 
 ### Agent Workflow
 
 1. **Find by use case**: `find-tokens-by-use-case` with `{"useCase": "spacing", "componentType": "input"}`
-   - Returns layout and spacing tokens
+   * Returns layout and spacing tokens
 
 2. **Get component tokens**: `get-component-tokens` with `{"componentName": "text-field"}`
-   - Find field-specific spacing tokens
+   * Find field-specific spacing tokens
 
 3. **Get recommendations**: `get-design-recommendations` with `{"context": "spacing"}`
-   - Get semantic spacing recommendations
+   * Get semantic spacing recommendations
 
 ### Result
+
 ```json
 {
   "recommended": {
@@ -148,20 +157,22 @@ This returns all tokens related to a specific component, organized by category.
 ## Example: Finding Error State Tokens
 
 ### User Request
+
 "What tokens should I use for error messaging?"
 
 ### Agent Workflow
 
 1. **Get recommendations**: `get-design-recommendations` with `{"intent": "negative", "context": "text"}`
-   - Returns semantic negative/error colors
+   * Returns semantic negative/error colors
 
 2. **Find by use case**: `find-tokens-by-use-case` with `{"useCase": "error state"}`
-   - Returns error-specific tokens
+   * Returns error-specific tokens
 
 3. **Get details**: `get-token-details` for key tokens
-   - Verify error color values
+   * Verify error color values
 
 ### Result
+
 ```json
 {
   "recommended": {
@@ -236,45 +247,48 @@ Is it component-specific?
 
 ## Token Categories
 
-- **Color**: `color-palette`, `color-component`, `semantic-color-palette`, `color-aliases`
-- **Layout**: `layout`, `layout-component`
-- **Typography**: `typography`
-- **Icons**: `icons`
+* **Color**: `color-palette`, `color-component`, `semantic-color-palette`, `color-aliases`
+* **Layout**: `layout`, `layout-component`
+* **Typography**: `typography`
+* **Icons**: `icons`
 
 ## Related Tools
 
-- `get-design-recommendations` - Semantic token recommendations
-- `find-tokens-by-use-case` - Find tokens for specific use cases
-- `get-component-tokens` - Get component-specific tokens
-- `get-token-details` - Get detailed token information
-- `query-tokens` - Search tokens by name/type/category
-- `get-token-categories` - List all token categories
+* `get-design-recommendations` - Semantic token recommendations
+* `find-tokens-by-use-case` - Find tokens for specific use cases
+* `get-component-tokens` - Get component-specific tokens
+* `get-token-details` - Get detailed token information
+* `query-tokens` - Search tokens by name/type/category
+* `get-token-categories` - List all token categories
 
 ## Common Use Cases
 
 ### Colors
-- "button background" → Background colors for buttons
-- "text color" → Text/foreground colors
-- "border color" → Border colors
-- "error state" → Error/negative colors
-- "hover state" → Hover state colors
+
+* "button background" → Background colors for buttons
+* "text color" → Text/foreground colors
+* "border color" → Border colors
+* "error state" → Error/negative colors
+* "hover state" → Hover state colors
 
 ### Spacing
-- "spacing" → General spacing tokens
-- "padding" → Padding tokens
-- "margin" → Margin tokens
-- "gap" → Gap tokens for flex/grid
+
+* "spacing" → General spacing tokens
+* "padding" → Padding tokens
+* "margin" → Margin tokens
+* "gap" → Gap tokens for flex/grid
 
 ### Typography
-- "heading" → Heading font tokens
-- "body text" → Body text tokens
-- "label" → Label tokens
-- "font" → Font family tokens
+
+* "heading" → Heading font tokens
+* "body text" → Body text tokens
+* "label" → Label tokens
+* "font" → Font family tokens
 
 ## Notes
 
-- Always prefer semantic tokens (`semantic-color-palette`) over raw palette tokens
-- Check for `private: true` - these are internal tokens not for public use
-- Use `renamed` property to find replacement tokens for deprecated ones
-- Token values may be references to other tokens (aliases)
-- Some tokens are component-specific and should only be used with those components
+* Always prefer semantic tokens (`semantic-color-palette`) over raw palette tokens
+* Check for `private: true` - these are internal tokens not for public use
+* Use `renamed` property to find replacement tokens for deprecated ones
+* Token values may be references to other tokens (aliases)
+* Some tokens are component-specific and should only be used with those components
