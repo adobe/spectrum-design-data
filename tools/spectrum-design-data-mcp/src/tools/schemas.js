@@ -11,6 +11,13 @@ governing permissions and limitations under the License.
 */
 
 import { getSchemaData } from "../data/schemas.js";
+import { RESULT_LIMITS } from "../constants.js";
+import {
+  validateComponentName,
+  validateLimit,
+  validatePropsObject,
+  validateStringParam,
+} from "../utils/validation.js";
 
 /**
  * Create schema-related MCP tools
@@ -42,24 +49,41 @@ export function createSchemaTools() {
         },
       },
       handler: async (args) => {
-        const { component, query, limit = 20 } = args;
-        const schemaData = await getSchemaData();
+        const component = validateStringParam(args?.component, "component");
+        const query = validateStringParam(args?.query, "query");
+        const limit = validateLimit(
+          args?.limit,
+          RESULT_LIMITS.DEFAULT_SCHEMA_LIMIT,
+          100,
+        );
 
+        const schemaData = await getSchemaData();
         let results = [];
 
-        // Search through component schemas
-        for (const [fileName, schema] of Object.entries(
-          schemaData.components,
-        )) {
-          const componentName = fileName.replace(".json", "");
+        const components =
+          schemaData?.components != null &&
+          typeof schemaData.components === "object"
+            ? schemaData.components
+            : {};
 
-          // Apply component filter
-          if (component && !componentName.includes(component.toLowerCase())) {
+        for (const [fileName, schema] of Object.entries(components)) {
+          if (!schema || typeof schema !== "object") continue;
+
+          const componentName = String(fileName).replace(".json", "");
+
+          if (
+            component != null &&
+            component !== "" &&
+            !componentName.toLowerCase().includes(component.toLowerCase())
+          ) {
             continue;
           }
 
-          // Apply query filter
-          if (query && !matchesSchemaQuery(componentName, schema, query)) {
+          if (
+            query != null &&
+            query !== "" &&
+            !matchesSchemaQuery(componentName, schema, query)
+          ) {
             continue;
           }
 
@@ -74,7 +98,6 @@ export function createSchemaTools() {
           });
         }
 
-        // Apply limit
         results = results.slice(0, limit);
 
         return {
@@ -99,13 +122,16 @@ export function createSchemaTools() {
         required: ["component"],
       },
       handler: async (args) => {
-        const { component } = args;
+        const component = validateComponentName(args?.component);
+
         const schemaData = await getSchemaData();
-
         const fileName = `${component}.json`;
-        const schema = schemaData.components[fileName];
+        const schema =
+          schemaData?.components != null
+            ? schemaData.components[fileName]
+            : undefined;
 
-        if (!schema) {
+        if (!schema || typeof schema !== "object") {
           throw new Error(`Component schema not found: ${component}`);
         }
 
@@ -130,25 +156,33 @@ export function createSchemaTools() {
       },
       handler: async () => {
         const schemaData = await getSchemaData();
+        const components =
+          schemaData?.components != null &&
+          typeof schemaData.components === "object"
+            ? schemaData.components
+            : {};
 
-        const components = Object.keys(schemaData.components).map(
-          (fileName) => {
-            const componentName = fileName.replace(".json", "");
-            const schema = schemaData.components[fileName];
+        const list = Object.keys(components).map((fileName) => {
+          const componentName = String(fileName).replace(".json", "");
+          const schema = components[fileName];
+          const props = schema?.properties;
+          const required = schema?.required;
 
-            return {
-              name: componentName,
-              title: schema.title,
-              description: schema.description,
-              propertyCount: Object.keys(schema.properties || {}).length,
-              hasRequired: (schema.required || []).length > 0,
-            };
-          },
-        );
+          return {
+            name: componentName,
+            title: schema?.title,
+            description: schema?.description,
+            propertyCount:
+              props && typeof props === "object"
+                ? Object.keys(props).length
+                : 0,
+            hasRequired: Array.isArray(required) && required.length > 0,
+          };
+        });
 
         return {
-          total: components.length,
-          components: components.sort((a, b) => a.name.localeCompare(b.name)),
+          total: list.length,
+          components: list.sort((a, b) => a.name.localeCompare(b.name)),
         };
       },
     },
@@ -172,17 +206,20 @@ export function createSchemaTools() {
         required: ["component", "props"],
       },
       handler: async (args) => {
-        const { component, props } = args;
+        const component = validateComponentName(args?.component);
+        const props = validatePropsObject(args?.props);
+
         const schemaData = await getSchemaData();
-
         const fileName = `${component}.json`;
-        const schema = schemaData.components[fileName];
+        const schema =
+          schemaData?.components != null
+            ? schemaData.components[fileName]
+            : undefined;
 
-        if (!schema) {
+        if (!schema || typeof schema !== "object") {
           throw new Error(`Component schema not found: ${component}`);
         }
 
-        // Basic validation logic
         const validationResults = validateProps(props, schema);
 
         return {
@@ -207,12 +244,15 @@ export function createSchemaTools() {
         },
       },
       handler: async (args) => {
-        const { type } = args;
+        const type = validateStringParam(args?.type, "type");
         const schemaData = await getSchemaData();
 
-        if (type) {
-          const typeSchema = schemaData.types[`${type}.json`];
-          if (!typeSchema) {
+        if (type != null && type !== "") {
+          const typeSchema =
+            schemaData?.types != null
+              ? schemaData.types[`${type}.json`]
+              : undefined;
+          if (!typeSchema || typeof typeSchema !== "object") {
             throw new Error(`Type schema not found: ${type}`);
           }
 
@@ -222,16 +262,18 @@ export function createSchemaTools() {
           };
         }
 
-        // Return all types
-        const types = Object.keys(schemaData.types).map((fileName) => {
-          const typeName = fileName.replace(".json", "");
-          const typeSchema = schemaData.types[fileName];
-
+        const typesData =
+          schemaData?.types != null && typeof schemaData.types === "object"
+            ? schemaData.types
+            : {};
+        const types = Object.keys(typesData).map((fileName) => {
+          const typeName = String(fileName).replace(".json", "");
+          const typeSchema = typesData[fileName];
           return {
             name: typeName,
-            title: typeSchema.title,
-            description: typeSchema.description,
-            type: typeSchema.type,
+            title: typeSchema?.title,
+            description: typeSchema?.description,
+            type: typeSchema?.type,
           };
         });
 
@@ -264,13 +306,17 @@ export function createSchemaTools() {
         required: ["component"],
       },
       handler: async (args) => {
-        const { component, detailed = false } = args;
+        const component = validateComponentName(args?.component);
+        const detailed = args?.detailed === true;
+
         const schemaData = await getSchemaData();
-
         const fileName = `${component}.json`;
-        const schema = schemaData.components[fileName];
+        const schema =
+          schemaData?.components != null
+            ? schemaData.components[fileName]
+            : undefined;
 
-        if (!schema) {
+        if (!schema || typeof schema !== "object") {
           throw new Error(
             `Component not found: ${component}. Use list-components to see available components.`,
           );
@@ -278,45 +324,48 @@ export function createSchemaTools() {
 
         const componentInfo = {
           name: component,
-          title: schema.title || component,
+          title: schema.title ?? component,
           description: schema.description,
           totalProperties: 0,
           properties: [],
         };
 
-        if (schema.properties) {
-          componentInfo.totalProperties = Object.keys(schema.properties).length;
+        const props = schema.properties;
+        if (props && typeof props === "object") {
+          componentInfo.totalProperties = Object.keys(props).length;
+          const required = schema.required || [];
 
-          Object.entries(schema.properties).forEach(([propName, propDef]) => {
+          for (const [propName, propDef] of Object.entries(props)) {
+            if (!propDef || typeof propDef !== "object") continue;
+
             const propInfo = {
               name: propName,
-              type: propDef.type || "object",
-              required: schema.required
-                ? schema.required.includes(propName)
-                : false,
+              type: propDef.type ?? "object",
+              required: required.includes(propName),
               description: propDef.description,
             };
 
             if (detailed) {
-              // Add detailed information
-              if (propDef.enum) {
+              if (Array.isArray(propDef.enum)) {
                 propInfo.possibleValues = propDef.enum;
               }
               if (propDef.default !== undefined) {
                 propInfo.defaultValue = propDef.default;
               }
-              if (propDef.properties) {
+              if (
+                propDef.properties &&
+                typeof propDef.properties === "object"
+              ) {
                 propInfo.nestedProperties = Object.keys(propDef.properties);
               }
-              if (propDef.$ref) {
+              if (propDef.$ref != null) {
                 propInfo.reference = propDef.$ref;
               }
             }
 
             componentInfo.properties.push(propInfo);
-          });
+          }
 
-          // Sort properties: required first, then alphabetical
           componentInfo.properties.sort((a, b) => {
             if (a.required !== b.required) return a.required ? -1 : 1;
             return a.name.localeCompare(b.name);
@@ -343,33 +392,47 @@ export function createSchemaTools() {
         required: ["feature"],
       },
       handler: async (args) => {
-        const { feature } = args;
+        const feature =
+          args?.feature != null ? String(args.feature) : undefined;
+        if (!feature || feature.trim() === "") {
+          throw new Error("feature is required");
+        }
+
         const schemaData = await getSchemaData();
         const matchingComponents = [];
+        const components =
+          schemaData?.components != null &&
+          typeof schemaData.components === "object"
+            ? schemaData.components
+            : {};
+        const featureLower = feature.toLowerCase();
 
-        Object.entries(schemaData.components).forEach(([fileName, schema]) => {
-          const componentName = fileName.replace(".json", "");
+        for (const [fileName, schema] of Object.entries(components)) {
+          if (!schema || typeof schema !== "object") continue;
 
-          if (schema.properties) {
-            const hasFeature = Object.keys(schema.properties).some((prop) =>
-              prop.toLowerCase().includes(feature.toLowerCase()),
+          const componentName = String(fileName).replace(".json", "");
+          const props = schema.properties;
+
+          if (!props || typeof props !== "object") continue;
+
+          const hasFeature = Object.keys(props).some((prop) =>
+            prop.toLowerCase().includes(featureLower),
+          );
+
+          if (hasFeature) {
+            const matchingProps = Object.keys(props).filter((prop) =>
+              prop.toLowerCase().includes(featureLower),
             );
 
-            if (hasFeature) {
-              const matchingProps = Object.keys(schema.properties).filter(
-                (prop) => prop.toLowerCase().includes(feature.toLowerCase()),
-              );
-
-              matchingComponents.push({
-                name: componentName,
-                title: schema.title || componentName,
-                description: schema.description,
-                matchingProperties: matchingProps,
-                totalProperties: Object.keys(schema.properties).length,
-              });
-            }
+            matchingComponents.push({
+              name: componentName,
+              title: schema.title ?? componentName,
+              description: schema.description,
+              matchingProperties: matchingProps,
+              totalProperties: Object.keys(props).length,
+            });
           }
-        });
+        }
 
         return {
           feature,
@@ -391,29 +454,29 @@ export function createSchemaTools() {
  * @returns {boolean} Whether the schema matches
  */
 function matchesSchemaQuery(componentName, schema, query) {
-  const searchText = query.toLowerCase();
+  const searchText = String(query).toLowerCase();
 
-  // Search in component name
   if (componentName.toLowerCase().includes(searchText)) {
     return true;
   }
 
-  // Search in title
-  if (schema.title && schema.title.toLowerCase().includes(searchText)) {
-    return true;
-  }
-
-  // Search in description
   if (
-    schema.description &&
-    schema.description.toLowerCase().includes(searchText)
+    schema?.title != null &&
+    String(schema.title).toLowerCase().includes(searchText)
   ) {
     return true;
   }
 
-  // Search in property names
-  if (schema.properties) {
-    for (const propName of Object.keys(schema.properties)) {
+  if (
+    schema?.description != null &&
+    String(schema.description).toLowerCase().includes(searchText)
+  ) {
+    return true;
+  }
+
+  const props = schema?.properties;
+  if (props && typeof props === "object") {
+    for (const propName of Object.keys(props)) {
       if (propName.toLowerCase().includes(searchText)) {
         return true;
       }
@@ -425,33 +488,30 @@ function matchesSchemaQuery(componentName, schema, query) {
 
 /**
  * Basic validation of properties against schema
- * @param {Object} props - Properties to validate
+ * @param {Record<string, unknown>} props - Properties to validate
  * @param {Object} schema - Schema to validate against
  * @returns {Object} Validation results
  */
 function validateProps(props, schema) {
   const errors = [];
   const warnings = [];
+  const required = schema?.required || [];
+  const schemaProps = schema?.properties || {};
 
-  // Check required properties
-  const required = schema.required || [];
   for (const requiredProp of required) {
     if (!(requiredProp in props)) {
       errors.push(`Missing required property: ${requiredProp}`);
     }
   }
 
-  // Check property types (basic validation)
-  const schemaProps = schema.properties || {};
   for (const [propName, propValue] of Object.entries(props)) {
     const propSchema = schemaProps[propName];
 
-    if (!propSchema) {
+    if (!propSchema || typeof propSchema !== "object") {
       warnings.push(`Unknown property: ${propName}`);
       continue;
     }
 
-    // Basic type checking
     if (propSchema.type) {
       const expectedType = propSchema.type;
       const actualType = Array.isArray(propValue) ? "array" : typeof propValue;

@@ -12,6 +12,24 @@ governing permissions and limitations under the License.
 
 import { getTokenData } from "../data/tokens.js";
 import { getSchemaData } from "../data/schemas.js";
+import { RESULT_LIMITS } from "../constants.js";
+import {
+  validateComponentName,
+  validatePropsObject,
+  validateStringParam,
+} from "../utils/validation.js";
+import {
+  buildRecommendedProps,
+  validateComponentConfig,
+  validatePropsWithImprovements,
+} from "../utils/component-helpers.js";
+import {
+  findComponentTokens,
+  findSemanticColorsByIntent,
+  findSemanticColorsByVariant,
+  findTokensByUseCase,
+  groupTokensByCategory,
+} from "../utils/token-helpers.js";
 
 /**
  * Create workflow-oriented MCP tools that orchestrate multiple operations
@@ -57,166 +75,86 @@ export function createWorkflowTools() {
         required: ["component"],
       },
       handler: async (args) => {
-        const {
-          component,
-          variant,
-          intent,
-          useCase,
-          includeTokens = true,
-        } = args;
+        const rawComponent = args?.component;
+        const variant = validateStringParam(args?.variant, "variant");
+        const intent = validateStringParam(args?.intent, "intent");
+        const useCase = validateStringParam(args?.useCase, "useCase");
+        const includeTokens = args?.includeTokens !== false;
+
+        const component = validateComponentName(rawComponent);
 
         const schemaData = await getSchemaData();
         const tokenData = await getTokenData();
 
-        // Get component schema
         const fileName = `${component}.json`;
-        const schema = schemaData.components[fileName];
+        const schema =
+          schemaData?.components != null
+            ? schemaData.components[fileName]
+            : undefined;
 
-        if (!schema) {
+        if (!schema || typeof schema !== "object") {
           throw new Error(
             `Component not found: ${component}. Use list-components to see available components.`,
           );
         }
+
+        const { recommendedProps, schemaProperties } = buildRecommendedProps(
+          schema,
+          variant,
+        );
 
         const config = {
           component,
           schema: {
             title: schema.title,
             description: schema.description,
-            properties: {},
+            properties: schemaProperties,
           },
-          recommendedProps: {},
+          recommendedProps,
           tokens: includeTokens ? {} : undefined,
           validation: {},
         };
 
-        // Build recommended props based on schema
-        if (schema.properties) {
-          Object.entries(schema.properties).forEach(([propName, propDef]) => {
-            config.schema.properties[propName] = {
-              type: propDef.type,
-              description: propDef.description,
-              required: schema.required?.includes(propName) || false,
-            };
-
-            // Set default values if available
-            if (propDef.default !== undefined) {
-              config.recommendedProps[propName] = propDef.default;
-            }
-
-            // Apply variant if it's a variant property
-            if (propName === "variant" && variant) {
-              if (propDef.enum && propDef.enum.includes(variant)) {
-                config.recommendedProps[propName] = variant;
-              }
-            }
-          });
-        }
-
-        // Get component tokens if requested
-        if (includeTokens) {
-          const componentTokens = [];
-          const componentLower = component.toLowerCase();
-
-          // Search for component-specific tokens
-          Object.entries(tokenData).forEach(([category, tokens]) => {
-            if (!tokens) return;
-
-            Object.entries(tokens).forEach(([name, token]) => {
-              if (name.toLowerCase().includes(componentLower)) {
-                componentTokens.push({
-                  name,
-                  category,
-                  value: token.value,
-                  description: token.description,
-                });
-              }
-            });
-          });
-
-          // Get design recommendations if intent is provided
-          if (intent) {
-            const semanticColors = tokenData["semantic-color-palette.json"] || {};
-            const recommendations = [];
-
-            Object.entries(semanticColors).forEach(([name, token]) => {
-              const nameLower = name.toLowerCase();
-              const intentLower = intent.toLowerCase();
-
-              if (
-                nameLower.includes(intentLower) ||
-                (intentLower === "error" && nameLower.includes("negative")) ||
-                (intentLower === "success" && nameLower.includes("positive")) ||
-                (intentLower === "warning" && nameLower.includes("notice"))
-              ) {
-                recommendations.push({
-                  name,
-                  value: token.value,
-                  category: "semantic-color-palette",
-                  type: "semantic",
-                });
-              }
-            });
-
-            config.tokens.colors = recommendations.slice(0, 5);
-          }
-
-          // Find tokens by use case if provided
-          if (useCase) {
-            const useCaseLower = useCase.toLowerCase();
-            const useCaseTokens = [];
-
-            Object.entries(tokenData).forEach(([category, tokens]) => {
-              if (!tokens) return;
-
-              Object.entries(tokens).forEach(([name, token]) => {
-                const nameMatch =
-                  name.toLowerCase().includes(useCaseLower) ||
-                  (token.description &&
-                    token.description.toLowerCase().includes(useCaseLower));
-
-                if (nameMatch && !token.private) {
-                  useCaseTokens.push({
-                    name,
-                    category,
-                    value: token.value,
-                    description: token.description,
-                  });
-                }
-              });
-            });
-
-            if (useCaseTokens.length > 0) {
-              config.tokens.useCaseTokens = useCaseTokens.slice(0, 10);
-            }
-          }
-
-          // Group component tokens by category
+        if (includeTokens && tokenData && typeof tokenData === "object") {
+          const componentTokens = findComponentTokens(tokenData, component);
           if (componentTokens.length > 0) {
-            config.tokens.componentTokens = componentTokens.reduce(
-              (acc, token) => {
-                if (!acc[token.category]) acc[token.category] = [];
-                acc[token.category].push(token);
-                return acc;
-              },
-              {},
+            config.tokens.componentTokens =
+              groupTokensByCategory(componentTokens);
+          }
+
+          if (intent) {
+            const semanticColors =
+              tokenData["semantic-color-palette.json"] ?? {};
+            const recommendations = findSemanticColorsByIntent(
+              semanticColors,
+              intent,
+              RESULT_LIMITS.MAX_COLOR_RECOMMENDATIONS,
             );
+            if (recommendations.length > 0) {
+              config.tokens.colors = recommendations;
+            }
+          }
+
+          if (useCase) {
+            const useCaseTokens = findTokensByUseCase(
+              tokenData,
+              useCase,
+              RESULT_LIMITS.MAX_USE_CASE_TOKENS,
+            );
+            if (useCaseTokens.length > 0) {
+              config.tokens.useCaseTokens = useCaseTokens;
+            }
           }
         }
 
-        // Basic validation of recommended props
-        const validationErrors = [];
-        const required = schema.required || [];
-        for (const requiredProp of required) {
-          if (!(requiredProp in config.recommendedProps)) {
-            validationErrors.push(`Missing required property: ${requiredProp}`);
-          }
-        }
-
+        const validationResult = validateComponentConfig(
+          config.recommendedProps,
+          schema,
+        );
         config.validation = {
-          valid: validationErrors.length === 0,
-          errors: validationErrors,
-          warnings: [],
+          valid: validationResult.valid,
+          errors: validationResult.errors,
+          warnings: validationResult.warnings,
         };
 
         return config;
@@ -249,180 +187,75 @@ export function createWorkflowTools() {
         required: ["component", "props"],
       },
       handler: async (args) => {
-        const { component, props, includeTokenSuggestions = true } = args;
+        const rawComponent = args?.component;
+        const props = validatePropsObject(args?.props);
+        const includeTokenSuggestions = args?.includeTokenSuggestions !== false;
+
+        const component = validateComponentName(rawComponent);
 
         const schemaData = await getSchemaData();
         const tokenData = await getTokenData();
 
-        // Get component schema
         const fileName = `${component}.json`;
-        const schema = schemaData.components[fileName];
+        const schema =
+          schemaData?.components != null
+            ? schemaData.components[fileName]
+            : undefined;
 
-        if (!schema) {
+        if (!schema || typeof schema !== "object") {
           throw new Error(
             `Component not found: ${component}. Use list-components to see available components.`,
           );
         }
 
+        const validationResult = validatePropsWithImprovements(props, schema);
+
         const suggestions = {
           component,
           currentProps: props,
           validation: {
-            valid: true,
-            errors: [],
-            warnings: [],
+            valid: validationResult.valid,
+            errors: validationResult.errors,
+            warnings: validationResult.warnings,
           },
-          improvements: [],
+          improvements: validationResult.improvements,
           tokenRecommendations: includeTokenSuggestions ? {} : undefined,
-          bestPractices: [],
+          bestPractices: [
+            "Use semantic tokens (semantic-color-palette) over raw palette tokens",
+            "Check for deprecated tokens and use renamed alternatives",
+            "Validate all props against the component schema",
+            "Use get-component-options for a user-friendly view of available props",
+          ],
         };
 
-        // Validate props against schema
-        const schemaProps = schema.properties || {};
-        const required = schema.required || [];
-
-        // Check required properties
-        for (const requiredProp of required) {
-          if (!(requiredProp in props)) {
-            suggestions.validation.valid = false;
-            suggestions.validation.errors.push(
-              `Missing required property: ${requiredProp}`,
-            );
-            suggestions.improvements.push({
-              type: "missing_required",
-              property: requiredProp,
-              message: `Add required property: ${requiredProp}`,
-              suggestion: schemaProps[requiredProp]?.default || "See schema",
-            });
-          }
-        }
-
-        // Check for unknown properties
-        for (const propName of Object.keys(props)) {
-          if (!schemaProps[propName]) {
-            suggestions.validation.warnings.push(
-              `Unknown property: ${propName}`,
-            );
-            suggestions.improvements.push({
-              type: "unknown_property",
-              property: propName,
-              message: `Property "${propName}" is not defined in the schema`,
-              suggestion: "Remove or check spelling",
-            });
-          }
-        }
-
-        // Check property types
-        for (const [propName, propValue] of Object.entries(props)) {
-          const propSchema = schemaProps[propName];
-          if (!propSchema) continue;
-
-          if (propSchema.type) {
-            const expectedType = propSchema.type;
-            const actualType = Array.isArray(propValue)
-              ? "array"
-              : typeof propValue;
-
-            if (expectedType !== actualType) {
-              suggestions.validation.valid = false;
-              suggestions.validation.errors.push(
-                `Property ${propName} should be ${expectedType}, got ${actualType}`,
-              );
-              suggestions.improvements.push({
-                type: "type_mismatch",
-                property: propName,
-                message: `Type mismatch: expected ${expectedType}, got ${actualType}`,
-                suggestion: `Change to ${expectedType}`,
-              });
-            }
-          }
-
-          // Check enum values
-          if (propSchema.enum && !propSchema.enum.includes(propValue)) {
-            suggestions.validation.warnings.push(
-              `Property ${propName} value "${propValue}" is not in allowed enum values`,
-            );
-            suggestions.improvements.push({
-              type: "invalid_enum",
-              property: propName,
-              message: `Invalid value: "${propValue}"`,
-              suggestion: `Use one of: ${propSchema.enum.join(", ")}`,
-            });
-          }
-        }
-
-        // Get token recommendations if requested
-        if (includeTokenSuggestions) {
-          const componentTokens = [];
-          const componentLower = component.toLowerCase();
-
-          // Find component-specific tokens
-          Object.entries(tokenData).forEach(([category, tokens]) => {
-            if (!tokens) return;
-
-            Object.entries(tokens).forEach(([name, token]) => {
-              if (
-                name.toLowerCase().includes(componentLower) &&
-                !token.private &&
-                !token.deprecated
-              ) {
-                componentTokens.push({
-                  name,
-                  category,
-                  value: token.value,
-                  description: token.description,
-                });
-              }
-            });
+        if (
+          includeTokenSuggestions &&
+          tokenData &&
+          typeof tokenData === "object"
+        ) {
+          const componentTokens = findComponentTokens(tokenData, component, {
+            excludePrivate: true,
+            excludeDeprecated: true,
           });
-
-          // Group by category
           if (componentTokens.length > 0) {
             suggestions.tokenRecommendations.componentTokens =
-              componentTokens.reduce((acc, token) => {
-                if (!acc[token.category]) acc[token.category] = [];
-                acc[token.category].push(token);
-                return acc;
-              }, {});
+              groupTokensByCategory(componentTokens);
           }
 
-          // Suggest semantic tokens based on variant/intent
-          if (props.variant) {
-            const variantLower = props.variant.toLowerCase();
-            const semanticColors = tokenData["semantic-color-palette.json"] ||
-              {};
-            const semanticTokens = [];
-
-            Object.entries(semanticColors).forEach(([name, token]) => {
-              const nameLower = name.toLowerCase();
-              if (
-                nameLower.includes(variantLower) ||
-                (variantLower === "accent" && nameLower.includes("accent")) ||
-                (variantLower === "negative" && nameLower.includes("negative"))
-              ) {
-                semanticTokens.push({
-                  name,
-                  value: token.value,
-                  category: "semantic-color-palette",
-                  type: "semantic",
-                });
-              }
-            });
-
+          const variant = props.variant;
+          if (variant != null && typeof variant === "string") {
+            const semanticColors =
+              tokenData["semantic-color-palette.json"] ?? {};
+            const semanticTokens = findSemanticColorsByVariant(
+              semanticColors,
+              String(variant),
+              RESULT_LIMITS.MAX_SEMANTIC_COLORS,
+            );
             if (semanticTokens.length > 0) {
-              suggestions.tokenRecommendations.semanticColors =
-                semanticTokens.slice(0, 5);
+              suggestions.tokenRecommendations.semanticColors = semanticTokens;
             }
           }
         }
-
-        // Add best practices
-        suggestions.bestPractices.push(
-          "Use semantic tokens (semantic-color-palette) over raw palette tokens",
-          "Check for deprecated tokens and use renamed alternatives",
-          "Validate all props against the component schema",
-          "Use get-component-options for a user-friendly view of available props",
-        );
 
         return suggestions;
       },

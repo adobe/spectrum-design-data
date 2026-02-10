@@ -258,3 +258,35 @@ test("suggest-component-improvements detects unknown properties", async (t) => {
     );
   }
 });
+
+test("build-component-config throws for invalid component name", async (t) => {
+  const tools = createWorkflowTools();
+  const buildTool = tools.find(
+    (tool) => tool.name === "build-component-config",
+  );
+
+  const error = await t.throwsAsync(async () => {
+    await buildTool.handler({ component: "" });
+  });
+  t.true(error.message.includes("non-empty string"));
+
+  const error2 = await t.throwsAsync(async () => {
+    await buildTool.handler({ component: "foo/bar" });
+  });
+  t.true(error2.message.includes("path separators"));
+});
+
+test("suggest-component-improvements throws for invalid props", async (t) => {
+  const tools = createWorkflowTools();
+  const suggestTool = tools.find(
+    (tool) => tool.name === "suggest-component-improvements",
+  );
+
+  const error = await t.throwsAsync(async () => {
+    await suggestTool.handler({
+      component: "action-button",
+      props: "not-an-object",
+    });
+  });
+  t.true(error.message.includes("valid object"));
+});
