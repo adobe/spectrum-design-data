@@ -1,3 +1,14 @@
+***
+
+name: agent-skills
+description: Build Spectrum components and discover design tokens through orchestrated workflows using the Spectrum Design Data MCP server. Use when building UI components, finding design tokens, validating component configurations, or working with Adobe Spectrum design system data.
+license: Apache-2.0
+compatibility: Requires MCP client with access to [**@adobe/spectrum-design-data-mcp**](https://github.com/adobe/spectrum-design-data-mcp) server. Works with Cursor, VS Code, Claude Code, and other MCP-compatible clients.
+metadata:
+author: Adobe
+version: "1.0"
+--------------
+
 # Spectrum Design Data Agent Skills
 
 ## Overview
