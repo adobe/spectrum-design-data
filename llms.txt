@@ -210,6 +210,26 @@ pnpm generateDiffResult
 3. **Token Diff Analysis**: Compare token changes between versions
 4. **Documentation Generation**: Create docs from schemas
 5. **Migration Assistance**: Help with S1 → S2 migrations
+6. **Component Building**: Use Agent Skills to build Spectrum components correctly
+
+### Agent Skills for AI Agents
+
+The Spectrum Design Data MCP includes **Agent Skills** - markdown guides that help AI agents work with Spectrum design data:
+
+- **[Component Builder](tools/spectrum-design-data-mcp/agent-skills/component-builder.md)**: Guides agents through building Spectrum components by orchestrating MCP tools to discover schemas, find tokens, and validate configurations
+- **[Token Finder](tools/spectrum-design-data-mcp/agent-skills/token-finder.md)**: Helps agents discover the right design tokens for colors, spacing, typography, and component styling
+
+**How to Use Agent Skills:**
+1. When a user asks about building components or finding tokens, read the relevant Agent Skill
+2. Follow the step-by-step workflow provided in the skill
+3. Call the MCP tools as directed (e.g., `get-component-schema`, `find-tokens-by-use-case`)
+4. Combine tool outputs into a complete solution
+
+**Workflow Pattern:**
+- Component Building: `get-component-schema` → `get-component-tokens` → `find-tokens-by-use-case` → `validate-component-props`
+- Token Discovery: `get-design-recommendations` → `find-tokens-by-use-case` → `get-token-details`
+
+See `tools/spectrum-design-data-mcp/agent-skills/README.md` for complete documentation.
 
 ### File Patterns to Understand
 
@@ -217,6 +237,7 @@ pnpm generateDiffResult
 - `packages/component-schemas/schemas/components/*.json` - Component schemas
 - `docs/*/src/**/*.ts` - Visualization tool source code
 - `tools/*/src/**/*.js` - Utility tool implementations
+- `tools/spectrum-design-data-mcp/agent-skills/*.md` - Agent Skills documentation
 
 ### Important Data Structures
 

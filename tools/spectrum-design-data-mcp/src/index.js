@@ -19,6 +19,7 @@ import {
 
 import { createTokenTools } from "./tools/tokens.js";
 import { createSchemaTools } from "./tools/schemas.js";
+import { createWorkflowTools } from "./tools/workflows.js";
 
 /**
  * Create and configure the Spectrum Design Data MCP server
@@ -28,7 +29,7 @@ export function createMCPServer() {
   const server = new Server(
     {
       name: "spectrum-design-data",
-      version: "0.1.0",
+      version: "0.2.0",
     },
     {
       capabilities: {
@@ -38,7 +39,11 @@ export function createMCPServer() {
   );
 
   // Combine all available tools
-  const allTools = [...createTokenTools(), ...createSchemaTools()];
+  const allTools = [
+    ...createTokenTools(),
+    ...createSchemaTools(),
+    ...createWorkflowTools(),
+  ];
 
   // Register list_tools handler
   server.setRequestHandler(ListToolsRequestSchema, async () => {
@@ -91,4 +96,4 @@ export async function startServer() {
 }
 
 // Export for testing
-export { createTokenTools, createSchemaTools };
+export { createTokenTools, createSchemaTools, createWorkflowTools };
