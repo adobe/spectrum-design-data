@@ -20,6 +20,7 @@ import {
 import { createTokenTools } from "./tools/tokens.js";
 import { createSchemaTools } from "./tools/schemas.js";
 import { createWorkflowTools } from "./tools/workflows.js";
+import { createImplementationMapTools } from "./tools/implementation-map.js";
 
 /**
  * Create and configure the Spectrum Design Data MCP server
@@ -43,6 +44,7 @@ export function createMCPServer() {
     ...createTokenTools(),
     ...createSchemaTools(),
     ...createWorkflowTools(),
+    ...createImplementationMapTools(),
   ];
 
   // Register list_tools handler
@@ -96,4 +98,9 @@ export async function startServer() {
 }
 
 // Export for testing
-export { createTokenTools, createSchemaTools, createWorkflowTools };
+export {
+  createTokenTools,
+  createSchemaTools,
+  createWorkflowTools,
+  createImplementationMapTools,
+};

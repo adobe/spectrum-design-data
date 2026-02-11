@@ -71,6 +71,16 @@ The server runs locally and communicates via stdio with MCP-compatible AI client
 * **`build-component-config`**: Generate a complete component configuration with recommended tokens and props
 * **`suggest-component-improvements`**: Analyze existing component configuration and suggest improvements
 
+#### Implementation Map Tools (PoC)
+
+Token-to-implementation mapping for translating Spectrum design tokens into platform-specific style APIs (e.g. React Spectrum S2 style macro). See [RFC: Design Token Sourcemaps and Traceability](https://github.com/adobe/spectrum-design-data/discussions/626).
+
+* **`resolve-implementation`**: Resolve a Spectrum token name to the equivalent style macro property and value for a platform (e.g. `accent-background-color-default` → `backgroundColor: 'accent'` in React Spectrum)
+* **`reverse-lookup-implementation`**: Find Spectrum token name(s) that map to a given platform style macro property and value
+* **`list-implementation-mappings`**: List token names that have a known mapping for a platform (useful to see PoC coverage)
+
+Supported platform: **react-spectrum**. Mapping data: `data/react-spectrum-token-map.json`.
+
 ## Agent Skills
 
 Agent Skills are markdown guides that help AI agents use the Spectrum Design Data MCP tools effectively. They orchestrate multiple MCP tools into complete workflows for common design system tasks.
