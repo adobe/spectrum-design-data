@@ -755,91 +755,39 @@
   },
   "help-text-top-to-workflow-icon-small": {
     "component": "help-text",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-75}",
-        "uuid": "91cb19ef-63fc-4d98-a61e-a5f55951f656",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-75",
-        "renamed": "component-top-to-workflow-icon-75"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-75}",
-        "uuid": "00334ebf-5706-4a97-b02c-9f41642c4795",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-75",
-        "renamed": "component-top-to-workflow-icon-75"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{component-top-to-workflow-icon-75}",
+    "uuid": "91cb19ef-63fc-4d98-a61e-a5f55951f656",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with component-top-to-workflow-icon-75",
+    "renamed": "component-top-to-workflow-icon-75"
   },
   "help-text-top-to-workflow-icon-medium": {
     "component": "help-text",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-100}",
-        "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-100",
-        "renamed": "component-top-to-workflow-icon-100"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-100}",
-        "uuid": "b690bd12-855e-444d-8b76-a7ae948e3f52",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-100",
-        "renamed": "component-top-to-workflow-icon-100"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{component-top-to-workflow-icon-100}",
+    "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with component-top-to-workflow-icon-100",
+    "renamed": "component-top-to-workflow-icon-100"
   },
   "help-text-top-to-workflow-icon-large": {
     "component": "help-text",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-200}",
-        "uuid": "54cae12b-5f21-47b4-a964-6033bd025975",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-200",
-        "renamed": "component-top-to-workflow-icon-200"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-200}",
-        "uuid": "e2c40309-5b3d-485a-bafa-9015a5b751e7",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-200",
-        "renamed": "component-top-to-workflow-icon-200"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{component-top-to-workflow-icon-200}",
+    "uuid": "54cae12b-5f21-47b4-a964-6033bd025975",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with component-top-to-workflow-icon-200",
+    "renamed": "component-top-to-workflow-icon-200"
   },
   "help-text-top-to-workflow-icon-extra-large": {
     "component": "help-text",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-300}",
-        "uuid": "bec914a9-5905-40ac-bd61-a727016c1228",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-300",
-        "renamed": "component-top-to-workflow-icon-300"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-300}",
-        "uuid": "251c39cc-f949-4055-aecb-42fc99f9d504",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-300",
-        "renamed": "component-top-to-workflow-icon-300"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{component-top-to-workflow-icon-300}",
+    "uuid": "bec914a9-5905-40ac-bd61-a727016c1228",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with component-top-to-workflow-icon-300",
+    "renamed": "component-top-to-workflow-icon-300"
   },
   "help-text-to-component": {
     "component": "help-text",
@@ -7422,35 +7370,15 @@
   },
   "asterisk-icon-size-100": {
     "component": "asterisk-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "d04b37cc-2c35-49af-9e92-9993264e405a"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "f6f11ca3-b78b-4207-868f-f834c19e8d3d"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "d04b37cc-2c35-49af-9e92-9993264e405a"
   },
   "asterisk-icon-size-200": {
     "component": "asterisk-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "12px",
-        "uuid": "49892fb4-a9df-4882-a656-7f9ffb9558bc"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "12px",
-        "uuid": "3f1b200b-d341-41e4-ae7b-c981ccb492f7"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "49892fb4-a9df-4882-a656-7f9ffb9558bc"
   },
   "asterisk-icon-size-300": {
     "component": "asterisk-icon",
@@ -7598,19 +7526,9 @@
   },
   "chevron-icon-size-50": {
     "component": "chevron-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "8px",
-        "uuid": "785a9152-a69b-4164-a8e2-cc201c1f8063"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "8px",
-        "uuid": "6d8ce7eb-a2a2-496c-9ce7-847f4da5fc0c"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "785a9152-a69b-4164-a8e2-cc201c1f8063"
   },
   "chevron-icon-size-75": {
     "component": "chevron-icon",
@@ -7726,83 +7644,33 @@
   },
   "cross-icon-size-75": {
     "component": "cross-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "8e597833-1025-4de4-b34a-2f34201487c3"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "622d259d-b52b-409a-bf58-04705d8423f9"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "8e597833-1025-4de4-b34a-2f34201487c3"
   },
   "cross-icon-size-100": {
     "component": "cross-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "c9fac273-0c5c-46cd-b774-ad566a540511"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "11f924ca-5542-4864-b153-77363a32d690"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "c9fac273-0c5c-46cd-b774-ad566a540511"
   },
   "cross-icon-size-200": {
     "component": "cross-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "12px",
-        "uuid": "5b416331-7910-4d64-9b5f-43fd1832d3a6"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "12px",
-        "uuid": "11f65b04-c50d-45bb-86bd-34520aa7db61"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "5b416331-7910-4d64-9b5f-43fd1832d3a6"
   },
   "cross-icon-size-300": {
     "component": "cross-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "14px",
-        "uuid": "f0a65c80-55e8-4ad3-b68c-8429c2fefcf5"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "14px",
-        "uuid": "37867ac1-4101-4553-98e1-c8a94fdd2d66"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "f0a65c80-55e8-4ad3-b68c-8429c2fefcf5"
   },
   "cross-icon-size-400": {
     "component": "cross-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "16px",
-        "uuid": "b7e0939f-45ef-4250-8138-2bee9dcb2be4"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "16px",
-        "uuid": "2fed48b7-dd3d-4c3c-9d5c-3046934f5cfd"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "b7e0939f-45ef-4250-8138-2bee9dcb2be4"
   },
   "cross-icon-size-500": {
     "component": "cross-icon",
@@ -7854,19 +7722,9 @@
   },
   "dash-icon-size-75": {
     "component": "dash-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "bfd0ad6e-6656-46d6-aa9f-0940b2c2902a"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "1b6d0e50-3ba2-43c9-8b8c-c220364f4434"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "bfd0ad6e-6656-46d6-aa9f-0940b2c2902a"
   },
   "dash-icon-size-100": {
     "component": "dash-icon",
@@ -12242,19 +12100,9 @@
   },
   "add-icon-size-75": {
     "component": "add-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "1456b16e-09bc-4b63-b3c7-4ecf9a0c3754"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "cfa5af27-add5-475d-90e4-2bd4fc14fcf1"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "1456b16e-09bc-4b63-b3c7-4ecf9a0c3754"
   },
   "add-icon-size-100": {
     "component": "add-icon",
