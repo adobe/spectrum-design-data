@@ -1,0 +1,77 @@
+name: Publish Packages (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      snapshot-tag:
+        description: "Optional snapshot tag for prerelease versions"
+        required: false
+        type: string
+    secrets:
+      GH_TOKEN:
+        required: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write # Required for npm trusted publishing (OIDC)
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get last author info
+        id: author
+        run: |
+          echo "authorName=$(git log -1 --pretty=format:'%an')" >> $GITHUB_OUTPUT
+          echo "authorEmail=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_OUTPUT
+
+      - uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+
+      - run: moon setup
+      - run: moon run :build --query "projectSource~packages/*"
+
+      # Validate OIDC prerequisites before publishing
+      - name: Validate Publishing Prerequisites
+        uses: GarthDB/changesets-publish-validator@v1
+        with:
+          auth-method: oidc
+
+      # Install npm CLI with OIDC support for snapshot releases
+      - name: Install npm with OIDC support
+        if: inputs.snapshot-tag != ''
+        run: npm install -g npm@11.6.2
+
+      # Snapshot release
+      - name: Snapshot release
+        if: inputs.snapshot-tag != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          SNAPSHOT_TAG: ${{ inputs.snapshot-tag }}
+          USERNAME: ${{ steps.author.outputs.authorName }}
+          EMAIL: ${{ steps.author.outputs.authorEmail }}
+        run: |
+          pnpm changeset version --snapshot $SNAPSHOT_TAG
+          git config --global user.name "$USERNAME"
+          git config --global user.email "$EMAIL"
+          git add .
+          git commit -m "chore: snapshot release $SNAPSHOT_TAG"
+          pnpm changeset publish --tag $SNAPSHOT_TAG
+          git push origin HEAD
+          git push --tags
+
+      # Standard release
+      - name: Create Release Pull Request or Publish to npm
+        if: inputs.snapshot-tag == ''
+        uses: GarthDB/changesets-action@v1.6.8
+        with:
+          commit: "chore: release"
+          publish: pnpm release
+          oidcAuth: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
