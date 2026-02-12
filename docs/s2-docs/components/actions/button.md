@@ -11,12 +11,12 @@ tags:
 - action
 - button
 - interactive
-  related\_components:
+related_components:
 - action-group
 - button-group
 - progress-bar
 - progress-circle
-  parent\_category: actions
+parent_category: actions
 
 ---
 

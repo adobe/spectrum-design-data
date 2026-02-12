@@ -7,7 +7,7 @@ status: published
 tags:
 
 - designing
-  related\_components:
+related_components:
 - containers
 - s2-app-frame-header-browsing-context
 

@@ -8,10 +8,10 @@ status: published
 tags:
 
 - components-containers
-  related\_components:
+related_components:
 - divider
 - standard-panel
-  parent\_category: containers
+parent_category: containers
 
 ---
 

@@ -8,10 +8,10 @@ status: published
 tags:
 
 - components-actions
-  related\_components:
+related_components:
 - close-button
 - list-view
-  parent\_category: actions
+parent_category: actions
 
 ---
 

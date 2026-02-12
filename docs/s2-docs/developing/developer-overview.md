@@ -7,7 +7,7 @@ status: published
 tags:
 
 - developing
-  related\_components:
+related_components:
 - motion
 - action-bar
 

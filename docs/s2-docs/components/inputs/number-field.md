@@ -10,10 +10,10 @@ tags:
 - components-inputs
 - input
 - form
-  related\_components:
+related_components:
 - help-text
 - picker
-  parent\_category: inputs
+parent_category: inputs
 
 ---
 

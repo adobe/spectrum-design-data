@@ -10,10 +10,10 @@ tags:
 - components-feedback
 - feedback
 - overlay
-  related\_components:
+related_components:
 - alert-banner
 - coach-indicator
-  parent\_category: feedback
+parent_category: feedback
 
 ---
 

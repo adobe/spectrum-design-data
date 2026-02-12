@@ -7,7 +7,7 @@ status: published
 tags:
 
 - designing
-  related\_components:
+related_components:
 - s2-app-frame-side-navigation-browsing-context
 - s2-app-frame-creating-bluelines-browsing-context
 

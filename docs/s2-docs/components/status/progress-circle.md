@@ -8,10 +8,10 @@ status: published
 tags:
 
 - components-status
-  related\_components:
+related_components:
 - progress-bar
 - status-light
-  parent\_category: status
+parent_category: status
 
 ---
 

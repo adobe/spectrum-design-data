@@ -14,6 +14,7 @@ import test from "ava";
 import { readFileSync, readdirSync, statSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import yaml from "js-yaml";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -54,6 +55,19 @@ function extractFrontmatter(content) {
  */
 function validateYamlFrontmatter(frontmatter, filePath) {
   const errors = [];
+
+  // First, try to parse the YAML to catch syntax errors
+  try {
+    yaml.load(frontmatter);
+  } catch (error) {
+    errors.push({
+      type: "yaml-syntax-error",
+      message: `YAML parsing failed: ${error.message}`,
+      error: error.message,
+    });
+    // If YAML parsing fails, return early since other checks won't be meaningful
+    return errors;
+  }
 
   // Check for asterisk list items (YAML interprets * as alias references)
   if (/^\*/m.test(frontmatter)) {

@@ -7,7 +7,7 @@ status: published
 tags:
 
 - designing
-  related\_components:
+related_components:
 - background-layers
 - fonts
 

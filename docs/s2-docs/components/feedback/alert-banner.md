@@ -10,10 +10,10 @@ tags:
 - components-feedback
 - feedback
 - overlay
-  related\_components:
+related_components:
 - table
 - alert-dialog
-  parent\_category: feedback
+parent_category: feedback
 
 ---
 

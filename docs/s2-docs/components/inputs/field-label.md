@@ -10,10 +10,10 @@ tags:
 - components-inputs
 - input
 - form
-  related\_components:
+related_components:
 - drop-zone
 - help-text
-  parent\_category: inputs
+parent_category: inputs
 
 ---
 

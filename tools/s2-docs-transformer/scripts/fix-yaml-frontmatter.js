@@ -17,12 +17,14 @@
  * 2. Remove escaped underscores (\\_) from field names
  * 3. Remove angle brackets from URLs
  * 4. Clean up excessive blank lines
+ * 5. Fix improperly indented field names in list contexts
  */
 
 import { readFileSync, writeFileSync, readdirSync } from "fs";
 import { join } from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import yaml from "js-yaml";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -73,10 +75,13 @@ function fixFrontmatter(content) {
   }
 
   // Fix 2: Replace escaped underscores in field names
-  // Match patterns like "source\_url:" or "last\_updated:"
-  const escapedUnderscoreRegex = /^(\w+)\\_(\w+):/gm;
+  // Match patterns like "source\_url:" or "last\_updated:" or "related\_components:"
+  const escapedUnderscoreRegex = /^([\w\\]+)\\_/gm;
   if (escapedUnderscoreRegex.test(fixed)) {
-    fixed = fixed.replace(escapedUnderscoreRegex, "$1_$2:");
+    fixed = fixed.replace(escapedUnderscoreRegex, (match, prefix) => {
+      // Remove all backslashes from the prefix and replace \_ with _
+      return prefix.replace(/\\/g, "") + "_";
+    });
     changed = true;
   }
 
@@ -114,6 +119,58 @@ function fixFrontmatter(content) {
     fixed = fixed.replace(/\n\n$/, "\n");
     changed = true;
   }
+
+  // Fix 7: Fix improperly indented field names (fields that look like they're part of a list)
+  // This catches patterns like:
+  //   - item
+  //     field_name:
+  // And converts them to:
+  //   - item
+  //   field_name:
+  const linesArray = fixed.split("\n");
+  const fixedLinesArray = [];
+
+  for (let i = 0; i < linesArray.length; i++) {
+    const line = linesArray[i];
+
+    // Check if this line is an improperly indented field (starts with spaces and has a colon)
+    // Need to handle escaped underscores like related\_components
+    const fieldMatch = line.match(/^(\s+)([\w\\]+):/);
+
+    if (fieldMatch && i > 0) {
+      const [, fieldIndent, fieldName] = fieldMatch;
+
+      // Look back to find the last list item or field definition
+      let lastIndent = 0;
+      for (let j = i - 1; j >= 0; j--) {
+        const prevLine = linesArray[j];
+        const listMatch = prevLine.match(/^(\s*)-\s+/);
+        const prevFieldMatch = prevLine.match(/^(\s*)([\w\\]+):/);
+
+        if (listMatch) {
+          lastIndent = listMatch[1].length;
+          break;
+        } else if (prevFieldMatch) {
+          lastIndent = prevFieldMatch[1].length;
+          break;
+        }
+      }
+
+      // If this field is indented more than it should be (more than the list item indent)
+      if (fieldIndent.length > lastIndent) {
+        changed = true;
+        // Fix the indentation
+        const restOfLine = line.slice(fieldMatch[0].length);
+        const fixedLine = " ".repeat(lastIndent) + fieldName + ":" + restOfLine;
+        fixedLinesArray.push(fixedLine);
+        continue;
+      }
+    }
+
+    fixedLinesArray.push(line);
+  }
+
+  fixed = fixedLinesArray.join("\n");
 
   if (!changed) {
     return { content, changed: false };

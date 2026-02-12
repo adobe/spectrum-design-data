@@ -7,7 +7,7 @@ status: published
 tags:
 
 - designing
-  related\_components:
+related_components:
 - states
 - s2-app-frame
 

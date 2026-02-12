@@ -11,7 +11,7 @@ tags:
 - input
 - color
 - color-picker
-  parent\_category: inputs
+parent_category: inputs
 
 ---
 

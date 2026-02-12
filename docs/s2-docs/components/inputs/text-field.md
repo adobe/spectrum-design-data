@@ -10,10 +10,10 @@ tags:
 - components-inputs
 - input
 - form
-  related\_components:
+related_components:
 - text-area
 - thumbnail
-  parent\_category: inputs
+parent_category: inputs
 
 ---
 

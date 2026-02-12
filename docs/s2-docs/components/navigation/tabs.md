@@ -8,10 +8,10 @@ status: published
 tags:
 
 - components-navigation
-  related\_components:
+related_components:
 - side-navigation
 - tree-view
-  parent\_category: navigation
+parent_category: navigation
 
 ---
 
