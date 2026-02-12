@@ -1,6 +1,7 @@
 {
   "name": "@adobe/s2-docs-transformer",
   "version": "1.0.0",
+  "private": true,
   "description": "Tools for scraping and transforming Spectrum 2 documentation",
   "type": "module",
   "bin": {
