@@ -18,10 +18,17 @@ governing permissions and limitations under the License.
  */
 export function validateComponentName(component) {
   if (!component || typeof component !== "string") {
-    throw new Error("Component name must be a non-empty string");
+    throw new Error(
+      "Component name must be a non-empty string. " +
+        "Example: 'action-button', 'text-field', or 'card'. " +
+        "Use list-components to see all available components.",
+    );
   }
   if (component.includes("/") || component.includes("\\")) {
-    throw new Error("Component name cannot contain path separators");
+    throw new Error(
+      "Component name cannot contain path separators (/ or \\). " +
+        "Use the component name only, e.g., 'action-button' instead of 'components/action-button'.",
+    );
   }
   return component.trim();
 }
@@ -49,7 +56,11 @@ export function validateLimit(limit, defaultLimit, maxLimit = 100) {
  */
 export function validatePropsObject(props) {
   if (!props || typeof props !== "object" || Array.isArray(props)) {
-    throw new Error("Props must be a valid object");
+    throw new Error(
+      "Props must be a valid object (not an array or null). " +
+        "Example: { variant: 'accent', size: 'm' }. " +
+        "Use get-component-schema to see available properties.",
+    );
   }
   return /** @type {Record<string, unknown>} */ (props);
 }
@@ -63,7 +74,11 @@ export function validatePropsObject(props) {
  */
 export function validateStringParam(param, paramName) {
   if (param !== undefined && param !== null && typeof param !== "string") {
-    throw new Error(`${paramName} must be a string`);
+    throw new Error(
+      `${paramName} must be a string. ` +
+        `Received: ${typeof param}. ` +
+        "Check your input and try again.",
+    );
   }
   return param !== undefined && param !== null ? String(param) : undefined;
 }

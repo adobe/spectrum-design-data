@@ -168,6 +168,51 @@ Before finalizing, use `validate-component-props` to ensure correctness:
 4. **Combine multiple tools**: Don't rely on a single tool - combine schema + tokens + recommendations
 5. **Handle states**: For interactive components, consider all states (default, hover, focus, disabled)
 
+## Common Validation Errors & Solutions
+
+### Missing Required Props
+
+**Error:**
+
+```
+Missing required property: label
+```
+
+**Solution:**
+
+* Check schema with `get-component-schema` to see required props
+* Use `get-component-options` for user-friendly property list
+* Add the required prop to your configuration
+
+### Invalid Enum Value
+
+**Error:**
+
+```
+Property variant value "primary" is not in allowed enum values
+```
+
+**Solution:**
+
+* Check available values: `get-component-schema` shows enum options
+* Common fix: "primary" → "accent" for accent buttons
+* Use `suggest-component-improvements` for recommendations
+
+### Unknown Property
+
+**Error:**
+
+```
+Unknown property: color
+```
+
+**Solution:**
+
+* Property might be named differently (e.g., `variant` instead of `color`)
+* Check spelling with `get-component-options`
+* Remove custom properties not in schema
+* Use tokens through style props instead
+
 ## Related Tools
 
 * `get-component-schema` - Get complete component API
@@ -185,6 +230,37 @@ Before finalizing, use `validate-component-props` to ensure correctness:
 * **Containers**: `card`, `popover`, `tray`, `dialog`, `alert-dialog`
 * **Navigation**: `breadcrumbs`, `tabs`, `menu`, `side-navigation`
 * **Feedback**: `alert-banner`, `toast`, `in-line-alert`, `status-light`
+
+## Accessibility Checklist
+
+When building components, ensure:
+
+### Required Props
+
+* [ ] Check schema for required ARIA props (`aria-label`, `aria-labelledby`, etc.)
+* [ ] Verify keyboard navigation support (focus props, tab order)
+* [ ] Include proper role attributes where needed
+
+### States & Feedback
+
+* [ ] Disabled state has appropriate ARIA attributes
+* [ ] Error states include `aria-invalid` and error message association
+* [ ] Loading states use `aria-busy` or `aria-live` regions
+* [ ] Selected/checked states properly indicated
+
+### Visual Design
+
+* [ ] Color contrast meets WCAG AA standards (use semantic tokens)
+* [ ] Focus indicators are clearly visible
+* [ ] Interactive elements have adequate touch targets (44x44px minimum)
+* [ ] Text sizing follows typography tokens (minimum 16px for body)
+
+### Testing
+
+* [ ] Test with screen reader (VoiceOver, NVDA, JAWS)
+* [ ] Verify keyboard-only navigation works
+* [ ] Check color contrast with tools
+* [ ] Validate against component schema with `validate-component-props`
 
 ## Notes
 
