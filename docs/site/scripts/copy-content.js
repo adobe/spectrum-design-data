@@ -8,7 +8,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, "..");
-const src = join(root, "../../markdown");
+const src = join(root, "../markdown");
 const dest = join(root, "src");
 
 for (const dir of ["components", "tokens", "registry"]) {
