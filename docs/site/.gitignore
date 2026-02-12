@@ -4,3 +4,4 @@ src/tokens/*.md
 src/registry/*.md
 
 .cache
+src/assets/css/site.css

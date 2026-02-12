@@ -18,9 +18,10 @@
     "node": ">=20.x"
   },
   "scripts": {
-    "build": "eleventy",
-    "start": "eleventy --serve",
-    "clean": "rimraf ../../site .cache"
+    "build": "pnpm run build:css && eleventy",
+    "build:css": "postcss src/assets/css/index.css -o src/assets/css/site.css",
+    "start": "pnpm run build:css && eleventy --serve",
+    "clean": "rimraf ../../site .cache src/assets/css/site.css"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",
@@ -32,6 +33,9 @@
     "markdown-it": "^14.0.0"
   },
   "devDependencies": {
+    "postcss": "^8.4.49",
+    "postcss-cli": "^11.0.0",
+    "postcss-import": "^16.1.0",
     "rimraf": "^6.0.0"
   }
 }

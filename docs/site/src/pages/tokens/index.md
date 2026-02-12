@@ -11,7 +11,7 @@ Design tokens (color, typography, layout, etc.).
 <ul class="spectrum-SideNav">
 {% for item in collections.tokens %}
   <li class="spectrum-SideNav-item">
-    <a href="{{ pathPrefix }}/tokens/{{ item.fileSlug }}/" class="spectrum-SideNav-itemLink">{{ item.data.title | default: item.fileSlug }}</a>
+    <a href="/tokens/{{ item.fileSlug }}/" class="spectrum-SideNav-itemLink">{{ item.data.title | default: item.fileSlug }}</a>
   </li>
 {% endfor %}
 </ul>

@@ -8,17 +8,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% if title %}{{ title }} | {% endif %}{{ siteName }}</title>
   <meta name="description" content="{{ description | default: siteDescription }}">
-  <link rel="icon" type="image/png" href="{{ pathPrefix }}/favicon.png">
-  <link rel="stylesheet" href="{{ pathPrefix }}/assets/css/index.css">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/css/site.css">
 </head>
 <body class="spectrum spectrum--medium spectrum--light">
   <div class="spectrum-Site">
     <div class="spectrum-Site-header">
       <header class="spectrum-Site-headerNav">
-        <a href="{{ pathPrefix }}/" class="spectrum-Site-headerNavItem">Spectrum Design Data</a>
+        <a href="/" class="spectrum-Site-headerNavItem">Spectrum Design Data</a>
         <nav class="spectrum-Site-headerNavInner">
           {% for item in navigation.top %}
-          <a href="{{ pathPrefix }}{{ item.url }}" class="spectrum-Site-headerNavItem">{{ item.text }}</a>
+          <a href="{{ item.url }}" class="spectrum-Site-headerNavItem">{{ item.text }}</a>
           {% endfor %}
         </nav>
       </header>
