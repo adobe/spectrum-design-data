@@ -18,7 +18,10 @@ tasks:
       - node
       - src/index.js
     platform: node
+    deps:
+      - "tokens:build"
+      - "componentSchemas:test"
+      - "design-system-registry:test"
     inputs:
       - "@globs(sources)"
-    outputs:
-      - "output/"
+    # Output is docs/markdown/ (outside project); Moon cannot declare parent paths

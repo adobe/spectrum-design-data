@@ -1,4 +1,4 @@
-# Generated markdown (copied from tools/markdown-generator at build time)
+# Generated markdown (copied from docs/markdown/ at build time)
 src/components/*.md
 src/tokens/*.md
 src/registry/*.md

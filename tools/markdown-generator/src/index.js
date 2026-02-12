@@ -17,7 +17,7 @@ import { generateTokenMarkdown } from "./tokens.js";
 import { generateRegistryMarkdown } from "./registry.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const OUTPUT_DIR = join(__dirname, "..", "output");
+const OUTPUT_DIR = join(__dirname, "..", "..", "..", "docs", "markdown");
 
 async function main() {
   const componentCount = await generateComponentMarkdown(OUTPUT_DIR);
