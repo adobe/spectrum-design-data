@@ -22,10 +22,9 @@ tasks:
     platform: system
   prepare:
     command:
-      - sh
-      - -c
-      - "mkdir -p tokens && rm -rf tokens/* && cp -r node_modules/@adobe/spectrum-tokens/src/* tokens/ && cp node_modules/@adobe/spectrum-tokens/package.json tokens/"
-    platform: system
+      - node
+      - scripts/prepare.mjs
+    platform: node
     deps:
       - tokens:build
     inputs:

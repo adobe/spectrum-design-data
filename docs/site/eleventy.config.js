@@ -23,6 +23,8 @@ const outputDir = resolve(__dirname, "../../site");
 
 export default async function (eleventyConfig) {
   eleventyConfig.setQuietMode(true);
+  // Generated .md in src/components, tokens, registry are in .gitignore; we still want 11ty to process them
+  eleventyConfig.setUseGitIgnore(false);
   eleventyConfig.setLiquidOptions({ jsTruthy: true });
   eleventyConfig.addPlugin(HtmlBasePlugin, { pathPrefix });
 
