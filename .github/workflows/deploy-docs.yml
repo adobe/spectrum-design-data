@@ -44,6 +44,7 @@ jobs:
         with:
           auto-install: true
       - run: moon setup
+      - run: rm -rf site && mkdir -p site
       - run: moon run markdown-generator:generate
       - run: moon run site:export
       - run: moon run visualizer:build
