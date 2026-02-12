@@ -583,6 +583,18 @@ importers:
         specifier: ^3.3.3
         version: 3.7.4
 
+  tools/markdown-generator:
+    dependencies:
+      "@adobe/design-system-registry":
+        specifier: workspace:*
+        version: link:../../packages/design-system-registry
+      "@adobe/spectrum-component-api-schemas":
+        specifier: workspace:*
+        version: link:../../packages/component-schemas
+      "@adobe/spectrum-tokens":
+        specifier: workspace:*
+        version: link:../../packages/tokens
+
   tools/optimized-diff:
     devDependencies:
       ava:
