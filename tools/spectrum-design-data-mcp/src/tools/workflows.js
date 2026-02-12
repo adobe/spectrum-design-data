@@ -204,7 +204,9 @@ export function createWorkflowTools() {
 
         if (!schema || typeof schema !== "object") {
           throw new Error(
-            `Component not found: ${component}. Use list-components to see available components.`,
+            `Component not found: ${component}. ` +
+              "Use list-components to see available components. " +
+              "Or use build-component-config to generate a complete configuration from scratch.",
           );
         }
 

@@ -132,7 +132,11 @@ export function createSchemaTools() {
             : undefined;
 
         if (!schema || typeof schema !== "object") {
-          throw new Error(`Component schema not found: ${component}`);
+          throw new Error(
+            `Component schema not found: ${component}. ` +
+              "Use list-components to see all available components, or " +
+              "check https://spectrum.adobe.com/page/components for documentation.",
+          );
         }
 
         return {
@@ -214,7 +218,14 @@ export function createSchemaTools() {
             : undefined;
 
         if (!schema || typeof schema !== "object") {
-          throw new Error(`Component schema not found: ${component}`);
+          throw new Error(
+            `Component schema not found: ${component}. ` +
+              "This might mean: " +
+              "1. The component name is misspelled (use list-components to verify), " +
+              "2. The component doesn't have a schema yet, " +
+              "3. The component is from a different package. " +
+              "Try: get-component-options to explore available options.",
+          );
         }
 
         const validationResults = validateProps(props, schema);
@@ -250,7 +261,10 @@ export function createSchemaTools() {
               ? schemaData.types[`${type}.json`]
               : undefined;
           if (!typeSchema || typeof typeSchema !== "object") {
-            throw new Error(`Type schema not found: ${type}`);
+            throw new Error(
+              `Type schema not found: ${type}. ` +
+                "Use get-type-schemas to list all available type definitions.",
+            );
           }
 
           return {
@@ -391,7 +405,11 @@ export function createSchemaTools() {
         const feature =
           args?.feature != null ? String(args.feature) : undefined;
         if (!feature || feature.trim() === "") {
-          throw new Error("feature is required");
+          throw new Error(
+            "feature is required for component search. " +
+              "Provide a feature to search for (e.g., 'validation', 'icon', 'selection'). " +
+              "Common features: validation, disabled, icon, selection, loading, error.",
+          );
         }
 
         const schemaData = await getSchemaData();

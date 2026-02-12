@@ -87,8 +87,8 @@ Agent Skills are markdown guides that help AI agents use the Spectrum Design Dat
 
 ### Available Agent Skills
 
-* **[Component Builder](build-spectrum-components/component-builder.md)**: Guides agents through building Spectrum components correctly by discovering schemas, finding tokens, and validating configurations
-* **[Token Finder](build-spectrum-components/token-finder.md)**: Helps agents discover the right design tokens for colors, spacing, typography, and component styling
+* **[Component Builder](agent-skills/component-builder.md)**: Guides agents through building Spectrum components correctly by discovering schemas, finding tokens, and validating configurations
+* **[Token Finder](agent-skills/token-finder.md)**: Helps agents discover the right design tokens for colors, spacing, typography, and component styling
 
 ### How Agent Skills Work
 
@@ -110,11 +110,73 @@ For AI agents working with Spectrum components:
 3. Call the MCP tools as directed by the skill
 4. Combine tool outputs into a complete solution
 
-See the [Agent Skills README](build-spectrum-components/README.md) for more details.
+See the [Agent Skills README](agent-skills/README.md) for more details.
 
 ### Related Resources
 
 This implementation follows the pattern established by [React Spectrum's AI integration](https://react-spectrum.adobe.com/ai), which also uses MCP and Agent Skills to help AI agents work with design systems.
+
+## Quick Start
+
+### Building a Component with Agent Skills
+
+The fastest way to build a Spectrum component is to use the workflow tools:
+
+#### One-Shot Component Configuration
+
+```javascript
+// Generate complete config with recommended tokens
+await buildComponentConfig({
+  component: "action-button",
+  variant: "accent",
+  intent: "primary",
+  includeTokens: true,
+});
+// Returns: complete config with props, tokens, and validation
+```
+
+#### Step-by-Step Workflow (following Component Builder skill)
+
+```javascript
+// 1. Get component schema
+const schema = await getComponentSchema({ component: "action-button" });
+
+// 2. Find related tokens
+const tokens = await getComponentTokens({ componentName: "action-button" });
+
+// 3. Get color recommendations
+const colors = await getDesignRecommendations({
+  intent: "primary",
+  context: "button",
+});
+
+// 4. Validate configuration
+const validation = await validateComponentProps({
+  component: "action-button",
+  props: { variant: "accent", size: "m" },
+});
+```
+
+### Finding Design Tokens
+
+```javascript
+// Find tokens by use case
+const bgTokens = await findTokensByUseCase({
+  useCase: "button background",
+  componentType: "button",
+});
+
+// Get semantic color recommendations
+const errorColors = await getDesignRecommendations({
+  intent: "negative",
+  context: "text",
+});
+
+// Get all tokens for a component
+const buttonTokens = await getComponentTokens({
+  componentName: "action-button",
+});
+```
 
 ## Configuration
 
@@ -308,7 +370,7 @@ src/
 ├── data/                # Data access layer
 │   ├── tokens.js        # Token data access
 │   └── schemas.js       # Schema data access
-└── build-spectrum-components/  # Agent Skills documentation
+└── agent-skills/  # Agent Skills documentation
     ├── component-builder.md
     ├── token-finder.md
     └── README.md

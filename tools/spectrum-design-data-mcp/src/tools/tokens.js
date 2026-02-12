@@ -210,7 +210,11 @@ export function createTokenTools() {
         const category = validateStringParam(args?.category, "category");
 
         if (!tokenPath || tokenPath.trim() === "") {
-          throw new Error("tokenPath is required");
+          throw new Error(
+            "tokenPath is required to get token details. " +
+              "Provide the token name (e.g., 'accent-color-100'). " +
+              "Use query-tokens or find-tokens-by-use-case to discover token names.",
+          );
         }
 
         const tokenData = await getTokenData();
@@ -236,7 +240,15 @@ export function createTokenTools() {
           }
         }
 
-        throw new Error(`Token not found: ${tokenPath}`);
+        throw new Error(
+          `Token not found: ${tokenPath}. ` +
+            "This might mean: " +
+            "1. The token name is misspelled, " +
+            "2. The token is in a different category than specified, " +
+            "3. The token has been deprecated or renamed. " +
+            "Try: query-tokens to search for similar tokens, or " +
+            "get-token-categories to see all available categories.",
+        );
       },
     },
     {
@@ -268,7 +280,11 @@ export function createTokenTools() {
         );
 
         if (!useCase || useCase.trim() === "") {
-          throw new Error("useCase is required");
+          throw new Error(
+            "useCase is required to find tokens. " +
+              "Describe what you're looking for (e.g., 'button background', 'error state', 'spacing'). " +
+              "Common use cases: button background, text color, border, spacing, error state, hover state.",
+          );
         }
 
         const data = await getTokenData();
@@ -367,7 +383,11 @@ export function createTokenTools() {
         const componentName =
           args?.componentName != null ? String(args.componentName) : undefined;
         if (!componentName || componentName.trim() === "") {
-          throw new Error("componentName is required");
+          throw new Error(
+            "componentName is required to get component tokens. " +
+              "Provide the component name (e.g., 'action-button', 'text-field'). " +
+              "Use list-components to see all available components.",
+          );
         }
 
         const data = await getTokenData();
@@ -442,7 +462,11 @@ export function createTokenTools() {
         const context = validateStringParam(args?.context, "context");
 
         if (!intent || intent.trim() === "") {
-          throw new Error("intent is required");
+          throw new Error(
+            "intent is required for design recommendations. " +
+              "Provide a design intent (e.g., 'primary', 'negative', 'positive'). " +
+              "Common intents: primary, secondary, accent, negative, positive, notice, informative.",
+          );
         }
 
         const data = await getTokenData();

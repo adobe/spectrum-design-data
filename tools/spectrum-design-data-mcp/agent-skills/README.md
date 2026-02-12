@@ -39,6 +39,10 @@ Helps agents discover the right design tokens for:
 
 **Use when**: Finding tokens for design decisions or styling components
 
+### Guides
+
+* **[State Management](guides/state-management.md)**: Handling component states (default, hover, focus, disabled, selected) and token recommendations per state
+
 ## How Agent Skills Work
 
 Agent Skills don't execute code directly. Instead, they:
@@ -84,6 +88,83 @@ Agent Skills work alongside the Spectrum Design Data MCP tools:
 * `search-components-by-feature` ⭐ - Find components by feature
 
 ⭐ = Frequently used in Agent Skills
+
+## Common Usage Patterns
+
+### Pattern: Multi-State Component
+
+When building components with multiple interactive states:
+
+```javascript
+// 1. Get base recommendations
+const baseTokens = await getDesignRecommendations({
+  intent: "primary",
+  state: "default",
+  context: "button",
+});
+
+// 2. Get hover state
+const hoverTokens = await getDesignRecommendations({
+  intent: "primary",
+  state: "hover",
+  context: "button",
+});
+
+// 3. Get disabled state
+const disabledTokens = await getDesignRecommendations({
+  intent: "primary",
+  state: "disabled",
+  context: "button",
+});
+```
+
+### Pattern: Form Validation
+
+Building form fields with validation:
+
+```javascript
+// 1. Get field schema
+const schema = await getComponentSchema({ component: "text-field" });
+
+// 2. Get error state tokens
+const errorTokens = await findTokensByUseCase({
+  useCase: "error state",
+  componentType: "input",
+});
+
+// 3. Validate configuration
+const validation = await validateComponentProps({
+  component: "text-field",
+  props: {
+    validationState: "invalid",
+    errorMessage: "Required field",
+  },
+});
+```
+
+### Pattern: Semantic Color Selection
+
+Choosing colors based on intent:
+
+```javascript
+// For success messages
+const successColors = await getDesignRecommendations({
+  intent: "positive",
+  context: "text",
+});
+
+// For warnings
+const warningColors = await getDesignRecommendations({
+  intent: "notice",
+  context: "background",
+});
+
+// For errors
+const errorColors = await getDesignRecommendations({
+  intent: "negative",
+  context: "border",
+});
+```
 
 ## Using Agent Skills
 
