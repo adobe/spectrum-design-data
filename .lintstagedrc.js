@@ -2,8 +2,12 @@ export default {
   "**/*.{js,jsx,ts,tsx,json,yml,yaml}": ["prettier --write"],
   "**/*.md": (files) => {
     // Filter out changeset and CHANGELOG files - they need special handling
+    // Skip 11ty page templates so YAML frontmatter (---) is not reformatted by remark
     const processableFiles = files.filter(
-      (file) => !file.includes(".changeset/") && !file.includes("CHANGELOG.md"),
+      (file) =>
+        !file.includes(".changeset/") &&
+        !file.includes("CHANGELOG.md") &&
+        !file.includes("docs/site/src/"),
     );
     if (processableFiles.length === 0) return [];
     // Use -o flag (no path) to write back to same file

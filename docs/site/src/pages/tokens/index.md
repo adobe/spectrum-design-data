@@ -1,9 +1,8 @@
-***
-
+---
 title: Tokens
 layout: base.liquid
 permalink: /tokens/
--------------------
+---
 
 # Tokens
 

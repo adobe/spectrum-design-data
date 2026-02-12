@@ -1,9 +1,8 @@
-***
-
+---
 title: Components
 layout: base.liquid
 permalink: /components/
------------------------
+---
 
 # Components
 

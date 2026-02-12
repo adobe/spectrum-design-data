@@ -1,9 +1,8 @@
-***
-
+---
 title: Home
 layout: base.liquid
 permalink: /
-------------
+---
 
 # Spectrum Design Data
 

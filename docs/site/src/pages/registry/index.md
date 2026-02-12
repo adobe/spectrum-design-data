@@ -1,9 +1,8 @@
-***
-
+---
 title: Registry
 layout: base.liquid
 permalink: /registry/
----------------------
+---
 
 # Registry
 
