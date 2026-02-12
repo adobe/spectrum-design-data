@@ -1,0 +1,32 @@
+$schema: "https://moonrepo.dev/schemas/project.json"
+
+project:
+  name: "s2-docs-transformer"
+  description: "Tools for scraping and transforming S2 documentation"
+  type: "tool"
+  language: "javascript"
+
+tasks:
+  transform:
+    command: "node scripts/transform-to-frontmatter.js"
+    inputs:
+      - "../../docs/s2-docs/**/*.md"
+      - "scripts/transform-to-frontmatter.js"
+    outputs:
+      - "../../docs/s2-docs/**/*.md"
+
+  add-metadata:
+    command: "node scripts/add-related-metadata.js"
+    inputs:
+      - "../../docs/s2-docs/**/*.md"
+      - "scripts/add-related-metadata.js"
+    outputs:
+      - "../../docs/s2-docs/**/*.md"
+    deps:
+      - "transform"
+
+  process-all:
+    command: "pnpm run process-all"
+    deps:
+      - "transform"
+      - "add-metadata"

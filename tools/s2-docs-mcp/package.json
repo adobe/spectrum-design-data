@@ -1,0 +1,49 @@
+{
+  "name": "@adobe/s2-docs-mcp",
+  "version": "0.0.0",
+  "description": "MCP server for Spectrum 2 documentation",
+  "type": "module",
+  "main": "./src/index.js",
+  "bin": {
+    "s2-docs-mcp": "./src/cli.js"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node src/cli.js",
+    "scrape": "node src/batch-scraper.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "tools/s2-docs-mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/tools/s2-docs-mcp#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "provenance": true
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "commander": "^13.1.0"
+  },
+  "engines": {
+    "node": ">=20.12.0"
+  },
+  "keywords": [
+    "mcp",
+    "spectrum",
+    "s2",
+    "documentation",
+    "design-system"
+  ],
+  "author": "Adobe",
+  "license": "Apache-2.0"
+}

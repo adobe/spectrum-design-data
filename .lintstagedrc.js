@@ -8,14 +8,19 @@ export default {
     if (processableFiles.length === 0) return [];
     // Use -o flag (no path) to write back to same file
     return processableFiles.map(
-      (file) => `remark ${file} --use remark-gfm --use remark-github -o`,
+      (file) =>
+        `remark ${file} --use remark-frontmatter --use remark-gfm --use remark-github -o`,
     );
   },
   "!**/pnpm-lock.yaml": [],
   "!**/package-lock.json": [],
   "!**/yarn.lock": [],
   ".changeset/*.md": (files) => {
-    // Only run changeset linter on changeset files
-    return files.map((file) => `pnpm changeset-lint check-file ${file}`);
+    // Only run changeset linter on actual changeset files, not README.md
+    const changesetFiles = files.filter((file) => !file.endsWith("README.md"));
+    if (changesetFiles.length === 0) return [];
+    return changesetFiles.map(
+      (file) => `pnpm changeset-lint check-file ${file}`,
+    );
   },
 };

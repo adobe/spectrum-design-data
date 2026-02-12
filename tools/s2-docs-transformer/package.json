@@ -1,0 +1,32 @@
+{
+  "name": "@adobe/s2-docs-transformer",
+  "version": "1.0.0",
+  "description": "Tools for scraping and transforming Spectrum 2 documentation",
+  "type": "module",
+  "bin": {
+    "s2-scraper": "./src/cli.js"
+  },
+  "scripts": {
+    "scrape": "node src/cli.js scrape",
+    "scrape-all": "node src/cli.js scrape-all",
+    "list": "node src/cli.js list",
+    "transform": "node scripts/transform-to-frontmatter.js",
+    "add-metadata": "node scripts/add-related-metadata.js",
+    "process-all": "npm run transform && npm run add-metadata"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4"
+  },
+  "keywords": [
+    "spectrum",
+    "s2",
+    "documentation",
+    "scraper",
+    "transformer"
+  ],
+  "author": "Adobe",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20.12.0"
+  }
+}

@@ -27,6 +27,7 @@ Packages in this monorepo:
 * [Spectrum S2 Tokens Viewer](docs/s2-tokens-viewer/) an enhanced token viewer with component usage analysis for Spectrum 2 tokens.
 * [Spectrum Tokens Docs](docs/site/) a static site to show the component options API and other token data.
 * [Release Timeline Visualization](docs/release-timeline/) interactive charts showing release frequency and development activity patterns. Published as a [static site](https://opensource.adobe.com/spectrum-design-data/release-timeline/).
+* [Spectrum 2 Documentation](docs/s2-docs/) comprehensive component guides and design principles from s2.spectrum.corp.adobe.com.
 
 ## Development Tools
 
@@ -39,6 +40,7 @@ Packages in this monorepo:
 * [Transform Tokens JSON](tools/transform-tokens-json/) utilities for merging and transforming token data between formats.
 * [Token Manifest Builder](tools/token-manifest-builder/) generates manifest files for token distribution.
 * [Spectrum Design Data MCP](tools/spectrum-design-data-mcp/) Model Context Protocol server providing AI assistants with structured access to Spectrum design system data.
+* [S2 Docs MCP](tools/s2-docs-mcp/) MCP server providing AI assistants with access to Spectrum 2 component documentation and design guidelines.
 
 ## Setup monorepo locally
 
