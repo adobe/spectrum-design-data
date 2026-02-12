@@ -1,0 +1,56 @@
+# Publish generated markdown to docs-markdown orphan branch for chatbot indexing.
+name: Publish Markdown
+
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: ["Release"]
+    types:
+      - completed
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+
+      - run: moon setup
+      - run: moon run markdown-generator:generate
+
+      - name: Create or update docs-markdown branch
+        run: |
+          BRANCH="docs-markdown"
+          cp -r tools/markdown-generator/output /tmp/md-output
+          git fetch origin "$BRANCH" 2>/dev/null || true
+          if git show-ref --verify --quiet refs/remotes/origin/"$BRANCH"; then
+            git checkout "$BRANCH"
+          else
+            git checkout --orphan "$BRANCH"
+          fi
+          git rm -rf . 2>/dev/null || true
+          mkdir -p components tokens registry
+          cp /tmp/md-output/components/*.md components/
+          cp /tmp/md-output/tokens/*.md tokens/
+          cp /tmp/md-output/registry/*.md registry/
+          git add components tokens registry
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore(docs): update markdown for chatbot indexing"
+            git push -f origin "$BRANCH"
+          fi
