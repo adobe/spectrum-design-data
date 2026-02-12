@@ -77,7 +77,10 @@
         "value": "6px",
         "uuid": "f254146e-f469-44b1-b0c9-1ac72e88f9e3"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires other design enhancements to this component",
+    "renamed": "base-padding-vertical-small"
   },
   "checkbox-top-to-control-medium": {
     "component": "checkbox",
@@ -93,7 +96,10 @@
         "value": "10px",
         "uuid": "e3751526-2db9-421c-85f9-d60071aac49b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires other design enhancements to this component",
+    "renamed": "base-padding-vertical-medium"
   },
   "checkbox-top-to-control-large": {
     "component": "checkbox",
@@ -109,7 +115,10 @@
         "value": "14px",
         "uuid": "d040d2f4-9bb4-4d27-adac-40fef079d958"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires other design enhancements to this component",
+    "renamed": "base-padding-vertical-large"
   },
   "checkbox-top-to-control-extra-large": {
     "component": "checkbox",
@@ -125,7 +134,10 @@
         "value": "17px",
         "uuid": "b3be5ac8-2415-4490-8b4a-c08661ec84d1"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires other design enhancements to this component",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "switch-control-width-small": {
     "component": "switch",
@@ -269,7 +281,10 @@
         "value": "7px",
         "uuid": "f379c453-da21-41f6-92d1-9b6bdb95fd86"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires switch control to be placed in frame of height workflow-icon-small",
+    "renamed": "base-padding-vertical-small"
   },
   "switch-top-to-control-medium": {
     "component": "switch",
@@ -285,7 +300,10 @@
         "value": "11px",
         "uuid": "68276028-41d8-49e1-b0d4-f70cd27ab149"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires switch control to be placed in frame of height workflow-icon-medium",
+    "renamed": "base-padding-vertical-medium"
   },
   "switch-top-to-control-large": {
     "component": "switch",
@@ -301,7 +319,10 @@
         "value": "15px",
         "uuid": "035e786b-17f2-488e-a049-84b257a3312f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires switch control to be placed in frame of height workflow-icon-large",
+    "renamed": "base-padding-vertical-large"
   },
   "switch-top-to-control-extra-large": {
     "component": "switch",
@@ -317,7 +338,10 @@
         "value": "19px",
         "uuid": "7e95ad9a-ca10-4f06-9c19-8dd2270cfdad"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires switch control to be placed in frame of height workflow-icon-extra-large",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "radio-button-control-size-small": {
     "component": "radio-button",
@@ -397,7 +421,10 @@
         "value": "7px",
         "uuid": "02438c4c-161d-45eb-935d-b083ab830876"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Controls must be in a frame that has height equal to workflow-icon-size-small",
+    "renamed": "base-padding-vertical-small"
   },
   "radio-button-top-to-control-medium": {
     "component": "radio-button",
@@ -413,7 +440,10 @@
         "value": "11px",
         "uuid": "2f805530-cefe-420a-89e6-a6a81c0faea0"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Controls must be in a frame that has height equal to workflow-icon-size-medium",
+    "renamed": "base-padding-vertical-medium"
   },
   "radio-button-top-to-control-large": {
     "component": "radio-button",
@@ -429,7 +459,10 @@
         "value": "15px",
         "uuid": "41d0dde7-de34-4e99-96d0-4f727ed71673"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Controls must be in a frame that has height equal to workflow-icon-size-large",
+    "renamed": "base-padding-vertical-large"
   },
   "radio-button-top-to-control-extra-large": {
     "component": "radio-button",
@@ -445,7 +478,10 @@
         "value": "19px",
         "uuid": "c478710f-1747-455b-998a-6fa837762905"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Controls must be in a frame that has height equal to workflow-icon-size-extra-large",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "radio-button-selection-indicator": {
     "component": "radio-button",
@@ -467,7 +503,10 @@
         "value": "5px",
         "uuid": "4271498d-747c-423d-87cc-761b8a181f7c"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-small instead.",
+    "renamed": "base-gap-small"
   },
   "field-label-text-to-asterisk-medium": {
     "component": "field-label",
@@ -483,7 +522,10 @@
         "value": "5px",
         "uuid": "2fbc4add-e6b4-4dfa-9a7d-0de628b2f63c"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead.",
+    "renamed": "base-gap-medium"
   },
   "field-label-text-to-asterisk-large": {
     "component": "field-label",
@@ -499,7 +541,10 @@
         "value": "6px",
         "uuid": "87149afe-899b-4fb6-bd7c-d2becf8117fc"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-large instead.",
+    "renamed": "base-gap-large"
   },
   "field-label-text-to-asterisk-extra-large": {
     "component": "field-label",
@@ -515,7 +560,10 @@
         "value": "6px",
         "uuid": "17ba788d-da38-455d-9322-16e4f05ea923"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-extra-large instead.",
+    "renamed": "base-gap-extra-large"
   },
   "field-label-top-to-asterisk-small": {
     "component": "field-label",
@@ -531,7 +579,10 @@
         "value": "11px",
         "uuid": "ec0c072f-50fb-4934-99fc-a2576062e7b4"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires UI icon to be placed in frame of height workflow-icon-[size], or calculate this token + ( (workflow-icon-[size] - ui-icon-[size]) / 2 )",
+    "renamed": "base-padding-vertical-small"
   },
   "field-label-top-to-asterisk-medium": {
     "component": "field-label",
@@ -547,7 +598,10 @@
         "value": "15px",
         "uuid": "6f65ad1a-4a65-4b83-af44-5bd893f3b40e"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires UI icon to be placed in frame of height workflow-icon-[size], or calculate this token + ( (workflow-icon-[size] - ui-icon-[size]) / 2 )",
+    "renamed": "base-padding-vertical-medium"
   },
   "field-label-top-to-asterisk-large": {
     "component": "field-label",
@@ -563,7 +617,10 @@
         "value": "19px",
         "uuid": "e410a804-2655-4bbc-9b66-53a5facc92ac"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires UI icon to be placed in frame of height workflow-icon-[size], or calculate this token + ( (workflow-icon-[size] - ui-icon-[size]) / 2 )",
+    "renamed": "base-padding-vertical-large"
   },
   "field-label-top-to-asterisk-extra-large": {
     "component": "field-label",
@@ -579,37 +636,50 @@
         "value": "24px",
         "uuid": "5227bf07-140a-49c6-88f9-cc454d8a90c1"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires UI icon to be placed in frame of height workflow-icon-[size], or calculate this token + ( (workflow-icon-[size] - ui-icon-[size]) / 2 )",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "field-label-top-margin-small": {
     "component": "field-label",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "ab718f97-15c3-4b8b-aee7-b50b09ec0a33"
+    "uuid": "ab718f97-15c3-4b8b-aee7-b50b09ec0a33",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "field-label-top-margin-medium": {
     "component": "field-label",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "b5243f56-7985-4686-b41f-9b9b9a18b047"
+    "uuid": "b5243f56-7985-4686-b41f-9b9b9a18b047",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "field-label-top-margin-large": {
     "component": "field-label",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "f7dd90d8-91e6-4090-a5a9-6b30087860a4"
+    "uuid": "f7dd90d8-91e6-4090-a5a9-6b30087860a4",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "field-label-top-margin-extra-large": {
     "component": "field-label",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "5c14d528-fe17-4b0b-a123-edbdb93fd173"
+    "uuid": "5c14d528-fe17-4b0b-a123-edbdb93fd173",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "field-label-to-component": {
     "component": "field-label",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "4738ec46-a43c-48f9-aeca-87863275dc4d"
+    "uuid": "4738ec46-a43c-48f9-aeca-87863275dc4d",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "field-label-to-component-quiet-small": {
     "component": "field-label",
@@ -685,97 +755,47 @@
   },
   "help-text-top-to-workflow-icon-small": {
     "component": "help-text",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-75}",
-        "uuid": "91cb19ef-63fc-4d98-a61e-a5f55951f656",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-75",
-        "renamed": "component-top-to-workflow-icon-75"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-75}",
-        "uuid": "00334ebf-5706-4a97-b02c-9f41642c4795",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-75",
-        "renamed": "component-top-to-workflow-icon-75"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{component-top-to-workflow-icon-75}",
+    "uuid": "91cb19ef-63fc-4d98-a61e-a5f55951f656",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with component-top-to-workflow-icon-75",
+    "renamed": "component-top-to-workflow-icon-75"
   },
   "help-text-top-to-workflow-icon-medium": {
     "component": "help-text",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-100}",
-        "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-100",
-        "renamed": "component-top-to-workflow-icon-100"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-100}",
-        "uuid": "b690bd12-855e-444d-8b76-a7ae948e3f52",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-100",
-        "renamed": "component-top-to-workflow-icon-100"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{component-top-to-workflow-icon-100}",
+    "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with component-top-to-workflow-icon-100",
+    "renamed": "component-top-to-workflow-icon-100"
   },
   "help-text-top-to-workflow-icon-large": {
     "component": "help-text",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-200}",
-        "uuid": "54cae12b-5f21-47b4-a964-6033bd025975",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-200",
-        "renamed": "component-top-to-workflow-icon-200"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-200}",
-        "uuid": "e2c40309-5b3d-485a-bafa-9015a5b751e7",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-200",
-        "renamed": "component-top-to-workflow-icon-200"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{component-top-to-workflow-icon-200}",
+    "uuid": "54cae12b-5f21-47b4-a964-6033bd025975",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with component-top-to-workflow-icon-200",
+    "renamed": "component-top-to-workflow-icon-200"
   },
   "help-text-top-to-workflow-icon-extra-large": {
     "component": "help-text",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-300}",
-        "uuid": "bec914a9-5905-40ac-bd61-a727016c1228",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-300",
-        "renamed": "component-top-to-workflow-icon-300"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-        "value": "{component-top-to-workflow-icon-300}",
-        "uuid": "251c39cc-f949-4055-aecb-42fc99f9d504",
-        "deprecated": true,
-        "deprecated_comment": "Replaced with component-top-to-workflow-icon-300",
-        "renamed": "component-top-to-workflow-icon-300"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{component-top-to-workflow-icon-300}",
+    "uuid": "bec914a9-5905-40ac-bd61-a727016c1228",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with component-top-to-workflow-icon-300",
+    "renamed": "component-top-to-workflow-icon-300"
   },
   "help-text-to-component": {
     "component": "help-text",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa"
+    "uuid": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "status-light-dot-size-small": {
     "component": "status-light",
@@ -855,7 +875,10 @@
         "value": "10px",
         "uuid": "a4f43adc-1db1-4e2f-a5d1-3ec06c62c9ff"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires Dot to be placed in frame of height workflow-icon-small",
+    "renamed": "base-padding-vertical-small"
   },
   "status-light-top-to-dot-medium": {
     "component": "status-light",
@@ -871,7 +894,10 @@
         "value": "14px",
         "uuid": "321a462b-8811-4264-ac1f-4608df8f8c53"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires Dot to be placed in frame of height workflow-icon-medium",
+    "renamed": "base-padding-vertical-medium"
   },
   "status-light-top-to-dot-large": {
     "component": "status-light",
@@ -887,7 +913,10 @@
         "value": "18px",
         "uuid": "8d9d872f-7c55-4a94-a80d-c1f2c8834f5d"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires Dot to be placed in frame of height workflow-icon-large",
+    "renamed": "base-padding-vertical-large"
   },
   "status-light-top-to-dot-extra-large": {
     "component": "status-light",
@@ -903,19 +932,28 @@
         "value": "22px",
         "uuid": "b351cade-6d69-449e-908a-518793fef5b9"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires Dot to be placed in frame of height workflow-icon-extra-large",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "action-button-edge-to-hold-icon-extra-small": {
     "component": "action-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "uuid": "b79597cc-5294-4555-ab78-f4200e480ac3"
+    "uuid": "b79597cc-5294-4555-ab78-f4200e480ac3",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-affixed-extra-small instead.",
+    "renamed": "accessory-gap-affixed-extra-small"
   },
   "action-button-edge-to-hold-icon-small": {
     "component": "action-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "uuid": "fa106863-0e09-44d4-9465-68cd3254ed2b"
+    "uuid": "fa106863-0e09-44d4-9465-68cd3254ed2b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-affixed-small instead.",
+    "renamed": "accessory-gap-affixed-small"
   },
   "action-button-edge-to-hold-icon-medium": {
     "component": "action-button",
@@ -931,7 +969,10 @@
         "value": "5px",
         "uuid": "255a24ab-f70d-4698-8d2e-569c37c6c798"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-affixed-medium instead.",
+    "renamed": "accessory-gap-affixed-medium"
   },
   "action-button-edge-to-hold-icon-large": {
     "component": "action-button",
@@ -947,7 +988,10 @@
         "value": "6px",
         "uuid": "86a36757-a2d1-4263-97dc-62cf4543b3f9"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-affixed-large instead.",
+    "renamed": "accessory-gap-affixed-large"
   },
   "action-button-edge-to-hold-icon-extra-large": {
     "component": "action-button",
@@ -963,7 +1007,10 @@
         "value": "7px",
         "uuid": "b4b4710b-2073-4285-8342-31ae6712671b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-affixed-extra-large instead.",
+    "renamed": "accessory-gap-affixed-extra-large"
   },
   "button-minimum-width-multiplier": {
     "component": "button",
@@ -1179,7 +1226,10 @@
         "value": "20px",
         "uuid": "1f83245b-3d79-4326-b843-df7b6549cade"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Refactor may be needed",
+    "renamed": "banner-padding-vertical"
   },
   "toast-top-to-text": {
     "component": "toast",
@@ -1195,7 +1245,10 @@
         "value": "20px",
         "uuid": "9f0688f5-128f-47c3-8585-94d704214881"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Refactor may be needed",
+    "renamed": "banner-padding-vertical"
   },
   "toast-bottom-to-text": {
     "component": "toast",
@@ -1211,7 +1264,10 @@
         "value": "22px",
         "uuid": "a790fd9e-4e5f-4f4c-a3ca-832540832580"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Refactor may be needed",
+    "renamed": "banner-padding-vertical"
   },
   "action-bar-height": {
     "component": "action-bar",
@@ -1223,7 +1279,10 @@
     "component": "action-bar",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{component-top-to-text-300}",
-    "uuid": "73f82d09-7927-461c-b7d7-ab0bc6b3e3f9"
+    "uuid": "73f82d09-7927-461c-b7d7-ab0bc6b3e3f9",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead.",
+    "renamed": "banner-padding-vertical"
   },
   "swatch-size-extra-small": {
     "component": "swatch",
@@ -1484,7 +1543,10 @@
         "value": "5px",
         "uuid": "a2c40238-1fda-4482-a419-b8092a385c9b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
+    "renamed": "base-padding-vertical-small"
   },
   "tag-top-to-avatar-medium": {
     "component": "tag",
@@ -1500,7 +1562,10 @@
         "value": "7px",
         "uuid": "8dbabe33-52e7-4dc1-b2e3-81c1c62d98cb"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead.",
+    "renamed": "base-padding-vertical-medium"
   },
   "tag-top-to-avatar-large": {
     "component": "tag",
@@ -1516,7 +1581,10 @@
         "value": "11px",
         "uuid": "9881ad7c-e9df-40b1-a368-4f8185042c3f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead.",
+    "renamed": "base-padding-vertical-large"
   },
   "tag-top-to-cross-icon-small": {
     "component": "tag",
@@ -1532,7 +1600,10 @@
         "value": "10px",
         "uuid": "d93e04b9-1901-4ec4-947a-62c84205e61e"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
+    "renamed": "base-padding-horizontal-small"
   },
   "tag-top-to-cross-icon-medium": {
     "component": "tag",
@@ -1548,7 +1619,10 @@
         "value": "15px",
         "uuid": "ac7b17a2-99ef-45b3-ab3b-4d3eeaf99fb9"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
+    "renamed": "base-padding-horizontal-medium"
   },
   "tag-top-to-cross-icon-large": {
     "component": "tag",
@@ -1564,7 +1638,10 @@
         "value": "19px",
         "uuid": "af69e3d1-92b6-4e62-93f2-c1f1f10f0a63"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
+    "renamed": "base-padding-horizontal-large"
   },
   "popover-tip-width": {
     "component": "popover",
@@ -1591,7 +1668,10 @@
     "component": "popover",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "uuid": "2a3bd47e-fde5-41d3-a585-f970bdefaf07"
+    "uuid": "2a3bd47e-fde5-41d3-a585-f970bdefaf07",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token popover-padding instead.",
+    "renamed": "popover-padding"
   },
   "menu-item-label-to-description": {
     "component": "menu",
@@ -1614,7 +1694,9 @@
         "value": "24px",
         "uuid": "de2ef572-54a2-46c2-ad1d-60468fbe6090"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "This use case should not be a single token but either calculated or structurally determined. Refactor may be required."
   },
   "menu-item-edge-to-content-not-selected-medium": {
     "component": "menu",
@@ -1630,7 +1712,9 @@
         "value": "42px",
         "uuid": "5faa4858-5590-40d4-bd12-b4c839908c4c"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "This use case should not be a single token but either calculated or structurally determined. Refactor may be required."
   },
   "menu-item-edge-to-content-not-selected-large": {
     "component": "menu",
@@ -1646,7 +1730,9 @@
         "value": "47px",
         "uuid": "90385dcc-ea45-466f-ba4d-a1b13f6a079c"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "This use case should not be a single token but either calculated or structurally determined. Refactor may be required."
   },
   "menu-item-edge-to-content-not-selected-extra-large": {
     "component": "menu",
@@ -1662,7 +1748,9 @@
         "value": "54px",
         "uuid": "3385c12f-199b-4e9d-b2e2-ef6e2658d180"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "This use case should not be a single token but either calculated or structurally determined. Refactor may be required."
   },
   "menu-item-top-to-disclosure-icon-small": {
     "component": "menu",
@@ -1678,7 +1766,10 @@
         "value": "9px",
         "uuid": "eb9cf950-cba2-4fb8-a115-8a4c0ddb00d0"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. UI icons must be in a frame that has height equal to workflow-icon-size-small",
+    "renamed": "base-padding-vertical-small"
   },
   "menu-item-top-to-disclosure-icon-medium": {
     "component": "menu",
@@ -1694,7 +1785,10 @@
         "value": "13px",
         "uuid": "e0468683-b2d2-4839-9ad8-46963d7402fc"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. UI icons must be in a frame that has height equal to workflow-icon-size-medium",
+    "renamed": "base-padding-vertical-medium"
   },
   "menu-item-top-to-disclosure-icon-large": {
     "component": "menu",
@@ -1710,7 +1804,10 @@
         "value": "17px",
         "uuid": "bda3ee60-8f9a-41b2-a8a2-894aed3b3bed"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. UI icons must be in a frame that has height equal to workflow-icon-size-large",
+    "renamed": "base-padding-vertical-large"
   },
   "menu-item-top-to-disclosure-icon-extra-large": {
     "component": "menu",
@@ -1726,7 +1823,10 @@
         "value": "22px",
         "uuid": "77e97b70-ef7e-4228-8d91-0ff9d9d2b063"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. UI icons must be in a frame that has height equal to workflow-icon-size-extra-large",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "menu-item-top-to-selected-icon-small": {
     "component": "menu",
@@ -1742,7 +1842,10 @@
         "value": "9px",
         "uuid": "943a0b43-6c91-40a3-a680-318a934bf6ef"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. UI icons must be in a frame that has height equal to workflow-icon-size-small",
+    "renamed": "base-padding-vertical-small"
   },
   "menu-item-top-to-selected-icon-medium": {
     "component": "menu",
@@ -1758,7 +1861,10 @@
         "value": "13px",
         "uuid": "61e906e3-6daa-4841-b4f0-54939157a50b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. UI icons must be in a frame that has height equal to workflow-icon-size-medium",
+    "renamed": "base-padding-vertical-medium"
   },
   "menu-item-top-to-selected-icon-large": {
     "component": "menu",
@@ -1774,7 +1880,10 @@
         "value": "17px",
         "uuid": "f84569c5-bb63-4eb1-8193-1130e88e7e5b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. UI icons must be in a frame that has height equal to workflow-icon-size-large",
+    "renamed": "base-padding-vertical-large"
   },
   "menu-item-top-to-selected-icon-extra-large": {
     "component": "menu",
@@ -1790,7 +1899,10 @@
         "value": "22px",
         "uuid": "3ff6cb7a-20cb-4b25-a367-7e4497d0f237"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. UI icons must be in a frame that has height equal to workflow-icon-size-extra-large",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "menu-item-section-divider-height": {
     "component": "menu",
@@ -2114,7 +2226,9 @@
         "value": "-8px",
         "uuid": "d20768dd-dbf4-48a9-8cc8-3370fa6ef810"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Refactor required; remove padding from label, no negative margins"
   },
   "slider-control-to-field-label-medium": {
     "component": "slider",
@@ -2130,7 +2244,9 @@
         "value": "-16px",
         "uuid": "20a8d579-038e-4432-b271-8e44b83a9aa1"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Refactor required; remove padding from label, no negative margins"
   },
   "slider-control-to-field-label-large": {
     "component": "slider",
@@ -2146,7 +2262,9 @@
         "value": "-20px",
         "uuid": "f4fc7ec7-cc02-4ff4-bd9a-f05f9bd59c1d"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Refactor required; remove padding from label, no negative margins"
   },
   "slider-control-to-field-label-extra-large": {
     "component": "slider",
@@ -2162,7 +2280,9 @@
         "value": "-28px",
         "uuid": "9be47810-7a07-4885-a86d-647f5f36d7e5"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Refactor required; remove padding from label, no negative margins"
   },
   "picker-minimum-width-multiplier": {
     "component": "picker",
@@ -2184,7 +2304,10 @@
         "value": "9px",
         "uuid": "269725c9-3462-4132-8487-95dd61814448"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-small instead.",
+    "renamed": "base-gap-small"
   },
   "picker-visual-to-disclosure-icon-medium": {
     "component": "picker",
@@ -2200,7 +2323,10 @@
         "value": "10px",
         "uuid": "c620ab2b-256d-409a-a80c-7d7c2295efc8"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead.",
+    "renamed": "base-gap-medium"
   },
   "picker-visual-to-disclosure-icon-large": {
     "component": "picker",
@@ -2216,7 +2342,10 @@
         "value": "11px",
         "uuid": "47f5a27f-4039-4668-bb21-aafb9dcb82fb"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-large instead.",
+    "renamed": "base-gap-large"
   },
   "picker-visual-to-disclosure-icon-extra-large": {
     "component": "picker",
@@ -2232,7 +2361,10 @@
         "value": "13px",
         "uuid": "0ac097c8-020e-4a7b-b692-59dfdf07e3f8"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-extra-large instead.",
+    "renamed": "base-gap-extra-large"
   },
   "picker-border-width": {
     "component": "picker",
@@ -2253,7 +2385,9 @@
     "component": "picker",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "03da68d8-cd87-4e29-9aaf-ab467594ec2b"
+    "uuid": "03da68d8-cd87-4e29-9aaf-ab467594ec2b",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "text-field-minimum-width-multiplier": {
     "component": "text-field",
@@ -2686,7 +2820,10 @@
         "value": "5px",
         "uuid": "ea82fc23-82e7-4116-a8bb-186a253675ad"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
+    "renamed": "base-padding-vertical-small"
   },
   "breadcrumbs-bottom-to-text": {
     "component": "breadcrumbs",
@@ -2716,7 +2853,10 @@
         "value": "11px",
         "uuid": "a51a1142-e38e-4055-bd45-ad2bd0045880"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead.",
+    "renamed": "base-padding-vertical-large"
   },
   "breadcrumbs-start-edge-to-text": {
     "component": "breadcrumbs",
@@ -2731,7 +2871,9 @@
     "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "99ef1a0d-5fe1-4b62-9609-8929e7a3bf9c"
+    "uuid": "99ef1a0d-5fe1-4b62-9609-8929e7a3bf9c",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "breadcrumbs-top-text-to-bottom-text": {
     "component": "breadcrumbs",
@@ -2747,7 +2889,10 @@
         "value": "11px",
         "uuid": "b93aad22-aff0-46d5-b54e-17891f02124a"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-medium instead. Difference is due to other values changing, but expected. Requires some refactor.",
+    "renamed": "text-gap-medium"
   },
   "breadcrumbs-top-to-separator-icon": {
     "component": "breadcrumbs",
@@ -2803,7 +2948,9 @@
     "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "751734bd-1c58-4222-bbd8-8b2349f2fbd2"
+    "uuid": "751734bd-1c58-4222-bbd8-8b2349f2fbd2",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "breadcrumbs-top-to-truncated-menu-compact": {
     "component": "breadcrumbs",
@@ -2816,7 +2963,9 @@
     "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "b1fba444-c281-4be4-bded-4852b551cfee"
+    "uuid": "b1fba444-c281-4be4-bded-4852b551cfee",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "breadcrumbs-truncated-menu-to-bottom-text": {
     "component": "breadcrumbs",
@@ -2832,7 +2981,10 @@
         "value": "5px",
         "uuid": "154bce30-bfe2-445b-bbdd-69efce5565ae"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-small instead.",
+    "renamed": "base-padding-vertical-extra-small"
   },
   "avatar-size-50": {
     "component": "avatar",
@@ -3161,7 +3313,10 @@
         "value": "20px",
         "uuid": "402c755b-322c-4ea0-856c-ca209bdaa8ec"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+    "renamed": "banner-padding-vertical"
   },
   "alert-banner-to-top-text": {
     "component": "alert-banner",
@@ -3186,7 +3341,10 @@
         "value": "21px",
         "uuid": "8db02117-b543-4b3e-b0ff-203e9a821708"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+    "renamed": "banner-padding-vertical"
   },
   "alert-banner-to-bottom-text": {
     "component": "alert-banner",
@@ -3211,7 +3369,10 @@
         "value": "22px",
         "uuid": "5f2b2bc1-ebb0-46dd-a563-58df6307996d"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+    "renamed": "banner-padding-vertical"
   },
   "rating-indicator-width": {
     "component": "rating",
@@ -3533,13 +3694,19 @@
     "component": "drop-zone",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
-    "uuid": "a596af57-256f-4445-b91f-36e47bfb2d95"
+    "uuid": "a596af57-256f-4445-b91f-36e47bfb2d95",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token drop-target-dash-length instead.",
+    "renamed": "drop-target-dash-length"
   },
   "drop-zone-border-dash-gap": {
     "component": "drop-zone",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
-    "uuid": "47c15433-53d3-425b-8b87-ea234701f781"
+    "uuid": "47c15433-53d3-425b-8b87-ea234701f781",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token drop-target-dash-gap instead.",
+    "renamed": "drop-target-dash-gap"
   },
   "drop-zone-title-size": {
     "component": "drop-zone",
@@ -3630,7 +3797,10 @@
         "value": "{spacing-300}",
         "uuid": "11fb0ab2-d6a0-4da8-9c83-c1f6b918406a"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-large instead.",
+    "renamed": "container-padding-extra-large"
   },
   "coach-mark-pagination-text-to-bottom-edge": {
     "component": "coach-mark",
@@ -3646,7 +3816,10 @@
         "value": "22px",
         "uuid": "cd48e6b7-a4d8-4a22-8d65-531d770a9898"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-large instead. Refactor may be required",
+    "renamed": "container-padding-extra-large"
   },
   "coach-mark-media-height": {
     "component": "coach-mark",
@@ -3721,7 +3894,10 @@
         "value": "4px",
         "uuid": "cfc8d280-5ea0-47f2-bdcb-ae5e93627498"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-small"
   },
   "accordion-top-to-text-regular-small": {
     "component": "accordion",
@@ -3756,7 +3932,10 @@
     "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
-    "uuid": "484c9603-07f1-4ba6-b1bf-7cfaec5d1594"
+    "uuid": "484c9603-07f1-4ba6-b1bf-7cfaec5d1594",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-medium"
   },
   "accordion-top-to-text-regular-medium": {
     "component": "accordion",
@@ -3779,7 +3958,10 @@
         "value": "15px",
         "uuid": "63602a66-5f96-4e6a-8bf0-2ac03321a577"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "accordion-top-to-text-compact-large": {
     "component": "accordion",
@@ -3795,7 +3977,10 @@
         "value": "14px",
         "uuid": "c09ca9bf-1b8b-4ff3-93b7-e9296472dc76"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-large"
   },
   "accordion-top-to-text-regular-large": {
     "component": "accordion",
@@ -3818,7 +4003,10 @@
         "value": "19px",
         "uuid": "e90553f0-d71e-44c2-b70a-89110fab7c6a"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-2x-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-2x-large"
   },
   "accordion-top-to-text-compact-extra-large": {
     "component": "accordion",
@@ -3834,7 +4022,10 @@
         "value": "11px",
         "uuid": "5ebd5aab-49b3-49d1-be25-8aff15217eda"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "accordion-top-to-text-regular-extra-large": {
     "component": "accordion",
@@ -3857,7 +4048,10 @@
         "value": "21px",
         "uuid": "bd300d17-3599-4382-8a7d-1b78700d49e9"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-3x-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-3x-large"
   },
   "accordion-bottom-to-text-compact-small": {
     "component": "accordion",
@@ -3873,7 +4067,10 @@
         "value": "4px",
         "uuid": "af95123b-2ab5-49bb-a070-1ca48b498f58"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-small"
   },
   "accordion-bottom-to-text-regular-small": {
     "component": "accordion",
@@ -3896,7 +4093,10 @@
         "value": "15px",
         "uuid": "56a65744-b195-4faf-ab5c-69a8424593f9"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-large"
   },
   "accordion-bottom-to-text-compact-medium": {
     "component": "accordion",
@@ -3912,7 +4112,10 @@
         "value": "8px",
         "uuid": "97b9278a-11d0-4470-99c3-e2d47ca5a714"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-medium"
   },
   "accordion-bottom-to-text-regular-medium": {
     "component": "accordion",
@@ -3935,7 +4138,10 @@
         "value": "18px",
         "uuid": "05d8a39d-a0d5-496c-810a-f1244c31b169"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "accordion-bottom-to-text-compact-large": {
     "component": "accordion",
@@ -3951,7 +4157,10 @@
         "value": "9px",
         "uuid": "b4f92e98-694f-46cc-91be-8e0e2d5a17a4"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-large"
   },
   "accordion-bottom-to-text-regular-large": {
     "component": "accordion",
@@ -3974,7 +4183,10 @@
         "value": "19px",
         "uuid": "2a6fa386-4eba-44d5-b129-c832264fafd9"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-2x-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-2x-large"
   },
   "accordion-bottom-to-text-compact-extra-large": {
     "component": "accordion",
@@ -3990,7 +4202,10 @@
         "value": "10px",
         "uuid": "70e6d9e7-2a8e-4f0d-96d6-aac7cde829bd"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "accordion-bottom-to-text-regular-extra-large": {
     "component": "accordion",
@@ -4013,7 +4228,10 @@
         "value": "21px",
         "uuid": "ba11dc6e-fbd8-46bc-94fd-b4d02f654d2d"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-3x-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-3x-large"
   },
   "accordion-minimum-width": {
     "component": "accordion",
@@ -4049,13 +4267,18 @@
     "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "a9641e89-2c2e-49c3-9662-f530ad23a688"
+    "uuid": "a9641e89-2c2e-49c3-9662-f530ad23a688",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "accordion-focus-indicator-gap": {
     "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
-    "uuid": "318c5cda-be1b-416b-b1b7-b962e5f45c0c"
+    "uuid": "318c5cda-be1b-416b-b1b7-b962e5f45c0c",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token focus-ring-gap instead.",
+    "renamed": "focus-ring-gap"
   },
   "accordion-content-area-top-to-content": {
     "component": "accordion",
@@ -4071,7 +4294,9 @@
         "value": "10px",
         "uuid": "9c651dee-7d77-414d-930b-7c6b78cfed1b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "accordion-content-area-bottom-to-content": {
     "component": "accordion",
@@ -4087,7 +4312,10 @@
         "value": "20px",
         "uuid": "48383ab9-1e66-47f9-988b-6f59b7349241"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-medium instead. Major refactor necessary",
+    "renamed": "container-padding-medium"
   },
   "color-handle-size": {
     "component": "color-handle",
@@ -4171,7 +4399,10 @@
         "value": "10px",
         "uuid": "fdc8b7ae-2356-4d49-ba54-0ea471be2986"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
+    "renamed": "base-padding-vertical-small"
   },
   "table-column-header-row-top-to-text-medium": {
     "component": "table",
@@ -4187,7 +4418,10 @@
         "value": "9px",
         "uuid": "ff3c5329-ccec-4b94-b200-29a377b34380"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead.",
+    "renamed": "base-padding-vertical-medium"
   },
   "table-column-header-row-top-to-text-large": {
     "component": "table",
@@ -4203,7 +4437,10 @@
         "value": "13px",
         "uuid": "a02666d8-4ae2-42d2-b48e-419d5070e7ca"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead.",
+    "renamed": "base-padding-vertical-large"
   },
   "table-column-header-row-top-to-text-extra-large": {
     "component": "table",
@@ -4219,7 +4456,10 @@
         "value": "16px",
         "uuid": "265247a7-bbc3-42b8-910d-946e8d04aee2"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead.",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "table-column-header-row-bottom-to-text-small": {
     "component": "table",
@@ -4235,7 +4475,10 @@
         "value": "11px",
         "uuid": "9cf85eae-ec15-4bb0-ba48-00ec946306a5"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
+    "renamed": "base-padding-vertical-small"
   },
   "table-column-header-row-bottom-to-text-medium": {
     "component": "table",
@@ -4251,7 +4494,10 @@
         "value": "10px",
         "uuid": "631d14a5-1d2e-4e4a-90e8-146e8a397530"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead.",
+    "renamed": "base-padding-vertical-medium"
   },
   "table-column-header-row-bottom-to-text-large": {
     "component": "table",
@@ -4267,7 +4513,10 @@
         "value": "13px",
         "uuid": "e465ee66-392f-469f-a46c-6c98df03b046"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead.",
+    "renamed": "base-padding-vertical-large"
   },
   "table-column-header-row-bottom-to-text-extra-large": {
     "component": "table",
@@ -4283,7 +4532,10 @@
         "value": "17px",
         "uuid": "c8bd103d-d952-4649-a7a0-09ae5242ea17"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead.",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "table-row-height-small-compact": {
     "component": "table",
@@ -4517,49 +4769,73 @@
     "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{component-top-to-text-75}",
-    "uuid": "b7e7808a-16c6-481a-9257-9c1dc4e13b62"
+    "uuid": "b7e7808a-16c6-481a-9257-9c1dc4e13b62",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-row-top-to-text-medium-compact": {
     "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{component-top-to-text-100}",
-    "uuid": "02c5faff-dbb4-4633-ae57-413b3666dfca"
+    "uuid": "02c5faff-dbb4-4633-ae57-413b3666dfca",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-row-top-to-text-large-compact": {
     "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{component-top-to-text-200}",
-    "uuid": "14437ed2-c60b-40ba-91e6-bed5353fc544"
+    "uuid": "14437ed2-c60b-40ba-91e6-bed5353fc544",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-row-top-to-text-extra-large-compact": {
     "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{component-top-to-text-300}",
-    "uuid": "2e8eff8c-60fa-4e0f-ae40-7b9f9b3679d6"
+    "uuid": "2e8eff8c-60fa-4e0f-ae40-7b9f9b3679d6",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-row-bottom-to-text-small-compact": {
     "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{component-bottom-to-text-75}",
-    "uuid": "5eb79adf-f94c-4bf8-9ec9-279f49ce5331"
+    "uuid": "5eb79adf-f94c-4bf8-9ec9-279f49ce5331",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-row-bottom-to-text-medium-compact": {
     "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{component-bottom-to-text-100}",
-    "uuid": "d9d8fee2-9e0f-4c2b-8059-f9badb3b6482"
+    "uuid": "d9d8fee2-9e0f-4c2b-8059-f9badb3b6482",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-row-bottom-to-text-large-compact": {
     "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{component-bottom-to-text-200}",
-    "uuid": "15e21448-3174-4565-aed7-ab84aa30d7ac"
+    "uuid": "15e21448-3174-4565-aed7-ab84aa30d7ac",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-row-bottom-to-text-extra-large-compact": {
     "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{component-bottom-to-text-300}",
-    "uuid": "effa3e3c-eb5b-4c0a-aca9-81331e6a08ac"
+    "uuid": "effa3e3c-eb5b-4c0a-aca9-81331e6a08ac",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-row-top-to-text-small-regular": {
     "component": "table",
@@ -4594,7 +4870,10 @@
         "value": "10px",
         "uuid": "dfa553a2-b771-4a31-9294-3800d2126952"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-row-top-to-text-medium-regular": {
     "component": "table",
@@ -4629,7 +4908,10 @@
         "value": "14px",
         "uuid": "0cd86854-57ca-4023-b544-8a4a76418164"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-row-top-to-text-large-regular": {
     "component": "table",
@@ -4664,7 +4946,10 @@
         "value": "18px",
         "uuid": "4d55e632-588b-4e82-90c0-4fa434998d15"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-row-top-to-text-extra-large-regular": {
     "component": "table",
@@ -4699,7 +4984,10 @@
         "value": "21px",
         "uuid": "40de40fd-4bae-4a49-8aec-38dad2a1c5fb"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-row-bottom-to-text-small-regular": {
     "component": "table",
@@ -4734,7 +5022,10 @@
         "value": "11px",
         "uuid": "d6100789-7076-403a-b878-7bb204093c52"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-row-bottom-to-text-medium-regular": {
     "component": "table",
@@ -4769,7 +5060,10 @@
         "value": "15px",
         "uuid": "6ff9a81f-a2f8-4966-a48b-c8561aa4f833"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-row-bottom-to-text-large-regular": {
     "component": "table",
@@ -4804,7 +5098,10 @@
         "value": "18px",
         "uuid": "0de2f0a5-b32a-4f7b-b46c-1a6c25abc1ec"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-row-bottom-to-text-extra-large-regular": {
     "component": "table",
@@ -4839,7 +5136,10 @@
         "value": "22px",
         "uuid": "f25c6bfd-0a0d-4fd1-ab7b-9cd1d13053e1"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-row-top-to-text-small-spacious": {
     "component": "table",
@@ -4855,7 +5155,10 @@
         "value": "15px",
         "uuid": "625733b1-78b3-4dd0-9636-71d59c14e013"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-row-top-to-text-medium-spacious": {
     "component": "table",
@@ -4871,7 +5174,10 @@
         "value": "16px",
         "uuid": "cfa36bf7-cce0-4049-970a-8f11c6d60673"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-row-top-to-text-large-spacious": {
     "component": "table",
@@ -4887,7 +5193,10 @@
         "value": "23px",
         "uuid": "769d6bbf-64ba-4c08-8a57-580838de1d48"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-row-top-to-text-extra-large-spacious": {
     "component": "table",
@@ -4903,7 +5212,10 @@
         "value": "26px",
         "uuid": "90c39289-3112-49a3-8e65-d112c97f7479"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-row-bottom-to-text-small-spacious": {
     "component": "table",
@@ -4919,7 +5231,10 @@
         "value": "16px",
         "uuid": "07dd5018-1999-4b95-9a59-fe1c2fcc380f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-row-bottom-to-text-medium-spacious": {
     "component": "table",
@@ -4935,7 +5250,10 @@
         "value": "18px",
         "uuid": "8273e28d-20b4-4575-9449-9178af111e38"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-row-bottom-to-text-large-spacious": {
     "component": "table",
@@ -4951,7 +5269,10 @@
         "value": "23px",
         "uuid": "4bc11bec-9c86-4a6c-85d1-382c71c1352d"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-row-bottom-to-text-extra-large-spacious": {
     "component": "table",
@@ -4967,13 +5288,19 @@
         "value": "27px",
         "uuid": "06ada9fe-ceef-4fb4-88ee-37c2edee5418"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-edge-to-content": {
     "component": "table",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
-    "uuid": "5e46672f-eab0-4ec3-bd14-68ffa4404ec1"
+    "uuid": "5e46672f-eab0-4ec3-bd14-68ffa4404ec1",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead.",
+    "renamed": "table-item-padding-spacious"
   },
   "table-border-divider-width": {
     "component": "table",
@@ -4995,7 +5322,10 @@
         "value": "30px",
         "uuid": "cb7c89c0-9f31-43c4-8427-2e048f549ff7"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Erroneous measurement. It includes the padding of a text cell. Needs to be removed or changed",
+    "renamed": "table-item-padding-regular"
   },
   "table-header-row-checkbox-to-top-small": {
     "component": "table",
@@ -5011,7 +5341,10 @@
         "value": "14px",
         "uuid": "296d445c-243d-454c-9f5a-146c13d0cded"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Controls must be in a frame that has height equal to workflow-icon-size-small",
+    "renamed": "base-padding-vertical-small"
   },
   "table-header-row-checkbox-to-top-medium": {
     "component": "table",
@@ -5027,7 +5360,10 @@
         "value": "11px",
         "uuid": "2e168a2b-46aa-453f-9ca1-746485216c84"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Controls must be in a frame that has height equal to workflow-icon-size-medium",
+    "renamed": "base-padding-vertical-medium"
   },
   "table-header-row-checkbox-to-top-large": {
     "component": "table",
@@ -5043,7 +5379,10 @@
         "value": "17px",
         "uuid": "f6648787-3cf1-4af8-aa4f-15669ea1626d"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Controls must be in a frame that has height equal to workflow-icon-size-large",
+    "renamed": "base-padding-vertical-large"
   },
   "table-header-row-checkbox-to-top-extra-large": {
     "component": "table",
@@ -5059,7 +5398,10 @@
         "value": "21px",
         "uuid": "42a78148-e111-4124-a7a6-d9baa2ca963f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Controls must be in a frame that has height equal to workflow-icon-size-extra-large",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "table-row-checkbox-to-top-small-compact": {
     "component": "table",
@@ -5075,7 +5417,10 @@
         "value": "9px",
         "uuid": "2444d220-a3d0-4565-a762-02cbc52f828a"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-row-checkbox-to-top-small-regular": {
     "component": "table",
@@ -5110,7 +5455,10 @@
         "value": "14px",
         "uuid": "365d9c3f-d287-4feb-b020-89434dd29378"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-row-checkbox-to-top-small-spacious": {
     "component": "table",
@@ -5126,7 +5474,10 @@
         "value": "19px",
         "uuid": "6ccbecd6-a1c4-4fcf-beb5-2b124ac3e75b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-row-checkbox-to-top-medium-compact": {
     "component": "table",
@@ -5142,7 +5493,10 @@
         "value": "11px",
         "uuid": "84f00d87-c0ea-42fd-8477-9fff028bf79c"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-row-checkbox-to-top-medium-regular": {
     "component": "table",
@@ -5177,7 +5531,10 @@
         "value": "16px",
         "uuid": "2ae09505-d43f-4e2c-b8a6-014ccfef5c10"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-row-checkbox-to-top-medium-spacious": {
     "component": "table",
@@ -5193,7 +5550,10 @@
         "value": "21px",
         "uuid": "a57d2d1a-5e0c-4d4c-84eb-dd2339366aad"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-row-checkbox-to-top-large-compact": {
     "component": "table",
@@ -5209,7 +5569,10 @@
         "value": "17px",
         "uuid": "5fde3b28-c553-4124-be3b-212d1407780c"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-row-checkbox-to-top-large-regular": {
     "component": "table",
@@ -5244,7 +5607,10 @@
         "value": "22px",
         "uuid": "a0fa4e03-c1de-400d-8629-0ae9ffb9b9d8"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-row-checkbox-to-top-large-spacious": {
     "component": "table",
@@ -5260,7 +5626,10 @@
         "value": "27px",
         "uuid": "cfbd6cb5-c8d3-4908-a77a-7a15cda932fb"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-row-checkbox-to-top-extra-large-compact": {
     "component": "table",
@@ -5276,7 +5645,10 @@
         "value": "21px",
         "uuid": "4069e932-339a-495d-bb36-c89f22af4f96"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-row-checkbox-to-top-extra-large-regular": {
     "component": "table",
@@ -5311,7 +5683,10 @@
         "value": "26px",
         "uuid": "fb02243f-0490-4eb2-aac2-fa364c6eab59"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-row-checkbox-to-top-extra-large-spacious": {
     "component": "table",
@@ -5327,7 +5702,10 @@
         "value": "31px",
         "uuid": "683be05e-f8d4-4910-8d07-20515f19fbbd"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-section-header-row-height-small": {
     "component": "table",
@@ -5407,7 +5785,10 @@
         "value": "5px",
         "uuid": "72ebb8a4-9bfb-4ff0-ba3a-232c885931e7"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-thumbnail-to-top-minimum-medium-compact": {
     "component": "table",
@@ -5423,7 +5804,10 @@
         "value": "6px",
         "uuid": "b546eac7-00ad-4ea2-992d-0c4b8d087679"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-thumbnail-to-top-minimum-large-compact": {
     "component": "table",
@@ -5439,7 +5823,10 @@
         "value": "9px",
         "uuid": "891cf7bc-419a-4b78-8c7e-03685fbf36a4"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-thumbnail-to-top-minimum-extra-large-compact": {
     "component": "table",
@@ -5455,7 +5842,10 @@
         "value": "10px",
         "uuid": "29ee801a-95bd-495c-9905-f2fd00ae0e19"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-compact instead. Refactor may be necessary",
+    "renamed": "table-item-padding-compact"
   },
   "table-thumbnail-to-top-minimum-small-regular": {
     "component": "table",
@@ -5490,7 +5880,10 @@
         "value": "6px",
         "uuid": "43955cdb-afaf-4e59-bb26-3063661141d7"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-thumbnail-to-top-minimum-medium-regular": {
     "component": "table",
@@ -5525,7 +5918,10 @@
         "value": "9px",
         "uuid": "2268750d-4c5f-46f1-bad7-dec21818bfe6"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-thumbnail-to-top-minimum-large-regular": {
     "component": "table",
@@ -5560,7 +5956,10 @@
         "value": "10px",
         "uuid": "92ade1a0-ea78-4930-82e7-fedafce42aed"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-thumbnail-to-top-minimum-extra-large-regular": {
     "component": "table",
@@ -5595,7 +5994,10 @@
         "value": "10px",
         "uuid": "17051925-5eda-45a3-8d45-d329e88bf63a"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-regular instead. Refactor may be necessary",
+    "renamed": "table-item-padding-regular"
   },
   "table-thumbnail-to-top-minimum-small-spacious": {
     "component": "table",
@@ -5611,7 +6013,10 @@
         "value": "9px",
         "uuid": "b6684bce-531d-420a-befc-b4ad884059fc"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-thumbnail-to-top-minimum-medium-spacious": {
     "component": "table",
@@ -5627,7 +6032,10 @@
         "value": "10px",
         "uuid": "0cb1e46b-039b-46d2-a024-b72ddd82d0b4"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-thumbnail-to-top-minimum-large-spacious": {
     "component": "table",
@@ -5643,7 +6051,10 @@
         "value": "10px",
         "uuid": "e6689bf9-6ecc-4900-b8ad-85b103232e3e"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "table-thumbnail-to-top-minimum-extra-large-spacious": {
     "component": "table",
@@ -5659,7 +6070,10 @@
         "value": "12px",
         "uuid": "28a5df8a-0fe4-4410-b804-9a6c26de4440"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token table-item-padding-spacious instead. Refactor may be necessary",
+    "renamed": "table-item-padding-spacious"
   },
   "tab-item-height-small": {
     "component": "tab-item",
@@ -5723,7 +6137,10 @@
         "value": "27px",
         "uuid": "8b5e1596-f13a-4786-b0c7-f01615423922"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token tab-gap-horizontal-small instead.",
+    "renamed": "tab-gap-horizontal-small"
   },
   "tab-item-to-tab-item-horizontal-medium": {
     "component": "tab-item",
@@ -5739,7 +6156,10 @@
         "value": "30px",
         "uuid": "885a7cc3-8873-4cb7-99e7-b17f42fb48f1"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token tab-gap-horizontal-medium instead. Requires acknowledgement of internal button structure",
+    "renamed": "tab-gap-horizontal-medium"
   },
   "tab-item-to-tab-item-horizontal-large": {
     "component": "tab-item",
@@ -5755,7 +6175,10 @@
         "value": "33px",
         "uuid": "71bdfd06-4672-464f-b787-9a62137b1763"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token tab-gap-horizontal-large instead.",
+    "renamed": "tab-gap-horizontal-large"
   },
   "tab-item-to-tab-item-horizontal-extra-large": {
     "component": "tab-item",
@@ -5771,7 +6194,10 @@
         "value": "36px",
         "uuid": "482ed7f6-ba60-4110-85c8-daf5bf352406"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token tab-gap-horizontal-extra-large instead.",
+    "renamed": "tab-gap-horizontal-extra-large"
   },
   "tab-item-to-tab-item-vertical-small": {
     "component": "tab-item",
@@ -5787,7 +6213,10 @@
         "value": "5px",
         "uuid": "d51a6c05-67d0-425f-becf-86e783ab3305"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-gap-regular instead.",
+    "renamed": "list-gap-regular"
   },
   "tab-item-to-tab-item-vertical-medium": {
     "component": "tab-item",
@@ -5803,7 +6232,10 @@
         "value": "5px",
         "uuid": "6b6c960f-adcf-48b0-8310-ba12b47f4d9a"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-gap-regular instead.",
+    "renamed": "list-gap-regular"
   },
   "tab-item-to-tab-item-vertical-large": {
     "component": "tab-item",
@@ -5819,7 +6251,10 @@
         "value": "6px",
         "uuid": "c193b2ee-a584-41dc-9ef8-3aebb38fb832"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-gap-regular instead.",
+    "renamed": "list-gap-regular"
   },
   "tab-item-to-tab-item-vertical-extra-large": {
     "component": "tab-item",
@@ -5835,13 +6270,18 @@
         "value": "6px",
         "uuid": "ea902ec1-25d5-47c3-896a-a95d9ca5bd62"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-gap-regular instead.",
+    "renamed": "list-gap-regular"
   },
   "tab-item-start-to-edge-quiet": {
     "component": "tab-item",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "f869f703-a850-4c6c-b518-ec8a1b355046"
+    "uuid": "f869f703-a850-4c6c-b518-ec8a1b355046",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "tab-item-start-to-edge-small": {
     "component": "tab-item",
@@ -5857,7 +6297,10 @@
         "value": "13px",
         "uuid": "8d413f56-6634-49c8-8d6a-53d0f57f1bbc"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Not present in design; obscure and difficult to find in implementations",
+    "renamed": "base-padding-horizontal-small"
   },
   "tab-item-start-to-edge-medium": {
     "component": "tab-item",
@@ -5873,7 +6316,10 @@
         "value": "15px",
         "uuid": "229477d5-e21a-4f4b-a24d-580f0c60eec5"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Not present in design; obscure and difficult to find in implementations",
+    "renamed": "base-padding-horizontal-medium"
   },
   "tab-item-start-to-edge-large": {
     "component": "tab-item",
@@ -5889,7 +6335,10 @@
         "value": "17px",
         "uuid": "2c85fa9a-e854-46f6-bc6b-547692d08290"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Not present in design; obscure and difficult to find in implementations",
+    "renamed": "base-padding-horizontal-large"
   },
   "tab-item-start-to-edge-extra-large": {
     "component": "tab-item",
@@ -5905,7 +6354,10 @@
         "value": "19px",
         "uuid": "4e0b2015-06c8-41ab-9e2b-3a332a7625ff"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Not present in design; obscure and difficult to find in implementations",
+    "renamed": "base-padding-horizontal-extra-large"
   },
   "tab-item-top-to-text-small": {
     "component": "tab-item",
@@ -5921,7 +6373,10 @@
         "value": "14px",
         "uuid": "3e155b8c-6cea-4b59-817c-cf71a63e00c7"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
+    "renamed": "base-padding-vertical-small"
   },
   "tab-item-bottom-to-text-small": {
     "component": "tab-item",
@@ -5937,7 +6392,10 @@
         "value": "15px",
         "uuid": "e0791360-b505-492b-bf71-dfa393abecfa"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "renamed": "list-item-padding-vertical-spacious"
   },
   "tab-item-top-to-text-medium": {
     "component": "tab-item",
@@ -5953,7 +6411,10 @@
         "value": "18px",
         "uuid": "a8c455e9-60e5-4838-bc9c-eaf7b39a4bf7"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires acknowledgement of internal button structure",
+    "renamed": "base-padding-vertical-medium"
   },
   "tab-item-bottom-to-text-medium": {
     "component": "tab-item",
@@ -5969,7 +6430,10 @@
         "value": "19px",
         "uuid": "691db84a-5336-4e45-bf73-ee617057e718"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "renamed": "list-item-padding-vertical-spacious"
   },
   "tab-item-top-to-text-large": {
     "component": "tab-item",
@@ -5985,7 +6449,10 @@
         "value": "22px",
         "uuid": "7e3db5ca-cd32-464b-9a23-9d03e83faa9c"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead.",
+    "renamed": "base-padding-vertical-large"
   },
   "tab-item-bottom-to-text-large": {
     "component": "tab-item",
@@ -6001,7 +6468,10 @@
         "value": "22px",
         "uuid": "31d1b6b6-721f-4474-ba86-795367399e49"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "renamed": "list-item-padding-vertical-spacious"
   },
   "tab-item-top-to-text-extra-large": {
     "component": "tab-item",
@@ -6017,7 +6487,10 @@
         "value": "25px",
         "uuid": "174cc6c8-9c0a-44c0-b6c7-ea6d337c819b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead.",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "tab-item-bottom-to-text-extra-large": {
     "component": "tab-item",
@@ -6033,7 +6506,10 @@
         "value": "25px",
         "uuid": "c63380d4-cc26-4299-b227-af2faedfdc74"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "renamed": "list-item-padding-vertical-spacious"
   },
   "tab-item-top-to-text-compact-small": {
     "component": "tab-item",
@@ -6049,7 +6525,10 @@
         "value": "5px",
         "uuid": "d37488c4-d489-45bd-9086-8157c5204ae4"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "renamed": "base-padding-vertical-small"
   },
   "tab-item-bottom-to-text-compact-small": {
     "component": "tab-item",
@@ -6065,7 +6544,10 @@
         "value": "6px",
         "uuid": "f453e51e-3d58-430e-8f17-8b95718dbf34"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "renamed": "base-padding-vertical-small"
   },
   "tab-item-top-to-text-compact-medium": {
     "component": "tab-item",
@@ -6081,7 +6563,10 @@
         "value": "9px",
         "uuid": "128757b0-d690-4886-95d5-e9df36182a0f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "renamed": "base-padding-vertical-medium"
   },
   "tab-item-bottom-to-text-compact-medium": {
     "component": "tab-item",
@@ -6097,7 +6582,10 @@
         "value": "10px",
         "uuid": "e69dee42-92da-4ca9-9eb8-97a7860adaba"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "renamed": "base-padding-vertical-medium"
   },
   "tab-item-top-to-text-compact-large": {
     "component": "tab-item",
@@ -6113,7 +6601,10 @@
         "value": "12px",
         "uuid": "fd20b444-38ac-4438-a9ef-32474222e45f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "renamed": "base-padding-vertical-large"
   },
   "tab-item-bottom-to-text-compact-large": {
     "component": "tab-item",
@@ -6129,7 +6620,10 @@
         "value": "14px",
         "uuid": "091144b7-c63b-4827-840d-741cec01432a"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "renamed": "base-padding-vertical-large"
   },
   "tab-item-top-to-text-compact-extra-large": {
     "component": "tab-item",
@@ -6145,7 +6639,10 @@
         "value": "15px",
         "uuid": "9694ebdc-cc88-4584-89f5-10a2c8de686f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "tab-item-bottom-to-text-compact-extra-large": {
     "component": "tab-item",
@@ -6161,7 +6658,10 @@
         "value": "17px",
         "uuid": "3641ac9c-5610-4996-a55d-c2a94b2ff9ea"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "tab-item-top-to-workflow-icon-small": {
     "component": "tab-item",
@@ -6177,7 +6677,10 @@
         "value": "15px",
         "uuid": "923fd09d-8d08-4465-961f-63ac12014206"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "renamed": "list-item-padding-vertical-spacious"
   },
   "tab-item-top-to-workflow-icon-medium": {
     "component": "tab-item",
@@ -6193,7 +6696,10 @@
         "value": "19px",
         "uuid": "820baccf-af24-42a3-9729-99408bc9322f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "renamed": "list-item-padding-vertical-spacious"
   },
   "tab-item-top-to-workflow-icon-large": {
     "component": "tab-item",
@@ -6209,7 +6715,10 @@
         "value": "23px",
         "uuid": "4dd99579-949b-4bf9-b022-e8f0c95eae33"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "renamed": "list-item-padding-vertical-spacious"
   },
   "tab-item-top-to-workflow-icon-extra-large": {
     "component": "tab-item",
@@ -6225,7 +6734,10 @@
         "value": "26px",
         "uuid": "5afa2636-7d4c-4d83-b9fc-3c5a52ee4646"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "renamed": "list-item-padding-vertical-spacious"
   },
   "tab-item-top-to-workflow-icon-compact-small": {
     "component": "tab-item",
@@ -6241,7 +6753,10 @@
         "value": "5px",
         "uuid": "b79002d2-bcff-4e8d-a406-e512c7e7d0e3"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "renamed": "base-padding-vertical-small"
   },
   "tab-item-top-to-workflow-icon-compact-medium": {
     "component": "tab-item",
@@ -6257,7 +6772,10 @@
         "value": "9px",
         "uuid": "4fb0520b-8c74-4fb7-b279-a3586a06a57e"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "renamed": "base-padding-vertical-medium"
   },
   "tab-item-top-to-workflow-icon-compact-large": {
     "component": "tab-item",
@@ -6273,7 +6791,10 @@
         "value": "13px",
         "uuid": "fad964d8-0020-4583-97ab-7d6565d01bdc"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "renamed": "base-padding-vertical-large"
   },
   "tab-item-top-to-workflow-icon-compact-extra-large": {
     "component": "tab-item",
@@ -6289,7 +6810,10 @@
         "value": "16px",
         "uuid": "f310e5d7-7435-41a0-b44d-ececff4844f2"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "tab-item-focus-indicator-gap-small": {
     "component": "tab-item",
@@ -6305,7 +6829,10 @@
         "value": "9px",
         "uuid": "5fbc924e-e79e-46c6-8544-c92d7f33bc26"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token focus-ring-gap instead. Requires refactor;",
+    "renamed": "focus-ring-gap"
   },
   "tab-item-focus-indicator-gap-medium": {
     "component": "tab-item",
@@ -6321,7 +6848,10 @@
         "value": "10px",
         "uuid": "09ee234f-a596-47ba-89df-ab9ebc07ded8"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token focus-ring-gap instead. Requires refactor;",
+    "renamed": "focus-ring-gap"
   },
   "tab-item-focus-indicator-gap-large": {
     "component": "tab-item",
@@ -6337,7 +6867,10 @@
         "value": "11px",
         "uuid": "6c4d8c39-9f75-4c75-94e2-274a69a8f556"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token focus-ring-gap instead. Requires refactor;",
+    "renamed": "focus-ring-gap"
   },
   "tab-item-focus-indicator-gap-extra-large": {
     "component": "tab-item",
@@ -6353,7 +6886,10 @@
         "value": "12px",
         "uuid": "6c0aad05-5224-4ade-913a-3dc5ebceeb62"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token focus-ring-gap instead. Requires refactor;",
+    "renamed": "focus-ring-gap"
   },
   "side-navigation-width": {
     "component": "side-navigation",
@@ -6419,7 +6955,10 @@
         "value": "44px",
         "uuid": "e77cde34-8f77-4fd1-a1f7-aa6738130902"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-indent-large instead.",
+    "renamed": "list-indent-large"
   },
   "side-navigation-third-level-edge-to-text": {
     "component": "side-navigation",
@@ -6435,7 +6974,10 @@
         "value": "70px",
         "uuid": "06140452-b779-4527-ae3a-5f0623a6b97c"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-indent-large instead.",
+    "renamed": "list-indent-large"
   },
   "side-navigation-with-icon-second-level-edge-to-text": {
     "component": "side-navigation",
@@ -6453,7 +6995,10 @@
         "uuid": "7d4cd9bd-bfaf-4ad7-9c3b-19f7913f0825",
         "deprecated": true
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-indent-medium instead.",
+    "renamed": "list-indent-medium"
   },
   "side-navigation-with-icon-third-level-edge-to-text": {
     "component": "side-navigation",
@@ -6471,7 +7016,10 @@
         "uuid": "f82ab001-808a-4528-bf4a-be27645a28fc",
         "deprecated": true
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-indent-medium instead.",
+    "renamed": "list-indent-medium"
   },
   "side-navigation-item-to-item": {
     "component": "side-navigation",
@@ -6487,7 +7035,10 @@
         "value": "5px",
         "uuid": "be37c65c-88c5-48cd-9554-8240909db98d"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-gap-regular instead.",
+    "renamed": "list-gap-regular"
   },
   "side-navigation-item-to-header": {
     "component": "side-navigation",
@@ -6503,7 +7054,10 @@
         "value": "30px",
         "uuid": "0f3821f1-6f0e-4325-bfa7-e572768fd468"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-extra-large instead.",
+    "renamed": "container-gap-extra-large"
   },
   "side-navigation-bottom-to-text": {
     "component": "side-navigation",
@@ -6519,7 +7073,10 @@
         "value": "10px",
         "uuid": "e3f49e5e-f9ec-485c-846e-7a8fda08caea"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Clean VF update will correct this",
+    "renamed": "base-padding-vertical-medium"
   },
   "tray-top-to-content-area": {
     "component": "tray",
@@ -6535,7 +7092,10 @@
         "value": "5px",
         "uuid": "794ad497-1725-4a03-a7c9-425eaee3178e"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-regular instead.",
+    "renamed": "list-item-padding-vertical-regular"
   },
   "in-field-button-width-stacked-small": {
     "component": "in-field-button",
@@ -6578,79 +7138,117 @@
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "56b54ece-0ff3-4957-9c1c-9e7fb992653c"
+    "uuid": "56b54ece-0ff3-4957-9c1c-9e7fb992653c",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "in-field-button-edge-to-disclosure-icon-stacked-small": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
-    "uuid": "8b6a0ab1-4dba-4da2-9c67-3befca0f110e"
+    "uuid": "8b6a0ab1-4dba-4da2-9c67-3befca0f110e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-small instead. Requires refactor; prior value is this token + accessory-gap-[size]",
+    "renamed": "accessory-item-padding-small"
   },
   "in-field-button-edge-to-disclosure-icon-stacked-medium": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
-    "uuid": "ccb60cfc-86fe-4959-b4a8-1a45835132c8"
+    "uuid": "ccb60cfc-86fe-4959-b4a8-1a45835132c8",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-medium instead. Requires refactor; prior value is this token + accessory-gap-[size]",
+    "renamed": "accessory-item-padding-medium"
   },
   "in-field-button-edge-to-disclosure-icon-stacked-large": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "13px",
-    "uuid": "6a6e5478-b549-4a39-a7f5-5d3c417464ce"
+    "uuid": "6a6e5478-b549-4a39-a7f5-5d3c417464ce",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-large instead. Requires refactor; prior value is this token + accessory-gap-[size]",
+    "renamed": "accessory-item-padding-large"
   },
   "in-field-button-edge-to-disclosure-icon-stacked-extra-large": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
-    "uuid": "d563157b-f0d7-407d-aaaf-ae1790c75503"
+    "uuid": "d563157b-f0d7-407d-aaaf-ae1790c75503",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-extra-large instead. Requires refactor; prior value is this token + accessory-gap-[size]",
+    "renamed": "accessory-item-padding-extra-large"
   },
   "in-field-button-outer-edge-to-disclosure-icon-stacked-small": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "uuid": "9890df35-2d45-4767-9cbe-ee745d09d990"
+    "uuid": "9890df35-2d45-4767-9cbe-ee745d09d990",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-small instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-small"
   },
   "in-field-button-outer-edge-to-disclosure-icon-stacked-medium": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "uuid": "a87d68bb-4249-43cd-947d-bd061baba0ef"
+    "uuid": "a87d68bb-4249-43cd-947d-bd061baba0ef",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-medium instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-medium"
   },
   "in-field-button-outer-edge-to-disclosure-icon-stacked-large": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
-    "uuid": "acc9c48a-f461-48ff-9f69-0224c4feabc6"
+    "uuid": "acc9c48a-f461-48ff-9f69-0224c4feabc6",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-large instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-large"
   },
   "in-field-button-outer-edge-to-disclosure-icon-stacked-extra-large": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
-    "uuid": "391e1e67-1677-4f60-a09a-3b49bacd01f5"
+    "uuid": "391e1e67-1677-4f60-a09a-3b49bacd01f5",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-extra-large instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-extra-large"
   },
   "in-field-button-inner-edge-to-disclosure-icon-stacked-small": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{in-field-button-outer-edge-to-disclosure-icon-stacked-small}",
-    "uuid": "6c1330a4-1c89-45a7-b2b1-8cbcaf20b9ab"
+    "uuid": "6c1330a4-1c89-45a7-b2b1-8cbcaf20b9ab",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-small instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-small"
   },
   "in-field-button-inner-edge-to-disclosure-icon-stacked-medium": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{in-field-button-outer-edge-to-disclosure-icon-stacked-medium}",
-    "uuid": "3dd5babb-5026-4f28-89ae-bfe687673f31"
+    "uuid": "3dd5babb-5026-4f28-89ae-bfe687673f31",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-medium instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-medium"
   },
   "in-field-button-inner-edge-to-disclosure-icon-stacked-large": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{in-field-button-outer-edge-to-disclosure-icon-stacked-large}",
-    "uuid": "710ebe58-f0d8-4d6b-8974-0be1f2f48dc4"
+    "uuid": "710ebe58-f0d8-4d6b-8974-0be1f2f48dc4",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-large instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-large"
   },
   "in-field-button-inner-edge-to-disclosure-icon-stacked-extra-large": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{in-field-button-outer-edge-to-disclosure-icon-stacked-extra-large}",
-    "uuid": "c47499c1-b89f-49a7-bbb5-17e83e4b306e"
+    "uuid": "c47499c1-b89f-49a7-bbb5-17e83e4b306e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-extra-large instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-extra-large"
   },
   "arrow-icon-size-75": {
     "component": "arrow-icon",
@@ -6772,35 +7370,15 @@
   },
   "asterisk-icon-size-100": {
     "component": "asterisk-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "8px",
-        "uuid": "d04b37cc-2c35-49af-9e92-9993264e405a"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "f6f11ca3-b78b-4207-868f-f834c19e8d3d"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "d04b37cc-2c35-49af-9e92-9993264e405a"
   },
   "asterisk-icon-size-200": {
     "component": "asterisk-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "49892fb4-a9df-4882-a656-7f9ffb9558bc"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "12px",
-        "uuid": "3f1b200b-d341-41e4-ae7b-c981ccb492f7"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "49892fb4-a9df-4882-a656-7f9ffb9558bc"
   },
   "asterisk-icon-size-300": {
     "component": "asterisk-icon",
@@ -6808,7 +7386,7 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
+        "value": "14px",
         "uuid": "93506e7b-f388-4cf8-bd73-e7d96da935d5"
       },
       "mobile": {
@@ -6824,7 +7402,7 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
+        "value": "8px",
         "uuid": "6335cb3a-6ceb-40e7-b241-ff9b36f1277c"
       },
       "mobile": {
@@ -6948,19 +7526,9 @@
   },
   "chevron-icon-size-50": {
     "component": "chevron-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "6px",
-        "uuid": "785a9152-a69b-4164-a8e2-cc201c1f8063"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "8px",
-        "uuid": "6d8ce7eb-a2a2-496c-9ce7-847f4da5fc0c"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "785a9152-a69b-4164-a8e2-cc201c1f8063"
   },
   "chevron-icon-size-75": {
     "component": "chevron-icon",
@@ -7076,83 +7644,33 @@
   },
   "cross-icon-size-75": {
     "component": "cross-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "8px",
-        "uuid": "8e597833-1025-4de4-b34a-2f34201487c3"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "622d259d-b52b-409a-bf58-04705d8423f9"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "8e597833-1025-4de4-b34a-2f34201487c3"
   },
   "cross-icon-size-100": {
     "component": "cross-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "8px",
-        "uuid": "c9fac273-0c5c-46cd-b774-ad566a540511"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "11f924ca-5542-4864-b153-77363a32d690"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "c9fac273-0c5c-46cd-b774-ad566a540511"
   },
   "cross-icon-size-200": {
     "component": "cross-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "5b416331-7910-4d64-9b5f-43fd1832d3a6"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "12px",
-        "uuid": "11f65b04-c50d-45bb-86bd-34520aa7db61"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "5b416331-7910-4d64-9b5f-43fd1832d3a6"
   },
   "cross-icon-size-300": {
     "component": "cross-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "12px",
-        "uuid": "f0a65c80-55e8-4ad3-b68c-8429c2fefcf5"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "14px",
-        "uuid": "37867ac1-4101-4553-98e1-c8a94fdd2d66"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "f0a65c80-55e8-4ad3-b68c-8429c2fefcf5"
   },
   "cross-icon-size-400": {
     "component": "cross-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "12px",
-        "uuid": "b7e0939f-45ef-4250-8138-2bee9dcb2be4"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "16px",
-        "uuid": "2fed48b7-dd3d-4c3c-9d5c-3046934f5cfd"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "b7e0939f-45ef-4250-8138-2bee9dcb2be4"
   },
   "cross-icon-size-500": {
     "component": "cross-icon",
@@ -7204,19 +7722,9 @@
   },
   "dash-icon-size-75": {
     "component": "dash-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "8px",
-        "uuid": "bfd0ad6e-6656-46d6-aa9f-0940b2c2902a"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "1b6d0e50-3ba2-43c9-8b8c-c220364f4434"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "bfd0ad6e-6656-46d6-aa9f-0940b2c2902a"
   },
   "dash-icon-size-100": {
     "component": "dash-icon",
@@ -7256,7 +7764,7 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "12px",
+        "value": "14px",
         "uuid": "84f3da59-4c41-4e4e-925c-5fda4222361d"
       },
       "mobile": {
@@ -7272,7 +7780,7 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "14px",
+        "value": "16px",
         "uuid": "17540c3a-2f85-4771-a4f8-834c70872abb"
       },
       "mobile": {
@@ -7328,7 +7836,10 @@
         "value": "10px",
         "uuid": "ad959938-ad69-4137-91e4-fcf2465b223a"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Clean VF update will correct this",
+    "renamed": "base-padding-vertical-medium"
   },
   "divider-vertical-minimum-height": {
     "component": "divider",
@@ -7503,7 +8014,10 @@
         "value": "10px",
         "uuid": "2011748e-f950-4c6e-9eee-1c0d77b7ba36"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
+    "renamed": "base-padding-horizontal-small"
   },
   "tag-label-to-clear-icon-medium": {
     "component": "tag",
@@ -7519,7 +8033,10 @@
         "value": "15px",
         "uuid": "ff7424ba-5f65-46ff-b408-4ffb2cfc5035"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
+    "renamed": "base-padding-horizontal-medium"
   },
   "tag-label-to-clear-icon-large": {
     "component": "tag",
@@ -7535,7 +8052,10 @@
         "value": "19px",
         "uuid": "7c1375da-c6c7-42b3-b60e-0ef6724c6303"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-large instead.",
+    "renamed": "base-padding-horizontal-large"
   },
   "tag-edge-to-clear-icon-small": {
     "component": "tag",
@@ -7551,7 +8071,10 @@
         "value": "10px",
         "uuid": "6f913e5f-debc-4b7d-897d-c2704847c2e5"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-small instead.",
+    "renamed": "base-gap-small"
   },
   "tag-edge-to-clear-icon-medium": {
     "component": "tag",
@@ -7567,7 +8090,10 @@
         "value": "15px",
         "uuid": "a2f75bb4-0ce4-4993-9a43-09cd2b7376bf"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead.",
+    "renamed": "base-gap-medium"
   },
   "tag-edge-to-clear-icon-large": {
     "component": "tag",
@@ -7583,7 +8109,10 @@
         "value": "19px",
         "uuid": "b046b12c-5c39-4018-8ccc-9a5cb08eb6e5"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-large instead.",
+    "renamed": "base-gap-large"
   },
   "title-cjk-emphasized-font-style": {
     "component": "title",
@@ -7885,7 +8414,10 @@
         "value": "29px",
         "uuid": "7939208b-2f8c-4569-b7cb-1c1bcfc8705a"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+    "renamed": "banner-padding-vertical"
   },
   "accordion-top-to-text-spacious-small": {
     "component": "accordion",
@@ -7901,7 +8433,10 @@
         "value": "15px",
         "uuid": "7bcbaaf1-f1d8-4755-acb2-5f6a45c3b9fe"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-large"
   },
   "field-default-width-small": {
     "component": "field",
@@ -8019,7 +8554,9 @@
     "component": "combo-box",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "6c3c7201-2f5b-455a-bcbf-5e3d783887bf"
+    "uuid": "6c3c7201-2f5b-455a-bcbf-5e3d783887bf",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "in-field-button-edge-to-fill-small": {
     "component": "in-field-button",
@@ -8035,19 +8572,28 @@
         "value": "5px",
         "uuid": "a2143caf-07e6-4d45-977c-3d79d69c335e"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-small instead.",
+    "renamed": "accessory-gap-small"
   },
   "in-field-button-edge-to-fill-medium": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
-    "uuid": "86f41898-b794-4f7e-ae41-9eb84c2c7a5b"
+    "uuid": "86f41898-b794-4f7e-ae41-9eb84c2c7a5b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-medium instead.",
+    "renamed": "accessory-gap-medium"
   },
   "in-field-button-edge-to-fill-large": {
     "component": "in-field-button",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
-    "uuid": "44e97486-53ce-4bb0-a778-0f9262dfe27e"
+    "uuid": "44e97486-53ce-4bb0-a778-0f9262dfe27e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-large instead.",
+    "renamed": "accessory-gap-large"
   },
   "in-field-button-edge-to-fill-extra-large": {
     "component": "in-field-button",
@@ -8063,7 +8609,10 @@
         "value": "10px",
         "uuid": "61cf3878-48bd-4785-ad71-ec35c4f99656"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-extra-large instead.",
+    "renamed": "accessory-gap-extra-large"
   },
   "in-field-progress-circle-edge-to-fill": {
     "component": "in-field-progress-circle",
@@ -8079,7 +8628,9 @@
         "value": "2px",
         "uuid": "1263a125-9e9d-4eb4-8b71-024899dcf623"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Single pixel value for a specific component: not a token"
   },
   "in-field-progress-circle-size-75": {
     "component": "in-field-progress-circle",
@@ -8285,25 +8836,37 @@
     "component": "status-light",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{text-to-visual-75}",
-    "uuid": "ea98b9b0-20b5-4f19-aa4f-375559b1362a"
+    "uuid": "ea98b9b0-20b5-4f19-aa4f-375559b1362a",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-small instead.",
+    "renamed": "base-gap-small"
   },
   "status-light-text-to-visual-100": {
     "component": "status-light",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{text-to-visual-100}",
-    "uuid": "752a84f5-cbb7-4d18-85ca-fc913a061bb5"
+    "uuid": "752a84f5-cbb7-4d18-85ca-fc913a061bb5",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead.",
+    "renamed": "base-gap-medium"
   },
   "status-light-text-to-visual-200": {
     "component": "status-light",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{text-to-visual-200}",
-    "uuid": "d3e53f14-b91e-4d10-8508-17360ae5620e"
+    "uuid": "d3e53f14-b91e-4d10-8508-17360ae5620e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-large instead.",
+    "renamed": "base-gap-large"
   },
   "status-light-text-to-visual-300": {
     "component": "status-light",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{text-to-visual-300}",
-    "uuid": "ee780be7-b32c-4da8-a6bc-fc0897799537"
+    "uuid": "ee780be7-b32c-4da8-a6bc-fc0897799537",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-extra-large instead.",
+    "renamed": "base-gap-extra-large"
   },
   "link-out-icon-size-75": {
     "component": "link-out-icon",
@@ -8327,7 +8890,7 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "12px",
+        "value": "10px",
         "uuid": "cc8ad91e-22f2-4f59-ae8c-99d2c1433d6e"
       },
       "mobile": {
@@ -8343,7 +8906,7 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "14px",
+        "value": "12px",
         "uuid": "f78418a4-5b55-418b-9c90-7f388d5bb275"
       },
       "mobile": {
@@ -8389,49 +8952,73 @@
     "component": "menu-item",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
-    "uuid": "66d57402-d7db-45df-8872-fd362014bcbe"
+    "uuid": "66d57402-d7db-45df-8872-fd362014bcbe",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-small instead.",
+    "renamed": "text-gap-small"
   },
   "menu-item-label-to-description-medium": {
     "component": "menu-item",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
-    "uuid": "608fd592-fff8-435e-88e2-846bd34cc235"
+    "uuid": "608fd592-fff8-435e-88e2-846bd34cc235",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-medium instead.",
+    "renamed": "text-gap-medium"
   },
   "menu-item-label-to-description-large": {
     "component": "menu-item",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
-    "uuid": "4ce8b4db-72f8-411b-baad-8b66c0496182"
+    "uuid": "4ce8b4db-72f8-411b-baad-8b66c0496182",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-large instead.",
+    "renamed": "text-gap-large"
   },
   "menu-item-label-to-description-extra-large": {
     "component": "menu-item",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
-    "uuid": "5543ede1-4e55-44f5-920f-288ee96e06ca"
+    "uuid": "5543ede1-4e55-44f5-920f-288ee96e06ca",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-extra-large instead.",
+    "renamed": "text-gap-extra-large"
   },
   "menu-section-header-to-description-small": {
     "component": "menu",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
-    "uuid": "ac039575-7c1f-4733-a310-b39cebf83b82"
+    "uuid": "ac039575-7c1f-4733-a310-b39cebf83b82",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-small instead.",
+    "renamed": "text-gap-small"
   },
   "menu-section-header-to-description-medium": {
     "component": "menu",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
-    "uuid": "4211feff-12af-4288-b86d-4c66a5a55b8f"
+    "uuid": "4211feff-12af-4288-b86d-4c66a5a55b8f",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-medium instead.",
+    "renamed": "text-gap-medium"
   },
   "menu-section-header-to-description-large": {
     "component": "menu",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
-    "uuid": "2899d6e1-acad-453b-ad65-1e6a6e380363"
+    "uuid": "2899d6e1-acad-453b-ad65-1e6a6e380363",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-large instead.",
+    "renamed": "text-gap-large"
   },
   "menu-section-header-to-description-extra-large": {
     "component": "menu",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
-    "uuid": "c9e46b75-f1d8-4b19-a258-b8b0a0e66484"
+    "uuid": "c9e46b75-f1d8-4b19-a258-b8b0a0e66484",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-extra-large instead.",
+    "renamed": "text-gap-extra-large"
   },
   "menu-item-top-to-thumbnail-small": {
     "component": "menu-item",
@@ -8447,7 +9034,10 @@
         "value": "10px",
         "uuid": "af422766-3185-47d6-adba-31b1e97b92d9"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Unify with all top component paddings",
+    "renamed": "base-padding-vertical-small"
   },
   "menu-item-top-to-thumbnail-medium": {
     "component": "menu-item",
@@ -8463,7 +9053,10 @@
         "value": "11px",
         "uuid": "62815f67-4e23-43f9-93d2-f29d1688cddf"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Unify with all top component paddings",
+    "renamed": "base-padding-vertical-medium"
   },
   "menu-item-top-to-thumbnail-large": {
     "component": "menu-item",
@@ -8479,7 +9072,10 @@
         "value": "12px",
         "uuid": "64b2f613-35b2-46a8-be7d-c39c314840b9"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Unify with all top component paddings",
+    "renamed": "base-padding-vertical-large"
   },
   "menu-item-top-to-thumbnail-extra-large": {
     "component": "menu-item",
@@ -8495,7 +9091,10 @@
         "value": "13px",
         "uuid": "dfeef197-57b9-41a1-b759-3c782a64f2f3"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Unify with all top component paddings",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "menu-item-background-opacity": {
     "component": "menu-item",
@@ -8669,7 +9268,10 @@
         "value": "15px",
         "uuid": "a1c90c6d-851d-495f-99cc-bbeb0c6fdd4f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-3x-large instead.",
+    "renamed": "base-gap-3x-large"
   },
   "breadcrumbs-start-edge-to-text-large": {
     "component": "breadcrumbs",
@@ -8685,7 +9287,10 @@
         "value": "11px",
         "uuid": "1d7bd78d-4469-4385-89e7-fcd574cc6368"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-2x-large instead.",
+    "renamed": "base-gap-2x-large"
   },
   "breadcrumbs-start-edge-to-text-medium": {
     "component": "breadcrumbs",
@@ -8701,7 +9306,10 @@
         "value": "8px",
         "uuid": "e87a054b-dceb-4462-a8fc-733700cc0f79"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead.",
+    "renamed": "base-gap-medium"
   },
   "breadcrumbs-start-edge-to-text-multiline": {
     "component": "breadcrumbs",
@@ -8717,7 +9325,10 @@
         "value": "5px",
         "uuid": "60a75c05-a9cd-4ecf-89e5-0bca9e137e9f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-extra-small instead.",
+    "renamed": "base-gap-extra-small"
   },
   "breadcrumbs-top-to-separator-large": {
     "component": "breadcrumbs",
@@ -8733,7 +9344,10 @@
         "value": "20px",
         "uuid": "2e12202a-8099-4a4d-b06d-703deaf20862"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-2x-large instead. Require unified UI icon set.",
+    "renamed": "base-padding-vertical-2x-large"
   },
   "breadcrumbs-top-to-separator-medium": {
     "component": "breadcrumbs",
@@ -8749,7 +9363,10 @@
         "value": "15px",
         "uuid": "fcbd2bcb-7f53-4219-9d6b-89c01fd50da7"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Require unified UI icon set.",
+    "renamed": "base-padding-vertical-large"
   },
   "breadcrumbs-top-to-separator-multiline": {
     "component": "breadcrumbs",
@@ -8765,13 +9382,18 @@
         "value": "10px",
         "uuid": "4b7eab87-e6a8-40f6-a071-5aff25493f2f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Require unified UI icon set.",
+    "renamed": "base-padding-vertical-medium"
   },
   "breadcrumbs-truncated-menu-to-separator": {
     "component": "breadcrumbs",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "963bd7ed-cfc9-4a93-a8a6-a2340ec6479f"
+    "uuid": "963bd7ed-cfc9-4a93-a8a6-a2340ec6479f",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "breadcrumbs-text-to-separator-large": {
     "component": "breadcrumbs",
@@ -8787,7 +9409,10 @@
         "value": "11px",
         "uuid": "25d8256e-b05f-43e8-bbc3-5b60c24be29c"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-2x-large instead.",
+    "renamed": "base-gap-2x-large"
   },
   "breadcrumbs-text-to-separator-medium": {
     "component": "breadcrumbs",
@@ -8803,7 +9428,10 @@
         "value": "8px",
         "uuid": "bf2e3518-154e-4975-b9fb-acbf60b7e154"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead.",
+    "renamed": "base-gap-medium"
   },
   "breadcrumbs-text-to-separator-multiline": {
     "component": "breadcrumbs",
@@ -8819,7 +9447,10 @@
         "value": "5px",
         "uuid": "fbf763fe-9e35-4cdc-a5ed-9f90e03d23bd"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-extra-small instead.",
+    "renamed": "base-gap-extra-small"
   },
   "contextual-help-body-font-size": {
     "component": "contextual-help",
@@ -8881,13 +9512,19 @@
     "component": "coach-indicator",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
-    "uuid": "adb8eace-decc-4bef-93e9-ff2cb27e9ce6"
+    "uuid": "adb8eace-decc-4bef-93e9-ff2cb27e9ce6",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token focus-ring-gap instead.",
+    "renamed": "focus-ring-gap"
   },
   "coach-indicator-expanded-gap": {
     "component": "coach-indicator",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
-    "uuid": "b25c696f-c6c3-45af-bdc9-fe3a046067f3"
+    "uuid": "b25c696f-c6c3-45af-bdc9-fe3a046067f3",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead.",
+    "renamed": "base-gap-medium"
   },
   "coach-indicator-opacity": {
     "component": "coach-indicator",
@@ -8909,7 +9546,10 @@
         "value": "10px",
         "uuid": "782d9dfd-413f-4031-8431-be9b638c69b6"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-small instead. Major refactor necessary",
+    "renamed": "container-padding-extra-small"
   },
   "accordion-content-area-edge-to-content-medium": {
     "component": "accordion",
@@ -8925,7 +9565,10 @@
         "value": "11px",
         "uuid": "80419f6a-d93a-4cc0-883a-833e4717e28f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-small instead. Major refactor necessary",
+    "renamed": "container-padding-extra-small"
   },
   "accordion-content-area-edge-to-content-large": {
     "component": "accordion",
@@ -8941,7 +9584,10 @@
         "value": "15px",
         "uuid": "f4d133f7-d444-4ddc-907f-9d75ff621a03"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-small instead. Major refactor necessary",
+    "renamed": "container-padding-small"
   },
   "accordion-content-area-edge-to-content-extra-large": {
     "component": "accordion",
@@ -8957,7 +9603,10 @@
         "value": "19px",
         "uuid": "c9aaff95-a17a-408b-bb55-1c9026314c8b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-medium instead. Major refactor necessary",
+    "renamed": "container-padding-medium"
   },
   "accordion-disclosure-indicator-to-text-small": {
     "component": "accordion",
@@ -8973,7 +9622,10 @@
         "value": "9px",
         "uuid": "f009b7a8-95ca-4b39-92c3-f7656cf2e429"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead. Major refactor necessary",
+    "renamed": "base-gap-medium"
   },
   "accordion-disclosure-indicator-to-text-medium": {
     "component": "accordion",
@@ -8989,7 +9641,10 @@
         "value": "13px",
         "uuid": "f62edd6d-b833-4aea-8e03-ddd1dfccc464"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-large instead. Major refactor necessary",
+    "renamed": "base-gap-large"
   },
   "accordion-disclosure-indicator-to-text-large": {
     "component": "accordion",
@@ -9005,7 +9660,10 @@
         "value": "17px",
         "uuid": "fae0b204-0198-465a-aa98-c7b4224e4c48"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-extra-large instead. Major refactor necessary",
+    "renamed": "base-gap-extra-large"
   },
   "accordion-disclosure-indicator-to-text-extra-large": {
     "component": "accordion",
@@ -9021,13 +9679,18 @@
         "value": "22px",
         "uuid": "aafcb612-0828-48c7-af1c-39870aafd44a"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-2x-large instead. These gap vales don't match with what's in the Figma component. Recommending design update anyhow",
+    "renamed": "base-gap-2x-large"
   },
   "accordion-item-to-divider": {
     "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "9a2c9dee-7acf-4083-9c66-685454444f8c"
+    "uuid": "9a2c9dee-7acf-4083-9c66-685454444f8c",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "meter-thickness-medium": {
     "component": "meter",
@@ -9077,25 +9740,37 @@
     "component": "action-bar",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-200}",
-    "uuid": "cfa41a43-8fb2-4c3b-a2df-f8658c87b31b"
+    "uuid": "cfa41a43-8fb2-4c3b-a2df-f8658c87b31b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead.",
+    "renamed": "banner-padding-vertical"
   },
   "action-bar-bottom-to-content-area": {
     "component": "action-bar",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-200}",
-    "uuid": "3116a00c-0ad3-4ae6-9fbb-f9b5624a2708"
+    "uuid": "3116a00c-0ad3-4ae6-9fbb-f9b5624a2708",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead.",
+    "renamed": "banner-padding-vertical"
   },
   "action-bar-edge-to-content-area": {
     "component": "action-bar",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "uuid": "a9fc8786-060e-4663-9381-211621240b2f"
+    "uuid": "a9fc8786-060e-4663-9381-211621240b2f",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-horizontal-compact instead.",
+    "renamed": "banner-padding-horizontal-compact"
   },
   "action-bar-close-button-to-counter": {
     "component": "action-bar",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{text-to-control-50}",
-    "uuid": "bc54e89f-6740-4004-891e-c515f8f79693"
+    "uuid": "bc54e89f-6740-4004-891e-c515f8f79693",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token group-gap-extra-small instead.",
+    "renamed": "group-gap-extra-small"
   },
   "action-bar-counter-font-size": {
     "component": "action-bar",
@@ -9107,7 +9782,10 @@
     "component": "swatch-group",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
-    "uuid": "b80ef303-eae7-498f-b172-73a098be0f0b"
+    "uuid": "b80ef303-eae7-498f-b172-73a098be0f0b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-2x-small instead. NOTE: All other swatch gaps need to use these semantics too",
+    "renamed": "container-gap-2x-small"
   },
   "swatch-group-border-opacity": {
     "component": "swatch-group",
@@ -9177,7 +9855,10 @@
         "value": "-5px",
         "uuid": "b395e912-9061-44bd-ab77-840cde0f3e80"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-extra-small instead. Implementations could negate value eg calc(-1 * token-name)",
+    "renamed": "base-gap-extra-small"
   },
   "avatar-to-avatar-75": {
     "component": "avatar",
@@ -9193,7 +9874,10 @@
         "value": "-6px",
         "uuid": "889a7ebb-86b7-4615-87ee-e75aa4b48d60"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-small instead. Implementations could negate value eg calc(-1 * token-name)",
+    "renamed": "base-gap-small"
   },
   "avatar-to-avatar-100": {
     "component": "avatar",
@@ -9209,7 +9893,10 @@
         "value": "-7px",
         "uuid": "bacd5b38-1eed-49d6-9513-f363315f2a23"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead. Implementations could negate value eg calc(-1 * token-name)",
+    "renamed": "base-gap-medium"
   },
   "avatar-to-avatar-200": {
     "component": "avatar",
@@ -9225,7 +9912,10 @@
         "value": "-8px",
         "uuid": "7815e63c-1d4f-4ee0-a656-a6053595ad59"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-large instead. Implementations could negate value eg calc(-1 * token-name)",
+    "renamed": "base-gap-large"
   },
   "avatar-to-avatar-300": {
     "component": "avatar",
@@ -9241,7 +9931,10 @@
         "value": "-9px",
         "uuid": "04481b80-1c05-416a-95cf-c0c85147ce2e"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-extra-large instead. Implementations could negate value eg calc(-1 * token-name)",
+    "renamed": "base-gap-extra-large"
   },
   "avatar-to-avatar-400": {
     "component": "avatar",
@@ -9257,7 +9950,10 @@
         "value": "-10px",
         "uuid": "5c733ac6-d7b9-44f0-8827-1d8232ca5332"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-2x-large instead. Implementations could negate value eg calc(-1 * token-name)",
+    "renamed": "base-gap-2x-large"
   },
   "avatar-to-avatar-500": {
     "component": "avatar",
@@ -9273,7 +9969,10 @@
         "value": "-11px",
         "uuid": "c980c4f4-f2c5-4963-873e-de275f3353d1"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-3x-large instead. Implementations could negate value eg calc(-1 * token-name)",
+    "renamed": "base-gap-3x-large"
   },
   "code-cjk-size-xl": {
     "component": "code",
@@ -9327,37 +10026,55 @@
     "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
-    "uuid": "66f385cd-b60b-42dd-bfdc-aba2db6e35a2"
+    "uuid": "66f385cd-b60b-42dd-bfdc-aba2db6e35a2",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
+    "renamed": "base-padding-vertical-large"
   },
   "standard-panel-top-to-close-button-regular": {
     "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
-    "uuid": "968a056e-4397-4a71-91f1-a0f1ebb6f751"
+    "uuid": "968a056e-4397-4a71-91f1-a0f1ebb6f751",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
+    "renamed": "base-padding-vertical-large"
   },
   "standard-panel-top-to-close-button-spacious": {
     "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "17px",
-    "uuid": "96572147-20a9-4089-9904-0a0efa42a5af"
+    "uuid": "96572147-20a9-4089-9904-0a0efa42a5af",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
+    "renamed": "base-padding-vertical-large"
   },
   "standard-panel-edge-to-close-button-compact": {
     "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "uuid": "6364d657-804c-4753-832d-09bfdf5ad36a"
+    "uuid": "6364d657-804c-4753-832d-09bfdf5ad36a",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
+    "renamed": "base-padding-vertical-large"
   },
   "standard-panel-edge-to-close-button-regular": {
     "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
-    "uuid": "f2c9847f-2c3f-4e2e-94ed-59b6cc58f34a"
+    "uuid": "f2c9847f-2c3f-4e2e-94ed-59b6cc58f34a",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
+    "renamed": "base-padding-vertical-large"
   },
   "standard-panel-edge-to-close-button-spacious": {
     "component": "standard-panel",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
-    "uuid": "b9c04337-a6f5-42db-9bf9-a761c0d9f876"
+    "uuid": "b9c04337-a6f5-42db-9bf9-a761c0d9f876",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
+    "renamed": "base-padding-vertical-large"
   },
   "standard-panel-title-font-size": {
     "component": "standard-panel",
@@ -9399,43 +10116,64 @@
     "component": "bar-panel",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
-    "uuid": "5fbb857b-5703-4e8e-bba4-86720ca261bd"
+    "uuid": "5fbb857b-5703-4e8e-bba4-86720ca261bd",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-large instead.",
+    "renamed": "container-padding-extra-large"
   },
   "rating-top-to-content-area-small": {
     "component": "rating",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-75}",
-    "uuid": "8cf415d3-57f2-41c6-a175-40c75b58a79e"
+    "uuid": "8cf415d3-57f2-41c6-a175-40c75b58a79e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
+    "renamed": "base-padding-vertical-small"
   },
   "rating-bottom-to-content-area-small": {
     "component": "rating",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-75}",
-    "uuid": "360ab235-93bf-482c-9ff1-387d69f018e1"
+    "uuid": "360ab235-93bf-482c-9ff1-387d69f018e1",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
+    "renamed": "base-padding-vertical-small"
   },
   "rating-edge-to-content-area-small": {
     "component": "rating",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-75}",
-    "uuid": "a2ad2062-a115-4abb-859b-f9d307b44744"
+    "uuid": "a2ad2062-a115-4abb-859b-f9d307b44744",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
+    "renamed": "base-padding-vertical-small"
   },
   "rating-top-to-content-area-medium": {
     "component": "rating",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
-    "uuid": "6b99f788-336d-4159-819e-29050f8b571a"
+    "uuid": "6b99f788-336d-4159-819e-29050f8b571a",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead.",
+    "renamed": "base-padding-vertical-medium"
   },
   "rating-bottom-to-content-area-medium": {
     "component": "rating",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
-    "uuid": "897117a7-4e29-4fc2-85b4-1b2aa882ff7b"
+    "uuid": "897117a7-4e29-4fc2-85b4-1b2aa882ff7b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead.",
+    "renamed": "base-padding-vertical-medium"
   },
   "rating-edge-to-content-area-medium": {
     "component": "rating",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
-    "uuid": "888c8501-b709-4b72-9d19-504e3b0befb4"
+    "uuid": "888c8501-b709-4b72-9d19-504e3b0befb4",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead.",
+    "renamed": "base-padding-vertical-medium"
   },
   "rating-width-small": {
     "component": "rating",
@@ -9513,7 +10251,10 @@
     "component": "select-box",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
-    "uuid": "70a20970-ebd9-48a7-8324-44d352f79978"
+    "uuid": "70a20970-ebd9-48a7-8324-44d352f79978",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-small instead.",
+    "renamed": "container-padding-extra-small"
   },
   "select-box-horizontal-end-to-content": {
     "component": "select-box",
@@ -9529,7 +10270,10 @@
         "value": "40px",
         "uuid": "9c78208b-bb4f-4cda-82f0-a38f68d33172"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-2x-large instead.",
+    "renamed": "container-gap-2x-large"
   },
   "select-box-horizontal-illustration-to-label": {
     "component": "select-box",
@@ -9545,7 +10289,10 @@
         "value": "12px",
         "uuid": "6c8580ac-c2c4-4d62-8a9d-b0498dd0b69b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-small instead.",
+    "renamed": "container-gap-small"
   },
   "select-box-horizontal-label-to-description": {
     "component": "select-box",
@@ -9561,7 +10308,10 @@
         "value": "3px",
         "uuid": "255479ac-24f5-4128-bba0-258ec68026af"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-large instead.",
+    "renamed": "text-gap-large"
   },
   "select-box-horizontal-start-to-content": {
     "component": "select-box",
@@ -9577,7 +10327,10 @@
         "value": "30px",
         "uuid": "009afde4-ea54-4025-aaa0-7df7e5e50229"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-large instead.",
+    "renamed": "container-padding-extra-large"
   },
   "select-box-horizontal-top-to-content": {
     "component": "select-box",
@@ -9593,7 +10346,10 @@
         "value": "20px",
         "uuid": "75f16efb-6905-4091-bd87-bd08494a92bf"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-medium instead.",
+    "renamed": "container-padding-medium"
   },
   "select-box-top-to-checkbox": {
     "component": "select-box",
@@ -9609,7 +10365,10 @@
         "value": "5px",
         "uuid": "011f2ccf-b2fb-4da8-94c4-29fc0a5b9a71"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-small instead. Should actually be 12 when checkbox component's vertical padding removed as it should be in this scenario",
+    "renamed": "container-padding-small"
   },
   "select-box-vertical-edge-to-content": {
     "component": "select-box",
@@ -9625,7 +10384,10 @@
         "value": "30px",
         "uuid": "e807df92-1c13-4394-ace9-cb998ada9395"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-large instead.",
+    "renamed": "container-padding-extra-large"
   },
   "select-box-vertical-illustration-to-label": {
     "component": "select-box",
@@ -9641,7 +10403,10 @@
         "value": "10px",
         "uuid": "8a805540-3b26-4b50-8a0d-0c7beb13885e"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-extra-small instead.",
+    "renamed": "container-gap-extra-small"
   },
   "slider-control-to-field-label-editable-small": {
     "component": "slider",
@@ -9657,7 +10422,9 @@
         "value": "-8px",
         "uuid": "5816b3c6-937c-47b8-9bdd-ebc69224831b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Refactor required; remove padding from label, no negative margins"
   },
   "slider-control-to-field-label-editable-medium": {
     "component": "slider",
@@ -9673,7 +10440,9 @@
         "value": "-16px",
         "uuid": "a5326ae9-27b6-450c-b88f-d4b89a06502a"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Refactor required; remove padding from label, no negative margins"
   },
   "slider-control-to-field-label-editable-large": {
     "component": "slider",
@@ -9689,7 +10458,9 @@
         "value": "-20px",
         "uuid": "657325f5-74e4-4d39-8ba4-f480c141da79"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Refactor required; remove padding from label, no negative margins"
   },
   "slider-control-to-field-label-editable-extra-large": {
     "component": "slider",
@@ -9705,7 +10476,9 @@
         "value": "-24px",
         "uuid": "23f0c597-a889-4653-8870-df86101fe544"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Refactor required; remove padding from label, no negative margins"
   },
   "slider-control-to-field-label-side-small": {
     "component": "slider",
@@ -9721,7 +10494,10 @@
         "value": "20px",
         "uuid": "31e670e4-2400-4705-a0e8-cef9cbca9869"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-small instead.",
+    "renamed": "container-gap-small"
   },
   "slider-control-to-field-label-side-medium": {
     "component": "slider",
@@ -9737,7 +10513,10 @@
         "value": "20px",
         "uuid": "5d470123-0f06-4319-b299-b8f5d80c7c94"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-medium instead.",
+    "renamed": "container-gap-medium"
   },
   "slider-control-to-field-label-side-large": {
     "component": "slider",
@@ -9753,7 +10532,10 @@
         "value": "24px",
         "uuid": "095779c9-64fc-4a51-8a0a-f8b452fb3650"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-large instead.",
+    "renamed": "container-gap-large"
   },
   "slider-control-to-field-label-side-extra-large": {
     "component": "slider",
@@ -9769,7 +10551,10 @@
         "value": "28px",
         "uuid": "19036695-7f27-4c08-babc-45226b7bf920"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-extra-large instead.",
+    "renamed": "container-gap-extra-large"
   },
   "slider-control-to-text-field-small": {
     "component": "slider",
@@ -9785,7 +10570,10 @@
         "value": "20px",
         "uuid": "526c8840-b08c-401b-8242-32c1cb574b58"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-small instead.",
+    "renamed": "container-gap-small"
   },
   "slider-control-to-text-field-medium": {
     "component": "slider",
@@ -9801,7 +10589,10 @@
         "value": "20px",
         "uuid": "a99118fc-9837-4460-b4ae-9c7ffaa20ce0"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-medium instead.",
+    "renamed": "container-gap-medium"
   },
   "slider-control-to-text-field-large": {
     "component": "slider",
@@ -9817,7 +10608,10 @@
         "value": "24px",
         "uuid": "d20985d9-2d46-4744-84a7-21baad0eb8cb"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-large instead.",
+    "renamed": "container-gap-large"
   },
   "slider-control-to-text-field-extra-large": {
     "component": "slider",
@@ -9833,7 +10627,10 @@
         "value": "28px",
         "uuid": "41601fb4-8571-4e7d-91b1-ea7b69ca8a1d"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-extra-large instead.",
+    "renamed": "container-gap-extra-large"
   },
   "segmented-control-selection-border-width": {
     "component": "segmented-control",
@@ -10007,19 +10804,28 @@
         "value": "3px",
         "uuid": "90669b85-c7e8-4b68-b96d-61a51a2451b3"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-small instead. Refactoring required",
+    "renamed": "accessory-gap-small"
   },
   "in-field-stepper-to-end-medium": {
     "component": "in-field-stepper",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "uuid": "fe42bdd0-de02-4814-b498-038b26a3c0e7"
+    "uuid": "fe42bdd0-de02-4814-b498-038b26a3c0e7",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-medium instead. Refactoring required",
+    "renamed": "accessory-gap-medium"
   },
   "in-field-stepper-to-end-large": {
     "component": "in-field-stepper",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
-    "uuid": "cb3e458d-7dcd-484d-9028-220d08c9f129"
+    "uuid": "cb3e458d-7dcd-484d-9028-220d08c9f129",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-large instead. Refactoring required",
+    "renamed": "accessory-gap-large"
   },
   "in-field-stepper-to-end-extra-large": {
     "component": "in-field-stepper",
@@ -10035,7 +10841,10 @@
         "value": "5px",
         "uuid": "fbc42d9d-2f00-42ae-92e9-727cac69404e"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-extra-large instead. Refactoring required",
+    "renamed": "accessory-gap-extra-large"
   },
   "number-field-with-stepper-minimum-width-small": {
     "component": "number-field",
@@ -10115,7 +10924,10 @@
         "value": "7px",
         "uuid": "1e55a991-6d8f-4fc1-9dc7-91f86be50e3f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
+    "renamed": "base-padding-horizontal-small"
   },
   "number-field-visual-to-in-field-stepper-medium": {
     "component": "number-field",
@@ -10131,7 +10943,10 @@
         "value": "8px",
         "uuid": "83dd3160-a826-4fa2-b643-a6f11533ba45"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
+    "renamed": "base-padding-horizontal-medium"
   },
   "number-field-visual-to-in-field-stepper-large": {
     "component": "number-field",
@@ -10147,7 +10962,10 @@
         "value": "9px",
         "uuid": "136a2c42-1868-4343-903d-9e7fbf345d45"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-large instead.",
+    "renamed": "base-padding-horizontal-large"
   },
   "number-field-visual-to-in-field-stepper-extra-large": {
     "component": "number-field",
@@ -10163,7 +10981,10 @@
         "value": "10px",
         "uuid": "777f9750-cfea-4eb3-ae08-a18c2fbde315"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead.",
+    "renamed": "base-padding-horizontal-extra-large"
   },
   "number-field-minimum-width-multiplier": {
     "component": "number-field",
@@ -10261,7 +11082,10 @@
         "value": "16px",
         "uuid": "9136f55b-d28b-4802-873c-db6205b8632b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Faulty measurement. Combination of two measurements Correcting to text to inner element spacing. Refactor needed",
+    "renamed": "base-padding-vertical-medium"
   },
   "tree-view-drag-handle-to-checkbox": {
     "component": "tree-view",
@@ -10277,7 +11101,10 @@
         "value": "10px",
         "uuid": "5a77899c-1547-40da-bce3-d892cfbc0450"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-gap-medium instead.",
+    "renamed": "list-item-gap-medium"
   },
   "tree-view-edge-to-checkbox": {
     "component": "tree-view",
@@ -10293,7 +11120,10 @@
         "value": "15px",
         "uuid": "fba49c63-444e-42fc-b27c-7ce43b8419a7"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-horizontal instead. Refactor or combine list-item-padding-horizontal with base-padding-horizontal-medium",
+    "renamed": "list-item-padding-horizontal"
   },
   "tree-view-edge-to-drag-handle": {
     "component": "tree-view",
@@ -10309,7 +11139,10 @@
         "value": "5px",
         "uuid": "f51d97ac-06c4-45a4-87ff-349b3ffbc36d"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-horizontal instead.",
+    "renamed": "list-item-padding-horizontal"
   },
   "tree-view-end-edge-to-action-area": {
     "component": "tree-view",
@@ -10325,13 +11158,18 @@
         "value": "7px",
         "uuid": "66d490aa-b658-474d-99cf-f18d15cb4098"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-horizontal instead.",
+    "renamed": "list-item-padding-horizontal"
   },
   "tree-view-header-to-item": {
     "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-1px",
-    "uuid": "8f92e6b8-907f-42b2-81d6-83d1786495bf"
+    "uuid": "8f92e6b8-907f-42b2-81d6-83d1786495bf",
+    "deprecated": true,
+    "deprecated_comment": "Should be zero. Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "tree-view-item-to-header": {
     "component": "tree-view",
@@ -10347,7 +11185,10 @@
         "value": "30px",
         "uuid": "a06c6929-1acc-4084-a8ee-3d4ad5a0064e"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-gap-regular instead. This gap is not used in design; the header gap is equal to all other list item gaps. Refactor may be necessary",
+    "renamed": "list-gap-regular"
   },
   "tree-view-item-to-item": {
     "component": "tree-view",
@@ -10362,13 +11203,18 @@
     "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-1px",
-    "uuid": "7d44a2b5-0aa6-4770-81da-8dbd87013906"
+    "uuid": "7d44a2b5-0aa6-4770-81da-8dbd87013906",
+    "deprecated": true,
+    "deprecated_comment": "Should be zero; no token"
   },
   "tree-view-item-to-item-detached": {
     "component": "tree-view",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
-    "uuid": "c7c837c3-47ad-4ef1-a2eb-e4629628eb44"
+    "uuid": "c7c837c3-47ad-4ef1-a2eb-e4629628eb44",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-gap-small instead.",
+    "renamed": "list-item-gap-small"
   },
   "tree-view-label-to-action-area": {
     "component": "tree-view",
@@ -10384,7 +11230,10 @@
         "value": "8px",
         "uuid": "096032da-c0b4-4086-82e9-ab80c2b3d90b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-gap-medium instead.",
+    "renamed": "list-item-gap-medium"
   },
   "tree-view-level-increment": {
     "component": "tree-view",
@@ -10400,7 +11249,10 @@
         "value": "20px",
         "uuid": "038d525f-357a-4441-934e-093d7342eba8"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-indent-medium instead.",
+    "renamed": "list-indent-medium"
   },
   "tree-view-minimum-top-to-context-area": {
     "component": "tree-view",
@@ -10416,7 +11268,10 @@
         "value": "10px",
         "uuid": "50ce9fc5-eab5-4ab5-8dfa-a22d5b4361e9"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead.",
+    "renamed": "base-padding-vertical-medium"
   },
   "tree-view-top-to-action-button": {
     "component": "tree-view",
@@ -10432,7 +11287,10 @@
         "value": "5px",
         "uuid": "7bea161d-9ee0-41b0-a31b-162926b28637"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-regular instead.",
+    "renamed": "list-item-padding-vertical-regular"
   },
   "tree-view-top-to-checkbox": {
     "component": "tree-view",
@@ -10448,7 +11306,10 @@
         "value": "5px",
         "uuid": "b148e202-b43d-4089-b0d8-885fc99cb983"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-regular instead.",
+    "renamed": "list-item-padding-vertical-regular"
   },
   "tree-view-top-to-disclosure-indicator": {
     "component": "tree-view",
@@ -10464,7 +11325,10 @@
         "value": "19px",
         "uuid": "aae1c8b3-2aa1-4463-ad84-a52f80a6a09b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-regular instead. Design spec's show different value/measurement than token value",
+    "renamed": "list-item-padding-vertical-regular"
   },
   "tree-view-top-to-drag-handle": {
     "component": "tree-view",
@@ -10480,7 +11344,10 @@
         "value": "19px",
         "uuid": "bb805e5e-d65b-4daf-9116-288fa59ddbfd"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Drag handle will need to be in a frame with height equal to workflow-icon-size-[size]",
+    "renamed": "base-padding-vertical-medium"
   },
   "tree-view-top-to-label": {
     "component": "tree-view",
@@ -10496,7 +11363,10 @@
         "value": "13px",
         "uuid": "d2e3ca68-015b-47a4-96ea-0c380e931c09"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead.",
+    "renamed": "base-padding-vertical-medium"
   },
   "tree-view-selected-row-background-opacity-emphasized": {
     "component": "tree-view",
@@ -10520,109 +11390,163 @@
     "component": "action-bar",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-300}",
-    "uuid": "72e276ce-d6ee-4bcf-9955-91c833b8b2cd"
+    "uuid": "72e276ce-d6ee-4bcf-9955-91c833b8b2cd",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-gap-horizontal instead.",
+    "renamed": "banner-gap-horizontal"
   },
   "card-edge-to-content-compact-extra-small": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
-    "uuid": "562738ca-ed16-4855-8855-3914b9109408"
+    "uuid": "562738ca-ed16-4855-8855-3914b9109408",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-2x-small instead.",
+    "renamed": "container-padding-2x-small"
   },
   "card-edge-to-content-default-extra-small": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
-    "uuid": "9ecb4a76-013a-4952-9646-a5660005b31e"
+    "uuid": "9ecb4a76-013a-4952-9646-a5660005b31e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-small instead.",
+    "renamed": "container-padding-extra-small"
   },
   "card-edge-to-content-spacious-extra-small": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
-    "uuid": "91289dd0-0a27-49ef-96c9-3508edecfa44"
+    "uuid": "91289dd0-0a27-49ef-96c9-3508edecfa44",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-small instead.",
+    "renamed": "container-padding-small"
   },
   "card-edge-to-content-compact-small": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
-    "uuid": "521df9e4-9c61-4a73-9157-d235a4d04090"
+    "uuid": "521df9e4-9c61-4a73-9157-d235a4d04090",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-small instead.",
+    "renamed": "container-padding-extra-small"
   },
   "card-edge-to-content-default-small": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
-    "uuid": "569f8d0a-75f3-4743-aa51-9ec6479cdf21"
+    "uuid": "569f8d0a-75f3-4743-aa51-9ec6479cdf21",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-small instead.",
+    "renamed": "container-padding-small"
   },
   "card-edge-to-content-spacious-small": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
-    "uuid": "8ec39e04-de4f-48cf-9c8b-7bb7f76730a0"
+    "uuid": "8ec39e04-de4f-48cf-9c8b-7bb7f76730a0",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-medium instead.",
+    "renamed": "container-padding-medium"
   },
   "card-edge-to-content-compact-medium": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
-    "uuid": "f3566ff3-2430-4fdd-a48c-e8c0d3c34adc"
+    "uuid": "f3566ff3-2430-4fdd-a48c-e8c0d3c34adc",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-small instead.",
+    "renamed": "container-padding-small"
   },
   "card-edge-to-content-default-medium": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
-    "uuid": "04ef066b-4733-4d20-9538-7eefd71e7a1e"
+    "uuid": "04ef066b-4733-4d20-9538-7eefd71e7a1e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-medium instead.",
+    "renamed": "container-padding-medium"
   },
   "card-edge-to-content-spacious-medium": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
-    "uuid": "98ef0816-ad83-43ec-b976-1169a7ce8540"
+    "uuid": "98ef0816-ad83-43ec-b976-1169a7ce8540",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-large instead.",
+    "renamed": "container-padding-large"
   },
   "card-edge-to-content-compact-large": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
-    "uuid": "0b551228-5a6a-403d-bb92-9800835cb3be"
+    "uuid": "0b551228-5a6a-403d-bb92-9800835cb3be",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-medium instead.",
+    "renamed": "container-padding-medium"
   },
   "card-edge-to-content-default-large": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
-    "uuid": "8856270e-65b5-4f81-87c0-5332ffd7459f"
+    "uuid": "8856270e-65b5-4f81-87c0-5332ffd7459f",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-large instead.",
+    "renamed": "container-padding-large"
   },
   "card-edge-to-content-spacious-large": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
-    "uuid": "73da978a-bede-439e-97cd-afeb32e87780"
+    "uuid": "73da978a-bede-439e-97cd-afeb32e87780",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-large instead.",
+    "renamed": "container-padding-extra-large"
   },
   "card-edge-to-content-compact-extra-large": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
-    "uuid": "a9f253aa-631e-447a-8335-15b4491a8e9d"
+    "uuid": "a9f253aa-631e-447a-8335-15b4491a8e9d",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-large instead.",
+    "renamed": "container-padding-large"
   },
   "card-edge-to-content-default-extra-large": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
-    "uuid": "7acf60d0-7870-403e-94b9-18e84eff861b"
+    "uuid": "7acf60d0-7870-403e-94b9-18e84eff861b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-large instead.",
+    "renamed": "container-padding-extra-large"
   },
   "card-edge-to-content-spacious-extra-large": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "28px",
-    "uuid": "c4ee268c-aca6-488f-90db-d3e51a0c5c89"
+    "uuid": "c4ee268c-aca6-488f-90db-d3e51a0c5c89",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-2x-large instead.",
+    "renamed": "container-padding-2x-large"
   },
   "card-header-to-description": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-75}",
-    "uuid": "e874d2cd-6ad6-4d1c-8103-789945f10294"
+    "uuid": "e874d2cd-6ad6-4d1c-8103-789945f10294",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-medium instead. May require refactor",
+    "renamed": "text-gap-medium"
   },
   "card-description-to-footer": {
     "component": "card",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-300}",
-    "uuid": "248d1f30-c0d3-49bb-a5b7-0860cc75ee85"
+    "uuid": "248d1f30-c0d3-49bb-a5b7-0860cc75ee85",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-medium instead.",
+    "renamed": "container-padding-medium"
   },
   "card-selection-background-size-small": {
     "component": "card",
@@ -10988,49 +11912,72 @@
     "component": "steplist",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
-    "uuid": "a52c893c-8c03-43a5-88ed-3cd230365b84"
+    "uuid": "a52c893c-8c03-43a5-88ed-3cd230365b84",
+    "deprecated": true,
+    "deprecated_comment": "Even noted in design spec; only needed until VF swap"
   },
   "card-horizontal-edge-to-content-compact": {
     "component": "card-horizontal",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
-    "uuid": "fd732759-52ab-45b7-9949-9d9352091efe"
+    "uuid": "fd732759-52ab-45b7-9949-9d9352091efe",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-small instead.",
+    "renamed": "container-padding-small"
   },
   "card-horizontal-edge-to-content-default": {
     "component": "card-horizontal",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
-    "uuid": "45af5962-8d41-476d-a92d-befa408b47b7"
+    "uuid": "45af5962-8d41-476d-a92d-befa408b47b7",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-medium instead.",
+    "renamed": "container-padding-medium"
   },
   "card-horizontal-edge-to-content-spacious": {
     "component": "card-horizontal",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
-    "uuid": "104c7b60-387b-4550-b0eb-573915d28f42"
+    "uuid": "104c7b60-387b-4550-b0eb-573915d28f42",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-large instead.",
+    "renamed": "container-padding-large"
   },
   "accordion-edge-to-content-area-small": {
     "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
-    "uuid": "b594a566-9649-497d-bf8f-289ec3f59689"
+    "uuid": "b594a566-9649-497d-bf8f-289ec3f59689",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-small instead. Duplicate token use case. Major refactor necessary",
+    "renamed": "container-padding-extra-small"
   },
   "accordion-edge-to-content-area-medium": {
     "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "11px",
-    "uuid": "77894e1e-8b67-468d-a3d0-d9a7c87d1a52"
+    "uuid": "77894e1e-8b67-468d-a3d0-d9a7c87d1a52",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-small instead. Duplicate token use case. Major refactor necessary",
+    "renamed": "container-padding-extra-small"
   },
   "accordion-edge-to-content-area-large": {
     "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
-    "uuid": "56633713-ae34-4a8a-8cfd-39508e4c4b0a"
+    "uuid": "56633713-ae34-4a8a-8cfd-39508e4c4b0a",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-small instead. Duplicate token use case. Major refactor necessary",
+    "renamed": "container-padding-small"
   },
   "accordion-edge-to-content-area-extra-large": {
     "component": "accordion",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "17px",
-    "uuid": "75bc2d16-cf6b-48ef-a2e5-0516835af468"
+    "uuid": "75bc2d16-cf6b-48ef-a2e5-0516835af468",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-medium instead. Duplicate token use case. Major refactor necessary",
+    "renamed": "container-padding-medium"
   },
   "single-calendar-popover-minimum-width": {
     "component": "single-calendar",
@@ -11078,19 +12025,26 @@
     "component": "date-field",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
-    "uuid": "4725710f-67b2-4000-b4e8-e67a68cd75f5"
+    "uuid": "4725710f-67b2-4000-b4e8-e67a68cd75f5",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Date and time fields use 20px whereas text field appears to use padding value",
+    "renamed": "base-padding-horizontal-medium"
   },
   "date-picker-visual-to-field-button": {
     "component": "date-picker",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "da7f0c10-fa1b-4700-8acf-01feebdeed7f"
+    "uuid": "da7f0c10-fa1b-4700-8acf-01feebdeed7f",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "date-picker-text-to-visual": {
     "component": "date-picker",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "c6c92147-8ee5-408b-9590-adede6abc935"
+    "uuid": "c6c92147-8ee5-408b-9590-adede6abc935",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "date-picker-minimum-width": {
     "component": "date-picker",
@@ -11109,13 +12063,18 @@
     "component": "time-field",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
-    "uuid": "9953fcd9-ac62-49bd-beb2-926dc9fbb8c8"
+    "uuid": "9953fcd9-ac62-49bd-beb2-926dc9fbb8c8",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
+    "renamed": "base-padding-horizontal-medium"
   },
   "segmented-text-field-gap": {
     "component": "segmented-text-field",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "9e790995-7d43-4ce2-8ac0-a1c79c607575"
+    "uuid": "9e790995-7d43-4ce2-8ac0-a1c79c607575",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "segmented-text-field-rounding": {
     "component": "segmented-text-field",
@@ -11141,19 +12100,9 @@
   },
   "add-icon-size-75": {
     "component": "add-icon",
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "sets": {
-      "desktop": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "8px",
-        "uuid": "1456b16e-09bc-4b63-b3c7-4ecf9a0c3754"
-      },
-      "mobile": {
-        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "10px",
-        "uuid": "cfa5af27-add5-475d-90e4-2bd4fc14fcf1"
-      }
-    }
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "1456b16e-09bc-4b63-b3c7-4ecf9a0c3754"
   },
   "add-icon-size-100": {
     "component": "add-icon",
@@ -11193,7 +12142,7 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "12px",
+        "value": "14px",
         "uuid": "6f6b3134-6fcc-457d-ae87-43814ccada0f"
       },
       "mobile": {
@@ -11399,7 +12348,10 @@
         "value": "12px",
         "uuid": "5e448fc3-6c14-4169-84a0-1f70bbc478cb"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
+    "renamed": "base-padding-horizontal-small"
   },
   "tag-field-edge-to-content-medium": {
     "component": "tag-field",
@@ -11415,7 +12367,10 @@
         "value": "14px",
         "uuid": "0072dc62-b868-4c4b-afd9-9c52d876c614"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
+    "renamed": "base-padding-horizontal-medium"
   },
   "tag-field-edge-to-content-large": {
     "component": "tag-field",
@@ -11431,7 +12386,10 @@
         "value": "16px",
         "uuid": "1fda84ab-aa68-46fb-bd0f-d8174a08a41e"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-large instead.",
+    "renamed": "base-padding-horizontal-large"
   },
   "list-view-minimum-height": {
     "component": "list-view",
@@ -11491,7 +12449,10 @@
         "value": "8px",
         "uuid": "16552174-994e-41c3-9439-32b9876c399d"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-horizontal instead.",
+    "renamed": "list-item-padding-horizontal"
   },
   "stack-item-selected-background-opacity-emphasized": {
     "component": "stack-item",
@@ -11547,7 +12508,10 @@
         "value": "5px",
         "uuid": "799fbc36-ea79-44d2-8e8b-dc3aade544a0"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-horizontal instead.",
+    "renamed": "list-item-padding-horizontal"
   },
   "stack-item-drag-handle-to-control": {
     "component": "stack-item",
@@ -11563,7 +12527,10 @@
         "value": "10px",
         "uuid": "ed1689ea-2661-419b-ad18-7877712b0dfa"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-uniform-medium instead.",
+    "renamed": "base-padding-horizontal-uniform-medium"
   },
   "stack-item-text-to-control": {
     "component": "stack-item",
@@ -11579,7 +12546,10 @@
         "value": "10px",
         "uuid": "aaee547c-df72-420e-8d39-3028e79feac1"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead.",
+    "renamed": "base-gap-medium"
   },
   "stack-item-edge-to-control": {
     "component": "stack-item",
@@ -11595,7 +12565,10 @@
         "value": "15px",
         "uuid": "ef8dc413-ef24-456c-aa91-6a80d107f6c6"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-horizontal instead. Refactor or combine list-item-padding-horizontal with base-padding-horizontal-medium",
+    "renamed": "list-item-padding-horizontal"
   },
   "stack-item-edge-to-visual": {
     "component": "stack-item",
@@ -11611,7 +12584,10 @@
         "value": "15px",
         "uuid": "7e743edb-d49b-4750-88b3-e35b6e534a3b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-horizontal instead. Refactor or combine list-item-padding-horizontal with base-padding-horizontal-medium",
+    "renamed": "list-item-padding-horizontal"
   },
   "stack-item-action-to-navigation": {
     "component": "stack-item",
@@ -11627,19 +12603,26 @@
         "value": "6px",
         "uuid": "cd7df3af-975e-4d8a-addd-92a920173fd6"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-gap-medium instead.",
+    "renamed": "list-item-gap-medium"
   },
   "stack-item-header-to-item": {
     "component": "stack-item",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
-    "uuid": "c030a978-cf5b-4ad0-a3c7-dde81f1bf136"
+    "uuid": "c030a978-cf5b-4ad0-a3c7-dde81f1bf136",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
   },
   "stack-item-item-to-item": {
     "component": "stack-item",
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-1px",
-    "uuid": "3862f137-37f5-44c3-a31b-68834d8e1c3c"
+    "uuid": "3862f137-37f5-44c3-a31b-68834d8e1c3c",
+    "deprecated": true,
+    "deprecated_comment": "Refactor may be required"
   },
   "accordion-bottom-to-text-extra-large": {
     "component": "accordion",
@@ -11655,7 +12638,10 @@
         "value": "15px",
         "uuid": "5ce86cfe-434b-42ab-b334-c574bae01e6f"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-2x-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-2x-large"
   },
   "accordion-bottom-to-text-large": {
     "component": "accordion",
@@ -11671,7 +12657,10 @@
         "value": "14px",
         "uuid": "7db5a087-c361-4080-be50-8e4864436108"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "accordion-bottom-to-text-medium": {
     "component": "accordion",
@@ -11687,7 +12676,10 @@
         "value": "13px",
         "uuid": "abbcad5f-be29-4ca4-b48f-6b0eab7f9942"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-large"
   },
   "accordion-bottom-to-text-small": {
     "component": "accordion",
@@ -11703,7 +12695,10 @@
         "value": "9px",
         "uuid": "b69abbba-a98c-40f2-8a9a-972710b73149"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-medium"
   },
   "accordion-top-to-text-extra-large": {
     "component": "accordion",
@@ -11719,7 +12714,10 @@
         "value": "17px",
         "uuid": "d76aaca3-6e02-4f90-b254-debf8d10fc89"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-2x-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-2x-large"
   },
   "accordion-top-to-text-large": {
     "component": "accordion",
@@ -11735,7 +12733,10 @@
         "value": "16px",
         "uuid": "ebc6e896-6964-4337-b146-468e43d31db3"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-extra-large"
   },
   "accordion-top-to-text-medium": {
     "component": "accordion",
@@ -11751,7 +12752,10 @@
         "value": "10px",
         "uuid": "2d7e81ba-1390-4607-8ee2-5d322d3e0bae"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-large"
   },
   "accordion-top-to-text-small": {
     "component": "accordion",
@@ -11767,7 +12771,10 @@
         "value": "10px",
         "uuid": "0dea279c-62ca-4670-a693-03eaa7ccecb5"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-medium"
   },
   "select-box-horizontal-minimum-width": {
     "component": "select-box",
@@ -11799,7 +12806,10 @@
         "value": "6px",
         "uuid": "ce76b010-6554-4cfd-993f-9963aa15830e"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-gap-medium instead. Refactor may be needed",
+    "renamed": "list-item-gap-medium"
   },
   "side-navigation-edge-to-indicator": {
     "component": "side-navigation",
@@ -11815,7 +12825,10 @@
         "value": "6px",
         "uuid": "a1ae3448-227c-4277-9bab-f0147eff02e9"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-gap-medium instead. Refactor may be needed",
+    "renamed": "list-item-gap-medium"
   },
   "side-navigation-indicator-to-content": {
     "component": "side-navigation",
@@ -11831,7 +12844,10 @@
         "value": "8px",
         "uuid": "37ba411c-9067-46b0-b757-8348f4cf9aab"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-uniform-medium instead. If using base padding horizontal, this would be 7",
+    "renamed": "base-padding-horizontal-uniform-medium"
   },
   "side-navigation-second-level-edge-to-indicator": {
     "component": "side-navigation",
@@ -11847,7 +12863,10 @@
         "value": "36px",
         "uuid": "87377ada-4ebf-4a45-b651-35ee1f94e73b"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-indent-large instead. Refactor may be needed",
+    "renamed": "list-indent-large"
   },
   "side-navigation-second-level-with-icon-edge-to-text": {
     "component": "side-navigation",
@@ -11863,7 +12882,10 @@
         "value": "34px",
         "uuid": "17ae8b85-c5d2-47c0-810a-c99c91735d3e"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-indent-large instead. Refactor may be needed",
+    "renamed": "list-indent-large"
   },
   "side-navigation-second-level-with-icon-edge-to-indicator": {
     "component": "side-navigation",
@@ -11879,7 +12901,10 @@
         "value": "26px",
         "uuid": "b76c6a5c-23c1-4cf1-8bbb-baca46b3b497"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-indent-medium instead. S2 spec file has this named side-navigation-with-icon-second-level-edge-to-indicator. Refactor may be needed",
+    "renamed": "list-indent-medium"
   },
   "side-navigation-third-level-edge-to-indicator": {
     "component": "side-navigation",
@@ -11895,7 +12920,10 @@
         "value": "62px",
         "uuid": "650a896e-c67d-427b-950c-88cfc1099406"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-indent-large instead. Refactor may be needed",
+    "renamed": "list-indent-large"
   },
   "side-navigation-third-level-with-icon-edge-to-text": {
     "component": "side-navigation",
@@ -11911,7 +12939,10 @@
         "value": "50px",
         "uuid": "811bd0a1-ed6a-4238-a194-c7709a1691ed"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-indent-large instead. Refactor may be needed",
+    "renamed": "list-indent-large"
   },
   "side-navigation-third-level-with-icon-edge-to-indicator": {
     "component": "side-navigation",
@@ -11927,7 +12958,10 @@
         "value": "42px",
         "uuid": "2216f8c3-43e1-47ef-aaad-20b0c9bf0f17"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-indent-medium instead. S2 spec file has this named side-navigation-with-icon-third-level-edge-to-indicator. Refactor may be needed",
+    "renamed": "list-indent-medium"
   },
   "side-navigation-trailing-accessory-area-to-edge": {
     "component": "side-navigation",
@@ -11943,7 +12977,10 @@
         "value": "6px",
         "uuid": "f52fe067-f989-4f43-a762-1ea453fa0dde"
       }
-    }
+    },
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-regular instead. Refactor may be needed",
+    "renamed": "list-item-padding-vertical-regular"
   },
   "side-navigation-indicator-height": {
     "component": "side-navigation",
