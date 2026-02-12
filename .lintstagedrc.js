@@ -8,7 +8,8 @@ export default {
     if (processableFiles.length === 0) return [];
     // Use -o flag (no path) to write back to same file
     return processableFiles.map(
-      (file) => `remark ${file} --use remark-gfm --use remark-github -o`,
+      (file) =>
+        `remark ${file} --use remark-frontmatter --use remark-gfm --use remark-github -o`,
     );
   },
   "!**/pnpm-lock.yaml": [],
