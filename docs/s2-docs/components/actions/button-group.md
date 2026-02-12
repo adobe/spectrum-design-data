@@ -11,10 +11,10 @@ tags:
 - action
 - button
 - interactive
-  related\_components:
+related_components:
 - button
 - close-button
-  parent\_category: actions
+parent_category: actions
 
 ---
 

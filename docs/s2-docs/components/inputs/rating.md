@@ -8,10 +8,10 @@ status: published
 tags:
 
 - components-inputs
-  related\_components:
+related_components:
 - radio-group
 - search-field
-  parent\_category: inputs
+parent_category: inputs
 
 ---
 

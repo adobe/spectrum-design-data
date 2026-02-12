@@ -10,10 +10,10 @@ tags:
 - components-feedback
 - feedback
 - overlay
-  related\_components:
+related_components:
 - takeover-dialog
 - tooltip
-  parent\_category: feedback
+parent_category: feedback
 
 ---
 

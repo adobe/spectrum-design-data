@@ -8,10 +8,10 @@ status: published
 tags:
 
 - components-status
-  related\_components:
+related_components:
 - progress-circle
 - steplist
-  parent\_category: status
+parent_category: status
 
 ---
 

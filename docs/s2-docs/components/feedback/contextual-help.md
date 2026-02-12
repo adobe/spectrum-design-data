@@ -8,10 +8,10 @@ status: published
 tags:
 
 - components-feedback
-  related\_components:
+related_components:
 - coach-mark
 - illustrated-message
-  parent\_category: feedback
+parent_category: feedback
 
 ---
 

@@ -10,10 +10,10 @@ tags:
 - components-inputs
 - input
 - form
-  related\_components:
+related_components:
 - segmented-control
 - slider
-  parent\_category: inputs
+parent_category: inputs
 
 ---
 

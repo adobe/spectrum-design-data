@@ -7,7 +7,7 @@ status: published
 tags:
 
 - support
-  related\_components:
+related_components:
 - contact
 
 ---

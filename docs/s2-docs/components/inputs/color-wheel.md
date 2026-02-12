@@ -10,10 +10,10 @@ tags:
 - components-inputs
 - design-tokens
 - color
-  related\_components:
+related_components:
 - color-slider
 - combo-box
-  parent\_category: inputs
+parent_category: inputs
 
 ---
 

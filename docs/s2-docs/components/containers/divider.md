@@ -8,7 +8,7 @@ status: published
 tags:
 
 - components-containers
-  parent\_category: containers
+parent_category: containers
 
 ---
 

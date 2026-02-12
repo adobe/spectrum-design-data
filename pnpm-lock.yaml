@@ -619,6 +619,9 @@ importers:
       "@modelcontextprotocol/sdk":
         specifier: ^1.0.4
         version: 1.26.0(zod@3.25.76)
+      js-yaml:
+        specifier: ^4.1.1
+        version: 4.1.1
 
   tools/spectrum-design-data-mcp:
     dependencies:

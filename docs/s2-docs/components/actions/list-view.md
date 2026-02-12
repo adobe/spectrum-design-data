@@ -8,10 +8,10 @@ status: published
 tags:
 
 - components-actions
-  related\_components:
+related_components:
 - link
 - menu
-  parent\_category: actions
+parent_category: actions
 
 ---
 

@@ -8,10 +8,10 @@ status: published
 tags:
 
 - components-inputs
-  related\_components:
+related_components:
 - color-wheel
 - date-picker
-  parent\_category: inputs
+parent_category: inputs
 
 ---
 

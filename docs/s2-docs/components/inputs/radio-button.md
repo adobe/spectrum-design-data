@@ -11,10 +11,10 @@ tags:
 - action
 - button
 - interactive
-  related\_components:
+related_components:
 - picker
 - radio-group
-  parent\_category: inputs
+parent_category: inputs
 
 ---
 

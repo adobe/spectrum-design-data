@@ -18,7 +18,8 @@
     "process-all": "npm run transform && npm run add-metadata"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.4"
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "js-yaml": "^4.1.1"
   },
   "keywords": [
     "spectrum",

@@ -8,10 +8,10 @@ status: published
 tags:
 
 - components-inputs
-  related\_components:
+related_components:
 - search-field
 - select-box
-  parent\_category: inputs
+parent_category: inputs
 
 ---
 

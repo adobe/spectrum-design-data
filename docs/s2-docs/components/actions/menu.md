@@ -11,10 +11,10 @@ tags:
 - navigation
 - menu
 - dropdown
-  related\_components:
+related_components:
 - list-view
 - cards
-  parent\_category: actions
+parent_category: actions
 
 ---
 

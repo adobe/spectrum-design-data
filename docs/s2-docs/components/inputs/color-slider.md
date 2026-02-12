@@ -10,10 +10,10 @@ tags:
 - components-inputs
 - design-tokens
 - color
-  related\_components:
+related_components:
 - color-handle
 - color-wheel
-  parent\_category: inputs
+parent_category: inputs
 
 ---
 

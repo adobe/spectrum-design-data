@@ -7,7 +7,7 @@ status: published
 tags:
 
 - fundamentals
-  related\_components:
+related_components:
 - home
 - principles
 

@@ -8,10 +8,10 @@ status: published
 tags:
 
 - components-feedback
-  related\_components:
+related_components:
 - contextual-help
 - in-line-alert
-  parent\_category: feedback
+parent_category: feedback
 
 ---
 

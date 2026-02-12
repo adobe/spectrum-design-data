@@ -10,10 +10,10 @@ tags:
 - components-feedback
 - feedback
 - overlay
-  related\_components:
+related_components:
 - in-line-alert
 - takeover-dialog
-  parent\_category: feedback
+parent_category: feedback
 
 ---
 

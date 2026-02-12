@@ -9,7 +9,7 @@ tags:
 - designing
 - design-tokens
 - color
-  related\_components:
+related_components:
 - grays
 - background-layers
 

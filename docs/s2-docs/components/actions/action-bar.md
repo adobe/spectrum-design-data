@@ -8,7 +8,7 @@ status: published
 tags:
 
 - components-actions
-  parent\_category: actions
+parent_category: actions
 
 ---
 
