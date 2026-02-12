@@ -1,16 +1,15 @@
 ---
-
 title: "Background layers"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/background-layers/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/background-layers/
+last_updated: 2026-02-02
 category: designing
 status: published
 tags:
 
-* designing
+- designing
   related\_components:
-* colors
-* typography-fundamentals
+- colors
+- typography-fundamentals
 
 ---
 

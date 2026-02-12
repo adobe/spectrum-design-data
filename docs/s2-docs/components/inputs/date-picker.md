@@ -1,17 +1,16 @@
 ---
-
 title: "Date picker"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/date-picker/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/date-picker/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
+- components-inputs
   related\_components:
-* combo-box
-* drop-zone
+- combo-box
+- drop-zone
   parent\_category: inputs
 
 ---

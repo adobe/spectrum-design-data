@@ -84,7 +84,39 @@ pnpm run add-metadata
 * Adds `parent_category` for component docs
 * Only updates files that have related links
 
-### 4. Process All
+### 4. Fix YAML Frontmatter
+
+Fix common YAML frontmatter issues in S2 documentation files:
+
+```bash
+pnpm run fix-yaml
+```
+
+**What it fixes:**
+
+* Replaces asterisk (\*) list items with dash (-) syntax
+* Removes escaped underscores (\_) from field names
+* Removes angle brackets from URLs
+* Cleans up excessive blank lines
+* Ensures valid YAML syntax
+
+This script automatically fixes YAML parsing errors that can cause GitHub rendering issues.
+
+### 5. Test YAML Frontmatter
+
+Validate YAML frontmatter across all S2 docs:
+
+```bash
+pnpm run test
+```
+
+**What it validates:**
+
+* YAML syntax correctness (no asterisk lists, escaped underscores, etc.)
+* Required fields are present (title, source\_url, category, status)
+* Consistent formatting across all files
+
+### 6. Process All
 
 Run complete transformation pipeline:
 
@@ -100,12 +132,16 @@ Runs: transform → add-metadata
 tools/s2-docs-transformer/
 ├── scripts/
 │   ├── transform-to-frontmatter.js    # Convert to YAML frontmatter
-│   └── add-related-metadata.js        # Add relationship metadata
+│   ├── add-related-metadata.js        # Add relationship metadata
+│   └── fix-yaml-frontmatter.js        # Fix YAML syntax issues
 ├── src/
 │   ├── cli.js                         # Scraper CLI
 │   ├── scraper.js                     # Main scraping logic
 │   ├── parser.js                      # S2 page parsing
 │   └── browser-client.js              # Browser MCP client
+├── test/
+│   └── yaml-frontmatter.test.js       # YAML validation tests
+├── ava.config.js                      # Test configuration
 ├── SCRAPING.md                        # Scraping documentation
 ├── package.json
 └── README.md
@@ -136,8 +172,14 @@ tools/s2-docs-transformer/
 If you manually edit markdown files and need to fix frontmatter:
 
 ```bash
+# Fix YAML syntax issues
+pnpm run fix-yaml
+
 # Re-process all docs
 pnpm run process-all
+
+# Validate YAML frontmatter
+pnpm run test
 
 # Regenerate component index
 cd ../s2-docs-mcp
@@ -185,6 +227,15 @@ Enhances frontmatter with relationships:
 
 * **Input:** Files with "## Related Components" section
 * **Output:** Frontmatter with `related_components` and `parent_category`
+* **Idempotent:** Safe to run multiple times
+
+### fix-yaml-frontmatter.js
+
+Fixes YAML syntax issues in frontmatter:
+
+* **Input:** Files with malformed YAML frontmatter
+* **Output:** Files with valid YAML syntax
+* **Fixes:** Asterisk lists, escaped underscores, angle bracket URLs, excessive blank lines
 * **Idempotent:** Safe to run multiple times
 
 ## Integration

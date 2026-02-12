@@ -1,19 +1,18 @@
 ---
-
 title: "Color handle and loupe"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/color-handle-and-loupe/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/color-handle-and-loupe/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
-* design-tokens
-* color
+- components-inputs
+- design-tokens
+- color
   related\_components:
-* color-area
-* color-slider
+- color-area
+- color-slider
   parent\_category: inputs
 
 ---

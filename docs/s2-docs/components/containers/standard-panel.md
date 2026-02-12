@@ -1,17 +1,16 @@
 ---
-
 title: "Standard panel"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/standard-panel/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/standard-panel/
+last_updated: 2026-02-02
 category: components/containers
-component\_type: container
+component_type: container
 status: published
 tags:
 
-* components-containers
+- components-containers
   related\_components:
-* popover
-* table
+- popover
+- table
   parent\_category: containers
 
 ---

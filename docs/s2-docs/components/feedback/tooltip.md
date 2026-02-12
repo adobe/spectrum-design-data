@@ -1,17 +1,16 @@
 ---
-
 title: "Tooltip"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/tooltip/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/tooltip/
+last_updated: 2026-02-02
 category: components/feedback
-component\_type: feedback
+component_type: feedback
 status: published
 tags:
 
-* components-feedback
+- components-feedback
   related\_components:
-* toast
-* calendar
+- toast
+- calendar
   parent\_category: feedback
 
 ---

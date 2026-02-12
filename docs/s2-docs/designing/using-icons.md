@@ -1,16 +1,15 @@
 ---
-
 title: "Using icons"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/using-icons/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/using-icons/
+last_updated: 2026-02-02
 category: designing
 status: published
 tags:
 
-* designing
+- designing
   related\_components:
-* icon-fundamentals
-* illustrations
+- icon-fundamentals
+- illustrations
 
 ---
 

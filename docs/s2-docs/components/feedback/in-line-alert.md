@@ -1,19 +1,18 @@
 ---
-
 title: "In-line alert"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/in-line-alert/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/in-line-alert/
+last_updated: 2026-02-02
 category: components/feedback
-component\_type: feedback
+component_type: feedback
 status: published
 tags:
 
-* components-feedback
-* feedback
-* overlay
+- components-feedback
+- feedback
+- overlay
   related\_components:
-* illustrated-message
-* standard-dialog
+- illustrated-message
+- standard-dialog
   parent\_category: feedback
 
 ---

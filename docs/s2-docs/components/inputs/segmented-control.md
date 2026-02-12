@@ -1,17 +1,16 @@
 ---
-
 title: "Segmented control"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/segmented-control/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/segmented-control/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
+- components-inputs
   related\_components:
-* search-field
-* select-box
+- search-field
+- select-box
   parent\_category: inputs
 
 ---

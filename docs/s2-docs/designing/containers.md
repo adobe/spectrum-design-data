@@ -1,16 +1,15 @@
 ---
-
 title: "Containers"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/containers/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/containers/
+last_updated: 2026-02-02
 category: designing
 status: published
 tags:
 
-* designing
+- designing
   related\_components:
-* states
-* s2-app-frame
+- states
+- s2-app-frame
 
 ---
 

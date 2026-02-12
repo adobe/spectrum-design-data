@@ -1,20 +1,19 @@
 ---
-
 title: "Button group"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/button-group/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/button-group/
+last_updated: 2026-02-02
 category: components/actions
-component\_type: action
+component_type: action
 status: published
 tags:
 
-* components-actions
-* action
-* button
-* interactive
+- components-actions
+- action
+- button
+- interactive
   related\_components:
-* button
-* close-button
+- button
+- close-button
   parent\_category: actions
 
 ---

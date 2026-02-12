@@ -1,17 +1,16 @@
 ---
-
 title: "Popover"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/popover/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/popover/
+last_updated: 2026-02-02
 category: components/containers
-component\_type: container
+component_type: container
 status: published
 tags:
 
-* components-containers
+- components-containers
   related\_components:
-* divider
-* standard-panel
+- divider
+- standard-panel
   parent\_category: containers
 
 ---

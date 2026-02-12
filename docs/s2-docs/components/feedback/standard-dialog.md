@@ -1,19 +1,18 @@
 ---
-
 title: "Standard dialog"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/standard-dialog/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/standard-dialog/
+last_updated: 2026-02-02
 category: components/feedback
-component\_type: feedback
+component_type: feedback
 status: published
 tags:
 
-* components-feedback
-* feedback
-* overlay
+- components-feedback
+- feedback
+- overlay
   related\_components:
-* in-line-alert
-* takeover-dialog
+- in-line-alert
+- takeover-dialog
   parent\_category: feedback
 
 ---

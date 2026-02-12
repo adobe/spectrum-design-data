@@ -1,17 +1,16 @@
 ---
-
 title: "Drop zone"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/drop-zone/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/drop-zone/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
+- components-inputs
   related\_components:
-* date-picker
-* field-label
+- date-picker
+- field-label
   parent\_category: inputs
 
 ---

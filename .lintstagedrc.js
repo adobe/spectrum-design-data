@@ -1,9 +1,14 @@
 export default {
   "**/*.{js,jsx,ts,tsx,json,yml,yaml}": ["prettier --write"],
   "**/*.md": (files) => {
-    // Filter out changeset and CHANGELOG files - they need special handling
+    // Filter out files that should not be processed by remark:
+    // - changeset and CHANGELOG files - they need special handling
+    // - docs/s2-docs files - they have custom YAML frontmatter that remark breaks
     const processableFiles = files.filter(
-      (file) => !file.includes(".changeset/") && !file.includes("CHANGELOG.md"),
+      (file) =>
+        !file.includes(".changeset/") &&
+        !file.includes("CHANGELOG.md") &&
+        !file.includes("docs/s2-docs/"),
     );
     if (processableFiles.length === 0) return [];
     // Use -o flag (no path) to write back to same file

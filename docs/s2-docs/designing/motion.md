@@ -1,13 +1,12 @@
 ---
-
 title: "Motion"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/motion/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/motion/
+last_updated: 2026-02-02
 category: designing
 status: published
 tags:
 
-* designing
+- designing
 
 ---
 

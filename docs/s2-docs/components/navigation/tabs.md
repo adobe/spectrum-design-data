@@ -1,17 +1,16 @@
 ---
-
 title: "Tabs"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/tabs/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/tabs/
+last_updated: 2026-02-02
 category: components/navigation
-component\_type: navigation
+component_type: navigation
 status: published
 tags:
 
-* components-navigation
+- components-navigation
   related\_components:
-* side-navigation
-* tree-view
+- side-navigation
+- tree-view
   parent\_category: navigation
 
 ---

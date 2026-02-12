@@ -1,19 +1,18 @@
 ---
-
 title: "Color slider"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/color-slider/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/color-slider/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
-* design-tokens
-* color
+- components-inputs
+- design-tokens
+- color
   related\_components:
-* color-handle
-* color-wheel
+- color-handle
+- color-wheel
   parent\_category: inputs
 
 ---

@@ -1,16 +1,15 @@
 ---
-
 title: "App frame side navigation (browsing context)"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/app-frame-side-navigation/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/app-frame-side-navigation/
+last_updated: 2026-02-02
 category: designing
 status: published
 tags:
 
-* designing
+- designing
   related\_components:
-* s2-app-frame-header-browsing-context
-* s2-app-frame-content-area-browsing-context
+- s2-app-frame-header-browsing-context
+- s2-app-frame-content-area-browsing-context
 
 ---
 

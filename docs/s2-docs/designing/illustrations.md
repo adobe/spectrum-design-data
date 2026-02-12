@@ -1,16 +1,15 @@
 ---
-
 title: "Illustrations"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/illustrations/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/illustrations/
+last_updated: 2026-02-02
 category: designing
 status: published
 tags:
 
-* designing
+- designing
   related\_components:
-* using-icons
-* motion
+- using-icons
+- motion
 
 ---
 

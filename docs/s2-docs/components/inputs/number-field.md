@@ -1,19 +1,18 @@
 ---
-
 title: "Number field"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/number-field/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/number-field/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
-* input
-* form
+- components-inputs
+- input
+- form
   related\_components:
-* help-text
-* picker
+- help-text
+- picker
   parent\_category: inputs
 
 ---

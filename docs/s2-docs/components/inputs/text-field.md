@@ -1,19 +1,18 @@
 ---
-
 title: "Text field"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/text-field/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/text-field/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
-* input
-* form
+- components-inputs
+- input
+- form
   related\_components:
-* text-area
-* thumbnail
+- text-area
+- thumbnail
   parent\_category: inputs
 
 ---

@@ -1,16 +1,15 @@
 ---
-
 title: "S2 App Frame - Content Area (Browsing Context)"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/s2-app-frame-content-area-browsing-context/>
-last\_updated: 2026-02-12
+source_url: https://s2.spectrum.corp.adobe.com/page/s2-app-frame-content-area-browsing-context/
+last_updated: 2026-02-12
 category: designing
 status: published
 tags:
 
-* designing
-* app-frame
-* content-area
-* browsing-context
+- designing
+- app-frame
+- content-area
+- browsing-context
 
 ---
 

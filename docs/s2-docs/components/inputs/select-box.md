@@ -1,19 +1,18 @@
 ---
-
 title: "Select box"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/select-box/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/select-box/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
-* input
-* form
+- components-inputs
+- input
+- form
   related\_components:
-* segmented-control
-* slider
+- segmented-control
+- slider
   parent\_category: inputs
 
 ---

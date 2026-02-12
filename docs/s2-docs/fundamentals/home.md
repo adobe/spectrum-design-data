@@ -1,15 +1,14 @@
 ---
-
 title: "Spectrum 2 Home"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/home/>
-last\_updated: 2026-02-12
+source_url: https://s2.spectrum.corp.adobe.com/page/home/
+last_updated: 2026-02-12
 category: fundamentals
 status: published
 tags:
 
-* fundamentals
-* home
-* overview
+- fundamentals
+- home
+- overview
 
 ---
 

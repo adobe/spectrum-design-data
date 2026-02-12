@@ -1,17 +1,16 @@
 ---
-
 title: "Action group"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/action-group/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/action-group/
+last_updated: 2026-02-02
 category: components/actions
-component\_type: action
+component_type: action
 status: published
 tags:
 
-* components-actions
+- components-actions
   related\_components:
-* action-button
-* button
+- action-button
+- button
   parent\_category: actions
 
 ---

@@ -1,16 +1,15 @@
 ---
-
 title: "S2 App Frame - Creating Bluelines (Browsing Context)"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/s2-app-frame-creating-bluelines-browsing-context/>
-last\_updated: 2026-02-12
+source_url: https://s2.spectrum.corp.adobe.com/page/s2-app-frame-creating-bluelines-browsing-context/
+last_updated: 2026-02-12
 category: designing
 status: published
 tags:
 
-* designing
-* app-frame
-* bluelines
-* browsing-context
+- designing
+- app-frame
+- bluelines
+- browsing-context
 
 ---
 

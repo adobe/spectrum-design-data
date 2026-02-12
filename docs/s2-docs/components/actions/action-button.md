@@ -1,20 +1,19 @@
 ---
-
 title: "Action button"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/action-button/>
-last\_updated: 2026-02-01
+source_url: https://s2.spectrum.corp.adobe.com/page/action-button/
+last_updated: 2026-02-01
 category: components/actions
-component\_type: action
+component_type: action
 status: published
 tags:
 
-* components-actions
-* action
-* button
-* interactive
+- components-actions
+- action
+- button
+- interactive
   related\_components:
-* action-bar
-* action-group
+- action-bar
+- action-group
   parent\_category: actions
 
 ---

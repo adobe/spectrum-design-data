@@ -12,6 +12,8 @@
     "list": "node src/cli.js list",
     "transform": "node scripts/transform-to-frontmatter.js",
     "add-metadata": "node scripts/add-related-metadata.js",
+    "fix-yaml": "node scripts/fix-yaml-frontmatter.js",
+    "test": "ava",
     "process-all": "npm run transform && npm run add-metadata"
   },
   "dependencies": {

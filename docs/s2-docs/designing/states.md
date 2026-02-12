@@ -1,13 +1,12 @@
 ---
-
 title: "States"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/states/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/states/
+last_updated: 2026-02-02
 category: designing
 status: published
 tags:
 
-* designing
+- designing
 
 ---
 

@@ -1,17 +1,16 @@
 ---
-
 title: "Coach indicator"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/coach-indicator/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/coach-indicator/
+last_updated: 2026-02-02
 category: components/feedback
-component\_type: feedback
+component_type: feedback
 status: published
 tags:
 
-* components-feedback
+- components-feedback
   related\_components:
-* alert-dialog
-* coach-mark
+- alert-dialog
+- coach-mark
   parent\_category: feedback
 
 ---

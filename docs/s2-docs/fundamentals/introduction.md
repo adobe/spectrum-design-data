@@ -1,16 +1,15 @@
 ---
-
 title: "Introduction"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/introduction/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/introduction/
+last_updated: 2026-02-02
 category: fundamentals
 status: published
 tags:
 
-* fundamentals
+- fundamentals
   related\_components:
-* home
-* principles
+- home
+- principles
 
 ---
 

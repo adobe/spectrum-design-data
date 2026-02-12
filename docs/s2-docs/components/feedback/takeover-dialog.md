@@ -1,19 +1,18 @@
 ---
-
 title: "Takeover dialog"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/takeover-dialog/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/takeover-dialog/
+last_updated: 2026-02-02
 category: components/feedback
-component\_type: feedback
+component_type: feedback
 status: published
 tags:
 
-* components-feedback
-* feedback
-* overlay
+- components-feedback
+- feedback
+- overlay
   related\_components:
-* standard-dialog
-* toast
+- standard-dialog
+- toast
   parent\_category: feedback
 
 ---

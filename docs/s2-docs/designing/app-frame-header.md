@@ -1,16 +1,15 @@
 ---
-
 title: "App frame header (browsing context)"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/app-frame-header/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/app-frame-header/
+last_updated: 2026-02-02
 category: designing
 status: published
 tags:
 
-* designing
+- designing
   related\_components:
-* s2-app-frame
-* s2-app-frame-side-navigation-browsing-context
+- s2-app-frame
+- s2-app-frame-side-navigation-browsing-context
 
 ---
 
