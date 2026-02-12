@@ -2,7 +2,7 @@
 # This file is licensed to you under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License. You may obtain a copy
 # of the License at http://www.apache.org/licenses/LICENSE-2.0
-
+#
 # Unless required by applicable law or agreed to in writing, software distributed under
 # the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
 # OF ANY KIND, either express or implied. See the License for the specific language
@@ -10,65 +10,39 @@
 $schema: "https://moonrepo.dev/schemas/project.json"
 stack: frontend
 layer: application
-tags:
-  - docs
-  - site
 fileGroups:
-  target:
-    - "/site/[!visualizer]"
+  sources:
+    - "src/**/*"
+    - "config/**/*"
+    - "eleventy.config.js"
+    - "package.json"
 tasks:
-  copyComponentSchema:
+  copyContent:
     command:
-      - cp
-      - -r
-      - ../../packages/component-schemas/schemas
-      - public/
+      - sh
+      - -c
+      - |
+        cp ../../tools/markdown-generator/output/components/*.md src/components/
+        cp ../../tools/markdown-generator/output/tokens/*.md src/tokens/
+        cp ../../tools/markdown-generator/output/registry/*.md src/registry/
     platform: system
-    inputs:
-      - /packages/component-schemas/schemas/**/*.json
-    outputs:
-      - public/schemas
-  copyTokenTypeSchema:
-    command:
-      - cp
-      - -r
-      - ../../packages/tokens/schemas
-      - public/
-    platform: system
-    inputs:
-      - /packages/tokens/schemas/**/*.json
-    outputs:
-      - public/schemas
+    deps:
+      - "markdown-generator:generate"
   build:
     command:
-      - next
+      - pnpm
+      - run
       - build
     platform: node
     deps:
-      - ~:copyComponentSchema
-      - ~:copyTokenTypeSchema
-    outputs:
-      - "/site/"
+      - "~:copyContent"
   clean:
     command:
-      - rimraf
-      - -g
-      - "'../../site/!(visualizer)'"
+      - pnpm
+      - run
+      - clean
     platform: node
-    inputs:
-      - "@globs(target)"
-  start:
-    command:
-      - next
-      - dev
     local: true
-    platform: node
-    deps:
-      - ~:build
   export:
-    platform: node
     deps:
-      - ~:clean
-      - ~:build
-    outputs:
-      - "/site/"
+      - "~:build"

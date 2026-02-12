@@ -51,9 +51,13 @@ export async function generateComponentMarkdown(outputDir) {
         : "";
 
     const body = `${description}\n${table}`.trim();
+    const safeDesc = description
+      .replace(/\n/g, " ")
+      .slice(0, 160)
+      .replace(/"/g, '\\"');
     const frontmatter = `---
 title: ${title}
-description: ${description.replace(/\n/g, " ").slice(0, 160)}
+description: "${safeDesc}"
 category: ${category}
 documentationUrl: ${documentationUrl}
 tags:
