@@ -1,0 +1,30 @@
+{
+  "name": "@adobe/s2-docs-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Spectrum 2 documentation",
+  "type": "module",
+  "main": "./src/index.js",
+  "bin": {
+    "s2-docs-mcp": "./src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/cli.js",
+    "scrape": "node src/batch-scraper.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "commander": "^13.1.0"
+  },
+  "engines": {
+    "node": ">=20.12.0"
+  },
+  "keywords": [
+    "mcp",
+    "spectrum",
+    "s2",
+    "documentation",
+    "design-system"
+  ],
+  "author": "Adobe",
+  "license": "Apache-2.0"
+}
