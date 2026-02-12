@@ -14,6 +14,22 @@ This project contains 102 pages of S2 documentation with YAML frontmatter, inclu
 * `developing/` - 1 developer overview
 * `support/` - 4 support pages (FAQs, contact, resources, quarterly recap)
 
+## Using with AI / Cursor
+
+You can give AI assistants access to this documentation in several ways:
+
+### MCP (recommended)
+
+Enable the **S2 Docs MCP** server so the AI can query docs via tools (search, get component, list by category). See [MCP Server Integration](#mcp-server-integration) below.
+
+### Cursor [**@Files**](https://github.com/Files) & Folders
+
+In Cursor chat, use **[**@Files**](https://github.com/Files) & Folders** and reference the `docs/s2-docs` folder (or a subfolder like `docs/s2-docs/components/actions`) to attach markdown files as context. The AI can then read the component guides and design guidelines directly.
+
+### Cursor [**@Docs**](https://github.com/Docs)
+
+If this documentation is published at a URL (e.g. GitHub Pages), you can add it to Cursor’s [@Docs](https://cursor.com/docs/context/mentions#docs): type **[**@Docs**](https://github.com/Docs)** in chat → **Add new doc** → paste the URL. Cursor will index the site for use in chat. Manage added docs under **Cursor Settings → Indexing & Docs**.
+
 ## MCP Server Integration
 
 AI tools can query this documentation via the S2 Docs MCP server.

@@ -141,6 +141,12 @@ spectrum-design-data/docs/s2-docs/
 
 See [docs/s2-docs/README.md](../../docs/s2-docs/README.md) for maintenance and transform scripts.
 
+## Using with Cursor
+
+* **MCP (this server)** – Add the s2-docs MCP server to `.cursor/mcp.json` (see [Usage](#usage) above). The AI can then use the tools to list, search, and fetch component docs on demand.
+* **[**@Files**](https://github.com/Files) & Folders** – In chat, reference the `docs/s2-docs` folder (or a subfolder like `docs/s2-docs/components`) so the AI gets the markdown files as context.
+* **[**@Docs**](https://github.com/Docs)** – If the S2 documentation is published at a URL, add it in Cursor via **[**@Docs**](https://github.com/Docs) → Add new doc** so Cursor indexes it. See [Cursor’s @Docs documentation](https://cursor.com/docs/context/mentions#docs).
+
 ## Integration with spectrum-design-data-mcp
 
 This server complements the existing **spectrum-design-data-mcp** tool in this monorepo:
