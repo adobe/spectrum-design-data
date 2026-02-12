@@ -19,12 +19,8 @@ fileGroups:
 tasks:
   copyContent:
     command:
-      - sh
-      - -c
-      - |
-        cp ../../tools/markdown-generator/output/components/*.md src/components/
-        cp ../../tools/markdown-generator/output/tokens/*.md src/tokens/
-        cp ../../tools/markdown-generator/output/registry/*.md src/registry/
+      - node
+      - scripts/copy-content.js
     platform: system
     deps:
       - "markdown-generator:generate"

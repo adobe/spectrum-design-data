@@ -1,5 +1,5 @@
 {
-  "layout": "base.liquid",
+  "layout": "registry.liquid",
   "tags": ["registry"],
   "permalink": "/registry/{{ page.fileSlug }}/"
 }
