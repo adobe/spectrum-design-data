@@ -1,17 +1,16 @@
 ---
-
 title: "Tag"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/tag/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/tag/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
+- components-inputs
   related\_components:
-* switch
-* tag-field
+- switch
+- tag-field
   parent\_category: inputs
 
 ---

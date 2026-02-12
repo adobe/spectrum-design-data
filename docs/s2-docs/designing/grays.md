@@ -1,16 +1,15 @@
 ---
-
 title: "Grays"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/grays/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/grays/
+last_updated: 2026-02-02
 category: designing
 status: published
 tags:
 
-* designing
+- designing
   related\_components:
-* attention-hierarchy
-* colors
+- attention-hierarchy
+- colors
 
 ---
 

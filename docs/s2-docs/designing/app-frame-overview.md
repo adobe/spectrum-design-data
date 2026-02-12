@@ -1,16 +1,15 @@
 ---
-
 title: "App frame"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/app-frame-overview/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/app-frame-overview/
+last_updated: 2026-02-02
 category: designing
 status: published
 tags:
 
-* designing
+- designing
   related\_components:
-* containers
-* s2-app-frame-header-browsing-context
+- containers
+- s2-app-frame-header-browsing-context
 
 ---
 

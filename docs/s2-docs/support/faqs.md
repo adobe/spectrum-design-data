@@ -1,16 +1,15 @@
 ---
-
 title: "FAQs"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/faqs/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/faqs/
+last_updated: 2026-02-02
 category: support
 status: published
 tags:
 
-* support
+- support
   related\_components:
-* steplist
-* contact
+- steplist
+- contact
 
 ---
 

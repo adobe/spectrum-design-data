@@ -1,15 +1,14 @@
 ---
-
 title: "Resources"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/resources/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/resources/
+last_updated: 2026-02-02
 category: support
 status: published
 tags:
 
-* support
+- support
   related\_components:
-* contact
+- contact
 
 ---
 

@@ -1,17 +1,16 @@
 ---
-
 title: "Breadcrumbs"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/breadcrumbs/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/breadcrumbs/
+last_updated: 2026-02-02
 category: components/navigation
-component\_type: navigation
+component_type: navigation
 status: published
 tags:
 
-* components-navigation
+- components-navigation
   related\_components:
-* accordion
-* side-navigation
+- accordion
+- side-navigation
   parent\_category: navigation
 
 ---

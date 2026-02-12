@@ -1,17 +1,16 @@
 ---
-
 title: "Switch"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/switch/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/switch/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
+- components-inputs
   related\_components:
-* swatch-group
-* tag
+- swatch-group
+- tag
   parent\_category: inputs
 
 ---

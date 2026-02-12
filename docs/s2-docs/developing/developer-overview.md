@@ -1,16 +1,15 @@
 ---
-
 title: "Developer overview"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/developer-overview/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/developer-overview/
+last_updated: 2026-02-02
 category: developing
 status: published
 tags:
 
-* developing
+- developing
   related\_components:
-* motion
-* action-bar
+- motion
+- action-bar
 
 ---
 

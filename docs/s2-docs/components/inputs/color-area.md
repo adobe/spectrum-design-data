@@ -1,19 +1,18 @@
 ---
-
 title: "Color area"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/color-area/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/color-area/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
-* design-tokens
-* color
+- components-inputs
+- design-tokens
+- color
   related\_components:
-* checkbox-group
-* color-handle
+- checkbox-group
+- color-handle
   parent\_category: inputs
 
 ---

@@ -1,17 +1,16 @@
 ---
-
 title: "Coach mark"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/coach-mark/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/coach-mark/
+last_updated: 2026-02-02
 category: components/feedback
-component\_type: feedback
+component_type: feedback
 status: published
 tags:
 
-* components-feedback
+- components-feedback
   related\_components:
-* coach-indicator
-* contextual-help
+- coach-indicator
+- contextual-help
   parent\_category: feedback
 
 ---

@@ -7,6 +7,21 @@ project:
   language: "javascript"
 
 tasks:
+  test:
+    command: "pnpm ava test"
+    platform: node
+    inputs:
+      - "test/**/*.test.js"
+      - "../../docs/s2-docs/**/*.md"
+
+  fix-yaml:
+    command: "node scripts/fix-yaml-frontmatter.js"
+    inputs:
+      - "../../docs/s2-docs/**/*.md"
+      - "scripts/fix-yaml-frontmatter.js"
+    outputs:
+      - "../../docs/s2-docs/**/*.md"
+
   transform:
     command: "node scripts/transform-to-frontmatter.js"
     inputs:

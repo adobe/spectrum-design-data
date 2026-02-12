@@ -1,13 +1,12 @@
 ---
-
 title: "Icon fundamentals"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/icon-fundamentals/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/icon-fundamentals/
+last_updated: 2026-02-02
 category: designing
 status: published
 tags:
 
-* designing
+- designing
 
 ---
 

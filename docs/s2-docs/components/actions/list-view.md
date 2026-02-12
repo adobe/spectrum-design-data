@@ -1,17 +1,16 @@
 ---
-
 title: "List view"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/list-view/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/list-view/
+last_updated: 2026-02-02
 category: components/actions
-component\_type: action
+component_type: action
 status: published
 tags:
 
-* components-actions
+- components-actions
   related\_components:
-* link
-* menu
+- link
+- menu
   parent\_category: actions
 
 ---

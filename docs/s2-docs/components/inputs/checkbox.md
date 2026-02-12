@@ -1,19 +1,18 @@
 ---
-
 title: "Checkbox"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/checkbox/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/checkbox/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
-* input
-* form
+- components-inputs
+- input
+- form
   related\_components:
-* calendar
-* checkbox-group
+- calendar
+- checkbox-group
   parent\_category: inputs
 
 ---

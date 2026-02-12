@@ -1,17 +1,16 @@
 ---
-
 title: "Text area"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/text-area/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/text-area/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
+- components-inputs
   related\_components:
-* tag-group
-* text-field
+- tag-group
+- text-field
   parent\_category: inputs
 
 ---

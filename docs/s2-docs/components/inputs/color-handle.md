@@ -1,17 +1,16 @@
 ---
-
 title: "Color handle"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/color-handle/>
-last\_updated: 2026-02-12
+source_url: https://s2.spectrum.corp.adobe.com/page/color-handle/
+last_updated: 2026-02-12
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
-* input
-* color
-* color-picker
+- components-inputs
+- input
+- color
+- color-picker
   parent\_category: inputs
 
 ---

@@ -1,20 +1,19 @@
 ---
-
 title: "Radio button"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/radio-button/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/radio-button/
+last_updated: 2026-02-02
 category: components/inputs
-component\_type: input
+component_type: input
 status: published
 tags:
 
-* components-inputs
-* action
-* button
-* interactive
+- components-inputs
+- action
+- button
+- interactive
   related\_components:
-* picker
-* radio-group
+- picker
+- radio-group
   parent\_category: inputs
 
 ---

@@ -1,17 +1,16 @@
 ---
-
 title: "Status light"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/status-light/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/status-light/
+last_updated: 2026-02-02
 category: components/status
-component\_type: status
+component_type: status
 status: published
 tags:
 
-* components-status
+- components-status
   related\_components:
-* progress-circle
-* steplist
+- progress-circle
+- steplist
   parent\_category: status
 
 ---

@@ -1,13 +1,12 @@
 ---
-
 title: "Spacing"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/spacing/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/spacing/
+last_updated: 2026-02-02
 category: designing
 status: published
 tags:
 
-* designing
+- designing
 
 ---
 

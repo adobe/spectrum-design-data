@@ -1,13 +1,12 @@
 ---
-
 title: "Principles"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/principles/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/principles/
+last_updated: 2026-02-02
 category: fundamentals
 status: published
 tags:
 
-* fundamentals
+- fundamentals
 
 ---
 

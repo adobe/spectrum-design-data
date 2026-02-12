@@ -1,17 +1,16 @@
 ---
-
 title: "Illustrated message"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/illustrated-message/>
-last\_updated: 2026-02-02
+source_url: https://s2.spectrum.corp.adobe.com/page/illustrated-message/
+last_updated: 2026-02-02
 category: components/feedback
-component\_type: feedback
+component_type: feedback
 status: published
 tags:
 
-* components-feedback
+- components-feedback
   related\_components:
-* contextual-help
-* in-line-alert
+- contextual-help
+- in-line-alert
   parent\_category: feedback
 
 ---

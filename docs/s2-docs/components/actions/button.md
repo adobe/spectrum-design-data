@@ -1,22 +1,21 @@
 ---
-
 title: "Button"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/button/>
-last\_updated: 2026-02-01
+source_url: https://s2.spectrum.corp.adobe.com/page/button/
+last_updated: 2026-02-01
 category: components/actions
-component\_type: action
+component_type: action
 status: published
 tags:
 
-* components-actions
-* action
-* button
-* interactive
+- components-actions
+- action
+- button
+- interactive
   related\_components:
-* action-group
-* button-group
-* progress-bar
-* progress-circle
+- action-group
+- button-group
+- progress-bar
+- progress-circle
   parent\_category: actions
 
 ---

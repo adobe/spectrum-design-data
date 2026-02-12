@@ -1,15 +1,14 @@
 ---
-
 title: "S2 App Frame"
-source\_url: <https://s2.spectrum.corp.adobe.com/page/s2-app-frame/>
-last\_updated: 2026-02-12
+source_url: https://s2.spectrum.corp.adobe.com/page/s2-app-frame/
+last_updated: 2026-02-12
 category: designing
 status: published
 tags:
 
-* designing
-* app-frame
-* layout
+- designing
+- app-frame
+- layout
 
 ---
 
