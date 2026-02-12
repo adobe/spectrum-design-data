@@ -1,0 +1,59 @@
+name: Publish Markdown
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/s2-docs/**"
+  workflow_run:
+    workflows: ["Release"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name != 'workflow_run'
+      || github.event.workflow_run.conclusion == 'success'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publish to docs-markdown branch
+        run: |
+          BRANCH="docs-markdown"
+
+          # Stage s2-docs markdown (only .md files, preserve dir structure)
+          mkdir -p /tmp/s2-docs
+          cd docs/s2-docs
+          find . -name '*.md' | while read f; do
+            mkdir -p "/tmp/s2-docs/$(dirname "$f")"
+            cp "$f" "/tmp/s2-docs/$f"
+          done
+          cd "$GITHUB_WORKSPACE"
+
+          # Switch to orphan branch
+          git fetch origin "$BRANCH" 2>/dev/null || true
+          if git show-ref --verify --quiet refs/remotes/origin/"$BRANCH"; then
+            git checkout "$BRANCH"
+          else
+            git checkout --orphan "$BRANCH"
+          fi
+          git rm -rf . 2>/dev/null || true
+
+          # Copy s2-docs markdown
+          cp -r /tmp/s2-docs s2-docs
+
+          git add s2-docs
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore(docs): update s2-docs markdown for chatbot indexing"
+            git push -f origin "$BRANCH"
+          fi
