@@ -11,6 +11,10 @@ governing permissions and limitations under the License.
 */
 
 import { getTokenData } from "../data/tokens.js";
+import { RESULT_LIMITS } from "../constants.js";
+import { USE_CASE_PATTERNS } from "../config/intent-mappings.js";
+import { validateLimit, validateStringParam } from "../utils/validation.js";
+import { tokenNameMatchesIntent } from "../utils/token-helpers.js";
 
 /**
  * Create token-related MCP tools
@@ -47,27 +51,38 @@ export function createTokenTools() {
         },
       },
       handler: async (args) => {
-        const { query, category, type, limit = 50 } = args;
-        const tokenData = await getTokenData();
+        const query = validateStringParam(args?.query, "query");
+        const category = validateStringParam(args?.category, "category");
+        const type = validateStringParam(args?.type, "type");
+        const limit = validateLimit(
+          args?.limit,
+          RESULT_LIMITS.DEFAULT_TOKEN_LIMIT,
+          100,
+        );
 
+        const tokenData = await getTokenData();
         let results = [];
 
-        // Search through all token files
-        for (const [fileName, tokens] of Object.entries(tokenData)) {
-          // Skip if category filter doesn't match
-          if (
-            category &&
-            !fileName.toLowerCase().includes(category.toLowerCase())
-          ) {
-            continue;
-          }
+        if (tokenData && typeof tokenData === "object") {
+          for (const [fileName, tokens] of Object.entries(tokenData)) {
+            if (
+              category &&
+              !String(fileName).toLowerCase().includes(category.toLowerCase())
+            ) {
+              continue;
+            }
+            if (!tokens || typeof tokens !== "object") continue;
 
-          // Process tokens based on their structure
-          const processedTokens = processTokens(tokens, fileName, query, type);
-          results.push(...processedTokens);
+            const processedTokens = processTokens(
+              tokens,
+              fileName,
+              query ?? "",
+              type,
+            );
+            results.push(...processedTokens);
+          }
         }
 
-        // Apply limit
         results = results.slice(0, limit);
 
         return {
@@ -87,10 +102,12 @@ export function createTokenTools() {
       },
       handler: async () => {
         const tokenData = await getTokenData();
-        const categories = Object.keys(tokenData).map((fileName) => {
-          // Extract category from filename (e.g., "color-palette.json" -> "color-palette")
-          return fileName.replace(".json", "");
-        });
+        const categories =
+          tokenData && typeof tokenData === "object"
+            ? Object.keys(tokenData).map((fileName) =>
+                String(fileName).replace(".json", ""),
+              )
+            : [];
 
         return {
           categories,
@@ -118,29 +135,50 @@ export function createTokenTools() {
         required: ["tokenPath"],
       },
       handler: async (args) => {
-        const { tokenPath, category } = args;
-        const tokenData = await getTokenData();
+        const tokenPath =
+          args?.tokenPath != null ? String(args.tokenPath) : undefined;
+        const category = validateStringParam(args?.category, "category");
 
-        // Search for the token in all categories or specific category
-        const categoriesToSearch = category
-          ? [category]
-          : Object.keys(tokenData);
+        if (!tokenPath || tokenPath.trim() === "") {
+          throw new Error(
+            "tokenPath is required to get token details. " +
+              "Provide the token name (e.g., 'accent-color-100'). " +
+              "Use query-tokens or find-tokens-by-use-case to discover token names.",
+          );
+        }
+
+        const tokenData = await getTokenData();
+        const categoriesToSearch =
+          category != null && category !== ""
+            ? [category]
+            : tokenData && typeof tokenData === "object"
+              ? Object.keys(tokenData)
+              : [];
 
         for (const cat of categoriesToSearch) {
-          const categoryData = tokenData[cat + ".json"] || tokenData[cat];
-          if (!categoryData) continue;
+          const key = cat.endsWith(".json") ? cat : `${cat}.json`;
+          const categoryData = tokenData?.[key] ?? tokenData?.[cat];
+          if (!categoryData || typeof categoryData !== "object") continue;
 
           const token = findTokenByPath(categoryData, tokenPath);
           if (token) {
             return {
               path: tokenPath,
-              category: cat,
+              category: cat.replace(".json", ""),
               token,
             };
           }
         }
 
-        throw new Error(`Token not found: ${tokenPath}`);
+        throw new Error(
+          `Token not found: ${tokenPath}. ` +
+            "This might mean: " +
+            "1. The token name is misspelled, " +
+            "2. The token is in a different category than specified, " +
+            "3. The token has been deprecated or renamed. " +
+            "Try: query-tokens to search for similar tokens, or " +
+            "get-token-categories to see all available categories.",
+        );
       },
     },
     {
@@ -163,40 +201,29 @@ export function createTokenTools() {
         },
         required: ["useCase"],
       },
-      handler: async ({ useCase, componentType }) => {
+      handler: async (args) => {
+        const useCase =
+          args?.useCase != null ? String(args.useCase) : undefined;
+        const componentType = validateStringParam(
+          args?.componentType,
+          "componentType",
+        );
+
+        if (!useCase || useCase.trim() === "") {
+          throw new Error(
+            "useCase is required to find tokens. " +
+              "Describe what you're looking for (e.g., 'button background', 'error state', 'spacing'). " +
+              "Common use cases: button background, text color, border, spacing, error state, hover state.",
+          );
+        }
+
         const data = await getTokenData();
         const recommendations = [];
-
-        // Smart token recommendations based on use case
         const useCaseLower = useCase.toLowerCase();
-        const compTypeLower = (componentType || "").toLowerCase();
+        const compTypeLower = (componentType ?? "").toLowerCase();
 
-        // Define use case mappings
-        const useCasePatterns = {
-          background: [
-            "color-component",
-            "semantic-color-palette",
-            "color-palette",
-          ],
-          text: ["color-component", "semantic-color-palette", "typography"],
-          border: ["color-component", "semantic-color-palette"],
-          spacing: ["layout", "layout-component"],
-          padding: ["layout", "layout-component"],
-          margin: ["layout", "layout-component"],
-          font: ["typography"],
-          icon: ["icons", "layout"],
-          error: ["semantic-color-palette", "color-component"],
-          success: ["semantic-color-palette", "color-component"],
-          warning: ["semantic-color-palette", "color-component"],
-          accent: ["semantic-color-palette", "color-component"],
-          button: ["color-component", "layout-component"],
-          input: ["color-component", "layout-component"],
-          card: ["color-component", "layout-component"],
-        };
-
-        // Find relevant categories
         const relevantCategories = [];
-        for (const [pattern, categories] of Object.entries(useCasePatterns)) {
+        for (const [pattern, categories] of Object.entries(USE_CASE_PATTERNS)) {
           if (
             useCaseLower.includes(pattern) ||
             compTypeLower.includes(pattern)
@@ -205,27 +232,30 @@ export function createTokenTools() {
           }
         }
 
-        // If no specific patterns match, search all categories
         const categoriesToSearch =
           relevantCategories.length > 0
             ? [...new Set(relevantCategories)]
-            : Object.keys(data);
+            : data && typeof data === "object"
+              ? Object.keys(data)
+              : [];
 
-        // Search within relevant categories
         for (const category of categoriesToSearch) {
           const filename = category.includes(".json")
             ? category
             : `${category}.json`;
-          const tokens = data[filename];
-          if (!tokens) continue;
+          const tokens = data?.[filename];
+          if (!tokens || typeof tokens !== "object") continue;
 
-          Object.entries(tokens).forEach(([name, token]) => {
+          for (const [name, token] of Object.entries(tokens)) {
+            if (!token || typeof token !== "object") continue;
+
             const nameMatch =
               name.toLowerCase().includes(useCaseLower) ||
-              (componentType && name.toLowerCase().includes(compTypeLower));
+              (componentType != null &&
+                name.toLowerCase().includes(compTypeLower));
             const descMatch =
-              token.description &&
-              token.description.toLowerCase().includes(useCaseLower);
+              token.description != null &&
+              String(token.description).toLowerCase().includes(useCaseLower);
 
             if (nameMatch || descMatch) {
               recommendations.push({
@@ -235,17 +265,16 @@ export function createTokenTools() {
                 description: token.description,
                 schema: token.$schema,
                 uuid: token.uuid,
-                private: token.private || false,
-                deprecated: token.deprecated || false,
+                private: token.private === true,
+                deprecated: token.deprecated === true,
                 deprecated_comment: token.deprecated_comment,
                 renamed: token.renamed,
                 relevanceReason: nameMatch ? "name match" : "description match",
               });
             }
-          });
+          }
         }
 
-        // Sort by relevance (non-private first, then by name match)
         recommendations.sort((a, b) => {
           if (a.private !== b.private) return a.private ? 1 : -1;
           if (a.relevanceReason !== b.relevanceReason) {
@@ -256,8 +285,11 @@ export function createTokenTools() {
 
         return {
           useCase,
-          componentType,
-          recommendations: recommendations.slice(0, 20), // Limit to top 20
+          componentType: componentType ?? undefined,
+          recommendations: recommendations.slice(
+            0,
+            RESULT_LIMITS.MAX_TOKENS_BY_USE_CASE,
+          ),
           totalFound: recommendations.length,
           searchedCategories: categoriesToSearch,
         };
@@ -277,39 +309,51 @@ export function createTokenTools() {
         },
         required: ["componentName"],
       },
-      handler: async ({ componentName }) => {
+      handler: async (args) => {
+        const componentName =
+          args?.componentName != null ? String(args.componentName) : undefined;
+        if (!componentName || componentName.trim() === "") {
+          throw new Error(
+            "componentName is required to get component tokens. " +
+              "Provide the component name (e.g., 'action-button', 'text-field'). " +
+              "Use list-components to see all available components.",
+          );
+        }
+
         const data = await getTokenData();
         const componentTokens = [];
         const componentLower = componentName.toLowerCase();
 
-        // Search through all token categories for component-specific tokens
-        Object.entries(data).forEach(([category, tokens]) => {
-          if (!tokens) return;
+        if (data && typeof data === "object") {
+          for (const [cat, tokens] of Object.entries(data)) {
+            if (!tokens || typeof tokens !== "object") continue;
 
-          Object.entries(tokens).forEach(([name, token]) => {
-            if (name.toLowerCase().includes(componentLower)) {
+            for (const [name, token] of Object.entries(tokens)) {
+              if (!token || typeof token !== "object") continue;
+              if (!name.toLowerCase().includes(componentLower)) continue;
+
               componentTokens.push({
                 name,
-                category,
+                category: cat,
                 value: token.value,
                 description: token.description,
                 schema: token.$schema,
                 uuid: token.uuid,
-                private: token.private || false,
-                deprecated: token.deprecated || false,
+                private: token.private === true,
+                deprecated: token.deprecated === true,
                 deprecated_comment: token.deprecated_comment,
                 renamed: token.renamed,
               });
             }
-          });
-        });
+          }
+        }
 
-        // Group by category for better organization
         const groupedTokens = componentTokens.reduce((acc, token) => {
-          if (!acc[token.category]) acc[token.category] = [];
-          acc[token.category].push(token);
+          const category = token.category;
+          if (!acc[category]) acc[category] = [];
+          acc[category].push(token);
           return acc;
-        }, {});
+        }, /** @type {Record<string, Array<unknown>>} */ ({}));
 
         return {
           componentName,
@@ -343,7 +387,19 @@ export function createTokenTools() {
         },
         required: ["intent"],
       },
-      handler: async ({ intent, state, context }) => {
+      handler: async (args) => {
+        const intent = args?.intent != null ? String(args.intent) : undefined;
+        const state = validateStringParam(args?.state, "state");
+        const context = validateStringParam(args?.context, "context");
+
+        if (!intent || intent.trim() === "") {
+          throw new Error(
+            "intent is required for design recommendations. " +
+              "Provide a design intent (e.g., 'primary', 'negative', 'positive'). " +
+              "Common intents: primary, secondary, accent, negative, positive, notice, informative.",
+          );
+        }
+
         const data = await getTokenData();
         const recommendations = {
           colors: [],
@@ -352,127 +408,125 @@ export function createTokenTools() {
         };
 
         const intentLower = intent.toLowerCase();
-        const stateLower = (state || "").toLowerCase();
-        const contextLower = (context || "").toLowerCase();
+        const stateLower = (state ?? "").toLowerCase();
+        const contextLower = (context ?? "").toLowerCase();
 
-        // Search semantic colors first (these are typically the best recommendations)
-        const semanticColors = data["semantic-color-palette.json"] || {};
-        Object.entries(semanticColors).forEach(([name, token]) => {
-          const nameLower = name.toLowerCase();
-
-          // Intent matching
-          const intentMatch =
-            nameLower.includes(intentLower) ||
-            (intentLower === "error" && nameLower.includes("negative")) ||
-            (intentLower === "success" && nameLower.includes("positive")) ||
-            (intentLower === "warning" && nameLower.includes("notice"));
-
-          // State matching
-          const stateMatch = !state || nameLower.includes(stateLower);
-
-          // Context matching
-          const contextMatch = !context || nameLower.includes(contextLower);
-
-          if (intentMatch && stateMatch && contextMatch) {
-            recommendations.colors.push({
-              name,
-              value: token.value,
-              category: "semantic-color-palette",
-              type: "semantic",
-              confidence: "high",
-            });
-          }
-        });
-
-        // Search component colors if semantic colors don't provide enough options
-        if (recommendations.colors.length < 3) {
-          const componentColors = data["color-component.json"] || {};
-          Object.entries(componentColors).forEach(([name, token]) => {
+        const semanticColors = data?.["semantic-color-palette.json"] ?? {};
+        if (semanticColors && typeof semanticColors === "object") {
+          for (const [name, token] of Object.entries(semanticColors)) {
+            if (!token || typeof token !== "object") continue;
             const nameLower = name.toLowerCase();
 
-            // Intent and context matching for component colors
-            const intentMatch = nameLower.includes(intentLower);
-            const contextMatch = !context || nameLower.includes(contextLower);
-            const stateMatch = !state || nameLower.includes(stateLower);
+            const intentMatch = tokenNameMatchesIntent(nameLower, intentLower);
+            const stateMatch =
+              !state || state === "" || nameLower.includes(stateLower);
+            const contextMatch =
+              !context || context === "" || nameLower.includes(contextLower);
 
-            if ((intentMatch || contextMatch) && stateMatch) {
+            if (intentMatch && stateMatch && contextMatch) {
               recommendations.colors.push({
                 name,
                 value: token.value,
-                category: "color-component",
-                type: "component",
-                confidence: "medium",
-              });
-            }
-          });
-        }
-
-        // Layout recommendations if context suggests spacing/sizing
-        if (
-          context &&
-          ["button", "input", "spacing", "padding", "margin"].some((c) =>
-            contextLower.includes(c),
-          )
-        ) {
-          const layoutComponent = data["layout-component.json"] || {};
-          Object.entries(layoutComponent).forEach(([name, token]) => {
-            const nameLower = name.toLowerCase();
-
-            if (
-              contextLower &&
-              nameLower.includes(contextLower) &&
-              nameLower.includes(stateLower || "size")
-            ) {
-              recommendations.layout.push({
-                name,
-                value: token.value,
-                category: "layout-component",
-                type: "spacing",
+                category: "semantic-color-palette",
+                type: "semantic",
                 confidence: "high",
               });
             }
-          });
+          }
         }
 
-        // Typography recommendations for text contexts
-        if (
-          context &&
-          ["text", "label", "heading", "body"].some((c) =>
-            contextLower.includes(c),
-          )
-        ) {
-          const typography = data["typography.json"] || {};
-          Object.entries(typography).forEach(([name, token]) => {
-            const nameLower = name.toLowerCase();
+        if (recommendations.colors.length < 3) {
+          const componentColors = data?.["color-component.json"] ?? {};
+          if (componentColors && typeof componentColors === "object") {
+            for (const [name, token] of Object.entries(componentColors)) {
+              if (!token || typeof token !== "object") continue;
+              const nameLower = name.toLowerCase();
 
-            if (nameLower.includes(contextLower)) {
-              recommendations.typography.push({
-                name,
-                value: token.value,
-                category: "typography",
-                type: "text",
-                confidence: "high",
-              });
+              const intentMatch = nameLower.includes(intentLower);
+              const contextMatch =
+                !context || context === "" || nameLower.includes(contextLower);
+              const stateMatch =
+                !state || state === "" || nameLower.includes(stateLower);
+
+              if ((intentMatch || contextMatch) && stateMatch) {
+                recommendations.colors.push({
+                  name,
+                  value: token.value,
+                  category: "color-component",
+                  type: "component",
+                  confidence: "medium",
+                });
+              }
             }
-          });
+          }
         }
 
-        // Sort by confidence and limit results
-        ["colors", "layout", "typography"].forEach((category) => {
+        const layoutContexts = [
+          "button",
+          "input",
+          "spacing",
+          "padding",
+          "margin",
+        ];
+        if (context && layoutContexts.some((c) => contextLower.includes(c))) {
+          const layoutComponent = data?.["layout-component.json"] ?? {};
+          if (layoutComponent && typeof layoutComponent === "object") {
+            for (const [name, token] of Object.entries(layoutComponent)) {
+              if (!token || typeof token !== "object") continue;
+              const nameLower = name.toLowerCase();
+
+              if (
+                contextLower &&
+                nameLower.includes(contextLower) &&
+                nameLower.includes(stateLower || "size")
+              ) {
+                recommendations.layout.push({
+                  name,
+                  value: token.value,
+                  category: "layout-component",
+                  type: "spacing",
+                  confidence: "high",
+                });
+              }
+            }
+          }
+        }
+
+        const textContexts = ["text", "label", "heading", "body"];
+        if (context && textContexts.some((c) => contextLower.includes(c))) {
+          const typography = data?.["typography.json"] ?? {};
+          if (typography && typeof typography === "object") {
+            for (const [name, token] of Object.entries(typography)) {
+              if (!token || typeof token !== "object") continue;
+              const nameLower = name.toLowerCase();
+
+              if (nameLower.includes(contextLower)) {
+                recommendations.typography.push({
+                  name,
+                  value: token.value,
+                  category: "typography",
+                  type: "text",
+                  confidence: "high",
+                });
+              }
+            }
+          }
+        }
+
+        const confidenceOrder = { high: 0, medium: 1, low: 2 };
+        for (const category of ["colors", "layout", "typography"]) {
           recommendations[category] = recommendations[category]
-            .sort((a, b) => {
-              const confidenceOrder = { high: 0, medium: 1, low: 2 };
-              return (
-                confidenceOrder[a.confidence] - confidenceOrder[b.confidence]
-              );
-            })
-            .slice(0, 10);
-        });
+            .sort(
+              (a, b) =>
+                confidenceOrder[a.confidence] - confidenceOrder[b.confidence],
+            )
+            .slice(0, RESULT_LIMITS.MAX_DESIGN_RECOMMENDATIONS);
+        }
 
         return {
           intent,
-          state,
-          context,
+          state: state ?? undefined,
+          context: context ?? undefined,
           recommendations,
           totalFound:
             recommendations.colors.length +
@@ -489,29 +543,33 @@ export function createTokenTools() {
  * @param {Object} tokens - Token data structure
  * @param {string} fileName - Name of the token file
  * @param {string} query - Search query
- * @param {string} type - Type filter
+ * @param {string|undefined} type - Type filter
  * @returns {Array} Processed tokens
  */
 function processTokens(tokens, fileName, query, type) {
   const results = [];
-  const category = fileName.replace(".json", "");
+  if (!tokens || typeof tokens !== "object") return results;
+
+  const category = String(fileName).replace(".json", "");
 
   function traverse(obj, path = "") {
+    if (!obj || typeof obj !== "object") return;
     for (const [key, value] of Object.entries(obj)) {
       const currentPath = path ? `${path}.${key}` : key;
 
-      if (value && typeof value === "object") {
+      if (value != null && typeof value === "object") {
         if (value.$value !== undefined || value.value !== undefined) {
-          // This is a token
-          const tokenType = value.$type || value.type || "unknown";
+          const tokenType = value.$type ?? value.type ?? "unknown";
 
-          // Apply type filter
-          if (type && tokenType !== type) {
+          if (type != null && type !== "" && tokenType !== type) {
             continue;
           }
 
-          // Apply query filter
-          if (query && !matchesQuery(currentPath, value, query)) {
+          if (
+            query != null &&
+            query !== "" &&
+            !matchesQuery(currentPath, value, query)
+          ) {
             continue;
           }
 
@@ -520,17 +578,16 @@ function processTokens(tokens, fileName, query, type) {
             path: currentPath,
             category,
             type: tokenType,
-            value: value.$value || value.value,
-            description: value.$description || value.description,
-            extensions: value.$extensions || value.extensions,
+            value: value.$value ?? value.value,
+            description: value.$description ?? value.description,
+            extensions: value.$extensions ?? value.extensions,
             uuid: value.uuid,
-            private: value.private || false,
-            deprecated: value.deprecated || false,
+            private: value.private === true,
+            deprecated: value.deprecated === true,
             deprecated_comment: value.deprecated_comment,
             renamed: value.renamed,
           });
         } else {
-          // Recurse into nested objects
           traverse(value, currentPath);
         }
       }
@@ -548,17 +605,22 @@ function processTokens(tokens, fileName, query, type) {
  * @returns {Object|null} Token object or null if not found
  */
 function findTokenByPath(tokens, path) {
-  const parts = path.split(".");
+  if (!tokens || typeof tokens !== "object" || !path) return null;
+  const parts = String(path).split(".");
   let current = tokens;
 
   for (const part of parts) {
-    if (current[part] === undefined) {
+    if (
+      current == null ||
+      typeof current !== "object" ||
+      current[part] === undefined
+    ) {
       return null;
     }
     current = current[part];
   }
 
-  return current;
+  return current != null && typeof current === "object" ? current : null;
 }
 
 /**
@@ -569,21 +631,18 @@ function findTokenByPath(tokens, path) {
  * @returns {boolean} Whether the token matches
  */
 function matchesQuery(path, token, query) {
-  const searchText = query.toLowerCase();
+  const searchText = String(query).toLowerCase();
 
-  // Search in path
-  if (path.toLowerCase().includes(searchText)) {
+  if (String(path).toLowerCase().includes(searchText)) {
     return true;
   }
 
-  // Search in description
-  const description = token.$description || token.description || "";
-  if (description.toLowerCase().includes(searchText)) {
+  const description = token?.$description ?? token?.description ?? "";
+  if (String(description).toLowerCase().includes(searchText)) {
     return true;
   }
 
-  // Search in value (for string values)
-  const value = token.$value || token.value || "";
+  const value = token?.$value ?? token?.value ?? "";
   if (typeof value === "string" && value.toLowerCase().includes(searchText)) {
     return true;
   }
