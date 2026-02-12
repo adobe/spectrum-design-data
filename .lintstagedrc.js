@@ -3,23 +3,32 @@ export default {
   "**/*.md": (files) => {
     // Filter out changeset and CHANGELOG files - they need special handling
     // Skip 11ty page templates so YAML frontmatter (---) is not reformatted by remark
+    // Filter out files that should not be processed by remark:
+    // - changeset and CHANGELOG files - they need special handling
+    // - docs/s2-docs files - they have custom YAML frontmatter that remark breaks
     const processableFiles = files.filter(
       (file) =>
         !file.includes(".changeset/") &&
         !file.includes("CHANGELOG.md") &&
-        !file.includes("docs/site/src/"),
+        !file.includes("docs/site/src/") &&
+        !file.includes("docs/s2-docs/"),
     );
     if (processableFiles.length === 0) return [];
     // Use -o flag (no path) to write back to same file
     return processableFiles.map(
-      (file) => `remark ${file} --use remark-gfm --use remark-github -o`,
+      (file) =>
+        `remark ${file} --use remark-frontmatter --use remark-gfm --use remark-github -o`,
     );
   },
   "!**/pnpm-lock.yaml": [],
   "!**/package-lock.json": [],
   "!**/yarn.lock": [],
   ".changeset/*.md": (files) => {
-    // Only run changeset linter on changeset files
-    return files.map((file) => `pnpm changeset-lint check-file ${file}`);
+    // Only run changeset linter on actual changeset files, not README.md
+    const changesetFiles = files.filter((file) => !file.endsWith("README.md"));
+    if (changesetFiles.length === 0) return [];
+    return changesetFiles.map(
+      (file) => `pnpm changeset-lint check-file ${file}`,
+    );
   },
 };
