@@ -15,6 +15,7 @@ import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { siteName, siteDescription } from "./src/data/meta.js";
 import navigation from "./src/data/navigation.js";
+import { cssConfig } from "./config/plugins/css-config.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -27,13 +28,14 @@ export default async function (eleventyConfig) {
   eleventyConfig.setUseGitIgnore(false);
   eleventyConfig.setLiquidOptions({ jsTruthy: true });
   eleventyConfig.addPlugin(HtmlBasePlugin, { pathPrefix });
+  eleventyConfig.addPlugin(cssConfig, {
+    outputPath: resolve(outputDir, "assets", "css", "index.css"),
+  });
 
-  eleventyConfig.addGlobalData("pathPrefix", pathPrefix);
   eleventyConfig.addGlobalData("siteName", siteName);
   eleventyConfig.addGlobalData("siteDescription", siteDescription);
   eleventyConfig.addGlobalData("navigation", navigation);
 
-  eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy({ "public/favicon.png": "favicon.png" });
   eleventyConfig.addPassthroughCopy({ "public/.nojekyll": ".nojekyll" });
 
@@ -45,6 +47,45 @@ export default async function (eleventyConfig) {
   });
   eleventyConfig.addCollection("registry", function (api) {
     return api.getFilteredByGlob("src/registry/**/*.md");
+  });
+
+  // Apply spectrum-Link to anchors in main article (body content) so links use Spectrum link styling
+  eleventyConfig.addTransform("spectrum-body-links", (content, outputPath) => {
+    if (typeof content !== "string" || !outputPath?.endsWith(".html"))
+      return content;
+    return content.replace(
+      /<article[^>]*>([\s\S]*?)<\/article>/g,
+      (articleBlock) =>
+        articleBlock.replace(/<a(\s)/g, '<a class="spectrum-Link"$1'),
+    );
+  });
+
+  // Apply Spectrum table classes to token, component, and registry pages so markdown tables use @spectrum-css/table
+  eleventyConfig.addTransform("spectrum-tables", (content, outputPath) => {
+    if (
+      !outputPath ||
+      (!outputPath.includes("/tokens/") &&
+        !outputPath.includes("/components/") &&
+        !outputPath.includes("/registry/"))
+    )
+      return content;
+    return content
+      .replace(
+        /<table(\s|>)/g,
+        '<table class="spectrum-Table spectrum-Table--sizeM"$1',
+      )
+      .replace(/<thead(\s|>)/g, '<thead class="spectrum-Table-head"$1')
+      .replace(/<th(\s|>)/g, '<th class="spectrum-Table-headCell"$1')
+      .replace(/<tbody(\s|>)/g, '<tbody class="spectrum-Table-body"$1')
+      .replace(/<td(\s|>)/g, '<td class="spectrum-Table-cell"$1')
+      .replace(
+        /<tbody class="spectrum-Table-body">\s*<tr>(\s*)<td/g,
+        '<tbody class="spectrum-Table-body">\n<tr class="spectrum-Table-row">$1<td',
+      )
+      .replace(
+        /(<\/tr>\s*)<tr>(\s*)<td/g,
+        '$1<tr class="spectrum-Table-row">$2<td',
+      );
   });
 
   return {

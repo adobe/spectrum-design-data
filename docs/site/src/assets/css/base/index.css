@@ -1,0 +1,188 @@
+/*
+Copyright 2024 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
+* {
+  font-size: var(--spectrum-body-size-m);
+  line-height: var(--spectrum-line-height-200);
+}
+
+/* Base elements */
+body {
+  background: var(--spectrum-white);
+}
+
+ol,
+ul {
+  margin: var(--spacing-default) 0;
+  padding-left: var(--spacing-default);
+}
+
+ol li,
+ul li {
+  margin-bottom: var(--spacing-small);
+}
+
+ol li > ul,
+ol li > ol,
+ul li > ul,
+ul li > ol {
+  margin-top: var(--spacing-small);
+  margin-bottom: var(--spacing-small);
+}
+
+p,
+hr {
+  margin: var(--spacing-default) 0;
+}
+
+hr {
+  color: var(--spectrum-gray-300);
+}
+
+/* UI states */
+.disabled {
+  text-decoration: none;
+  cursor: not-allowed;
+  color: var(--spectrum-gray-400);
+  fill: var(--spectrum-gray-400);
+}
+
+/* Helpers */
+.image-banner {
+  margin: var(--spacing-large) 0;
+  width: 100%;
+  height: auto;
+}
+
+header,
+menu,
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header {
+  margin: var(--spacing-large) 0;
+}
+
+header a:has(h1) {
+  text-decoration: none;
+}
+
+header h1 {
+  display: flex;
+  gap: var(--spacing-default);
+}
+
+header h1 img {
+  height: var(--sizing-large);
+}
+
+@media screen and (max-width: 768px) {
+  header {
+    justify-content: baseline;
+    flex-direction: column;
+    align-items: start;
+  }
+}
+
+menu {
+  gap: var(--spacing-small);
+  list-style: none;
+}
+
+menu a,
+menu span {
+  text-decoration: none;
+  font-weight: var(--spectrum-bold-font-weight);
+  padding: var(--spacing-small);
+  border-radius: var(--border-radius-default);
+  cursor: pointer;
+}
+
+menu a:hover,
+menu a:focus,
+menu a:active {
+  background-color: var(--spectrum-gray-200);
+}
+
+menu .active {
+  background-color: var(--spectrum-gray-200);
+}
+
+menu .active:hover,
+menu .active:focus,
+menu .active:active {
+  background-color: var(--spectrum-gray-300);
+}
+
+@media screen and (max-width: 768px) {
+  menu {
+    margin-top: var(--spacing-default);
+  }
+}
+
+main {
+  flex: 1 1 0%;
+  margin: 0 auto;
+}
+
+.main-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main,
+footer {
+  width: 80%;
+}
+
+@media screen and (min-width: 768px) {
+  main,
+  footer {
+    max-width: 768px;
+  }
+}
+
+footer {
+  margin: var(--spacing-default) auto;
+  padding-block-start: var(--spacing-large);
+  border-block-start: 1px solid var(--spectrum-gray-200);
+}
+
+footer .footer-label {
+  text-align: center;
+  font-style: normal;
+  font-weight: var(--spectrum-bold-font-weight);
+  font-size: var(--spectrum-font-size-75);
+  text-transform: uppercase;
+  letter-spacing: var(--spectrum-letter-spacing-100);
+  color: var(--spectrum-gray-700);
+  margin-bottom: var(--spacing-small);
+}
+
+footer menu {
+  justify-content: center;
+  margin-bottom: var(--spacing-large);
+}
+
+footer p:not(.footer-label) {
+  text-align: center;
+  font-style: italic;
+}
+
+.pagination svg {
+  height: var(--sizing-default);
+}
+

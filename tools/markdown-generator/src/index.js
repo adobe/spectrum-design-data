@@ -15,6 +15,7 @@ import { dirname, join } from "path";
 import { generateComponentMarkdown } from "./components.js";
 import { generateTokenMarkdown } from "./tokens.js";
 import { generateRegistryMarkdown } from "./registry.js";
+import { copySitePages } from "./pages.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUTPUT_DIR = join(__dirname, "..", "..", "..", "docs", "markdown");
@@ -23,8 +24,9 @@ async function main() {
   const componentCount = await generateComponentMarkdown(OUTPUT_DIR);
   const tokenCount = await generateTokenMarkdown(OUTPUT_DIR);
   const registryCount = await generateRegistryMarkdown(OUTPUT_DIR);
+  const pageCount = await copySitePages(OUTPUT_DIR);
   console.log(
-    `Generated: ${componentCount} component(s), ${tokenCount} token(s), ${registryCount} registry entries.`,
+    `Generated: ${componentCount} component(s), ${tokenCount} token(s), ${registryCount} registry entries, ${pageCount} site page(s).`,
   );
 }
 
