@@ -78,18 +78,26 @@ header {
   gap: var(--spacing-default);
 }
 
-header a:has(h1) {
-  text-decoration: none;
-}
-
-header h1 {
+header .logo-link {
   display: flex;
-  gap: var(--spacing-default);
-  font-weight: 700 !important;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  height: 24px;
 }
 
-header h1 img {
-  height: var(--sizing-large);
+header .adobe-logo {
+  height: 24px;
+  width: auto;
+}
+
+header .site-name {
+  font-size: var(--site-header-title-size);
+  font-weight: var(--spectrum-extra-bold-font-weight);
+  font-synthesis-weight: none;
+  line-height: var(--spectrum-heading-line-height);
+  color: var(--spectrum-heading-color);
+  font-family: var(--mod-heading-sans-serif-font-family, var(--spectrum-heading-sans-serif-font-family));
 }
 
 @media screen and (max-width: 768px) {
@@ -192,5 +200,42 @@ footer p:not(.footer-label) {
 
 .pagination svg {
   height: var(--sizing-default);
+}
+
+/* Apply Spectrum heading typography to body headings */
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6 {
+  font-family: var(--mod-heading-sans-serif-font-family, var(--spectrum-heading-sans-serif-font-family));
+  font-weight: var(--spectrum-heading-sans-serif-font-weight);
+  line-height: var(--spectrum-heading-line-height);
+  color: var(--spectrum-heading-color);
+}
+
+article h1 {
+  font-size: var(--spectrum-heading-size-xxl);
+}
+
+article h2 {
+  font-size: var(--spectrum-heading-size-xl);
+}
+
+article h3 {
+  font-size: var(--spectrum-heading-size-l);
+}
+
+article h4 {
+  font-size: var(--spectrum-heading-size-m);
+}
+
+article h5 {
+  font-size: var(--spectrum-heading-size-s);
+}
+
+article h6 {
+  font-size: var(--spectrum-heading-size-xs);
 }
 
