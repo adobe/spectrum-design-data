@@ -8,10 +8,10 @@ permalink: /components/
 
 Component API schemas for Spectrum.
 
-<ul class="spectrum-SideNav">
+<ul>
 {% for item in collections.components %}
-  <li class="spectrum-SideNav-item">
-    <a href="/components/{{ item.fileSlug }}/" class="spectrum-SideNav-itemLink">{{ item.data.title | default: item.fileSlug }}</a>
+  <li>
+    <a href="/components/{{ item.fileSlug }}/">{{ item.data.title | default: item.fileSlug }}</a>
   </li>
 {% endfor %}
 </ul>

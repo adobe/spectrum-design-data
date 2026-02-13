@@ -8,10 +8,10 @@ permalink: /registry/
 
 Design system terminology (sizes, states, variants, glossary).
 
-<ul class="spectrum-SideNav">
+<ul>
 {% for item in collections.registry %}
-  <li class="spectrum-SideNav-item">
-    <a href="/registry/{{ item.fileSlug }}/" class="spectrum-SideNav-itemLink">{{ item.data.title | default: item.fileSlug }}</a>
+  <li>
+    <a href="/registry/{{ item.fileSlug }}/">{{ item.data.title | default: item.fileSlug }}</a>
   </li>
 {% endfor %}
 </ul>

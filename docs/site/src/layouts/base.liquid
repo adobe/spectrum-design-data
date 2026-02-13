@@ -1,38 +1,25 @@
 ---
 # base layout for Spectrum Design Data docs
 ---
-<!DOCTYPE html>
-<html lang="{{ lang | default: 'en' }}">
+<!doctype html>
+<html lang="{{ lang | default: 'en' }}" class="spectrum spectrum--medium spectrum--light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% if title %}{{ title }} | {% endif %}{{ siteName }}</title>
   <meta name="description" content="{{ description | default: siteDescription }}">
   <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="/assets/css/index.css">
 </head>
-<body class="spectrum spectrum--medium spectrum--light">
-  <div class="spectrum-Site">
-    <div class="spectrum-Site-header">
-      <header class="spectrum-Site-headerNav">
-        <a href="/" class="spectrum-Site-headerNavItem">Spectrum Design Data</a>
-        <nav class="spectrum-Site-headerNavInner">
-          <a href="/" class="spectrum-Site-headerNavItem">Home</a>
-          <a href="/components/" class="spectrum-Site-headerNavItem">Components</a>
-          <a href="/tokens/" class="spectrum-Site-headerNavItem">Tokens</a>
-          <a href="/registry/" class="spectrum-Site-headerNavItem">Registry</a>
-          <a href="/s2-tokens-viewer/" class="spectrum-Site-headerNavItem">S2 Tokens Viewer</a>
-          <a href="/s2-visualizer/" class="spectrum-Site-headerNavItem">S2 Visualizer</a>
-          <a href="/visualizer/" class="spectrum-Site-headerNavItem">Visualizer</a>
-          <a href="/release-timeline/" class="spectrum-Site-headerNavItem">Release Timeline</a>
-        </nav>
-      </header>
-    </div>
-    <div class="spectrum-Site-content">
-      <main class="spectrum-Site-main">
+<body class="spectrum spectrum--light spectrum-Body spectrum-Body--sizeM">
+  <div class="main-wrapper">
+    <main>
+      {% render "includes/layout/header.liquid" %}
+      <article>
         {{ content }}
-      </main>
-    </div>
+      </article>
+      {% render "includes/layout/footer.liquid" %}
+    </main>
   </div>
 </body>
 </html>

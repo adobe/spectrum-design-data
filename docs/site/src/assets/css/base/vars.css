@@ -10,7 +10,13 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-@import "base/reset.css";
-@import "global/global.css";
-@import "base/vars.css";
-@import "base/index.css";
+:root {
+  --border-radius-default: 4px;
+
+  --spacing-small: var(--spectrum-spacing-100);
+  --spacing-default: var(--spectrum-spacing-300);
+  --spacing-large: var(--spectrum-spacing-500);
+
+  --sizing-default: var(--spectrum-spacing-300);
+  --sizing-large: var(--spectrum-spacing-500);
+}
