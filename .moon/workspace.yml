@@ -7,8 +7,8 @@ projects:
   visualizer: "docs/visualizer"
   s2-visualizer: "docs/s2-visualizer"
   site: "docs/site"
-  spectrum-glossary: "docs/spectrum-glossary"
   csvGenerator: tools/token-csv-generator
+  markdown-generator: "tools/markdown-generator"
   transform-tokens-json: "tools/transform-tokens-json"
   root: "."
   diff: "tools/diff-generator"

@@ -1,0 +1,25 @@
+---
+# base layout for Spectrum Design Data docs
+---
+<!doctype html>
+<html lang="{{ lang | default: 'en' }}" class="spectrum spectrum--medium spectrum--light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }} | {% endif %}{{ siteName }}</title>
+  <meta name="description" content="{{ description | default: siteDescription }}">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/css/index.css">
+</head>
+<body class="spectrum spectrum--light spectrum-Body spectrum-Body--sizeM">
+  <div class="main-wrapper">
+    <main>
+      {% render "includes/layout/header.liquid" %}
+      <article>
+        {{ content }}
+      </article>
+      {% render "includes/layout/footer.liquid" %}
+    </main>
+  </div>
+</body>
+</html>

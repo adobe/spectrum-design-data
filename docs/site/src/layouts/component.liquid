@@ -1,0 +1,15 @@
+---
+# Component schema page - title and content from frontmatter/body
+layout: base.liquid
+---
+<article>
+  <h1 class="spectrum-Heading spectrum-Heading--sizeXL">{{ title }}</h1>
+  {% if documentationUrl %}
+  <p class="spectrum-Body spectrum-Body--sizeS">
+    <a href="{{ documentationUrl }}" class="spectrum-Link">Spectrum docs</a>
+  </p>
+  {% endif %}
+  <div class="spectrum-Body">
+    {{ content }}
+  </div>
+</article>
