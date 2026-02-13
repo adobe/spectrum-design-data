@@ -5,6 +5,7 @@ This directory contains auto-generated markdown files created from:
 - Design tokens (`@adobe/spectrum-tokens`)
 - Component schemas (`@adobe/spectrum-component-api-schemas`)
 - Design system registry (`@adobe/design-system-registry`)
+- Site pages (copied from `docs/site/src/pages/`, e.g. the AI page)
 
 **DO NOT EDIT THESE FILES MANUALLY**
 
