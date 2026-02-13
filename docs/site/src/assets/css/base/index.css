@@ -73,6 +73,9 @@ menu,
 
 header {
   margin: var(--spacing-large) 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-default);
 }
 
 header a:has(h1) {
@@ -82,6 +85,7 @@ header a:has(h1) {
 header h1 {
   display: flex;
   gap: var(--spacing-default);
+  font-weight: 700 !important;
 }
 
 header h1 img {
@@ -90,8 +94,6 @@ header h1 img {
 
 @media screen and (max-width: 768px) {
   header {
-    justify-content: baseline;
-    flex-direction: column;
     align-items: start;
   }
 }
@@ -174,7 +176,13 @@ footer .footer-label {
 
 footer menu {
   justify-content: center;
+  flex-wrap: wrap;
   margin-bottom: var(--spacing-large);
+}
+
+footer menu a {
+  font-weight: normal;
+  white-space: nowrap;
 }
 
 footer p:not(.footer-label) {

@@ -1,6 +1,6 @@
 ---
-title: layout
-description: Design tokens from layout.json
+title: Layout
+description: "Spacing, dimensions, corner radius, and other layout primitives."
 tags:
   - tokens
   - layout

@@ -1,5 +1,5 @@
 {
-  "name": "@adobe/component-options-editor",
+  "name": "component-options-editor",
   "version": "1.1.0",
   "description": "Figma plugin for authoring Spectrum component option schemas",
   "type": "module",

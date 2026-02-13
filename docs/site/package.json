@@ -20,7 +20,8 @@
   "scripts": {
     "build": "eleventy",
     "start": "eleventy --serve",
-    "clean": "rimraf ../../site .cache"
+    "clean": "rimraf ../../site .cache",
+    "generate:tools": "node scripts/generate-tools-page.js"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",

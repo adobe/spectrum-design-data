@@ -1,6 +1,6 @@
 ---
-title: color aliases
-description: Design tokens from color-aliases.json
+title: Color aliases
+description: "Semantic color tokens that reference the palette (e.g. focus, overlay)."
 tags:
   - tokens
   - color-aliases

@@ -1,6 +1,6 @@
 ---
-title: icons
-description: Design tokens from icons.json
+title: Icons
+description: "Color tokens for Spectrum icons (primary, hover, down, background, disabled)."
 tags:
   - tokens
   - icons

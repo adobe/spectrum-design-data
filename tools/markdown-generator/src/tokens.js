@@ -27,6 +27,22 @@ import { dirname } from "path";
 
 const ALIAS_PATTERN = /^\{([^}]+)\}$/;
 
+/** Short descriptions for each token file so the tokens list differentiates them. */
+const TOKEN_FILE_DESCRIPTIONS = {
+  "color-aliases":
+    "Semantic color tokens that reference the palette (e.g. focus, overlay).",
+  "color-palette": "Raw color values (hex/rgb) for the Spectrum palette.",
+  "color-component": "Component-specific color tokens.",
+  "semantic-color-palette":
+    "Semantic palette tokens (e.g. semantic blue, semantic red).",
+  typography:
+    "Font families, weights, sizes, letter spacing, and text alignment.",
+  layout: "Spacing, dimensions, corner radius, and other layout primitives.",
+  "layout-component": "Component-specific layout tokens.",
+  icons:
+    "Color tokens for Spectrum icons (primary, hover, down, background, disabled).",
+};
+
 function formatValueDisplay(value, valueLink) {
   if (value == null) return "-";
   const str = String(value);
@@ -69,8 +85,11 @@ export async function generateTokenMarkdown(outputDir) {
 
   let total = 0;
   for (const [fileKey, tokens] of fileToTokens) {
-    const title = fileKey.replace(/-/g, " ");
-    const description = `Design tokens from ${fileKey}.json`;
+    const rawTitle = fileKey.replace(/-/g, " ");
+    const title =
+      rawTitle.charAt(0).toUpperCase() + rawTitle.slice(1).toLowerCase();
+    const description =
+      TOKEN_FILE_DESCRIPTIONS[fileKey] || `Design tokens from ${fileKey}.json`;
     const tags = ["tokens", fileKey];
 
     const rows = [];
@@ -94,9 +113,10 @@ export async function generateTokenMarkdown(outputDir) {
 
     const table = `\n| Token | Value | Resolved | Deprecated | Deprecated comment | Replaced by |\n| --- | --- | --- | --- | --- | --- |\n${rows.join("\n")}\n`;
 
+    const safeDesc = description.replace(/"/g, '\\"');
     const frontmatter = `---
 title: ${title}
-description: ${description}
+description: "${safeDesc}"
 tags:
 ${tags.map((t) => `  - ${t}`).join("\n")}
 ---

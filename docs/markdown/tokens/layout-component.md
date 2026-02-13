@@ -1,6 +1,6 @@
 ---
-title: layout component
-description: Design tokens from layout-component.json
+title: Layout component
+description: "Component-specific layout tokens."
 tags:
   - tokens
   - layout-component
