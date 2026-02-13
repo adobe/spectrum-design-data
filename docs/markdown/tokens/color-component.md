@@ -1,6 +1,6 @@
 ---
-title: color component
-description: Design tokens from color-component.json
+title: Color component
+description: "Component-specific color tokens."
 tags:
   - tokens
   - color-component

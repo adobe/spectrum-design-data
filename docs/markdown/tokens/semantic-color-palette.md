@@ -1,6 +1,6 @@
 ---
-title: semantic color palette
-description: Design tokens from semantic-color-palette.json
+title: Semantic color palette
+description: "Semantic palette tokens (e.g. semantic blue, semantic red)."
 tags:
   - tokens
   - semantic-color-palette

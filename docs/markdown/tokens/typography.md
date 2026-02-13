@@ -1,6 +1,6 @@
 ---
-title: typography
-description: Design tokens from typography.json
+title: Typography
+description: "Font families, weights, sizes, letter spacing, and text alignment."
 tags:
   - tokens
   - typography

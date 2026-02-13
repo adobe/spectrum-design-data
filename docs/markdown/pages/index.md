@@ -17,7 +17,4 @@ API documentation, design tokens, and registry for **Spectrum**, Adobe's design 
 
 ## Tools
 
-* [S2 Tokens Viewer](/s2-tokens-viewer/) — Browse Spectrum 2 tokens
-* [S2 Visualizer](/s2-visualizer/) — Token dependency graph (Spectrum 2)
-* [Visualizer](/visualizer/) — Token dependency graph (Spectrum 1)
-* [Release Timeline](/release-timeline/) — Release history
+See the [Tools](/tools/) page for web-based tools and developer utilities.

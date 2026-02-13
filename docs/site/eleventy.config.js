@@ -37,6 +37,9 @@ export default async function (eleventyConfig) {
   eleventyConfig.addGlobalData("navigation", navigation);
 
   eleventyConfig.addPassthroughCopy({ "public/favicon.png": "favicon.png" });
+  eleventyConfig.addPassthroughCopy({
+    "public/adobe_logo.svg": "adobe_logo.svg",
+  });
   eleventyConfig.addPassthroughCopy({ "public/.nojekyll": ".nojekyll" });
 
   eleventyConfig.addCollection("components", function (api) {

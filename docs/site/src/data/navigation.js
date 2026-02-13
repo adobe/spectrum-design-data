@@ -12,16 +12,11 @@ governing permissions and limitations under the License.
 
 export default {
   top: [
-    { text: "Home", url: "/" },
     { text: "Components", url: "/components/" },
     { text: "Tokens", url: "/tokens/" },
     { text: "Registry", url: "/registry/" },
     { text: "AI", url: "/ai/" },
+    { text: "Tools", url: "/tools/" },
   ],
-  bottom: [
-    { text: "S2 Tokens Viewer", url: "/s2-tokens-viewer/" },
-    { text: "S2 Visualizer", url: "/s2-visualizer/" },
-    { text: "Visualizer", url: "/visualizer/" },
-    { text: "Release Timeline", url: "/release-timeline/" },
-  ],
+  bottom: [],
 };

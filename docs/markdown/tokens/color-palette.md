@@ -1,6 +1,6 @@
 ---
-title: color palette
-description: Design tokens from color-palette.json
+title: Color palette
+description: "Raw color values (hex/rgb) for the Spectrum palette."
 tags:
   - tokens
   - color-palette

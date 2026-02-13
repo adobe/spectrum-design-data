@@ -17,6 +17,14 @@ fileGroups:
     - "eleventy.config.js"
     - "package.json"
 tasks:
+  generateToolsPage:
+    command:
+      - pnpm
+      - run
+      - generate:tools
+    platform: node
+    outputs:
+      - "src/tools.md"
   copyContent:
     command:
       - node
@@ -24,6 +32,7 @@ tasks:
     platform: system
     deps:
       - "markdown-generator:generate"
+      - "~:generateToolsPage"
   build:
     command:
       - pnpm
