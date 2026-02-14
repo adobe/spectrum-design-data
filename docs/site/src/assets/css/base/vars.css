@@ -19,4 +19,14 @@ governing permissions and limitations under the License.
 
   --sizing-default: var(--spectrum-spacing-300);
   --sizing-large: var(--spectrum-spacing-500);
+
+  /* Override Spectrum CSS tokens to use adobe-clean-spectrum-vf variable font */
+  --spectrum-sans-serif-font-family: adobe-clean-spectrum-vf;
+  --spectrum-sans-font-family-stack: adobe-clean-spectrum-vf, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Trebuchet MS", "Lucida Grande", sans-serif;
+  --spectrum-font-family: var(--spectrum-sans-font-family-stack);
+  --mod-body-sans-serif-font-family: adobe-clean-spectrum-vf, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Trebuchet MS", "Lucida Grande", sans-serif;
+  --mod-heading-sans-serif-font-family: adobe-clean-spectrum-vf, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Trebuchet MS", "Lucida Grande", sans-serif;
+  
+  /* Custom site-specific tokens */
+  --site-header-title-size: 20px;
 }

@@ -48,7 +48,7 @@ governing permissions and limitations under the License.
 
 :where(body) {
   line-height: inherit;
-  font-family: system-ui, sans-serif;
+  font-family: adobe-clean-spectrum-vf, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 

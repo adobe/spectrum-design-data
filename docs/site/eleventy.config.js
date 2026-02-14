@@ -36,7 +36,7 @@ export default async function (eleventyConfig) {
   eleventyConfig.addGlobalData("siteDescription", siteDescription);
   eleventyConfig.addGlobalData("navigation", navigation);
 
-  eleventyConfig.addPassthroughCopy({ "public/favicon.png": "favicon.png" });
+  eleventyConfig.addPassthroughCopy({ "public/favicon.svg": "favicon.svg" });
   eleventyConfig.addPassthroughCopy({
     "public/adobe_logo.svg": "adobe_logo.svg",
   });
