@@ -54,20 +54,17 @@ The server runs locally and communicates via stdio with MCP-compatible AI client
 
 #### Token Tools
 
-* **`query-tokens`**: Search and retrieve design tokens by name, type, or category
-* **`find-tokens-by-use-case`** ⭐: Find appropriate tokens for specific component use cases (e.g., "button background", "text color", "error state")
-* **`get-component-tokens`** ⭐: Get all tokens related to a specific component type
-* **`get-design-recommendations`** ⭐: Get token recommendations for design decisions and component states
-* **`get-token-categories`**: List all available token categories
+* **`query-tokens`**: Search Spectrum tokens by name, type, or category
+* **`query-tokens-by-value`**: Find tokens by direct or resolved value (follows aliases)
 * **`get-token-details`**: Get detailed information about a specific token
+* **`get-component-tokens`**: Get all tokens for a component name
 
 #### Schema Tools
 
-* **`query-component-schemas`**: Search component API schemas
-* **`get-component-schema`**: Get the complete schema for a specific component
-* **`list-components`**: List all available components with schemas
-* **`validate-component-props`**: Validate component properties against schemas
-* **`get-type-schemas`**: Get type definitions used in schemas
+* **`list-components`**: List available components (no schema payload)
+* **`get-component-schema`**: Full schema for one component
+* **`validate-component-props`**: Validate props against schema
+* **`search-components-by-feature`**: Find components by property name
 
 ## Configuration
 
@@ -82,7 +79,7 @@ Add to your MCP configuration (e.g., `.cursor/mcp.json` for Cursor IDE):
   "mcpServers": {
     "spectrum-design-data": {
       "command": "npx",
-      "args": ["@adobe/spectrum-design-data-mcp"]
+      "args": ["-y", "@adobe/spectrum-design-data-mcp"]
     }
   }
 }
@@ -138,38 +135,7 @@ The server uses stdio transport and follows the MCP specification. Refer to your
 
 ## Examples
 
-### Component Building Workflow ⭐
-
-#### Finding Tokens for Component Use Cases
-
-```
-Human: I'm building a primary action button. What design tokens should I use for the background color?
-
-AI: I'll help you find the appropriate tokens for a primary button background.
-
-[Uses find-tokens-by-use-case with useCase="button background" and componentType="button"]
-
-For a primary action button background, I recommend these Spectrum tokens:
-- accent-color-100: Primary accent color for default state
-- accent-color-200: For hover states
-- accent-color-300: For pressed/active states
-- floating-action-button-drop-shadow-color: For drop shadows
-```
-
-#### Design Intent Recommendations
-
-```
-Human: What tokens should I use for error messaging in my form validation?
-
-AI: I'll find tokens for error state messaging.
-
-[Uses get-design-recommendations with intent="negative" and context="text"]
-
-For error messaging, use these Spectrum tokens:
-- negative-color-100: Primary error text color
-- negative-background-color-default: Error background areas
-- negative-border-color: Error state borders
-```
+### Component Building Workflow
 
 #### Component-Specific Token Discovery
 
@@ -180,13 +146,27 @@ AI: I'll gather all button-related tokens from the Spectrum system.
 
 [Uses get-component-tokens with componentName="button"]
 
-Found 57 button-related tokens across categories:
-- Color tokens (2): floating-action-button colors
-- Layout tokens (55): button sizing, padding, spacing
+Found button-related tokens across categories:
+- Color tokens: floating-action-button colors
+- Layout tokens: button sizing, padding, spacing
 - Examples: radio-button-control-size-small, action-button-edge-to-hold-icon...
 ```
 
-### Traditional Token Queries
+#### Finding Tokens by Value
+
+```
+Human: Which tokens resolve to 1px?
+
+AI: I'll search for tokens whose value is 1px (direct or alias).
+
+[Uses query-tokens-by-value with value="1px"]
+
+Tokens with value 1px:
+- border-width-100 (direct)
+- picker-border-width (alias to border-width-100)
+```
+
+### Token Queries
 
 #### Querying Color Tokens
 
@@ -291,7 +271,7 @@ src/
 
 * Always verify package integrity using `npm audit signatures`
 * Keep the package updated to the latest version
-* Use npx for the most secure and up-to-date execution
+* Use `npx -y` for the most secure and up-to-date execution
 * Report security issues through the [GitHub security advisory](https://github.com/adobe/spectrum-design-data/security/advisories)
 
 ## License

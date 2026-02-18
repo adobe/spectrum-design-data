@@ -13,10 +13,10 @@ governing permissions and limitations under the License.
 import test from "ava";
 import { createTokenTools } from "../../src/tools/tokens.js";
 
-test("createTokenTools returns array of tools", (t) => {
+test("createTokenTools returns array of 4 tools", (t) => {
   const tools = createTokenTools();
   t.true(Array.isArray(tools));
-  t.true(tools.length > 0);
+  t.is(tools.length, 4);
 });
 
 test("token tools have required properties", (t) => {
@@ -39,16 +39,6 @@ test("query-tokens tool exists", (t) => {
   t.true(queryTool.description.includes("Search"));
 });
 
-test("get-token-categories tool exists", (t) => {
-  const tools = createTokenTools();
-  const categoriesTool = tools.find(
-    (tool) => tool.name === "get-token-categories",
-  );
-
-  t.truthy(categoriesTool);
-  t.is(categoriesTool.name, "get-token-categories");
-});
-
 test("get-token-details tool exists", (t) => {
   const tools = createTokenTools();
   const detailsTool = tools.find((tool) => tool.name === "get-token-details");
@@ -56,4 +46,72 @@ test("get-token-details tool exists", (t) => {
   t.truthy(detailsTool);
   t.is(detailsTool.name, "get-token-details");
   t.true(detailsTool.inputSchema.required.includes("tokenPath"));
+});
+
+test("query-tokens-by-value tool exists with value and limit", (t) => {
+  const tools = createTokenTools();
+  const valueTool = tools.find((tool) => tool.name === "query-tokens-by-value");
+
+  t.truthy(valueTool);
+  t.is(valueTool.name, "query-tokens-by-value");
+  t.true("value" in valueTool.inputSchema.properties);
+  t.true("limit" in valueTool.inputSchema.properties);
+  t.true(valueTool.inputSchema.required.includes("value"));
+});
+
+test("query-tokens returns non-empty results for 'border'", async (t) => {
+  const tools = createTokenTools();
+  const queryTool = tools.find((tool) => tool.name === "query-tokens");
+  const result = await queryTool.handler({ query: "border", limit: 10 });
+  t.true(Array.isArray(result.tokens));
+  t.true(result.tokens.length > 0);
+  t.is(result.total, result.tokens.length);
+});
+
+test("query-tokens-by-value respects limit", async (t) => {
+  const tools = createTokenTools();
+  const valueTool = tools.find((tool) => tool.name === "query-tokens-by-value");
+  const result = await valueTool.handler({
+    value: "px",
+    exact: false,
+    limit: 5,
+  });
+  t.true(Array.isArray(result.tokens));
+  t.true(result.tokens.length <= 5);
+  t.is(result.total, result.tokens.length);
+});
+
+test("query-tokens-by-value '1px' returns border-width-100 with matchType direct", async (t) => {
+  const tools = createTokenTools();
+  const valueTool = tools.find((tool) => tool.name === "query-tokens-by-value");
+  const result = await valueTool.handler({ value: "1px" });
+  const borderToken = result.tokens.find(
+    (tok) => tok.name === "border-width-100",
+  );
+  t.truthy(borderToken);
+  t.is(borderToken.matchType, "direct");
+  t.is(borderToken.resolvedValue, "1px");
+});
+
+test("query-tokens-by-value '1px' returns picker-border-width with matchType alias", async (t) => {
+  const tools = createTokenTools();
+  const valueTool = tools.find((tool) => tool.name === "query-tokens-by-value");
+  const result = await valueTool.handler({ value: "1px" });
+  const pickerToken = result.tokens.find(
+    (tok) => tok.name === "picker-border-width",
+  );
+  t.truthy(pickerToken);
+  t.is(pickerToken.matchType, "alias");
+  t.is(pickerToken.resolvedValue, "1px");
+});
+
+test("query-tokens-by-value non-existent value returns empty tokens", async (t) => {
+  const tools = createTokenTools();
+  const valueTool = tools.find((tool) => tool.name === "query-tokens-by-value");
+  const result = await valueTool.handler({
+    value: "nonexistent-value-xyz-12345",
+  });
+  t.true(Array.isArray(result.tokens));
+  t.is(result.tokens.length, 0);
+  t.is(result.total, 0);
 });

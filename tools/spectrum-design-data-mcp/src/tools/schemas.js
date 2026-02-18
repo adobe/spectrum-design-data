@@ -19,80 +19,14 @@ import { getSchemaData } from "../data/schemas.js";
 export function createSchemaTools() {
   return [
     {
-      name: "query-component-schemas",
-      description: "Search and retrieve Spectrum component API schemas",
-      inputSchema: {
-        type: "object",
-        properties: {
-          component: {
-            type: "string",
-            description:
-              'Component name to search for (e.g., "button", "action-button")',
-          },
-          query: {
-            type: "string",
-            description:
-              "Search query to filter schemas (searches component names, descriptions)",
-          },
-          limit: {
-            type: "number",
-            description: "Maximum number of schemas to return (default: 20)",
-            default: 20,
-          },
-        },
-      },
-      handler: async (args) => {
-        const { component, query, limit = 20 } = args;
-        const schemaData = await getSchemaData();
-
-        let results = [];
-
-        // Search through component schemas
-        for (const [fileName, schema] of Object.entries(
-          schemaData.components,
-        )) {
-          const componentName = fileName.replace(".json", "");
-
-          // Apply component filter
-          if (component && !componentName.includes(component.toLowerCase())) {
-            continue;
-          }
-
-          // Apply query filter
-          if (query && !matchesSchemaQuery(componentName, schema, query)) {
-            continue;
-          }
-
-          results.push({
-            component: componentName,
-            fileName,
-            title: schema.title,
-            description: schema.description,
-            properties: Object.keys(schema.properties || {}),
-            required: schema.required || [],
-            schema,
-          });
-        }
-
-        // Apply limit
-        results = results.slice(0, limit);
-
-        return {
-          total: results.length,
-          schemas: results,
-          query: { component, query, limit },
-        };
-      },
-    },
-    {
       name: "get-component-schema",
-      description: "Get the complete schema for a specific component",
+      description: "Get full JSON schema for one component.",
       inputSchema: {
         type: "object",
         properties: {
           component: {
             type: "string",
-            description: 'Component name (e.g., "action-button")',
+            description: "Component name",
             required: true,
           },
         },
@@ -123,29 +57,23 @@ export function createSchemaTools() {
     },
     {
       name: "list-components",
-      description: "List all available Spectrum components with schemas",
-      inputSchema: {
-        type: "object",
-        properties: {},
-      },
+      description: "List all components (names and summary, no full schema).",
+      inputSchema: { type: "object", properties: {} },
       handler: async () => {
         const schemaData = await getSchemaData();
-
         const components = Object.keys(schemaData.components).map(
           (fileName) => {
             const componentName = fileName.replace(".json", "");
             const schema = schemaData.components[fileName];
-
-            return {
+            const entry = {
               name: componentName,
-              title: schema.title,
-              description: schema.description,
               propertyCount: Object.keys(schema.properties || {}).length,
-              hasRequired: (schema.required || []).length > 0,
             };
+            if (schema.title) entry.title = schema.title;
+            if (schema.description) entry.description = schema.description;
+            return entry;
           },
         );
-
         return {
           total: components.length,
           components: components.sort((a, b) => a.name.localeCompare(b.name)),
@@ -154,18 +82,18 @@ export function createSchemaTools() {
     },
     {
       name: "validate-component-props",
-      description: "Validate component properties against their schema",
+      description: "Validate props against a component schema.",
       inputSchema: {
         type: "object",
         properties: {
           component: {
             type: "string",
-            description: "Component name to validate against",
+            description: "Component name",
             required: true,
           },
           props: {
             type: "object",
-            description: "Component properties to validate",
+            description: "Props to validate",
             required: true,
           },
         },
@@ -195,148 +123,15 @@ export function createSchemaTools() {
       },
     },
     {
-      name: "get-type-schemas",
-      description: "Get type definitions used in component schemas",
-      inputSchema: {
-        type: "object",
-        properties: {
-          type: {
-            type: "string",
-            description: 'Specific type to retrieve (e.g., "hex-color")',
-          },
-        },
-      },
-      handler: async (args) => {
-        const { type } = args;
-        const schemaData = await getSchemaData();
-
-        if (type) {
-          const typeSchema = schemaData.types[`${type}.json`];
-          if (!typeSchema) {
-            throw new Error(`Type schema not found: ${type}`);
-          }
-
-          return {
-            type,
-            schema: typeSchema,
-          };
-        }
-
-        // Return all types
-        const types = Object.keys(schemaData.types).map((fileName) => {
-          const typeName = fileName.replace(".json", "");
-          const typeSchema = schemaData.types[fileName];
-
-          return {
-            name: typeName,
-            title: typeSchema.title,
-            description: typeSchema.description,
-            type: typeSchema.type,
-          };
-        });
-
-        return {
-          total: types.length,
-          types: types.sort((a, b) => a.name.localeCompare(b.name)),
-        };
-      },
-    },
-    {
-      name: "get-component-options",
-      description:
-        "Get all available options/properties for a component in a user-friendly format - perfect for discovering what options a component supports",
-      inputSchema: {
-        type: "object",
-        properties: {
-          component: {
-            type: "string",
-            description:
-              'Component name (e.g., "action-button", "text-field", "menu")',
-            required: true,
-          },
-          detailed: {
-            type: "boolean",
-            description:
-              "Include detailed property information like enums, default values, etc.",
-            default: false,
-          },
-        },
-        required: ["component"],
-      },
-      handler: async (args) => {
-        const { component, detailed = false } = args;
-        const schemaData = await getSchemaData();
-
-        const fileName = `${component}.json`;
-        const schema = schemaData.components[fileName];
-
-        if (!schema) {
-          throw new Error(
-            `Component not found: ${component}. Use list-components to see available components.`,
-          );
-        }
-
-        const componentInfo = {
-          name: component,
-          title: schema.title || component,
-          description: schema.description,
-          totalProperties: 0,
-          properties: [],
-        };
-
-        if (schema.properties) {
-          componentInfo.totalProperties = Object.keys(schema.properties).length;
-
-          Object.entries(schema.properties).forEach(([propName, propDef]) => {
-            const propInfo = {
-              name: propName,
-              type: propDef.type || "object",
-              required: schema.required
-                ? schema.required.includes(propName)
-                : false,
-              description: propDef.description,
-            };
-
-            if (detailed) {
-              // Add detailed information
-              if (propDef.enum) {
-                propInfo.possibleValues = propDef.enum;
-              }
-              if (propDef.default !== undefined) {
-                propInfo.defaultValue = propDef.default;
-              }
-              if (propDef.properties) {
-                propInfo.nestedProperties = Object.keys(propDef.properties);
-              }
-              if (propDef.$ref) {
-                propInfo.reference = propDef.$ref;
-              }
-            }
-
-            componentInfo.properties.push(propInfo);
-          });
-
-          // Sort properties: required first, then alphabetical
-          componentInfo.properties.sort((a, b) => {
-            if (a.required !== b.required) return a.required ? -1 : 1;
-            return a.name.localeCompare(b.name);
-          });
-        }
-
-        return componentInfo;
-      },
-    },
-    {
       name: "search-components-by-feature",
       description:
-        'Find components that have specific features or properties (e.g., "size", "disabled", "selected")',
+        "Find components that have a property matching a name (e.g. size, disabled).",
       inputSchema: {
         type: "object",
         properties: {
           feature: {
             type: "string",
-            description:
-              'The feature/property to search for (e.g., "size", "disabled", "icon", "label")',
+            description: "Property name substring",
             required: true,
           },
         },
@@ -349,30 +144,27 @@ export function createSchemaTools() {
 
         Object.entries(schemaData.components).forEach(([fileName, schema]) => {
           const componentName = fileName.replace(".json", "");
-
           if (schema.properties) {
             const hasFeature = Object.keys(schema.properties).some((prop) =>
               prop.toLowerCase().includes(feature.toLowerCase()),
             );
-
             if (hasFeature) {
               const matchingProps = Object.keys(schema.properties).filter(
                 (prop) => prop.toLowerCase().includes(feature.toLowerCase()),
               );
-
-              matchingComponents.push({
+              const entry = {
                 name: componentName,
-                title: schema.title || componentName,
-                description: schema.description,
                 matchingProperties: matchingProps,
                 totalProperties: Object.keys(schema.properties).length,
-              });
+              };
+              if (schema.title) entry.title = schema.title;
+              if (schema.description) entry.description = schema.description;
+              matchingComponents.push(entry);
             }
           }
         });
 
         return {
-          feature,
           totalMatches: matchingComponents.length,
           components: matchingComponents.sort((a, b) =>
             a.name.localeCompare(b.name),

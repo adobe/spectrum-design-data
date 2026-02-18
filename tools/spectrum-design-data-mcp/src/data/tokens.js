@@ -10,86 +10,15 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { readFileSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
+import { getTokensByFile, getAllTokens } from "@adobe/spectrum-tokens";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+export const getTokenData = getTokensByFile;
 
-/**
- * Get token data from the spectrum-tokens package
- * @returns {Promise<Object>} Token data organized by category
- */
-export async function getTokenData() {
-  try {
-    // Try to import from the workspace package first
-    const spectrumTokens = await import("@adobe/spectrum-tokens");
-
-    // If the package exports token data directly, use it
-    if (spectrumTokens.default || spectrumTokens.tokens) {
-      return spectrumTokens.default || spectrumTokens.tokens;
-    }
-
-    // Otherwise, read the token files directly from the package
-    return await loadTokenFilesFromPackage();
-  } catch (error) {
-    console.error(
-      "Failed to load token data from package, trying direct file access:",
-      error,
-    );
-    return await loadTokenFilesDirectly();
-  }
-}
+/** Flat { tokenName: tokenData } map — used for alias resolution */
+export const getFlatTokenMap = getAllTokens;
 
 /**
- * Load token files from the spectrum-tokens package structure
- * @returns {Promise<Object>} Token data
- */
-async function loadTokenFilesFromPackage() {
-  // This would be the ideal approach - loading from the actual package
-  // For now, we'll fall back to direct file access
-  return await loadTokenFilesDirectly();
-}
-
-/**
- * Load token files directly from the repository structure
- * @returns {Promise<Object>} Token data
- */
-async function loadTokenFilesDirectly() {
-  const tokenData = {};
-
-  // Path to the tokens source directory
-  const tokensPath = join(__dirname, "../../../../packages/tokens/src");
-
-  // List of token files to load
-  const tokenFiles = [
-    "color-aliases.json",
-    "color-component.json",
-    "color-palette.json",
-    "icons.json",
-    "layout-component.json",
-    "layout.json",
-    "semantic-color-palette.json",
-    "typography.json",
-  ];
-
-  for (const fileName of tokenFiles) {
-    try {
-      const filePath = join(tokensPath, fileName);
-      const fileContent = readFileSync(filePath, "utf8");
-      tokenData[fileName] = JSON.parse(fileContent);
-    } catch (error) {
-      console.error(`Failed to load token file ${fileName}:`, error);
-      // Continue loading other files even if one fails
-    }
-  }
-
-  return tokenData;
-}
-
-/**
- * Get available token categories
+ * Get available token categories (filenames without .json)
  * @returns {Promise<Array<string>>} List of token categories
  */
 export async function getTokenCategories() {

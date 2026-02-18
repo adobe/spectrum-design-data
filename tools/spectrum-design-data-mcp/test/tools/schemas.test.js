@@ -13,10 +13,10 @@ governing permissions and limitations under the License.
 import test from "ava";
 import { createSchemaTools } from "../../src/tools/schemas.js";
 
-test("createSchemaTools returns array of tools", (t) => {
+test("createSchemaTools returns array of 4 tools", (t) => {
   const tools = createSchemaTools();
   t.true(Array.isArray(tools));
-  t.true(tools.length > 0);
+  t.is(tools.length, 4);
 });
 
 test("schema tools have required properties", (t) => {
@@ -28,17 +28,6 @@ test("schema tools have required properties", (t) => {
     t.is(typeof tool.inputSchema, "object");
     t.is(typeof tool.handler, "function");
   }
-});
-
-test("query-component-schemas tool exists", (t) => {
-  const tools = createSchemaTools();
-  const queryTool = tools.find(
-    (tool) => tool.name === "query-component-schemas",
-  );
-
-  t.truthy(queryTool);
-  t.is(queryTool.name, "query-component-schemas");
-  t.true(queryTool.description.includes("Search"));
 });
 
 test("get-component-schema tool exists", (t) => {
@@ -70,10 +59,11 @@ test("validate-component-props tool exists", (t) => {
   t.true(validateTool.inputSchema.required.includes("props"));
 });
 
-test("get-type-schemas tool exists", (t) => {
+test("list-components returns non-empty data", async (t) => {
   const tools = createSchemaTools();
-  const typesTool = tools.find((tool) => tool.name === "get-type-schemas");
-
-  t.truthy(typesTool);
-  t.is(typesTool.name, "get-type-schemas");
+  const listTool = tools.find((tool) => tool.name === "list-components");
+  const result = await listTool.handler({});
+  t.true(Array.isArray(result.components));
+  t.true(result.components.length > 0);
+  t.is(result.total, result.components.length);
 });
