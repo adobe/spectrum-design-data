@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { getTokenData } from "../data/tokens.js";
+import { getTokenData, getFlatTokenMap } from "../data/tokens.js";
 
 /**
  * Create token-related MCP tools
@@ -21,27 +21,19 @@ export function createTokenTools() {
     {
       name: "query-tokens",
       description:
-        "Search and retrieve Spectrum design tokens by name, type, or category",
+        "Search Spectrum tokens by name, type, or category. Categories: color-aliases, color-component, color-palette, icons, layout, layout-component, semantic-color-palette, typography.",
       inputSchema: {
         type: "object",
         properties: {
           query: {
             type: "string",
-            description:
-              "Search query to filter tokens (searches names, types, categories)",
+            description: "Filter by name, type, or description",
           },
-          category: {
-            type: "string",
-            description:
-              'Filter by token category (e.g., "color", "layout", "typography")',
-          },
-          type: {
-            type: "string",
-            description: 'Filter by token type (e.g., "alias", "component")',
-          },
+          category: { type: "string", description: "Filter by category" },
+          type: { type: "string", description: "Filter by token type" },
           limit: {
             type: "number",
-            description: "Maximum number of tokens to return (default: 50)",
+            description: "Max results (default: 50)",
             default: 50,
           },
         },
@@ -49,71 +41,120 @@ export function createTokenTools() {
       handler: async (args) => {
         const { query, category, type, limit = 50 } = args;
         const tokenData = await getTokenData();
-
         let results = [];
-
-        // Search through all token files
         for (const [fileName, tokens] of Object.entries(tokenData)) {
-          // Skip if category filter doesn't match
           if (
             category &&
             !fileName.toLowerCase().includes(category.toLowerCase())
           ) {
             continue;
           }
-
-          // Process tokens based on their structure
           const processedTokens = processTokens(tokens, fileName, query, type);
           results.push(...processedTokens);
         }
-
-        // Apply limit
         results = results.slice(0, limit);
-
-        return {
-          total: results.length,
-          tokens: results,
-          query: { query, category, type, limit },
-        };
+        return { total: results.length, tokens: results };
       },
     },
     {
-      name: "get-token-categories",
-      description:
-        "Get all available token categories in the Spectrum design system",
+      name: "query-tokens-by-value",
+      description: "Find tokens by direct or resolved value (follows aliases).",
       inputSchema: {
         type: "object",
-        properties: {},
+        properties: {
+          value: {
+            type: "string",
+            description: "Value to match (e.g. 1px, #000)",
+          },
+          exact: {
+            type: "boolean",
+            description: "Exact match (default: true)",
+            default: true,
+          },
+          limit: {
+            type: "number",
+            description: "Max results (default: 50)",
+            default: 50,
+          },
+        },
+        required: ["value"],
       },
-      handler: async () => {
-        const tokenData = await getTokenData();
-        const categories = Object.keys(tokenData).map((fileName) => {
-          // Extract category from filename (e.g., "color-palette.json" -> "color-palette")
-          return fileName.replace(".json", "");
-        });
+      handler: async (args) => {
+        const { value: searchValue, exact = true, limit = 50 } = args;
+        const [tokenData, flatMap] = await Promise.all([
+          getTokenData(),
+          getFlatTokenMap(),
+        ]);
+        const results = [];
+        const norm = (v) =>
+          v === null || v === undefined ? "" : String(v).toLowerCase();
+        const s = norm(searchValue);
 
-        return {
-          categories,
-          total: categories.length,
+        const resolvedValuesToCheck = (resolved) => {
+          if (resolved === null || resolved === undefined) return [];
+          if (typeof resolved === "object" && !Array.isArray(resolved)) {
+            return Object.values(resolved).flatMap(resolvedValuesToCheck);
+          }
+          return [resolved];
         };
+
+        for (const [fileName, tokens] of Object.entries(tokenData)) {
+          const category = fileName.replace(".json", "");
+          if (!tokens || typeof tokens !== "object") continue;
+
+          for (const [name, token] of Object.entries(tokens)) {
+            if (!token || typeof token !== "object") continue;
+            const directValue = token.value;
+            const resolved = resolveTokenValue(token, flatMap, new Set(), name);
+            const toCheck = [directValue, ...resolvedValuesToCheck(resolved)];
+            const matched = toCheck.some((v) => {
+              const n = norm(v);
+              return exact ? n === s : n.includes(s);
+            });
+            if (!matched) continue;
+
+            const resolvedDisplay =
+              typeof resolved === "object" && resolved !== null
+                ? Object.entries(resolved)
+                    .map(([k, v]) => `${k}: ${v}`)
+                    .join(", ")
+                : resolved;
+            const directMatches =
+              directValue !== undefined &&
+              matchesValue(directValue, searchValue, exact);
+            const matchType = directMatches ? "direct" : "alias";
+
+            results.push({
+              name,
+              category,
+              directValue:
+                directValue !== undefined
+                  ? directValue
+                  : token.sets
+                    ? JSON.stringify(token.sets)
+                    : undefined,
+              resolvedValue: resolvedDisplay ?? directValue,
+              matchType,
+            });
+          }
+        }
+
+        const sliced = results.slice(0, limit);
+        return { total: sliced.length, tokens: sliced };
       },
     },
     {
       name: "get-token-details",
-      description:
-        "Get detailed information about a specific token by its path",
+      description: "Get full token data by path (flat token name).",
       inputSchema: {
         type: "object",
         properties: {
           tokenPath: {
             type: "string",
-            description: 'The full path to the token (e.g., "color.blue.100")',
+            description: "Token path/name",
             required: true,
           },
-          category: {
-            type: "string",
-            description: 'Token category to search in (e.g., "color-palette")',
-          },
+          category: { type: "string", description: "Category to search in" },
         },
         required: ["tokenPath"],
       },
@@ -144,135 +185,15 @@ export function createTokenTools() {
       },
     },
     {
-      name: "find-tokens-by-use-case",
-      description:
-        'Find appropriate design tokens for specific component use cases (e.g., "button background", "text color", "border", "spacing")',
-      inputSchema: {
-        type: "object",
-        properties: {
-          useCase: {
-            type: "string",
-            description:
-              'The use case or purpose (e.g., "button background", "text color", "border", "spacing", "error state")',
-          },
-          componentType: {
-            type: "string",
-            description:
-              'Optional: Type of component being built (e.g., "button", "input", "card")',
-          },
-        },
-        required: ["useCase"],
-      },
-      handler: async ({ useCase, componentType }) => {
-        const data = await getTokenData();
-        const recommendations = [];
-
-        // Smart token recommendations based on use case
-        const useCaseLower = useCase.toLowerCase();
-        const compTypeLower = (componentType || "").toLowerCase();
-
-        // Define use case mappings
-        const useCasePatterns = {
-          background: [
-            "color-component",
-            "semantic-color-palette",
-            "color-palette",
-          ],
-          text: ["color-component", "semantic-color-palette", "typography"],
-          border: ["color-component", "semantic-color-palette"],
-          spacing: ["layout", "layout-component"],
-          padding: ["layout", "layout-component"],
-          margin: ["layout", "layout-component"],
-          font: ["typography"],
-          icon: ["icons", "layout"],
-          error: ["semantic-color-palette", "color-component"],
-          success: ["semantic-color-palette", "color-component"],
-          warning: ["semantic-color-palette", "color-component"],
-          accent: ["semantic-color-palette", "color-component"],
-          button: ["color-component", "layout-component"],
-          input: ["color-component", "layout-component"],
-          card: ["color-component", "layout-component"],
-        };
-
-        // Find relevant categories
-        const relevantCategories = [];
-        for (const [pattern, categories] of Object.entries(useCasePatterns)) {
-          if (
-            useCaseLower.includes(pattern) ||
-            compTypeLower.includes(pattern)
-          ) {
-            relevantCategories.push(...categories);
-          }
-        }
-
-        // If no specific patterns match, search all categories
-        const categoriesToSearch =
-          relevantCategories.length > 0
-            ? [...new Set(relevantCategories)]
-            : Object.keys(data);
-
-        // Search within relevant categories
-        for (const category of categoriesToSearch) {
-          const filename = category.includes(".json")
-            ? category
-            : `${category}.json`;
-          const tokens = data[filename];
-          if (!tokens) continue;
-
-          Object.entries(tokens).forEach(([name, token]) => {
-            const nameMatch =
-              name.toLowerCase().includes(useCaseLower) ||
-              (componentType && name.toLowerCase().includes(compTypeLower));
-            const descMatch =
-              token.description &&
-              token.description.toLowerCase().includes(useCaseLower);
-
-            if (nameMatch || descMatch) {
-              recommendations.push({
-                name,
-                category: filename,
-                value: token.value,
-                description: token.description,
-                schema: token.$schema,
-                uuid: token.uuid,
-                private: token.private || false,
-                deprecated: token.deprecated || false,
-                deprecated_comment: token.deprecated_comment,
-                renamed: token.renamed,
-                relevanceReason: nameMatch ? "name match" : "description match",
-              });
-            }
-          });
-        }
-
-        // Sort by relevance (non-private first, then by name match)
-        recommendations.sort((a, b) => {
-          if (a.private !== b.private) return a.private ? 1 : -1;
-          if (a.relevanceReason !== b.relevanceReason) {
-            return a.relevanceReason === "name match" ? -1 : 1;
-          }
-          return a.name.localeCompare(b.name);
-        });
-
-        return {
-          useCase,
-          componentType,
-          recommendations: recommendations.slice(0, 20), // Limit to top 20
-          totalFound: recommendations.length,
-          searchedCategories: categoriesToSearch,
-        };
-      },
-    },
-    {
       name: "get-component-tokens",
-      description: "Get all tokens related to a specific component type",
+      description:
+        "Get tokens whose name contains a component (e.g. button, input).",
       inputSchema: {
         type: "object",
         properties: {
           componentName: {
             type: "string",
-            description:
-              'Name of the component (e.g., "button", "input", "card", "modal")',
+            description: "Component name substring",
           },
         },
         required: ["componentName"],
@@ -282,29 +203,19 @@ export function createTokenTools() {
         const componentTokens = [];
         const componentLower = componentName.toLowerCase();
 
-        // Search through all token categories for component-specific tokens
         Object.entries(data).forEach(([category, tokens]) => {
           if (!tokens) return;
-
           Object.entries(tokens).forEach(([name, token]) => {
             if (name.toLowerCase().includes(componentLower)) {
-              componentTokens.push({
-                name,
-                category,
-                value: token.value,
-                description: token.description,
-                schema: token.$schema,
-                uuid: token.uuid,
-                private: token.private || false,
-                deprecated: token.deprecated || false,
-                deprecated_comment: token.deprecated_comment,
-                renamed: token.renamed,
-              });
+              const entry = { name, category, value: token.value };
+              if (token.description) entry.description = token.description;
+              if (token.deprecated) entry.deprecated = true;
+              if (token.private) entry.private = true;
+              componentTokens.push(entry);
             }
           });
         });
 
-        // Group by category for better organization
         const groupedTokens = componentTokens.reduce((acc, token) => {
           if (!acc[token.category]) acc[token.category] = [];
           acc[token.category].push(token);
@@ -312,172 +223,8 @@ export function createTokenTools() {
         }, {});
 
         return {
-          componentName,
           tokensByCategory: groupedTokens,
           totalTokens: componentTokens.length,
-        };
-      },
-    },
-    {
-      name: "get-design-recommendations",
-      description:
-        "Get design token recommendations for common design decisions and component states",
-      inputSchema: {
-        type: "object",
-        properties: {
-          intent: {
-            type: "string",
-            description:
-              'Design intent (e.g., "primary", "secondary", "accent", "negative", "notice", "positive", "informative")',
-          },
-          state: {
-            type: "string",
-            description:
-              'Component state (e.g., "default", "hover", "focus", "active", "disabled", "selected")',
-          },
-          context: {
-            type: "string",
-            description:
-              'Usage context (e.g., "button", "input", "text", "background", "border", "icon")',
-          },
-        },
-        required: ["intent"],
-      },
-      handler: async ({ intent, state, context }) => {
-        const data = await getTokenData();
-        const recommendations = {
-          colors: [],
-          layout: [],
-          typography: [],
-        };
-
-        const intentLower = intent.toLowerCase();
-        const stateLower = (state || "").toLowerCase();
-        const contextLower = (context || "").toLowerCase();
-
-        // Search semantic colors first (these are typically the best recommendations)
-        const semanticColors = data["semantic-color-palette.json"] || {};
-        Object.entries(semanticColors).forEach(([name, token]) => {
-          const nameLower = name.toLowerCase();
-
-          // Intent matching
-          const intentMatch =
-            nameLower.includes(intentLower) ||
-            (intentLower === "error" && nameLower.includes("negative")) ||
-            (intentLower === "success" && nameLower.includes("positive")) ||
-            (intentLower === "warning" && nameLower.includes("notice"));
-
-          // State matching
-          const stateMatch = !state || nameLower.includes(stateLower);
-
-          // Context matching
-          const contextMatch = !context || nameLower.includes(contextLower);
-
-          if (intentMatch && stateMatch && contextMatch) {
-            recommendations.colors.push({
-              name,
-              value: token.value,
-              category: "semantic-color-palette",
-              type: "semantic",
-              confidence: "high",
-            });
-          }
-        });
-
-        // Search component colors if semantic colors don't provide enough options
-        if (recommendations.colors.length < 3) {
-          const componentColors = data["color-component.json"] || {};
-          Object.entries(componentColors).forEach(([name, token]) => {
-            const nameLower = name.toLowerCase();
-
-            // Intent and context matching for component colors
-            const intentMatch = nameLower.includes(intentLower);
-            const contextMatch = !context || nameLower.includes(contextLower);
-            const stateMatch = !state || nameLower.includes(stateLower);
-
-            if ((intentMatch || contextMatch) && stateMatch) {
-              recommendations.colors.push({
-                name,
-                value: token.value,
-                category: "color-component",
-                type: "component",
-                confidence: "medium",
-              });
-            }
-          });
-        }
-
-        // Layout recommendations if context suggests spacing/sizing
-        if (
-          context &&
-          ["button", "input", "spacing", "padding", "margin"].some((c) =>
-            contextLower.includes(c),
-          )
-        ) {
-          const layoutComponent = data["layout-component.json"] || {};
-          Object.entries(layoutComponent).forEach(([name, token]) => {
-            const nameLower = name.toLowerCase();
-
-            if (
-              contextLower &&
-              nameLower.includes(contextLower) &&
-              nameLower.includes(stateLower || "size")
-            ) {
-              recommendations.layout.push({
-                name,
-                value: token.value,
-                category: "layout-component",
-                type: "spacing",
-                confidence: "high",
-              });
-            }
-          });
-        }
-
-        // Typography recommendations for text contexts
-        if (
-          context &&
-          ["text", "label", "heading", "body"].some((c) =>
-            contextLower.includes(c),
-          )
-        ) {
-          const typography = data["typography.json"] || {};
-          Object.entries(typography).forEach(([name, token]) => {
-            const nameLower = name.toLowerCase();
-
-            if (nameLower.includes(contextLower)) {
-              recommendations.typography.push({
-                name,
-                value: token.value,
-                category: "typography",
-                type: "text",
-                confidence: "high",
-              });
-            }
-          });
-        }
-
-        // Sort by confidence and limit results
-        ["colors", "layout", "typography"].forEach((category) => {
-          recommendations[category] = recommendations[category]
-            .sort((a, b) => {
-              const confidenceOrder = { high: 0, medium: 1, low: 2 };
-              return (
-                confidenceOrder[a.confidence] - confidenceOrder[b.confidence]
-              );
-            })
-            .slice(0, 10);
-        });
-
-        return {
-          intent,
-          state,
-          context,
-          recommendations,
-          totalFound:
-            recommendations.colors.length +
-            recommendations.layout.length +
-            recommendations.typography.length,
         };
       },
     },
@@ -515,20 +262,19 @@ function processTokens(tokens, fileName, query, type) {
             continue;
           }
 
-          results.push({
+          const entry = {
             name: key,
-            path: currentPath,
             category,
-            type: tokenType,
             value: value.$value || value.value,
-            description: value.$description || value.description,
-            extensions: value.$extensions || value.extensions,
-            uuid: value.uuid,
-            private: value.private || false,
-            deprecated: value.deprecated || false,
-            deprecated_comment: value.deprecated_comment,
-            renamed: value.renamed,
-          });
+          };
+          if (value.$description || value.description)
+            entry.description = value.$description || value.description;
+          if (value.deprecated) entry.deprecated = true;
+          if (value.private) entry.private = true;
+          if (value.deprecated_comment)
+            entry.deprecated_comment = value.deprecated_comment;
+          if (value.renamed) entry.renamed = value.renamed;
+          results.push(entry);
         } else {
           // Recurse into nested objects
           traverse(value, currentPath);
@@ -589,4 +335,67 @@ function matchesQuery(path, token, query) {
   }
 
   return false;
+}
+
+/**
+ * Extract token name from alias reference value {token-name}
+ * @param {string} value - Raw value
+ * @returns {string|null} Token name or null if not a reference
+ */
+function extractReference(value) {
+  if (typeof value !== "string") return null;
+  const m = value.match(/^\{([^}]+)\}$/);
+  return m ? m[1] : null;
+}
+
+/**
+ * Resolve a token's value (follow alias chains, handle sets). Detects cycles.
+ * @param {Object} token - Token object
+ * @param {Object} flatMap - Flat map of tokenName -> token
+ * @param {Set<string>} visited - Token names already visited (cycle detection)
+ * @param {string} currentName - Current token name (for visited set)
+ * @returns {string|number|Object|null} Resolved value; for sets, object of setKey -> resolved value
+ */
+function resolveTokenValue(token, flatMap, visited, currentName) {
+  if (!token || typeof token !== "object") return null;
+  if (visited.has(currentName)) return null;
+  visited.add(currentName);
+
+  if (token.sets && typeof token.sets === "object") {
+    const out = {};
+    for (const [setKey, setToken] of Object.entries(token.sets)) {
+      const resolved = resolveTokenValue(
+        setToken,
+        flatMap,
+        new Set(visited),
+        `${currentName}.${setKey}`,
+      );
+      out[setKey] = resolved;
+    }
+    return out;
+  }
+
+  const raw = token.value;
+  if (raw === undefined) return null;
+  const ref = extractReference(raw);
+  if (ref) {
+    const refToken = flatMap[ref];
+    if (!refToken) return null;
+    return resolveTokenValue(refToken, flatMap, visited, ref);
+  }
+  return raw;
+}
+
+/**
+ * Check if a value matches the search string (exact or contains)
+ * @param {string|number} value - Token value
+ * @param {string} searchValue - Search string
+ * @param {boolean} exact - Whether to require exact match
+ * @returns {boolean}
+ */
+function matchesValue(value, searchValue, exact) {
+  const n =
+    value === null || value === undefined ? "" : String(value).toLowerCase();
+  const s = String(searchValue).toLowerCase();
+  return exact ? n === s : n.includes(s);
 }

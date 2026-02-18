@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 import { glob } from "glob";
 
-import { resolve } from "path";
+import { basename, resolve } from "path";
 import { readFile } from "fs/promises";
 import * as url from "url";
 import { writeFile } from "fs/promises";
@@ -44,6 +44,17 @@ export const isDeprecated = (token) =>
 
 export const getFileTokens = async (tokenFileName) =>
   await readJson(resolve(__dirname, "src", tokenFileName));
+
+export const getTokensByFile = async () => {
+  const result = {};
+  await Promise.all(
+    tokenFileNames.map(async (filePath) => {
+      const fileName = basename(filePath);
+      result[fileName] = await readJson(filePath);
+    }),
+  );
+  return result;
+};
 
 export const getAllTokens = async () => {
   return await Promise.all(tokenFileNames.map(getFileTokens)).then(
