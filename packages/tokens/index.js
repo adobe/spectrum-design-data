@@ -45,6 +45,17 @@ export const isDeprecated = (token) =>
 export const getFileTokens = async (tokenFileName) =>
   await readJson(resolve(__dirname, "src", tokenFileName));
 
+export const getTokensByFile = async () => {
+  const result = {};
+  await Promise.all(
+    tokenFileNames.map(async (filePath) => {
+      const fileName = filePath.split("/").pop();
+      result[fileName] = await readJson(filePath);
+    }),
+  );
+  return result;
+};
+
 export const getAllTokens = async () => {
   return await Promise.all(tokenFileNames.map(getFileTokens)).then(
     (tokenFileDataAr) => {
