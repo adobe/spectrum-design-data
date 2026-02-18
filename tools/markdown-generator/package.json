@@ -1,6 +1,6 @@
 {
   "name": "markdown-generator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Generate markdown files from tokens, component-schemas, and design-system-registry for docs and chatbot indexing",
   "type": "module",
   "private": true,

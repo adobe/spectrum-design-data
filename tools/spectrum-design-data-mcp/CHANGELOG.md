@@ -1,5 +1,17 @@
 # [**@adobe/spectrum-design-data-mcp**](https://github.com/adobe/spectrum-design-data-mcp)
 
+## 1.1.0
+
+### Minor Changes
+
+- [#706](https://github.com/adobe/spectrum-design-data/pull/706) [`c051815`](https://github.com/adobe/spectrum-design-data/commit/c05181505730ec911196c4b6d37d106bccd742e5) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix data loader to use getTokensByFile/getAllTokens from @adobe/spectrum-tokens.
+  Add query-tokens-by-value tool (search by direct or resolved alias value).
+
+### Patch Changes
+
+- Updated dependencies [[`c051815`](https://github.com/adobe/spectrum-design-data/commit/c05181505730ec911196c4b6d37d106bccd742e5)]:
+  - @adobe/spectrum-tokens@14.2.0
+
 ## 1.0.13
 
 ### Patch Changes

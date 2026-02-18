@@ -1,5 +1,11 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.2.0
+
+### Minor Changes
+
+- [#706](https://github.com/adobe/spectrum-design-data/pull/706) [`c051815`](https://github.com/adobe/spectrum-design-data/commit/c05181505730ec911196c4b6d37d106bccd742e5) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `getTokensByFile()` export (tokens grouped by filename; complement to `getAllTokens()`).
+
 ## 14.1.0
 
 ### Minor Changes
@@ -22,7 +28,6 @@
   <details><summary><strong>Updated Properties (67)</strong></summary>
 
   All tokens below had the `renamed` property added to indicate their replacement token name:
-  
   - `drop-shadow-color` → `drop-shadow-color-100`
   - `color-loupe-drop-shadow-color` → `drop-shadow-elevated-color`
   - `color-handle-drop-shadow-color` → `drop-shadow-color`
