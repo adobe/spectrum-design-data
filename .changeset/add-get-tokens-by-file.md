@@ -2,4 +2,4 @@
 "@adobe/spectrum-tokens": minor
 ---
 
-Add `getTokensByFile()` export to return tokens grouped by source filename (complement to flat `getAllTokens()`).
+Add `getTokensByFile()` export (tokens grouped by filename; complement to `getAllTokens()`).
