@@ -1,5 +1,12 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.2.1
+
+### Patch Changes
+
+- [#709](https://github.com/adobe/spectrum-design-data/pull/709) [`49ad47b`](https://github.com/adobe/spectrum-design-data/commit/49ad47bea61952f84eb86b214954136049aca376) Thanks [@GarthDB](https://github.com/GarthDB)! - Use dynamic import for prettier in writeJson so the package loads without prettier
+  when used outside the monorepo (e.g. spectrum-design-data-mcp via npx).
+
 ## 14.2.0
 
 ### Minor Changes
