@@ -116,7 +116,19 @@ function resolveTokenValue(tokenMap, token) {
     for (const [setName, setToken] of Object.entries(token.sets)) {
       if (setToken && typeof setToken.value === "string") {
         const result = resolveValueOne(tokenMap, setToken.value);
-        resolvedSets[setName] = result;
+        if (
+          typeof result.resolved === "object" &&
+          result.resolved !== null &&
+          !Array.isArray(result.resolved) &&
+          setName in result.resolved
+        ) {
+          resolvedSets[setName] = {
+            value: result.value,
+            resolved: result.resolved[setName],
+          };
+        } else {
+          resolvedSets[setName] = result;
+        }
       } else {
         resolvedSets[setName] = {
           value: setToken?.value,

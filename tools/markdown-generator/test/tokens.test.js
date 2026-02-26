@@ -175,3 +175,24 @@ test("generateTokenMarkdown handles renamed tokens with links", async (t) => {
     await rm(outputDir, { recursive: true, force: true });
   }
 });
+
+test("generateTokenMarkdown never outputs [object Object] in token tables", async (t) => {
+  const outputDir = await mkdtemp(join(tmpdir(), "md-gen-test-"));
+  try {
+    await generateTokenMarkdown(outputDir);
+    const files = await import("fs/promises").then((fs) =>
+      fs.readdir(join(outputDir, "tokens")),
+    );
+    t.true(files.length > 0, "Should generate at least one token file");
+    const bad = "[object Object]";
+    for (const file of files) {
+      const content = await readFile(join(outputDir, "tokens", file), "utf8");
+      t.false(
+        content.includes(bad),
+        `Generated file ${file} must not contain "${bad}"`,
+      );
+    }
+  } finally {
+    await rm(outputDir, { recursive: true, force: true });
+  }
+});
