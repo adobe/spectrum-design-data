@@ -3,6 +3,7 @@ title: Segmented Control
 description: "Segmented controls allow users to select one option from a set of mutually exclusive options."
 category: navigation
 documentationUrl: https://spectrum.adobe.com/page/segmented-control/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/segmented-control/
 tags:
   - component
   - schema

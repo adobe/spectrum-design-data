@@ -1,6 +1,7 @@
 ---
 title: Color component
 description: "Component-specific color tokens."
+source_url: https://opensource.adobe.com/spectrum-design-data/tokens/color-component/
 tags:
   - tokens
   - color-component

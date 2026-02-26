@@ -3,6 +3,7 @@ title: Avatar
 description: "An avatar is a thumbnail representation of an entity, such as a user or an organization."
 category: navigation
 documentationUrl: https://spectrum.adobe.com/page/avatar/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/avatar/
 tags:
   - component
   - schema

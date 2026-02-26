@@ -3,6 +3,7 @@ title: Progress bar
 description: "Progress bars show the progression of a system operation: downloading, uploading, processing, etc., in a visual way. They can represent either determinate or in"
 category: status
 documentationUrl: https://spectrum.adobe.com/page/progress-bar/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/progress-bar/
 tags:
   - component
   - schema

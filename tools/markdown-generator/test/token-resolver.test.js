@@ -178,3 +178,35 @@ test("getTokenDisplayInfo handles missing token references gracefully", async (t
   t.true("value" in info, "Should include value");
   t.true("resolved" in info, "Should include resolved");
 });
+
+test("getTokenDisplayInfo resolves nested sets to scalar values per set", async (t) => {
+  const tokenMap = await buildTokenMap();
+  const fileMap = await buildTokenFileMap();
+
+  const tokenName = "accent-background-color-default";
+  const token = tokenMap.get(tokenName);
+  t.true(!!token, "accent-background-color-default should exist in token map");
+  t.true(
+    !!token.sets,
+    "Token should have sets (alias chain through nested sets)",
+  );
+
+  const info = getTokenDisplayInfo(tokenMap, fileMap, tokenName, token);
+  t.true(typeof info.resolved === "object", "Resolved should be an object");
+  t.false(Array.isArray(info.resolved), "Resolved should not be an array");
+
+  for (const [setName, setValue] of Object.entries(info.resolved)) {
+    const resolved =
+      setValue && typeof setValue === "object" && "resolved" in setValue
+        ? setValue.resolved
+        : setValue;
+    t.true(
+      typeof resolved === "string",
+      `Set "${setName}" should resolve to a string (e.g. rgb(...)), got ${typeof resolved}`,
+    );
+    t.false(
+      resolved === "[object Object]" || resolved.includes("[object Object]"),
+      `Set "${setName}" must not be [object Object]`,
+    );
+  }
+});

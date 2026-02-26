@@ -3,6 +3,7 @@ title: Table
 description: "Tables display information in rows and columns, allowing users to compare and scan structured data."
 category: data visualization
 documentationUrl: https://spectrum.adobe.com/page/table/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/table/
 tags:
   - component
   - schema

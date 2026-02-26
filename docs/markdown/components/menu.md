@@ -3,6 +3,7 @@ title: Menu
 description: "Menus help users take actions, choose from a list of options, configure settings, and more. They can be placed in a transient container, like a popover or tray."
 category: actions
 documentationUrl: https://spectrum.adobe.com/page/menu/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/menu/
 tags:
   - component
   - schema

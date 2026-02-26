@@ -3,6 +3,7 @@ title: Radio Group
 description: "A radio group is a grouping of radio buttons that are related to each other."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/radio-group/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/radio-group/
 tags:
   - component
   - schema

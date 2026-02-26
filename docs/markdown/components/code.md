@@ -3,6 +3,7 @@ title: Code
 description: "Detail is a typography component used for disclosing extra information or smaller items in hierarchical relationships of text."
 category: typography
 documentationUrl: https://spectrum.adobe.com/page/code/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/code/
 tags:
   - component
   - schema

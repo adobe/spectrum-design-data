@@ -3,6 +3,7 @@ title: Checkbox
 description: "Checkboxes allow users to select multiple items from a list of individual items, or to mark one individual item as selected."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/checkbox/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/checkbox/
 tags:
   - component
   - schema

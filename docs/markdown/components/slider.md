@@ -3,6 +3,7 @@ title: Slider
 description: "Sliders allow users to quickly select a value within a range. They should be used when the upper and lower bounds to the range are invariable."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/slider/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/slider/
 tags:
   - component
   - schema

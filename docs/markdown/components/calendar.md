@@ -3,6 +3,7 @@ title: Calendar
 description: "Calendars display days, weeks, and months, allowing users to select dates or ranges."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/calendar/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/calendar/
 tags:
   - component
   - schema

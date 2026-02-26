@@ -3,6 +3,7 @@ title: Link
 description: "Links allow users to navigate to a different location. They can be presented inside a paragraph or as standalone text."
 category: actions
 documentationUrl: https://spectrum.adobe.com/page/link/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/link/
 tags:
   - component
   - schema

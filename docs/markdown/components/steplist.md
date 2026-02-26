@@ -3,6 +3,7 @@ title: Steplist
 description: "Step lists display progress through a sequence of steps, with each step marked as completed, current, or incomplete."
 category: navigation
 documentationUrl: https://spectrum.adobe.com/page/steplist/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/steplist/
 tags:
   - component
   - schema

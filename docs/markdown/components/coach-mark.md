@@ -3,6 +3,7 @@ title: Coach mark
 description: "Coach marks provide contextual guidance to users by highlighting specific interface elements."
 category: feedback
 documentationUrl: https://spectrum.adobe.com/page/coach-mark/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/coach-mark/
 tags:
   - component
   - schema

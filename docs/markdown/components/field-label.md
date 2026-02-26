@@ -3,6 +3,7 @@ title: Field label
 description: "Field labels give context to the information that a user needs to input. They're commonly used in forms."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/field-label/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/field-label/
 tags:
   - component
   - schema

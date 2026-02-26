@@ -3,6 +3,7 @@ title: Search field
 description: "A search field is used for searching and filtering items."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/search-field/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/search-field/
 tags:
   - component
   - schema

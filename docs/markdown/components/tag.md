@@ -3,6 +3,7 @@ title: Tag
 description: "Tags allow users to categorize content. They can represent keywords or people, and are grouped to describe an item or a search request."
 category: navigation
 documentationUrl: https://spectrum.adobe.com/page/tag/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/tag/
 tags:
   - component
   - schema

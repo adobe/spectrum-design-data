@@ -1,6 +1,7 @@
 ---
 title: Color palette
 description: "Raw color values (hex/rgb) for the Spectrum palette."
+source_url: https://opensource.adobe.com/spectrum-design-data/tokens/color-palette/
 tags:
   - tokens
   - color-palette

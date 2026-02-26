@@ -3,6 +3,7 @@ title: Close button
 description: "The close button is used inside of other components, like a toast or an action bar, for closing or dismissing its parent component."
 category: actions
 documentationUrl: https://spectrum.adobe.com/page/close-button/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/close-button/
 tags:
   - component
   - schema

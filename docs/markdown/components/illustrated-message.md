@@ -3,6 +3,7 @@ title: Illustrated message
 description: "An illustrated message displays an illustration with a short title and description, often used for empty states or error states."
 category: feedback
 documentationUrl: https://spectrum.adobe.com/page/illustrated-message/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/illustrated-message/
 tags:
   - component
   - schema

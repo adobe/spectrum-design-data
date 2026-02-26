@@ -3,6 +3,7 @@ title: Accordion
 description: "An accordion is a vertically stacked set of interactive headings that each contain a title and a content area."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/accordion/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/accordion/
 tags:
   - component
   - schema

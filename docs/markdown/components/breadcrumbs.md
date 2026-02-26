@@ -3,6 +3,7 @@ title: Breadcrumbs
 description: "Breadcrumbs show hierarchy and navigational context for a user’s location within an app."
 category: navigation
 documentationUrl: https://spectrum.adobe.com/page/breadcrumbs/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/breadcrumbs/
 tags:
   - component
   - schema

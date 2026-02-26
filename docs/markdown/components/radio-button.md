@@ -3,6 +3,7 @@ title: Radio button
 description: "Radio buttons allow users to select a single option from a list of mutually exclusive options."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/radio-button/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/radio-button/
 tags:
   - component
   - schema

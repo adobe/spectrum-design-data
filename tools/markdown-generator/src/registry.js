@@ -24,6 +24,7 @@ import {
   glossary,
 } from "@adobe/design-system-registry";
 import { writeFile, mkdir } from "fs/promises";
+import { BASE_SOURCE_URL } from "./constants.js";
 
 const REGISTRIES = [
   { key: "sizes", data: sizes, title: "Sizes" },
@@ -82,6 +83,7 @@ export async function generateRegistryMarkdown(outputDir) {
     const frontmatter = `---
 title: ${title}
 description: ${description}
+source_url: ${BASE_SOURCE_URL}/registry/${key}/
 tags:
 ${tags.map((t) => `  - ${t}`).join("\n")}
 ---

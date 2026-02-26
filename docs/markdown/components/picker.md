@@ -3,6 +3,7 @@ title: Picker
 description: "Pickers (sometimes known as \"dropdowns\" or \"selects\") allow users to choose from a list of options in a limited space. The list of options can change based on t"
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/picker/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/picker/
 tags:
   - component
   - schema

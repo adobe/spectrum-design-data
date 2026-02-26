@@ -3,6 +3,7 @@ title: Color slider
 description: "A color slider lets users visually change an individual channel of a color."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/color-slider/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/color-slider/
 tags:
   - component
   - schema

@@ -2,6 +2,7 @@
 title: Tokens
 layout: base.liquid
 permalink: /tokens/
+source_url: https://opensource.adobe.com/spectrum-design-data/pages/tokens/index/
 ---
 
 # Tokens

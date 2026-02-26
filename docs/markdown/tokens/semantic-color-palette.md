@@ -1,6 +1,7 @@
 ---
 title: Semantic color palette
 description: "Semantic palette tokens (e.g. semantic blue, semantic red)."
+source_url: https://opensource.adobe.com/spectrum-design-data/tokens/semantic-color-palette/
 tags:
   - tokens
   - semantic-color-palette

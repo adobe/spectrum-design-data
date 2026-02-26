@@ -3,6 +3,7 @@ title: Swatch group
 description: "A swatch group is a grouping of swatches that are related to each other."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/swatch-group/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/swatch-group/
 tags:
   - component
   - schema

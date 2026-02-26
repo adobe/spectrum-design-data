@@ -1,6 +1,7 @@
 ---
 title: Typography
 description: "Font families, weights, sizes, letter spacing, and text alignment."
+source_url: https://opensource.adobe.com/spectrum-design-data/tokens/typography/
 tags:
   - tokens
   - typography

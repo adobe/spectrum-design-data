@@ -3,6 +3,7 @@ title: Color wheel
 description: "A color wheel lets users visually change an individual channel of a color on a circular track."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/color-wheel/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/color-wheel/
 tags:
   - component
   - schema

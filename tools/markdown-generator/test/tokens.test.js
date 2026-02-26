@@ -43,6 +43,17 @@ test("generateTokenMarkdown creates valid frontmatter", async (t) => {
           "Should contain description in frontmatter",
         );
         t.true(content.includes("tags:"), "Should contain tags in frontmatter");
+        t.true(
+          content.includes("source_url:"),
+          "Should contain source_url in frontmatter",
+        );
+        const fileKey = files[0].replace(/\.md$/, "");
+        t.true(
+          content.includes(
+            `https://opensource.adobe.com/spectrum-design-data/tokens/${fileKey}/`,
+          ),
+          "source_url should match published URL pattern for token file",
+        );
       }
     }
   } finally {
@@ -158,6 +169,27 @@ test("generateTokenMarkdown handles renamed tokens with links", async (t) => {
       t.true(
         content.includes("Replaced by"),
         "Should include Replaced by column for renamed tokens",
+      );
+    }
+  } finally {
+    await rm(outputDir, { recursive: true, force: true });
+  }
+});
+
+test("generateTokenMarkdown never outputs [object Object] in token tables", async (t) => {
+  const outputDir = await mkdtemp(join(tmpdir(), "md-gen-test-"));
+  try {
+    await generateTokenMarkdown(outputDir);
+    const files = await import("fs/promises").then((fs) =>
+      fs.readdir(join(outputDir, "tokens")),
+    );
+    t.true(files.length > 0, "Should generate at least one token file");
+    const bad = "[object Object]";
+    for (const file of files) {
+      const content = await readFile(join(outputDir, "tokens", file), "utf8");
+      t.false(
+        content.includes(bad),
+        `Generated file ${file} must not contain "${bad}"`,
       );
     }
   } finally {

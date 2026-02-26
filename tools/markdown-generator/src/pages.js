@@ -13,6 +13,7 @@ governing permissions and limitations under the License.
 import { readdir, readFile, writeFile, mkdir } from "fs/promises";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { BASE_SOURCE_URL } from "./constants.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(__dirname, "..", "..", "..");
@@ -39,10 +40,33 @@ async function collectMdPaths(dir, relativePrefix = "") {
   return paths;
 }
 
+const FRONTMATTER_RE = /^---\n([\s\S]*?)\n---/;
+
+/**
+ * Inject or replace source_url in frontmatter. Path is relative to docs/markdown (e.g. "pages/index", "pages/components/index").
+ * @param {string} content - full file content
+ * @param {string} pathWithoutExt - path under docs/markdown without .md (e.g. "pages/index")
+ * @returns {string} content with source_url in frontmatter
+ */
+function injectSourceUrl(content, pathWithoutExt) {
+  const sourceUrl = `${BASE_SOURCE_URL}/${pathWithoutExt}/`;
+  const match = content.match(FRONTMATTER_RE);
+  if (match) {
+    let fm = match[1];
+    if (fm.includes("source_url:")) {
+      fm = fm.replace(/^source_url:.*$/gm, `source_url: ${sourceUrl}`);
+    } else {
+      fm = fm.trimEnd() + `\nsource_url: ${sourceUrl}`;
+    }
+    return content.replace(FRONTMATTER_RE, `---\n${fm}\n---`);
+  }
+  return `---\nsource_url: ${sourceUrl}\n---\n\n${content}`;
+}
+
 /**
  * Copy markdown pages from docs/site/src/pages into docs/markdown/pages/,
  * preserving directory structure. Used for chatbot indexing and consistency
- * with the 11ty site content.
+ * with the 11ty site content. Injects source_url into each file's frontmatter.
  * @param {string} outputDir - docs/markdown directory
  * @returns {Promise<number>} number of files copied
  */
@@ -56,7 +80,9 @@ export async function copySitePages(outputDir) {
     const destPath = join(pagesOutDir, rel);
     await mkdir(dirname(destPath), { recursive: true });
     const content = await readFile(srcPath, "utf-8");
-    await writeFile(destPath, content);
+    const pathWithoutExt = "pages/" + rel.replace(/\.md$/, "");
+    const withSourceUrl = injectSourceUrl(content, pathWithoutExt);
+    await writeFile(destPath, withSourceUrl);
   }
 
   return relativePaths.length;

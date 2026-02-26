@@ -1,6 +1,7 @@
 ---
 title: Color aliases
 description: "Semantic color tokens that reference the palette (e.g. focus, overlay)."
+source_url: https://opensource.adobe.com/spectrum-design-data/tokens/color-aliases/
 tags:
   - tokens
   - color-aliases

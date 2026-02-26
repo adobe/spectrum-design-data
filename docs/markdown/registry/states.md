@@ -1,6 +1,7 @@
 ---
 title: States
 description: Interaction states for components
+source_url: https://opensource.adobe.com/spectrum-design-data/registry/states/
 tags:
   - registry
   - states

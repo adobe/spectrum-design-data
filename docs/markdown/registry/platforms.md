@@ -1,6 +1,7 @@
 ---
 title: Platforms
 description: Platform names for multi-platform design system support
+source_url: https://opensource.adobe.com/spectrum-design-data/registry/platforms/
 tags:
   - registry
   - platforms

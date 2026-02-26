@@ -3,6 +3,7 @@ title: Opacity Checkerboard
 description: "Opacity checkerboards provide a visual pattern background used in color swatches and UI elements to indicate transparency or when no color is selected."
 category: status
 documentationUrl: https://spectrum.adobe.com/page/opacity-checkerboard/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/opacity-checkerboard/
 tags:
   - component
   - schema

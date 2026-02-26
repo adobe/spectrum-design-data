@@ -3,6 +3,7 @@ title: Bottom navigation (Android)
 description: "Bottom navigation is a top-level navigation control for Android apps."
 category: navigation
 documentationUrl: https://spectrum.adobe.com/page/bottom-navigation-android/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/bottom-navigation-android/
 tags:
   - component
   - schema

@@ -3,6 +3,7 @@ title: Avatar group
 description: "Avatar groups display a collection of avatars representing people or entities."
 category: actions
 documentationUrl: https://spectrum.adobe.com/page/avatar-group/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/avatar-group/
 tags:
   - component
   - schema

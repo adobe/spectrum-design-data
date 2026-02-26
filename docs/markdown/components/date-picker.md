@@ -3,6 +3,7 @@ title: Date picker
 description: "A date picker lets users enter a single date or a date range. It includes a calendar popover and a field."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/date-picker/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/date-picker/
 tags:
   - component
   - schema

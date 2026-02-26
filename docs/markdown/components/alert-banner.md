@@ -3,6 +3,7 @@ title: Alert banner
 description: "Alert banners show pressing and high-signal messages, such as system alerts. They're meant to be noticed and prompt users to take action."
 category: feedback
 documentationUrl: https://spectrum.adobe.com/page/alert-banner/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/alert-banner/
 tags:
   - component
   - schema

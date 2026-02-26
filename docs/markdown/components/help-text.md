@@ -3,6 +3,7 @@ title: Help text
 description: "Help text provides either an informative description or an error message that gives more context about what a user needs to input. It’s commonly used in forms."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/help-text/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/help-text/
 tags:
   - component
   - schema

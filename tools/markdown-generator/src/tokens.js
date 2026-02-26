@@ -24,6 +24,7 @@ import {
 } from "./token-resolver.js";
 import { writeFile, mkdir } from "fs/promises";
 import { dirname } from "path";
+import { BASE_SOURCE_URL } from "./constants.js";
 
 const ALIAS_PATTERN = /^\{([^}]+)\}$/;
 
@@ -43,8 +44,28 @@ const TOKEN_FILE_DESCRIPTIONS = {
     "Color tokens for Spectrum icons (primary, hover, down, background, disabled).",
 };
 
+function formatObjectDisplay(obj) {
+  if (obj == null || typeof obj !== "object") return String(obj);
+  if (Array.isArray(obj)) return obj.map(formatShadowItem).join(", ");
+  return Object.entries(obj)
+    .map(([k, v]) => {
+      const val =
+        v != null && typeof v === "object"
+          ? formatObjectDisplay(v)
+          : (v ?? "-");
+      return `${k}: ${val}`;
+    })
+    .join("; ");
+}
+
 function formatValueDisplay(value, valueLink) {
   if (value == null) return "-";
+  if (Array.isArray(value)) {
+    return value.map(formatShadowItem).join(", ");
+  }
+  if (typeof value === "object") {
+    return formatObjectDisplay(value);
+  }
   const str = String(value);
   if (valueLink && str.match(ALIAS_PATTERN)) {
     return `[${str}](${valueLink})`;
@@ -52,15 +73,32 @@ function formatValueDisplay(value, valueLink) {
   return str;
 }
 
+function formatShadowItem(item) {
+  if (item && typeof item === "object" && "x" in item && "y" in item) {
+    const { x = "0", y = "0", blur = "0", spread = "0", color = "" } = item;
+    return `${x} ${y} ${blur} ${spread} ${color}`.trim();
+  }
+  return String(item);
+}
+
 function formatResolvedDisplay(resolved) {
   if (resolved == null) return "-";
-  if (typeof resolved === "object" && !Array.isArray(resolved)) {
+  if (Array.isArray(resolved)) {
+    return resolved.map(formatShadowItem).join(", ");
+  }
+  if (typeof resolved === "object") {
     return Object.entries(resolved)
       .map(([k, v]) => {
-        const str =
+        let str =
           typeof v === "object" && v && "resolved" in v
             ? (v.resolved ?? v.value ?? "-")
             : (v ?? "-");
+        if (typeof str === "object" && str !== null && k in str) {
+          str = str[k];
+        }
+        if (typeof str === "object" || typeof str === "undefined") {
+          str = str == null ? "-" : formatObjectDisplay(str);
+        }
         return `${k}: ${str}`;
       })
       .join("; ");
@@ -117,6 +155,7 @@ export async function generateTokenMarkdown(outputDir) {
     const frontmatter = `---
 title: ${title}
 description: "${safeDesc}"
+source_url: ${BASE_SOURCE_URL}/tokens/${fileKey}/
 tags:
 ${tags.map((t) => `  - ${t}`).join("\n")}
 ---

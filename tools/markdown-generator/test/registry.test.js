@@ -43,6 +43,17 @@ test("generateRegistryMarkdown creates valid frontmatter", async (t) => {
           "Should contain description in frontmatter",
         );
         t.true(content.includes("tags:"), "Should contain tags in frontmatter");
+        t.true(
+          content.includes("source_url:"),
+          "Should contain source_url in frontmatter",
+        );
+        const key = files[0].replace(/\.md$/, "");
+        t.true(
+          content.includes(
+            `https://opensource.adobe.com/spectrum-design-data/registry/${key}/`,
+          ),
+          "source_url should match published URL pattern for registry entry",
+        );
       }
     }
   } finally {

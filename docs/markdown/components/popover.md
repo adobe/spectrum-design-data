@@ -3,6 +3,7 @@ title: Popover
 description: "Popovers are containers used to display transient content such as menus, options, additional actions, and more. They visually stand out through stroke and drop "
 category: containers
 documentationUrl: https://spectrum.adobe.com/page/popover/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/popover/
 tags:
   - component
   - schema

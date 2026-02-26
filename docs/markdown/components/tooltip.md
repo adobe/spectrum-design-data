@@ -3,6 +3,7 @@ title: Tooltip
 description: "Tooltips show contextual help or information about specific components when a user hovers or focuses on them."
 category: feedback
 documentationUrl: https://spectrum.adobe.com/page/tooltip/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/tooltip/
 tags:
   - component
   - schema
