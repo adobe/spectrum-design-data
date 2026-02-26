@@ -16,7 +16,6 @@ import { basename, resolve } from "path";
 import { readFile } from "fs/promises";
 import * as url from "url";
 import { writeFile } from "fs/promises";
-import { format } from "prettier";
 
 export const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
@@ -28,6 +27,7 @@ export const readJson = async (fileName) =>
   JSON.parse(await readFile(fileName, "utf8"));
 
 export const writeJson = async (fileName, jsonData) => {
+  const { format } = await import("prettier");
   await writeFile(
     fileName,
     await format(JSON.stringify(jsonData), { parser: "json-stringify" }),
