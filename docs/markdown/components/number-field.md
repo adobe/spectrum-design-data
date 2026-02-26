@@ -3,6 +3,7 @@ title: Number field
 description: "Number fields allow users to enter a numeric value, with optional increment and decrement buttons."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/number-field/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/number-field/
 tags:
   - component
   - schema

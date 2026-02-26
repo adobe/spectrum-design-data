@@ -3,6 +3,7 @@ title: Progress circle
 description: "Progress circles show the progression of a system operation such as downloading, uploading, processing, etc. in a visual way. They can represent determinate or "
 category: status
 documentationUrl: https://spectrum.adobe.com/page/progress-circle/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/progress-circle/
 tags:
   - component
   - schema

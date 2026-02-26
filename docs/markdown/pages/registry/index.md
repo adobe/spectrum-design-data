@@ -2,6 +2,7 @@
 title: Registry
 layout: base.liquid
 permalink: /registry/
+source_url: https://opensource.adobe.com/spectrum-design-data/pages/registry/index/
 ---
 
 # Registry

@@ -2,6 +2,7 @@
 title: Home
 layout: base.liquid
 permalink: /
+source_url: https://opensource.adobe.com/spectrum-design-data/pages/index/
 ---
 
 # Spectrum Design Data

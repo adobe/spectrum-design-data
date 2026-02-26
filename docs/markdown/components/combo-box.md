@@ -3,6 +3,7 @@ title: Combo box
 description: "Combo boxes combine a text entry with a picker menu, allowing users to filter longer lists to only the selections matching a query."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/combo-box/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/combo-box/
 tags:
   - component
   - schema

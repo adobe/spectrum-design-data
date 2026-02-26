@@ -3,6 +3,7 @@ title: Swatch
 description: "A swatch shows a small sample of a fill — such as a color, gradient, texture, or material — that is intended to be applied to an object."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/swatch/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/swatch/
 tags:
   - component
   - schema

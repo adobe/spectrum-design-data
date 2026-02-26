@@ -3,6 +3,7 @@ title: Thumbnail
 description: "Thumbnails are small representations of images or content used for previews and navigation in galleries, lists, and media collections."
 category: navigation
 documentationUrl: https://spectrum.adobe.com/page/thumbnail/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/thumbnail/
 tags:
   - component
   - schema

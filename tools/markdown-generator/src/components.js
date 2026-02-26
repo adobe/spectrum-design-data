@@ -13,6 +13,7 @@ governing permissions and limitations under the License.
 import { getAllSchemas } from "@adobe/spectrum-component-api-schemas";
 import { writeFile, mkdir } from "fs/promises";
 import { dirname } from "path";
+import { BASE_SOURCE_URL } from "./constants.js";
 
 export async function generateComponentMarkdown(outputDir) {
   const schemas = await getAllSchemas();
@@ -60,6 +61,7 @@ title: ${title}
 description: "${safeDesc}"
 category: ${category}
 documentationUrl: ${documentationUrl}
+source_url: ${BASE_SOURCE_URL}/components/${slug}/
 tags:
 ${tags.map((t) => `  - ${t}`).join("\n")}
 ---

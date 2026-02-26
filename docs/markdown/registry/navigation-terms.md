@@ -1,6 +1,7 @@
 ---
 title: Navigation terms
 description: Navigation-specific terminology for app frame and navigation components
+source_url: https://opensource.adobe.com/spectrum-design-data/registry/navigation-terms/
 tags:
   - registry
   - navigation-terms

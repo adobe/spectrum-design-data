@@ -3,6 +3,7 @@ title: Alert dialog
 description: "Alert dialogs display important information that users need to acknowledge. They appear over the interface and block further interactions until an action is sel"
 category: feedback
 documentationUrl: https://spectrum.adobe.com/page/alert-dialog/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/alert-dialog/
 tags:
   - component
   - schema

@@ -3,6 +3,7 @@ title: Coach indicator
 description: "Coach indicators help guide users through interfaces by highlighting important areas or features during onboarding and feature discovery."
 category: feedback
 documentationUrl: https://spectrum.adobe.com/page/coach-indicator/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/coach-indicator/
 tags:
   - component
   - schema

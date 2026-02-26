@@ -1,6 +1,7 @@
 ---
 title: Layout
 description: "Spacing, dimensions, corner radius, and other layout primitives."
+source_url: https://opensource.adobe.com/spectrum-design-data/tokens/layout/
 tags:
   - tokens
   - layout

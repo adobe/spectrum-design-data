@@ -3,6 +3,7 @@ title: In-line alert
 description: "In-line alerts display a non-modal message associated with objects in a view. These are often used in form validation, providing a place to aggregate feedback r"
 category: feedback
 documentationUrl: https://spectrum.adobe.com/page/in-line-alert/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/in-line-alert/
 tags:
   - component
   - schema

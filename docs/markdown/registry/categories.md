@@ -1,6 +1,7 @@
 ---
 title: Categories
 description: Component categories for organization and discovery
+source_url: https://opensource.adobe.com/spectrum-design-data/registry/categories/
 tags:
   - registry
   - categories

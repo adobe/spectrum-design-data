@@ -3,6 +3,7 @@ title: Tag group
 description: "A tag group is a collection of tags that represent a set of related items."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/tag-group/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/tag-group/
 tags:
   - component
   - schema

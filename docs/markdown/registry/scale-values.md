@@ -1,6 +1,7 @@
 ---
 title: Scale values
 description: Numeric scale values used in design tokens
+source_url: https://opensource.adobe.com/spectrum-design-data/registry/scale-values/
 tags:
   - registry
   - scale-values

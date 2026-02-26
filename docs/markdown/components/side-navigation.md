@@ -3,6 +3,7 @@ title: Side navigation
 description: "Side navigation lets users navigate the entire content of a product or a section. These can be used for a single level or a multi-level navigation."
 category: navigation
 documentationUrl: https://spectrum.adobe.com/page/side-navigation/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/side-navigation/
 tags:
   - component
   - schema

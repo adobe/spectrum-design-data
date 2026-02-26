@@ -3,6 +3,7 @@ title: Cards
 description: "Cards group related content into distinct layouts depending on context."
 category: containers
 documentationUrl: https://spectrum.adobe.com/page/cards/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/cards/
 tags:
   - component
   - schema

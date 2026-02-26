@@ -3,6 +3,7 @@ title: Toast
 description: "Toasts display brief, temporary notifications. They're meant to be noticed without disrupting a user's experience or requiring an action to be taken."
 category: feedback
 documentationUrl: https://spectrum.adobe.com/page/toast/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/toast/
 tags:
   - component
   - schema

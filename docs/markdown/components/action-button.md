@@ -3,6 +3,7 @@ title: Action button
 description: "Action buttons allow users to perform an action or mark a selection. They're used for similar, task-based options within a workflow, and are ideal for interface"
 category: actions
 documentationUrl: https://spectrum.adobe.com/page/action-button/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/action-button/
 tags:
   - component
   - schema

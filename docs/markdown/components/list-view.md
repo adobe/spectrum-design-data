@@ -3,6 +3,7 @@ title: List view
 description: "List views display rows of data or options that users can browse, select, and interact with."
 category: navigation
 documentationUrl: https://spectrum.adobe.com/page/list-view/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/list-view/
 tags:
   - component
   - schema

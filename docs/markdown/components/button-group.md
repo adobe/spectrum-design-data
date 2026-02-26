@@ -3,6 +3,7 @@ title: Button group
 description: "A button group is a grouping of buttons whose actions are related to each other."
 category: actions
 documentationUrl: https://spectrum.adobe.com/page/button-group/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/button-group/
 tags:
   - component
   - schema

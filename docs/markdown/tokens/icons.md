@@ -1,6 +1,7 @@
 ---
 title: Icons
 description: "Color tokens for Spectrum icons (primary, hover, down, background, disabled)."
+source_url: https://opensource.adobe.com/spectrum-design-data/tokens/icons/
 tags:
   - tokens
   - icons

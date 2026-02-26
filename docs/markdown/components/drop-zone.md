@@ -3,6 +3,7 @@ title: Drop zone
 description: "A drop zone allows users to drag and drop files or other content into a designated area."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/drop-zone/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/drop-zone/
 tags:
   - component
   - schema

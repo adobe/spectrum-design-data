@@ -3,6 +3,7 @@ title: Body
 description: "Body is a typography component primarily used within Spectrum components and for blocks of text."
 category: typography
 documentationUrl: https://spectrum.adobe.com/page/body/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/body/
 tags:
   - component
   - schema

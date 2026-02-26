@@ -3,6 +3,7 @@ title: Tab bar (iOS)
 description: "Tab bar is a top-level navigation control for iOS apps."
 category: navigation
 documentationUrl: https://spectrum.adobe.com/page/tab-bar-ios/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/tab-bar-ios/
 tags:
   - component
   - schema

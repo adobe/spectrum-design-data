@@ -3,6 +3,7 @@ title: Takeover dialog
 description: "Takeover dialogs are larger, flexible dialogs that contain other components to support complex workflows."
 category: feedback
 documentationUrl: https://spectrum.adobe.com/page/takeover-dialog/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/takeover-dialog/
 tags:
   - component
   - schema

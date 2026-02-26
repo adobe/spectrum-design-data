@@ -3,6 +3,7 @@ title: Meter
 description: "Meters are visual representations of a quantity or an achievement. Their progress is determined by user actions, rather than system actions."
 category: status
 documentationUrl: https://spectrum.adobe.com/page/meter/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/meter/
 tags:
   - component
   - schema

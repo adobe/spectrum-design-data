@@ -3,6 +3,7 @@ title: Button
 description: "Buttons allow users to perform an action or to navigate to another page. They have multiple styles for various needs, and are ideal for calling attention to whe"
 category: actions
 documentationUrl: https://spectrum.adobe.com/page/button/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/button/
 tags:
   - component
   - schema

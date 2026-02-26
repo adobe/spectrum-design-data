@@ -1,6 +1,7 @@
 ---
 title: Token terminology
 description: Token-specific terminology for design token naming and structure
+source_url: https://opensource.adobe.com/spectrum-design-data/registry/token-terminology/
 tags:
   - registry
   - token-terminology

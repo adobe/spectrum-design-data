@@ -3,6 +3,7 @@ title: Switch
 description: "Switches allow users to turn an individual option on or off. They are usually used to activate or deactivate a specific setting."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/switch/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/switch/
 tags:
   - component
   - schema

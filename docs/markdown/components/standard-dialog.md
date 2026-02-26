@@ -3,6 +3,7 @@ title: Standard dialog
 description: "Standard dialogs display important information that users need to acknowledge. They appear over the interface and block further interactions until an action is "
 category: feedback
 documentationUrl: https://spectrum.adobe.com/page/standard-dialog/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/standard-dialog/
 tags:
   - component
   - schema

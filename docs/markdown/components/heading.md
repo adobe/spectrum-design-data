@@ -3,6 +3,7 @@ title: Heading
 description: "Heading is a typography component used to create various levels of hierarchies between text."
 category: typography
 documentationUrl: https://spectrum.adobe.com/page/heading/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/heading/
 tags:
   - component
   - schema

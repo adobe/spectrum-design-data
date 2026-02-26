@@ -3,6 +3,7 @@ title: Action group
 description: "An action group is a grouping of action buttons that are related to each other."
 category: actions
 documentationUrl: https://spectrum.adobe.com/page/action-group/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/action-group/
 tags:
   - component
   - schema

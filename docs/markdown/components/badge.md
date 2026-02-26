@@ -3,6 +3,7 @@ title: Badge
 description: "Similar to status lights, badges are for showing a small amount of color-categorized metadata. They're ideal for getting a user''s attention."
 category: status
 documentationUrl: https://spectrum.adobe.com/page/badge/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/badge/
 tags:
   - component
   - schema

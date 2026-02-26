@@ -3,6 +3,7 @@ title: Scroll-zoom bar
 description: "Primarily for usage in timelines, a scroll-zoom bar lets a user scroll or zoom with the same control."
 category: navigation
 documentationUrl: https://spectrum.adobe.com/page/scroll-zoom-bar/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/scroll-zoom-bar/
 tags:
   - component
   - schema

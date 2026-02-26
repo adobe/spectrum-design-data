@@ -3,6 +3,7 @@ title: Rating
 description: "The rating component lets users apply a rating to an item or experience, such as an image, a forum post, an item for sale in a marketplace, and more."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/rating/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/rating/
 tags:
   - component
   - schema

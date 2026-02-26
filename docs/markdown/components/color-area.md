@@ -3,6 +3,7 @@ title: Color area
 description: "A color area allows users to visually select two properties of a color simultaneously. It's commonly used together with a color slider or color wheel."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/color-area/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/color-area/
 tags:
   - component
   - schema

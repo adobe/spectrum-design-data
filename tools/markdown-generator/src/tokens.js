@@ -24,6 +24,7 @@ import {
 } from "./token-resolver.js";
 import { writeFile, mkdir } from "fs/promises";
 import { dirname } from "path";
+import { BASE_SOURCE_URL } from "./constants.js";
 
 const ALIAS_PATTERN = /^\{([^}]+)\}$/;
 
@@ -117,6 +118,7 @@ export async function generateTokenMarkdown(outputDir) {
     const frontmatter = `---
 title: ${title}
 description: "${safeDesc}"
+source_url: ${BASE_SOURCE_URL}/tokens/${fileKey}/
 tags:
 ${tags.map((t) => `  - ${t}`).join("\n")}
 ---

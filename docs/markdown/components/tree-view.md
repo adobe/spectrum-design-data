@@ -3,6 +3,7 @@ title: Tree view
 description: "A tree view provides users with a way to navigate nested hierarchical information."
 category: navigation
 documentationUrl: https://spectrum.adobe.com/page/tree-view/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/tree-view/
 tags:
   - component
   - schema

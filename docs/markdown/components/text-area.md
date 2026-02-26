@@ -3,6 +3,7 @@ title: Text area
 description: "A text area lets a user input a longer amount of text than a standard text field. It can include all of the standard validation options supported by the text fi"
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/text-area/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/text-area/
 tags:
   - component
   - schema

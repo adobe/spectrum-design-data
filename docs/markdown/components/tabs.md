@@ -3,6 +3,7 @@ title: Tabs
 description: "Tabs organize content into multiple sections and allow users to navigate between them. The content under the set of tabs should be related and form a coherent u"
 category: navigation
 documentationUrl: https://spectrum.adobe.com/page/tabs/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/tabs/
 tags:
   - component
   - schema

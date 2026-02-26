@@ -1,6 +1,7 @@
 ---
 title: Layout component
 description: "Component-specific layout tokens."
+source_url: https://opensource.adobe.com/spectrum-design-data/tokens/layout-component/
 tags:
   - tokens
   - layout-component

@@ -1,6 +1,7 @@
 ---
 title: Sizes
 description: Standard size scale values used across Spectrum
+source_url: https://opensource.adobe.com/spectrum-design-data/registry/sizes/
 tags:
   - registry
   - sizes

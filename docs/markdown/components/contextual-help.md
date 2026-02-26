@@ -3,6 +3,7 @@ title: Contextual help
 description: "Contextual help shows a user extra information about the state of either an adjacent component or an entire view. It explains a high-level topic about an experi"
 category: feedback
 documentationUrl: https://spectrum.adobe.com/page/contextual-help/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/contextual-help/
 tags:
   - component
   - schema

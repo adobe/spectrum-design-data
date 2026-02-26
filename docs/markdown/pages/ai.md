@@ -2,6 +2,7 @@
 title: Using with AI
 layout: base.liquid
 permalink: /ai/
+source_url: https://opensource.adobe.com/spectrum-design-data/pages/ai/
 ---
 
 # Using with AI

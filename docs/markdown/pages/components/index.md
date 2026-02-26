@@ -2,6 +2,7 @@
 title: Components
 layout: base.liquid
 permalink: /components/
+source_url: https://opensource.adobe.com/spectrum-design-data/pages/components/index/
 ---
 
 # Components

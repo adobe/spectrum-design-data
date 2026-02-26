@@ -3,6 +3,7 @@ title: Standard Panel
 description: "Standard Panels provide a flexible container for grouping related content and actions."
 category: containers
 documentationUrl: https://spectrum.adobe.com/page/standard-panel/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/standard-panel/
 tags:
   - component
   - schema

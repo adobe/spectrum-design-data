@@ -1,6 +1,7 @@
 ---
 title: Anatomy terms
 description: Anatomical part names used in design tokens and component structures
+source_url: https://opensource.adobe.com/spectrum-design-data/registry/anatomy-terms/
 tags:
   - registry
   - anatomy-terms

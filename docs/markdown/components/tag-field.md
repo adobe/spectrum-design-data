@@ -3,6 +3,7 @@ title: Tag field
 description: "A tag field is an input field that allows users to enter and manage tags."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/tag-field/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/tag-field/
 tags:
   - component
   - schema

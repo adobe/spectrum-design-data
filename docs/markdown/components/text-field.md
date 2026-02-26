@@ -3,6 +3,7 @@ title: Text field
 description: "Text fields allow users to input custom text entries with a keyboard. Various options can be shown with the field to communicate the input requirements."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/text-field/
+source_url: https://opensource.adobe.com/spectrum-design-data/components/text-field/
 tags:
   - component
   - schema

@@ -1,6 +1,7 @@
 ---
 title: Variants
 description: Color and style variants used across components
+source_url: https://opensource.adobe.com/spectrum-design-data/registry/variants/
 tags:
   - registry
   - variants
