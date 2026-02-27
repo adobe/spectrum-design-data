@@ -1,0 +1,158 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/token-sourcemap-poc",
+  "version": 1,
+  "platform": "react-spectrum",
+  "description": "Proof-of-concept mapping from @adobe/spectrum-tokens to React Spectrum (S2) style macro. Extracted from @react-spectrum/s2 style/tokens.ts and style/spectrum-theme.ts.",
+  "mappings": {
+    "accent-content-color-default": {
+      "styleMacro": { "property": "color", "value": "accent" }
+    },
+    "neutral-content-color-default": {
+      "styleMacro": { "property": "color", "value": "neutral" }
+    },
+    "neutral-subdued-content-color-default": {
+      "styleMacro": { "property": "color", "value": "neutral-subdued" }
+    },
+    "accent-background-color-default": {
+      "styleMacro": { "property": "backgroundColor", "value": "accent" }
+    },
+    "accent-subtle-background-color-default": {
+      "styleMacro": { "property": "backgroundColor", "value": "accent-subtle" }
+    },
+    "neutral-background-color-default": {
+      "styleMacro": { "property": "backgroundColor", "value": "neutral" }
+    },
+    "neutral-subdued-background-color-default": {
+      "styleMacro": {
+        "property": "backgroundColor",
+        "value": "neutral-subdued"
+      }
+    },
+    "neutral-subtle-background-color-default": {
+      "styleMacro": { "property": "backgroundColor", "value": "neutral-subtle" }
+    },
+    "informative-background-color-default": {
+      "styleMacro": { "property": "backgroundColor", "value": "informative" }
+    },
+    "informative-subtle-background-color-default": {
+      "styleMacro": {
+        "property": "backgroundColor",
+        "value": "informative-subtle"
+      }
+    },
+    "background-base-color": {
+      "styleMacro": { "property": "backgroundColor", "value": "base" }
+    },
+    "background-layer-1-color": {
+      "styleMacro": { "property": "backgroundColor", "value": "layer-1" }
+    },
+    "background-layer-2-color": {
+      "styleMacro": { "property": "backgroundColor", "value": "layer-2" }
+    },
+    "background-pasteboard-color": {
+      "styleMacro": { "property": "backgroundColor", "value": "pasteboard" }
+    },
+    "background-elevated-color": {
+      "styleMacro": { "property": "backgroundColor", "value": "elevated" }
+    },
+    "disabled-background-color": {
+      "styleMacro": { "property": "backgroundColor", "value": "disabled" }
+    },
+    "focus-indicator-color": {
+      "styleMacro": { "property": "outlineColor", "value": "focus-ring" }
+    },
+    "negative-border-color-default": {
+      "styleMacro": { "property": "borderColor", "value": "negative" }
+    },
+    "disabled-border-color": {
+      "styleMacro": { "property": "borderColor", "value": "disabled" }
+    },
+    "accent-visual-color": {
+      "styleMacro": { "property": "fill", "value": "accent" }
+    },
+    "neutral-visual-color": {
+      "styleMacro": { "property": "fill", "value": "neutral" }
+    },
+    "informative-visual-color": {
+      "styleMacro": { "property": "fill", "value": "informative" }
+    },
+    "negative-visual-color": {
+      "styleMacro": { "property": "fill", "value": "negative" }
+    },
+    "positive-visual-color": {
+      "styleMacro": { "property": "fill", "value": "positive" }
+    },
+    "notice-visual-color": {
+      "styleMacro": { "property": "fill", "value": "notice" }
+    },
+    "font-size-50": {
+      "styleMacro": { "property": "fontSize", "value": "ui-xs" }
+    },
+    "font-size-75": {
+      "styleMacro": { "property": "fontSize", "value": "ui-sm" }
+    },
+    "font-size-100": {
+      "styleMacro": { "property": "fontSize", "value": "ui" }
+    },
+    "font-size-200": {
+      "styleMacro": { "property": "fontSize", "value": "ui-lg" }
+    },
+    "font-size-300": {
+      "styleMacro": { "property": "fontSize", "value": "ui-xl" }
+    },
+    "font-size-400": {
+      "styleMacro": { "property": "fontSize", "value": "ui-2xl" }
+    },
+    "font-size-500": {
+      "styleMacro": { "property": "fontSize", "value": "ui-3xl" }
+    },
+    "heading-size-xxs": {
+      "styleMacro": { "property": "fontSize", "value": "heading-2xs" }
+    },
+    "heading-size-xs": {
+      "styleMacro": { "property": "fontSize", "value": "heading-xs" }
+    },
+    "heading-size-s": {
+      "styleMacro": { "property": "fontSize", "value": "heading-sm" }
+    },
+    "heading-size-m": {
+      "styleMacro": { "property": "fontSize", "value": "heading" }
+    },
+    "heading-size-l": {
+      "styleMacro": { "property": "fontSize", "value": "heading-lg" }
+    },
+    "heading-size-xl": {
+      "styleMacro": { "property": "fontSize", "value": "heading-xl" }
+    },
+    "heading-size-xxl": {
+      "styleMacro": { "property": "fontSize", "value": "heading-2xl" }
+    },
+    "heading-size-xxxl": {
+      "styleMacro": { "property": "fontSize", "value": "heading-3xl" }
+    },
+    "body-size-xs": {
+      "styleMacro": { "property": "fontSize", "value": "body-xs" }
+    },
+    "body-size-s": {
+      "styleMacro": { "property": "fontSize", "value": "body-sm" }
+    },
+    "body-size-m": {
+      "styleMacro": { "property": "fontSize", "value": "body" }
+    },
+    "body-size-l": {
+      "styleMacro": { "property": "fontSize", "value": "body-lg" }
+    },
+    "body-size-xl": {
+      "styleMacro": { "property": "fontSize", "value": "body-xl" }
+    },
+    "detail-size-s": {
+      "styleMacro": { "property": "fontSize", "value": "detail-sm" }
+    },
+    "detail-size-m": {
+      "styleMacro": { "property": "fontSize", "value": "detail" }
+    },
+    "detail-size-l": {
+      "styleMacro": { "property": "fontSize", "value": "detail-lg" }
+    }
+  }
+}
