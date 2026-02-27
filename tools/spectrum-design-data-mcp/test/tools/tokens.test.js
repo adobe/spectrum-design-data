@@ -13,10 +13,10 @@ governing permissions and limitations under the License.
 import test from "ava";
 import { createTokenTools } from "../../src/tools/tokens.js";
 
-test("createTokenTools returns array of 4 tools", (t) => {
+test("createTokenTools returns array of 7 tools", (t) => {
   const tools = createTokenTools();
   t.true(Array.isArray(tools));
-  t.is(tools.length, 4);
+  t.is(tools.length, 7);
 });
 
 test("token tools have required properties", (t) => {

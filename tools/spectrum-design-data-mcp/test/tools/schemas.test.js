@@ -13,10 +13,10 @@ governing permissions and limitations under the License.
 import test from "ava";
 import { createSchemaTools } from "../../src/tools/schemas.js";
 
-test("createSchemaTools returns array of 4 tools", (t) => {
+test("createSchemaTools returns array of 7 tools", (t) => {
   const tools = createSchemaTools();
   t.true(Array.isArray(tools));
-  t.is(tools.length, 4);
+  t.is(tools.length, 7);
 });
 
 test("schema tools have required properties", (t) => {
