@@ -1,9 +1,3 @@
 {
-  "mcpServers": {
-    "moon": {
-      "command": "moon",
-      "args": ["mcp"],
-      "cwd": "${workspaceFolder}"
-    }
-  }
+  "mcpServers": {}
 }

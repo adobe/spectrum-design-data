@@ -74,6 +74,28 @@ function colorSwatch(colorStr) {
   return `<img alt="" class="spectrum-TokenResolvedSwatch" style="display:inline;vertical-align:middle" src="data:image/svg+xml,${encoded}" />`;
 }
 
+/**
+ * Extract schema slug and relative path from token.$schema URL.
+ * @param {string} [schemaUrl] - e.g. "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json"
+ * @returns {{ slug: string, path: string } | null} - e.g. { slug: "alias", path: "/spectrum-design-data/schemas/token-types/alias.json" } or null
+ */
+function getSchemaTypeInfo(schemaUrl) {
+  if (typeof schemaUrl !== "string" || !schemaUrl.trim()) return null;
+  try {
+    const url = new URL(schemaUrl);
+    const path = url.pathname;
+    if (!path.includes("/schemas/")) return null;
+    const slug =
+      path
+        .split("/")
+        .pop()
+        ?.replace(/\.json$/, "") ?? "";
+    return slug ? { slug, path } : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Short descriptions for each token file so the tokens list differentiates them. */
 const TOKEN_FILE_DESCRIPTIONS = {
   "color-aliases":
@@ -200,13 +222,18 @@ export async function generateTokenMarkdown(outputDir) {
           ? `Replaced by [${token.renamed}](${info.renamedLink})`
           : `Replaced by ${token.renamed}`;
       }
+      const schemaInfo = getSchemaTypeInfo(token.$schema);
+      const typeDisplay =
+        schemaInfo !== null
+          ? `<a href="${schemaInfo.path}" target="_blank">${schemaInfo.slug}</a>`
+          : "-";
       const anchor = `<a id="${tokenName}"></a>`;
       rows.push(
-        `| ${anchor} ${tokenName} | ${valueDisplay} | ${resolvedDisplay} | ${deprecated} | ${deprecatedComment} | ${renamedCell} |`,
+        `| ${anchor} ${tokenName} | ${typeDisplay} | ${valueDisplay} | ${resolvedDisplay} | ${deprecated} | ${deprecatedComment} | ${renamedCell} |`,
       );
     }
 
-    const table = `\n| Token | Value | Resolved | Deprecated | Deprecated comment | Replaced by |\n| --- | --- | --- | --- | --- | --- |\n${rows.join("\n")}\n`;
+    const table = `\n| Token | Type | Value | Resolved | Deprecated | Deprecated comment | Replaced by |\n| --- | --- | --- | --- | --- | --- | --- |\n${rows.join("\n")}\n`;
 
     const safeDesc = description.replace(/"/g, '\\"');
     const frontmatter = `---
