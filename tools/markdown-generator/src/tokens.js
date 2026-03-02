@@ -77,13 +77,15 @@ function colorSwatch(colorStr) {
 /**
  * Extract schema slug and relative path from token.$schema URL.
  * @param {string} [schemaUrl] - e.g. "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json"
- * @returns {{ slug: string, path: string } | null} - e.g. { slug: "alias", path: "/spectrum-design-data/schemas/token-types/alias.json" } or null
+ * @returns {{ slug: string, path: string } | null} - e.g. { slug: "alias", path: "/schemas/token-types/alias.json" } or null
  */
 function getSchemaTypeInfo(schemaUrl) {
   if (typeof schemaUrl !== "string" || !schemaUrl.trim()) return null;
   try {
     const url = new URL(schemaUrl);
-    const path = url.pathname;
+    const schemasIdx = url.pathname.indexOf("/schemas/");
+    const path =
+      schemasIdx >= 0 ? url.pathname.slice(schemasIdx) : url.pathname;
     if (!path.includes("/schemas/")) return null;
     const slug =
       path
