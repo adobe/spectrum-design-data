@@ -670,6 +670,16 @@ importers:
 
   tools/token-manifest-builder: {}
 
+  tools/token-metrics:
+    dependencies:
+      commander:
+        specifier: ^13.1.0
+        version: 13.1.0
+    devDependencies:
+      ava:
+        specifier: ^6.0.0
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+
   tools/transform-tokens-json:
     dependencies:
       jsonpath-plus:
