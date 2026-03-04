@@ -66,6 +66,118 @@ The server runs locally and communicates via stdio with MCP-compatible AI client
 * **`validate-component-props`**: Validate props against schema
 * **`search-components-by-feature`**: Find components by property name
 
+#### Workflow Tools
+
+* **`build-component-config`**: Generate a complete component configuration with recommended tokens and props
+* **`suggest-component-improvements`**: Analyze existing component configuration and suggest improvements
+
+#### Implementation Map Tools (PoC)
+
+Token-to-implementation mapping for translating Spectrum design tokens into platform-specific style APIs (e.g. React Spectrum S2 style macro). See [RFC: Design Token Sourcemaps and Traceability](https://github.com/adobe/spectrum-design-data/discussions/626).
+
+* **`resolve-implementation`**: Resolve a Spectrum token name to the equivalent style macro property and value for a platform (e.g. `accent-background-color-default` → `backgroundColor: 'accent'` in React Spectrum)
+* **`reverse-lookup-implementation`**: Find Spectrum token name(s) that map to a given platform style macro property and value
+* **`list-implementation-mappings`**: List token names that have a known mapping for a platform (useful to see PoC coverage)
+
+Supported platform: **react-spectrum**. Mapping data: `data/react-spectrum-token-map.json`.
+
+## Agent Skills
+
+Agent Skills are markdown guides that help AI agents use the Spectrum Design Data MCP tools effectively. They orchestrate multiple MCP tools into complete workflows for common design system tasks.
+
+### Available Agent Skills
+
+* **[Component Builder](agent-skills/component-builder.md)**: Guides agents through building Spectrum components correctly by discovering schemas, finding tokens, and validating configurations
+* **[Token Finder](agent-skills/token-finder.md)**: Helps agents discover the right design tokens for colors, spacing, typography, and component styling
+
+### How Agent Skills Work
+
+Agent Skills are documentation files that:
+
+* Guide AI agents through multi-step workflows
+* Orchestrate existing MCP tools into complete tasks
+* Provide examples and best practices
+* Help agents discover the right tools for specific use cases
+
+Unlike MCP tools (which are executable functions), Agent Skills are **guidance documents** that tell agents how to combine tools to accomplish complex tasks.
+
+### Using Agent Skills
+
+For AI agents working with Spectrum components:
+
+1. Read the relevant Agent Skill when a user asks about a covered task
+2. Follow the step-by-step workflow provided
+3. Call the MCP tools as directed by the skill
+4. Combine tool outputs into a complete solution
+
+See the [Agent Skills README](agent-skills/README.md) for more details.
+
+### Related Resources
+
+This implementation follows the pattern established by [React Spectrum's AI integration](https://react-spectrum.adobe.com/ai), which also uses MCP and Agent Skills to help AI agents work with design systems.
+
+## Quick Start
+
+### Building a Component with Agent Skills
+
+The fastest way to build a Spectrum component is to use the workflow tools:
+
+#### One-Shot Component Configuration
+
+```javascript
+// Generate complete config with recommended tokens
+await buildComponentConfig({
+  component: "action-button",
+  variant: "accent",
+  intent: "primary",
+  includeTokens: true,
+});
+// Returns: complete config with props, tokens, and validation
+```
+
+#### Step-by-Step Workflow (following Component Builder skill)
+
+```javascript
+// 1. Get component schema
+const schema = await getComponentSchema({ component: "action-button" });
+
+// 2. Find related tokens
+const tokens = await getComponentTokens({ componentName: "action-button" });
+
+// 3. Get color recommendations
+const colors = await getDesignRecommendations({
+  intent: "primary",
+  context: "button",
+});
+
+// 4. Validate configuration
+const validation = await validateComponentProps({
+  component: "action-button",
+  props: { variant: "accent", size: "m" },
+});
+```
+
+### Finding Design Tokens
+
+```javascript
+// Find tokens by use case
+const bgTokens = await findTokensByUseCase({
+  useCase: "button background",
+  componentType: "button",
+});
+
+// Get semantic color recommendations
+const errorColors = await getDesignRecommendations({
+  intent: "negative",
+  context: "text",
+});
+
+// Get all tokens for a component
+const buttonTokens = await getComponentTokens({
+  componentName: "action-button",
+});
+```
+
 ## Configuration
 
 ### MCP Setup
@@ -253,10 +365,15 @@ src/
 ├── cli.js               # CLI interface
 ├── tools/               # MCP tool implementations
 │   ├── tokens.js        # Token-related tools
-│   └── schemas.js       # Schema-related tools
-└── data/                # Data access layer
-    ├── tokens.js        # Token data access
-    └── schemas.js       # Schema data access
+│   ├── schemas.js       # Schema-related tools
+│   └── workflows.js     # Workflow-oriented tools
+├── data/                # Data access layer
+│   ├── tokens.js        # Token data access
+│   └── schemas.js       # Schema data access
+└── agent-skills/  # Agent Skills documentation
+    ├── component-builder.md
+    ├── token-finder.md
+    └── README.md
 ```
 
 ## Security
