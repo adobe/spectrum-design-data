@@ -5,6 +5,7 @@ projects:
   componentSchemas: "packages/component-schemas"
   design-system-registry: "packages/design-system-registry"
   designDataSpec: "packages/design-data-spec"
+  sdk: "sdk"
   visualizer: "docs/visualizer"
   s2-visualizer: "docs/s2-visualizer"
   site: "docs/site"
