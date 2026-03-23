@@ -1,4 +1,4 @@
-// Copyright 2024 Adobe. All rights reserved.
+// Copyright 2026 Adobe. All rights reserved.
 // This file is licensed to you under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License. You may obtain a copy
 // of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -8,9 +8,33 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! Structural and graph validation (stubs until #724 / #725).
+//! Structural (Layer 1) and relational (Layer 2) validation.
 
-/// Placeholder until JSON Schema Phase 1 is implemented.
+pub mod relational;
+pub mod rule;
+pub mod rules;
+pub mod structural;
+
+use std::path::Path;
+
+use crate::graph::TokenGraph;
+use crate::report::ValidationReport;
+use crate::schema::SchemaRegistry;
+use crate::CoreError;
+
+/// Core validation pipeline is available (schemas + engine compile).
 pub fn engine_ready() -> bool {
     true
+}
+
+/// Run structural validation then relational rules on legacy token JSON under `data_path`.
+pub fn validate_all(
+    data_path: &Path,
+    schema_registry: &SchemaRegistry,
+) -> Result<ValidationReport, CoreError> {
+    let mut report = structural::validate_structural(data_path, schema_registry)?;
+    let graph = TokenGraph::from_json_dir(data_path)?;
+    let rel = relational::validate_relational(&graph);
+    report.merge(rel);
+    Ok(report)
 }
