@@ -15,6 +15,7 @@ pub mod rule;
 pub mod rules;
 pub mod structural;
 
+use std::collections::HashSet;
 use std::path::Path;
 
 use crate::graph::TokenGraph;
@@ -32,9 +33,18 @@ pub fn validate_all(
     data_path: &Path,
     schema_registry: &SchemaRegistry,
 ) -> Result<ValidationReport, CoreError> {
+    validate_all_with_exceptions(data_path, schema_registry, &HashSet::new())
+}
+
+/// Run structural + relational validation with a naming-exceptions allowlist.
+pub fn validate_all_with_exceptions(
+    data_path: &Path,
+    schema_registry: &SchemaRegistry,
+    naming_exceptions: &HashSet<String>,
+) -> Result<ValidationReport, CoreError> {
     let mut report = structural::validate_structural(data_path, schema_registry)?;
     let graph = TokenGraph::from_json_dir(data_path)?;
-    let rel = relational::validate_relational(&graph);
+    let rel = relational::validate_relational(&graph, naming_exceptions);
     report.merge(rel);
     Ok(report)
 }

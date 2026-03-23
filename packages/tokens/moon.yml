@@ -28,11 +28,14 @@ tasks:
       - ./src
       - --schema-path
       - ./schemas
+      - --exceptions-path
+      - ./naming-exceptions.json
     platform: system
     inputs:
       - "@globs(sources)"
       - "schemas/**/*.json"
       - "snapshots/**/*.json"
+      - "naming-exceptions.json"
   verifyDesignDataSnapshot:
     command: cargo
     args:
@@ -49,11 +52,14 @@ tasks:
       - ./snapshots/validation-snapshot.json
       - --schema-path
       - ./schemas
+      - --exceptions-path
+      - ./naming-exceptions.json
     platform: system
     inputs:
       - "@globs(sources)"
       - "schemas/**/*.json"
       - "snapshots/**/*.json"
+      - "naming-exceptions.json"
   build:
     deps:
       - ~:buildTokens

@@ -1,4 +1,1363 @@
 {
   "errors": [],
-  "warnings": []
+  "warnings": [
+    {
+      "file": "./src/color-aliases.json",
+      "token": "disabled-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'disabled-background-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "disabled-border-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'disabled-border-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "disabled-content-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'disabled-content-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "disabled-static-black-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'disabled-static-black-background-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "disabled-static-black-border-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'disabled-static-black-border-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "disabled-static-black-content-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'disabled-static-black-content-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "disabled-static-white-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'disabled-static-white-background-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "disabled-static-white-border-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'disabled-static-white-border-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "disabled-static-white-content-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'disabled-static-white-content-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "drop-shadow-emphasized-default-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'drop-shadow-emphasized-default-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "drop-shadow-emphasized-hover-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'drop-shadow-emphasized-hover-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "drop-shadow-emphasized-hover-key-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'drop-shadow-emphasized-hover-key-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "drop-shadow-emphasized-key-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'drop-shadow-emphasized-key-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "focus-indicator-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'focus-indicator-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "static-black-focus-indicator-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'static-black-focus-indicator-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-aliases.json",
+      "token": "static-white-focus-indicator-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'static-white-focus-indicator-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "select-box-selected-border-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'select-box-selected-border-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "stack-item-selected-background-color-default",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'stack-item-selected-background-color-default' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "stack-item-selected-background-color-down",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'stack-item-selected-background-color-down' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "stack-item-selected-background-color-emphasized",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'stack-item-selected-background-color-emphasized' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "stack-item-selected-background-color-hover",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'stack-item-selected-background-color-hover' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "stack-item-selected-background-color-key-focus",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'stack-item-selected-background-color-key-focus' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "swatch-disabled-icon-border-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'swatch-disabled-icon-border-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "swatch-disabled-icon-border-opacity",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'swatch-disabled-icon-border-opacity' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "table-row-down-opacity",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'table-row-down-opacity' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "table-row-hover-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'table-row-hover-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "table-row-hover-opacity",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'table-row-hover-opacity' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "table-selected-row-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'table-selected-row-background-color' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "table-selected-row-background-color-non-emphasized",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'table-selected-row-background-color-non-emphasized' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "table-selected-row-background-opacity",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'table-selected-row-background-opacity' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "table-selected-row-background-opacity-hover",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'table-selected-row-background-opacity-hover' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "table-selected-row-background-opacity-non-emphasized",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'table-selected-row-background-opacity-non-emphasized' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "table-selected-row-background-opacity-non-emphasized-hover",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'table-selected-row-background-opacity-non-emphasized-hover' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "tree-view-selected-row-background-color-emphasized",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tree-view-selected-row-background-color-emphasized' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "tree-view-selected-row-background-default",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tree-view-selected-row-background-default' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-component.json",
+      "token": "tree-view-selected-row-background-hover",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tree-view-selected-row-background-hover' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "icon-color-disabled-primary",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'icon-color-disabled-primary' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "icon-color-emphasized-background",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'icon-color-emphasized-background' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "accordion-focus-indicator-gap",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'accordion-focus-indicator-gap' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "card-default-width-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'card-default-width-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "card-default-width-extra-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'card-default-width-extra-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "card-default-width-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'card-default-width-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "card-default-width-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'card-default-width-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "card-default-width-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'card-default-width-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "card-edge-to-content-default-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'card-edge-to-content-default-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "card-edge-to-content-default-extra-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'card-edge-to-content-default-extra-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "card-edge-to-content-default-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'card-edge-to-content-default-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "card-edge-to-content-default-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'card-edge-to-content-default-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "card-edge-to-content-default-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'card-edge-to-content-default-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "field-default-width-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-default-width-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "field-default-width-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-default-width-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "field-default-width-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-default-width-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "field-default-width-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-default-width-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "menu-item-edge-to-content-not-selected-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'menu-item-edge-to-content-not-selected-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "menu-item-edge-to-content-not-selected-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'menu-item-edge-to-content-not-selected-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "menu-item-edge-to-content-not-selected-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'menu-item-edge-to-content-not-selected-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "menu-item-edge-to-content-not-selected-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'menu-item-edge-to-content-not-selected-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "menu-item-top-to-selected-icon-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'menu-item-top-to-selected-icon-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "menu-item-top-to-selected-icon-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'menu-item-top-to-selected-icon-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "menu-item-top-to-selected-icon-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'menu-item-top-to-selected-icon-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "menu-item-top-to-selected-icon-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'menu-item-top-to-selected-icon-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "meter-default-width",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'meter-default-width' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "slider-handle-border-width-down-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'slider-handle-border-width-down-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "slider-handle-border-width-down-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'slider-handle-border-width-down-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "slider-handle-border-width-down-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'slider-handle-border-width-down-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "slider-handle-border-width-down-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'slider-handle-border-width-down-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "stack-item-selected-background-opacity-emphasized",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'stack-item-selected-background-opacity-emphasized' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "stack-item-selected-background-opacity-emphasized-down",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'stack-item-selected-background-opacity-emphasized-down' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "stack-item-selected-background-opacity-emphasized-hover",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'stack-item-selected-background-opacity-emphasized-hover' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "stack-item-selected-background-opacity-emphasized-key-focus",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'stack-item-selected-background-opacity-emphasized-key-focus' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "steplist-step-default-height-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'steplist-step-default-height-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "steplist-step-default-height-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'steplist-step-default-height-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "steplist-step-default-height-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'steplist-step-default-height-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "steplist-step-default-height-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'steplist-step-default-height-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "steplist-step-default-width-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'steplist-step-default-width-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "steplist-step-default-width-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'steplist-step-default-width-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "steplist-step-default-width-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'steplist-step-default-width-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "steplist-step-default-width-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'steplist-step-default-width-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "switch-handle-selected-size-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'switch-handle-selected-size-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "switch-handle-selected-size-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'switch-handle-selected-size-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "switch-handle-selected-size-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'switch-handle-selected-size-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "switch-handle-selected-size-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'switch-handle-selected-size-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-focus-indicator-gap-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-focus-indicator-gap-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-focus-indicator-gap-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-focus-indicator-gap-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-focus-indicator-gap-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-focus-indicator-gap-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-focus-indicator-gap-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-focus-indicator-gap-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tag-field-default-width-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tag-field-default-width-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tag-field-default-width-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tag-field-default-width-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tag-field-default-width-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tag-field-default-width-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "title-cjk-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'title-cjk-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "title-cjk-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'title-cjk-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "title-cjk-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'title-cjk-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "title-cjk-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'title-cjk-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "title-sans-serif-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'title-sans-serif-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "title-sans-serif-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'title-sans-serif-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "title-sans-serif-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'title-sans-serif-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "title-sans-serif-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'title-sans-serif-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "title-serif-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'title-serif-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "title-serif-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'title-serif-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "title-serif-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'title-serif-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "title-serif-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'title-serif-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tree-view-selected-row-background-opacity-emphasized",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tree-view-selected-row-background-opacity-emphasized' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tree-view-selected-row-background-opacity-emphasized-hover",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tree-view-selected-row-background-opacity-emphasized-hover' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "drop-shadow-emphasized-default-blur",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'drop-shadow-emphasized-default-blur' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "drop-shadow-emphasized-default-x",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'drop-shadow-emphasized-default-x' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "drop-shadow-emphasized-default-y",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'drop-shadow-emphasized-default-y' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "drop-shadow-emphasized-hover-blur",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'drop-shadow-emphasized-hover-blur' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "drop-shadow-emphasized-hover-x",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'drop-shadow-emphasized-hover-x' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "drop-shadow-emphasized-hover-y",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'drop-shadow-emphasized-hover-y' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "focus-indicator-gap",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'focus-indicator-gap' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "focus-indicator-thickness",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'focus-indicator-thickness' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "side-focus-indicator",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'side-focus-indicator' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "body-cjk-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'body-cjk-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "body-cjk-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'body-cjk-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "body-cjk-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'body-cjk-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "body-cjk-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'body-cjk-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "body-sans-serif-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'body-sans-serif-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "body-sans-serif-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'body-sans-serif-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "body-sans-serif-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'body-sans-serif-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "body-sans-serif-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'body-sans-serif-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "body-serif-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'body-serif-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "body-serif-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'body-serif-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "body-serif-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'body-serif-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "body-serif-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'body-serif-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "code-cjk-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'code-cjk-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "code-cjk-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'code-cjk-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "code-cjk-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'code-cjk-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "code-cjk-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'code-cjk-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "code-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'code-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "code-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'code-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "code-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'code-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "code-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'code-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "default-font-family",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'default-font-family' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "default-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'default-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-cjk-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-cjk-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-cjk-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-cjk-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-cjk-light-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-cjk-light-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-cjk-light-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-cjk-light-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-cjk-light-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-cjk-light-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-cjk-light-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-cjk-light-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-cjk-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-cjk-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-cjk-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-cjk-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-sans-serif-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-sans-serif-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-sans-serif-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-sans-serif-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-sans-serif-light-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-sans-serif-light-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-sans-serif-light-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-sans-serif-light-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-sans-serif-light-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-sans-serif-light-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-sans-serif-light-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-sans-serif-light-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-sans-serif-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-sans-serif-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-sans-serif-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-sans-serif-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-serif-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-serif-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-serif-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-serif-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-serif-light-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-serif-light-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-serif-light-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-serif-light-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-serif-light-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-serif-light-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-serif-light-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-serif-light-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-serif-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-serif-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "detail-serif-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'detail-serif-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-cjk-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-cjk-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-cjk-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-cjk-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-cjk-heavy-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-cjk-heavy-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-cjk-heavy-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-cjk-heavy-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-cjk-heavy-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-cjk-heavy-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-cjk-heavy-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-cjk-heavy-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-cjk-light-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-cjk-light-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-cjk-light-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-cjk-light-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-cjk-light-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-cjk-light-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-cjk-light-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-cjk-light-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-cjk-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-cjk-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-cjk-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-cjk-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-sans-serif-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-sans-serif-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-sans-serif-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-sans-serif-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-sans-serif-heavy-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-sans-serif-heavy-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-sans-serif-heavy-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-sans-serif-heavy-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-sans-serif-heavy-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-sans-serif-heavy-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-sans-serif-heavy-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-sans-serif-heavy-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-sans-serif-light-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-sans-serif-light-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-sans-serif-light-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-sans-serif-light-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-sans-serif-light-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-sans-serif-light-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-sans-serif-light-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-sans-serif-light-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-sans-serif-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-sans-serif-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-sans-serif-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-sans-serif-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-serif-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-serif-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-serif-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-serif-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-serif-heavy-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-serif-heavy-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-serif-heavy-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-serif-heavy-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-serif-heavy-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-serif-heavy-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-serif-heavy-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-serif-heavy-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-serif-light-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-serif-light-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-serif-light-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-serif-light-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-serif-light-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-serif-light-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-serif-light-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-serif-light-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-serif-strong-emphasized-font-style",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-serif-strong-emphasized-font-style' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/typography.json",
+      "token": "heading-serif-strong-emphasized-font-weight",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'heading-serif-strong-emphasized-font-weight' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    }
+  ]
 }

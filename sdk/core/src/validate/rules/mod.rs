@@ -14,12 +14,15 @@ mod spec003;
 mod spec004;
 mod spec005;
 mod spec006;
+mod spec007;
+
+use std::collections::HashSet;
 
 use crate::graph::TokenGraph;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 
-/// All default catalog rules (SPEC-001 … SPEC-006).
+/// All default catalog rules (SPEC-001 … SPEC-007).
 pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
     vec![
         Box::new(spec001::Rule),
@@ -28,12 +31,16 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec004::Rule),
         Box::new(spec005::Rule),
         Box::new(spec006::Rule),
+        Box::new(spec007::Rule),
     ]
 }
 
 /// Run every rule and collect diagnostics.
-pub fn run_rules(graph: &TokenGraph) -> Vec<Diagnostic> {
-    let ctx = ValidationContext { graph };
+pub fn run_rules(graph: &TokenGraph, naming_exceptions: &HashSet<String>) -> Vec<Diagnostic> {
+    let ctx = ValidationContext {
+        graph,
+        naming_exceptions,
+    };
     let mut out = Vec::new();
     for r in default_rules() {
         out.extend(r.validate(&ctx));

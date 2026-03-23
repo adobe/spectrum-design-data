@@ -10,12 +10,17 @@
 
 //! Layer 2 rule trait (catalog ids).
 
+use std::collections::HashSet;
+
 use crate::graph::TokenGraph;
 use crate::report::Diagnostic;
 
 /// Context for relational rules.
 pub struct ValidationContext<'a> {
     pub graph: &'a TokenGraph,
+    /// Token names listed in the naming-exceptions allowlist.
+    /// Empty when no exceptions file is loaded.
+    pub naming_exceptions: &'a HashSet<String>,
 }
 
 /// Catalog-backed validation rule.

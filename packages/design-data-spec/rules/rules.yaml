@@ -55,3 +55,12 @@ rules:
     message: "Ambiguous cascade resolution (specificity tie) for context {context}"
     spec_ref: spec/cascade.md#semantic-specificity
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-007
+    name: name-roundtrip
+    severity: warning
+    category: naming-consistency
+    assert: Every legacy token name MUST be reproducible from a structured name object via deterministic generation rules, unless listed in naming-exceptions.json.
+    message: "Token '{token}' does not roundtrip through name-object generation rules"
+    spec_ref: spec/token-format.md#name-object
+    introduced_in: "1.0.0-draft"
