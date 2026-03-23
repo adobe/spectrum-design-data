@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token.schema.json",
+  "title": "Design data token",
+  "description": "Placeholder schema (Layer 1 — structural). Replace with normative definitions in #720.",
+  "type": "object"
+}

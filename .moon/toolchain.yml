@@ -4,7 +4,12 @@ $schema: "https://moonrepo.dev/schemas/toolchain.json"
 # Extend and inherit an external configuration file. Must be a valid HTTPS URL or file system path.
 # extends: './shared/toolchain.yml'
 
-rust: {}
+rust:
+  # Pinned for reproducible CI / local builds; synced with sdk/rust-toolchain.toml
+  version: "1.85.0"
+  # Required for `sdk:lint` (`cargo clippy`); Moon's minimal Rust install omits clippy on Linux CI otherwise.
+  components:
+    - clippy
 
 # Configures Node.js within the toolchain. moon manages its own version of Node.js
 # instead of relying on a version found on the host machine. This ensures deterministic

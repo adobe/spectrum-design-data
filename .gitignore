@@ -113,6 +113,9 @@ dist
 .moon/cache
 .moon/docker
 
+# Rust (design-data SDK workspace)
+sdk/target/
+
 # visual studio code
 .vscode/
 

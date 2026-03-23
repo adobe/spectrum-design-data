@@ -1,0 +1,4 @@
+# Validation rule catalog (Layer 2). Normative rules tracked in #733.
+# Each rule should gain: id, name, severity, category, assert, spec_ref, introduced_in
+spec_version: "0.0.0-draft"
+rules: []
