@@ -224,6 +224,7 @@ fetch(url)
 - Use Apache-2.0 license
 - Include copyright headers in source files
 - Follow existing copyright patterns
+- **New files** must use the **current calendar year** (the year the file is created) in the copyright line, e.g. `Copyright YYYY Adobe. All rights reserved.` Use the same comment style as neighboring files (`//` in Rust, `#` in YAML/moon.yml, block or line comments in JS/TS, etc.)
 
 ## Performance Considerations
 - Use efficient algorithms for token processing
