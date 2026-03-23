@@ -1,5 +1,18 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.2.2
+
+### Patch Changes
+
+- [#741](https://github.com/adobe/spectrum-design-data/pull/741) [`3f05fcf`](https://github.com/adobe/spectrum-design-data/commit/3f05fcffcd8641c822a54c4cdd37ba452dab455c) Thanks [@GarthDB](https://github.com/GarthDB)! - Add naming-exceptions.json and SPEC-007 (name-roundtrip) validation
+  rule. Tracks 194 legacy token names that cannot be deterministically
+  generated from a structured name object (167 state-position, 27
+  compound-state). This infrastructure supports the migration path from
+  legacy flat kebab-case names to structured name objects.
+
+- [#740](https://github.com/adobe/spectrum-design-data/pull/740) [`956d61a`](https://github.com/adobe/spectrum-design-data/commit/956d61a00f154e7c488edf6916b0ce16945a814c) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `token-file.json` schema for legacy token maps, a validation snapshot, and Moon tasks that run
+  the `design-data` CLI (`validate` / `migrate verify`) against `src/` and `schemas/`.
+
 ## 14.2.1
 
 ### Patch Changes
