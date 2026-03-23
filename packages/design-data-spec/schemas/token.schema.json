@@ -1,7 +1,153 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/token.schema.json",
   "title": "Design data token",
-  "description": "Placeholder schema (Layer 1 — structural). Replace with normative definitions in #720.",
-  "type": "object"
+  "description": "Layer 1 — structural token shape (name + value or alias). Graph rules are Layer 2.",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/tokenWithValue"
+    },
+    {
+      "$ref": "#/$defs/tokenWithRef"
+    }
+  ],
+  "$defs": {
+    "nameObject": {
+      "type": "object",
+      "description": "Structured token identity; additional dimension keys MUST be strings.",
+      "required": ["property"],
+      "properties": {
+        "property": {
+          "type": "string",
+          "minLength": 1
+        },
+        "component": {
+          "type": "string"
+        },
+        "variant": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "colorScheme": {
+          "type": "string"
+        },
+        "scale": {
+          "type": "string"
+        },
+        "contrast": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "tokenWithValue": {
+      "type": "object",
+      "required": ["name", "value"],
+      "not": {
+        "required": ["$ref"]
+      },
+      "properties": {
+        "specVersion": {
+          "const": "1.0.0-draft"
+        },
+        "name": {
+          "$ref": "#/$defs/nameObject"
+        },
+        "value": {
+          "description": "Literal value; type narrowed by value-type schemas where applicable.",
+          "anyOf": [
+            {
+              "$ref": "value-types/color.schema.json"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array"
+            }
+          ]
+        },
+        "uuid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "introduced": {
+          "type": "string"
+        },
+        "deprecated": {
+          "type": "boolean"
+        },
+        "deprecated_comment": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "renamed": {
+          "type": "string"
+        },
+        "private": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "tokenWithRef": {
+      "type": "object",
+      "required": ["name", "$ref"],
+      "not": {
+        "required": ["value"]
+      },
+      "properties": {
+        "specVersion": {
+          "const": "1.0.0-draft"
+        },
+        "name": {
+          "$ref": "#/$defs/nameObject"
+        },
+        "$ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Alias target path or stable token id (resolution is Layer 2)."
+        },
+        "uuid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "introduced": {
+          "type": "string"
+        },
+        "deprecated": {
+          "type": "boolean"
+        },
+        "deprecated_comment": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "renamed": {
+          "type": "string"
+        },
+        "private": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
 }

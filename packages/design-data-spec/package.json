@@ -24,6 +24,7 @@
     "./schemas/token.schema.json": "./schemas/token.schema.json",
     "./schemas/dimension.schema.json": "./schemas/dimension.schema.json",
     "./schemas/manifest.schema.json": "./schemas/manifest.schema.json",
+    "./schemas/value-types/color.schema.json": "./schemas/value-types/color.schema.json",
     "./rules/rules.yaml": "./rules/rules.yaml"
   },
   "files": [

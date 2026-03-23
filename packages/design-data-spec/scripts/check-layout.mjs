@@ -10,30 +10,34 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { access } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { access } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 
 const requiredPaths = [
-  'spec/index.md',
-  'spec/token-format.md',
-  'spec/cascade.md',
-  'spec/dimensions.md',
-  'spec/manifest.md',
-  'schemas/token.schema.json',
-  'schemas/dimension.schema.json',
-  'schemas/manifest.schema.json',
-  'schemas/value-types',
-  'rules/rules.yaml',
-  'conformance/valid',
-  'conformance/invalid/SPEC-001',
-  'conformance/invalid/SPEC-002',
+  "spec/index.md",
+  "spec/token-format.md",
+  "spec/cascade.md",
+  "spec/dimensions.md",
+  "spec/manifest.md",
+  "schemas/token.schema.json",
+  "schemas/dimension.schema.json",
+  "schemas/manifest.schema.json",
+  "schemas/value-types",
+  "rules/rules.yaml",
+  "conformance/valid",
+  "conformance/invalid/SPEC-001",
+  "conformance/invalid/SPEC-002",
+  "conformance/invalid/SPEC-003",
+  "conformance/invalid/SPEC-004",
+  "conformance/invalid/SPEC-005",
+  "conformance/invalid/SPEC-006",
 ];
 
 for (const rel of requiredPaths) {
   await access(join(root, rel));
 }
 
-console.log('@adobe/design-data-spec layout OK');
+console.log("@adobe/design-data-spec layout OK");
