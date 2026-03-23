@@ -10,19 +10,24 @@
 
 //! Layer 2 — relational rules from the catalog.
 
+use std::collections::HashSet;
+
 use crate::graph::TokenGraph;
 use crate::report::{Diagnostic, Severity, ValidationReport};
 use crate::validate::rules;
 
 /// Run all relational rules; merges errors and warnings by severity on each diagnostic.
-pub fn validate_relational(graph: &TokenGraph) -> ValidationReport {
+pub fn validate_relational(
+    graph: &TokenGraph,
+    naming_exceptions: &HashSet<String>,
+) -> ValidationReport {
     let mut report = ValidationReport {
         valid: true,
         errors: Vec::new(),
         warnings: Vec::new(),
     };
 
-    for d in rules::run_rules(graph) {
+    for d in rules::run_rules(graph, naming_exceptions) {
         match d.severity {
             Severity::Error => report.push_error(d),
             Severity::Warning => report.push_warning(d),
@@ -36,7 +41,8 @@ pub fn validate_relational(graph: &TokenGraph) -> ValidationReport {
 
 /// Test helper: filter diagnostics by rule id.
 pub fn diagnostics_for_rule(graph: &TokenGraph, rule_id: &str) -> Vec<Diagnostic> {
-    rules::run_rules(graph)
+    let empty = HashSet::new();
+    rules::run_rules(graph, &empty)
         .into_iter()
         .filter(|d| d.rule_id.as_deref() == Some(rule_id))
         .collect()

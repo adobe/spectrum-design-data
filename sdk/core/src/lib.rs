@@ -13,6 +13,7 @@
 pub mod compat;
 pub mod discovery;
 pub mod graph;
+pub mod naming;
 pub mod report;
 pub mod schema;
 pub mod validate;

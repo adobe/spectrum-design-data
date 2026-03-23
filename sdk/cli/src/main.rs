@@ -13,8 +13,11 @@ use std::process::ExitCode;
 
 mod format;
 
+use std::collections::HashSet;
+
 use clap::{Parser, Subcommand, ValueEnum};
 use design_data_core::compat::{load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot};
+use design_data_core::naming::NamingExceptionsFile;
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::validate;
 use miette::{IntoDiagnostic, WrapErr};
@@ -40,6 +43,9 @@ enum Commands {
         /// Root directory containing `token-types/` and `token-file.json`
         #[arg(long, value_name = "DIR")]
         schema_path: Option<PathBuf>,
+        /// Path to naming-exceptions.json allowlist for SPEC-007
+        #[arg(long, value_name = "FILE")]
+        exceptions_path: Option<PathBuf>,
         /// Treat warnings as errors
         #[arg(long)]
         strict: bool,
@@ -63,6 +69,8 @@ enum MigrateSub {
         snapshot: PathBuf,
         #[arg(long, value_name = "DIR")]
         schema_path: Option<PathBuf>,
+        #[arg(long, value_name = "FILE")]
+        exceptions_path: Option<PathBuf>,
     },
     /// Run validation and write a sorted snapshot JSON for CI / golden testing
     Snapshot {
@@ -72,6 +80,8 @@ enum MigrateSub {
         output: PathBuf,
         #[arg(long, value_name = "DIR")]
         schema_path: Option<PathBuf>,
+        #[arg(long, value_name = "FILE")]
+        exceptions_path: Option<PathBuf>,
     },
 }
 
@@ -80,6 +90,27 @@ enum OutputFormat {
     #[default]
     Pretty,
     Json,
+}
+
+fn load_exceptions(path: Option<&Path>) -> miette::Result<HashSet<String>> {
+    let Some(p) = path else {
+        return Ok(default_exceptions_path()
+            .and_then(|p| NamingExceptionsFile::load(&p).ok())
+            .map(|f| f.token_set())
+            .unwrap_or_default());
+    };
+    let file = NamingExceptionsFile::load(p)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load exceptions from {}", p.display()))?;
+    Ok(file.token_set())
+}
+
+fn default_exceptions_path() -> Option<PathBuf> {
+    let candidates = [
+        PathBuf::from("packages/tokens/naming-exceptions.json"),
+        PathBuf::from("../packages/tokens/naming-exceptions.json"),
+    ];
+    candidates.into_iter().find(|c| c.is_file())
 }
 
 fn default_schema_path() -> PathBuf {
@@ -102,6 +133,7 @@ fn run_validate(
     path: &Path,
     format: OutputFormat,
     schema_path: Option<PathBuf>,
+    exceptions_path: Option<PathBuf>,
     strict: bool,
 ) -> miette::Result<ExitCode> {
     if !validate::engine_ready() {
@@ -111,8 +143,9 @@ fn run_validate(
     let registry = SchemaRegistry::load_legacy_token_schemas(&schema_root)
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load schemas from {}", schema_root.display()))?;
+    let exceptions = load_exceptions(exceptions_path.as_deref())?;
 
-    let report = validate::validate_all(path, &registry)
+    let report = validate::validate_all_with_exceptions(path, &registry, &exceptions)
         .into_diagnostic()
         .wrap_err("validation failed")?;
 
@@ -135,10 +168,13 @@ fn run_migrate_verify(
     path: &Path,
     snapshot: &Path,
     schema_path: Option<PathBuf>,
+    exceptions_path: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
     let schema_root = schema_path.unwrap_or_else(default_schema_path);
     let registry = SchemaRegistry::load_legacy_token_schemas(&schema_root).into_diagnostic()?;
-    let report = validate::validate_all(path, &registry).into_diagnostic()?;
+    let exceptions = load_exceptions(exceptions_path.as_deref())?;
+    let report =
+        validate::validate_all_with_exceptions(path, &registry, &exceptions).into_diagnostic()?;
     let expected = load_snapshot(snapshot).into_diagnostic()?;
     if snapshot_matches(&report, &expected) {
         println!("Snapshot OK: {}", snapshot.display());
@@ -157,10 +193,13 @@ fn run_migrate_snapshot(
     path: &Path,
     output: &Path,
     schema_path: Option<PathBuf>,
+    exceptions_path: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
     let schema_root = schema_path.unwrap_or_else(default_schema_path);
     let registry = SchemaRegistry::load_legacy_token_schemas(&schema_root).into_diagnostic()?;
-    let report = validate::validate_all(path, &registry).into_diagnostic()?;
+    let exceptions = load_exceptions(exceptions_path.as_deref())?;
+    let report =
+        validate::validate_all_with_exceptions(path, &registry, &exceptions).into_diagnostic()?;
     let snap = ValidationSnapshot::from(&report);
     write_snapshot(output, &snap).into_diagnostic()?;
     println!("Wrote {}", output.display());
@@ -175,22 +214,25 @@ fn main() -> ExitCode {
             path,
             format,
             schema_path,
+            exceptions_path,
             strict,
         } => {
             let target = path.unwrap_or_else(|| PathBuf::from("."));
-            run_validate(&target, format, schema_path, strict)
+            run_validate(&target, format, schema_path, exceptions_path, strict)
         }
         Commands::Migrate { sub } => match sub {
             MigrateSub::Verify {
                 path,
                 snapshot,
                 schema_path,
-            } => run_migrate_verify(&path, &snapshot, schema_path),
+                exceptions_path,
+            } => run_migrate_verify(&path, &snapshot, schema_path, exceptions_path),
             MigrateSub::Snapshot {
                 path,
                 output,
                 schema_path,
-            } => run_migrate_snapshot(&path, &output, schema_path),
+                exceptions_path,
+            } => run_migrate_snapshot(&path, &output, schema_path, exceptions_path),
         },
     };
 
