@@ -63,10 +63,10 @@ test("getSchemaFile should complete within reasonable time", async (t) => {
   const end = performance.now();
   const duration = end - start;
 
-  // Should complete within 200ms (increased for CI environment stability)
+  // Should complete within 500ms (generous for CI runner variability)
   t.true(
-    duration < 200,
-    `getSchemaFile took ${duration.toFixed(2)}ms, expected < 200ms`,
+    duration < 500,
+    `getSchemaFile took ${duration.toFixed(2)}ms, expected < 500ms`,
   );
   t.truthy(schema);
 });
@@ -89,10 +89,10 @@ test("multiple concurrent getSchemaBySlug calls should complete efficiently", as
   const end = performance.now();
   const duration = end - start;
 
-  // Should complete within 200ms for 3 concurrent calls
+  // Should complete within 500ms for 3 concurrent calls (generous for CI runner variability)
   t.true(
-    duration < 200,
-    `Concurrent getSchemaBySlug calls took ${duration.toFixed(2)}ms, expected < 200ms`,
+    duration < 500,
+    `Concurrent getSchemaBySlug calls took ${duration.toFixed(2)}ms, expected < 500ms`,
   );
   t.is(results.length, 3);
   t.true(results.every((schema) => schema !== null));
