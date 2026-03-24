@@ -249,6 +249,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(ajv@8.17.1)
 
+  packages/design-data-spec: {}
+
   packages/design-system-registry:
     devDependencies:
       "@adobe/spectrum-component-api-schemas":

@@ -10,21 +10,42 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { exec } from "child_process";
+import { execFile } from "child_process";
 import { promisify } from "util";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+import { readFileSync, unlinkSync, mkdtempSync } from "fs";
+import { tmpdir } from "os";
 
-const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
+
+/** tools/token-changeset-generator */
+const PACKAGE_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+/** spectrum-design-data repo root */
+const REPO_ROOT = join(PACKAGE_ROOT, "..", "..");
+const TDIFF_CLI = join(
+  REPO_ROOT,
+  "tools",
+  "diff-generator",
+  "src",
+  "lib",
+  "cli.js",
+);
 
 /**
- * Runs tdiff command to generate token diff between branches
+ * Runs tdiff command to generate token diff between branches.
+ * Uses --output to a temp file because tdiff calls process.exit()
+ * before stdout fully flushes, truncating large diffs at 8KB.
  * @param {string} oldBranch - Old branch (usually main)
  * @param {string} newBranch - New branch with changes
  * @param {string} [githubToken] - GitHub API token
  * @returns {Promise<string>} - Markdown diff output
  */
 export async function generateTokenDiff(oldBranch, newBranch, githubToken) {
-  const command = [
-    "tdiff",
+  const tmpDir = mkdtempSync(join(tmpdir(), "tdiff-"));
+  const outFile = join(tmpDir, "report.md");
+
+  const args = [
     "report",
     "--format",
     "markdown",
@@ -32,22 +53,32 @@ export async function generateTokenDiff(oldBranch, newBranch, githubToken) {
     oldBranch,
     "--ntb",
     newBranch,
+    "--repo",
+    "adobe/spectrum-design-data",
+    "--output",
+    outFile,
   ];
 
   if (githubToken) {
-    command.push("--githubAPIKey", githubToken);
+    args.push("--githubAPIKey", githubToken);
   }
 
   try {
-    const { stdout, stderr } = await execAsync(command.join(" "));
+    await execFileAsync(process.execPath, [TDIFF_CLI, ...args], {
+      cwd: REPO_ROOT,
+      maxBuffer: 10 * 1024 * 1024,
+    });
 
-    if (stderr) {
-      console.warn("tdiff warnings:", stderr);
-    }
-
-    return stdout;
+    const output = readFileSync(outFile, "utf8");
+    return output;
   } catch (error) {
     throw new Error(`Failed to run tdiff: ${error.message}`);
+  } finally {
+    try {
+      unlinkSync(outFile);
+    } catch {
+      // ignore cleanup errors
+    }
   }
 }
 
@@ -57,27 +88,25 @@ export async function generateTokenDiff(oldBranch, newBranch, githubToken) {
  * @returns {string} - 'major', 'minor', or 'patch'
  */
 export function determineBumpType(diffOutput) {
-  // Check for breaking changes (deleted tokens, major value changes)
-  if (
-    diffOutput.includes("**Deleted (") &&
-    !diffOutput.includes("**Deleted (0)")
-  ) {
+  const hasNonZero = (label) => {
+    const mdPattern = new RegExp(`\\*\\*${label} \\((?!0\\))\\d+\\)`);
+    const htmlPattern = new RegExp(
+      `<strong>${label} \\((?!0\\))\\d+\\)</strong>`,
+    );
+    return mdPattern.test(diffOutput) || htmlPattern.test(diffOutput);
+  };
+
+  if (hasNonZero("Deleted") || hasNonZero("Removed")) {
     return "major";
   }
 
-  // Check for new tokens (additive changes)
-  if (diffOutput.includes("**Added (") && !diffOutput.includes("**Added (0)")) {
+  if (hasNonZero("Added") || hasNonZero("Newly Deprecated")) {
     return "minor";
   }
 
-  // Check for updated tokens (non-breaking changes)
-  if (
-    diffOutput.includes("**Updated (") &&
-    !diffOutput.includes("**Updated (0)")
-  ) {
+  if (hasNonZero("Updated") || hasNonZero("Revised") || hasNonZero("Changed")) {
     return "patch";
   }
 
-  // Default to patch for any changes
   return "patch";
 }

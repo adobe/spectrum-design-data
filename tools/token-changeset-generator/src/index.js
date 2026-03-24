@@ -27,7 +27,13 @@ import { generateChangeset } from "./changeset-generator.js";
  * @returns {Promise<string>} - Path to generated changeset file
  */
 export async function generateTokenChangeset(options) {
-  const { tokensStudioPR, spectrumTokensPR, outputDir, githubToken } = options;
+  const {
+    tokensStudioPR,
+    spectrumTokensPR,
+    outputDir,
+    githubToken,
+    sourceAuthorLogin,
+  } = options;
 
   console.log("🔍 Fetching tokens studio motivation...");
   const motivation = await getTokensStudioMotivation(
@@ -55,6 +61,7 @@ export async function generateTokenChangeset(options) {
     tokensStudioPR,
     spectrumTokensPR,
     outputDir,
+    sourceAuthorLogin,
   });
 
   console.log(`✅ Changeset created: ${changesetPath}`);
