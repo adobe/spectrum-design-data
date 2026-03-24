@@ -32,7 +32,7 @@ Or clone and run locally:
 
 ```bash
 git clone https://github.com/adobe/spectrum-design-data.git
-cd spectrum-tokens/tools/spectrum-design-data-mcp
+cd spectrum-design-data/tools/spectrum-design-data-mcp
 pnpm install
 ```
 
@@ -105,7 +105,7 @@ Add to your MCP configuration (e.g., `.cursor/mcp.json` for Cursor IDE):
     "spectrum-design-data": {
       "command": "node",
       "args": [
-        "./path/to/spectrum-tokens/tools/spectrum-design-data-mcp/src/index.js"
+        "./path/to/spectrum-design-data/tools/spectrum-design-data-mcp/src/index.js"
       ]
     }
   }
@@ -234,7 +234,7 @@ npm audit
 
 ```bash
 git clone https://github.com/adobe/spectrum-design-data.git
-cd spectrum-tokens
+cd spectrum-design-data
 pnpm install
 cd tools/spectrum-design-data-mcp
 ```
