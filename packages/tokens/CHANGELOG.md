@@ -1,5 +1,11 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.2.3
+
+### Patch Changes
+
+- [#747](https://github.com/adobe/spectrum-design-data/pull/747) [`80b1637`](https://github.com/adobe/spectrum-design-data/commit/80b163712ae7ac42b9892b0fd4001b1bb27ba1ac) Thanks [@GarthDB](https://github.com/GarthDB)! - fix(tokens): restore ./dist/\* subpath export for backward compatibility
+
 ## 14.2.2
 
 ### Patch Changes
