@@ -152,7 +152,6 @@ export function createTokenTools() {
           tokenPath: {
             type: "string",
             description: "Token path/name",
-            required: true,
           },
           category: { type: "string", description: "Category to search in" },
         },
