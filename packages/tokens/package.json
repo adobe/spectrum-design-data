@@ -24,7 +24,8 @@
   "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/packages/tokens#readme",
   "exports": {
     ".": "./index.js",
-    "./schemas/token-file.json": "./schemas/token-file.json"
+    "./schemas/token-file.json": "./schemas/token-file.json",
+    "./dist/*": "./dist/*"
   },
   "devDependencies": {
     "ajv": "^8.17.1",

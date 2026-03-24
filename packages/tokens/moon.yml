@@ -16,14 +16,8 @@ fileGroups:
     - "test/**/*"
 tasks:
   validateDesignData:
-    command: cargo
+    command: ../../sdk/target/debug/design-data
     args:
-      - run
-      - --manifest-path
-      - ../../sdk/Cargo.toml
-      - --bin
-      - design-data
-      - --
       - validate
       - ./src
       - --schema-path
@@ -31,20 +25,16 @@ tasks:
       - --exceptions-path
       - ./naming-exceptions.json
     platform: system
+    deps:
+      - sdk:build
     inputs:
       - "@globs(sources)"
       - "schemas/**/*.json"
       - "snapshots/**/*.json"
       - "naming-exceptions.json"
   verifyDesignDataSnapshot:
-    command: cargo
+    command: ../../sdk/target/debug/design-data
     args:
-      - run
-      - --manifest-path
-      - ../../sdk/Cargo.toml
-      - --bin
-      - design-data
-      - --
       - migrate
       - verify
       - ./src
@@ -55,6 +45,8 @@ tasks:
       - --exceptions-path
       - ./naming-exceptions.json
     platform: system
+    deps:
+      - sdk:build
     inputs:
       - "@globs(sources)"
       - "schemas/**/*.json"
