@@ -10,6 +10,10 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
@@ -19,6 +23,11 @@ import {
 
 import { createDocsTools } from "./tools/docs.js";
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const packageJson = JSON.parse(
+  readFileSync(join(__dirname, "../package.json"), "utf8"),
+);
+
 /**
  * Create and configure the S2 Docs MCP server
  * @returns {Server} Configured MCP server instance
@@ -27,7 +36,7 @@ export function createMCPServer() {
   const server = new Server(
     {
       name: "s2-docs",
-      version: "1.0.0",
+      version: packageJson.version,
     },
     {
       capabilities: {
@@ -73,7 +82,16 @@ export function createMCPServer() {
         ],
       };
     } catch (error) {
-      throw new Error(`Tool execution failed: ${error.message}`);
+      const message = error instanceof Error ? error.message : String(error);
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Tool execution failed: ${message}`,
+          },
+        ],
+        isError: true,
+      };
     }
   });
 

@@ -27,7 +27,6 @@ export function createSchemaTools() {
           component: {
             type: "string",
             description: "Component name",
-            required: true,
           },
         },
         required: ["component"],
@@ -89,12 +88,10 @@ export function createSchemaTools() {
           component: {
             type: "string",
             description: "Component name",
-            required: true,
           },
           props: {
             type: "object",
             description: "Props to validate",
-            required: true,
           },
         },
         required: ["component", "props"],
@@ -132,7 +129,6 @@ export function createSchemaTools() {
           feature: {
             type: "string",
             description: "Property name substring",
-            required: true,
           },
         },
         required: ["feature"],
