@@ -780,6 +780,13 @@
     },
     {
       "file": "./src/layout.json",
+      "token": "focus-ring-gap",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'focus-ring-gap' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/layout.json",
       "token": "side-focus-indicator",
       "rule_id": "SPEC-007",
       "severity": "info",
