@@ -59,13 +59,12 @@ runs:
     - name: Prepare comment content
       id: prepare-content
       shell: bash
-      env:
-        GH_TOKEN: ${{ inputs.github-token }}
       run: |
         COMMENT_BODY_PATH=/tmp/comment_body.md
         FULL_REPORT_PATH=/tmp/full_diff_report.md
         MAX_COMMENT_SIZE=60000
         MAX_ITEMS_PER_SECTION=20
+        SUMMARY_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
         truncate_details_sections() {
           local input_file="$1"
@@ -120,29 +119,15 @@ runs:
           ' "$input_file" > "$output_file"
         }
 
-        create_gist_from_report() {
-          local report_path="$1"
-          local gist_desc="$2"
-          local gist_filename="$3"
-
-          if [ ! -f "$report_path" ] || [ ! -s "$report_path" ]; then
-            return 1
-          fi
-
-          gh gist create "$report_path" --public=false --filename "$gist_filename" --desc "$gist_desc" 2>/tmp/gist_error.log
-        }
-
         # Create the comment header
         echo "<!-- ${{ inputs.diff-type }}-diff-comment -->" > "$COMMENT_BODY_PATH"
         echo "## ${{ steps.comment-details.outputs.emoji }} ${{ steps.comment-details.outputs.title }}" >> "$COMMENT_BODY_PATH"
         echo "" >> "$COMMENT_BODY_PATH"
 
         if [ "${{ inputs.diff-generated }}" == "true" ]; then
-          # Decode base64 content and append to file
           echo "${{ inputs.diff-content }}" | base64 -d > "$FULL_REPORT_PATH"
           cat "$FULL_REPORT_PATH" >> "$COMMENT_BODY_PATH"
         elif [ "${{ inputs.diff-generated }}" == "too-large" ]; then
-          # Diff too large case
           if [ -f "${{ inputs.diff-file-path }}" ] && [ -s "${{ inputs.diff-file-path }}" ]; then
             cp "${{ inputs.diff-file-path }}" "$FULL_REPORT_PATH"
           fi
@@ -152,47 +137,48 @@ runs:
           echo "${{ inputs.diff-content }}" >> "$COMMENT_BODY_PATH"
           echo "" >> "$COMMENT_BODY_PATH"
         elif [ "${{ inputs.diff-generated }}" == "false" ]; then
-          # No changes case
           echo "No ${{ steps.comment-details.outputs.description }} changes detected in this pull request." >> "$COMMENT_BODY_PATH"
         else
-          # Error case
           echo "⚠️ **Error**: ${{ inputs.diff-content }}" >> "$COMMENT_BODY_PATH"
           echo "" >> "$COMMENT_BODY_PATH"
-          echo "Please check the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for more details." >> "$COMMENT_BODY_PATH"
+          echo "Please check the [workflow logs](${SUMMARY_URL}) for more details." >> "$COMMENT_BODY_PATH"
         fi
 
         comment_size=$(wc -c < "$COMMENT_BODY_PATH")
+        echo "::debug::Comment body size: ${comment_size} bytes (limit: ${MAX_COMMENT_SIZE})"
 
         if [ "$comment_size" -gt "$MAX_COMMENT_SIZE" ] || [ "${{ inputs.diff-generated }}" == "too-large" ]; then
-          gist_url=""
-          gist_desc="${{ steps.comment-details.outputs.title }} for PR #${{ inputs.pr-number }}"
-          gist_filename="${{ inputs.diff-type }}-diff-pr-${{ inputs.pr-number }}-run-${{ github.run_id }}.md"
-
-          if gist_url=$(create_gist_from_report "$FULL_REPORT_PATH" "$gist_desc" "$gist_filename"); then
-            echo "Created gist: $gist_url"
-          else
-            gist_url=""
-          fi
+          echo "::notice::Report exceeds comment size limit (${comment_size} bytes). Writing full report to Job Summary."
 
           if [ -f "$FULL_REPORT_PATH" ] && [ -s "$FULL_REPORT_PATH" ]; then
+            full_report_size=$(wc -c < "$FULL_REPORT_PATH")
+            echo "::debug::Full report size: ${full_report_size} bytes"
+
+            {
+              echo "## ${{ steps.comment-details.outputs.emoji }} ${{ steps.comment-details.outputs.title }} — Full Report"
+              echo ""
+              cat "$FULL_REPORT_PATH"
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::debug::Wrote full report to GITHUB_STEP_SUMMARY"
+
             truncated_report_path=$(mktemp)
             truncate_details_sections "$FULL_REPORT_PATH" "$truncated_report_path" "$MAX_ITEMS_PER_SECTION"
+            truncated_size=$(wc -c < "$truncated_report_path")
+            echo "::debug::Truncated report size: ${truncated_size} bytes"
 
             {
               echo "<!-- ${{ inputs.diff-type }}-diff-comment -->"
               echo "## ${{ steps.comment-details.outputs.emoji }} ${{ steps.comment-details.outputs.title }}"
               echo ""
-              echo "⚠️ **This report was truncated in the PR comment due to GitHub comment size limits.**"
+              echo "⚠️ **This report was truncated due to GitHub comment size limits.**"
               echo ""
-              if [ -n "$gist_url" ]; then
-                echo "**Full report:** $gist_url"
-              else
-                echo "**Full report upload failed.** Please check workflow logs."
-              fi
+              echo "📋 **[View full report in the Actions Job Summary](${SUMMARY_URL})**"
               echo ""
               cat "$truncated_report_path"
               echo ""
             } > "$COMMENT_BODY_PATH"
+          else
+            echo "::warning::Full report file is missing or empty at ${FULL_REPORT_PATH}"
           fi
         fi
 
@@ -200,6 +186,9 @@ runs:
         echo "" >> "$COMMENT_BODY_PATH"
         echo "---" >> "$COMMENT_BODY_PATH"
         echo "*This comment was automatically generated by the ${{ steps.comment-details.outputs.description }} diff tool. 🤖*" >> "$COMMENT_BODY_PATH"
+
+        final_size=$(wc -c < "$COMMENT_BODY_PATH")
+        echo "::debug::Final comment body size: ${final_size} bytes"
 
     - name: Create or update PR comment
       uses: peter-evans/create-or-update-comment@v4
