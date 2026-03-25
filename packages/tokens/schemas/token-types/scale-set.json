@@ -55,6 +55,8 @@
     "private": {},
     "deprecated": {},
     "deprecated_comment": {},
+    "description": {},
+    "renamed": {},
     "uuid": {}
   },
   "required": ["sets"]
