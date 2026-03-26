@@ -220,10 +220,17 @@ fetch(url)
 - Validate schemas in tests
 
 ## License & Copyright
-- All files must include proper Adobe copyright
-- Use Apache-2.0 license
-- Include copyright headers in source files
-- Follow existing copyright patterns
+- Use Apache-2.0 license for this project (see root `LICENSE`).
+- **Copyright headers (Adobe OSPO / open-source practice):** Add the standard Apache 2.0 file header to **human-authored source files** you create or substantially edit—not to every file in the repo.
+- **Include copyright headers in** (examples):
+  - Code: `.js`, `.ts`, `.jsx`, `.tsx`, and similar
+  - Scripts: `.sh`, `.bash`, etc.
+  - Human-edited config/templates: `.yaml`/`.yml`, `.json` (when not machine-generated dumps)
+- **Do not add copyright headers to**:
+  - Markdown: `.md` (READMEs, changesets, docs, `CONTRIBUTING.md`, etc.)
+  - Clearly auto-generated or bundled output (lockfiles, build artifacts)
+  - Top-level project metadata (`LICENSE`, `.gitignore`, CI config, etc.) unless the project’s own standards say otherwise
+- Follow existing header patterns in nearby files when editing.
 
 ## Performance Considerations
 - Use efficient algorithms for token processing
