@@ -14,7 +14,7 @@ import { execFile } from "child_process";
 import { promisify } from "util";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-import { readFileSync, unlinkSync, mkdtempSync } from "fs";
+import { readFileSync, unlinkSync, mkdtempSync, rmdirSync } from "fs";
 import { tmpdir } from "os";
 
 const execFileAsync = promisify(execFile);
@@ -76,6 +76,7 @@ export async function generateTokenDiff(oldBranch, newBranch, githubToken) {
   } finally {
     try {
       unlinkSync(outFile);
+      rmdirSync(tmpDir);
     } catch {
       // ignore cleanup errors
     }
