@@ -14,6 +14,7 @@ import test from "ava";
 import { detailedDiff } from "../src/lib/diff.js";
 import detectDeprecatedTokens from "../src/lib/deprecated-token-detection.js";
 import detectRenamedTokens from "../src/lib/renamed-token-detection.js";
+import tokenDiff from "../src/lib/index.js";
 import { loadTestSchema } from "./utils/json-loader.js";
 
 const original = loadTestSchema("basic-original-token.json");
@@ -148,4 +149,18 @@ test("reverted a token to not deprecated", (t) => {
     ),
     expectedReverted,
   );
+});
+
+test("set-level to top-level deprecation restructure is not newly deprecated or reverted", (t) => {
+  const setLevelOriginal = loadTestSchema(
+    "deprecation-set-level-original.json",
+  );
+  const topLevelUpdated = loadTestSchema("deprecation-top-level-updated.json");
+  const result = tokenDiff(setLevelOriginal, topLevelUpdated);
+  t.deepEqual(result.deprecated, {});
+  t.deepEqual(result.reverted, {});
+  const tokenUpdates = result.updated.added["side-navigation-test-token"];
+  t.truthy(tokenUpdates);
+  t.truthy(tokenUpdates.deprecated_comment);
+  t.truthy(tokenUpdates.renamed);
 });

@@ -29,8 +29,12 @@ export default {
     // Only run changeset linter on actual changeset files, not README.md
     const changesetFiles = files.filter((file) => !file.endsWith("README.md"));
     if (changesetFiles.length === 0) return [];
+    // Use `node` + CLI path so pre-commit does not invoke `pnpm` (avoids Corepack
+    // signature/download failures when `pnpm` triggers a tarball download).
+    // lint-staged function tasks must return string | string[] (not argv tuples).
     return changesetFiles.map(
-      (file) => `pnpm changeset-lint check-file ${file}`,
+      (file) =>
+        `node tools/changeset-linter/src/cli.js check-file ${JSON.stringify(file)}`,
     );
   },
 };

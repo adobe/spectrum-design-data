@@ -103,6 +103,7 @@ test("generateTokenMarkdown creates token table with required columns", async (t
         content.includes("| Token |"),
         "Should include Token column header",
       );
+      t.true(content.includes("| Type |"), "Should include Type column header");
       t.true(
         content.includes("| Value |"),
         "Should include Value column header",

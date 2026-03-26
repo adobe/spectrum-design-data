@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-tokens",
-  "version": "14.2.1",
+  "version": "14.3.0",
   "description": "Design tokens for Spectrum, Adobe's design system",
   "type": "module",
   "main": "index.js",
@@ -22,6 +22,11 @@
     "provenance": true
   },
   "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/packages/tokens#readme",
+  "exports": {
+    ".": "./index.js",
+    "./schemas/token-file.json": "./schemas/token-file.json",
+    "./dist/*": "./dist/*"
+  },
   "devDependencies": {
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",

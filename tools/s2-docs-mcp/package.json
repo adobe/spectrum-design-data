@@ -1,6 +1,6 @@
 {
   "name": "@adobe/s2-docs-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for Spectrum 2 documentation",
   "type": "module",
   "main": "./src/index.js",
@@ -31,7 +31,7 @@
     "provenance": true
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^0.5.0",
+    "@modelcontextprotocol/sdk": "^1.27.1",
     "commander": "^13.1.0"
   },
   "engines": {

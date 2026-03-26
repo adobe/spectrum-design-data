@@ -17,9 +17,9 @@ Design tokens and component API schemas. Enables AI to look up token values, fin
 
 **npm:** `@adobe/spectrum-design-data-mcp`
 
-**Token tools:** `query-tokens`, `find-tokens-by-use-case`, `get-component-tokens`, `get-design-recommendations`, `get-token-categories`, `get-token-details`
+**Token tools:** `query-tokens`, `query-tokens-by-value`, `get-token-details`, `get-component-tokens`
 
-**Schema tools:** `query-component-schemas`, `get-component-schema`, `list-components`, `validate-component-props`, `get-type-schemas`
+**Schema tools:** `list-components`, `get-component-schema`, `validate-component-props`, `search-components-by-feature`
 
 **Cursor config (single server):**
 
@@ -28,7 +28,7 @@ Design tokens and component API schemas. Enables AI to look up token values, fin
   "mcpServers": {
     "spectrum-design-data": {
       "command": "npx",
-      "args": ["@adobe/spectrum-design-data-mcp"]
+      "args": ["-y", "@adobe/spectrum-design-data-mcp"]
     }
   }
 }
@@ -49,7 +49,7 @@ Spectrum 2 component documentation and design guidelines. Use when the AI needs 
   "mcpServers": {
     "s2-docs": {
       "command": "npx",
-      "args": ["@adobe/s2-docs-mcp"]
+      "args": ["-y", "@adobe/s2-docs-mcp"]
     }
   }
 }
@@ -66,11 +66,11 @@ Add both servers to `.cursor/mcp.json` so the AI can use tokens, schemas, and S2
   "mcpServers": {
     "spectrum-design-data": {
       "command": "npx",
-      "args": ["@adobe/spectrum-design-data-mcp"]
+      "args": ["-y", "@adobe/spectrum-design-data-mcp"]
     },
     "s2-docs": {
       "command": "npx",
-      "args": ["@adobe/s2-docs-mcp"]
+      "args": ["-y", "@adobe/s2-docs-mcp"]
     }
   }
 }

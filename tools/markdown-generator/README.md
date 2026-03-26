@@ -241,8 +241,3 @@ The generator includes validation and error handling:
 * **11ty Site** (`docs/site/`) - Documentation site that consumes generated markdown
 * **Token Validation** (`packages/tokens/test/`) - Tests that validate token structure and references
 * **Publish Markdown Workflow** (`.github/workflows/publish-markdown.yml`) - Publishes markdown to orphan branch
-
-## License
-
-Copyright 2024 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0.

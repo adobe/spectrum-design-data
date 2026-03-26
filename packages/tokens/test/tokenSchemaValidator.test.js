@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Adobe. All rights reserved.
+Copyright 2026 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -38,6 +38,10 @@ test.before(async (t) => {
   );
   t.context.schemaIds = schemaIds;
 
+  const tokenFileSchema = await readJSON("schemas/token-file.json");
+  ajv.addSchema(tokenFileSchema, tokenFileSchema["$id"]);
+  t.context.tokenFileSchemaId = tokenFileSchema["$id"];
+
   const tokenFilesNames = await glob("src/*.json");
   t.context.tokenFiles = await Promise.all(
     tokenFilesNames.map(async (tokenFile) => {
@@ -46,21 +50,9 @@ test.before(async (t) => {
   );
 });
 
-test("Schema should compile without errors", async (t) => {
-  try {
-    const validate = await ajv.compile({
-      $schema: "https://json-schema.org/draft/2020-12/schema",
-      type: "object",
-      patternProperties: {
-        "^(?:(?:[a-z]|\\d)+-?)*(?:[a-z]|\\d)+$": {
-          anyOf: t.context.schemaIds.map((schemaId) => ({ $ref: schemaId })),
-        },
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
-  t.pass();
+test("token-file schema compiles", (t) => {
+  const validate = ajv.getSchema(t.context.tokenFileSchemaId);
+  t.truthy(validate, "token-file schema should be registered");
 });
 
 test("Every token should have a $schema property", (t) => {
@@ -92,6 +84,20 @@ test("Every token schema should validate against the definition", (t) => {
         });
       }
     });
+  });
+  t.deepEqual(errors, []);
+});
+
+test("Every token file validates against token-file.json", (t) => {
+  const errors = [];
+  t.context.tokenFiles.forEach((tokenFileObj) => {
+    if (!ajv.validate(t.context.tokenFileSchemaId, tokenFileObj.data)) {
+      t.log(`${tokenFileObj.fileName} failed token-file validation.`);
+      errors.push({
+        fileName: tokenFileObj.fileName,
+        errors: ajv.errors,
+      });
+    }
   });
   t.deepEqual(errors, []);
 });

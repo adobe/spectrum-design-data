@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/dimension.schema.json",
+  "title": "Dimension declaration",
+  "description": "Layer 1 — declares a dimension name, allowed modes, and default. default ∈ modes is validated in Layer 2 (SPEC-005) where needed.",
+  "type": "object",
+  "required": ["name", "modes", "default"],
+  "properties": {
+    "specVersion": {
+      "const": "1.0.0-draft"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "modes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "default": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "coverage": {
+      "type": "object",
+      "description": "Optional machine-readable coverage hints (interpreted by Layer 2).",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

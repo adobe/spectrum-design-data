@@ -31,6 +31,9 @@ outputs:
   actions-run-url:
     description: "URL of the GitHub Actions run that created this sync"
     value: ${{ steps.extract.outputs.actions_run_url }}
+  source-pr-body-b64:
+    description: "Base64-encoded body/description of the source PR (UTF-8)"
+    value: ${{ steps.extract.outputs.source_pr_body_b64 }}
 
 runs:
   using: composite
@@ -51,6 +54,7 @@ runs:
           echo "source_pr_title=" >> $GITHUB_OUTPUT
           echo "source_pr_number=" >> $GITHUB_OUTPUT
           echo "source_pr_url=" >> $GITHUB_OUTPUT
+          echo "source_pr_body_b64=" >> $GITHUB_OUTPUT
           exit 0
         fi
 
@@ -73,6 +77,7 @@ runs:
           echo "source_pr_title=" >> $GITHUB_OUTPUT
           echo "source_pr_number=" >> $GITHUB_OUTPUT
           echo "source_pr_url=" >> $GITHUB_OUTPUT
+          echo "source_pr_body_b64=" >> $GITHUB_OUTPUT
           exit 0
         fi
 
@@ -91,6 +96,7 @@ runs:
           echo "source_pr_title=" >> $GITHUB_OUTPUT
           echo "source_pr_number=" >> $GITHUB_OUTPUT
           echo "source_pr_url=" >> $GITHUB_OUTPUT
+          echo "source_pr_body_b64=" >> $GITHUB_OUTPUT
           exit 0
         fi
 
@@ -127,9 +133,16 @@ runs:
         echo "Found source PR: #$pr_number - $pr_title"
         echo "Author: $pr_author ($author_name) <$author_email>"
 
+        pr_full=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github.v3+json" \
+          "https://api.github.com/repos/adobe/spectrum-tokens-studio-data/pulls/$pr_number")
+        pr_body=$(echo "$pr_full" | jq -r '.body // ""')
+        body_b64=$(printf '%s' "$pr_body" | base64 -w0)
+
         echo "source_pr_title=$pr_title" >> $GITHUB_OUTPUT
         echo "source_pr_number=$pr_number" >> $GITHUB_OUTPUT
         echo "source_pr_url=$pr_url" >> $GITHUB_OUTPUT
         echo "source_pr_author=$pr_author" >> $GITHUB_OUTPUT
         echo "source_pr_author_name=$author_name" >> $GITHUB_OUTPUT
         echo "source_pr_author_email=$author_email" >> $GITHUB_OUTPUT
+        echo "source_pr_body_b64=$body_b64" >> $GITHUB_OUTPUT

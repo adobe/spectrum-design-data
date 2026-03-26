@@ -1,4 +1,4 @@
-# Copyright 2024 Adobe. All rights reserved.
+# Copyright 2026 Adobe. All rights reserved.
 # This file is licensed to you under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License. You may obtain a copy
 # of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -15,6 +15,43 @@ fileGroups:
   tests:
     - "test/**/*"
 tasks:
+  validateDesignData:
+    command: ../../sdk/target/debug/design-data
+    args:
+      - validate
+      - ./src
+      - --schema-path
+      - ./schemas
+      - --exceptions-path
+      - ./naming-exceptions.json
+    platform: system
+    deps:
+      - sdk:build
+    inputs:
+      - "@globs(sources)"
+      - "schemas/**/*.json"
+      - "snapshots/**/*.json"
+      - "naming-exceptions.json"
+  verifyDesignDataSnapshot:
+    command: ../../sdk/target/debug/design-data
+    args:
+      - migrate
+      - verify
+      - ./src
+      - --snapshot
+      - ./snapshots/validation-snapshot.json
+      - --schema-path
+      - ./schemas
+      - --exceptions-path
+      - ./naming-exceptions.json
+    platform: system
+    deps:
+      - sdk:build
+    inputs:
+      - "@globs(sources)"
+      - "schemas/**/*.json"
+      - "snapshots/**/*.json"
+      - "naming-exceptions.json"
   build:
     deps:
       - ~:buildTokens
@@ -58,6 +95,7 @@ tasks:
       - "@globs(sources)"
     deps:
       - ~:buildTokens
+      - ~:verifyDesignDataSnapshot
     platform: node
   test-watch:
     command:

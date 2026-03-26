@@ -15,3 +15,14 @@ governing permissions and limitations under the License.
 @import "@spectrum-css/typography/dist/index.css";
 @import "@spectrum-css/link/dist/index.css";
 @import "@spectrum-css/table/dist/index.css";
+
+/* Keep token resolved value and swatch on the same line */
+.spectrum-TokenResolvedValue {
+  display: inline;
+  white-space: nowrap;
+}
+
+.spectrum-TokenResolvedSwatch {
+  display: inline;
+  vertical-align: middle;
+}

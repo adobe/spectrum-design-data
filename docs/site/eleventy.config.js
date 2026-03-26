@@ -41,6 +41,7 @@ export default async function (eleventyConfig) {
     "public/adobe_logo.svg": "adobe_logo.svg",
   });
   eleventyConfig.addPassthroughCopy({ "public/.nojekyll": ".nojekyll" });
+  eleventyConfig.addPassthroughCopy({ "public/schemas": "schemas" });
 
   eleventyConfig.addCollection("components", function (api) {
     return api.getFilteredByGlob("src/components/**/*.md");

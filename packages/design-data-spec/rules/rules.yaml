@@ -1,0 +1,66 @@
+# Validation rule catalog (Layer 2) — stable IDs for diagnostics and conformance.
+# spec_version aligns with the human-readable spec (see spec/index.md).
+spec_version: "1.0.0-draft"
+rules:
+  - id: SPEC-001
+    name: alias-target-exists
+    severity: error
+    category: reference-integrity
+    assert: Every alias $ref MUST resolve to an existing token in the dataset.
+    message: "Alias target not found for $ref: {path}"
+    spec_ref: spec/token-format.md#alias-ref
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-002
+    name: alias-type-compatibility
+    severity: error
+    category: type-safety
+    assert: Resolved alias target MUST have a value type compatible with the referencing token’s expected type.
+    message: "Alias {path} resolves to incompatible type"
+    spec_ref: spec/token-format.md#literal-value
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-003
+    name: no-circular-aliases
+    severity: error
+    category: reference-integrity
+    assert: Alias chains MUST NOT contain cycles.
+    message: "Circular alias chain detected involving {path}"
+    spec_ref: spec/token-format.md#alias-ref
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-004
+    name: uuid-global-uniqueness
+    severity: error
+    category: completeness
+    assert: Token uuid values MUST be unique across all token documents in the dataset.
+    message: "Duplicate uuid {uuid}"
+    spec_ref: spec/token-format.md#lifecycle-and-metadata
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-005
+    name: cascade-coverage
+    severity: error
+    category: completeness
+    assert: Dimension declarations MUST satisfy coverage rules (e.g. default ∈ modes; peer mode requirements from coverage metadata).
+    message: "Dimension coverage violation for {dimension}"
+    spec_ref: spec/dimensions.md#coverage-validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-006
+    name: specificity-correctness
+    severity: warning
+    category: type-safety
+    assert: When two tokens from the same layer match a context, the more specific name object MUST win; ties MUST be reported.
+    message: "Ambiguous cascade resolution (specificity tie) for context {context}"
+    spec_ref: spec/cascade.md#semantic-specificity
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-007
+    name: name-roundtrip
+    severity: warning
+    category: naming-consistency
+    assert: Every legacy token name MUST be reproducible from a structured name object via deterministic generation rules, unless listed in naming-exceptions.json.
+    message: "Token '{token}' does not roundtrip through name-object generation rules"
+    spec_ref: spec/token-format.md#name-object
+    introduced_in: "1.0.0-draft"
