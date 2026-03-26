@@ -1,5 +1,24 @@
 # [**@adobe/spectrum-design-data-mcp**](https://github.com/adobe/spectrum-design-data-mcp)
 
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [[`a6d8f51`](https://github.com/adobe/spectrum-design-data/commit/a6d8f51a72409d2d8bbc509e2262aaa5f34cd0f1)]:
+  - @adobe/spectrum-tokens@14.3.0
+
+## 1.1.4
+
+### Patch Changes
+
+- [#751](https://github.com/adobe/spectrum-design-data/pull/751) [`42e6257`](https://github.com/adobe/spectrum-design-data/commit/42e62574ef03bc8f9a66ebde48e8e60625e7bd7c) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix MCP spec compliance for strict clients like Kiro and Claude
+  - Remove invalid `required: true` from individual property definitions
+    in tool `inputSchema` objects (JSON Schema requires `required` as a
+    string array on the parent object, not a boolean on properties)
+  - Upgrade `@modelcontextprotocol/sdk` from `^0.5.0` to `^1.27.1`
+  - Return tool execution errors as results with `isError: true` instead of throwing (per MCP spec)
+  - Read server version dynamically from `package.json` instead of hardcoding
+
 ## 1.1.3
 
 ### Patch Changes

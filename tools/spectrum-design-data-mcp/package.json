@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-design-data-mcp",
-  "version": "1.1.3",
+  "version": "1.1.5",
   "description": "Model Context Protocol server for Spectrum design data including tokens, schemas, and component anatomy",
   "keywords": [
     "mcp",
@@ -52,7 +52,7 @@
   "dependencies": {
     "@adobe/spectrum-tokens": "workspace:*",
     "@adobe/spectrum-component-api-schemas": "workspace:*",
-    "@modelcontextprotocol/sdk": "^0.5.0",
+    "@modelcontextprotocol/sdk": "^1.27.1",
     "commander": "^13.1.0"
   },
   "devDependencies": {

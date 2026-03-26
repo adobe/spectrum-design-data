@@ -102,6 +102,10 @@
         },
         "private": {
           "type": "boolean"
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
         }
       },
       "additionalProperties": false
@@ -145,6 +149,10 @@
         },
         "private": {
           "type": "boolean"
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
         }
       },
       "additionalProperties": false
