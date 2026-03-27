@@ -23,6 +23,8 @@ import {
 
 import { createTokenTools } from "./tools/tokens.js";
 import { createSchemaTools } from "./tools/schemas.js";
+import { createWorkflowTools } from "./tools/workflows.js";
+import { createImplementationMapTools } from "./tools/implementation-map.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const packageJson = JSON.parse(
@@ -47,7 +49,12 @@ export function createMCPServer() {
   );
 
   // Combine all available tools
-  const allTools = [...createTokenTools(), ...createSchemaTools()];
+  const allTools = [
+    ...createTokenTools(),
+    ...createSchemaTools(),
+    ...createWorkflowTools(),
+    ...createImplementationMapTools(),
+  ];
 
   // Register list_tools handler
   server.setRequestHandler(ListToolsRequestSchema, async () => {
@@ -109,4 +116,9 @@ export async function startServer() {
 }
 
 // Export for testing
-export { createTokenTools, createSchemaTools };
+export {
+  createTokenTools,
+  createSchemaTools,
+  createWorkflowTools,
+  createImplementationMapTools,
+};

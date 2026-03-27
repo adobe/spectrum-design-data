@@ -16,9 +16,13 @@ Design tokens and component API schemas. Enables AI to look up token values, fin
 
 **npm:** `@adobe/spectrum-design-data-mcp`
 
-**Token tools:** `query-tokens`, `query-tokens-by-value`, `get-token-details`, `get-component-tokens`
+**Token tools:** `query-tokens`, `query-tokens-by-value`, `get-token-details`, `get-token-categories`, `get-component-tokens`, `find-tokens-by-use-case`, `get-design-recommendations`
 
-**Schema tools:** `list-components`, `get-component-schema`, `validate-component-props`, `search-components-by-feature`
+**Schema tools:** `query-component-schemas`, `list-components`, `get-component-schema`, `get-component-options`, `get-type-schemas`, `validate-component-props`, `search-components-by-feature`
+
+**Workflow tools:** `build-component-config`, `suggest-component-improvements`
+
+**Implementation tools:** `resolve-implementation`, `reverse-lookup-implementation`, `list-implementation-mappings`
 
 **Cursor config (single server):**
 
@@ -55,6 +59,24 @@ Spectrum 2 component documentation and design guidelines. Use when the AI needs 
 ```
 
 If you run from source, point `args` to `tools/s2-docs-mcp/src/cli.js` inside your clone.
+
+## Agent Skills
+
+Agent Skills are markdown guides that orchestrate MCP tools into complete workflows for common design system tasks. They don't execute code directly — instead they tell AI agents which tools to call, in what order, and how to combine the results.
+
+The top-level entry point is [`SKILL.md`](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-design-data-mcp/agent-skills/SKILL.md), which follows a standard skill metadata format recognized by MCP-compatible clients (Cursor, Claude Code, VS Code, etc.). MCP clients that support Agent Skills will auto-discover it from the server.
+
+### Available skills
+
+* **[Component Builder](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-design-data-mcp/agent-skills/component-builder.md)** — Guides agents through discovering component schemas, finding design tokens, and validating configurations. Use when building or implementing Spectrum components.
+
+* **[Token Finder](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-design-data-mcp/agent-skills/token-finder.md)** — Helps agents find the right tokens for colors, spacing, typography, and component styling. Use when asking "what token should I use for…"
+
+* **[State Management guide](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-design-data-mcp/agent-skills/guides/state-management.md)** — Covers token recommendations per interactive state (default, hover, focus, disabled, selected).
+
+### Using skills
+
+For AI agents, read the relevant skill file when a task matches its scope and follow the step-by-step workflow. For developers, reference skill files in your project docs or system prompts to steer agents toward correct Spectrum patterns.
 
 ## Cursor IDE setup
 

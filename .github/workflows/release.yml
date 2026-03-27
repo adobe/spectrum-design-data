@@ -10,37 +10,6 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
-    name: Release
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      id-token: write # Required for npm trusted publishing (OIDC)
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      # Set up Node.js without proto to test OIDC compatibility
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20.17.0"
-      # Install npm 11.6.2 (required for OIDC) - bypassing proto
-      - run: npm install -g npm@11.6.2
-      # Install pnpm directly
-      - run: npm install -g pnpm@10.17.1
-      # Install dependencies
-      - run: pnpm install --frozen-lockfile
-      # Build packages directly (bypassing moon - only tokens package has build tasks)
-      - name: Build tokens package
-        run: |
-          cd packages/tokens
-          node tasks/buildSpectrumTokens.js
-          node tasks/buildManifest.js
-      - name: Create Release Pull Request or Publish to npm
-        id: changesets
-        uses: GarthDB/changesets-action@v1.6.8
-        with:
-          commit: "chore: release"
-          publish: pnpm release
-          oidcAuth: true # Test OIDC without proto shims
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+    uses: ./.github/workflows/publish-packages.yml
+    secrets:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}

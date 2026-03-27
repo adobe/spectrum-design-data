@@ -16,9 +16,9 @@ Normative **Design Data Specification** artifacts for Spectrum: human-readable s
 
 ## Tasks
 
-- `moon run designDataSpec:check` — verify required paths exist (layout guard).
+* `moon run designDataSpec:check` — verify required paths exist (layout guard).
 
 ## References
 
-- [Design Data Specification project](https://github.com/orgs/adobe/projects/89)
-- Discussion [#714](https://github.com/adobe/spectrum-design-data/discussions/714) — umbrella spec
+* [Design Data Specification project](https://github.com/orgs/adobe/projects/89)
+* Discussion [#714](https://github.com/adobe/spectrum-design-data/discussions/714) — umbrella spec

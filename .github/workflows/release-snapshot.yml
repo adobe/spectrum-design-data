@@ -11,42 +11,24 @@ on:
 jobs:
   get-snapshot-tag:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      id-token: write
+    outputs:
+      snapshot-tag: ${{ steps.compute-tag.outputs.tag }}
     steps:
-      - name: Split branch name
-        id: split
+      - name: Compute snapshot tag
+        id: compute-tag
         env:
           BRANCH: ${{ github.ref_name }}
-        run: echo "fragment=${BRANCH##*snapshot-}" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Get last author info
-        id: author
         run: |
-          echo "authorName=$(git log -1 --pretty=format:'%an')" >> $GITHUB_OUTPUT
-          echo "authorEmail=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_OUTPUT
-      - uses: moonrepo/setup-toolchain@v0
-        with:
-          auto-install: true
-      - run: moon setup
-      - run: moon run :build --query "projectSource~packages/*"
-      - name: Snapshot release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          SNAPSHOT_TAG: ${{ inputs.tag || steps.split.outputs.fragment }}
-          USERNAME: ${{ steps.author.outputs.authorName }}
-          EMAIL: ${{ steps.author.outputs.authorEmail }}
-        run: |
-          pnpm changeset version --snapshot $SNAPSHOT_TAG
-          git config --global user.name "$USERNAME"
-          git config --global user.email "$EMAIL"
-          git add .
-          git commit -m "chore: snapshot release $SNAPSHOT_TAG"
-          npm set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-          pnpm changeset publish --tag $SNAPSHOT_TAG
-          git push origin HEAD
-          git push --tags
+          if [ -n "${{ inputs.tag }}" ]; then
+            echo "tag=${{ inputs.tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${BRANCH##*snapshot-}" >> $GITHUB_OUTPUT
+          fi
+
+  publish:
+    needs: get-snapshot-tag
+    uses: ./.github/workflows/publish-packages.yml
+    with:
+      snapshot-tag: ${{ needs.get-snapshot-tag.outputs.snapshot-tag }}
+    secrets:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
