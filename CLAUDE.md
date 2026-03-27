@@ -281,6 +281,21 @@ fetch(url)
 * Use meaningful variable and function names
 * Keep functions focused and small
 
+## GitHub CLI
+
+* **Always use `gh` CLI** for GitHub operations (issues, PRs, checks, releases)
+* View PR/issue details: `gh pr view`, `gh issue view`
+* Check CI status: `gh pr checks`
+
+## Pull Requests
+
+* When creating PRs, **use the repo's PR template** at `.github/PULL_REQUEST_TEMPLATE.md` as the body structure
+* Read the template with `cat .github/PULL_REQUEST_TEMPLATE.md`, fill in each section, and pass it via `gh pr create --body-file`
+* Fill in the checklist — check boxes that apply, leave others unchecked
+* Link related issues in the "Related Issue" section
+* Always include a motivation/context explanation
+* Describe how changes were tested
+
 ## When Making Changes
 
 1. Run tests with `moon run test`
