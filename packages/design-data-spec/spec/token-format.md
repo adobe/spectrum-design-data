@@ -66,6 +66,25 @@ The following OPTIONAL fields align with token lifecycle discussions (e.g. [#623
 
 **RECOMMENDED:** Root token documents (when stored as standalone JSON files) include `specVersion` with const `1.0.0-draft` for self-identification. Embedded tokens inside larger files **MAY** omit it if the parent document carries version metadata.
 
+## Document shape
+
+Cascade-format tokens are stored in **JSON files** that conform to [`cascade-file.schema.json`](../schemas/cascade-file.schema.json) (canonical `$id`: `https://opensource.adobe.com/spectrum-design-data/schemas/v0/cascade-file.schema.json`).
+
+**NORMATIVE:** A cascade file **MUST** be a JSON **array** of token objects. Each element **MUST** conform to [`token.schema.json`](../schemas/token.schema.json).
+
+**NORMATIVE:** The array is **ordered**. Document order is used for tie-breaking during cascade resolution (earlier element wins); see [Cascade — Semantic specificity](cascade.md#semantic-specificity).
+
+**RECOMMENDED:** A cascade file uses the `.tokens.json` extension to distinguish it from legacy set-format files.
+
+Example:
+
+```json
+[
+  { "name": { "property": "background-color-default" }, "value": "#f5f5f5", "uuid": "..." },
+  { "name": { "property": "background-color-default", "colorScheme": "dark" }, "value": "#1e1e1e", "uuid": "..." }
+]
+```
+
 ## Value types
 
 Individual types (color, dimension, opacity, etc.) **MUST** be defined as JSON Schemas under `schemas/value-types/` and **MUST** use `$id` under the same `v0` base path as [Overview — JSON Schema `$id`](index.md).
@@ -92,4 +111,5 @@ RFC [#646](https://github.com/adobe/spectrum-design-data/issues/646) remains ope
 
 * [#646 — Token Schema Structure and Validation System](https://github.com/adobe/spectrum-design-data/discussions/646)
 * [#623 — Token Lifecycle Metadata](https://github.com/adobe/spectrum-design-data/discussions/623)
+* [#756 — Phase 2: Cascade token file schema](https://github.com/adobe/spectrum-design-data/issues/756)
 * [#759 — Phase 2: Token shape reconciliation](https://github.com/adobe/spectrum-design-data/issues/759)
