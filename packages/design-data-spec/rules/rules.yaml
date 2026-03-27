@@ -64,3 +64,21 @@ rules:
     message: "Token '{token}' does not roundtrip through name-object generation rules"
     spec_ref: spec/token-format.md#name-object
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-008
+    name: cascade-completeness
+    severity: warning
+    category: completeness
+    assert: For every cascade token that has a non-default mode variant, a base/default variant (name object with no dimension fields for that dimension, or explicitly the default mode value) MUST also exist in the dataset. Ensures all consumers can resolve without a fallback gap.
+    message: "Token property '{property}' has mode variant '{mode}' but no base/default variant"
+    spec_ref: spec/cascade.md#coverage
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-009
+    name: name-field-enum-sync
+    severity: warning
+    category: naming-consistency
+    assert: Recognized name object fields (component, state, variant, etc.) SHOULD use values drawn from the corresponding design-system-registry enums when those enums are available.
+    message: "Token name field '{field}' value '{value}' is not in the design-system-registry enum for '{field}'"
+    spec_ref: spec/token-format.md#name-object
+    introduced_in: "1.0.0-draft"
