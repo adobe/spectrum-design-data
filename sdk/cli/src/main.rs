@@ -19,6 +19,7 @@ use clap::{Parser, Subcommand, ValueEnum};
 use design_data_core::cascade::{resolve, ResolutionContext};
 use design_data_core::compat::{load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot};
 use design_data_core::graph::TokenGraph;
+use design_data_core::migrate;
 use design_data_core::naming::NamingExceptionsFile;
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::validate;
@@ -111,6 +112,15 @@ enum MigrateSub {
         schema_path: Option<PathBuf>,
         #[arg(long, value_name = "FILE")]
         exceptions_path: Option<PathBuf>,
+    },
+    /// Convert legacy set-format token files to cascade-format .tokens.json files
+    Convert {
+        /// Source directory containing legacy token JSON files
+        #[arg(value_name = "INPUT")]
+        input: PathBuf,
+        /// Destination directory for cascade .tokens.json output files
+        #[arg(long, value_name = "OUTPUT")]
+        output: PathBuf,
     },
 }
 
@@ -291,8 +301,6 @@ fn run_validate(
         .wrap_err_with(|| format!("failed to load schemas from {}", schema_root.display()))?;
     let exceptions = load_exceptions(exceptions_path.as_deref())?;
 
-    // Dimensions path is accepted but not yet threaded into the validation
-    // pipeline (pending #767 — migration snapshot update for cascade format).
     let _ = dimensions_path.or_else(default_dimensions_path);
 
     let report = validate::validate_all_with_exceptions(path, &registry, &exceptions)
@@ -337,6 +345,26 @@ fn run_migrate_verify(
         serde_json::to_string_pretty(&current).into_diagnostic()?
     );
     Ok(ExitCode::from(1))
+}
+
+fn run_migrate_convert(input: &Path, output: &Path) -> miette::Result<ExitCode> {
+    let summary = migrate::convert_dir(input, output)
+        .into_diagnostic()
+        .wrap_err_with(|| {
+            format!(
+                "migration failed: {} → {}",
+                input.display(),
+                output.display()
+            )
+        })?;
+    println!(
+        "Converted {} file(s): {} tokens produced ({} set entries, {} flat)",
+        summary.files_written,
+        summary.tokens_produced,
+        summary.set_entries_unwrapped,
+        summary.flat_tokens_converted,
+    );
+    Ok(ExitCode::SUCCESS)
 }
 
 fn run_migrate_snapshot(
@@ -404,6 +432,7 @@ fn main() -> ExitCode {
                 schema_path,
                 exceptions_path,
             } => run_migrate_snapshot(&path, &output, schema_path, exceptions_path),
+            MigrateSub::Convert { input, output } => run_migrate_convert(&input, &output),
         },
     };
 
