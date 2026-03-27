@@ -1,0 +1,5 @@
+{
+  "description": "Cascade selects the winning token first (by specificity). Alias chains ($ref) are resolved AFTER the cascade winner is determined — not before. The winner here is the dark alias token; following its $ref yields blue-600.",
+  "resolved": true,
+  "expected_uuid": "cccccccc-0001-4000-8000-000000000001"
+}

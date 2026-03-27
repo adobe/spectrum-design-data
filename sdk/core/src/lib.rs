@@ -174,6 +174,23 @@ mod relational_conformance {
     }
 
     #[test]
+    fn spec008_cascade_completeness_warning() {
+        use crate::graph::DimensionRecord;
+        let g = TokenGraph::from_pairs(vec![(
+            "dark-only".into(),
+            PathBuf::from("a.json"),
+            json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#000"}),
+        )])
+        .with_dimensions(vec![DimensionRecord {
+            file: PathBuf::from("d.json"),
+            name: "colorScheme".into(),
+            modes: vec!["light".into(), "dark".into()],
+            default_mode: "light".into(),
+        }]);
+        assert!(!diagnostics_for_rule(&g, "SPEC-008").is_empty());
+    }
+
+    #[test]
     fn spec006_duplicate_name_object() {
         let name = json!({"property": "ambiguous", "colorScheme": "dark"});
         let g = TokenGraph::from_pairs(vec![
@@ -197,5 +214,211 @@ mod relational_conformance {
             ),
         ]);
         assert!(!diagnostics_for_rule(&g, "SPEC-006").is_empty());
+    }
+}
+
+/// Resolution conformance tests — fixture-driven, closes #768.
+///
+/// Each test case lives under `packages/design-data-spec/conformance/resolution/<name>/`
+/// with `input/` (cascade tokens), optional `dimensions/`, `query.json`, and `expected.json`.
+#[cfg(test)]
+mod resolution_conformance {
+    use std::collections::HashMap;
+    use std::path::Path;
+
+    use serde_json::Value;
+
+    use crate::cascade::{resolve, ResolutionContext};
+    use crate::graph::TokenGraph;
+
+    fn run_fixture(case: &str) {
+        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/resolution")
+            .join(case);
+
+        let query_text = std::fs::read_to_string(base.join("query.json"))
+            .unwrap_or_else(|e| panic!("{case}: failed to read query.json: {e}"));
+        let query: Value = serde_json::from_str(&query_text)
+            .unwrap_or_else(|e| panic!("{case}: invalid query.json: {e}"));
+
+        let expected_text = std::fs::read_to_string(base.join("expected.json"))
+            .unwrap_or_else(|e| panic!("{case}: failed to read expected.json: {e}"));
+        let expected: Value = serde_json::from_str(&expected_text)
+            .unwrap_or_else(|e| panic!("{case}: invalid expected.json: {e}"));
+
+        let property = query["property"]
+            .as_str()
+            .unwrap_or_else(|| panic!("{case}: query.json missing 'property'"));
+
+        let ctx_map: HashMap<String, String> = query
+            .get("context")
+            .and_then(|v| v.as_object())
+            .map(|o| {
+                o.iter()
+                    .filter_map(|(k, v)| v.as_str().map(|s| (k.clone(), s.to_string())))
+                    .collect()
+            })
+            .unwrap_or_default();
+
+        let mut ctx = ResolutionContext::new();
+        for (k, v) in ctx_map {
+            ctx = ctx.with(k, v);
+        }
+
+        let mut graph = TokenGraph::from_json_dir(&base.join("input"))
+            .unwrap_or_else(|e| panic!("{case}: failed to load tokens: {e}"));
+
+        let dims_dir = base.join("dimensions");
+        if dims_dir.is_dir() {
+            let dims = TokenGraph::load_spec_dimensions(&dims_dir)
+                .unwrap_or_else(|e| panic!("{case}: failed to load dimensions: {e}"));
+            graph = graph.with_dimensions(dims);
+        }
+
+        // Filter to property.
+        let candidates: Vec<_> = graph
+            .tokens
+            .values()
+            .filter(|t| {
+                t.raw
+                    .get("name")
+                    .and_then(|v| v.as_object())
+                    .and_then(|n| n.get("property"))
+                    .and_then(|v| v.as_str())
+                    == Some(property)
+            })
+            .collect();
+
+        let filtered = TokenGraph::from_pairs(
+            candidates
+                .iter()
+                .map(|t| (t.name.clone(), t.file.clone(), t.raw.clone()))
+                .collect(),
+        )
+        .with_dimensions(graph.dimensions.clone());
+
+        let should_resolve = expected["resolved"].as_bool().unwrap_or(true);
+        let winner = resolve(&filtered, &ctx);
+
+        if should_resolve {
+            let winner = winner.unwrap_or_else(|| {
+                panic!("{case}: expected resolution but got None");
+            });
+            if let Some(expected_uuid) = expected["expected_uuid"].as_str() {
+                let actual_uuid = winner.raw.get("uuid").and_then(|v| v.as_str());
+                assert_eq!(
+                    actual_uuid,
+                    Some(expected_uuid),
+                    "{case}: wrong token selected (uuid mismatch)"
+                );
+            }
+        } else {
+            assert!(winner.is_none(), "{case}: expected no resolution but got a winner");
+        }
+    }
+
+    #[test]
+    fn base_fallback() {
+        run_fixture("base-fallback");
+    }
+
+    #[test]
+    fn specificity_wins() {
+        run_fixture("specificity-wins");
+    }
+
+    #[test]
+    fn alias_resolved_after_cascade() {
+        run_fixture("alias-resolved-after-cascade");
+    }
+}
+
+/// Migration roundtrip tests — closes #769.
+#[cfg(test)]
+mod migration_roundtrip {
+    use std::path::PathBuf;
+
+    use serde_json::json;
+
+    use crate::graph::TokenGraph;
+    use crate::migrate::convert_token;
+
+    #[test]
+    fn color_set_roundtrip_loadable_in_graph() {
+        // Convert a color-set token to cascade format.
+        let tokens = convert_token(
+            "overlay-opacity",
+            json!({
+                "$schema": ".../color-set.json",
+                "sets": {
+                    "light":     { "$schema": ".../opacity.json", "value": "0.4", "uuid": "rt-0001-0000-0000-000000000001" },
+                    "dark":      { "$schema": ".../opacity.json", "value": "0.6", "uuid": "rt-0001-0000-0000-000000000002" },
+                    "wireframe": { "$schema": ".../opacity.json", "value": "0.4", "uuid": "rt-0001-0000-0000-000000000003" }
+                }
+            })
+            .as_object()
+            .unwrap(),
+        );
+        assert_eq!(tokens.len(), 3);
+
+        // Load the output tokens into a TokenGraph (simulating what from_json_dir does
+        // for cascade arrays).
+        let pairs: Vec<_> = tokens
+            .iter()
+            .enumerate()
+            .map(|(_i, v)| {
+                let uuid = v["uuid"].as_str().unwrap_or("").to_string();
+                (uuid, PathBuf::from("output.tokens.json"), v.clone())
+            })
+            .collect();
+        let graph = TokenGraph::from_pairs(pairs);
+        assert_eq!(graph.tokens.len(), 3, "all 3 cascade tokens should be in graph");
+
+        // All tokens should carry the property name.
+        for t in graph.tokens.values() {
+            let property = t.raw["name"]["property"].as_str().unwrap();
+            assert_eq!(property, "overlay-opacity");
+        }
+    }
+
+    #[test]
+    fn scale_set_roundtrip_resolves_in_context() {
+        use crate::cascade::{resolve, ResolutionContext};
+        use crate::graph::{DimensionRecord, TokenGraph};
+
+        let tokens = convert_token(
+            "spacing-100",
+            json!({
+                "$schema": ".../scale-set.json",
+                "sets": {
+                    "desktop": { "$schema": ".../dimension.json", "value": "8px",  "uuid": "rt-0002-0000-0000-000000000001" },
+                    "mobile":  { "$schema": ".../dimension.json", "value": "10px", "uuid": "rt-0002-0000-0000-000000000002" }
+                }
+            })
+            .as_object()
+            .unwrap(),
+        );
+
+        let pairs: Vec<_> = tokens
+            .iter()
+            .map(|v| {
+                let uuid = v["uuid"].as_str().unwrap_or("").to_string();
+                (uuid, PathBuf::from("output.tokens.json"), v.clone())
+            })
+            .collect();
+        let graph = TokenGraph::from_pairs(pairs).with_dimensions(vec![DimensionRecord {
+            file: PathBuf::from("scale.json"),
+            name: "scale".into(),
+            modes: vec!["desktop".into(), "mobile".into()],
+            default_mode: "desktop".into(),
+        }]);
+
+        let ctx = ResolutionContext::new().with("scale", "mobile");
+        let winner = resolve(&graph, &ctx).expect("should resolve for mobile");
+        assert_eq!(winner.raw["value"].as_str(), Some("10px"));
+
+        let ctx = ResolutionContext::new().with("scale", "desktop");
+        let winner = resolve(&graph, &ctx).expect("should resolve for desktop");
+        assert_eq!(winner.raw["value"].as_str(), Some("8px"));
     }
 }

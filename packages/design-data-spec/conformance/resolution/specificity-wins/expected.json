@@ -1,0 +1,5 @@
+{
+  "description": "When both a base (dimensionless) and a non-default dimension variant exist, the higher-specificity variant MUST win.",
+  "resolved": true,
+  "expected_uuid": "bbbbbbbb-0002-4000-8000-000000000002"
+}
