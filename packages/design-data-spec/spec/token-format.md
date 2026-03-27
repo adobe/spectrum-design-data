@@ -72,9 +72,24 @@ Individual types (color, dimension, opacity, etc.) **MUST** be defined as JSON S
 
 ## Relationship to legacy Spectrum tokens
 
-The current `@adobe/spectrum-tokens` JSON uses **sets** (`color-set`, `scale-set`, …). This specification describes the **target** per-token model. Mapping from legacy to this format is out of scope for this document; see [#723](https://github.com/adobe/spectrum-design-data/issues/723).
+The current `@adobe/spectrum-tokens` JSON uses **sets** (`color-set`, `scale-set`, …). This specification describes the **target** per-token model. Mapping from legacy to this format is out of scope for this document; see [#743](https://github.com/adobe/spectrum-design-data/issues/743).
+
+## Relationship to RFC [#646](https://github.com/adobe/spectrum-design-data/issues/646) token shape
+
+[RFC #646](https://github.com/adobe/spectrum-design-data/discussions/646) proposed an analytical token shape during the design process. This spec defines the **canonical serialization format**. The two are related but not identical:
+
+| Aspect              | RFC [#646](https://github.com/adobe/spectrum-design-data/issues/646) shape | This spec                                                                  |
+| ------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Identity field      | `id`                                                                       | `uuid`                                                                     |
+| Name model          | `name.original` (string) + `name.structure` (nested object)                | Flat fields directly on `name` (`property`, `component`, `colorScheme`, …) |
+| Complexity tracking | `name.semanticComplexity` (stored on token)                                | Computed at validation time from dimension declarations                    |
+
+**NORMATIVE:** The flat `name` object defined in this spec is the authoritative serialization format. RFC [#646](https://github.com/adobe/spectrum-design-data/issues/646)'s `name.structure` / `name.original` shape is not a conformance target; it remains a useful reference for the analytical model that informed this design.
+
+RFC [#646](https://github.com/adobe/spectrum-design-data/issues/646) remains open as a historical reference. It is not superseded; the spec evolved the format during Phase 2 based on implementation experience.
 
 ## References
 
 * [#646 — Token Schema Structure and Validation System](https://github.com/adobe/spectrum-design-data/discussions/646)
 * [#623 — Token Lifecycle Metadata](https://github.com/adobe/spectrum-design-data/discussions/623)
+* [#759 — Phase 2: Token shape reconciliation](https://github.com/adobe/spectrum-design-data/issues/759)

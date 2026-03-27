@@ -51,8 +51,8 @@ rules:
     name: specificity-correctness
     severity: warning
     category: type-safety
-    assert: When two tokens from the same layer match a context, the more specific name object MUST win; ties MUST be reported.
-    message: "Ambiguous cascade resolution (specificity tie) for context {context}"
+    assert: When two tokens from the same layer match a context with equal specificity, the tie MUST be broken by document order (earlier in file wins; lexicographically earlier file path wins across files). Ties MUST be reported as warnings.
+    message: "Ambiguous cascade resolution (specificity tie) between {token_a} and {token_b} for context {context}; resolved by document order"
     spec_ref: spec/cascade.md#semantic-specificity
     introduced_in: "1.0.0-draft"
 
