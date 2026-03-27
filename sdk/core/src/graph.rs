@@ -27,11 +27,13 @@ pub struct DimensionRecord {
     pub default_mode: String,
 }
 
-/// One token entry (legacy file key or test fixture id).
+/// One token entry (legacy file key, cascade array element, or test fixture id).
 #[derive(Debug, Clone)]
 pub struct TokenRecord {
     pub name: String,
     pub file: PathBuf,
+    /// Position within the source file array (cascade format) for tie-breaking.
+    pub index: usize,
     pub schema_url: Option<String>,
     pub uuid: Option<String>,
     /// Resolved alias target id when applicable.
@@ -48,11 +50,48 @@ pub struct TokenGraph {
 
 impl TokenGraph {
     /// Build a graph from legacy Spectrum token sources (`*.json` token maps).
+    ///
+    /// Also handles cascade-format files: if the top-level JSON value is an array,
+    /// each element is treated as a cascade token keyed by its serialized `name`
+    /// object (or UUID if present). Document order is preserved via `index`.
     pub fn from_json_dir(root: &Path) -> Result<Self, CoreError> {
         let mut g = TokenGraph::default();
         for path in discover_json_files(root)? {
             let text = std::fs::read_to_string(&path)?;
             let value: Value = serde_json::from_str(&text)?;
+
+            // Cascade format: top-level array of token objects.
+            if let Some(arr) = value.as_array() {
+                for (idx, token_val) in arr.iter().enumerate() {
+                    let Some(tok_obj) = token_val.as_object() else {
+                        continue;
+                    };
+                    let key = cascade_token_key(tok_obj);
+                    let schema_url = tok_obj
+                        .get("$schema")
+                        .and_then(|v| v.as_str())
+                        .map(str::to_string);
+                    let uuid = tok_obj
+                        .get("uuid")
+                        .and_then(|v| v.as_str())
+                        .map(str::to_string);
+                    let alias_target = extract_alias_target(tok_obj);
+                    g.tokens.insert(
+                        key.clone(),
+                        TokenRecord {
+                            name: key,
+                            file: path.clone(),
+                            index: idx,
+                            schema_url,
+                            uuid,
+                            alias_target,
+                            raw: token_val.clone(),
+                        },
+                    );
+                }
+                continue;
+            }
+
             let Some(obj) = value.as_object() else {
                 continue;
             };
@@ -86,6 +125,7 @@ impl TokenGraph {
                     TokenRecord {
                         name: token_name.clone(),
                         file: path.clone(),
+                        index: 0,
                         schema_url,
                         uuid,
                         alias_target,
@@ -95,6 +135,25 @@ impl TokenGraph {
             }
         }
         Ok(g)
+    }
+
+    /// Load spec-format dimension declarations from a dedicated catalog directory.
+    ///
+    /// Each file must be a JSON object conforming to `dimension.schema.json`
+    /// (fields: `name`, `modes`, `default`). Returns all successfully parsed
+    /// declarations; silently skips files that do not match the dimension shape.
+    pub fn load_spec_dimensions(dir: &Path) -> Result<Vec<DimensionRecord>, CoreError> {
+        let mut out = Vec::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            let value: Value = serde_json::from_str(&text)?;
+            if let Some(obj) = value.as_object() {
+                if let Some(d) = parse_dimension(&path, obj) {
+                    out.push(d);
+                }
+            }
+        }
+        Ok(out)
     }
 
     /// Merge tokens for tests / conformance (global token id → record).
@@ -116,6 +175,7 @@ impl TokenGraph {
                 TokenRecord {
                     name,
                     file,
+                    index: 0,
                     schema_url,
                     uuid,
                     alias_target,
@@ -134,6 +194,23 @@ impl TokenGraph {
         self.dimensions = dimensions;
         self
     }
+}
+
+/// Stable key for a cascade-format token (array element with a `name` object).
+///
+/// Prefers UUID for alias-target resolution compatibility; falls back to the
+/// serialized name object for tokens without a UUID.
+fn cascade_token_key(obj: &serde_json::Map<String, Value>) -> String {
+    if let Some(uuid) = obj.get("uuid").and_then(|v| v.as_str()) {
+        return uuid.to_string();
+    }
+    if let Some(name_val) = obj.get("name") {
+        if let Ok(s) = serde_json::to_string(name_val) {
+            return s;
+        }
+    }
+    // Fallback: should not happen for well-formed cascade tokens.
+    format!("__cascade_{}", obj.len())
 }
 
 fn looks_like_token_file(obj: &serde_json::Map<String, Value>) -> bool {

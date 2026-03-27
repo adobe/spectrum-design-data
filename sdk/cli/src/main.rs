@@ -16,7 +16,9 @@ mod format;
 use std::collections::HashSet;
 
 use clap::{Parser, Subcommand, ValueEnum};
+use design_data_core::cascade::{resolve, ResolutionContext};
 use design_data_core::compat::{load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot};
+use design_data_core::graph::TokenGraph;
 use design_data_core::naming::NamingExceptionsFile;
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::validate;
@@ -46,9 +48,36 @@ enum Commands {
         /// Path to naming-exceptions.json allowlist for SPEC-007
         #[arg(long, value_name = "FILE")]
         exceptions_path: Option<PathBuf>,
+        /// Directory containing spec-format dimension declaration JSON files
+        #[arg(long, value_name = "DIR")]
+        dimensions_path: Option<PathBuf>,
         /// Treat warnings as errors
         #[arg(long)]
         strict: bool,
+    },
+    /// Resolve a token value for a given dimension context
+    Resolve {
+        /// Token property name to resolve (e.g. background-color-default)
+        #[arg(value_name = "PROPERTY")]
+        property: String,
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Directory containing spec-format dimension declaration JSON files
+        #[arg(long, value_name = "DIR")]
+        dimensions_path: Option<PathBuf>,
+        /// Color scheme mode (e.g. light, dark, wireframe)
+        #[arg(long, value_name = "MODE")]
+        color_scheme: Option<String>,
+        /// Scale mode (e.g. desktop, mobile)
+        #[arg(long, value_name = "MODE")]
+        scale: Option<String>,
+        /// Contrast mode (e.g. regular, high)
+        #[arg(long, value_name = "MODE")]
+        contrast: Option<String>,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
     },
     /// Snapshot and backward-compat verification helpers
     Migrate {
@@ -129,11 +158,128 @@ fn default_schema_path() -> PathBuf {
     PathBuf::from("packages/tokens/schemas")
 }
 
+fn default_dimensions_path() -> Option<PathBuf> {
+    let candidates = [
+        PathBuf::from("packages/design-data-spec/dimensions"),
+        PathBuf::from("../packages/design-data-spec/dimensions"),
+    ];
+    candidates.into_iter().find(|c| c.is_dir())
+}
+
+fn run_resolve(
+    property: &str,
+    path: &Path,
+    dimensions_path: Option<PathBuf>,
+    color_scheme: Option<String>,
+    scale: Option<String>,
+    contrast: Option<String>,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    // Build resolution context from flags.
+    let mut ctx = ResolutionContext::new();
+    if let Some(m) = color_scheme {
+        ctx = ctx.with("colorScheme", m);
+    }
+    if let Some(m) = scale {
+        ctx = ctx.with("scale", m);
+    }
+    if let Some(m) = contrast {
+        ctx = ctx.with("contrast", m);
+    }
+    // A property filter: only consider tokens whose name.property matches.
+    ctx = ctx.with("__property_filter__", property.to_string());
+
+    // Load token graph.
+    let mut graph = TokenGraph::from_json_dir(path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+
+    // Load dimensions from spec catalog.
+    let dims_dir = dimensions_path.or_else(default_dimensions_path);
+    if let Some(dir) = dims_dir {
+        if dir.is_dir() {
+            let dims = TokenGraph::load_spec_dimensions(&dir)
+                .into_diagnostic()
+                .wrap_err_with(|| format!("failed to load dimensions from {}", dir.display()))?;
+            graph = graph.with_dimensions(dims);
+        }
+    }
+
+    // Build a property-filtered context (remove the internal marker).
+    let mut resolve_ctx = ResolutionContext::new();
+    for (k, v) in &ctx.dimensions {
+        if k != "__property_filter__" {
+            resolve_ctx = resolve_ctx.with(k.clone(), v.clone());
+        }
+    }
+
+    // Filter graph to tokens matching the requested property.
+    let property_filter = property.to_string();
+    let candidates: Vec<_> = graph
+        .tokens
+        .values()
+        .filter(|t| {
+            t.raw
+                .get("name")
+                .and_then(|v| v.as_object())
+                .and_then(|n| n.get("property"))
+                .and_then(|v| v.as_str())
+                == Some(property_filter.as_str())
+        })
+        .collect();
+
+    if candidates.is_empty() {
+        eprintln!("No tokens found with property: {property}");
+        return Ok(ExitCode::from(1));
+    }
+
+    // Build a temporary graph with only the filtered tokens for resolution.
+    let filtered_graph = TokenGraph::from_pairs(
+        candidates
+            .iter()
+            .map(|t| (t.name.clone(), t.file.clone(), t.raw.clone()))
+            .collect(),
+    )
+    .with_dimensions(graph.dimensions.clone());
+
+    match resolve(&filtered_graph, &resolve_ctx) {
+        None => {
+            eprintln!("No matching token for property '{property}' in given context");
+            Ok(ExitCode::from(1))
+        }
+        Some(winner) => {
+            match format {
+                OutputFormat::Json => {
+                    println!(
+                        "{}",
+                        serde_json::to_string_pretty(&winner.raw).into_diagnostic()?
+                    );
+                }
+                OutputFormat::Pretty => {
+                    println!("Property:  {property}");
+                    if let Some(val) = winner.raw.get("value") {
+                        println!("Value:     {val}");
+                    } else if let Some(r) = winner.raw.get("$ref") {
+                        println!("Alias:     {r}");
+                    }
+                    println!("File:      {}", winner.file.display());
+                    println!("Index:     {}", winner.index);
+                    if let Some(uuid) = &winner.uuid {
+                        println!("UUID:      {uuid}");
+                    }
+                }
+            }
+            Ok(ExitCode::SUCCESS)
+        }
+    }
+}
+
 fn run_validate(
     path: &Path,
     format: OutputFormat,
     schema_path: Option<PathBuf>,
     exceptions_path: Option<PathBuf>,
+    dimensions_path: Option<PathBuf>,
     strict: bool,
 ) -> miette::Result<ExitCode> {
     if !validate::engine_ready() {
@@ -144,6 +290,10 @@ fn run_validate(
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load schemas from {}", schema_root.display()))?;
     let exceptions = load_exceptions(exceptions_path.as_deref())?;
+
+    // Dimensions path is accepted but not yet threaded into the validation
+    // pipeline (pending #767 — migration snapshot update for cascade format).
+    let _ = dimensions_path.or_else(default_dimensions_path);
 
     let report = validate::validate_all_with_exceptions(path, &registry, &exceptions)
         .into_diagnostic()
@@ -215,10 +365,31 @@ fn main() -> ExitCode {
             format,
             schema_path,
             exceptions_path,
+            dimensions_path,
             strict,
         } => {
             let target = path.unwrap_or_else(|| PathBuf::from("."));
-            run_validate(&target, format, schema_path, exceptions_path, strict)
+            run_validate(&target, format, schema_path, exceptions_path, dimensions_path, strict)
+        }
+        Commands::Resolve {
+            property,
+            path,
+            dimensions_path,
+            color_scheme,
+            scale,
+            contrast,
+            format,
+        } => {
+            let target = path.unwrap_or_else(|| PathBuf::from("."));
+            run_resolve(
+                &property,
+                &target,
+                dimensions_path,
+                color_scheme,
+                scale,
+                contrast,
+                format,
+            )
         }
         Commands::Migrate { sub } => match sub {
             MigrateSub::Verify {

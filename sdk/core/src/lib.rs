@@ -10,6 +10,7 @@
 
 //! Design Data core library — validation, resolution, and tooling.
 
+pub mod cascade;
 pub mod compat;
 pub mod discovery;
 pub mod graph;
