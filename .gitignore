@@ -119,6 +119,9 @@ sdk/target/
 # visual studio code
 .vscode/
 
+# Claude Code local settings (machine-specific)
+.claude/settings.local.json
+
 # test temporary directories
 temp-*
 **/test/temp-*
