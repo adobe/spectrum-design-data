@@ -13,10 +13,11 @@ The specification defines:
 2. **Cascade and resolution** — layered data (foundation, platform, product), specificity, and how a context picks a winning value ([Cascade](cascade.md)).
 3. **Dimensions** — declared modes, defaults, and coverage expectations ([Dimensions](dimensions.md)).
 4. **Platform manifest** — how a platform repo pins foundation data, filters tokens, and applies typed overrides ([Manifest](manifest.md)).
+5. **Semantic diff** — change taxonomy, token identity rules, and property-level change tracking for comparing dataset versions ([Diff](diff.md)).
+6. **Query notation** — filter syntax for selecting tokens by structured fields ([Query](query.md)).
 
 Out of scope for this draft (tracked elsewhere):
 
-* Exact query syntax for `include` / `exclude` in manifests (placeholder fields only).
 * Full evolution, migration windows, and SDK version negotiation — see [discussion #735](https://github.com/adobe/spectrum-design-data/discussions/735).
 
 ## Conformance
@@ -57,6 +58,8 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 | [Cascade](cascade.md)           | Layers, specificity, resolution algorithm.                       |
 | [Dimensions](dimensions.md)     | Dimension declarations, built-in dimensions, coverage.           |
 | [Manifest](manifest.md)         | Platform manifest fields and validation expectations.            |
+| [Diff](diff.md)                 | Semantic diff change taxonomy, token identity, property changes. |
+| [Query](query.md)               | Filter notation for selecting tokens by structured fields.       |
 
 ## JSON Schema `$id` and versioning
 
