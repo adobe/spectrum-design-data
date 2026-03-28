@@ -356,7 +356,7 @@ fn names_equal(old: &TokenRecord, new: &TokenRecord) -> bool {
 /// (e.g. `background-color[colorScheme=dark]`). Falls back to just
 /// `name.property` if other fields are absent.
 /// Legacy tokens: use the graph key (`TokenRecord.name`).
-fn display_name(t: &TokenRecord) -> String {
+pub fn display_name(t: &TokenRecord) -> String {
     if let Some(name_obj) = t.raw.get("name").and_then(|v| v.as_object()) {
         let property = name_obj
             .get("property")

@@ -21,6 +21,7 @@ use design_data_core::compat::{
     load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot,
 };
 use design_data_core::diff;
+use design_data_core::diff::display_name;
 use design_data_core::graph::TokenGraph;
 use design_data_core::legacy;
 use design_data_core::migrate;
@@ -94,8 +95,8 @@ enum Commands {
         #[arg(value_name = "NEW")]
         new: PathBuf,
         /// Output format
-        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
-        format: OutputFormat,
+        #[arg(long, value_enum, default_value_t = DiffFormat::Pretty)]
+        format: DiffFormat,
         /// Filter to scope diff to matching tokens (query notation)
         #[arg(long, value_name = "EXPR")]
         filter: Option<String>,
@@ -170,6 +171,14 @@ enum MigrateSub {
 
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
 enum OutputFormat {
+    #[default]
+    Pretty,
+    Json,
+}
+
+/// Output format for the `diff` command (superset of `OutputFormat` — adds `markdown`).
+#[derive(Clone, Copy, Debug, Default, ValueEnum)]
+enum DiffFormat {
     #[default]
     Pretty,
     Json,
@@ -310,7 +319,7 @@ fn run_resolve(
                         serde_json::to_string_pretty(&winner.raw).into_diagnostic()?
                     );
                 }
-                OutputFormat::Pretty | OutputFormat::Markdown => {
+                OutputFormat::Pretty => {
                     println!("Property:  {property}");
                     if let Some(val) = winner.raw.get("value") {
                         println!("Value:     {val}");
@@ -357,7 +366,7 @@ fn run_validate(
         OutputFormat::Json => {
             println!("{}", format::format_report_json(&report).into_diagnostic()?);
         }
-        OutputFormat::Pretty | OutputFormat::Markdown => {
+        OutputFormat::Pretty => {
             format::print_report_pretty(&report);
         }
     }
@@ -453,7 +462,7 @@ fn run_migrate_snapshot(
 fn run_diff(
     old_path: &Path,
     new_path: &Path,
-    format: OutputFormat,
+    format: DiffFormat,
     filter_expr: Option<&str>,
 ) -> miette::Result<ExitCode> {
     let old_graph = TokenGraph::from_json_dir(old_path)
@@ -491,16 +500,16 @@ fn run_diff(
     let report = diff::semantic_diff(&old_filtered, &new_filtered);
 
     match format {
-        OutputFormat::Json => {
+        DiffFormat::Json => {
             println!(
                 "{}",
                 serde_json::to_string_pretty(&report).into_diagnostic()?
             );
         }
-        OutputFormat::Markdown => {
+        DiffFormat::Markdown => {
             print!("{}", format::format_diff_markdown(&report));
         }
-        OutputFormat::Pretty => {
+        DiffFormat::Pretty => {
             format::print_diff_pretty(&report);
         }
     }
@@ -545,18 +554,13 @@ fn run_query(
                 serde_json::to_string_pretty(&raw_values).into_diagnostic()?
             );
         }
-        OutputFormat::Pretty | OutputFormat::Markdown => {
+        OutputFormat::Pretty => {
             if results.is_empty() {
                 println!("No matching tokens.");
             } else {
                 println!("{} token(s) matched:\n", results.len());
                 for t in &results {
-                    let name = t
-                        .raw
-                        .get("name")
-                        .and_then(|n| n.get("property"))
-                        .and_then(|v| v.as_str())
-                        .unwrap_or(&t.name);
+                    let name = display_name(t);
                     let uuid = t.uuid.as_deref().unwrap_or("-");
                     let schema = t.raw.get("$schema").and_then(|v| v.as_str()).unwrap_or("-");
                     println!("  {name}");
