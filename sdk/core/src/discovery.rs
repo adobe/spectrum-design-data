@@ -31,7 +31,11 @@ pub fn discover_json_files(root: &Path) -> std::io::Result<Vec<PathBuf>> {
     }
 
     let mut out = Vec::new();
-    for entry in WalkDir::new(root).follow_links(false).into_iter().filter_map(Result::ok) {
+    for entry in WalkDir::new(root)
+        .follow_links(false)
+        .into_iter()
+        .filter_map(Result::ok)
+    {
         if !entry.file_type().is_file() {
             continue;
         }

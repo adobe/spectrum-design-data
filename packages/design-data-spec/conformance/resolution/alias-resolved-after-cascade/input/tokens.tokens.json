@@ -1,0 +1,12 @@
+[
+  {
+    "name": { "property": "action-color-default", "colorScheme": "dark" },
+    "$ref": "cccccccc-0002-4000-8000-000000000002",
+    "uuid": "cccccccc-0001-4000-8000-000000000001"
+  },
+  {
+    "name": { "property": "blue-600" },
+    "value": "#0050b3",
+    "uuid": "cccccccc-0002-4000-8000-000000000002"
+  }
+]

@@ -34,7 +34,9 @@ impl ValidationRule for Rule {
             let leaf = target.resolve_leaf(ctx.graph);
 
             // Conformance heuristic: spacing-like alias must not resolve to a color leaf.
-            if name_suggests_spacing(&t.name) && is_color_schema(leaf.schema_url.as_deref().unwrap_or("")) {
+            if name_suggests_spacing(&t.name)
+                && is_color_schema(leaf.schema_url.as_deref().unwrap_or(""))
+            {
                 out.push(diagnostic(
                     self.id(),
                     t,

@@ -27,11 +27,13 @@ pub struct DimensionRecord {
     pub default_mode: String,
 }
 
-/// One token entry (legacy file key or test fixture id).
+/// One token entry (legacy file key, cascade array element, or test fixture id).
 #[derive(Debug, Clone)]
 pub struct TokenRecord {
     pub name: String,
     pub file: PathBuf,
+    /// Position within the source file array (cascade format) for tie-breaking.
+    pub index: usize,
     pub schema_url: Option<String>,
     pub uuid: Option<String>,
     /// Resolved alias target id when applicable.
@@ -44,15 +46,67 @@ pub struct TokenRecord {
 pub struct TokenGraph {
     pub tokens: HashMap<String, TokenRecord>,
     pub dimensions: Vec<DimensionRecord>,
+    /// Secondary index: UUID value → primary key in `tokens`.
+    ///
+    /// Required for cascade-format alias resolution: cascade token keys are
+    /// `"<file>:<index>"` (guaranteed unique) rather than UUIDs, so `$ref`
+    /// targets that are plain UUID strings need this index to resolve.
+    uuid_index: HashMap<String, String>,
 }
 
 impl TokenGraph {
     /// Build a graph from legacy Spectrum token sources (`*.json` token maps).
+    ///
+    /// Also handles cascade-format files: if the top-level JSON value is an array,
+    /// each element is keyed by `"<canonical_file_path>:<array_index>"` — a key
+    /// that is always unique regardless of UUID or name-object collisions. This
+    /// ensures SPEC-004 (duplicate UUID) and SPEC-006 (duplicate name object)
+    /// can inspect every token. UUIDs are indexed separately in `uuid_index` for
+    /// alias `$ref` resolution.
     pub fn from_json_dir(root: &Path) -> Result<Self, CoreError> {
         let mut g = TokenGraph::default();
         for path in discover_json_files(root)? {
             let text = std::fs::read_to_string(&path)?;
             let value: Value = serde_json::from_str(&text)?;
+
+            // Cascade format: top-level array of token objects.
+            if let Some(arr) = value.as_array() {
+                for (idx, token_val) in arr.iter().enumerate() {
+                    let Some(tok_obj) = token_val.as_object() else {
+                        continue;
+                    };
+                    // Key is always unique: duplicate UUIDs / name objects both
+                    // land in the graph so SPEC-004 and SPEC-006 can detect them.
+                    let key = format!("{}:{}", path.display(), idx);
+                    let schema_url = tok_obj
+                        .get("$schema")
+                        .and_then(|v| v.as_str())
+                        .map(str::to_string);
+                    let uuid = tok_obj
+                        .get("uuid")
+                        .and_then(|v| v.as_str())
+                        .map(str::to_string);
+                    let alias_target = extract_alias_target(tok_obj);
+                    // Register UUID → key for alias resolution.
+                    if let Some(u) = &uuid {
+                        g.uuid_index.entry(u.clone()).or_insert_with(|| key.clone());
+                    }
+                    g.tokens.insert(
+                        key.clone(),
+                        TokenRecord {
+                            name: key,
+                            file: path.clone(),
+                            index: idx,
+                            schema_url,
+                            uuid,
+                            alias_target,
+                            raw: token_val.clone(),
+                        },
+                    );
+                }
+                continue;
+            }
+
             let Some(obj) = value.as_object() else {
                 continue;
             };
@@ -86,6 +140,7 @@ impl TokenGraph {
                     TokenRecord {
                         name: token_name.clone(),
                         file: path.clone(),
+                        index: 0,
                         schema_url,
                         uuid,
                         alias_target,
@@ -97,9 +152,29 @@ impl TokenGraph {
         Ok(g)
     }
 
+    /// Load spec-format dimension declarations from a dedicated catalog directory.
+    ///
+    /// Each file must be a JSON object conforming to `dimension.schema.json`
+    /// (fields: `name`, `modes`, `default`). Returns all successfully parsed
+    /// declarations; silently skips files that do not match the dimension shape.
+    pub fn load_spec_dimensions(dir: &Path) -> Result<Vec<DimensionRecord>, CoreError> {
+        let mut out = Vec::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            let value: Value = serde_json::from_str(&text)?;
+            if let Some(obj) = value.as_object() {
+                if let Some(d) = parse_dimension(&path, obj) {
+                    out.push(d);
+                }
+            }
+        }
+        Ok(out)
+    }
+
     /// Merge tokens for tests / conformance (global token id → record).
     pub fn from_pairs(entries: Vec<(String, PathBuf, Value)>) -> Self {
         let mut tokens = HashMap::new();
+        let mut uuid_index = HashMap::new();
         for (name, file, raw) in entries {
             let tok_obj = raw.as_object();
             let schema_url = tok_obj
@@ -111,11 +186,15 @@ impl TokenGraph {
                 .and_then(|v| v.as_str())
                 .map(str::to_string);
             let alias_target = tok_obj.and_then(extract_alias_target);
+            if let Some(u) = &uuid {
+                uuid_index.entry(u.clone()).or_insert_with(|| name.clone());
+            }
             tokens.insert(
                 name.clone(),
                 TokenRecord {
                     name,
                     file,
+                    index: 0,
                     schema_url,
                     uuid,
                     alias_target,
@@ -126,6 +205,7 @@ impl TokenGraph {
         Self {
             tokens,
             dimensions: Vec::new(),
+            uuid_index,
         }
     }
 
@@ -138,8 +218,9 @@ impl TokenGraph {
 
 fn looks_like_token_file(obj: &serde_json::Map<String, Value>) -> bool {
     obj.values().next().is_some_and(|v| {
-        v.as_object()
-            .is_some_and(|o| o.contains_key("$schema") || o.contains_key("$ref") || o.contains_key("name"))
+        v.as_object().is_some_and(|o| {
+            o.contains_key("$schema") || o.contains_key("$ref") || o.contains_key("name")
+        })
     })
 }
 
@@ -147,7 +228,9 @@ fn looks_like_dimension_doc(obj: &serde_json::Map<String, Value>) -> bool {
     obj.contains_key("modes")
         && obj.contains_key("default")
         && obj.get("name").and_then(|v| v.as_str()).is_some()
-        && !obj.values().any(|v| v.as_object().is_some_and(|o| o.contains_key("$schema")))
+        && !obj
+            .values()
+            .any(|v| v.as_object().is_some_and(|o| o.contains_key("$schema")))
 }
 
 fn parse_dimension(path: &Path, obj: &serde_json::Map<String, Value>) -> Option<DimensionRecord> {
@@ -190,11 +273,21 @@ fn normalize_ref_target(s: &str) -> String {
 
 impl TokenRecord {
     /// Follow alias edges until a non-alias or missing target.
+    ///
+    /// For cascade tokens whose `$ref` targets a UUID, the graph key is
+    /// `"file:index"` rather than the UUID itself. The `uuid_index` is checked
+    /// as a fallback so UUID-based aliases resolve correctly.
     pub fn resolve_leaf<'a>(&'a self, graph: &'a TokenGraph) -> &'a TokenRecord {
         let mut current = self;
         let mut seen: Vec<&str> = vec![&self.name];
         while let Some(target_name) = &current.alias_target {
-            let Some(next) = graph.tokens.get(target_name) else {
+            let next = graph.tokens.get(target_name).or_else(|| {
+                graph
+                    .uuid_index
+                    .get(target_name)
+                    .and_then(|k| graph.tokens.get(k))
+            });
+            let Some(next) = next else {
                 break;
             };
             if seen.contains(&target_name.as_str()) {

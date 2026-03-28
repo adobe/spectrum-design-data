@@ -1,0 +1,10 @@
+{
+  "description": "A cascade token property that has non-default colorScheme variants (dark, wireframe) but no base/default variant (dimensionless or explicit light) MUST trigger SPEC-008.",
+  "errors": [
+    {
+      "rule_id": "SPEC-008",
+      "severity": "warning",
+      "message_pattern": "background-color-default"
+    }
+  ]
+}
