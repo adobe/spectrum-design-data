@@ -7,14 +7,15 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 
 **Valid** baselines live under `valid/`.
 
-| Folder             | Rule     | Intent                                            |
-| ------------------ | -------- | ------------------------------------------------- |
-| `invalid/SPEC-001` | SPEC-001 | Alias target does not exist.                      |
-| `invalid/SPEC-002` | SPEC-002 | Alias resolves to incompatible type (semantic).   |
-| `invalid/SPEC-003` | SPEC-003 | Circular alias chain.                             |
-| `invalid/SPEC-004` | SPEC-004 | Duplicate `uuid` across tokens.                   |
-| `invalid/SPEC-005` | SPEC-005 | Dimension `default` not in `modes`.               |
-| `invalid/SPEC-006` | SPEC-006 | Ambiguous resolution / specificity tie (warning). |
+| Folder             | Rule     | Intent                                                  |
+| ------------------ | -------- | ------------------------------------------------------- |
+| `invalid/SPEC-001` | SPEC-001 | Alias target does not exist.                            |
+| `invalid/SPEC-002` | SPEC-002 | Alias resolves to incompatible type (semantic).         |
+| `invalid/SPEC-003` | SPEC-003 | Circular alias chain.                                   |
+| `invalid/SPEC-004` | SPEC-004 | Duplicate `uuid` across tokens.                         |
+| `invalid/SPEC-005` | SPEC-005 | Dimension `default` not in `modes`.                     |
+| `invalid/SPEC-006` | SPEC-006 | Ambiguous resolution / specificity tie (warning).       |
+| `invalid/SPEC-008` | SPEC-008 | Non-default mode variants with no base/default variant. |
 
 Implementors SHOULD run these fixtures once the Rust validator exposes rule IDs ([#724](https://github.com/adobe/spectrum-design-data/issues/724), [#725](https://github.com/adobe/spectrum-design-data/issues/725)).
 

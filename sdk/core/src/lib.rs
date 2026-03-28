@@ -14,6 +14,7 @@ pub mod cascade;
 pub mod compat;
 pub mod discovery;
 pub mod graph;
+pub mod legacy;
 pub mod migrate;
 pub mod naming;
 pub mod report;

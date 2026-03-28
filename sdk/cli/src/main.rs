@@ -19,6 +19,7 @@ use clap::{Parser, Subcommand, ValueEnum};
 use design_data_core::cascade::{resolve, ResolutionContext};
 use design_data_core::compat::{load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot};
 use design_data_core::graph::TokenGraph;
+use design_data_core::legacy;
 use design_data_core::migrate;
 use design_data_core::naming::NamingExceptionsFile;
 use design_data_core::schema::SchemaRegistry;
@@ -119,6 +120,15 @@ enum MigrateSub {
         #[arg(value_name = "INPUT")]
         input: PathBuf,
         /// Destination directory for cascade .tokens.json output files
+        #[arg(long, value_name = "OUTPUT")]
+        output: PathBuf,
+    },
+    /// Convert cascade-format .tokens.json files back to legacy set-format JSON
+    LegacyOutput {
+        /// Source directory containing cascade .tokens.json files
+        #[arg(value_name = "INPUT")]
+        input: PathBuf,
+        /// Destination directory for legacy JSON output files
         #[arg(long, value_name = "OUTPUT")]
         output: PathBuf,
     },
@@ -301,9 +311,9 @@ fn run_validate(
         .wrap_err_with(|| format!("failed to load schemas from {}", schema_root.display()))?;
     let exceptions = load_exceptions(exceptions_path.as_deref())?;
 
-    let _ = dimensions_path.or_else(default_dimensions_path);
+    let dims_dir = dimensions_path.or_else(default_dimensions_path);
 
-    let report = validate::validate_all_with_exceptions(path, &registry, &exceptions)
+    let report = validate::validate_all_with_options(path, &registry, &exceptions, dims_dir.as_deref())
         .into_diagnostic()
         .wrap_err("validation failed")?;
 
@@ -345,6 +355,26 @@ fn run_migrate_verify(
         serde_json::to_string_pretty(&current).into_diagnostic()?
     );
     Ok(ExitCode::from(1))
+}
+
+fn run_migrate_legacy_output(input: &Path, output: &Path) -> miette::Result<ExitCode> {
+    let summary = legacy::convert_dir(input, output)
+        .into_diagnostic()
+        .wrap_err_with(|| {
+            format!(
+                "legacy-output failed: {} → {}",
+                input.display(),
+                output.display()
+            )
+        })?;
+    println!(
+        "Converted {} file(s): {} tokens produced ({} sets, {} flat)",
+        summary.files_written,
+        summary.tokens_produced,
+        summary.sets_reconstructed,
+        summary.flat_tokens,
+    );
+    Ok(ExitCode::SUCCESS)
 }
 
 fn run_migrate_convert(input: &Path, output: &Path) -> miette::Result<ExitCode> {
@@ -433,6 +463,9 @@ fn main() -> ExitCode {
                 exceptions_path,
             } => run_migrate_snapshot(&path, &output, schema_path, exceptions_path),
             MigrateSub::Convert { input, output } => run_migrate_convert(&input, &output),
+            MigrateSub::LegacyOutput { input, output } => {
+                run_migrate_legacy_output(&input, &output)
+            }
         },
     };
 
