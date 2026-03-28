@@ -37,13 +37,34 @@ pub fn validate_all(
 }
 
 /// Run structural + relational validation with a naming-exceptions allowlist.
+///
+/// `dimensions_path` is an optional directory containing spec-format dimension
+/// declaration JSON files (e.g. `packages/design-data-spec/dimensions/`). When
+/// provided, dimensions are loaded and attached to the token graph so that
+/// dimension-aware rules (SPEC-005, SPEC-008) can fire correctly.
 pub fn validate_all_with_exceptions(
     data_path: &Path,
     schema_registry: &SchemaRegistry,
     naming_exceptions: &HashSet<String>,
 ) -> Result<ValidationReport, CoreError> {
+    validate_all_with_options(data_path, schema_registry, naming_exceptions, None)
+}
+
+/// Full validation with all options.
+pub fn validate_all_with_options(
+    data_path: &Path,
+    schema_registry: &SchemaRegistry,
+    naming_exceptions: &HashSet<String>,
+    dimensions_path: Option<&Path>,
+) -> Result<ValidationReport, CoreError> {
     let mut report = structural::validate_structural(data_path, schema_registry)?;
-    let graph = TokenGraph::from_json_dir(data_path)?;
+    let mut graph = TokenGraph::from_json_dir(data_path)?;
+    if let Some(dir) = dimensions_path {
+        if dir.is_dir() {
+            let dims = TokenGraph::load_spec_dimensions(dir)?;
+            graph = graph.with_dimensions(dims);
+        }
+    }
     let rel = relational::validate_relational(&graph, naming_exceptions);
     report.merge(rel);
     Ok(report)

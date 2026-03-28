@@ -25,13 +25,21 @@ A **dimension declaration** is a JSON object describing one axis of variation. I
 
 ## Built-in dimensions
 
-These dimensions **SHOULD** be used consistently across Spectrum-compatible datasets:
+These dimensions are declared in the `dimensions/` catalog (see [Dimension catalog](#dimension-catalog)) and **SHOULD** be used consistently across Spectrum-compatible datasets:
 
-| `name`        | Typical `modes`                 | Notes                         |
-| ------------- | ------------------------------- | ----------------------------- |
-| `colorScheme` | `light`, `dark`, `wireframe`, … | Theme / appearance.           |
-| `scale`       | `medium`, `large`, …            | Density / t-shirt scale.      |
-| `contrast`    | `regular`, `high`, …            | Accessibility contrast level. |
+| `name`        | `modes`                      | `default` | Notes                                                                             |
+| ------------- | ---------------------------- | --------- | --------------------------------------------------------------------------------- |
+| `colorScheme` | `light`, `dark`, `wireframe` | `light`   | Theme / appearance.                                                               |
+| `scale`       | `desktop`, `mobile`          | `desktop` | Density scale. Legacy names; desktop = medium, mobile = large in W3C terminology. |
+| `contrast`    | `regular`, `high`            | `regular` | Accessibility contrast level.                                                     |
+
+## Dimension catalog
+
+The Spectrum foundation publishes dimension declarations as JSON files under `packages/design-data-spec/dimensions/`. Each file conforms to [`dimension.schema.json`](../schemas/dimension.schema.json).
+
+**NORMATIVE:** Tooling (validators, resolution engine) **MUST** load dimension declarations from the dataset’s dimension catalog before performing specificity calculations or coverage validation.
+
+**RECOMMENDED:** The catalog directory is named `dimensions/` and is co-located with the dataset’s spec package or manifest.
 
 ## Optional dimensions
 
@@ -53,3 +61,4 @@ Additional dimensions (e.g. `language`, `motion`) **MAY** be declared in a datas
 
 * [#646 — Token Schema Structure and Validation System](https://github.com/adobe/spectrum-design-data/discussions/646)
 * [#714 — Design Data Specification](https://github.com/adobe/spectrum-design-data/discussions/714)
+* [#746 — Phase 2: Dimension declarations (machine-readable)](https://github.com/adobe/spectrum-design-data/issues/746)

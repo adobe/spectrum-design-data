@@ -1,0 +1,8 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/dimension.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "scale",
+  "modes": ["desktop", "mobile"],
+  "default": "desktop",
+  "description": "Density / scale dimension. Controls which platform density a token applies to. Uses legacy mode names desktop and mobile (equivalent to medium and large in W3C/DTCG scale terminology). Tokens omitting scale apply under the default (desktop) for specificity and matching purposes."
+}

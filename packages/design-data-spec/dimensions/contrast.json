@@ -1,0 +1,8 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/dimension.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "contrast",
+  "modes": ["regular", "high"],
+  "default": "regular",
+  "description": "Accessibility contrast level. Controls which contrast variant a token applies to. Tokens omitting contrast apply under the default (regular) for specificity and matching purposes."
+}

@@ -275,6 +275,7 @@ dependencies = [
  "jsonschema",
  "serde",
  "serde_json",
+ "tempfile",
  "thiserror",
  "walkdir",
 ]

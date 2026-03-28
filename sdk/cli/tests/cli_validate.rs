@@ -20,11 +20,7 @@ fn tokens_src_and_schemas() -> (PathBuf, PathBuf) {
     let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let src = manifest.join("../../packages/tokens/src");
     let schemas = manifest.join("../../packages/tokens/schemas");
-    assert!(
-        src.is_dir(),
-        "expected token sources at {}",
-        src.display()
-    );
+    assert!(src.is_dir(), "expected token sources at {}", src.display());
     assert!(
         schemas.join("token-types").is_dir(),
         "expected schemas at {}",

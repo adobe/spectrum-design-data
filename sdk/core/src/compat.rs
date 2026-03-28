@@ -37,7 +37,11 @@ impl From<&ValidationReport> for ValidationSnapshot {
     fn from(report: &ValidationReport) -> Self {
         Self {
             errors: report.errors.iter().map(SnapshotDiagnostic::from).collect(),
-            warnings: report.warnings.iter().map(SnapshotDiagnostic::from).collect(),
+            warnings: report
+                .warnings
+                .iter()
+                .map(SnapshotDiagnostic::from)
+                .collect(),
         }
     }
 }
