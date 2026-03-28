@@ -1,0 +1,10 @@
+[
+  {
+    "name": { "property": "overlay-color" },
+    "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+    "sets": {
+      "light": { "value": "#eeeeee" },
+      "dark": { "value": "#111111" }
+    }
+  }
+]

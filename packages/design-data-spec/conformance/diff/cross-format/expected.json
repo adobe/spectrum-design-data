@@ -1,0 +1,27 @@
+{
+  "renamed": [
+    {
+      "old_name": "background-color-default",
+      "new_name": "background-color-default",
+      "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+      "property_changes": [
+        {
+          "path": "name",
+          "change_type": "added",
+          "new_value": { "property": "background-color-default" }
+        },
+        {
+          "path": "value",
+          "change_type": "updated",
+          "new_value": "#000000",
+          "original_value": "#ffffff"
+        }
+      ]
+    }
+  ],
+  "deprecated": [],
+  "reverted": [],
+  "added": [],
+  "deleted": [],
+  "updated": []
+}

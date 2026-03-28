@@ -498,3 +498,217 @@ mod migration_roundtrip {
         assert_eq!(winner.raw["value"].as_str(), Some("8px"));
     }
 }
+
+/// Diff conformance tests — fixture-driven, closes #788.
+///
+/// Each test case lives under `packages/design-data-spec/conformance/diff/<name>/`
+/// with `old/` (old tokens), `new/` (new tokens), and `expected.json` (DiffReport).
+#[cfg(test)]
+mod diff_conformance {
+    use std::path::Path;
+
+    use serde_json::Value;
+
+    use crate::diff::semantic_diff;
+    use crate::graph::TokenGraph;
+
+    fn run_fixture(case: &str) {
+        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/diff")
+            .join(case);
+
+        let old = TokenGraph::from_json_dir(&base.join("old"))
+            .unwrap_or_else(|e| panic!("{case}: failed to load old/: {e}"));
+        let new = TokenGraph::from_json_dir(&base.join("new"))
+            .unwrap_or_else(|e| panic!("{case}: failed to load new/: {e}"));
+
+        let report = semantic_diff(&old, &new);
+
+        let actual: Value = serde_json::to_value(&report)
+            .unwrap_or_else(|e| panic!("{case}: failed to serialize report: {e}"));
+
+        let expected_text = std::fs::read_to_string(base.join("expected.json"))
+            .unwrap_or_else(|e| panic!("{case}: failed to read expected.json: {e}"));
+        let expected: Value = serde_json::from_str(&expected_text)
+            .unwrap_or_else(|e| panic!("{case}: invalid expected.json: {e}"));
+
+        for key in [
+            "renamed",
+            "deprecated",
+            "reverted",
+            "added",
+            "deleted",
+            "updated",
+        ] {
+            let actual_arr = actual.get(key).and_then(|v| v.as_array());
+            let expected_arr = expected.get(key).and_then(|v| v.as_array());
+            assert_eq!(
+                actual_arr,
+                expected_arr,
+                "{case}: mismatch in '{key}'\n  actual:   {}\n  expected: {}",
+                serde_json::to_string_pretty(&actual_arr).unwrap_or_default(),
+                serde_json::to_string_pretty(&expected_arr).unwrap_or_default(),
+            );
+        }
+    }
+
+    #[test]
+    fn identical_tokens() {
+        run_fixture("identical-tokens");
+    }
+
+    #[test]
+    fn simple_add_delete() {
+        run_fixture("simple-add-delete");
+    }
+
+    #[test]
+    fn rename_by_uuid() {
+        run_fixture("rename-by-uuid");
+    }
+
+    #[test]
+    fn deprecated_new_token() {
+        run_fixture("deprecated-new-token");
+    }
+
+    #[test]
+    fn deprecated_set_level() {
+        run_fixture("deprecated-set-level");
+    }
+
+    #[test]
+    fn reverted_token() {
+        run_fixture("reverted-token");
+    }
+
+    #[test]
+    fn matched_gaining_deprecated() {
+        run_fixture("matched-gaining-deprecated");
+    }
+
+    #[test]
+    fn property_value_update() {
+        run_fixture("property-value-update");
+    }
+
+    #[test]
+    fn property_nested_change() {
+        run_fixture("property-nested-change");
+    }
+
+    #[test]
+    fn uuid_backfill() {
+        run_fixture("uuid-backfill");
+    }
+
+    #[test]
+    fn cross_format() {
+        run_fixture("cross-format");
+    }
+
+    #[test]
+    fn rename_with_property_changes() {
+        run_fixture("rename-with-property-changes");
+    }
+}
+
+/// Query conformance tests — fixture-driven, closes #788.
+///
+/// Each test case lives under `packages/design-data-spec/conformance/query/<name>/`
+/// with `input/` (tokens), `query.txt` (filter expression), and `expected.json`
+/// (sorted array of matched token UUIDs).
+#[cfg(test)]
+mod query_conformance {
+    use std::path::Path;
+
+    use serde_json::Value;
+
+    use crate::graph::TokenGraph;
+    use crate::query;
+
+    fn run_fixture(case: &str) {
+        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/query")
+            .join(case);
+
+        let graph = TokenGraph::from_json_dir(&base.join("input"))
+            .unwrap_or_else(|e| panic!("{case}: failed to load input/: {e}"));
+
+        let query_text = std::fs::read_to_string(base.join("query.txt"))
+            .unwrap_or_else(|e| panic!("{case}: failed to read query.txt: {e}"));
+
+        let filter_expr =
+            query::parse(&query_text).unwrap_or_else(|e| panic!("{case}: query parse error: {e}"));
+        let results = query::filter(&graph, &filter_expr);
+
+        let mut actual_uuids: Vec<String> = results.iter().filter_map(|t| t.uuid.clone()).collect();
+        actual_uuids.sort();
+
+        let expected_text = std::fs::read_to_string(base.join("expected.json"))
+            .unwrap_or_else(|e| panic!("{case}: failed to read expected.json: {e}"));
+        let expected: Value = serde_json::from_str(&expected_text)
+            .unwrap_or_else(|e| panic!("{case}: invalid expected.json: {e}"));
+        let expected_uuids: Vec<String> = expected
+            .as_array()
+            .unwrap_or_else(|| panic!("{case}: expected.json must be an array"))
+            .iter()
+            .filter_map(|v| v.as_str().map(String::from))
+            .collect();
+
+        assert_eq!(
+            actual_uuids, expected_uuids,
+            "{case}: UUID mismatch\n  actual:   {actual_uuids:?}\n  expected: {expected_uuids:?}"
+        );
+    }
+
+    #[test]
+    fn single_field() {
+        run_fixture("single-field");
+    }
+
+    #[test]
+    fn and_conditions() {
+        run_fixture("and-conditions");
+    }
+
+    #[test]
+    fn or_conditions() {
+        run_fixture("or-conditions");
+    }
+
+    #[test]
+    fn negation() {
+        run_fixture("negation");
+    }
+
+    #[test]
+    fn wildcard_suffix() {
+        run_fixture("wildcard-suffix");
+    }
+
+    #[test]
+    fn wildcard_prefix() {
+        run_fixture("wildcard-prefix");
+    }
+
+    #[test]
+    fn empty_matches_all() {
+        run_fixture("empty-matches-all");
+    }
+
+    #[test]
+    fn no_matches() {
+        run_fixture("no-matches");
+    }
+
+    #[test]
+    fn schema_key() {
+        run_fixture("schema-key");
+    }
+
+    #[test]
+    fn and_or_precedence() {
+        run_fixture("and-or-precedence");
+    }
+}

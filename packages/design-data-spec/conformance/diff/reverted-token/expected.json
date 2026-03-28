@@ -1,0 +1,13 @@
+{
+  "renamed": [],
+  "deprecated": [],
+  "reverted": [
+    {
+      "name": "reverted-prop",
+      "uuid": "aaaaaaaa-0001-4000-8000-000000000001"
+    }
+  ],
+  "added": [],
+  "deleted": [],
+  "updated": []
+}

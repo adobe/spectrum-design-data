@@ -1,0 +1,27 @@
+{
+  "renamed": [],
+  "deprecated": [],
+  "reverted": [],
+  "added": [],
+  "deleted": [],
+  "updated": [
+    {
+      "name": "overlay-color",
+      "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+      "property_changes": [
+        {
+          "path": "sets.dark.value",
+          "change_type": "updated",
+          "new_value": "#111111",
+          "original_value": "#000000"
+        },
+        {
+          "path": "sets.light.value",
+          "change_type": "updated",
+          "new_value": "#eeeeee",
+          "original_value": "#ffffff"
+        }
+      ]
+    }
+  ]
+}
