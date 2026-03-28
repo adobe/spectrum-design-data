@@ -12,11 +12,13 @@
 
 pub mod cascade;
 pub mod compat;
+pub mod diff;
 pub mod discovery;
 pub mod graph;
 pub mod legacy;
 pub mod migrate;
 pub mod naming;
+pub mod query;
 pub mod report;
 pub mod schema;
 pub mod validate;
@@ -43,6 +45,8 @@ pub enum CoreError {
          in legacy set format; convert individual dimension slices separately"
     )]
     MultiDimensionalToken(String),
+    #[error("query parse error: {0}")]
+    QueryParse(String),
 }
 
 /// Returns the crate name for sanity checks and CLI `--version` wiring later.
