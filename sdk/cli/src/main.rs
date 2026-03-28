@@ -20,10 +20,12 @@ use design_data_core::cascade::{resolve, ResolutionContext};
 use design_data_core::compat::{
     load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot,
 };
+use design_data_core::diff;
 use design_data_core::graph::TokenGraph;
 use design_data_core::legacy;
 use design_data_core::migrate;
 use design_data_core::naming::NamingExceptionsFile;
+use design_data_core::query;
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::validate;
 use miette::{IntoDiagnostic, WrapErr};
@@ -83,6 +85,36 @@ enum Commands {
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
+    /// Compare two token datasets and report changes
+    Diff {
+        /// Directory containing the old/before token dataset
+        #[arg(value_name = "OLD")]
+        old: PathBuf,
+        /// Directory containing the new/after token dataset
+        #[arg(value_name = "NEW")]
+        new: PathBuf,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+        /// Filter to scope diff to matching tokens (query notation)
+        #[arg(long, value_name = "EXPR")]
+        filter: Option<String>,
+    },
+    /// Filter and list tokens matching a query expression
+    Query {
+        /// Path to token dataset directory
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Filter expression (e.g. "component=button,state=hover")
+        #[arg(long, value_name = "EXPR")]
+        filter: String,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+        /// Output only the match count
+        #[arg(long)]
+        count: bool,
+    },
     /// Snapshot and backward-compat verification helpers
     Migrate {
         #[command(subcommand)]
@@ -141,6 +173,7 @@ enum OutputFormat {
     #[default]
     Pretty,
     Json,
+    Markdown,
 }
 
 fn load_exceptions(path: Option<&Path>) -> miette::Result<HashSet<String>> {
@@ -277,7 +310,7 @@ fn run_resolve(
                         serde_json::to_string_pretty(&winner.raw).into_diagnostic()?
                     );
                 }
-                OutputFormat::Pretty => {
+                OutputFormat::Pretty | OutputFormat::Markdown => {
                     println!("Property:  {property}");
                     if let Some(val) = winner.raw.get("value") {
                         println!("Value:     {val}");
@@ -324,7 +357,7 @@ fn run_validate(
         OutputFormat::Json => {
             println!("{}", format::format_report_json(&report).into_diagnostic()?);
         }
-        OutputFormat::Pretty => {
+        OutputFormat::Pretty | OutputFormat::Markdown => {
             format::print_report_pretty(&report);
         }
     }
@@ -417,6 +450,132 @@ fn run_migrate_snapshot(
     Ok(ExitCode::SUCCESS)
 }
 
+fn run_diff(
+    old_path: &Path,
+    new_path: &Path,
+    format: OutputFormat,
+    filter_expr: Option<&str>,
+) -> miette::Result<ExitCode> {
+    let old_graph = TokenGraph::from_json_dir(old_path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load old tokens from {}", old_path.display()))?;
+    let new_graph = TokenGraph::from_json_dir(new_path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load new tokens from {}", new_path.display()))?;
+
+    // Optionally filter both graphs to matching tokens before diffing.
+    let (old_filtered, new_filtered) = if let Some(expr_str) = filter_expr {
+        let expr = query::parse(expr_str)
+            .into_diagnostic()
+            .wrap_err("failed to parse --filter expression")?;
+        let old_matched = query::filter(&old_graph, &expr);
+        let new_matched = query::filter(&new_graph, &expr);
+        (
+            TokenGraph::from_pairs(
+                old_matched
+                    .iter()
+                    .map(|t| (t.name.clone(), t.file.clone(), t.raw.clone()))
+                    .collect(),
+            ),
+            TokenGraph::from_pairs(
+                new_matched
+                    .iter()
+                    .map(|t| (t.name.clone(), t.file.clone(), t.raw.clone()))
+                    .collect(),
+            ),
+        )
+    } else {
+        (old_graph, new_graph)
+    };
+
+    let report = diff::semantic_diff(&old_filtered, &new_filtered);
+
+    match format {
+        OutputFormat::Json => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&report).into_diagnostic()?
+            );
+        }
+        OutputFormat::Markdown => {
+            print!("{}", format::format_diff_markdown(&report));
+        }
+        OutputFormat::Pretty => {
+            format::print_diff_pretty(&report);
+        }
+    }
+
+    if report.is_empty() {
+        Ok(ExitCode::SUCCESS)
+    } else {
+        Ok(ExitCode::from(1))
+    }
+}
+
+fn run_query(
+    path: &Path,
+    filter_expr: &str,
+    format: OutputFormat,
+    count_only: bool,
+) -> miette::Result<ExitCode> {
+    let graph = TokenGraph::from_json_dir(path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+
+    let expr = query::parse(filter_expr)
+        .into_diagnostic()
+        .wrap_err("failed to parse filter expression")?;
+
+    let results = query::filter(&graph, &expr);
+
+    if count_only {
+        println!("{}", results.len());
+        return if results.is_empty() {
+            Ok(ExitCode::from(1))
+        } else {
+            Ok(ExitCode::SUCCESS)
+        };
+    }
+
+    match format {
+        OutputFormat::Json => {
+            let raw_values: Vec<&serde_json::Value> = results.iter().map(|t| &t.raw).collect();
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&raw_values).into_diagnostic()?
+            );
+        }
+        OutputFormat::Pretty | OutputFormat::Markdown => {
+            if results.is_empty() {
+                println!("No matching tokens.");
+            } else {
+                println!("{} token(s) matched:\n", results.len());
+                for t in &results {
+                    let name = t
+                        .raw
+                        .get("name")
+                        .and_then(|n| n.get("property"))
+                        .and_then(|v| v.as_str())
+                        .unwrap_or(&t.name);
+                    let uuid = t.uuid.as_deref().unwrap_or("-");
+                    let schema = t.raw.get("$schema").and_then(|v| v.as_str()).unwrap_or("-");
+                    println!("  {name}");
+                    println!("    UUID:    {uuid}");
+                    println!("    Schema:  {schema}");
+                    println!("    File:    {}", t.file.display());
+                    println!();
+                }
+            }
+        }
+    }
+
+    if results.is_empty() {
+        Ok(ExitCode::from(1))
+    } else {
+        Ok(ExitCode::SUCCESS)
+    }
+}
+
 fn main() -> ExitCode {
     let cli = Cli::parse();
 
@@ -458,6 +617,21 @@ fn main() -> ExitCode {
                 contrast,
                 format,
             )
+        }
+        Commands::Diff {
+            old,
+            new,
+            format,
+            filter,
+        } => run_diff(&old, &new, format, filter.as_deref()),
+        Commands::Query {
+            path,
+            filter,
+            format,
+            count,
+        } => {
+            let target = path.unwrap_or_else(|| PathBuf::from("."));
+            run_query(&target, &filter, format, count)
         }
         Commands::Migrate { sub } => match sub {
             MigrateSub::Verify {
