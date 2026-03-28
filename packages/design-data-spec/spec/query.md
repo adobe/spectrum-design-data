@@ -45,7 +45,7 @@ filter-expr = or-expr ;
 or-expr     = and-expr { "|" and-expr } ;
 and-expr    = condition { "," condition } ;
 condition   = key operator value ;
-key         = letter { letter | digit | "$" } ;
+key         = (letter | "$") { letter | digit | "$" | "_" } ;
 operator    = "=" | "!=" ;
 value       = { value-char } ;
 value-char  = letter | digit | "-" | "_" | "." | "/" | ":" | "*" ;

@@ -11,7 +11,7 @@ A **token identity** determines whether a token in the old dataset and a token i
 **NORMATIVE:** Implementations **MUST** use the following matching rules, in order:
 
 1. **UUID match** — If a token in the old dataset and a token in the new dataset share the same `uuid` value, they are the **same token** regardless of name.
-2. **Name-object equivalence** — When both tokens lack a `uuid`, two tokens are the same if their `name` objects are deeply equal (all fields present with identical values).
+2. **Name-object equivalence** — When a UUID match is not found for a token — because the old token, the new token, or both lack a `uuid`, or because no counterpart with the matching `uuid` exists in the other dataset — two tokens are the same if their `name` objects are deeply equal (all fields present with identical values).
 
 **NORMATIVE:** UUID matching **MUST** take precedence over name-object equivalence. A UUID match always identifies the token pair, even if name objects differ (which constitutes a rename).
 
@@ -24,7 +24,7 @@ A semantic diff classifies every token into exactly one of six categories:
 | Category       | Definition                                                                                       |
 | -------------- | ------------------------------------------------------------------------------------------------ |
 | **renamed**    | Token exists in both datasets (matched by identity) but the name has changed.                    |
-| **deprecated** | Token is new or changed and now carries a `deprecated` field that was absent in the old version. |
+| **deprecated** | Token exists only in the new dataset (unmatched) and carries a `deprecated` field.               |
 | **reverted**   | Token existed with `deprecated` in the old dataset and no longer carries it in the new dataset.  |
 | **added**      | Token exists only in the new dataset and is not renamed, deprecated, or pre-existing.            |
 | **deleted**    | Token exists only in the old dataset and is not the source of a rename.                          |
@@ -43,7 +43,7 @@ A semantic diff classifies every token into exactly one of six categories:
 5. **Deleted** — Remaining unmatched old tokens that are not the source of a rename.
 6. **Updated** — Remaining identity-matched pairs with unchanged names but differing properties.
 
-**RATIONALE:** This ordering mirrors the pipeline in existing tooling and ensures that a renamed token does not also appear as "added" + "deleted", a deprecated token does not appear as "added", and so forth.
+**RATIONALE:** This ordering mirrors the pipeline in existing tooling and ensures that a renamed token does not also appear as "added" + "deleted", a deprecated token does not appear as "added", and so forth. A matched token that newly gains a `deprecated` field is classified as **updated** — the deprecation surfaces as a property-level change in the updated sub-categories, not as a new-token deprecation.
 
 ## Deprecation normalization
 
