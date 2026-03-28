@@ -1,0 +1,1149 @@
+{
+  "generatedAt": "2026-02-06T21:23:53.346Z",
+  "summary": {
+    "totalTokens": 2338,
+    "activeTokens": 2150,
+    "deprecatedTokens": 188,
+    "deprecationRate": 8,
+    "deprecatedWithMigrationPath": 57,
+    "migrationPathCoverage": 30.3,
+    "componentTokenCount": 1373,
+    "globalTokenCount": 965,
+    "uniqueComponents": 95,
+    "privateTokens": 372
+  },
+  "tokensByFile": {
+    "typography.json": 312,
+    "semantic-color-palette.json": 94,
+    "layout.json": 242,
+    "layout-component.json": 997,
+    "icons.json": 79,
+    "color-palette.json": 372,
+    "color-component.json": 73,
+    "color-aliases.json": 169
+  },
+  "tokensByType": {
+    "alias": 654,
+    "dimension": 292,
+    "text-align": 3,
+    "font-family": 4,
+    "font-weight": 6,
+    "font-style": 2,
+    "scale-set": 755,
+    "multiplier": 24,
+    "text-transform": 2,
+    "typography": 15,
+    "color-set": 470,
+    "gradient-stop": 9,
+    "opacity": 30,
+    "color": 68,
+    "drop-shadow": 4
+  },
+  "componentBreakdown": {
+    "heading": {
+      "count": 91,
+      "deprecated": 26
+    },
+    "body": {
+      "count": 38,
+      "deprecated": 0
+    },
+    "detail": {
+      "count": 69,
+      "deprecated": 27
+    },
+    "code": {
+      "count": 31,
+      "deprecated": 0
+    },
+    "checkbox": {
+      "count": 8,
+      "deprecated": 0
+    },
+    "switch": {
+      "count": 20,
+      "deprecated": 0
+    },
+    "radio-button": {
+      "count": 9,
+      "deprecated": 0
+    },
+    "field-label": {
+      "count": 17,
+      "deprecated": 4
+    },
+    "help-text": {
+      "count": 5,
+      "deprecated": 4
+    },
+    "status-light": {
+      "count": 12,
+      "deprecated": 0
+    },
+    "action-button": {
+      "count": 5,
+      "deprecated": 0
+    },
+    "button": {
+      "count": 1,
+      "deprecated": 0
+    },
+    "tooltip": {
+      "count": 4,
+      "deprecated": 0
+    },
+    "divider": {
+      "count": 5,
+      "deprecated": 0
+    },
+    "progress-circle": {
+      "count": 6,
+      "deprecated": 0
+    },
+    "toast": {
+      "count": 5,
+      "deprecated": 0
+    },
+    "action-bar": {
+      "count": 10,
+      "deprecated": 0
+    },
+    "swatch": {
+      "count": 13,
+      "deprecated": 0
+    },
+    "progress-bar": {
+      "count": 6,
+      "deprecated": 0
+    },
+    "meter": {
+      "count": 8,
+      "deprecated": 1
+    },
+    "in-line-alert": {
+      "count": 1,
+      "deprecated": 0
+    },
+    "tag": {
+      "count": 17,
+      "deprecated": 1
+    },
+    "popover": {
+      "count": 6,
+      "deprecated": 1
+    },
+    "menu": {
+      "count": 18,
+      "deprecated": 1
+    },
+    "slider": {
+      "count": 45,
+      "deprecated": 18
+    },
+    "picker": {
+      "count": 8,
+      "deprecated": 1
+    },
+    "text-field": {
+      "count": 1,
+      "deprecated": 0
+    },
+    "text-area": {
+      "count": 2,
+      "deprecated": 0
+    },
+    "combo-box": {
+      "count": 8,
+      "deprecated": 6
+    },
+    "thumbnail": {
+      "count": 17,
+      "deprecated": 0
+    },
+    "alert-dialog": {
+      "count": 6,
+      "deprecated": 2
+    },
+    "opacity-checkerboard": {
+      "count": 5,
+      "deprecated": 1
+    },
+    "contextual-help": {
+      "count": 5,
+      "deprecated": 2
+    },
+    "breadcrumbs": {
+      "count": 32,
+      "deprecated": 13
+    },
+    "avatar": {
+      "count": 27,
+      "deprecated": 0
+    },
+    "alert-banner": {
+      "count": 9,
+      "deprecated": 3
+    },
+    "rating": {
+      "count": 12,
+      "deprecated": 2
+    },
+    "color-area": {
+      "count": 8,
+      "deprecated": 0
+    },
+    "color-wheel": {
+      "count": 5,
+      "deprecated": 0
+    },
+    "color-slider": {
+      "count": 6,
+      "deprecated": 0
+    },
+    "floating-action-button": {
+      "count": 4,
+      "deprecated": 1
+    },
+    "illustrated-message": {
+      "count": 15,
+      "deprecated": 4
+    },
+    "search-field": {
+      "count": 1,
+      "deprecated": 0
+    },
+    "color-loupe": {
+      "count": 10,
+      "deprecated": 3
+    },
+    "card": {
+      "count": 49,
+      "deprecated": 1
+    },
+    "drop-zone": {
+      "count": 13,
+      "deprecated": 4
+    },
+    "coach-mark": {
+      "count": 14,
+      "deprecated": 3
+    },
+    "accordion": {
+      "count": 53,
+      "deprecated": 11
+    },
+    "color-handle": {
+      "count": 13,
+      "deprecated": 1
+    },
+    "table": {
+      "count": 108,
+      "deprecated": 20
+    },
+    "tab-item": {
+      "count": 49,
+      "deprecated": 0
+    },
+    "side-navigation": {
+      "count": 23,
+      "deprecated": 3
+    },
+    "tray": {
+      "count": 1,
+      "deprecated": 0
+    },
+    "in-field-button": {
+      "count": 23,
+      "deprecated": 1
+    },
+    "arrow-icon": {
+      "count": 7,
+      "deprecated": 0
+    },
+    "asterisk-icon": {
+      "count": 4,
+      "deprecated": 0
+    },
+    "checkmark-icon": {
+      "count": 8,
+      "deprecated": 0
+    },
+    "chevron-icon": {
+      "count": 8,
+      "deprecated": 0
+    },
+    "cross-icon": {
+      "count": 7,
+      "deprecated": 0
+    },
+    "dash-icon": {
+      "count": 8,
+      "deprecated": 0
+    },
+    "title": {
+      "count": 45,
+      "deprecated": 0
+    },
+    "field": {
+      "count": 4,
+      "deprecated": 0
+    },
+    "in-field-progress-circle": {
+      "count": 5,
+      "deprecated": 0
+    },
+    "standard-dialog": {
+      "count": 6,
+      "deprecated": 0
+    },
+    "link-out-icon": {
+      "count": 5,
+      "deprecated": 0
+    },
+    "menu-item": {
+      "count": 14,
+      "deprecated": 0
+    },
+    "coach-indicator": {
+      "count": 8,
+      "deprecated": 0
+    },
+    "swatch-group": {
+      "count": 3,
+      "deprecated": 0
+    },
+    "avatar-group": {
+      "count": 7,
+      "deprecated": 0
+    },
+    "standard-panel": {
+      "count": 12,
+      "deprecated": 0
+    },
+    "bar-panel": {
+      "count": 6,
+      "deprecated": 0
+    },
+    "select-box": {
+      "count": 14,
+      "deprecated": 0
+    },
+    "segmented-control": {
+      "count": 3,
+      "deprecated": 0
+    },
+    "in-field-stepper": {
+      "count": 4,
+      "deprecated": 0
+    },
+    "number-field": {
+      "count": 9,
+      "deprecated": 0
+    },
+    "takeover-dialog": {
+      "count": 2,
+      "deprecated": 0
+    },
+    "tree-view": {
+      "count": 28,
+      "deprecated": 1
+    },
+    "collection-card": {
+      "count": 10,
+      "deprecated": 0
+    },
+    "user-card": {
+      "count": 8,
+      "deprecated": 0
+    },
+    "steplist": {
+      "count": 18,
+      "deprecated": 0
+    },
+    "card-horizontal": {
+      "count": 3,
+      "deprecated": 0
+    },
+    "single-calendar": {
+      "count": 2,
+      "deprecated": 0
+    },
+    "double-calendar": {
+      "count": 2,
+      "deprecated": 0
+    },
+    "triple-calendar": {
+      "count": 2,
+      "deprecated": 0
+    },
+    "date-field": {
+      "count": 2,
+      "deprecated": 0
+    },
+    "date-picker": {
+      "count": 3,
+      "deprecated": 0
+    },
+    "time-field": {
+      "count": 2,
+      "deprecated": 0
+    },
+    "segmented-text-field": {
+      "count": 2,
+      "deprecated": 0
+    },
+    "add-icon": {
+      "count": 5,
+      "deprecated": 0
+    },
+    "drag-handle-icon": {
+      "count": 4,
+      "deprecated": 0
+    },
+    "gripper-icon": {
+      "count": 1,
+      "deprecated": 0
+    },
+    "tag-field": {
+      "count": 10,
+      "deprecated": 0
+    },
+    "list-view": {
+      "count": 5,
+      "deprecated": 0
+    },
+    "stack-item": {
+      "count": 21,
+      "deprecated": 0
+    },
+    "icon": {
+      "count": 79,
+      "deprecated": 1
+    }
+  },
+  "deprecatedTokens": [
+    "heading-sans-serif-light-font-weight",
+    "heading-sans-serif-light-font-style",
+    "heading-serif-light-font-weight",
+    "heading-serif-light-font-style",
+    "heading-cjk-light-font-weight",
+    "heading-cjk-light-font-style",
+    "heading-sans-serif-light-strong-font-weight",
+    "heading-sans-serif-light-strong-font-style",
+    "heading-serif-light-strong-font-weight",
+    "heading-serif-light-strong-font-style",
+    "heading-cjk-light-strong-font-weight",
+    "heading-cjk-light-strong-font-style",
+    "heading-sans-serif-light-emphasized-font-weight",
+    "heading-sans-serif-light-emphasized-font-style",
+    "heading-serif-light-emphasized-font-weight",
+    "heading-serif-light-emphasized-font-style",
+    "heading-cjk-light-emphasized-font-weight",
+    "heading-cjk-light-emphasized-font-style",
+    "heading-sans-serif-light-strong-emphasized-font-weight",
+    "heading-sans-serif-light-strong-emphasized-font-style",
+    "heading-serif-light-strong-emphasized-font-weight",
+    "heading-serif-light-strong-emphasized-font-style",
+    "heading-cjk-light-strong-emphasized-font-weight",
+    "heading-cjk-light-strong-emphasized-font-style",
+    "heading-size-xxs",
+    "heading-cjk-size-xxs",
+    "detail-sans-serif-light-font-weight",
+    "detail-sans-serif-light-font-style",
+    "detail-serif-light-font-weight",
+    "detail-serif-light-font-style",
+    "detail-cjk-light-font-weight",
+    "detail-cjk-light-font-style",
+    "detail-sans-serif-light-strong-font-weight",
+    "detail-sans-serif-light-strong-font-style",
+    "detail-serif-light-strong-font-weight",
+    "detail-serif-light-strong-font-style",
+    "detail-cjk-light-strong-font-weight",
+    "detail-cjk-light-strong-font-style",
+    "detail-sans-serif-light-emphasized-font-weight",
+    "detail-sans-serif-light-emphasized-font-style",
+    "detail-serif-light-emphasized-font-weight",
+    "detail-serif-light-emphasized-font-style",
+    "detail-cjk-light-emphasized-font-weight",
+    "detail-cjk-light-emphasized-font-style",
+    "detail-sans-serif-light-strong-emphasized-font-weight",
+    "detail-sans-serif-light-strong-emphasized-font-style",
+    "detail-serif-light-strong-emphasized-font-weight",
+    "detail-serif-light-strong-emphasized-font-style",
+    "detail-cjk-light-strong-emphasized-font-weight",
+    "detail-cjk-light-strong-emphasized-font-style",
+    "detail-letter-spacing",
+    "detail-sans-serif-text-transform",
+    "detail-serif-text-transform",
+    "negative-subdued-background-color-default",
+    "negative-subdued-background-color-hover",
+    "negative-subdued-background-color-down",
+    "negative-subdued-background-color-key-focus",
+    "drop-shadow-x",
+    "drop-shadow-y",
+    "drop-shadow-blur",
+    "field-edge-to-text-quiet",
+    "field-edge-to-border-quiet",
+    "field-edge-to-alert-icon-quiet",
+    "field-edge-to-validation-icon-quiet",
+    "field-width",
+    "field-width-small",
+    "character-count-to-field-quiet-small",
+    "character-count-to-field-quiet-medium",
+    "character-count-to-field-quiet-large",
+    "character-count-to-field-quiet-extra-large",
+    "field-width-medium",
+    "field-width-large",
+    "field-width-extra-large",
+    "field-label-to-component-quiet-small",
+    "field-label-to-component-quiet-medium",
+    "field-label-to-component-quiet-large",
+    "field-label-to-component-quiet-extra-large",
+    "help-text-top-to-workflow-icon-small",
+    "help-text-top-to-workflow-icon-medium",
+    "help-text-top-to-workflow-icon-large",
+    "help-text-top-to-workflow-icon-extra-large",
+    "meter-default-width",
+    "popover-top-to-content-area",
+    "menu-item-label-to-description",
+    "slider-track-thickness",
+    "slider-control-height-small",
+    "slider-control-height-medium",
+    "slider-control-height-large",
+    "slider-control-height-extra-large",
+    "slider-handle-size-small",
+    "slider-handle-size-medium",
+    "slider-handle-size-large",
+    "slider-handle-size-extra-large",
+    "slider-handle-border-width-down-small",
+    "slider-handle-border-width-down-medium",
+    "slider-handle-border-width-down-large",
+    "slider-handle-border-width-down-extra-large",
+    "slider-handle-gap",
+    "slider-bottom-to-handle-small",
+    "slider-bottom-to-handle-medium",
+    "slider-bottom-to-handle-large",
+    "slider-bottom-to-handle-extra-large",
+    "picker-end-edge-to-disclousure-icon-quiet",
+    "combo-box-quiet-minimum-width-multiplier",
+    "combo-box-visual-to-field-button-small",
+    "combo-box-visual-to-field-button-medium",
+    "combo-box-visual-to-field-button-large",
+    "combo-box-visual-to-field-button-extra-large",
+    "combo-box-visual-to-field-button-quiet",
+    "alert-dialog-title-size",
+    "alert-dialog-description-size",
+    "opacity-checkerboard-square-size",
+    "contextual-help-title-size",
+    "contextual-help-body-size",
+    "breadcrumbs-height",
+    "breadcrumbs-height-compact",
+    "breadcrumbs-top-to-text",
+    "breadcrumbs-top-to-text-compact",
+    "breadcrumbs-bottom-to-text",
+    "breadcrumbs-bottom-to-text-compact",
+    "breadcrumbs-start-edge-to-text",
+    "breadcrumbs-top-to-separator-icon",
+    "breadcrumbs-top-to-separator-icon-compact",
+    "breadcrumbs-top-to-separator-icon-multiline",
+    "breadcrumbs-separator-icon-to-bottom-text-multiline",
+    "breadcrumbs-truncated-menu-to-separator-icon",
+    "breadcrumbs-top-to-truncated-menu-compact",
+    "alert-banner-to-top-workflow-icon",
+    "alert-banner-to-top-text",
+    "alert-banner-to-bottom-text",
+    "rating-indicator-width",
+    "rating-indicator-to-icon",
+    "illustrated-message-maximum-width",
+    "illustrated-message-title-size",
+    "illustrated-message-cjk-title-size",
+    "illustrated-message-body-size",
+    "card-minimum-width",
+    "drop-zone-content-maximum-width",
+    "drop-zone-title-size",
+    "drop-zone-cjk-title-size",
+    "drop-zone-body-size",
+    "coach-mark-title-size",
+    "coach-mark-body-size",
+    "coach-mark-pagination-body-size",
+    "accordion-top-to-text-regular-small",
+    "accordion-small-top-to-text-spacious",
+    "accordion-top-to-text-regular-medium",
+    "accordion-top-to-text-regular-large",
+    "accordion-top-to-text-regular-extra-large",
+    "accordion-bottom-to-text-regular-small",
+    "accordion-bottom-to-text-regular-medium",
+    "accordion-bottom-to-text-regular-large",
+    "accordion-bottom-to-text-regular-extra-large",
+    "accordion-disclosure-indicator-to-text",
+    "accordion-edge-to-disclosure-indicator",
+    "table-row-height-small-regular",
+    "table-row-height-medium-regular",
+    "table-row-height-large-regular",
+    "table-row-height-extra-large-regular",
+    "table-row-top-to-text-small-regular",
+    "table-row-top-to-text-medium-regular",
+    "table-row-top-to-text-large-regular",
+    "table-row-top-to-text-extra-large-regular",
+    "table-row-bottom-to-text-small-regular",
+    "table-row-bottom-to-text-medium-regular",
+    "table-row-bottom-to-text-large-regular",
+    "table-row-bottom-to-text-extra-large-regular",
+    "table-row-checkbox-to-top-small-regular",
+    "table-row-checkbox-to-top-medium-regular",
+    "table-row-checkbox-to-top-large-regular",
+    "table-row-checkbox-to-top-extra-large-regular",
+    "table-thumbnail-to-top-minimum-small-regular",
+    "table-thumbnail-to-top-minimum-medium-regular",
+    "table-thumbnail-to-top-minimum-large-regular",
+    "table-thumbnail-to-top-minimum-extra-large-regular",
+    "side-navigation-maximum-width",
+    "side-navigation-with-icon-second-level-edge-to-text",
+    "side-navigation-with-icon-third-level-edge-to-text",
+    "in-field-button-edge-to-fill",
+    "tag-minimum-width-multiplier",
+    "tree-view-item-to-item",
+    "icon-color-inverse",
+    "color-loupe-drop-shadow-color",
+    "color-loupe-drop-shadow-y",
+    "color-loupe-drop-shadow-blur",
+    "color-handle-drop-shadow-color",
+    "floating-action-button-shadow-color",
+    "drop-shadow-color"
+  ],
+  "aliasAnalysis": {
+    "aliasTokens": 654,
+    "directValueTokens": 459,
+    "setBasedTokens": {
+      "colorTheme": 470,
+      "scale": 755,
+      "other": 0,
+      "total": 1225
+    },
+    "topAliasTargets": [
+      {
+        "name": "default-font-style",
+        "referenceCount": 62
+      },
+      {
+        "name": "italic-font-style",
+        "referenceCount": 30
+      },
+      {
+        "name": "gray-100",
+        "referenceCount": 26
+      },
+      {
+        "name": "bold-font-weight",
+        "referenceCount": 25
+      },
+      {
+        "name": "regular-font-weight",
+        "referenceCount": 21
+      },
+      {
+        "name": "black-font-weight",
+        "referenceCount": 20
+      },
+      {
+        "name": "extra-bold-font-weight",
+        "referenceCount": 19
+      },
+      {
+        "name": "gray-800",
+        "referenceCount": 19
+      },
+      {
+        "name": "gray-900",
+        "referenceCount": 13
+      },
+      {
+        "name": "gray-200",
+        "referenceCount": 12
+      },
+      {
+        "name": "negative-color-1000",
+        "referenceCount": 12
+      },
+      {
+        "name": "font-size-100",
+        "referenceCount": 10
+      },
+      {
+        "name": "accent-color-1000",
+        "referenceCount": 9
+      },
+      {
+        "name": "font-size-300",
+        "referenceCount": 8
+      },
+      {
+        "name": "font-size-200",
+        "referenceCount": 8
+      },
+      {
+        "name": "blue-800",
+        "referenceCount": 8
+      },
+      {
+        "name": "blue-900",
+        "referenceCount": 8
+      },
+      {
+        "name": "font-size-400",
+        "referenceCount": 7
+      },
+      {
+        "name": "font-size-75",
+        "referenceCount": 7
+      },
+      {
+        "name": "body-size-s",
+        "referenceCount": 7
+      }
+    ]
+  },
+  "uuidCoverage": {
+    "withUuid": 2338,
+    "withoutUuid": 0,
+    "coveragePercent": 100
+  },
+  "namingPatterns": [
+    {
+      "prefix": "table",
+      "count": 108
+    },
+    {
+      "prefix": "heading",
+      "count": 98
+    },
+    {
+      "prefix": "icon",
+      "count": 84
+    },
+    {
+      "prefix": "field",
+      "count": 83
+    },
+    {
+      "prefix": "component",
+      "count": 77
+    },
+    {
+      "prefix": "detail",
+      "count": 69
+    },
+    {
+      "prefix": "drop",
+      "count": 55
+    },
+    {
+      "prefix": "accordion",
+      "count": 53
+    },
+    {
+      "prefix": "card",
+      "count": 52
+    },
+    {
+      "prefix": "tab",
+      "count": 49
+    },
+    {
+      "prefix": "static",
+      "count": 48
+    },
+    {
+      "prefix": "body",
+      "count": 47
+    },
+    {
+      "prefix": "title",
+      "count": 46
+    },
+    {
+      "prefix": "slider",
+      "count": 45
+    },
+    {
+      "prefix": "color",
+      "count": 43
+    },
+    {
+      "prefix": "negative",
+      "count": 36
+    },
+    {
+      "prefix": "avatar",
+      "count": 34
+    },
+    {
+      "prefix": "in",
+      "count": 33
+    },
+    {
+      "prefix": "menu",
+      "count": 32
+    },
+    {
+      "prefix": "breadcrumbs",
+      "count": 32
+    }
+  ],
+  "aliasChainDepth": {
+    "maxDepth": 4,
+    "maxDepthToken": "drop-zone-title-size",
+    "distribution": {
+      "0": 1479,
+      "1": 744,
+      "2": 88,
+      "3": 24,
+      "4": 3
+    }
+  },
+  "semanticCategories": {
+    "background": 151,
+    "border": 58,
+    "content": 289,
+    "typography": 284,
+    "layout": 741,
+    "color": 227,
+    "shadow": 23,
+    "opacity": 9,
+    "icon": 6,
+    "other": 550
+  },
+  "componentCoverage": {
+    "registeredComponentCount": 54,
+    "componentsWithTokens": 44,
+    "componentsWithSchema": 54,
+    "componentsWithBoth": 44,
+    "tokenCoveragePercent": 81.5,
+    "schemaCoveragePercent": 100,
+    "details": [
+      {
+        "id": "accordion",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "action-bar",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "action-button",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "action-group",
+        "hasTokens": false,
+        "hasSchema": true
+      },
+      {
+        "id": "alert-banner",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "alert-dialog",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "avatar",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "avatar-group",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "badge",
+        "hasTokens": false,
+        "hasSchema": true
+      },
+      {
+        "id": "breadcrumbs",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "button",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "button-group",
+        "hasTokens": false,
+        "hasSchema": true
+      },
+      {
+        "id": "calendar",
+        "hasTokens": false,
+        "hasSchema": true
+      },
+      {
+        "id": "checkbox",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "checkbox-group",
+        "hasTokens": false,
+        "hasSchema": true
+      },
+      {
+        "id": "close-button",
+        "hasTokens": false,
+        "hasSchema": true
+      },
+      {
+        "id": "color-area",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "color-slider",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "color-wheel",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "combo-box",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "contextual-help",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "date-picker",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "divider",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "drop-zone",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "field-label",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "help-text",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "illustrated-message",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "in-line-alert",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "link",
+        "hasTokens": false,
+        "hasSchema": true
+      },
+      {
+        "id": "menu",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "meter",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "number-field",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "picker",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "popover",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "progress-bar",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "progress-circle",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "radio-button",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "radio-group",
+        "hasTokens": false,
+        "hasSchema": true
+      },
+      {
+        "id": "rating",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "search-field",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "select-box",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "slider",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "status-light",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "swatch",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "switch",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "table",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "tabs",
+        "hasTokens": false,
+        "hasSchema": true
+      },
+      {
+        "id": "tag",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "tag-group",
+        "hasTokens": false,
+        "hasSchema": true
+      },
+      {
+        "id": "text-area",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "text-field",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "toast",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "tooltip",
+        "hasTokens": true,
+        "hasSchema": true
+      },
+      {
+        "id": "tray",
+        "hasTokens": true,
+        "hasSchema": true
+      }
+    ],
+    "tokensOnlyComponents": [
+      "heading",
+      "body",
+      "detail",
+      "code",
+      "thumbnail",
+      "opacity-checkerboard",
+      "floating-action-button",
+      "color-loupe",
+      "card",
+      "coach-mark",
+      "color-handle",
+      "tab-item",
+      "side-navigation",
+      "in-field-button",
+      "arrow-icon",
+      "asterisk-icon",
+      "checkmark-icon",
+      "chevron-icon",
+      "cross-icon",
+      "dash-icon",
+      "title",
+      "field",
+      "in-field-progress-circle",
+      "standard-dialog",
+      "link-out-icon",
+      "menu-item",
+      "coach-indicator",
+      "swatch-group",
+      "standard-panel",
+      "bar-panel",
+      "segmented-control",
+      "in-field-stepper",
+      "takeover-dialog",
+      "tree-view",
+      "collection-card",
+      "user-card",
+      "steplist",
+      "card-horizontal",
+      "single-calendar",
+      "double-calendar",
+      "triple-calendar",
+      "date-field",
+      "time-field",
+      "segmented-text-field",
+      "add-icon",
+      "drag-handle-icon",
+      "gripper-icon",
+      "tag-field",
+      "list-view",
+      "stack-item",
+      "icon"
+    ]
+  }
+}
