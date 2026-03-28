@@ -199,9 +199,7 @@ pub fn semantic_diff(old: &TokenGraph, new: &TokenGraph) -> DiffReport {
     // 6. Updated — paired tokens with same name but different properties.
     let mut updated = Vec::new();
     for p in &pairs {
-        if names_equal(&p.old.raw, &p.new.raw)
-            && !reverted_names.contains(&p.new.name)
-        {
+        if names_equal(&p.old.raw, &p.new.raw) && !reverted_names.contains(&p.new.name) {
             let changes = diff_properties(&p.old.raw, &p.new.raw);
             if !changes.is_empty() {
                 updated.push(UpdatedToken {
@@ -244,7 +242,11 @@ pub fn semantic_diff(old: &TokenGraph, new: &TokenGraph) -> DiffReport {
 fn pair_tokens<'a>(
     old: &'a TokenGraph,
     new: &'a TokenGraph,
-) -> (Vec<TokenPair<'a>>, Vec<&'a TokenRecord>, Vec<&'a TokenRecord>) {
+) -> (
+    Vec<TokenPair<'a>>,
+    Vec<&'a TokenRecord>,
+    Vec<&'a TokenRecord>,
+) {
     let mut pairs = Vec::new();
     let mut matched_old: HashSet<String> = HashSet::new();
     let mut matched_new: HashSet<String> = HashSet::new();
@@ -325,7 +327,7 @@ fn pair_tokens<'a>(
 fn serialize_name_obj(raw: &Value) -> Option<String> {
     let name = raw.get("name")?;
     // Canonical: serde_json sorts map keys deterministically when serializing.
-    Some(serde_json::to_string(name).ok()?)
+    serde_json::to_string(name).ok()
 }
 
 /// Check if two tokens have the same name object (deep equal).
@@ -547,7 +549,10 @@ mod tests {
         )]);
         let report = semantic_diff(&old, &new);
         assert_eq!(report.deprecated.len(), 1);
-        assert!(report.added.is_empty(), "deprecated token must not appear as added");
+        assert!(
+            report.added.is_empty(),
+            "deprecated token must not appear as added"
+        );
     }
 
     #[test]
@@ -564,7 +569,11 @@ mod tests {
             }),
         )]);
         let report = semantic_diff(&old, &new);
-        assert_eq!(report.deprecated.len(), 1, "set-level deprecation must normalize");
+        assert_eq!(
+            report.deprecated.len(),
+            1,
+            "set-level deprecation must normalize"
+        );
     }
 
     #[test]
@@ -579,7 +588,10 @@ mod tests {
         )]);
         let report = semantic_diff(&old, &new);
         assert_eq!(report.reverted.len(), 1);
-        assert!(report.updated.is_empty(), "reverted must not appear as updated");
+        assert!(
+            report.updated.is_empty(),
+            "reverted must not appear as updated"
+        );
     }
 
     #[test]
@@ -595,7 +607,10 @@ mod tests {
             json!({"name": {"property": "bg"}, "uuid": "uuid-1", "value": "#fff", "deprecated": true}),
         )]);
         let report = semantic_diff(&old, &new);
-        assert!(report.deprecated.is_empty(), "matched token must not be deprecated");
+        assert!(
+            report.deprecated.is_empty(),
+            "matched token must not be deprecated"
+        );
         assert_eq!(report.updated.len(), 1, "must be classified as updated");
         assert!(report.updated[0]
             .property_changes
@@ -642,8 +657,9 @@ mod tests {
         let report = semantic_diff(&old, &new);
         assert_eq!(report.updated.len(), 1);
         let changes = &report.updated[0].property_changes;
-        assert!(changes.iter().any(|c| c.path == "value"
-            && c.change_type == ChangeType::Updated));
+        assert!(changes
+            .iter()
+            .any(|c| c.path == "value" && c.change_type == ChangeType::Updated));
     }
 
     #[test]
@@ -659,12 +675,13 @@ mod tests {
 
     #[test]
     fn property_added_and_deleted() {
-        let changes = diff_properties(
-            &json!({"a": 1, "b": 2}),
-            &json!({"a": 1, "c": 3}),
-        );
-        assert!(changes.iter().any(|c| c.path == "b" && c.change_type == ChangeType::Deleted));
-        assert!(changes.iter().any(|c| c.path == "c" && c.change_type == ChangeType::Added));
+        let changes = diff_properties(&json!({"a": 1, "b": 2}), &json!({"a": 1, "c": 3}));
+        assert!(changes
+            .iter()
+            .any(|c| c.path == "b" && c.change_type == ChangeType::Deleted));
+        assert!(changes
+            .iter()
+            .any(|c| c.path == "c" && c.change_type == ChangeType::Added));
     }
 
     // ── Full pipeline ───────────────────────────────────────────────────
@@ -672,17 +689,44 @@ mod tests {
     #[test]
     fn full_pipeline_all_categories() {
         let old = make_graph(vec![
-            ("renamed", json!({"name": {"property": "old-name"}, "uuid": "u1", "value": "1"})),
-            ("to-delete", json!({"name": {"property": "to-delete"}, "uuid": "u2", "value": "2"})),
-            ("to-update", json!({"name": {"property": "to-update"}, "uuid": "u3", "value": "old"})),
-            ("to-revert", json!({"name": {"property": "to-revert"}, "uuid": "u4", "deprecated": true, "value": "4"})),
+            (
+                "renamed",
+                json!({"name": {"property": "old-name"}, "uuid": "u1", "value": "1"}),
+            ),
+            (
+                "to-delete",
+                json!({"name": {"property": "to-delete"}, "uuid": "u2", "value": "2"}),
+            ),
+            (
+                "to-update",
+                json!({"name": {"property": "to-update"}, "uuid": "u3", "value": "old"}),
+            ),
+            (
+                "to-revert",
+                json!({"name": {"property": "to-revert"}, "uuid": "u4", "deprecated": true, "value": "4"}),
+            ),
         ]);
         let new = make_graph(vec![
-            ("renamed-new", json!({"name": {"property": "new-name"}, "uuid": "u1", "value": "1"})),
-            ("to-add", json!({"name": {"property": "to-add"}, "value": "new"})),
-            ("to-deprecate", json!({"name": {"property": "to-deprecate"}, "deprecated": true, "value": "dep"})),
-            ("to-update", json!({"name": {"property": "to-update"}, "uuid": "u3", "value": "new"})),
-            ("to-revert", json!({"name": {"property": "to-revert"}, "uuid": "u4", "value": "4"})),
+            (
+                "renamed-new",
+                json!({"name": {"property": "new-name"}, "uuid": "u1", "value": "1"}),
+            ),
+            (
+                "to-add",
+                json!({"name": {"property": "to-add"}, "value": "new"}),
+            ),
+            (
+                "to-deprecate",
+                json!({"name": {"property": "to-deprecate"}, "deprecated": true, "value": "dep"}),
+            ),
+            (
+                "to-update",
+                json!({"name": {"property": "to-update"}, "uuid": "u3", "value": "new"}),
+            ),
+            (
+                "to-revert",
+                json!({"name": {"property": "to-revert"}, "uuid": "u4", "value": "4"}),
+            ),
         ]);
         let report = semantic_diff(&old, &new);
         assert_eq!(report.renamed.len(), 1, "should have 1 renamed");
@@ -696,10 +740,19 @@ mod tests {
     #[test]
     fn empty_diff_identical_graphs() {
         let g = make_graph(vec![
-            ("a", json!({"name": {"property": "a"}, "uuid": "u1", "value": "1"})),
-            ("b", json!({"name": {"property": "b"}, "uuid": "u2", "value": "2"})),
+            (
+                "a",
+                json!({"name": {"property": "a"}, "uuid": "u1", "value": "1"}),
+            ),
+            (
+                "b",
+                json!({"name": {"property": "b"}, "uuid": "u2", "value": "2"}),
+            ),
         ]);
         let report = semantic_diff(&g, &g);
-        assert!(report.is_empty(), "identical graphs should produce empty diff");
+        assert!(
+            report.is_empty(),
+            "identical graphs should produce empty diff"
+        );
     }
 }

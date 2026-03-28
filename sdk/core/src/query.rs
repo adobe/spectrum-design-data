@@ -256,10 +256,7 @@ pub fn build_index(graph: &TokenGraph, key: &str) -> HashMap<String, Vec<String>
     let mut index: HashMap<String, Vec<String>> = HashMap::new();
     for (graph_key, token) in &graph.tokens {
         if let Some(value) = resolve_key(&token.raw, key) {
-            index
-                .entry(value)
-                .or_default()
-                .push(graph_key.clone());
+            index.entry(value).or_default().push(graph_key.clone());
         }
     }
     index
@@ -403,8 +400,14 @@ mod tests {
     #[test]
     fn filter_single_match() {
         let g = make_graph(vec![
-            ("btn", json!({"name": {"property": "bg", "component": "button"}, "value": "1"})),
-            ("chk", json!({"name": {"property": "bg", "component": "checkbox"}, "value": "2"})),
+            (
+                "btn",
+                json!({"name": {"property": "bg", "component": "button"}, "value": "1"}),
+            ),
+            (
+                "chk",
+                json!({"name": {"property": "bg", "component": "checkbox"}, "value": "2"}),
+            ),
         ]);
         let f = parse("component=button").unwrap();
         let results = filter(&g, &f);
@@ -415,9 +418,18 @@ mod tests {
     #[test]
     fn filter_and() {
         let g = make_graph(vec![
-            ("btn-hover", json!({"name": {"property": "bg", "component": "button", "state": "hover"}, "value": "1"})),
-            ("btn-default", json!({"name": {"property": "bg", "component": "button"}, "value": "2"})),
-            ("chk-hover", json!({"name": {"property": "bg", "component": "checkbox", "state": "hover"}, "value": "3"})),
+            (
+                "btn-hover",
+                json!({"name": {"property": "bg", "component": "button", "state": "hover"}, "value": "1"}),
+            ),
+            (
+                "btn-default",
+                json!({"name": {"property": "bg", "component": "button"}, "value": "2"}),
+            ),
+            (
+                "chk-hover",
+                json!({"name": {"property": "bg", "component": "checkbox", "state": "hover"}, "value": "3"}),
+            ),
         ]);
         let f = parse("component=button,state=hover").unwrap();
         let results = filter(&g, &f);
@@ -427,9 +439,18 @@ mod tests {
     #[test]
     fn filter_or() {
         let g = make_graph(vec![
-            ("btn", json!({"name": {"property": "bg", "component": "button"}, "value": "1"})),
-            ("chk", json!({"name": {"property": "bg", "component": "checkbox"}, "value": "2"})),
-            ("slider", json!({"name": {"property": "bg", "component": "slider"}, "value": "3"})),
+            (
+                "btn",
+                json!({"name": {"property": "bg", "component": "button"}, "value": "1"}),
+            ),
+            (
+                "chk",
+                json!({"name": {"property": "bg", "component": "checkbox"}, "value": "2"}),
+            ),
+            (
+                "slider",
+                json!({"name": {"property": "bg", "component": "slider"}, "value": "3"}),
+            ),
         ]);
         let f = parse("component=button|component=checkbox").unwrap();
         let results = filter(&g, &f);
@@ -439,8 +460,14 @@ mod tests {
     #[test]
     fn filter_negation() {
         let g = make_graph(vec![
-            ("light", json!({"name": {"property": "bg", "colorScheme": "light"}, "value": "1"})),
-            ("dark", json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "2"})),
+            (
+                "light",
+                json!({"name": {"property": "bg", "colorScheme": "light"}, "value": "1"}),
+            ),
+            (
+                "dark",
+                json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "2"}),
+            ),
             ("none", json!({"name": {"property": "bg"}, "value": "3"})),
         ]);
         let f = parse("colorScheme!=light").unwrap();
@@ -452,9 +479,18 @@ mod tests {
     #[test]
     fn filter_wildcard() {
         let g = make_graph(vec![
-            ("bg", json!({"name": {"property": "background-color"}, "value": "1"})),
-            ("border", json!({"name": {"property": "border-color"}, "value": "2"})),
-            ("size", json!({"name": {"property": "font-size"}, "value": "3"})),
+            (
+                "bg",
+                json!({"name": {"property": "background-color"}, "value": "1"}),
+            ),
+            (
+                "border",
+                json!({"name": {"property": "border-color"}, "value": "2"}),
+            ),
+            (
+                "size",
+                json!({"name": {"property": "font-size"}, "value": "3"}),
+            ),
         ]);
         let f = parse("property=*-color").unwrap();
         let results = filter(&g, &f);
@@ -464,8 +500,14 @@ mod tests {
     #[test]
     fn filter_schema_key() {
         let g = make_graph(vec![
-            ("color", json!({"name": {"property": "bg"}, "$schema": "https://example.com/color.json", "value": "1"})),
-            ("size", json!({"name": {"property": "sz"}, "$schema": "https://example.com/dimension.json", "value": "2"})),
+            (
+                "color",
+                json!({"name": {"property": "bg"}, "$schema": "https://example.com/color.json", "value": "1"}),
+            ),
+            (
+                "size",
+                json!({"name": {"property": "sz"}, "$schema": "https://example.com/dimension.json", "value": "2"}),
+            ),
         ]);
         let f = parse("$schema=https://example.com/color.json").unwrap();
         let results = filter(&g, &f);
@@ -499,9 +541,18 @@ mod tests {
     #[test]
     fn build_index_groups_by_value() {
         let g = make_graph(vec![
-            ("a", json!({"name": {"property": "bg", "component": "button"}, "value": "1"})),
-            ("b", json!({"name": {"property": "fg", "component": "button"}, "value": "2"})),
-            ("c", json!({"name": {"property": "bg", "component": "checkbox"}, "value": "3"})),
+            (
+                "a",
+                json!({"name": {"property": "bg", "component": "button"}, "value": "1"}),
+            ),
+            (
+                "b",
+                json!({"name": {"property": "fg", "component": "button"}, "value": "2"}),
+            ),
+            (
+                "c",
+                json!({"name": {"property": "bg", "component": "checkbox"}, "value": "3"}),
+            ),
         ]);
         let idx = build_index(&g, "component");
         assert_eq!(idx.get("button").map(|v| v.len()), Some(2));
