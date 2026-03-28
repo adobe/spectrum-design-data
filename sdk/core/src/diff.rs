@@ -133,7 +133,7 @@ pub fn semantic_diff(old: &TokenGraph, new: &TokenGraph) -> DiffReport {
     let mut renamed_old_names: HashSet<String> = HashSet::new();
     let mut renamed = Vec::new();
     for p in &pairs {
-        if !names_equal(&p.old.raw, &p.new.raw) {
+        if !names_equal(p.old, p.new) {
             renamed_old_names.insert(p.old.name.clone());
             let changes = diff_properties(&p.old.raw, &p.new.raw);
             renamed.push(RenamedToken {
@@ -162,7 +162,7 @@ pub fn semantic_diff(old: &TokenGraph, new: &TokenGraph) -> DiffReport {
     let mut reverted_names: HashSet<String> = HashSet::new();
     let mut reverted = Vec::new();
     for p in &pairs {
-        if names_equal(&p.old.raw, &p.new.raw)
+        if names_equal(p.old, p.new)
             && has_deprecated_field(&p.old.raw)
             && !has_deprecated_field(&p.new.raw)
         {
@@ -199,7 +199,7 @@ pub fn semantic_diff(old: &TokenGraph, new: &TokenGraph) -> DiffReport {
     // 6. Updated — paired tokens with same name but different properties.
     let mut updated = Vec::new();
     for p in &pairs {
-        if names_equal(&p.old.raw, &p.new.raw) && !reverted_names.contains(&p.new.name) {
+        if names_equal(p.old, p.new) && !reverted_names.contains(&p.new.name) {
             let changes = diff_properties(&p.old.raw, &p.new.raw);
             if !changes.is_empty() {
                 updated.push(UpdatedToken {
@@ -276,14 +276,15 @@ fn pair_tokens<'a>(
         }
     }
 
-    // Pass 2: Name-object equivalence fallback for unmatched tokens.
-    // Build an index of unmatched old tokens by their serialized name object.
+    // Pass 2: Name equivalence fallback for unmatched tokens.
+    // For cascade tokens, compare the serialized `raw["name"]` object.
+    // For legacy tokens (no `raw["name"]`), compare `TokenRecord.name`
+    // (the outer object key used as the graph key).
     let mut old_by_name: HashMap<String, &str> = HashMap::new();
     for (key, t) in &old.tokens {
         if !matched_old.contains(key.as_str()) {
-            if let Some(name_key) = serialize_name_obj(&t.raw) {
-                old_by_name.entry(name_key).or_insert(key.as_str());
-            }
+            let name_key = identity_key(t);
+            old_by_name.entry(name_key).or_insert(key.as_str());
         }
     }
 
@@ -291,18 +292,17 @@ fn pair_tokens<'a>(
         if matched_new.contains(new_key) {
             continue;
         }
-        if let Some(name_key) = serialize_name_obj(&new_tok.raw) {
-            if let Some(&old_key) = old_by_name.get(&name_key) {
-                if let Some(old_tok) = old.tokens.get(old_key) {
-                    pairs.push(TokenPair {
-                        old: old_tok,
-                        new: new_tok,
-                    });
-                    matched_old.insert(old_key.to_string());
-                    matched_new.insert(new_key.clone());
-                    // Remove from name index so it can't be double-matched.
-                    old_by_name.remove(&name_key);
-                }
+        let name_key = identity_key(new_tok);
+        if let Some(&old_key) = old_by_name.get(&name_key) {
+            if let Some(old_tok) = old.tokens.get(old_key) {
+                pairs.push(TokenPair {
+                    old: old_tok,
+                    new: new_tok,
+                });
+                matched_old.insert(old_key.to_string());
+                matched_new.insert(new_key.clone());
+                // Remove from name index so it can't be double-matched.
+                old_by_name.remove(&name_key);
             }
         }
     }
@@ -323,31 +323,60 @@ fn pair_tokens<'a>(
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
 
-/// Serialize a token's `name` object to a canonical JSON string for comparison.
-fn serialize_name_obj(raw: &Value) -> Option<String> {
-    let name = raw.get("name")?;
-    // Canonical: serde_json sorts map keys deterministically when serializing.
-    serde_json::to_string(name).ok()
+/// Produce a stable identity key for a token, used to pair tokens across graphs.
+///
+/// Cascade tokens carry a structured `raw["name"]` object — serialize it to a
+/// canonical JSON string. Legacy tokens have no `raw["name"]`; their identity
+/// is the outer object key stored in `TokenRecord.name`.
+fn identity_key(t: &TokenRecord) -> String {
+    if let Some(name) = t.raw.get("name") {
+        // Prefix with "name:" to avoid collisions with legacy keys.
+        format!("name:{}", serde_json::to_string(name).unwrap_or_default())
+    } else {
+        format!("key:{}", t.name)
+    }
 }
 
-/// Check if two tokens have the same name object (deep equal).
-fn names_equal(old_raw: &Value, new_raw: &Value) -> bool {
-    match (old_raw.get("name"), new_raw.get("name")) {
+/// Check if two tokens have the same name.
+///
+/// Cascade tokens: compare `raw["name"]` objects (deep equal).
+/// Legacy tokens: compare `TokenRecord.name` (the graph key).
+/// Mixed: never equal (different identity schemes).
+fn names_equal(old: &TokenRecord, new: &TokenRecord) -> bool {
+    match (old.raw.get("name"), new.raw.get("name")) {
         (Some(a), Some(b)) => a == b,
-        (None, None) => true,
+        (None, None) => old.name == new.name,
         _ => false,
     }
 }
 
 /// Get a human-readable display name for a token.
-/// Prefers `name.property` if present; falls back to the graph key.
+///
+/// Cascade tokens: serialize the full `name` object as a compact string
+/// (e.g. `background-color[colorScheme=dark]`). Falls back to just
+/// `name.property` if other fields are absent.
+/// Legacy tokens: use the graph key (`TokenRecord.name`).
 fn display_name(t: &TokenRecord) -> String {
-    t.raw
-        .get("name")
-        .and_then(|n| n.get("property"))
-        .and_then(|v| v.as_str())
-        .map(String::from)
-        .unwrap_or_else(|| t.name.clone())
+    if let Some(name_obj) = t.raw.get("name").and_then(|v| v.as_object()) {
+        let property = name_obj
+            .get("property")
+            .and_then(|v| v.as_str())
+            .unwrap_or("?");
+        // Collect non-property fields as dimension qualifiers.
+        let mut qualifiers: Vec<String> = name_obj
+            .iter()
+            .filter(|(k, _)| *k != "property")
+            .map(|(k, v)| format!("{k}={}", v.as_str().unwrap_or("?")))
+            .collect();
+        qualifiers.sort();
+        if qualifiers.is_empty() {
+            property.to_string()
+        } else {
+            format!("{property}[{}]", qualifiers.join(","))
+        }
+    } else {
+        t.name.clone()
+    }
 }
 
 /// Check if a token has a `deprecated` field (at the top level or via
@@ -516,6 +545,50 @@ mod tests {
         assert_eq!(pairs.len(), 1, "UUID backfill must not break pairing");
         assert!(unpaired_old.is_empty());
         assert!(unpaired_new.is_empty());
+    }
+
+    #[test]
+    fn pair_legacy_tokens_by_graph_key() {
+        // Legacy tokens have no raw["name"] — pairing must use TokenRecord.name.
+        let old = make_graph(vec![(
+            "background-color-default",
+            json!({"$schema": ".../color.json", "value": "#fff"}),
+        )]);
+        let new = make_graph(vec![(
+            "background-color-default",
+            json!({"$schema": ".../color.json", "value": "#000"}),
+        )]);
+        let (pairs, unpaired_old, unpaired_new) = pair_tokens(&old, &new);
+        assert_eq!(pairs.len(), 1, "legacy tokens must pair by graph key");
+        assert!(unpaired_old.is_empty());
+        assert!(unpaired_new.is_empty());
+    }
+
+    #[test]
+    fn legacy_rename_detected_by_uuid() {
+        // Legacy tokens paired by UUID with different graph keys = rename.
+        let old = make_graph(vec![(
+            "old-bg-color",
+            json!({"$schema": ".../color.json", "uuid": "uuid-1", "value": "#fff"}),
+        )]);
+        let new = make_graph(vec![(
+            "new-bg-color",
+            json!({"$schema": ".../color.json", "uuid": "uuid-1", "value": "#fff"}),
+        )]);
+        let report = semantic_diff(&old, &new);
+        assert_eq!(report.renamed.len(), 1, "legacy rename must be detected");
+        assert_eq!(report.renamed[0].old_name, "old-bg-color");
+        assert_eq!(report.renamed[0].new_name, "new-bg-color");
+    }
+
+    #[test]
+    fn display_name_shows_full_cascade_name() {
+        let t = &make_graph(vec![(
+            "key",
+            json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#000"}),
+        )]);
+        let token = t.tokens.values().next().unwrap();
+        assert_eq!(display_name(token), "bg[colorScheme=dark]");
     }
 
     // ── Rename detection ────────────────────────────────────────────────
