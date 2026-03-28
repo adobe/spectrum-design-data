@@ -40,7 +40,7 @@
 //!
 //! `$ref` values are denormalized back to `value: "{target}"` alias syntax.
 
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
 
 use serde_json::{Map, Value};
@@ -95,7 +95,7 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<LegacySummary,
             continue;
         };
 
-        let legacy = convert_array(arr, &mut summary);
+        let legacy = convert_array(arr, &mut summary)?;
         if legacy.is_empty() {
             continue;
         }
@@ -136,10 +136,15 @@ pub fn convert_token(token: &Map<String, Value>) -> Option<(String, Value)> {
 
 /// Convert a cascade array to a legacy object map.
 ///
-/// Tokens that share a `name.property` and differ only by a dimension key are
-/// grouped into a `color-set` or `scale-set` entry. Tokens with no recognized
-/// dimension key are emitted as flat entries.
-fn convert_array(arr: &[Value], summary: &mut LegacySummary) -> Map<String, Value> {
+/// Tokens that share a `name.property` and differ only by a **single** dimension
+/// key are grouped into a `color-set` or `scale-set` entry. Tokens with no
+/// recognized dimension key are emitted as flat entries.
+///
+/// Returns `Err(CoreError::MultiDimensionalToken)` if any property group has
+/// tokens spread across more than one dimension (e.g. colorScheme × scale).
+/// The legacy format has no representation for such combinations; emitting a
+/// partial output would silently discard data.
+fn convert_array(arr: &[Value], summary: &mut LegacySummary) -> Result<Map<String, Value>, CoreError> {
     // Group tokens by property name, preserving document order via BTreeMap.
     let mut groups: BTreeMap<String, Vec<&Map<String, Value>>> = BTreeMap::new();
 
@@ -157,15 +162,19 @@ fn convert_array(arr: &[Value], summary: &mut LegacySummary) -> Map<String, Valu
             continue;
         }
 
-        // Detect dimension key across the group.
-        let dim_key = detect_dimension_key(&tokens);
+        // Collect ALL distinct dimension keys present across this property group.
+        let dim_keys = collect_dimension_keys(&tokens);
 
-        let entry = if let Some(dim) = dim_key {
+        if dim_keys.len() > 1 {
+            return Err(CoreError::MultiDimensionalToken(property));
+        }
+
+        let entry = if let Some(dim) = dim_keys.into_iter().next() {
             let result = build_set_entry(&property, &tokens, dim, summary);
             summary.sets_reconstructed += 1;
             result
         } else {
-            // Use the first token (base/default variant) as the flat entry.
+            // No dimension key → flat entry (use first token, base/default variant).
             summary.flat_tokens += 1;
             build_flat_entry(tokens[0])
         };
@@ -174,25 +183,26 @@ fn convert_array(arr: &[Value], summary: &mut LegacySummary) -> Map<String, Valu
         out.insert(property, entry);
     }
 
-    out
+    Ok(out)
 }
 
-/// Detect the dimension key used by a group of tokens (e.g. `colorScheme`, `scale`).
-/// Returns `None` if no recognized set-forming dimension is present.
-fn detect_dimension_key<'a>(tokens: &[&'a Map<String, Value>]) -> Option<&'a str> {
-    // A set dimension is one where at least one token in the group has that key
-    // in its name object. We prefer colorScheme, then scale.
-    let set_dims = ["colorScheme", "scale"];
-    for tok in tokens.iter() {
+/// Collect the set of recognized dimension keys present in any token in the group.
+///
+/// Only the known set-forming dimensions are considered (`colorScheme`, `scale`).
+/// Returns a sorted set so error messages are deterministic.
+fn collect_dimension_keys(tokens: &[&Map<String, Value>]) -> BTreeSet<&'static str> {
+    const SET_DIMS: &[&str] = &["colorScheme", "scale"];
+    let mut found = BTreeSet::new();
+    for tok in tokens {
         if let Some(name_obj) = tok.get("name").and_then(|v| v.as_object()) {
-            for dim in &set_dims {
+            for dim in SET_DIMS {
                 if name_obj.contains_key(*dim) {
-                    return Some(dim);
+                    found.insert(*dim);
                 }
             }
         }
     }
-    None
+    found
 }
 
 /// Build a `color-set` or `scale-set` outer entry from a group of cascade tokens.
@@ -401,7 +411,7 @@ mod tests {
              "$schema": ".../opacity.json", "value": "0.4", "uuid": "cs-0003"}
         ]);
         let mut summary = LegacySummary::default();
-        let out = convert_array(arr.as_array().unwrap(), &mut summary);
+        let out = convert_array(arr.as_array().unwrap(), &mut summary).unwrap();
 
         assert!(out.contains_key("overlay-opacity"));
         let entry = &out["overlay-opacity"];
@@ -421,7 +431,7 @@ mod tests {
              "$schema": ".../dimension.json", "value": "10px", "uuid": "ss-0002"}
         ]);
         let mut summary = LegacySummary::default();
-        let out = convert_array(arr.as_array().unwrap(), &mut summary);
+        let out = convert_array(arr.as_array().unwrap(), &mut summary).unwrap();
 
         let entry = &out["spacing-100"];
         assert!(entry["$schema"].as_str().unwrap().ends_with("scale-set.json"));
@@ -438,13 +448,11 @@ mod tests {
              "value": "#000", "uuid": "lc-0002", "deprecated": true, "renamed": "new-color"}
         ]);
         let mut summary = LegacySummary::default();
-        let out = convert_array(arr.as_array().unwrap(), &mut summary);
+        let out = convert_array(arr.as_array().unwrap(), &mut summary).unwrap();
 
         let entry = &out["old-color"];
-        // deprecated and renamed are consistent → hoisted to outer
         assert_eq!(entry["deprecated"], true);
         assert_eq!(entry["renamed"], "new-color");
-        // mode entries should NOT repeat the hoisted fields
         assert!(entry["sets"]["light"].get("deprecated").is_none());
         assert!(entry["sets"]["dark"].get("deprecated").is_none());
     }
@@ -458,12 +466,10 @@ mod tests {
              "value": "#000", "uuid": "lc-0004", "deprecated": true}
         ]);
         let mut summary = LegacySummary::default();
-        let out = convert_array(arr.as_array().unwrap(), &mut summary);
+        let out = convert_array(arr.as_array().unwrap(), &mut summary).unwrap();
 
         let entry = &out["mixed-color"];
-        // Not consistent → should NOT be hoisted
         assert!(entry.get("deprecated").is_none());
-        // Each mode entry should have its own value
         assert_eq!(entry["sets"]["light"]["deprecated"], false);
         assert_eq!(entry["sets"]["dark"]["deprecated"], true);
     }
@@ -479,11 +485,31 @@ mod tests {
              "$schema": ".../alias.json", "$ref": "gray-500", "uuid": "al-0003"}
         ]);
         let mut summary = LegacySummary::default();
-        let out = convert_array(arr.as_array().unwrap(), &mut summary);
+        let out = convert_array(arr.as_array().unwrap(), &mut summary).unwrap();
 
         let entry = &out["action-color"];
         assert_eq!(entry["sets"]["light"]["value"], "{blue-900}");
         assert_eq!(entry["sets"]["dark"]["value"], "{blue-300}");
         assert!(entry["sets"]["light"].get("$ref").is_none());
+    }
+
+    /// Regression for P1: multi-dimensional cascade tokens MUST error, not silently
+    /// discard data. A colorScheme × scale matrix cannot be represented in legacy format.
+    #[test]
+    fn multi_dimensional_tokens_error_not_silently_lose_data() {
+        let arr = json!([
+            {"name": {"property": "bg", "colorScheme": "light", "scale": "desktop"}, "value": "#fff", "uuid": "md-0001"},
+            {"name": {"property": "bg", "colorScheme": "dark",  "scale": "desktop"}, "value": "#000", "uuid": "md-0002"},
+            {"name": {"property": "bg", "colorScheme": "light", "scale": "mobile"},  "value": "#eee", "uuid": "md-0003"},
+            {"name": {"property": "bg", "colorScheme": "dark",  "scale": "mobile"},  "value": "#111", "uuid": "md-0004"}
+        ]);
+        let mut summary = LegacySummary::default();
+        let result = convert_array(arr.as_array().unwrap(), &mut summary);
+        assert!(
+            result.is_err(),
+            "expected Err for multi-dimensional property, got Ok"
+        );
+        let err = result.unwrap_err().to_string();
+        assert!(err.contains("bg"), "error message should name the property: {err}");
     }
 }

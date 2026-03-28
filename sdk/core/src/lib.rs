@@ -38,6 +38,11 @@ pub enum CoreError {
     MissingSchemaId(PathBuf),
     #[error("expected token schema directory at {0}")]
     SchemaDirectoryMissing(PathBuf),
+    #[error(
+        "token property '{0}' has tokens across multiple dimensions and cannot be represented \
+         in legacy set format; convert individual dimension slices separately"
+    )]
+    MultiDimensionalToken(String),
 }
 
 /// Returns the crate name for sanity checks and CLI `--version` wiring later.
@@ -172,6 +177,57 @@ mod relational_conformance {
             default_mode: "xlarge".into(),
         }]);
         assert!(!diagnostics_for_rule(&g, "SPEC-005").is_empty());
+    }
+
+    /// Regression for P1 Bug 1: duplicate UUIDs in a cascade file must be detected
+    /// by SPEC-004, not silently dropped during graph construction.
+    #[test]
+    fn spec004_cascade_duplicate_uuid_not_dropped() {
+        use std::io::Write;
+        use tempfile::TempDir;
+        let dir = TempDir::new().unwrap();
+        let path = dir.path().join("tokens.tokens.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        writeln!(
+            f,
+            r#"[
+              {{"name":{{"property":"a"}},"value":"1","uuid":"dup-uuid-0000-0000-0000-000000000001"}},
+              {{"name":{{"property":"b"}},"value":"2","uuid":"dup-uuid-0000-0000-0000-000000000001"}}
+            ]"#
+        )
+        .unwrap();
+        let g = TokenGraph::from_json_dir(dir.path()).unwrap();
+        // Both tokens must be in the graph (different keys despite same UUID).
+        let matching: Vec<_> = g
+            .tokens
+            .values()
+            .filter(|t| t.uuid.as_deref() == Some("dup-uuid-0000-0000-0000-000000000001"))
+            .collect();
+        assert_eq!(matching.len(), 2, "both tokens with duplicate UUID must be in the graph");
+        // SPEC-004 must fire.
+        assert!(!diagnostics_for_rule(&g, "SPEC-004").is_empty());
+    }
+
+    /// Regression for P1 Bug 2: cascade tokens with duplicate name objects (no UUID)
+    /// must both be in the graph so SPEC-006 can detect the ambiguity.
+    #[test]
+    fn spec006_cascade_duplicate_name_object_not_dropped() {
+        use std::io::Write;
+        use tempfile::TempDir;
+        let dir = TempDir::new().unwrap();
+        let path = dir.path().join("tokens.tokens.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        writeln!(
+            f,
+            r#"[
+              {{"name":{{"property":"bg"}},"value":"white"}},
+              {{"name":{{"property":"bg"}},"value":"offwhite"}}
+            ]"#
+        )
+        .unwrap();
+        let g = TokenGraph::from_json_dir(dir.path()).unwrap();
+        assert_eq!(g.tokens.len(), 2, "both tokens with duplicate name must be in the graph");
+        assert!(!diagnostics_for_rule(&g, "SPEC-006").is_empty());
     }
 
     #[test]
