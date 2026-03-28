@@ -1,0 +1,22 @@
+{
+  "renamed": [
+    {
+      "old_name": "old-name",
+      "new_name": "new-name",
+      "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+      "property_changes": [
+        {
+          "path": "name.property",
+          "change_type": "updated",
+          "new_value": "new-name",
+          "original_value": "old-name"
+        }
+      ]
+    }
+  ],
+  "deprecated": [],
+  "reverted": [],
+  "added": [],
+  "deleted": [],
+  "updated": []
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "name": { "property": "set-deprecated-token" },
+    "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+    "sets": {
+      "light": { "value": "#ffffff", "deprecated": true },
+      "dark": { "value": "#000000", "deprecated": true }
+    }
+  }
+]
