@@ -12,10 +12,11 @@ A **token identity** determines whether a token in the old dataset and a token i
 
 1. **UUID match** — If a token in the old dataset and a token in the new dataset share the same `uuid` value, they are the **same token** regardless of name.
 2. **Name-object equivalence** — When a UUID match is not found for a token — because the old token, the new token, or both lack a `uuid`, or because no counterpart with the matching `uuid` exists in the other dataset — two tokens are the same if their `name` objects are deeply equal (all fields present with identical values).
+3. **Replacement link** — When passes 1 and 2 leave an old token unpaired and it carries a `replaced_by` field whose UUID matches an unpaired new token, the pair is established. This enables diff classification as **renamed** for tokens that were deprecated with a machine-readable replacement pointer.
 
-**NORMATIVE:** UUID matching **MUST** take precedence over name-object equivalence. A UUID match always identifies the token pair, even if name objects differ (which constitutes a rename).
+**NORMATIVE:** UUID matching **MUST** take precedence over name-object equivalence, which **MUST** take precedence over replacement link matching. A UUID match always identifies the token pair, even if name objects differ (which constitutes a rename).
 
-**RATIONALE:** UUID-based identity allows tokens to be renamed without breaking continuity tracking. Name-object equivalence is a fallback for legacy datasets that predate UUID adoption.
+**RATIONALE:** UUID-based identity allows tokens to be renamed without breaking continuity tracking. Name-object equivalence is a fallback for legacy datasets that predate UUID adoption. Replacement link matching is a tertiary fallback for deprecated tokens that carry an explicit `replaced_by` UUID pointing to their successor.
 
 ## Change taxonomy
 

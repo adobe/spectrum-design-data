@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-011",
+      "severity": "error",
+      "message_pattern": "replaced_by is an array but deprecated_comment is missing"
+    }
+  ]
+}

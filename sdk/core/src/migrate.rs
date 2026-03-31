@@ -60,8 +60,10 @@ const OUTER_LIFECYCLE_FIELDS: &[&str] = &[
     "deprecated",
     "deprecated_comment",
     "renamed",
+    "replaced_by",
+    "plannedRemoval",
+    "introduced",
     "private",
-    "status",
     "description",
 ];
 

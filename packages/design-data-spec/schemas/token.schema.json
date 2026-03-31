@@ -89,16 +89,22 @@
           "type": "string"
         },
         "deprecated": {
-          "type": "boolean"
+          "type": "string",
+          "description": "Spec version when token was deprecated (e.g. \"3.2.0\"). Truthy = deprecated."
         },
         "deprecated_comment": {
           "type": "string"
         },
-        "status": {
-          "type": "string"
+        "replaced_by": {
+          "oneOf": [
+            { "type": "string", "format": "uuid" },
+            { "type": "array", "items": { "type": "string", "format": "uuid" }, "minItems": 1 }
+          ],
+          "description": "UUID(s) of the replacement token(s). Array form requires deprecated_comment."
         },
-        "renamed": {
-          "type": "string"
+        "plannedRemoval": {
+          "type": "string",
+          "description": "Spec version when token will be removed."
         },
         "private": {
           "type": "boolean"
@@ -136,16 +142,22 @@
           "type": "string"
         },
         "deprecated": {
-          "type": "boolean"
+          "type": "string",
+          "description": "Spec version when token was deprecated (e.g. \"3.2.0\"). Truthy = deprecated."
         },
         "deprecated_comment": {
           "type": "string"
         },
-        "status": {
-          "type": "string"
+        "replaced_by": {
+          "oneOf": [
+            { "type": "string", "format": "uuid" },
+            { "type": "array", "items": { "type": "string", "format": "uuid" }, "minItems": 1 }
+          ],
+          "description": "UUID(s) of the replacement token(s). Array form requires deprecated_comment."
         },
-        "renamed": {
-          "type": "string"
+        "plannedRemoval": {
+          "type": "string",
+          "description": "Spec version when token will be removed."
         },
         "private": {
           "type": "boolean"

@@ -239,6 +239,8 @@ pub fn semantic_diff(old: &TokenGraph, new: &TokenGraph) -> DiffReport {
 /// 1. UUID match (primary): same `uuid` value in both graphs.
 /// 2. Name-object equivalence (fallback): when UUID match is not found for a
 ///    token (because either side lacks a uuid or no counterpart exists).
+/// 3. Replacement link (tertiary): when an unpaired old token carries a
+///    `replaced_by` UUID matching an unpaired new token.
 fn pair_tokens<'a>(
     old: &'a TokenGraph,
     new: &'a TokenGraph,
@@ -303,6 +305,40 @@ fn pair_tokens<'a>(
                 matched_new.insert(new_key.clone());
                 // Remove from name index so it can't be double-matched.
                 old_by_name.remove(&name_key);
+            }
+        }
+    }
+
+    // Pass 3: Replacement link fallback for unmatched tokens.
+    // If an old token carries `replaced_by` (a UUID string), look up that UUID
+    // in the new graph. If the new token is also unpaired, pair them.
+    // Build new UUID → key index for unpaired new tokens.
+    let mut new_by_uuid: HashMap<&str, &str> = HashMap::new();
+    for (key, t) in &new.tokens {
+        if !matched_new.contains(key) {
+            if let Some(ref uuid) = t.uuid {
+                new_by_uuid.entry(uuid.as_str()).or_insert(key.as_str());
+            }
+        }
+    }
+
+    for (old_key, old_tok) in &old.tokens {
+        if matched_old.contains(old_key.as_str()) {
+            continue;
+        }
+        let target_uuid = old_tok.raw.get("replaced_by").and_then(|v| v.as_str());
+        if let Some(uuid) = target_uuid {
+            if let Some(&new_key) = new_by_uuid.get(uuid) {
+                if let Some(new_tok) = new.tokens.get(new_key) {
+                    pairs.push(TokenPair {
+                        old: old_tok,
+                        new: new_tok,
+                    });
+                    matched_old.insert(old_key.clone());
+                    matched_new.insert(new_key.to_string());
+                    // Remove from new UUID index so it can't be double-matched.
+                    new_by_uuid.remove(uuid);
+                }
             }
         }
     }
@@ -808,6 +844,34 @@ mod tests {
         assert_eq!(report.added.len(), 1, "should have 1 added");
         assert_eq!(report.deleted.len(), 1, "should have 1 deleted");
         assert_eq!(report.updated.len(), 1, "should have 1 updated");
+    }
+
+    #[test]
+    fn replaced_by_pairs_deprecated_to_new() {
+        // Old token is deprecated with replaced_by pointing to new token's UUID.
+        // No shared UUID or name — pairing via replaced_by (pass 3).
+        let old = make_graph(vec![(
+            "old-token",
+            json!({
+                "name": {"property": "old-prop"},
+                "uuid": "uuid-old",
+                "deprecated": "3.0.0",
+                "replaced_by": "uuid-new",
+                "value": "#fff"
+            }),
+        )]);
+        let new = make_graph(vec![(
+            "new-token",
+            json!({
+                "name": {"property": "new-prop"},
+                "uuid": "uuid-new",
+                "value": "#fff"
+            }),
+        )]);
+        let report = semantic_diff(&old, &new);
+        assert_eq!(report.renamed.len(), 1, "should pair via replaced_by");
+        assert!(report.added.is_empty(), "new token should not be added");
+        assert!(report.deleted.is_empty(), "old token should not be deleted");
     }
 
     #[test]

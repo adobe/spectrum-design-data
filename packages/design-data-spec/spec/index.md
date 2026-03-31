@@ -15,10 +15,7 @@ The specification defines:
 4. **Platform manifest** — how a platform repo pins foundation data, filters tokens, and applies typed overrides ([Manifest](manifest.md)).
 5. **Semantic diff** — change taxonomy, token identity rules, and property-level change tracking for comparing dataset versions ([Diff](diff.md)).
 6. **Query notation** — filter syntax for selecting tokens by structured fields ([Query](query.md)).
-
-Out of scope for this draft (tracked elsewhere):
-
-* Full evolution, migration windows, and SDK version negotiation — see [discussion #735](https://github.com/adobe/spectrum-design-data/discussions/735).
+7. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
 
 ## Conformance
 
@@ -60,6 +57,7 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 | [Manifest](manifest.md)         | Platform manifest fields and validation expectations.            |
 | [Diff](diff.md)                 | Semantic diff change taxonomy, token identity, property changes. |
 | [Query](query.md)               | Filter notation for selecting tokens by structured fields.       |
+| [Evolution](evolution.md)       | Deprecation lifecycle, migration windows, change classification. |
 
 ## JSON Schema `$id` and versioning
 
