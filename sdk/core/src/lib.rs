@@ -410,6 +410,26 @@ mod relational_conformance {
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-013").is_empty());
     }
+
+    #[test]
+    fn spec013_multi_digit_semver_ordering() {
+        // 3.10.0 > 3.2.0, so this is valid — should not error.
+        let g = TokenGraph::from_pairs(vec![(
+            "ok".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "ok"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "deprecated": "3.2.0",
+                "plannedRemoval": "3.10.0",
+                "value": "#fff"
+            }),
+        )]);
+        assert!(
+            diagnostics_for_rule(&g, "SPEC-013").is_empty(),
+            "3.10.0 > 3.2.0 — should not error"
+        );
+    }
 }
 
 /// Resolution conformance tests — fixture-driven, closes #768.

@@ -46,10 +46,10 @@ impl ValidationRule for Rule {
                 continue;
             }
 
-            // Check that plannedRemoval does not precede deprecated (lexicographic
-            // comparison works for SemVer strings like "3.2.0" < "4.0.0").
+            // Check that plannedRemoval does not precede deprecated using
+            // numeric segment comparison (handles "3.10.0" > "3.2.0" correctly).
             if let Some(dep) = deprecated_str {
-                if planned < dep {
+                if semver_precedes(planned, dep) {
                     out.push(Diagnostic {
                         file: t.file.clone(),
                         token: Some(t.name.clone()),
@@ -66,5 +66,43 @@ impl ValidationRule for Rule {
             }
         }
         out
+    }
+}
+
+/// Returns true if version `a` precedes version `b` using numeric segment
+/// comparison (e.g. "3.2.0" < "3.10.0"). Falls back to lexicographic
+/// comparison if segments aren't numeric.
+fn semver_precedes(a: &str, b: &str) -> bool {
+    let parse = |s: &str| -> Vec<u64> {
+        s.split('.')
+            .map(|seg| seg.parse::<u64>().unwrap_or(u64::MAX))
+            .collect()
+    };
+    let va = parse(a);
+    let vb = parse(b);
+    va < vb
+}
+
+#[cfg(test)]
+mod tests {
+    use super::semver_precedes;
+
+    #[test]
+    fn basic_ordering() {
+        assert!(semver_precedes("3.1.0", "3.2.0"));
+        assert!(!semver_precedes("3.2.0", "3.1.0"));
+        assert!(!semver_precedes("3.2.0", "3.2.0"));
+    }
+
+    #[test]
+    fn multi_digit_segments() {
+        assert!(semver_precedes("3.2.0", "3.10.0"));
+        assert!(!semver_precedes("3.10.0", "3.2.0"));
+    }
+
+    #[test]
+    fn major_version_difference() {
+        assert!(semver_precedes("3.9.9", "4.0.0"));
+        assert!(!semver_precedes("4.0.0", "3.9.9"));
     }
 }

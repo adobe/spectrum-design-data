@@ -40,6 +40,7 @@
 //! **Flat tokens** (no `sets`) are wrapped with a `name` object and alias syntax
 //! is normalized: `value: "{foo}"` → `$ref: "foo"`.
 
+use std::collections::HashMap;
 use std::path::Path;
 
 use serde_json::{Map, Value};
@@ -89,18 +90,37 @@ pub struct MigrateSummary {
 /// Convert a single legacy token JSON object map entry to cascade token(s).
 ///
 /// Returns one token for flat entries, or N tokens for set tokens (one per mode).
+/// Does not resolve `renamed` → `replaced_by` (no graph context). Use
+/// `convert_dir` for full lifecycle conversion.
 pub fn convert_token(name: &str, token_obj: &Map<String, Value>) -> Vec<Value> {
+    let empty = HashMap::new();
+    convert_token_with_context(name, token_obj, &empty)
+}
+
+/// Convert a single legacy token with access to a name→UUID map for resolving
+/// `renamed` → `replaced_by`.
+fn convert_token_with_context(
+    name: &str,
+    token_obj: &Map<String, Value>,
+    name_to_uuid: &HashMap<&str, &str>,
+) -> Vec<Value> {
     let schema = token_obj
         .get("$schema")
         .and_then(|v| v.as_str())
         .unwrap_or("");
 
     if schema.ends_with("color-set.json") {
-        convert_set(name, token_obj, "colorScheme", COLOR_SET_MODE_ORDER)
+        convert_set(
+            name,
+            token_obj,
+            "colorScheme",
+            COLOR_SET_MODE_ORDER,
+            name_to_uuid,
+        )
     } else if schema.ends_with("scale-set.json") {
-        convert_set(name, token_obj, "scale", SCALE_SET_MODE_ORDER)
+        convert_set(name, token_obj, "scale", SCALE_SET_MODE_ORDER, name_to_uuid)
     } else {
-        vec![build_flat(name, token_obj)]
+        vec![build_flat(name, token_obj, name_to_uuid)]
     }
 }
 
@@ -146,6 +166,16 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<MigrateSummary
 
 /// Convert all entries in a legacy token file object to cascade tokens.
 fn convert_object(obj: &Map<String, Value>, summary: &mut MigrateSummary) -> Vec<Value> {
+    // Build name → UUID map for resolving renamed → replaced_by.
+    let name_to_uuid: HashMap<&str, &str> = obj
+        .iter()
+        .filter_map(|(name, val)| {
+            let tok = val.as_object()?;
+            let uuid = tok.get("uuid")?.as_str()?;
+            Some((name.as_str(), uuid))
+        })
+        .collect();
+
     let mut out = Vec::new();
     for (name, val) in obj {
         let Some(tok_obj) = val.as_object() else {
@@ -156,12 +186,12 @@ fn convert_object(obj: &Map<String, Value>, summary: &mut MigrateSummary) -> Vec
             .and_then(|v| v.as_str())
             .unwrap_or("");
         if schema.ends_with("color-set.json") || schema.ends_with("scale-set.json") {
-            let tokens = convert_token(name, tok_obj);
+            let tokens = convert_token_with_context(name, tok_obj, &name_to_uuid);
             summary.set_entries_unwrapped += tokens.len();
             summary.tokens_produced += tokens.len();
             out.extend(tokens);
         } else {
-            out.push(build_flat(name, tok_obj));
+            out.push(build_flat(name, tok_obj, &name_to_uuid));
             summary.flat_tokens_converted += 1;
             summary.tokens_produced += 1;
         }
@@ -175,10 +205,11 @@ fn convert_set(
     outer: &Map<String, Value>,
     dim_key: &str,
     mode_order: &[&str],
+    name_to_uuid: &HashMap<&str, &str>,
 ) -> Vec<Value> {
     let sets = match outer.get("sets").and_then(|v| v.as_object()) {
         Some(s) => s,
-        None => return vec![build_flat(property, outer)],
+        None => return vec![build_flat(property, outer, name_to_uuid)],
     };
 
     // Emit modes in stable order (defined order first, then any extras).
@@ -197,7 +228,14 @@ fn convert_set(
         .iter()
         .filter_map(|mode| {
             let entry = sets.get(*mode)?.as_object()?;
-            Some(build_set_entry(property, outer, entry, dim_key, mode))
+            Some(build_set_entry(
+                property,
+                outer,
+                entry,
+                dim_key,
+                mode,
+                name_to_uuid,
+            ))
         })
         .collect()
 }
@@ -209,6 +247,7 @@ fn build_set_entry(
     entry: &Map<String, Value>,
     dim_key: &str,
     mode: &str,
+    name_to_uuid: &HashMap<&str, &str>,
 ) -> Value {
     let mut out = Map::new();
 
@@ -246,13 +285,17 @@ fn build_set_entry(
         }
     }
 
-    normalize_lifecycle_for_cascade(&mut out);
+    normalize_lifecycle_for_cascade(&mut out, name_to_uuid);
 
     Value::Object(out)
 }
 
 /// Build a cascade token from a flat (non-set) legacy token.
-fn build_flat(property: &str, token_obj: &Map<String, Value>) -> Value {
+fn build_flat(
+    property: &str,
+    token_obj: &Map<String, Value>,
+    name_to_uuid: &HashMap<&str, &str>,
+) -> Value {
     let mut out = Map::new();
 
     // Name object: property + optional component.
@@ -285,7 +328,7 @@ fn build_flat(property: &str, token_obj: &Map<String, Value>) -> Value {
         }
     }
 
-    normalize_lifecycle_for_cascade(&mut out);
+    normalize_lifecycle_for_cascade(&mut out, name_to_uuid);
 
     Value::Object(out)
 }
@@ -293,8 +336,12 @@ fn build_flat(property: &str, token_obj: &Map<String, Value>) -> Value {
 /// Convert legacy lifecycle fields to cascade model on a token map.
 ///
 /// - `deprecated: true` → `deprecated: "unknown"` (authors should backfill)
-/// - `renamed: "<name>"` → removed (replaced_by must be set manually with UUID)
-fn normalize_lifecycle_for_cascade(entry: &mut Map<String, Value>) {
+/// - `renamed: "<name>"` → `replaced_by: "<uuid>"` (resolved via name_to_uuid map)
+/// - `status` → removed (derivable in cascade model)
+fn normalize_lifecycle_for_cascade(
+    entry: &mut Map<String, Value>,
+    name_to_uuid: &HashMap<&str, &str>,
+) {
     // deprecated: boolean true → version string "unknown"
     if let Some(dep) = entry.get("deprecated") {
         if dep.as_bool() == Some(true) {
@@ -304,8 +351,17 @@ fn normalize_lifecycle_for_cascade(entry: &mut Map<String, Value>) {
         }
     }
 
-    // renamed → remove (can't convert to replaced_by without UUID graph context)
-    entry.remove("renamed");
+    // renamed → replaced_by (resolve name to UUID via the file's token map)
+    if let Some(renamed) = entry
+        .remove("renamed")
+        .and_then(|v| v.as_str().map(String::from))
+    {
+        if let Some(&uuid) = name_to_uuid.get(renamed.as_str()) {
+            entry.insert("replaced_by".into(), Value::String(uuid.to_string()));
+        }
+        // If the target name isn't found in this file, drop silently — the
+        // target may be in another file and replaced_by must be set manually.
+    }
 
     // status → remove (derivable, not part of cascade model)
     entry.remove("status");
