@@ -25,15 +25,12 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
         for t in ctx.graph.tokens.values() {
-            if t.raw.get("plannedRemoval").is_none() {
+            let Some(planned) = t.raw.get("plannedRemoval").and_then(|v| v.as_str()) else {
                 continue;
-            }
-            let has_deprecated = t
-                .raw
-                .as_object()
-                .map(|o| o.contains_key("deprecated"))
-                .unwrap_or(false);
-            if !has_deprecated {
+            };
+            let deprecated_str = t.raw.get("deprecated").and_then(|v| v.as_str());
+
+            if deprecated_str.is_none() {
                 out.push(Diagnostic {
                     file: t.file.clone(),
                     token: Some(t.name.clone()),
@@ -46,6 +43,26 @@ impl ValidationRule for Rule {
                     instance_path: None,
                     schema_path: None,
                 });
+                continue;
+            }
+
+            // Check that plannedRemoval does not precede deprecated (lexicographic
+            // comparison works for SemVer strings like "3.2.0" < "4.0.0").
+            if let Some(dep) = deprecated_str {
+                if planned < dep {
+                    out.push(Diagnostic {
+                        file: t.file.clone(),
+                        token: Some(t.name.clone()),
+                        rule_id: Some(self.id().to_string()),
+                        severity: Severity::Error,
+                        message: format!(
+                            "Token {} has plannedRemoval ({planned}) preceding deprecated ({dep})",
+                            t.name
+                        ),
+                        instance_path: None,
+                        schema_path: None,
+                    });
+                }
             }
         }
         out

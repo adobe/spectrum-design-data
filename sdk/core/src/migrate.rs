@@ -246,6 +246,8 @@ fn build_set_entry(
         }
     }
 
+    normalize_lifecycle_for_cascade(&mut out);
+
     Value::Object(out)
 }
 
@@ -283,7 +285,30 @@ fn build_flat(property: &str, token_obj: &Map<String, Value>) -> Value {
         }
     }
 
+    normalize_lifecycle_for_cascade(&mut out);
+
     Value::Object(out)
+}
+
+/// Convert legacy lifecycle fields to cascade model on a token map.
+///
+/// - `deprecated: true` → `deprecated: "unknown"` (authors should backfill)
+/// - `renamed: "<name>"` → removed (replaced_by must be set manually with UUID)
+fn normalize_lifecycle_for_cascade(entry: &mut Map<String, Value>) {
+    // deprecated: boolean true → version string "unknown"
+    if let Some(dep) = entry.get("deprecated") {
+        if dep.as_bool() == Some(true) {
+            entry.insert("deprecated".into(), Value::String("unknown".into()));
+        } else if dep.as_bool() == Some(false) {
+            entry.remove("deprecated");
+        }
+    }
+
+    // renamed → remove (can't convert to replaced_by without UUID graph context)
+    entry.remove("renamed");
+
+    // status → remove (derivable, not part of cascade model)
+    entry.remove("status");
 }
 
 /// Insert `value` or `$ref` into the output map from a source object.
@@ -406,9 +431,11 @@ mod tests {
         );
         assert_eq!(tokens.len(), 2);
         for t in &tokens {
-            assert_eq!(t["deprecated"], true);
+            // deprecated: true → "unknown" in cascade model
+            assert_eq!(t["deprecated"], "unknown");
             assert_eq!(t["deprecated_comment"], "use new-token instead");
-            assert_eq!(t["renamed"], "new-token");
+            // renamed is stripped (replaced_by with UUID should be set manually)
+            assert!(t.get("renamed").is_none(), "renamed should be stripped");
         }
     }
 
@@ -425,10 +452,13 @@ mod tests {
                 }
             })),
         );
-        // desktop entry overrides outer deprecated=true with false
-        assert_eq!(tokens[0]["deprecated"], false);
-        // mobile entry inherits outer deprecated=true
-        assert_eq!(tokens[1]["deprecated"], true);
+        // desktop entry overrides outer deprecated=true with false → removed
+        assert!(
+            tokens[0].get("deprecated").is_none(),
+            "deprecated: false should be stripped"
+        );
+        // mobile entry inherits outer deprecated=true → "unknown"
+        assert_eq!(tokens[1]["deprecated"], "unknown");
     }
 
     #[test]

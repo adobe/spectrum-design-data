@@ -373,6 +373,43 @@ mod relational_conformance {
         )]);
         assert!(!diagnostics_for_rule(&g, "SPEC-013").is_empty());
     }
+
+    #[test]
+    fn spec013_planned_removal_precedes_deprecated() {
+        let g = TokenGraph::from_pairs(vec![(
+            "bad".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "bad"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "deprecated": "3.2.0",
+                "plannedRemoval": "3.1.0",
+                "value": "#fff"
+            }),
+        )]);
+        let diags = diagnostics_for_rule(&g, "SPEC-013");
+        assert!(!diags.is_empty(), "should catch preceding plannedRemoval");
+        assert!(
+            diags[0].message.contains("preceding"),
+            "message should mention version ordering"
+        );
+    }
+
+    #[test]
+    fn spec013_valid_planned_removal_no_error() {
+        let g = TokenGraph::from_pairs(vec![(
+            "ok".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "ok"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "deprecated": "3.2.0",
+                "plannedRemoval": "4.0.0",
+                "value": "#fff"
+            }),
+        )]);
+        assert!(diagnostics_for_rule(&g, "SPEC-013").is_empty());
+    }
 }
 
 /// Resolution conformance tests — fixture-driven, closes #768.
