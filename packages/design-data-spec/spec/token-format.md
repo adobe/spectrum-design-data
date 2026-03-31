@@ -98,7 +98,7 @@ When generating legacy-format output from cascade tokens:
 When migrating legacy-format tokens to cascade:
 
 - `deprecated: true` maps to `deprecated: "unknown"` (authors should backfill the actual version)
-- `renamed: "<name>"` maps to `replaced_by: "<uuid>"` (resolved via name lookup in the graph)
+- `renamed: "<name>"` maps to `replaced_by: "<uuid>"` (resolved via name lookup across all files in the migrated input set). If the rename target is not found in the scanned corpus, the field is dropped — `replaced_by` must be set manually in that case
 
 ### `specVersion`
 

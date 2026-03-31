@@ -576,7 +576,9 @@ mod tests {
     fn convert_dir_resolves_cross_file_renamed_to_replaced_by() {
         use std::fs;
 
-        let tmp = std::env::temp_dir().join("migrate_cross_file_test");
+        // Use a unique dir name to avoid collisions across concurrent test runs.
+        let id = std::process::id();
+        let tmp = std::env::temp_dir().join(format!("migrate_cross_file_test_{id}"));
         let input = tmp.join("input");
         let output = tmp.join("output");
         let _ = fs::remove_dir_all(&tmp);
