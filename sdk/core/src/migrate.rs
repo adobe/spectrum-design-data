@@ -40,6 +40,7 @@
 //! **Flat tokens** (no `sets`) are wrapped with a `name` object and alias syntax
 //! is normalized: `value: "{foo}"` → `$ref: "foo"`.
 
+use std::collections::HashMap;
 use std::path::Path;
 
 use serde_json::{Map, Value};
@@ -60,8 +61,10 @@ const OUTER_LIFECYCLE_FIELDS: &[&str] = &[
     "deprecated",
     "deprecated_comment",
     "renamed",
+    "replaced_by",
+    "plannedRemoval",
+    "introduced",
     "private",
-    "status",
     "description",
 ];
 
@@ -87,18 +90,37 @@ pub struct MigrateSummary {
 /// Convert a single legacy token JSON object map entry to cascade token(s).
 ///
 /// Returns one token for flat entries, or N tokens for set tokens (one per mode).
+/// Does not resolve `renamed` → `replaced_by` (no graph context). Use
+/// `convert_dir` for full lifecycle conversion.
 pub fn convert_token(name: &str, token_obj: &Map<String, Value>) -> Vec<Value> {
+    let empty = HashMap::new();
+    convert_token_with_context(name, token_obj, &empty)
+}
+
+/// Convert a single legacy token with access to a name→UUID map for resolving
+/// `renamed` → `replaced_by`.
+fn convert_token_with_context(
+    name: &str,
+    token_obj: &Map<String, Value>,
+    name_to_uuid: &HashMap<&str, &str>,
+) -> Vec<Value> {
     let schema = token_obj
         .get("$schema")
         .and_then(|v| v.as_str())
         .unwrap_or("");
 
     if schema.ends_with("color-set.json") {
-        convert_set(name, token_obj, "colorScheme", COLOR_SET_MODE_ORDER)
+        convert_set(
+            name,
+            token_obj,
+            "colorScheme",
+            COLOR_SET_MODE_ORDER,
+            name_to_uuid,
+        )
     } else if schema.ends_with("scale-set.json") {
-        convert_set(name, token_obj, "scale", SCALE_SET_MODE_ORDER)
+        convert_set(name, token_obj, "scale", SCALE_SET_MODE_ORDER, name_to_uuid)
     } else {
-        vec![build_flat(name, token_obj)]
+        vec![build_flat(name, token_obj, name_to_uuid)]
     }
 }
 
@@ -111,15 +133,40 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<MigrateSummary
     std::fs::create_dir_all(output_dir)?;
     let mut summary = MigrateSummary::default();
 
-    for input_path in discover_json_files(input_dir)? {
-        // Skip files that don't look like legacy token sources (e.g. schemas).
-        let text = std::fs::read_to_string(&input_path)?;
+    // Pass 1: scan all files to build a global name → UUID map for cross-file
+    // renamed → replaced_by resolution.
+    let files = discover_json_files(input_dir)?;
+    let mut global_name_to_uuid: HashMap<String, String> = HashMap::new();
+    let mut file_contents: Vec<(std::path::PathBuf, Value)> = Vec::new();
+
+    for input_path in &files {
+        let text = std::fs::read_to_string(input_path)?;
         let value: Value = serde_json::from_str(&text)?;
+        if let Some(obj) = value.as_object() {
+            for (name, val) in obj {
+                if let Some(tok) = val.as_object() {
+                    if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
+                        global_name_to_uuid.insert(name.clone(), uuid.to_string());
+                    }
+                }
+            }
+        }
+        file_contents.push((input_path.clone(), value));
+    }
+
+    // Build a borrowed view for the conversion functions.
+    let name_to_uuid_ref: HashMap<&str, &str> = global_name_to_uuid
+        .iter()
+        .map(|(k, v)| (k.as_str(), v.as_str()))
+        .collect();
+
+    // Pass 2: convert each file using the global map.
+    for (input_path, value) in &file_contents {
         let Some(obj) = value.as_object() else {
             continue;
         };
 
-        let tokens = convert_object(obj, &mut summary);
+        let tokens = convert_object_with_context(obj, &mut summary, &name_to_uuid_ref);
         if tokens.is_empty() {
             continue;
         }
@@ -143,7 +190,11 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<MigrateSummary
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
 /// Convert all entries in a legacy token file object to cascade tokens.
-fn convert_object(obj: &Map<String, Value>, summary: &mut MigrateSummary) -> Vec<Value> {
+fn convert_object_with_context(
+    obj: &Map<String, Value>,
+    summary: &mut MigrateSummary,
+    name_to_uuid: &HashMap<&str, &str>,
+) -> Vec<Value> {
     let mut out = Vec::new();
     for (name, val) in obj {
         let Some(tok_obj) = val.as_object() else {
@@ -154,12 +205,12 @@ fn convert_object(obj: &Map<String, Value>, summary: &mut MigrateSummary) -> Vec
             .and_then(|v| v.as_str())
             .unwrap_or("");
         if schema.ends_with("color-set.json") || schema.ends_with("scale-set.json") {
-            let tokens = convert_token(name, tok_obj);
+            let tokens = convert_token_with_context(name, tok_obj, name_to_uuid);
             summary.set_entries_unwrapped += tokens.len();
             summary.tokens_produced += tokens.len();
             out.extend(tokens);
         } else {
-            out.push(build_flat(name, tok_obj));
+            out.push(build_flat(name, tok_obj, name_to_uuid));
             summary.flat_tokens_converted += 1;
             summary.tokens_produced += 1;
         }
@@ -173,10 +224,11 @@ fn convert_set(
     outer: &Map<String, Value>,
     dim_key: &str,
     mode_order: &[&str],
+    name_to_uuid: &HashMap<&str, &str>,
 ) -> Vec<Value> {
     let sets = match outer.get("sets").and_then(|v| v.as_object()) {
         Some(s) => s,
-        None => return vec![build_flat(property, outer)],
+        None => return vec![build_flat(property, outer, name_to_uuid)],
     };
 
     // Emit modes in stable order (defined order first, then any extras).
@@ -195,7 +247,14 @@ fn convert_set(
         .iter()
         .filter_map(|mode| {
             let entry = sets.get(*mode)?.as_object()?;
-            Some(build_set_entry(property, outer, entry, dim_key, mode))
+            Some(build_set_entry(
+                property,
+                outer,
+                entry,
+                dim_key,
+                mode,
+                name_to_uuid,
+            ))
         })
         .collect()
 }
@@ -207,6 +266,7 @@ fn build_set_entry(
     entry: &Map<String, Value>,
     dim_key: &str,
     mode: &str,
+    name_to_uuid: &HashMap<&str, &str>,
 ) -> Value {
     let mut out = Map::new();
 
@@ -244,11 +304,17 @@ fn build_set_entry(
         }
     }
 
+    normalize_lifecycle_for_cascade(&mut out, name_to_uuid);
+
     Value::Object(out)
 }
 
 /// Build a cascade token from a flat (non-set) legacy token.
-fn build_flat(property: &str, token_obj: &Map<String, Value>) -> Value {
+fn build_flat(
+    property: &str,
+    token_obj: &Map<String, Value>,
+    name_to_uuid: &HashMap<&str, &str>,
+) -> Value {
     let mut out = Map::new();
 
     // Name object: property + optional component.
@@ -281,7 +347,43 @@ fn build_flat(property: &str, token_obj: &Map<String, Value>) -> Value {
         }
     }
 
+    normalize_lifecycle_for_cascade(&mut out, name_to_uuid);
+
     Value::Object(out)
+}
+
+/// Convert legacy lifecycle fields to cascade model on a token map.
+///
+/// - `deprecated: true` → `deprecated: "unknown"` (authors should backfill)
+/// - `renamed: "<name>"` → `replaced_by: "<uuid>"` (resolved via name_to_uuid map)
+/// - `status` → removed (derivable in cascade model)
+fn normalize_lifecycle_for_cascade(
+    entry: &mut Map<String, Value>,
+    name_to_uuid: &HashMap<&str, &str>,
+) {
+    // deprecated: boolean true → version string "unknown"
+    if let Some(dep) = entry.get("deprecated") {
+        if dep.as_bool() == Some(true) {
+            entry.insert("deprecated".into(), Value::String("unknown".into()));
+        } else if dep.as_bool() == Some(false) {
+            entry.remove("deprecated");
+        }
+    }
+
+    // renamed → replaced_by (resolve name to UUID via the file's token map)
+    if let Some(renamed) = entry
+        .remove("renamed")
+        .and_then(|v| v.as_str().map(String::from))
+    {
+        if let Some(&uuid) = name_to_uuid.get(renamed.as_str()) {
+            entry.insert("replaced_by".into(), Value::String(uuid.to_string()));
+        }
+        // If the target name isn't found in this file, drop silently — the
+        // target may be in another file and replaced_by must be set manually.
+    }
+
+    // status → remove (derivable, not part of cascade model)
+    entry.remove("status");
 }
 
 /// Insert `value` or `$ref` into the output map from a source object.
@@ -404,9 +506,11 @@ mod tests {
         );
         assert_eq!(tokens.len(), 2);
         for t in &tokens {
-            assert_eq!(t["deprecated"], true);
+            // deprecated: true → "unknown" in cascade model
+            assert_eq!(t["deprecated"], "unknown");
             assert_eq!(t["deprecated_comment"], "use new-token instead");
-            assert_eq!(t["renamed"], "new-token");
+            // renamed is stripped (replaced_by with UUID should be set manually)
+            assert!(t.get("renamed").is_none(), "renamed should be stripped");
         }
     }
 
@@ -423,10 +527,13 @@ mod tests {
                 }
             })),
         );
-        // desktop entry overrides outer deprecated=true with false
-        assert_eq!(tokens[0]["deprecated"], false);
-        // mobile entry inherits outer deprecated=true
-        assert_eq!(tokens[1]["deprecated"], true);
+        // desktop entry overrides outer deprecated=true with false → removed
+        assert!(
+            tokens[0].get("deprecated").is_none(),
+            "deprecated: false should be stripped"
+        );
+        // mobile entry inherits outer deprecated=true → "unknown"
+        assert_eq!(tokens[1]["deprecated"], "unknown");
     }
 
     #[test]
@@ -463,5 +570,69 @@ mod tests {
         assert_eq!(tokens[0]["$ref"], "blue-500");
         assert_eq!(tokens[1]["$ref"], "blue-300");
         assert!(tokens[0].get("value").is_none());
+    }
+
+    #[test]
+    fn convert_dir_resolves_cross_file_renamed_to_replaced_by() {
+        use std::fs;
+
+        // Use a unique dir name to avoid collisions across concurrent test runs.
+        let id = std::process::id();
+        let tmp = std::env::temp_dir().join(format!("migrate_cross_file_test_{id}"));
+        let input = tmp.join("input");
+        let output = tmp.join("output");
+        let _ = fs::remove_dir_all(&tmp);
+        fs::create_dir_all(&input).unwrap();
+
+        // File 1: old-token with renamed pointing to new-token (in file 2).
+        fs::write(
+            input.join("file1.json"),
+            serde_json::to_string_pretty(&json!({
+                "old-token": {
+                    "$schema": ".../color.json",
+                    "value": "#fff",
+                    "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                    "deprecated": true,
+                    "renamed": "new-token"
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+
+        // File 2: new-token (the rename target).
+        fs::write(
+            input.join("file2.json"),
+            serde_json::to_string_pretty(&json!({
+                "new-token": {
+                    "$schema": ".../color.json",
+                    "value": "#000",
+                    "uuid": "aaaaaaaa-0002-4000-8000-000000000001"
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+
+        let summary = crate::migrate::convert_dir(&input, &output).unwrap();
+        assert_eq!(summary.files_written, 2);
+
+        // Read the output for file1 and verify replaced_by was resolved.
+        let out1_text = fs::read_to_string(output.join("file1.tokens.json")).unwrap();
+        let out1: Value = serde_json::from_str(&out1_text).unwrap();
+        let token = &out1.as_array().unwrap()[0];
+
+        assert_eq!(
+            token["replaced_by"], "aaaaaaaa-0002-4000-8000-000000000001",
+            "renamed should resolve to replaced_by via cross-file UUID lookup"
+        );
+        assert!(
+            token.get("renamed").is_none(),
+            "renamed should be stripped from cascade output"
+        );
+        assert_eq!(token["deprecated"], "unknown");
+
+        // Cleanup.
+        let _ = fs::remove_dir_all(&tmp);
     }
 }

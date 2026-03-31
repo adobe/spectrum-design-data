@@ -284,6 +284,152 @@ mod relational_conformance {
         ]);
         assert!(!diagnostics_for_rule(&g, "SPEC-006").is_empty());
     }
+
+    #[test]
+    fn spec010_replaced_by_target_not_found() {
+        let g = TokenGraph::from_pairs(vec![(
+            "dep".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "old"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "deprecated": "3.0.0",
+                "replaced_by": "bbbbbbbb-9999-4000-8000-000000000099",
+                "value": "#fff"
+            }),
+        )]);
+        assert!(!diagnostics_for_rule(&g, "SPEC-010").is_empty());
+    }
+
+    #[test]
+    fn spec010_replaced_by_target_exists_no_error() {
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "dep".into(),
+                PathBuf::from("t.json"),
+                json!({
+                    "name": {"property": "old"},
+                    "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                    "deprecated": "3.0.0",
+                    "replaced_by": "aaaaaaaa-0002-4000-8000-000000000001",
+                    "value": "#fff"
+                }),
+            ),
+            (
+                "new".into(),
+                PathBuf::from("t.json"),
+                json!({
+                    "name": {"property": "new"},
+                    "uuid": "aaaaaaaa-0002-4000-8000-000000000001",
+                    "value": "#000"
+                }),
+            ),
+        ]);
+        assert!(diagnostics_for_rule(&g, "SPEC-010").is_empty());
+    }
+
+    #[test]
+    fn spec011_replaced_by_array_missing_comment() {
+        let g = TokenGraph::from_pairs(vec![(
+            "split".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "split"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "deprecated": "3.0.0",
+                "replaced_by": ["aaaaaaaa-0002-4000-8000-000000000001"],
+                "value": "#fff"
+            }),
+        )]);
+        assert!(!diagnostics_for_rule(&g, "SPEC-011").is_empty());
+    }
+
+    #[test]
+    fn spec012_replaced_by_without_deprecated() {
+        let g = TokenGraph::from_pairs(vec![(
+            "bad".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "bad"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "replaced_by": "aaaaaaaa-0002-4000-8000-000000000001",
+                "value": "#fff"
+            }),
+        )]);
+        assert!(!diagnostics_for_rule(&g, "SPEC-012").is_empty());
+    }
+
+    #[test]
+    fn spec013_planned_removal_without_deprecated() {
+        let g = TokenGraph::from_pairs(vec![(
+            "bad".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "bad"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "plannedRemoval": "4.0.0",
+                "value": "#fff"
+            }),
+        )]);
+        assert!(!diagnostics_for_rule(&g, "SPEC-013").is_empty());
+    }
+
+    #[test]
+    fn spec013_planned_removal_precedes_deprecated() {
+        let g = TokenGraph::from_pairs(vec![(
+            "bad".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "bad"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "deprecated": "3.2.0",
+                "plannedRemoval": "3.1.0",
+                "value": "#fff"
+            }),
+        )]);
+        let diags = diagnostics_for_rule(&g, "SPEC-013");
+        assert!(!diags.is_empty(), "should catch preceding plannedRemoval");
+        assert!(
+            diags[0].message.contains("preceding"),
+            "message should mention version ordering"
+        );
+    }
+
+    #[test]
+    fn spec013_valid_planned_removal_no_error() {
+        let g = TokenGraph::from_pairs(vec![(
+            "ok".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "ok"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "deprecated": "3.2.0",
+                "plannedRemoval": "4.0.0",
+                "value": "#fff"
+            }),
+        )]);
+        assert!(diagnostics_for_rule(&g, "SPEC-013").is_empty());
+    }
+
+    #[test]
+    fn spec013_multi_digit_semver_ordering() {
+        // 3.10.0 > 3.2.0, so this is valid — should not error.
+        let g = TokenGraph::from_pairs(vec![(
+            "ok".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "ok"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "deprecated": "3.2.0",
+                "plannedRemoval": "3.10.0",
+                "value": "#fff"
+            }),
+        )]);
+        assert!(
+            diagnostics_for_rule(&g, "SPEC-013").is_empty(),
+            "3.10.0 > 3.2.0 — should not error"
+        );
+    }
 }
 
 /// Resolution conformance tests — fixture-driven, closes #768.
@@ -610,6 +756,11 @@ mod diff_conformance {
     #[test]
     fn rename_with_property_changes() {
         run_fixture("rename-with-property-changes");
+    }
+
+    #[test]
+    fn replaced_by_pairing() {
+        run_fixture("replaced-by-pairing");
     }
 }
 

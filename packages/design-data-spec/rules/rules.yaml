@@ -82,3 +82,39 @@ rules:
     message: "Token name field '{field}' value '{value}' is not in the design-system-registry enum for '{field}'"
     spec_ref: spec/token-format.md#name-object
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-010
+    name: replaced-by-target-exists
+    severity: error
+    category: reference-integrity
+    assert: Every UUID in replaced_by MUST resolve to an existing token in the dataset.
+    message: "replaced_by target UUID not found: {uuid}"
+    spec_ref: spec/token-format.md#lifecycle-and-metadata
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-011
+    name: replaced-by-array-requires-comment
+    severity: error
+    category: completeness
+    assert: When replaced_by is an array, deprecated_comment MUST be present to explain which replacement applies in which context.
+    message: "replaced_by is an array but deprecated_comment is missing on token {token}"
+    spec_ref: spec/token-format.md#lifecycle-and-metadata
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-012
+    name: replaced-by-requires-deprecated
+    severity: error
+    category: completeness
+    assert: If replaced_by is present, deprecated MUST also be present.
+    message: "Token {token} has replaced_by but is not marked deprecated"
+    spec_ref: spec/token-format.md#lifecycle-and-metadata
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-013
+    name: planned-removal-requires-deprecated
+    severity: error
+    category: completeness
+    assert: If plannedRemoval is present, deprecated MUST also be present.
+    message: "Token {token} has plannedRemoval but is not marked deprecated"
+    spec_ref: spec/token-format.md#lifecycle-and-metadata
+    introduced_in: "1.0.0-draft"

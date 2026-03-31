@@ -40,7 +40,7 @@
 //!
 //! `$ref` values are denormalized back to `value: "{target}"` alias syntax.
 
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::path::Path;
 
 use serde_json::{Map, Value};
@@ -61,8 +61,10 @@ const OUTER_LIFECYCLE_FIELDS: &[&str] = &[
     "deprecated",
     "deprecated_comment",
     "renamed",
+    "replaced_by",
+    "plannedRemoval",
+    "introduced",
     "private",
-    "status",
     "description",
 ];
 
@@ -154,6 +156,21 @@ fn convert_array(
     arr: &[Value],
     summary: &mut LegacySummary,
 ) -> Result<Map<String, Value>, CoreError> {
+    // Build UUID → property-name map for resolving replaced_by → renamed.
+    let uuid_to_name: HashMap<&str, &str> = arr
+        .iter()
+        .filter_map(|item| {
+            let tok = item.as_object()?;
+            let uuid = tok.get("uuid")?.as_str()?;
+            let name = tok
+                .get("name")
+                .and_then(|v| v.as_object())
+                .and_then(|n| n.get("property"))
+                .and_then(|v| v.as_str())?;
+            Some((uuid, name))
+        })
+        .collect();
+
     // Group tokens by property name, preserving document order via BTreeMap.
     let mut groups: BTreeMap<String, Vec<&Map<String, Value>>> = BTreeMap::new();
 
@@ -184,7 +201,7 @@ fn convert_array(
             return Err(CoreError::MultiDimensionalToken(property));
         }
 
-        let entry = if let Some(dim) = dim_keys.into_iter().next() {
+        let mut entry = if let Some(dim) = dim_keys.into_iter().next() {
             let result = build_set_entry(&property, &tokens, dim, summary);
             summary.sets_reconstructed += 1;
             result
@@ -194,11 +211,56 @@ fn convert_array(
             build_flat_entry(tokens[0])
         };
 
+        // Convert cascade lifecycle fields to legacy format.
+        if let Some(obj) = entry.as_object_mut() {
+            normalize_lifecycle_for_legacy(obj, &uuid_to_name);
+        }
+
         summary.tokens_produced += 1;
         out.insert(property, entry);
     }
 
     Ok(out)
+}
+
+/// Convert cascade lifecycle fields to legacy format on a token entry.
+///
+/// - `deprecated: "version"` → `deprecated: true`
+/// - `replaced_by: "uuid"` → `renamed: "<property-name>"` (resolved via map)
+/// - `plannedRemoval`, `introduced` → removed (no legacy equivalent)
+fn normalize_lifecycle_for_legacy(
+    entry: &mut Map<String, Value>,
+    uuid_to_name: &HashMap<&str, &str>,
+) {
+    // deprecated: version string → boolean true
+    if let Some(dep) = entry.get("deprecated") {
+        if dep.is_string() {
+            entry.insert("deprecated".into(), Value::Bool(true));
+        }
+    }
+
+    // replaced_by → renamed (resolve UUID to property name)
+    if let Some(replaced) = entry.remove("replaced_by") {
+        if let Some(uuid) = replaced.as_str() {
+            if let Some(&name) = uuid_to_name.get(uuid) {
+                entry.insert("renamed".into(), Value::String(name.to_string()));
+            }
+        }
+        // Array form: don't emit renamed (no 1:1 mapping); deprecated_comment explains it.
+    }
+
+    // Drop fields with no legacy equivalent.
+    entry.remove("plannedRemoval");
+    entry.remove("introduced");
+
+    // Recurse into sets entries.
+    if let Some(sets) = entry.get_mut("sets").and_then(|v| v.as_object_mut()) {
+        for (_mode, set_entry) in sets.iter_mut() {
+            if let Some(obj) = set_entry.as_object_mut() {
+                normalize_lifecycle_for_legacy(obj, uuid_to_name);
+            }
+        }
+    }
 }
 
 /// Collect the set of recognized dimension keys present in any token in the group.
