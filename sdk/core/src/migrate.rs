@@ -133,15 +133,40 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<MigrateSummary
     std::fs::create_dir_all(output_dir)?;
     let mut summary = MigrateSummary::default();
 
-    for input_path in discover_json_files(input_dir)? {
-        // Skip files that don't look like legacy token sources (e.g. schemas).
-        let text = std::fs::read_to_string(&input_path)?;
+    // Pass 1: scan all files to build a global name → UUID map for cross-file
+    // renamed → replaced_by resolution.
+    let files = discover_json_files(input_dir)?;
+    let mut global_name_to_uuid: HashMap<String, String> = HashMap::new();
+    let mut file_contents: Vec<(std::path::PathBuf, Value)> = Vec::new();
+
+    for input_path in &files {
+        let text = std::fs::read_to_string(input_path)?;
         let value: Value = serde_json::from_str(&text)?;
+        if let Some(obj) = value.as_object() {
+            for (name, val) in obj {
+                if let Some(tok) = val.as_object() {
+                    if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
+                        global_name_to_uuid.insert(name.clone(), uuid.to_string());
+                    }
+                }
+            }
+        }
+        file_contents.push((input_path.clone(), value));
+    }
+
+    // Build a borrowed view for the conversion functions.
+    let name_to_uuid_ref: HashMap<&str, &str> = global_name_to_uuid
+        .iter()
+        .map(|(k, v)| (k.as_str(), v.as_str()))
+        .collect();
+
+    // Pass 2: convert each file using the global map.
+    for (input_path, value) in &file_contents {
         let Some(obj) = value.as_object() else {
             continue;
         };
 
-        let tokens = convert_object(obj, &mut summary);
+        let tokens = convert_object_with_context(obj, &mut summary, &name_to_uuid_ref);
         if tokens.is_empty() {
             continue;
         }
@@ -165,17 +190,11 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<MigrateSummary
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
 /// Convert all entries in a legacy token file object to cascade tokens.
-fn convert_object(obj: &Map<String, Value>, summary: &mut MigrateSummary) -> Vec<Value> {
-    // Build name → UUID map for resolving renamed → replaced_by.
-    let name_to_uuid: HashMap<&str, &str> = obj
-        .iter()
-        .filter_map(|(name, val)| {
-            let tok = val.as_object()?;
-            let uuid = tok.get("uuid")?.as_str()?;
-            Some((name.as_str(), uuid))
-        })
-        .collect();
-
+fn convert_object_with_context(
+    obj: &Map<String, Value>,
+    summary: &mut MigrateSummary,
+    name_to_uuid: &HashMap<&str, &str>,
+) -> Vec<Value> {
     let mut out = Vec::new();
     for (name, val) in obj {
         let Some(tok_obj) = val.as_object() else {
@@ -186,12 +205,12 @@ fn convert_object(obj: &Map<String, Value>, summary: &mut MigrateSummary) -> Vec
             .and_then(|v| v.as_str())
             .unwrap_or("");
         if schema.ends_with("color-set.json") || schema.ends_with("scale-set.json") {
-            let tokens = convert_token_with_context(name, tok_obj, &name_to_uuid);
+            let tokens = convert_token_with_context(name, tok_obj, name_to_uuid);
             summary.set_entries_unwrapped += tokens.len();
             summary.tokens_produced += tokens.len();
             out.extend(tokens);
         } else {
-            out.push(build_flat(name, tok_obj, &name_to_uuid));
+            out.push(build_flat(name, tok_obj, name_to_uuid));
             summary.flat_tokens_converted += 1;
             summary.tokens_produced += 1;
         }
