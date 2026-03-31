@@ -571,4 +571,66 @@ mod tests {
         assert_eq!(tokens[1]["$ref"], "blue-300");
         assert!(tokens[0].get("value").is_none());
     }
+
+    #[test]
+    fn convert_dir_resolves_cross_file_renamed_to_replaced_by() {
+        use std::fs;
+
+        let tmp = std::env::temp_dir().join("migrate_cross_file_test");
+        let input = tmp.join("input");
+        let output = tmp.join("output");
+        let _ = fs::remove_dir_all(&tmp);
+        fs::create_dir_all(&input).unwrap();
+
+        // File 1: old-token with renamed pointing to new-token (in file 2).
+        fs::write(
+            input.join("file1.json"),
+            serde_json::to_string_pretty(&json!({
+                "old-token": {
+                    "$schema": ".../color.json",
+                    "value": "#fff",
+                    "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                    "deprecated": true,
+                    "renamed": "new-token"
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+
+        // File 2: new-token (the rename target).
+        fs::write(
+            input.join("file2.json"),
+            serde_json::to_string_pretty(&json!({
+                "new-token": {
+                    "$schema": ".../color.json",
+                    "value": "#000",
+                    "uuid": "aaaaaaaa-0002-4000-8000-000000000001"
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+
+        let summary = crate::migrate::convert_dir(&input, &output).unwrap();
+        assert_eq!(summary.files_written, 2);
+
+        // Read the output for file1 and verify replaced_by was resolved.
+        let out1_text = fs::read_to_string(output.join("file1.tokens.json")).unwrap();
+        let out1: Value = serde_json::from_str(&out1_text).unwrap();
+        let token = &out1.as_array().unwrap()[0];
+
+        assert_eq!(
+            token["replaced_by"], "aaaaaaaa-0002-4000-8000-000000000001",
+            "renamed should resolve to replaced_by via cross-file UUID lookup"
+        );
+        assert!(
+            token.get("renamed").is_none(),
+            "renamed should be stripped from cascade output"
+        );
+        assert_eq!(token["deprecated"], "unknown");
+
+        // Cleanup.
+        let _ = fs::remove_dir_all(&tmp);
+    }
 }
