@@ -2,5 +2,6 @@
 src/components/*.md
 src/tokens/*.md
 src/registry/*.md
+src/spec/*.md
 
 .cache

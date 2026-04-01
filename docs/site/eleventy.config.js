@@ -52,6 +52,9 @@ export default async function (eleventyConfig) {
   eleventyConfig.addCollection("registry", function (api) {
     return api.getFilteredByGlob("src/registry/**/*.md");
   });
+  eleventyConfig.addCollection("spec", function (api) {
+    return api.getFilteredByGlob("src/spec/**/*.md");
+  });
 
   // Apply spectrum-Link to anchors in main article (body content) so links use Spectrum link styling
   eleventyConfig.addTransform("spectrum-body-links", (content, outputPath) => {
@@ -70,7 +73,8 @@ export default async function (eleventyConfig) {
       !outputPath ||
       (!outputPath.includes("/tokens/") &&
         !outputPath.includes("/components/") &&
-        !outputPath.includes("/registry/"))
+        !outputPath.includes("/registry/") &&
+        !outputPath.includes("/spec/"))
     )
       return content;
     return content

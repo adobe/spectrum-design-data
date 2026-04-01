@@ -16,6 +16,7 @@ export default {
     { text: "Tokens", url: "/tokens/" },
     { text: "Registry", url: "/registry/" },
     { text: "AI", url: "/ai/" },
+    { text: "Specification", url: "/spec/" },
     { text: "Tools", url: "/tools/" },
   ],
   bottom: [],

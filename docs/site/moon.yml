@@ -33,6 +33,11 @@ tasks:
     deps:
       - "markdown-generator:generate"
       - "~:generateToolsPage"
+  copySpec:
+    command:
+      - node
+      - scripts/copy-spec.js
+    platform: system
   build:
     command:
       - pnpm
@@ -41,6 +46,7 @@ tasks:
     platform: node
     deps:
       - "~:copyContent"
+      - "~:copySpec"
   clean:
     command:
       - pnpm
