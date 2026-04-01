@@ -83,6 +83,17 @@ tasks:
       - dist
     local: true
     platform: system
+  verifyLegacyRoundtrip:
+    command: ../../sdk/target/debug/design-data
+    args:
+      - migrate
+      - roundtrip-verify
+      - ./src
+    platform: system
+    deps:
+      - sdk:build
+    inputs:
+      - "@globs(sources)"
   test:
     command:
       - pnpm
@@ -96,6 +107,7 @@ tasks:
     deps:
       - ~:buildTokens
       - ~:verifyDesignDataSnapshot
+      - ~:verifyLegacyRoundtrip
     platform: node
   test-watch:
     command:

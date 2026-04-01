@@ -171,6 +171,251 @@ pub fn convert_token(token: &Map<String, Value>) -> Option<(String, Value)> {
     Some((property, entry))
 }
 
+// ── Roundtrip verification ────────────────────────────────────────────────────
+
+/// A semantic difference found between a generated legacy file and its reference.
+#[derive(Debug, PartialEq)]
+pub struct VerifyDifference {
+    /// Name of the file being compared (stem only, e.g. `"layout"`).
+    pub file: String,
+    /// The token property name where the difference was found.
+    pub token: String,
+    /// Human-readable description of the difference.
+    pub detail: String,
+}
+
+/// Run a full legacy → cascade → legacy roundtrip on `legacy_src` and compare
+/// the output semantically against the original source.
+///
+/// Lifecycle hoisting (e.g. `deprecated` moving from mode entries to the outer
+/// token level) is treated as equivalent — the comparison normalises both sides
+/// before diffing so these structural-but-not-semantic changes do not produce
+/// false positives.
+///
+/// Returns a list of meaningful differences. An empty `Vec` means the roundtrip
+/// is clean. Returns `Err` only on I/O or parse failures.
+pub fn roundtrip_verify(legacy_src: &Path) -> Result<Vec<VerifyDifference>, CoreError> {
+    let cascade_tmp = tempfile::tempdir()?;
+    let legacy_tmp = tempfile::tempdir()?;
+    crate::migrate::convert_dir(legacy_src, cascade_tmp.path())?;
+    convert_dir(cascade_tmp.path(), legacy_tmp.path())?;
+    verify_against_reference(legacy_tmp.path(), legacy_src)
+}
+
+/// Compare a directory of generated legacy files against a reference directory.
+///
+/// For each `.json` file in `reference_dir`, finds the matching file in
+/// `output_dir` and compares token entries semantically. Lifecycle fields
+/// (`deprecated`, `deprecated_comment`, `renamed`) are normalised — a field
+/// present only at the outer level in one side and only in all mode entries in
+/// the other is treated as equivalent.
+pub fn verify_against_reference(
+    output_dir: &Path,
+    reference_dir: &Path,
+) -> Result<Vec<VerifyDifference>, CoreError> {
+    let mut diffs = Vec::new();
+
+    for ref_path in discover_json_files(reference_dir)? {
+        let stem = ref_path
+            .file_stem()
+            .and_then(|s| s.to_str())
+            .unwrap_or("unknown")
+            .to_string();
+
+        let out_path = output_dir.join(format!("{stem}.json"));
+        if !out_path.exists() {
+            diffs.push(VerifyDifference {
+                file: stem.clone(),
+                token: String::new(),
+                detail: format!("file {stem}.json missing from output"),
+            });
+            continue;
+        }
+
+        let ref_text = std::fs::read_to_string(&ref_path)?;
+        let out_text = std::fs::read_to_string(&out_path)?;
+        let ref_obj: Map<String, Value> = serde_json::from_str::<Value>(&ref_text)
+            .ok()
+            .and_then(|v| v.as_object().cloned())
+            .unwrap_or_default();
+        let out_obj: Map<String, Value> = serde_json::from_str::<Value>(&out_text)
+            .ok()
+            .and_then(|v| v.as_object().cloned())
+            .unwrap_or_default();
+
+        // Tokens present in reference but missing from output.
+        for key in ref_obj.keys() {
+            if !out_obj.contains_key(key.as_str()) {
+                diffs.push(VerifyDifference {
+                    file: stem.clone(),
+                    token: key.clone(),
+                    detail: "token missing from output".into(),
+                });
+            }
+        }
+
+        // Tokens present in output but not in reference.
+        for key in out_obj.keys() {
+            if !ref_obj.contains_key(key.as_str()) {
+                diffs.push(VerifyDifference {
+                    file: stem.clone(),
+                    token: key.clone(),
+                    detail: "extra token in output not present in reference".into(),
+                });
+            }
+        }
+
+        // Semantic comparison of tokens present in both.
+        for (key, ref_entry) in &ref_obj {
+            let Some(out_entry) = out_obj.get(key) else {
+                continue; // already reported above
+            };
+            let entry_diffs =
+                compare_token_entries(key, ref_entry, out_entry);
+            for detail in entry_diffs {
+                diffs.push(VerifyDifference {
+                    file: stem.clone(),
+                    token: key.clone(),
+                    detail,
+                });
+            }
+        }
+    }
+
+    Ok(diffs)
+}
+
+/// Compare two legacy token entries semantically.
+/// Returns a list of difference descriptions (empty = equivalent).
+///
+/// Lifecycle hoisting is normalised: fields that appear only at the outer level
+/// on one side but consistently in all mode entries on the other are treated as
+/// equivalent.
+fn compare_token_entries(name: &str, reference: &Value, output: &Value) -> Vec<String> {
+    let _ = name;
+    let mut diffs = Vec::new();
+
+    let (Some(ref_obj), Some(out_obj)) = (reference.as_object(), output.as_object()) else {
+        if reference != output {
+            diffs.push(format!("value mismatch: {reference:?} vs {out_obj:?}", out_obj = output));
+        }
+        return diffs;
+    };
+
+    // Compare $schema.
+    if ref_obj.get("$schema") != out_obj.get("$schema") {
+        diffs.push(format!(
+            "$schema mismatch: {:?} vs {:?}",
+            ref_obj.get("$schema"),
+            out_obj.get("$schema")
+        ));
+    }
+
+    // Compare uuid (outer set-level).
+    if ref_obj.get("uuid") != out_obj.get("uuid") {
+        diffs.push(format!(
+            "uuid mismatch: {:?} vs {:?}",
+            ref_obj.get("uuid"),
+            out_obj.get("uuid")
+        ));
+    }
+
+    // Compare component.
+    if ref_obj.get("component") != out_obj.get("component") {
+        diffs.push(format!(
+            "component mismatch: {:?} vs {:?}",
+            ref_obj.get("component"),
+            out_obj.get("component")
+        ));
+    }
+
+    // Compare value/alias for flat tokens.
+    if ref_obj.get("value") != out_obj.get("value") {
+        diffs.push(format!(
+            "value mismatch: {:?} vs {:?}",
+            ref_obj.get("value"),
+            out_obj.get("value")
+        ));
+    }
+
+    // Normalise and compare lifecycle fields, tolerating hoisting differences.
+    // "Effective" value = outer field if present, else the consistent value
+    // across all mode entries (if any).
+    const LIFECYCLE: &[&str] = &["deprecated", "deprecated_comment", "renamed"];
+    for field in LIFECYCLE {
+        let ref_eff = effective_lifecycle_value(ref_obj, field);
+        let out_eff = effective_lifecycle_value(out_obj, field);
+        if ref_eff != out_eff {
+            diffs.push(format!(
+                "{field} mismatch: {ref_eff:?} vs {out_eff:?}"
+            ));
+        }
+    }
+
+    // Compare sets structure (modes, values, uuids).
+    match (ref_obj.get("sets"), out_obj.get("sets")) {
+        (Some(ref_sets), Some(out_sets)) => {
+            let ref_sets = ref_sets.as_object();
+            let out_sets = out_sets.as_object();
+            if let (Some(ref_sets), Some(out_sets)) = (ref_sets, out_sets) {
+                for mode in ref_sets.keys() {
+                    let Some(out_mode) = out_sets.get(mode.as_str()) else {
+                        diffs.push(format!("sets.{mode} missing from output"));
+                        continue;
+                    };
+                    let ref_mode = &ref_sets[mode];
+                    // Compare value within the mode.
+                    if ref_mode.get("value") != out_mode.get("value") {
+                        diffs.push(format!(
+                            "sets.{mode}.value mismatch: {:?} vs {:?}",
+                            ref_mode.get("value"),
+                            out_mode.get("value")
+                        ));
+                    }
+                    // Compare per-mode uuid.
+                    if ref_mode.get("uuid") != out_mode.get("uuid") {
+                        diffs.push(format!(
+                            "sets.{mode}.uuid mismatch: {:?} vs {:?}",
+                            ref_mode.get("uuid"),
+                            out_mode.get("uuid")
+                        ));
+                    }
+                }
+                for mode in out_sets.keys() {
+                    if !ref_sets.contains_key(mode.as_str()) {
+                        diffs.push(format!("sets.{mode} extra in output"));
+                    }
+                }
+            }
+        }
+        (None, None) => {}
+        (Some(_), None) => diffs.push("sets present in reference but missing from output".into()),
+        (None, Some(_)) => diffs.push("sets present in output but missing from reference".into()),
+    }
+
+    diffs
+}
+
+/// Return the "effective" value of a lifecycle field for a token entry,
+/// normalising hoisting: if the field is absent at the outer level but
+/// present consistently across all mode entries, that consistent value is
+/// returned.
+fn effective_lifecycle_value<'a>(entry: &'a Map<String, Value>, field: &str) -> Option<&'a Value> {
+    // Outer level wins if present.
+    if let Some(v) = entry.get(field) {
+        return Some(v);
+    }
+    // Fall back to consistent value across all mode entries.
+    let sets = entry.get("sets")?.as_object()?;
+    let mut iter = sets.values().filter_map(|v| v.as_object()?.get(field));
+    let first = iter.next()?;
+    if iter.all(|v| v == first) {
+        Some(first)
+    } else {
+        None
+    }
+}
+
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
 /// Convert a cascade array to a legacy object map.
@@ -693,5 +938,25 @@ mod tests {
         assert_eq!(old["deprecated"], true);
         // new-set should have its outer UUID reconstructed.
         assert_eq!(out["new-set"]["uuid"], "set-outer-uuid-0001");
+    }
+
+    /// Integration test: full roundtrip against the real Spectrum token sources.
+    /// Skipped automatically when the packages/tokens/src directory is absent
+    /// (e.g. in a sparse checkout).
+    #[test]
+    fn full_roundtrip_clean_against_spectrum_token_sources() {
+        let src = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/tokens/src");
+        if !src.exists() {
+            return;
+        }
+        let diffs = crate::legacy::roundtrip_verify(&src)
+            .expect("roundtrip_verify should not error");
+        assert!(
+            diffs.is_empty(),
+            "legacy roundtrip has {} difference(s):\n{:#?}",
+            diffs.len(),
+            diffs
+        );
     }
 }
