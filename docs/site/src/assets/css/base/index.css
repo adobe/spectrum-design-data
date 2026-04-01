@@ -203,6 +203,10 @@ footer p:not(.footer-label) {
 }
 
 /* Apply Spectrum heading typography to body headings */
+article :is(table, pre, ul, ol) + :is(h1, h2, h3, h4, h5, h6) {
+  margin-block-start: var(--spacing-large);
+}
+
 article h1,
 article h2,
 article h3,
@@ -237,5 +241,14 @@ article h5 {
 
 article h6 {
   font-size: var(--spectrum-heading-size-xs);
+}
+
+article h1 code,
+article h2 code,
+article h3 code,
+article h4 code,
+article h5 code,
+article h6 code {
+  font-size: inherit;
 }
 

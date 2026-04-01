@@ -64,12 +64,14 @@ for (const file of readdirSync(specSrc)) {
   // Rewrite sibling links: ](token-format.md) → ](../token-format/)
   // Also handles fragment links: ](token-format.md#section) → ](../token-format/#section)
   // Special case: ](index.md) → ](../)
+  // index.md lives at /spec/ so sibling links are relative without ../
+  const isIndex = file === 'index.md';
   content = content.replace(
     /\]\((?!https?:\/\/|#)([a-z0-9-]+)\.md(#[^)]+)?\)/g,
     (match, slug, fragment) => {
       const frag = fragment || '';
-      if (slug === 'index') return `](../${frag})`;
-      return `](../${slug}/${frag})`;
+      if (slug === 'index') return isIndex ? `](./${frag})` : `](../${frag})`;
+      return isIndex ? `](${slug}/${frag})` : `](../${slug}/${frag})`;
     },
   );
 
