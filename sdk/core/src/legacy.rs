@@ -319,6 +319,13 @@ fn build_set_entry(
         outer.insert("component".into(), Value::String(c.to_string()));
     }
 
+    // Recover the outer set-level UUID from the cascade tokens (stored as set_uuid).
+    if let Some(set_uuid) = consistent_str_field(tokens, |t| {
+        t.get("set_uuid").and_then(|v| v.as_str())
+    }) {
+        outer.insert("uuid".into(), Value::String(set_uuid.to_string()));
+    }
+
     // Hoist lifecycle fields that are identical across all mode entries.
     for field in OUTER_LIFECYCLE_FIELDS {
         if let Some(val) = consistent_field(tokens, field) {

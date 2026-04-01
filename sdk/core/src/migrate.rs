@@ -345,9 +345,15 @@ fn build_set_entry(
     // Value or alias.
     insert_value_or_ref(&mut out, entry);
 
-    // UUID from entry.
+    // UUID from entry (mode-level).
     if let Some(uuid) = entry.get("uuid").and_then(|v| v.as_str()) {
         out.insert("uuid".into(), Value::String(uuid.to_string()));
+    }
+
+    // Carry the outer set-level UUID so legacy-output can reconstruct it.
+    // Stored as `set_uuid` to distinguish it from the per-mode uuid.
+    if let Some(set_uuid) = outer.get("uuid").and_then(|v| v.as_str()) {
+        out.insert("set_uuid".into(), Value::String(set_uuid.to_string()));
     }
 
     // Lifecycle fields: outer level first, entry level overrides.
