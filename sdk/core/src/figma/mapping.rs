@@ -895,6 +895,73 @@ mod tests {
     }
 
     #[test]
+    fn alias_to_set_token_resolves_to_light_mode_not_first_in_file() {
+        // Regression test: resolve_value() used to call sets.values().next(),
+        // which is HashMap-order-dependent. In real data "dark" appears before
+        // "light" in color-palette.json, so an alias like
+        //   accent-color-100 -> {blue-100}
+        // was silently exporting the dark value into the Light Figma mode.
+        //
+        // The fix prefers sets["light"] over sets["desktop"] over first-in-file.
+        // This test encodes that contract: dark is listed first in the JSON, but
+        // the exported mode value must be the light value.
+        use std::io::Write;
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("tokens.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!({
+                // Set token with dark listed first (mirrors real color-palette.json)
+                "base-color-set": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "dark":      { "$schema": "https://example.com/color.json", "value": "rgb(0, 0, 255)", "uuid": "u-dark" },
+                        "light":     { "$schema": "https://example.com/color.json", "value": "rgb(255, 0, 0)", "uuid": "u-light" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "rgb(0, 255, 0)", "uuid": "u-wire" }
+                    },
+                    "uuid": "u0"
+                },
+                // Top-level alias pointing at the set token
+                "alias-to-set": {
+                    "$schema": "https://example.com/alias.json",
+                    "value": "{base-color-set}",
+                    "uuid": "a1"
+                }
+            })
+        )
+        .unwrap();
+
+        let meta = mock_meta();
+        let (body, summary) = build_export_payload(dir.path(), &meta).unwrap();
+
+        assert!(summary.skipped_alias_unresolved.is_empty(), "alias should resolve");
+
+        // The alias variable must exist
+        let alias_var = body
+            .variables
+            .iter()
+            .find(|v| v.name == "colorTheme/alias-to-set")
+            .expect("alias-to-set should be exported");
+        assert_eq!(alias_var.resolved_type, "COLOR");
+
+        // The mode value must carry the light color (r=1, g=0, b=0), not the
+        // dark color (r=0, g=0, b=1) that would result from first-in-file order.
+        let alias_id = alias_var.id.as_deref().unwrap_or("");
+        let mv = body
+            .variable_mode_values
+            .iter()
+            .find(|v| v.variable_id == alias_id)
+            .expect("alias-to-set should have a mode value");
+
+        let r = mv.value.get("r").and_then(|v| v.as_f64()).unwrap_or(0.0);
+        let b = mv.value.get("b").and_then(|v| v.as_f64()).unwrap_or(0.0);
+        assert!(r > 0.9, "expected light value (r≈1), got r={r} — dark value was used instead");
+        assert!(b < 0.1, "expected light value (b≈0), got b={b} — dark value was used instead");
+    }
+
+    #[test]
     fn composite_types_are_skipped() {
         use std::io::Write;
         let dir = tempfile::tempdir().unwrap();
