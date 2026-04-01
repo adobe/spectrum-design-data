@@ -94,16 +94,40 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<LegacySummary,
     std::fs::create_dir_all(output_dir)?;
     let mut summary = LegacySummary::default();
 
-    for input_path in discover_json_files(input_dir)? {
+    // Pass 1: read all cascade files and build a global UUID → property-name map
+    // so that cross-file `replaced_by` references resolve to `renamed`.
+    let input_paths = discover_json_files(input_dir)?;
+    let mut all_files: Vec<(std::path::PathBuf, Value)> = Vec::new();
+    let mut global_uuid_to_name: HashMap<String, String> = HashMap::new();
+
+    for input_path in input_paths {
         let text = std::fs::read_to_string(&input_path)?;
         let value: Value = serde_json::from_str(&text)?;
+        if let Some(arr) = value.as_array() {
+            for item in arr {
+                if let Some(tok) = item.as_object() {
+                    if let (Some(uuid), Some(name)) = (
+                        tok.get("uuid").and_then(|v| v.as_str()),
+                        tok.get("name")
+                            .and_then(|v| v.as_object())
+                            .and_then(|n| n.get("property"))
+                            .and_then(|v| v.as_str()),
+                    ) {
+                        global_uuid_to_name.insert(uuid.to_string(), name.to_string());
+                    }
+                }
+            }
+        }
+        all_files.push((input_path, value));
+    }
 
-        // Only process cascade-format files (top-level arrays).
+    // Pass 2: convert each file using the global map.
+    for (input_path, value) in &all_files {
         let Some(arr) = value.as_array() else {
             continue;
         };
 
-        let legacy = convert_array(arr, &mut summary)?;
+        let legacy = convert_array(arr, &mut summary, &global_uuid_to_name)?;
         if legacy.is_empty() {
             continue;
         }
@@ -155,22 +179,8 @@ pub fn convert_token(token: &Map<String, Value>) -> Option<(String, Value)> {
 fn convert_array(
     arr: &[Value],
     summary: &mut LegacySummary,
+    global_uuid_to_name: &HashMap<String, String>,
 ) -> Result<Map<String, Value>, CoreError> {
-    // Build UUID → property-name map for resolving replaced_by → renamed.
-    let uuid_to_name: HashMap<&str, &str> = arr
-        .iter()
-        .filter_map(|item| {
-            let tok = item.as_object()?;
-            let uuid = tok.get("uuid")?.as_str()?;
-            let name = tok
-                .get("name")
-                .and_then(|v| v.as_object())
-                .and_then(|n| n.get("property"))
-                .and_then(|v| v.as_str())?;
-            Some((uuid, name))
-        })
-        .collect();
-
     // Group tokens by property name, preserving document order via BTreeMap.
     let mut groups: BTreeMap<String, Vec<&Map<String, Value>>> = BTreeMap::new();
 
@@ -213,7 +223,7 @@ fn convert_array(
 
         // Convert cascade lifecycle fields to legacy format.
         if let Some(obj) = entry.as_object_mut() {
-            normalize_lifecycle_for_legacy(obj, &uuid_to_name);
+            normalize_lifecycle_for_legacy(obj, global_uuid_to_name);
         }
 
         summary.tokens_produced += 1;
@@ -230,7 +240,7 @@ fn convert_array(
 /// - `plannedRemoval`, `introduced` → removed (no legacy equivalent)
 fn normalize_lifecycle_for_legacy(
     entry: &mut Map<String, Value>,
-    uuid_to_name: &HashMap<&str, &str>,
+    uuid_to_name: &HashMap<String, String>,
 ) {
     // deprecated: version string → boolean true
     if let Some(dep) = entry.get("deprecated") {
@@ -242,8 +252,8 @@ fn normalize_lifecycle_for_legacy(
     // replaced_by → renamed (resolve UUID to property name)
     if let Some(replaced) = entry.remove("replaced_by") {
         if let Some(uuid) = replaced.as_str() {
-            if let Some(&name) = uuid_to_name.get(uuid) {
-                entry.insert("renamed".into(), Value::String(name.to_string()));
+            if let Some(name) = uuid_to_name.get(uuid) {
+                entry.insert("renamed".into(), Value::String(name.clone()));
             }
         }
         // Array form: don't emit renamed (no 1:1 mapping); deprecated_comment explains it.
@@ -492,7 +502,7 @@ mod tests {
              "$schema": ".../opacity.json", "value": "0.4", "uuid": "cs-0003"}
         ]);
         let mut summary = LegacySummary::default();
-        let out = convert_array(arr.as_array().unwrap(), &mut summary).unwrap();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new()).unwrap();
 
         assert!(out.contains_key("overlay-opacity"));
         let entry = &out["overlay-opacity"];
@@ -515,7 +525,7 @@ mod tests {
              "$schema": ".../dimension.json", "value": "10px", "uuid": "ss-0002"}
         ]);
         let mut summary = LegacySummary::default();
-        let out = convert_array(arr.as_array().unwrap(), &mut summary).unwrap();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new()).unwrap();
 
         let entry = &out["spacing-100"];
         assert!(entry["$schema"]
@@ -535,7 +545,7 @@ mod tests {
              "value": "#000", "uuid": "lc-0002", "deprecated": true, "renamed": "new-color"}
         ]);
         let mut summary = LegacySummary::default();
-        let out = convert_array(arr.as_array().unwrap(), &mut summary).unwrap();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new()).unwrap();
 
         let entry = &out["old-color"];
         assert_eq!(entry["deprecated"], true);
@@ -553,7 +563,7 @@ mod tests {
              "value": "#000", "uuid": "lc-0004", "deprecated": true}
         ]);
         let mut summary = LegacySummary::default();
-        let out = convert_array(arr.as_array().unwrap(), &mut summary).unwrap();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new()).unwrap();
 
         let entry = &out["mixed-color"];
         assert!(entry.get("deprecated").is_none());
@@ -572,7 +582,7 @@ mod tests {
              "$schema": ".../alias.json", "$ref": "gray-500", "uuid": "al-0003"}
         ]);
         let mut summary = LegacySummary::default();
-        let out = convert_array(arr.as_array().unwrap(), &mut summary).unwrap();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new()).unwrap();
 
         let entry = &out["action-color"];
         assert_eq!(entry["sets"]["light"]["value"], "{blue-900}");
@@ -591,7 +601,7 @@ mod tests {
             {"name": {"property": "bg", "colorScheme": "dark",  "scale": "mobile"},  "value": "#111", "uuid": "md-0004"}
         ]);
         let mut summary = LegacySummary::default();
-        let result = convert_array(arr.as_array().unwrap(), &mut summary);
+        let result = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new());
         assert!(
             result.is_err(),
             "expected Err for multi-dimensional property, got Ok"

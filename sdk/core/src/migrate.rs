@@ -44,6 +44,7 @@ use std::collections::HashMap;
 use std::path::Path;
 
 use serde_json::{Map, Value};
+use uuid::Uuid;
 
 use crate::discovery::discover_json_files;
 use crate::CoreError;
@@ -85,7 +86,64 @@ pub struct MigrateSummary {
     pub flat_tokens_converted: usize,
 }
 
+/// Summary statistics from an add-uuids run.
+#[derive(Debug, Default)]
+pub struct AddUuidsSummary {
+    /// Number of files scanned.
+    pub files_scanned: usize,
+    /// Number of files modified (had at least one UUID added).
+    pub files_modified: usize,
+    /// Total number of UUIDs generated and written.
+    pub uuids_added: usize,
+}
+
 // ── Public API ────────────────────────────────────────────────────────────────
+
+/// Add missing outer-level UUIDs to set tokens (color-set, scale-set) in all
+/// legacy `.json` token files in `dir`. Files are modified in-place.
+///
+/// Set tokens that already have an outer `uuid` field are left untouched.
+/// The operation is idempotent — running it twice produces no changes on the
+/// second run.
+pub fn add_uuids(dir: &Path) -> Result<AddUuidsSummary, CoreError> {
+    let mut summary = AddUuidsSummary::default();
+
+    for path in discover_json_files(dir)? {
+        let text = std::fs::read_to_string(&path)?;
+        let mut root: Value = serde_json::from_str(&text)?;
+
+        // Only process legacy-format files (top-level objects, not cascade arrays).
+        let Some(obj) = root.as_object_mut() else {
+            continue;
+        };
+
+        summary.files_scanned += 1;
+        let mut modified = false;
+
+        for (_name, token) in obj.iter_mut() {
+            let Some(tok) = token.as_object_mut() else {
+                continue;
+            };
+            // Only set tokens (have a "sets" key) that are missing an outer uuid.
+            if tok.contains_key("sets") && !tok.contains_key("uuid") {
+                tok.insert(
+                    "uuid".to_string(),
+                    Value::String(Uuid::new_v4().to_string()),
+                );
+                summary.uuids_added += 1;
+                modified = true;
+            }
+        }
+
+        if modified {
+            let out_text = serde_json::to_string_pretty(&root)?;
+            std::fs::write(&path, out_text + "\n")?;
+            summary.files_modified += 1;
+        }
+    }
+
+    Ok(summary)
+}
 
 /// Convert a single legacy token JSON object map entry to cascade token(s).
 ///
@@ -633,6 +691,119 @@ mod tests {
         assert_eq!(token["deprecated"], "unknown");
 
         // Cleanup.
+        let _ = fs::remove_dir_all(&tmp);
+    }
+
+    #[test]
+    fn add_uuids_adds_to_set_tokens_missing_uuid() {
+        use std::fs;
+
+        let id = std::process::id();
+        let tmp = std::env::temp_dir().join(format!("add_uuids_test_{id}"));
+        let _ = fs::remove_dir_all(&tmp);
+        fs::create_dir_all(&tmp).unwrap();
+
+        // Write a file with one set token missing uuid and one that already has one.
+        fs::write(
+            tmp.join("tokens.json"),
+            serde_json::to_string_pretty(&json!({
+                "no-uuid-set": {
+                    "$schema": ".../color-set.json",
+                    "sets": {
+                        "light": { "value": "#fff", "uuid": "mode-0001" },
+                        "dark":  { "value": "#000", "uuid": "mode-0002" },
+                        "wireframe": { "value": "#ccc", "uuid": "mode-0003" }
+                    }
+                },
+                "already-has-uuid": {
+                    "$schema": ".../color-set.json",
+                    "uuid": "existing-uuid-1111",
+                    "sets": {
+                        "light": { "value": "#abc", "uuid": "mode-0004" },
+                        "dark":  { "value": "#def", "uuid": "mode-0005" },
+                        "wireframe": { "value": "#123", "uuid": "mode-0006" }
+                    }
+                },
+                "flat-token": {
+                    "$schema": ".../color.json",
+                    "value": "#fff",
+                    "uuid": "flat-0001"
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+
+        let summary = crate::migrate::add_uuids(&tmp).unwrap();
+
+        assert_eq!(summary.files_scanned, 1);
+        assert_eq!(summary.files_modified, 1);
+        assert_eq!(summary.uuids_added, 1, "only the set token missing uuid should get one");
+
+        // Read back and verify.
+        let text = fs::read_to_string(tmp.join("tokens.json")).unwrap();
+        let val: serde_json::Value = serde_json::from_str(&text).unwrap();
+
+        // no-uuid-set should now have a uuid.
+        let new_uuid = val["no-uuid-set"]["uuid"].as_str().expect("uuid should be present");
+        assert!(!new_uuid.is_empty());
+        // It should look like a UUID (basic length check).
+        assert_eq!(new_uuid.len(), 36, "uuid should be a standard UUID string");
+
+        // already-has-uuid should be unchanged.
+        assert_eq!(val["already-has-uuid"]["uuid"], "existing-uuid-1111");
+
+        // flat-token should be untouched (no sets key).
+        assert_eq!(val["flat-token"]["uuid"], "flat-0001");
+        assert!(val["flat-token"].get("sets").is_none());
+
+        // Cleanup.
+        let _ = fs::remove_dir_all(&tmp);
+    }
+
+    #[test]
+    fn add_uuids_is_idempotent() {
+        use std::fs;
+
+        let id = std::process::id();
+        let tmp = std::env::temp_dir().join(format!("add_uuids_idempotent_test_{id}"));
+        let _ = fs::remove_dir_all(&tmp);
+        fs::create_dir_all(&tmp).unwrap();
+
+        fs::write(
+            tmp.join("tokens.json"),
+            serde_json::to_string_pretty(&json!({
+                "my-set": {
+                    "$schema": ".../scale-set.json",
+                    "sets": {
+                        "desktop": { "value": "8px", "uuid": "mode-0001" },
+                        "mobile":  { "value": "10px", "uuid": "mode-0002" }
+                    }
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+
+        // First run — should add 1 UUID.
+        let s1 = crate::migrate::add_uuids(&tmp).unwrap();
+        assert_eq!(s1.uuids_added, 1);
+
+        // Second run — should add nothing.
+        let s2 = crate::migrate::add_uuids(&tmp).unwrap();
+        assert_eq!(s2.uuids_added, 0);
+        assert_eq!(s2.files_modified, 0);
+
+        // UUID written in run 1 should still be there and unchanged.
+        let text = fs::read_to_string(tmp.join("tokens.json")).unwrap();
+        let val: serde_json::Value = serde_json::from_str(&text).unwrap();
+        let uuid_after_run1 = val["my-set"]["uuid"].as_str().unwrap().to_string();
+
+        let _ = crate::migrate::add_uuids(&tmp).unwrap();
+        let text2 = fs::read_to_string(tmp.join("tokens.json")).unwrap();
+        let val2: serde_json::Value = serde_json::from_str(&text2).unwrap();
+        assert_eq!(val2["my-set"]["uuid"].as_str().unwrap(), uuid_after_run1);
+
         let _ = fs::remove_dir_all(&tmp);
     }
 }

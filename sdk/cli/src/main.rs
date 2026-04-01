@@ -167,6 +167,12 @@ enum MigrateSub {
         #[arg(long, value_name = "OUTPUT")]
         output: PathBuf,
     },
+    /// Add missing outer-level UUIDs to set tokens in legacy JSON files (in-place)
+    AddUuids {
+        /// Directory containing legacy .json token files to update
+        #[arg(value_name = "DIR")]
+        dir: PathBuf,
+    },
 }
 
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
@@ -422,6 +428,17 @@ fn run_migrate_legacy_output(input: &Path, output: &Path) -> miette::Result<Exit
     Ok(ExitCode::SUCCESS)
 }
 
+fn run_migrate_add_uuids(dir: &Path) -> miette::Result<ExitCode> {
+    let summary = migrate::add_uuids(dir)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("add-uuids failed: {}", dir.display()))?;
+    println!(
+        "Scanned {} file(s): {} UUID(s) added across {} file(s)",
+        summary.files_scanned, summary.uuids_added, summary.files_modified,
+    );
+    Ok(ExitCode::SUCCESS)
+}
+
 fn run_migrate_convert(input: &Path, output: &Path) -> miette::Result<ExitCode> {
     let summary = migrate::convert_dir(input, output)
         .into_diagnostic()
@@ -654,6 +671,7 @@ fn main() -> ExitCode {
             MigrateSub::LegacyOutput { input, output } => {
                 run_migrate_legacy_output(&input, &output)
             }
+            MigrateSub::AddUuids { dir } => run_migrate_add_uuids(&dir),
         },
     };
 
