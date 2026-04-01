@@ -17,5 +17,11 @@ tempfile = "3.14"
 thiserror = "2.0"
 uuid = { version = "1.11", features = ["v4"] }
 walkdir = "2.5"
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], optional = true }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"], optional = true }
+
+[features]
+default = []
+figma = ["dep:reqwest", "dep:tokio"]
 
 [dev-dependencies]
