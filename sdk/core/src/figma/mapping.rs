@@ -334,8 +334,6 @@ fn schema_to_figma_type(schema: &str) -> &'static str {
         || schema.ends_with(FONT_WEIGHT)
     {
         "FLOAT"
-    } else if schema.ends_with(FONT_FAMILY) || schema.ends_with(FONT_STYLE) {
-        "STRING"
     } else {
         "STRING"
     }
