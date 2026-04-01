@@ -234,14 +234,18 @@ pub fn verify_against_reference(
 
         let ref_text = std::fs::read_to_string(&ref_path)?;
         let out_text = std::fs::read_to_string(&out_path)?;
-        let ref_obj: Map<String, Value> = serde_json::from_str::<Value>(&ref_text)
-            .ok()
-            .and_then(|v| v.as_object().cloned())
-            .unwrap_or_default();
-        let out_obj: Map<String, Value> = serde_json::from_str::<Value>(&out_text)
-            .ok()
-            .and_then(|v| v.as_object().cloned())
-            .unwrap_or_default();
+        let ref_obj: Map<String, Value> =
+            serde_json::from_str::<Value>(&ref_text)
+                .map_err(|e| CoreError::ParseError(format!("{stem}.json (reference): {e}")))?
+                .as_object()
+                .cloned()
+                .ok_or_else(|| CoreError::ParseError(format!("{stem}.json (reference): not an object")))?;
+        let out_obj: Map<String, Value> =
+            serde_json::from_str::<Value>(&out_text)
+                .map_err(|e| CoreError::ParseError(format!("{stem}.json (output): {e}")))?
+                .as_object()
+                .cloned()
+                .ok_or_else(|| CoreError::ParseError(format!("{stem}.json (output): not an object")))?;
 
         // Tokens present in reference but missing from output.
         for key in ref_obj.keys() {
@@ -341,7 +345,7 @@ fn compare_token_entries(name: &str, reference: &Value, output: &Value) -> Vec<S
     // Normalise and compare lifecycle fields, tolerating hoisting differences.
     // "Effective" value = outer field if present, else the consistent value
     // across all mode entries (if any).
-    const LIFECYCLE: &[&str] = &["deprecated", "deprecated_comment", "renamed"];
+    const LIFECYCLE: &[&str] = &["deprecated", "deprecated_comment", "renamed", "private", "description"];
     for field in LIFECYCLE {
         let ref_eff = effective_lifecycle_value(ref_obj, field);
         let out_eff = effective_lifecycle_value(out_obj, field);
@@ -352,7 +356,7 @@ fn compare_token_entries(name: &str, reference: &Value, output: &Value) -> Vec<S
         }
     }
 
-    // Compare sets structure (modes, values, uuids).
+    // Compare sets structure (modes and all per-mode fields).
     match (ref_obj.get("sets"), out_obj.get("sets")) {
         (Some(ref_sets), Some(out_sets)) => {
             let ref_sets = ref_sets.as_object();
@@ -364,20 +368,33 @@ fn compare_token_entries(name: &str, reference: &Value, output: &Value) -> Vec<S
                         continue;
                     };
                     let ref_mode = &ref_sets[mode];
-                    // Compare value within the mode.
-                    if ref_mode.get("value") != out_mode.get("value") {
-                        diffs.push(format!(
-                            "sets.{mode}.value mismatch: {:?} vs {:?}",
-                            ref_mode.get("value"),
-                            out_mode.get("value")
-                        ));
+                    // Fields compared directly (not subject to hoisting).
+                    for field in &["value", "uuid", "$schema"] {
+                        if ref_mode.get(*field) != out_mode.get(*field) {
+                            diffs.push(format!(
+                                "sets.{mode}.{field} mismatch: {:?} vs {:?}",
+                                ref_mode.get(*field),
+                                out_mode.get(*field)
+                            ));
+                        }
                     }
-                    // Compare per-mode uuid.
-                    if ref_mode.get("uuid") != out_mode.get("uuid") {
+                    // Per-mode lifecycle fields — normalised for hoisting.
+                    // A field present in a reference mode but absent in the output mode is
+                    // acceptable if the output token's outer level carries the same value
+                    // (hoisting occurred during conversion). This mirrors the outer-level
+                    // effective_lifecycle_value normalisation.
+                    for field in LIFECYCLE {
+                        let ref_val = ref_mode.as_object().and_then(|m| m.get(*field));
+                        let out_val = out_mode.as_object().and_then(|m| m.get(*field));
+                        if ref_val == out_val {
+                            continue;
+                        }
+                        // Allow hoisting: ref has field in mode, output hoisted it to outer.
+                        if out_val.is_none() && out_obj.get(*field) == ref_val {
+                            continue;
+                        }
                         diffs.push(format!(
-                            "sets.{mode}.uuid mismatch: {:?} vs {:?}",
-                            ref_mode.get("uuid"),
-                            out_mode.get("uuid")
+                            "sets.{mode}.{field} mismatch: {ref_val:?} vs {out_val:?}"
                         ));
                     }
                 }
