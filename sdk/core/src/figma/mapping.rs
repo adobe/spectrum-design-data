@@ -888,7 +888,7 @@ mod tests {
         .unwrap();
 
         let meta = mock_meta();
-        let (body, summary) = build_export_payload(dir.path(), &meta).unwrap();
+        let (_body, summary) = build_export_payload(dir.path(), &meta).unwrap();
         // base-color (flat color) + alias-color (alias→color)
         assert_eq!(summary.variables_created, 2);
         assert!(summary.skipped_alias_unresolved.is_empty());
