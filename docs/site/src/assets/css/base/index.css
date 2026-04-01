@@ -243,12 +243,12 @@ article h6 {
   font-size: var(--spectrum-heading-size-xs);
 }
 
-article h1 code,
-article h2 code,
-article h3 code,
-article h4 code,
-article h5 code,
-article h6 code {
+article h1 code, article h1 a,
+article h2 code, article h2 a,
+article h3 code, article h3 a,
+article h4 code, article h4 a,
+article h5 code, article h5 a,
+article h6 code, article h6 a {
   font-size: inherit;
 }
 
