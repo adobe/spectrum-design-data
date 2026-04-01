@@ -1,5 +1,0 @@
-{
-  "layout": "base.liquid",
-  "tags": ["spec"],
-  "permalink": "/spec/{{ page.fileSlug }}/"
-}

@@ -18,7 +18,13 @@ governing permissions and limitations under the License.
  * The source files are the npm package source of truth and must not
  * be modified — all transformation happens here at copy time.
  */
-import { readdirSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
+import {
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  rmSync,
+} from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -30,6 +36,8 @@ const DRAFT_BANNER = `<div class="spec-draft-banner" style="margin-block-end: 2r
   <strong>Draft Specification (v1.0.0-draft)</strong> — This specification is under active development. Normative text and schemas may change before the stable 1.0.0 release.
 </div>\n\n`;
 
+// Remove stale generated files so renamed/deleted chapters don't linger.
+rmSync(specDest, { recursive: true, force: true });
 mkdirSync(specDest, { recursive: true });
 
 for (const file of readdirSync(specSrc)) {
@@ -54,12 +62,14 @@ for (const file of readdirSync(specSrc)) {
   frontmatter.push('---\n');
 
   // Rewrite sibling links: ](token-format.md) → ](../token-format/)
+  // Also handles fragment links: ](token-format.md#section) → ](../token-format/#section)
   // Special case: ](index.md) → ](../)
   content = content.replace(
-    /\]\((?!https?:\/\/|#)([a-z0-9-]+)\.md\)/g,
-    (match, slug) => {
-      if (slug === 'index') return '](../)';
-      return `](../${slug}/)`;
+    /\]\((?!https?:\/\/|#)([a-z0-9-]+)\.md(#[^)]+)?\)/g,
+    (match, slug, fragment) => {
+      const frag = fragment || '';
+      if (slug === 'index') return `](../${frag})`;
+      return `](../${slug}/${frag})`;
     },
   );
 
@@ -72,5 +82,19 @@ for (const file of readdirSync(specSrc)) {
   const output = frontmatter.join('\n') + '\n' + DRAFT_BANNER + content;
   writeFileSync(join(specDest, file), output);
 }
+
+// Restore the 11ty directory data file (deleted by the rmSync above).
+writeFileSync(
+  join(specDest, 'spec.json'),
+  JSON.stringify(
+    {
+      layout: 'base.liquid',
+      tags: ['spec'],
+      permalink: '/spec/{{ page.fileSlug }}/',
+    },
+    null,
+    2,
+  ) + '\n',
+);
 
 console.log('Spec files copied to docs/site/src/spec/');
