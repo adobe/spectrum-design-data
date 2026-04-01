@@ -90,6 +90,8 @@ pub fn build_export_payload(
 
     let color_mode_ids = resolve_mode_ids(&color_col.modes, COLOR_MODES);
     let scale_mode_ids = resolve_mode_ids(&scale_col.modes, SCALE_MODES);
+    let color_default_mode = &color_col.default_mode_id;
+    let scale_default_mode = &scale_col.default_mode_id;
 
     // 2. Load all token files from the directory.
     let all_tokens = load_all_tokens(token_dir)?;
@@ -149,14 +151,14 @@ pub fn build_export_payload(
                 &mut summary,
             );
         } else if schema.ends_with(COLOR) {
-            // Flat color token → .Color theme, single mode (light).
+            // Flat color token → .Color theme, default mode (Light).
             process_flat_token(
                 token_name,
                 token_entry,
                 &color_col.id,
                 COLOR_THEME_PREFIX,
                 "COLOR",
-                &color_mode_ids,
+                color_default_mode,
                 &value_index,
                 &existing_var_index,
                 &mut variables,
@@ -170,8 +172,8 @@ pub fn build_export_payload(
                 token_entry,
                 &color_col.id,
                 &scale_col.id,
-                &color_mode_ids,
-                &scale_mode_ids,
+                color_default_mode,
+                scale_default_mode,
                 &value_index,
                 &all_tokens,
                 &existing_var_index,
@@ -186,7 +188,7 @@ pub fn build_export_payload(
             || schema.ends_with(FONT_STYLE)
             || schema.ends_with(FONT_WEIGHT)
         {
-            // Flat non-color token → .Platform scale.
+            // Flat non-color token → .Platform scale, default mode (Desktop).
             let figma_type = schema_to_figma_type(schema);
             process_flat_token(
                 token_name,
@@ -194,7 +196,7 @@ pub fn build_export_payload(
                 &scale_col.id,
                 PLATFORM_SCALE_PREFIX,
                 figma_type,
-                &scale_mode_ids,
+                scale_default_mode,
                 &value_index,
                 &existing_var_index,
                 &mut variables,
@@ -289,6 +291,7 @@ fn build_value_index(tokens: &[(String, Value)]) -> HashMap<String, String> {
 }
 
 /// Resolve a token's value, following alias chains.
+/// For set tokens (no top-level `value`), picks the first mode's value.
 fn resolve_value(
     _name: &str,
     entry: &Value,
@@ -298,7 +301,19 @@ fn resolve_value(
     if depth > 10 {
         return None;
     }
-    let value_str = entry.get("value").and_then(|v| v.as_str())?;
+
+    // Try top-level value first; fall back to first set mode's value.
+    let value_str = entry
+        .get("value")
+        .and_then(|v| v.as_str())
+        .or_else(|| {
+            entry
+                .get("sets")
+                .and_then(|s| s.as_object())
+                .and_then(|sets| sets.values().next())
+                .and_then(|mode_entry| mode_entry.get("value"))
+                .and_then(|v| v.as_str())
+        })?;
 
     // Check if it's an alias reference: {token-name}
     if value_str.starts_with('{') && value_str.ends_with('}') {
@@ -336,11 +351,12 @@ fn value_to_figma(value_str: &str, figma_type: &str) -> Option<Value> {
             Some(serde_json::to_value(c).unwrap())
         }
         "FLOAT" => {
-            // Strip common suffixes: "px", "em", "rem", "%"
+            // Strip common unit suffixes: px, em, rem, dp, %
             let s = value_str
                 .trim()
                 .trim_end_matches("rem")
                 .trim_end_matches("em")
+                .trim_end_matches("dp")
                 .trim_end_matches("px")
                 .trim_end_matches('%');
             let n: f64 = s.parse().ok()?;
@@ -491,6 +507,7 @@ fn process_scale_set_token(
                 if v.trim()
                     .trim_end_matches("rem")
                     .trim_end_matches("em")
+                    .trim_end_matches("dp")
                     .trim_end_matches("px")
                     .trim_end_matches('%')
                     .parse::<f64>()
@@ -547,7 +564,7 @@ fn process_flat_token(
     collection_id: &str,
     prefix: &str,
     figma_type: &str,
-    mode_ids: &HashMap<String, String>,
+    default_mode_id: &str,
     value_index: &HashMap<String, String>,
     existing_var_index: &HashMap<&str, &str>,
     variables: &mut Vec<VariableAction>,
@@ -586,15 +603,13 @@ fn process_flat_token(
     variables.push(va);
     summary.variables_created += 1;
 
-    // Set value in the first available mode (default mode).
-    if let Some(mode_id) = mode_ids.values().next() {
-        mode_values.push(ModeValueAction {
-            variable_id: var_id,
-            mode_id: mode_id.clone(),
-            value: figma_val,
-        });
-        summary.mode_values_set += 1;
-    }
+    // Set value in the collection's default mode.
+    mode_values.push(ModeValueAction {
+        variable_id: var_id,
+        mode_id: default_mode_id.to_string(),
+        value: figma_val,
+    });
+    summary.mode_values_set += 1;
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -603,8 +618,8 @@ fn process_alias_token(
     entry: &Value,
     color_collection_id: &str,
     scale_collection_id: &str,
-    color_mode_ids: &HashMap<String, String>,
-    scale_mode_ids: &HashMap<String, String>,
+    color_default_mode_id: &str,
+    scale_default_mode_id: &str,
     value_index: &HashMap<String, String>,
     all_tokens: &[(String, Value)],
     existing_var_index: &HashMap<&str, &str>,
@@ -650,6 +665,7 @@ fn process_alias_token(
         .trim()
         .trim_end_matches("rem")
         .trim_end_matches("em")
+        .trim_end_matches("dp")
         .trim_end_matches("px")
         .trim_end_matches('%')
         .parse::<f64>()
@@ -666,10 +682,10 @@ fn process_alias_token(
         || (figma_type == "FLOAT"
             && (target_schema.ends_with(OPACITY)
                 || target_schema.ends_with(COLOR_SET)));
-    let (collection_id, prefix, mode_ids) = if is_color {
-        (color_collection_id, COLOR_THEME_PREFIX, color_mode_ids)
+    let (collection_id, prefix, default_mode_id) = if is_color {
+        (color_collection_id, COLOR_THEME_PREFIX, color_default_mode_id)
     } else {
-        (scale_collection_id, PLATFORM_SCALE_PREFIX, scale_mode_ids)
+        (scale_collection_id, PLATFORM_SCALE_PREFIX, scale_default_mode_id)
     };
 
     let figma_val = match value_to_figma(resolved_value, figma_type) {
@@ -683,14 +699,12 @@ fn process_alias_token(
     variables.push(va);
     summary.variables_created += 1;
 
-    if let Some(mode_id) = mode_ids.values().next() {
-        mode_values.push(ModeValueAction {
-            variable_id: var_id,
-            mode_id: mode_id.clone(),
-            value: figma_val,
-        });
-        summary.mode_values_set += 1;
-    }
+    mode_values.push(ModeValueAction {
+        variable_id: var_id,
+        mode_id: default_mode_id.to_string(),
+        value: figma_val,
+    });
+    summary.mode_values_set += 1;
 }
 
 #[cfg(test)]
