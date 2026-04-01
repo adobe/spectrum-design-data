@@ -47,6 +47,8 @@ pub enum CoreError {
     MultiDimensionalToken(String),
     #[error("query parse error: {0}")]
     QueryParse(String),
+    #[error("parse error: {0}")]
+    ParseError(String),
 }
 
 /// Returns the crate name for sanity checks and CLI `--version` wiring later.

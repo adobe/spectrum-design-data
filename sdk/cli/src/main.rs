@@ -173,6 +173,12 @@ enum MigrateSub {
         #[arg(value_name = "DIR")]
         dir: PathBuf,
     },
+    /// Verify that the legacy → cascade → legacy roundtrip is clean
+    RoundtripVerify {
+        /// Legacy source directory to roundtrip (e.g. packages/tokens/src)
+        #[arg(value_name = "PATH")]
+        path: PathBuf,
+    },
 }
 
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
@@ -439,6 +445,25 @@ fn run_migrate_add_uuids(dir: &Path) -> miette::Result<ExitCode> {
     Ok(ExitCode::SUCCESS)
 }
 
+fn run_migrate_roundtrip_verify(path: &Path) -> miette::Result<ExitCode> {
+    let diffs = legacy::roundtrip_verify(path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("roundtrip-verify failed: {}", path.display()))?;
+    if diffs.is_empty() {
+        println!("Roundtrip OK: {}", path.display());
+        return Ok(ExitCode::SUCCESS);
+    }
+    for d in &diffs {
+        if d.token.is_empty() {
+            eprintln!("  {}: {}", d.file, d.detail);
+        } else {
+            eprintln!("  {}/{}: {}", d.file, d.token, d.detail);
+        }
+    }
+    eprintln!("{} difference(s) found", diffs.len());
+    Ok(ExitCode::from(1))
+}
+
 fn run_migrate_convert(input: &Path, output: &Path) -> miette::Result<ExitCode> {
     let summary = migrate::convert_dir(input, output)
         .into_diagnostic()
@@ -672,6 +697,7 @@ fn main() -> ExitCode {
                 run_migrate_legacy_output(&input, &output)
             }
             MigrateSub::AddUuids { dir } => run_migrate_add_uuids(&dir),
+            MigrateSub::RoundtripVerify { path } => run_migrate_roundtrip_verify(&path),
         },
     };
 
