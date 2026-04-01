@@ -66,6 +66,7 @@ pub struct ExportSummary {
     pub skipped_composite: Vec<String>,
     pub skipped_alias_unresolved: Vec<String>,
     pub skipped_unknown_schema: Vec<String>,
+    pub skipped_unparseable_value: Vec<String>,
 }
 
 /// Build a Figma POST payload from legacy token source files.
@@ -77,13 +78,13 @@ pub fn build_export_payload(
     existing: &VariablesMeta,
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
     // 1. Look up collection and mode IDs from the existing file.
-    let color_col = find_collection(existing, COLOR_THEME_COLLECTION)
-        .ok_or_else(|| FigmaError::Api {
+    let color_col =
+        find_collection(existing, COLOR_THEME_COLLECTION).ok_or_else(|| FigmaError::Api {
             status: 0,
             message: format!("collection '{COLOR_THEME_COLLECTION}' not found in file"),
         })?;
-    let scale_col = find_collection(existing, PLATFORM_SCALE_COLLECTION)
-        .ok_or_else(|| FigmaError::Api {
+    let scale_col =
+        find_collection(existing, PLATFORM_SCALE_COLLECTION).ok_or_else(|| FigmaError::Api {
             status: 0,
             message: format!("collection '{PLATFORM_SCALE_COLLECTION}' not found in file"),
         })?;
@@ -303,17 +304,14 @@ fn resolve_value(
     }
 
     // Try top-level value first; fall back to first set mode's value.
-    let value_str = entry
-        .get("value")
-        .and_then(|v| v.as_str())
-        .or_else(|| {
-            entry
-                .get("sets")
-                .and_then(|s| s.as_object())
-                .and_then(|sets| sets.values().next())
-                .and_then(|mode_entry| mode_entry.get("value"))
-                .and_then(|v| v.as_str())
-        })?;
+    let value_str = entry.get("value").and_then(|v| v.as_str()).or_else(|| {
+        entry
+            .get("sets")
+            .and_then(|s| s.as_object())
+            .and_then(|sets| sets.values().next())
+            .and_then(|mode_entry| mode_entry.get("value"))
+            .and_then(|v| v.as_str())
+    })?;
 
     // Check if it's an alias reference: {token-name}
     if value_str.starts_with('{') && value_str.ends_with('}') {
@@ -351,12 +349,13 @@ fn value_to_figma(value_str: &str, figma_type: &str) -> Option<Value> {
             Some(serde_json::to_value(c).unwrap())
         }
         "FLOAT" => {
-            // Strip common unit suffixes: px, em, rem, dp, %
+            // Strip common unit suffixes: px, em, rem, %
+            // Note: dp (Android density-independent pixels) is intentionally not
+            // stripped — dp values have no Figma equivalent and are tracked separately.
             let s = value_str
                 .trim()
                 .trim_end_matches("rem")
                 .trim_end_matches("em")
-                .trim_end_matches("dp")
                 .trim_end_matches("px")
                 .trim_end_matches('%');
             let n: f64 = s.parse().ok()?;
@@ -376,14 +375,15 @@ fn make_variable_action(
     existing_var_index: &HashMap<&str, &str>,
 ) -> (VariableAction, String) {
     let figma_name = format!("{prefix}/{token_name}");
-    let (action, id, var_id) = if let Some(&existing_id) = existing_var_index.get(figma_name.as_str()) {
-        let real_id = existing_id.to_string();
-        ("UPDATE".to_string(), Some(real_id.clone()), real_id)
-    } else {
-        // Figma rejects temp IDs containing '/'; use '__' as separator.
-        let temp_id = figma_name.replace('/', "__");
-        ("CREATE".to_string(), Some(temp_id.clone()), temp_id)
-    };
+    let (action, id, var_id) =
+        if let Some(&existing_id) = existing_var_index.get(figma_name.as_str()) {
+            let real_id = existing_id.to_string();
+            ("UPDATE".to_string(), Some(real_id.clone()), real_id)
+        } else {
+            // Figma rejects temp IDs containing '/'; use '__' as separator.
+            let temp_id = figma_name.replace('/', "__");
+            ("CREATE".to_string(), Some(temp_id.clone()), temp_id)
+        };
 
     let va = VariableAction {
         action,
@@ -431,8 +431,14 @@ fn process_color_set_token(
     };
 
     let desc = entry.get("description").and_then(|v| v.as_str());
-    let (va, var_id) =
-        make_variable_action(token_name, prefix, collection_id, figma_type, desc, existing_var_index);
+    let (va, var_id) = make_variable_action(
+        token_name,
+        prefix,
+        collection_id,
+        figma_type,
+        desc,
+        existing_var_index,
+    );
     variables.push(va);
     summary.variables_created += 1;
 
@@ -507,7 +513,6 @@ fn process_scale_set_token(
                 if v.trim()
                     .trim_end_matches("rem")
                     .trim_end_matches("em")
-                    .trim_end_matches("dp")
                     .trim_end_matches("px")
                     .trim_end_matches('%')
                     .parse::<f64>()
@@ -522,8 +527,14 @@ fn process_scale_set_token(
     };
 
     let desc = entry.get("description").and_then(|v| v.as_str());
-    let (va, var_id) =
-        make_variable_action(token_name, prefix, collection_id, figma_type, desc, existing_var_index);
+    let (va, var_id) = make_variable_action(
+        token_name,
+        prefix,
+        collection_id,
+        figma_type,
+        desc,
+        existing_var_index,
+    );
     variables.push(va);
     summary.variables_created += 1;
 
@@ -594,12 +605,23 @@ fn process_flat_token(
 
     let figma_val = match value_to_figma(resolved, figma_type) {
         Some(v) => v,
-        None => return,
+        None => {
+            summary
+                .skipped_unparseable_value
+                .push(token_name.to_string());
+            return;
+        }
     };
 
     let desc = entry.get("description").and_then(|v| v.as_str());
-    let (va, var_id) =
-        make_variable_action(token_name, prefix, collection_id, figma_type, desc, existing_var_index);
+    let (va, var_id) = make_variable_action(
+        token_name,
+        prefix,
+        collection_id,
+        figma_type,
+        desc,
+        existing_var_index,
+    );
     variables.push(va);
     summary.variables_created += 1;
 
@@ -665,7 +687,6 @@ fn process_alias_token(
         .trim()
         .trim_end_matches("rem")
         .trim_end_matches("em")
-        .trim_end_matches("dp")
         .trim_end_matches("px")
         .trim_end_matches('%')
         .parse::<f64>()
@@ -680,12 +701,19 @@ fn process_alias_token(
     // Colors and opacities go to .Color theme; everything else to .Platform scale.
     let is_color = figma_type == "COLOR"
         || (figma_type == "FLOAT"
-            && (target_schema.ends_with(OPACITY)
-                || target_schema.ends_with(COLOR_SET)));
+            && (target_schema.ends_with(OPACITY) || target_schema.ends_with(COLOR_SET)));
     let (collection_id, prefix, default_mode_id) = if is_color {
-        (color_collection_id, COLOR_THEME_PREFIX, color_default_mode_id)
+        (
+            color_collection_id,
+            COLOR_THEME_PREFIX,
+            color_default_mode_id,
+        )
     } else {
-        (scale_collection_id, PLATFORM_SCALE_PREFIX, scale_default_mode_id)
+        (
+            scale_collection_id,
+            PLATFORM_SCALE_PREFIX,
+            scale_default_mode_id,
+        )
     };
 
     let figma_val = match value_to_figma(resolved_value, figma_type) {
@@ -694,8 +722,14 @@ fn process_alias_token(
     };
 
     let desc = entry.get("description").and_then(|v| v.as_str());
-    let (va, var_id) =
-        make_variable_action(token_name, prefix, collection_id, figma_type, desc, existing_var_index);
+    let (va, var_id) = make_variable_action(
+        token_name,
+        prefix,
+        collection_id,
+        figma_type,
+        desc,
+        existing_var_index,
+    );
     variables.push(va);
     summary.variables_created += 1;
 

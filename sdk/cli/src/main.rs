@@ -17,12 +17,12 @@ use std::collections::HashSet;
 
 use clap::{Parser, Subcommand, ValueEnum};
 use design_data_core::cascade::{resolve, ResolutionContext};
-use design_data_core::figma;
 use design_data_core::compat::{
     load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot,
 };
 use design_data_core::diff;
 use design_data_core::diff::display_name;
+use design_data_core::figma;
 use design_data_core::graph::TokenGraph;
 use design_data_core::legacy;
 use design_data_core::migrate;
@@ -681,12 +681,12 @@ fn run_figma_export(
 
     // 3. Output or post.
     if dry_run {
-        println!(
-            "{}",
-            serde_json::to_string_pretty(&body).into_diagnostic()?
-        );
+        println!("{}", serde_json::to_string_pretty(&body).into_diagnostic()?);
     } else {
-        eprintln!("Posting {} variables to Figma...", summary.variables_created);
+        eprintln!(
+            "Posting {} variables to Figma...",
+            summary.variables_created
+        );
         let post_response = rt
             .block_on(client.post_variables(file_key, &body))
             .map_err(|e| miette::miette!("{e}"))?;
@@ -702,10 +702,7 @@ fn run_figma_export(
         summary.variables_created, summary.mode_values_set
     );
     if !summary.skipped_composite.is_empty() {
-        eprintln!(
-            "  Skipped (composite): {}",
-            summary.skipped_composite.len()
-        );
+        eprintln!("  Skipped (composite): {}", summary.skipped_composite.len());
     }
     if !summary.skipped_alias_unresolved.is_empty() {
         eprintln!(
@@ -719,15 +716,18 @@ fn run_figma_export(
             summary.skipped_unknown_schema.len()
         );
     }
+    if !summary.skipped_unparseable_value.is_empty() {
+        eprintln!(
+            "  Skipped (unparseable value): {} — {:?}",
+            summary.skipped_unparseable_value.len(),
+            summary.skipped_unparseable_value,
+        );
+    }
 
     Ok(ExitCode::SUCCESS)
 }
 
-fn run_figma_read(
-    file_key: &str,
-    token: &str,
-    format: OutputFormat,
-) -> miette::Result<ExitCode> {
+fn run_figma_read(file_key: &str, token: &str, format: OutputFormat) -> miette::Result<ExitCode> {
     let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
     let client = figma::api::FigmaClient::new(token.to_string());
 

@@ -234,18 +234,18 @@ pub fn verify_against_reference(
 
         let ref_text = std::fs::read_to_string(&ref_path)?;
         let out_text = std::fs::read_to_string(&out_path)?;
-        let ref_obj: Map<String, Value> =
-            serde_json::from_str::<Value>(&ref_text)
-                .map_err(|e| CoreError::ParseError(format!("{stem}.json (reference): {e}")))?
-                .as_object()
-                .cloned()
-                .ok_or_else(|| CoreError::ParseError(format!("{stem}.json (reference): not an object")))?;
-        let out_obj: Map<String, Value> =
-            serde_json::from_str::<Value>(&out_text)
-                .map_err(|e| CoreError::ParseError(format!("{stem}.json (output): {e}")))?
-                .as_object()
-                .cloned()
-                .ok_or_else(|| CoreError::ParseError(format!("{stem}.json (output): not an object")))?;
+        let ref_obj: Map<String, Value> = serde_json::from_str::<Value>(&ref_text)
+            .map_err(|e| CoreError::ParseError(format!("{stem}.json (reference): {e}")))?
+            .as_object()
+            .cloned()
+            .ok_or_else(|| {
+                CoreError::ParseError(format!("{stem}.json (reference): not an object"))
+            })?;
+        let out_obj: Map<String, Value> = serde_json::from_str::<Value>(&out_text)
+            .map_err(|e| CoreError::ParseError(format!("{stem}.json (output): {e}")))?
+            .as_object()
+            .cloned()
+            .ok_or_else(|| CoreError::ParseError(format!("{stem}.json (output): not an object")))?;
 
         // Tokens present in reference but missing from output.
         for key in ref_obj.keys() {
@@ -274,8 +274,7 @@ pub fn verify_against_reference(
             let Some(out_entry) = out_obj.get(key) else {
                 continue; // already reported above
             };
-            let entry_diffs =
-                compare_token_entries(key, ref_entry, out_entry);
+            let entry_diffs = compare_token_entries(key, ref_entry, out_entry);
             for detail in entry_diffs {
                 diffs.push(VerifyDifference {
                     file: stem.clone(),
@@ -301,7 +300,10 @@ fn compare_token_entries(name: &str, reference: &Value, output: &Value) -> Vec<S
 
     let (Some(ref_obj), Some(out_obj)) = (reference.as_object(), output.as_object()) else {
         if reference != output {
-            diffs.push(format!("value mismatch: {reference:?} vs {out_obj:?}", out_obj = output));
+            diffs.push(format!(
+                "value mismatch: {reference:?} vs {out_obj:?}",
+                out_obj = output
+            ));
         }
         return diffs;
     };
@@ -345,14 +347,18 @@ fn compare_token_entries(name: &str, reference: &Value, output: &Value) -> Vec<S
     // Normalise and compare lifecycle fields, tolerating hoisting differences.
     // "Effective" value = outer field if present, else the consistent value
     // across all mode entries (if any).
-    const LIFECYCLE: &[&str] = &["deprecated", "deprecated_comment", "renamed", "private", "description"];
+    const LIFECYCLE: &[&str] = &[
+        "deprecated",
+        "deprecated_comment",
+        "renamed",
+        "private",
+        "description",
+    ];
     for field in LIFECYCLE {
         let ref_eff = effective_lifecycle_value(ref_obj, field);
         let out_eff = effective_lifecycle_value(out_obj, field);
         if ref_eff != out_eff {
-            diffs.push(format!(
-                "{field} mismatch: {ref_eff:?} vs {out_eff:?}"
-            ));
+            diffs.push(format!("{field} mismatch: {ref_eff:?} vs {out_eff:?}"));
         }
     }
 
@@ -962,13 +968,13 @@ mod tests {
     /// (e.g. in a sparse checkout).
     #[test]
     fn full_roundtrip_clean_against_spectrum_token_sources() {
-        let src = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../packages/tokens/src");
+        let src =
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/src");
         if !src.exists() {
             return;
         }
-        let diffs = crate::legacy::roundtrip_verify(&src)
-            .expect("roundtrip_verify should not error");
+        let diffs =
+            crate::legacy::roundtrip_verify(&src).expect("roundtrip_verify should not error");
         assert!(
             diffs.is_empty(),
             "legacy roundtrip has {} difference(s):\n{:#?}",
