@@ -22,6 +22,7 @@ use design_data_core::compat::{
 };
 use design_data_core::diff;
 use design_data_core::diff::display_name;
+use design_data_core::figma;
 use design_data_core::graph::TokenGraph;
 use design_data_core::legacy;
 use design_data_core::migrate;
@@ -121,6 +122,11 @@ enum Commands {
         #[command(subcommand)]
         sub: MigrateSub,
     },
+    /// Interact with Figma Variables REST API
+    Figma {
+        #[command(subcommand)]
+        sub: FigmaSub,
+    },
 }
 
 #[derive(Subcommand)]
@@ -178,6 +184,37 @@ enum MigrateSub {
         /// Legacy source directory to roundtrip (e.g. packages/tokens/src)
         #[arg(value_name = "PATH")]
         path: PathBuf,
+    },
+}
+
+#[derive(Subcommand)]
+enum FigmaSub {
+    /// Read existing variables from a Figma file
+    Read {
+        /// Figma file key (from the URL: figma.com/design/<file_key>/...)
+        #[arg(long)]
+        file_key: String,
+        /// Figma personal access token (or set FIGMA_TOKEN env var)
+        #[arg(long, env = "FIGMA_TOKEN")]
+        token: String,
+        /// Output format (pretty or json)
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
+    /// Export legacy tokens as Figma Variables
+    Export {
+        /// Path to legacy token source directory
+        #[arg(value_name = "PATH")]
+        path: PathBuf,
+        /// Figma file key to target
+        #[arg(long)]
+        file_key: String,
+        /// Figma personal access token (or set FIGMA_TOKEN env var)
+        #[arg(long, env = "FIGMA_TOKEN")]
+        token: String,
+        /// Generate payload without calling the API
+        #[arg(long)]
+        dry_run: bool,
     },
 }
 
@@ -622,6 +659,135 @@ fn run_query(
     }
 }
 
+fn run_figma_export(
+    path: &Path,
+    file_key: &str,
+    token: &str,
+    dry_run: bool,
+) -> miette::Result<ExitCode> {
+    let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
+    let client = figma::api::FigmaClient::new(token.to_string());
+
+    // 1. GET existing variables to obtain collection/mode IDs.
+    eprintln!("Fetching existing variables from Figma...");
+    let response = rt
+        .block_on(client.get_local_variables(file_key))
+        .map_err(|e| miette::miette!("{e}"))?;
+
+    // 2. Build the export payload.
+    eprintln!("Building export payload from {}...", path.display());
+    let (body, summary) = figma::mapping::build_export_payload(path, &response.meta)
+        .map_err(|e| miette::miette!("{e}"))?;
+
+    // 3. Output or post.
+    if dry_run {
+        println!("{}", serde_json::to_string_pretty(&body).into_diagnostic()?);
+    } else {
+        eprintln!(
+            "Posting {} variables to Figma...",
+            summary.variables_created
+        );
+        let post_response = rt
+            .block_on(client.post_variables(file_key, &body))
+            .map_err(|e| miette::miette!("{e}"))?;
+        eprintln!(
+            "Done. {} ID mappings returned.",
+            post_response.meta.temp_id_to_real_id.len()
+        );
+    }
+
+    // 4. Print summary to stderr.
+    eprintln!(
+        "\nSummary: {} variables, {} mode values",
+        summary.variables_created, summary.mode_values_set
+    );
+    if !summary.skipped_composite.is_empty() {
+        eprintln!("  Skipped (composite): {}", summary.skipped_composite.len());
+    }
+    if !summary.skipped_alias_unresolved.is_empty() {
+        eprintln!(
+            "  Skipped (unresolved alias): {}",
+            summary.skipped_alias_unresolved.len()
+        );
+    }
+    if !summary.skipped_unknown_schema.is_empty() {
+        eprintln!(
+            "  Skipped (unknown schema): {}",
+            summary.skipped_unknown_schema.len()
+        );
+    }
+    if !summary.skipped_unparseable_value.is_empty() {
+        eprintln!(
+            "  Skipped (unparseable value): {} — {:?}",
+            summary.skipped_unparseable_value.len(),
+            summary.skipped_unparseable_value,
+        );
+    }
+
+    Ok(ExitCode::SUCCESS)
+}
+
+fn run_figma_read(file_key: &str, token: &str, format: OutputFormat) -> miette::Result<ExitCode> {
+    let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
+    let client = figma::api::FigmaClient::new(token.to_string());
+
+    let response = rt
+        .block_on(client.get_local_variables(file_key))
+        .map_err(|e| miette::miette!("{e}"))?;
+
+    match format {
+        OutputFormat::Json => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&response.meta).into_diagnostic()?
+            );
+        }
+        OutputFormat::Pretty => {
+            let meta = &response.meta;
+            println!(
+                "{} collection(s), {} variable(s)\n",
+                meta.variable_collections.len(),
+                meta.variables.len()
+            );
+
+            // Sort collections by name for stable output.
+            let mut collections: Vec<_> = meta.variable_collections.values().collect();
+            collections.sort_by(|a, b| a.name.cmp(&b.name));
+
+            for col in &collections {
+                let mode_names: Vec<&str> = col.modes.iter().map(|m| m.name.as_str()).collect();
+                println!(
+                    "Collection: \"{}\" ({} mode(s): {})",
+                    col.name,
+                    col.modes.len(),
+                    mode_names.join(", ")
+                );
+
+                // Collect variables belonging to this collection.
+                let mut vars: Vec<&figma::types::FigmaVariable> = meta
+                    .variables
+                    .values()
+                    .filter(|v| v.variable_collection_id == col.id && !v.remote)
+                    .collect();
+                vars.sort_by(|a, b| a.name.cmp(&b.name));
+
+                println!("  Variables: {}", vars.len());
+
+                // Show first 5 samples.
+                for v in vars.iter().take(5) {
+                    println!("  Sample: {} [{}]", v.name, v.resolved_type);
+                }
+                if vars.len() > 5 {
+                    println!("  ... and {} more", vars.len() - 5);
+                }
+                println!();
+            }
+        }
+    }
+
+    Ok(ExitCode::SUCCESS)
+}
+
 fn main() -> ExitCode {
     let cli = Cli::parse();
 
@@ -698,6 +864,19 @@ fn main() -> ExitCode {
             }
             MigrateSub::AddUuids { dir } => run_migrate_add_uuids(&dir),
             MigrateSub::RoundtripVerify { path } => run_migrate_roundtrip_verify(&path),
+        },
+        Commands::Figma { sub } => match sub {
+            FigmaSub::Read {
+                file_key,
+                token,
+                format,
+            } => run_figma_read(&file_key, &token, format),
+            FigmaSub::Export {
+                path,
+                file_key,
+                token,
+                dry_run,
+            } => run_figma_export(&path, &file_key, &token, dry_run),
         },
     };
 

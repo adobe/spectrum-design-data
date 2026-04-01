@@ -14,6 +14,8 @@ pub mod cascade;
 pub mod compat;
 pub mod diff;
 pub mod discovery;
+#[cfg(feature = "figma")]
+pub mod figma;
 pub mod graph;
 pub mod legacy;
 pub mod migrate;
