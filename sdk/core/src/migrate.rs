@@ -744,14 +744,19 @@ mod tests {
 
         assert_eq!(summary.files_scanned, 1);
         assert_eq!(summary.files_modified, 1);
-        assert_eq!(summary.uuids_added, 1, "only the set token missing uuid should get one");
+        assert_eq!(
+            summary.uuids_added, 1,
+            "only the set token missing uuid should get one"
+        );
 
         // Read back and verify.
         let text = fs::read_to_string(tmp.join("tokens.json")).unwrap();
         let val: serde_json::Value = serde_json::from_str(&text).unwrap();
 
         // no-uuid-set should now have a uuid.
-        let new_uuid = val["no-uuid-set"]["uuid"].as_str().expect("uuid should be present");
+        let new_uuid = val["no-uuid-set"]["uuid"]
+            .as_str()
+            .expect("uuid should be present");
         assert!(!new_uuid.is_empty());
         // It should look like a UUID (basic length check).
         assert_eq!(new_uuid.len(), 36, "uuid should be a standard UUID string");
