@@ -303,12 +303,19 @@ fn resolve_value(
         return None;
     }
 
-    // Try top-level value first; fall back to first set mode's value.
+    // Try top-level value first; fall back to a set mode's value.
+    // Prefer "light" (color default) then "desktop" (scale default) so that
+    // aliases which resolve through a set token pick the canonical default-mode
+    // value rather than whichever mode happens to be listed first in the file.
     let value_str = entry.get("value").and_then(|v| v.as_str()).or_else(|| {
         entry
             .get("sets")
             .and_then(|s| s.as_object())
-            .and_then(|sets| sets.values().next())
+            .and_then(|sets| {
+                sets.get("light")
+                    .or_else(|| sets.get("desktop"))
+                    .or_else(|| sets.values().next())
+            })
             .and_then(|mode_entry| mode_entry.get("value"))
             .and_then(|v| v.as_str())
     })?;
