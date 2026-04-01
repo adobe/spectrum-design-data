@@ -18,8 +18,8 @@
     "node": ">=20.x"
   },
   "scripts": {
-    "build": "eleventy",
-    "start": "eleventy --serve",
+    "build": "node scripts/copy-spec.js && eleventy",
+    "start": "node scripts/copy-spec.js && eleventy --serve",
     "clean": "rimraf ../../site .cache",
     "generate:tools": "node scripts/generate-tools-page.js"
   },
