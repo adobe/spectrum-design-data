@@ -106,14 +106,21 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<LegacySummary,
         if let Some(arr) = value.as_array() {
             for item in arr {
                 if let Some(tok) = item.as_object() {
-                    if let (Some(uuid), Some(name)) = (
-                        tok.get("uuid").and_then(|v| v.as_str()),
-                        tok.get("name")
-                            .and_then(|v| v.as_object())
-                            .and_then(|n| n.get("property"))
-                            .and_then(|v| v.as_str()),
-                    ) {
-                        global_uuid_to_name.insert(uuid.to_string(), name.to_string());
+                    let name = tok
+                        .get("name")
+                        .and_then(|v| v.as_object())
+                        .and_then(|n| n.get("property"))
+                        .and_then(|v| v.as_str());
+                    if let Some(name) = name {
+                        // Index the per-mode uuid.
+                        if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
+                            global_uuid_to_name.insert(uuid.to_string(), name.to_string());
+                        }
+                        // Also index set_uuid so replaced_by pointing at a set token's
+                        // outer UUID resolves correctly to renamed.
+                        if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
+                            global_uuid_to_name.insert(set_uuid.to_string(), name.to_string());
+                        }
                     }
                 }
             }
@@ -317,6 +324,13 @@ fn build_set_entry(
     });
     if let Some(c) = component {
         outer.insert("component".into(), Value::String(c.to_string()));
+    }
+
+    // Recover the outer set-level UUID from the cascade tokens (stored as set_uuid).
+    if let Some(set_uuid) =
+        consistent_str_field(tokens, |t| t.get("set_uuid").and_then(|v| v.as_str()))
+    {
+        outer.insert("uuid".into(), Value::String(set_uuid.to_string()));
     }
 
     // Hoist lifecycle fields that are identical across all mode entries.
@@ -611,5 +625,73 @@ mod tests {
             err.contains("bg"),
             "error message should name the property: {err}"
         );
+    }
+
+    /// Regression: replaced_by pointing at a set token's outer UUID must resolve
+    /// to `renamed` in the legacy output. Previously the global uuid_to_name map
+    /// only indexed per-mode UUIDs, so set_uuid entries were invisible.
+    #[test]
+    fn replaced_by_set_uuid_resolves_to_renamed() {
+        let arr = json!([
+            // old-token: flat, deprecated, replaced_by the outer UUID of new-set.
+            {
+                "name": {"property": "old-token"},
+                "$schema": ".../color.json",
+                "value": "#fff",
+                "uuid": "old-0001",
+                "deprecated": true,
+                "replaced_by": "set-outer-uuid-0001"
+            },
+            // new-set light mode: carries set_uuid = "set-outer-uuid-0001".
+            {
+                "name": {"property": "new-set", "colorScheme": "light"},
+                "$schema": ".../color.json",
+                "value": "#aaa",
+                "uuid": "new-0001",
+                "set_uuid": "set-outer-uuid-0001"
+            },
+            // new-set dark mode: same set_uuid.
+            {
+                "name": {"property": "new-set", "colorScheme": "dark"},
+                "$schema": ".../color.json",
+                "value": "#111",
+                "uuid": "new-0002",
+                "set_uuid": "set-outer-uuid-0001"
+            },
+            // new-set wireframe mode: same set_uuid.
+            {
+                "name": {"property": "new-set", "colorScheme": "wireframe"},
+                "$schema": ".../color.json",
+                "value": "#888",
+                "uuid": "new-0003",
+                "set_uuid": "set-outer-uuid-0001"
+            }
+        ]);
+
+        // Build the global map the same way convert_dir does.
+        let mut global: HashMap<String, String> = HashMap::new();
+        for item in arr.as_array().unwrap() {
+            let tok = item.as_object().unwrap();
+            let name = tok["name"]["property"].as_str().unwrap();
+            if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
+                global.insert(uuid.to_string(), name.to_string());
+            }
+            if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
+                global.insert(set_uuid.to_string(), name.to_string());
+            }
+        }
+
+        let mut summary = LegacySummary::default();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &global).unwrap();
+
+        let old = &out["old-token"];
+        assert_eq!(
+            old.get("renamed").and_then(|v| v.as_str()),
+            Some("new-set"),
+            "replaced_by pointing at set_uuid should resolve to renamed"
+        );
+        assert_eq!(old["deprecated"], true);
+        // new-set should have its outer UUID reconstructed.
+        assert_eq!(out["new-set"]["uuid"], "set-outer-uuid-0001");
     }
 }
