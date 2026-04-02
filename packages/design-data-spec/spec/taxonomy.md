@@ -134,10 +134,10 @@ See [Dimensions](dimensions.md) for dimension declarations, modes, and defaults.
 The **default serialization** produces a kebab-case string from the name object using the following concept order:
 
 ```
-{component}-{structure}-{substructure}-{anatomy}-{object}-{property}-{orientation}-{position}-{size}-{density}-{shape}-{state}
+{variant}-{component}-{structure}-{substructure}-{anatomy}-{object}-{property}-{orientation}-{position}-{size}-{density}-{shape}-{state}
 ```
 
-Omitted fields are skipped. Variant, when present, replaces component at the start of the string.
+Omitted fields are skipped. All fields are independent — `variant` and `component` **MAY** both appear in the same token name (e.g. a token with `component: "button"` and `variant: "accent"` serializes as `accent-button-...`).
 
 This ordering is preserved for backward compatibility with the current `@adobe/spectrum-tokens` package. It is a serialization convention, not a structural requirement.
 
@@ -145,14 +145,7 @@ This ordering is preserved for backward compatibility with the current `@adobe/s
 
 ## Platform formatting configuration
 
-A platform [manifest](manifest.md) **MAY** declare formatting rules in its `extensions.formatting` section:
-
-| Option | Type | Description |
-| --- | --- | --- |
-| `conceptOrder` | array of strings | Ordered list of name object fields for serialization. |
-| `casing` | string | One of: `kebab-case`, `camelCase`, `PascalCase`, `SCREAMING_SNAKE_CASE`. |
-| `delimiter` | string | Character(s) separating concepts (e.g. `-`, `_`, `.`, `/`). |
-| `abbreviations` | object | Map of full term → abbreviated form (e.g. `{ "background": "bg" }`). |
+A platform [manifest](manifest.md) **MAY** declare formatting rules in its [`extensions.formatting`](manifest.md#extensionsformatting) section to control concept ordering, casing, delimiters, and abbreviations. The normative contract for these fields is defined in [Manifest — `extensions.formatting`](manifest.md#extensionsformatting).
 
 When no platform formatting is declared, the default serialization above is used.
 
@@ -167,6 +160,8 @@ The taxonomy and terms are built to scale as new concepts and terms are identifi
 
 ## References
 
+* [#806 — Token Taxonomy, Vocabulary, and Formatting](https://github.com/adobe/spectrum-design-data/discussions/806)
 * [#661 — Spectrum Design System Glossary](https://github.com/adobe/spectrum-design-data/discussions/661)
 * [#646 — Token Schema Structure and Validation System](https://github.com/adobe/spectrum-design-data/discussions/646)
+* [Manifest — `extensions.formatting`](manifest.md#extensionsformatting) — normative contract for platform formatting rules
 * Nate Baldwin, "Naming conventions & shared taxonomy" — Design Data & Platforms onsite, April 1, 2026

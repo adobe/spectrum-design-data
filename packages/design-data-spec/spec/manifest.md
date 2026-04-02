@@ -38,6 +38,21 @@ Each override object **MUST** include enough information to identify a target to
 
 **RECOMMENDED:** `extensions` follows the same structural conventions as foundation token files (tokens, dimensions) and **SHOULD** be validated with the same Layer 1 and Layer 2 rules.
 
+#### `extensions.formatting`
+
+A platform **MAY** declare formatting rules that control how structured name objects are serialized into flat token name strings for that platform. See [Taxonomy — Platform formatting configuration](taxonomy.md#platform-formatting-configuration) for motivation and examples.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `conceptOrder` | array of string | Ordered list of name object field names for serialization. Each entry **MUST** be a valid semantic field name (see [Token format — Semantic fields](token-format.md#semantic-fields)). Omitted fields are appended in the default order defined in [Taxonomy — Default serialization](taxonomy.md#default-serialization-legacy-format). |
+| `casing` | string | One of: `kebab-case`, `camelCase`, `PascalCase`, `SCREAMING_SNAKE_CASE`. Default: `kebab-case`. |
+| `delimiter` | string | Character(s) separating concepts in the serialized string (e.g. `-`, `_`, `.`, `/`). Default: `-`. |
+| `abbreviations` | object | Map of full term → abbreviated form (e.g. `{ "background": "bg" }`). Abbreviations are applied after concept ordering and before casing. |
+
+**NORMATIVE:** When `extensions.formatting` is absent, the default serialization defined in [Taxonomy](taxonomy.md#default-serialization-legacy-format) is used.
+
+**NORMATIVE:** A formatter applying `extensions.formatting` **MUST** produce deterministic output — the same name object and formatting configuration **MUST** always yield the same string.
+
 ## Validation
 
 **NORMATIVE:** Manifests **MUST** pass Layer 1 JSON Schema validation.
