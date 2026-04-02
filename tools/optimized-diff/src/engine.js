@@ -82,6 +82,30 @@ export function detailedDiff(original, updated) {
 }
 
 /**
+ * Produce a canonical JSON string with object keys sorted recursively.
+ * This ensures that two objects with the same key-value pairs but different
+ * property insertion orders compare as equal.
+ * @param {*} value
+ * @returns {string}
+ */
+function canonicalStringify(value) {
+  if (Array.isArray(value)) {
+    return "[" + value.map(canonicalStringify).join(",") + "]";
+  }
+  if (value !== null && typeof value === "object") {
+    const keys = Object.keys(value).sort();
+    return (
+      "{" +
+      keys
+        .map((k) => JSON.stringify(k) + ":" + canonicalStringify(value[k]))
+        .join(",") +
+      "}"
+    );
+  }
+  return JSON.stringify(value);
+}
+
+/**
  * Analyze the difference between two values and categorize changes
  * @param {*} original - Original value
  * @param {*} updated - Updated value
@@ -180,8 +204,13 @@ function analyzeValueDifference(original, updated) {
             (!propDiff.deleted || Object.keys(propDiff.deleted).length === 0) &&
             (!propDiff.updated || Object.keys(propDiff.updated).length === 0)
           ) {
-            // Only add to updated if the values are actually different (deep comparison)
-            if (JSON.stringify(originalProp) !== JSON.stringify(updatedProp)) {
+            // Only add to updated if the values are actually different (deep comparison).
+            // Use canonical (sorted-key) stringify so property reordering within objects
+            // is not treated as a semantic change.
+            if (
+              canonicalStringify(originalProp) !==
+              canonicalStringify(updatedProp)
+            ) {
               result.updated[key] = updatedProp;
             }
           }

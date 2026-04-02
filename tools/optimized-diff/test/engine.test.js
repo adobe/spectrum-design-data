@@ -322,3 +322,41 @@ test("detailedDiff › handles circular references gracefully", (t) => {
   t.deepEqual(result.deleted, {});
   t.deepEqual(result.updated, {});
 });
+
+test("detailedDiff › property reordering within array elements is not a change", (t) => {
+  // Simulates drop-shadow tokens where Tokens Studio reorders keys within shadow objects
+  const shadow1 = {
+    blur: "16px",
+    color: "{ambient}",
+    spread: "0px",
+    x: "0px",
+    y: "12px",
+  };
+  const shadow2 = {
+    x: "0px",
+    y: "12px",
+    blur: "16px",
+    spread: "0px",
+    color: "{ambient}",
+  };
+
+  const original = { "drop-shadow-dragged": { value: [shadow1] } };
+  const updated = { "drop-shadow-dragged": { value: [shadow2] } };
+
+  const result = detailedDiff(original, updated);
+
+  t.deepEqual(result.added, {});
+  t.deepEqual(result.deleted, {});
+  t.deepEqual(result.updated, {});
+});
+
+test("detailedDiff › property reordering in plain objects is not a change", (t) => {
+  const original = { token: { uuid: "abc", value: "14px", deprecated: true } };
+  const updated = { token: { deprecated: true, value: "14px", uuid: "abc" } };
+
+  const result = detailedDiff(original, updated);
+
+  t.deepEqual(result.added, {});
+  t.deepEqual(result.deleted, {});
+  t.deepEqual(result.updated, {});
+});
