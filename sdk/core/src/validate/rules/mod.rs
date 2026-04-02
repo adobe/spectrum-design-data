@@ -23,10 +23,18 @@ mod spec012;
 mod spec013;
 
 use std::collections::HashSet;
+use std::sync::OnceLock;
 
 use crate::graph::TokenGraph;
+use crate::registry::RegistryData;
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
+
+/// Lazily initialized embedded registry data (parsed once, reused).
+fn embedded_registry() -> &'static RegistryData {
+    static REGISTRY: OnceLock<RegistryData> = OnceLock::new();
+    REGISTRY.get_or_init(RegistryData::embedded)
+}
 
 /// All default catalog rules (SPEC-001 … SPEC-013).
 pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
@@ -49,9 +57,11 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
 
 /// Run every rule and collect diagnostics.
 pub fn run_rules(graph: &TokenGraph, naming_exceptions: &HashSet<String>) -> Vec<Diagnostic> {
+    let registry = embedded_registry();
     let ctx = ValidationContext {
         graph,
         naming_exceptions,
+        registry,
     };
     let mut out = Vec::new();
     for r in default_rules() {

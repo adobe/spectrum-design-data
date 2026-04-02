@@ -936,7 +936,10 @@ mod tests {
         let meta = mock_meta();
         let (body, summary) = build_export_payload(dir.path(), &meta).unwrap();
 
-        assert!(summary.skipped_alias_unresolved.is_empty(), "alias should resolve");
+        assert!(
+            summary.skipped_alias_unresolved.is_empty(),
+            "alias should resolve"
+        );
 
         // The alias variable must exist
         let alias_var = body
@@ -957,8 +960,14 @@ mod tests {
 
         let r = mv.value.get("r").and_then(|v| v.as_f64()).unwrap_or(0.0);
         let b = mv.value.get("b").and_then(|v| v.as_f64()).unwrap_or(0.0);
-        assert!(r > 0.9, "expected light value (r≈1), got r={r} — dark value was used instead");
-        assert!(b < 0.1, "expected light value (b≈0), got b={b} — dark value was used instead");
+        assert!(
+            r > 0.9,
+            "expected light value (r≈1), got r={r} — dark value was used instead"
+        );
+        assert!(
+            b < 0.1,
+            "expected light value (b≈0), got b={b} — dark value was used instead"
+        );
     }
 
     #[test]

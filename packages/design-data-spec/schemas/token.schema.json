@@ -15,30 +15,73 @@
   "$defs": {
     "nameObject": {
       "type": "object",
-      "description": "Structured token identity; additional dimension keys MUST be strings.",
+      "description": "Structured token identity. Semantic fields describe identity and structure; dimension fields drive cascade resolution. See spec/taxonomy.md and spec/token-format.md. Additional dimension keys MUST be strings.",
       "required": ["property"],
       "properties": {
         "property": {
           "type": "string",
-          "minLength": 1
+          "minLength": 1,
+          "description": "Semantic: the stylistic attribute being defined (e.g. color, width, padding, gap)."
         },
         "component": {
-          "type": "string"
+          "type": "string",
+          "description": "Semantic: component scope (e.g. button, checkbox)."
+        },
+        "structure": {
+          "type": "string",
+          "description": "Semantic: reusable visual pattern (e.g. base, container, list). Distinct from component."
+        },
+        "substructure": {
+          "type": "string",
+          "description": "Semantic: child within a parent structure (e.g. item in list-item)."
+        },
+        "anatomy": {
+          "type": "string",
+          "description": "Semantic: visible named part of a component (e.g. handle, icon, label)."
+        },
+        "object": {
+          "type": "string",
+          "description": "Semantic: styling surface (e.g. background, border, edge, visual)."
         },
         "variant": {
-          "type": "string"
+          "type": "string",
+          "description": "Semantic: variant within a component (e.g. accent, negative, primary)."
         },
         "state": {
-          "type": "string"
+          "type": "string",
+          "description": "Semantic: interactive or semantic state (e.g. hover, focus, disabled)."
+        },
+        "orientation": {
+          "type": "string",
+          "description": "Semantic: direction or order (e.g. vertical, horizontal)."
+        },
+        "position": {
+          "type": "string",
+          "description": "Semantic: location relative to another object (e.g. affixed, top, bottom)."
+        },
+        "size": {
+          "type": "string",
+          "description": "Semantic: relative t-shirt sizing (e.g. small, medium, large). Distinct from dimension scale."
+        },
+        "density": {
+          "type": "string",
+          "description": "Semantic: space within or around component parts (e.g. spacious, compact)."
+        },
+        "shape": {
+          "type": "string",
+          "description": "Semantic: overall component shape (e.g. uniform)."
         },
         "colorScheme": {
-          "type": "string"
+          "type": "string",
+          "description": "Dimension: color scheme mode (e.g. light, dark, wireframe)."
         },
         "scale": {
-          "type": "string"
+          "type": "string",
+          "description": "Dimension: platform density scale (e.g. desktop, mobile)."
         },
         "contrast": {
-          "type": "string"
+          "type": "string",
+          "description": "Dimension: contrast level (e.g. regular, high)."
         }
       },
       "additionalProperties": {
@@ -98,7 +141,11 @@
         "replaced_by": {
           "oneOf": [
             { "type": "string", "format": "uuid" },
-            { "type": "array", "items": { "type": "string", "format": "uuid" }, "minItems": 1 }
+            {
+              "type": "array",
+              "items": { "type": "string", "format": "uuid" },
+              "minItems": 1
+            }
           ],
           "description": "UUID(s) of the replacement token(s). Array form requires deprecated_comment."
         },
@@ -151,7 +198,11 @@
         "replaced_by": {
           "oneOf": [
             { "type": "string", "format": "uuid" },
-            { "type": "array", "items": { "type": "string", "format": "uuid" }, "minItems": 1 }
+            {
+              "type": "array",
+              "items": { "type": "string", "format": "uuid" },
+              "minItems": 1
+            }
           ],
           "description": "UUID(s) of the replacement token(s). Array form requires deprecated_comment."
         },

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "shape",
+  "description": "Terms relative to the overall shape of a component. This is a starting vocabulary — new shape terms should be added here as design system patterns are identified.",
+  "values": [
+    {
+      "id": "uniform",
+      "label": "Uniform",
+      "description": "Equal proportions (e.g., 1:1 ratio between horizontal and vertical padding)"
+    }
+  ]
+}

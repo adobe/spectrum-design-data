@@ -21,6 +21,7 @@ pub mod legacy;
 pub mod migrate;
 pub mod naming;
 pub mod query;
+pub mod registry;
 pub mod report;
 pub mod schema;
 pub mod validate;

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "substructure",
+  "description": "Structures that only exist within the context of a parent structure (e.g., item within a list).",
+  "values": [
+    {
+      "id": "item",
+      "label": "Item",
+      "description": "Individual element within a parent structure (e.g., list item)"
+    }
+  ]
+}

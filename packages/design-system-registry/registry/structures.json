@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "structure",
+  "description": "Reusable visual patterns or object categories that occur across many varieties of components. Distinct from components, which are specific UI elements.",
+  "values": [
+    {
+      "id": "base",
+      "label": "Base",
+      "description": "Foundation structure shared across components"
+    },
+    {
+      "id": "container",
+      "label": "Container",
+      "description": "Enclosing structure that holds child elements"
+    },
+    {
+      "id": "list",
+      "label": "List",
+      "description": "Ordered or unordered collection of items"
+    },
+    {
+      "id": "accessory",
+      "label": "Accessory",
+      "description": "Supplementary element attached to a primary structure"
+    }
+  ]
+}
