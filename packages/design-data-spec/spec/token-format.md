@@ -25,18 +25,38 @@ The **name object** identifies the token in a structured way. Implementations us
 
 **NORMATIVE fields** (all string unless noted):
 
+Name object fields are divided into **semantic fields** (identity, structure, intent) and **dimension fields** (axes of variation for cascade resolution). See [Taxonomy](taxonomy.md) for the full concept category hierarchy, component anatomy vs. token objects, and serialization rules.
+
+#### Semantic fields
+
+| Field           | Status   | Taxonomy category | Description                                                                                     |
+| --------------- | -------- | ----------------- | ----------------------------------------------------------------------------------------------- |
+| `property`      | REQUIRED | Property          | The stylistic attribute being defined (e.g. `color`, `width`, `padding`, `gap`).                |
+| `component`     | OPTIONAL | Component         | Component name when the token is component-scoped.                                              |
+| `structure`     | OPTIONAL | Structure         | Reusable visual pattern or object category (e.g. `base`, `container`, `list`, `accessory`). Distinct from `component`. |
+| `substructure`  | OPTIONAL | Sub-structure     | A structure that only exists within its parent structure (e.g. `item` in `list-item`).           |
+| `anatomy`       | OPTIONAL | Anatomy           | A visible, named part of a component as defined by designers (e.g. `handle`, `icon`, `label`). See [Taxonomy — Component anatomy](taxonomy.md#component-anatomy). |
+| `object`        | OPTIONAL | Object            | Styling surface to which a visual property is applied (e.g. `background`, `border`, `edge`). See [Taxonomy — Token objects](taxonomy.md#token-objects-styling-surfaces). |
+| `variant`       | OPTIONAL | Variant           | Variant within a component (e.g. `accent`, `negative`, `primary`).                              |
+| `state`         | OPTIONAL | State             | Interactive or semantic state (e.g. `hover`, `focus`, `disabled`).                              |
+| `orientation`   | OPTIONAL | Orientation       | Direction or order of structures and elements (e.g. `vertical`, `horizontal`).                  |
+| `position`      | OPTIONAL | Position          | Location of an object relative to another (e.g. `affixed`).                                     |
+| `size`          | OPTIONAL | Size              | Relative t-shirt sizing for relationships across tokens (e.g. `small`, `medium`, `large`).      |
+| `density`       | OPTIONAL | Density           | Space within or around component parts (e.g. `spacious`, `compact`).                            |
+| `shape`         | OPTIONAL | Shape             | Relative to overall component shape (e.g. `uniform`).                                           |
+
+#### Dimension fields
+
 | Field           | Status   | Description                                                                                     |
 | --------------- | -------- | ----------------------------------------------------------------------------------------------- |
-| `property`      | REQUIRED | Stable property key (e.g. semantic role of the token).                                          |
-| `component`     | OPTIONAL | Component name when the token is component-scoped.                                              |
-| `variant`       | OPTIONAL | Variant within a component.                                                                     |
-| `state`         | OPTIONAL | Interactive or semantic state.                                                                  |
 | `colorScheme`   | OPTIONAL | Dimension: light / dark / wireframe / etc.                                                      |
-| `scale`         | OPTIONAL | Dimension: t-shirt size or density scale.                                                       |
-| `contrast`      | OPTIONAL | Dimension: contrast level.                                                                      |
+| `scale`         | OPTIONAL | Dimension: platform density scale (e.g. `desktop`, `mobile`). Distinct from semantic `size`.    |
+| `contrast`      | OPTIONAL | Dimension: contrast level (e.g. `regular`, `high`).                                             |
 | Additional keys | OPTIONAL | Other dimensions declared in the dataset’s dimension catalog (see [Dimensions](dimensions.md)). |
 
-**RECOMMENDED:** Name objects use a consistent key ordering in authored files for diffs; this is not a conformance requirement.
+**NORMATIVE:** Semantic fields are validated against the design system registry with **advisory** severity (warning). Dimension fields are validated against declared dimension modes with **strict** severity (error). See [Taxonomy — Name object field categories](taxonomy.md#name-object-field-categories).
+
+**RECOMMENDED:** Name objects use a consistent key ordering in authored files for diffs; this is not a conformance requirement. Concept ordering for serialized names is defined in [Taxonomy — Default serialization](taxonomy.md#default-serialization-legacy-format).
 
 ### Alias (`$ref`)
 
@@ -64,7 +84,7 @@ The following OPTIONAL fields implement the token lifecycle model described in [
 
 ```json
 {
-  "name": { "property": "button-background-primary" },
+  "name": { "component": "button", "object": "background", "property": "color", "variant": "primary" },
   "value": "#0265dc",
   "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
   "introduced": "1.0.0",
@@ -118,8 +138,8 @@ Example:
 
 ```json
 [
-  { "name": { "property": "background-color-default" }, "value": "#f5f5f5", "uuid": "..." },
-  { "name": { "property": "background-color-default", "colorScheme": "dark" }, "value": "#1e1e1e", "uuid": "..." }
+  { "name": { "object": "background", "property": "color" }, "value": "#f5f5f5", "uuid": "..." },
+  { "name": { "object": "background", "property": "color", "colorScheme": "dark" }, "value": "#1e1e1e", "uuid": "..." }
 ]
 ```
 

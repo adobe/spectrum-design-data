@@ -64,7 +64,56 @@
     },
     "extensions": {
       "type": "object",
-      "description": "Platform-local tokens or dimensions; structure validated by separate documents.",
+      "description": "Platform-local tokens, dimensions, and formatting rules.",
+      "properties": {
+        "formatting": {
+          "type": "object",
+          "description": "Rules for serializing structured name objects into platform-specific token name strings.",
+          "properties": {
+            "conceptOrder": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "variant",
+                  "component",
+                  "structure",
+                  "substructure",
+                  "anatomy",
+                  "object",
+                  "property",
+                  "orientation",
+                  "position",
+                  "size",
+                  "density",
+                  "shape",
+                  "state"
+                ]
+              },
+              "uniqueItems": true,
+              "description": "Ordered list of semantic field names for serialization."
+            },
+            "casing": {
+              "type": "string",
+              "enum": ["kebab-case", "camelCase", "PascalCase", "SCREAMING_SNAKE_CASE"],
+              "description": "Casing style for serialized token names. Default: kebab-case."
+            },
+            "delimiter": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Character(s) separating concepts in the serialized string. Default: -."
+            },
+            "abbreviations": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Map of full term to abbreviated form, applied after ordering and before casing."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
       "additionalProperties": true
     }
   },

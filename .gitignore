@@ -122,6 +122,7 @@ sdk/target/
 # Claude Code local settings (machine-specific)
 .claude/settings.local.json
 .claude/worktrees/
+**/.claude/
 .mcp.json
 
 # test temporary directories
