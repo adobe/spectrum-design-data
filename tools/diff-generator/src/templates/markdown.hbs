@@ -63,7 +63,7 @@
 {{#each updated.renamed~}}
 - `{{name}}`
 {{#each change}}
-	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{originalValue}}` -> `{{newValue}}`{{/if}}
+	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{{originalValue}}}` -> `{{{newValue}}}`{{/if}}
 {{/each}}
 {{/each}}
 
@@ -72,11 +72,11 @@
 
 {{#if (hasKeys result.updated.added)}}
 <details{{detailsOpen updated.added.length}}><summary><strong>Added Properties ({{updated.added.length}})</strong></summary>
-  
+
 {{#each updated.added~}}
 - `{{name}}`
 {{#each changes}}
-	- `{{cleanPath path}}`: `{{newValue}}`
+	- `{{cleanPath path}}`: `{{{newValue}}}`
 {{/each}}
 {{/each}}
 
@@ -85,11 +85,11 @@
 
 {{#if (hasKeys result.updated.deleted)}}
 <details{{detailsOpen updated.deleted.length}}><summary><strong>Deleted Properties ({{updated.deleted.length}})</strong></summary>
-  
+
 {{#each updated.deleted~}}
 - `{{name}}`
 {{#each changes}}
-	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}{{originalValue}} -> `{{newValue}}`{{/if}}
+	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}{{{originalValue}}} -> `{{{newValue}}}`{{/if}}
 {{/each}}
 {{/each}}
 
@@ -98,11 +98,11 @@
 
 {{#if (hasKeys result.updated.updated)}}
 <details{{detailsOpen updated.updated.length}}><summary><strong>Updated Properties ({{updated.updated.length}})</strong></summary>
-  
+
 {{#each updated.updated~}}
 - `{{name}}`
 {{#each changes}}
-	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{originalValue}}` -> `{{newValue}}`{{/if}}
+	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{{originalValue}}}` -> `{{{newValue}}}`{{/if}}
 {{/each}}
 {{/each}}
 
