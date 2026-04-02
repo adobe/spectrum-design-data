@@ -72,7 +72,7 @@
 
 {{#if (hasKeys result.updated.added)}}
 <details{{detailsOpen updated.added.length}}><summary><strong>Added Properties ({{updated.added.length}})</strong></summary>
-
+  
 {{#each updated.added~}}
 - `{{name}}`
 {{#each changes}}
@@ -85,7 +85,7 @@
 
 {{#if (hasKeys result.updated.deleted)}}
 <details{{detailsOpen updated.deleted.length}}><summary><strong>Deleted Properties ({{updated.deleted.length}})</strong></summary>
-
+  
 {{#each updated.deleted~}}
 - `{{name}}`
 {{#each changes}}
@@ -98,7 +98,7 @@
 
 {{#if (hasKeys result.updated.updated)}}
 <details{{detailsOpen updated.updated.length}}><summary><strong>Updated Properties ({{updated.updated.length}})</strong></summary>
-
+  
 {{#each updated.updated~}}
 - `{{name}}`
 {{#each changes}}
