@@ -1,5 +1,18 @@
 # @adobe/design-system-registry
 
+## 1.2.0
+
+### Minor Changes
+
+- [#810](https://github.com/adobe/spectrum-design-data/pull/810) [`4a55a5f`](https://github.com/adobe/spectrum-design-data/commit/4a55a5f2b027d7df73852cb62dd633bd5da17c93) Thanks [@GarthDB](https://github.com/GarthDB)! - Add taxonomy registries and expand token name object schema.
+  - Split `anatomy-terms.json`: removed styling surfaces and positional terms
+  - Added `token-objects.json` (background, border, edge, visual, content)
+  - Added 6 new taxonomy registries:
+    structures, substructures, orientations, positions, densities, shapes
+  - Exported all 7 new registries from package index
+  - Added all 13 semantic fields explicitly to `nameObject` in
+    `token.schema.json`, distinguishing semantic from dimension fields
+
 ## 1.1.0
 
 ### Minor Changes
