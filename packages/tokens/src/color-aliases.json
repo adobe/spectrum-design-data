@@ -739,30 +739,30 @@
   },
   "drop-shadow-dragged": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/drop-shadow.json",
-    "uuid": "40668dc3-1bc4-4572-8bc8-32818c192a40",
     "value": [
       {
+        "x": "0px",
+        "y": "12px",
         "blur": "16px",
-        "color": "{drop-shadow-ambient-color}",
         "spread": "0px",
-        "x": "0px",
-        "y": "12px"
+        "color": "{drop-shadow-ambient-color}"
       },
       {
+        "x": "0px",
+        "y": "6px",
         "blur": "8px",
-        "color": "{drop-shadow-transition-color}",
         "spread": "0px",
-        "x": "0px",
-        "y": "6px"
+        "color": "{drop-shadow-transition-color}"
       },
       {
-        "blur": "6px",
-        "color": "{drop-shadow-dragged-key-color}",
-        "spread": "0px",
         "x": "0px",
-        "y": "0px"
+        "y": "0px",
+        "blur": "6px",
+        "spread": "0px",
+        "color": "{drop-shadow-dragged-key-color}"
       }
-    ]
+    ],
+    "uuid": "40668dc3-1bc4-4572-8bc8-32818c192a40"
   },
   "drop-shadow-dragged-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -792,30 +792,30 @@
   },
   "drop-shadow-elevated": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/drop-shadow.json",
-    "uuid": "8ecd414e-72e6-4fac-953d-5a1fbe048835",
     "value": [
       {
+        "x": "0px",
+        "y": "4px",
         "blur": "12px",
-        "color": "{drop-shadow-ambient-color}",
         "spread": "0px",
-        "x": "0px",
-        "y": "4px"
+        "color": "{drop-shadow-ambient-color}"
       },
       {
+        "x": "0px",
+        "y": "2px",
         "blur": "6px",
-        "color": "{drop-shadow-transition-color}",
         "spread": "0px",
-        "x": "0px",
-        "y": "2px"
+        "color": "{drop-shadow-transition-color}"
       },
       {
-        "blur": "2px",
-        "color": "{drop-shadow-elevated-key-color}",
-        "spread": "0px",
         "x": "0px",
-        "y": "0px"
+        "y": "0px",
+        "blur": "2px",
+        "spread": "0px",
+        "color": "{drop-shadow-elevated-key-color}"
       }
-    ]
+    ],
+    "uuid": "8ecd414e-72e6-4fac-953d-5a1fbe048835"
   },
   "drop-shadow-elevated-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -845,30 +845,30 @@
   },
   "drop-shadow-emphasized": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/drop-shadow.json",
-    "uuid": "71163f17-f6c6-4123-ac65-2fc30271acf1",
     "value": [
       {
+        "x": "0px",
+        "y": "2px",
         "blur": "8px",
-        "color": "{drop-shadow-ambient-color}",
         "spread": "0px",
-        "x": "0px",
-        "y": "2px"
+        "color": "{drop-shadow-ambient-color}"
       },
       {
+        "x": "0px",
+        "y": "1px",
         "blur": "4px",
-        "color": "{drop-shadow-transition-color}",
         "spread": "0px",
-        "x": "0px",
-        "y": "1px"
+        "color": "{drop-shadow-transition-color}"
       },
       {
-        "blur": "1px",
-        "color": "{drop-shadow-emphasized-key-color}",
-        "spread": "0px",
         "x": "0px",
-        "y": "0px"
+        "y": "0px",
+        "blur": "1px",
+        "spread": "0px",
+        "color": "{drop-shadow-emphasized-key-color}"
       }
-    ]
+    ],
+    "uuid": "71163f17-f6c6-4123-ac65-2fc30271acf1"
   },
   "drop-shadow-emphasized-default-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -877,30 +877,30 @@
   },
   "drop-shadow-emphasized-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/drop-shadow.json",
-    "uuid": "35d75867-6bc7-49f2-89d5-e353e1117a94",
     "value": [
       {
+        "x": "0px",
+        "y": "4px",
         "blur": "12px",
-        "color": "{drop-shadow-ambient-color}",
         "spread": "0px",
-        "x": "0px",
-        "y": "4px"
+        "color": "{drop-shadow-ambient-color}"
       },
       {
+        "x": "0px",
+        "y": "2px",
         "blur": "6px",
-        "color": "{drop-shadow-transition-color}",
         "spread": "0px",
-        "x": "0px",
-        "y": "2px"
+        "color": "{drop-shadow-transition-color}"
       },
       {
-        "blur": "2px",
-        "color": "{drop-shadow-emphasized-key-color}",
-        "spread": "0px",
         "x": "0px",
-        "y": "0px"
+        "y": "0px",
+        "blur": "2px",
+        "spread": "0px",
+        "color": "{drop-shadow-emphasized-key-color}"
       }
-    ]
+    ],
+    "uuid": "35d75867-6bc7-49f2-89d5-e353e1117a94"
   },
   "drop-shadow-emphasized-hover-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
