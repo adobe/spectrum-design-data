@@ -58,6 +58,11 @@ fn parse_registry(json_str: &str) -> HashSet<String> {
 
 impl RegistryData {
     /// Load all registries from embedded JSON (compile-time inclusion).
+    ///
+    /// Paths are relative to this source file (`sdk/core/src/registry.rs`), so
+    /// they resolve to `packages/design-system-registry/registry/`. If this
+    /// file is ever moved, update the paths accordingly — a compile-time error
+    /// will catch any mismatch.
     pub fn embedded() -> Self {
         Self {
             components: parse_registry(include_str!(

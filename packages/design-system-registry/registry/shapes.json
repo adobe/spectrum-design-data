@@ -1,7 +1,7 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "shape",
-  "description": "Terms relative to the overall shape of a component.",
+  "description": "Terms relative to the overall shape of a component. This is a starting vocabulary — new shape terms should be added here as design system patterns are identified.",
   "values": [
     {
       "id": "uniform",
