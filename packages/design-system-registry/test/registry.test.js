@@ -20,6 +20,13 @@ import {
   scaleValues,
   categories,
   platforms,
+  tokenObjects,
+  structures,
+  substructures,
+  orientations,
+  positions,
+  densities,
+  shapes,
   getValues,
   findValue,
   hasValue,
@@ -243,10 +250,27 @@ test("variants includes semantic variants", (t) => {
 
 test("anatomyTerms includes key anatomy parts", (t) => {
   const ids = getValues(anatomyTerms);
-  t.true(ids.includes("edge"));
-  t.true(ids.includes("visual"));
   t.true(ids.includes("text"));
   t.true(ids.includes("icon"));
+  t.true(ids.includes("label"));
+  t.true(ids.includes("handle"));
+});
+
+test("anatomyTerms does not include styling surfaces", (t) => {
+  const ids = getValues(anatomyTerms);
+  t.false(ids.includes("background"));
+  t.false(ids.includes("border"));
+  t.false(ids.includes("edge"));
+  t.false(ids.includes("visual"));
+});
+
+test("tokenObjects includes styling surfaces", (t) => {
+  const ids = getValues(tokenObjects);
+  t.true(ids.includes("background"));
+  t.true(ids.includes("border"));
+  t.true(ids.includes("edge"));
+  t.true(ids.includes("visual"));
+  t.true(ids.includes("content"));
 });
 
 test("components includes core components", (t) => {
@@ -277,4 +301,64 @@ test("scaleValues includes common numeric scales", (t) => {
   t.true(ids.includes("100"));
   t.true(ids.includes("200"));
   t.true(ids.includes("300"));
+});
+
+// Taxonomy registry tests
+
+const taxonomyRegistries = [
+  ["tokenObjects", tokenObjects],
+  ["structures", structures],
+  ["substructures", substructures],
+  ["orientations", orientations],
+  ["positions", positions],
+  ["densities", densities],
+  ["shapes", shapes],
+];
+
+for (const [name, registry] of taxonomyRegistries) {
+  test(`${name} registry loads successfully`, (t) => {
+    t.truthy(registry);
+    t.truthy(registry.values);
+    t.true(Array.isArray(registry.values));
+    t.true(registry.values.length > 0);
+  });
+
+  test(`${name} registry has no duplicate IDs`, (t) => {
+    const ids = registry.values.map((v) => v.id);
+    const uniqueIds = new Set(ids);
+    t.is(ids.length, uniqueIds.size);
+  });
+
+  test(`all ${name} values have id and label`, (t) => {
+    registry.values.forEach((value) => {
+      t.truthy(value.id, `${name} value missing id`);
+      t.truthy(value.label, `${name} value ${value.id} missing label`);
+    });
+  });
+}
+
+test("structures includes base and container", (t) => {
+  const ids = getValues(structures);
+  t.true(ids.includes("base"));
+  t.true(ids.includes("container"));
+});
+
+test("orientations includes vertical and horizontal", (t) => {
+  const ids = getValues(orientations);
+  t.true(ids.includes("vertical"));
+  t.true(ids.includes("horizontal"));
+});
+
+test("positions includes directional terms", (t) => {
+  const ids = getValues(positions);
+  t.true(ids.includes("top"));
+  t.true(ids.includes("bottom"));
+  t.true(ids.includes("start"));
+  t.true(ids.includes("end"));
+});
+
+test("densities includes spacious and compact", (t) => {
+  const ids = getValues(densities);
+  t.true(ids.includes("spacious"));
+  t.true(ids.includes("compact"));
 });

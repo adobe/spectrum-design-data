@@ -1,20 +1,8 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "anatomy-term",
-  "description": "Anatomical part names used in design tokens and component structures",
+  "description": "Visible, named parts of components as defined by designers. These are the parts called out in component specification diagrams. Styling surfaces (background, border, etc.) belong in token-objects.json; positional terms (top, bottom, etc.) belong in positions.json.",
   "values": [
-    {
-      "id": "edge",
-      "label": "Edge",
-      "description": "The outer boundary or border of a component",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "visual",
-      "label": "Visual",
-      "description": "Visual elements like icons, images, or decorative elements",
-      "usedIn": ["tokens"]
-    },
     {
       "id": "text",
       "label": "Text",
@@ -28,18 +16,6 @@
       "usedIn": ["tokens"]
     },
     {
-      "id": "border",
-      "label": "Border",
-      "description": "Border or outline of a component",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "background",
-      "label": "Background",
-      "description": "Background surface or fill",
-      "usedIn": ["tokens"]
-    },
-    {
       "id": "icon",
       "label": "Icon",
       "description": "Icon elements",
@@ -50,36 +26,6 @@
       "label": "Label",
       "description": "Text labels",
       "usedIn": ["tokens", "component-schemas"]
-    },
-    {
-      "id": "content",
-      "label": "Content",
-      "description": "Main content area",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "top",
-      "label": "Top",
-      "description": "Top edge or boundary",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "bottom",
-      "label": "Bottom",
-      "description": "Bottom edge or boundary",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "start",
-      "label": "Start",
-      "description": "Start edge (left in LTR, right in RTL)",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "end",
-      "label": "End",
-      "description": "End edge (right in LTR, left in RTL)",
-      "usedIn": ["tokens"]
     },
     {
       "id": "body",

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "orientation",
+  "description": "Direction or order of structures and elements within a component or pattern.",
+  "values": [
+    {
+      "id": "vertical",
+      "label": "Vertical",
+      "description": "Top-to-bottom direction"
+    },
+    {
+      "id": "horizontal",
+      "label": "Horizontal",
+      "description": "Left-to-right (or right-to-left) direction"
+    }
+  ]
+}

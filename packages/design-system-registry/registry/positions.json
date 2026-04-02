@@ -1,0 +1,32 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "position",
+  "description": "Location of an object relative to another, with or without respect to directional order.",
+  "values": [
+    {
+      "id": "affixed",
+      "label": "Affixed",
+      "description": "Attached to another element in a fixed position"
+    },
+    {
+      "id": "top",
+      "label": "Top",
+      "description": "Top position relative to a reference element"
+    },
+    {
+      "id": "bottom",
+      "label": "Bottom",
+      "description": "Bottom position relative to a reference element"
+    },
+    {
+      "id": "start",
+      "label": "Start",
+      "description": "Start position (left in LTR, right in RTL)"
+    },
+    {
+      "id": "end",
+      "label": "End",
+      "description": "End position (right in LTR, left in RTL)"
+    }
+  ]
+}
