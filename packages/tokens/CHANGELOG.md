@@ -1,5 +1,18 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.4.0
+
+### Minor Changes
+
+- [#800](https://github.com/adobe/spectrum-design-data/pull/800) [`55bf38f`](https://github.com/adobe/spectrum-design-data/commit/55bf38f81bacd49f2db0a54cde91bbf311dda23f) Thanks [@GarthDB](https://github.com/GarthDB)! - Add outer-level UUIDs to all set tokens (color-set, scale-set) that were missing
+  them. 1235 tokens across all source files now have a token-level UUID in addition
+  to their per-mode UUIDs. The `color-set.json` and `scale-set.json` schemas now
+  require an outer `uuid` field.
+
+  This is an additive change — token values and names are unchanged. Consumers who
+  read the raw JSON will see a new `uuid` field at the top level of set token entries
+  in `variables.json`.
+
 ## 14.3.0
 
 ### Minor Changes
