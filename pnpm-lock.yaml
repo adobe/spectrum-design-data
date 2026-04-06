@@ -672,6 +672,28 @@ importers:
 
   tools/token-manifest-builder: {}
 
+  tools/token-name-builder:
+    dependencies:
+      "@spectrum-css/tokens":
+        specifier: ^16.0.2
+        version: 16.0.2
+      lit:
+        specifier: ^3.1.0
+        version: 3.3.0
+    devDependencies:
+      "@ava/typescript":
+        specifier: ^6.0.0
+        version: 6.0.0
+      ava:
+        specifier: ^6.0.1
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.8.3
+      vite:
+        specifier: ^5.4.0
+        version: 5.4.19(@types/node@22.15.33)(terser@5.44.1)
+
   tools/transform-tokens-json:
     dependencies:
       jsonpath-plus:
