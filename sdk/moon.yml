@@ -24,7 +24,7 @@ tasks:
     args:
       - scripts/generate-registry-data.js
     inputs:
-      - "../../packages/design-system-registry/registry/*.json"
+      - "/packages/design-system-registry/registry/*.json"
     outputs:
       - "core/src/registry_data.rs"
     platform: node
