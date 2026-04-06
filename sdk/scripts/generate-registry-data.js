@@ -10,7 +10,10 @@
 
 /**
  * Generates sdk/core/src/registry_data.rs from design-system-registry JSON files.
- * Run via: moon run sdk:codegen
+ *
+ * Usage:
+ *   node scripts/generate-registry-data.js          # write (moon run sdk:codegen)
+ *   node scripts/generate-registry-data.js --check  # verify no drift (moon run sdk:codegen-check)
  */
 
 import { readFileSync, writeFileSync } from "fs";
@@ -46,5 +49,18 @@ for (const [stem, constName] of REGISTRIES) {
   generated += `const ${constName}: &str = r##"${content}"##;\n`;
 }
 
-writeFileSync(destFile, generated, "utf-8");
-console.log(`Written: ${destFile}`);
+const checkMode = process.argv.includes("--check");
+
+if (checkMode) {
+  const current = readFileSync(destFile, "utf-8");
+  if (current !== generated) {
+    console.error(
+      "registry_data.rs is out of date. Run `moon run sdk:codegen` to regenerate.",
+    );
+    process.exit(1);
+  }
+  console.log("registry_data.rs is up to date.");
+} else {
+  writeFileSync(destFile, generated, "utf-8");
+  console.log(`Written: ${destFile}`);
+}

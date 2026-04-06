@@ -28,6 +28,15 @@ tasks:
     outputs:
       - "core/src/registry_data.rs"
     platform: node
+  codegen-check:
+    command: node
+    args:
+      - scripts/generate-registry-data.js
+      - --check
+    inputs:
+      - "/packages/design-system-registry/registry/*.json"
+      - "core/src/registry_data.rs"
+    platform: node
   build:
     command: cargo
     args:
@@ -37,7 +46,7 @@ tasks:
       - "@globs(sources)"
       - "core/src/registry_data.rs"
     deps:
-      - codegen
+      - codegen-check
   test:
     command: cargo
     args:
@@ -47,7 +56,7 @@ tasks:
       - "@globs(sources)"
       - "core/src/registry_data.rs"
     deps:
-      - codegen
+      - codegen-check
   lint:
     command: cargo
     args:
