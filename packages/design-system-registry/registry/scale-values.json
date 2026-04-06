@@ -86,6 +86,41 @@
       "value": 1000,
       "category": "extended",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "1100",
+      "label": "Scale 1100",
+      "value": 1100,
+      "category": "extended",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "1200",
+      "label": "Scale 1200",
+      "value": 1200,
+      "category": "extended",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "1300",
+      "label": "Scale 1300",
+      "value": 1300,
+      "category": "extended",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "1400",
+      "label": "Scale 1400",
+      "value": 1400,
+      "category": "extended",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "1500",
+      "label": "Scale 1500",
+      "value": 1500,
+      "category": "extended",
+      "usedIn": ["component-schemas"]
     }
   ]
 }

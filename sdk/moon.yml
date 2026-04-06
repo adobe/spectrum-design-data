@@ -19,6 +19,24 @@ fileGroups:
     - "Cargo.toml"
     - "rust-toolchain.toml"
 tasks:
+  codegen:
+    command: node
+    args:
+      - scripts/generate-registry-data.js
+    inputs:
+      - "/packages/design-system-registry/registry/*.json"
+    outputs:
+      - "core/src/registry_data.rs"
+    platform: node
+  codegen-check:
+    command: node
+    args:
+      - scripts/generate-registry-data.js
+      - --check
+    inputs:
+      - "/packages/design-system-registry/registry/*.json"
+      - "core/src/registry_data.rs"
+    platform: node
   build:
     command: cargo
     args:
@@ -26,6 +44,9 @@ tasks:
       - --workspace
     inputs:
       - "@globs(sources)"
+      - "core/src/registry_data.rs"
+    deps:
+      - codegen-check
   test:
     command: cargo
     args:
@@ -33,6 +54,9 @@ tasks:
       - --workspace
     inputs:
       - "@globs(sources)"
+      - "core/src/registry_data.rs"
+    deps:
+      - codegen-check
   lint:
     command: cargo
     args:
