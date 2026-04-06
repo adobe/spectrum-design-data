@@ -62,11 +62,11 @@ fn parse_registry(json_str: &str) -> HashSet<String> {
 include!("registry_data.rs");
 
 impl RegistryData {
-    /// Load all registries from JSON embedded at compile time by `build.rs`.
+    /// Load all registries from JSON constants in `registry_data.rs`.
     ///
-    /// The build script reads each registry file from
-    /// `packages/design-system-registry/registry/` and writes the contents
-    /// as Rust string constants into `OUT_DIR/registry_data.rs`.
+    /// `registry_data.rs` is checked into git and generated from
+    /// `packages/design-system-registry/registry/` by running
+    /// `moon run sdk:codegen`.
     pub fn embedded() -> Self {
         Self {
             components: parse_registry(COMPONENTS_JSON),
