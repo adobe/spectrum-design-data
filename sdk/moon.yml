@@ -18,15 +18,13 @@ fileGroups:
     - "cli/Cargo.toml"
     - "Cargo.toml"
     - "rust-toolchain.toml"
-  registry_sources:
-    - "../../packages/design-system-registry/registry/*.json"
 tasks:
   codegen:
     command: node
     args:
       - scripts/generate-registry-data.js
     inputs:
-      - "@globs(registry_sources)"
+      - "../../packages/design-system-registry/registry/*.json"
     outputs:
       - "core/src/registry_data.rs"
     platform: node
