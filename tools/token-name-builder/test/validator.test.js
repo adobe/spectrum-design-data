@@ -26,6 +26,14 @@ function loadRegistry(filename) {
   return JSON.parse(readFileSync(resolve(registryDir, filename), "utf-8"));
 }
 
+// Load component-anatomy registry and collect all known part IDs
+const componentAnatomy = loadRegistry("component-anatomy.json");
+const allAnatomyPartIds = new Set(
+  Object.values(componentAnatomy.components).flatMap((c) =>
+    c.parts.map((p) => p.id),
+  ),
+);
+
 const registries = {
   component: loadRegistry("components.json"),
   structure: loadRegistry("structures.json"),
@@ -97,11 +105,16 @@ function validate(name) {
     const registry = registries[field];
     if (!registry) continue;
     if (!hasValue(registry, value)) {
-      messages.push({
-        field,
-        severity: "warning",
-        message: `"${value}" is not in the ${registry.type} registry. This is allowed but may indicate a typo.`,
-      });
+      // For anatomy, also accept part IDs from the component-anatomy registry
+      const knownAnatomyPart =
+        field === "anatomy" && allAnatomyPartIds.has(value);
+      if (!knownAnatomyPart) {
+        messages.push({
+          field,
+          severity: "warning",
+          message: `"${value}" is not in the ${registry.type} registry. This is allowed but may indicate a typo.`,
+        });
+      }
     }
   }
 
@@ -239,6 +252,29 @@ test("known anatomy terms pass validation", (t) => {
   });
   const anatomyMsg = messages.find((m) => m.field === "anatomy");
   t.falsy(anatomyMsg);
+});
+
+test("component-anatomy part IDs do not trigger warnings", (t) => {
+  // "fill" is in component-anatomy.json (slider) but NOT in anatomy-terms.json
+  const messages = validate({
+    property: "color",
+    anatomy: "fill",
+  });
+  const anatomyMsg = messages.find((m) => m.field === "anatomy");
+  t.falsy(
+    anatomyMsg,
+    '"fill" is a known component-anatomy part and should not warn',
+  );
+});
+
+test("truly unknown anatomy values still warn", (t) => {
+  const messages = validate({
+    property: "color",
+    anatomy: "nonexistent-part",
+  });
+  const anatomyMsg = messages.find((m) => m.field === "anatomy");
+  t.truthy(anatomyMsg);
+  t.is(anatomyMsg.severity, "warning");
 });
 
 test("known variants pass validation", (t) => {

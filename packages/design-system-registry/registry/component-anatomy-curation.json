@@ -2,12 +2,18 @@
   "$comment": "Curation rules applied after extracting raw anatomy data from S2 docs. Documents why the registry diverges from the source markdown. Re-run the extraction script to apply.",
 
   "removals": {
-    "action-button-1": "Numbering artifact from action-group diagram; not a distinct anatomy term. Use 'action-button' instead.",
-    "action-button-2": "Numbering artifact from action-group diagram; not a distinct anatomy term. Use 'action-button' instead.",
     "background": "This is a token object / styling surface (belongs in the 'object' field of the name object, not 'anatomy'). See token-objects.json."
   },
 
   "renames": {
+    "action-button-1": {
+      "to": "action-button",
+      "reason": "Numbering artifact from action-group diagram; normalize to the component name."
+    },
+    "action-button-2": {
+      "to": "action-button",
+      "reason": "Numbering artifact from action-group diagram; normalize to the component name."
+    },
     "body-area": {
       "to": "body",
       "reason": "Redundant '-area' suffix; aligns with existing anatomy-terms registry term 'body'."

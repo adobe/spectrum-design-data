@@ -12,7 +12,20 @@ governing permissions and limitations under the License.
 
 import type { NameObject } from "./name-object.js";
 import { SEMANTIC_FIELDS, DIMENSION_FIELDS } from "./name-object.js";
-import { registries, dimensionModes, hasValue } from "./registry-data.js";
+import {
+  registries,
+  dimensionModes,
+  hasValue,
+  componentAnatomy,
+} from "./registry-data.js";
+
+// Collect all unique part IDs from the component-anatomy registry so anatomy
+// values sourced from S2 docs don't trigger false "not in registry" warnings.
+const allAnatomyPartIds = new Set(
+  Object.values(componentAnatomy.components).flatMap((c) =>
+    c.parts.map((p) => p.id),
+  ),
+);
 
 export type Severity = "error" | "warning" | "info";
 
@@ -60,11 +73,17 @@ export function validate(name: NameObject): ValidationMessage[] {
     if (!registry) continue;
 
     if (!hasValue(registry, value)) {
-      messages.push({
-        field,
-        severity: "warning",
-        message: `"${value}" is not in the ${registry.type} registry. This is allowed but may indicate a typo.`,
-      });
+      // For the anatomy field, also accept any part ID from the
+      // component-anatomy registry (extracted from S2 docs).
+      const knownAnatomyPart =
+        field === "anatomy" && allAnatomyPartIds.has(value);
+      if (!knownAnatomyPart) {
+        messages.push({
+          field,
+          severity: "warning",
+          message: `"${value}" is not in the ${registry.type} registry. This is allowed but may indicate a typo.`,
+        });
+      }
     }
 
     // Check for deprecated values

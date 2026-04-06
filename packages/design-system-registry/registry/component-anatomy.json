@@ -44,6 +44,12 @@
       "source": "docs/s2-docs/components/actions/action-group.md",
       "parts": [
         {
+          "id": "action-button",
+          "label": "Action Button",
+          "optional": false,
+          "tier": "composite"
+        },
+        {
           "id": "action-menu",
           "label": "Action Menu",
           "optional": true

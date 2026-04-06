@@ -182,11 +182,12 @@ test("tabs deduplicated tab-item", (t) => {
 
 // --- Curation tests ---
 
-test("numbering artifacts are removed", (t) => {
+test("numbering artifacts are normalized to base term", (t) => {
   const ag = registry.components["action-group"];
   const ids = ag.parts.map((p) => p.id);
   t.false(ids.includes("action-button-1"));
   t.false(ids.includes("action-button-2"));
+  t.true(ids.includes("action-button"));
 });
 
 test("background (token object) is removed from anatomy", (t) => {
