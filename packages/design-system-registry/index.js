@@ -90,6 +90,10 @@ export const shapes = JSON.parse(
   readFileSync(join(__dirname, "registry", "shapes.json"), "utf-8"),
 );
 
+export const componentAnatomy = JSON.parse(
+  readFileSync(join(__dirname, "registry", "component-anatomy.json"), "utf-8"),
+);
+
 /**
  * Get all values from a registry by ID
  * @param {object} registry - The registry object

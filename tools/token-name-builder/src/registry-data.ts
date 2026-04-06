@@ -25,6 +25,7 @@ import positionsJson from "@registry/positions.json";
 import sizesJson from "@registry/sizes.json";
 import densitiesJson from "@registry/densities.json";
 import shapesJson from "@registry/shapes.json";
+import componentAnatomyJson from "@registry/component-anatomy.json";
 
 /** A single value entry from a registry file. */
 export interface RegistryValue {
@@ -115,3 +116,28 @@ export function findValue(
 export function hasValue(registry: Registry, searchTerm: string): boolean {
   return findValue(registry, searchTerm) !== undefined;
 }
+
+/** A single anatomy part for a component. */
+export interface AnatomyPart {
+  id: string;
+  label: string;
+  optional: boolean;
+}
+
+/** A component's anatomy entry. */
+export interface ComponentAnatomyEntry {
+  label: string;
+  source: string;
+  parts: AnatomyPart[];
+}
+
+/** The component-anatomy registry shape. */
+export interface ComponentAnatomyRegistry {
+  type: string;
+  description: string;
+  components: Record<string, ComponentAnatomyEntry>;
+}
+
+/** Component → anatomy parts mapping, extracted from S2 docs. */
+export const componentAnatomy =
+  componentAnatomyJson as unknown as ComponentAnatomyRegistry;

@@ -1,0 +1,1836 @@
+{
+  "type": "component-anatomy",
+  "description": "Mapping of Spectrum components to their visible anatomy parts, extracted from S2 documentation.",
+  "components": {
+    "accordion": {
+      "label": "accordion",
+      "source": "docs/s2-docs/components/navigation/accordion.md",
+      "parts": [
+        {
+          "id": "accordion-items",
+          "label": "Accordion Items",
+          "optional": false
+        },
+        {
+          "id": "small-divider",
+          "label": "Small Divider",
+          "optional": false
+        }
+      ]
+    },
+    "action-button": {
+      "label": "action button",
+      "source": "docs/s2-docs/components/actions/action-button.md",
+      "parts": [
+        {
+          "id": "icon",
+          "label": "Icon",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "hold-icon",
+          "label": "Hold Icon",
+          "optional": true
+        }
+      ]
+    },
+    "action-group": {
+      "label": "action group",
+      "source": "docs/s2-docs/components/actions/action-group.md",
+      "parts": [
+        {
+          "id": "action-button-1",
+          "label": "Action Button 1",
+          "optional": false
+        },
+        {
+          "id": "action-button-2",
+          "label": "Action Button 2",
+          "optional": false
+        },
+        {
+          "id": "action-menu",
+          "label": "Action Menu",
+          "optional": true
+        }
+      ]
+    },
+    "alert-banner": {
+      "label": "alert banner",
+      "source": "docs/s2-docs/components/feedback/alert-banner.md",
+      "parts": [
+        {
+          "id": "background",
+          "label": "Background",
+          "optional": false
+        },
+        {
+          "id": "icon",
+          "label": "Icon",
+          "optional": false
+        },
+        {
+          "id": "text",
+          "label": "Text",
+          "optional": false
+        },
+        {
+          "id": "button",
+          "label": "Button",
+          "optional": false
+        },
+        {
+          "id": "close-button",
+          "label": "Close Button",
+          "optional": false
+        }
+      ]
+    },
+    "alert-dialog": {
+      "label": "alert dialog",
+      "source": "docs/s2-docs/components/feedback/alert-dialog.md",
+      "parts": [
+        {
+          "id": "alert-dialog-container",
+          "label": "Alert Dialog Container",
+          "optional": false
+        },
+        {
+          "id": "title",
+          "label": "Title",
+          "optional": false
+        },
+        {
+          "id": "description",
+          "label": "Description",
+          "optional": false
+        },
+        {
+          "id": "primary-action",
+          "label": "Primary Action",
+          "optional": false
+        },
+        {
+          "id": "secondary-action",
+          "label": "Secondary Action",
+          "optional": true
+        },
+        {
+          "id": "cancel-action",
+          "label": "Cancel Action",
+          "optional": true
+        },
+        {
+          "id": "overlay",
+          "label": "Overlay",
+          "optional": false
+        }
+      ]
+    },
+    "avatar": {
+      "label": "avatar",
+      "source": "docs/s2-docs/components/status/avatar.md",
+      "parts": [
+        {
+          "id": "container",
+          "label": "Container",
+          "optional": false
+        },
+        {
+          "id": "user-image",
+          "label": "User Image",
+          "optional": false
+        },
+        {
+          "id": "gradient-image",
+          "label": "Gradient Image",
+          "optional": false
+        },
+        {
+          "id": "initials",
+          "label": "Initials",
+          "optional": false
+        },
+        {
+          "id": "guest-icon",
+          "label": "Guest Icon",
+          "optional": false
+        }
+      ]
+    },
+    "avatar-group": {
+      "label": "avatar group",
+      "source": "docs/s2-docs/components/status/avatar-group.md",
+      "parts": [
+        {
+          "id": "avatar",
+          "label": "Avatar",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        }
+      ]
+    },
+    "badge": {
+      "label": "badge",
+      "source": "docs/s2-docs/components/status/badge.md",
+      "parts": [
+        {
+          "id": "icon",
+          "label": "Icon",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        }
+      ]
+    },
+    "breadcrumbs": {
+      "label": "breadcrumbs",
+      "source": "docs/s2-docs/components/navigation/breadcrumbs.md",
+      "parts": [
+        {
+          "id": "truncated-menu",
+          "label": "Truncated Menu",
+          "optional": false
+        },
+        {
+          "id": "breadcrumbs-item",
+          "label": "Breadcrumbs Item",
+          "optional": false
+        },
+        {
+          "id": "separator",
+          "label": "Separator",
+          "optional": false
+        },
+        {
+          "id": "breadcrumbs-title",
+          "label": "Breadcrumbs Title",
+          "optional": false
+        }
+      ]
+    },
+    "button": {
+      "label": "button",
+      "source": "docs/s2-docs/components/actions/button.md",
+      "parts": [
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        }
+      ]
+    },
+    "button-group": {
+      "label": "button group",
+      "source": "docs/s2-docs/components/actions/button-group.md",
+      "parts": [
+        {
+          "id": "button",
+          "label": "Button",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        }
+      ]
+    },
+    "calendar": {
+      "label": "calendar",
+      "source": "docs/s2-docs/components/inputs/calendar.md",
+      "parts": [
+        {
+          "id": "chevron",
+          "label": "Chevron",
+          "optional": false
+        },
+        {
+          "id": "month",
+          "label": "Month",
+          "optional": false
+        },
+        {
+          "id": "year",
+          "label": "Year",
+          "optional": false
+        },
+        {
+          "id": "week",
+          "label": "Week",
+          "optional": false
+        },
+        {
+          "id": "days",
+          "label": "Days",
+          "optional": false
+        }
+      ]
+    },
+    "cards": {
+      "label": "card",
+      "source": "docs/s2-docs/components/containers/cards.md",
+      "parts": [
+        {
+          "id": "container",
+          "label": "Container",
+          "optional": false
+        },
+        {
+          "id": "checkbox",
+          "label": "Checkbox",
+          "optional": true
+        },
+        {
+          "id": "preview-well",
+          "label": "Preview Well",
+          "optional": false
+        },
+        {
+          "id": "preview",
+          "label": "Preview",
+          "optional": false
+        },
+        {
+          "id": "metadata",
+          "label": "Metadata",
+          "optional": false
+        },
+        {
+          "id": "footer-area",
+          "label": "Footer Area",
+          "optional": false
+        },
+        {
+          "id": "title",
+          "label": "Title",
+          "optional": false
+        }
+      ]
+    },
+    "checkbox": {
+      "label": "checkbox",
+      "source": "docs/s2-docs/components/inputs/checkbox.md",
+      "parts": [
+        {
+          "id": "control",
+          "label": "Control",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        }
+      ]
+    },
+    "checkbox-group": {
+      "label": "checkbox group",
+      "source": "docs/s2-docs/components/inputs/checkbox-group.md",
+      "parts": [
+        {
+          "id": "field-label",
+          "label": "Field Label",
+          "optional": false
+        },
+        {
+          "id": "checkbox",
+          "label": "Checkbox",
+          "optional": false
+        },
+        {
+          "id": "help-text",
+          "label": "Help Text",
+          "optional": false
+        }
+      ]
+    },
+    "close-button": {
+      "label": "close button",
+      "source": "docs/s2-docs/components/actions/close-button.md",
+      "parts": [
+        {
+          "id": "cross-ui-icon",
+          "label": "Cross Ui Icon",
+          "optional": false
+        }
+      ]
+    },
+    "coach-indicator": {
+      "label": "coach indicator",
+      "source": "docs/s2-docs/components/feedback/coach-indicator.md",
+      "parts": [
+        {
+          "id": "inner-stroke",
+          "label": "Inner Stroke",
+          "optional": false
+        },
+        {
+          "id": "outer-stroke",
+          "label": "Outer Stroke",
+          "optional": false
+        }
+      ]
+    },
+    "coach-mark": {
+      "label": "coach mark",
+      "source": "docs/s2-docs/components/feedback/coach-mark.md",
+      "parts": [
+        {
+          "id": "container",
+          "label": "Container",
+          "optional": false
+        },
+        {
+          "id": "image",
+          "label": "Image",
+          "optional": true
+        },
+        {
+          "id": "title",
+          "label": "Title",
+          "optional": false
+        },
+        {
+          "id": "more-actions-menu",
+          "label": "More Actions Menu",
+          "optional": false
+        },
+        {
+          "id": "keyboard-shortcuts",
+          "label": "Keyboard Shortcuts",
+          "optional": false
+        },
+        {
+          "id": "description",
+          "label": "Description",
+          "optional": false
+        },
+        {
+          "id": "tour-step-counter",
+          "label": "Tour Step Counter",
+          "optional": false
+        },
+        {
+          "id": "button-group",
+          "label": "Button Group",
+          "optional": false
+        }
+      ]
+    },
+    "color-area": {
+      "label": "color area",
+      "source": "docs/s2-docs/components/inputs/color-area.md",
+      "parts": [
+        {
+          "id": "area",
+          "label": "Area",
+          "optional": false
+        },
+        {
+          "id": "handle",
+          "label": "Handle",
+          "optional": false
+        },
+        {
+          "id": "loupe",
+          "label": "Loupe",
+          "optional": false
+        }
+      ]
+    },
+    "color-handle-and-loupe": {
+      "label": "color handle and loupe",
+      "source": "docs/s2-docs/components/inputs/color-handle-and-loupe.md",
+      "parts": [
+        {
+          "id": "color-handle",
+          "label": "Color Handle",
+          "optional": false
+        },
+        {
+          "id": "opacity-checkerboard",
+          "label": "Opacity Checkerboard",
+          "optional": false
+        },
+        {
+          "id": "color-loupe",
+          "label": "Color Loupe",
+          "optional": true
+        }
+      ]
+    },
+    "color-slider": {
+      "label": "color slider",
+      "source": "docs/s2-docs/components/inputs/color-slider.md",
+      "parts": [
+        {
+          "id": "track",
+          "label": "Track",
+          "optional": false
+        },
+        {
+          "id": "handle",
+          "label": "Handle",
+          "optional": false
+        },
+        {
+          "id": "loupe",
+          "label": "Loupe",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "value",
+          "label": "Value",
+          "optional": false
+        }
+      ]
+    },
+    "color-wheel": {
+      "label": "color wheel",
+      "source": "docs/s2-docs/components/inputs/color-wheel.md",
+      "parts": [
+        {
+          "id": "track",
+          "label": "Track",
+          "optional": false
+        },
+        {
+          "id": "handle",
+          "label": "Handle",
+          "optional": false
+        },
+        {
+          "id": "loupe",
+          "label": "Loupe",
+          "optional": false
+        }
+      ]
+    },
+    "combo-box": {
+      "label": "combo box",
+      "source": "docs/s2-docs/components/inputs/combo-box.md",
+      "parts": [
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "necessity-indicator",
+          "label": "Necessity Indicator",
+          "optional": false
+        },
+        {
+          "id": "field",
+          "label": "Field",
+          "optional": false
+        },
+        {
+          "id": "help-text",
+          "label": "Help Text",
+          "optional": false
+        },
+        {
+          "id": "menu-container",
+          "label": "Menu Container",
+          "optional": false
+        }
+      ]
+    },
+    "contextual-help": {
+      "label": "contextual help",
+      "source": "docs/s2-docs/components/feedback/contextual-help.md",
+      "parts": [
+        {
+          "id": "action-button",
+          "label": "Action Button",
+          "optional": false
+        },
+        {
+          "id": "popover",
+          "label": "Popover",
+          "optional": false
+        },
+        {
+          "id": "title",
+          "label": "Title",
+          "optional": false
+        },
+        {
+          "id": "description",
+          "label": "Description",
+          "optional": false
+        },
+        {
+          "id": "link",
+          "label": "Link",
+          "optional": false
+        }
+      ]
+    },
+    "date-picker": {
+      "label": "date picker",
+      "source": "docs/s2-docs/components/inputs/date-picker.md",
+      "parts": [
+        {
+          "id": "date-field",
+          "label": "Date Field",
+          "optional": false
+        },
+        {
+          "id": "calendar",
+          "label": "Calendar",
+          "optional": false
+        },
+        {
+          "id": "time-field",
+          "label": "Time Field",
+          "optional": true
+        }
+      ]
+    },
+    "drop-zone": {
+      "label": "drop zone",
+      "source": "docs/s2-docs/components/inputs/drop-zone.md",
+      "parts": [
+        {
+          "id": "illustration",
+          "label": "Illustration",
+          "optional": false
+        },
+        {
+          "id": "title",
+          "label": "Title",
+          "optional": false
+        },
+        {
+          "id": "body",
+          "label": "Body",
+          "optional": false
+        },
+        {
+          "id": "button",
+          "label": "Button",
+          "optional": true
+        }
+      ]
+    },
+    "field-label": {
+      "label": "field label",
+      "source": "docs/s2-docs/components/inputs/field-label.md",
+      "parts": [
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "necessity-indicator",
+          "label": "Necessity Indicator",
+          "optional": false
+        },
+        {
+          "id": "input",
+          "label": "Input",
+          "optional": false
+        }
+      ]
+    },
+    "help-text": {
+      "label": "help text",
+      "source": "docs/s2-docs/components/inputs/help-text.md",
+      "parts": [
+        {
+          "id": "icon",
+          "label": "Icon",
+          "optional": true
+        },
+        {
+          "id": "text",
+          "label": "Text",
+          "optional": false
+        }
+      ]
+    },
+    "illustrated-message": {
+      "label": "illustrated message",
+      "source": "docs/s2-docs/components/feedback/illustrated-message.md",
+      "parts": [
+        {
+          "id": "illustration",
+          "label": "Illustration",
+          "optional": false
+        },
+        {
+          "id": "title",
+          "label": "Title",
+          "optional": false
+        },
+        {
+          "id": "description",
+          "label": "Description",
+          "optional": false
+        },
+        {
+          "id": "button-group",
+          "label": "Button Group",
+          "optional": true
+        }
+      ]
+    },
+    "in-line-alert": {
+      "label": "in-line alert",
+      "source": "docs/s2-docs/components/feedback/in-line-alert.md",
+      "parts": [
+        {
+          "id": "background",
+          "label": "Background",
+          "optional": false
+        },
+        {
+          "id": "title",
+          "label": "Title",
+          "optional": true
+        },
+        {
+          "id": "icon",
+          "label": "Icon",
+          "optional": false
+        },
+        {
+          "id": "body-area",
+          "label": "Body Area",
+          "optional": false
+        }
+      ]
+    },
+    "list-view": {
+      "label": "list view",
+      "source": "docs/s2-docs/components/actions/list-view.md",
+      "parts": [
+        {
+          "id": "list-view-section-header",
+          "label": "List View Section Header",
+          "optional": false
+        },
+        {
+          "id": "list-item",
+          "label": "List Item",
+          "optional": false
+        },
+        {
+          "id": "checkbox",
+          "label": "Checkbox",
+          "optional": false
+        },
+        {
+          "id": "icon",
+          "label": "Icon",
+          "optional": false
+        },
+        {
+          "id": "thumbnail",
+          "label": "Thumbnail",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "description",
+          "label": "Description",
+          "optional": true
+        },
+        {
+          "id": "actions",
+          "label": "Actions",
+          "optional": false
+        },
+        {
+          "id": "trailing-icons",
+          "label": "Trailing Icons",
+          "optional": false
+        }
+      ]
+    },
+    "menu": {
+      "label": "menu",
+      "source": "docs/s2-docs/components/actions/menu.md",
+      "parts": [
+        {
+          "id": "popover",
+          "label": "Popover",
+          "optional": false
+        },
+        {
+          "id": "menu-section-header",
+          "label": "Menu Section Header",
+          "optional": false
+        },
+        {
+          "id": "menu-section-description",
+          "label": "Menu Section Description",
+          "optional": false
+        },
+        {
+          "id": "menu-items",
+          "label": "Menu Items",
+          "optional": false
+        },
+        {
+          "id": "icon",
+          "label": "Icon",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "description",
+          "label": "Description",
+          "optional": false
+        },
+        {
+          "id": "value",
+          "label": "Value",
+          "optional": false
+        },
+        {
+          "id": "switch",
+          "label": "Switch",
+          "optional": false
+        },
+        {
+          "id": "checkbox",
+          "label": "Checkbox",
+          "optional": false
+        },
+        {
+          "id": "thumbnail",
+          "label": "Thumbnail",
+          "optional": false
+        },
+        {
+          "id": "drill-in-chevron",
+          "label": "Drill In Chevron",
+          "optional": false
+        },
+        {
+          "id": "link-out-icon",
+          "label": "Link Out Icon",
+          "optional": false
+        },
+        {
+          "id": "menu-section-divider",
+          "label": "Menu Section Divider",
+          "optional": false
+        }
+      ]
+    },
+    "meter": {
+      "label": "meter",
+      "source": "docs/s2-docs/components/status/meter.md",
+      "parts": [
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "value",
+          "label": "Value",
+          "optional": false
+        },
+        {
+          "id": "track",
+          "label": "Track",
+          "optional": false
+        },
+        {
+          "id": "fill",
+          "label": "Fill",
+          "optional": false
+        }
+      ]
+    },
+    "number-field": {
+      "label": "number field",
+      "source": "docs/s2-docs/components/inputs/number-field.md",
+      "parts": [
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "required-asterisk",
+          "label": "Required Asterisk",
+          "optional": false
+        },
+        {
+          "id": "required-text",
+          "label": "Required Text",
+          "optional": false
+        },
+        {
+          "id": "optional-text",
+          "label": "Optional Text",
+          "optional": false
+        },
+        {
+          "id": "field",
+          "label": "Field",
+          "optional": false
+        },
+        {
+          "id": "value",
+          "label": "Value",
+          "optional": false
+        },
+        {
+          "id": "validation-marker",
+          "label": "Validation Marker",
+          "optional": false
+        },
+        {
+          "id": "error-icon",
+          "label": "Error Icon",
+          "optional": false
+        },
+        {
+          "id": "stepper",
+          "label": "Stepper",
+          "optional": false
+        },
+        {
+          "id": "help-text",
+          "label": "Help Text",
+          "optional": false
+        }
+      ]
+    },
+    "picker": {
+      "label": "picker",
+      "source": "docs/s2-docs/components/inputs/picker.md",
+      "parts": [
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "required-asterisk",
+          "label": "Required Asterisk",
+          "optional": false
+        },
+        {
+          "id": "required-text",
+          "label": "Required Text",
+          "optional": false
+        },
+        {
+          "id": "optional-text",
+          "label": "Optional Text",
+          "optional": false
+        },
+        {
+          "id": "field",
+          "label": "Field",
+          "optional": false
+        },
+        {
+          "id": "placeholder",
+          "label": "Placeholder",
+          "optional": false
+        },
+        {
+          "id": "value",
+          "label": "Value",
+          "optional": false
+        },
+        {
+          "id": "error-icon",
+          "label": "Error Icon",
+          "optional": false
+        },
+        {
+          "id": "chevron",
+          "label": "Chevron",
+          "optional": false
+        },
+        {
+          "id": "help-text",
+          "label": "Help Text",
+          "optional": false
+        },
+        {
+          "id": "menu-container",
+          "label": "Menu Container",
+          "optional": false
+        }
+      ]
+    },
+    "popover": {
+      "label": "popover",
+      "source": "docs/s2-docs/components/containers/popover.md",
+      "parts": [
+        {
+          "id": "tip",
+          "label": "Tip",
+          "optional": true
+        }
+      ]
+    },
+    "progress-bar": {
+      "label": "progress bar",
+      "source": "docs/s2-docs/components/status/progress-bar.md",
+      "parts": [
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "value",
+          "label": "Value",
+          "optional": false
+        },
+        {
+          "id": "track",
+          "label": "Track",
+          "optional": false
+        },
+        {
+          "id": "fill",
+          "label": "Fill",
+          "optional": false
+        }
+      ]
+    },
+    "progress-circle": {
+      "label": "progress circle",
+      "source": "docs/s2-docs/components/status/progress-circle.md",
+      "parts": [
+        {
+          "id": "track",
+          "label": "Track",
+          "optional": false
+        },
+        {
+          "id": "fill",
+          "label": "Fill",
+          "optional": false
+        }
+      ]
+    },
+    "radio-button": {
+      "label": "radio button",
+      "source": "docs/s2-docs/components/inputs/radio-button.md",
+      "parts": [
+        {
+          "id": "control",
+          "label": "Control",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        }
+      ]
+    },
+    "radio-group": {
+      "label": "radio group",
+      "source": "docs/s2-docs/components/inputs/radio-group.md",
+      "parts": [
+        {
+          "id": "field-label",
+          "label": "Field Label",
+          "optional": false
+        },
+        {
+          "id": "radio-button-area",
+          "label": "Radio Button Area",
+          "optional": false
+        },
+        {
+          "id": "help-text",
+          "label": "Help Text",
+          "optional": true
+        }
+      ]
+    },
+    "rating": {
+      "label": "rating",
+      "source": "docs/s2-docs/components/inputs/rating.md",
+      "parts": [
+        {
+          "id": "star-workflow-icon",
+          "label": "Star Workflow Icon",
+          "optional": false
+        }
+      ]
+    },
+    "search-field": {
+      "label": "search field",
+      "source": "docs/s2-docs/components/inputs/search-field.md",
+      "parts": [
+        {
+          "id": "field",
+          "label": "Field",
+          "optional": false
+        },
+        {
+          "id": "leading-icon",
+          "label": "Leading Icon",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "search-term",
+          "label": "Search Term",
+          "optional": false
+        },
+        {
+          "id": "in-field-button",
+          "label": "In Field Button",
+          "optional": false
+        },
+        {
+          "id": "help-text",
+          "label": "Help Text",
+          "optional": false
+        }
+      ]
+    },
+    "segmented-control": {
+      "label": "segmented control",
+      "source": "docs/s2-docs/components/inputs/segmented-control.md",
+      "parts": [
+        {
+          "id": "track",
+          "label": "Track",
+          "optional": false
+        },
+        {
+          "id": "segmented-control-item",
+          "label": "Segmented Control Item",
+          "optional": false
+        },
+        {
+          "id": "icon",
+          "label": "Icon",
+          "optional": true
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        }
+      ]
+    },
+    "select-box": {
+      "label": "select box",
+      "source": "docs/s2-docs/components/inputs/select-box.md",
+      "parts": [
+        {
+          "id": "illustration",
+          "label": "Illustration",
+          "optional": true
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "body",
+          "label": "Body",
+          "optional": true
+        },
+        {
+          "id": "checkbox",
+          "label": "Checkbox",
+          "optional": false
+        }
+      ]
+    },
+    "side-navigation": {
+      "label": "side navigation",
+      "source": "docs/s2-docs/components/navigation/side-navigation.md",
+      "parts": [
+        {
+          "id": "header",
+          "label": "Header",
+          "optional": false
+        },
+        {
+          "id": "item",
+          "label": "Item",
+          "optional": false
+        },
+        {
+          "id": "icon",
+          "label": "Icon",
+          "optional": true
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        }
+      ]
+    },
+    "slider": {
+      "label": "slider",
+      "source": "docs/s2-docs/components/inputs/slider.md",
+      "parts": [
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": true
+        },
+        {
+          "id": "value",
+          "label": "Value",
+          "optional": true
+        },
+        {
+          "id": "track",
+          "label": "Track",
+          "optional": false
+        },
+        {
+          "id": "fill",
+          "label": "Fill",
+          "optional": false
+        },
+        {
+          "id": "handle",
+          "label": "Handle",
+          "optional": false
+        }
+      ]
+    },
+    "standard-dialog": {
+      "label": "standard dialog",
+      "source": "docs/s2-docs/components/feedback/standard-dialog.md",
+      "parts": [
+        {
+          "id": "standard-dialog-container",
+          "label": "Standard Dialog Container",
+          "optional": false
+        },
+        {
+          "id": "cover-image",
+          "label": "Cover Image",
+          "optional": true
+        },
+        {
+          "id": "close-button",
+          "label": "Close Button",
+          "optional": true
+        },
+        {
+          "id": "header-area",
+          "label": "Header Area",
+          "optional": false
+        },
+        {
+          "id": "title",
+          "label": "Title",
+          "optional": false
+        },
+        {
+          "id": "body-area",
+          "label": "Body Area",
+          "optional": false
+        },
+        {
+          "id": "description",
+          "label": "Description",
+          "optional": true
+        },
+        {
+          "id": "footer-area",
+          "label": "Footer Area",
+          "optional": false
+        },
+        {
+          "id": "footer-content",
+          "label": "Footer Content",
+          "optional": true
+        },
+        {
+          "id": "button-group",
+          "label": "Button Group",
+          "optional": false
+        },
+        {
+          "id": "overlay",
+          "label": "Overlay",
+          "optional": false
+        }
+      ]
+    },
+    "standard-panel": {
+      "label": "standard panel",
+      "source": "docs/s2-docs/components/containers/standard-panel.md",
+      "parts": [
+        {
+          "id": "header-content-area",
+          "label": "Header Content Area",
+          "optional": false
+        },
+        {
+          "id": "accordion",
+          "label": "Accordion",
+          "optional": false
+        },
+        {
+          "id": "back-button",
+          "label": "Back Button",
+          "optional": false
+        },
+        {
+          "id": "close-button",
+          "label": "Close Button",
+          "optional": true
+        },
+        {
+          "id": "gripper",
+          "label": "Gripper",
+          "optional": true
+        }
+      ]
+    },
+    "status-light": {
+      "label": "status light",
+      "source": "docs/s2-docs/components/status/status-light.md",
+      "parts": [
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "dot",
+          "label": "Dot",
+          "optional": false
+        }
+      ]
+    },
+    "steplist": {
+      "label": "steplist",
+      "source": "docs/s2-docs/components/status/steplist.md",
+      "parts": [
+        {
+          "id": "step-item",
+          "label": "Step Item",
+          "optional": false
+        },
+        {
+          "id": "track",
+          "label": "Track",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": true
+        }
+      ]
+    },
+    "swatch": {
+      "label": "swatch",
+      "source": "docs/s2-docs/components/inputs/swatch.md",
+      "parts": [
+        {
+          "id": "container",
+          "label": "Container",
+          "optional": false
+        },
+        {
+          "id": "color",
+          "label": "Color",
+          "optional": false
+        }
+      ]
+    },
+    "swatch-group": {
+      "label": "swatch group",
+      "source": "docs/s2-docs/components/inputs/swatch-group.md",
+      "parts": [
+        {
+          "id": "swatch",
+          "label": "Swatch",
+          "optional": false
+        }
+      ]
+    },
+    "switch": {
+      "label": "switch",
+      "source": "docs/s2-docs/components/inputs/switch.md",
+      "parts": [
+        {
+          "id": "track",
+          "label": "Track",
+          "optional": false
+        },
+        {
+          "id": "handle",
+          "label": "Handle",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        }
+      ]
+    },
+    "table": {
+      "label": "table",
+      "source": "docs/s2-docs/components/containers/table.md",
+      "parts": [
+        {
+          "id": "column-header",
+          "label": "Column Header",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "sort-icon",
+          "label": "Sort Icon",
+          "optional": false
+        },
+        {
+          "id": "column-divider",
+          "label": "Column Divider",
+          "optional": false
+        },
+        {
+          "id": "row",
+          "label": "Row",
+          "optional": false
+        },
+        {
+          "id": "cell",
+          "label": "Cell",
+          "optional": false
+        },
+        {
+          "id": "row-divider",
+          "label": "Row Divider",
+          "optional": false
+        }
+      ]
+    },
+    "tabs": {
+      "label": "tabs",
+      "source": "docs/s2-docs/components/navigation/tabs.md",
+      "parts": [
+        {
+          "id": "tab-item",
+          "label": "Tab Item",
+          "optional": false
+        },
+        {
+          "id": "selection-indicator",
+          "label": "Selection Indicator",
+          "optional": false
+        }
+      ]
+    },
+    "tag": {
+      "label": "tag",
+      "source": "docs/s2-docs/components/inputs/tag.md",
+      "parts": [
+        {
+          "id": "avatar",
+          "label": "Avatar",
+          "optional": true
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "close-button",
+          "label": "Close Button",
+          "optional": true
+        }
+      ]
+    },
+    "tag-field": {
+      "label": "tag field",
+      "source": "docs/s2-docs/components/inputs/tag-field.md",
+      "parts": [
+        {
+          "id": "field-label",
+          "label": "Field Label",
+          "optional": false
+        },
+        {
+          "id": "text-area",
+          "label": "Text Area",
+          "optional": false
+        },
+        {
+          "id": "tag",
+          "label": "Tag",
+          "optional": false
+        },
+        {
+          "id": "avatar",
+          "label": "Avatar",
+          "optional": true
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "close-button",
+          "label": "Close Button",
+          "optional": true
+        }
+      ]
+    },
+    "tag-group": {
+      "label": "tag group",
+      "source": "docs/s2-docs/components/inputs/tag-group.md",
+      "parts": [
+        {
+          "id": "field-label",
+          "label": "Field Label",
+          "optional": false
+        },
+        {
+          "id": "tag",
+          "label": "Tag",
+          "optional": false
+        },
+        {
+          "id": "action-button",
+          "label": "Action Button",
+          "optional": false
+        }
+      ]
+    },
+    "takeover-dialog": {
+      "label": "takeover dialog",
+      "source": "docs/s2-docs/components/feedback/takeover-dialog.md",
+      "parts": [
+        {
+          "id": "takeover-dialog-container",
+          "label": "Takeover Dialog Container",
+          "optional": false
+        },
+        {
+          "id": "header-area",
+          "label": "Header Area",
+          "optional": false
+        },
+        {
+          "id": "title",
+          "label": "Title",
+          "optional": false
+        },
+        {
+          "id": "header-content",
+          "label": "Header Content",
+          "optional": true
+        },
+        {
+          "id": "button-group",
+          "label": "Button Group",
+          "optional": false
+        },
+        {
+          "id": "body-area",
+          "label": "Body Area",
+          "optional": false
+        },
+        {
+          "id": "body-content",
+          "label": "Body Content",
+          "optional": true
+        },
+        {
+          "id": "overlay",
+          "label": "Overlay",
+          "optional": false
+        }
+      ]
+    },
+    "text-area": {
+      "label": "text area",
+      "source": "docs/s2-docs/components/inputs/text-area.md",
+      "parts": [
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "required-asterisk",
+          "label": "Required Asterisk",
+          "optional": false
+        },
+        {
+          "id": "required-text",
+          "label": "Required Text",
+          "optional": false
+        },
+        {
+          "id": "optional-text",
+          "label": "Optional Text",
+          "optional": false
+        },
+        {
+          "id": "character-count",
+          "label": "Character Count",
+          "optional": false
+        },
+        {
+          "id": "field",
+          "label": "Field",
+          "optional": false
+        },
+        {
+          "id": "value",
+          "label": "Value",
+          "optional": false
+        },
+        {
+          "id": "validation-marker",
+          "label": "Validation Marker",
+          "optional": false
+        },
+        {
+          "id": "error-icon",
+          "label": "Error Icon",
+          "optional": false
+        },
+        {
+          "id": "help-text",
+          "label": "Help Text",
+          "optional": false
+        }
+      ]
+    },
+    "text-field": {
+      "label": "text field",
+      "source": "docs/s2-docs/components/inputs/text-field.md",
+      "parts": [
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "required-asterisk",
+          "label": "Required Asterisk",
+          "optional": false
+        },
+        {
+          "id": "required-text",
+          "label": "Required Text",
+          "optional": false
+        },
+        {
+          "id": "optional-text",
+          "label": "Optional Text",
+          "optional": false
+        },
+        {
+          "id": "character-count",
+          "label": "Character Count",
+          "optional": false
+        },
+        {
+          "id": "field",
+          "label": "Field",
+          "optional": false
+        },
+        {
+          "id": "value",
+          "label": "Value",
+          "optional": false
+        },
+        {
+          "id": "validation-marker",
+          "label": "Validation Marker",
+          "optional": false
+        },
+        {
+          "id": "error-icon",
+          "label": "Error Icon",
+          "optional": false
+        },
+        {
+          "id": "help-text",
+          "label": "Help Text",
+          "optional": false
+        }
+      ]
+    },
+    "thumbnail": {
+      "label": "thumbnail",
+      "source": "docs/s2-docs/components/inputs/thumbnail.md",
+      "parts": [
+        {
+          "id": "container",
+          "label": "Container",
+          "optional": false
+        },
+        {
+          "id": "image",
+          "label": "Image",
+          "optional": false
+        }
+      ]
+    },
+    "toast": {
+      "label": "toast",
+      "source": "docs/s2-docs/components/feedback/toast.md",
+      "parts": [
+        {
+          "id": "background",
+          "label": "Background",
+          "optional": false
+        },
+        {
+          "id": "icon",
+          "label": "Icon",
+          "optional": false
+        },
+        {
+          "id": "text",
+          "label": "Text",
+          "optional": false
+        },
+        {
+          "id": "button",
+          "label": "Button",
+          "optional": false
+        },
+        {
+          "id": "close-button",
+          "label": "Close Button",
+          "optional": false
+        }
+      ]
+    },
+    "tooltip": {
+      "label": "tooltip",
+      "source": "docs/s2-docs/components/feedback/tooltip.md",
+      "parts": [
+        {
+          "id": "background",
+          "label": "Background",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "tip",
+          "label": "Tip",
+          "optional": false
+        }
+      ]
+    },
+    "tree-view": {
+      "label": "tree view",
+      "source": "docs/s2-docs/components/navigation/tree-view.md",
+      "parts": [
+        {
+          "id": "header",
+          "label": "Header",
+          "optional": true
+        },
+        {
+          "id": "tree-view-item",
+          "label": "Tree View Item",
+          "optional": false
+        },
+        {
+          "id": "label",
+          "label": "Label",
+          "optional": false
+        },
+        {
+          "id": "collapse",
+          "label": "Collapse",
+          "optional": false
+        },
+        {
+          "id": "expand-button",
+          "label": "Expand Button",
+          "optional": false
+        },
+        {
+          "id": "checkbox",
+          "label": "Checkbox",
+          "optional": true
+        },
+        {
+          "id": "drag-icon",
+          "label": "Drag Icon",
+          "optional": true
+        },
+        {
+          "id": "context-area",
+          "label": "Context Area",
+          "optional": true
+        },
+        {
+          "id": "actions-area",
+          "label": "Actions Area",
+          "optional": true
+        },
+        {
+          "id": "in-field-progress-circle",
+          "label": "In Field Progress Circle",
+          "optional": false
+        }
+      ]
+    }
+  }
+}

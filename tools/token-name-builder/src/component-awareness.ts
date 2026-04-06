@@ -10,29 +10,21 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { registries } from "./registry-data.js";
+import { componentAnatomy } from "./registry-data.js";
 
-/** Options derived from a component's JSON schema. */
+/** Options derived from a component's anatomy registry and JSON schema. */
 export interface ComponentOptions {
-  /** Schema property keys that match registered anatomy terms. */
+  /** Anatomy parts for this component (from S2 docs via component-anatomy.json). */
   anatomy: string[];
-  /** Allowed variant values for this component. */
+  /** Allowed variant values (from component schema). */
   variants: string[];
-  /** Allowed state values for this component. */
+  /** Allowed state values (from component schema). */
   states: string[];
-  /** Allowed size values for this component. */
+  /** Allowed size values (from component schema). */
   sizes: string[];
 }
 
-// Set of active anatomy term IDs from the registry, for fast lookup.
-const ANATOMY_IDS = new Set(
-  (registries.anatomy?.values ?? [])
-    .filter((v) => !v.deprecated)
-    .map((v) => v.id),
-);
-
-// Lazily loaded component schema modules, keyed by relative path.
-// import.meta.glob paths must be literal strings relative to this file.
+// Lazily loaded component schema modules for variant/state/size extraction.
 const schemaModules = import.meta.glob(
   "../../../packages/component-schemas/schemas/components/*.json",
 );
@@ -51,28 +43,46 @@ interface ComponentSchemaModule {
 }
 
 /**
- * Dynamically load a component schema and extract token-relevant options.
- * Returns null if the component has no schema file.
+ * Get component options by combining:
+ * - Anatomy from the component-anatomy registry (extracted from S2 docs)
+ * - Variant/state/size from the component JSON schema
+ *
+ * Returns null only if neither data source has data for this component.
  */
 export async function loadComponentOptions(
   componentId: string,
 ): Promise<ComponentOptions | null> {
   if (!componentId) return null;
 
-  // Find the matching module key (ends with `/${componentId}.json`)
+  // Anatomy from the component-anatomy registry (synchronous lookup)
+  const anatomyEntry = componentAnatomy.components[componentId];
+  const anatomy = anatomyEntry ? anatomyEntry.parts.map((p) => p.id) : [];
+
+  // Variant/state/size from component schema (async, lazy loaded)
+  let variants: string[] = [];
+  let states: string[] = [];
+  let sizes: string[] = [];
+
   const key = Object.keys(schemaModules).find((k) =>
     k.endsWith(`/${componentId}.json`),
   );
-  if (!key) return null;
+  if (key) {
+    const mod = (await schemaModules[key]()) as ComponentSchemaModule;
+    const props = mod.default?.properties ?? {};
+    variants = props.variant?.enum ?? [];
+    states = props.state?.enum ?? [];
+    sizes = props.size?.enum ?? [];
+  }
 
-  const mod = (await schemaModules[key]()) as ComponentSchemaModule;
-  const props = mod.default?.properties ?? {};
+  // Return null only if we have no data at all
+  if (
+    anatomy.length === 0 &&
+    variants.length === 0 &&
+    states.length === 0 &&
+    sizes.length === 0
+  ) {
+    return null;
+  }
 
-  return {
-    // Anatomy: schema property keys that are registered anatomy terms
-    anatomy: Object.keys(props).filter((k) => ANATOMY_IDS.has(k)),
-    variants: props.variant?.enum ?? [],
-    states: props.state?.enum ?? [],
-    sizes: props.size?.enum ?? [],
-  };
+  return { anatomy, variants, states, sizes };
 }
