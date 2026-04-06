@@ -27,6 +27,10 @@ const __dirname = dirname(__filename);
 const REPO_ROOT = join(__dirname, "../../..");
 const S2_DOCS_DIR = join(REPO_ROOT, "docs/s2-docs/components");
 const OUTPUT_PATH = join(__dirname, "../registry/component-anatomy.json");
+const CURATION_PATH = join(
+  __dirname,
+  "../registry/component-anatomy-curation.json",
+);
 
 /**
  * Convert a display name to a kebab-case ID.
@@ -176,6 +180,74 @@ function findMarkdownFiles(dir) {
   return results;
 }
 
+/**
+ * Load the curation config and apply removals, renames, and tags
+ * to the extracted component data.
+ */
+export function applyCuration(components, curationPath) {
+  let curation;
+  try {
+    curation = JSON.parse(readFileSync(curationPath, "utf-8"));
+  } catch {
+    // No curation file — return as-is
+    return { components, stats: { removed: 0, renamed: 0, tagged: 0 } };
+  }
+
+  const removals = curation.removals ?? {};
+  const renames = curation.renames ?? {};
+  const tags = curation.tags ?? {};
+  let removedCount = 0;
+  let renamedCount = 0;
+  let taggedCount = 0;
+
+  for (const [componentId, component] of Object.entries(components)) {
+    const curated = [];
+    const seenIds = new Set();
+
+    for (const part of component.parts) {
+      let { id } = part;
+
+      // Apply removals
+      if (id in removals) {
+        removedCount++;
+        continue;
+      }
+
+      // Apply renames
+      if (id in renames) {
+        const newId = renames[id].to;
+        id = newId;
+        part.id = newId;
+        part.label = toTitleCase(newId);
+        renamedCount++;
+      }
+
+      // Apply tags
+      if (id in tags) {
+        part.tier = tags[id].tier;
+        taggedCount++;
+      }
+
+      // Deduplicate after rename (e.g., footer-area→footer may collide)
+      if (!seenIds.has(id)) {
+        seenIds.add(id);
+        curated.push(part);
+      }
+    }
+
+    component.parts = curated;
+  }
+
+  return {
+    components,
+    stats: {
+      removed: removedCount,
+      renamed: renamedCount,
+      tagged: taggedCount,
+    },
+  };
+}
+
 function main() {
   const files = findMarkdownFiles(S2_DOCS_DIR).sort();
   const components = {};
@@ -205,16 +277,22 @@ function main() {
     };
   }
 
+  // Apply curation rules (removals, renames, tags)
+  const { components: curated, stats } = applyCuration(
+    components,
+    CURATION_PATH,
+  );
+
   // Sort by component ID
   const sorted = {};
-  for (const key of Object.keys(components).sort()) {
-    sorted[key] = components[key];
+  for (const key of Object.keys(curated).sort()) {
+    sorted[key] = curated[key];
   }
 
   const output = {
     type: "component-anatomy",
     description:
-      "Mapping of Spectrum components to their visible anatomy parts, extracted from S2 documentation.",
+      "Mapping of Spectrum components to their visible anatomy parts, extracted from S2 documentation and curated via component-anatomy-curation.json.",
     components: sorted,
   };
 
@@ -228,6 +306,11 @@ function main() {
   console.log(
     `Generated component-anatomy.json: ${componentCount} components, ${partCount} total parts`,
   );
+  if (stats.removed || stats.renamed || stats.tagged) {
+    console.log(
+      `Curation applied: ${stats.removed} removed, ${stats.renamed} renamed, ${stats.tagged} tagged`,
+    );
+  }
   if (skipped.length > 0) {
     console.log(`Skipped (no anatomy section): ${skipped.join(", ")}`);
   }

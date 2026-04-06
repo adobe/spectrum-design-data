@@ -1,0 +1,99 @@
+{
+  "$comment": "Curation rules applied after extracting raw anatomy data from S2 docs. Documents why the registry diverges from the source markdown. Re-run the extraction script to apply.",
+
+  "removals": {
+    "action-button-1": "Numbering artifact from action-group diagram; not a distinct anatomy term. Use 'action-button' instead.",
+    "action-button-2": "Numbering artifact from action-group diagram; not a distinct anatomy term. Use 'action-button' instead.",
+    "background": "This is a token object / styling surface (belongs in the 'object' field of the name object, not 'anatomy'). See token-objects.json."
+  },
+
+  "renames": {
+    "body-area": {
+      "to": "body",
+      "reason": "Redundant '-area' suffix; aligns with existing anatomy-terms registry term 'body'."
+    },
+    "header-area": {
+      "to": "header",
+      "reason": "Redundant '-area' suffix; aligns with existing anatomy-terms registry term 'header'."
+    },
+    "footer-area": {
+      "to": "footer",
+      "reason": "Redundant '-area' suffix; aligns with existing anatomy-terms registry term 'footer'."
+    },
+    "small-divider": {
+      "to": "divider",
+      "reason": "Size qualifier is not an anatomy distinction; aligns with existing anatomy-terms registry term 'divider'."
+    }
+  },
+
+  "tags": {
+    "accordion": {
+      "tier": "composite",
+      "note": "Component used as a named part in standard-panel (spec anatomy tier 2)."
+    },
+    "action-button": {
+      "tier": "composite",
+      "note": "Component used as a named part in action-group and contextual-help."
+    },
+    "button": {
+      "tier": "composite",
+      "note": "Component used as a named part in alert-banner, coach-mark, drop-zone, illustrated-message."
+    },
+    "button-group": {
+      "tier": "composite",
+      "note": "Component used as a named part in alert-dialog, coach-mark, standard-dialog, takeover-dialog."
+    },
+    "calendar": {
+      "tier": "composite",
+      "note": "Component used as a named part in date-picker."
+    },
+    "checkbox": {
+      "tier": "composite",
+      "note": "Component used as a named part in cards, list-view, menu, select-box, table, tree-view."
+    },
+    "close-button": {
+      "tier": "composite",
+      "note": "Component used as a named part in alert-banner, coach-mark, standard-dialog, takeover-dialog, toast, in-line-alert."
+    },
+    "field-label": {
+      "tier": "composite",
+      "note": "Component used as a named part in combo-box, date-picker, radio-group, slider."
+    },
+    "help-text": {
+      "tier": "composite",
+      "note": "Component used as a named part in combo-box, number-field, picker, search-field, text-area, text-field, checkbox-group, radio-group."
+    },
+    "link": {
+      "tier": "composite",
+      "note": "Component used as a named part in contextual-help."
+    },
+    "popover": {
+      "tier": "composite",
+      "note": "Component used as a named part in contextual-help, menu."
+    },
+    "swatch": {
+      "tier": "composite",
+      "note": "Component used as a named part in swatch-group."
+    },
+    "switch": {
+      "tier": "composite",
+      "note": "Component used as a named part in menu."
+    },
+    "tag": {
+      "tier": "composite",
+      "note": "Component used as a named part in tag-field, tag-group."
+    },
+    "text-area": {
+      "tier": "composite",
+      "note": "Component used as a named part in tag-field."
+    },
+    "avatar": {
+      "tier": "composite",
+      "note": "Component used as a named part in avatar-group, list-view, tag."
+    },
+    "thumbnail": {
+      "tier": "composite",
+      "note": "Component used as a named part in list-view, menu."
+    }
+  }
+}

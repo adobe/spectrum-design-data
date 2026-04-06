@@ -1,6 +1,6 @@
 {
   "type": "component-anatomy",
-  "description": "Mapping of Spectrum components to their visible anatomy parts, extracted from S2 documentation.",
+  "description": "Mapping of Spectrum components to their visible anatomy parts, extracted from S2 documentation and curated via component-anatomy-curation.json.",
   "components": {
     "accordion": {
       "label": "accordion",
@@ -12,8 +12,8 @@
           "optional": false
         },
         {
-          "id": "small-divider",
-          "label": "Small Divider",
+          "id": "divider",
+          "label": "Divider",
           "optional": false
         }
       ]
@@ -44,16 +44,6 @@
       "source": "docs/s2-docs/components/actions/action-group.md",
       "parts": [
         {
-          "id": "action-button-1",
-          "label": "Action Button 1",
-          "optional": false
-        },
-        {
-          "id": "action-button-2",
-          "label": "Action Button 2",
-          "optional": false
-        },
-        {
           "id": "action-menu",
           "label": "Action Menu",
           "optional": true
@@ -64,11 +54,6 @@
       "label": "alert banner",
       "source": "docs/s2-docs/components/feedback/alert-banner.md",
       "parts": [
-        {
-          "id": "background",
-          "label": "Background",
-          "optional": false
-        },
         {
           "id": "icon",
           "label": "Icon",
@@ -82,12 +67,14 @@
         {
           "id": "button",
           "label": "Button",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "close-button",
           "label": "Close Button",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         }
       ]
     },
@@ -170,7 +157,8 @@
         {
           "id": "avatar",
           "label": "Avatar",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "label",
@@ -239,7 +227,8 @@
         {
           "id": "button",
           "label": "Button",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "label",
@@ -291,7 +280,8 @@
         {
           "id": "checkbox",
           "label": "Checkbox",
-          "optional": true
+          "optional": true,
+          "tier": "composite"
         },
         {
           "id": "preview-well",
@@ -309,8 +299,8 @@
           "optional": false
         },
         {
-          "id": "footer-area",
-          "label": "Footer Area",
+          "id": "footer",
+          "label": "Footer",
           "optional": false
         },
         {
@@ -343,17 +333,20 @@
         {
           "id": "field-label",
           "label": "Field Label",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "checkbox",
           "label": "Checkbox",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "help-text",
           "label": "Help Text",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         }
       ]
     },
@@ -426,7 +419,8 @@
         {
           "id": "button-group",
           "label": "Button Group",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         }
       ]
     },
@@ -546,7 +540,8 @@
         {
           "id": "help-text",
           "label": "Help Text",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "menu-container",
@@ -562,12 +557,14 @@
         {
           "id": "action-button",
           "label": "Action Button",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "popover",
           "label": "Popover",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "title",
@@ -582,7 +579,8 @@
         {
           "id": "link",
           "label": "Link",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         }
       ]
     },
@@ -598,7 +596,8 @@
         {
           "id": "calendar",
           "label": "Calendar",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "time-field",
@@ -629,7 +628,8 @@
         {
           "id": "button",
           "label": "Button",
-          "optional": true
+          "optional": true,
+          "tier": "composite"
         }
       ]
     },
@@ -692,7 +692,8 @@
         {
           "id": "button-group",
           "label": "Button Group",
-          "optional": true
+          "optional": true,
+          "tier": "composite"
         }
       ]
     },
@@ -700,11 +701,6 @@
       "label": "in-line alert",
       "source": "docs/s2-docs/components/feedback/in-line-alert.md",
       "parts": [
-        {
-          "id": "background",
-          "label": "Background",
-          "optional": false
-        },
         {
           "id": "title",
           "label": "Title",
@@ -716,8 +712,8 @@
           "optional": false
         },
         {
-          "id": "body-area",
-          "label": "Body Area",
+          "id": "body",
+          "label": "Body",
           "optional": false
         }
       ]
@@ -739,7 +735,8 @@
         {
           "id": "checkbox",
           "label": "Checkbox",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "icon",
@@ -749,7 +746,8 @@
         {
           "id": "thumbnail",
           "label": "Thumbnail",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "label",
@@ -780,7 +778,8 @@
         {
           "id": "popover",
           "label": "Popover",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "menu-section-header",
@@ -820,17 +819,20 @@
         {
           "id": "switch",
           "label": "Switch",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "checkbox",
           "label": "Checkbox",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "thumbnail",
           "label": "Thumbnail",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "drill-in-chevron",
@@ -927,7 +929,8 @@
         {
           "id": "help-text",
           "label": "Help Text",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         }
       ]
     },
@@ -983,7 +986,8 @@
         {
           "id": "help-text",
           "label": "Help Text",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "menu-container",
@@ -1068,7 +1072,8 @@
         {
           "id": "field-label",
           "label": "Field Label",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "radio-button-area",
@@ -1078,7 +1083,8 @@
         {
           "id": "help-text",
           "label": "Help Text",
-          "optional": true
+          "optional": true,
+          "tier": "composite"
         }
       ]
     },
@@ -1125,7 +1131,8 @@
         {
           "id": "help-text",
           "label": "Help Text",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         }
       ]
     },
@@ -1177,7 +1184,8 @@
         {
           "id": "checkbox",
           "label": "Checkbox",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         }
       ]
     },
@@ -1255,11 +1263,12 @@
         {
           "id": "close-button",
           "label": "Close Button",
-          "optional": true
+          "optional": true,
+          "tier": "composite"
         },
         {
-          "id": "header-area",
-          "label": "Header Area",
+          "id": "header",
+          "label": "Header",
           "optional": false
         },
         {
@@ -1268,8 +1277,8 @@
           "optional": false
         },
         {
-          "id": "body-area",
-          "label": "Body Area",
+          "id": "body",
+          "label": "Body",
           "optional": false
         },
         {
@@ -1278,8 +1287,8 @@
           "optional": true
         },
         {
-          "id": "footer-area",
-          "label": "Footer Area",
+          "id": "footer",
+          "label": "Footer",
           "optional": false
         },
         {
@@ -1290,7 +1299,8 @@
         {
           "id": "button-group",
           "label": "Button Group",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "overlay",
@@ -1311,7 +1321,8 @@
         {
           "id": "accordion",
           "label": "Accordion",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "back-button",
@@ -1321,7 +1332,8 @@
         {
           "id": "close-button",
           "label": "Close Button",
-          "optional": true
+          "optional": true,
+          "tier": "composite"
         },
         {
           "id": "gripper",
@@ -1390,7 +1402,8 @@
         {
           "id": "swatch",
           "label": "Swatch",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         }
       ]
     },
@@ -1479,7 +1492,8 @@
         {
           "id": "avatar",
           "label": "Avatar",
-          "optional": true
+          "optional": true,
+          "tier": "composite"
         },
         {
           "id": "label",
@@ -1489,7 +1503,8 @@
         {
           "id": "close-button",
           "label": "Close Button",
-          "optional": true
+          "optional": true,
+          "tier": "composite"
         }
       ]
     },
@@ -1500,22 +1515,26 @@
         {
           "id": "field-label",
           "label": "Field Label",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "text-area",
           "label": "Text Area",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "tag",
           "label": "Tag",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "avatar",
           "label": "Avatar",
-          "optional": true
+          "optional": true,
+          "tier": "composite"
         },
         {
           "id": "label",
@@ -1525,7 +1544,8 @@
         {
           "id": "close-button",
           "label": "Close Button",
-          "optional": true
+          "optional": true,
+          "tier": "composite"
         }
       ]
     },
@@ -1536,17 +1556,20 @@
         {
           "id": "field-label",
           "label": "Field Label",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "tag",
           "label": "Tag",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "action-button",
           "label": "Action Button",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         }
       ]
     },
@@ -1560,8 +1583,8 @@
           "optional": false
         },
         {
-          "id": "header-area",
-          "label": "Header Area",
+          "id": "header",
+          "label": "Header",
           "optional": false
         },
         {
@@ -1577,11 +1600,12 @@
         {
           "id": "button-group",
           "label": "Button Group",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
-          "id": "body-area",
-          "label": "Body Area",
+          "id": "body",
+          "label": "Body",
           "optional": false
         },
         {
@@ -1648,7 +1672,8 @@
         {
           "id": "help-text",
           "label": "Help Text",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         }
       ]
     },
@@ -1704,7 +1729,8 @@
         {
           "id": "help-text",
           "label": "Help Text",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         }
       ]
     },
@@ -1729,11 +1755,6 @@
       "source": "docs/s2-docs/components/feedback/toast.md",
       "parts": [
         {
-          "id": "background",
-          "label": "Background",
-          "optional": false
-        },
-        {
           "id": "icon",
           "label": "Icon",
           "optional": false
@@ -1746,12 +1767,14 @@
         {
           "id": "button",
           "label": "Button",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         },
         {
           "id": "close-button",
           "label": "Close Button",
-          "optional": false
+          "optional": false,
+          "tier": "composite"
         }
       ]
     },
@@ -1759,11 +1782,6 @@
       "label": "tooltip",
       "source": "docs/s2-docs/components/feedback/tooltip.md",
       "parts": [
-        {
-          "id": "background",
-          "label": "Background",
-          "optional": false
-        },
         {
           "id": "label",
           "label": "Label",
@@ -1808,7 +1826,8 @@
         {
           "id": "checkbox",
           "label": "Checkbox",
-          "optional": true
+          "optional": true,
+          "tier": "composite"
         },
         {
           "id": "drag-icon",

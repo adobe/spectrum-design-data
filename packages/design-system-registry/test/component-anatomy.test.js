@@ -180,6 +180,50 @@ test("tabs deduplicated tab-item", (t) => {
   t.is(tabItemCount, 1);
 });
 
+// --- Curation tests ---
+
+test("numbering artifacts are removed", (t) => {
+  const ag = registry.components["action-group"];
+  const ids = ag.parts.map((p) => p.id);
+  t.false(ids.includes("action-button-1"));
+  t.false(ids.includes("action-button-2"));
+});
+
+test("background (token object) is removed from anatomy", (t) => {
+  for (const [, component] of Object.entries(registry.components)) {
+    const ids = component.parts.map((p) => p.id);
+    t.false(
+      ids.includes("background"),
+      "background should be removed (it is a token object, not anatomy)",
+    );
+  }
+});
+
+test("-area suffixes are renamed to base terms", (t) => {
+  const dialog = registry.components["standard-dialog"];
+  const ids = dialog.parts.map((p) => p.id);
+  t.true(ids.includes("header"));
+  t.true(ids.includes("body"));
+  t.true(ids.includes("footer"));
+  t.false(ids.includes("header-area"));
+  t.false(ids.includes("body-area"));
+  t.false(ids.includes("footer-area"));
+});
+
+test("small-divider renamed to divider", (t) => {
+  const accordion = registry.components["accordion"];
+  const ids = accordion.parts.map((p) => p.id);
+  t.true(ids.includes("divider"));
+  t.false(ids.includes("small-divider"));
+});
+
+test("composite parts are tagged with tier", (t) => {
+  const cards = registry.components["cards"];
+  const checkbox = cards.parts.find((p) => p.id === "checkbox");
+  t.truthy(checkbox);
+  t.is(checkbox.tier, "composite");
+});
+
 test("all part IDs are kebab-case", (t) => {
   for (const [componentId, component] of Object.entries(registry.components)) {
     for (const part of component.parts) {
