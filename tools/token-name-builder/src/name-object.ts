@@ -89,7 +89,7 @@ export function buildNameObject(
     if (key === "property") continue;
     const value = fields[key as keyof NameObject];
     if (value && value.trim().length > 0) {
-      (result as Record<string, string>)[key] = value.trim();
+      (result as unknown as Record<string, string>)[key] = value.trim();
     }
   }
   return result;

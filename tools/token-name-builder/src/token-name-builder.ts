@@ -13,14 +13,18 @@ governing permissions and limitations under the License.
 import { LitElement, html, css } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import type { NameObject, SemanticField } from "./name-object.js";
-import { buildNameObject, DIMENSION_FIELDS } from "./name-object.js";
+import {
+  buildNameObject,
+  DIMENSION_FIELDS,
+  SEMANTIC_FIELDS,
+} from "./name-object.js";
 import {
   serialize,
   FORMAT_STYLES,
   FORMAT_LABELS,
   type FormatStyle,
 } from "./serializer.js";
-import { validate, isValid, type ValidationMessage } from "./validator.js";
+import { validate, type ValidationMessage } from "./validator.js";
 import {
   registries,
   dimensionModes,
@@ -28,6 +32,10 @@ import {
   getActiveIds,
   type Registry,
 } from "./registry-data.js";
+import {
+  loadComponentOptions,
+  type ComponentOptions,
+} from "./component-awareness.js";
 
 interface FieldConfig {
   key: string;
@@ -35,16 +43,22 @@ interface FieldConfig {
   group: "identity" | "modifier" | "dimension";
   required?: boolean;
   type: "combobox" | "select";
+  /** Full list of registry options. */
   options: string[];
+  /** Component-specific subset (shown first in optgroup when present). */
+  filteredOptions?: string[];
   placeholder?: string;
-  description?: string;
 }
+
+// All name fields used for URL hash persistence
+const ALL_FIELDS: string[] = [...SEMANTIC_FIELDS, ...DIMENSION_FIELDS];
 
 @customElement("token-name-builder")
 export class TokenNameBuilder extends LitElement {
   @state() private fields: Record<string, string> = { property: "" };
   @state() private messages: ValidationMessage[] = [];
   @state() private copyFeedback = "";
+  @state() private componentOptions: ComponentOptions | null = null;
 
   static override styles = css`
     :host {
@@ -102,26 +116,30 @@ export class TokenNameBuilder extends LitElement {
       display: flex;
       gap: 8px;
       margin-top: 8px;
+      align-items: center;
     }
 
-    /* Sections */
-    .section {
-      margin-bottom: 24px;
+    /* Fieldset sections */
+    fieldset {
+      border: none;
+      padding: 0;
+      margin: 0 0 24px;
     }
 
-    .section-heading {
+    legend {
       font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--spectrum-gray-600, #6e6e6e);
-      margin: 0 0 12px;
+      margin-bottom: 12px;
       padding-bottom: 4px;
       border-bottom: 1px solid var(--spectrum-gray-200, #e6e6e6);
+      width: 100%;
     }
 
     @media (prefers-color-scheme: dark) {
-      .section-heading {
+      legend {
         color: var(--spectrum-gray-400, #999);
         border-color: var(--spectrum-gray-700, #444);
       }
@@ -145,6 +163,12 @@ export class TokenNameBuilder extends LitElement {
     .field-label.required::after {
       content: " *";
       color: var(--spectrum-negative-color-900, #c9252d);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .field-label {
+        color: var(--spectrum-body-color, #e0e0e0);
+      }
     }
 
     select,
@@ -176,7 +200,8 @@ export class TokenNameBuilder extends LitElement {
       border-color: transparent;
     }
 
-    .field-disabled select {
+    .field-disabled select,
+    .field-disabled input {
       opacity: 0.4;
       pointer-events: none;
     }
@@ -187,7 +212,6 @@ export class TokenNameBuilder extends LitElement {
       border: 1px solid var(--spectrum-gray-200, #e6e6e6);
       border-radius: 8px;
       padding: 12px 16px;
-      margin-bottom: 24px;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -206,7 +230,7 @@ export class TokenNameBuilder extends LitElement {
     }
 
     .platform-label {
-      min-width: 120px;
+      min-width: 160px;
       color: var(--spectrum-gray-600, #6e6e6e);
       flex-shrink: 0;
     }
@@ -223,10 +247,6 @@ export class TokenNameBuilder extends LitElement {
     }
 
     /* Validation */
-    .validation {
-      margin-bottom: 24px;
-    }
-
     .validation-msg {
       display: flex;
       gap: 8px;
@@ -314,10 +334,14 @@ export class TokenNameBuilder extends LitElement {
       }
     }
 
+    button:focus-visible {
+      outline: 2px solid var(--spectrum-accent-color-700, #0070d1);
+      outline-offset: 2px;
+    }
+
     .copy-feedback {
       font-size: 0.75rem;
       color: var(--spectrum-positive-color-900, #107c10);
-      align-self: center;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -325,7 +349,64 @@ export class TokenNameBuilder extends LitElement {
         color: var(--spectrum-positive-color-400, #4fce4f);
       }
     }
+
+    /* Share link */
+    .share-link {
+      font-size: 0.75rem;
+      color: var(--spectrum-gray-600, #6e6e6e);
+      margin-left: auto;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .share-link {
+        color: var(--spectrum-gray-400, #999);
+      }
+    }
   `;
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.loadFromHash();
+  }
+
+  /** Restore field state from the URL hash on load. */
+  private loadFromHash() {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+    try {
+      const params = new URLSearchParams(hash);
+      const loaded: Record<string, string> = { property: "" };
+      for (const field of ALL_FIELDS) {
+        const val = params.get(field);
+        if (val) loaded[field] = val;
+      }
+      this.fields = loaded;
+      this.messages = validate(this.nameObject);
+      // Trigger component options load if component is set
+      if (loaded.component) {
+        void this.updateComponentOptions(loaded.component);
+      }
+    } catch {
+      // Ignore malformed hash
+    }
+  }
+
+  /** Persist current field state to the URL hash (no page reload). */
+  private persistToHash() {
+    const params = new URLSearchParams();
+    for (const field of ALL_FIELDS) {
+      const val = this.fields[field];
+      if (val && val.trim().length > 0) {
+        params.set(field, val.trim());
+      }
+    }
+    const hash = params.toString();
+    window.history.replaceState(
+      null,
+      "",
+      hash ? `#${hash}` : window.location.pathname,
+    );
+  }
 
   private get nameObject(): NameObject {
     return buildNameObject({
@@ -338,7 +419,13 @@ export class TokenNameBuilder extends LitElement {
     return serialize(this.nameObject);
   }
 
+  private async updateComponentOptions(componentId: string) {
+    this.componentOptions = await loadComponentOptions(componentId);
+  }
+
   private getFieldConfigs(): FieldConfig[] {
+    const opts = this.componentOptions;
+
     return [
       // Identity
       {
@@ -378,6 +465,7 @@ export class TokenNameBuilder extends LitElement {
         group: "identity",
         type: "combobox",
         options: this.registryIds("anatomy"),
+        filteredOptions: opts?.anatomy,
         placeholder: "e.g. icon, label, handle",
       },
       {
@@ -394,6 +482,7 @@ export class TokenNameBuilder extends LitElement {
         group: "modifier",
         type: "select",
         options: this.registryIds("variant"),
+        filteredOptions: opts?.variants,
       },
       {
         key: "state",
@@ -401,6 +490,7 @@ export class TokenNameBuilder extends LitElement {
         group: "modifier",
         type: "select",
         options: this.registryIds("state"),
+        filteredOptions: opts?.states,
       },
       {
         key: "size",
@@ -408,6 +498,7 @@ export class TokenNameBuilder extends LitElement {
         group: "modifier",
         type: "select",
         options: this.registryIds("size"),
+        filteredOptions: opts?.sizes,
       },
       {
         key: "orientation",
@@ -450,13 +541,18 @@ export class TokenNameBuilder extends LitElement {
   }
 
   private registryIds(field: SemanticField): string[] {
-    const reg = registries[field];
+    const reg = registries[field] as Registry | undefined;
     return reg ? getActiveIds(reg) : [];
   }
 
-  private handleFieldChange(key: string, value: string) {
+  private async handleFieldChange(key: string, value: string) {
     this.fields = { ...this.fields, [key]: value };
     this.messages = validate(this.nameObject);
+    this.persistToHash();
+
+    if (key === "component") {
+      await this.updateComponentOptions(value);
+    }
   }
 
   private async copyToClipboard(text: string, label: string) {
@@ -477,51 +573,109 @@ export class TokenNameBuilder extends LitElement {
   private renderField(config: FieldConfig) {
     const value = this.fields[config.key] ?? "";
     const disabled = config.key === "substructure" && !this.fields.structure;
+    const labelId = `label-${config.key}`;
 
     return html`
-      <label class="field-label ${config.required ? "required" : ""}"
+      <label
+        id=${labelId}
+        class="field-label ${config.required ? "required" : ""}"
+        for="field-${config.key}"
         >${config.label}</label
       >
       <div class="${disabled ? "field-disabled" : ""}">
         ${config.type === "combobox"
+          ? this.renderCombobox(config, value, disabled, labelId)
+          : this.renderSelect(config, value, disabled, labelId)}
+      </div>
+    `;
+  }
+
+  private renderCombobox(
+    config: FieldConfig,
+    value: string,
+    disabled: boolean,
+    labelId: string,
+  ) {
+    // For combobox: show filteredOptions first in datalist, then remaining
+    const filtered = config.filteredOptions ?? [];
+    const rest = config.options.filter((o) => !filtered.includes(o));
+    const ordered = [...filtered, ...rest];
+
+    return html`
+      <input
+        id="field-${config.key}"
+        type="text"
+        list="list-${config.key}"
+        .value=${value}
+        placeholder=${config.placeholder ?? ""}
+        ?disabled=${disabled}
+        aria-labelledby=${labelId}
+        @input=${(e: Event) =>
+          this.handleFieldChange(
+            config.key,
+            (e.target as HTMLInputElement).value,
+          )}
+      />
+      <datalist id="list-${config.key}">
+        ${ordered.map((opt) => html`<option value=${opt}></option>`)}
+      </datalist>
+    `;
+  }
+
+  private renderSelect(
+    config: FieldConfig,
+    value: string,
+    disabled: boolean,
+    labelId: string,
+  ) {
+    const filtered = config.filteredOptions ?? [];
+    const component = this.fields.component;
+    const hasFiltered = filtered.length > 0 && !!component;
+
+    // Options not in the filtered set
+    const rest = hasFiltered
+      ? config.options.filter((o) => !filtered.includes(o))
+      : config.options;
+
+    return html`
+      <select
+        id="field-${config.key}"
+        ?disabled=${disabled}
+        aria-labelledby=${labelId}
+        @change=${(e: Event) =>
+          this.handleFieldChange(
+            config.key,
+            (e.target as HTMLSelectElement).value,
+          )}
+      >
+        <option value="">${config.placeholder ?? "-- none --"}</option>
+        ${hasFiltered
           ? html`
-              <input
-                type="text"
-                list="list-${config.key}"
-                .value=${value}
-                placeholder=${config.placeholder ?? ""}
-                @input=${(e: Event) =>
-                  this.handleFieldChange(
-                    config.key,
-                    (e.target as HTMLInputElement).value,
-                  )}
-              />
-              <datalist id="list-${config.key}">
-                ${config.options.map(
-                  (opt) => html`<option value=${opt}></option>`,
-                )}
-              </datalist>
-            `
-          : html`
-              <select
-                .value=${value}
-                @change=${(e: Event) =>
-                  this.handleFieldChange(
-                    config.key,
-                    (e.target as HTMLSelectElement).value,
-                  )}
-              >
-                <option value="">${config.placeholder ?? `-- none --`}</option>
-                ${config.options.map(
+              <optgroup label="For ${component}">
+                ${filtered.map(
                   (opt) => html`
                     <option value=${opt} ?selected=${value === opt}>
                       ${opt}
                     </option>
                   `,
                 )}
-              </select>
-            `}
-      </div>
+              </optgroup>
+              <optgroup label="Other">
+                ${rest.map(
+                  (opt) => html`
+                    <option value=${opt} ?selected=${value === opt}>
+                      ${opt}
+                    </option>
+                  `,
+                )}
+              </optgroup>
+            `
+          : rest.map(
+              (opt) => html`
+                <option value=${opt} ?selected=${value === opt}>${opt}</option>
+              `,
+            )}
+      </select>
     `;
   }
 
@@ -540,9 +694,13 @@ export class TokenNameBuilder extends LitElement {
       <h1>Token Name Builder</h1>
 
       <!-- Live Preview -->
-      <div class="preview">
-        <div class="preview-name ${hasContent ? "" : "preview-empty"}">
-          ${hasContent ? this.serialized : "Start by entering a property..."}
+      <div class="preview" role="region" aria-label="Live token name preview">
+        <div
+          class="preview-name ${hasContent ? "" : "preview-empty"}"
+          aria-live="polite"
+          aria-label="Serialized token name"
+        >
+          ${hasContent ? this.serialized : "Start by entering a property…"}
         </div>
         ${hasContent
           ? html`
@@ -555,8 +713,15 @@ export class TokenNameBuilder extends LitElement {
                 <button @click=${() => this.copyToClipboard(nameJson, "JSON")}>
                   Copy JSON
                 </button>
+                <button
+                  @click=${() =>
+                    this.copyToClipboard(window.location.href, "link")}
+                  title="Copy shareable link"
+                >
+                  Share
+                </button>
                 ${this.copyFeedback
-                  ? html`<span class="copy-feedback"
+                  ? html`<span class="copy-feedback" role="status"
                       >${this.copyFeedback}</span
                     >`
                   : ""}
@@ -566,32 +731,32 @@ export class TokenNameBuilder extends LitElement {
       </div>
 
       <!-- Identity -->
-      <div class="section">
-        <div class="section-heading">Identity</div>
+      <fieldset>
+        <legend>Identity</legend>
         <div class="fields">${identity.map((c) => this.renderField(c))}</div>
-      </div>
+      </fieldset>
 
       <!-- Modifiers -->
-      <div class="section">
-        <div class="section-heading">Modifiers</div>
+      <fieldset>
+        <legend>Modifiers</legend>
         <div class="fields">${modifiers.map((c) => this.renderField(c))}</div>
-      </div>
+      </fieldset>
 
       <!-- Dimensions -->
-      <div class="section">
-        <div class="section-heading">Dimensions</div>
+      <fieldset>
+        <legend>Dimensions</legend>
         <div class="fields">${dimensions.map((c) => this.renderField(c))}</div>
-      </div>
+      </fieldset>
 
       <!-- Platform Preview -->
       ${hasContent
         ? html`
-            <div class="section">
-              <div class="section-heading">Platform Preview</div>
-              <div class="platform-preview">
+            <fieldset>
+              <legend>Platform Preview</legend>
+              <div class="platform-preview" role="list">
                 ${FORMAT_STYLES.map(
                   (fmt: FormatStyle) => html`
-                    <div class="platform-row">
+                    <div class="platform-row" role="listitem">
                       <span class="platform-label">${FORMAT_LABELS[fmt]}</span>
                       <span class="platform-value"
                         >${serialize(nameObj, fmt)}</span
@@ -600,55 +765,50 @@ export class TokenNameBuilder extends LitElement {
                   `,
                 )}
               </div>
-            </div>
+            </fieldset>
           `
         : ""}
 
       <!-- Validation -->
-      ${this.messages.length > 0
-        ? html`
-            <div class="section">
-              <div class="section-heading">Validation</div>
-              <div class="validation">
-                ${errors.map(
-                  (m) => html`
-                    <div class="validation-msg error">
-                      &#x2718; ${m.field}: ${m.message}
-                    </div>
-                  `,
-                )}
-                ${warnings.map(
-                  (m) => html`
-                    <div class="validation-msg warning">
-                      &#x26A0; ${m.field}: ${m.message}
-                    </div>
-                  `,
-                )}
-              </div>
-            </div>
-          `
-        : hasContent
-          ? html`
-              <div class="section">
-                <div class="section-heading">Validation</div>
-                <div class="validation">
-                  <div class="validation-msg valid">
-                    &#x2714; All values are valid.
-                  </div>
-                </div>
-              </div>
-            `
-          : ""}
+      <fieldset>
+        <legend>Validation</legend>
+        <div aria-live="polite" aria-label="Validation messages">
+          ${!hasContent
+            ? html`<div class="validation-msg" style="opacity:0.5">
+                Fill in a property to see validation.
+              </div>`
+            : errors.length === 0 && warnings.length === 0
+              ? html`<div class="validation-msg valid">
+                  &#x2714; All values are valid.
+                </div>`
+              : html`
+                  ${errors.map(
+                    (m) => html`
+                      <div class="validation-msg error" role="alert">
+                        &#x2718; <strong>${m.field}:</strong> ${m.message}
+                      </div>
+                    `,
+                  )}
+                  ${warnings.map(
+                    (m) => html`
+                      <div class="validation-msg warning">
+                        &#x26A0; <strong>${m.field}:</strong> ${m.message}
+                      </div>
+                    `,
+                  )}
+                `}
+        </div>
+      </fieldset>
 
       <!-- JSON Output -->
       ${hasContent
         ? html`
-            <div class="section">
-              <div class="section-heading">Name Object (JSON)</div>
+            <fieldset>
+              <legend>Name Object (JSON)</legend>
               <div class="json-output">
-                <pre>${nameJson}</pre>
+                <pre aria-label="Name object as JSON">${nameJson}</pre>
               </div>
-            </div>
+            </fieldset>
           `
         : ""}
     `;
