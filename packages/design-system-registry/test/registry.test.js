@@ -233,6 +233,13 @@ test("sizes includes common t-shirt sizes", (t) => {
   t.true(ids.includes("xl"));
 });
 
+test("sizes does not contain numeric scale values", (t) => {
+  const ids = getValues(sizes);
+  t.false(ids.includes("50"));
+  t.false(ids.includes("100"));
+  t.false(ids.includes("200"));
+});
+
 test("states includes common interaction states", (t) => {
   const ids = getValues(states);
   t.true(ids.includes("default"));
@@ -301,6 +308,13 @@ test("scaleValues includes common numeric scales", (t) => {
   t.true(ids.includes("100"));
   t.true(ids.includes("200"));
   t.true(ids.includes("300"));
+});
+
+test("scaleValues includes extended numeric scales", (t) => {
+  const ids = getValues(scaleValues);
+  t.true(ids.includes("1100"));
+  t.true(ids.includes("1200"));
+  t.true(ids.includes("1500"));
 });
 
 // Taxonomy registry tests

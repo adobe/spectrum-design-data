@@ -1,0 +1,64 @@
+// Copyright 2026 Adobe. All rights reserved.
+// This file is licensed to you under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License. You may obtain a copy
+// of the License at http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software distributed under
+// the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+// OF ANY KIND, either express or implied. See the License for the specific language
+// governing permissions and limitations under the License.
+
+//! Build script: embeds design-system-registry JSON files as Rust string
+//! constants so that `registry.rs` does not need `include_str!` paths that
+//! reach outside the crate directory.
+
+use std::env;
+use std::fs;
+use std::path::PathBuf;
+
+/// (file-stem, Rust constant name)
+const REGISTRIES: &[(&str, &str)] = &[
+    ("components", "COMPONENTS_JSON"),
+    ("states", "STATES_JSON"),
+    ("variants", "VARIANTS_JSON"),
+    ("sizes", "SIZES_JSON"),
+    ("anatomy-terms", "ANATOMY_TERMS_JSON"),
+    ("token-objects", "TOKEN_OBJECTS_JSON"),
+    ("structures", "STRUCTURES_JSON"),
+    ("substructures", "SUBSTRUCTURES_JSON"),
+    ("orientations", "ORIENTATIONS_JSON"),
+    ("positions", "POSITIONS_JSON"),
+    ("densities", "DENSITIES_JSON"),
+    ("shapes", "SHAPES_JSON"),
+];
+
+fn main() {
+    let manifest_dir =
+        PathBuf::from(env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR not set"));
+    let registry_dir = manifest_dir.join("../../packages/design-system-registry/registry");
+
+    let out_dir = PathBuf::from(env::var("OUT_DIR").expect("OUT_DIR not set"));
+    let dest = out_dir.join("registry_data.rs");
+
+    let mut generated = String::new();
+
+    for &(stem, const_name) in REGISTRIES {
+        let json_path = registry_dir.join(format!("{stem}.json"));
+        let json_path = json_path
+            .canonicalize()
+            .unwrap_or_else(|e| panic!("registry file not found: {}: {e}", json_path.display()));
+
+        println!("cargo::rerun-if-changed={}", json_path.display());
+
+        let content = fs::read_to_string(&json_path)
+            .unwrap_or_else(|e| panic!("failed to read {}: {e}", json_path.display()));
+
+        // Use a raw string literal with enough # to avoid clashes with JSON.
+        generated.push_str(&format!("const {const_name}: &str = r##\"{content}\"##;\n"));
+    }
+
+    fs::write(&dest, generated)
+        .unwrap_or_else(|e| panic!("failed to write {}: {e}", dest.display()));
+
+    println!("cargo::rerun-if-changed=build.rs");
+}

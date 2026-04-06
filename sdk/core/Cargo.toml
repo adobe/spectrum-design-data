@@ -5,6 +5,7 @@ edition.workspace = true
 license.workspace = true
 repository.workspace = true
 description = "Design Data Specification validation core (structural + graph rules)"
+build = "build.rs"
 
 [lib]
 path = "src/lib.rs"
