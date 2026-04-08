@@ -9,10 +9,10 @@
 // governing permissions and limitations under the License.
 
 /**
- * Fallback serialization order used when the field catalog does not provide one.
- * Matches the positions declared in packages/design-data-spec/fields/*.json.
+ * Default serialization order from the taxonomy spec.
+ * Used for roundtrip verification.
  */
-const FALLBACK_SERIALIZATION_ORDER = [
+const SERIALIZATION_ORDER = [
   "variant",
   "component",
   "structure",
@@ -296,11 +296,7 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
   }
 
   // Phase 9: Roundtrip check
-  const serialized = serialize(
-    nameObject,
-    registry.tokenNameMap,
-    registry.serializationOrder,
-  );
+  const serialized = serialize(nameObject, registry.tokenNameMap);
   const roundtrips = serialized === tokenName;
   if (!roundtrips) {
     warnings.push(`Roundtrip mismatch: "${serialized}" !== "${tokenName}"`);
@@ -342,21 +338,13 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
 }
 
 /**
- * Serialize a name object to kebab-case using the declared field order.
+ * Serialize a name object to kebab-case using default spec order.
  * Uses tokenNameMap to output long-form aliases (e.g., xl → extra-large)
  * for legacy compatibility.
- *
- * @param {object} nameObject
- * @param {object} tokenNameMap - id → tokenName for legacy alias expansion
- * @param {string[]} [serializationOrder] - ordered field names from field catalog
  */
-export function serialize(
-  nameObject,
-  tokenNameMap = {},
-  serializationOrder = FALLBACK_SERIALIZATION_ORDER,
-) {
+export function serialize(nameObject, tokenNameMap = {}) {
   const parts = [];
-  for (const field of serializationOrder) {
+  for (const field of SERIALIZATION_ORDER) {
     if (nameObject[field]) {
       const value = nameObject[field];
       // Use tokenName long form if available (e.g., xl → extra-large)

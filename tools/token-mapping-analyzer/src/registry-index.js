@@ -11,30 +11,42 @@
 import { readFileSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
-import { loadFieldCatalog } from "./field-catalog.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const REGISTRY_DIR = resolve(
+  __dirname,
+  "../../../packages/design-system-registry/registry",
+);
+
+const REGISTRY_FILES = {
+  component: "components.json",
+  structure: "structures.json",
+  substructure: "substructures.json",
+  anatomy: "anatomy-terms.json",
+  object: "token-objects.json",
+  variant: "variants.json",
+  state: "states.json",
+  size: "sizes.json",
+  density: "densities.json",
+  shape: "shapes.json",
+  position: "positions.json",
+  orientation: "orientations.json",
+};
 
 /**
  * Load all registries into a unified index.
- * Registry files are resolved from the field catalog declarations rather than
- * a hardcoded mapping.
- *
- * Returns { byField, terms, tokenNameMap, serializationOrder } where:
+ * Returns { byField, trie } where:
  * - byField[fieldName] = Set of known ids
- * - terms = sorted list of { segments: string[], field: string, id: string }
+ * - trie = sorted list of { segments: string[], field: string, id: string }
  *   for greedy longest-match parsing
- * - tokenNameMap = id -> tokenName for serialization
- * - serializationOrder = field names ordered by serialization.position
  */
 export function loadRegistries() {
-  const { registryFiles, serializationOrder } = loadFieldCatalog();
-
   const byField = {};
   const allTerms = [];
   const tokenNameMap = {}; // id -> tokenName for serialization
 
-  for (const [field, filePath] of Object.entries(registryFiles)) {
+  for (const [field, filename] of Object.entries(REGISTRY_FILES)) {
+    const filePath = resolve(REGISTRY_DIR, filename);
     const data = JSON.parse(readFileSync(filePath, "utf-8"));
     const ids = new Set();
 
@@ -64,7 +76,7 @@ export function loadRegistries() {
   // Sort by segment count descending for greedy longest-match
   allTerms.sort((a, b) => b.segments.length - a.segments.length);
 
-  return { byField, terms: allTerms, tokenNameMap, serializationOrder };
+  return { byField, terms: allTerms, tokenNameMap };
 }
 
 /**
