@@ -4,7 +4,7 @@
   "name": "property",
   "description": "The stylistic attribute being defined (e.g. color, width, padding, gap). The only required field on every name object.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/properties.json",
+  "registry": null,
   "validation": "advisory",
   "serialization": {
     "position": 6

@@ -4,7 +4,7 @@
   "name": "object",
   "description": "Styling surface being targeted (e.g. background, border, edge, visual). Refers to what is being styled, not the property value.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/objects.json",
+  "registry": "packages/design-system-registry/registry/token-objects.json",
   "validation": "advisory",
   "serialization": {
     "position": 5
