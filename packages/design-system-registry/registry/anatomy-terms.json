@@ -92,6 +92,66 @@
       "label": "Pill",
       "description": "Pill-shaped element",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "title",
+      "label": "Title",
+      "description": "Title text element within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "description",
+      "label": "Description",
+      "description": "Descriptive text element within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "row",
+      "label": "Row",
+      "description": "Table or list row element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "step",
+      "label": "Step",
+      "description": "Individual step element in a step list or wizard",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "counter",
+      "label": "Counter",
+      "description": "Numeric counter or badge element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "preview",
+      "label": "Preview",
+      "description": "Preview area or thumbnail within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "tip",
+      "label": "Tip",
+      "description": "Tooltip tip or arrow element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "selection",
+      "label": "Selection",
+      "description": "Selection indicator or highlight element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "media",
+      "label": "Media",
+      "description": "Media container (image, video) within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "ring",
+      "label": "Ring",
+      "description": "Focus ring or outline indicator",
+      "usedIn": ["tokens"]
     }
   ]
 }
