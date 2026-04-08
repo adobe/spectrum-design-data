@@ -111,13 +111,7 @@ const semanticFieldNames = fieldDeclarations
   .sort((a, b) => a.serialization.position - b.serialization.position)
   .map((d) => d.name);
 
-manifestSchema.properties.extensions.properties.formatting.properties.conceptOrder.items =
-  {
-    type: "string",
-    enum: semanticFieldNames,
-  };
-
-const manifestOut = JSON.stringify(manifestSchema, null, 2) + "\n";
+const expectedItems = { type: "string", enum: semanticFieldNames };
 
 // ── Write or check ─────────────────────────────────────────────────────────
 
@@ -125,13 +119,18 @@ const checkMode = process.argv.includes("--check");
 
 if (checkMode) {
   const currentRs = readFileSync(destFile, "utf-8");
-  const currentManifest = readFileSync(manifestSchemaPath, "utf-8");
   let stale = false;
   if (currentRs !== generated) {
     console.error("registry_data.rs is out of date.");
     stale = true;
   }
-  if (currentManifest !== manifestOut) {
+  // Compare only the conceptOrder.items subtree — the rest of the file may
+  // have different formatting (e.g. Prettier) that we should not fight.
+  const currentManifest = JSON.parse(readFileSync(manifestSchemaPath, "utf-8"));
+  const currentItems =
+    currentManifest.properties?.extensions?.properties?.formatting?.properties
+      ?.conceptOrder?.items;
+  if (JSON.stringify(currentItems) !== JSON.stringify(expectedItems)) {
     console.error("manifest.schema.json conceptOrder enum is out of date.");
     stale = true;
   }
@@ -143,6 +142,13 @@ if (checkMode) {
 } else {
   writeFileSync(destFile, generated, "utf-8");
   console.log(`Written: ${destFile}`);
-  writeFileSync(manifestSchemaPath, manifestOut, "utf-8");
+  // Update the schema in-place and re-serialize with the file's own formatting
+  manifestSchema.properties.extensions.properties.formatting.properties.conceptOrder.items =
+    expectedItems;
+  writeFileSync(
+    manifestSchemaPath,
+    JSON.stringify(manifestSchema, null, 2) + "\n",
+    "utf-8",
+  );
   console.log(`Written: ${manifestSchemaPath}`);
 }
