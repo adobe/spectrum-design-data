@@ -23,6 +23,7 @@
     "./package.json": "./package.json",
     "./schemas/token.schema.json": "./schemas/token.schema.json",
     "./schemas/dimension.schema.json": "./schemas/dimension.schema.json",
+    "./schemas/field.schema.json": "./schemas/field.schema.json",
     "./schemas/manifest.schema.json": "./schemas/manifest.schema.json",
     "./schemas/value-types/color.schema.json": "./schemas/value-types/color.schema.json",
     "./rules/rules.yaml": "./rules/rules.yaml"
@@ -30,6 +31,7 @@
   "files": [
     "spec",
     "schemas",
+    "fields",
     "rules",
     "conformance",
     "README.md"

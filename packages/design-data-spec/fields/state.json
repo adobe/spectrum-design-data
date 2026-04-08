@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "state",
+  "description": "Interactive or semantic state (e.g. hover, focus, disabled, selected). Compound states use hyphenation (e.g. selected-hover).",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/states.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 12
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}

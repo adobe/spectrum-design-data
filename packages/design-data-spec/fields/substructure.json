@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "substructure",
+  "description": "Child element within a parent structure (e.g. item within list-item, cell within table).",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/substructures.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 3
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}

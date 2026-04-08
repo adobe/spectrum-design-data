@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "size",
+  "description": "Relative t-shirt sizing of a component or token (e.g. small, medium, large, extra-large). Distinct from dimension scale.",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/sizes.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 9
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}

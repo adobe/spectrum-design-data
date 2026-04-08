@@ -672,6 +672,16 @@ importers:
 
   tools/token-manifest-builder: {}
 
+  tools/token-mapping-analyzer:
+    dependencies:
+      "@adobe/spectrum-tokens":
+        specifier: workspace:*
+        version: link:../../packages/tokens
+    devDependencies:
+      ava:
+        specifier: ^6.1.1
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+
   tools/transform-tokens-json:
     dependencies:
       jsonpath-plus:
