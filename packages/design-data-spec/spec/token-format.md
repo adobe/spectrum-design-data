@@ -25,25 +25,27 @@ The **name object** identifies the token in a structured way. Implementations us
 
 **NORMATIVE fields** (all string unless noted):
 
-Name object fields are divided into **semantic fields** (identity, structure, intent) and **dimension fields** (axes of variation for cascade resolution). See [Taxonomy](taxonomy.md) for the full concept category hierarchy, component anatomy vs. token objects, and serialization rules.
+The set of available name-object fields is declared in the design system's **field catalog** (`fields/` directory). Each field declaration conforms to [`field.schema.json`](../schemas/field.schema.json) and specifies its kind (`semantic` or `dimension`), vocabulary registry, validation severity, and default serialization position. See [Taxonomy](taxonomy.md) for the full concept category hierarchy, component anatomy vs. token objects, and serialization rules.
+
+Fields are divided into **semantic fields** (identity, structure, intent) and **dimension fields** (axes of variation for cascade resolution). The tables below list Spectrum's foundation-standard fields as declared in the catalog.
 
 #### Semantic fields
 
-| Field           | Status   | Taxonomy category | Description                                                                                     |
-| --------------- | -------- | ----------------- | ----------------------------------------------------------------------------------------------- |
-| `property`      | REQUIRED | Property          | The stylistic attribute being defined (e.g. `color`, `width`, `padding`, `gap`).                |
-| `component`     | OPTIONAL | Component         | Component name when the token is component-scoped.                                              |
-| `structure`     | OPTIONAL | Structure         | Reusable visual pattern or object category (e.g. `base`, `container`, `list`, `accessory`). Distinct from `component`. |
-| `substructure`  | OPTIONAL | Sub-structure     | A structure that only exists within its parent structure (e.g. `item` in `list-item`).           |
-| `anatomy`       | OPTIONAL | Anatomy           | A visible, named part of a component as defined by designers (e.g. `handle`, `icon`, `label`). See [Taxonomy — Component anatomy](taxonomy.md#component-anatomy). |
-| `object`        | OPTIONAL | Object            | Styling surface to which a visual property is applied (e.g. `background`, `border`, `edge`). See [Taxonomy — Token objects](taxonomy.md#token-objects-styling-surfaces). |
-| `variant`       | OPTIONAL | Variant           | Variant within a component (e.g. `accent`, `negative`, `primary`).                              |
-| `state`         | OPTIONAL | State             | Interactive or semantic state (e.g. `hover`, `focus`, `disabled`).                              |
-| `orientation`   | OPTIONAL | Orientation       | Direction or order of structures and elements (e.g. `vertical`, `horizontal`).                  |
-| `position`      | OPTIONAL | Position          | Location of an object relative to another (e.g. `affixed`).                                     |
-| `size`          | OPTIONAL | Size              | Relative t-shirt sizing for relationships across tokens (e.g. `small`, `medium`, `large`).      |
-| `density`       | OPTIONAL | Density           | Space within or around component parts (e.g. `spacious`, `compact`).                            |
-| `shape`         | OPTIONAL | Shape             | Relative to overall component shape (e.g. `uniform`).                                           |
+| Field          | Status   | Taxonomy category | Description                                                                                                                                                              |
+| -------------- | -------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `property`     | REQUIRED | Property          | The stylistic attribute being defined (e.g. `color`, `width`, `padding`, `gap`).                                                                                         |
+| `component`    | OPTIONAL | Component         | Component name when the token is component-scoped.                                                                                                                       |
+| `structure`    | OPTIONAL | Structure         | Reusable visual pattern or object category (e.g. `base`, `container`, `list`, `accessory`). Distinct from `component`.                                                   |
+| `substructure` | OPTIONAL | Sub-structure     | A structure that only exists within its parent structure (e.g. `item` in `list-item`).                                                                                   |
+| `anatomy`      | OPTIONAL | Anatomy           | A visible, named part of a component as defined by designers (e.g. `handle`, `icon`, `label`). See [Taxonomy — Component anatomy](taxonomy.md#component-anatomy).        |
+| `object`       | OPTIONAL | Object            | Styling surface to which a visual property is applied (e.g. `background`, `border`, `edge`). See [Taxonomy — Token objects](taxonomy.md#token-objects-styling-surfaces). |
+| `variant`      | OPTIONAL | Variant           | Variant within a component (e.g. `accent`, `negative`, `primary`).                                                                                                       |
+| `state`        | OPTIONAL | State             | Interactive or semantic state (e.g. `hover`, `focus`, `disabled`).                                                                                                       |
+| `orientation`  | OPTIONAL | Orientation       | Direction or order of structures and elements (e.g. `vertical`, `horizontal`).                                                                                           |
+| `position`     | OPTIONAL | Position          | Location of an object relative to another (e.g. `affixed`).                                                                                                              |
+| `size`         | OPTIONAL | Size              | Relative t-shirt sizing for relationships across tokens (e.g. `small`, `medium`, `large`).                                                                               |
+| `density`      | OPTIONAL | Density           | Space within or around component parts (e.g. `spacious`, `compact`).                                                                                                     |
+| `shape`        | OPTIONAL | Shape             | Relative to overall component shape (e.g. `uniform`).                                                                                                                    |
 
 #### Dimension fields
 
@@ -54,7 +56,7 @@ Name object fields are divided into **semantic fields** (identity, structure, in
 | `contrast`      | OPTIONAL | Dimension: contrast level (e.g. `regular`, `high`).                                             |
 | Additional keys | OPTIONAL | Other dimensions declared in the dataset’s dimension catalog (see [Dimensions](dimensions.md)). |
 
-**NORMATIVE:** Semantic fields are validated against the design system registry with **advisory** severity (warning). Dimension fields are validated against declared dimension modes with **strict** severity (error). See [Taxonomy — Name object field categories](taxonomy.md#name-object-field-categories).
+**NORMATIVE:** Each field is validated according to the `validation` severity declared in its field declaration. Semantic fields typically use **advisory** severity (warning); dimension fields use **strict** severity (error). See [Taxonomy — Name object field categories](taxonomy.md#name-object-field-categories).
 
 **RECOMMENDED:** Name objects use a consistent key ordering in authored files for diffs; this is not a conformance requirement. Concept ordering for serialized names is defined in [Taxonomy — Default serialization](taxonomy.md#default-serialization-legacy-format).
 
@@ -70,15 +72,15 @@ When **`value`** is present, it **MUST** conform to the declared value type for 
 
 The following OPTIONAL fields implement the token lifecycle model described in [#623](https://github.com/adobe/spectrum-design-data/discussions/623) and the evolution policy in [Evolution](evolution.md). Inspired by Swift's `@available` attribute, Kotlin's `@Deprecated`, and OpenAPI 3.3's deprecation model.
 
-| Field                | Type                                        | Description                                                                   |
-| -------------------- | ------------------------------------------- | ----------------------------------------------------------------------------- |
-| `uuid`               | string (UUID)                               | Stable unique id for rename tracking and diffs.                               |
-| `introduced`         | string (version)                            | Spec version when the token was first added (e.g. `"1.0.0"`).                |
-| `deprecated`         | string (version)                            | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated. |
-| `deprecated_comment` | string                                      | Human-readable deprecation explanation and migration guidance.                |
-| `replaced_by`        | string (UUID) or array of string (UUID)     | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits. |
-| `plannedRemoval`     | string (version)                            | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecated`. |
-| `private`            | boolean                                     | Not part of public API surface.                                               |
+| Field                | Type                                    | Description                                                                                                     |
+| -------------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `uuid`               | string (UUID)                           | Stable unique id for rename tracking and diffs.                                                                 |
+| `introduced`         | string (version)                        | Spec version when the token was first added (e.g. `"1.0.0"`).                                                   |
+| `deprecated`         | string (version)                        | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated.                               |
+| `deprecated_comment` | string                                  | Human-readable deprecation explanation and migration guidance.                                                  |
+| `replaced_by`        | string (UUID) or array of string (UUID) | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.           |
+| `plannedRemoval`     | string (version)                        | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecated`. |
+| `private`            | boolean                                 | Not part of public API surface.                                                                                 |
 
 #### Lifecycle example
 
@@ -111,14 +113,14 @@ The following OPTIONAL fields implement the token lifecycle model described in [
 
 When generating legacy-format output from cascade tokens:
 
-- `deprecated: "3.2.0"` maps to `deprecated: true`
-- `replaced_by: "<uuid>"` maps to `renamed: "<target-token-name>"` (resolved via UUID lookup)
-- `introduced` and `plannedRemoval` have no legacy equivalent and are not emitted
+* `deprecated: "3.2.0"` maps to `deprecated: true`
+* `replaced_by: "<uuid>"` maps to `renamed: "<target-token-name>"` (resolved via UUID lookup)
+* `introduced` and `plannedRemoval` have no legacy equivalent and are not emitted
 
 When migrating legacy-format tokens to cascade:
 
-- `deprecated: true` maps to `deprecated: "unknown"` (authors should backfill the actual version)
-- `renamed: "<name>"` maps to `replaced_by: "<uuid>"` (resolved via name lookup across all files in the migrated input set). If the rename target is not found in the scanned corpus, the field is dropped — `replaced_by` must be set manually in that case
+* `deprecated: true` maps to `deprecated: "unknown"` (authors should backfill the actual version)
+* `renamed: "<name>"` maps to `replaced_by: "<uuid>"` (resolved via name lookup across all files in the migrated input set). If the rename target is not found in the scanned corpus, the field is dropped — `replaced_by` must be set manually in that case
 
 ### `specVersion`
 
