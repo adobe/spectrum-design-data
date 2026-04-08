@@ -13,9 +13,10 @@
  *   - packages/design-system-registry/registry/*.json  (vocabulary data)
  *   - packages/design-data-spec/fields/*.json           (field catalog declarations)
  *
- * The field catalog drives which registries are embedded and which fields get
- * enum-validated (advisory_fields). Adding a new field declaration file and
- * running `moon run sdk:codegen` is all that's needed to extend SPEC-009.
+ * The field catalog drives which registries are embedded (all registry-backed
+ * fields) and which fields get advisory-warned by SPEC-009 (advisory subset).
+ * Adding a new field declaration file and running `moon run sdk:codegen` is
+ * all that's needed to extend the SDK.
  *
  * Usage:
  *   node scripts/generate-registry-data.js          # write (moon run sdk:codegen)
@@ -37,11 +38,17 @@ const fieldDeclarations = readdirSync(fieldsDir)
   .filter((f) => f.endsWith(".json"))
   .map((f) => JSON.parse(readFileSync(join(fieldsDir, f), "utf-8")));
 
-// Fields with a registry path and advisory validation — these get enum-checked
-// by SPEC-009. Sorted by serialization.position for deterministic output.
-const advisoryFields = fieldDeclarations
-  .filter((d) => d.registry !== null && d.validation === "advisory")
+// All fields with a registry — these get embedded so for_field() works for any
+// registry-backed field (advisory or strict). Sorted by position for deterministic output.
+const registryFields = fieldDeclarations
+  .filter((d) => d.registry !== null)
   .sort((a, b) => a.serialization.position - b.serialization.position);
+
+// Advisory subset — SPEC-009 only warns for these (strict fields are validated
+// elsewhere, e.g. SPEC-005/SPEC-008 for dimensions).
+const advisoryFields = registryFields.filter(
+  (d) => d.validation === "advisory",
+);
 
 // Build registry file → Rust const name mapping from the catalog
 // e.g. "packages/design-system-registry/registry/components.json" → "COMPONENTS_JSON"
@@ -52,7 +59,7 @@ function registryPathToConstName(registryPath) {
 
 // Deduplicate: multiple fields could share a registry file (unlikely now, possible later)
 const uniqueRegistries = new Map();
-for (const decl of advisoryFields) {
+for (const decl of registryFields) {
   const constName = registryPathToConstName(decl.registry);
   if (!uniqueRegistries.has(constName)) {
     uniqueRegistries.set(constName, join(repoRoot, decl.registry));
@@ -76,32 +83,66 @@ for (const [constName, filePath] of uniqueRegistries) {
 const advisoryFieldNames = advisoryFields.map((d) => `"${d.name}"`).join(", ");
 generated += `\npub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &[${advisoryFieldNames}];\n`;
 
-// Generate build_registry_map() — called once at startup to build the HashMap
+// Generate build_registry_map() — includes ALL registry-backed fields (advisory
+// and strict) so for_field() works for any field with a vocabulary.
 generated += `
 pub(crate) fn build_registry_map(
 ) -> std::collections::HashMap<String, std::collections::HashSet<String>> {
     let mut map = std::collections::HashMap::new();
 `;
-for (const decl of advisoryFields) {
+for (const decl of registryFields) {
   const constName = registryPathToConstName(decl.registry);
   generated += `    map.insert("${decl.name}".to_string(), parse_registry(${constName}));\n`;
 }
 generated += `    map\n}\n`;
+
+// ── Update manifest.schema.json conceptOrder enum ─────────────────────────
+// Regenerate the conceptOrder items enum from the catalog's semantic field
+// names so Layer 1 JSON Schema validation catches typos.
+
+const manifestSchemaPath = join(
+  repoRoot,
+  "packages/design-data-spec/schemas/manifest.schema.json",
+);
+const manifestSchema = JSON.parse(readFileSync(manifestSchemaPath, "utf-8"));
+
+const semanticFieldNames = fieldDeclarations
+  .filter((d) => d.kind === "semantic")
+  .sort((a, b) => a.serialization.position - b.serialization.position)
+  .map((d) => d.name);
+
+manifestSchema.properties.extensions.properties.formatting.properties.conceptOrder.items =
+  {
+    type: "string",
+    enum: semanticFieldNames,
+  };
+
+const manifestOut = JSON.stringify(manifestSchema, null, 2) + "\n";
 
 // ── Write or check ─────────────────────────────────────────────────────────
 
 const checkMode = process.argv.includes("--check");
 
 if (checkMode) {
-  const current = readFileSync(destFile, "utf-8");
-  if (current !== generated) {
-    console.error(
-      "registry_data.rs is out of date. Run `moon run sdk:codegen` to regenerate.",
-    );
+  const currentRs = readFileSync(destFile, "utf-8");
+  const currentManifest = readFileSync(manifestSchemaPath, "utf-8");
+  let stale = false;
+  if (currentRs !== generated) {
+    console.error("registry_data.rs is out of date.");
+    stale = true;
+  }
+  if (currentManifest !== manifestOut) {
+    console.error("manifest.schema.json conceptOrder enum is out of date.");
+    stale = true;
+  }
+  if (stale) {
+    console.error("Run `moon run sdk:codegen` to regenerate.");
     process.exit(1);
   }
-  console.log("registry_data.rs is up to date.");
+  console.log("registry_data.rs and manifest.schema.json are up to date.");
 } else {
   writeFileSync(destFile, generated, "utf-8");
   console.log(`Written: ${destFile}`);
+  writeFileSync(manifestSchemaPath, manifestOut, "utf-8");
+  console.log(`Written: ${manifestSchemaPath}`);
 }

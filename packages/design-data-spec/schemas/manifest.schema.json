@@ -74,7 +74,21 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "minLength": 1
+                "enum": [
+                  "variant",
+                  "component",
+                  "structure",
+                  "substructure",
+                  "anatomy",
+                  "object",
+                  "property",
+                  "orientation",
+                  "position",
+                  "size",
+                  "density",
+                  "shape",
+                  "state"
+                ]
               },
               "uniqueItems": true,
               "description": "Ordered list of field names for serialization. Values must match declared field names from the design system's field catalog (field.schema.json declarations). Replaces the default serialization.position order from each field declaration."
