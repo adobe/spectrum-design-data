@@ -10,35 +10,17 @@
 
 //! SPEC-009: name-field-enum-sync
 //!
-//! Recognized name-object fields (component, state, variant, size, anatomy,
-//! object, structure, substructure, orientation, position, density, shape)
-//! SHOULD use values from the corresponding design-system-registry enums.
+//! Semantic name-object fields with a backing registry vocabulary SHOULD use
+//! values from that registry. The set of checked fields is derived from the
+//! field catalog (`packages/design-data-spec/fields/`) — fields with
+//! `validation: "advisory"` and a non-null registry are checked here.
 //!
-//! This is a warning-only rule (advisory severity per spec/taxonomy.md).
-//! Structural fields that are not enum-checked: `property` (free-form name),
-//! dimension keys (`colorScheme`, `scale`, `contrast`) which are validated by
-//! SPEC-005/SPEC-008 against dimension declarations.
+//! This is a warning-only rule. Fields excluded from this check:
+//! - `property` — free-form, no registry
+//! - `colorScheme`, `scale`, `contrast` — dimension fields, validated by SPEC-005/SPEC-008
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
-
-/// Name-object fields whose values are enum-validated against the registry.
-/// Dimension keys (colorScheme, scale, contrast) are excluded — they are
-/// covered by SPEC-005/SPEC-008. `property` is free-form and excluded.
-const ENUM_CHECKED_FIELDS: &[&str] = &[
-    "component",
-    "state",
-    "variant",
-    "size",
-    "anatomy",
-    "object",
-    "structure",
-    "substructure",
-    "orientation",
-    "position",
-    "density",
-    "shape",
-];
 
 pub struct Rule;
 
@@ -60,7 +42,7 @@ impl ValidationRule for Rule {
                 None => continue,
             };
 
-            for &field in ENUM_CHECKED_FIELDS {
+            for &field in ctx.registry.advisory_fields() {
                 let value = match name_obj.get(field).and_then(|v| v.as_str()) {
                     Some(v) => v,
                     None => continue,
