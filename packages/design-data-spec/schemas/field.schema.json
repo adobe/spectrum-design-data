@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "title": "Name-object field declaration",
+  "description": "Declares a single field on the token name object — its kind, vocabulary source, validation severity, and serialization position. Design systems provide a catalog of these declarations to make the name object schema configurable rather than hardcoded.",
+  "type": "object",
+  "required": ["name", "kind", "validation", "serialization"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "specVersion": {
+      "const": "1.0.0-draft"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Field key on the name object (e.g. 'property', 'component', 'scaleIndex')."
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the field's purpose."
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["semantic", "dimension"],
+      "description": "Whether this field participates in cascade resolution. 'dimension' fields drive cascade specificity; 'semantic' fields describe identity only."
+    },
+    "registry": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "description": "Path to the registry file containing valid values for this field (relative to the design system root)."
+        },
+        {
+          "type": "null",
+          "description": "No registry — field accepts free-form values."
+        }
+      ]
+    },
+    "validation": {
+      "type": "string",
+      "enum": ["strict", "advisory", "none"],
+      "description": "Validation severity when a value is not found in the registry. 'strict' = error, 'advisory' = warning, 'none' = no check."
+    },
+    "serialization": {
+      "type": "object",
+      "required": ["position"],
+      "properties": {
+        "position": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Default position in the serialized name string (0-based). Used when the platform manifest does not specify a custom conceptOrder."
+        }
+      },
+      "additionalProperties": false
+    },
+    "scope": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "description": "Restrict this field to a specific token type scope (e.g. 'typography', 'color'). Null = universal."
+        },
+        {
+          "type": "null",
+          "description": "Field applies to all token types."
+        }
+      ]
+    },
+    "required": {
+      "type": "boolean",
+      "description": "Whether this field must be present on every name object. Default: false.",
+      "default": false
+    },
+    "valueType": {
+      "type": "string",
+      "enum": ["string", "integer"],
+      "description": "Type of the field value. Default: 'string'.",
+      "default": "string"
+    }
+  },
+  "additionalProperties": false
+}

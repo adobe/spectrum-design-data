@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "object",
+  "description": "Styling surface being targeted (e.g. background, border, edge, visual). Refers to what is being styled, not the property value.",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/objects.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 5
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}

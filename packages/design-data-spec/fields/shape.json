@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "shape",
+  "description": "Overall component shape qualifier (e.g. uniform, rounded).",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/shapes.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 11
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}

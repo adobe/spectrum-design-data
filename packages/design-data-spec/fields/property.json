@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "property",
+  "description": "The stylistic attribute being defined (e.g. color, width, padding, gap). The only required field on every name object.",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/properties.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 6
+  },
+  "scope": null,
+  "required": true,
+  "valueType": "string"
+}

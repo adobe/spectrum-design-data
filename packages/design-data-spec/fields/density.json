@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "density",
+  "description": "Space density within or around component parts (e.g. spacious, compact). Distinct from the dimension scale field.",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/densities.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 10
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}

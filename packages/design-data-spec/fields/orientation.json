@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "orientation",
+  "description": "Direction or layout axis (e.g. vertical, horizontal).",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/orientations.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 7
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}
