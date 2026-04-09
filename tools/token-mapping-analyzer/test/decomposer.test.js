@@ -45,8 +45,24 @@ test("decomposes component token with metadata", (t) => {
   t.truthy(result.nameObject.property);
 });
 
-test("detects numeric scale index gap", (t) => {
+test("does not flag scaleIndex as gap when field is declared", (t) => {
   const result = decompose("spacing-100", {}, registry, "test");
+  t.is(result.nameObject.scaleIndex, "100");
+  const scaleGap = result.gaps.find((g) => g.type === "numeric-scale-index");
+  t.falsy(scaleGap);
+});
+
+test("flags scaleIndex as gap when field is not declared", (t) => {
+  const registryWithoutScaleIndex = {
+    ...registry,
+    allFields: new Map(),
+  };
+  const result = decompose(
+    "spacing-100",
+    {},
+    registryWithoutScaleIndex,
+    "test",
+  );
   t.is(result.nameObject.scaleIndex, "100");
   const scaleGap = result.gaps.find((g) => g.type === "numeric-scale-index");
   t.truthy(scaleGap);

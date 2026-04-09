@@ -81,7 +81,31 @@
         "value": "{accent-color-1000}"
       }
     },
-    "uuid": "5c8e3c22-193b-4ffb-bd8d-0a879ee85c54"
+    "uuid": "5c8e3c22-193b-4ffb-bd8d-0a879ee85c54",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `accent-background-color-keyboard-focus` instead.",
+    "renamed": "accent-background-color-keyboard-focus"
+  },
+  "accent-background-color-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "sets": {
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{accent-color-700}",
+        "uuid": "6291619f-19e9-4b5a-9f86-239cc7f8692b"
+      },
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{accent-color-1000}",
+        "uuid": "a13a1250-8106-4fe9-b52a-2b43e33f4db8"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{accent-color-1000}",
+        "uuid": "550edfc3-5cad-4ecf-ada9-c129ab61c795"
+      }
+    },
+    "uuid": "e1184268-49e0-4db3-a979-ea37b815d66f"
   },
   "accent-content-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -101,6 +125,14 @@
   "accent-content-color-key-focus": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "71dcd137-f767-4d2c-b6ac-942b99ac8621",
+    "value": "{accent-color-1000}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `accent-content-color-keyboard-focus` instead.",
+    "renamed": "accent-content-color-keyboard-focus"
+  },
+  "accent-content-color-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "83c5c928-245c-4334-b757-05f67bc5531c",
     "value": "{accent-color-1000}"
   },
   "accent-content-color-selected": {
@@ -132,7 +164,15 @@
   "background-base-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "e0d8739d-18dd-44bc-92ea-e443882a780b",
-    "value": "{gray-25}"
+    "value": "{gray-25}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `base-background-color` instead.",
+    "renamed": "base-background-color"
+  },
+  "background-color-disabled": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "9c48c87d-42fd-47db-a640-742e772aa11d",
+    "value": "{gray-100}"
   },
   "background-elevated-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -199,6 +239,14 @@
   "background-opacity-key-focus": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "uuid": "a35883a9-43fd-4be5-97ee-62fdf3a33f39",
+    "value": "0.1",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `background-opacity-keyboard-focus` instead.",
+    "renamed": "background-opacity-keyboard-focus"
+  },
+  "background-opacity-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "uuid": "650ccc7d-f411-40fb-b068-199e0025a06d",
     "value": "0.1"
   },
   "background-pasteboard-color": {
@@ -221,6 +269,11 @@
       }
     },
     "uuid": "f8e93285-b100-4dd9-a943-435e173321af"
+  },
+  "base-background-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "6ea4bbd6-d6ad-4e9c-bc40-4976cebd50a9",
+    "value": "{gray-25}"
   },
   "blue-background-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -284,6 +337,11 @@
       }
     },
     "uuid": "3ea5b3ef-e671-444c-a1e9-fbe2566ec771"
+  },
+  "border-color-disabled": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "2f535fc6-d6fd-4956-9f7f-78eae0c1727a",
+    "value": "{gray-300}"
   },
   "brown-background-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -537,6 +595,11 @@
     },
     "uuid": "229f3603-edcf-4e55-a5d2-7a805f991ac5"
   },
+  "content-color-disabled": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "7ba91d4a-1765-4f6d-9358-2e6468412753",
+    "value": "{gray-400}"
+  },
   "cyan-background-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "sets": {
@@ -603,17 +666,26 @@
   "disabled-background-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
-    "value": "{gray-100}"
+    "value": "{gray-100}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `background-color-disabled` instead.",
+    "renamed": "background-color-disabled"
   },
   "disabled-border-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "474ae56c-709a-4f5a-a56b-62d01093f412",
-    "value": "{gray-300}"
+    "value": "{gray-300}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `border-color-disabled` instead.",
+    "renamed": "border-color-disabled"
   },
   "disabled-content-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
-    "value": "{gray-400}"
+    "value": "{gray-400}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `content-color-disabled` instead.",
+    "renamed": "content-color-disabled"
   },
   "disabled-static-black-background-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -679,21 +751,21 @@
     "sets": {
       "dark": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
-        "uuid": "8d7e0eb7-c3c7-485e-896c-d5d5107e3b8f",
-        "value": "rgba(0, 0, 0, 0.36)"
+        "value": "rgba(0, 0, 0, 0.36)",
+        "uuid": "a6cf4f28-4111-4321-a188-3202fe41a1bd"
       },
       "light": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
-        "uuid": "5c0f0543-7e9b-43d6-9fea-c771b9b524c6",
-        "value": "rgba(0, 0, 0, 0.12)"
+        "value": "rgba(0, 0, 0, 0.12)",
+        "uuid": "42371de5-3ddc-412d-880d-4608a79dc72f"
       },
       "wireframe": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
-        "uuid": "4110e60c-efd6-421d-9c5c-0356cfff8697",
-        "value": "rgba(0, 0, 0, 0.12)"
+        "value": "rgba(0, 0, 0, 0.12)",
+        "uuid": "356434bb-1dd8-4080-9da8-7b2f15bda44e"
       }
     },
-    "uuid": "92619056-db5a-45ab-ba0b-50e67cc497f6"
+    "uuid": "5ed20206-50a6-4c4d-b2e8-b7414525b425"
   },
   "drop-shadow-color-200": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1309,7 +1381,31 @@
         "value": "{informative-color-1000}"
       }
     },
-    "uuid": "b0a6beaa-35b2-4daa-91aa-dff037aa6234"
+    "uuid": "b0a6beaa-35b2-4daa-91aa-dff037aa6234",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `informative-background-color-keyboard-focus` instead.",
+    "renamed": "informative-background-color-keyboard-focus"
+  },
+  "informative-background-color-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "sets": {
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{informative-color-700}",
+        "uuid": "4478adfb-dc69-4bed-b140-f6a984fbe93d"
+      },
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{informative-color-1000}",
+        "uuid": "66297e98-132f-4cf8-91d5-8508a874e0e5"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{informative-color-1000}",
+        "uuid": "95c46d9b-7968-4b32-8f40-029d3e4f1785"
+      }
+    },
+    "uuid": "80abe20f-fe86-4113-a743-d3a50f7aed79"
   },
   "informative-visual-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1477,7 +1573,31 @@
         "value": "{negative-color-1000}"
       }
     },
-    "uuid": "1a73eddc-911d-4218-b902-0abaffbb12e4"
+    "uuid": "1a73eddc-911d-4218-b902-0abaffbb12e4",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `negative-background-color-keyboard-focus` instead.",
+    "renamed": "negative-background-color-keyboard-focus"
+  },
+  "negative-background-color-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "sets": {
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{negative-color-700}",
+        "uuid": "ed5b2d4b-6b7b-4354-8811-9a36a295b3c2"
+      },
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{negative-color-1000}",
+        "uuid": "68598bf9-55ed-4907-982c-b56fbf12440f"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{negative-color-1000}",
+        "uuid": "cc3260d1-b3c2-4bb0-ab81-e703c6398293"
+      }
+    },
+    "uuid": "ffe8b5d8-e021-4d05-a697-e4c1b537d377"
   },
   "negative-border-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1497,16 +1617,32 @@
   "negative-border-color-focus-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "63abd660-13c4-47b8-be9e-61e270b95212",
-    "value": "{negative-border-color-down}"
+    "value": "{negative-border-color-down}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `negative-border-color-hover-focus` instead.",
+    "renamed": "negative-border-color-hover-focus"
   },
   "negative-border-color-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "496571fc-18ce-44a3-a89e-40ff6397adcd",
     "value": "{negative-color-1000}"
   },
+  "negative-border-color-hover-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "6a944190-2271-4adb-a212-7cf7647351ed",
+    "value": "{negative-border-color-down}"
+  },
   "negative-border-color-key-focus": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "393cb93a-3d0a-4118-a2ee-451fdc871b0f",
+    "value": "{negative-color-1000}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `negative-border-color-keyboard-focus` instead.",
+    "renamed": "negative-border-color-keyboard-focus"
+  },
+  "negative-border-color-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "cf122d01-e96d-4d8d-85c0-73e887e040dd",
     "value": "{negative-color-1000}"
   },
   "negative-content-color-default": {
@@ -1527,6 +1663,14 @@
   "negative-content-color-key-focus": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "03a7aa1f-9493-4054-bb21-eb10e593da73",
+    "value": "{negative-color-1000}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `negative-content-color-keyboard-focus` instead.",
+    "renamed": "negative-content-color-keyboard-focus"
+  },
+  "negative-content-color-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "52865052-cf9d-4799-a088-251f87ccaeb6",
     "value": "{negative-color-1000}"
   },
   "negative-visual-color": {
@@ -1555,9 +1699,19 @@
     "uuid": "95cf1481-f476-47ce-a45a-54da64b44255",
     "value": "{gray-800}"
   },
+  "neutral-background-color-default-selected": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "fa066867-8ecc-4553-99ab-e26b516fab53",
+    "value": "{gray-800}"
+  },
   "neutral-background-color-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "5a0fdda5-6ac2-4a31-a7b9-6b3a5dd868d6",
+    "value": "{gray-900}"
+  },
+  "neutral-background-color-down-selected": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "7d4ce0cf-9019-4f40-8f03-afefea56ee9e",
     "value": "{gray-900}"
   },
   "neutral-background-color-hover": {
@@ -1565,29 +1719,59 @@
     "uuid": "142f9467-e519-4ed7-bd98-69a31e876e70",
     "value": "{gray-900}"
   },
+  "neutral-background-color-hover-selected": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "8e7ed561-9755-42d3-a3c0-859b595ad2d1",
+    "value": "{gray-900}"
+  },
   "neutral-background-color-key-focus": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4",
+    "value": "{gray-900}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `neutral-background-color-keyboard-focus` instead.",
+    "renamed": "neutral-background-color-keyboard-focus"
+  },
+  "neutral-background-color-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "80c8ec6d-b05a-44f5-9f62-e69ce18eaddc",
     "value": "{gray-900}"
   },
   "neutral-background-color-selected-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc",
-    "value": "{gray-800}"
+    "value": "{gray-800}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `neutral-background-color-default-selected` instead.",
+    "renamed": "neutral-background-color-default-selected"
   },
   "neutral-background-color-selected-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "966c56d0-4461-45e7-9e20-0277f2111a34",
-    "value": "{gray-900}"
+    "value": "{gray-900}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `neutral-background-color-down-selected` instead.",
+    "renamed": "neutral-background-color-down-selected"
   },
   "neutral-background-color-selected-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "1c220122-5f32-42f9-848f-ae10061241e5",
-    "value": "{gray-900}"
+    "value": "{gray-900}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `neutral-background-color-hover-selected` instead.",
+    "renamed": "neutral-background-color-hover-selected"
   },
   "neutral-background-color-selected-key-focus": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "9b8df7df-3439-4614-b446-97a4de782e27",
+    "value": "{gray-900}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `neutral-background-color-selected-keyboard-focus` instead.",
+    "renamed": "neutral-background-color-selected-keyboard-focus"
+  },
+  "neutral-background-color-selected-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "69e3813e-4f4c-4b4d-b41a-a4d327019b2d",
     "value": "{gray-900}"
   },
   "neutral-content-color-default": {
@@ -1608,16 +1792,32 @@
   "neutral-content-color-focus-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "a370f375-b3b1-4af8-9628-fa901c0252fb",
-    "value": "{neutral-content-color-down}"
+    "value": "{neutral-content-color-down}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `neutral-content-color-hover-focus` instead.",
+    "renamed": "neutral-content-color-hover-focus"
   },
   "neutral-content-color-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "d236bdc5-037b-4838-8401-8a0d5136936c",
     "value": "{gray-900}"
   },
+  "neutral-content-color-hover-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "70b5c997-d252-421a-9746-bd798c64db67",
+    "value": "{neutral-content-color-down}"
+  },
   "neutral-content-color-key-focus": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "c2c538e0-6f8d-4586-953a-b98ef40c9eca",
+    "value": "{gray-900}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `neutral-content-color-keyboard-focus` instead.",
+    "renamed": "neutral-content-color-keyboard-focus"
+  },
+  "neutral-content-color-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "8b0fb0d3-66e6-43dd-9538-d71557c22e00",
     "value": "{gray-900}"
   },
   "neutral-subdued-background-color-default": {
@@ -2052,7 +2252,31 @@
         "value": "{positive-color-1000}"
       }
     },
-    "uuid": "cdaa6f44-8833-44df-8c60-0068d180bd4d"
+    "uuid": "cdaa6f44-8833-44df-8c60-0068d180bd4d",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `positive-background-color-keyboard-focus` instead.",
+    "renamed": "positive-background-color-keyboard-focus"
+  },
+  "positive-background-color-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "sets": {
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{positive-color-700}",
+        "uuid": "32d4ffd8-cf34-46ad-9aee-270207bc88a2"
+      },
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{positive-color-1000}",
+        "uuid": "7e261d59-9ddb-489e-912a-9dd257bbf77d"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{positive-color-1000}",
+        "uuid": "f72088dc-56c6-42b0-849b-0f2bf070563f"
+      }
+    },
+    "uuid": "3c55b9e4-d38d-42d4-b643-75b9fb44e043"
   },
   "positive-visual-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -2345,7 +2569,20 @@
   "static-black-track-indicator-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "0599d3b0-4d9e-4a12-ae0e-8f60e3533ab9",
+    "value": "{transparent-black-900}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `static-track-black-indicator-color` instead.",
+    "renamed": "static-track-black-indicator-color"
+  },
+  "static-track-black-indicator-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "76069648-9a06-4a2a-94d3-365203547919",
     "value": "{transparent-black-900}"
+  },
+  "static-track-white-indicator-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "d88d0b0c-3efa-43f6-9dd7-699c1b0857fe",
+    "value": "{transparent-white-900}"
   },
   "static-white-focus-indicator-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2365,7 +2602,10 @@
   "static-white-track-indicator-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "a1cbc282-1376-48d1-b8bb-92f10aef7c6f",
-    "value": "{transparent-white-900}"
+    "value": "{transparent-white-900}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `static-track-white-indicator-color` instead.",
+    "renamed": "static-track-white-indicator-color"
   },
   "title-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

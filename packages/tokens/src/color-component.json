@@ -222,7 +222,7 @@
   "floating-action-button-drop-shadow-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "floating-action-button",
-    "uuid": "d66d3a56-1ba0-4ce7-a263-eb46a4d17af0",
+    "uuid": "fcbb6fca-9623-4b0a-8eee-5ab8b32aa7fc",
     "value": "{transparent-black-300}"
   },
   "floating-action-button-shadow-color": {
@@ -416,11 +416,26 @@
     },
     "uuid": "d34281bc-ac57-407a-b8e5-1dbdedd45797"
   },
+  "select-box-border-color-selected": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "select-box",
+    "uuid": "1037e6a3-72a3-4b74-a50b-059d341541ef",
+    "value": "{gray-800}"
+  },
   "select-box-selected-border-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "select-box",
     "uuid": "4bbb81b1-09fb-4ebe-80b5-cebb75c13839",
-    "value": "{gray-800}"
+    "value": "{gray-800}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `select-box-border-color-selected` instead.",
+    "renamed": "select-box-border-color-selected"
+  },
+  "stack-item-background-color-default-selected": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "stack-item",
+    "uuid": "4d9100d7-894e-4a60-afda-ea9cdeb7f035",
+    "value": "{gray-100}"
   },
   "stack-item-background-color-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -428,29 +443,62 @@
     "uuid": "c99360a4-de28-48e6-80ad-93adb714d388",
     "value": "{gray-100}"
   },
+  "stack-item-background-color-down-selected": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "stack-item",
+    "uuid": "e1a45809-1462-4963-a987-0808c64394d1",
+    "value": "{gray-200}"
+  },
   "stack-item-background-color-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "stack-item",
     "uuid": "022a6244-ce6c-4c3f-82a1-e2f5118d3c5e",
     "value": "{gray-100}"
   },
+  "stack-item-background-color-hover-selected": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "stack-item",
+    "uuid": "e976db05-0f29-46af-acf0-6155543ce8ed",
+    "value": "{gray-200}"
+  },
   "stack-item-background-color-key-focus": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "stack-item",
     "uuid": "a0251da6-7517-4712-85a1-29ca7f16ef91",
+    "value": "{gray-100}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `stack-item-background-color-keyboard-focus` instead.",
+    "renamed": "stack-item-background-color-keyboard-focus"
+  },
+  "stack-item-background-color-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "stack-item",
+    "uuid": "55182ee4-3126-49da-8936-86989ae2eef7",
     "value": "{gray-100}"
+  },
+  "stack-item-background-selected-color-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "stack-item",
+    "uuid": "55775c6a-d1f5-4b83-a78b-11c500997ea4",
+    "value": "{gray-200}"
   },
   "stack-item-selected-background-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "stack-item",
     "uuid": "128c4963-471a-44e3-9fb5-328d92d0266d",
-    "value": "{gray-100}"
+    "value": "{gray-100}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `stack-item-background-color-default-selected` instead.",
+    "renamed": "stack-item-background-color-default-selected"
   },
   "stack-item-selected-background-color-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "stack-item",
     "uuid": "1ad58d16-66da-44ae-829e-9ee1ff56a857",
-    "value": "{gray-200}"
+    "value": "{gray-200}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `stack-item-background-color-down-selected` instead.",
+    "renamed": "stack-item-background-color-down-selected"
   },
   "stack-item-selected-background-color-emphasized": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -462,13 +510,19 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "stack-item",
     "uuid": "a1bcd6c6-ef3e-42e4-8d88-2fafe2b318da",
-    "value": "{gray-200}"
+    "value": "{gray-200}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `stack-item-background-color-hover-selected` instead.",
+    "renamed": "stack-item-background-color-hover-selected"
   },
   "stack-item-selected-background-color-key-focus": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "stack-item",
     "uuid": "93f433f2-2d0b-4225-8b39-b10000808360",
-    "value": "{gray-200}"
+    "value": "{gray-200}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `stack-item-background-selected-color-keyboard-focus` instead.",
+    "renamed": "stack-item-background-selected-color-keyboard-focus"
   },
   "standard-panel-gripper-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -498,13 +552,19 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "swatch",
     "uuid": "c49cd7ae-7657-458b-871a-6b4f28bca535",
-    "value": "{black}"
+    "value": "{black}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `swatch-icon-border-color-disabled` instead.",
+    "renamed": "swatch-icon-border-color-disabled"
   },
   "swatch-disabled-icon-border-opacity": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "component": "swatch",
     "uuid": "cdbba3b6-cb51-4fec-88f0-273d4bb59a18",
-    "value": "0.42"
+    "value": "0.42",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `swatch-icon-border-opacity-disabled` instead.",
+    "renamed": "swatch-icon-border-opacity-disabled"
   },
   "swatch-group-border-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -512,29 +572,89 @@
     "uuid": "08b8d06a-5475-47bf-ad2e-9f52ee07345a",
     "value": "{gray-1000}"
   },
+  "swatch-icon-border-color-disabled": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "swatch",
+    "uuid": "baf5681d-9262-4a4a-9fcb-50c8e18aeb77",
+    "value": "{black}"
+  },
+  "swatch-icon-border-opacity-disabled": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "component": "swatch",
+    "uuid": "0611023f-1657-4c07-9dac-b3351f68668b",
+    "value": "0.42"
+  },
+  "table-row-background-color-selected": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "table",
+    "uuid": "b70d4d2a-55ec-4225-87c7-111ab24cc15e",
+    "value": "{informative-background-color-default}"
+  },
+  "table-row-background-opacity-hover-selected": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "component": "table",
+    "uuid": "d4c78211-a97a-4f31-9105-976c91521934",
+    "value": "0.15"
+  },
+  "table-row-background-opacity-selected": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "component": "table",
+    "uuid": "6b483c73-fc70-448a-95fa-d9ffbac0e6c7",
+    "value": "0.1"
+  },
+  "table-row-color-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "table",
+    "uuid": "5b5933de-fcb5-41e4-9854-cf21e3f48803",
+    "value": "{gray-900}"
+  },
   "table-row-down-opacity": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "component": "table",
     "uuid": "75ae742c-e96e-494f-9880-746bb2849575",
-    "value": "0.1"
+    "value": "0.1",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `table-row-opacity-down` instead.",
+    "renamed": "table-row-opacity-down"
   },
   "table-row-hover-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "table",
     "uuid": "44aedb76-5483-4ac3-a6f5-8cf71c2bd376",
-    "value": "{gray-900}"
+    "value": "{gray-900}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `table-row-color-hover` instead.",
+    "renamed": "table-row-color-hover"
   },
   "table-row-hover-opacity": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "component": "table",
     "uuid": "e287d553-3712-4d6e-98f0-6075107e85fe",
+    "value": "0.07",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `table-row-opacity-hover` instead.",
+    "renamed": "table-row-opacity-hover"
+  },
+  "table-row-opacity-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "component": "table",
+    "uuid": "97c86246-81e3-4719-a9bf-6920f42d2c51",
+    "value": "0.1"
+  },
+  "table-row-opacity-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "component": "table",
+    "uuid": "c6a8d500-ba21-4e62-9ee1-945c6ca60174",
     "value": "0.07"
   },
   "table-selected-row-background-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "table",
     "uuid": "b7537f50-bd49-44b6-a171-19943d443d24",
-    "value": "{informative-background-color-default}"
+    "value": "{informative-background-color-default}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `table-row-background-color-selected` instead.",
+    "renamed": "table-row-background-color-selected"
   },
   "table-selected-row-background-color-non-emphasized": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -546,13 +666,19 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "component": "table",
     "uuid": "61b3aa04-0e7e-44b8-a4c8-8442a4ebf549",
-    "value": "0.1"
+    "value": "0.1",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `table-row-background-opacity-selected` instead.",
+    "renamed": "table-row-background-opacity-selected"
   },
   "table-selected-row-background-opacity-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "component": "table",
     "uuid": "ce2851bc-8ae1-4b27-8cd6-f191c9cd7fe9",
-    "value": "0.15"
+    "value": "0.15",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `table-row-background-opacity-hover-selected` instead.",
+    "renamed": "table-row-background-opacity-hover-selected"
   },
   "table-selected-row-background-opacity-non-emphasized": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -584,10 +710,22 @@
     "uuid": "92418bcd-5f0f-4f26-9a96-51f8c9e871bf",
     "value": "{opacity-disabled}"
   },
+  "tree-view-row-background-default-selected": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tree-view",
+    "uuid": "e3a2d117-ef07-4a09-bfd8-e3f566d34f68",
+    "value": "{gray-100}"
+  },
   "tree-view-row-background-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "tree-view",
     "uuid": "39d26185-da40-47b5-b4b3-e47689129256",
+    "value": "{gray-100}"
+  },
+  "tree-view-row-background-hover-selected": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tree-view",
+    "uuid": "0a6a86bb-abf5-4e7b-919d-8e65824e10c0",
     "value": "{gray-100}"
   },
   "tree-view-selected-row-background-color-emphasized": {
@@ -600,12 +738,18 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "tree-view",
     "uuid": "8f19994d-f49a-42ea-97bd-98ab1d76d02d",
-    "value": "{gray-100}"
+    "value": "{gray-100}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `tree-view-row-background-default-selected` instead.",
+    "renamed": "tree-view-row-background-default-selected"
   },
   "tree-view-selected-row-background-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "tree-view",
     "uuid": "c325ed8f-8248-40c3-a0f0-efba57638f24",
-    "value": "{gray-100}"
+    "value": "{gray-100}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `tree-view-row-background-hover-selected` instead.",
+    "renamed": "tree-view-row-background-hover-selected"
   }
 }

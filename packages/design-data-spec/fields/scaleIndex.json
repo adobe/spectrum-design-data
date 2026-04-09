@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "scaleIndex",
+  "description": "Numeric scale index appended at the end of the serialized name (e.g., 100, 200, 900). Used by foundational scale tokens for spacing, color palette, font sizes, border widths, corner radii, and drop-shadow values.",
+  "kind": "numeric",
+  "registry": null,
+  "validation": "none",
+  "serialization": {
+    "position": 16
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "integer"
+}

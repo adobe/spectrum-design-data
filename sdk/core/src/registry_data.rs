@@ -175,6 +175,76 @@ const VARIANTS_JSON: &str = r##"{
       "description": "Designed to be used over backgrounds",
       "category": "context",
       "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "brown",
+      "label": "Brown",
+      "description": "Brown color variant",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "cinnamon",
+      "label": "Cinnamon",
+      "description": "Cinnamon color variant",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "silver",
+      "label": "Silver",
+      "description": "Silver color variant",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "subtle",
+      "label": "Subtle",
+      "description": "Reduced emphasis variant for less prominent surfaces",
+      "category": "emphasis",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "subdued",
+      "label": "Subdued",
+      "description": "Lower emphasis variant for quieter backgrounds",
+      "category": "emphasis",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "static",
+      "label": "Static",
+      "description": "Context variant indicating the token does not change with theme",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "inverse",
+      "label": "Inverse",
+      "description": "Inverted color context variant",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "black",
+      "label": "Black",
+      "description": "Black color modifier, typically used with static context",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "white",
+      "label": "White",
+      "description": "White color modifier, typically used with static context",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "turquoise",
+      "label": "Turquoise",
+      "description": "Turquoise color variant",
+      "category": "color",
+      "usedIn": ["tokens"]
     }
   ]
 }
@@ -592,6 +662,66 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "label": "Pill",
       "description": "Pill-shaped element",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "title",
+      "label": "Title",
+      "description": "Title text element within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "description",
+      "label": "Description",
+      "description": "Descriptive text element within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "row",
+      "label": "Row",
+      "description": "Table or list row element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "step",
+      "label": "Step",
+      "description": "Individual step element in a step list or wizard",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "counter",
+      "label": "Counter",
+      "description": "Numeric counter or badge element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "preview",
+      "label": "Preview",
+      "description": "Preview area or thumbnail within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "tip",
+      "label": "Tip",
+      "description": "Tooltip tip or arrow element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "selection",
+      "label": "Selection",
+      "description": "Selection indicator or highlight element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "media",
+      "label": "Media",
+      "description": "Media container (image, video) within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "ring",
+      "label": "Ring",
+      "description": "Focus ring or outline indicator",
+      "usedIn": ["tokens"]
     }
   ]
 }
@@ -686,21 +816,38 @@ const SIZES_JSON: &str = r##"{
   "description": "Semantic t-shirt size values used across Spectrum. Numeric scale values belong in scale-values.json.",
   "values": [
     {
+      "id": "xxxs",
+      "label": "3X Small",
+      "aliases": ["3x-small"],
+      "tokenName": "3x-small",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "xxs",
+      "label": "2X Small",
+      "aliases": ["2x-small"],
+      "tokenName": "2x-small",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "xs",
       "label": "Extra Small",
       "aliases": ["extra-small"],
-      "usedIn": ["component-options", "component-schemas"]
+      "tokenName": "extra-small",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
     },
     {
       "id": "s",
       "label": "Small",
       "aliases": ["small"],
+      "tokenName": "small",
       "usedIn": ["tokens", "component-options", "component-schemas"]
     },
     {
       "id": "m",
       "label": "Medium",
       "aliases": ["medium"],
+      "tokenName": "medium",
       "default": true,
       "usedIn": ["tokens", "component-options", "component-schemas"]
     },
@@ -708,25 +855,29 @@ const SIZES_JSON: &str = r##"{
       "id": "l",
       "label": "Large",
       "aliases": ["large"],
+      "tokenName": "large",
       "usedIn": ["tokens", "component-options", "component-schemas"]
     },
     {
       "id": "xl",
       "label": "Extra Large",
       "aliases": ["extra-large"],
+      "tokenName": "extra-large",
       "usedIn": ["tokens", "component-options", "component-schemas"]
     },
     {
       "id": "xxl",
       "label": "2X Large",
-      "aliases": [],
-      "usedIn": ["component-options", "component-schemas"]
+      "aliases": ["2x-large"],
+      "tokenName": "2x-large",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
     },
     {
       "id": "xxxl",
       "label": "3X Large",
-      "aliases": [],
-      "usedIn": ["component-options", "component-schemas"]
+      "aliases": ["3x-large"],
+      "tokenName": "3x-large",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
     }
   ]
 }

@@ -220,12 +220,14 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
       nameObject.scaleIndex = segments[i];
       matched[i] = true;
       matchDetails[i] = "scaleIndex";
-      gaps.push({
-        type: "numeric-scale-index",
-        value: segments[i],
-        description:
-          "Numeric scale index has no field in the 13-field taxonomy",
-      });
+      if (!registry.allFields?.has("scaleIndex")) {
+        gaps.push({
+          type: "numeric-scale-index",
+          value: segments[i],
+          description:
+            "Numeric scale index has no field in the 13-field taxonomy",
+        });
+      }
     }
   }
 
