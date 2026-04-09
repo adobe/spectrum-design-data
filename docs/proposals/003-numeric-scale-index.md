@@ -1,6 +1,6 @@
 # Proposal 003: Numeric Scale Index
 
-**Status:** Draft\
+**Status:** Implemented\
 **Affects:** 280 active tokens across all source files\
 **Spec reference:** taxonomy.md — name object field definitions
 

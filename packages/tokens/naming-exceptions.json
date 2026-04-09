@@ -13,12 +13,6 @@
       "count": 167,
       "status": "planned-rename"
     },
-    "numeric-scale-index": {
-      "description": "Tokens using numeric scale indices (e.g., spacing-100, accent-color-900) — no field in 13-field taxonomy",
-      "count": 292,
-      "status": "needs-spec-decision",
-      "proposal": "003"
-    },
     "typography-script": {
       "description": "Typography tokens with writing system qualifiers (cjk) — needs typography taxonomy",
       "count": 97,
@@ -94,7 +88,7 @@
     },
     "ordering-mismatch": {
       "description": "Tokens categorized as ordering-mismatch",
-      "count": 17,
+      "count": 29,
       "status": "needs-spec-decision",
       "proposal": "002"
     }
@@ -923,86 +917,74 @@
     {
       "token": "background-layer-1-color",
       "file": "color-aliases.json",
-      "category": "numeric-scale-index",
-      "proposal": "003",
-      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
     },
     {
       "token": "background-layer-2-color",
       "file": "color-aliases.json",
-      "category": "numeric-scale-index",
-      "proposal": "003",
-      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
     },
     {
       "token": "corner-triangle-icon-size-100",
       "file": "layout.json",
-      "category": "numeric-scale-index",
-      "proposal": "003",
-      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
     },
     {
       "token": "corner-triangle-icon-size-200",
       "file": "layout.json",
-      "category": "numeric-scale-index",
-      "proposal": "003",
-      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
     },
     {
       "token": "corner-triangle-icon-size-300",
       "file": "layout.json",
-      "category": "numeric-scale-index",
-      "proposal": "003",
-      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
     },
     {
       "token": "corner-triangle-icon-size-75",
       "file": "layout.json",
-      "category": "numeric-scale-index",
-      "proposal": "003",
-      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
     },
     {
       "token": "gradient-stop-1-genai",
       "file": "layout.json",
-      "category": "numeric-scale-index",
-      "proposal": "003",
-      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
     },
     {
       "token": "gradient-stop-1-premium",
       "file": "layout.json",
-      "category": "numeric-scale-index",
-      "proposal": "003",
-      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
     },
     {
       "token": "gradient-stop-2-genai",
       "file": "layout.json",
-      "category": "numeric-scale-index",
-      "proposal": "003",
-      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
     },
     {
       "token": "gradient-stop-2-premium",
       "file": "layout.json",
-      "category": "numeric-scale-index",
-      "proposal": "003",
-      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
     },
     {
       "token": "gradient-stop-3-genai",
       "file": "layout.json",
-      "category": "numeric-scale-index",
-      "proposal": "003",
-      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
     },
     {
       "token": "gradient-stop-3-premium",
       "file": "layout.json",
-      "category": "numeric-scale-index",
-      "proposal": "003",
-      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
     },
     {
       "token": "coach-indicator-collapsed-ring-rounding-increment",
