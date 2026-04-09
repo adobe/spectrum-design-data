@@ -122,6 +122,13 @@
     },
     {
       "file": "./src/color-component.json",
+      "token": "stack-item-background-selected-color-keyboard-focus",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'stack-item-background-selected-color-keyboard-focus' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/color-component.json",
       "token": "stack-item-selected-background-color-default",
       "rule_id": "SPEC-007",
       "severity": "info",
@@ -255,6 +262,62 @@
     },
     {
       "file": "./src/icons.json",
+      "token": "blue-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'blue-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "brown-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'brown-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "celery-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'celery-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "chartreuse-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'chartreuse-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "cinnamon-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'cinnamon-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "cyan-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'cyan-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "fuchsia-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'fuchsia-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "green-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'green-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
       "token": "icon-color-disabled-primary",
       "rule_id": "SPEC-007",
       "severity": "info",
@@ -266,6 +329,111 @@
       "rule_id": "SPEC-007",
       "severity": "info",
       "message": "Known naming exception: 'icon-color-emphasized-background' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "indigo-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'indigo-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "inverse-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'inverse-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "magenta-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'magenta-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "orange-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'orange-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "pink-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'pink-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "primary-icon-color-default",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'primary-icon-color-default' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "primary-icon-color-disabled",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'primary-icon-color-disabled' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "primary-icon-color-down",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'primary-icon-color-down' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "primary-icon-color-hover",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'primary-icon-color-hover' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "purple-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'purple-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "red-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'red-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "seafoam-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'seafoam-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "silver-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'silver-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "turquoise-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'turquoise-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/icons.json",
+      "token": "yellow-icon-background-color",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'yellow-icon-background-color' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
     },
     {
       "file": "./src/layout-component.json",
@@ -770,6 +938,13 @@
       "rule_id": "SPEC-007",
       "severity": "info",
       "message": "Known naming exception: 'focus-indicator-gap' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "focus-indicator-side",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'focus-indicator-side' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
     },
     {
       "file": "./src/layout.json",
