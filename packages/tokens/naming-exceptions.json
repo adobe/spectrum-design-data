@@ -88,9 +88,15 @@
     },
     "ordering-mismatch": {
       "description": "Tokens categorized as ordering-mismatch",
-      "count": 29,
+      "count": 21,
       "status": "needs-spec-decision",
       "proposal": "002"
+    },
+    "ordinal-rank": {
+      "description": "Tokens using small integers (1, 2, 3) as ordinal rank rather than design system scale values",
+      "count": 8,
+      "status": "needs-spec-decision",
+      "proposal": "008"
     }
   },
   "exceptions": [
@@ -917,14 +923,16 @@
     {
       "token": "background-layer-1-color",
       "file": "color-aliases.json",
-      "category": "ordering-mismatch",
-      "reason": "Token name does not roundtrip through serialization due to segment ordering"
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (1) appears mid-name; not a design system scale value"
     },
     {
       "token": "background-layer-2-color",
       "file": "color-aliases.json",
-      "category": "ordering-mismatch",
-      "reason": "Token name does not roundtrip through serialization due to segment ordering"
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (2) appears mid-name; not a design system scale value"
     },
     {
       "token": "corner-triangle-icon-size-100",
@@ -953,38 +961,44 @@
     {
       "token": "gradient-stop-1-genai",
       "file": "layout.json",
-      "category": "ordering-mismatch",
-      "reason": "Token name does not roundtrip through serialization due to segment ordering"
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (1) appears mid-name; not a design system scale value"
     },
     {
       "token": "gradient-stop-1-premium",
       "file": "layout.json",
-      "category": "ordering-mismatch",
-      "reason": "Token name does not roundtrip through serialization due to segment ordering"
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (1) appears mid-name; not a design system scale value"
     },
     {
       "token": "gradient-stop-2-genai",
       "file": "layout.json",
-      "category": "ordering-mismatch",
-      "reason": "Token name does not roundtrip through serialization due to segment ordering"
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (2) appears mid-name; not a design system scale value"
     },
     {
       "token": "gradient-stop-2-premium",
       "file": "layout.json",
-      "category": "ordering-mismatch",
-      "reason": "Token name does not roundtrip through serialization due to segment ordering"
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (2) appears mid-name; not a design system scale value"
     },
     {
       "token": "gradient-stop-3-genai",
       "file": "layout.json",
-      "category": "ordering-mismatch",
-      "reason": "Token name does not roundtrip through serialization due to segment ordering"
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (3) appears mid-name; not a design system scale value"
     },
     {
       "token": "gradient-stop-3-premium",
       "file": "layout.json",
-      "category": "ordering-mismatch",
-      "reason": "Token name does not roundtrip through serialization due to segment ordering"
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (3) appears mid-name; not a design system scale value"
     },
     {
       "token": "coach-indicator-collapsed-ring-rounding-increment",
