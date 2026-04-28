@@ -175,9 +175,7 @@ fn convert_token_with_context(
             COLOR_SET_MODE_ORDER,
             name_to_uuid,
         )
-    } else if schema.ends_with("scale-set.json") {
-        convert_set(name, token_obj, "scale", SCALE_SET_MODE_ORDER, name_to_uuid)
-    } else if schema.ends_with("typography-scale.json") {
+    } else if schema.ends_with("scale-set.json") || schema.ends_with("typography-scale.json") {
         convert_set(name, token_obj, "scale", SCALE_SET_MODE_ORDER, name_to_uuid)
     } else {
         vec![build_flat(name, token_obj, name_to_uuid)]
