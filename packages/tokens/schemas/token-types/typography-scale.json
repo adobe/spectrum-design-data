@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography-scale.json",
+  "title": "Typography Scale",
+  "description": "A composite token that pairs a font size with its corresponding line height at a single typographic tier. Values change based on platform scale (desktop/mobile).",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "set.json"
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography-scale.json"
+    },
+    "sets": {
+      "type": "object",
+      "properties": {
+        "desktop": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "object",
+              "properties": {
+                "fontSize": {
+                  "type": "string"
+                },
+                "lineHeight": {
+                  "type": "string"
+                }
+              },
+              "required": ["fontSize", "lineHeight"],
+              "additionalProperties": false
+            },
+            "uuid": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$",
+              "format": "uuid"
+            }
+          },
+          "required": ["value", "uuid"],
+          "additionalProperties": false
+        },
+        "mobile": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "object",
+              "properties": {
+                "fontSize": {
+                  "type": "string"
+                },
+                "lineHeight": {
+                  "type": "string"
+                }
+              },
+              "required": ["fontSize", "lineHeight"],
+              "additionalProperties": false
+            },
+            "uuid": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$",
+              "format": "uuid"
+            }
+          },
+          "required": ["value", "uuid"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["desktop", "mobile"],
+      "additionalProperties": false
+    },
+    "component": {},
+    "private": {},
+    "deprecated": {},
+    "deprecated_comment": {},
+    "replaced_by": {},
+    "description": {},
+    "uuid": {}
+  },
+  "required": ["sets", "uuid"]
+}
