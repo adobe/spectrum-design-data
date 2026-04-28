@@ -145,3 +145,12 @@ rules:
     message: "Token {token} value does not validate against declared $valueType schema {schema}"
     spec_ref: spec/token-format.md#value-type-declaration-valuetype
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-017
+    name: string-name-tech-debt
+    severity: warning
+    category: tech-debt
+    assert: Token names SHOULD be structured name objects. A plain string name is permitted as a temporary escape hatch but MUST be treated as tech debt and tracked for remediation.
+    message: 'Token "{name}" uses a string name instead of a name object — treat as tech debt and plan remediation'
+    spec_ref: spec/token-format.md#string-name-escape-hatch
+    introduced_in: "1.0.0-draft"
