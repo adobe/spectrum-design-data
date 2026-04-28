@@ -177,6 +177,8 @@ fn convert_token_with_context(
         )
     } else if schema.ends_with("scale-set.json") {
         convert_set(name, token_obj, "scale", SCALE_SET_MODE_ORDER, name_to_uuid)
+    } else if schema.ends_with("typography-scale.json") {
+        convert_set(name, token_obj, "scale", SCALE_SET_MODE_ORDER, name_to_uuid)
     } else {
         vec![build_flat(name, token_obj, name_to_uuid)]
     }
@@ -262,7 +264,10 @@ fn convert_object_with_context(
             .get("$schema")
             .and_then(|v| v.as_str())
             .unwrap_or("");
-        if schema.ends_with("color-set.json") || schema.ends_with("scale-set.json") {
+        if schema.ends_with("color-set.json")
+            || schema.ends_with("scale-set.json")
+            || schema.ends_with("typography-scale.json")
+        {
             let tokens = convert_token_with_context(name, tok_obj, name_to_uuid);
             summary.set_entries_unwrapped += tokens.len();
             summary.tokens_produced += tokens.len();
@@ -356,6 +361,12 @@ fn build_set_entry(
         out.insert("set_uuid".into(), Value::String(set_uuid.to_string()));
     }
 
+    // Carry the outer set schema so legacy-output can reconstruct the correct
+    // set type (e.g. scale-set vs typography-scale).
+    if let Some(outer_schema) = outer.get("$schema").and_then(|v| v.as_str()) {
+        out.insert("set_schema".into(), Value::String(outer_schema.to_string()));
+    }
+
     // Lifecycle fields: outer level first, entry level overrides.
     for field in OUTER_LIFECYCLE_FIELDS {
         if let Some(v) = outer.get(*field) {
@@ -391,7 +402,10 @@ fn build_flat(
 
     // Schema URL (value-type, not a set schema).
     if let Some(schema) = token_obj.get("$schema").and_then(|v| v.as_str()) {
-        if !schema.ends_with("color-set.json") && !schema.ends_with("scale-set.json") {
+        if !schema.ends_with("color-set.json")
+            && !schema.ends_with("scale-set.json")
+            && !schema.ends_with("typography-scale.json")
+        {
             out.insert("$schema".into(), Value::String(schema.to_string()));
         }
     }
