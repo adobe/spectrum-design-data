@@ -1,0 +1,12 @@
+{
+  "name": { "property": "component-m-regular" },
+  "$valueType": "value-types/typography.schema.json",
+  "value": {
+    "fontFamily": "{sans-serif-font-family}",
+    "fontSize": "{font-size-100}",
+    "fontWeight": "{regular-font-weight}",
+    "letterSpacing": "{letter-spacing}",
+    "lineHeight": "{line-height-font-size-100}"
+  },
+  "uuid": "aaaaaaaa-0010-4000-8000-000000000001"
+}

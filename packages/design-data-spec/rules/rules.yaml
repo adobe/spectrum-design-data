@@ -118,3 +118,30 @@ rules:
     message: "Token {token} has plannedRemoval but is not marked deprecated"
     spec_ref: spec/token-format.md#lifecycle-and-metadata
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-014
+    name: composite-inline-alias-exists
+    severity: error
+    category: reference-integrity
+    assert: Inline alias references ({token-name}) within composite values MUST resolve to an existing token in the dataset.
+    message: "Inline alias target not found within composite value: {path}"
+    spec_ref: spec/token-format.md#inline-alias-references
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-015
+    name: composite-inline-alias-type-compatible
+    severity: error
+    category: type-safety
+    assert: Resolved inline alias target within a composite value MUST have a value type compatible with the sub-value's expected type.
+    message: "Inline alias {path} within composite resolves to incompatible type"
+    spec_ref: spec/token-format.md#inline-alias-references
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-016
+    name: value-type-match
+    severity: error
+    category: type-safety
+    assert: When $valueType is present on a token with a literal value, the value MUST validate against the referenced value-type schema.
+    message: "Token {token} value does not validate against declared $valueType schema {schema}"
+    spec_ref: spec/token-format.md#value-type-declaration-valuetype
+    introduced_in: "1.0.0-draft"

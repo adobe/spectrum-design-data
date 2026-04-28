@@ -101,6 +101,11 @@
         "name": {
           "$ref": "#/$defs/nameObject"
         },
+        "$valueType": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "URI reference to a value-type schema under schemas/value-types/. When present, value MUST validate against the referenced schema (rule SPEC-016)."
+        },
         "value": {
           "description": "Literal value; type narrowed by value-type schemas where applicable.",
           "anyOf": [
@@ -175,6 +180,11 @@
         },
         "name": {
           "$ref": "#/$defs/nameObject"
+        },
+        "$valueType": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "URI reference to a value-type schema under schemas/value-types/. When present, the alias resolution chain MUST terminate at a token whose value validates against this schema."
         },
         "$ref": {
           "type": "string",

@@ -149,6 +149,55 @@ Example:
 
 Individual types (color, dimension, opacity, etc.) **MUST** be defined as JSON Schemas under `schemas/value-types/` and **MUST** use `$id` under the same `v0` base path as [Overview — JSON Schema `$id`](index.md).
 
+### Value-type declaration (`$valueType`)
+
+A token **MAY** include a `$valueType` field: a URI reference pointing to a value-type schema under `schemas/value-types/`.
+
+```json
+{
+  "name": { "property": "typography-scale", "scale": "desktop" },
+  "$valueType": "value-types/typography-scale.schema.json",
+  "value": { "fontSize": "14px", "lineHeight": "18px" },
+  "uuid": "377145e8-079b-43fd-b522-8f16b1b8f883"
+}
+```
+
+**NORMATIVE:** When `$valueType` is present on a token with a literal `value`, the value **MUST** validate against the referenced schema (rule SPEC-016).
+
+**NORMATIVE:** When `$valueType` is present on an alias token (`$ref`), the alias resolution chain **MUST** terminate at a token whose value validates against the same value-type schema (rule SPEC-002, extended).
+
+**RECOMMENDED:** All tokens with composite values (see below) **SHOULD** include `$valueType` to enable tooling discovery and validation. Tokens without `$valueType` remain valid under the permissive `anyOf` union in `token.schema.json`.
+
+### Composite value types
+
+A **composite value type** is a value-type schema whose root type is `object` or `array`. Composite values bundle multiple sub-values into a single token.
+
+**NORMATIVE:** Composite value types **MUST** be defined as JSON Schemas under `schemas/value-types/` following the same conventions as primitive value types.
+
+**NORMATIVE:** A composite token participates in cascade resolution as an **atomic unit**. Sub-values within a composite **MUST NOT** independently match, override, or participate in specificity calculation.
+
+### Inline alias references
+
+Within a composite value, a string sub-value **MAY** be an **inline alias**: a reference to another token that is resolved to produce the final sub-value.
+
+```json
+{
+  "name": { "property": "component-m-regular" },
+  "$valueType": "value-types/typography.schema.json",
+  "value": {
+    "fontFamily": "{sans-serif-font-family}",
+    "fontSize": "{font-size-100}",
+    "fontWeight": "{regular-font-weight}",
+    "letterSpacing": "{letter-spacing}",
+    "lineHeight": "{line-height-font-size-100}"
+  }
+}
+```
+
+**NORMATIVE:** In legacy format, inline aliases use the syntax `{token-name}` (curly-brace-wrapped token property name). In cascade format, the inline alias syntax is `{token-name}` for backward compatibility; UUID-based inline aliases are reserved for a future spec version.
+
+**NORMATIVE:** Inline aliases within composite values are subject to alias resolution rules. Validators **MUST** resolve inline aliases and report errors for missing targets (SPEC-014), type mismatches (SPEC-015), and circular references (SPEC-003, extended).
+
 ## Relationship to legacy Spectrum tokens
 
 The current `@adobe/spectrum-tokens` JSON uses **sets** (`color-set`, `scale-set`, …). This specification describes the **target** per-token model. Mapping from legacy to this format is out of scope for this document; see [#743](https://github.com/adobe/spectrum-design-data/issues/743).
