@@ -1,0 +1,100 @@
+{{! CLI template with chalk-powered colors and formatting }}
+{{{bold "Tokens Changed ("}}}{{{emphasis (totalTokens result)}}}{{{bold ")"}}}
+{{#if options.oldTokenBranch}}{{{dim options.oldTokenBranch}}} | {{/if}}{{#if options.oldTokenVersion}}{{{dim options.oldTokenVersion}}} | {{/if}}{{#if options.newTokenBranch}}{{{hilite options.newTokenBranch}}}{{/if}}{{#if options.newTokenVersion}}{{{hilite options.newTokenVersion}}}{{/if}}
+{{{dim "-------------------------------------------------------------------------------------------"}}}
+
+{{#if (hasKeys result.renamed)}}
+{{{neutral "Renamed ("}}}{{renamed.length}}{{{neutral "):"}}}
+{{#each renamed}}
+{{{indent 1}}}{{{neutral (quote oldName)}}} -> {{{hilite (quote name)}}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.deprecated)}}
+{{{neutral "Newly Deprecated ("}}}{{deprecated.length}}{{{neutral "):"}}}
+{{#each deprecated}}
+{{{indent 1}}}{{{hilite (concat '"' name '"')}}}{{#if comment}}{{{neutral ": "}}}{{{hilite (concat '"' comment '"')}}}{{/if}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.reverted)}}
+{{{neutral 'Newly "Un-deprecated" ('}}}{{reverted.length}}{{{neutral "):"}}}
+{{#each reverted}}
+{{{indent 1}}}{{{hilite (concat '"' name '"')}}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.added)}}
+{{{neutral "Added ("}}}{{added.length}}{{{neutral "):"}}}
+{{#each added}}
+{{{indent 1}}}{{{passing (concat '"' name '"')}}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.deleted)}}
+{{{neutral "Deleted ("}}}{{deleted.length}}{{{neutral "):"}}}
+{{#each deleted}}
+{{{indent 1}}}{{{error (concat '"' name '"')}}}
+{{/each}}
+
+{{/if}}
+{{#if (totalUpdatedTokens result.updated)}}
+{{{neutral "Updated ("}}}{{totalUpdatedTokens result.updated}}{{{neutral "):"}}}
+
+{{#if (hasKeys result.updated.renamed)}}
+{{{indent 1}}}{{{neutral "Renamed Properties ("}}}{{updated.renamed.length}}{{{neutral "):"}}}
+{{#each updated.renamed}}
+{{{indent 2}}}{{{hilite (concat '"' name '"')}}}
+{{#each changes}}
+{{{indent 3}}}{{{hilite (cleanPath path)}}}
+{{{indent 4}}}{{{neutral (concat originalValue " -> ")}}}{{{hilite newValue}}}
+{{/each}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.updated.added)}}
+{{{indent 1}}}{{{neutral "Added Properties ("}}}{{updated.added.length}}{{{neutral "):"}}}
+{{#each updated.added}}
+{{{indent 2}}}{{{hilite (concat '"' name '"')}}}
+{{#each changes}}
+{{{indent 3}}}{{{hilite (cleanPath path)}}}
+{{#if (ifEquals type "schema")}}
+{{{indent 4}}}{{{hilite (concat '"' newValue '"')}}}
+{{else}}
+{{{indent 4}}}{{{hilite newValue}}}
+{{/if}}
+{{/each}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.updated.deleted)}}
+{{{indent 1}}}{{{neutral "Deleted Properties ("}}}{{updated.deleted.length}}{{{neutral "):"}}}
+{{#each updated.deleted}}
+{{{indent 2}}}{{{hilite (concat '"' name '"')}}}
+{{#each changes}}
+{{{indent 3}}}{{{hilite (cleanPath path)}}}
+{{#if (ifEquals type "schema")}}
+{{{indent 4}}}{{{neutral (concat '"' originalValue '" -> "')}}} {{{hilite (concat '"' newValue '"')}}}
+{{else}}
+{{{indent 4}}}{{{neutral (concat originalValue " -> ")}}}{{{hilite newValue}}}
+{{/if}}
+{{/each}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.updated.updated)}}
+{{{indent 1}}}{{{neutral "Updated Properties ("}}}{{updated.updated.length}}{{{neutral "):"}}}
+{{#each updated.updated}}
+{{{indent 2}}}{{{hilite (concat '"' name '"')}}}
+{{#each changes}}
+{{{indent 3}}}{{{hilite (cleanPath path)}}}
+{{#if (ifEquals type "schema")}}
+{{{indent 4}}}{{{neutral (concat '"' originalValue '" -> "')}}} {{{hilite (concat '"' newValue '"')}}}
+{{else}}
+{{{indent 4}}}{{{neutral (concat originalValue " -> ")}}}{{{hilite newValue}}}
+{{/if}}
+{{/each}}
+{{/each}}
+
+{{/if}}
+{{/if}} 

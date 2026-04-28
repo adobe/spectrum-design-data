@@ -1,0 +1,23 @@
+{
+  "total": 372,
+  "valid": 372,
+  "invalid": 0,
+  "byCategory": {
+    "color-base": {
+      "total": 2,
+      "valid": 2,
+      "invalid": 0
+    },
+    "color-scale": {
+      "total": 367,
+      "valid": 367,
+      "invalid": 0
+    },
+    "gradient-color": {
+      "total": 3,
+      "valid": 3,
+      "invalid": 0
+    }
+  },
+  "invalidTokens": []
+}

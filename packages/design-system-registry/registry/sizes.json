@@ -1,0 +1,71 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "size",
+  "description": "Semantic t-shirt size values used across Spectrum. Numeric scale values belong in scale-values.json.",
+  "values": [
+    {
+      "id": "xxxs",
+      "label": "3X Small",
+      "aliases": ["3x-small"],
+      "tokenName": "3x-small",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "xxs",
+      "label": "2X Small",
+      "aliases": ["2x-small"],
+      "tokenName": "2x-small",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "xs",
+      "label": "Extra Small",
+      "aliases": ["extra-small"],
+      "tokenName": "extra-small",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "s",
+      "label": "Small",
+      "aliases": ["small"],
+      "tokenName": "small",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "m",
+      "label": "Medium",
+      "aliases": ["medium"],
+      "tokenName": "medium",
+      "default": true,
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "l",
+      "label": "Large",
+      "aliases": ["large"],
+      "tokenName": "large",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "xl",
+      "label": "Extra Large",
+      "aliases": ["extra-large"],
+      "tokenName": "extra-large",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "xxl",
+      "label": "2X Large",
+      "aliases": ["2x-large"],
+      "tokenName": "2x-large",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "xxxl",
+      "label": "3X Large",
+      "aliases": ["3x-large"],
+      "tokenName": "3x-large",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
+    }
+  ]
+}

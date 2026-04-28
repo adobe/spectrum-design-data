@@ -8,6 +8,16 @@ Design tokens are directly integrated into our component libraries, UI kits, and
 
 Follow the monorepo [setup guide](../../README.md#setup-monorepo-locally).
 
+## Design Data validation
+
+Moon tasks run the Rust `design-data` CLI against `src/` and `schemas/`:
+
+* `moon run tokens:validateDesignData` — JSON Schema (Layer 1) + catalog rules (Layer 2)
+* `moon run tokens:verifyDesignDataSnapshot` — same as above, compared to
+  `snapshots/validation-snapshot.json` (update with `design-data migrate snapshot` when outputs change)
+
+From the repo root with Rust available, you can also run `cargo run -p design-data-cli --manifest-path sdk/Cargo.toml -- validate ./packages/tokens/src --schema-path ./packages/tokens/schemas`.
+
 ## Generate a Diff from the last release
 
 The `pnpm generateDiffResult` script will build the project and compare the tokens in the `dist` directory with the last released version of Spectrum Tokens. It will generate a report of added tokens, deleted tokens, tokens with value changes, and tokens with potential name changes. The script can't guarantee the correct name changes; it compares new tokens and deleted tokens to see if any have the same value and are likely to be token name changes.
@@ -22,9 +32,9 @@ This project uses [Semantic Versioning (semver)](https://semver.org/). It also u
 
 x.x.n+1 releases are for bug fixes and patches.
 
-- bug fixes
-- typos
-- mistakes
+* bug fixes
+* typos
+* mistakes
 
 Example: a token name changing from `detail-margin-top-mulitplier` to `detail-margin-top-multiplier` to fix a spelling mistake.
 
@@ -32,22 +42,35 @@ Example: a token name changing from `detail-margin-top-mulitplier` to `detail-ma
 
 x.n+1.0 releases are for new tokens and features.
 
-- adding new token
-- changing a value intentionally
-- adding deprecation metadata and aliased new tokens where applicable
+* adding new token
+* changing a value intentionally
+* adding deprecation metadata and aliased new tokens where applicable
 
 #### Major
 
 n+1.0.0 releases are for breaking changes.
 
-- deleting tokens
-- changing token value type (e.g., from a color to a dimension; anything that would break a parser expecting specific data types)
+* deleting tokens
+* changing token value type (e.g., from a color to a dimension; anything that would break a parser expecting specific data types)
 
 ## Deprecations
 
 ### Planned token name changes
 
 Tokens with a name changed will first be marked as deprecated, while a new token will be created with the new name; the deprecated token will then become an alias for the new token. Finally, the deprecated token will eventually be removed, most likely in the next major release if there has been sufficient time to notify teams. The required amount of time is still to be determined.
+
+### Token properties for deprecation tracking
+
+* `deprecated` (boolean): Marks a token as deprecated
+* `deprecated_comment` (string): Provides context about why the token is deprecated and migration guidance
+* `renamed` (string): For 1:1 token replacements, specifies the new token name that should be used instead
+
+When a token is renamed:
+
+1. Set `deprecated: true` on the old token
+2. Add `renamed: "new-token-name"` to specify the replacement
+3. Update `deprecated_comment` to provide additional context if needed
+4. The old token's `value` should typically alias to the new token
 
 ## Releases
 

@@ -1,0 +1,157 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "anatomy-term",
+  "description": "Visible, named parts of components as defined by designers. These are the parts called out in component specification diagrams. Styling surfaces (background, border, etc.) belong in token-objects.json; positional terms (top, bottom, etc.) belong in positions.json.",
+  "values": [
+    {
+      "id": "text",
+      "label": "Text",
+      "description": "Text content or labels",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "control",
+      "label": "Control",
+      "description": "Interactive control elements like checkboxes or radio buttons",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "icon",
+      "label": "Icon",
+      "description": "Icon elements",
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "label",
+      "label": "Label",
+      "description": "Text labels",
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "body",
+      "label": "Body",
+      "description": "Main body or content container",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "header",
+      "label": "Header",
+      "description": "Header section",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "footer",
+      "label": "Footer",
+      "description": "Footer section",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "divider",
+      "label": "Divider",
+      "description": "Dividing line or separator",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "handle",
+      "label": "Handle",
+      "description": "Draggable handle element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "indicator",
+      "label": "Indicator",
+      "description": "Visual indicator or marker",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "track",
+      "label": "Track",
+      "description": "Track or rail element (e.g., in sliders)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "thumb",
+      "label": "Thumb",
+      "description": "Draggable thumb element (e.g., in sliders)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "avatar",
+      "label": "Avatar",
+      "description": "User avatar or profile image",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "badge",
+      "label": "Badge",
+      "description": "Badge or notification indicator",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "pill",
+      "label": "Pill",
+      "description": "Pill-shaped element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "title",
+      "label": "Title",
+      "description": "Title text element within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "description",
+      "label": "Description",
+      "description": "Descriptive text element within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "row",
+      "label": "Row",
+      "description": "Table or list row element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "step",
+      "label": "Step",
+      "description": "Individual step element in a step list or wizard",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "counter",
+      "label": "Counter",
+      "description": "Numeric counter or badge element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "preview",
+      "label": "Preview",
+      "description": "Preview area or thumbnail within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "tip",
+      "label": "Tip",
+      "description": "Tooltip tip or arrow element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "selection",
+      "label": "Selection",
+      "description": "Selection indicator or highlight element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "media",
+      "label": "Media",
+      "description": "Media container (image, video) within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "ring",
+      "label": "Ring",
+      "description": "Focus ring or outline indicator",
+      "usedIn": ["tokens"]
+    }
+  ]
+}

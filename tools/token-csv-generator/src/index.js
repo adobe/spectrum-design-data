@@ -31,6 +31,15 @@ tokenFileNames.forEach(async (fileName) => {
       if (Object.hasOwn(payload, "component")) {
         result.component = payload.component;
       }
+      if (Object.hasOwn(payload, "deprecated")) {
+        result.deprecated = payload.deprecated;
+      }
+      if (Object.hasOwn(payload, "deprecated_comment")) {
+        result.deprecated_comment = payload.deprecated_comment;
+      }
+      if (Object.hasOwn(payload, "renamed")) {
+        result.renamed = payload.renamed;
+      }
       tokensData.push(result);
       return payload;
     },
@@ -39,9 +48,13 @@ tokenFileNames.forEach(async (fileName) => {
     const csvData = tokensData.map((token) => {
       return `${token.tokenName},${token.fileName},${token.uuid || ""},${
         token.component || ""
+      },${token.deprecated || ""},${token.deprecated_comment || ""},${
+        token.renamed || ""
       }`;
     });
-    const csv = `tokenName,fileName,uuid,component\n${csvData.join("\n")}`;
+    const csv = `tokenName,fileName,uuid,component,deprecated,deprecated_comment,renamed\n${csvData.join(
+      "\n",
+    )}`;
     await writeFile("./tokenNames.csv", csv, "utf8");
     return csv;
   }

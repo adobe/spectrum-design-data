@@ -1,0 +1,3305 @@
+{
+  "total": 997,
+  "valid": 701,
+  "invalid": 296,
+  "byCategory": {
+    "component-property": {
+      "total": 236,
+      "valid": 149,
+      "invalid": 87
+    },
+    "spacing": {
+      "total": 461,
+      "valid": 445,
+      "invalid": 16
+    },
+    "special": {
+      "total": 193,
+      "valid": 0,
+      "invalid": 193
+    },
+    "semantic-alias": {
+      "total": 80,
+      "valid": 80,
+      "invalid": 0
+    },
+    "typography-base": {
+      "total": 27,
+      "valid": 27,
+      "invalid": 0
+    }
+  },
+  "invalidTokens": [
+    {
+      "tokenName": "checkbox-control-size-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "checkbox",
+        "anatomyPart": "control",
+        "property": "size",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "checkbox-control-size-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "checkbox",
+        "anatomyPart": "control",
+        "property": "size",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "checkbox-control-size-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "checkbox",
+        "anatomyPart": "control",
+        "property": "size",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "checkbox-control-size-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "checkbox",
+        "anatomyPart": "control",
+        "property": "size",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "switch-control-width-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "control",
+        "property": "width",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "switch-control-width-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "control",
+        "property": "width",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "switch-control-width-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "control",
+        "property": "width",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "switch-control-width-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "control",
+        "property": "width",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "switch-control-height-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "control",
+        "property": "height",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "switch-control-height-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "control",
+        "property": "height",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "switch-control-height-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "control",
+        "property": "height",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "switch-control-height-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "control",
+        "property": "height",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "radio-button-control-size-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "radio",
+        "anatomyPart": "button-control",
+        "property": "size",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "radio-button-control-size-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "radio",
+        "anatomyPart": "button-control",
+        "property": "size",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "radio-button-control-size-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "radio",
+        "anatomyPart": "button-control",
+        "property": "size",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "radio-button-control-size-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "radio",
+        "anatomyPart": "button-control",
+        "property": "size",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "radio-button-top-to-control-small",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "radio-button",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "control"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "radio-button-top-to-control-medium",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "radio-button",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "control"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "radio-button-top-to-control-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "radio-button",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "control"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "radio-button-top-to-control-extra-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "radio-button",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "control"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "radio-button-selection-indicator",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "radio-button-selection-indicator",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "help-text-top-to-workflow-icon-small",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "help-text",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "workflow-icon"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "help-text-top-to-workflow-icon-medium",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "help-text",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "workflow-icon"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "help-text-top-to-workflow-icon-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "help-text",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "workflow-icon"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "help-text-top-to-workflow-icon-extra-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "help-text",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "workflow-icon"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "status-light-dot-size-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "status",
+        "anatomyPart": "light-dot",
+        "property": "size",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "status-light-dot-size-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "status",
+        "anatomyPart": "light-dot",
+        "property": "size",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "status-light-dot-size-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "status",
+        "anatomyPart": "light-dot",
+        "property": "size",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "status-light-dot-size-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "status",
+        "anatomyPart": "light-dot",
+        "property": "size",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "status-light-top-to-dot-small",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "status-light",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "dot"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "status-light-top-to-dot-medium",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "status-light",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "dot"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "status-light-top-to-dot-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "status-light",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "dot"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "status-light-top-to-dot-extra-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "status-light",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "dot"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "button-minimum-width-multiplier",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "button-minimum-width-multiplier",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tooltip-tip-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tooltip-tip-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tooltip-tip-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tooltip-tip-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tooltip-maximum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tooltip-maximum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "progress-circle-size-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "progress",
+        "anatomyPart": "circle",
+        "property": "size",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "progress-circle-size-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "progress",
+        "anatomyPart": "circle",
+        "property": "size",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "progress-circle-size-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "progress",
+        "anatomyPart": "circle",
+        "property": "size",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "progress-circle-thickness-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "progress",
+        "anatomyPart": "circle",
+        "property": "thickness",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "progress-circle-thickness-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "progress",
+        "anatomyPart": "circle",
+        "property": "thickness",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "progress-circle-thickness-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "progress",
+        "anatomyPart": "circle",
+        "property": "thickness",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "toast-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "toast-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "toast-maximum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "toast-maximum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "swatch-size-extra-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "swatch-size-extra-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "swatch-size-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "swatch",
+        "property": "size",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "swatch-size-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "swatch",
+        "property": "size",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "swatch-size-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "swatch",
+        "property": "size",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "swatch-rectangle-width-multiplier",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "swatch-rectangle-width-multiplier",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "swatch-slash-thickness-extra-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "swatch-slash-thickness-extra-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "progress-bar-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "progress-bar-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "progress-bar-maximum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "progress-bar-maximum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "progress-bar-thickness-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "progress",
+        "anatomyPart": "bar",
+        "property": "thickness",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "progress-bar-thickness-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "progress",
+        "anatomyPart": "bar",
+        "property": "thickness",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "progress-bar-thickness-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "progress",
+        "anatomyPart": "bar",
+        "property": "thickness",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "progress-bar-thickness-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "progress",
+        "anatomyPart": "bar",
+        "property": "thickness",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "meter-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "meter-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "meter-maximum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "meter-maximum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "meter-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "meter-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "meter-thickness-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "meter",
+        "property": "thickness",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "meter-thickness-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "meter",
+        "property": "thickness",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "in-line-alert-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "in-line-alert-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "popover-tip-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "popover-tip-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "popover-tip-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "popover-tip-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "menu-item-section-divider-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "menu-item-section-divider-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-track-thickness",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-track-thickness",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-control-height-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "slider",
+        "anatomyPart": "control",
+        "property": "height",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "slider-control-height-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "slider",
+        "anatomyPart": "control",
+        "property": "height",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "slider-control-height-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "slider",
+        "anatomyPart": "control",
+        "property": "height",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "slider-control-height-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "slider",
+        "anatomyPart": "control",
+        "property": "height",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "slider-handle-size-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "slider",
+        "anatomyPart": "handle",
+        "property": "size",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "slider-handle-size-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "slider",
+        "anatomyPart": "handle",
+        "property": "size",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "slider-handle-size-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "slider",
+        "anatomyPart": "handle",
+        "property": "size",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "slider-handle-size-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "slider",
+        "anatomyPart": "handle",
+        "property": "size",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "slider-handle-border-width-down-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-border-width-down-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-handle-border-width-down-medium",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-border-width-down-medium",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-handle-border-width-down-large",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-border-width-down-large",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-handle-border-width-down-extra-large",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-border-width-down-extra-large",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-handle-gap",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-gap",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "picker-minimum-width-multiplier",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "picker-minimum-width-multiplier",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "text-field-minimum-width-multiplier",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "text-field-minimum-width-multiplier",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "text-area-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "text-area-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "text-area-minimum-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "text-area-minimum-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "combo-box-minimum-width-multiplier",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "combo-box-minimum-width-multiplier",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "combo-box-quiet-minimum-width-multiplier",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "combo-box-quiet-minimum-width-multiplier",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "alert-dialog-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "alert-dialog-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "alert-dialog-maximum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "alert-dialog-maximum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "opacity-checkerboard-square-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "opacity-checkerboard-square-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "opacity-checkerboard-square-size-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "opacity",
+        "anatomyPart": "checkerboard-square",
+        "property": "size",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "contextual-help-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "contextual-help-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "breadcrumbs-height-multiline",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "breadcrumbs-height-multiline",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "alert-banner-minimum-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "alert-banner-minimum-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "alert-banner-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "alert-banner-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "rating-indicator-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "rating-indicator-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-area-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-area-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-area-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-area-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-area-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-area-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-area-minimum-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-area-minimum-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-wheel-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-wheel-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-wheel-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-wheel-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-wheel-color-area-margin",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-wheel-color-area-margin",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-slider-length",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-slider-length",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-slider-minimum-length",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-slider-minimum-length",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-slider-border-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-slider-border-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "floating-action-button-drop-shadow-blur",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "floating-action-button-drop-shadow-blur",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "floating-action-button-drop-shadow-y",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "floating-action-button-drop-shadow-y",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "search-field-minimum-width-multiplier",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "search-field-minimum-width-multiplier",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-loupe-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-loupe-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-loupe-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-loupe-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-loupe-inner-border-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-loupe-inner-border-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "card-minimum-width-default",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "card-minimum-width-default",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "card-preview-minimum-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "card-preview-minimum-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "card-selection-background-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "card-selection-background-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-zone-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-zone-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-zone-border-dash-length",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-zone-border-dash-length",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-zone-border-dash-gap",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-zone-border-dash-gap",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-mark-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-mark-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-mark-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-mark-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-mark-maximum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-mark-maximum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-mark-media-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-mark-media-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-mark-media-minimum-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-mark-media-minimum-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "accordion-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "accordion-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "accordion-focus-indicator-gap",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "accordion-focus-indicator-gap",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-handle-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-handle-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-handle-size-key-focus",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-handle-size-key-focus",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-handle-inner-border-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-handle-inner-border-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-handle-outer-border-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-handle-outer-border-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-handle-drop-shadow-x",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-handle-drop-shadow-x",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-handle-drop-shadow-y",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-handle-drop-shadow-y",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-handle-drop-shadow-blur",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-handle-drop-shadow-blur",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "table-row-height-small-regular",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "table-row-height-small-regular",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "table-row-height-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "table",
+        "anatomyPart": "row",
+        "property": "height",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "table-row-height-medium-regular",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "table-row-height-medium-regular",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "table-row-height-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "table",
+        "anatomyPart": "row",
+        "property": "height",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "table-row-height-large-regular",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "table-row-height-large-regular",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "table-row-height-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "table",
+        "anatomyPart": "row",
+        "property": "height",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "table-row-height-extra-large-regular",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "table-row-height-extra-large-regular",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "table-row-height-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "table",
+        "anatomyPart": "row",
+        "property": "height",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "table-row-height-small-spacious",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "table",
+        "anatomyPart": "row",
+        "property": "height",
+        "options": ["small", "spacious"]
+      }
+    },
+    {
+      "tokenName": "table-row-height-medium-spacious",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "table",
+        "anatomyPart": "row",
+        "property": "height",
+        "options": ["medium", "spacious"]
+      }
+    },
+    {
+      "tokenName": "table-row-height-large-spacious",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "table",
+        "anatomyPart": "row",
+        "property": "height",
+        "options": ["large", "spacious"]
+      }
+    },
+    {
+      "tokenName": "table-row-height-extra-large-spacious",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "table-row-height-extra-large-spacious",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "table-border-divider-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "table-border-divider-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "table-section-header-row-height-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "table",
+        "anatomyPart": "section-header-row",
+        "property": "height",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "table-section-header-row-height-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "table",
+        "anatomyPart": "section-header-row",
+        "property": "height",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "table-section-header-row-height-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "table",
+        "anatomyPart": "section-header-row",
+        "property": "height",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "table-section-header-row-height-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "table",
+        "anatomyPart": "section-header-row",
+        "property": "height",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "tab-item-focus-indicator-gap-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "tab",
+        "anatomyPart": "item-focus-indicator",
+        "property": "gap",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "tab-item-focus-indicator-gap-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "tab",
+        "anatomyPart": "item-focus-indicator",
+        "property": "gap",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "tab-item-focus-indicator-gap-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "tab",
+        "anatomyPart": "item-focus-indicator",
+        "property": "gap",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "tab-item-focus-indicator-gap-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "tab",
+        "anatomyPart": "item-focus-indicator",
+        "property": "gap",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "side-navigation-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "side-navigation-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "side-navigation-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "side-navigation-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "side-navigation-maximum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "side-navigation-maximum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "in-field-button-width-stacked-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "in-field-button-width-stacked-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "in-field-button-width-stacked-medium",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "in-field-button-width-stacked-medium",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "in-field-button-width-stacked-large",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "in-field-button-width-stacked-large",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "in-field-button-width-stacked-extra-large",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "in-field-button-width-stacked-extra-large",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "in-field-button-fill-stacked-inner-border-rounding",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "in-field-button-fill-stacked-inner-border-rounding",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "divider-vertical-minimum-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "divider-vertical-minimum-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "divider-horizontal-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "divider-horizontal-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tooltip-tip-corner-radius",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tooltip-tip-corner-radius",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "switch-handle-size-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "handle",
+        "property": "size",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "switch-handle-selected-size-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "handle-selected",
+        "property": "size",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "switch-handle-selected-size-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "handle-selected",
+        "property": "size",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "switch-handle-selected-size-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "handle-selected",
+        "property": "size",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "switch-handle-selected-size-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "handle-selected",
+        "property": "size",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "switch-handle-size-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "handle",
+        "property": "size",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "switch-handle-size-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "handle",
+        "property": "size",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "switch-handle-size-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "switch",
+        "anatomyPart": "handle",
+        "property": "size",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "tag-minimum-width-multiplier",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tag-minimum-width-multiplier",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tag-maximum-width-multiplier",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tag-maximum-width-multiplier",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "title-margin-bottom-multiplier",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "title-margin-bottom-multiplier",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "title-margin-top-multiplier",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "title-margin-top-multiplier",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "opacity-checkerboard-square-size-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "opacity",
+        "anatomyPart": "checkerboard-square",
+        "property": "size",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "field-default-width-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "field",
+        "anatomyPart": "default",
+        "property": "width",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "field-default-width-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "field",
+        "anatomyPart": "default",
+        "property": "width",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "field-default-width-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "field",
+        "anatomyPart": "default",
+        "property": "width",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "field-default-width-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "field",
+        "anatomyPart": "default",
+        "property": "width",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "tag-minimum-width-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "tag",
+        "anatomyPart": "minimum",
+        "property": "width",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "tag-minimum-width-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "tag",
+        "anatomyPart": "minimum",
+        "property": "width",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "tag-minimum-width-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "tag",
+        "anatomyPart": "minimum",
+        "property": "width",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "alert-dialog-description-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "alert-dialog-description-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "alert-dialog-title-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "alert-dialog-title-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-mark-body-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-mark-body-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-mark-pagination-body-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-mark-pagination-body-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-mark-title-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-mark-title-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "standard-dialog-title-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "standard-dialog-title-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "standard-dialog-body-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "standard-dialog-body-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "standard-dialog-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "standard-dialog-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "menu-item-background-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "menu-item-background-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "illustrated-message-small-title-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "illustrated-message-small-title-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "illustrated-message-small-cjk-title-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "illustrated-message-small-cjk-title-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "illustrated-message-medium-title-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "illustrated-message-medium-title-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "illustrated-message-medium-cjk-title-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "illustrated-message-medium-cjk-title-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "illustrated-message-large-title-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "illustrated-message-large-title-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "illustrated-message-large-cjk-title-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "illustrated-message-large-cjk-title-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "illustrated-message-medium-body-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "illustrated-message-medium-body-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "illustrated-message-large-body-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "illustrated-message-large-body-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "contextual-help-body-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "contextual-help-body-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "contextual-help-title-font-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "contextual-help-title-font-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-indicator-collapsed-ring-rounding-increment",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-indicator-collapsed-ring-rounding-increment",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-indicator-expanded-ring-rounding-increment",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-indicator-expanded-ring-rounding-increment",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-indicator-collapsed-ring-thickness",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-indicator-collapsed-ring-thickness",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-indicator-expanded-ring-thickness",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-indicator-expanded-ring-thickness",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-indicator-collapsed-gap",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-indicator-collapsed-gap",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-indicator-expanded-gap",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-indicator-expanded-gap",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "coach-indicator-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "coach-indicator-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "meter-thickness-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "meter",
+        "property": "thickness",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "meter-thickness-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "meter",
+        "property": "thickness",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "thumbnail-opacity-checkerboard-square-size",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "thumbnail-opacity-checkerboard-square-size",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "swatch-group-border-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "swatch-group-border-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "standard-panel-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "standard-panel-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "standard-panel-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "standard-panel-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "standard-panel-maximum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "standard-panel-maximum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "illustrated-message-horizontal-maximum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "illustrated-message-horizontal-maximum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "illustrated-message-vertical-maximum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "illustrated-message-vertical-maximum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "bar-panel-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "bar-panel-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "bar-panel-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "bar-panel-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "bar-panel-maximum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "bar-panel-maximum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "bar-panel-spacing-extra-spacious",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "bar-panel-spacing-extra-spacious",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "select-box-horizontal-minimum-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "select-box-horizontal-minimum-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "select-box-horizontal-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "select-box-horizontal-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "select-box-vertical-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "select-box-vertical-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-handle-height-precision-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-height-precision-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-handle-height-precision-medium",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-height-precision-medium",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-handle-height-precision-large",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-height-precision-large",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-handle-height-precision-extra-large",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-height-precision-extra-large",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-handle-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-handle-medium",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-medium",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-handle-large",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-large",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-handle-extra-large",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-extra-large",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "slider-handle-precision-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "slider-handle-precision-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "number-field-with-stepper-minimum-width-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "number",
+        "anatomyPart": "field-with-stepper-minimum",
+        "property": "width",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "number-field-with-stepper-minimum-width-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "number",
+        "anatomyPart": "field-with-stepper-minimum",
+        "property": "width",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "number-field-with-stepper-minimum-width-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "number",
+        "anatomyPart": "field-with-stepper-minimum",
+        "property": "width",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "number-field-with-stepper-minimum-width-extra-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "number",
+        "anatomyPart": "field-with-stepper-minimum",
+        "property": "width",
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "number-field-visual-to-in-field-stepper-small",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "number-field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "visual",
+          "to": "in-field-stepper"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "number-field-visual-to-in-field-stepper-medium",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "number-field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "visual",
+          "to": "in-field-stepper"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "number-field-visual-to-in-field-stepper-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "number-field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "visual",
+          "to": "in-field-stepper"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "number-field-visual-to-in-field-stepper-extra-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/component must be equal to one of the allowed values",
+        "/name/structure/component must be null",
+        "/name/structure/component must match exactly one schema in oneOf"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "number-field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "visual",
+          "to": "in-field-stepper"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "number-field-minimum-width-multiplier",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "number-field-minimum-width-multiplier",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "takeover-dialog-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "takeover-dialog-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "takeover-dialog-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "takeover-dialog-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tree-view-disclosure-indicator-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tree-view-disclosure-indicator-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tree-view-disclosure-indicator-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tree-view-disclosure-indicator-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tree-view-minimum-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tree-view-minimum-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tree-view-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tree-view-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tree-view-level-increment",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tree-view-level-increment",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tree-view-selected-row-background-opacity-emphasized",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tree-view-selected-row-background-opacity-emphasized",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tree-view-selected-row-background-opacity-emphasized-hover",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tree-view-selected-row-background-opacity-emphasized-hover",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "action-bar-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "action-bar-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "card-minimum-width-extra-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "card-minimum-width-extra-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "card-default-width-extra-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "card-default-width-extra-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "card-maximum-width-extra-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "card-maximum-width-extra-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "card-minimum-height-extra-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "card-minimum-height-extra-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "collection-card-minimum-height-extra-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "collection-card-minimum-height-extra-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "collection-card-minimum-height-hero-extra-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "collection-card-minimum-height-hero-extra-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "collection-card-minimum-height-hero-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "collection-card-minimum-height-hero-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "collection-card-minimum-height-hero-medium",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "collection-card-minimum-height-hero-medium",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "collection-card-minimum-height-hero-large",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "collection-card-minimum-height-hero-large",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "collection-card-minimum-height-hero-extra-large",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "collection-card-minimum-height-hero-extra-large",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "user-card-minimum-height-title-below-small",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "user-card-minimum-height-title-below-small",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "user-card-minimum-height-title-below-medium",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "user-card-minimum-height-title-below-medium",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "user-card-minimum-height-title-below-large",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "user-card-minimum-height-title-below-large",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "user-card-minimum-height-title-below-extra-large",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "user-card-minimum-height-title-below-extra-large",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "segmented-control-item-maximum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "segmented-control-item-maximum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "single-calendar-popover-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "single-calendar-popover-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "single-calendar-popover-minimum-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "single-calendar-popover-minimum-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "double-calendar-popover-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "double-calendar-popover-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "double-calendar-popover-minimum-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "double-calendar-popover-minimum-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "triple-calendar-popover-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "triple-calendar-popover-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "triple-calendar-popover-minimum-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "triple-calendar-popover-minimum-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "date-field-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "date-field-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "date-picker-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "date-picker-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "time-field-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "time-field-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "segmented-text-field-gap",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "segmented-text-field-gap",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "segmented-text-field-rounding",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "segmented-text-field-rounding",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tag-field-default-width-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "tag",
+        "anatomyPart": "field-default",
+        "property": "width",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "tag-field-default-width-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "tag",
+        "anatomyPart": "field-default",
+        "property": "width",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "tag-field-default-width-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "tag",
+        "anatomyPart": "field-default",
+        "property": "width",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "tag-field-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "tag-field-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "tag-field-minimum-height-small",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "tag",
+        "anatomyPart": "field-minimum",
+        "property": "height",
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "tag-field-minimum-height-medium",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "tag",
+        "anatomyPart": "field-minimum",
+        "property": "height",
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "tag-field-minimum-height-large",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "tag",
+        "anatomyPart": "field-minimum",
+        "property": "height",
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "list-view-minimum-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "list-view-minimum-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "list-view-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "list-view-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "stack-item-selected-background-opacity-emphasized",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "stack-item-selected-background-opacity-emphasized",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "stack-item-selected-background-opacity-emphasized-hover",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "stack-item-selected-background-opacity-emphasized-hover",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "stack-item-selected-background-opacity-emphasized-down",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "stack-item-selected-background-opacity-emphasized-down",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "stack-item-selected-background-opacity-emphasized-key-focus",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "stack-item-selected-background-opacity-emphasized-key-focus",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "stack-item-header-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "stack-item-header-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "select-box-horizontal-minimum-width",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "select-box-horizontal-minimum-width",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "side-navigation-indicator-height",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "side-navigation-indicator-height",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "side-navigation-indicator-thickness",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "side-navigation-indicator-thickness",
+        "notes": "No index suffix detected"
+      }
+    }
+  ]
+}

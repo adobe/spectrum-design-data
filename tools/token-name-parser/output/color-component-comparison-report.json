@@ -1,0 +1,613 @@
+{
+  "summary": {
+    "total": 73,
+    "matches": 73,
+    "mismatches": 0,
+    "errors": 0,
+    "matchRate": "100.00%"
+  },
+  "matches": [
+    {
+      "name": "swatch-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-border-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-disabled-icon-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-disabled-icon-border-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-border-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "thumbnail-opacity-disabled",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "opacity-checkerboard-square-light",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "opacity-checkerboard-square-dark",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-opacity-disabled",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-area-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-area-border-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-slider-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-slider-border-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-loupe-drop-shadow-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-loupe-drop-shadow-y",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-loupe-drop-shadow-blur",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-loupe-inner-border",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-loupe-outer-border",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-selection-background-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-selection-background-color-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-zone-background-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-zone-background-color-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-zone-background-color-opacity-filled",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-mark-pagination-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-handle-inner-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-handle-inner-border-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-handle-outer-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-handle-outer-border-opacity",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-handle-drop-shadow-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "floating-action-button-drop-shadow-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "floating-action-button-shadow-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-hover-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-hover-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-selected-row-background-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-selected-row-background-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-selected-row-background-color-non-emphasized",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-selected-row-background-opacity-non-emphasized",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-row-down-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-selected-row-background-opacity-hover",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "table-selected-row-background-opacity-non-emphasized-hover",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-background-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-background-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-background-color-keyboard-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "menu-item-background-color-disabled",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "popover-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "popover-border-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "coach-indicator-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "swatch-group-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "avatar-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-panel-gripper-color-drag",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "standard-panel-gripper-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "bar-panel-gripper-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "bar-panel-gripper-color-drag",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "select-box-selected-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-row-background-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-selected-row-background-color-emphasized",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-selected-row-background-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "tree-view-selected-row-background-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-wheel-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "color-wheel-border-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "action-bar-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-background-well-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "card-background-loading-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-background-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-background-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-background-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-selected-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-selected-background-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-selected-background-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-selected-background-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "stack-item-selected-background-color-emphasized",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    }
+  ],
+  "mismatches": [],
+  "errors": [],
+  "statistics": {
+    "byCategory": {
+      "semantic-alias": {
+        "total": 56,
+        "matches": 56,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      },
+      "special": {
+        "total": 17,
+        "matches": 17,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      }
+    }
+  }
+}

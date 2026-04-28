@@ -1,0 +1,96 @@
+{{! Base CLI template for diff output }}
+{{bold (capitalize dataType)}} Changes Report
+{{repeat "=" (add (capitalize dataType).length 15)}}
+
+{{#if (gt (totalItems result) 0)}}
+{{#if (hasKeys result.renamed)}}
+{{passing "RENAMED:"}}
+{{#each renamed}}
+  {{hilite name}} (was {{neutral oldName}})
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.deprecated)}}
+{{error "DEPRECATED:"}}
+{{#each deprecated}}
+  {{error name}}{{#if comment}} - {{dim comment}}{{/if}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.reverted)}}
+{{passing "REVERTED:"}}
+{{#each reverted}}
+  {{passing name}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.added)}}
+{{passing "ADDED:"}}
+{{#each added}}
+  {{passing name}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.deleted)}}
+{{error "DELETED:"}}
+{{#each deleted}}
+  {{error name}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.updated)}}
+{{neutral "UPDATED:"}}
+{{#if (hasKeys result.updated.added)}}
+{{indent 1}}{{passing "Property additions:"}}
+{{#each updated.added}}
+{{indent 2}}{{hilite name}}
+{{#each changes}}
+{{indent 3}}{{cleanPath path}}: {{neutral newValue}}
+{{/each}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.updated.deleted)}}
+{{indent 1}}{{error "Property deletions:"}}
+{{#each updated.deleted}}
+{{indent 2}}{{hilite name}}
+{{#each changes}}
+{{indent 3}}{{cleanPath path}}: {{error originalValue}}
+{{/each}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.updated.renamed)}}
+{{indent 1}}{{neutral "Property renames:"}}
+{{#each updated.renamed}}
+{{indent 2}}{{hilite name}}
+{{#each changes}}
+{{indent 3}}{{cleanPath path}}: {{neutral originalValue}} → {{neutral newValue}}
+{{/each}}
+{{/each}}
+
+{{/if}}
+{{#if (hasKeys result.updated.updated)}}
+{{indent 1}}{{neutral "Property updates:"}}
+{{#each updated.updated}}
+{{indent 2}}{{hilite name}}
+{{#each changes}}
+{{indent 3}}{{cleanPath path}}: {{neutral originalValue}} → {{neutral newValue}}
+{{/each}}
+{{/each}}
+
+{{/if}}
+{{/if}}
+{{bold "Summary:"}}
+{{#if (hasKeys result.renamed)}}• {{passing (concat (objectKeys result.renamed).length " renamed")}}{{/if}}
+{{#if (hasKeys result.deprecated)}}• {{error (concat (objectKeys result.deprecated).length " deprecated")}}{{/if}}
+{{#if (hasKeys result.reverted)}}• {{passing (concat (objectKeys result.reverted).length " reverted")}}{{/if}}
+{{#if (hasKeys result.added)}}• {{passing (concat (objectKeys result.added).length " added")}}{{/if}}
+{{#if (hasKeys result.deleted)}}• {{error (concat (objectKeys result.deleted).length " deleted")}}{{/if}}
+{{#if (hasKeys result.updated)}}• {{neutral (concat (totalUpdatedItems result.updated) " updated")}}{{/if}}
+
+{{bold "Total:"}} {{totalItems result}} {{dataType}} changes detected
+
+{{else}}
+{{passing "No changes detected in " dataType "."}}
+{{/if}}

@@ -1,0 +1,179 @@
+{
+  "total": 312,
+  "valid": 297,
+  "invalid": 15,
+  "byCategory": {
+    "typography-base": {
+      "total": 200,
+      "valid": 200,
+      "invalid": 0
+    },
+    "component-property": {
+      "total": 36,
+      "valid": 36,
+      "invalid": 0
+    },
+    "semantic-alias": {
+      "total": 61,
+      "valid": 61,
+      "invalid": 0
+    },
+    "special": {
+      "total": 15,
+      "valid": 0,
+      "invalid": 15
+    }
+  },
+  "invalidTokens": [
+    {
+      "tokenName": "component-xs-regular",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-xs-regular",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-xs-medium",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-xs-medium",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-xs-bold",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-xs-bold",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-s-regular",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-s-regular",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-s-medium",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-s-medium",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-s-bold",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-s-bold",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-m-regular",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-m-regular",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-m-medium",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-m-medium",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-m-bold",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-m-bold",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-l-regular",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-l-regular",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-l-medium",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-l-medium",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-l-bold",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-l-bold",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-xl-regular",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-xl-regular",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-xl-medium",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-xl-medium",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "component-xl-bold",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "component-xl-bold",
+        "notes": "No index suffix detected"
+      }
+    }
+  ]
+}

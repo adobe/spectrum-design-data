@@ -1,0 +1,3011 @@
+{
+  "summary": {
+    "total": 372,
+    "matches": 372,
+    "mismatches": 0,
+    "errors": 0,
+    "matchRate": "100.00%"
+  },
+  "matches": [
+    {
+      "name": "white",
+      "category": "color-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-white-25",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-white-50",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-white-75",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-white-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-white-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-white-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-white-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-white-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-white-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-white-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-white-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-white-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-white-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "black",
+      "category": "color-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-black-25",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-black-50",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-black-75",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-black-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-black-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-black-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-black-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-black-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-black-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-black-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-black-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-black-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "transparent-black-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-25",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-50",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-75",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-700",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-1100",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-1200",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-1300",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-1400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-1500",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-1600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-blue-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-blue-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-fuchsia-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-fuchsia-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-fuchsia-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-fuchsia-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-fuchsia-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-indigo-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-indigo-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-indigo-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-indigo-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-indigo-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-magenta-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-magenta-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-magenta-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-magenta-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-magenta-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-red-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-red-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-red-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-red-900",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-red-1000",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-cyan-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-cyan-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-cyan-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-chartreuse-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-chartreuse-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-chartreuse-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-green-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-green-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-green-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-orange-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-orange-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-orange-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-purple-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-purple-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-purple-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-turquoise-400",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-turquoise-600",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-turquoise-800",
+      "category": "color-scale",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gradient-stop-1-avatar",
+      "category": "gradient-color",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gradient-stop-2-avatar",
+      "category": "gradient-color",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gradient-stop-3-avatar",
+      "category": "gradient-color",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    }
+  ],
+  "mismatches": [],
+  "errors": [],
+  "statistics": {
+    "byCategory": {
+      "color-base": {
+        "total": 2,
+        "matches": 2,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      },
+      "color-scale": {
+        "total": 367,
+        "matches": 367,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      },
+      "gradient-color": {
+        "total": 3,
+        "matches": 3,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      }
+    }
+  }
+}

@@ -2,61 +2,58 @@
 # This file is licensed to you under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License. You may obtain a copy
 # of the License at http://www.apache.org/licenses/LICENSE-2.0
-
+#
 # Unless required by applicable law or agreed to in writing, software distributed under
 # the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
 # OF ANY KIND, either express or implied. See the License for the specific language
 # governing permissions and limitations under the License.
 $schema: "https://moonrepo.dev/schemas/project.json"
 stack: frontend
-type: application
-tags:
-  - docs
-  - site
+layer: application
 fileGroups:
-  target:
-    - "/site/[!visualizer]"
+  sources:
+    - "src/**/*"
+    - "config/**/*"
+    - "eleventy.config.js"
+    - "package.json"
 tasks:
-  copySchema:
+  generateToolsPage:
     command:
-      - cp
-      - -r
-      - ../../packages/tokens/schemas
-      - public/
-    platform: system
-    inputs:
-      - /packages/tokens/schemas/**/*.json
+      - pnpm
+      - run
+      - generate:tools
+    platform: node
     outputs:
-      - public/schemas
+      - "src/tools.md"
+  copyContent:
+    command:
+      - node
+      - scripts/copy-content.js
+    platform: system
+    deps:
+      - "markdown-generator:generate"
+      - "~:generateToolsPage"
+  copySpec:
+    command:
+      - node
+      - scripts/copy-spec.js
+    platform: system
   build:
     command:
-      - next
+      - pnpm
+      - run
       - build
     platform: node
     deps:
-      - ~:copySchema
-    outputs:
-      - "/site/"
+      - "~:copyContent"
+      - "~:copySpec"
   clean:
     command:
-      - rimraf
-      - -g
-      - "../../site/!(visualizer)"
+      - pnpm
+      - run
+      - clean
     platform: node
-    inputs:
-      - "@globs(target)"
-  start:
-    command:
-      - next
-      - dev
     local: true
-    platform: node
-    deps:
-      - ~:build
   export:
-    platform: node
     deps:
-      - ~:clean
-      - ~:build
-    outputs:
-      - "/site/"
+      - "~:build"

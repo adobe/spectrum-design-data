@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "ES2021",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": ["ESNext", "dom", "dom.iterable"],
+    "allowJs": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types", "./node_modules/@figma"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.js"],
+  "exclude": ["src/**/*.test.js", "node_modules"]
+}

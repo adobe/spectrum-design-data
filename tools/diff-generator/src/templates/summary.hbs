@@ -1,0 +1,64 @@
+{{! Summary template - shows only high-level statistics }}
+TOKEN DIFF SUMMARY
+==================
+
+Report Generated: {{formatDate timestamp}}
+
+{{#if options.oldTokenBranch}}Old: {{options.oldTokenBranch}}{{/if}}
+{{#if options.oldTokenVersion}}Old: {{options.oldTokenVersion}}{{/if}}
+{{#if options.newTokenBranch}}New: {{options.newTokenBranch}}{{/if}}
+{{#if options.newTokenVersion}}New: {{options.newTokenVersion}}{{/if}}
+
+SUMMARY:
+--------
+Total Tokens Changed: {{totalTokens result}}
+Total Updated Tokens: {{totalUpdatedTokens result.updated}}
+
+BREAKDOWN:
+----------
+{{#if renamed.length}}✏️  Renamed: {{renamed.length}}{{/if}}
+{{#if deprecated.length}}⏰ Deprecated: {{deprecated.length}}{{/if}}
+{{#if reverted.length}}🔄 Un-deprecated: {{reverted.length}}{{/if}}
+{{#if added.length}}➕ Added: {{added.length}}{{/if}}
+{{#if deleted.length}}➖ Deleted: {{deleted.length}}{{/if}}
+
+{{#if (totalUpdatedTokens result.updated)}}
+PROPERTY UPDATES:
+-----------------
+{{#if updated.renamed.length}}✏️  Renamed Properties: {{updated.renamed.length}}{{/if}}
+{{#if updated.added.length}}➕ Added Properties: {{updated.added.length}}{{/if}}
+{{#if updated.deleted.length}}➖ Deleted Properties: {{updated.deleted.length}}{{/if}}
+{{#if updated.updated.length}}🔄 Updated Properties: {{updated.updated.length}}{{/if}}
+{{/if}}
+
+{{#if (hasKeys result.renamed)}}
+RENAMED TOKENS:
+---------------
+{{#each renamed}}
+• {{oldName}} → {{name}}
+{{/each}}
+{{/if}}
+
+{{#if (hasKeys result.deprecated)}}
+DEPRECATED TOKENS:
+------------------
+{{#each deprecated}}
+• {{name}}{{#if comment}} ({{comment}}){{/if}}
+{{/each}}
+{{/if}}
+
+{{#if (hasKeys result.added)}}
+ADDED TOKENS:
+-------------
+{{#each added}}
+• {{name}}
+{{/each}}
+{{/if}}
+
+{{#if (hasKeys result.deleted)}}
+DELETED TOKENS:
+---------------
+{{#each deleted}}
+• {{name}}
+{{/each}}
+{{/if}} 

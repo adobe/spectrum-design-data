@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "colorScheme",
+  "description": "Theme / appearance dimension. Controls which color scheme a token applies to (e.g. light, dark, wireframe). Drives cascade resolution.",
+  "kind": "dimension",
+  "registry": null,
+  "validation": "strict",
+  "serialization": {
+    "position": 13
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}

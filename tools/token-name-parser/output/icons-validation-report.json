@@ -1,0 +1,13 @@
+{
+  "total": 79,
+  "valid": 79,
+  "invalid": 0,
+  "byCategory": {
+    "semantic-alias": {
+      "total": 79,
+      "valid": 79,
+      "invalid": 0
+    }
+  },
+  "invalidTokens": []
+}

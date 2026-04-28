@@ -73,7 +73,7 @@ WARNING: Will either be inaccurate or will throw an error if used for releases b
 
          sets.darkest.$schema
 
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json"
 
          sets.darkest.value
 
@@ -87,7 +87,7 @@ WARNING: Will either be inaccurate or will throw an error if used for releases b
 
          sets.darkest.$schema
 
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json"
 
          sets.darkest.value
 
@@ -111,9 +111,9 @@ WARNING: Will either be inaccurate or will throw an error if used for releases b
 
          $schema
 
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json" -> 
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json" -> 
 
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/i-like-koalas.json"
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/i-like-koalas.json"
 
          sets.light.value
 

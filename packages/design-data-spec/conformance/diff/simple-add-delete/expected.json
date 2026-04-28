@@ -1,0 +1,18 @@
+{
+  "renamed": [],
+  "deprecated": [],
+  "reverted": [],
+  "added": [
+    {
+      "name": "new-only-token",
+      "uuid": "aaaaaaaa-0002-4000-8000-000000000001"
+    }
+  ],
+  "deleted": [
+    {
+      "name": "old-only-token",
+      "uuid": "aaaaaaaa-0001-4000-8000-000000000001"
+    }
+  ],
+  "updated": []
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "contrast",
+  "description": "Contrast level dimension (e.g. regular, high). Drives cascade resolution.",
+  "kind": "dimension",
+  "registry": null,
+  "validation": "strict",
+  "serialization": {
+    "position": 15
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}

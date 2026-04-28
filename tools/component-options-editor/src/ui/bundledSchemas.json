@@ -1,0 +1,3838 @@
+[
+  {
+    "slug": "tree-view",
+    "title": "Tree view",
+    "description": "A tree view provides users with a way to navigate nested hierarchical information.",
+    "meta": {
+      "category": "navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/tree-view/"
+    },
+    "properties": {
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "isDetached": {
+        "type": "boolean",
+        "default": false
+      },
+      "isEmphasized": {
+        "type": "boolean",
+        "default": false
+      },
+      "showDragIcon": {
+        "type": "boolean",
+        "default": false
+      },
+      "selectionMode": {
+        "type": "string",
+        "enum": ["single", "multiple"],
+        "default": "multiple"
+      },
+      "selectionStyle": {
+        "type": "string",
+        "enum": ["checkbox", "highlight"],
+        "default": "checkbox"
+      },
+      "selectionBehavior": {
+        "type": "string",
+        "enum": ["toggle", "replace"],
+        "default": "toggle"
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "tray",
+    "title": "Tray",
+    "description": "Trays are containers that display transient content such as menus, options, additional actions, and more. They only exist on mobile experiences and are used for exposing types of content that may be too overwhelming for popovers.",
+    "meta": {
+      "category": "containers",
+      "documentationUrl": "https://spectrum.adobe.com/page/tray/"
+    },
+    "properties": {
+      "height": {
+        "type": "string",
+        "default": "auto"
+      }
+    }
+  },
+  {
+    "slug": "tooltip",
+    "title": "Tooltip",
+    "description": "Tooltips show contextual help or information about specific components when a user hovers or focuses on them.",
+    "meta": {
+      "category": "feedback",
+      "documentationUrl": "https://spectrum.adobe.com/page/tooltip/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "variant": {
+        "type": "string",
+        "enum": ["neutral", "informative", "negative"],
+        "default": "neutral"
+      },
+      "hasIcon": {
+        "type": "boolean",
+        "description": "If the neutral variant, there is never an icon.",
+        "default": false
+      },
+      "maxWidth": {
+        "type": "number",
+        "default": 160,
+        "description": "units: pixels"
+      },
+      "placement": {
+        "type": "string",
+        "enum": ["top", "bottom", "left", "right"],
+        "default": "top"
+      },
+      "shouldFlip": {
+        "type": "boolean",
+        "default": false
+      },
+      "offset": {
+        "type": "number",
+        "default": 4,
+        "description": "units: pixels"
+      },
+      "containerPadding": {
+        "type": "number",
+        "default": 8,
+        "description": "units: pixels"
+      }
+    }
+  },
+  {
+    "slug": "toast",
+    "title": "Toast",
+    "description": "Toasts display brief, temporary notifications. They're meant to be noticed without disrupting a user's experience or requiring an action to be taken.",
+    "meta": {
+      "category": "feedback",
+      "documentationUrl": "https://spectrum.adobe.com/page/toast/"
+    },
+    "properties": {
+      "text": {
+        "type": "string"
+      },
+      "variant": {
+        "type": "string",
+        "enum": ["neutral", "informative", "positive", "negative"],
+        "default": "neutral"
+      },
+      "actionLabel": {
+        "type": "string",
+        "description": "If undefined, this button does not appear."
+      },
+      "isAutoDismissible": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "thumbnail",
+    "title": "Thumbnail",
+    "description": "Thumbnails are small representations of images or content used for previews and navigation in galleries, lists, and media collections.",
+    "meta": {
+      "category": "navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/thumbnail/"
+    },
+    "properties": {
+      "size": {
+        "type": "number",
+        "enum": [50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "disabled"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "text-field",
+    "title": "Text field",
+    "description": "Text fields allow users to input custom text entries with a keyboard. Various options can be shown with the field to communicate the input requirements.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/text-field/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "labelPosition": {
+        "type": "string",
+        "default": "top",
+        "enum": ["top", "side"]
+      },
+      "hideLabel": {
+        "type": "boolean",
+        "default": false
+      },
+      "value": {
+        "type": "string",
+        "description": "from minValue to maxValue"
+      },
+      "width": {
+        "type": "number"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "necessityIndicator": {
+        "type": "string",
+        "enum": ["text", "icon"],
+        "default": "icon"
+      },
+      "isRequired": {
+        "type": "boolean",
+        "default": false
+      },
+      "hasCharacterCount": {
+        "type": "boolean",
+        "default": false
+      },
+      "showValidIcon": {
+        "type": "boolean",
+        "default": false
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false,
+        "description": "If there is an error, this property overrides show valid icon."
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "helpText": {
+        "type": "string"
+      },
+      "errorMessage": {
+        "type": "string"
+      },
+      "state": {
+        "type": "string",
+        "enum": [
+          "default",
+          "hover",
+          "focus + hover",
+          "focus + not hover",
+          "keyboard focus"
+        ],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "text-area",
+    "title": "Text area",
+    "description": "A text area lets a user input a longer amount of text than a standard text field. It can include all of the standard validation options supported by the text field component.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/text-area/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "labelPosition": {
+        "type": "string",
+        "default": "top",
+        "enum": ["top", "side"]
+      },
+      "hideLabel": {
+        "type": "boolean",
+        "default": false
+      },
+      "value": {
+        "type": "string",
+        "description": "from minValue to maxValue"
+      },
+      "width": {
+        "type": "number"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "necessityIndicator": {
+        "type": "string",
+        "enum": ["text", "icon"],
+        "default": "icon"
+      },
+      "isRequired": {
+        "type": "boolean",
+        "default": false
+      },
+      "hasCharacterCount": {
+        "type": "boolean",
+        "default": false
+      },
+      "showValidIcon": {
+        "type": "boolean",
+        "default": false
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "hideDragIcon": {
+        "type": "boolean",
+        "default": false
+      },
+      "height": {
+        "type": "number",
+        "description": "If undefined, height is dynamic and grows with input text."
+      },
+      "helpText": {
+        "type": "string"
+      },
+      "errorMessage": {
+        "type": "string"
+      },
+      "inputType": {
+        "type": "string",
+        "enum": ["text", "url", "phone", "email", "password"],
+        "default": "text"
+      },
+      "state": {
+        "type": "string",
+        "enum": [
+          "default",
+          "hover",
+          "focus + hover",
+          "focus + not hover",
+          "keyboard focus"
+        ],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "takeover-dialog",
+    "title": "Takeover dialog",
+    "description": "Takeover dialogs are larger, flexible dialogs that contain other components to support complex workflows.",
+    "meta": {
+      "category": "feedback",
+      "documentationUrl": "https://spectrum.adobe.com/page/takeover-dialog/"
+    },
+    "properties": {
+      "title": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "variant": {
+        "type": "string",
+        "enum": ["dialog", "full screen"],
+        "default": "dialog"
+      },
+      "primaryActionLabel": {
+        "type": "string"
+      },
+      "secondaryActionLabel": {
+        "type": "string",
+        "description": "If undefined, this button does not appear."
+      },
+      "cancelActionLabel": {
+        "type": "string",
+        "default": "cancel",
+        "description": "If undefined, this button does not appear."
+      },
+      "slots": {
+        "type": "array",
+        "description": "Areas where other components can be inserted (e.g. Side navigation, Steplist, Forms).",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Identifier for the slot (e.g. 'sidebar', 'content', 'footer')."
+            },
+            "component": {
+              "type": "string",
+              "description": "The type of component placed in this slot (e.g. side-navigation, steplist, form)."
+            }
+          },
+          "required": ["name", "component"]
+        }
+      }
+    }
+  },
+  {
+    "slug": "tag",
+    "title": "Tag",
+    "description": "Tags allow users to categorize content. They can represent keywords or people, and are grouped to describe an item or a search request.",
+    "meta": {
+      "category": "navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/tag/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "hasAvatar": {
+        "type": "boolean",
+        "default": false
+      },
+      "isRemovable": {
+        "type": "boolean",
+        "default": false
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "isReadOnly": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "tag-group",
+    "title": "Tag group",
+    "description": "A tag group is a collection of tags that represent a set of related items.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/tag-group/"
+    },
+    "properties": {
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l"],
+        "default": "m"
+      },
+      "labelPosition": {
+        "type": "string",
+        "enum": ["top", "side"],
+        "default": "top"
+      },
+      "hideLabel": {
+        "type": "boolean",
+        "default": false
+      },
+      "actionLabel": {
+        "type": "string",
+        "description": "If undefined, this button does not appear."
+      }
+    }
+  },
+  {
+    "slug": "tag-field",
+    "title": "Tag field",
+    "description": "A tag field is an input field that allows users to enter and manage tags.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/tag-field/"
+    },
+    "properties": {
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l"],
+        "default": "m"
+      },
+      "state": {
+        "type": "string",
+        "enum": [
+          "default",
+          "hover",
+          "focus + hover",
+          "focus + not hover",
+          "keyboard focus"
+        ],
+        "default": "default"
+      },
+      "style": {
+        "type": "string",
+        "enum": ["keyword", "icon", "thumbnail", "avatar"],
+        "default": "keyword"
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "hideLabel": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "tabs",
+    "title": "Tabs",
+    "description": "Tabs organize content into multiple sections and allow users to navigate between them. The content under the set of tabs should be related and form a coherent unit.",
+    "meta": {
+      "category": "navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/tabs/"
+    },
+    "properties": {
+      "orientation": {
+        "type": "string",
+        "enum": ["horizontal", "vertical"],
+        "default": "horizontal"
+      },
+      "items": {
+        "type": "array",
+        "description": "An array of tab items.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "The text displayed for the tab item."
+            },
+            "isDisabled": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether the tab is disabled."
+            },
+            "state": {
+              "type": "string",
+              "enum": ["default", "hover", "keyboard focus"],
+              "default": "default",
+              "description": "The interaction state of the tab item."
+            },
+            "contentVariant": {
+              "type": "string",
+              "enum": ["label-only", "icon-only", "icon-label"],
+              "default": "icon-label",
+              "description": "Controls whether the tab displays a label, an icon, or both."
+            },
+            "density": {
+              "type": "string",
+              "enum": ["compact", "regular"],
+              "default": "regular"
+            },
+            "isFluid": {
+              "type": "boolean",
+              "default": false,
+              "description": "This overrides density and is only applicable to horizontal tabs."
+            },
+            "isEmphasized": {
+              "type": "boolean",
+              "default": false
+            },
+            "alignment": {
+              "type": "string",
+              "enum": ["start", "center"],
+              "default": "start"
+            },
+            "selectedItem": {
+              "description": "(list of available items)"
+            },
+            "keyboardActivation": {
+              "type": "string",
+              "enum": ["manual", "automatic"],
+              "default": "manual"
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "slug": "table",
+    "title": "Table",
+    "description": "Tables display information in rows and columns, allowing users to compare and scan structured data.",
+    "meta": {
+      "category": "data visualization",
+      "documentationUrl": "https://spectrum.adobe.com/page/table/"
+    },
+    "properties": {
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l"],
+        "default": "m",
+        "description": "Controls the density of table rows."
+      },
+      "hideHeader": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, the table header is hidden."
+      },
+      "header": {
+        "type": "object",
+        "description": "Configuration for the table header row.",
+        "properties": {
+          "alignment": {
+            "type": "string",
+            "enum": ["left", "right"],
+            "default": "left",
+            "description": "Alignment of the table header text."
+          },
+          "state": {
+            "type": "string",
+            "enum": ["default", "hover", "down", "keyboard focus"],
+            "default": "default",
+            "description": "Interaction state of the header row."
+          }
+        }
+      },
+      "density": {
+        "type": "string",
+        "enum": ["compact", "regular", "spacious"],
+        "default": "regular"
+      },
+      "isQuiet": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, the table uses a quiet visual style."
+      },
+      "isSortable": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, table columns can be sorted."
+      },
+      "columns": {
+        "type": "array",
+        "description": "An array of column definitions for the table.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "key": {
+              "type": "string",
+              "description": "Unique identifier for the column."
+            },
+            "label": {
+              "type": "string",
+              "description": "The header text displayed for the column."
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "text",
+                "number",
+                "avatar",
+                "date",
+                "sparkline",
+                "select",
+                "layout"
+              ],
+              "default": "text",
+              "description": "Defines the data type for the column."
+            },
+            "resizing": {
+              "type": "string",
+              "enum": ["fluid", "fixed"],
+              "default": "fluid",
+              "description": "Defines whether the column width is fluid or fixed."
+            },
+            "summary placement": {
+              "type": "string",
+              "enum": ["top", "bottom"],
+              "default": "bottom",
+              "description": "Placement of the summary row for this column, if applicable."
+            },
+            "summary text": {
+              "type": "string",
+              "description": "Text to display in the summary row for this column, if applicable."
+            },
+            "isSortable": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether this column is sortable."
+            }
+          },
+          "required": ["key", "label", "type"]
+        }
+      },
+      "rows": {
+        "type": "array",
+        "description": "An array of row data for the table.",
+        "items": {
+          "type": "object",
+          "description": "Each object represents a single row, keyed by column IDs."
+        }
+      }
+    }
+  },
+  {
+    "slug": "tab-bar-ios",
+    "title": "Tab bar (iOS)",
+    "description": "Tab bar is a top-level navigation control for iOS apps.",
+    "meta": {
+      "category": "navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/tab-bar-ios/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "labelPosition": {
+        "type": "string",
+        "enum": ["bottom", "side"],
+        "default": "bottom"
+      },
+      "icon": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json"
+      },
+      "background": {
+        "type": "string",
+        "enum": ["primary", "secondary"],
+        "default": "primary"
+      },
+      "hasBadge": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "switch",
+    "title": "Switch",
+    "description": "Switches allow users to turn an individual option on or off. They are usually used to activate or deactivate a specific setting.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/switch/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "isSelected": {
+        "type": "boolean",
+        "default": false
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "isEmphasized": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "isReadOnly": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "swatch",
+    "title": "Swatch",
+    "description": "A swatch shows a small sample of a fill — such as a color, gradient, texture, or material — that is intended to be applied to an object.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/swatch/"
+    },
+    "properties": {
+      "preview": {
+        "type": "string",
+        "description": "This will vary depending on implementation."
+      },
+      "size": {
+        "type": "string",
+        "enum": ["xs", "s", "m", "l"],
+        "default": "m"
+      },
+      "shape": {
+        "type": "string",
+        "enum": ["square", "rectangle"],
+        "default": "square"
+      },
+      "cornerRounding": {
+        "type": "string",
+        "enum": ["none", "partial", "full"],
+        "default": "none",
+        "description": "Determines the corner radius of the swatch. Partial refers to corner-radius-75."
+      },
+      "isSelected": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "swatch-group",
+    "title": "Swatch group",
+    "description": "A swatch group is a grouping of swatches that are related to each other.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/swatch-group/"
+    },
+    "properties": {
+      "size": {
+        "type": "string",
+        "enum": ["xs", "s", "m", "l"],
+        "default": "m"
+      },
+      "density": {
+        "type": "string",
+        "enum": ["compact", "regular", "spacious"],
+        "default": "regular"
+      },
+      "enableSelection": {
+        "type": "boolean",
+        "default": false
+      },
+      "selectionMode": {
+        "type": "string",
+        "description": "Only applicable if selection is enabled.",
+        "enum": ["single", "multiple"],
+        "default": "single"
+      },
+      "allowsEmptySelection": {
+        "type": "boolean",
+        "default": false,
+        "description": "Only applicable if selection is enabled."
+      },
+      "cornerRadius": {
+        "type": "string",
+        "enum": ["none", "full", "partial"],
+        "default": "none",
+        "description": "Determines the corner radius of each swatch in the group. Partial refers to corner-radius-75."
+      }
+    }
+  },
+  {
+    "slug": "steplist",
+    "title": "Steplist",
+    "description": "Step lists display progress through a sequence of steps, with each step marked as completed, current, or incomplete.",
+    "meta": {
+      "category": "navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/steplist/"
+    },
+    "properties": {
+      "orientation": {
+        "type": "string",
+        "enum": ["horizontal", "vertical"],
+        "default": "horizontal"
+      },
+      "items": {
+        "type": "array",
+        "description": "An array of step items in the step list.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "The text displayed for the step item."
+            },
+            "isDisabled": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether the step item is disabled."
+            },
+            "stepState": {
+              "type": "string",
+              "enum": [
+                "completed default",
+                "completed hover",
+                "current default",
+                "incomplete default"
+              ],
+              "default": "current default",
+              "description": "The current state of the step item."
+            }
+          },
+          "required": ["label", "stepState"]
+        }
+      },
+      "currentStep": {
+        "type": "string",
+        "description": "The identifier or label of the currently active step."
+      }
+    }
+  },
+  {
+    "slug": "status-light",
+    "title": "Status light",
+    "description": "Status lights describe the condition of an entity. They can be used to convey semantic meaning, such as statuses and categories.",
+    "meta": {
+      "category": "status",
+      "documentationUrl": "https://spectrum.adobe.com/page/status-light/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "variant": {
+        "type": "string",
+        "enum": [
+          "informative",
+          "neutral",
+          "positive",
+          "notice",
+          "negative",
+          "indigo",
+          "celery",
+          "chartreuse",
+          "yellow",
+          "magenta",
+          "fuchsia",
+          "purple",
+          "seafoam",
+          "pink",
+          "turquoise",
+          "cinnamon",
+          "brown",
+          "silver",
+          "gray",
+          "red",
+          "orange",
+          "green",
+          "cyan"
+        ],
+        "default": "informative"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      }
+    },
+    "required": ["label"]
+  },
+  {
+    "slug": "standard-panel",
+    "title": "Standard Panel",
+    "description": "Standard Panels provide a flexible container for grouping related content and actions.",
+    "meta": {
+      "category": "containers",
+      "documentationUrl": "https://spectrum.adobe.com/page/standard-panel/"
+    },
+    "properties": {
+      "container": {
+        "type": "string",
+        "enum": ["anchored", "floating", "dragged"],
+        "default": "anchored"
+      },
+      "label": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "value": {
+        "type": "string"
+      },
+      "density": {
+        "type": "string",
+        "enum": ["compact", "regular", "spacious"],
+        "default": "regular"
+      },
+      "style": {
+        "type": "string",
+        "enum": ["primary", "secondary"],
+        "default": "primary"
+      },
+      "hideGripper": {
+        "type": "boolean",
+        "default": false
+      },
+      "hideCloseButton": {
+        "type": "boolean",
+        "default": false
+      },
+      "hideDivider": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "standard-dialog",
+    "title": "Standard dialog",
+    "description": "Standard dialogs display important information that users need to acknowledge. They appear over the interface and block further interactions until an action is selected.",
+    "meta": {
+      "category": "feedback",
+      "documentationUrl": "https://spectrum.adobe.com/page/standard-dialog/"
+    },
+    "properties": {
+      "title": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "hideImage": {
+        "type": "boolean",
+        "default": false,
+        "description": "Optional image to display in dialog."
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l"],
+        "default": "m"
+      },
+      "hideCloseButton": {
+        "type": "boolean",
+        "default": false
+      },
+      "footerContent": {
+        "type": "string",
+        "description": "Optional footer content to display in the dialog footer like a checkbox."
+      },
+      "primaryActionLabel": {
+        "type": "string"
+      },
+      "secondaryActionLabel": {
+        "type": "string",
+        "description": "If undefined, this button does not appear."
+      },
+      "cancelActionLabel": {
+        "type": "string",
+        "default": "cancel",
+        "description": "If undefined, this button does not appear."
+      }
+    }
+  },
+  {
+    "slug": "slider",
+    "title": "Slider",
+    "description": "Sliders allow users to quickly select a value within a range. They should be used when the upper and lower bounds to the range are invariable.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/slider/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "labelPosition": {
+        "type": "string",
+        "default": "top",
+        "enum": ["top", "side"]
+      },
+      "value": {
+        "type": "number",
+        "description": "from minValue to maxValue"
+      },
+      "minValue": {
+        "type": "number",
+        "default": 0
+      },
+      "maxValue": {
+        "type": "number",
+        "default": 100
+      },
+      "isRange": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, the slider will allow selection of a range of values by displaying two handles."
+      },
+      "step": {
+        "type": "number",
+        "default": 1
+      },
+      "valueFormat": {
+        "type": "string",
+        "description": "This will vary depending on implementation."
+      },
+      "progressionScale": {
+        "type": "string",
+        "enum": ["linear", "log"],
+        "default": "linear"
+      },
+      "width": {
+        "type": "number"
+      },
+      "hasFill": {
+        "type": "boolean",
+        "default": false
+      },
+      "fillStart": {
+        "type": "number",
+        "default": 0
+      },
+      "hasGradient": {
+        "type": "boolean",
+        "default": false
+      },
+      "isEditable": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "side-navigation",
+    "title": "Side navigation",
+    "description": "Side navigation lets users navigate the entire content of a product or a section. These can be used for a single level or a multi-level navigation.",
+    "meta": {
+      "category": "navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/side-navigation/"
+    },
+    "properties": {
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      },
+      "items": {
+        "type": "array",
+        "description": "The list of navigation items.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "Text label for the navigation item."
+            },
+            "state": {
+              "type": "string",
+              "enum": ["default", "hover", "down", "keyboard focus"],
+              "default": "default",
+              "description": "State of the navigation item."
+            },
+            "icon": {
+              "type": "string",
+              "description": "Optional icon token for the navigation item."
+            },
+            "isSelected": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether the item is currently selected."
+            },
+            "isDisabled": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether the item is disabled."
+            }
+          },
+          "required": ["label"]
+        }
+      },
+      "selectionMode": {
+        "type": "string",
+        "enum": ["none", "single", "multiple"],
+        "default": "single",
+        "description": "How selection is handled for items."
+      }
+    },
+    "required": ["items"]
+  },
+  {
+    "slug": "select-box",
+    "title": "Select box",
+    "description": "",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "orientation": {
+        "type": "string",
+        "enum": ["horizontal", "vertical"],
+        "default": "vertical"
+      },
+      "body": {
+        "type": "string"
+      },
+      "isSelected": {
+        "type": "boolean",
+        "default": false
+      },
+      "hideIllustration": {
+        "type": "boolean",
+        "default": false
+      },
+      "showCheckbox": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "down", "hover", "keyboard focus"],
+        "default": "default"
+      },
+      "multiple": {
+        "type": "boolean",
+        "default": false,
+        "description": "Set to true to allow multiple selections."
+      }
+    }
+  },
+  {
+    "slug": "segmented-control",
+    "title": "Segmented Control",
+    "description": "Segmented controls allow users to select one option from a set of mutually exclusive options.",
+    "meta": {
+      "category": "navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/segmented-control/"
+    },
+    "properties": {
+      "orientation": {
+        "type": "string",
+        "enum": ["horizontal", "vertical"],
+        "default": "horizontal"
+      },
+      "isFluid": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, the control takes up the full width of its container. Only applicable to horizontal segmented controls."
+      },
+      "alignment": {
+        "type": "string",
+        "enum": ["start", "center"],
+        "default": "start"
+      },
+      "hideTracker": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, the tracker that indicates the selected item is hidden."
+      },
+      "selectedItem": {
+        "type": "string",
+        "description": "The identifier of the currently selected item."
+      },
+      "keyboardActivation": {
+        "type": "string",
+        "enum": ["manual", "automatic"],
+        "default": "manual"
+      },
+      "items": {
+        "type": "array",
+        "description": "An array of segmented control items.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "The text displayed for the segmented control item."
+            },
+            "isDisabled": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether the segmented control item is disabled."
+            },
+            "state": {
+              "type": "string",
+              "enum": ["default", "hover", "keyboard focus"],
+              "default": "default",
+              "description": "The interaction state of the segmented control item."
+            },
+            "contentVariant": {
+              "type": "string",
+              "enum": ["label-only", "icon-only", "icon-label"],
+              "default": "icon-label",
+              "description": "Controls whether the segmented control item displays a label, an icon, or both."
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "slug": "search-field",
+    "title": "Search field",
+    "description": "A search field is used for searching and filtering items.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/search-field/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "hideLabel": {
+        "type": "boolean",
+        "default": false
+      },
+      "icon": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+        "description": "Icon must be present if the label is not defined."
+      },
+      "value": {
+        "type": "string"
+      },
+      "width": {
+        "type": "number"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m",
+        "pattern": "^(x?s|m|x{0,3}l)$"
+      },
+      "helpText": {
+        "type": "string"
+      },
+      "placeholder": {
+        "type": "string"
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": [
+          "default",
+          "down",
+          "hover",
+          "focus + hover",
+          "focus + not hover",
+          "keyboard focus"
+        ],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "scroll-zoom-bar",
+    "title": "Scroll-zoom bar",
+    "description": "Primarily for usage in timelines, a scroll-zoom bar lets a user scroll or zoom with the same control.",
+    "meta": {
+      "category": "navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/scroll-zoom-bar/"
+    },
+    "properties": {
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l"],
+        "default": "m"
+      },
+      "orientation": {
+        "type": "string",
+        "enum": ["horizontal", "vertical"],
+        "default": "horizontal"
+      },
+      "hideTrack": {
+        "type": "boolean",
+        "default": false
+      },
+      "hideHandles": {
+        "type": "boolean",
+        "default": false
+      },
+      "scaleDown": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDetached": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "rating",
+    "title": "Rating",
+    "description": "The rating component lets users apply a rating to an item or experience, such as an image, a forum post, an item for sale in a marketplace, and more.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/rating/"
+    },
+    "properties": {
+      "value": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 5,
+        "default": 0,
+        "multipleOf": 0.5,
+        "description": "From 0 to 5, can be a decimal to represent half stars"
+      },
+      "isEmphasized": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "radio-group",
+    "title": "Radio Group",
+    "description": "A radio group is a grouping of radio buttons that are related to each other.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/radio-group/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "labelPosition": {
+        "type": "string",
+        "enum": ["top", "side"],
+        "default": "top"
+      },
+      "orientation": {
+        "type": "string",
+        "enum": ["horizontal", "vertical"],
+        "default": "vertical"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "isEmphasized": {
+        "type": "boolean",
+        "default": false
+      },
+      "necessityIndicator": {
+        "type": "string",
+        "enum": ["text", "icon"],
+        "default": "icon"
+      },
+      "isRequired": {
+        "type": "boolean",
+        "default": false
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "errorMessage": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      }
+    }
+  },
+  {
+    "slug": "radio-button",
+    "title": "Radio button",
+    "description": "Radio buttons allow users to select a single option from a list of mutually exclusive options.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/radio-button/"
+    },
+    "properties": {
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      },
+      "isSelected": {
+        "type": "boolean",
+        "default": false
+      },
+      "isEmphasized": {
+        "type": "boolean",
+        "default": false
+      },
+      "label": {
+        "type": "string",
+        "description": "The text displayed next to a radio button."
+      }
+    }
+  },
+  {
+    "slug": "progress-circle",
+    "title": "Progress circle",
+    "description": "Progress circles show the progression of a system operation such as downloading, uploading, processing, etc. in a visual way. They can represent determinate or indeterminate progress.",
+    "meta": {
+      "category": "status",
+      "documentationUrl": "https://spectrum.adobe.com/page/progress-circle/"
+    },
+    "properties": {
+      "variant": {
+        "type": "string",
+        "enum": ["default", "over background"],
+        "default": "default"
+      },
+      "value": {
+        "type": "number",
+        "description": "Not applicable when indeterminate."
+      },
+      "minValue": {
+        "type": "number",
+        "default": 0,
+        "description": "Not applicable when indeterminate."
+      },
+      "maxValue": {
+        "type": "number",
+        "default": 1,
+        "description": "Not applicable when indeterminate."
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l"],
+        "default": "m"
+      },
+      "isIndeterminate": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "progress-bar",
+    "title": "Progress bar",
+    "description": "Progress bars show the progression of a system operation: downloading, uploading, processing, etc., in a visual way. They can represent either determinate or indeterminate progress.",
+    "meta": {
+      "category": "status",
+      "documentationUrl": "https://spectrum.adobe.com/page/progress-bar/"
+    },
+    "properties": {
+      "variant": {
+        "type": "string",
+        "enum": ["default", "over background"],
+        "default": "default"
+      },
+      "staticColor": {
+        "type": "string",
+        "enum": ["white"],
+        "description": "Static color can only be white, otherwise it is default."
+      },
+      "label": {
+        "type": "string"
+      },
+      "labelPosition": {
+        "type": "string",
+        "enum": ["top", "side"],
+        "default": "top"
+      },
+      "hideLabel": {
+        "type": "boolean",
+        "default": false
+      },
+      "value": {
+        "type": "number",
+        "description": "Not applicable when indeterminate."
+      },
+      "minValue": {
+        "type": "number",
+        "default": 0,
+        "description": "Not applicable when indeterminate."
+      },
+      "maxValue": {
+        "type": "number",
+        "default": 1,
+        "description": "Not applicable when indeterminate."
+      },
+      "valueLabel": {
+        "type": "string"
+      },
+      "width": {
+        "type": "number"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "isIndeterminate": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "popover",
+    "title": "Popover",
+    "description": "Popovers are containers used to display transient content such as menus, options, additional actions, and more. They visually stand out through stroke and drop shadow and float on top of the interface.",
+    "meta": {
+      "category": "containers",
+      "documentationUrl": "https://spectrum.adobe.com/page/popover/"
+    },
+    "properties": {
+      "width": {
+        "type": "number"
+      },
+      "height": {
+        "type": "number"
+      },
+      "hideTip": {
+        "type": "boolean",
+        "default": false
+      },
+      "placement": {
+        "type": "string",
+        "enum": [
+          "top",
+          "top left",
+          "top right",
+          "top start",
+          "top end",
+          "bottom",
+          "bottom left",
+          "bottom right",
+          "bottom start",
+          "bottom end",
+          "left",
+          "left top",
+          "left bottom",
+          "start",
+          "start top",
+          "start bottom",
+          "right",
+          "right top",
+          "right bottom",
+          "end",
+          "end top",
+          "end bottom"
+        ],
+        "default": "top"
+      },
+      "offset": {
+        "type": "number",
+        "default": 8,
+        "description": "pixel measurement"
+      },
+      "crossOffset": {
+        "type": "number",
+        "default": 0
+      },
+      "containerPadding": {
+        "type": "number",
+        "default": 8,
+        "description": "pixel measurement"
+      }
+    }
+  },
+  {
+    "slug": "picker",
+    "title": "Picker",
+    "description": "Pickers (sometimes known as \"dropdowns\" or \"selects\") allow users to choose from a list of options in a limited space. The list of options can change based on the context.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/picker/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "labelPosition": {
+        "type": "string",
+        "default": "top",
+        "enum": ["top", "side"]
+      },
+      "placeholder": {
+        "type": "string"
+      },
+      "value": {
+        "type": "string"
+      },
+      "width": {
+        "type": "number",
+        "description": "Not applicable to quiet picker."
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "isQuiet": {
+        "type": "boolean",
+        "default": false
+      },
+      "necessityIndicator": {
+        "type": "string",
+        "enum": ["text", "icon"],
+        "default": "icon"
+      },
+      "isRequired": {
+        "type": "boolean",
+        "default": false
+      },
+      "menuContainer": {
+        "type": "string",
+        "enum": ["popover", "tray"],
+        "default": "popover"
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      },
+      "description": {
+        "type": "string",
+        "default": null
+      },
+      "errorMessage": {
+        "type": "string",
+        "default": null
+      },
+      "state": {
+        "type": "string",
+        "enum": [
+          "default",
+          "hover",
+          "focus + hover",
+          "focus + not hover",
+          "keyboard focus"
+        ],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "opacity-checkerboard",
+    "title": "Opacity Checkerboard",
+    "description": "Opacity checkerboards provide a visual pattern background used in color swatches and UI elements to indicate transparency or when no color is selected.",
+    "meta": {
+      "category": "status",
+      "documentationUrl": "https://spectrum.adobe.com/page/opacity-checkerboard/"
+    },
+    "properties": {
+      "verticalSize": {
+        "type": "number",
+        "enum": [16, 32, 64, 128, 256]
+      },
+      "horizontalSize": {
+        "type": "number",
+        "enum": [24, 40]
+      }
+    }
+  },
+  {
+    "slug": "number-field",
+    "title": "Number field",
+    "description": "Number fields allow users to enter a numeric value, with optional increment and decrement buttons.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/number-field/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "labelPosition": {
+        "type": "string",
+        "default": "top",
+        "enum": ["top", "side"]
+      },
+      "hideLabel": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "focus + hover", "focus + not hover"],
+        "default": "default"
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      },
+      "isRequired": {
+        "type": "boolean",
+        "default": false
+      },
+      "necessityIndicator": {
+        "type": "string",
+        "enum": ["text", "icon"],
+        "default": "icon"
+      },
+      "hideStepper": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, hides in-field increment and decrement buttons (stepper)."
+      }
+    }
+  },
+  {
+    "slug": "meter",
+    "title": "Meter",
+    "description": "Meters are visual representations of a quantity or an achievement. Their progress is determined by user actions, rather than system actions.",
+    "meta": {
+      "category": "status",
+      "documentationUrl": "https://spectrum.adobe.com/page/meter/"
+    },
+    "properties": {
+      "variant": {
+        "type": "string",
+        "enum": ["informative", "positive", "notice", "negative"],
+        "default": "informative"
+      },
+      "label": {
+        "type": "string"
+      },
+      "hideLabel": {
+        "type": "boolean",
+        "default": false
+      },
+      "valueLabel": {
+        "type": "string"
+      },
+      "width": {
+        "type": "number"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "value": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "helpText": {
+        "type": "string"
+      }
+    }
+  },
+  {
+    "slug": "menu",
+    "title": "Menu",
+    "description": "Menus help users take actions, choose from a list of options, configure settings, and more. They can be placed in a transient container, like a popover or tray.",
+    "meta": {
+      "category": "actions",
+      "documentationUrl": "https://spectrum.adobe.com/page/menu/"
+    },
+    "properties": {
+      "container": {
+        "type": "string",
+        "enum": ["popover", "tray"]
+      },
+      "label": {
+        "type": "string"
+      },
+      "icon": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+        "description": "Icon must be present if the label is not defined."
+      },
+      "description": {
+        "type": "string"
+      },
+      "value": {
+        "type": "string"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "selectionMode": {
+        "type": "string",
+        "enum": ["single", "multiple", "no selection"]
+      },
+      "selectionStyle": {
+        "type": "string",
+        "enum": ["checkbox", "switch"]
+      },
+      "sectionHeader": {
+        "type": "string"
+      },
+      "isCollapsible": {
+        "type": "boolean",
+        "default": false
+      },
+      "isUnavailable": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "list-view",
+    "title": "List view",
+    "description": "List views display rows of data or options that users can browse, select, and interact with.",
+    "meta": {
+      "category": "navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/list-view/"
+    },
+    "properties": {
+      "selectionMode": {
+        "type": "string",
+        "enum": ["none", "single", "multiple"],
+        "default": "single",
+        "description": "Defines how many items can be selected at once."
+      },
+      "isQuiet": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, the list view uses a quiet visual style."
+      },
+      "items": {
+        "type": "array",
+        "description": "An array of list view items.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "Primary text displayed for the item."
+            },
+            "description": {
+              "type": "string",
+              "description": "Secondary text displayed under the label (optional)."
+            },
+            "hideCheckbox": {
+              "type": "boolean",
+              "default": false,
+              "description": "If true, the checkbox is hidden."
+            },
+            "hideDragHandle": {
+              "type": "boolean",
+              "default": false,
+              "description": "If true, the drag handle is hidden."
+            },
+            "hideNavigationIndicator": {
+              "type": "boolean",
+              "default": false,
+              "description": "If true, the navigation indicator is hidden."
+            },
+            "isDisabled": {
+              "type": "boolean",
+              "default": false,
+              "description": "If true, the item is disabled."
+            },
+            "isSelected": {
+              "type": "boolean",
+              "default": false,
+              "description": "If true, the item is selected."
+            },
+            "overflowMode": {
+              "type": "string",
+              "enum": ["wrap", "truncate"],
+              "default": "truncate",
+              "description": "Defines how text should behave when it overflows the available space."
+            },
+            "itemRounding": {
+              "type": "string",
+              "enum": ["none", "top", "bottom"],
+              "default": "none",
+              "description": "Defines the border radius of the list view item."
+            },
+            "isEmphasized": {
+              "type": "boolean",
+              "default": false
+            },
+            "state": {
+              "type": "string",
+              "enum": ["default", "hover", "dragged"],
+              "default": "default",
+              "description": "The interaction state of the list view item."
+            }
+          },
+          "required": ["label"]
+        }
+      }
+    }
+  },
+  {
+    "slug": "link",
+    "title": "Link",
+    "description": "Links allow users to navigate to a different location. They can be presented inside a paragraph or as standalone text.",
+    "meta": {
+      "category": "actions",
+      "documentationUrl": "https://spectrum.adobe.com/page/link/"
+    },
+    "properties": {
+      "variant": {
+        "type": "string",
+        "enum": ["primary", "secondary"],
+        "default": "primary"
+      },
+      "isQuiet": {
+        "type": "boolean",
+        "default": false
+      },
+      "staticColor": {
+        "type": "string",
+        "enum": ["white", "black"],
+        "description": "Static color must not be set for the default version of this component."
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "in-line-alert",
+    "title": "In-line alert",
+    "description": "In-line alerts display a non-modal message associated with objects in a view. These are often used in form validation, providing a place to aggregate feedback related to multiple fields.",
+    "meta": {
+      "category": "feedback",
+      "documentationUrl": "https://spectrum.adobe.com/page/in-line-alert/"
+    },
+    "properties": {
+      "variant": {
+        "type": "string",
+        "enum": [
+          "neutral",
+          "informative",
+          "positive",
+          "notice",
+          "negative",
+          "accent"
+        ],
+        "default": "neutral"
+      },
+      "style": {
+        "type": "string",
+        "enum": ["bold", "subtle", "outline"],
+        "default": "outline",
+        "description": "The visual style of the alert."
+      },
+      "href": {
+        "type": "string",
+        "description": "Optional URL within in-line alert content like a 'Learn more' link."
+      },
+      "heading": {
+        "type": "string",
+        "description": "Optional heading text displayed at the top of the alert."
+      },
+      "actionLabel": {
+        "type": "string",
+        "description": "If undefined, this button does not appear."
+      }
+    }
+  },
+  {
+    "slug": "in-field-progress-circle",
+    "title": "In field progress circle",
+    "description": "In field progress circles indicate progress for loading states within form fields and input areas.",
+    "meta": {
+      "category": "feedback",
+      "documentationUrl": "https://spectrum.adobe.com/page/in-field-progress-circle/"
+    },
+    "properties": {
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "staticColor": {
+        "type": "string",
+        "enum": ["white", "black"]
+      }
+    }
+  },
+  {
+    "slug": "in-field-progress-button",
+    "title": "In field progress button",
+    "description": "In field progress buttons provide interactive controls within form fields for actions like clearing, adding, or disclosing additional content.",
+    "meta": {
+      "category": "actions",
+      "documentationUrl": "https://spectrum.adobe.com/page/in-field-progress-button/"
+    },
+    "properties": {
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      },
+      "style": {
+        "type": "string",
+        "enum": ["disclosure", "clear", "dash", "add"]
+      },
+      "isQuiet": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "illustrated-message",
+    "title": "Illustrated message",
+    "description": "An illustrated message displays an illustration with a short title and description, often used for empty states or error states.",
+    "meta": {
+      "category": "feedback",
+      "documentationUrl": "https://spectrum.adobe.com/page/illustrated-message/"
+    },
+    "properties": {
+      "illustration": {
+        "type": "string",
+        "description": "Optional illustration or icon displayed above the message."
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l"],
+        "default": "m",
+        "description": "Size of the illustration."
+      },
+      "orientation": {
+        "type": "string",
+        "enum": ["vertical", "horizontal"],
+        "default": "vertical",
+        "description": "Orientation of the illustrated message."
+      },
+      "title": {
+        "type": "string",
+        "description": "Primary heading text of the message."
+      },
+      "description": {
+        "type": "string",
+        "description": "Secondary descriptive text providing context or instructions."
+      },
+      "primaryActionLabel": {
+        "type": "string",
+        "description": "Label for the primary action button. If undefined, no primary action is shown."
+      },
+      "secondaryActionLabel": {
+        "type": "string",
+        "description": "Label for the secondary action button. If undefined, no secondary action is shown."
+      }
+    }
+  },
+  {
+    "slug": "help-text",
+    "title": "Help text",
+    "description": "Help text provides either an informative description or an error message that gives more context about what a user needs to input. It’s commonly used in forms.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/help-text/"
+    },
+    "properties": {
+      "text": {
+        "type": "string"
+      },
+      "variant": {
+        "type": "string",
+        "enum": ["neutral", "negative"],
+        "default": "neutral"
+      },
+      "hideIcon": {
+        "type": "boolean",
+        "default": false,
+        "description": "Only applicable if variant is negative."
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Help text cannot be both disabled and negative variant."
+      }
+    }
+  },
+  {
+    "slug": "heading",
+    "title": "Heading",
+    "description": "Heading is a typography component used to create various levels of hierarchies between text.",
+    "meta": {
+      "category": "typography",
+      "documentationUrl": "https://spectrum.adobe.com/page/heading/"
+    },
+    "properties": {
+      "script": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"
+      },
+      "classification": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-classification.json"
+      },
+      "weight": {
+        "type": "string",
+        "enum": ["light", "default", "heavy"],
+        "default": "default"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["xs", "s", "m", "l", "xl", "xxl", "xxxl"],
+        "default": "m"
+      }
+    }
+  },
+  {
+    "slug": "field-label",
+    "title": "Field label",
+    "description": "Field labels give context to the information that a user needs to input. They're commonly used in forms.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/field-label/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "labelPosition": {
+        "type": "string",
+        "enum": ["top", "side"],
+        "default": "top"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "necessityIndicator": {
+        "type": "string",
+        "enum": ["text", "icon"],
+        "default": "icon"
+      },
+      "isRequired": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "drop-zone",
+    "title": "Drop zone",
+    "description": "A drop zone allows users to drag and drop files or other content into a designated area.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/drop-zone/"
+    },
+    "properties": {
+      "accept": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "description": "File types that are accepted by the drop zone."
+        }
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l"],
+        "default": "m"
+      },
+      "actionLabel": {
+        "type": "string",
+        "description": "If undefined, this button does not appear."
+      },
+      "onDrop": {
+        "type": "string",
+        "description": "Callback function called when files are dropped onto the drop zone."
+      },
+      "onDragOver": {
+        "type": "string",
+        "description": "Callback function called when a file is dragged over the drop zone."
+      },
+      "onDragLeave": {
+        "type": "string",
+        "description": "Callback function called when a file is dragged out of the drop zone."
+      }
+    }
+  },
+  {
+    "slug": "divider",
+    "title": "Divider",
+    "description": "Dividers bring clarity to a layout by grouping and dividing content in close proximity. They can also be used to establish rhythm and hierarchy.",
+    "meta": {
+      "category": "containers",
+      "documentationUrl": "https://spectrum.adobe.com/page/divider/"
+    },
+    "properties": {
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l"],
+        "default": "s"
+      },
+      "orientation": {
+        "type": "string",
+        "enum": ["horizontal", "vertical"],
+        "default": "horizontal"
+      }
+    }
+  },
+  {
+    "slug": "detail",
+    "title": "Detail",
+    "description": "Detail is a typography component used for disclosing extra information or smaller items in hierarchical relationships of text.",
+    "meta": {
+      "category": "typography",
+      "documentationUrl": "https://spectrum.adobe.com/page/detail/"
+    },
+    "properties": {
+      "script": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"
+      },
+      "weight": {
+        "type": "string",
+        "enum": ["light", "default"],
+        "default": "default"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      }
+    }
+  },
+  {
+    "slug": "date-picker",
+    "title": "Date picker",
+    "description": "A date picker lets users enter a single date or a date range. It includes a calendar popover and a field.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/date-picker/"
+    },
+    "properties": {
+      "variant": {
+        "type": "string",
+        "enum": ["single", "double", "triple"],
+        "default": "single",
+        "description": "Controls the number of months displayed in the calendar popover."
+      },
+      "selectedDate": {
+        "type": "string",
+        "description": "The currently selected date. Used when selectionMode is single."
+      },
+      "selectedRange": {
+        "type": "object",
+        "description": "The currently selected date range, used when selectionMode is range.",
+        "properties": {
+          "start": {
+            "type": "string",
+            "description": "Range start date."
+          },
+          "end": {
+            "type": "string",
+            "description": "Range end date."
+          }
+        }
+      },
+      "dateField": {
+        "type": "object",
+        "description": "Configuration for the date input field.",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Optional text label displayed with the date field."
+          },
+          "labelPosition": {
+            "type": "string",
+            "enum": ["top", "side"],
+            "default": "top"
+          },
+          "hideLabel": {
+            "type": "boolean",
+            "default": false
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false
+          },
+          "isReadOnly": {
+            "type": "boolean",
+            "default": false
+          },
+          "isRequired": {
+            "type": "boolean",
+            "default": false
+          },
+          "isError": {
+            "type": "boolean",
+            "default": false,
+            "description": "If there is an error, this property overrides show valid icon."
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "default",
+              "hover",
+              "hover (in-field button)",
+              "focus + hover",
+              "focus + open",
+              "focus + not hover",
+              "keyboard focus"
+            ],
+            "default": "default"
+          }
+        }
+      },
+      "calendarPopover": {
+        "type": "object",
+        "description": "Configuration for the calendar popover.",
+        "properties": {
+          "isDisabled": {
+            "type": "boolean",
+            "default": false
+          },
+          "minValue": {
+            "type": "string",
+            "description": "The minimum allowed date that a user may select."
+          },
+          "maxValue": {
+            "type": "string",
+            "description": "The maximum allowed date that a user may select (ISO format string)."
+          },
+          "currentMonth": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 12,
+            "description": "The month currently displayed in the calendar (1 = January, 12 = December)."
+          },
+          "currentYear": {
+            "type": "number",
+            "description": "The year currently displayed in the calendar (Gregorian year number)."
+          },
+          "selectionMode": {
+            "type": "string",
+            "enum": ["single", "range"],
+            "default": "single",
+            "description": "Controls whether the calendar allows selecting a single date or a date range."
+          },
+          "showTimeZone": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether to show a time zone indicator in the popover."
+          },
+          "isError": {
+            "type": "boolean",
+            "default": false,
+            "description": "If the calendar popover is in an error state."
+          },
+          "timeFields": {
+            "type": "object",
+            "description": "Optional start and end time fields displayed within the calendar popover.",
+            "properties": {
+              "showStartTime": {
+                "type": "boolean",
+                "default": false,
+                "description": "If true, displays a start time field."
+              },
+              "showEndTime": {
+                "type": "boolean",
+                "default": false,
+                "description": "If true, displays an end time field."
+              },
+              "granularity": {
+                "type": "string",
+                "enum": ["hour", "minute", "second"],
+                "default": "minute",
+                "description": "The level of time granularity for the time fields."
+              },
+              "is24Hour": {
+                "type": "boolean",
+                "default": false,
+                "description": "If true, displays time in 24-hour format instead of AM/PM."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "slug": "contextual-help",
+    "title": "Contextual help",
+    "description": "Contextual help shows a user extra information about the state of either an adjacent component or an entire view. It explains a high-level topic about an experience and can point users to more information elsewhere.",
+    "meta": {
+      "category": "feedback",
+      "documentationUrl": "https://spectrum.adobe.com/page/contextual-help/"
+    },
+    "properties": {
+      "icon": {
+        "type": "string",
+        "enum": ["info", "help"],
+        "default": "info"
+      },
+      "popoverPlacement": {
+        "type": "string",
+        "enum": [
+          "top",
+          "top left",
+          "top right",
+          "top start",
+          "top end",
+          "bottom",
+          "bottom left",
+          "bottom right",
+          "bottom start",
+          "bottom end",
+          "left",
+          "left top",
+          "left bottom",
+          "start",
+          "start top",
+          "start bottom",
+          "right",
+          "right top",
+          "right bottom",
+          "end",
+          "end top",
+          "end bottom"
+        ],
+        "default": "bottom start"
+      },
+      "popoverOffset": {
+        "type": "number",
+        "default": 8
+      },
+      "href": {
+        "type": "string",
+        "description": "Optional URL within contextual help content like a 'Learn more' link."
+      },
+      "popoverCrossOffset": {
+        "type": "number",
+        "default": 0
+      },
+      "containerPadding": {
+        "type": "number",
+        "default": 8
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "down", "open", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "combo-box",
+    "title": "Combo box",
+    "description": "Combo boxes combine a text entry with a picker menu, allowing users to filter longer lists to only the selections matching a query.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/combo-box/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "labelPosition": {
+        "type": "string",
+        "enum": ["top", "side", "in line"],
+        "default": "top"
+      },
+      "value": {
+        "type": "string"
+      },
+      "width": {
+        "type": "number"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "isRequired": {
+        "type": "boolean",
+        "default": false
+      },
+      "necessityIndicator": {
+        "type": "string",
+        "enum": ["text", "icon"],
+        "default": "icon"
+      },
+      "hasAutocomplete": {
+        "type": "boolean",
+        "default": false
+      },
+      "menuTrigger": {
+        "type": "string",
+        "enum": ["input", "focus", "manual"],
+        "default": "input"
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "isReadOnly": {
+        "type": "boolean",
+        "default": false
+      },
+      "description": {
+        "type": "string"
+      },
+      "errorMessage": {
+        "type": "string"
+      },
+      "state": {
+        "type": "string",
+        "enum": [
+          "default",
+          "hover (text area)",
+          "hover (button area)",
+          "focus + hover",
+          "focus + not hover",
+          "keyboard focus"
+        ],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "color-wheel",
+    "title": "Color wheel",
+    "description": "A color wheel lets users visually change an individual channel of a color on a circular track.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-wheel/"
+    },
+    "properties": {
+      "background": {
+        "type": "string",
+        "description": "This will vary depending on implementation."
+      },
+      "value": {
+        "type": "number",
+        "description": "Number (from minValue to maxValue)"
+      },
+      "minValue": {
+        "type": "number",
+        "default": 0
+      },
+      "maxValue": {
+        "type": "number",
+        "default": 360
+      },
+      "step": {
+        "type": "number",
+        "default": 1
+      },
+      "size": {
+        "type": "number",
+        "default": 192,
+        "description": "units: px"
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "color-slider",
+    "title": "Color slider",
+    "description": "A color slider lets users visually change an individual channel of a color.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-slider/"
+    },
+    "properties": {
+      "background": {
+        "type": "string",
+        "description": "This will vary depending on implementation."
+      },
+      "channel": {
+        "type": "string",
+        "enum": [
+          "hue",
+          "saturation",
+          "lightness",
+          "red",
+          "green",
+          "blue",
+          "alpha"
+        ],
+        "default": "hue",
+        "description": "Which channel of the color this slider controls. Use 'alpha' for opacity."
+      },
+      "value": {
+        "type": "number",
+        "description": "Number (from minValue to maxValue)."
+      },
+      "minValue": {
+        "type": "number",
+        "default": 0
+      },
+      "maxValue": {
+        "type": "number",
+        "default": 100
+      },
+      "step": {
+        "type": "number",
+        "default": 1
+      },
+      "orientation": {
+        "type": "string",
+        "enum": ["horizontal", "vertical"],
+        "default": "horizontal"
+      },
+      "length": {
+        "type": "number",
+        "default": 192,
+        "description": "units: px"
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "color-loupe",
+    "title": "Color loupe",
+    "description": "A color loupe shows the output color that would otherwise be covered by a cursor, stylus, or finger during color selection.",
+    "meta": {
+      "category": "feedback",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-loupe/"
+    },
+    "properties": {
+      "value": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "color-handle",
+    "title": "Color handle",
+    "description": "Color handles allow users to select and adjust colors in a color picker.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-handle/"
+    },
+    "properties": {
+      "channel": {
+        "type": "string",
+        "enum": [
+          "hue",
+          "saturation",
+          "lightness",
+          "red",
+          "green",
+          "blue",
+          "alpha"
+        ],
+        "default": "hue",
+        "description": "Which channel of the color this handle controls. Use 'alpha' for opacity."
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "color-area",
+    "title": "Color area",
+    "description": "A color area allows users to visually select two properties of a color simultaneously. It's commonly used together with a color slider or color wheel.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-area/"
+    },
+    "properties": {
+      "background": {
+        "type": "string",
+        "description": "This will vary depending on implementation."
+      },
+      "x-value": {
+        "type": "number",
+        "description": "Number (from x-minValue to x-maxValue)"
+      },
+      "x-minValue": {
+        "type": "number",
+        "default": 0
+      },
+      "x-maxValue": {
+        "type": "number",
+        "default": 100
+      },
+      "y-value": {
+        "type": "number",
+        "description": "Number (from y-minValue to y-maxValue)"
+      },
+      "y-minValue": {
+        "type": "number",
+        "default": 0
+      },
+      "y-maxValue": {
+        "type": "number",
+        "default": 100
+      },
+      "step": {
+        "type": "number",
+        "default": 1
+      },
+      "width": {
+        "type": "number",
+        "default": 192,
+        "description": "units: px"
+      },
+      "height": {
+        "type": "number",
+        "default": 192,
+        "description": "units: px"
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "code",
+    "title": "Code",
+    "description": "Detail is a typography component used for disclosing extra information or smaller items in hierarchical relationships of text.",
+    "meta": {
+      "category": "typography",
+      "documentationUrl": "https://spectrum.adobe.com/page/code/"
+    },
+    "properties": {
+      "script": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["xs", "s", "m", "l", "xl"],
+        "default": "m"
+      }
+    }
+  },
+  {
+    "slug": "coach-mark",
+    "title": "Coach mark",
+    "description": "Coach marks provide contextual guidance to users by highlighting specific interface elements.",
+    "meta": {
+      "category": "feedback",
+      "documentationUrl": "https://spectrum.adobe.com/page/coach-mark/"
+    },
+    "properties": {
+      "title": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "hideImage": {
+        "type": "boolean",
+        "default": false,
+        "description": "Optional image to display in dialog."
+      },
+      "actions": {
+        "type": "object",
+        "description": "Configuration for coach mark actions.",
+        "properties": {
+          "topActionLabel": {
+            "type": "string",
+            "description": "Optional action button displayed at the top, often for a menu."
+          },
+          "footerContent": {
+            "type": "string",
+            "description": "Optional footer content to display in the dialog footer like a checkbox."
+          },
+          "primaryActionLabel": {
+            "type": "string",
+            "description": "Label for the primary footer action."
+          },
+          "secondaryActionLabel": {
+            "type": "string",
+            "description": "Label for the secondary footer action (optional)."
+          },
+          "cancelActionLabel": {
+            "type": "string",
+            "default": "cancel",
+            "description": "Label for the cancel action (optional)."
+          }
+        }
+      }
+    }
+  },
+  {
+    "slug": "coach-indicator",
+    "title": "Coach indicator",
+    "description": "Coach indicators help guide users through interfaces by highlighting important areas or features during onboarding and feature discovery.",
+    "meta": {
+      "category": "feedback",
+      "documentationUrl": "https://spectrum.adobe.com/page/coach-indicator/"
+    },
+    "properties": {
+      "cornerRounding": {
+        "type": "string",
+        "enum": [
+          "none",
+          "corner-radius-75",
+          "corner-radius-100",
+          "corner-radius-200",
+          "corner-radius-300",
+          "corner-radius-400",
+          "corner-radius-500",
+          "corner-radius-600",
+          "corner-radius-700",
+          "corner-radius-800",
+          "full"
+        ]
+      },
+      "staticColor": {
+        "type": "string",
+        "enum": ["white"],
+        "description": "If not set to white, the coach indicator uses the default color."
+      }
+    }
+  },
+  {
+    "slug": "close-button",
+    "title": "Close button",
+    "description": "The close button is used inside of other components, like a toast or an action bar, for closing or dismissing its parent component.",
+    "meta": {
+      "category": "actions",
+      "documentationUrl": "https://spectrum.adobe.com/page/close-button/"
+    },
+    "properties": {
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "iconSize": {
+        "type": "string"
+      },
+      "staticColor": {
+        "type": "string",
+        "enum": ["white", "black"],
+        "description": "Static color must not be set for the default version of this component."
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "checkbox",
+    "title": "Checkbox",
+    "description": "Checkboxes allow users to select multiple items from a list of individual items, or to mark one individual item as selected.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/checkbox/"
+    },
+    "properties": {
+      "label": {
+        "type": "string",
+        "description": "When the label is not defined, the checkbox appears as a standalone checkbox."
+      },
+      "isSelected": {
+        "type": "boolean",
+        "default": false
+      },
+      "isIndeterminate": {
+        "type": "boolean",
+        "default": false,
+        "description": "When a checkbox is indeterminate, it overrides the selection state."
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "isEmphasized": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "checkbox-group",
+    "title": "Checkbox group",
+    "description": "A checkbox group is a grouping of checkboxes that are related to each other.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/checkbox-group/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "labelPosition": {
+        "type": "string",
+        "enum": ["top", "side"],
+        "default": "top"
+      },
+      "necessityIndicator": {
+        "type": "string",
+        "enum": ["text", "icon"],
+        "default": "icon"
+      },
+      "isRequired": {
+        "type": "boolean",
+        "default": false
+      },
+      "orientation": {
+        "type": "string",
+        "enum": ["horizontal", "vertical"],
+        "default": "vertical"
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "description": {
+        "type": "string"
+      },
+      "errorMessage": {
+        "type": "string"
+      }
+    }
+  },
+  {
+    "slug": "cards",
+    "title": "Cards",
+    "description": "Cards group related content into distinct layouts depending on context.",
+    "meta": {
+      "category": "containers",
+      "documentationUrl": "https://spectrum.adobe.com/page/cards/"
+    },
+    "properties": {
+      "variant": {
+        "type": "string",
+        "enum": [
+          "asset",
+          "collection",
+          "flex",
+          "gallery",
+          "horizontal",
+          "product"
+        ],
+        "default": "asset",
+        "description": "Determines which card layout variant is used."
+      }
+    }
+  },
+  {
+    "slug": "calendar",
+    "title": "Calendar",
+    "description": "Calendars display days, weeks, and months, allowing users to select dates or ranges.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/calendar/"
+    },
+    "properties": {
+      "currentMonth": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 12,
+        "description": "The month currently displayed in the calendar (1 = January, 12 = December)."
+      },
+      "currentYear": {
+        "type": "number",
+        "description": "The year currently displayed in the calendar (Gregorian year number)."
+      },
+      "selectionMode": {
+        "type": "string",
+        "enum": ["single", "range"],
+        "default": "single",
+        "description": "Controls whether the calendar allows selecting a single date or a date range."
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "isError": {
+        "type": "boolean",
+        "default": false
+      },
+      "minValue": {
+        "type": "string",
+        "description": "The minimum allowed date that a user may select (ISO format string)."
+      },
+      "maxValue": {
+        "type": "string",
+        "description": "The maximum allowed date that a user may select (ISO format string)."
+      },
+      "showTimeZone": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether to show a time zone indicator in the calendar."
+      },
+      "days": {
+        "type": "array",
+        "description": "An array of days displayed in the current calendar view.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "description": "The date represented by this day (ISO format string)."
+            },
+            "isDisabled": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether this day is disabled."
+            },
+            "isSelected": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether this day is currently selected."
+            },
+            "isRangeStart": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether this day is the start of a selected range."
+            },
+            "isRangeEnd": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether this day is the end of a selected range."
+            },
+            "isUnavailable": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether this day is unavailable for selection. If true, the day appears with a strikethrough."
+            },
+            "isToday": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether this day represents the current date."
+            },
+            "state": {
+              "type": "string",
+              "enum": ["default", "hover", "keyboard focus"],
+              "default": "default",
+              "description": "The interaction state of the day cell."
+            }
+          },
+          "required": ["date"]
+        }
+      }
+    }
+  },
+  {
+    "slug": "button",
+    "title": "Button",
+    "description": "Buttons allow users to perform an action or to navigate to another page. They have multiple styles for various needs, and are ideal for calling attention to where a user needs to do something in order to move forward in a flow.",
+    "meta": {
+      "category": "actions",
+      "documentationUrl": "https://spectrum.adobe.com/page/button/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "hideLabel": {
+        "type": "boolean",
+        "default": false
+      },
+      "icon": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+        "description": "Icon must be present if the label is not defined."
+      },
+      "variant": {
+        "type": "string",
+        "enum": ["accent", "negative", "primary", "secondary"],
+        "default": "accent"
+      },
+      "staticColor": {
+        "type": "string",
+        "enum": ["white", "black"],
+        "description": "Static color must not be set for the default version of this component."
+      },
+      "style": {
+        "type": "string",
+        "default": "fill",
+        "enum": ["fill", "outline"]
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "justified": {
+        "type": "boolean",
+        "default": false
+      },
+      "isPending": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "button-group",
+    "title": "Button group",
+    "description": "A button group is a grouping of buttons whose actions are related to each other.",
+    "meta": {
+      "category": "actions",
+      "documentationUrl": "https://spectrum.adobe.com/page/button-group/"
+    },
+    "properties": {
+      "orientation": {
+        "type": "string",
+        "default": "horizontal",
+        "enum": ["horizontal", "vertical"]
+      },
+      "size": {
+        "type": "string",
+        "pattern": "^(x?s|m|x{0,3}l)$",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "overflowMode": {
+        "type": "string",
+        "enum": ["wrap", "collapse"],
+        "default": "wrap"
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "breadcrumbs",
+    "title": "Breadcrumbs",
+    "description": "Breadcrumbs show hierarchy and navigational context for a user’s location within an app.",
+    "meta": {
+      "category": "navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/breadcrumbs/"
+    },
+    "properties": {
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus", "drag and drop"],
+        "default": "default"
+      },
+      "isMultiline": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, the breadcrumb items will wrap to multiple lines."
+      },
+      "size": {
+        "type": "string",
+        "enum": ["m", "l"],
+        "default": "m",
+        "description": "Controls the overall size of the breadcrumb component."
+      },
+      "items": {
+        "type": "array",
+        "description": "An array of breadcrumb items.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "The text displayed for the breadcrumb item."
+            },
+            "href": {
+              "type": "string",
+              "description": "Optional URL the breadcrumb item links to."
+            },
+            "isCurrent": {
+              "type": "boolean",
+              "description": "Indicates if the breadcrumb item represents the current page.",
+              "default": false
+            },
+            "isDisabled": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": ["label"]
+        }
+      },
+      "separator": {
+        "type": "string",
+        "enum": ["chevron", "none"],
+        "default": "chevron",
+        "description": "The separator icon used between breadcrumb items."
+      },
+      "isTruncated": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, the breadcrumb item is truncated and displayed as icon only."
+      },
+      "sizeOverride": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "description": "Overrides the size of the breadcrumb items when isMultiline is true."
+      }
+    }
+  },
+  {
+    "slug": "bottom-navigation-android",
+    "title": "Bottom navigation (Android)",
+    "description": "Bottom navigation is a top-level navigation control for Android apps.",
+    "meta": {
+      "category": "navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/bottom-navigation-android/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "labelPosition": {
+        "type": "string",
+        "enum": ["bottom", "side"],
+        "default": "bottom"
+      },
+      "icon": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json"
+      },
+      "background": {
+        "type": "string",
+        "enum": ["primary", "secondary"],
+        "default": "primary"
+      },
+      "hasBadge": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "body",
+    "title": "Body",
+    "description": "Body is a typography component primarily used within Spectrum components and for blocks of text.",
+    "meta": {
+      "category": "typography",
+      "documentationUrl": "https://spectrum.adobe.com/page/body/"
+    },
+    "properties": {
+      "script": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"
+      },
+      "classification": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-classification.json"
+      },
+      "size": {
+        "type": "string",
+        "pattern": "^(x?s|m|x{0,3}l)$",
+        "enum": ["xs", "s", "m", "l", "xl", "xxl", "xxxl"],
+        "default": "m"
+      }
+    }
+  },
+  {
+    "slug": "badge",
+    "title": "Badge",
+    "description": "Similar to status lights, badges are for showing a small amount of color-categorized metadata. They're ideal for getting a user''s attention.",
+    "meta": {
+      "category": "status",
+      "documentationUrl": "https://spectrum.adobe.com/page/badge/"
+    },
+    "properties": {
+      "label": {
+        "type": "string",
+        "description": "When the label is not defined, the badge appears as icon-only."
+      },
+      "icon": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json"
+      },
+      "variant": {
+        "type": "string",
+        "enum": [
+          "neutral",
+          "info",
+          "positive",
+          "negative",
+          "indigo",
+          "yellow",
+          "magenta",
+          "fuchsia",
+          "purple",
+          "seafoam",
+          "accent",
+          "notice",
+          "gray",
+          "red",
+          "orange",
+          "chartreuse",
+          "celery",
+          "green",
+          "cyan",
+          "blue",
+          "pink",
+          "turquoise",
+          "brown",
+          "cinnamon",
+          "silver"
+        ]
+      },
+      "style": {
+        "type": "string",
+        "enum": ["bold", "subtle", "outline"]
+      },
+      "fixed": {
+        "type": "string",
+        "enum": ["none", "top", "right", "bottom", "left"],
+        "default": "none"
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "size": {
+        "type": "string",
+        "pattern": "^(x?s|m|x{0,3}l)$",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "s"
+      }
+    }
+  },
+  {
+    "slug": "avatar",
+    "title": "Avatar",
+    "description": "An avatar is a thumbnail representation of an entity, such as a user or an organization.",
+    "meta": {
+      "category": "navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/avatar/"
+    },
+    "properties": {
+      "size": {
+        "type": "number",
+        "enum": [
+          50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200,
+          1300, 1400, 1500
+        ],
+        "default": 500
+      },
+      "image": {
+        "type": "string",
+        "enum": [
+          "user image",
+          "gradient image",
+          "gradient",
+          "guest image",
+          "initials"
+        ],
+        "default": "user image"
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "showStroke": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "avatar-group",
+    "title": "Avatar group",
+    "description": "Avatar groups display a collection of avatars representing people or entities.",
+    "meta": {
+      "category": "actions",
+      "documentationUrl": "https://spectrum.adobe.com/page/avatar-group/"
+    },
+    "properties": {
+      "label": {
+        "type": "string",
+        "description": "Optional text label displayed with the avatar group (e.g., group name)."
+      },
+      "size": {
+        "type": "number",
+        "enum": [50, 75, 100, 200, 300, 400, 500],
+        "default": 100
+      }
+    }
+  },
+  {
+    "slug": "alert-dialog",
+    "title": "Alert dialog",
+    "description": "Alert dialogs display important information that users need to acknowledge. They appear over the interface and block further interactions until an action is selected.",
+    "meta": {
+      "category": "feedback",
+      "documentationUrl": "https://spectrum.adobe.com/page/alert-dialog/"
+    },
+    "properties": {
+      "title": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "variant": {
+        "type": "string",
+        "enum": [
+          "confirmation",
+          "information",
+          "warning",
+          "destructive",
+          "error"
+        ],
+        "default": "confirmation"
+      },
+      "primaryActionLabel": {
+        "type": "string"
+      },
+      "secondaryActionLabel": {
+        "type": "string",
+        "description": "If undefined, this button does not appear."
+      },
+      "cancelActionLabel": {
+        "type": "string",
+        "default": "cancel",
+        "description": "If undefined, this button does not appear."
+      }
+    }
+  },
+  {
+    "slug": "alert-banner",
+    "title": "Alert banner",
+    "description": "Alert banners show pressing and high-signal messages, such as system alerts. They're meant to be noticed and prompt users to take action.",
+    "meta": {
+      "category": "feedback",
+      "documentationUrl": "https://spectrum.adobe.com/page/alert-banner/"
+    },
+    "properties": {
+      "text": {
+        "type": "string"
+      },
+      "variant": {
+        "type": "string",
+        "enum": ["neutral", "informative", "negative", "accent"],
+        "default": "neutral"
+      },
+      "actionLabel": {
+        "type": "string",
+        "description": "If undefined, this button does not appear."
+      },
+      "isDismissible": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "action-group",
+    "title": "Action group",
+    "description": "An action group is a grouping of action buttons that are related to each other.",
+    "meta": {
+      "category": "actions",
+      "documentationUrl": "https://spectrum.adobe.com/page/action-group/"
+    },
+    "properties": {
+      "orientation": {
+        "type": "string",
+        "enum": ["horizontal", "vertical"],
+        "default": "horizontal"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "density": {
+        "type": "string",
+        "enum": ["regular", "compact"],
+        "default": "regular"
+      },
+      "isJustified": {
+        "type": "boolean",
+        "default": false
+      },
+      "isQuiet": {
+        "type": "boolean",
+        "default": false
+      },
+      "isEmphasized": {
+        "type": "boolean",
+        "default": false
+      },
+      "enableSelection": {
+        "type": "boolean",
+        "default": false
+      },
+      "selectionMode": {
+        "type": "string",
+        "enum": ["single", "multiple"],
+        "default": "single",
+        "description": "Only applicable if selection is enabled"
+      },
+      "allowsEmptySelection": {
+        "type": "boolean",
+        "default": false,
+        "description": "Only applicable if selection is enabled"
+      },
+      "overflowMode": {
+        "type": "string",
+        "enum": ["wrap", "collapse"],
+        "default": "wrap"
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "action-button",
+    "title": "Action button",
+    "description": "Action buttons allow users to perform an action or mark a selection. They're used for similar, task-based options within a workflow, and are ideal for interfaces where buttons aren't meant to draw a lot of attention.",
+    "meta": {
+      "category": "actions",
+      "documentationUrl": "https://spectrum.adobe.com/page/action-button/"
+    },
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "hideLabel": {
+        "type": "boolean",
+        "default": false
+      },
+      "icon": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+        "description": "Icon must be present if the label is not defined."
+      },
+      "size": {
+        "type": "string",
+        "enum": ["xs", "s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "isQuiet": {
+        "type": "boolean",
+        "default": false
+      },
+      "isSelected": {
+        "type": "boolean",
+        "default": false
+      },
+      "isEmphasized": {
+        "type": "boolean",
+        "default": false
+      },
+      "staticColor": {
+        "type": "string",
+        "enum": ["white", "black"],
+        "description": "Static color must not be set for the default version of this component."
+      },
+      "selectedTextColor": {
+        "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
+      },
+      "hasHoldIcon": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      }
+    }
+  },
+  {
+    "slug": "action-bar",
+    "title": "Action bar",
+    "description": "Action bars are used for single and bulk selection patterns, when a user needs to perform actions on either a single or multiple items at the same time.",
+    "meta": {
+      "category": "actions",
+      "documentationUrl": "https://spectrum.adobe.com/page/action-bar/"
+    },
+    "properties": {
+      "isEmphasized": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  {
+    "slug": "accordion",
+    "title": "Accordion",
+    "description": "An accordion is a vertically stacked set of interactive headings that each contain a title and a content area.",
+    "meta": {
+      "category": "inputs",
+      "documentationUrl": "https://spectrum.adobe.com/page/accordion/"
+    },
+    "properties": {
+      "state": {
+        "type": "string",
+        "enum": ["default", "hover", "down", "keyboard focus"],
+        "default": "default"
+      },
+      "size": {
+        "type": "string",
+        "enum": ["s", "m", "l", "xl"],
+        "default": "m"
+      },
+      "isQuiet": {
+        "type": "boolean",
+        "default": false
+      },
+      "isDisabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "density": {
+        "type": "string",
+        "enum": ["compact", "regular", "spacious"],
+        "default": "regular"
+      },
+      "items": {
+        "type": "array",
+        "description": "An array of accordion items.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "The text label displayed for the accordion item."
+            },
+            "content": {
+              "type": "string",
+              "description": "The content shown when the accordion item is expanded."
+            },
+            "isExpanded": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether the accordion item is expanded by default."
+            },
+            "hasSwitch": {
+              "type": "boolean",
+              "default": false,
+              "description": "If true, the accordion item includes a switch."
+            },
+            "hasActionButton": {
+              "type": "boolean",
+              "default": false,
+              "description": "If true, the accordion item includes an action button."
+            }
+          },
+          "required": ["label"]
+        }
+      },
+      "isMultiple": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, multiple accordion items can be expanded at the same time."
+      }
+    }
+  }
+]

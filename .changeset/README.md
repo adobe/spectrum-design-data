@@ -6,3 +6,21 @@ find the full documentation for it [in our repository](https://github.com/change
 
 We have a quick list of common questions to get you started engaging with this project in
 [our documentation](https://github.com/changesets/changesets/blob/main/docs/common-questions.md)
+
+## Publishing a new package (first release)
+
+Releases use GitHub Actions with **OIDC** and **provenance**. npm trusted publishing expects the package to already exist for the repo’s OIDC identity. For a **new** package that has never been published:
+
+1. **Set the package to a placeholder version** (e.g. `0.0.0`) in its `package.json`, and add `publishConfig`, `repository`, and `files` so it’s publish-ready.
+
+2. **Publish the placeholder once** to create the package on npm (this establishes the package and links it for OIDC):
+   ```bash
+   cd tools/<package-dir>
+   npm login   # if your token is expired
+   npm publish --provenance=false
+   ```
+   Use your own npm auth for this one-time publish. **Provenance** only works in CI (GitHub Actions); locally you must pass `--provenance=false` or you’ll get “Automatic provenance generation not supported for provider: null”. After this, the package exists on npm and CI can publish future versions with OIDC and provenance.
+
+3. **Add a changeset** for the real first version (e.g. `1.0.0`), merge the release PR, and let the [Release workflow](.github/workflows/release.yml) run `pnpm release`. That publish will use OIDC and provenance.
+
+Do not skip the placeholder publish and go straight to a 1.0.0 changeset in CI if the package has never been published—CI may fail with permission or package-not-found errors.

@@ -1,0 +1,5 @@
+{
+  "description": "When only a base (dimensionless) variant exists, it MUST match any context. Querying for 'dark' resolves to the base token.",
+  "resolved": true,
+  "expected_uuid": "aaaaaaaa-0001-4000-8000-000000000001"
+}

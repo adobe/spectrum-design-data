@@ -1,0 +1,2575 @@
+{
+  "stats": {
+    "total": 220,
+    "byType": {
+      "legacy": 84,
+      "stable": 51,
+      "beta": 61,
+      "snapshot": 24
+    },
+    "snapshotFeatures": 11,
+    "dateRange": {
+      "earliest": "2022-03-11",
+      "latest": "2025-08-07"
+    }
+  },
+  "timeline": [
+    {
+      "date": "2022-03-11",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.1",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.1"
+    },
+    {
+      "date": "2022-03-16",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.2",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.2"
+    },
+    {
+      "date": "2022-03-16",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.3",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.3"
+    },
+    {
+      "date": "2022-03-21",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.4",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.4"
+    },
+    {
+      "date": "2022-03-23",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.5",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.5"
+    },
+    {
+      "date": "2022-03-28",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.6",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.6"
+    },
+    {
+      "date": "2022-03-30",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.7",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.7"
+    },
+    {
+      "date": "2022-03-31",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.8",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.8"
+    },
+    {
+      "date": "2022-03-31",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.9",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.9"
+    },
+    {
+      "date": "2022-04-04",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.10",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.10"
+    },
+    {
+      "date": "2022-04-04",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.11",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.11"
+    },
+    {
+      "date": "2022-04-06",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.12",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.12"
+    },
+    {
+      "date": "2022-04-06",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.13",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.13"
+    },
+    {
+      "date": "2022-04-08",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.14",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.14"
+    },
+    {
+      "date": "2022-04-08",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.15",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.15"
+    },
+    {
+      "date": "2022-04-08",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.16",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.16"
+    },
+    {
+      "date": "2022-04-19",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.17",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.17"
+    },
+    {
+      "date": "2022-04-21",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.18",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.18"
+    },
+    {
+      "date": "2022-04-26",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.19",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.19"
+    },
+    {
+      "date": "2022-04-26",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.20",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.20"
+    },
+    {
+      "date": "2022-04-27",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.21",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.21"
+    },
+    {
+      "date": "2022-05-12",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.22",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.22"
+    },
+    {
+      "date": "2022-05-19",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.23",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.23"
+    },
+    {
+      "date": "2022-05-23",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.24",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.24"
+    },
+    {
+      "date": "2022-05-25",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.25",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.25"
+    },
+    {
+      "date": "2022-05-27",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.26",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.26"
+    },
+    {
+      "date": "2022-06-01",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.27",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.27"
+    },
+    {
+      "date": "2022-06-01",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.28",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.28"
+    },
+    {
+      "date": "2022-06-08",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.29",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.29"
+    },
+    {
+      "date": "2022-06-10",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.30",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.30"
+    },
+    {
+      "date": "2022-06-14",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.31",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.31"
+    },
+    {
+      "date": "2022-06-15",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.32",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.32"
+    },
+    {
+      "date": "2022-06-15",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.33",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.33"
+    },
+    {
+      "date": "2022-06-15",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.34",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.34"
+    },
+    {
+      "date": "2022-06-16",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.35",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.35"
+    },
+    {
+      "date": "2022-06-22",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.36",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.36"
+    },
+    {
+      "date": "2022-06-22",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.37",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.37"
+    },
+    {
+      "date": "2022-06-23",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.38",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.38"
+    },
+    {
+      "date": "2022-06-24",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.39",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.39"
+    },
+    {
+      "date": "2022-06-24",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.40",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.40"
+    },
+    {
+      "date": "2022-06-29",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.41",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.41"
+    },
+    {
+      "date": "2022-07-13",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.42",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.42"
+    },
+    {
+      "date": "2022-07-14",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.43",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.43"
+    },
+    {
+      "date": "2022-08-01",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.44",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.44"
+    },
+    {
+      "date": "2022-08-16",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.45",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.45"
+    },
+    {
+      "date": "2022-08-24",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.46",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.46"
+    },
+    {
+      "date": "2022-08-25",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.47",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.47"
+    },
+    {
+      "date": "2022-08-30",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.48",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.48"
+    },
+    {
+      "date": "2022-09-08",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.49",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.49"
+    },
+    {
+      "date": "2022-09-13",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.50",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.50"
+    },
+    {
+      "date": "2022-09-13",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.51",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.51"
+    },
+    {
+      "date": "2022-09-14",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.52",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.52"
+    },
+    {
+      "date": "2022-10-05",
+      "type": "legacy",
+      "version": "1.0.0",
+      "tag": "v1.0.0",
+      "feature": null,
+      "major": 1,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2022-10-05",
+      "type": "legacy",
+      "version": "10.0.0",
+      "tag": "v10.0.0",
+      "feature": null,
+      "major": 10,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2022-10-05",
+      "type": "legacy",
+      "version": "11.0.0",
+      "tag": "v11.0.0",
+      "feature": null,
+      "major": 11,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2022-10-05",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.53",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.53"
+    },
+    {
+      "date": "2022-10-05",
+      "type": "legacy",
+      "version": "2.0.0",
+      "tag": "v2.0.0",
+      "feature": null,
+      "major": 2,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2022-10-05",
+      "type": "legacy",
+      "version": "3.0.0",
+      "tag": "v3.0.0",
+      "feature": null,
+      "major": 3,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2022-10-05",
+      "type": "legacy",
+      "version": "4.0.0",
+      "tag": "v4.0.0",
+      "feature": null,
+      "major": 4,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2022-10-05",
+      "type": "legacy",
+      "version": "5.0.0",
+      "tag": "v5.0.0",
+      "feature": null,
+      "major": 5,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2022-10-05",
+      "type": "legacy",
+      "version": "6.0.0",
+      "tag": "v6.0.0",
+      "feature": null,
+      "major": 6,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2022-10-05",
+      "type": "legacy",
+      "version": "7.0.0",
+      "tag": "v7.0.0",
+      "feature": null,
+      "major": 7,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2022-10-05",
+      "type": "legacy",
+      "version": "8.0.0",
+      "tag": "v8.0.0",
+      "feature": null,
+      "major": 8,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2022-10-05",
+      "type": "legacy",
+      "version": "9.0.0",
+      "tag": "v9.0.0",
+      "feature": null,
+      "major": 9,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2022-10-07",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.54",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.54"
+    },
+    {
+      "date": "2022-10-07",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.55",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.55"
+    },
+    {
+      "date": "2022-10-07",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.56",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.56"
+    },
+    {
+      "date": "2022-10-19",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.57",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.57"
+    },
+    {
+      "date": "2022-11-17",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.58",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.58"
+    },
+    {
+      "date": "2022-11-18",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.59",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.59"
+    },
+    {
+      "date": "2022-11-29",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.60",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.60"
+    },
+    {
+      "date": "2022-12-14",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.61",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.61"
+    },
+    {
+      "date": "2022-12-14",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.62",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.62"
+    },
+    {
+      "date": "2022-12-14",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.63",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.63"
+    },
+    {
+      "date": "2023-01-11",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.64",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.64"
+    },
+    {
+      "date": "2023-01-11",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.65",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.65"
+    },
+    {
+      "date": "2023-01-11",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.66",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.66"
+    },
+    {
+      "date": "2023-01-25",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.67",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.67"
+    },
+    {
+      "date": "2023-02-10",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0-beta.68",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.68"
+    },
+    {
+      "date": "2023-02-14",
+      "type": "legacy",
+      "version": "12.0.0",
+      "tag": "v12.0.0",
+      "feature": null,
+      "major": 12,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-03-09",
+      "type": "legacy",
+      "version": "12.1.0",
+      "tag": "v12.1.0",
+      "feature": null,
+      "major": 12,
+      "minor": 1,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-03-21",
+      "type": "legacy",
+      "version": "12.1.1",
+      "tag": "v12.1.1",
+      "feature": null,
+      "major": 12,
+      "minor": 1,
+      "patch": 1,
+      "prerelease": null
+    },
+    {
+      "date": "2023-03-31",
+      "type": "legacy",
+      "version": "12.1.2",
+      "tag": "v12.1.2",
+      "feature": null,
+      "major": 12,
+      "minor": 1,
+      "patch": 2,
+      "prerelease": null
+    },
+    {
+      "date": "2023-04-11",
+      "type": "legacy",
+      "version": "12.2.0",
+      "tag": "v12.2.0",
+      "feature": null,
+      "major": 12,
+      "minor": 2,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-04-17",
+      "type": "stable",
+      "version": "12.3.0",
+      "tag": "@adobe/spectrum-tokens@12.3.0",
+      "feature": null,
+      "major": 12,
+      "minor": 3,
+      "patch": 0
+    },
+    {
+      "date": "2023-04-17",
+      "type": "stable",
+      "version": "12.4.0",
+      "tag": "@adobe/spectrum-tokens@12.4.0",
+      "feature": null,
+      "major": 12,
+      "minor": 4,
+      "patch": 0
+    },
+    {
+      "date": "2023-04-18",
+      "type": "beta",
+      "version": "12.5.0",
+      "tag": "@adobe/spectrum-tokens@12.5.0-beta.0",
+      "feature": null,
+      "major": 12,
+      "minor": 5,
+      "patch": 0,
+      "prerelease": "beta.0"
+    },
+    {
+      "date": "2023-04-20",
+      "type": "stable",
+      "version": "12.5.0",
+      "tag": "@adobe/spectrum-tokens@12.5.0",
+      "feature": null,
+      "major": 12,
+      "minor": 5,
+      "patch": 0
+    },
+    {
+      "date": "2023-04-20",
+      "type": "stable",
+      "version": "12.6.0",
+      "tag": "@adobe/spectrum-tokens@12.6.0",
+      "feature": null,
+      "major": 12,
+      "minor": 6,
+      "patch": 0
+    },
+    {
+      "date": "2023-05-02",
+      "type": "beta",
+      "version": "12.5.0",
+      "tag": "@adobe/spectrum-tokens@12.5.0-beta.1",
+      "feature": null,
+      "major": 12,
+      "minor": 5,
+      "patch": 0,
+      "prerelease": "beta.1"
+    },
+    {
+      "date": "2023-05-02",
+      "type": "stable",
+      "version": "12.7.0",
+      "tag": "@adobe/spectrum-tokens@12.7.0",
+      "feature": null,
+      "major": 12,
+      "minor": 7,
+      "patch": 0
+    },
+    {
+      "date": "2023-05-03",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-tabs-20230503165321",
+      "feature": "tabs",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-05-04",
+      "type": "stable",
+      "version": "12.8.0",
+      "tag": "@adobe/spectrum-tokens@12.8.0",
+      "feature": null,
+      "major": 12,
+      "minor": 8,
+      "patch": 0
+    },
+    {
+      "date": "2023-05-25",
+      "type": "stable",
+      "version": "12.9.0",
+      "tag": "@adobe/spectrum-tokens@12.9.0",
+      "feature": null,
+      "major": 12,
+      "minor": 9,
+      "patch": 0
+    },
+    {
+      "date": "2023-05-30",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-in-field-button-20230530211053",
+      "feature": "in-field-button",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-05-31",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-uuid-20230531214940",
+      "feature": "uuid",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-06-05",
+      "type": "stable",
+      "version": "12.9.1",
+      "tag": "@adobe/spectrum-tokens@12.9.1",
+      "feature": null,
+      "major": 12,
+      "minor": 9,
+      "patch": 1
+    },
+    {
+      "date": "2023-06-08",
+      "type": "stable",
+      "version": "12.10.0",
+      "tag": "@adobe/spectrum-tokens@12.10.0",
+      "feature": null,
+      "major": 12,
+      "minor": 10,
+      "patch": 0
+    },
+    {
+      "date": "2023-06-14",
+      "type": "stable",
+      "version": "12.11.0",
+      "tag": "@adobe/spectrum-tokens@12.11.0",
+      "feature": null,
+      "major": 12,
+      "minor": 11,
+      "patch": 0
+    },
+    {
+      "date": "2023-06-15",
+      "type": "stable",
+      "version": "12.12.0",
+      "tag": "@adobe/spectrum-tokens@12.12.0",
+      "feature": null,
+      "major": 12,
+      "minor": 12,
+      "patch": 0
+    },
+    {
+      "date": "2023-06-20",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-table-20230620222432",
+      "feature": "table",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-06-20",
+      "type": "stable",
+      "version": "12.12.1",
+      "tag": "@adobe/spectrum-tokens@12.12.1",
+      "feature": null,
+      "major": 12,
+      "minor": 12,
+      "patch": 1
+    },
+    {
+      "date": "2023-06-21",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-table-20230621212504",
+      "feature": "table",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-06-28",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-table-20230628201618",
+      "feature": "table",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-06-29",
+      "type": "stable",
+      "version": "12.13.0",
+      "tag": "@adobe/spectrum-tokens@12.13.0",
+      "feature": null,
+      "major": 12,
+      "minor": 13,
+      "patch": 0
+    },
+    {
+      "date": "2023-07-10",
+      "type": "stable",
+      "version": "12.13.1",
+      "tag": "@adobe/spectrum-tokens@12.13.1",
+      "feature": null,
+      "major": 12,
+      "minor": 13,
+      "patch": 1
+    },
+    {
+      "date": "2023-07-13",
+      "type": "stable",
+      "version": "12.14.0",
+      "tag": "@adobe/spectrum-tokens@12.14.0",
+      "feature": null,
+      "major": 12,
+      "minor": 14,
+      "patch": 0
+    },
+    {
+      "date": "2023-07-14",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-field-label-20230714232738",
+      "feature": "field-label",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-07-14",
+      "type": "stable",
+      "version": "12.15.0",
+      "tag": "@adobe/spectrum-tokens@12.15.0",
+      "feature": null,
+      "major": 12,
+      "minor": 15,
+      "patch": 0
+    },
+    {
+      "date": "2023-08-02",
+      "type": "stable",
+      "version": "12.16.0",
+      "tag": "@adobe/spectrum-tokens@12.16.0",
+      "feature": null,
+      "major": 12,
+      "minor": 16,
+      "patch": 0
+    },
+    {
+      "date": "2023-08-10",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-s2-20230810215532",
+      "feature": "s2",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-08-18",
+      "type": "stable",
+      "version": "12.17.0",
+      "tag": "@adobe/spectrum-tokens@12.17.0",
+      "feature": null,
+      "major": 12,
+      "minor": 17,
+      "patch": 0
+    },
+    {
+      "date": "2023-08-23",
+      "type": "stable",
+      "version": "12.18.0",
+      "tag": "@adobe/spectrum-tokens@12.18.0",
+      "feature": null,
+      "major": 12,
+      "minor": 18,
+      "patch": 0
+    },
+    {
+      "date": "2023-09-06",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-types-20230906160426",
+      "feature": "types",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-09-06",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-types-20230906231735",
+      "feature": "types",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-09-07",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-types-20230907171514",
+      "feature": "types",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-09-07",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-types-20230907182103",
+      "feature": "types",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-09-07",
+      "type": "stable",
+      "version": "12.18.1",
+      "tag": "@adobe/spectrum-tokens@12.18.1",
+      "feature": null,
+      "major": 12,
+      "minor": 18,
+      "patch": 1
+    },
+    {
+      "date": "2023-09-08",
+      "type": "stable",
+      "version": "12.19.0",
+      "tag": "@adobe/spectrum-tokens@12.19.0",
+      "feature": null,
+      "major": 12,
+      "minor": 19,
+      "patch": 0
+    },
+    {
+      "date": "2023-09-14",
+      "type": "stable",
+      "version": "12.19.1",
+      "tag": "@adobe/spectrum-tokens@12.19.1",
+      "feature": null,
+      "major": 12,
+      "minor": 19,
+      "patch": 1
+    },
+    {
+      "date": "2023-09-18",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.0",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.0"
+    },
+    {
+      "date": "2023-09-19",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.1",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.1"
+    },
+    {
+      "date": "2023-09-21",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-types-20230921180023",
+      "feature": "types",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2023-09-26",
+      "type": "stable",
+      "version": "12.20.0",
+      "tag": "@adobe/spectrum-tokens@12.20.0",
+      "feature": null,
+      "major": 12,
+      "minor": 20,
+      "patch": 0
+    },
+    {
+      "date": "2023-09-26",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.2",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.2"
+    },
+    {
+      "date": "2023-09-28",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.3",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.3"
+    },
+    {
+      "date": "2023-10-04",
+      "type": "stable",
+      "version": "12.21.0",
+      "tag": "@adobe/spectrum-tokens@12.21.0",
+      "feature": null,
+      "major": 12,
+      "minor": 21,
+      "patch": 0
+    },
+    {
+      "date": "2023-10-31",
+      "type": "stable",
+      "version": "12.22.0",
+      "tag": "@adobe/spectrum-tokens@12.22.0",
+      "feature": null,
+      "major": 12,
+      "minor": 22,
+      "patch": 0
+    },
+    {
+      "date": "2023-11-01",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.4",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.4"
+    },
+    {
+      "date": "2023-11-07",
+      "type": "stable",
+      "version": "12.22.1",
+      "tag": "@adobe/spectrum-tokens@12.22.1",
+      "feature": null,
+      "major": 12,
+      "minor": 22,
+      "patch": 1
+    },
+    {
+      "date": "2023-11-16",
+      "type": "stable",
+      "version": "12.23.0",
+      "tag": "@adobe/spectrum-tokens@12.23.0",
+      "feature": null,
+      "major": 12,
+      "minor": 23,
+      "patch": 0
+    },
+    {
+      "date": "2023-11-16",
+      "type": "stable",
+      "version": "12.23.1",
+      "tag": "@adobe/spectrum-tokens@12.23.1",
+      "feature": null,
+      "major": 12,
+      "minor": 23,
+      "patch": 1
+    },
+    {
+      "date": "2023-12-04",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.5",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.5"
+    },
+    {
+      "date": "2023-12-05",
+      "type": "stable",
+      "version": "12.23.2",
+      "tag": "@adobe/spectrum-tokens@12.23.2",
+      "feature": null,
+      "major": 12,
+      "minor": 23,
+      "patch": 2
+    },
+    {
+      "date": "2023-12-11",
+      "type": "stable",
+      "version": "12.23.3",
+      "tag": "@adobe/spectrum-tokens@12.23.3",
+      "feature": null,
+      "major": 12,
+      "minor": 23,
+      "patch": 3
+    },
+    {
+      "date": "2023-12-13",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.6",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.6"
+    },
+    {
+      "date": "2024-01-04",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.7",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.7"
+    },
+    {
+      "date": "2024-01-04",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.8",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.8"
+    },
+    {
+      "date": "2024-01-10",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.9",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.9"
+    },
+    {
+      "date": "2024-01-19",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.10",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.10"
+    },
+    {
+      "date": "2024-01-25",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.11",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.11"
+    },
+    {
+      "date": "2024-01-29",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.12",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.12"
+    },
+    {
+      "date": "2024-01-31",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.13",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.13"
+    },
+    {
+      "date": "2024-02-01",
+      "type": "stable",
+      "version": "12.24.0",
+      "tag": "@adobe/spectrum-tokens@12.24.0",
+      "feature": null,
+      "major": 12,
+      "minor": 24,
+      "patch": 0
+    },
+    {
+      "date": "2024-02-06",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.14",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.14"
+    },
+    {
+      "date": "2024-02-21",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.15",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.15"
+    },
+    {
+      "date": "2024-02-21",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.16",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.16"
+    },
+    {
+      "date": "2024-02-27",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.17",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.17"
+    },
+    {
+      "date": "2024-02-29",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.18",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.18"
+    },
+    {
+      "date": "2024-03-07",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.19",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.19"
+    },
+    {
+      "date": "2024-03-13",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.20",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.20"
+    },
+    {
+      "date": "2024-03-14",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.21",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.21"
+    },
+    {
+      "date": "2024-03-21",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.22",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.22"
+    },
+    {
+      "date": "2024-03-25",
+      "type": "stable",
+      "version": "12.24.1",
+      "tag": "@adobe/spectrum-tokens@12.24.1",
+      "feature": null,
+      "major": 12,
+      "minor": 24,
+      "patch": 1
+    },
+    {
+      "date": "2024-03-25",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.23",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.23"
+    },
+    {
+      "date": "2024-04-03",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.24",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.24"
+    },
+    {
+      "date": "2024-04-11",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.25",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.25"
+    },
+    {
+      "date": "2024-04-11",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.26",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.26"
+    },
+    {
+      "date": "2024-04-11",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.27",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.27"
+    },
+    {
+      "date": "2024-04-14",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.28",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.28"
+    },
+    {
+      "date": "2024-04-18",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.29",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.29"
+    },
+    {
+      "date": "2024-04-18",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.30",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.30"
+    },
+    {
+      "date": "2024-04-22",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20240422210545",
+      "feature": "s2-foundations",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2024-04-25",
+      "type": "stable",
+      "version": "12.25.0",
+      "tag": "@adobe/spectrum-tokens@12.25.0",
+      "feature": null,
+      "major": 12,
+      "minor": 25,
+      "patch": 0
+    },
+    {
+      "date": "2024-04-25",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.31",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.31"
+    },
+    {
+      "date": "2024-04-26",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.32",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.32"
+    },
+    {
+      "date": "2024-04-26",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.33",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.33"
+    },
+    {
+      "date": "2024-05-01",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.34",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.34"
+    },
+    {
+      "date": "2024-05-03",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-colors-20240503210338",
+      "feature": "s2-foundations-colors",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2024-05-24",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.35",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.35"
+    },
+    {
+      "date": "2024-05-31",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.36",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.36"
+    },
+    {
+      "date": "2024-06-03",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20240603231133",
+      "feature": "s2-foundations",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2024-06-03",
+      "type": "stable",
+      "version": "12.26.0",
+      "tag": "@adobe/spectrum-tokens@12.26.0",
+      "feature": null,
+      "major": 12,
+      "minor": 26,
+      "patch": 0
+    },
+    {
+      "date": "2024-06-19",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.37",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.37"
+    },
+    {
+      "date": "2024-06-24",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.38",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.38"
+    },
+    {
+      "date": "2024-06-28",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20240628172417",
+      "feature": "s2-foundations",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2024-06-28",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.39",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.39"
+    },
+    {
+      "date": "2024-07-09",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.40",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.40"
+    },
+    {
+      "date": "2024-07-25",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.41",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.41"
+    },
+    {
+      "date": "2024-07-25",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.42",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.42"
+    },
+    {
+      "date": "2024-07-25",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.43",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.43"
+    },
+    {
+      "date": "2024-08-07",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.44",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.44"
+    },
+    {
+      "date": "2024-08-07",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.45",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.45"
+    },
+    {
+      "date": "2024-08-12",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.46",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.46"
+    },
+    {
+      "date": "2024-08-29",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20240829232433",
+      "feature": "s2-foundations",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2024-09-04",
+      "type": "stable",
+      "version": "12.27.0",
+      "tag": "@adobe/spectrum-tokens@12.27.0",
+      "feature": null,
+      "major": 12,
+      "minor": 27,
+      "patch": 0
+    },
+    {
+      "date": "2024-10-03",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.47",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.47"
+    },
+    {
+      "date": "2024-10-03",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.48",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.48"
+    },
+    {
+      "date": "2024-10-04",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.49",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.49"
+    },
+    {
+      "date": "2024-10-08",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.50",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.50"
+    },
+    {
+      "date": "2024-10-21",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20241021172855",
+      "feature": "s2-foundations",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2024-10-24",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.51",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.51"
+    },
+    {
+      "date": "2024-10-28",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.52",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.52"
+    },
+    {
+      "date": "2024-10-31",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.53",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.53"
+    },
+    {
+      "date": "2024-11-21",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20241121221506",
+      "feature": "s2-foundations",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2024-12-18",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.54",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.54"
+    },
+    {
+      "date": "2024-12-19",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.55",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.55"
+    },
+    {
+      "date": "2024-12-20",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.56",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.56"
+    },
+    {
+      "date": "2025-02-07",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.57",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.57"
+    },
+    {
+      "date": "2025-02-11",
+      "type": "stable",
+      "version": "12.28.0",
+      "tag": "@adobe/spectrum-tokens@12.28.0",
+      "feature": null,
+      "major": 12,
+      "minor": 28,
+      "patch": 0
+    },
+    {
+      "date": "2025-02-14",
+      "type": "beta",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0-beta.58",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": "beta.58"
+    },
+    {
+      "date": "2025-03-04",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-s2-composite-drop-shadow-20250304212317",
+      "feature": "s2-composite-drop-shadow",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2025-03-13",
+      "type": "stable",
+      "version": "13.0.0",
+      "tag": "@adobe/spectrum-tokens@13.0.0",
+      "feature": null,
+      "major": 13,
+      "minor": 0,
+      "patch": 0
+    },
+    {
+      "date": "2025-03-19",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-s2-composite-drop-shadow-20250319174850",
+      "feature": "s2-composite-drop-shadow",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2025-03-19",
+      "type": "stable",
+      "version": "13.1.0",
+      "tag": "@adobe/spectrum-tokens@13.1.0",
+      "feature": null,
+      "major": 13,
+      "minor": 1,
+      "patch": 0
+    },
+    {
+      "date": "2025-04-03",
+      "type": "stable",
+      "version": "13.2.0",
+      "tag": "@adobe/spectrum-tokens@13.2.0",
+      "feature": null,
+      "major": 13,
+      "minor": 2,
+      "patch": 0
+    },
+    {
+      "date": "2025-04-10",
+      "type": "stable",
+      "version": "13.3.0",
+      "tag": "@adobe/spectrum-tokens@13.3.0",
+      "feature": null,
+      "major": 13,
+      "minor": 3,
+      "patch": 0
+    },
+    {
+      "date": "2025-04-29",
+      "type": "stable",
+      "version": "13.4.0",
+      "tag": "@adobe/spectrum-tokens@13.4.0",
+      "feature": null,
+      "major": 13,
+      "minor": 4,
+      "patch": 0
+    },
+    {
+      "date": "2025-05-06",
+      "type": "stable",
+      "version": "13.5.0",
+      "tag": "@adobe/spectrum-tokens@13.5.0",
+      "feature": null,
+      "major": 13,
+      "minor": 5,
+      "patch": 0
+    },
+    {
+      "date": "2025-05-12",
+      "type": "stable",
+      "version": "13.6.0",
+      "tag": "@adobe/spectrum-tokens@13.6.0",
+      "feature": null,
+      "major": 13,
+      "minor": 6,
+      "patch": 0
+    },
+    {
+      "date": "2025-05-14",
+      "type": "stable",
+      "version": "13.7.0",
+      "tag": "@adobe/spectrum-tokens@13.7.0",
+      "feature": null,
+      "major": 13,
+      "minor": 7,
+      "patch": 0
+    },
+    {
+      "date": "2025-05-19",
+      "type": "stable",
+      "version": "13.8.0",
+      "tag": "@adobe/spectrum-tokens@13.8.0",
+      "feature": null,
+      "major": 13,
+      "minor": 8,
+      "patch": 0
+    },
+    {
+      "date": "2025-05-19",
+      "type": "stable",
+      "version": "13.9.0",
+      "tag": "@adobe/spectrum-tokens@13.9.0",
+      "feature": null,
+      "major": 13,
+      "minor": 9,
+      "patch": 0
+    },
+    {
+      "date": "2025-05-21",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-adobe-clean-vf-20250521220237",
+      "feature": "adobe-clean-vf",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2025-05-22",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-adobe-clean-vf-20250522161900",
+      "feature": "adobe-clean-vf",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null
+    },
+    {
+      "date": "2025-05-25",
+      "type": "stable",
+      "version": "13.10.0",
+      "tag": "@adobe/spectrum-tokens@13.10.0",
+      "feature": null,
+      "major": 13,
+      "minor": 10,
+      "patch": 0
+    },
+    {
+      "date": "2025-06-18",
+      "type": "stable",
+      "version": "13.10.1",
+      "tag": "@adobe/spectrum-tokens@13.10.1",
+      "feature": null,
+      "major": 13,
+      "minor": 10,
+      "patch": 1
+    },
+    {
+      "date": "2025-07-08",
+      "type": "stable",
+      "version": "13.11.0",
+      "tag": "@adobe/spectrum-tokens@13.11.0",
+      "feature": null,
+      "major": 13,
+      "minor": 11,
+      "patch": 0
+    },
+    {
+      "date": "2025-07-09",
+      "type": "stable",
+      "version": "13.12.0",
+      "tag": "@adobe/spectrum-tokens@13.12.0",
+      "feature": null,
+      "major": 13,
+      "minor": 12,
+      "patch": 0
+    },
+    {
+      "date": "2025-08-07",
+      "type": "stable",
+      "version": "13.13.0",
+      "tag": "@adobe/spectrum-tokens@13.13.0",
+      "feature": null,
+      "major": 13,
+      "minor": 13,
+      "patch": 0
+    }
+  ],
+  "snapshotFeatures": [
+    {
+      "feature": "tabs",
+      "count": 1,
+      "releases": [
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-tabs-20230503165321",
+          "date": "2023-05-03",
+          "timestamp": "20230503165321"
+        }
+      ]
+    },
+    {
+      "feature": "in-field-button",
+      "count": 1,
+      "releases": [
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-in-field-button-20230530211053",
+          "date": "2023-05-30",
+          "timestamp": "20230530211053"
+        }
+      ]
+    },
+    {
+      "feature": "uuid",
+      "count": 1,
+      "releases": [
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-uuid-20230531214940",
+          "date": "2023-05-31",
+          "timestamp": "20230531214940"
+        }
+      ]
+    },
+    {
+      "feature": "table",
+      "count": 3,
+      "releases": [
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-table-20230620222432",
+          "date": "2023-06-20",
+          "timestamp": "20230620222432"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-table-20230621212504",
+          "date": "2023-06-21",
+          "timestamp": "20230621212504"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-table-20230628201618",
+          "date": "2023-06-28",
+          "timestamp": "20230628201618"
+        }
+      ]
+    },
+    {
+      "feature": "field-label",
+      "count": 1,
+      "releases": [
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-field-label-20230714232738",
+          "date": "2023-07-14",
+          "timestamp": "20230714232738"
+        }
+      ]
+    },
+    {
+      "feature": "s2",
+      "count": 1,
+      "releases": [
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-s2-20230810215532",
+          "date": "2023-08-10",
+          "timestamp": "20230810215532"
+        }
+      ]
+    },
+    {
+      "feature": "types",
+      "count": 5,
+      "releases": [
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-types-20230906160426",
+          "date": "2023-09-06",
+          "timestamp": "20230906160426"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-types-20230906231735",
+          "date": "2023-09-06",
+          "timestamp": "20230906231735"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-types-20230907171514",
+          "date": "2023-09-07",
+          "timestamp": "20230907171514"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-types-20230907182103",
+          "date": "2023-09-07",
+          "timestamp": "20230907182103"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-types-20230921180023",
+          "date": "2023-09-21",
+          "timestamp": "20230921180023"
+        }
+      ]
+    },
+    {
+      "feature": "s2-foundations",
+      "count": 6,
+      "releases": [
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20240422210545",
+          "date": "2024-04-22",
+          "timestamp": "20240422210545"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20240603231133",
+          "date": "2024-06-03",
+          "timestamp": "20240603231133"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20240628172417",
+          "date": "2024-06-28",
+          "timestamp": "20240628172417"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20240829232433",
+          "date": "2024-08-29",
+          "timestamp": "20240829232433"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20241021172855",
+          "date": "2024-10-21",
+          "timestamp": "20241021172855"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-20241121221506",
+          "date": "2024-11-21",
+          "timestamp": "20241121221506"
+        }
+      ]
+    },
+    {
+      "feature": "s2-foundations-colors",
+      "count": 1,
+      "releases": [
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-s2-foundations-colors-20240503210338",
+          "date": "2024-05-03",
+          "timestamp": "20240503210338"
+        }
+      ]
+    },
+    {
+      "feature": "s2-composite-drop-shadow",
+      "count": 2,
+      "releases": [
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-s2-composite-drop-shadow-20250304212317",
+          "date": "2025-03-04",
+          "timestamp": "20250304212317"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-s2-composite-drop-shadow-20250319174850",
+          "date": "2025-03-19",
+          "timestamp": "20250319174850"
+        }
+      ]
+    },
+    {
+      "feature": "adobe-clean-vf",
+      "count": 2,
+      "releases": [
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-adobe-clean-vf-20250521220237",
+          "date": "2025-05-21",
+          "timestamp": "20250521220237"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-adobe-clean-vf-20250522161900",
+          "date": "2025-05-22",
+          "timestamp": "20250522161900"
+        }
+      ]
+    }
+  ]
+}

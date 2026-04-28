@@ -1,0 +1,115 @@
+{{! Base Markdown template for diff output }}
+# {{capitalize dataType}} Changes Report
+
+{{#if (gt (totalItems result) 0)}}
+## Summary
+
+{{#if (hasKeys result.renamed)}}* **{{objectKeys result.renamed).length}} renamed**{{/if}}
+{{#if (hasKeys result.deprecated)}}* **{{(objectKeys result.deprecated).length}} deprecated**{{/if}}
+{{#if (hasKeys result.reverted)}}* **{{(objectKeys result.reverted).length}} reverted**{{/if}}
+{{#if (hasKeys result.added)}}* **{{(objectKeys result.added).length}} added**{{/if}}
+{{#if (hasKeys result.deleted)}}* **{{(objectKeys result.deleted).length}} deleted**{{/if}}
+{{#if (hasKeys result.updated)}}* **{{totalUpdatedItems result.updated}} updated**{{/if}}
+
+**Total:** {{totalItems result}} {{dataType}} changes detected
+
+{{#if (hasKeys result.renamed)}}
+## Renamed {{capitalize dataType}}
+
+{{#each renamed}}
+* **{{name}}** (was `{{oldName}}`)
+{{/each}}
+{{/if}}
+
+{{#if (hasKeys result.deprecated)}}
+## Deprecated {{capitalize dataType}}
+
+{{#each deprecated}}
+* **{{name}}**{{#if comment}} - {{comment}}{{/if}}
+{{/each}}
+{{/if}}
+
+{{#if (hasKeys result.reverted)}}
+## Reverted {{capitalize dataType}}
+
+{{#each reverted}}
+* **{{name}}**
+{{/each}}
+{{/if}}
+
+{{#if (hasKeys result.added)}}
+## Added {{capitalize dataType}}
+
+{{#each added}}
+* **{{name}}**
+{{/each}}
+{{/if}}
+
+{{#if (hasKeys result.deleted)}}
+## Deleted {{capitalize dataType}}
+
+{{#each deleted}}
+* **{{name}}**
+{{/each}}
+{{/if}}
+
+{{#if (hasKeys result.updated)}}
+## Updated {{capitalize dataType}}
+
+{{#if (hasKeys result.updated.added)}}
+### Property Additions
+
+{{#each updated.added}}
+#### {{name}}
+
+{{#each changes}}
+* `{{cleanPath path}}`: `{{newValue}}`
+{{/each}}
+{{/each}}
+{{/if}}
+
+{{#if (hasKeys result.updated.deleted)}}
+### Property Deletions
+
+{{#each updated.deleted}}
+#### {{name}}
+
+{{#each changes}}
+* `{{cleanPath path}}`: ~~`{{originalValue}}`~~
+{{/each}}
+{{/each}}
+{{/if}}
+
+{{#if (hasKeys result.updated.renamed)}}
+### Property Renames
+
+{{#each updated.renamed}}
+#### {{name}}
+
+{{#each changes}}
+* `{{cleanPath path}}`: `{{originalValue}}` → `{{newValue}}`
+{{/each}}
+{{/each}}
+{{/if}}
+
+{{#if (hasKeys result.updated.updated)}}
+### Property Updates
+
+{{#each updated.updated}}
+#### {{name}}
+
+{{#each changes}}
+* `{{cleanPath path}}`: `{{originalValue}}` → `{{newValue}}`
+{{/each}}
+{{/each}}
+{{/if}}
+{{/if}}
+
+{{else}}
+## No Changes
+
+No changes detected in {{dataType}}.
+{{/if}}
+
+---
+*Report generated on {{formatDate timestamp}}*

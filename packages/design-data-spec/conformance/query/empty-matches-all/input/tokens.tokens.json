@@ -1,0 +1,17 @@
+[
+  {
+    "name": { "property": "alpha" },
+    "value": "1",
+    "uuid": "aaaaaaaa-0001-4000-8000-000000000001"
+  },
+  {
+    "name": { "property": "beta" },
+    "value": "2",
+    "uuid": "aaaaaaaa-0002-4000-8000-000000000001"
+  },
+  {
+    "name": { "property": "gamma" },
+    "value": "3",
+    "uuid": "aaaaaaaa-0003-4000-8000-000000000001"
+  }
+]

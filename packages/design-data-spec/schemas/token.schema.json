@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/token.schema.json",
+  "title": "Design data token",
+  "description": "Layer 1 — structural token shape (name + value or alias). Graph rules are Layer 2.",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/tokenWithValue"
+    },
+    {
+      "$ref": "#/$defs/tokenWithRef"
+    }
+  ],
+  "$defs": {
+    "nameObject": {
+      "type": "object",
+      "description": "Structured token identity. Semantic fields describe identity and structure; dimension fields drive cascade resolution. See spec/taxonomy.md and spec/token-format.md. Additional dimension keys MUST be strings.",
+      "required": ["property"],
+      "properties": {
+        "property": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Semantic: the stylistic attribute being defined (e.g. color, width, padding, gap)."
+        },
+        "component": {
+          "type": "string",
+          "description": "Semantic: component scope (e.g. button, checkbox)."
+        },
+        "structure": {
+          "type": "string",
+          "description": "Semantic: reusable visual pattern (e.g. base, container, list). Distinct from component."
+        },
+        "substructure": {
+          "type": "string",
+          "description": "Semantic: child within a parent structure (e.g. item in list-item)."
+        },
+        "anatomy": {
+          "type": "string",
+          "description": "Semantic: visible named part of a component (e.g. handle, icon, label)."
+        },
+        "object": {
+          "type": "string",
+          "description": "Semantic: styling surface (e.g. background, border, edge, visual)."
+        },
+        "variant": {
+          "type": "string",
+          "description": "Semantic: variant within a component (e.g. accent, negative, primary)."
+        },
+        "state": {
+          "type": "string",
+          "description": "Semantic: interactive or semantic state (e.g. hover, focus, disabled)."
+        },
+        "orientation": {
+          "type": "string",
+          "description": "Semantic: direction or order (e.g. vertical, horizontal)."
+        },
+        "position": {
+          "type": "string",
+          "description": "Semantic: location relative to another object (e.g. affixed, top, bottom)."
+        },
+        "size": {
+          "type": "string",
+          "description": "Semantic: relative t-shirt sizing (e.g. small, medium, large). Distinct from dimension scale."
+        },
+        "density": {
+          "type": "string",
+          "description": "Semantic: space within or around component parts (e.g. spacious, compact)."
+        },
+        "shape": {
+          "type": "string",
+          "description": "Semantic: overall component shape (e.g. uniform)."
+        },
+        "colorScheme": {
+          "type": "string",
+          "description": "Dimension: color scheme mode (e.g. light, dark, wireframe)."
+        },
+        "scale": {
+          "type": "string",
+          "description": "Dimension: platform density scale (e.g. desktop, mobile)."
+        },
+        "contrast": {
+          "type": "string",
+          "description": "Dimension: contrast level (e.g. regular, high)."
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "tokenWithValue": {
+      "type": "object",
+      "required": ["name", "value"],
+      "not": {
+        "required": ["$ref"]
+      },
+      "properties": {
+        "specVersion": {
+          "const": "1.0.0-draft"
+        },
+        "name": {
+          "$ref": "#/$defs/nameObject"
+        },
+        "$valueType": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "URI reference to a value-type schema under schemas/value-types/. When present, value MUST validate against the referenced schema (rule SPEC-016)."
+        },
+        "value": {
+          "description": "Literal value; type narrowed by value-type schemas where applicable.",
+          "anyOf": [
+            {
+              "$ref": "value-types/color.schema.json"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array"
+            }
+          ]
+        },
+        "uuid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "introduced": {
+          "type": "string"
+        },
+        "deprecated": {
+          "type": "string",
+          "description": "Spec version when token was deprecated (e.g. \"3.2.0\"). Truthy = deprecated."
+        },
+        "deprecated_comment": {
+          "type": "string"
+        },
+        "replaced_by": {
+          "oneOf": [
+            { "type": "string", "format": "uuid" },
+            {
+              "type": "array",
+              "items": { "type": "string", "format": "uuid" },
+              "minItems": 1
+            }
+          ],
+          "description": "UUID(s) of the replacement token(s). Array form requires deprecated_comment."
+        },
+        "plannedRemoval": {
+          "type": "string",
+          "description": "Spec version when token will be removed."
+        },
+        "private": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "tokenWithRef": {
+      "type": "object",
+      "required": ["name", "$ref"],
+      "not": {
+        "required": ["value"]
+      },
+      "properties": {
+        "specVersion": {
+          "const": "1.0.0-draft"
+        },
+        "name": {
+          "$ref": "#/$defs/nameObject"
+        },
+        "$valueType": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "URI reference to a value-type schema under schemas/value-types/. When present, the alias resolution chain MUST terminate at a token whose value validates against this schema."
+        },
+        "$ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Alias target path or stable token id (resolution is Layer 2)."
+        },
+        "uuid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "introduced": {
+          "type": "string"
+        },
+        "deprecated": {
+          "type": "string",
+          "description": "Spec version when token was deprecated (e.g. \"3.2.0\"). Truthy = deprecated."
+        },
+        "deprecated_comment": {
+          "type": "string"
+        },
+        "replaced_by": {
+          "oneOf": [
+            { "type": "string", "format": "uuid" },
+            {
+              "type": "array",
+              "items": { "type": "string", "format": "uuid" },
+              "minItems": 1
+            }
+          ],
+          "description": "UUID(s) of the replacement token(s). Array form requires deprecated_comment."
+        },
+        "plannedRemoval": {
+          "type": "string",
+          "description": "Spec version when token will be removed."
+        },
+        "private": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

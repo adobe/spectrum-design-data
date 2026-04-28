@@ -14,30 +14,33 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      id-token: write
+      id-token: write # Required for npm trusted publishing (OIDC)
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: moonrepo/setup-toolchain@v0
+      # Set up Node.js without proto to test OIDC compatibility
+      - uses: actions/setup-node@v4
         with:
-          auto-install: true
-      - run: moon setup
-      - run: moon run :build --query "projectSource~packages/*"
-      - name: Publish
+          node-version: "20.17.0"
+      # Install npm 11.6.2 (required for OIDC) - bypassing proto
+      - run: npm install -g npm@11.6.2
+      # Install pnpm directly
+      - run: npm install -g pnpm@10.17.1
+      # Install dependencies
+      - run: pnpm install --frozen-lockfile
+      # Build packages directly (bypassing moon - only tokens package has build tasks)
+      - name: Build tokens package
+        run: |
+          cd packages/tokens
+          node tasks/buildSpectrumTokens.js
+          node tasks/buildManifest.js
+      - name: Create Release Pull Request or Publish to npm
         id: changesets
-        uses: changesets/action@v1
+        uses: GarthDB/changesets-action@v1.6.8
         with:
-          # this expects you to have a npm script called version that runs some logic and then calls `changeset version`.
-          # version: pnpm version
           commit: "chore: release"
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: pnpm release
+          oidcAuth: true # Test OIDC without proto shims
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      # - name: Send a Slack notification if a publish happens
-      # if: steps.changesets.outputs.published == 'true'
-      # You can do something when a publish happens.
-      # run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"

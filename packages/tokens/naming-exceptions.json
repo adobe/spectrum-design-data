@@ -1,0 +1,4081 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/naming-exceptions.json",
+  "description": "Legacy token names that cannot be deterministically generated from a structured name object. Each entry tracks a known inconsistency for future remediation.",
+  "categories": {
+    "compound-state": {
+      "description": "Tokens with multiple simultaneous states (e.g., selected + hover) that cannot be represented in the single state field",
+      "count": 38,
+      "status": "tracked",
+      "proposal": "005"
+    },
+    "state-position": {
+      "description": "Tokens where state appears in a non-standard position (e.g., disabled-background-color instead of background-color-disabled)",
+      "count": 167,
+      "status": "planned-rename"
+    },
+    "typography-script": {
+      "description": "Typography tokens with writing system qualifiers (cjk) — needs typography taxonomy",
+      "count": 97,
+      "status": "needs-spec-decision"
+    },
+    "typography-family": {
+      "description": "Typography tokens with font family qualifiers (sans-serif, serif) — needs typography taxonomy",
+      "count": 90,
+      "status": "needs-spec-decision"
+    },
+    "typography-weight": {
+      "description": "Typography tokens with weight/emphasis qualifiers (emphasized, strong, heavy) — needs taxonomy classification",
+      "count": 32,
+      "status": "needs-spec-decision"
+    },
+    "drop-shadow-property": {
+      "description": "Drop-shadow sub-properties (blur, x, y) — needs classification of drop-shadow as structure/object/property",
+      "count": 19,
+      "status": "needs-spec-decision",
+      "proposal": "004"
+    },
+    "spacing-between": {
+      "description": "Spacing-between (-to-) pattern tokens — no representation in 13-field spec (571 deprecated, 20 active)",
+      "count": 40,
+      "status": "mostly-deprecated"
+    },
+    "context-modifier": {
+      "description": "Context/layer modifiers (elevated, pasteboard, ambient) — no field for UI layering context",
+      "count": 30,
+      "status": "needs-spec-decision",
+      "proposal": "004"
+    },
+    "spatial-qualifier": {
+      "description": "Spatial sub-part qualifiers (inner, outer) — could expand positions registry",
+      "count": 22,
+      "status": "needs-spec-decision",
+      "proposal": "006"
+    },
+    "variant-qualifier": {
+      "description": "Tokens categorized as variant-qualifier",
+      "count": 34,
+      "status": "needs-spec-decision",
+      "proposal": "002"
+    },
+    "vocabulary-gap": {
+      "description": "Tokens categorized as vocabulary-gap",
+      "count": 66,
+      "status": "needs-spec-decision",
+      "proposal": "006"
+    },
+    "typography-taxonomy": {
+      "description": "Tokens categorized as typography-taxonomy",
+      "count": 131,
+      "status": "needs-spec-decision",
+      "proposal": "001"
+    },
+    "static-color-compound": {
+      "description": "Tokens categorized as static-color-compound",
+      "count": 4,
+      "status": "needs-spec-decision",
+      "proposal": "002"
+    },
+    "unclassified": {
+      "description": "Tokens categorized as unclassified",
+      "count": 19,
+      "status": "needs-spec-decision"
+    },
+    "dual-variant": {
+      "description": "Tokens categorized as dual-variant",
+      "count": 54,
+      "status": "needs-spec-decision",
+      "proposal": "002"
+    },
+    "ordering-mismatch": {
+      "description": "Tokens categorized as ordering-mismatch",
+      "count": 21,
+      "status": "needs-spec-decision",
+      "proposal": "002"
+    },
+    "ordinal-rank": {
+      "description": "Tokens using small integers (1, 2, 3) as ordinal rank rather than design system scale values",
+      "count": 8,
+      "status": "needs-spec-decision",
+      "proposal": "008"
+    }
+  },
+  "exceptions": [
+    {
+      "token": "drop-shadow-emphasized-default-blur",
+      "file": "layout.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-default-color",
+      "file": "color-aliases.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-default-x",
+      "file": "layout.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-default-y",
+      "file": "layout.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-hover-blur",
+      "file": "layout.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-hover-color",
+      "file": "color-aliases.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-hover-key-color",
+      "file": "color-aliases.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-hover-x",
+      "file": "layout.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-hover-y",
+      "file": "layout.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "negative-border-color-hover-focus",
+      "file": "color-aliases.json",
+      "category": "compound-state",
+      "proposal": "005",
+      "reason": "Ordering mismatch: serializes as \"negative-border-color-focus-hover\""
+    },
+    {
+      "token": "neutral-background-color-default-selected",
+      "file": "color-aliases.json",
+      "category": "compound-state",
+      "proposal": "005",
+      "reason": "Ordering mismatch: serializes as \"neutral-background-color-selected-default\""
+    },
+    {
+      "token": "neutral-background-color-down-selected",
+      "file": "color-aliases.json",
+      "category": "compound-state",
+      "proposal": "005",
+      "reason": "Ordering mismatch: serializes as \"neutral-background-color-selected-down\""
+    },
+    {
+      "token": "neutral-background-color-hover-selected",
+      "file": "color-aliases.json",
+      "category": "compound-state",
+      "proposal": "005",
+      "reason": "Ordering mismatch: serializes as \"neutral-background-color-selected-hover\""
+    },
+    {
+      "token": "neutral-content-color-hover-focus",
+      "file": "color-aliases.json",
+      "category": "compound-state",
+      "proposal": "005",
+      "reason": "Ordering mismatch: serializes as \"neutral-content-color-focus-hover\""
+    },
+    {
+      "token": "stack-item-background-color-default-selected",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "proposal": "005",
+      "reason": "Ordering mismatch: serializes as \"stack-item-background-color-selected-default\""
+    },
+    {
+      "token": "stack-item-background-color-down-selected",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "proposal": "005",
+      "reason": "Ordering mismatch: serializes as \"stack-item-background-color-selected-down\""
+    },
+    {
+      "token": "stack-item-background-color-hover-selected",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "proposal": "005",
+      "reason": "Ordering mismatch: serializes as \"stack-item-background-color-selected-hover\""
+    },
+    {
+      "token": "stack-item-selected-background-color-default",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-color-down",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-color-emphasized",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-color-hover",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-color-key-focus",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-opacity-emphasized",
+      "file": "layout-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-opacity-emphasized-down",
+      "file": "layout-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-opacity-emphasized-hover",
+      "file": "layout-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-opacity-emphasized-key-focus",
+      "file": "layout-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "table-row-background-opacity-hover-selected",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "proposal": "005",
+      "reason": "Ordering mismatch: serializes as \"table-row-background-opacity-selected-hover\""
+    },
+    {
+      "token": "table-selected-row-background-color-non-emphasized",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-hover",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-non-emphasized",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-non-emphasized-hover",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "tree-view-row-background-default-selected",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "proposal": "005",
+      "reason": "Ordering mismatch: serializes as \"tree-view-row-background-selected-default\""
+    },
+    {
+      "token": "tree-view-row-background-hover-selected",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "proposal": "005",
+      "reason": "Ordering mismatch: serializes as \"tree-view-row-background-selected-hover\""
+    },
+    {
+      "token": "tree-view-selected-row-background-color-emphasized",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "tree-view-selected-row-background-default",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "tree-view-selected-row-background-hover",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "tree-view-selected-row-background-opacity-emphasized",
+      "file": "layout-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "tree-view-selected-row-background-opacity-emphasized-hover",
+      "file": "layout-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "background-elevated-color",
+      "file": "color-aliases.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"elevated\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "background-pasteboard-color",
+      "file": "color-aliases.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"pasteboard\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-ambient-color",
+      "file": "color-aliases.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"ambient\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-dragged",
+      "file": "color-aliases.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"dragged\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-dragged-blur",
+      "file": "layout.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"dragged\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-dragged-color",
+      "file": "color-aliases.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"dragged\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-dragged-key-color",
+      "file": "color-aliases.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"dragged\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-dragged-x",
+      "file": "layout.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"dragged\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-dragged-y",
+      "file": "layout.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"dragged\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-elevated",
+      "file": "color-aliases.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"elevated\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-elevated-blur",
+      "file": "layout.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"elevated\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-elevated-color",
+      "file": "color-aliases.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"elevated\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-elevated-key-color",
+      "file": "color-aliases.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"elevated\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-elevated-x",
+      "file": "layout.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"elevated\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-elevated-y",
+      "file": "layout.json",
+      "category": "context-modifier",
+      "proposal": "004",
+      "reason": "\"elevated\" is a known context-modifier term with no field in the taxonomy"
+    },
+    {
+      "token": "color-handle-drop-shadow-blur",
+      "file": "layout-component.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "\"blur\" is a known drop-shadow-property term with no field in the taxonomy"
+    },
+    {
+      "token": "color-handle-drop-shadow-x",
+      "file": "layout-component.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "\"x\" is a known drop-shadow-property term with no field in the taxonomy"
+    },
+    {
+      "token": "color-handle-drop-shadow-y",
+      "file": "layout-component.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "\"y\" is a known drop-shadow-property term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-blur-100",
+      "file": "layout.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "drop-shadow-blur-200",
+      "file": "layout.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "drop-shadow-blur-300",
+      "file": "layout.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "drop-shadow-x-100",
+      "file": "layout.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "drop-shadow-x-200",
+      "file": "layout.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "drop-shadow-x-300",
+      "file": "layout.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "drop-shadow-y-100",
+      "file": "layout.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "drop-shadow-y-200",
+      "file": "layout.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "drop-shadow-y-300",
+      "file": "layout.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "floating-action-button-drop-shadow-blur",
+      "file": "layout-component.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "\"blur\" is a known drop-shadow-property term with no field in the taxonomy"
+    },
+    {
+      "token": "floating-action-button-drop-shadow-y",
+      "file": "layout-component.json",
+      "category": "drop-shadow-property",
+      "proposal": "004",
+      "reason": "\"y\" is a known drop-shadow-property term with no field in the taxonomy"
+    },
+    {
+      "token": "icon-color-blue-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"blue-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-blue-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"blue-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-blue-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"blue-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-brown-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"brown-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-brown-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"brown-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-brown-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"brown-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-celery-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"celery-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-celery-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"celery-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-celery-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"celery-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-chartreuse-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"chartreuse-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-chartreuse-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"chartreuse-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-chartreuse-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"chartreuse-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-cinnamon-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"cinnamon-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-cinnamon-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"cinnamon-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-cinnamon-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"cinnamon-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-cyan-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"cyan-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-cyan-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"cyan-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-cyan-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"cyan-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-fuchsia-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"fuchsia-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-fuchsia-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"fuchsia-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-fuchsia-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"fuchsia-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-green-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"green-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-green-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"green-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-green-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"green-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-indigo-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"indigo-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-indigo-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"indigo-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-indigo-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"indigo-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-magenta-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"magenta-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-magenta-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"magenta-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-magenta-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"magenta-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-orange-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"orange-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-orange-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"orange-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-orange-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"orange-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-pink-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"pink-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-pink-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"pink-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-pink-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"pink-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-purple-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"purple-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-purple-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"purple-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-purple-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"purple-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-red-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"red-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-red-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"red-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-red-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"red-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-seafoam-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"seafoam-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-seafoam-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"seafoam-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-seafoam-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"seafoam-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-silver-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"silver-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-silver-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"silver-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-silver-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"silver-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-turquoise-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"turquoise-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-turquoise-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"turquoise-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-turquoise-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"turquoise-icon-color-primary-hover\""
+    },
+    {
+      "token": "icon-color-yellow-primary-default",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"yellow-icon-color-primary-default\""
+    },
+    {
+      "token": "icon-color-yellow-primary-down",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"yellow-icon-color-primary-down\""
+    },
+    {
+      "token": "icon-color-yellow-primary-hover",
+      "file": "icons.json",
+      "category": "dual-variant",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"yellow-icon-color-primary-hover\""
+    },
+    {
+      "token": "background-layer-1-color",
+      "file": "color-aliases.json",
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (1) appears mid-name; not a design system scale value"
+    },
+    {
+      "token": "background-layer-2-color",
+      "file": "color-aliases.json",
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (2) appears mid-name; not a design system scale value"
+    },
+    {
+      "token": "corner-triangle-icon-size-100",
+      "file": "layout.json",
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
+    },
+    {
+      "token": "corner-triangle-icon-size-200",
+      "file": "layout.json",
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
+    },
+    {
+      "token": "corner-triangle-icon-size-300",
+      "file": "layout.json",
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
+    },
+    {
+      "token": "corner-triangle-icon-size-75",
+      "file": "layout.json",
+      "category": "ordering-mismatch",
+      "reason": "Token name does not roundtrip through serialization due to segment ordering"
+    },
+    {
+      "token": "gradient-stop-1-genai",
+      "file": "layout.json",
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (1) appears mid-name; not a design system scale value"
+    },
+    {
+      "token": "gradient-stop-1-premium",
+      "file": "layout.json",
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (1) appears mid-name; not a design system scale value"
+    },
+    {
+      "token": "gradient-stop-2-genai",
+      "file": "layout.json",
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (2) appears mid-name; not a design system scale value"
+    },
+    {
+      "token": "gradient-stop-2-premium",
+      "file": "layout.json",
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (2) appears mid-name; not a design system scale value"
+    },
+    {
+      "token": "gradient-stop-3-genai",
+      "file": "layout.json",
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (3) appears mid-name; not a design system scale value"
+    },
+    {
+      "token": "gradient-stop-3-premium",
+      "file": "layout.json",
+      "category": "ordinal-rank",
+      "proposal": "008",
+      "reason": "Ordinal rank (3) appears mid-name; not a design system scale value"
+    },
+    {
+      "token": "coach-indicator-collapsed-ring-rounding-increment",
+      "file": "layout-component.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"coach-indicator-ring-collapsed-rounding-increment\""
+    },
+    {
+      "token": "coach-indicator-expanded-ring-rounding-increment",
+      "file": "layout-component.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"coach-indicator-ring-expanded-rounding-increment\""
+    },
+    {
+      "token": "component-l-bold",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-bold-large\""
+    },
+    {
+      "token": "component-l-medium",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-medium-large\""
+    },
+    {
+      "token": "component-l-regular",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-regular-large\""
+    },
+    {
+      "token": "component-m-bold",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-bold-medium\""
+    },
+    {
+      "token": "component-m-medium",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-medium-medium\""
+    },
+    {
+      "token": "component-m-regular",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-regular-medium\""
+    },
+    {
+      "token": "component-s-bold",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-bold-small\""
+    },
+    {
+      "token": "component-s-medium",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-medium-small\""
+    },
+    {
+      "token": "component-s-regular",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-regular-small\""
+    },
+    {
+      "token": "component-xl-bold",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-bold-extra-large\""
+    },
+    {
+      "token": "component-xl-medium",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-medium-extra-large\""
+    },
+    {
+      "token": "component-xl-regular",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-regular-extra-large\""
+    },
+    {
+      "token": "component-xs-bold",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-bold-extra-small\""
+    },
+    {
+      "token": "component-xs-medium",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-medium-extra-small\""
+    },
+    {
+      "token": "component-xs-regular",
+      "file": "typography.json",
+      "category": "ordering-mismatch",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"component-regular-extra-small\""
+    },
+    {
+      "token": "accordion-small-top-to-text-spacious",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "breadcrumbs-top-to-separator-icon-multiline",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "character-count-to-field-quiet-extra-large",
+      "file": "layout.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "character-count-to-field-quiet-large",
+      "file": "layout.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "character-count-to-field-quiet-medium",
+      "file": "layout.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "character-count-to-field-quiet-small",
+      "file": "layout.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "color-loupe-bottom-to-color-handle",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "field-label-to-component-quiet-extra-large",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "field-label-to-component-quiet-large",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "field-label-to-component-quiet-medium",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "field-label-to-component-quiet-small",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "rating-indicator-to-icon",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "slider-bottom-to-handle-extra-large",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "slider-bottom-to-handle-large",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "slider-bottom-to-handle-medium",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "slider-bottom-to-handle-small",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "steplist-step-to-track-size-extra-large",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "steplist-step-to-track-size-large",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "steplist-step-to-track-size-medium",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "steplist-step-to-track-size-small",
+      "file": "layout-component.json",
+      "category": "spacing-between",
+      "reason": "Spacing-between (-to-) pattern has no representation in the 13-field spec"
+    },
+    {
+      "token": "color-handle-inner-border-color",
+      "file": "color-component.json",
+      "category": "spatial-qualifier",
+      "proposal": "006",
+      "reason": "\"inner\" is a known spatial-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "color-handle-inner-border-opacity",
+      "file": "color-component.json",
+      "category": "spatial-qualifier",
+      "proposal": "006",
+      "reason": "\"inner\" is a known spatial-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "color-handle-inner-border-width",
+      "file": "layout-component.json",
+      "category": "spatial-qualifier",
+      "proposal": "006",
+      "reason": "\"inner\" is a known spatial-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "color-handle-outer-border-color",
+      "file": "color-component.json",
+      "category": "spatial-qualifier",
+      "proposal": "006",
+      "reason": "\"outer\" is a known spatial-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "color-handle-outer-border-opacity",
+      "file": "color-component.json",
+      "category": "spatial-qualifier",
+      "proposal": "006",
+      "reason": "\"outer\" is a known spatial-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "color-handle-outer-border-width",
+      "file": "layout-component.json",
+      "category": "spatial-qualifier",
+      "proposal": "006",
+      "reason": "\"outer\" is a known spatial-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "color-loupe-inner-border",
+      "file": "color-component.json",
+      "category": "spatial-qualifier",
+      "proposal": "006",
+      "reason": "\"inner\" is a known spatial-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "color-loupe-inner-border-width",
+      "file": "layout-component.json",
+      "category": "spatial-qualifier",
+      "proposal": "006",
+      "reason": "\"inner\" is a known spatial-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "color-loupe-outer-border",
+      "file": "color-component.json",
+      "category": "spatial-qualifier",
+      "proposal": "006",
+      "reason": "\"outer\" is a known spatial-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "color-loupe-outer-border-width",
+      "file": "layout-component.json",
+      "category": "spatial-qualifier",
+      "proposal": "006",
+      "reason": "\"outer\" is a known spatial-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "in-field-button-fill-stacked-inner-border-rounding",
+      "file": "layout-component.json",
+      "category": "spatial-qualifier",
+      "proposal": "006",
+      "reason": "\"inner\" is a known spatial-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "accordion-focus-indicator-gap",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-cjk-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-cjk-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-cjk-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-cjk-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-sans-serif-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-sans-serif-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-sans-serif-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-sans-serif-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-serif-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-serif-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-serif-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-serif-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-default-width-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-default-width-extra-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-default-width-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-default-width-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-default-width-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-edge-to-content-default-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-edge-to-content-default-extra-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-edge-to-content-default-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-edge-to-content-default-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-edge-to-content-default-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-cjk-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-cjk-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-cjk-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-cjk-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "default-font-family",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "default-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-light-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-light-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-light-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-light-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-light-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-light-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-light-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-light-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-light-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-light-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-light-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-light-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-background-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-border-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-content-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-static-black-background-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-static-black-border-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-static-black-content-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-static-white-background-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-static-white-border-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-static-white-content-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "drop-shadow-emphasized-key-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-default-width-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-default-width-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-default-width-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-default-width-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "focus-indicator-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-heavy-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-heavy-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-heavy-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-heavy-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-light-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-light-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-light-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-light-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-heavy-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-heavy-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-heavy-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-heavy-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-light-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-light-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-light-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-light-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-heavy-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-heavy-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-heavy-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-heavy-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-light-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-light-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-light-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-light-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "icon-color-disabled-primary",
+      "file": "icons.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "icon-color-emphasized-background",
+      "file": "icons.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-edge-to-content-not-selected-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-edge-to-content-not-selected-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-edge-to-content-not-selected-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-edge-to-content-not-selected-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-top-to-selected-icon-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-top-to-selected-icon-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-top-to-selected-icon-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-top-to-selected-icon-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "meter-default-width",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "select-box-selected-border-color",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "side-focus-indicator",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "slider-handle-border-width-down-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "slider-handle-border-width-down-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "slider-handle-border-width-down-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "slider-handle-border-width-down-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "static-black-focus-indicator-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "static-white-focus-indicator-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-height-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-height-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-height-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-height-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-width-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-width-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-width-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-width-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "swatch-disabled-icon-border-color",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "swatch-disabled-icon-border-opacity",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "switch-handle-selected-size-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "switch-handle-selected-size-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "switch-handle-selected-size-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "switch-handle-selected-size-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tab-item-focus-indicator-gap-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tab-item-focus-indicator-gap-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tab-item-focus-indicator-gap-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tab-item-focus-indicator-gap-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "table-row-down-opacity",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "table-row-hover-color",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "table-row-hover-opacity",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "table-selected-row-background-color",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "table-selected-row-background-opacity",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tag-field-default-width-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tag-field-default-width-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tag-field-default-width-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-cjk-emphasized-font-style",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-cjk-emphasized-font-weight",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-cjk-strong-emphasized-font-style",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-cjk-strong-emphasized-font-weight",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-sans-serif-emphasized-font-style",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-sans-serif-emphasized-font-weight",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-sans-serif-strong-emphasized-font-style",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-sans-serif-strong-emphasized-font-weight",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-serif-emphasized-font-style",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-serif-emphasized-font-weight",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-serif-strong-emphasized-font-style",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-serif-strong-emphasized-font-weight",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "static-black-text-color",
+      "file": "color-aliases.json",
+      "category": "static-color-compound",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"static-text-black-color\""
+    },
+    {
+      "token": "static-black-track-color",
+      "file": "color-aliases.json",
+      "category": "static-color-compound",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"static-track-black-color\""
+    },
+    {
+      "token": "static-white-text-color",
+      "file": "color-aliases.json",
+      "category": "static-color-compound",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"static-text-white-color\""
+    },
+    {
+      "token": "static-white-track-color",
+      "file": "color-aliases.json",
+      "category": "static-color-compound",
+      "proposal": "002",
+      "reason": "Ordering mismatch: serializes as \"static-track-white-color\""
+    },
+    {
+      "token": "body-cjk-font-family",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-cjk-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-cjk-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-cjk-line-height",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-cjk-size-l",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-cjk-size-m",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-cjk-size-s",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-cjk-size-xl",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-cjk-size-xs",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-cjk-size-xxl",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-cjk-size-xxs",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-cjk-size-xxxl",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-cjk-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-cjk-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "body-sans-serif-font-family",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "body-sans-serif-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "body-sans-serif-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "body-sans-serif-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "body-sans-serif-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "body-serif-font-family",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "body-serif-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "body-serif-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "body-serif-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "body-serif-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "cjk-font-family",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "cjk-letter-spacing",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "cjk-line-height-200",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "code-cjk-font-family",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "code-cjk-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "code-cjk-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "code-cjk-line-height",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "code-cjk-size-l",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "code-cjk-size-m",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "code-cjk-size-s",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "code-cjk-size-xl",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "code-cjk-size-xs",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "code-cjk-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "code-cjk-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "code-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"strong\" is a known typography-weight term with no field in the taxonomy"
+    },
+    {
+      "token": "code-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"strong\" is a known typography-weight term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-cjk-font-family",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-cjk-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-cjk-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-cjk-line-height",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-cjk-size-l",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-cjk-size-m",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-cjk-size-s",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-cjk-size-xl",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-cjk-size-xs",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-cjk-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-cjk-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-sans-serif-font-family",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-sans-serif-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-sans-serif-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-sans-serif-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-sans-serif-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-serif-font-family",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-serif-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-serif-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-serif-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "detail-serif-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-emphasized",
+      "file": "color-aliases.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"emphasized\" is a known typography-weight term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-shadow-emphasized-hover",
+      "file": "color-aliases.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"emphasized\" is a known typography-weight term with no field in the taxonomy"
+    },
+    {
+      "token": "drop-zone-cjk-title-font-size",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-font-family",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-heavy-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-heavy-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-heavy-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-heavy-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-line-height",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-size-l",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-size-m",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-size-s",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-size-xl",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-size-xs",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-size-xxl",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-size-xxxl",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-size-xxxxl",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-cjk-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-sans-serif-font-family",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-sans-serif-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-sans-serif-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-sans-serif-heavy-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-sans-serif-heavy-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-sans-serif-heavy-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-sans-serif-heavy-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-sans-serif-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-sans-serif-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-serif-font-family",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-serif-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-serif-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-serif-heavy-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-serif-heavy-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-serif-heavy-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-serif-heavy-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-serif-strong-font-style",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "heading-serif-strong-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "illustrated-message-large-cjk-title-font-size",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "illustrated-message-medium-cjk-title-font-size",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "illustrated-message-small-cjk-title-font-size",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "light-font-weight",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"light\" is a known typography-weight term with no field in the taxonomy"
+    },
+    {
+      "token": "opacity-checkerboard-square-light",
+      "file": "color-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"light\" is a known typography-weight term with no field in the taxonomy"
+    },
+    {
+      "token": "sans-serif-font-family",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "serif-font-family",
+      "file": "typography.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "title-cjk-font-family",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "title-cjk-font-style",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "title-cjk-font-weight",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "title-cjk-line-height",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "title-cjk-size-l",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "title-cjk-size-m",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "title-cjk-size-s",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "title-cjk-size-xl",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "title-cjk-size-xs",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "title-cjk-size-xxl",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "title-cjk-size-xxxl",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "title-cjk-strong-font-style",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "title-cjk-strong-font-weight",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"cjk\" is a known typography-script term with no field in the taxonomy"
+    },
+    {
+      "token": "title-sans-serif-font-family",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "title-sans-serif-font-style",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "title-sans-serif-font-weight",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "title-sans-serif-strong-font-style",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "title-sans-serif-strong-font-weight",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"sans\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "title-serif-font-family",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "title-serif-font-style",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "title-serif-font-weight",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "title-serif-strong-font-style",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "title-serif-strong-font-weight",
+      "file": "layout-component.json",
+      "category": "typography-taxonomy",
+      "proposal": "001",
+      "reason": "\"serif\" is a known typography-family term with no field in the taxonomy"
+    },
+    {
+      "token": "slider-handle-extra-large",
+      "file": "layout-component.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "slider-handle-large",
+      "file": "layout-component.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "slider-handle-medium",
+      "file": "layout-component.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "slider-handle-small",
+      "file": "layout-component.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "tree-view-row-background-hover",
+      "file": "color-component.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "ui-icon-2x-large",
+      "file": "layout-component.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "ui-icon-extra-large",
+      "file": "layout-component.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "ui-icon-extra-small",
+      "file": "layout-component.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "ui-icon-large",
+      "file": "layout-component.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "ui-icon-medium",
+      "file": "layout-component.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "ui-icon-small",
+      "file": "layout-component.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "workflow-icon-2x-large",
+      "file": "layout.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "workflow-icon-2x-small",
+      "file": "layout.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "workflow-icon-3x-small",
+      "file": "layout.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "workflow-icon-extra-large",
+      "file": "layout.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "workflow-icon-extra-small",
+      "file": "layout.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "workflow-icon-large",
+      "file": "layout.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "workflow-icon-medium",
+      "file": "layout.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "workflow-icon-small",
+      "file": "layout.json",
+      "category": "unclassified",
+      "reason": "Unclassified MEDIUM confidence"
+    },
+    {
+      "token": "accent-subtle-background-color-default",
+      "file": "semantic-color-palette.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "blue-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "brown-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "celery-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "chartreuse-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "cinnamon-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "cyan-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "fuchsia-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "gray-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "green-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "indigo-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "informative-subtle-background-color-default",
+      "file": "semantic-color-palette.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "magenta-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "negative-subtle-background-color-default",
+      "file": "semantic-color-palette.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "neutral-subdued-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subdued\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "neutral-subdued-background-color-down",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subdued\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "neutral-subdued-background-color-hover",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subdued\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "neutral-subdued-background-color-key-focus",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subdued\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subdued\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "neutral-subdued-content-color-down",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subdued\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subdued\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subdued\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "neutral-subdued-content-color-selected",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subdued\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "neutral-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "notice-subtle-background-color-default",
+      "file": "semantic-color-palette.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "orange-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "pink-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "positive-subtle-background-color-default",
+      "file": "semantic-color-palette.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "purple-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "red-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "seafoam-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "silver-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "turquoise-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "yellow-subtle-background-color-default",
+      "file": "color-aliases.json",
+      "category": "variant-qualifier",
+      "proposal": "002",
+      "reason": "\"subtle\" is a known variant-qualifier term with no field in the taxonomy"
+    },
+    {
+      "token": "bold-font-weight",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"bold\" could not be assigned to any field"
+    },
+    {
+      "token": "button-minimum-width-multiplier",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"multiplier\" could not be assigned to any field"
+    },
+    {
+      "token": "coach-mark-pagination-body-font-size",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"pagination\" could not be assigned to any field"
+    },
+    {
+      "token": "collection-card-minimum-height-hero-extra-large",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"hero\" could not be assigned to any field"
+    },
+    {
+      "token": "collection-card-minimum-height-hero-extra-small",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"hero\" could not be assigned to any field"
+    },
+    {
+      "token": "collection-card-minimum-height-hero-large",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"hero\" could not be assigned to any field"
+    },
+    {
+      "token": "collection-card-minimum-height-hero-medium",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"hero\" could not be assigned to any field"
+    },
+    {
+      "token": "collection-card-minimum-height-hero-small",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"hero\" could not be assigned to any field"
+    },
+    {
+      "token": "combo-box-minimum-width-multiplier",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"multiplier\" could not be assigned to any field"
+    },
+    {
+      "token": "corner-radius-full",
+      "file": "layout.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"full\" could not be assigned to any field"
+    },
+    {
+      "token": "corner-radius-medium-size-extra-large",
+      "file": "layout.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"medium\" could not be assigned to any field"
+    },
+    {
+      "token": "corner-radius-medium-size-extra-small",
+      "file": "layout.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"medium\" could not be assigned to any field"
+    },
+    {
+      "token": "corner-radius-medium-size-large",
+      "file": "layout.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"size\" could not be assigned to any field"
+    },
+    {
+      "token": "corner-radius-medium-size-medium",
+      "file": "layout.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"size\" could not be assigned to any field"
+    },
+    {
+      "token": "corner-radius-medium-size-small",
+      "file": "layout.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"size\" could not be assigned to any field"
+    },
+    {
+      "token": "corner-radius-none",
+      "file": "layout.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"none\" could not be assigned to any field"
+    },
+    {
+      "token": "corner-radius-small-size-extra-large",
+      "file": "layout.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"small\" could not be assigned to any field"
+    },
+    {
+      "token": "corner-radius-small-size-large",
+      "file": "layout.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"size\" could not be assigned to any field"
+    },
+    {
+      "token": "corner-radius-small-size-medium",
+      "file": "layout.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"size\" could not be assigned to any field"
+    },
+    {
+      "token": "corner-radius-small-size-small",
+      "file": "layout.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"size\" could not be assigned to any field"
+    },
+    {
+      "token": "double-calendar-popover-minimum-height",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"popover\" could not be assigned to any field"
+    },
+    {
+      "token": "double-calendar-popover-minimum-width",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"popover\" could not be assigned to any field"
+    },
+    {
+      "token": "drop-shadow-color-100",
+      "file": "color-aliases.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "drop-shadow-color-200",
+      "file": "color-aliases.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "drop-shadow-color-300",
+      "file": "color-aliases.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "drop-shadow-transition-color",
+      "file": "color-aliases.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"transition\" could not be assigned to any field"
+    },
+    {
+      "token": "extra-bold-font-weight",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"extra\" could not be assigned to any field"
+    },
+    {
+      "token": "floating-action-button-drop-shadow-color",
+      "file": "color-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"color\" could not be assigned to any field"
+    },
+    {
+      "token": "italic-font-style",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"italic\" could not be assigned to any field"
+    },
+    {
+      "token": "line-height-font-size-100",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-1000",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-1100",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-1200",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-1300",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-1400",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-1500",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-200",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-25",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-300",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-400",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-50",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-500",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-600",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-700",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-75",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-800",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "line-height-font-size-900",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Numeric scale index has no field in the 13-field taxonomy"
+    },
+    {
+      "token": "number-field-minimum-width-multiplier",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"multiplier\" could not be assigned to any field"
+    },
+    {
+      "token": "number-field-with-stepper-minimum-width-extra-large",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"with\" could not be assigned to any field"
+    },
+    {
+      "token": "number-field-with-stepper-minimum-width-large",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"with\" could not be assigned to any field"
+    },
+    {
+      "token": "number-field-with-stepper-minimum-width-medium",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"with\" could not be assigned to any field"
+    },
+    {
+      "token": "number-field-with-stepper-minimum-width-small",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"with\" could not be assigned to any field"
+    },
+    {
+      "token": "picker-minimum-width-multiplier",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"multiplier\" could not be assigned to any field"
+    },
+    {
+      "token": "regular-font-weight",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"regular\" could not be assigned to any field"
+    },
+    {
+      "token": "search-field-minimum-width-multiplier",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"multiplier\" could not be assigned to any field"
+    },
+    {
+      "token": "single-calendar-popover-minimum-height",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"popover\" could not be assigned to any field"
+    },
+    {
+      "token": "single-calendar-popover-minimum-width",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"popover\" could not be assigned to any field"
+    },
+    {
+      "token": "tag-maximum-width-multiplier",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"multiplier\" could not be assigned to any field"
+    },
+    {
+      "token": "text-align-center",
+      "file": "typography.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"center\" could not be assigned to any field"
+    },
+    {
+      "token": "text-field-minimum-width-multiplier",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"multiplier\" could not be assigned to any field"
+    },
+    {
+      "token": "triple-calendar-popover-minimum-height",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"popover\" could not be assigned to any field"
+    },
+    {
+      "token": "triple-calendar-popover-minimum-width",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"popover\" could not be assigned to any field"
+    },
+    {
+      "token": "user-card-minimum-height-title-below-extra-large",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"below\" could not be assigned to any field"
+    },
+    {
+      "token": "user-card-minimum-height-title-below-large",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"below\" could not be assigned to any field"
+    },
+    {
+      "token": "user-card-minimum-height-title-below-medium",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"below\" could not be assigned to any field"
+    },
+    {
+      "token": "user-card-minimum-height-title-below-small",
+      "file": "layout-component.json",
+      "category": "vocabulary-gap",
+      "proposal": "006",
+      "reason": "Segment \"below\" could not be assigned to any field"
+    }
+  ]
+}

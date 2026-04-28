@@ -19,7 +19,7 @@ WARNING: Will either be inaccurate or will throw an error if used for releases b
 
          sets.added-property.$schema
 
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/some-property-type.json"
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/some-property-type.json"
 
          sets.added-property.value
 
@@ -37,7 +37,7 @@ WARNING: Will either be inaccurate or will throw an error if used for releases b
 
          sets.darkest.$schema
 
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json"
 
          sets.darkest.value
 

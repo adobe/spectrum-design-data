@@ -1,0 +1,21 @@
+$schema: "https://moonrepo.dev/schemas/project.json"
+
+project:
+  name: "s2-docs-mcp"
+  description: "MCP server for S2 documentation"
+  type: "tool"
+  language: "javascript"
+
+tasks:
+  build:
+    command: 'echo "No build required for MCP server"'
+
+  index:
+    command: "node src/batch-scraper.js index"
+    inputs:
+      - "../../docs/s2-docs/**/*.md"
+    outputs:
+      - "../../docs/s2-docs/index.json"
+
+  report:
+    command: "node src/batch-scraper.js report"

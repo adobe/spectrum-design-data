@@ -12,18 +12,30 @@ governing permissions and limitations under the License.
 
 import test from "ava";
 import tokenDiff from "../src/lib/index.js";
-import basicToken from "./test-schemas/basic-original-token.json" with { type: "json" };
-import basicRenamedToken from "./test-schemas/basic-renamed-token.json" with { type: "json" };
-import originalEntireSchema from "./test-schemas/entire-schema.json" with { type: "json" };
-import addedRenamedTokens from "./test-schemas/added-renamed-tokens.json" with { type: "json" };
-import renamedAddedDeletedTokens from "./test-schemas/renamed-added-deleted-tokens.json" with { type: "json" };
-import severalSetTokens from "./test-schemas/several-set-tokens.json" with { type: "json" };
-import renamedAddedDeletedSetTokens from "./test-schemas/renamed-added-deleted-set-tokens.json" with { type: "json" };
-import rADDepTokens from "./test-schemas/renamed-added-deleted-deprecated-tokens.json" with { type: "json" };
-import rADDepUTokens from "./test-schemas/renamed-added-deleted-deprecated-updated-tokens.json" with { type: "json" };
-import rADDepURevTokens from "./test-schemas/renamed-added-deleted-deprecated-updated-reverted-tokens.json" with { type: "json" };
-import basicSetTokenProperty from "./test-schemas/basic-set-token-property.json" with { type: "json" };
-import addedPropertySetToken from "./test-schemas/added-property-set-token.json" with { type: "json" };
+import { loadTestSchema } from "./utils/json-loader.js";
+
+const basicToken = loadTestSchema("basic-original-token.json");
+const basicRenamedToken = loadTestSchema("basic-renamed-token.json");
+const originalEntireSchema = loadTestSchema("entire-schema.json");
+const addedRenamedTokens = loadTestSchema("added-renamed-tokens.json");
+const renamedAddedDeletedTokens = loadTestSchema(
+  "renamed-added-deleted-tokens.json",
+);
+const severalSetTokens = loadTestSchema("several-set-tokens.json");
+const renamedAddedDeletedSetTokens = loadTestSchema(
+  "renamed-added-deleted-set-tokens.json",
+);
+const rADDepTokens = loadTestSchema(
+  "renamed-added-deleted-deprecated-tokens.json",
+);
+const rADDepUTokens = loadTestSchema(
+  "renamed-added-deleted-deprecated-updated-tokens.json",
+);
+const rADDepURevTokens = loadTestSchema(
+  "renamed-added-deleted-deprecated-updated-reverted-tokens.json",
+);
+const basicSetTokenProperty = loadTestSchema("basic-set-token-property.json");
+const addedPropertySetToken = loadTestSchema("added-property-set-token.json");
 
 const expectedRenamed = {
   added: {},
@@ -48,14 +60,14 @@ const expectedManyAddedRenamed = {
     "i-like-pizza": {
       component: "table",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.07",
       uuid: "1234",
     },
     "hi-how-are-you": {
       component: "color-handle",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.42",
       uuid: "234",
     },
@@ -80,29 +92,29 @@ const expectedRenamedAddedDeleted = {
   added: {
     "gray-100": {
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
       sets: {
         light: {
           $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
           value: "rgb(248, 248, 248)",
           uuid: "64e2dbc2-05fa-43d7-80ae-d4d11c55348f",
         },
         dark: {
           $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
           value: "rgb(50, 50, 50)",
           uuid: "4500355e-ce60-4046-b692-71301b6b1348",
         },
         darkest: {
           $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
           value: "rgb(29, 29, 29)",
           uuid: "abd011c4-87a5-4b1f-82e2-e94d118f417f",
         },
         wireframe: {
           $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
           value: "rgb(244, 246, 252)",
           uuid: "3605974e-8f93-4907-81b3-fb6ab55d03f8",
         },
@@ -134,14 +146,14 @@ const expectedSeveralRenamedAddedDeleted = {
     "i-like-pizza": {
       component: "table",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.07",
       uuid: "1234",
     },
     "hi-how-are-you": {
       component: "color-handle",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.42",
       uuid: "234",
     },
@@ -177,14 +189,14 @@ const expectedSeveralRADDep = {
     "i-like-pizza": {
       component: "table",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.07",
       uuid: "1234",
     },
     "hi-how-are-you": {
       component: "color-handle",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.42",
       uuid: "234",
     },
@@ -227,14 +239,14 @@ const expectedSeveralRADDepU = {
     "i-like-pizza": {
       component: "table",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.07",
       uuid: "1234",
     },
     "hi-how-are-you": {
       component: "color-handle",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.42",
       uuid: "234",
     },
@@ -272,9 +284,9 @@ const expectedSeveralRADDepU = {
       "thumbnail-border-color": {
         $schema: {
           "new-value":
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/not-a-thumbnail.json",
           "original-value":
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
           path: "$schema",
         },
       },
@@ -331,14 +343,14 @@ const expectedSeveralRADDepURev = {
     "i-like-pizza": {
       component: "table",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.07",
       uuid: "1234",
     },
     "hi-how-are-you": {
       component: "color-handle",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
       value: "0.42",
       uuid: "234",
     },
@@ -381,9 +393,9 @@ const expectedSeveralRADDepURev = {
       "thumbnail-border-color": {
         $schema: {
           "new-value":
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/not-a-thumbnail.json",
           "original-value":
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
           path: "$schema",
         },
       },
@@ -448,7 +460,7 @@ const expectedAddedProperty = {
           "random-property": {
             $schema: {
               "new-value":
-                "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+                "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
               path: "sets.random-property.$schema",
             },
             value: {
@@ -483,7 +495,7 @@ const expectedDeletedProperty = {
           "random-property": {
             $schema: {
               "new-value":
-                "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+                "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
               path: "sets.random-property.$schema",
             },
             value: {

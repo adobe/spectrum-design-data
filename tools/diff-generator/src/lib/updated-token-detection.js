@@ -145,10 +145,7 @@ function parseTokenChanges(
   } catch (error) {
     console.error(
       "FAILED TO PARSE DIFF RESULT FOR: " +
-        "\n" +
-        tokenName +
-        "\n" +
-        JSON.stringify(tokenChanges, null, 2),
+        `\n${tokenName}\n${JSON.stringify(tokenChanges, null, 2)}`,
     );
     throw error;
   }
@@ -191,7 +188,7 @@ function checkProperties(
     }
 
     const propertyPath = currentTokenPath.length
-      ? currentTokenPath + "." + property
+      ? `${currentTokenPath}.${property}`
       : property;
 
     if (
@@ -201,6 +198,15 @@ function checkProperties(
     ) {
       // we've got an actual property we want to log in the result (values, uuids, schemas, and whatnot)
       handleLeafProperty(
+        property,
+        propertyPath,
+        currentTokenLevel,
+        currentOriginalLevel,
+        update,
+      );
+    } else if (Array.isArray(currentTokenLevel[property])) {
+      // arrays (e.g. multi-layer drop-shadow values) are treated as atomic leaf values
+      handleArrayLeafProperty(
         property,
         propertyPath,
         currentTokenLevel,
@@ -221,7 +227,7 @@ function checkProperties(
       );
     } else {
       throw new Error(
-        "UNHANDLED PROPERTY DATA TYPE: " + typeof currentTokenLevel[property],
+        `UNHANDLED PROPERTY DATA TYPE: ${typeof currentTokenLevel[property]}`,
       );
     }
   });
@@ -248,6 +254,31 @@ function handleLeafProperty(
       "path": "${propertyPath}",
       "new-value": "${newValue}"
     }`);
+  }
+}
+
+function handleArrayLeafProperty(
+  property,
+  propertyPath,
+  currentTokenLevel,
+  currentOriginalLevel,
+  update,
+) {
+  const newValue = JSON.stringify(currentTokenLevel[property]);
+  if (update) {
+    const origValue = JSON.stringify(
+      currentOriginalLevel ? currentOriginalLevel[property] : undefined,
+    );
+    currentTokenLevel[property] = {
+      path: propertyPath,
+      "new-value": newValue,
+      "original-value": origValue,
+    };
+  } else {
+    currentTokenLevel[property] = {
+      path: propertyPath,
+      "new-value": newValue,
+    };
   }
 }
 

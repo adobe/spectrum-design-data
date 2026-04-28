@@ -1,0 +1,381 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "/schema/component-options",
+  "title": "Component Options",
+  "description": "a schema for defining component options and state.",
+  "type": "object",
+  "required": ["title", "meta"],
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "/schema/string-option"
+          },
+          {
+            "$ref": "/schema/boolean-option"
+          },
+          {
+            "$ref": "/schema/local-list-option"
+          },
+          {
+            "$ref": "/schema/local-enum-option"
+          },
+          {
+            "$ref": "/schema/system-enum-option"
+          },
+          {
+            "$ref": "/schema/state-option"
+          },
+          {
+            "$ref": "/schema/size-option"
+          },
+          {
+            "$ref": "/schema/icon-option"
+          },
+          {
+            "$ref": "/schema/color-option"
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "/schema/boolean-option": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "/schema/boolean-option",
+      "title": "String Option",
+      "description": "a boolean option for a component.",
+      "$ref": "/schema/option",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "boolean"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "/schema/local-list-option": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "/schema/local-list-option",
+      "title": "Local List Option",
+      "description": "a string option for a component that has a list of allowed values.",
+      "$ref": "/schema/option",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "localList"
+        },
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "default": null,
+          "type": ["string", "null"]
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "/schema/option": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "/schema/option",
+      "title": "Component Option",
+      "description": "a generic component option",
+      "type": "object",
+      "required": ["title", "type"],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "required": {
+          "default": false,
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "type": ["string", "boolean", "number", "null"]
+        }
+      }
+    },
+    "/schema/size-option": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "/schema/size-option",
+      "title": "Size Option",
+      "description": "a complete list of all size options for a system",
+      "$ref": "/schema/option",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "size"
+        },
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/sizes"
+          }
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "$ref": "#/$defs/sizes"
+        }
+      },
+      "unevaluatedProperties": false,
+      "$defs": {
+        "sizes": {
+          "type": "string",
+          "enum": ["xs", "s", "m", "l", "xl", "xxl", "xxxl"]
+        }
+      }
+    },
+    "/schema/state-option": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "/schema/state-option",
+      "title": "State Option",
+      "description": "a complete list of all state options for a component",
+      "$ref": "/schema/option",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "state"
+        },
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "type": "string"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "/schema/string-option": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "/schema/string-option",
+      "title": "String Option",
+      "description": "a text option for a component.",
+      "$ref": "/schema/option",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "type": "string"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "/schema/local-enum-option": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "/schema/local-enum-option",
+      "title": "Local Enum Option",
+      "description": "a string option with a list of component-specific values.",
+      "$ref": "/schema/option",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "localEnum"
+        },
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "type": ["string", "null"]
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "/schema/system-enum-option": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "/schema/system-enum-option",
+      "title": "System Enum Option",
+      "description": "a string option with a list of system-wide values.",
+      "$ref": "/schema/option",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "systemEnum"
+        },
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "type": "string"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "/schema/icon-option": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "/schema/icon-option",
+      "title": "Icon Option",
+      "description": "a workflow icon option.",
+      "$ref": "/schema/option",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "icon"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "type": "string"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "/schema/color-option": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "/schema/color-option",
+      "title": "Color Option",
+      "description": "a hex color option.",
+      "$ref": "/schema/option",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "const": "color"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "type": "string",
+          "pattern": "^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "meta": {
+      "type": "object",
+      "required": ["category", "documentationUrl"],
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [
+            "actions",
+            "containers",
+            "data visualization",
+            "feedback",
+            "inputs",
+            "navigation",
+            "status",
+            "typography"
+          ]
+        },
+        "documentationUrl": {
+          "type": "string",
+          "pattern": "^https?://",
+          "format": "uri"
+        }
+      }
+    }
+  }
+}

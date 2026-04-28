@@ -113,5 +113,25 @@ dist
 .moon/cache
 .moon/docker
 
+# Rust (design-data SDK workspace)
+sdk/target/
+
 # visual studio code
 .vscode/
+
+# Claude Code local settings (machine-specific)
+.claude/settings.local.json
+.claude/worktrees/
+**/.claude/
+.mcp.json
+
+# test temporary directories
+temp-*
+**/test/temp-*
+
+# auto-generated token files (copied by prepare scripts)
+docs/s2-tokens-viewer/tokens/
+
+# Graph tool output (ferrograph, graphify)
+.ferrograph
+graphify-out/

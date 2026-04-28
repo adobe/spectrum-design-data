@@ -1,0 +1,1072 @@
+{
+  "total": 242,
+  "valid": 174,
+  "invalid": 68,
+  "byCategory": {
+    "generic-property": {
+      "total": 46,
+      "valid": 40,
+      "invalid": 6
+    },
+    "semantic-alias": {
+      "total": 34,
+      "valid": 34,
+      "invalid": 0
+    },
+    "special": {
+      "total": 2,
+      "valid": 0,
+      "invalid": 2
+    },
+    "component-property": {
+      "total": 30,
+      "valid": 28,
+      "invalid": 2
+    },
+    "spacing": {
+      "total": 130,
+      "valid": 72,
+      "invalid": 58
+    }
+  },
+  "invalidTokens": [
+    {
+      "tokenName": "android-elevation",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "android-elevation",
+        "notes": "Platform-specific or standalone token"
+      }
+    },
+    {
+      "tokenName": "side-focus-indicator",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "side-focus-indicator",
+        "notes": "Platform-specific or standalone token"
+      }
+    },
+    {
+      "tokenName": "component-to-menu-small",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/from must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "component",
+          "to": "menu"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "component-to-menu-medium",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/from must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "component",
+          "to": "menu"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "component-to-menu-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/from must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "component",
+          "to": "menu"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "component-to-menu-extra-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/from must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "component",
+          "to": "menu"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-alert-icon-small",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "alert-icon"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-alert-icon-medium",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "alert-icon"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-alert-icon-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "alert-icon"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-alert-icon-extra-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "alert-icon"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-validation-icon-small",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "validation-icon"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-validation-icon-medium",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "validation-icon"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-validation-icon-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "validation-icon"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-validation-icon-extra-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "validation-icon"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-progress-circle-small",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "progress-circle"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-progress-circle-medium",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "progress-circle"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-progress-circle-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "progress-circle"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-progress-circle-extra-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "progress-circle"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "field-edge-to-alert-icon-small",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "edge",
+          "to": "alert-icon"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "field-edge-to-alert-icon-medium",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "edge",
+          "to": "alert-icon"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "field-edge-to-alert-icon-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "edge",
+          "to": "alert-icon"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "field-edge-to-alert-icon-extra-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "edge",
+          "to": "alert-icon"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "field-edge-to-validation-icon-small",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "edge",
+          "to": "validation-icon"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "field-edge-to-validation-icon-medium",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "edge",
+          "to": "validation-icon"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "field-edge-to-validation-icon-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "edge",
+          "to": "validation-icon"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "field-edge-to-validation-icon-extra-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "edge",
+          "to": "validation-icon"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "field-text-to-alert-icon-small",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "text",
+          "to": "alert-icon"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "field-text-to-alert-icon-medium",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "text",
+          "to": "alert-icon"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "field-text-to-alert-icon-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "text",
+          "to": "alert-icon"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "field-text-to-alert-icon-extra-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "text",
+          "to": "alert-icon"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "field-text-to-validation-icon-small",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "text",
+          "to": "validation-icon"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "field-text-to-validation-icon-medium",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "text",
+          "to": "validation-icon"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "field-text-to-validation-icon-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "text",
+          "to": "validation-icon"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "field-text-to-validation-icon-extra-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "text",
+          "to": "validation-icon"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "field-width",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "field",
+        "property": "width"
+      }
+    },
+    {
+      "tokenName": "character-count-to-field-quiet-small",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/to must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "character-count",
+          "to": "field"
+        },
+        "options": ["quiet", "small"]
+      }
+    },
+    {
+      "tokenName": "character-count-to-field-quiet-medium",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/to must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "character-count",
+          "to": "field"
+        },
+        "options": ["quiet", "medium"]
+      }
+    },
+    {
+      "tokenName": "character-count-to-field-quiet-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/to must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "character-count",
+          "to": "field"
+        },
+        "options": ["quiet", "large"]
+      }
+    },
+    {
+      "tokenName": "character-count-to-field-quiet-extra-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/to must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "character-count",
+          "to": "field"
+        },
+        "options": ["quiet", "extra-large"]
+      }
+    },
+    {
+      "tokenName": "side-label-character-count-to-field",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/to must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "side-label-character-count",
+          "to": "field"
+        }
+      }
+    },
+    {
+      "tokenName": "disclosure-indicator-top-to-disclosure-icon-small",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/from must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "disclosure-indicator-top",
+          "to": "disclosure-icon"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "disclosure-indicator-top-to-disclosure-icon-medium",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/from must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "disclosure-indicator-top",
+          "to": "disclosure-icon"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "disclosure-indicator-top-to-disclosure-icon-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/from must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "disclosure-indicator-top",
+          "to": "disclosure-icon"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "disclosure-indicator-top-to-disclosure-icon-extra-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/from must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "disclosure-indicator-top",
+          "to": "disclosure-icon"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "navigational-indicator-top-to-back-icon-small",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/from must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "navigational-indicator-top",
+          "to": "back-icon"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "navigational-indicator-top-to-back-icon-medium",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/from must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "navigational-indicator-top",
+          "to": "back-icon"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "navigational-indicator-top-to-back-icon-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/from must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "navigational-indicator-top",
+          "to": "back-icon"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "navigational-indicator-top-to-back-icon-extra-large",
+      "category": "spacing",
+      "errors": [
+        "/name/structure must have required property 'index'",
+        "/name/structure/spaceBetween/from must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "component": null,
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "navigational-indicator-top",
+          "to": "back-icon"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "color-control-track-width",
+      "category": "component-property",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "component-property",
+        "component": "color-control",
+        "anatomyPart": "track",
+        "property": "width"
+      }
+    },
+    {
+      "tokenName": "gradient-stop-1-genai",
+      "category": "generic-property",
+      "errors": [
+        "/name/structure/index must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "generic-property",
+        "property": "gradient-stop",
+        "index": "1",
+        "variant": "genai"
+      }
+    },
+    {
+      "tokenName": "gradient-stop-2-genai",
+      "category": "generic-property",
+      "errors": [
+        "/name/structure/index must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "generic-property",
+        "property": "gradient-stop",
+        "index": "2",
+        "variant": "genai"
+      }
+    },
+    {
+      "tokenName": "gradient-stop-3-genai",
+      "category": "generic-property",
+      "errors": [
+        "/name/structure/index must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "generic-property",
+        "property": "gradient-stop",
+        "index": "3",
+        "variant": "genai"
+      }
+    },
+    {
+      "tokenName": "gradient-stop-1-premium",
+      "category": "generic-property",
+      "errors": [
+        "/name/structure/index must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "generic-property",
+        "property": "gradient-stop",
+        "index": "1",
+        "variant": "premium"
+      }
+    },
+    {
+      "tokenName": "gradient-stop-2-premium",
+      "category": "generic-property",
+      "errors": [
+        "/name/structure/index must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "generic-property",
+        "property": "gradient-stop",
+        "index": "2",
+        "variant": "premium"
+      }
+    },
+    {
+      "tokenName": "gradient-stop-3-premium",
+      "category": "generic-property",
+      "errors": [
+        "/name/structure/index must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "generic-property",
+        "property": "gradient-stop",
+        "index": "3",
+        "variant": "premium"
+      }
+    },
+    {
+      "tokenName": "window-to-edge",
+      "category": "spacing",
+      "errors": [
+        "/name/structure/spaceBetween/from must be equal to one of the allowed values"
+      ],
+      "nameStructure": {
+        "category": "spacing",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "window",
+          "to": "edge"
+        }
+      }
+    },
+    {
+      "tokenName": "field-top-to-disclosure-icon-compact-small",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "disclosure-icon"
+        },
+        "options": ["compact", "small"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-disclosure-icon-small",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "disclosure-icon"
+        },
+        "options": ["small"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-disclosure-icon-spacious-small",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "disclosure-icon"
+        },
+        "options": ["spacious", "small"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-disclosure-icon-compact-medium",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "disclosure-icon"
+        },
+        "options": ["compact", "medium"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-disclosure-icon-medium",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "disclosure-icon"
+        },
+        "options": ["medium"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-disclosure-icon-spacious-medium",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "disclosure-icon"
+        },
+        "options": ["spacious", "medium"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-disclosure-icon-compact-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "disclosure-icon"
+        },
+        "options": ["compact", "large"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-disclosure-icon-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "disclosure-icon"
+        },
+        "options": ["large"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-disclosure-icon-spacious-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "disclosure-icon"
+        },
+        "options": ["spacious", "large"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-disclosure-icon-compact-extra-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "disclosure-icon"
+        },
+        "options": ["compact", "extra-large"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-disclosure-icon-extra-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "disclosure-icon"
+        },
+        "options": ["extra-large"]
+      }
+    },
+    {
+      "tokenName": "field-top-to-disclosure-icon-spacious-extra-large",
+      "category": "spacing",
+      "errors": ["/name/structure must have required property 'index'"],
+      "nameStructure": {
+        "category": "spacing",
+        "component": "field",
+        "property": "spacing",
+        "spaceBetween": {
+          "from": "top",
+          "to": "disclosure-icon"
+        },
+        "options": ["spacious", "extra-large"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "glossary-term",
+  "description": "General design system terminology and concepts",
+  "values": [
+    {
+      "id": "design-token",
+      "label": "Design Token",
+      "aliases": ["token"],
+      "description": "A named entity that stores visual design attributes",
+      "usedIn": ["tokens", "documentation"],
+      "definition": {
+        "superordinate": "design system primitive",
+        "description": "A named variable that stores a visual design attribute (color, spacing, typography, etc.) to enable consistent, scalable design",
+        "essentialCharacteristics": [
+          "Named for semantic meaning rather than visual appearance",
+          "Can reference other tokens to create a hierarchy",
+          "Platform-agnostic - can be transformed for different outputs",
+          "Single source of truth for design decisions"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Industry-standard term from Design Tokens Community Group"
+      },
+      "sources": [
+        {
+          "type": "industry-standard",
+          "reference": "Design Tokens Community Group",
+          "url": "https://www.w3.org/community/design-tokens/",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Tokens Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      }
+    },
+    {
+      "id": "superordinate",
+      "label": "Superordinate",
+      "description": "A higher-level category or class that a concept belongs to",
+      "usedIn": ["documentation", "glossary"],
+      "definition": {
+        "superordinate": "linguistic term",
+        "description": "A word or phrase that describes a higher-level order or category within a system of classification",
+        "essentialCharacteristics": [
+          "Used as the anchor in definition writing",
+          "Sets context for what class of thing is being defined",
+          "Helps readers understand the broader category",
+          "Critical for writing strong, clear definitions"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Technical term from terminology management and linguistics"
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "Spectrum Naming and Definition Writing Guide",
+          "url": "https://wiki.corp.adobe.com/display/AdobeDesign/Spectrum+Design+System%3A+Naming+and+definition+writing+guide",
+          "date": "2025-01-12"
+        },
+        {
+          "type": "internal-doc",
+          "reference": "Adobe Terms documentation",
+          "url": "https://docs.terms.adobe.com/1f31a0c5f/p/29d9f3-metadata/b/161203",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Content Strategy",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      }
+    },
+    {
+      "id": "essential-characteristic",
+      "label": "Essential Characteristic",
+      "description": "A key feature that distinguishes a concept from others",
+      "usedIn": ["documentation", "glossary"],
+      "definition": {
+        "superordinate": "definition component",
+        "description": "A distinguishing feature or attribute that helps define what a concept is and how it differs from related concepts",
+        "essentialCharacteristics": [
+          "Specifies unique or defining properties",
+          "Helps differentiate from similar concepts",
+          "Part of a complete definition structure",
+          "Should be specific and observable"
+        ]
+      },
+      "terminology": {
+        "conceptType": "term",
+        "namingRationale": "Standard term in terminology management and definition writing"
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "Spectrum Naming and Definition Writing Guide",
+          "url": "https://wiki.corp.adobe.com/display/AdobeDesign/Spectrum+Design+System%3A+Naming+and+definition+writing+guide",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Content Strategy",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      }
+    },
+    {
+      "id": "descriptive-language",
+      "label": "Descriptive Language",
+      "description": "A short phrase that explains a complex concept",
+      "usedIn": ["documentation"],
+      "definition": {
+        "superordinate": "linguistic tool",
+        "description": "A short phrase or sentence used to explain a concept when a single word or term is insufficient or unclear",
+        "essentialCharacteristics": [
+          "Used when concepts are too complex for one word",
+          "Provides clarity over brevity",
+          "Especially useful for context-dependent concepts",
+          "Preferred over forcing a single-word name"
+        ]
+      },
+      "terminology": {
+        "conceptType": "concept",
+        "namingRationale": "Spectrum naming methodology advocates for descriptive language when needed"
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "Spectrum Naming and Definition Writing Guide",
+          "url": "https://wiki.corp.adobe.com/display/AdobeDesign/Spectrum+Design+System%3A+Naming+and+definition+writing+guide",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Content Strategy",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      }
+    },
+    {
+      "id": "multi-platform-design-system",
+      "label": "Multi-Platform Design System",
+      "description": "A design system that supports multiple platforms with shared principles but platform-specific implementations",
+      "usedIn": ["documentation", "architecture"],
+      "definition": {
+        "superordinate": "design system architecture",
+        "description": "A design system where multiple platforms are supported with implementations that may differ, but all follow core principles and shared terminology",
+        "essentialCharacteristics": [
+          "More than one platform is supported",
+          "Implementation can differ across platforms",
+          "Not all UI code is shared across platforms",
+          "Things need to feel the same but not necessarily look identical",
+          "Shared terminology by default, but platform-specific terms are acceptable"
+        ]
+      },
+      "terminology": {
+        "conceptType": "concept",
+        "namingRationale": "Describes Spectrum's architectural approach to supporting web, iOS, Android, Qt, etc."
+      },
+      "sources": [
+        {
+          "type": "wiki",
+          "reference": "Spectrum Naming and Definition Writing Guide - Multi-platform section",
+          "url": "https://wiki.corp.adobe.com/display/AdobeDesign/Spectrum+Design+System%3A+Naming+and+definition+writing+guide",
+          "date": "2025-01-12"
+        }
+      ],
+      "governance": {
+        "owner": "Spectrum Core Team",
+        "reviewDate": "2025-01-12",
+        "status": "approved"
+      },
+      "relatedTerms": ["design-token"]
+    }
+  ]
+}

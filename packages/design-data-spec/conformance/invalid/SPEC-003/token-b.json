@@ -1,0 +1,7 @@
+{
+  "name": {
+    "property": "cycle-b"
+  },
+  "$ref": "token-a.json",
+  "uuid": "dddddddd-dddd-4ddd-8ddd-dddddddddddd"
+}

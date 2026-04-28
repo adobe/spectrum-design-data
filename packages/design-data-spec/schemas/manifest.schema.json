@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/manifest.schema.json",
+  "title": "Platform manifest",
+  "description": "Layer 1 — platform repo declaration of foundation pin and optional filters/overrides.",
+  "type": "object",
+  "required": ["specVersion", "foundationVersion"],
+  "properties": {
+    "specVersion": {
+      "const": "1.0.0-draft"
+    },
+    "foundationVersion": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Pin to a foundation release (semver or tag)."
+    },
+    "include": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "exclude": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "overrides": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": ["target", "value"],
+            "properties": {
+              "target": {
+                "type": "string",
+                "minLength": 1
+              },
+              "value": true
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": ["target", "$ref"],
+            "properties": {
+              "target": {
+                "type": "string",
+                "minLength": 1
+              },
+              "$ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Platform-local tokens, dimensions, and formatting rules.",
+      "properties": {
+        "formatting": {
+          "type": "object",
+          "description": "Rules for serializing structured name objects into platform-specific token name strings.",
+          "properties": {
+            "conceptOrder": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "variant",
+                  "component",
+                  "structure",
+                  "substructure",
+                  "anatomy",
+                  "object",
+                  "property",
+                  "orientation",
+                  "position",
+                  "size",
+                  "density",
+                  "shape",
+                  "state"
+                ]
+              },
+              "uniqueItems": true,
+              "description": "Ordered list of field names for serialization. Values must match declared field names from the design system's field catalog (field.schema.json declarations). Replaces the default serialization.position order from each field declaration."
+            },
+            "casing": {
+              "type": "string",
+              "enum": [
+                "kebab-case",
+                "camelCase",
+                "PascalCase",
+                "SCREAMING_SNAKE_CASE"
+              ],
+              "description": "Casing style for serialized token names. Default: kebab-case."
+            },
+            "delimiter": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Character(s) separating concepts in the serialized string. Default: -."
+            },
+            "abbreviations": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Map of full term to abbreviated form, applied after ordering and before casing."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

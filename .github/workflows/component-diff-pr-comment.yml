@@ -1,0 +1,41 @@
+name: Component Schema Diff PR Comment
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "packages/component-schemas/schemas/**"
+      - "packages/component-schemas/package.json"
+
+jobs:
+  component-diff-comment:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate component diff report
+        id: diff
+        uses: ./.github/actions/generate-diff
+        with:
+          tool: component-diff-generator
+          base-ref: ${{ github.base_ref }}
+          head-ref: ${{ github.head_ref }}
+          repository: ${{ github.repository }}
+          format: markdown
+          output-file: /tmp/component-diff.md
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create or update PR comment
+        uses: ./.github/actions/diff-pr-comment
+        with:
+          diff-type: component
+          diff-generated: ${{ steps.diff.outputs.diff-generated }}
+          diff-content: ${{ steps.diff.outputs.diff-content }}
+          pr-number: ${{ github.event.pull_request.number }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}

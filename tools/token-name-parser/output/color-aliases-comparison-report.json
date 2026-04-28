@@ -1,0 +1,1387 @@
+{
+  "summary": {
+    "total": 169,
+    "matches": 169,
+    "mismatches": 0,
+    "errors": 0,
+    "matchRate": "100.00%"
+  },
+  "matches": [
+    {
+      "name": "focus-indicator-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-white-focus-indicator-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-black-focus-indicator-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "overlay-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "overlay-opacity",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "opacity-disabled",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "background-base-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "background-layer-1-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "background-layer-2-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-background-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-background-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-background-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-background-color-selected-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-background-color-selected-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-background-color-selected-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-background-color-selected-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-subdued-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-subdued-background-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-subdued-background-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-subdued-background-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-subdued-content-color-selected",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-background-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-background-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-background-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-content-color-selected",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-background-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-background-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-background-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-background-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-background-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-background-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-background-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-background-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-background-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "disabled-background-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "disabled-static-white-background-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "disabled-static-black-background-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "background-opacity-default",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "background-opacity-hover",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "background-opacity-down",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "background-opacity-key-focus",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-content-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-content-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-content-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-content-color-focus-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-content-color-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-content-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-subdued-content-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-subdued-content-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-subdued-content-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-subdued-content-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-content-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-content-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-content-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-content-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-content-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-content-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-content-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-content-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "disabled-content-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "disabled-static-white-content-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "disabled-static-black-content-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "disabled-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "disabled-static-white-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "disabled-static-black-border-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-border-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-border-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-border-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-border-color-focus-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-border-color-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-border-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "background-elevated-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "background-pasteboard-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-visual-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "title-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-color-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-color-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-color-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-emphasized-default-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-emphasized-hover-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-elevated-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "neutral-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-black-text-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-white-text-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "track-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-black-track-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-white-track-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-black-track-indicator-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "static-white-track-indicator-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-dragged-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "gray-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "blue-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "green-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "orange-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "red-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "brown-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cinnamon-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "celery-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "chartreuse-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cyan-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "fuchsia-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "indigo-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "magenta-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "pink-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "purple-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "seafoam-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "silver-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "turquoise-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "yellow-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-ambient-color",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-transition-color",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-emphasized-key-color",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-emphasized-hover-key-color",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-elevated-key-color",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-dragged-key-color",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-emphasized",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-emphasized-hover",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-elevated",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "drop-shadow-dragged",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    }
+  ],
+  "mismatches": [],
+  "errors": [],
+  "statistics": {
+    "byCategory": {
+      "semantic-alias": {
+        "total": 150,
+        "matches": 150,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      },
+      "special": {
+        "total": 16,
+        "matches": 16,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      },
+      "component-property": {
+        "total": 3,
+        "matches": 3,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      }
+    }
+  }
+}

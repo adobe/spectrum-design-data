@@ -1,0 +1,8 @@
+[
+  {
+    "name": { "property": "gaining-deprecated" },
+    "deprecated": true,
+    "value": "#ffffff",
+    "uuid": "aaaaaaaa-0001-4000-8000-000000000001"
+  }
+]

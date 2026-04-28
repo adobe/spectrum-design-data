@@ -1,0 +1,45 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/illustrated-message.json",
+  "title": "Illustrated message",
+  "description": "An illustrated message displays an illustration with a short title and description, often used for empty states or error states.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/illustrated-message/"
+  },
+  "type": "object",
+  "properties": {
+    "illustration": {
+      "type": "string",
+      "description": "Optional illustration or icon displayed above the message."
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l"],
+      "default": "m",
+      "description": "Size of the illustration."
+    },
+    "orientation": {
+      "type": "string",
+      "enum": ["vertical", "horizontal"],
+      "default": "vertical",
+      "description": "Orientation of the illustrated message."
+    },
+    "title": {
+      "type": "string",
+      "description": "Primary heading text of the message."
+    },
+    "description": {
+      "type": "string",
+      "description": "Secondary descriptive text providing context or instructions."
+    },
+    "primaryActionLabel": {
+      "type": "string",
+      "description": "Label for the primary action button. If undefined, no primary action is shown."
+    },
+    "secondaryActionLabel": {
+      "type": "string",
+      "description": "Label for the secondary action button. If undefined, no secondary action is shown."
+    }
+  }
+}

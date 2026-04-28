@@ -1,0 +1,2537 @@
+{
+  "summary": {
+    "total": 312,
+    "matches": 312,
+    "mismatches": 0,
+    "errors": 0,
+    "matchRate": "100.00%"
+  },
+  "matches": [
+    {
+      "name": "default-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "letter-spacing",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "text-align-start",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "text-align-center",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "text-align-end",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "sans-serif-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "serif-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cjk-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "light-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "regular-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "medium-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "bold-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "extra-bold-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "black-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "italic-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "default-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-25",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-50",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-400",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-500",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-600",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-700",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-800",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-900",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-1000",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-1100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-1200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-1300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-1400",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "font-size-1500",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-100",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-200",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cjk-line-height-100",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cjk-line-height-200",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "cjk-letter-spacing",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-light-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-light-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-light-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-light-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-light-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-light-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-heavy-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-heavy-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-heavy-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-heavy-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-heavy-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-heavy-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-light-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-light-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-light-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-light-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-light-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-light-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-heavy-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-heavy-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-heavy-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-heavy-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-heavy-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-heavy-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-light-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-light-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-light-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-light-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-light-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-light-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-heavy-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-heavy-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-heavy-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-heavy-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-heavy-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-heavy-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-light-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-light-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-light-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-light-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-light-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-light-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-heavy-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-sans-serif-heavy-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-heavy-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-serif-heavy-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-heavy-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-heavy-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-size-xxxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-size-xxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-size-xl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-size-l",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-size-m",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-size-s",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-size-xs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-size-xxs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-size-xxxxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-size-xxxxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-size-xxxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-size-xxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-size-xl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-size-l",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-size-m",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-size-s",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-size-xs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-size-xxs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-line-height",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-cjk-line-height",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-margin-top-multiplier",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-margin-bottom-multiplier",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "heading-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-sans-serif-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-serif-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-sans-serif-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-sans-serif-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-serif-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-serif-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-sans-serif-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-sans-serif-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-serif-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-serif-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-sans-serif-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-sans-serif-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-serif-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-serif-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-sans-serif-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-sans-serif-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-serif-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-serif-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-size-xxxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-size-xxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-size-xl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-size-xxs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-size-xxxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-size-xxl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-size-xl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-size-l",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-size-m",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-size-s",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-size-xs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-size-xxs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-size-l",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-size-m",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-size-s",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-size-xs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-line-height",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-cjk-line-height",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-margin-multiplier",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "body-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-light-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-light-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-light-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-light-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-light-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-light-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-light-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-light-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-light-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-light-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-light-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-light-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-light-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-light-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-light-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-light-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-light-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-light-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-light-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-light-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-light-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-light-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-light-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-light-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-size-xl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-size-l",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-size-m",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-size-s",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-line-height",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-line-height",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-margin-top-multiplier",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-margin-bottom-multiplier",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-letter-spacing",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-sans-serif-text-transform",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-serif-text-transform",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-size-xs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-size-s",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-size-m",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-size-l",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-cjk-size-xl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "detail-size-xs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-font-family",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-strong-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-strong-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-strong-emphasized-font-weight",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-strong-emphasized-font-style",
+      "category": "typography-base",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-size-xl",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-size-l",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-size-m",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-size-s",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-size-xs",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-line-height",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-cjk-line-height",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "code-color",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-25",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-50",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-75",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-400",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-500",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-600",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-700",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-800",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-900",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-1000",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-1100",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-1200",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-1300",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-1400",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "line-height-font-size-1500",
+      "category": "component-property",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-xs-regular",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-xs-medium",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-xs-bold",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-s-regular",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-s-medium",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-s-bold",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-m-regular",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-m-medium",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-m-bold",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-l-regular",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-l-medium",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-l-bold",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-xl-regular",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-xl-medium",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "component-xl-bold",
+      "category": "special",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    }
+  ],
+  "mismatches": [],
+  "errors": [],
+  "statistics": {
+    "byCategory": {
+      "typography-base": {
+        "total": 200,
+        "matches": 200,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      },
+      "component-property": {
+        "total": 36,
+        "matches": 36,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      },
+      "semantic-alias": {
+        "total": 61,
+        "matches": 61,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      },
+      "special": {
+        "total": 15,
+        "matches": 15,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      }
+    }
+  }
+}

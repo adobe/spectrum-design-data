@@ -182,7 +182,7 @@ export class StvtSidebar extends LitElement {
         <div class="branding">
           <img width="30" height="26" src="./adobe.svg" />
           <div>
-            <h1>Spectrum</h1>
+            <h1>Spectrum (S1 Legacy)</h1>
             <h2>Token Visualization Tool</h2>
           </div>
         </div>
@@ -250,14 +250,14 @@ export class StvtSidebar extends LitElement {
                   </p>
                   <sp-link
                     target="_new"
-                    href="https://github.com/adobe/spectrum-tokens"
+                    href="https://github.com/adobe/spectrum-design-data/tree/s1-legacy"
                     variant="secondary"
                     >Spectrum Tokens on GitHub</sp-link
                   >
                   <br />
                   <sp-link
                     target="_new"
-                    href="https://git.corp.adobe.com/aportill/stvt/"
+                    href="https://github.com/adobe/spectrum-design-data/tree/main/docs/visualizer"
                     variant="secondary"
                     >This Tool on GitHub</sp-link
                   >

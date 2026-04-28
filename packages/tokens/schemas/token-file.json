@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-file.json",
+  "title": "Spectrum token file",
+  "description": "Top-level shape for legacy Spectrum token JSON files (packages/tokens/src/*.json). Each property key is a token name; each value is a token object with a $schema discriminator.",
+  "type": "object",
+  "patternProperties": {
+    "^[a-z0-9]+(-[a-z0-9]+)*$": {
+      "anyOf": [
+        { "$ref": "token-types/alias.json" },
+        { "$ref": "token-types/color.json" },
+        { "$ref": "token-types/color-set.json" },
+        { "$ref": "token-types/dimension.json" },
+        { "$ref": "token-types/drop-shadow.json" },
+        { "$ref": "token-types/font-family.json" },
+        { "$ref": "token-types/font-size.json" },
+        { "$ref": "token-types/font-style.json" },
+        { "$ref": "token-types/font-weight.json" },
+        { "$ref": "token-types/gradient-stop.json" },
+        { "$ref": "token-types/multiplier.json" },
+        { "$ref": "token-types/opacity.json" },
+        { "$ref": "token-types/scale-set.json" },
+        { "$ref": "token-types/set.json" },
+        { "$ref": "token-types/system-set.json" },
+        { "$ref": "token-types/text-align.json" },
+        { "$ref": "token-types/text-transform.json" },
+        { "$ref": "token-types/token.json" },
+        { "$ref": "token-types/typography.json" }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

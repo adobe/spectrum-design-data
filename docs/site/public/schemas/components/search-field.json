@@ -1,0 +1,58 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/search-field.json",
+  "title": "Search field",
+  "description": "A search field is used for searching and filtering items.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/search-field/"
+  },
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string"
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+      "description": "Icon must be present if the label is not defined."
+    },
+    "value": {
+      "type": "string"
+    },
+    "width": {
+      "type": "number"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m",
+      "pattern": "^(x?s|m|x{0,3}l)$"
+    },
+    "helpText": {
+      "type": "string"
+    },
+    "placeholder": {
+      "type": "string"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "default",
+        "down",
+        "hover",
+        "focus + hover",
+        "focus + not hover",
+        "keyboard focus"
+      ],
+      "default": "default"
+    }
+  }
+}

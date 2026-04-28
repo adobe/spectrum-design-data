@@ -1,0 +1,247 @@
+# [**@adobe/spectrum-design-data-mcp**](https://github.com/adobe/spectrum-design-data-mcp)
+
+## 1.1.7
+
+### Patch Changes
+
+- Updated dependencies [[`efab669`](https://github.com/adobe/spectrum-design-data/commit/efab6690442052fb94fd5d198fc56594e6be28e5)]:
+  - @adobe/spectrum-tokens@14.5.0
+
+## 1.1.6
+
+### Patch Changes
+
+- Updated dependencies [[`55bf38f`](https://github.com/adobe/spectrum-design-data/commit/55bf38f81bacd49f2db0a54cde91bbf311dda23f)]:
+  - @adobe/spectrum-tokens@14.4.0
+
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [[`a6d8f51`](https://github.com/adobe/spectrum-design-data/commit/a6d8f51a72409d2d8bbc509e2262aaa5f34cd0f1)]:
+  - @adobe/spectrum-tokens@14.3.0
+
+## 1.1.4
+
+### Patch Changes
+
+- [#751](https://github.com/adobe/spectrum-design-data/pull/751) [`42e6257`](https://github.com/adobe/spectrum-design-data/commit/42e62574ef03bc8f9a66ebde48e8e60625e7bd7c) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix MCP spec compliance for strict clients like Kiro and Claude
+  - Remove invalid `required: true` from individual property definitions
+    in tool `inputSchema` objects (JSON Schema requires `required` as a
+    string array on the parent object, not a boolean on properties)
+  - Upgrade `@modelcontextprotocol/sdk` from `^0.5.0` to `^1.27.1`
+  - Return tool execution errors as results with `isError: true` instead of throwing (per MCP spec)
+  - Read server version dynamically from `package.json` instead of hardcoding
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [[`80b1637`](https://github.com/adobe/spectrum-design-data/commit/80b163712ae7ac42b9892b0fd4001b1bb27ba1ac)]:
+  - @adobe/spectrum-tokens@14.2.3
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [[`3f05fcf`](https://github.com/adobe/spectrum-design-data/commit/3f05fcffcd8641c822a54c4cdd37ba452dab455c), [`956d61a`](https://github.com/adobe/spectrum-design-data/commit/956d61a00f154e7c488edf6916b0ce16945a814c)]:
+  - @adobe/spectrum-tokens@14.2.2
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [[`49ad47b`](https://github.com/adobe/spectrum-design-data/commit/49ad47bea61952f84eb86b214954136049aca376)]:
+  - @adobe/spectrum-tokens@14.2.1
+
+## 1.1.0
+
+### Minor Changes
+
+- [#706](https://github.com/adobe/spectrum-design-data/pull/706) [`c051815`](https://github.com/adobe/spectrum-design-data/commit/c05181505730ec911196c4b6d37d106bccd742e5) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix data loader to use getTokensByFile/getAllTokens from @adobe/spectrum-tokens.
+  Add query-tokens-by-value tool (search by direct or resolved alias value).
+
+### Patch Changes
+
+- Updated dependencies [[`c051815`](https://github.com/adobe/spectrum-design-data/commit/c05181505730ec911196c4b6d37d106bccd742e5)]:
+  - @adobe/spectrum-tokens@14.2.0
+
+## 1.0.13
+
+### Patch Changes
+
+- [#669](https://github.com/adobe/spectrum-design-data/pull/669) [`ae68c41`](https://github.com/adobe/spectrum-design-data/commit/ae68c412101b32b114d0d56893d1214f5225210a) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(tooling): add renamed property support to token processing tools
+
+  Updated token processing tools to extract and display the new `renamed` property:
+  - **MCP Token Processor**: Extracts `renamed`, `deprecated`, and `deprecated_comment`
+    properties in token results
+  - **CSV Generator**: Added `renamed`, `deprecated`, and `deprecated_comment` columns
+    to CSV export
+  - **Diff Generator**: Updated documentation - tool automatically tracks `renamed`
+    property changes
+
+  These updates support the new `renamed` property added to the token schema for
+  tracking 1:1 token replacements.
+
+- Updated dependencies [[`ae68c41`](https://github.com/adobe/spectrum-design-data/commit/ae68c412101b32b114d0d56893d1214f5225210a)]:
+  - @adobe/spectrum-tokens@14.1.0
+
+## 1.0.12
+
+### Patch Changes
+
+- [#632](https://github.com/adobe/spectrum-design-data/pull/632) [`fa28b11`](https://github.com/adobe/spectrum-design-data/commit/fa28b117c6b84776f4ebe9bb281c29e14e0d64b6) Thanks [@GarthDB](https://github.com/GarthDB)! - BREAKING CHANGE: Repository renamed from spectrum-tokens to
+  spectrum-design-data
+
+  **Breaking Changes:**
+  - JSON Schema `$id` URIs changed (spectrum-tokens → spectrum-design-data)
+  - External tools referencing schemas by `$id` must update references
+
+  **Changes:**
+  - Updated all GitHub repository and Pages URLs
+  - Updated schema base URIs to maintain consistency
+
+  **Note:** NPM package names unchanged. GitHub redirects are in place.
+
+- Updated dependencies [[`fa28b11`](https://github.com/adobe/spectrum-design-data/commit/fa28b117c6b84776f4ebe9bb281c29e14e0d64b6)]:
+  - @adobe/spectrum-tokens@14.0.0
+  - @adobe/spectrum-component-api-schemas@6.0.0
+
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies \[[`ee2ceb5`](https://github.com/adobe/spectrum-design-data/commit/ee2ceb541dea5eb9b5267c861e44bfd804fd33a7)]:
+  - @adobe/spectrum-component-api-schemas@[5.0.1](https://github.com/adobe/spectrum-component-api-schemas/releases/tag/@adobe/spectrum-component-api-schemas@5.0.1)
+
+## 1.0.10
+
+### Patch Changes
+
+- Updated dependencies \[[`f64bee3`](https://github.com/adobe/spectrum-design-data/commit/f64bee3900c874775f2d3424516786a0d644d057)]:
+  - @adobe/spectrum-tokens@[13.16.0](https://github.com/adobe/spectrum-design-data/releases/tag/@adobe/spectrum-tokens@13.16.0)
+
+## 1.0.10
+
+### Patch Changes
+
+- Updated dependencies \[[`f64bee3`](https://github.com/adobe/spectrum-design-data/commit/f64bee3900c874775f2d3424516786a0d644d057)]:
+  - @adobe/spectrum-tokens@[13.16.0](https://github.com/adobe/spectrum-design-data/releases/tag/@adobe/spectrum-tokens@13.16.0)
+
+## 1.0.9
+
+### Patch Changes
+
+- Updated dependencies \[[`a772572`](https://github.com/adobe/spectrum-design-data/commit/a772572de88c54d279c20d7148f6ac91eb941d2a)]:
+  - @adobe/spectrum-component-api-schemas@[5.0.0](https://github.com/adobe/spectrum-component-api-schemas/releases/tag/@adobe/spectrum-component-api-schemas@5.0.0)
+
+## 1.0.8
+
+### Patch Changes
+
+- Updated dependencies \[[`433efdd`](https://github.com/adobe/spectrum-design-data/commit/433efdd18f9b0842ae55acac3cd0fbc1e5e5db58)]:
+  - [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)[**@4**](https://github.com/4).0.0
+
+## 1.0.7
+
+### Patch Changes
+
+- Updated dependencies \[[`13d9202`](https://github.com/adobe/spectrum-design-data/commit/13d920273c02c78d3748522de6a7c7ee39b39814)]:
+  - [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)[**@3**](https://github.com/3).0.0
+
+## 1.0.6
+
+### Patch Changes
+
+- [#595](https://github.com/adobe/spectrum-design-data/pull/595) [`53bc11e`](https://github.com/adobe/spectrum-design-data/commit/53bc11e1bfcc3a839cfc5dfbd63f59cc5e87a1c3) Thanks [@GarthDB](https://github.com/GarthDB)! - Enhanced documentation with security and configuration improvements
+  - Add multiple MCP configuration options including recommended npx usage
+  - Add npm provenance support for enhanced supply-chain security
+  - Improve installation section with package integrity verification
+  - Add comprehensive troubleshooting section for common issues
+  - Add dedicated security section with best practices
+  - Add support section with links to issues and documentation
+
+  These changes align the documentation with modern MCP server standards
+  and improve user experience with better configuration options and security features.
+
+## 1.0.5
+
+### Patch Changes
+
+- Updated dependencies \[[`1e860c4`](https://github.com/adobe/spectrum-design-data/commit/1e860c4436c58ceca6f4500ea7e24d6d8cdd20c8)]:
+  - @adobe/spectrum-tokens@[13.15.1](https://github.com/adobe/spectrum-design-data/releases/tag/@adobe/spectrum-tokens@13.15.1)
+
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies \[[`3df7197`](https://github.com/adobe/spectrum-design-data/commit/3df7197e7da23c9bb107f7dfcd935b5c62a86041)]:
+  - @adobe/spectrum-tokens@[13.15.0](https://github.com/adobe/spectrum-design-data/releases/tag/@adobe/spectrum-tokens@13.15.0)
+
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies \[[`b4df84e`](https://github.com/adobe/spectrum-design-data/commit/b4df84e2f2ca246332907f9ddda94438288dd98e)]:
+  - @adobe/spectrum-tokens@[13.14.1](https://github.com/adobe/spectrum-design-data/releases/tag/@adobe/spectrum-tokens@13.14.1)
+
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies \[[`336f672`](https://github.com/adobe/spectrum-design-data/commit/336f67216dfd875f0feb65c10059d9f3fe6dcaf7)]:
+  - @adobe/spectrum-tokens@[13.14.0](https://github.com/adobe/spectrum-design-data/releases/tag/@adobe/spectrum-tokens@13.14.0)
+
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies \[[`163fe7c`](https://github.com/adobe/spectrum-design-data/commit/163fe7c13bb00c639d202195a398126b6c25b58f)]:
+  - [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)[**@2**](https://github.com/2).0.0
+
+## 1.0.0
+
+### Major Changes
+
+- [#568](https://github.com/adobe/spectrum-design-data/pull/568) [`34028ea`](https://github.com/adobe/spectrum-design-data/commit/34028eaf2ba3940baa8044fda2655adc6153fb97) Thanks [@GarthDB](https://github.com/GarthDB)! - Initial release of Spectrum Design Data MCP server
+
+  This is the first release of the Model Context Protocol server that provides AI tools with structured access to Adobe Spectrum design system data, including design tokens and component API schemas.
+
+  Features:
+  - Query design tokens by name, type, or category
+  - Find tokens for specific component use cases
+  - Get component-specific token recommendations
+  - Access component API schemas and validation
+  - Type definitions and schema validation tools
+
+  This enables AI assistants to provide intelligent design guidance and automate design token usage across the Spectrum ecosystem.
+
+## 0.2.0
+
+### Minor Changes
+
+- Initial release of Spectrum Design Data MCP server
+
+  This new package provides a Model Context Protocol (MCP) server that enables AI tools to query and interact with Spectrum design system data. Features include:
+  - **Design Token Tools**: Query tokens by name, type, or category; get token details and categories
+  - **Component Schema Tools**: Search component schemas, validate properties, and explore type definitions
+  - **Local Execution**: Runs as a local npm package with no external dependencies or hosting requirements
+  - **Extensible Architecture**: Designed to support future design data like component anatomy and patterns
+
+  The MCP server provides structured access to:
+  - All Spectrum design tokens from `@adobe/spectrum-tokens`
+  - Component API schemas from `@adobe/spectrum-component-api-schemas`
+
+  AI assistants can now understand and work with Spectrum design data through standardized MCP tools.
+
+## 0.1.0
+
+### Minor Changes
+
+- Initial release of Spectrum Design Data MCP server
+- Added support for design token querying and retrieval
+- Added support for component schema validation and exploration
+- Implemented token tools: query-tokens, get-token-categories, get-token-details
+- Implemented schema tools: query-component-schemas, get-component-schema, list-components, validate-component-props, get-type-schemas
+- Added CLI interface for starting the MCP server
+- Added comprehensive test coverage

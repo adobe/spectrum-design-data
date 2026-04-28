@@ -1,0 +1,72 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/segmented-control.json",
+  "title": "Segmented Control",
+  "description": "Segmented controls allow users to select one option from a set of mutually exclusive options.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/segmented-control/"
+  },
+  "type": "object",
+  "properties": {
+    "orientation": {
+      "type": "string",
+      "enum": ["horizontal", "vertical"],
+      "default": "horizontal"
+    },
+    "isFluid": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the control takes up the full width of its container. Only applicable to horizontal segmented controls."
+    },
+    "alignment": {
+      "type": "string",
+      "enum": ["start", "center"],
+      "default": "start"
+    },
+    "hideTracker": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the tracker that indicates the selected item is hidden."
+    },
+    "selectedItem": {
+      "type": "string",
+      "description": "The identifier of the currently selected item."
+    },
+    "keyboardActivation": {
+      "type": "string",
+      "enum": ["manual", "automatic"],
+      "default": "manual"
+    },
+    "items": {
+      "type": "array",
+      "description": "An array of segmented control items.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The text displayed for the segmented control item."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the segmented control item is disabled."
+          },
+          "state": {
+            "type": "string",
+            "enum": ["default", "hover", "keyboard focus"],
+            "default": "default",
+            "description": "The interaction state of the segmented control item."
+          },
+          "contentVariant": {
+            "type": "string",
+            "enum": ["label-only", "icon-only", "icon-label"],
+            "default": "icon-label",
+            "description": "Controls whether the segmented control item displays a label, an icon, or both."
+          }
+        }
+      }
+    }
+  }
+}

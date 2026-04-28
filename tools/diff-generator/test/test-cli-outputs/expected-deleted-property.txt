@@ -16,7 +16,7 @@ latest | latest
 
          sets.random-property.$schema
 
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json"
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json"
 
          sets.random-property.value
 

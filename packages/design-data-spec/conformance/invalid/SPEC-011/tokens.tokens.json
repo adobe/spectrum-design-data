@@ -1,0 +1,22 @@
+[
+  {
+    "name": { "property": "split-token" },
+    "value": "#ffffff",
+    "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+    "deprecated": "3.0.0",
+    "replaced_by": [
+      "aaaaaaaa-0002-4000-8000-000000000001",
+      "aaaaaaaa-0003-4000-8000-000000000001"
+    ]
+  },
+  {
+    "name": { "property": "replacement-a" },
+    "value": "#eeeeee",
+    "uuid": "aaaaaaaa-0002-4000-8000-000000000001"
+  },
+  {
+    "name": { "property": "replacement-b" },
+    "value": "#dddddd",
+    "uuid": "aaaaaaaa-0003-4000-8000-000000000001"
+  }
+]

@@ -1,0 +1,42 @@
+name: Token Diff PR Comment
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "packages/tokens/src/**"
+      - "packages/tokens/schemas/**"
+
+jobs:
+  token-diff-comment:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate token diff report
+        id: diff
+        uses: ./.github/actions/generate-diff
+        with:
+          tool: diff-generator
+          base-ref: ${{ github.base_ref }}
+          head-ref: ${{ github.head_ref }}
+          repository: ${{ github.repository }}
+          format: markdown
+          output-file: /tmp/token-diff.md
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create or update PR comment
+        uses: ./.github/actions/diff-pr-comment
+        with:
+          diff-type: token
+          diff-generated: ${{ steps.diff.outputs.diff-generated }}
+          diff-content: ${{ steps.diff.outputs.diff-content }}
+          diff-file-path: /tmp/token-diff.md
+          pr-number: ${{ github.event.pull_request.number }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}

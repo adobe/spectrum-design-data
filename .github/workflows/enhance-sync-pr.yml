@@ -1,0 +1,136 @@
+name: Enhance Sync PR
+
+on:
+  pull_request:
+    types: [opened]
+    branches:
+      - main
+
+jobs:
+  enhance-sync-pr:
+    # Only run on PRs created by the sync process
+    if: >
+      contains(github.event.pull_request.title, 'feat: updates from spectrum-tokens-studio-data') &&
+      github.event.pull_request.user.login == 'mrcjhicks'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract source PR information
+        id: source-info
+        uses: ./.github/actions/extract-source-pr-info
+        with:
+          pr-body: ${{ github.event.pull_request.body }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update PR title and description
+        if: steps.source-info.outputs.source-pr-title != ''
+        uses: actions/github-script@v7
+        env:
+          SOURCE_PR_TITLE: ${{ steps.source-info.outputs.source-pr-title }}
+          SOURCE_PR_NUMBER: ${{ steps.source-info.outputs.source-pr-number }}
+          SOURCE_PR_URL: ${{ steps.source-info.outputs.source-pr-url }}
+          ACTIONS_RUN_URL: ${{ steps.source-info.outputs.actions-run-url }}
+          SOURCE_PR_AUTHOR: ${{ steps.source-info.outputs.source-pr-author }}
+          SOURCE_PR_BODY_B64: ${{ steps.source-info.outputs.source-pr-body-b64 }}
+        with:
+          script: |
+            const sourcePrTitle = process.env.SOURCE_PR_TITLE || '';
+            const sourcePrNumber = process.env.SOURCE_PR_NUMBER || '';
+            const sourcePrUrl = process.env.SOURCE_PR_URL || '';
+            const actionsRunUrl = process.env.ACTIONS_RUN_URL || '';
+            const sourceAuthor = process.env.SOURCE_PR_AUTHOR || '';
+
+            const decodeB64 = (b64) => {
+              if (!b64 || b64.trim() === '') return '';
+              return Buffer.from(b64, 'base64').toString('utf8');
+            };
+            const sourcePrBody = decodeB64(process.env.SOURCE_PR_BODY_B64 || '');
+
+            const stripConventionalPrefix = (t) =>
+              t.replace(/^\s*(feat|fix|chore|docs|style|refactor|test)(\([^)]*\))?\s*:\s*/i, '').trim();
+            const normalizedTitle = stripConventionalPrefix(sourcePrTitle) || sourcePrTitle;
+            const newTitle = `feat: ${normalizedTitle}`;
+
+            const bodyIntro =
+              `## Token updates from Spectrum Tokens Studio Data\n\n` +
+              `**Original implementer:** [@${sourceAuthor}](https://github.com/${sourceAuthor})\n\n` +
+              `**Source PR**: [#${sourcePrNumber} ${sourcePrTitle}](${sourcePrUrl})\n\n` +
+              `**Automated sync via**: [GitHub Actions run](${actionsRunUrl})\n\n`;
+
+            const descriptionSection =
+              sourcePrBody.trim() !== ''
+                ? `### Source description\n\n${sourcePrBody}\n\n`
+                : '';
+
+            const newBody =
+              bodyIntro +
+              descriptionSection +
+              `---\n\n` +
+              `${context.payload.pull_request.body || ''}`;
+
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              title: newTitle,
+              body: newBody,
+            });
+
+            console.log(`Updated PR title to: ${newTitle}`);
+
+      - name: Setup toolchain
+        uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+
+      - name: Setup moon
+        run: moon setup
+
+      - name: Install token-changeset-generator dependencies
+        if: steps.source-info.outputs.source-pr-title != ''
+        working-directory: tools/token-changeset-generator
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate changeset with token-changeset-generator
+        if: steps.source-info.outputs.source-pr-title != ''
+        id: changeset
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          cd "${{ github.workspace }}"
+          node tools/token-changeset-generator/src/cli.js generate \
+            --tokens-studio-pr "${{ steps.source-info.outputs.source-pr-url }}" \
+            --spectrum-tokens-pr "${{ github.server_url }}/${{ github.repository }}/pull/${{ github.event.pull_request.number }}" \
+            --source-author "${{ steps.source-info.outputs.source-pr-author }}" \
+            --output "${{ github.workspace }}/.changeset" \
+            2>&1 | tee /tmp/tcg.log
+          FILE=$(grep 'File created:' /tmp/tcg.log | tail -1 | sed 's/.*File created: //' || true)
+          echo "changeset_path=$FILE" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push changeset
+        if: steps.source-info.outputs.source-pr-title != ''
+        env:
+          SOURCE_AUTHOR_EMAIL: ${{ steps.source-info.outputs.source-pr-author-email }}
+          SOURCE_AUTHOR_NAME: ${{ steps.source-info.outputs.source-pr-author-name }}
+          SOURCE_TITLE: ${{ steps.source-info.outputs.source-pr-title }}
+        run: |
+          git config user.email "$SOURCE_AUTHOR_EMAIL"
+          git config user.name "$SOURCE_AUTHOR_NAME"
+          git add .changeset/
+          git status
+          if git diff --cached --quiet; then
+            echo "No changeset changes to commit"
+            exit 0
+          fi
+          git commit -m "chore: add changeset for $SOURCE_TITLE" -m "Co-authored-by: $SOURCE_AUTHOR_NAME <$SOURCE_AUTHOR_EMAIL>"
+          git push

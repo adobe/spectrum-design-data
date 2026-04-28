@@ -1,0 +1,27 @@
+name: Changeset Lint
+
+on:
+  pull_request:
+    paths:
+      - ".changeset/*.md"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-changesets:
+    name: Lint Changesets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+
+      - run: moon setup
+      - run: pnpm install
+
+      - name: Lint changeset files
+        run: pnpm changeset-lint check --fail-on-warnings

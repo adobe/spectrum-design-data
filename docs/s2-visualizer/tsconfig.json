@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES6",
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./types",
+    "strict": true,
+    "downlevelIteration": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "Node",
+    "isolatedModules": false,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "useDefineForClassFields": false,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

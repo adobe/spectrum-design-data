@@ -1,0 +1,144 @@
+{
+  "timestamp": "{{formatDate timestamp}}",
+  "summary": {
+    "totalTokens": {{totalTokens result}},
+    "totalUpdatedTokens": {{totalUpdatedTokens result.updated}},
+    "counts": {
+      "renamed": {{renamed.length}},
+      "deprecated": {{deprecated.length}},
+      "reverted": {{reverted.length}},
+      "added": {{added.length}},
+      "deleted": {{deleted.length}},
+      "updated": {
+        "renamed": {{updated.renamed.length}},
+        "added": {{updated.added.length}},
+        "deleted": {{updated.deleted.length}},
+        "updated": {{updated.updated.length}}
+      }
+    }
+  },
+  "options": {
+    {{#if options.oldTokenBranch}}"oldTokenBranch": "{{options.oldTokenBranch}}",{{/if}}
+    {{#if options.newTokenBranch}}"newTokenBranch": "{{options.newTokenBranch}}",{{/if}}
+    {{#if options.oldTokenVersion}}"oldTokenVersion": "{{options.oldTokenVersion}}",{{/if}}
+    {{#if options.newTokenVersion}}"newTokenVersion": "{{options.newTokenVersion}}",{{/if}}
+    "format": "{{options.format}}"
+  },
+  "changes": {
+    {{#if (hasKeys result.renamed)}}
+    "renamed": [
+      {{#each renamed}}
+      {
+        "name": "{{name}}",
+        "oldName": "{{oldName}}"
+      }{{#unless @last}},{{/unless}}
+      {{/each}}
+    ],{{/if}}
+    {{#if (hasKeys result.deprecated)}}
+    "deprecated": [
+      {{#each deprecated}}
+      {
+        "name": "{{name}}"{{#if comment}},
+        "comment": "{{comment}}"{{/if}}
+      }{{#unless @last}},{{/unless}}
+      {{/each}}
+    ],{{/if}}
+    {{#if (hasKeys result.reverted)}}
+    "reverted": [
+      {{#each reverted}}
+      {
+        "name": "{{name}}"
+      }{{#unless @last}},{{/unless}}
+      {{/each}}
+    ],{{/if}}
+    {{#if (hasKeys result.added)}}
+    "added": [
+      {{#each added}}
+      {
+        "name": "{{name}}"
+      }{{#unless @last}},{{/unless}}
+      {{/each}}
+    ],{{/if}}
+    {{#if (hasKeys result.deleted)}}
+    "deleted": [
+      {{#each deleted}}
+      {
+        "name": "{{name}}"
+      }{{#unless @last}},{{/unless}}
+      {{/each}}
+    ],{{/if}}
+    "updated": {
+      {{#if (hasKeys result.updated.renamed)}}
+      "renamed": [
+        {{#each updated.renamed}}
+        {
+          "name": "{{name}}",
+          "changes": [
+            {{#each changes}}
+            {
+              "path": "{{cleanPath path}}",
+              "type": "{{type}}",
+              "originalValue": "{{originalValue}}",
+              "newValue": "{{newValue}}"
+            }{{#unless @last}},{{/unless}}
+            {{/each}}
+          ]
+        }{{#unless @last}},{{/unless}}
+        {{/each}}
+      ],{{/if}}
+      {{#if (hasKeys result.updated.added)}}
+      "added": [
+        {{#each updated.added}}
+        {
+          "name": "{{name}}",
+          "changes": [
+            {{#each changes}}
+            {
+              "path": "{{cleanPath path}}",
+              "type": "{{type}}",
+              "newValue": "{{newValue}}"
+            }{{#unless @last}},{{/unless}}
+            {{/each}}
+          ]
+        }{{#unless @last}},{{/unless}}
+        {{/each}}
+      ],{{/if}}
+      {{#if (hasKeys result.updated.deleted)}}
+      "deleted": [
+        {{#each updated.deleted}}
+        {
+          "name": "{{name}}",
+          "changes": [
+            {{#each changes}}
+            {
+              "path": "{{cleanPath path}}",
+              "type": "{{type}}",
+              "originalValue": "{{originalValue}}",
+              "newValue": "{{newValue}}"
+            }{{#unless @last}},{{/unless}}
+            {{/each}}
+          ]
+        }{{#unless @last}},{{/unless}}
+        {{/each}}
+      ],{{/if}}
+      {{#if (hasKeys result.updated.updated)}}
+      "updated": [
+        {{#each updated.updated}}
+        {
+          "name": "{{name}}",
+          "changes": [
+            {{#each changes}}
+            {
+              "path": "{{cleanPath path}}",
+              "type": "{{type}}",
+              "originalValue": "{{originalValue}}",
+              "newValue": "{{newValue}}"
+            }{{#unless @last}},{{/unless}}
+            {{/each}}
+          ]
+        }{{#unless @last}},{{/unless}}
+        {{/each}}
+      ]{{/if}}
+    }
+  }
+} 

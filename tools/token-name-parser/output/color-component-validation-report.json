@@ -1,0 +1,189 @@
+{
+  "total": 73,
+  "valid": 56,
+  "invalid": 17,
+  "byCategory": {
+    "semantic-alias": {
+      "total": 56,
+      "valid": 56,
+      "invalid": 0
+    },
+    "special": {
+      "total": 17,
+      "valid": 0,
+      "invalid": 17
+    }
+  },
+  "invalidTokens": [
+    {
+      "tokenName": "swatch-border-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "swatch-border-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "swatch-disabled-icon-border-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "swatch-disabled-icon-border-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "thumbnail-border-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "thumbnail-border-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-area-border-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-area-border-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-slider-border-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-slider-border-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "card-selection-background-color-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "card-selection-background-color-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-zone-background-color-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-zone-background-color-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "drop-zone-background-color-opacity-filled",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "drop-zone-background-color-opacity-filled",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-handle-inner-border-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-handle-inner-border-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "table-row-hover-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "table-row-hover-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "table-selected-row-background-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "table-selected-row-background-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "table-selected-row-background-opacity-non-emphasized",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "table-selected-row-background-opacity-non-emphasized",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "table-row-down-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "table-row-down-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "table-selected-row-background-opacity-hover",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "table-selected-row-background-opacity-hover",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "table-selected-row-background-opacity-non-emphasized-hover",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "table-selected-row-background-opacity-non-emphasized-hover",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "popover-border-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: true)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "popover-border-opacity",
+        "notes": "No index suffix detected"
+      }
+    },
+    {
+      "tokenName": "color-wheel-border-opacity",
+      "category": "special",
+      "errors": ["No schema found for category: special (scale-set: false)"],
+      "nameStructure": {
+        "category": "special",
+        "property": "color-wheel-border-opacity",
+        "notes": "No index suffix detected"
+      }
+    }
+  ]
+}

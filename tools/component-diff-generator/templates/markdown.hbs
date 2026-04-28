@@ -1,0 +1,115 @@
+## Component Schemas Changed ({{summary.totalComponents.added}} added, {{summary.totalComponents.deleted}} deleted, {{summary.totalComponents.updated}} updated)
+
+{{#if options.oldSchemaBranch}}**Original Branch:** `{{options.oldSchemaBranch}}`{{/if}}
+{{#if options.oldSchemaVersion}}**Original Version:** `{{options.oldSchemaVersion}}`{{/if}}
+{{#if options.newSchemaBranch}}**New Branch:** `{{options.newSchemaBranch}}`{{/if}}
+{{#if options.newSchemaVersion}}**New Version:** `{{options.newSchemaVersion}}`{{/if}}
+
+{{#if summary.hasBreakingChanges}}
+### 🚨 Breaking Changes Detected
+
+This PR introduces **{{summary.breakingChanges}} breaking change(s)** to component schemas. Please review carefully and ensure proper versioning.
+{{else}}
+### ✅ No Breaking Changes
+
+This PR contains only non-breaking changes to component schemas.
+{{/if}}
+
+{{#if (hasKeys changes.added)}}
+<details{{detailsOpen summary.totalComponents.added}}><summary><strong>📦 Added Components ({{summary.totalComponents.added}})</strong></summary>
+
+{{#each changes.added}}
+- `{{@key}}` - New component schema
+{{/each}}
+
+</details>
+{{/if}}
+
+{{#if (hasKeys changes.deleted)}}
+<details{{detailsOpen summary.totalComponents.deleted}}><summary><strong>❌ Deleted Components ({{summary.totalComponents.deleted}}) ⚠️ BREAKING</strong></summary>
+
+{{#each changes.deleted}}
+- `{{@key}}` - Component schema removed
+{{/each}}
+
+</details>
+{{/if}}
+
+{{#if (hasKeys changes.updated.breaking)}}
+<details{{detailsOpen (objectKeysLength changes.updated.breaking)}}><summary><strong>💥 Breaking Updates ⚠️ BREAKING</strong></summary>
+
+{{#each changes.updated.breaking}}
+**{{@key}}**
+{{#if this.changes.enhanced.properties}}
+{{#each this.changes.enhanced.properties}}
+- Updated: `{{@key}}` - {{#each this.changes}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}{{#if this.description}} - "{{this.description}}"{{/if}}
+{{/each}}
+{{/if}}
+{{#if this.changes.added.properties}}
+{{#each this.changes.added.properties}}
+- Added: `{{@key}}`{{#if this.type}} ({{this.type}}{{#if this.default}}, default: {{this.default}}{{/if}}){{/if}}{{#if this.description}} - "{{this.description}}"{{/if}}
+{{/each}}
+{{/if}}
+{{#if this.changes.deleted.properties}}
+{{#each this.changes.deleted.properties}}
+- Removed: `{{@key}}` property
+{{/each}}
+{{/if}}
+{{#if this.changes.updated.properties}}
+{{#each this.changes.updated.properties}}
+- Updated: `{{@key}}`{{#if this.default}} - default changed to "{{this.default}}"{{/if}}{{#if this.description}} - "{{this.description}}"{{/if}}
+{{/each}}
+{{/if}}
+{{#if this.changes.added.required}}
+- Added: `required` - [{{#each this.changes.added.required}}"{{this}}"{{#unless @last}}, {{/unless}}{{/each}}]
+{{/if}}
+
+{{/each}}
+
+</details>
+{{/if}}
+
+{{#if (hasKeys changes.updated.nonBreaking)}}
+<details><summary><strong>🔄 Non-Breaking Updates</strong></summary>
+
+{{#each changes.updated.nonBreaking}}
+**{{@key}}**
+{{#if this.changes.enhanced.properties}}
+{{#each this.changes.enhanced.properties}}
+- Updated: `{{@key}}` - {{#each this.changes}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}{{#if this.description}} - "{{this.description}}"{{/if}}
+{{/each}}
+{{/if}}
+{{#if this.changes.added.properties}}
+{{#each this.changes.added.properties}}
+- Added: `{{@key}}`{{#if this.type}} ({{this.type}}{{#if this.default}}, default: {{this.default}}{{/if}}){{/if}}{{#if this.description}} - "{{this.description}}"{{/if}}
+{{/each}}
+{{/if}}
+{{#if this.changes.deleted.properties}}
+{{#each this.changes.deleted.properties}}
+- Removed: `{{@key}}` property
+{{/each}}
+{{/if}}
+{{#if this.changes.updated.properties}}
+{{#each this.changes.updated.properties}}
+- Updated: `{{@key}}`{{#if this.default}} - default changed to "{{this.default}}"{{/if}}{{#if this.description}} - "{{this.description}}"{{/if}}
+{{/each}}
+{{/if}}
+
+{{/each}}
+
+</details>
+{{/if}}
+
+---
+
+{{#if summary.hasBreakingChanges}}
+### ⚠️ Breaking Change Guidelines
+
+When introducing breaking changes:
+1. **Version bump**: Ensure this triggers a major version bump
+2. **Migration guide**: Document how consumers should adapt
+3. **Deprecation**: Consider deprecating before removing when possible
+4. **Communication**: Notify affected teams of the changes
+{{else}}
+*This diff was generated automatically and contains only backward-compatible changes.*
+{{/if}}

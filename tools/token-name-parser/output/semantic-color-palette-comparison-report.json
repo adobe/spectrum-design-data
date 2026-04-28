@@ -1,0 +1,775 @@
+{
+  "summary": {
+    "total": 94,
+    "matches": 94,
+    "mismatches": 0,
+    "errors": 0,
+    "matchRate": "100.00%"
+  },
+  "matches": [
+    {
+      "name": "accent-color-100",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-200",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-300",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-400",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-500",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-600",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-700",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-800",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-900",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-1000",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-1100",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-1200",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-1300",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-1400",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-1500",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-color-1600",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-100",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-200",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-300",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-400",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-500",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-600",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-700",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-800",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-900",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-1000",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-1100",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-1200",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-1300",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-1400",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-1500",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-color-1600",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-100",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-200",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-300",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-400",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-500",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-600",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-700",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-800",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-900",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-1000",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-1100",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-1200",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-1300",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-1400",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-1500",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-color-1600",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-100",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-200",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-300",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-400",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-500",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-600",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-700",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-800",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-900",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-1000",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-1100",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-1200",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-1300",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-1400",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-1500",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-color-1600",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-100",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-200",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-300",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-400",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-500",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-600",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-700",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-800",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-900",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-1000",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-1100",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-1200",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-1300",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-1400",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-1500",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-color-1600",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-subdued-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-subdued-background-color-hover",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-subdued-background-color-down",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-subdued-background-color-key-focus",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "informative-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "positive-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "notice-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "negative-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "icon-color-informative",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "icon-color-neutral",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "icon-color-positive",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "icon-color-notice",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "icon-color-negative",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "accent-subtle-background-color-default",
+      "category": "semantic-alias",
+      "validation": {
+        "isValid": true,
+        "errors": []
+      }
+    }
+  ],
+  "mismatches": [],
+  "errors": [],
+  "statistics": {
+    "byCategory": {
+      "semantic-alias": {
+        "total": 94,
+        "matches": 94,
+        "mismatches": 0,
+        "matchRate": "100.00%"
+      }
+    }
+  }
+}

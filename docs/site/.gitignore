@@ -1,0 +1,7 @@
+# Generated markdown (copied from docs/markdown/ at build time)
+src/components/*.md
+src/tokens/*.md
+src/registry/*.md
+src/spec/
+
+.cache

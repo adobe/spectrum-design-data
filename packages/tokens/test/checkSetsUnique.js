@@ -15,20 +15,20 @@ import { getAllTokens, isDeprecated } from "../index.js";
 
 test("Single set properties shouldn't be deprecated", async (t) => {
   const tokens = await getAllTokens();
+  const failingTokens = [];
   for (const [tokenName, token] of Object.entries(tokens)) {
     if (
       Object.hasOwn(token, "sets") &&
       !isDeprecated(token) &&
-      JSON.stringify(token.sets).indexOf("deprecated") > -1
+      JSON.stringify(token.sets).indexOf("deprecated") > -1 &&
+      !Object.values(token.sets).every((setValue) =>
+        Object.hasOwn(setValue, "deprecated"),
+      )
     ) {
-      t.truthy(
-        Object.values(token.sets).every((setValue) =>
-          Object.hasOwn(setValue, "deprecated"),
-        ),
-      );
+      failingTokens.push(tokenName);
     }
   }
-  t.pass();
+  t.deepEqual(failingTokens, []);
 });
 
 test("Sets should have unique values", async (t) => {

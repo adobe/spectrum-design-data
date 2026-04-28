@@ -13,16 +13,20 @@ governing permissions and limitations under the License.
 import test from "ava";
 import { detailedDiff } from "../src/lib/diff.js";
 import detectRenamedTokens from "../src/lib/renamed-token-detection.js";
-import original from "./test-schemas/basic-original-token.json" with { type: "json" };
-import updated from "./test-schemas/basic-renamed-token.json" with { type: "json" };
-import originalTwoOrMore from "./test-schemas/several-original-tokens.json" with { type: "json" };
-import updatedTwoOrMore from "./test-schemas/several-renamed-tokens.json" with { type: "json" };
-import originalEntireSchema from "./test-schemas/entire-schema.json" with { type: "json" };
-import updatedEntireSchema from "./test-schemas/entire-schema-renamed.json" with { type: "json" };
-import basicSetToken from "./test-schemas/basic-set-token.json" with { type: "json" };
-import renamedSetToken from "./test-schemas/basic-renamed-set-token.json" with { type: "json" };
-import severalSetTokens from "./test-schemas/several-set-tokens.json" with { type: "json" };
-import severalRenamedSetTokens from "./test-schemas/several-renamed-set-tokens.json" with { type: "json" };
+import { loadTestSchema } from "./utils/json-loader.js";
+
+const original = loadTestSchema("basic-original-token.json");
+const updated = loadTestSchema("basic-renamed-token.json");
+const originalTwoOrMore = loadTestSchema("several-original-tokens.json");
+const updatedTwoOrMore = loadTestSchema("several-renamed-tokens.json");
+const originalEntireSchema = loadTestSchema("entire-schema.json");
+const updatedEntireSchema = loadTestSchema("entire-schema-renamed.json");
+const basicSetToken = loadTestSchema("basic-set-token.json");
+const renamedSetToken = loadTestSchema("basic-renamed-set-token.json");
+const severalSetTokens = loadTestSchema("several-set-tokens.json");
+const severalRenamedSetTokens = loadTestSchema(
+  "several-renamed-set-tokens.json",
+);
 
 const expectedSingleRenamed = {
   "hello-world": {

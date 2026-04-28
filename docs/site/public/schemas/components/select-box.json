@@ -1,0 +1,50 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/component.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/components/select-box.json",
+  "title": "Select box",
+  "description": "",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
+  },
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string"
+    },
+    "orientation": {
+      "type": "string",
+      "enum": ["horizontal", "vertical"],
+      "default": "vertical"
+    },
+    "body": {
+      "type": "string"
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideIllustration": {
+      "type": "boolean",
+      "default": false
+    },
+    "showCheckbox": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "state": {
+      "type": "string",
+      "enum": ["default", "down", "hover", "keyboard focus"],
+      "default": "default"
+    },
+    "multiple": {
+      "type": "boolean",
+      "default": false,
+      "description": "Set to true to allow multiple selections."
+    }
+  }
+}
