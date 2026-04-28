@@ -245,6 +245,42 @@ const VARIANTS_JSON: &str = r##"{
       "description": "Turquoise color variant",
       "category": "color",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "confirmation",
+      "label": "Confirmation",
+      "description": "Confirmation dialog variant requiring user acknowledgement",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "destructive",
+      "label": "Destructive",
+      "description": "Destructive action dialog variant (stronger than negative)",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "warning",
+      "label": "Warning",
+      "description": "Warning dialog variant for cautionary alerts",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "error",
+      "label": "Error",
+      "description": "Error state variant for failed operations",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "information",
+      "label": "Information",
+      "aliases": ["info"],
+      "description": "Informational dialog variant (alias for informative in alert contexts)",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
     }
   ]
 }
@@ -721,6 +757,114 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "ring",
       "label": "Ring",
       "description": "Focus ring or outline indicator",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "field",
+      "label": "Field",
+      "description": "Input container element in form components (text-field, number-field, combo-box, picker, etc.)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "fill",
+      "label": "Fill",
+      "description": "Active/completed portion of a track-based component (slider, meter, progress-bar, progress-circle)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "value",
+      "label": "Value",
+      "description": "Displayed data value within a component (numeric readout, selected text, menu item value)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "container",
+      "label": "Container",
+      "description": "Outer wrapper element of a component (cards, swatch, thumbnail, avatar)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "chevron",
+      "label": "Chevron",
+      "description": "Directional arrow indicator (disclosure, navigation, drill-in)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "loupe",
+      "label": "Loupe",
+      "description": "Magnified color preview element in color components (color-area, color-slider, color-wheel)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "dot",
+      "label": "Dot",
+      "description": "Small circular indicator element (status-light)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "separator",
+      "label": "Separator",
+      "description": "Visual separator between items (breadcrumbs)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "checkmark",
+      "label": "Checkmark",
+      "description": "Check or confirmation icon element within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "stepper",
+      "label": "Stepper",
+      "description": "Increment/decrement control in number-field",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "area",
+      "label": "Area",
+      "description": "Interactive surface region (color-area gradient surface)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "gripper",
+      "label": "Gripper",
+      "description": "Draggable resize handle element (standard-panel)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "illustration",
+      "label": "Illustration",
+      "description": "Decorative or explanatory illustration within a component",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "heading",
+      "label": "Heading",
+      "description": "Heading text element within a component section",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "focus-ring",
+      "label": "Focus Ring",
+      "description": "Visible ring drawn around a focused component for accessibility",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "focus-indicator",
+      "label": "Focus Indicator",
+      "description": "Visual indicator showing keyboard focus state on a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "workflow-icon",
+      "label": "Workflow Icon",
+      "description": "Standard workflow icon element within a component (distinct from UI icons)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "ui-icon",
+      "label": "UI Icon",
+      "description": "System UI icon element (chevrons, checkmarks, close icons) within a component",
       "usedIn": ["tokens"]
     }
   ]

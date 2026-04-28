@@ -241,6 +241,42 @@
       "description": "Turquoise color variant",
       "category": "color",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "confirmation",
+      "label": "Confirmation",
+      "description": "Confirmation dialog variant requiring user acknowledgement",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "destructive",
+      "label": "Destructive",
+      "description": "Destructive action dialog variant (stronger than negative)",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "warning",
+      "label": "Warning",
+      "description": "Warning dialog variant for cautionary alerts",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "error",
+      "label": "Error",
+      "description": "Error state variant for failed operations",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "information",
+      "label": "Information",
+      "aliases": ["info"],
+      "description": "Informational dialog variant (alias for informative in alert contexts)",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
     }
   ]
 }
