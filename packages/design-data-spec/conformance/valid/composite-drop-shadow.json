@@ -1,0 +1,14 @@
+{
+  "name": { "property": "drop-shadow-default" },
+  "$valueType": "value-types/drop-shadow.schema.json",
+  "value": [
+    {
+      "x": "0px",
+      "y": "1px",
+      "blur": "4px",
+      "spread": "0px",
+      "color": "rgba(0, 0, 0, 0.16)"
+    }
+  ],
+  "uuid": "aaaaaaaa-0010-4000-8000-000000000002"
+}

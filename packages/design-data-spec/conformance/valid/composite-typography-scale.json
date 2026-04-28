@@ -1,0 +1,6 @@
+{
+  "name": { "property": "typography-scale", "scale": "desktop" },
+  "$valueType": "value-types/typography-scale.schema.json",
+  "value": { "fontSize": "14px", "lineHeight": "18px" },
+  "uuid": "aaaaaaaa-0010-4000-8000-000000000003"
+}

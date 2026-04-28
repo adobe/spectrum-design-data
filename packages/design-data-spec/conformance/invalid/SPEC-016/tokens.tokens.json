@@ -1,0 +1,8 @@
+[
+  {
+    "name": { "property": "bad-typography" },
+    "$valueType": "value-types/typography.schema.json",
+    "value": "not-an-object",
+    "uuid": "aaaaaaaa-0016-4000-8000-000000000001"
+  }
+]

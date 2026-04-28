@@ -20,10 +20,12 @@ test("ensure all component tokens are have component data", async (t) => {
     ...(await getFileTokens("icons.json")),
   };
   const result = Object.keys(tokenData).filter((tokenName) => {
-    return (
-      !Object.hasOwn(tokenData[tokenName], "component") ||
-      tokenName.indexOf(tokenData[tokenName].component) != 0
-    );
+    const component = tokenData[tokenName].component;
+    if (!component) return true;
+    // Spec-order names may have a variant prefix before the component,
+    // so check that the component appears in the name rather than
+    // requiring it at position 0.
+    return !tokenName.includes(component);
   });
   t.deepEqual(result, []);
 });

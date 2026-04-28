@@ -103,27 +103,42 @@
   "icon-color-informative": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "2296b0de-6231-4f89-9992-499b67c6879c",
-    "value": "{informative-visual-color}"
+    "value": "{informative-visual-color}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `informative-icon-color` instead.",
+    "renamed": "informative-icon-color"
   },
   "icon-color-negative": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "adf2a3f0-d1cd-4b53-8a9c-47ab9cb7bb0f",
-    "value": "{negative-visual-color}"
+    "value": "{negative-visual-color}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `negative-icon-color` instead.",
+    "renamed": "negative-icon-color"
   },
   "icon-color-neutral": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "29f5b73c-e8e8-4162-b9af-5a8e327baab8",
-    "value": "{neutral-visual-color}"
+    "value": "{neutral-visual-color}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `neutral-icon-color` instead.",
+    "renamed": "neutral-icon-color"
   },
   "icon-color-notice": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "4bdb8681-f7a1-4bbe-b788-a64c6f9df6ea",
-    "value": "{notice-visual-color}"
+    "value": "{notice-visual-color}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `notice-icon-color` instead.",
+    "renamed": "notice-icon-color"
   },
   "icon-color-positive": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "02f093b3-ab51-42e7-8f6e-26bc7c7cba63",
-    "value": "{positive-visual-color}"
+    "value": "{positive-visual-color}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `positive-icon-color` instead.",
+    "renamed": "positive-icon-color"
   },
   "informative-color-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -204,6 +219,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "41b73196-0bc1-493e-9b5d-49f608914f5a",
     "value": "{blue-900}"
+  },
+  "informative-icon-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "50c9d967-1a79-41ef-9125-a613dbcb4bd1",
+    "value": "{informative-visual-color}"
   },
   "informative-subtle-background-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -306,6 +326,11 @@
     "uuid": "0b469d2e-7c66-4188-b6bf-bbc379f75538",
     "value": "{red-900}"
   },
+  "negative-icon-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "62ba12ee-a58d-4708-9c1d-8722e428d3ef",
+    "value": "{negative-visual-color}"
+  },
   "negative-subdued-background-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "deprecated": true,
@@ -350,6 +375,11 @@
       }
     },
     "uuid": "30fa3891-135b-405a-bf0f-3cc17f711079"
+  },
+  "neutral-icon-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "ad07a7b0-8e8f-44bb-89ef-3fe7203bcbc4",
+    "value": "{neutral-visual-color}"
   },
   "notice-color-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -430,6 +460,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "df87ca09-ff38-485e-90f7-6d9cbfbb6714",
     "value": "{orange-900}"
+  },
+  "notice-icon-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "5ab5f857-0ec4-468d-b42c-74c85e8dbb5e",
+    "value": "{notice-visual-color}"
   },
   "notice-subtle-background-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -531,6 +566,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "1cd86108-ff79-4ccf-911e-8de9986c9053",
     "value": "{green-900}"
+  },
+  "positive-icon-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "64bb3eb8-4910-46e3-93d0-021d7d96a4e6",
+    "value": "{positive-visual-color}"
   },
   "positive-subtle-background-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",

@@ -171,6 +171,112 @@
       "description": "Designed to be used over backgrounds",
       "category": "context",
       "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "brown",
+      "label": "Brown",
+      "description": "Brown color variant",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "cinnamon",
+      "label": "Cinnamon",
+      "description": "Cinnamon color variant",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "silver",
+      "label": "Silver",
+      "description": "Silver color variant",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "subtle",
+      "label": "Subtle",
+      "description": "Reduced emphasis variant for less prominent surfaces",
+      "category": "emphasis",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "subdued",
+      "label": "Subdued",
+      "description": "Lower emphasis variant for quieter backgrounds",
+      "category": "emphasis",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "static",
+      "label": "Static",
+      "description": "Context variant indicating the token does not change with theme",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "inverse",
+      "label": "Inverse",
+      "description": "Inverted color context variant",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "black",
+      "label": "Black",
+      "description": "Black color modifier, typically used with static context",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "white",
+      "label": "White",
+      "description": "White color modifier, typically used with static context",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "turquoise",
+      "label": "Turquoise",
+      "description": "Turquoise color variant",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "confirmation",
+      "label": "Confirmation",
+      "description": "Confirmation dialog variant requiring user acknowledgement",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "destructive",
+      "label": "Destructive",
+      "description": "Destructive action dialog variant (stronger than negative)",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "warning",
+      "label": "Warning",
+      "description": "Warning dialog variant for cautionary alerts",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "error",
+      "label": "Error",
+      "description": "Error state variant for failed operations",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "information",
+      "label": "Information",
+      "aliases": ["info"],
+      "description": "Informational dialog variant (alias for informative in alert contexts)",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
     }
   ]
 }
