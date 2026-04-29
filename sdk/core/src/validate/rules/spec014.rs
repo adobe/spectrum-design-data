@@ -8,6 +8,8 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
+use semver::Version;
+
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
 
@@ -32,7 +34,16 @@ impl ValidationRule for Rule {
                 continue;
             };
 
-            if semver_precedes(last_modified, introduced) {
+            // Skip check if either version string can't be parsed — don't emit false positives
+            // for unexpected formats; a separate structural rule can flag unparseable versions.
+            let (Ok(lm), Ok(intro)) = (
+                Version::parse(last_modified),
+                Version::parse(introduced),
+            ) else {
+                continue;
+            };
+
+            if lm < intro {
                 out.push(Diagnostic {
                     file: t.file.clone(),
                     token: Some(t.name.clone()),
@@ -51,34 +62,44 @@ impl ValidationRule for Rule {
     }
 }
 
-/// Returns true if version `a` precedes version `b` using numeric segment
-/// comparison (e.g. "3.2.0" < "3.10.0"). Falls back to lexicographic
-/// comparison if segments aren't numeric.
-fn semver_precedes(a: &str, b: &str) -> bool {
-    let parse = |s: &str| -> Vec<u64> {
-        s.split('.')
-            .map(|seg| seg.parse::<u64>().unwrap_or(u64::MAX))
-            .collect()
-    };
-    let va = parse(a);
-    let vb = parse(b);
-    va < vb
-}
-
 #[cfg(test)]
 mod tests {
-    use super::semver_precedes;
+    use super::*;
+
+    fn precedes(a: &str, b: &str) -> bool {
+        let va = Version::parse(a).unwrap();
+        let vb = Version::parse(b).unwrap();
+        va < vb
+    }
 
     #[test]
     fn basic_ordering() {
-        assert!(semver_precedes("1.0.0", "2.0.0"));
-        assert!(!semver_precedes("2.0.0", "1.0.0"));
-        assert!(!semver_precedes("2.0.0", "2.0.0"));
+        assert!(precedes("1.0.0", "2.0.0"));
+        assert!(!precedes("2.0.0", "1.0.0"));
+        assert!(!precedes("2.0.0", "2.0.0"));
     }
 
     #[test]
     fn multi_digit_segments() {
-        assert!(semver_precedes("2.2.0", "2.10.0"));
-        assert!(!semver_precedes("2.10.0", "2.2.0"));
+        assert!(precedes("2.2.0", "2.10.0"));
+        assert!(!precedes("2.10.0", "2.2.0"));
+    }
+
+    #[test]
+    fn prerelease_precedes_release() {
+        // SemVer: 1.0.0-draft < 1.0.0 (prerelease sorts before the release)
+        assert!(precedes("1.0.0-draft", "1.0.0"));
+        assert!(!precedes("1.0.0", "1.0.0-draft"));
+    }
+
+    #[test]
+    fn equal_prerelease_versions() {
+        assert!(!precedes("1.0.0-draft", "1.0.0-draft"));
+    }
+
+    #[test]
+    fn introduced_in_prerelease_modified_in_release_ok() {
+        // introduced: "1.0.0-draft", lastModified: "1.0.0" → modified after intro, no error
+        assert!(!precedes("1.0.0", "1.0.0-draft"));
     }
 }
