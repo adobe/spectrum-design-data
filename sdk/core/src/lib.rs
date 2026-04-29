@@ -435,6 +435,74 @@ mod relational_conformance {
             "3.10.0 > 3.2.0 — should not error"
         );
     }
+
+    #[test]
+    fn spec014_last_modified_precedes_introduced() {
+        let g = TokenGraph::from_pairs(vec![(
+            "bad".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "bad"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "introduced": "2.0.0",
+                "lastModified": "1.5.0",
+                "value": "#fff"
+            }),
+        )]);
+        let diags = diagnostics_for_rule(&g, "SPEC-014");
+        assert!(!diags.is_empty(), "should catch preceding lastModified");
+        assert!(
+            diags[0].message.contains("earlier than introduced"),
+            "message should mention ordering"
+        );
+    }
+
+    #[test]
+    fn spec014_last_modified_equal_to_introduced_ok() {
+        let g = TokenGraph::from_pairs(vec![(
+            "ok".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "ok"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "introduced": "1.0.0",
+                "lastModified": "1.0.0",
+                "value": "#fff"
+            }),
+        )]);
+        assert!(diagnostics_for_rule(&g, "SPEC-014").is_empty());
+    }
+
+    #[test]
+    fn spec014_last_modified_after_introduced_ok() {
+        let g = TokenGraph::from_pairs(vec![(
+            "ok".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "ok"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "introduced": "1.0.0",
+                "lastModified": "2.1.0",
+                "value": "#fff"
+            }),
+        )]);
+        assert!(diagnostics_for_rule(&g, "SPEC-014").is_empty());
+    }
+
+    #[test]
+    fn spec014_no_last_modified_no_error() {
+        let g = TokenGraph::from_pairs(vec![(
+            "ok".into(),
+            PathBuf::from("t.json"),
+            json!({
+                "name": {"property": "ok"},
+                "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+                "introduced": "1.0.0",
+                "value": "#fff"
+            }),
+        )]);
+        assert!(diagnostics_for_rule(&g, "SPEC-014").is_empty());
+    }
 }
 
 /// Resolution conformance tests — fixture-driven, closes #768.

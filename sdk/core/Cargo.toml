@@ -12,6 +12,7 @@ path = "src/lib.rs"
 [dependencies]
 jsonschema = "0.29"
 serde = { version = "1.0", features = ["derive"] }
+semver = "1"
 serde_json = "1.0"
 tempfile = "3.14"
 thiserror = "2.0"

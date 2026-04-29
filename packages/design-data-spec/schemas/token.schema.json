@@ -131,6 +131,10 @@
         "introduced": {
           "type": "string"
         },
+        "lastModified": {
+          "type": "string",
+          "description": "Spec version when token value or metadata last changed (e.g. \"2.1.0\"). MUST be >= introduced (see SPEC-014)."
+        },
         "deprecated": {
           "type": "string",
           "description": "Spec version when token was deprecated (e.g. \"3.2.0\"). Truthy = deprecated."
@@ -187,6 +191,10 @@
         },
         "introduced": {
           "type": "string"
+        },
+        "lastModified": {
+          "type": "string",
+          "description": "Spec version when token value or metadata last changed (e.g. \"2.1.0\"). MUST be >= introduced (see SPEC-014)."
         },
         "deprecated": {
           "type": "string",
