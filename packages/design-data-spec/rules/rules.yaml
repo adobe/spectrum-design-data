@@ -118,3 +118,12 @@ rules:
     message: "Token {token} has plannedRemoval but is not marked deprecated"
     spec_ref: spec/token-format.md#lifecycle-and-metadata
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-014
+    name: last-modified-not-before-introduced
+    severity: error
+    category: completeness
+    assert: If lastModified is present, its semver MUST NOT precede introduced.
+    message: "Token {token} has lastModified {lastModified} earlier than introduced {introduced}"
+    spec_ref: spec/token-format.md#lifecycle-and-metadata
+    introduced_in: "1.0.0-draft"

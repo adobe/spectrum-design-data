@@ -1,0 +1,12 @@
+{
+  "name": {
+    "component": "button",
+    "object": "background",
+    "property": "color",
+    "variant": "primary"
+  },
+  "value": "#0265dc",
+  "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+  "introduced": "1.0.0",
+  "lastModified": "2.1.0"
+}
