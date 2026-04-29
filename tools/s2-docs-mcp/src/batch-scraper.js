@@ -13,17 +13,14 @@ import {
   readdirSync,
 } from "fs";
 import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 import { homedir } from "os";
 import { execSync } from "child_process";
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const BASE_URL = "https://s2.spectrum.corp.adobe.com";
-const OUTPUT_DIR = join(
-  homedir(),
-  "Spectrum",
-  "spectrum-design-data",
-  "docs",
-  "s2-docs",
-);
+const OUTPUT_DIR = join(__dirname, "..", "..", "..", "docs", "s2-docs");
 const PARSER_SCRIPT = join(
   homedir(),
   ".cursor",

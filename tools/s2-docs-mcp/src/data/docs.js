@@ -3,16 +3,17 @@
  */
 
 import { readFileSync, readdirSync, existsSync } from "fs";
-import { join } from "path";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 import { homedir } from "os";
 
-const DOCS_DIR = join(
-  homedir(),
-  "Spectrum",
-  "spectrum-design-data",
-  "docs",
-  "s2-docs",
-);
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// Prefer bundled data shipped with the package; fall back to local repo for dev
+const bundledPath = join(__dirname, "../../data");
+const DOCS_DIR = existsSync(join(bundledPath, "index.json"))
+  ? bundledPath
+  : join(homedir(), "Spectrum", "spectrum-design-data", "docs", "s2-docs");
 
 /**
  * Load component index

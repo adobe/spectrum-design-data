@@ -131,3 +131,10 @@ temp-*
 
 # auto-generated token files (copied by prepare scripts)
 docs/s2-tokens-viewer/tokens/
+
+# tool output directories (graphify, ferrograph)
+graphify-out/
+**/graphify-out/
+.ferrograph
+**/.ferrograph
+tools/token-mapping-analyzer/output/
