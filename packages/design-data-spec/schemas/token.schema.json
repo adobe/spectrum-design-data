@@ -99,7 +99,14 @@
           "const": "1.0.0-draft"
         },
         "name": {
-          "$ref": "#/$defs/nameObject"
+          "oneOf": [
+            { "$ref": "#/$defs/nameObject" },
+            {
+              "type": "string",
+              "minLength": 1,
+              "description": "String escape hatch for tokens that cannot be expressed as a name object. Valid but triggers SPEC-017 (tech-debt warning). See token-format.md#string-name-escape-hatch."
+            }
+          ]
         },
         "$valueType": {
           "type": "string",
@@ -179,7 +186,14 @@
           "const": "1.0.0-draft"
         },
         "name": {
-          "$ref": "#/$defs/nameObject"
+          "oneOf": [
+            { "$ref": "#/$defs/nameObject" },
+            {
+              "type": "string",
+              "minLength": 1,
+              "description": "String escape hatch for tokens that cannot be expressed as a name object. Valid but triggers SPEC-017 (tech-debt warning). See token-format.md#string-name-escape-hatch."
+            }
+          ]
         },
         "$valueType": {
           "type": "string",

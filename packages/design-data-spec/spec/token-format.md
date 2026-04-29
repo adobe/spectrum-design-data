@@ -12,12 +12,32 @@ A **token** is a JSON object that satisfies the Layer 1 schema [`token.schema.js
 
 A token **MUST** contain:
 
-1. **`name`** — a JSON object (the **name object**) as defined below.
+1. **`name`** — a JSON object (the **name object**) as defined below, or a non-empty plain string (escape hatch — see [String-name escape hatch](#string-name-escape-hatch)).
 2. Exactly one of:
    * **`value`** — a literal token value (type depends on value-type schema), or
    * **`$ref`** — a string reference to another token (alias).
 
 A token **MUST NOT** include both `value` and `$ref`.
+
+### String-name escape hatch
+
+A token's `name` field **MAY** be a non-empty plain string instead of a name object when the token's identity cannot be expressed using the structured taxonomy fields.
+
+```json
+{
+  "name": "focus-ring-color-key-focus",
+  "value": "#0265dc",
+  "uuid": "aaaaaaaa-0012-4000-8000-000000000001"
+}
+```
+
+**NORMATIVE:** String-named tokens are schema-valid. Validators **MUST** accept them without a structural error.
+
+**NORMATIVE:** String-named tokens **MUST** trigger rule SPEC-017 (severity: `warning`, category: `tech-debt`). The warning surfaces the token as tracked debt requiring future remediation.
+
+**NORMATIVE:** String-named tokens **MUST NOT** participate in name-object cascade dimension matching, specificity calculation, or registry vocabulary checks (SPEC-009 does not apply).
+
+**RECOMMENDED:** Authors **SHOULD** treat string names as a temporary escape hatch and track a remediation plan. Each string-named token **SHOULD** eventually be given a structured name object, at which point SPEC-017 no longer fires.
 
 ### Name object
 
