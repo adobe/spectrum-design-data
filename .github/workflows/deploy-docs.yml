@@ -40,6 +40,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Overlay design-data-spec/spec from beta
+        run: |
+          git fetch origin beta:beta
+          git checkout beta -- packages/design-data-spec/spec/
+          echo "::notice::Spec docs sourced from beta branch ($(git rev-parse beta))"
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
