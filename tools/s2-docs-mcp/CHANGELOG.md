@@ -1,5 +1,18 @@
 # @adobe/s2-docs-mcp
 
+## 1.1.0
+
+### Minor Changes
+
+- [`84adce8`](https://github.com/adobe/spectrum-design-data/commit/84adce874523eec87ae314561c133482435e42f3) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(s2-docs-mcp): add agent skill plugin, CLI bin, and bundled docs
+
+  Adds a Claude Code / Cursor Agent Skill plugin and a `s2-docs` CLI so the
+  package works via `npx` without a local repo clone.
+  - `bin/s2-docs.js` — CLI with list/get/search/use-case/stats subcommands
+  - `skills/s2-docs/SKILL.md` — auto-triggers on Spectrum intent; Cursor-compatible
+  - `tasks/bundleDocs.js` + `prepublishOnly` — bundles docs into `data/` at publish
+  - Fix: `src/data/docs.js` resolves bundled data first, repo path as dev fallback
+
 ## 1.0.1
 
 ### Patch Changes
