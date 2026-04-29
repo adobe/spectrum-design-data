@@ -1,0 +1,9 @@
+{
+  "plugins": [
+    {
+      "name": "s2-docs",
+      "description": "Spectrum 2 component documentation on-demand. Fetches S2 design guidelines, component options, and usage patterns without loading a persistent MCP server.",
+      "path": "tools/s2-docs-mcp"
+    }
+  ]
+}

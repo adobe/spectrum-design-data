@@ -21,6 +21,7 @@ projects:
   release-analyzer: "tools/release-analyzer"
   release-timeline: "docs/release-timeline"
   spectrum-design-data-mcp: "tools/spectrum-design-data-mcp"
+  s2-docs-mcp: "tools/s2-docs-mcp"
   component-options-editor: "tools/component-options-editor"
 vcs:
   manager: "git"

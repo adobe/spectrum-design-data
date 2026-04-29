@@ -1,0 +1,11 @@
+{
+  "name": "s2-docs",
+  "description": "Spectrum 2 component documentation on-demand. Fetches S2 design guidelines, component options, and usage patterns without loading a persistent MCP server.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Adobe"
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/tools/s2-docs-mcp",
+  "repository": "https://github.com/adobe/spectrum-design-data",
+  "license": "Apache-2.0"
+}

@@ -5,16 +5,24 @@
   "type": "module",
   "main": "./src/index.js",
   "bin": {
-    "s2-docs-mcp": "./src/cli.js"
+    "s2-docs-mcp": "./src/cli.js",
+    "s2-docs": "./bin/s2-docs.js"
   },
   "files": [
     "src/",
+    "bin/",
+    "data/",
+    "tasks/",
+    ".claude-plugin/",
+    "skills/",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
     "start": "node src/cli.js",
-    "scrape": "node src/batch-scraper.js"
+    "scrape": "node src/batch-scraper.js",
+    "bundle": "node tasks/bundleDocs.js",
+    "prepublishOnly": "node tasks/bundleDocs.js"
   },
   "repository": {
     "type": "git",
