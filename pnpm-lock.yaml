@@ -579,9 +579,6 @@ importers:
       "@modelcontextprotocol/sdk":
         specifier: ^1.27.1
         version: 1.27.1(zod@3.25.76)
-      commander:
-        specifier: ^13.1.0
-        version: 13.1.0
 
   tools/s2-docs-transformer:
     dependencies:
