@@ -11,7 +11,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { Command } from "commander";
 import {
   getAllComponents,
   getComponentsByCategory,
@@ -52,30 +51,66 @@ const USE_CASE_MAP = {
   indicator: "status",
 };
 
-const program = new Command();
+const HELP = `Usage: s2-docs <command> [args]
 
-program
-  .name("s2-docs")
-  .description("Query Spectrum 2 component documentation")
-  .version("1.0.0");
+Commands:
+  list [--category <c>]      List components (optionally filter by category)
+  get <name>                  Get docs for a specific component
+  search <query> [--content]  Search by name; --content searches doc bodies
+  use-case <phrase>           Find components matching a use case
+  stats                       Show documentation coverage statistics
 
-program
-  .command("list")
-  .description("List available S2 components")
-  .option(
-    "-c, --category <category>",
-    `Filter by category (${CATEGORIES.join(", ")})`,
-  )
-  .action((opts) => {
-    if (opts.category) {
-      const components = getComponentsByCategory(opts.category);
-      console.log(
-        JSON.stringify(
-          { category: opts.category, count: components.length, components },
-          null,
-          2,
-        ),
-      );
+Categories: ${CATEGORIES.join(", ")}
+`;
+
+function emit(value) {
+  console.log(JSON.stringify(value, null, 2));
+}
+
+function fail(msg) {
+  console.error(msg);
+  process.exit(1);
+}
+
+function takeFlag(args, ...names) {
+  for (const name of names) {
+    const i = args.indexOf(name);
+    if (i !== -1) {
+      args.splice(i, 1);
+      return true;
+    }
+  }
+  return false;
+}
+
+function takeOption(args, ...names) {
+  for (const name of names) {
+    const i = args.indexOf(name);
+    if (i !== -1) {
+      const value = args[i + 1];
+      if (value === undefined) fail(`Missing value for ${name}`);
+      args.splice(i, 2);
+      return value;
+    }
+  }
+  return undefined;
+}
+
+const argv = process.argv.slice(2);
+
+if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
+  process.stdout.write(HELP);
+  process.exit(0);
+}
+
+const [command, ...rest] = argv;
+
+switch (command) {
+  case "list": {
+    const category = takeOption(rest, "--category", "-c");
+    if (category) {
+      const components = getComponentsByCategory(category);
+      emit({ category, count: components.length, components });
     } else {
       const components = getAllComponents();
       const byCategory = components.reduce((acc, comp) => {
@@ -83,119 +118,87 @@ program
         acc[comp.category].push({ name: comp.name, slug: comp.slug });
         return acc;
       }, {});
-      console.log(
-        JSON.stringify(
-          { total: components.length, categories: byCategory },
-          null,
-          2,
-        ),
-      );
+      emit({ total: components.length, categories: byCategory });
     }
-  });
+    break;
+  }
 
-program
-  .command("get <name>")
-  .description("Get documentation for a specific component")
-  .action((name) => {
+  case "get": {
+    const name = rest[0];
+    if (!name) fail("Usage: s2-docs get <name>");
     const component = findComponentByName(name);
-    if (!component) {
-      console.error(`Component not found: ${name}`);
-      process.exit(1);
-    }
+    if (!component) fail(`Component not found: ${name}`);
     const documentation = getComponentDoc(component.category, component.slug);
-    console.log(JSON.stringify({ component, documentation }, null, 2));
-  });
+    emit({ component, documentation });
+    break;
+  }
 
-program
-  .command("search <query>")
-  .description("Search components by name or content")
-  .option("--content", "Search within component content (slower)")
-  .action((query, opts) => {
-    if (opts.content) {
+  case "search": {
+    const useContent = takeFlag(rest, "--content");
+    const query = rest[0];
+    if (!query) fail("Usage: s2-docs search <query> [--content]");
+    if (useContent) {
       const results = searchInContent(query);
-      console.log(
-        JSON.stringify(
-          {
-            query,
-            found: results.length,
-            results: results.map((r) => ({
-              component: r.component.name,
-              category: r.component.category,
-              slug: r.component.slug,
-              matches: r.matches,
-            })),
-          },
-          null,
-          2,
-        ),
-      );
+      emit({
+        query,
+        found: results.length,
+        results: results.map((r) => ({
+          component: r.component.name,
+          category: r.component.category,
+          slug: r.component.slug,
+          matches: r.matches,
+        })),
+      });
     } else {
       const components = searchComponents(query);
-      console.log(
-        JSON.stringify(
-          {
-            query,
-            found: components.length,
-            components: components.map((c) => ({
-              name: c.name,
-              slug: c.slug,
-              category: c.category,
-              url: c.url,
-            })),
-          },
-          null,
-          2,
-        ),
-      );
+      emit({
+        query,
+        found: components.length,
+        components: components.map((c) => ({
+          name: c.name,
+          slug: c.slug,
+          category: c.category,
+          url: c.url,
+        })),
+      });
     }
-  });
+    break;
+  }
 
-program
-  .command("use-case <phrase>")
-  .description("Find components matching a use case")
-  .action((phrase) => {
+  case "use-case": {
+    const phrase = rest[0];
+    if (!phrase) fail('Usage: s2-docs use-case "<phrase>"');
     const lower = phrase.toLowerCase();
     const matched = Object.entries(USE_CASE_MAP).find(([key]) =>
       lower.includes(key),
     )?.[1];
     if (matched) {
       const components = getComponentsByCategory(matched);
-      console.log(
-        JSON.stringify(
-          {
-            useCase: phrase,
-            suggestedCategory: matched,
-            components: components.map((c) => ({ name: c.name, slug: c.slug })),
-          },
-          null,
-          2,
-        ),
-      );
+      emit({
+        useCase: phrase,
+        suggestedCategory: matched,
+        components: components.map((c) => ({ name: c.name, slug: c.slug })),
+      });
     } else {
       const results = searchInContent(phrase);
-      console.log(
-        JSON.stringify(
-          {
-            useCase: phrase,
-            found: results.length,
-            components: results.slice(0, 5).map((r) => ({
-              name: r.component.name,
-              category: r.component.category,
-              relevantContent: r.matches[0]?.line,
-            })),
-          },
-          null,
-          2,
-        ),
-      );
+      emit({
+        useCase: phrase,
+        found: results.length,
+        components: results.slice(0, 5).map((r) => ({
+          name: r.component.name,
+          category: r.component.category,
+          relevantContent: r.matches[0]?.line,
+        })),
+      });
     }
-  });
+    break;
+  }
 
-program
-  .command("stats")
-  .description("Show documentation coverage statistics")
-  .action(() => {
-    console.log(JSON.stringify(getStats(), null, 2));
-  });
+  case "stats": {
+    emit(getStats());
+    break;
+  }
 
-program.parse();
+  default:
+    fail(`Unknown command: ${command}\n\n${HELP}`);
+}

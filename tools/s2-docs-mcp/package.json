@@ -39,8 +39,7 @@
     "provenance": true
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.27.1",
-    "commander": "^13.1.0"
+    "@modelcontextprotocol/sdk": "^1.27.1"
   },
   "engines": {
     "node": ">=20.12.0"
