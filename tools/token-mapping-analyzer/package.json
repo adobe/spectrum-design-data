@@ -1,6 +1,6 @@
 {
   "name": "token-mapping-analyzer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Analyzes existing tokens against the 13-field taxonomy name object spec",
   "type": "module",
   "private": true,

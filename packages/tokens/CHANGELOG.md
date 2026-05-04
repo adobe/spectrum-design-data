@@ -1,5 +1,14 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.6.0
+
+### Minor Changes
+
+- [#819](https://github.com/adobe/spectrum-design-data/pull/819) [`44d334c`](https://github.com/adobe/spectrum-design-data/commit/44d334c9ebed545d61e315b36d5ca5679a9e30a0) Thanks [@GarthDB](https://github.com/GarthDB)! - Implement Proposal 009: introduce `typography-scale` composite tokens that
+  bundle font-size and line-height for each typographic tier. Deprecates 18
+  separate `line-height-font-size-*` tokens with `renamed` pointers to the
+  new composite names.
+
 ## 14.5.0
 
 ### Minor Changes
