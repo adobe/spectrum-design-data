@@ -20,7 +20,7 @@ Add the Spectrum Design Data marketplace, then install the skill:
 
 ```
 /plugin marketplace add adobe/spectrum-design-data
-/plugin install s2-docs
+/plugin install s2-docs@spectrum-design-data
 ```
 
 After install, start a new session and ask something like _"which Spectrum component should I use for a searchable dropdown?"_ — the skill fetches the relevant docs automatically.
