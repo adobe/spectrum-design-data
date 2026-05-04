@@ -1,5 +1,15 @@
 # @adobe/s2-docs-mcp
 
+## 1.1.1
+
+### Patch Changes
+
+- [#834](https://github.com/adobe/spectrum-design-data/pull/834) [`66d423f`](https://github.com/adobe/spectrum-design-data/commit/66d423f80115f012f5626460c64c8c411cac018d) Thanks [@GarthDB](https://github.com/GarthDB)! - Conform `.claude-plugin/marketplace.json` to the Claude Code plugin marketplace schema so
+  `/plugin marketplace add adobe/spectrum-design-data` succeeds. Adds required top-level `name`
+  and `owner` fields, replaces the non-schema `path` field on the plugin entry with
+  `source: "./tools/s2-docs-mcp"`, and updates the docs install snippet to the canonical
+  `s2-docs@spectrum-design-data` form.
+
 ## 1.1.0
 
 ### Minor Changes
