@@ -27,7 +27,7 @@ A token's `name` field **MAY** be a non-empty plain string instead of a name obj
 {
   "name": "focus-ring-color-key-focus",
   "value": "#0265dc",
-  "uuid": "aaaaaaaa-0012-4000-8000-000000000001"
+  "uuid": "aaaaaaaa-0011-4000-8000-000000000001"
 }
 ```
 

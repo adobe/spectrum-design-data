@@ -1,4 +1,4 @@
-# Proposal 012: String-Name Escape Hatch
+# Proposal 011: String-Name Escape Hatch
 
 **Status:** Draft\
 **Affects:** token.schema.json, token-format.md, rules.yaml, Rust SDK validator\
