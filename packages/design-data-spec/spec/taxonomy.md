@@ -77,7 +77,23 @@ Additional categories for variant and state are inherited from the existing name
 | Variant  | `variant`         | Variant within a component (e.g. accent, negative, primary). |
 | State    | `state`           | Interactive or semantic state (e.g. hover, focus, disabled). |
 
-**NOTE:** The categories above are filtered for semantic and layout token taxonomies. Additional categories do and will exist for other token types (e.g. color, typography). The taxonomy is built to scale as new concepts and terms are identified.
+**NOTE:** The categories above are filtered for semantic and layout token taxonomies. Additional taxonomies for other token types (color, typography, motion) will be defined in future spec versions — see the open follow-up RFC discussion [#806](https://github.com/adobe/spectrum-design-data/discussions/806) (Q3, taxonomy scoping). The taxonomy is built to scale as new concepts and terms are identified.
+
+### Structure vs. component — when does the line move?
+
+The `structure` and `component` fields both answer "What?" but apply at different scopes. A useful rule of thumb:
+
+* Use `component` when the token belongs to a specific component's surface (e.g. `button-background-color` — the background color of the Button component).
+* Use `structure` when the token belongs to a reusable visual pattern that recurs **across** components (e.g. `container-padding` — padding for any container-shaped surface, regardless of which component owns it).
+
+**Worked example — `card`:**
+
+* As a `structure`: when "card" describes a layout primitive used inside many components (e.g. `card-padding-medium` on a list item, a popover body, or a modal header), the token is structure-scoped.
+* As a `component`: when "card" describes the dedicated Card component's own surfaces (e.g. `card-background-color` on the Card root), the token is component-scoped.
+
+The same word can validly appear in both fields across the dataset; they are independent. Authors choose based on whether the token's *meaning* generalizes across many components (structure) or is specific to one component's identity (component).
+
+Source: Nate Baldwin, "Naming conventions & shared taxonomy" — Design Data & Platforms onsite, April 1, 2026.
 
 ## Component anatomy vs. token objects
 

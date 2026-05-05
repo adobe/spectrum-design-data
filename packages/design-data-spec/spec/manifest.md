@@ -26,7 +26,9 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 
 ### `include` / `exclude`
 
-**NORMATIVE:** Entries **MUST** be non-empty strings. The **query language** is **not** normative in `1.0.0-draft`; treat values as opaque identifiers for tooling until a future spec version defines syntax.
+**NORMATIVE:** Entries **MUST** be non-empty strings.
+
+> **Note:** Query notation syntax is fully defined in [Query](query.md) and is normative for programmatic use. Its normative use in manifest `include`/`exclude` is deferred to a post-`1.0.0-draft` revision pending conformance fixtures; until then, implementations **MUST** treat manifest query values as opaque identifiers.
 
 ### `overrides`
 
