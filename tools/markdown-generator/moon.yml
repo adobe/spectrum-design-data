@@ -20,7 +20,7 @@ tasks:
     platform: node
     deps:
       - "tokens:build"
-      - "componentSchemas:test"
+      - "component-schemas:test"
       - "design-system-registry:test"
     inputs:
       - "@globs(sources)"
