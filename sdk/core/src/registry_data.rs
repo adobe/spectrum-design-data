@@ -175,6 +175,112 @@ const VARIANTS_JSON: &str = r##"{
       "description": "Designed to be used over backgrounds",
       "category": "context",
       "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "brown",
+      "label": "Brown",
+      "description": "Brown color variant",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "cinnamon",
+      "label": "Cinnamon",
+      "description": "Cinnamon color variant",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "silver",
+      "label": "Silver",
+      "description": "Silver color variant",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "subtle",
+      "label": "Subtle",
+      "description": "Reduced emphasis variant for less prominent surfaces",
+      "category": "emphasis",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "subdued",
+      "label": "Subdued",
+      "description": "Lower emphasis variant for quieter backgrounds",
+      "category": "emphasis",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "static",
+      "label": "Static",
+      "description": "Context variant indicating the token does not change with theme",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "inverse",
+      "label": "Inverse",
+      "description": "Inverted color context variant",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "black",
+      "label": "Black",
+      "description": "Black color modifier, typically used with static context",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "white",
+      "label": "White",
+      "description": "White color modifier, typically used with static context",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "turquoise",
+      "label": "Turquoise",
+      "description": "Turquoise color variant",
+      "category": "color",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "confirmation",
+      "label": "Confirmation",
+      "description": "Confirmation dialog variant requiring user acknowledgement",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "destructive",
+      "label": "Destructive",
+      "description": "Destructive action dialog variant (stronger than negative)",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "warning",
+      "label": "Warning",
+      "description": "Warning dialog variant for cautionary alerts",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "error",
+      "label": "Error",
+      "description": "Error state variant for failed operations",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "information",
+      "label": "Information",
+      "aliases": ["info"],
+      "description": "Informational dialog variant (alias for informative in alert contexts)",
+      "category": "semantic",
+      "usedIn": ["component-schemas"]
     }
   ]
 }
@@ -592,6 +698,174 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "label": "Pill",
       "description": "Pill-shaped element",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "title",
+      "label": "Title",
+      "description": "Title text element within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "description",
+      "label": "Description",
+      "description": "Descriptive text element within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "row",
+      "label": "Row",
+      "description": "Table or list row element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "step",
+      "label": "Step",
+      "description": "Individual step element in a step list or wizard",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "counter",
+      "label": "Counter",
+      "description": "Numeric counter or badge element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "preview",
+      "label": "Preview",
+      "description": "Preview area or thumbnail within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "tip",
+      "label": "Tip",
+      "description": "Tooltip tip or arrow element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "selection",
+      "label": "Selection",
+      "description": "Selection indicator or highlight element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "media",
+      "label": "Media",
+      "description": "Media container (image, video) within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "ring",
+      "label": "Ring",
+      "description": "Focus ring or outline indicator",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "field",
+      "label": "Field",
+      "description": "Input container element in form components (text-field, number-field, combo-box, picker, etc.)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "fill",
+      "label": "Fill",
+      "description": "Active/completed portion of a track-based component (slider, meter, progress-bar, progress-circle)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "value",
+      "label": "Value",
+      "description": "Displayed data value within a component (numeric readout, selected text, menu item value)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "container",
+      "label": "Container",
+      "description": "Outer wrapper element of a component (cards, swatch, thumbnail, avatar)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "chevron",
+      "label": "Chevron",
+      "description": "Directional arrow indicator (disclosure, navigation, drill-in)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "loupe",
+      "label": "Loupe",
+      "description": "Magnified color preview element in color components (color-area, color-slider, color-wheel)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "dot",
+      "label": "Dot",
+      "description": "Small circular indicator element (status-light)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "separator",
+      "label": "Separator",
+      "description": "Visual separator between items (breadcrumbs)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "checkmark",
+      "label": "Checkmark",
+      "description": "Check or confirmation icon element within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "stepper",
+      "label": "Stepper",
+      "description": "Increment/decrement control in number-field",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "area",
+      "label": "Area",
+      "description": "Interactive surface region (color-area gradient surface)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "gripper",
+      "label": "Gripper",
+      "description": "Draggable resize handle element (standard-panel)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "illustration",
+      "label": "Illustration",
+      "description": "Decorative or explanatory illustration within a component",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "heading",
+      "label": "Heading",
+      "description": "Heading text element within a component section",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "focus-ring",
+      "label": "Focus Ring",
+      "description": "Visible ring drawn around a focused component for accessibility",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "focus-indicator",
+      "label": "Focus Indicator",
+      "description": "Visual indicator showing keyboard focus state on a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "workflow-icon",
+      "label": "Workflow Icon",
+      "description": "Standard workflow icon element within a component (distinct from UI icons)",
+      "usedIn": ["tokens", "s2-docs"]
+    },
+    {
+      "id": "ui-icon",
+      "label": "UI Icon",
+      "description": "System UI icon element (chevrons, checkmarks, close icons) within a component",
+      "usedIn": ["tokens"]
     }
   ]
 }
@@ -686,21 +960,38 @@ const SIZES_JSON: &str = r##"{
   "description": "Semantic t-shirt size values used across Spectrum. Numeric scale values belong in scale-values.json.",
   "values": [
     {
+      "id": "xxxs",
+      "label": "3X Small",
+      "aliases": ["3x-small"],
+      "tokenName": "3x-small",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "xxs",
+      "label": "2X Small",
+      "aliases": ["2x-small"],
+      "tokenName": "2x-small",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "xs",
       "label": "Extra Small",
       "aliases": ["extra-small"],
-      "usedIn": ["component-options", "component-schemas"]
+      "tokenName": "extra-small",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
     },
     {
       "id": "s",
       "label": "Small",
       "aliases": ["small"],
+      "tokenName": "small",
       "usedIn": ["tokens", "component-options", "component-schemas"]
     },
     {
       "id": "m",
       "label": "Medium",
       "aliases": ["medium"],
+      "tokenName": "medium",
       "default": true,
       "usedIn": ["tokens", "component-options", "component-schemas"]
     },
@@ -708,25 +999,29 @@ const SIZES_JSON: &str = r##"{
       "id": "l",
       "label": "Large",
       "aliases": ["large"],
+      "tokenName": "large",
       "usedIn": ["tokens", "component-options", "component-schemas"]
     },
     {
       "id": "xl",
       "label": "Extra Large",
       "aliases": ["extra-large"],
+      "tokenName": "extra-large",
       "usedIn": ["tokens", "component-options", "component-schemas"]
     },
     {
       "id": "xxl",
       "label": "2X Large",
-      "aliases": [],
-      "usedIn": ["component-options", "component-schemas"]
+      "aliases": ["2x-large"],
+      "tokenName": "2x-large",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
     },
     {
       "id": "xxxl",
       "label": "3X Large",
-      "aliases": [],
-      "usedIn": ["component-options", "component-schemas"]
+      "aliases": ["3x-large"],
+      "tokenName": "3x-large",
+      "usedIn": ["tokens", "component-options", "component-schemas"]
     }
   ]
 }

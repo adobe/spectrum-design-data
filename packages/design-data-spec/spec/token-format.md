@@ -12,12 +12,32 @@ A **token** is a JSON object that satisfies the Layer 1 schema [`token.schema.js
 
 A token **MUST** contain:
 
-1. **`name`** — a JSON object (the **name object**) as defined below.
+1. **`name`** — a JSON object (the **name object**) as defined below, or a non-empty plain string (escape hatch — see [String-name escape hatch](#string-name-escape-hatch)).
 2. Exactly one of:
    * **`value`** — a literal token value (type depends on value-type schema), or
    * **`$ref`** — a string reference to another token (alias).
 
 A token **MUST NOT** include both `value` and `$ref`.
+
+### String-name escape hatch
+
+A token's `name` field **MAY** be a non-empty plain string instead of a name object when the token's identity cannot be expressed using the structured taxonomy fields.
+
+```json
+{
+  "name": "focus-ring-color-key-focus",
+  "value": "#0265dc",
+  "uuid": "aaaaaaaa-0012-4000-8000-000000000001"
+}
+```
+
+**NORMATIVE:** String-named tokens are schema-valid. Validators **MUST** accept them without a structural error.
+
+**NORMATIVE:** String-named tokens **MUST** trigger rule SPEC-017 (severity: `warning`, category: `tech-debt`). The warning surfaces the token as tracked debt requiring future remediation.
+
+**NORMATIVE:** String-named tokens **MUST NOT** participate in name-object cascade dimension matching, specificity calculation, or registry vocabulary checks (SPEC-009 does not apply).
+
+**RECOMMENDED:** Authors **SHOULD** treat string names as a temporary escape hatch and track a remediation plan. Each string-named token **SHOULD** eventually be given a structured name object, at which point SPEC-017 no longer fires.
 
 ### Name object
 
@@ -72,16 +92,15 @@ When **`value`** is present, it **MUST** conform to the declared value type for 
 
 The following OPTIONAL fields implement the token lifecycle model described in [#623](https://github.com/adobe/spectrum-design-data/discussions/623) and the evolution policy in [Evolution](evolution.md). Inspired by Swift's `@available` attribute, Kotlin's `@Deprecated`, and OpenAPI 3.3's deprecation model.
 
-| Field                | Type                                    | Description                                                                                                          |
-| -------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `uuid`               | string (UUID)                           | Stable unique id for rename tracking and diffs.                                                                      |
-| `introduced`         | string (version)                        | Spec version when the token was first added (e.g. `"1.0.0"`).                                                        |
-| `lastModified`       | string (version)                        | Spec version when the token's value or metadata last changed (e.g. `"2.1.0"`). Updated on any non-formatting change. |
-| `deprecated`         | string (version)                        | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated.                                    |
-| `deprecated_comment` | string                                  | Human-readable deprecation explanation and migration guidance.                                                       |
-| `replaced_by`        | string (UUID) or array of string (UUID) | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.                |
-| `plannedRemoval`     | string (version)                        | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecated`.      |
-| `private`            | boolean                                 | Not part of public API surface.                                                                                      |
+| Field                | Type                                    | Description                                                                                                     |
+| -------------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `uuid`               | string (UUID)                           | Stable unique id for rename tracking and diffs.                                                                 |
+| `introduced`         | string (version)                        | Spec version when the token was first added (e.g. `"1.0.0"`).                                                   |
+| `deprecated`         | string (version)                        | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated.                               |
+| `deprecated_comment` | string                                  | Human-readable deprecation explanation and migration guidance.                                                  |
+| `replaced_by`        | string (UUID) or array of string (UUID) | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.           |
+| `plannedRemoval`     | string (version)                        | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecated`. |
+| `private`            | boolean                                 | Not part of public API surface.                                                                                 |
 
 #### Lifecycle example
 
@@ -91,7 +110,6 @@ The following OPTIONAL fields implement the token lifecycle model described in [
   "value": "#0265dc",
   "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
   "introduced": "1.0.0",
-  "lastModified": "3.2.0",
   "deprecated": "3.2.0",
   "deprecated_comment": "Use action-background-default instead.",
   "replaced_by": "bbbbbbbb-0002-4000-8000-000000000001",
@@ -111,15 +129,13 @@ The following OPTIONAL fields implement the token lifecycle model described in [
 
 **NORMATIVE:** Each UUID in `replaced_by` **MUST** resolve to an existing token in the dataset (see rule `SPEC-010`).
 
-**NORMATIVE:** If `lastModified` is present, its version **MUST NOT** precede `introduced` (see rule `SPEC-014`). Authors **SHOULD** bump `lastModified` whenever a token's `value`, alias `$ref`, or non-formatting metadata changes; pure formatting or comment-only edits do not require a bump.
-
 #### Legacy format mapping
 
 When generating legacy-format output from cascade tokens:
 
 * `deprecated: "3.2.0"` maps to `deprecated: true`
 * `replaced_by: "<uuid>"` maps to `renamed: "<target-token-name>"` (resolved via UUID lookup)
-* `introduced`, `lastModified`, and `plannedRemoval` have no legacy equivalent and are not emitted
+* `introduced` and `plannedRemoval` have no legacy equivalent and are not emitted
 
 When migrating legacy-format tokens to cascade:
 
@@ -152,6 +168,55 @@ Example:
 ## Value types
 
 Individual types (color, dimension, opacity, etc.) **MUST** be defined as JSON Schemas under `schemas/value-types/` and **MUST** use `$id` under the same `v0` base path as [Overview — JSON Schema `$id`](index.md).
+
+### Value-type declaration (`$valueType`)
+
+A token **MAY** include a `$valueType` field: a URI reference pointing to a value-type schema under `schemas/value-types/`.
+
+```json
+{
+  "name": { "property": "typography-scale", "scale": "desktop" },
+  "$valueType": "value-types/typography-scale.schema.json",
+  "value": { "fontSize": "14px", "lineHeight": "18px" },
+  "uuid": "377145e8-079b-43fd-b522-8f16b1b8f883"
+}
+```
+
+**NORMATIVE:** When `$valueType` is present on a token with a literal `value`, the value **MUST** validate against the referenced schema (rule SPEC-016).
+
+**NORMATIVE:** When `$valueType` is present on an alias token (`$ref`), the alias resolution chain **MUST** terminate at a token whose value validates against the same value-type schema (rule SPEC-002, extended).
+
+**RECOMMENDED:** All tokens with composite values (see below) **SHOULD** include `$valueType` to enable tooling discovery and validation. Tokens without `$valueType` remain valid under the permissive `anyOf` union in `token.schema.json`.
+
+### Composite value types
+
+A **composite value type** is a value-type schema whose root type is `object` or `array`. Composite values bundle multiple sub-values into a single token.
+
+**NORMATIVE:** Composite value types **MUST** be defined as JSON Schemas under `schemas/value-types/` following the same conventions as primitive value types.
+
+**NORMATIVE:** A composite token participates in cascade resolution as an **atomic unit**. Sub-values within a composite **MUST NOT** independently match, override, or participate in specificity calculation.
+
+### Inline alias references
+
+Within a composite value, a string sub-value **MAY** be an **inline alias**: a reference to another token that is resolved to produce the final sub-value.
+
+```json
+{
+  "name": { "property": "component-m-regular" },
+  "$valueType": "value-types/typography.schema.json",
+  "value": {
+    "fontFamily": "{sans-serif-font-family}",
+    "fontSize": "{font-size-100}",
+    "fontWeight": "{regular-font-weight}",
+    "letterSpacing": "{letter-spacing}",
+    "lineHeight": "{line-height-font-size-100}"
+  }
+}
+```
+
+**NORMATIVE:** In legacy format, inline aliases use the syntax `{token-name}` (curly-brace-wrapped token property name). In cascade format, the inline alias syntax is `{token-name}` for backward compatibility; UUID-based inline aliases are reserved for a future spec version.
+
+**NORMATIVE:** Inline aliases within composite values are subject to alias resolution rules. Validators **MUST** resolve inline aliases and report errors for missing targets (SPEC-014), type mismatches (SPEC-015), and circular references (SPEC-003, extended).
 
 ## Relationship to legacy Spectrum tokens
 

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/value-types/typography-scale.schema.json",
+  "title": "Typography scale composite value",
+  "description": "Pairs a font size with its corresponding line height at a single typographic tier.",
+  "type": "object",
+  "properties": {
+    "fontSize": { "type": "string" },
+    "lineHeight": { "type": "string" }
+  },
+  "required": ["fontSize", "lineHeight"],
+  "additionalProperties": false
+}

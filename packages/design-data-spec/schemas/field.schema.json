@@ -23,8 +23,8 @@
     },
     "kind": {
       "type": "string",
-      "enum": ["semantic", "dimension"],
-      "description": "Whether this field participates in cascade resolution. 'dimension' fields drive cascade specificity; 'semantic' fields describe identity only."
+      "enum": ["semantic", "dimension", "numeric"],
+      "description": "Whether this field participates in serialization ordering or cascade resolution. 'semantic' fields describe identity and appear in the standard serialization order; 'dimension' fields drive cascade specificity; 'numeric' fields hold integer indices appended at the end of the serialized name."
     },
     "registry": {
       "oneOf": [

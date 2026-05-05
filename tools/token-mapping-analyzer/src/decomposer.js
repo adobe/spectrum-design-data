@@ -49,6 +49,7 @@ const COMPOUND_PROPERTIES = [
   "maximum-height",
   "underline-gap",
   "drop-shadow",
+  "typography-scale",
 ];
 
 /**
@@ -61,8 +62,9 @@ const KNOWN_GAP_TERMS = {
   "typography-family": ["sans", "serif"],
   // Typography weight/emphasis — overlap with states/variants
   "typography-weight": ["emphasized", "strong", "heavy", "light"],
-  // Variant qualifiers not in registry
-  "variant-qualifier": ["subtle", "subdued", "static", "non"],
+  // Variant qualifiers — subtle, subdued, and static are now in the variant registry.
+  // Only "non" remains unregistered (used as a negation prefix, not a standalone variant).
+  "variant-qualifier": ["non"],
   // Context modifiers
   "context-modifier": ["elevated", "dragged", "ambient", "pasteboard"],
   // Drop-shadow sub-properties
@@ -75,15 +77,13 @@ const KNOWN_GAP_TERMS = {
  * Known multi-segment terms that appear in token names but aren't in registries.
  * These get matched as their target field type.
  * Includes legacy aliases and common patterns.
+ *
+ * NOTE: focus-ring, focus-indicator, workflow-icon, and ui-icon have been
+ * moved into the anatomy-terms registry. Only state aliases remain here.
  */
 const EXTRA_TERMS = [
   // State aliases used in tokens (registry has keyboard-focus, tokens use key-focus)
   { segments: ["key", "focus"], field: "state", id: "key-focus" },
-  // Compound anatomy terms
-  { segments: ["focus", "ring"], field: "anatomy", id: "focus-ring" },
-  { segments: ["focus", "indicator"], field: "anatomy", id: "focus-indicator" },
-  { segments: ["workflow", "icon"], field: "anatomy", id: "workflow-icon" },
-  { segments: ["ui", "icon"], field: "anatomy", id: "ui-icon" },
 ];
 
 /**
@@ -220,12 +220,14 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
       nameObject.scaleIndex = segments[i];
       matched[i] = true;
       matchDetails[i] = "scaleIndex";
-      gaps.push({
-        type: "numeric-scale-index",
-        value: segments[i],
-        description:
-          "Numeric scale index has no field in the 13-field taxonomy",
-      });
+      if (!registry.allFields?.has("scaleIndex")) {
+        gaps.push({
+          type: "numeric-scale-index",
+          value: segments[i],
+          description:
+            "Numeric scale index has no field in the 13-field taxonomy",
+        });
+      }
     }
   }
 

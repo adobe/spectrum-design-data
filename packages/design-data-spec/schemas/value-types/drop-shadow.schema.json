@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/value-types/drop-shadow.schema.json",
+  "title": "Drop shadow composite value",
+  "description": "Array of shadow layers. Each layer defines offset, blur, spread, and color.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "x": { "type": "string" },
+      "y": { "type": "string" },
+      "blur": { "type": "string" },
+      "spread": { "type": "string" },
+      "color": { "type": "string" }
+    },
+    "required": ["x", "y", "blur", "spread", "color"],
+    "additionalProperties": false
+  },
+  "minItems": 1
+}

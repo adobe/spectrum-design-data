@@ -16,7 +16,6 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 | `invalid/SPEC-005` | SPEC-005 | Dimension `default` not in `modes`.                     |
 | `invalid/SPEC-006` | SPEC-006 | Ambiguous resolution / specificity tie (warning).       |
 | `invalid/SPEC-008` | SPEC-008 | Non-default mode variants with no base/default variant. |
-| `invalid/SPEC-014` | SPEC-014 | `lastModified` semver precedes `introduced`.            |
 
 Implementors SHOULD run these fixtures once the Rust validator exposes rule IDs ([#724](https://github.com/adobe/spectrum-design-data/issues/724), [#725](https://github.com/adobe/spectrum-design-data/issues/725)).
 

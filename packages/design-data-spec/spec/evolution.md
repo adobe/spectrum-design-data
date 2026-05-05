@@ -84,7 +84,6 @@ The `@adobe/spectrum-tokens` package continues to publish tokens in the **legacy
 | `deprecated: "3.2.0"` (version string) | `deprecated: true` (boolean)          |
 | `replaced_by: "<uuid>"`                | `renamed: "<target-token-name>"`      |
 | `introduced`                           | Not emitted                           |
-| `lastModified`                         | Not emitted                           |
 | `plannedRemoval`                       | Not emitted                           |
 | `deprecated_comment`                   | `deprecated_comment` (passed through) |
 

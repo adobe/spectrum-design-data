@@ -21,7 +21,7 @@ mod spec010;
 mod spec011;
 mod spec012;
 mod spec013;
-mod spec014;
+mod spec017;
 
 use std::collections::HashSet;
 use std::sync::OnceLock;
@@ -37,7 +37,7 @@ fn embedded_registry() -> &'static RegistryData {
     REGISTRY.get_or_init(RegistryData::embedded)
 }
 
-/// All default catalog rules (SPEC-001 … SPEC-014).
+/// All default catalog rules (SPEC-001 … SPEC-017).
 pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
     vec![
         Box::new(spec001::Rule),
@@ -53,7 +53,7 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec011::Rule),
         Box::new(spec012::Rule),
         Box::new(spec013::Rule),
-        Box::new(spec014::Rule),
+        Box::new(spec017::Rule),
     ]
 }
 

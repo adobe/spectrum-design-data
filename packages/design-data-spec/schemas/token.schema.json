@@ -99,7 +99,19 @@
           "const": "1.0.0-draft"
         },
         "name": {
-          "$ref": "#/$defs/nameObject"
+          "oneOf": [
+            { "$ref": "#/$defs/nameObject" },
+            {
+              "type": "string",
+              "minLength": 1,
+              "description": "String escape hatch for tokens that cannot be expressed as a name object. Valid but triggers SPEC-017 (tech-debt warning). See token-format.md#string-name-escape-hatch."
+            }
+          ]
+        },
+        "$valueType": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "URI reference to a value-type schema under schemas/value-types/. When present, value MUST validate against the referenced schema (rule SPEC-016)."
         },
         "value": {
           "description": "Literal value; type narrowed by value-type schemas where applicable.",
@@ -130,10 +142,6 @@
         },
         "introduced": {
           "type": "string"
-        },
-        "lastModified": {
-          "type": "string",
-          "description": "Spec version when token value or metadata last changed (e.g. \"2.1.0\"). MUST be >= introduced (see SPEC-014)."
         },
         "deprecated": {
           "type": "string",
@@ -178,7 +186,19 @@
           "const": "1.0.0-draft"
         },
         "name": {
-          "$ref": "#/$defs/nameObject"
+          "oneOf": [
+            { "$ref": "#/$defs/nameObject" },
+            {
+              "type": "string",
+              "minLength": 1,
+              "description": "String escape hatch for tokens that cannot be expressed as a name object. Valid but triggers SPEC-017 (tech-debt warning). See token-format.md#string-name-escape-hatch."
+            }
+          ]
+        },
+        "$valueType": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "URI reference to a value-type schema under schemas/value-types/. When present, the alias resolution chain MUST terminate at a token whose value validates against this schema."
         },
         "$ref": {
           "type": "string",
@@ -191,10 +211,6 @@
         },
         "introduced": {
           "type": "string"
-        },
-        "lastModified": {
-          "type": "string",
-          "description": "Spec version when token value or metadata last changed (e.g. \"2.1.0\"). MUST be >= introduced (see SPEC-014)."
         },
         "deprecated": {
           "type": "string",
