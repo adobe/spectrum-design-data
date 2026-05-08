@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/text-align.json",
-  "title": "Text align",
-  "description": "Sets the horizontal alignment of the inline-level content inside a block element",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
+  "title": "Alignment",
+  "description": "Defines an alignment value (horizontal, vertical, or text) along a single axis. Keyword values are direction-aware: 'start' and 'end' resolve based on writing mode or layout direction.",
   "type": "object",
   "allOf": [
     {
@@ -11,7 +11,7 @@
   ],
   "properties": {
     "$schema": {
-      "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/text-align.json"
+      "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json"
     },
     "value": {
       "type": "string",

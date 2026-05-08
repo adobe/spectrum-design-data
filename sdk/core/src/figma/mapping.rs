@@ -42,7 +42,7 @@ const SKIP_SCHEMAS: &[&str] = &[
     "drop-shadow.json",
     "gradient-stop.json",
     "multiplier.json",
-    "text-align.json",
+    "alignment.json",
     "text-transform.json",
 ];
 
