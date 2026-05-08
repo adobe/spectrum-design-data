@@ -1,5 +1,17 @@
 # @adobe/design-system-registry
 
+## 1.3.0
+
+### Minor Changes
+
+- [#837](https://github.com/adobe/spectrum-design-data/pull/837) [`29531ee`](https://github.com/adobe/spectrum-design-data/commit/29531ee2a9935922bab329c26edce1de8489a423) Thanks [@GarthDB](https://github.com/GarthDB)! - Expand registry vocabulary across `anatomy-terms`, `sizes`, and `variants`
+  to close the gaps surfaced by token-to-spec gap analysis. Adds anatomy
+  terms for component parts (field, fill, value, container, chevron, loupe,
+  dot, and related), broadens the sizes registry, and adds semantic dialog
+  and component variants (confirmation, destructive, warning, error,
+  information, plus typographic and component-axis variants). Vocabulary
+  only — no breaking changes for existing tokens.
+
 ## 1.2.0
 
 ### Minor Changes
