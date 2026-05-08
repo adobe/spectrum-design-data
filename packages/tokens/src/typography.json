@@ -2308,17 +2308,17 @@
     "value": "Adobe Clean Serif"
   },
   "text-align-center": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/text-align.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
     "uuid": "df252e5a-f115-471d-bb35-c79e733d868b",
     "value": "center"
   },
   "text-align-end": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/text-align.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
     "uuid": "a0c425b3-668b-4413-8739-c7844b26ebad",
     "value": "end"
   },
   "text-align-start": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/text-align.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
     "uuid": "3a7f9e91-6e1a-4937-a6d2-6c39566dc875",
     "value": "start"
   }

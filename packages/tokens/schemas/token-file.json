@@ -8,6 +8,7 @@
     "^[a-z0-9]+(-[a-z0-9]+)*$": {
       "anyOf": [
         { "$ref": "token-types/alias.json" },
+        { "$ref": "token-types/alignment.json" },
         { "$ref": "token-types/color.json" },
         { "$ref": "token-types/color-set.json" },
         { "$ref": "token-types/dimension.json" },
@@ -22,7 +23,6 @@
         { "$ref": "token-types/scale-set.json" },
         { "$ref": "token-types/set.json" },
         { "$ref": "token-types/system-set.json" },
-        { "$ref": "token-types/text-align.json" },
         { "$ref": "token-types/text-transform.json" },
         { "$ref": "token-types/token.json" },
         { "$ref": "token-types/typography.json" }
