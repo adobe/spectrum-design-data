@@ -2502,5 +2502,10 @@
       }
     },
     "uuid": "d0362576-7efc-4910-a671-b87695571050"
+  },
+  "stack-item-selected-background-color-highlight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{accent-background-color-default}",
+    "uuid": "beaff99a-634a-4ce8-b2f4-54c63202d45b"
   }
 }
