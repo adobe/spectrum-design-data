@@ -658,15 +658,6 @@ importers:
         specifier: ^6.0.1
         version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
 
-  tools/token-csv-generator:
-    dependencies:
-      "@adobe/spectrum-tokens":
-        specifier: workspace:*
-        version: link:../../packages/tokens
-      jsonpath-plus:
-        specifier: ^8.1.0
-        version: 8.1.0
-
   tools/token-manifest-builder: {}
 
   tools/token-mapping-analyzer:
