@@ -12,6 +12,7 @@ The specification defines:
 1. **Token format** — structured token identity (`name`), literal `value` or alias `$ref`, and lifecycle metadata ([Token format](token-format.md)).
 2. **Taxonomy** — concept categories, token term vocabulary, formatting style, and the distinction between component anatomy and token objects ([Taxonomy](taxonomy.md)).
 3. **Component format** — component declaration shape: API options, named content slots, anatomy parts, state model, and cross-reference validation rules ([Component format](component-format.md)).
+   3a. **Anatomy format** — anatomy part declaration shape: field constraints, canonical anatomy vocabulary, and cross-reference rules for token `anatomy` field values ([Anatomy format](anatomy-format.md)).
 4. **Cascade and resolution** — layered data (foundation, platform, product), specificity, and how a context picks a winning value ([Cascade](cascade.md)).
 5. **Dimensions** — declared modes, defaults, and coverage expectations ([Dimensions](dimensions.md)).
 6. **Platform manifest** — how a platform repo pins foundation data, filters tokens, and applies typed overrides ([Manifest](manifest.md)).
@@ -51,17 +52,18 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 
 ## Normative references (sibling documents)
 
-| Document                                | Role                                                                                           |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [Token format](token-format.md)         | Token `name`, `value` / `$ref`, value types, lifecycle metadata.                               |
-| [Taxonomy](taxonomy.md)                 | Concept categories, vocabulary, formatting, anatomy vs objects.                                |
-| [Component format](component-format.md) | Component declaration: options, slots, anatomy (→ Phase 6.2), states (→ Phase 6.3), lifecycle. |
-| [Cascade](cascade.md)                   | Layers, specificity, resolution algorithm.                                                     |
-| [Dimensions](dimensions.md)             | Dimension declarations, built-in dimensions, coverage.                                         |
-| [Manifest](manifest.md)                 | Platform manifest fields and validation expectations.                                          |
-| [Diff](diff.md)                         | Semantic diff change taxonomy, token identity, property changes.                               |
-| [Query](query.md)                       | Filter notation for selecting tokens by structured fields.                                     |
-| [Evolution](evolution.md)               | Deprecation lifecycle, migration windows, change classification.                               |
+| Document                                | Role                                                                                                   |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| [Token format](token-format.md)         | Token `name`, `value` / `$ref`, value types, lifecycle metadata.                                       |
+| [Taxonomy](taxonomy.md)                 | Concept categories, vocabulary, formatting, anatomy vs objects.                                        |
+| [Component format](component-format.md) | Component declaration: options, slots, anatomy (→ anatomy-format.md), states (→ Phase 6.3), lifecycle. |
+| [Anatomy format](anatomy-format.md)     | Anatomy part declarations: field constraints, canonical vocabulary, SPEC-020/SPEC-023.                 |
+| [Cascade](cascade.md)                   | Layers, specificity, resolution algorithm.                                                             |
+| [Dimensions](dimensions.md)             | Dimension declarations, built-in dimensions, coverage.                                                 |
+| [Manifest](manifest.md)                 | Platform manifest fields and validation expectations.                                                  |
+| [Diff](diff.md)                         | Semantic diff change taxonomy, token identity, property changes.                                       |
+| [Query](query.md)                       | Filter notation for selecting tokens by structured fields.                                             |
+| [Evolution](evolution.md)               | Deprecation lifecycle, migration windows, change classification.                                       |
 
 ## JSON Schema `$id` and versioning
 

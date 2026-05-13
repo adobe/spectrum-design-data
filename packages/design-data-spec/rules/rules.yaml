@@ -199,3 +199,12 @@ rules:
     message: "Token '{token}' references undeclared state '{state}' on component '{component}'"
     spec_ref: spec/component-format.md#spec-rules
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-023
+    name: anatomy-custom-part-documented
+    severity: warning
+    category: component-contract
+    assert: Anatomy part declarations with a 'name' outside the canonical anatomy vocabulary SHOULD include a 'description' field.
+    message: "Component '{component}' has custom anatomy part '{part}' with no description"
+    spec_ref: spec/anatomy-format.md#canonical-anatomy-vocabulary
+    introduced_in: "1.0.0-draft"
