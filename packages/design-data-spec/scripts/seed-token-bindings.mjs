@@ -78,7 +78,7 @@ for (const [displayName, references] of Object.entries(figmaData)) {
   const tokenBindings = [];
   for (const [tokenName, refs] of Object.entries(tokenMap)) {
     const firstRef = Array.isArray(refs) ? refs[0] : null;
-    const context = firstRef?.description ?? undefined;
+    const context = firstRef?.description;
     tokenBindings.push(context ? { token: tokenName, context } : { token: tokenName });
   }
 
