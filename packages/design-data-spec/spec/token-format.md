@@ -92,15 +92,16 @@ When **`value`** is present, it **MUST** conform to the declared value type for 
 
 The following OPTIONAL fields implement the token lifecycle model described in [#623](https://github.com/adobe/spectrum-design-data/discussions/623) and the evolution policy in [Evolution](evolution.md). Inspired by Swift's `@available` attribute, Kotlin's `@Deprecated`, and OpenAPI 3.3's deprecation model.
 
-| Field                | Type                                    | Description                                                                                                     |
-| -------------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `uuid`               | string (UUID)                           | Stable unique id for rename tracking and diffs.                                                                 |
-| `introduced`         | string (version)                        | Spec version when the token was first added (e.g. `"1.0.0"`).                                                   |
-| `deprecated`         | string (version)                        | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated.                               |
-| `deprecated_comment` | string                                  | Human-readable deprecation explanation and migration guidance.                                                  |
-| `replaced_by`        | string (UUID) or array of string (UUID) | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.           |
-| `plannedRemoval`     | string (version)                        | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecated`. |
-| `private`            | boolean                                 | Not part of public API surface.                                                                                 |
+| Field                | Type                                    | Description                                                                                                                    |
+| -------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `uuid`               | string (UUID)                           | Stable unique id for rename tracking and diffs.                                                                                |
+| `introduced`         | string (version)                        | Spec version when the token was first added (e.g. `"1.0.0"`).                                                                  |
+| `deprecated`         | string (version)                        | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated.                                              |
+| `deprecated_comment` | string                                  | Human-readable deprecation explanation and migration guidance.                                                                 |
+| `replaced_by`        | string (UUID) or array of string (UUID) | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.                          |
+| `plannedRemoval`     | string (version)                        | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecated`.                |
+| `private`            | boolean                                 | Not part of public API surface.                                                                                                |
+| `rationale`          | string                                  | Why this token has its current value. Intended for product-layer authoring context; see [Product context](product-context.md). |
 
 #### Lifecycle example
 
