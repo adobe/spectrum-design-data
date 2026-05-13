@@ -1,0 +1,63 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "component": "button",
+        "variant": "accent",
+        "property": "background-color"
+      },
+      "value": "#0265dc"
+    },
+    {
+      "name": {
+        "component": "button",
+        "anatomy": "label",
+        "property": "color"
+      },
+      "value": "#ffffff"
+    },
+    {
+      "name": {
+        "component": "button",
+        "state": "hover",
+        "property": "background-color"
+      },
+      "value": "#0255be"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/button/"
+      },
+      "options": {
+        "variant": {
+          "type": "string",
+          "enum": ["accent", "negative", "primary", "secondary"]
+        }
+      },
+      "slots": [
+        { "name": "default", "description": "Text label of the button." },
+        { "name": "icon", "description": "Leading icon." }
+      ],
+      "anatomy": [
+        { "name": "icon", "description": "Leading icon." },
+        { "name": "label", "description": "Button text.", "required": true }
+      ],
+      "states": [
+        { "name": "hover", "trigger": "interaction", "precedence": 50 },
+        {
+          "name": "focus",
+          "trigger": "interaction",
+          "precedence": 60,
+          "layered": true
+        },
+        { "name": "disabled", "trigger": "prop", "precedence": 100 }
+      ]
+    }
+  ]
+}

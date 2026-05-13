@@ -1,0 +1,70 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+  "specVersion": "1.0.0-draft",
+  "name": "button",
+  "displayName": "Button",
+  "description": "Buttons allow users to perform an action or to navigate to another page.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/button/"
+  },
+  "options": {
+    "variant": {
+      "type": "string",
+      "enum": ["accent", "negative", "primary", "secondary"],
+      "default": "accent",
+      "description": "Visual emphasis level."
+    },
+    "style": {
+      "type": "string",
+      "enum": ["fill", "outline"],
+      "default": "fill"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isDisabled": { "type": "boolean", "default": false },
+    "isPending": { "type": "boolean", "default": false },
+    "isLabelHidden": { "type": "boolean", "default": false },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+      "description": "Icon placed at the start of the button. Required when isLabelHidden is true."
+    },
+    "staticColor": {
+      "type": "string",
+      "enum": ["white", "black"],
+      "description": "Static color for use on colored backgrounds."
+    }
+  },
+  "slots": [
+    {
+      "name": "default",
+      "description": "Text label of the button.",
+      "required": false
+    },
+    {
+      "name": "icon",
+      "description": "Icon placed at the start of the button."
+    }
+  ],
+  "anatomy": [
+    { "name": "icon", "description": "Leading icon." },
+    { "name": "label", "description": "Button text.", "required": true }
+  ],
+  "states": [
+    { "name": "hover", "trigger": "interaction", "precedence": 50 },
+    {
+      "name": "focus",
+      "trigger": "interaction",
+      "precedence": 60,
+      "layered": true
+    },
+    { "name": "disabled", "trigger": "prop", "precedence": 100 }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}
