@@ -156,6 +156,118 @@ The iOS `@Binding` pattern has no direct web equivalent. It's a SwiftUI idiom fo
 
 ***
 
+## Per-Component Cross-Platform Matrix
+
+Each row is one semantic event. `—` means the platform has no equivalent. *(internal)* marks SWC coordination events not intended for application consumption.
+
+| Component           | Semantic                    | SWC                                          | RSP                                   | iOS                                     |
+| ------------------- | --------------------------- | -------------------------------------------- | ------------------------------------- | --------------------------------------- |
+| **accordion**       | items expanded/collapsed    | `sp-accordion-item-toggle` ✓cancelable       | `onOpenChange(openKeys: Set<Key>)`    | —                                       |
+| **action-bar**      | action button pressed       | —                                            | `onAction(key: Key)`                  | —                                       |
+| **action-bar**      | clear selection             | —                                            | `onClearSelection()`                  | —                                       |
+| **action-button**   | selected state changed      | `change`                                     | `onChange`                            | —                                       |
+| **action-button**   | long press                  | `longpress`                                  | —                                     | —                                       |
+| **action-group**    | selection changed           | `change`                                     | `onSelectionChange(key: Key)`         | —                                       |
+| **action-group**    | item activated              | —                                            | `onAction(key: Key)`                  | —                                       |
+| **alert-banner**    | dismissed                   | `close` ✓cancelable                          | —                                     | —                                       |
+| **breadcrumbs**     | item selected               | `change`, `breadcrumb-select`                | `onAction(key: Key)`                  | —                                       |
+| **button**          | press completed             | *(DOM click)*                                | `onPress(e: PressEvent)`              | `action: () -> Void`                    |
+| **button**          | press started               | —                                            | `onPressStart(e: PressEvent)`         | —                                       |
+| **button**          | press ended                 | —                                            | `onPressEnd(e: PressEvent)`           | —                                       |
+| **button**          | pressed state changed       | —                                            | `onPressChange(isPressed: bool)`      | —                                       |
+| **checkbox**        | checked state changed       | `change`                                     | `onChange(isSelected: bool)`          | —                                       |
+| **color-area**      | value changing (continuous) | `input`                                      | —                                     | —                                       |
+| **color-area**      | value committed             | `change`                                     | —                                     | —                                       |
+| **color-slider**    | value changing (continuous) | `input`                                      | —                                     | —                                       |
+| **color-slider**    | value committed             | `change`                                     | —                                     | —                                       |
+| **color-wheel**     | value changing (continuous) | `input`                                      | —                                     | —                                       |
+| **color-wheel**     | value committed             | `change`                                     | —                                     | —                                       |
+| **combobox**        | selection changed           | —                                            | `onSelectionChange(key: Key \| null)` | —                                       |
+| **combobox**        | text input changed          | —                                            | `onChange(value: string)`             | —                                       |
+| **combobox**        | open/close                  | —                                            | `onOpenChange(isOpen: bool)`          | —                                       |
+| **combobox**        | focus gained                | —                                            | `onFocus()`                           | —                                       |
+| **combobox**        | focus lost                  | —                                            | `onBlur()`                            | —                                       |
+| **combobox**        | async load more             | —                                            | `onLoadMore()`                        | —                                       |
+| **date-picker**     | value changed               | —                                            | `onChange(date)`                      | —                                       |
+| **date-picker**     | open/close                  | —                                            | `onOpenChange(isOpen: bool)`          | —                                       |
+| **date-picker**     | focus gained                | —                                            | `onFocus()`                           | —                                       |
+| **date-picker**     | focus lost                  | —                                            | `onBlur()`                            | —                                       |
+| **dialog**          | dismissed/closed            | `close`                                      | `onDismiss()`                         | —                                       |
+| **drop-zone**       | accept decision             | `sp-dropzone-should-accept` ✓cancelable      | —                                     | —                                       |
+| **drop-zone**       | drag entered                | `sp-dropzone-dragover`                       | `onDropEnter(e: DropEvent)`           | —                                       |
+| **drop-zone**       | drag exited                 | `sp-dropzone-dragleave`                      | `onDropExit(e: DropEvent)`            | —                                       |
+| **drop-zone**       | files dropped               | `sp-dropzone-drop`                           | `onDrop(e: DropEvent)`                | —                                       |
+| **link**            | pressed                     | *(DOM click)*                                | `onPress(e: PressEvent)`              | —                                       |
+| **list-view**       | selection changed           | —                                            | `onSelectionChange(key: Key)`         | —                                       |
+| **list-view**       | item activated              | —                                            | `onAction(key: Key)`                  | —                                       |
+| **list-view**       | async load more             | —                                            | `onLoadMore()`                        | —                                       |
+| **menu**            | selection changed           | `change`                                     | `onSelectionChange(key: Key)`         | —                                       |
+| **menu**            | item activated              | —                                            | `onAction(key: Key)`                  | —                                       |
+| **menu**            | closed                      | `close`                                      | —                                     | —                                       |
+| **menu**            | submenu opened              | `sp-menu-submenu-opened`                     | —                                     | —                                       |
+| **menu**            | submenu closed              | `sp-menu-submenu-closed`                     | —                                     | —                                       |
+| **menu-item**       | registered with parent      | `sp-menu-item-added-or-updated` *(internal)* | —                                     | —                                       |
+| **number-field**    | value changing              | `input`                                      | —                                     | —                                       |
+| **number-field**    | value committed             | `change`                                     | `onChange(value: number)`             | —                                       |
+| **number-field**    | focus gained                | —                                            | `onFocus()`                           | —                                       |
+| **number-field**    | focus lost                  | —                                            | `onBlur()`                            | —                                       |
+| **picker**          | selection changed           | `change`                                     | `onSelectionChange(key: Key)`         | `selection: Binding<Value>`             |
+| **picker**          | overlay opened              | `sp-opened`                                  | `onOpenChange(true)`                  | —                                       |
+| **picker**          | overlay closed              | `sp-closed`                                  | `onOpenChange(false)`                 | —                                       |
+| **picker**          | focus gained                | —                                            | `onFocus()`                           | —                                       |
+| **picker**          | focus lost                  | —                                            | `onBlur()`                            | —                                       |
+| **picker**          | async load more             | —                                            | `onLoadMore()`                        | —                                       |
+| **radio**           | selected                    | `change`                                     | `onChange(isSelected: bool)`          | —                                       |
+| **radio-group**     | selection changed           | `change`                                     | —                                     | —                                       |
+| **search-field**    | value changing              | `input`                                      | —                                     | —                                       |
+| **search-field**    | value committed             | `change`                                     | `onChange(value: string)`             | —                                       |
+| **search-field**    | cleared                     | —                                            | `onClear()`                           | —                                       |
+| **search-field**    | submitted                   | `submit`                                     | `onSubmit(value: string)`             | —                                       |
+| **search-field**    | focus gained                | —                                            | `onFocus()`                           | —                                       |
+| **search-field**    | focus lost                  | —                                            | `onBlur()`                            | —                                       |
+| **slider**          | value changing (continuous) | `input`                                      | `onChange(value: number)`             | —                                       |
+| **slider**          | value committed             | `change`                                     | `onChangeEnd(value: number)`          | —                                       |
+| **slider**          | handle registered           | `sp-slider-handle-ready` *(internal)*        | —                                     | —                                       |
+| **switch**          | toggled                     | `change`                                     | `onChange(isSelected: bool)`          | `isOn: Binding<Bool>`                   |
+| **table**           | selection changed           | `change`                                     | `onSelectionChange(keys: Set<Key>)`   | —                                       |
+| **table**           | row activated               | —                                            | `onAction(key: Key)`                  | —                                       |
+| **table**           | column sorted               | `sorted`                                     | `onSort(descriptor: SortDescriptor)`  | —                                       |
+| **table**           | visible range changed       | `rangeChanged`                               | —                                     | —                                       |
+| **table**           | column resize start         | —                                            | `onResizeStart(widths: Map)`          | —                                       |
+| **table**           | column resizing             | —                                            | `onResize(widths: Map)`               | —                                       |
+| **table**           | column resize end           | —                                            | `onResizeEnd(widths: Map)`            | —                                       |
+| **table**           | row expanded                | —                                            | `onExpandedChange(keys: Set<Key>)`    | —                                       |
+| **tabs**            | active tab changed          | `change`                                     | `onSelectionChange(key: Key)`         | —                                       |
+| **tabs**            | scrolled                    | `sp-tabs-scroll`                             | —                                     | —                                       |
+| **tag / tag-group** | tag removed                 | `delete` ✓cancelable                         | `onRemove(key: Key)`                  | —                                       |
+| **tag-group**       | selection changed           | —                                            | `onChange(keys: Set<Key>)`            | —                                       |
+| **text-field**      | value changing              | `input`                                      | —                                     | —                                       |
+| **text-field**      | value committed             | `change`                                     | `onChange(value: string)`             | —                                       |
+| **text-field**      | focus gained                | —                                            | `onFocus()`                           | —                                       |
+| **text-field**      | focus lost                  | —                                            | `onBlur()`                            | —                                       |
+| **text-area**       | value changing              | `input`                                      | —                                     | —                                       |
+| **text-area**       | value committed             | `change`                                     | `onChange(value: string)`             | —                                       |
+| **text-area**       | focus gained                | —                                            | `onFocus()`                           | —                                       |
+| **text-area**       | focus lost                  | —                                            | `onBlur()`                            | —                                       |
+| **toast**           | closed/expired              | `close`                                      | `onDismiss()`                         | `handler: () -> Void` (action CTA only) |
+| **tooltip**         | opened                      | `sp-opened`                                  | `onOpenChange(true)`                  | —                                       |
+| **tooltip**         | closed                      | `sp-closed`                                  | `onOpenChange(false)`                 | —                                       |
+| **tray**            | closed                      | `close`                                      | —                                     | —                                       |
+
+### Notable cross-platform gaps
+
+| Pattern                 | SWC                                                       | RSP                                      | iOS               | Gap                                                      |
+| ----------------------- | --------------------------------------------------------- | ---------------------------------------- | ----------------- | -------------------------------------------------------- |
+| Focus/blur on fields    | *(DOM native)*                                            | `onFocus` / `onBlur` props               | —                 | SWC relies on native DOM; RSP explicit; iOS absent       |
+| Continuous vs committed | `input` + `change`                                        | `onChange` + `onChangeEnd` (slider only) | —                 | RSP collapses both into `onChange` for most fields       |
+| Cancelable events       | `delete`, `close`, `sp-dropzone-should-accept`            | *(none)*                                 | —                 | No RSP/iOS equivalent for cancelable guard events        |
+| Internal coordination   | `sp-menu-item-added-or-updated`, `sp-slider-handle-ready` | *(none)*                                 | —                 | SWC has no public/internal boundary in naming            |
+| Overlay lifecycle       | `sp-opened` / `sp-closed` (component events)              | `onOpenChange(bool)` (prop)              | —                 | Same concept, opposite model (push vs. pull)             |
+| Press lifecycle         | *(DOM events)*                                            | `onPress/Start/End/Change`               | `action:`         | iOS only exposes completed press; RSP has full lifecycle |
+| Two-way binding         | *(not a pattern)*                                         | *(not a pattern)*                        | `@Binding<Value>` | iOS `@Binding` has no web equivalent                     |
+
+***
+
 ## Cross-Platform Event Taxonomy
 
 Despite different surface APIs, the same **semantic categories** appear across platforms:
