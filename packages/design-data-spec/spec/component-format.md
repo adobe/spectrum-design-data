@@ -29,15 +29,16 @@ A component declaration **MUST** contain:
 
 ### Optional fields
 
-| Field         | Type   | Description                                                                                                                                |
-| ------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `specVersion` | string | Declares which spec version this document targets. Currently `"1.0.0-draft"`; future stable releases will accept their own version string. |
-| `description` | string | Plain-text description of the component's purpose.                                                                                         |
-| `options`     | object | Component API options — see [Options](#options).                                                                                           |
-| `slots`       | array  | Named content injection points — see [Slots](#slots).                                                                                      |
-| `anatomy`     | array  | Named anatomy parts — see [Anatomy (stub)](#anatomy-stub).                                                                                 |
-| `states`      | array  | Per-component state declarations — see [States (stub)](#states-stub).                                                                      |
-| `lifecycle`   | object | Version lifecycle metadata — see [Lifecycle](#lifecycle).                                                                                  |
+| Field           | Type   | Description                                                                                                                                |
+| --------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `specVersion`   | string | Declares which spec version this document targets. Currently `"1.0.0-draft"`; future stable releases will accept their own version string. |
+| `description`   | string | Plain-text description of the component's purpose.                                                                                         |
+| `options`       | object | Component API options — see [Options](#options).                                                                                           |
+| `slots`         | array  | Named content injection points — see [Slots](#slots).                                                                                      |
+| `anatomy`       | array  | Named anatomy parts — see [Anatomy (stub)](#anatomy-stub).                                                                                 |
+| `states`        | array  | Per-component state declarations — see [States (stub)](#states-stub).                                                                      |
+| `lifecycle`     | object | Version lifecycle metadata — see [Lifecycle](#lifecycle).                                                                                  |
+| `tokenBindings` | array  | Tokens this component uses — see [Token bindings](#token-bindings) (Phase 6.7).                                                            |
 
 **NORMATIVE:** No properties beyond those listed above are permitted at the top level of a component declaration. Additional fields **MUST** cause a Layer 1 schema error.
 
@@ -241,17 +242,41 @@ The `lifecycle` block tracks a component declaration's version history. It mirro
 }
 ```
 
+## Token bindings
+
+The optional `tokenBindings` array declares which tokens a component uses, including foundation and structure tokens that do not carry the component name in their name-object. This is the *component-declares-usage* direction; the *token-declares-scope* direction is expressed via name-object `component`/`anatomy`/`state` fields and validated by SPEC-018–022.
+
+```json
+"tokenBindings": [
+  { "token": "component-height-100",         "context": "Minimum height" },
+  { "token": "corner-radius-full",           "context": "Rounding" },
+  { "token": "button-background-color-accent", "context": "Fill background" }
+]
+```
+
+Each entry contains:
+
+| Field     | Required | Type   | Description                                                                                                                                             |
+| --------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `token`   | yes      | string | Token name. **MUST** resolve to a declared token in the dataset when the dataset is present (rule SPEC-027). May reference structure/foundation tokens. |
+| `context` | no       | string | Human-readable label for how this token is used (maps to the Figma Token Group label in the S2 Token Specs Figma file).                                 |
+
+**NORMATIVE:** When the dataset includes token declarations, each `tokenBindings[].token` value **MUST** match the name of a declared token (rule SPEC-027). A missing token reference is a validation error.
+
+The `context` field is informative. It is used by `describe_component` (Phase 8 agent surface) to present token usage in grouped, human-readable form.
+
 ## SPEC rules
 
 The following rules are added to the Layer 2 rule catalog (`rules/rules.yaml`) by this chapter. New component cross-reference rules start at SPEC-018 to avoid collision with existing token rules (SPEC-001–SPEC-017).
 
-| Rule ID  | Name                        | Severity | Assert                                                                                                                                                                        |
-| -------- | --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-018 | `component-name-exists`     | error    | Token `component` field value **MUST** match the `name` of a declared component in the dataset.                                                                               |
-| SPEC-019 | `component-variant-valid`   | error    | Token `variant` field value **MUST** match a value in the declared `variant` option enum for the referenced component (when that enum exists).                                |
-| SPEC-020 | `component-anatomy-valid`   | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                 |
-| SPEC-021 | `component-slot-vocabulary` | warning  | Component `slots` entries with a `name` outside the canonical vocabulary **SHOULD** include a `description`. Custom slot names without descriptions are surfaced as warnings. |
-| SPEC-022 | `component-state-valid`     | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).                                    |
+| Rule ID  | Name                         | Severity | Assert                                                                                                                                                                        |
+| -------- | ---------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-018 | `component-name-exists`      | error    | Token `component` field value **MUST** match the `name` of a declared component in the dataset.                                                                               |
+| SPEC-019 | `component-variant-valid`    | error    | Token `variant` field value **MUST** match a value in the declared `variant` option enum for the referenced component (when that enum exists).                                |
+| SPEC-020 | `component-anatomy-valid`    | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                 |
+| SPEC-021 | `component-slot-vocabulary`  | warning  | Component `slots` entries with a `name` outside the canonical vocabulary **SHOULD** include a `description`. Custom slot names without descriptions are surfaced as warnings. |
+| SPEC-022 | `component-state-valid`      | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).                                    |
+| SPEC-027 | `token-binding-token-exists` | error    | Each `tokenBindings[].token` value **MUST** match the name of a declared token in the dataset (Phase 6.7).                                                                    |
 
 ## Full example
 

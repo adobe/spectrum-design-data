@@ -171,6 +171,11 @@
         "description": {
           "type": "string",
           "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
+        },
+        "componentBindings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/componentBinding" },
+          "description": "Reverse index: components that declare this token in their tokenBindings. Optional and derivable from component files."
         }
       },
       "additionalProperties": false
@@ -240,6 +245,28 @@
         "description": {
           "type": "string",
           "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
+        },
+        "componentBindings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/componentBinding" },
+          "description": "Reverse index: components that declare this token in their tokenBindings. Optional and derivable from component files."
+        }
+      },
+      "additionalProperties": false
+    },
+    "componentBinding": {
+      "type": "object",
+      "required": ["component"],
+      "description": "A single component usage binding on a token — the reverse of tokenBindings on the component.",
+      "properties": {
+        "component": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Component name (kebab-case). MUST match a declared component name."
+        },
+        "context": {
+          "type": "string",
+          "description": "Human-readable label for how this token is used in the component."
         }
       },
       "additionalProperties": false

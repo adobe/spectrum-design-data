@@ -72,5 +72,471 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "popover-submenu-to-menu-item-position",
+      "context": "Sub-menu alignment with menu item"
+    },
+    {
+      "token": "component-height-75",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-size-difference-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-width-ratio-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-minimum-perspective-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "corner-radius-400",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-500",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-600",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-700",
+      "context": "Rounding"
+    },
+    {
+      "token": "menu-item-section-divider-height",
+      "context": "Height (section divider)"
+    },
+    {
+      "token": "text-to-visual-75",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-200",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-75",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-100",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-200",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-300",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "menu-item-to-items",
+      "context": "Spacing (item to item)"
+    },
+    {
+      "token": "component-edge-to-text-75",
+      "context": "Spacing (start/end edges to content)"
+    },
+    {
+      "token": "component-edge-to-text-100",
+      "context": "Spacing (start/end edges to content)"
+    },
+    {
+      "token": "component-edge-to-text-200",
+      "context": "Spacing (start/end edges to content)"
+    },
+    {
+      "token": "component-edge-to-text-300",
+      "context": "Spacing (start/end edges to content)"
+    },
+    {
+      "token": "text-to-visual-400",
+      "context": "Spacing (thumbnail to label)"
+    },
+    {
+      "token": "menu-item-top-to-thumbnail-small",
+      "context": "Spacing (top to thumbnail)"
+    },
+    {
+      "token": "menu-item-top-to-thumbnail-medium",
+      "context": "Spacing (top to thumbnail)"
+    },
+    {
+      "token": "menu-item-top-to-thumbnail-large",
+      "context": "Spacing (top to thumbnail)"
+    },
+    {
+      "token": "menu-item-top-to-thumbnail-extra-large",
+      "context": "Spacing (top to thumbnail)"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (top to to label/value)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top to to label/value)"
+    },
+    {
+      "token": "component-top-to-text-200",
+      "context": "Spacing (top to to label/value)"
+    },
+    {
+      "token": "component-top-to-text-300",
+      "context": "Spacing (top to to label/value)"
+    },
+    {
+      "token": "menu-section-header-to-description-small",
+      "context": "Spacing (section header to description)"
+    },
+    {
+      "token": "menu-section-header-to-description-medium",
+      "context": "Spacing (section header to description)"
+    },
+    {
+      "token": "menu-section-header-to-description-large",
+      "context": "Spacing (section header to description)"
+    },
+    {
+      "token": "menu-section-header-to-description-extra-large",
+      "context": "Spacing (section header to description)"
+    },
+    {
+      "token": "menu-item-label-to-description-small",
+      "context": "Spacing (label to description)"
+    },
+    {
+      "token": "menu-item-label-to-description-medium",
+      "context": "Spacing (label to description)"
+    },
+    {
+      "token": "menu-item-label-to-description-large",
+      "context": "Spacing (label to description)"
+    },
+    {
+      "token": "menu-item-label-to-description-extra-large",
+      "context": "Spacing (label to description)"
+    },
+    {
+      "token": "component-bottom-to-text-75",
+      "context": "Spacing (bottom edge to label/description)"
+    },
+    {
+      "token": "component-bottom-to-text-100",
+      "context": "Spacing (bottom edge to label/description)"
+    },
+    {
+      "token": "component-bottom-to-text-200",
+      "context": "Spacing (bottom edge to label/description)"
+    },
+    {
+      "token": "component-bottom-to-text-300",
+      "context": "Spacing (bottom edge to label/description)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (label area to actions/value area, minimum)"
+    },
+    {
+      "token": "menu-item-top-to-selected-icon-small",
+      "context": "Spacing (top edge to selected icon, single selection)"
+    },
+    {
+      "token": "menu-item-top-to-selected-icon-medium",
+      "context": "Spacing (top edge to selected icon, single selection)"
+    },
+    {
+      "token": "menu-item-top-to-selected-icon-large",
+      "context": "Spacing (top edge to selected icon, single selection)"
+    },
+    {
+      "token": "menu-item-top-to-selected-icon-extra-large",
+      "context": "Spacing (top edge to selected icon, single selection)"
+    },
+    {
+      "token": "text-to-control-75",
+      "context": "Spacing (checkmark icon/checkbox to label)"
+    },
+    {
+      "token": "text-to-control-100",
+      "context": "Spacing (checkmark icon/checkbox to label)"
+    },
+    {
+      "token": "text-to-control-200",
+      "context": "Spacing (checkmark icon/checkbox to label)"
+    },
+    {
+      "token": "text-to-control-300",
+      "context": "Spacing (checkmark icon/checkbox to label)"
+    },
+    {
+      "token": "menu-item-edge-to-content-not-selected-small",
+      "context": "Spacing (start edge to label, single selection, not selected)"
+    },
+    {
+      "token": "menu-item-edge-to-content-not-selected-medium",
+      "context": "Spacing (start edge to label, single selection, not selected)"
+    },
+    {
+      "token": "menu-item-edge-to-content-not-selected-large",
+      "context": "Spacing (start edge to label, single selection, not selected)"
+    },
+    {
+      "token": "menu-item-edge-to-content-not-selected-extra-large",
+      "context": "Spacing (start edge to label, single selection, not selected)"
+    },
+    {
+      "token": "menu-item-top-to-disclosure-icon-small",
+      "context": "Spacing (top edge to disclosure icon)"
+    },
+    {
+      "token": "menu-item-top-to-disclosure-icon-medium",
+      "context": "Spacing (top edge to disclosure icon)"
+    },
+    {
+      "token": "menu-item-top-to-disclosure-icon-large",
+      "context": "Spacing (top edge to disclosure icon)"
+    },
+    {
+      "token": "menu-item-top-to-disclosure-icon-extra-large",
+      "context": "Spacing (top edge to disclosure icon)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "workflow-icon-size-75",
+      "context": "Icon (menu item)"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon (menu item)"
+    },
+    {
+      "token": "workflow-icon-size-200",
+      "context": "Icon (menu item)"
+    },
+    {
+      "token": "workflow-icon-size-300",
+      "context": "Icon (menu item)"
+    },
+    {
+      "token": "checkmark-icon-size-75",
+      "context": "Icon (single selection, selected menu item)"
+    },
+    {
+      "token": "checkmark-icon-size-100",
+      "context": "Icon (single selection, selected menu item)"
+    },
+    {
+      "token": "checkmark-icon-size-200",
+      "context": "Icon (single selection, selected menu item)"
+    },
+    {
+      "token": "checkmark-icon-size-300",
+      "context": "Icon (single selection, selected menu item)"
+    },
+    {
+      "token": "chevron-icon-size-75",
+      "context": "Icon (drill-in action, menu item)"
+    },
+    {
+      "token": "chevron-icon-size-100",
+      "context": "Icon (drill-in action, menu item)"
+    },
+    {
+      "token": "chevron-icon-size-200",
+      "context": "Icon (drill-in action, menu item)"
+    },
+    {
+      "token": "chevron-icon-size-300",
+      "context": "Icon (drill-in action, menu item)"
+    },
+    {
+      "token": "link-out-icon-size-75",
+      "context": "Icon (external link action, menu item)"
+    },
+    {
+      "token": "link-out-icon-size-100",
+      "context": "Icon (external link action, menu item)"
+    },
+    {
+      "token": "link-out-icon-size-200",
+      "context": "Icon (external link action, menu item)"
+    },
+    {
+      "token": "thumbnail-size-500",
+      "context": "Thumbnail"
+    },
+    {
+      "token": "thumbnail-size-700",
+      "context": "Thumbnail"
+    },
+    {
+      "token": "thumbnail-size-800",
+      "context": "Thumbnail"
+    },
+    {
+      "token": "thumbnail-size-900",
+      "context": "Thumbnail"
+    },
+    {
+      "token": "menu-item-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "menu-item-background-color-hover",
+      "context": "Background"
+    },
+    {
+      "token": "menu-item-background-color-down",
+      "context": "Background"
+    },
+    {
+      "token": "menu-item-background-color-key-focus",
+      "context": "Background"
+    },
+    {
+      "token": "menu-item-background-color-disabled",
+      "context": "Background"
+    },
+    {
+      "token": "menu-item-background-opacity",
+      "context": "Background"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Label and icon"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Label and icon"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Label and icon"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Label and icon"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Label and icon"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Description"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Description"
+    },
+    {
+      "token": "neutral-subdued-content-color-down",
+      "context": "Description"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Description"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Checkmark icon"
+    },
+    {
+      "token": "accent-content-color-hover",
+      "context": "Checkmark icon"
+    },
+    {
+      "token": "accent-content-color-down",
+      "context": "Checkmark icon"
+    },
+    {
+      "token": "accent-content-color-key-focus",
+      "context": "Checkmark icon"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Section header title"
+    },
+    {
+      "token": "bold-font-weight",
+      "context": "Section header title"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Section header title"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Section header title"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Section header title"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Section header title"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Section header title"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Section header title"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Section header title"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Descriptions (section header and item)"
+    },
+    {
+      "token": "font-size-50",
+      "context": "Descriptions (section header and item)"
+    }
+  ]
 }

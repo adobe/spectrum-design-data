@@ -44,5 +44,19 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "swatch-group-spacing-spacious",
+      "context": "Spacing (spacious)"
+    },
+    {
+      "token": "swatch-group-border-color",
+      "context": "Border"
+    },
+    {
+      "token": "swatch-group-border-opacity",
+      "context": "Border"
+    }
+  ]
 }

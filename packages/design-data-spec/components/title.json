@@ -1,0 +1,39 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/title.json",
+  "specVersion": "1.0.0-draft",
+  "name": "title",
+  "displayName": "Title",
+  "description": "Title is a typography component used for large, prominent headings and display text.",
+  "meta": {
+    "category": "typography",
+    "documentationUrl": "https://spectrum.adobe.com/page/title/"
+  },
+  "options": {
+    "script": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"
+    },
+    "classification": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-classification.json"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["xs", "s", "m", "l", "xl", "xxl", "xxxl"],
+      "default": "m"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    { "token": "font-family", "context": "Title-XXXL" },
+    { "token": "font-weight", "context": "Title-XXXL" },
+    { "token": "font-size", "context": "Title-XXXL" },
+    { "token": "line-height", "context": "Title-XXXL" },
+    { "token": "letter-spacing", "context": "Title-XXXL" },
+    { "token": "font-style", "context": "Title-XXXL" },
+    { "token": "title-margin-top-multiplier", "context": "Margins" },
+    { "token": "title-margin-bottom-multiplier", "context": "Margins" },
+    { "token": "title-color", "context": "Color" }
+  ]
+}

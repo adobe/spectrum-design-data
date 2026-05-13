@@ -73,5 +73,43 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "color-area-width",
+      "context": "Size"
+    },
+    {
+      "token": "color-area-minimum-width",
+      "context": "Size"
+    },
+    {
+      "token": "color-area-height",
+      "context": "Size"
+    },
+    {
+      "token": "color-area-minimum-height",
+      "context": "Size"
+    },
+    {
+      "token": "color-area-border-width",
+      "context": "Color area border"
+    },
+    {
+      "token": "color-area-border-rounding",
+      "context": "Color area border"
+    },
+    {
+      "token": "color-area-border-color",
+      "context": "Color area border"
+    },
+    {
+      "token": "color-area-border-opacity",
+      "context": "Color area border"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Disabled"
+    }
+  ]
 }

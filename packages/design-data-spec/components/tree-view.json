@@ -59,5 +59,283 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon"
+    },
+    {
+      "token": "tree-view-minimum-height",
+      "context": "Height (minimum)"
+    },
+    {
+      "token": "tree-view-minimum-width",
+      "context": "Width (minimum)"
+    },
+    {
+      "token": "corner-radius-medium-default",
+      "context": "Rounding"
+    },
+    {
+      "token": "tree-view-disclosure-indicator-height",
+      "context": "Spacing (disclosure indicator)"
+    },
+    {
+      "token": "tree-view-disclosure-indicator-width",
+      "context": "Spacing (disclosure indicator)"
+    },
+    {
+      "token": "tree-view-edge-to-checkbox",
+      "context": "Spacing (edge to checkbox, checkbox)"
+    },
+    {
+      "token": "tree-view-edge-to-drag-handle",
+      "context": "Spacing (edge to drag handle, drag handle)"
+    },
+    {
+      "token": "tree-view-drag-handle-to-checkbox",
+      "context": "Spacing (drag handle to checkbox, drag handle + checkbox)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (context area to label)"
+    },
+    {
+      "token": "component-edge-to-text-100",
+      "context": "Spacing (label to edge)"
+    },
+    {
+      "token": "tree-view-label-to-action-area",
+      "context": "Spacing (label to action area)"
+    },
+    {
+      "token": "tree-view-end-edge-to-action-area",
+      "context": "Spacing (edge to action area, action button 1 + action button 2)"
+    },
+    {
+      "token": "tree-view-level-increment",
+      "context": "Spacing (indentation)"
+    },
+    {
+      "token": "vertical-align-items",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "stack-item-minimum-padding-vertical",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "border-width-100",
+      "context": "Border width (selected, highlight)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus "
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus (drag handle)"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Height"
+    },
+    {
+      "token": "stack-item-minimum-vertical-padding",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "stack-item-item-to-item",
+      "context": "Spacing (vertically, between tree view items)"
+    },
+    {
+      "token": "tree-view-item-to-header",
+      "context": "Spacing (vertically, between tree view item and tree view header)"
+    },
+    {
+      "token": "tree-view-header-to-item",
+      "context": "Spacing (vertically, between tree view item and tree view header)"
+    },
+    {
+      "token": "stack-item-header-to-item",
+      "context": "Spacing (vertically, between tree view item and tree view header)"
+    },
+    {
+      "token": "stack-item-background-color-hover",
+      "context": "Background (not selected)"
+    },
+    {
+      "token": "stack-item-background-color-down",
+      "context": "Background (not selected)"
+    },
+    {
+      "token": "stack-item-background-color-key-focus",
+      "context": "Background (not selected)"
+    },
+    {
+      "token": "tree-view-selected-row-background-default",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "tree-view-selected-row-background-hover",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-default",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-hover",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-down",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-key-focus",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "tree-view-selected-row-background-color-emphasized",
+      "context": "Background (selected, emphasized)"
+    },
+    {
+      "token": "tree-view-selected-row-background-opacity-emphasized-hover",
+      "context": "Background (selected, emphasized)"
+    },
+    {
+      "token": "stack-item-selected-background-color-highlight",
+      "context": "Background (selected + highlight)"
+    },
+    {
+      "token": "stack-item-selected-background-opacity-highlight-hover",
+      "context": "Background (selected + highlight)"
+    },
+    {
+      "token": "accent-content-color-selected",
+      "context": "Border (selected + highlight)"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-down",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Label and icon (selected, checkbox and highlight)"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Label and icon (selected, checkbox and highlight)"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Label and icon (selected, checkbox and highlight)"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Label and icon (selected, checkbox and highlight)"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Label and icon (disabled)"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "title-content-color",
+      "context": "Label and icon"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Text (tree view item)"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Text (tree view item)"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Text (tree view item)"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Text (tree view item)"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Text (tree view item)"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Text (tree view item)"
+    },
+    {
+      "token": "bold-font-weight",
+      "context": "Text (tree view title)"
+    },
+    {
+      "token": "thumbnail-size-75",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-300",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-1000",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-corner-radius",
+      "context": "Rounding (default)"
+    },
+    {
+      "token": "spacing-75",
+      "context": "Opacity checkerboard (layer)"
+    },
+    {
+      "token": "corner-radius-0",
+      "context": "Rounding (layer)"
+    },
+    {
+      "token": "thumbnail-border-color",
+      "context": "Border (default)"
+    },
+    {
+      "token": "thumbnail-border-opacity",
+      "context": "Border (default)"
+    },
+    {
+      "token": "gray-500",
+      "context": "Border (layer)"
+    },
+    {
+      "token": "opacity-checkerboard-square-light",
+      "context": "Checkerboard colors "
+    },
+    {
+      "token": "opacity-checkerboard-square-dark",
+      "context": "Checkerboard colors "
+    },
+    {
+      "token": "thumbnail-opacity-disabled",
+      "context": "Disabled"
+    }
+  ]
 }

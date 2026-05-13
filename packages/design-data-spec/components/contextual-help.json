@@ -76,5 +76,87 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "xs-s",
+      "context": "Components"
+    },
+    {
+      "token": "s-m",
+      "context": "Components"
+    },
+    {
+      "token": "contextual-help-minimum-width",
+      "context": "Minimum width"
+    },
+    {
+      "token": "corner-radius-large-default",
+      "context": "Rounding"
+    },
+    {
+      "token": "spacing-400",
+      "context": "Spacing (top/bottom/start/end edge to text)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (header to body, body to link)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (header to body, body to link)"
+    },
+    {
+      "token": "spacing-300",
+      "context": "Spacing (header to body, body to link)"
+    },
+    {
+      "token": "contextual-help-title-size",
+      "context": "Title"
+    },
+    {
+      "token": "title-sans-serif-font-family",
+      "context": "Title"
+    },
+    {
+      "token": "title-sans-serif-font-weight",
+      "context": "Title"
+    },
+    {
+      "token": "title-sans-serif-font-style",
+      "context": "Title"
+    },
+    {
+      "token": "title-line-height",
+      "context": "Title"
+    },
+    {
+      "token": "contextual-help-body-size",
+      "context": "Body"
+    },
+    {
+      "token": "body-sans-serif-font-family",
+      "context": "Body"
+    },
+    {
+      "token": "body-sans-serif-font-weight",
+      "context": "Body"
+    },
+    {
+      "token": "body-sans-serif-font-style",
+      "context": "Body"
+    },
+    {
+      "token": "line-height-200",
+      "context": "Body"
+    },
+    {
+      "token": "title-color",
+      "context": "Color"
+    },
+    {
+      "token": "body-color",
+      "context": "Color"
+    }
+  ]
 }

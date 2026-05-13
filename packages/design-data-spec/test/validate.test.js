@@ -313,6 +313,54 @@ test("SPEC-024: no warning for canonical state without description", (t) => {
   t.is(diags.length, 0);
 });
 
+// ---- SPEC-027: token-binding-token-exists ------------------------------------
+
+const buttonWithBindings = {
+  ...button,
+  tokenBindings: [
+    { token: "button-background-color-accent", context: "Fill background" },
+    { token: "component-height-100", context: "Height" },
+  ],
+};
+
+test("SPEC-027: no error when all tokenBinding tokens exist", (t) => {
+  const dataset = {
+    tokens: [
+      { name: "button-background-color-accent", value: "#0265dc" },
+      { name: "component-height-100", value: "32px" },
+    ],
+    components: [buttonWithBindings],
+  };
+  const diags = validateDataset(dataset).filter((d) => d.ruleId === "SPEC-027");
+  t.is(diags.length, 0);
+});
+
+test("SPEC-027: error when tokenBinding references unknown token", (t) => {
+  const dataset = {
+    tokens: [{ name: "component-height-100", value: "32px" }],
+    components: [buttonWithBindings],
+  };
+  const diags = validateDataset(dataset).filter((d) => d.ruleId === "SPEC-027");
+  t.is(diags.length, 1);
+  t.is(diags[0].severity, "error");
+  t.regex(diags[0].message, /unknown token/);
+});
+
+test("SPEC-027: no error when tokenBindings is absent", (t) => {
+  const dataset = { tokens: [], components: [button] };
+  const diags = validateDataset(dataset).filter((d) => d.ruleId === "SPEC-027");
+  t.is(diags.length, 0);
+});
+
+test("SPEC-027: no error for empty tokenBindings array", (t) => {
+  const dataset = {
+    tokens: [],
+    components: [{ ...button, tokenBindings: [] }],
+  };
+  const diags = validateDataset(dataset).filter((d) => d.ruleId === "SPEC-027");
+  t.is(diags.length, 0);
+});
+
 // ---- Empty dataset ----------------------------------------------------------
 
 test("empty dataset produces no diagnostics", (t) => {

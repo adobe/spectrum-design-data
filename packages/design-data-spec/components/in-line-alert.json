@@ -43,5 +43,159 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "border-width-200",
+      "context": "Border "
+    },
+    {
+      "token": "corner-radius-700",
+      "context": "Rounding"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon"
+    },
+    {
+      "token": "in-line-alert-minimum-width",
+      "context": "Minimum width"
+    },
+    {
+      "token": "spacing-300",
+      "context": "Spacing (Top/Bottom/Start/End edge to Content)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (Title to Description) "
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (Description to Link, Description to Button, Link to Button) "
+    },
+    {
+      "token": "component-height-50",
+      "context": "Minimum title area height"
+    },
+    {
+      "token": "heading-color",
+      "context": "Title and Description (Border fill)"
+    },
+    {
+      "token": "body-color",
+      "context": "Title and Description (Border fill)"
+    },
+    {
+      "token": "background-layer-2-color",
+      "context": "Background (Border fill)"
+    },
+    {
+      "token": "informative-visual-color",
+      "context": "Border and Icon (Border fill, Informative)"
+    },
+    {
+      "token": "positive-visual-color",
+      "context": "Border and Icon (Border fill, Positive)"
+    },
+    {
+      "token": "notice-visual-color",
+      "context": "Border and Icon (Border fill, Notice)"
+    },
+    {
+      "token": "negative-visual-color",
+      "context": "Border and Icon (Border fill, Negative)"
+    },
+    {
+      "token": "neutral-visual-color",
+      "context": "Border (Border fill, Neutral)"
+    },
+    {
+      "token": "informative-subtle-background-color-default",
+      "context": "Background and Icon (Subtle fill, Informative)"
+    },
+    {
+      "token": "positive-subtle-background-color-default",
+      "context": "Background and Icon (Subtle fill, Positive)"
+    },
+    {
+      "token": "notice-subtle-background-color-default",
+      "context": "Background and Icon (Subtle fill, Notice)"
+    },
+    {
+      "token": "negative-subtle-background-color-default",
+      "context": "Background and Icon (Subtle fill, Negative)"
+    },
+    {
+      "token": "neutral-subtle-background-color-default",
+      "context": "Background and Icon (Subtle fill, Neutral)"
+    },
+    {
+      "token": "white",
+      "context": "Title and Description (Bold fill)"
+    },
+    {
+      "token": "black",
+      "context": "Title and Description (Bold fill, Notice)"
+    },
+    {
+      "token": "informative-background-color-default",
+      "context": "Background (Bold fill, Informative)"
+    },
+    {
+      "token": "positive-background-color-default",
+      "context": "Background (Bold fill, Positive)"
+    },
+    {
+      "token": "notice-background-color-default",
+      "context": "Background (Bold fill, Notice)"
+    },
+    {
+      "token": "negative-background-color-default",
+      "context": "Background (Bold fill, Negative)"
+    },
+    {
+      "token": "neutral-subdued-background-color-default",
+      "context": "Background (Bold fill, Neutral)"
+    },
+    {
+      "token": "heading-sans-serif-font-family",
+      "context": "Title and Description"
+    },
+    {
+      "token": "heading-sans-serif-font-weight",
+      "context": "Title and Description"
+    },
+    {
+      "token": "heading-sans-serif-font-style",
+      "context": "Title and Description"
+    },
+    {
+      "token": "heading-size-xxs",
+      "context": "Title and Description"
+    },
+    {
+      "token": "heading-line-height",
+      "context": "Title and Description"
+    },
+    {
+      "token": "body-sans-serif-font-family",
+      "context": "Title and Description"
+    },
+    {
+      "token": "body-sans-serif-font-weight",
+      "context": "Title and Description"
+    },
+    {
+      "token": "body-sans-serif-font-style",
+      "context": "Title and Description"
+    },
+    {
+      "token": "body-size-s",
+      "context": "Title and Description"
+    },
+    {
+      "token": "body-line-height",
+      "context": "Title and Description"
+    }
+  ]
 }

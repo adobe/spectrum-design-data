@@ -44,5 +44,127 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "component-height-75",
+      "context": "Button size"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Button size"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Button size"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Button size"
+    },
+    {
+      "token": "component-size-difference-down",
+      "context": "Button size (down)"
+    },
+    {
+      "token": "component-size-width-ratio-down",
+      "context": "Button size (down)"
+    },
+    {
+      "token": "component-size-minimum-perspective-down",
+      "context": "Button size (down)"
+    },
+    {
+      "token": "cross-icon-size-200",
+      "context": "Cross icon size"
+    },
+    {
+      "token": "cross-icon-size-300",
+      "context": "Cross icon size"
+    },
+    {
+      "token": "cross-icon-size-400",
+      "context": "Cross icon size"
+    },
+    {
+      "token": "cross-icon-size-500",
+      "context": "Cross icon size"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus ring "
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus ring "
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Cross icon"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Cross icon"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Cross icon"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Cross icon"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Cross icon"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus ring"
+    },
+    {
+      "token": "gray-100",
+      "context": "Background "
+    },
+    {
+      "token": "transparent-white-800",
+      "context": "Cross icon (static white)"
+    },
+    {
+      "token": "transparent-white-900",
+      "context": "Cross icon (static white)"
+    },
+    {
+      "token": "disabled-static-white-background-color",
+      "context": "Cross icon (static white)"
+    },
+    {
+      "token": "static-white-focus-indicator-color",
+      "context": "Focus ring (static white)"
+    },
+    {
+      "token": "transparent-white-100",
+      "context": "Background (static white)"
+    },
+    {
+      "token": "transparent-black-800",
+      "context": "Cross icon (static black) "
+    },
+    {
+      "token": "transparent-black-900",
+      "context": "Cross icon (static black) "
+    },
+    {
+      "token": "disabled-static-black-background-color",
+      "context": "Cross icon (static black) "
+    },
+    {
+      "token": "static-black-focus-indicator-color",
+      "context": "Focus ring (static black) "
+    },
+    {
+      "token": "transparent-black-100",
+      "context": "Background (static black)"
+    }
+  ]
 }

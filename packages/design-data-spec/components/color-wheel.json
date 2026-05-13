@@ -56,5 +56,39 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "border-width-100",
+      "context": "Border"
+    },
+    {
+      "token": "color-wheel-width",
+      "context": "Width"
+    },
+    {
+      "token": "color-wheel-minimum-width",
+      "context": "Width (minimum)"
+    },
+    {
+      "token": "color-control-track-width",
+      "context": "Track width"
+    },
+    {
+      "token": "color-wheel-color-area-margin",
+      "context": "Margin to color area"
+    },
+    {
+      "token": "color-wheel-border-color",
+      "context": "Border"
+    },
+    {
+      "token": "color-wheel-border-opacity",
+      "context": "Border"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Disabled"
+    }
+  ]
 }

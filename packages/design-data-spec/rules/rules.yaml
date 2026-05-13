@@ -235,3 +235,12 @@ rules:
     message: "Component '{component}' has custom state '{state}' with no description"
     spec_ref: spec/state-model.md#canonical-state-vocabulary
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-027
+    name: token-binding-token-exists
+    severity: error
+    category: reference-integrity
+    assert: Each tokenBindings[].token value in a component declaration MUST match the name of a declared token in the dataset.
+    message: "Component '{component}' tokenBindings references unknown token '{token}'"
+    spec_ref: spec/component-format.md#token-bindings
+    introduced_in: "1.0.0-draft"

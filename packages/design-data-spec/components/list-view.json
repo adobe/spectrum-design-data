@@ -89,5 +89,267 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "(multi-select",
+      "context": "Variants"
+    },
+    {
+      "token": "multi-select)",
+      "context": "Variants"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon size"
+    },
+    {
+      "token": "list-view-minimum-height",
+      "context": "Component height"
+    },
+    {
+      "token": "list-view-minimum-width",
+      "context": "Component width"
+    },
+    {
+      "token": "corner-radius-medium-default",
+      "context": "Item rounding"
+    },
+    {
+      "token": "stack-item-start-edge-to-content",
+      "context": "Spacing (edge to drag handle)"
+    },
+    {
+      "token": "stack-item-drag-handle-to-control",
+      "context": "Spacing (drag handle to checkbox, to visual, to text)"
+    },
+    {
+      "token": "visual-to-control-100",
+      "context": "Spacing (drag handle to checkbox, to visual, to text)"
+    },
+    {
+      "token": "stack-item-text-to-control",
+      "context": "Spacing (drag handle to checkbox, to visual, to text)"
+    },
+    {
+      "token": "stack-item-edge-to-control",
+      "context": "Spacing (edge to checkbox, edge to visual, edge to text)"
+    },
+    {
+      "token": "stack-item-edge-to-visual",
+      "context": "Spacing (edge to checkbox, edge to visual, edge to text)"
+    },
+    {
+      "token": "component-edge-to-text",
+      "context": "Spacing (edge to checkbox, edge to visual, edge to text)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (content items to text)"
+    },
+    {
+      "token": "stack-item-action-to-navigation",
+      "context": "Spacing (navigation indicator to edge, actions to edge)"
+    },
+    {
+      "token": "list-view-end-edge-to-content",
+      "context": "Spacing (edge to Navigation icon)"
+    },
+    {
+      "token": "vertical-align-items",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "stack-item-minimum-padding-vertical",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "label-to-description-0",
+      "context": "Spacing (navigation indicator)"
+    },
+    {
+      "token": "border-width-100",
+      "context": "Border width (selected - highlight)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus (drag handle)"
+    },
+    {
+      "token": "drop-shadow-dragged-x",
+      "context": "Dragged shadow"
+    },
+    {
+      "token": "drop-shadow-dragged-y",
+      "context": "Dragged shadow"
+    },
+    {
+      "token": "drop-shadow-dragged-blur",
+      "context": "Dragged shadow"
+    },
+    {
+      "token": "drop-shadow-dragged-color",
+      "context": "Dragged shadow"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Height"
+    },
+    {
+      "token": "stack-item-header-minimum-width",
+      "context": "Width"
+    },
+    {
+      "token": "component-edge-to-text-100",
+      "context": "Spacing (horizontal)"
+    },
+    {
+      "token": "top-to-text-100",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "bottom-to-text-100",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-100",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "stack-item-header-to-item",
+      "context": "Spacing (vertically, between list view header to list view items)"
+    },
+    {
+      "token": "stack-item-item-to-item",
+      "context": "Spacing (vertically, between list view header to list view items)"
+    },
+    {
+      "token": "stack-item-background-color-hover",
+      "context": "Background"
+    },
+    {
+      "token": "stack-item-background-color-down",
+      "context": "Background"
+    },
+    {
+      "token": "stack-item-background-color-key-focus",
+      "context": "Background"
+    },
+    {
+      "token": "stack-item-selected-background-color-default",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-hover",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-down",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-key-focus",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-highlight",
+      "context": "Background (selected, highlight)"
+    },
+    {
+      "token": "stack-item-selected-background-opacity-highlight-hover",
+      "context": "Background (selected, highlight)"
+    },
+    {
+      "token": "accent-content-color-selected",
+      "context": "Border (selected, highlight)"
+    },
+    {
+      "token": "gray-300",
+      "context": "Border"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-down",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Label and icon (selected, checkbox and highlight)"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Label and icon (selected, checkbox and highlight)"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Label and icon (selected, checkbox and highlight)"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Label and icon (selected, checkbox and highlight)"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Background (disabled)"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Label and icon (disabled)"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "title-color",
+      "context": "Title label and icon"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Text (List view description)"
+    },
+    {
+      "token": "bold-font-weight",
+      "context": "Text (List view title)"
+    }
+  ]
 }

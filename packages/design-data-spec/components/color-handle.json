@@ -31,5 +31,55 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "color-handle-size",
+      "context": "Size (keyboard focus)"
+    },
+    {
+      "token": "color-handle-size-key-focus",
+      "context": "Size (keyboard focus)"
+    },
+    {
+      "token": "color-handle-border-width",
+      "context": "Border"
+    },
+    {
+      "token": "color-handle-inner-border-width",
+      "context": "Border"
+    },
+    {
+      "token": "color-handle-outer-border-width",
+      "context": "Border"
+    },
+    {
+      "token": "white",
+      "context": "Border"
+    },
+    {
+      "token": "color-handle-inner-border-color",
+      "context": "Border"
+    },
+    {
+      "token": "color-handle-inner-border-opacity",
+      "context": "Border"
+    },
+    {
+      "token": "color-handle-outer-border-color",
+      "context": "Border"
+    },
+    {
+      "token": "color-handle-outer-border-opacity",
+      "context": "Border"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Border (disabled)"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Border (disabled)"
+    }
+  ]
 }

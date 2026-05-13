@@ -50,5 +50,135 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "avatar-size-50",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-75",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-100",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-200",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-300",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-400",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-500",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-600",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-700",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-800",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-900",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-1000",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-1100",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-1200",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-1300",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-1400",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-1500",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-border-thickness",
+      "context": "Border"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "avatar-gradient-stop-1",
+      "context": "0% "
+    },
+    {
+      "token": "static-[color]-400",
+      "context": "0% "
+    },
+    {
+      "token": "avatar-gradient-stop-2",
+      "context": "66% "
+    },
+    {
+      "token": "static-[color]-600",
+      "context": "66% "
+    },
+    {
+      "token": "avatar-gradient-stop-3",
+      "context": "100% "
+    },
+    {
+      "token": "static-[color]-800",
+      "context": "100% "
+    },
+    {
+      "token": "gradient-angle",
+      "context": "Top-left to bottom-right"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "extra-bold-font-weight",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Text (List view item)"
+    }
+  ]
 }

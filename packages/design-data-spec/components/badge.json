@@ -69,5 +69,434 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "component-height-75",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Minimum height"
+    },
+    {
+      "token": "corner-radius-medium-size-small",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-medium",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-large",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-extra-large",
+      "context": "Rounding"
+    },
+    {
+      "token": "workflow-icon-size-75",
+      "context": "Icon"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon"
+    },
+    {
+      "token": "workflow-icon-size-200",
+      "context": "Icon"
+    },
+    {
+      "token": "workflow-icon-size-300",
+      "context": "Icon"
+    },
+    {
+      "token": "text-to-visual-75",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-200",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "component-edge-to-visual-75",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-visual-100",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-visual-200",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-visual-300",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-text-75",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-text-100",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-text-200",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-text-300",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-visual-only-75",
+      "context": "Spacing (start/end edges, icon only)"
+    },
+    {
+      "token": "component-edge-to-visual-only-100",
+      "context": "Spacing (start/end edges, icon only)"
+    },
+    {
+      "token": "component-edge-to-visual-only-200",
+      "context": "Spacing (start/end edges, icon only)"
+    },
+    {
+      "token": "component-edge-to-visual-only-300",
+      "context": "Spacing (start/end edges, icon only)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-75",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-100",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-200",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-300",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "border-width-200",
+      "context": "Border"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-200",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-300",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-75",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-100",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-200",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-300",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "white",
+      "context": "Text and icon (semantic)"
+    },
+    {
+      "token": "black",
+      "context": "Text and icon (semantic)"
+    },
+    {
+      "token": "neutral-subdued-background-color-default",
+      "context": "Background (semantic)"
+    },
+    {
+      "token": "accent-background-color-default",
+      "context": "Background (semantic)"
+    },
+    {
+      "token": "informative-background-color-default",
+      "context": "Background (semantic)"
+    },
+    {
+      "token": "negative-background-color-default",
+      "context": "Background (semantic)"
+    },
+    {
+      "token": "notice-background-color-default",
+      "context": "Background (semantic)"
+    },
+    {
+      "token": "positive-background-color-default",
+      "context": "Background (semantic)"
+    },
+    {
+      "token": "gray-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "red-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "orange-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "yellow-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "chartreuse-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "celery-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "green-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "seafoam-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "cyan-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "blue-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "indigo-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "purple-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "fuchsia-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "magenta-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "pink-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "turquoise-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "brown-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "cinnamon-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "silver-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "gray-1000",
+      "context": "Text and icon (semantic)"
+    },
+    {
+      "token": "neutral-subtle-background-color-default",
+      "context": "Background (semantic)"
+    },
+    {
+      "token": "accent-subtle-background-color-default",
+      "context": "Background (semantic)"
+    },
+    {
+      "token": "informative-subtle-background-color-default",
+      "context": "Background (semantic)"
+    },
+    {
+      "token": "negative-subtle-background-color-default",
+      "context": "Background (semantic)"
+    },
+    {
+      "token": "notice-subtle-background-color-default",
+      "context": "Background (semantic)"
+    },
+    {
+      "token": "positive-subtle-background-color-default",
+      "context": "Background (semantic)"
+    },
+    {
+      "token": "gray-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "red-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "orange-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "yellow-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "chartreuse-subtle--background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "celery-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "green-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "seafoam-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "cyan-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "blue-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "indigo-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "purple-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "magenta-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "pink-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "turquoise-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "brown-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "cinnamon-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "silver-subtle-background-color-default",
+      "context": "Background (non-semantic) "
+    },
+    {
+      "token": "background-layer-2-color",
+      "context": "Background (semantic)"
+    },
+    {
+      "token": "neutral-visual-color",
+      "context": "Border (semantic)"
+    },
+    {
+      "token": "accent-visual-color",
+      "context": "Border (semantic)"
+    },
+    {
+      "token": "informative-visual-color",
+      "context": "Border (semantic)"
+    },
+    {
+      "token": "negative-visual-color",
+      "context": "Border (semantic)"
+    },
+    {
+      "token": "notice-visual-color",
+      "context": "Border (semantic)"
+    },
+    {
+      "token": "positive-visual-color",
+      "context": "Border (semantic)"
+    },
+    {
+      "token": "default-font-family"
+    },
+    {
+      "token": "medium-font-weight"
+    },
+    {
+      "token": "default-font-style"
+    },
+    {
+      "token": "font-size-75"
+    },
+    {
+      "token": "font-size-100"
+    },
+    {
+      "token": "font-size-200"
+    },
+    {
+      "token": "font-size-300"
+    },
+    {
+      "token": "line-height-100"
+    },
+    {
+      "token": "cjk-line-height-100"
+    }
+  ]
 }

@@ -21,5 +21,23 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "opacity-checkerboard-square-size-small",
+      "context": "Square size"
+    },
+    {
+      "token": "opacity-checkerboard-square-size-medium",
+      "context": "Square size"
+    },
+    {
+      "token": "opacity-checkerboard-square-light",
+      "context": "Square"
+    },
+    {
+      "token": "opacity-checkerboard-square-dark",
+      "context": "Square"
+    }
+  ]
 }

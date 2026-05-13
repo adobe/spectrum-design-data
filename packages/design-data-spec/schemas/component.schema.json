@@ -63,6 +63,11 @@
     },
     "lifecycle": {
       "$ref": "#/$defs/lifecycle"
+    },
+    "tokenBindings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/tokenBinding" },
+      "description": "Tokens this component uses, including foundation/structure tokens not scoped to the component in their name-object. See spec/component-format.md#token-bindings (Phase 6.7)."
     }
   },
   "additionalProperties": false,
@@ -229,6 +234,23 @@
           "type": "boolean",
           "default": false,
           "description": "true for states that compose with others (e.g. focus ring layered over hover)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "tokenBinding": {
+      "type": "object",
+      "required": ["token"],
+      "description": "A single token usage binding on a component declaration.",
+      "properties": {
+        "token": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Token name string. MUST resolve to a known token in the dataset (rule SPEC-027)."
+        },
+        "context": {
+          "type": "string",
+          "description": "Human-readable label for how this token is used in the component (maps to Figma Token Group label)."
         }
       },
       "additionalProperties": false

@@ -23,5 +23,87 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "thumbnail-size-50",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-75",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-100",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-200",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-300",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-400",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-500",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-600",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-700",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-800",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-900",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-1000",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-corner-radius",
+      "context": "Rounding"
+    },
+    {
+      "token": "thumbnail-opacity-checkerboard-square-size",
+      "context": "Opacity Checkerboard"
+    },
+    {
+      "token": "border-width-100",
+      "context": "Border"
+    },
+    {
+      "token": "thumbnail-border-color",
+      "context": "Border "
+    },
+    {
+      "token": "thumbnail-border-opacity",
+      "context": "Border "
+    },
+    {
+      "token": "opacity-checkerboard-square-light",
+      "context": "Checkerboard Colors "
+    },
+    {
+      "token": "opacity-checkerboard-square-dark",
+      "context": "Checkerboard Colors "
+    },
+    {
+      "token": "thumbnail-opacity-disabled",
+      "context": "Disabled"
+    }
+  ]
 }

@@ -72,5 +72,139 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "segmented-control-item-height",
+      "context": "Height "
+    },
+    {
+      "token": "corner-radius-medium-default",
+      "context": "Corner radius"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon "
+    },
+    {
+      "token": "component-edge-to-visual-only-100",
+      "context": "Spacing (top/bottom to edge, workflow icon only)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "component-edge-to-visual-100",
+      "context": "Spacing (start/end edges, workflow icon with label)"
+    },
+    {
+      "token": "component-edge-to-text-100",
+      "context": "Spacing (start/end edges, workflow icon with label)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top/bottom to edge, workflow icon with label)"
+    },
+    {
+      "token": "component-bottom-to-text-100",
+      "context": "Spacing (top/bottom to edge, workflow icon with label)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-100",
+      "context": "Spacing (top/bottom edge to icon, workflow icon with label)"
+    },
+    {
+      "token": "spacing-50",
+      "context": "Spacing (between segmented control items)"
+    },
+    {
+      "token": "spacing-75",
+      "context": "Spacing (between segmented control items)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus ring"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus ring"
+    },
+    {
+      "token": "segmented-control-selection-border-width",
+      "context": "Selection border"
+    },
+    {
+      "token": "gray-600",
+      "context": "Segmented control items (no track)"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Segmented control items (no track)"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Segmented control items (no track)"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Segmented control items (no track)"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Segmented control items (no track)"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Segmented control items (no track)"
+    },
+    {
+      "token": "gray-200",
+      "context": "Segmented control items (no track)"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Segmented control items (with track)"
+    },
+    {
+      "token": "gray-25",
+      "context": "Segmented control items (with track)"
+    },
+    {
+      "token": "gray-100",
+      "context": "Segmented control items (with track)"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus ring"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Label"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Label"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Label"
+    }
+  ]
 }

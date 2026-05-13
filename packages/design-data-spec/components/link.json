@@ -41,5 +41,95 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "accent-content-color-default",
+      "context": "Text (primary)"
+    },
+    {
+      "token": "accent-content-color-hover",
+      "context": "Text (primary)"
+    },
+    {
+      "token": "accent-content-color-down",
+      "context": "Text (primary)"
+    },
+    {
+      "token": "accent-content-color-key-focus",
+      "context": "Text (primary)"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Text (secondary)"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Text (secondary)"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Text (secondary)"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Text (secondary)"
+    },
+    {
+      "token": "white",
+      "context": "Text (white)"
+    },
+    {
+      "token": "black",
+      "context": "Text (black)"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "medium-font-weight",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "text-underline-gap",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "text-underline-thickness",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Inline variant, Default style"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus ring"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus ring"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus ring"
+    }
+  ]
 }

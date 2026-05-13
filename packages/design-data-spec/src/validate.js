@@ -13,9 +13,9 @@ governing permissions and limitations under the License.
 /**
  * Layer 2 cross-reference validator for design-data-spec.
  *
- * Implements SPEC-018 through SPEC-024: semantic rules that validate token
- * name-object fields against component declarations, and validate component
- * declarations internally.
+ * Implements SPEC-018 through SPEC-027: semantic rules that validate token
+ * name-object fields against component declarations, validate component
+ * declarations internally, and validate tokenBindings references.
  *
  * @see spec/component-format.md#spec-rules
  * @see spec/anatomy-format.md#spec-rules
@@ -157,6 +157,30 @@ export function validateDataset(dataset) {
           severity: "warning",
           message: `Component '${cName}' has custom state '${state.name}' with no description`,
           componentName: cName,
+        });
+      }
+    }
+  }
+
+  // --- Token binding rules ---
+
+  // SPEC-027: each tokenBindings[].token must resolve to a known token name.
+  // String-named tokens are matched directly. Name-object tokens are skipped
+  // here because tokenBindings always reference tokens by their string name.
+  const tokenNameSet = new Set(
+    tokens
+      .map((t) => (typeof t.name === "string" ? t.name : null))
+      .filter(Boolean),
+  );
+
+  for (const component of components) {
+    for (const binding of component.tokenBindings ?? []) {
+      if (!tokenNameSet.has(binding.token)) {
+        diagnostics.push({
+          ruleId: "SPEC-027",
+          severity: "error",
+          message: `Component '${component.name}' tokenBindings references unknown token '${binding.token}'`,
+          componentName: component.name,
         });
       }
     }

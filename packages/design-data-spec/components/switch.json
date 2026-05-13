@@ -51,5 +51,255 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "component-height-75",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Minimum height"
+    },
+    {
+      "token": "corner-radius-full",
+      "context": "Rounding"
+    },
+    {
+      "token": "switch-control-width-small",
+      "context": "Track (size)"
+    },
+    {
+      "token": "switch-control-width-medium",
+      "context": "Track (size)"
+    },
+    {
+      "token": "switch-control-width-large",
+      "context": "Track (size)"
+    },
+    {
+      "token": "switch-control-width-extra-large",
+      "context": "Track (size)"
+    },
+    {
+      "token": "switch-control-height-small",
+      "context": "Track (size)"
+    },
+    {
+      "token": "switch-control-height-medium",
+      "context": "Track (size)"
+    },
+    {
+      "token": "switch-control-height-large",
+      "context": "Track (size)"
+    },
+    {
+      "token": "switch-control-height-extra-large",
+      "context": "Track (size)"
+    },
+    {
+      "token": "border-width-200",
+      "context": "Track (border)"
+    },
+    {
+      "token": "switch-handle-size-small",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "switch-handle-size-medium",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "switch-handle-size-large",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "switch-handle-size-extra-large",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "switch-handle-selected-size-small",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "switch-handle-selected-size-medium",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "switch-handle-selected-size-large",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "switch-handle-selected-size-extra-large",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "text-to-control-75",
+      "context": "Spacing (control to label)"
+    },
+    {
+      "token": "text-to-control-100",
+      "context": "Spacing (control to label)"
+    },
+    {
+      "token": "text-to-control-200",
+      "context": "Spacing (control to label)"
+    },
+    {
+      "token": "text-to-control-300",
+      "context": "Spacing (control to label)"
+    },
+    {
+      "token": "switch-top-to-control-small",
+      "context": "Spacing (top edge to control)"
+    },
+    {
+      "token": "switch-top-to-control-medium",
+      "context": "Spacing (top edge to control)"
+    },
+    {
+      "token": "switch-top-to-control-large",
+      "context": "Spacing (top edge to control)"
+    },
+    {
+      "token": "switch-top-to-control-extra-large",
+      "context": "Spacing (top edge to control)"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-200",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-300",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-75",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-100",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-200",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-300",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "component-size-difference-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-width-ratio-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-minimum-perspective-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Font size"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Font size"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Font size"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Font size"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Font size"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Font size"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Font size"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Font size"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Label"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Label"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Label"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Label"
+    },
+    {
+      "token": "gray-25",
+      "context": "Control"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "accent-content-color-hover",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "accent-content-color-down",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "accent-content-color-key-focus",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Label (disabled)"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus indicator"
+    }
+  ]
 }

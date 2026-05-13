@@ -52,5 +52,219 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "steplist-step-default-width-small",
+      "context": "Width small (default)"
+    },
+    {
+      "token": "steplist-step-default-width-medium",
+      "context": "Width small (default)"
+    },
+    {
+      "token": "steplist-step-default-width-large",
+      "context": "Width small (default)"
+    },
+    {
+      "token": "steplist-step-default-width-extra-large",
+      "context": "Width small (default)"
+    },
+    {
+      "token": "steplist-step-default-height-small",
+      "context": "Height small (default)"
+    },
+    {
+      "token": "steplist-step-default-height-medium",
+      "context": "Height small (default)"
+    },
+    {
+      "token": "steplist-step-default-height-large",
+      "context": "Height small (default)"
+    },
+    {
+      "token": "steplist-step-default-height-extra-large",
+      "context": "Height small (default)"
+    },
+    {
+      "token": "steplist-step-to-track-size-small",
+      "context": "Spacing (step to track)"
+    },
+    {
+      "token": "steplist-step-to-track-size-medium",
+      "context": "Spacing (step to track)"
+    },
+    {
+      "token": "steplist-step-to-track-size-large",
+      "context": "Spacing (step to track)"
+    },
+    {
+      "token": "steplist-step-to-track-size-extra-large",
+      "context": "Spacing (step to track)"
+    },
+    {
+      "token": "steplist-bottom-to-text",
+      "context": "Text adjustment"
+    },
+    {
+      "token": "border-width-200",
+      "context": "Visual border"
+    },
+    {
+      "token": "text-to-visual-75",
+      "context": "Spacing (text to visual)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (text to visual)"
+    },
+    {
+      "token": "text-to-visual-200",
+      "context": "Spacing (text to visual)"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Spacing (text to visual)"
+    },
+    {
+      "token": "steplist-visual-size-small",
+      "context": "Visual size"
+    },
+    {
+      "token": "steplist-visual-size-medium",
+      "context": "Visual size"
+    },
+    {
+      "token": "steplist-visual-size-large",
+      "context": "Visual size"
+    },
+    {
+      "token": "steplist-visual-size-extra-large",
+      "context": "Visual size"
+    },
+    {
+      "token": "steplist-track-thickness-thickness",
+      "context": "Steplist track thickness"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Step text"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Step text"
+    },
+    {
+      "token": "accent-content-color-key-focus",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-subdued-background-color-default",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-subdued-background-color-hover",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-subdued-background-color-key-focus",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-background-color-default",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-background-color-key-focus",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-visual-color",
+      "context": "Step visual"
+    },
+    {
+      "token": "accent-background-color-default",
+      "context": "Step visual"
+    },
+    {
+      "token": "accent-background-color-key-focus",
+      "context": "Step visual"
+    },
+    {
+      "token": "accent-background-color-hover",
+      "context": "Step visual"
+    },
+    {
+      "token": "gray-25",
+      "context": "Step visual text"
+    },
+    {
+      "token": "white",
+      "context": "Step visual text"
+    },
+    {
+      "token": "accent-visual-color",
+      "context": "Steplist track"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Label"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Label"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Label"
+    }
+  ]
 }

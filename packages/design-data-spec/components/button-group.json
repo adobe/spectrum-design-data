@@ -33,5 +33,15 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "spacing-100",
+      "context": "Spacing (horizontal)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (horizontal)"
+    }
+  ]
 }

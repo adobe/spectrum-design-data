@@ -65,5 +65,55 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "corner-radius-large-default",
+      "context": "Rounding"
+    },
+    {
+      "token": "popover-tip-width",
+      "context": "Tip"
+    },
+    {
+      "token": "popover-tip-height",
+      "context": "Tip"
+    },
+    {
+      "token": "popover-edge-to-content-area",
+      "context": "Spacing (left/right edge to content area)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (tip to source)"
+    },
+    {
+      "token": "border-width-100",
+      "context": "Border"
+    },
+    {
+      "token": "background-layer-2-color",
+      "context": "Background and border"
+    },
+    {
+      "token": "popover-border-color",
+      "context": "Background and border"
+    },
+    {
+      "token": "drop-shadow-elevated-color",
+      "context": "Drop shadow"
+    },
+    {
+      "token": "drop-shadow-elevated-x",
+      "context": "Drop shadow"
+    },
+    {
+      "token": "drop-shadow-elevated-y",
+      "context": "Drop shadow"
+    },
+    {
+      "token": "drop-shadow-elevated-blur",
+      "context": "Drop shadow"
+    }
+  ]
 }

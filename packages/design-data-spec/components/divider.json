@@ -23,5 +23,51 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "divider-thickness-small",
+      "context": "Thickness"
+    },
+    {
+      "token": "divider-thickness-medium",
+      "context": "Thickness"
+    },
+    {
+      "token": "divider-thickness-large",
+      "context": "Thickness"
+    },
+    {
+      "token": "divider-horizontal-minimum-width",
+      "context": "Horizontal"
+    },
+    {
+      "token": "divider-vertical-minimum-height",
+      "context": "Horizontal"
+    },
+    {
+      "token": "gray-200",
+      "context": "Fill "
+    },
+    {
+      "token": "gray-800",
+      "context": "Fill "
+    },
+    {
+      "token": "transparent-white-200",
+      "context": "Fill (white)"
+    },
+    {
+      "token": "transparent-white-800",
+      "context": "Fill (white)"
+    },
+    {
+      "token": "transparent-black-200",
+      "context": "Fill (black)"
+    },
+    {
+      "token": "transparent-black-800",
+      "context": "Fill (black)"
+    }
+  ]
 }

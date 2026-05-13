@@ -64,5 +64,19 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "spacing-75",
+      "context": "Spacing (horizontal, regular)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (horizontal, regular)"
+    },
+    {
+      "token": "spacing-50",
+      "context": "Spacing (horizontal, compact)"
+    }
+  ]
 }

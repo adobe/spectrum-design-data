@@ -34,5 +34,43 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "coach-indicator-collapsed-ring-thickness",
+      "context": "Ring"
+    },
+    {
+      "token": "coach-indicator-expanded-ring-thickness",
+      "context": "Ring"
+    },
+    {
+      "token": "coach-indicator-collapsed-gap",
+      "context": "Ring"
+    },
+    {
+      "token": "coach-indicator-expanded-gap",
+      "context": "Ring"
+    },
+    {
+      "token": "coach-indicator-collapsed-ring-rounding-increment",
+      "context": "Rounding"
+    },
+    {
+      "token": "coach-indicator-expanded-ring-rounding-increment",
+      "context": "Rounding"
+    },
+    {
+      "token": "coach-indicator-color",
+      "context": "Indicator (Default)"
+    },
+    {
+      "token": "coach-indicator-opacity",
+      "context": "Indicator (Default)"
+    },
+    {
+      "token": "white",
+      "context": "Indicator (Static white)"
+    }
+  ]
 }

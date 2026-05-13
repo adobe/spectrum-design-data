@@ -26,9 +26,18 @@
       "enum": ["s", "m", "l", "xl"],
       "default": "m"
     },
-    "isDisabled": { "type": "boolean", "default": false },
-    "isPending": { "type": "boolean", "default": false },
-    "isLabelHidden": { "type": "boolean", "default": false },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "isPending": {
+      "type": "boolean",
+      "default": false
+    },
+    "isLabelHidden": {
+      "type": "boolean",
+      "default": false
+    },
     "icon": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
       "description": "Icon placed at the start of the button. Required when isLabelHidden is true."
@@ -51,20 +60,469 @@
     }
   ],
   "anatomy": [
-    { "name": "icon", "description": "Leading icon." },
-    { "name": "label", "description": "Button text.", "required": true }
+    {
+      "name": "icon",
+      "description": "Leading icon."
+    },
+    {
+      "name": "label",
+      "description": "Button text.",
+      "required": true
+    }
   ],
   "states": [
-    { "name": "hover", "trigger": "interaction", "precedence": 50 },
+    {
+      "name": "hover",
+      "trigger": "interaction",
+      "precedence": 50
+    },
     {
       "name": "focus",
       "trigger": "interaction",
       "precedence": 60,
       "layered": true
     },
-    { "name": "disabled", "trigger": "prop", "precedence": 100 }
+    {
+      "name": "disabled",
+      "trigger": "prop",
+      "precedence": 100
+    }
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "component-height-75",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Minimum height"
+    },
+    {
+      "token": "corner-radius-full",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-button-small",
+      "context": "Rounding (with wrapping)"
+    },
+    {
+      "token": "corner-radius-extra-large-default",
+      "context": "Rounding (with wrapping)"
+    },
+    {
+      "token": "corner-radius-button-large",
+      "context": "Rounding (with wrapping)"
+    },
+    {
+      "token": "corner-radius-button-extra-large",
+      "context": "Rounding (with wrapping)"
+    },
+    {
+      "token": "button-minimum-width-multiplier",
+      "context": "Minimum width (with label)"
+    },
+    {
+      "token": "component-size-difference-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-width-ratio-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-minimum-perspective-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "workflow-icon-size-75",
+      "context": "Icon"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon"
+    },
+    {
+      "token": "workflow-icon-size-200",
+      "context": "Icon"
+    },
+    {
+      "token": "workflow-icon-size-300",
+      "context": "Icon"
+    },
+    {
+      "token": "component-pill-edge-to-visual-75",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-pill-edge-to-visual-100",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-pill-edge-to-visual-200",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-pill-edge-to-visual-300",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-pill-edge-to-text-75",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-pill-edge-to-text-100",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-pill-edge-to-text-200",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-pill-edge-to-text-300",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-pill-edge-to-visual-only-75",
+      "context": "Spacing (start/end edges, icon only)"
+    },
+    {
+      "token": "component-pill-edge-to-visual-only-100",
+      "context": "Spacing (start/end edges, icon only)"
+    },
+    {
+      "token": "component-pill-edge-to-visual-only-200",
+      "context": "Spacing (start/end edges, icon only)"
+    },
+    {
+      "token": "component-pill-edge-to-visual-only-300",
+      "context": "Spacing (start/end edges, icon only)"
+    },
+    {
+      "token": "text-to-visual-75",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-200",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-75",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-100",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-200",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-300",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-200",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-300",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-75",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-100",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-200",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-300",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "border-width-200",
+      "context": "Border"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Label"
+    },
+    {
+      "token": "bold-font-weight",
+      "context": "Label"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "accent-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "accent-background-color-hover",
+      "context": "Background"
+    },
+    {
+      "token": "accent-background-color-down",
+      "context": "Background"
+    },
+    {
+      "token": "accent-background-color-key-focus",
+      "context": "Background"
+    },
+    {
+      "token": "white",
+      "context": "Icon"
+    },
+    {
+      "token": "negative-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "negative-background-color-hover",
+      "context": "Background"
+    },
+    {
+      "token": "negative-background-color-down",
+      "context": "Background"
+    },
+    {
+      "token": "negative-background-color-key-focus",
+      "context": "Background"
+    },
+    {
+      "token": "neutral-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "neutral-background-color-hover",
+      "context": "Background"
+    },
+    {
+      "token": "neutral-background-color-down",
+      "context": "Background"
+    },
+    {
+      "token": "neutral-background-color-key-focus",
+      "context": "Background"
+    },
+    {
+      "token": "gray-25",
+      "context": "Icon"
+    },
+    {
+      "token": "gray-100",
+      "context": "Background"
+    },
+    {
+      "token": "gray-800",
+      "context": "Border"
+    },
+    {
+      "token": "gray-900",
+      "context": "Border"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Icon"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Icon"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Icon"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Icon"
+    },
+    {
+      "token": "gray-200",
+      "context": "Background"
+    },
+    {
+      "token": "gray-300",
+      "context": "Border"
+    },
+    {
+      "token": "gray-400",
+      "context": "Border"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Fill"
+    },
+    {
+      "token": "disabled-border-color",
+      "context": "Outline"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Icon"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "transparent-white-900",
+      "context": "Background"
+    },
+    {
+      "token": "transparent-white-1000",
+      "context": "Background"
+    },
+    {
+      "token": "black",
+      "context": "Icon"
+    },
+    {
+      "token": "transparent-white-25",
+      "context": "Background"
+    },
+    {
+      "token": "transparent-white-100",
+      "context": "Background"
+    },
+    {
+      "token": "transparent-white-200",
+      "context": "Background"
+    },
+    {
+      "token": "transparent-white-300",
+      "context": "Border"
+    },
+    {
+      "token": "transparent-white-400",
+      "context": "Border"
+    },
+    {
+      "token": "disabled-static-white-background-color",
+      "context": "Background"
+    },
+    {
+      "token": "disabled-static-white-content-color",
+      "context": "Icon and label"
+    },
+    {
+      "token": "disabled-static-white-border-color",
+      "context": "Border"
+    },
+    {
+      "token": "static-white-focus-indicator-color",
+      "context": "Static white – Focus indicator"
+    },
+    {
+      "token": "transparent-black-900",
+      "context": "Background"
+    },
+    {
+      "token": "transparent-black-1000",
+      "context": "Background"
+    },
+    {
+      "token": "transparent-black-25",
+      "context": "Background"
+    },
+    {
+      "token": "transparent-black-100",
+      "context": "Background"
+    },
+    {
+      "token": "transparent-black-200",
+      "context": "Background"
+    },
+    {
+      "token": "transparent-black-300",
+      "context": "Border"
+    },
+    {
+      "token": "transparent-black-400",
+      "context": "Border"
+    },
+    {
+      "token": "disabled-static-black-background-color",
+      "context": "Background"
+    },
+    {
+      "token": "disabled-static-black-content-color",
+      "context": "Icon and label"
+    },
+    {
+      "token": "disabled-static-black-border-color",
+      "context": "Border"
+    },
+    {
+      "token": "static-black-focus-indicator-color",
+      "context": "Static black – Focus indicator"
+    }
+  ]
 }

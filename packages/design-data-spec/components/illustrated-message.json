@@ -45,5 +45,111 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "illustrated-message-vertical-maximum-width",
+      "context": "Maximum width (Vertical variant)"
+    },
+    {
+      "token": "illustrated-message-horizontal-maximum-width",
+      "context": "Maximum width (Horizontal variant)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (Illustration to heading)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (Illustration to heading)"
+    },
+    {
+      "token": "spacing-75",
+      "context": "Spacing (Heading to description - vertical)"
+    },
+    {
+      "token": "spacing-300",
+      "context": "Spacing (Description to action - vertical)"
+    },
+    {
+      "token": "title-sans-serif-font-family",
+      "context": "Title"
+    },
+    {
+      "token": "title-sans-serif-font-weight",
+      "context": "Title"
+    },
+    {
+      "token": "title-sans-serif-font-style",
+      "context": "Title"
+    },
+    {
+      "token": "title-line-height",
+      "context": "Title"
+    },
+    {
+      "token": "illustrated-message-small-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "illustrated-message-small-cjk-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "illustrated-message-medium-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "illustrated-message-medium-cjk-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "illustrated-message-large-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "illustrated-message-large-cjk-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "body-sans-serif-font-family",
+      "context": "Description"
+    },
+    {
+      "token": "body-sans-serif-font-weight",
+      "context": "Description"
+    },
+    {
+      "token": "body-sans-serif-font-style",
+      "context": "Description"
+    },
+    {
+      "token": "line-height-200",
+      "context": "Description"
+    },
+    {
+      "token": "illustrated-message-small-body-font-size",
+      "context": "Description"
+    },
+    {
+      "token": "illustrated-message-medium-body-font-size",
+      "context": "Description"
+    },
+    {
+      "token": "illustrated-message-large-body-font-size",
+      "context": "Description"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Illustration color"
+    },
+    {
+      "token": "heading-color",
+      "context": "Heading color"
+    },
+    {
+      "token": "body-color",
+      "context": "Description color"
+    }
+  ]
 }
