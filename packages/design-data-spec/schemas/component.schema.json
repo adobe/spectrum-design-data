@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "title": "Design data component declaration",
+  "description": "Layer 1 structural schema for a component declaration. Semantic cross-reference rules (component-name-exists, component-variant-valid, etc.) are Layer 2.",
+  "type": "object",
+  "required": ["$id", "name", "displayName", "meta"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "specVersion": {
+      "const": "1.0.0-draft"
+    },
+    "$id": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical identifier for this component declaration."
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "minLength": 1,
+      "description": "Machine identifier (kebab-case). Must match the value used in token name-object 'component' fields."
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable component name (e.g. 'Button')."
+    },
+    "description": {
+      "type": "string",
+      "description": "Plain-text description of the component's purpose."
+    },
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "options": {
+      "$ref": "#/$defs/optionsMap"
+    },
+    "slots": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/slotDeclaration"
+      },
+      "description": "Named content injection points. See spec/component-format.md#slots."
+    },
+    "anatomy": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/anatomyPart"
+      },
+      "description": "Named visible parts of the component. Full spec in spec/anatomy-format.md (Phase 6.2)."
+    },
+    "states": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/stateDeclaration"
+      },
+      "description": "Per-component state declarations. Full spec in spec/state-model.md (Phase 6.3)."
+    },
+    "lifecycle": {
+      "$ref": "#/$defs/lifecycle"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "meta": {
+      "type": "object",
+      "required": ["category", "documentationUrl"],
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [
+            "actions",
+            "containers",
+            "data visualization",
+            "feedback",
+            "inputs",
+            "navigation",
+            "status",
+            "typography"
+          ],
+          "description": "Design system category for this component."
+        },
+        "documentationUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the component's documentation page."
+        }
+      },
+      "additionalProperties": false
+    },
+    "optionsMap": {
+      "type": "object",
+      "description": "Component API options. Each key is a camelCase option name; each value is an option descriptor.",
+      "additionalProperties": {
+        "$ref": "#/$defs/optionDescriptor"
+      }
+    },
+    "optionDescriptor": {
+      "type": "object",
+      "description": "JSON Schema-compatible descriptor for a single component option.",
+      "properties": {
+        "type": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "string",
+                "boolean",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "null"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "string",
+                  "boolean",
+                  "number",
+                  "integer",
+                  "object",
+                  "array",
+                  "null"
+                ]
+              },
+              "minItems": 1
+            }
+          ]
+        },
+        "enum": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Exhaustive list of permitted values."
+        },
+        "default": {
+          "description": "Default value when the option is not specified."
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain-text description of what the option controls."
+        },
+        "$ref": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "Reference to a shared type schema."
+        }
+      },
+      "additionalProperties": false
+    },
+    "slotDeclaration": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Slot identifier. Should come from the canonical slot vocabulary."
+        },
+        "description": {
+          "type": "string",
+          "description": "What content belongs in this slot."
+        },
+        "required": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether consumers must populate this slot."
+        }
+      },
+      "additionalProperties": false
+    },
+    "anatomyPart": {
+      "type": "object",
+      "required": ["name"],
+      "description": "Named visible part of a component. Full spec in spec/anatomy-format.md (Phase 6.2).",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Anatomy part identifier (e.g. 'icon', 'label', 'handle')."
+        },
+        "description": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean",
+          "default": false
+        },
+        "contains": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Informative: anatomy part names nested within this part."
+        }
+      },
+      "additionalProperties": false
+    },
+    "stateDeclaration": {
+      "type": "object",
+      "required": ["name"],
+      "description": "Per-component state declaration. Full spec in spec/state-model.md (Phase 6.3).",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "State identifier (e.g. 'hover', 'focus', 'disabled')."
+        },
+        "trigger": {
+          "type": "string",
+          "enum": ["prop", "interaction"],
+          "description": "'prop' for persistent prop-driven states (isDisabled); 'interaction' for runtime states (hover, focus, pressed)."
+        },
+        "precedence": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Resolution precedence; higher integer wins when multiple states are active simultaneously."
+        },
+        "layered": {
+          "type": "boolean",
+          "default": false,
+          "description": "true for states that compose with others (e.g. focus ring layered over hover)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "lifecycle": {
+      "type": "object",
+      "description": "Version lifecycle metadata, mirroring the token lifecycle pattern.",
+      "properties": {
+        "introduced": {
+          "type": "string",
+          "description": "Spec version when this component declaration was added (e.g. '1.0.0-draft')."
+        },
+        "deprecated": {
+          "type": "string",
+          "description": "Spec version when this component was deprecated. Truthy = deprecated."
+        },
+        "deprecated_comment": {
+          "type": "string",
+          "description": "Human-readable explanation of the deprecation and migration path."
+        },
+        "replaced_by": {
+          "oneOf": [
+            { "type": "string", "minLength": 1 },
+            {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "minItems": 1
+            }
+          ],
+          "description": "name value(s) of the replacement component(s)."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

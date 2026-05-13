@@ -1,0 +1,325 @@
+# Component format
+
+**Spec version:** `1.0.0-draft` (see [Overview](index.md))
+
+This document defines the normative **component declaration** object: identity (`$id`, `name`, `displayName`), component metadata (`meta`), API options (`options`), named content slots (`slots`), anatomy parts (`anatomy`), state model (`states`), and lifecycle metadata.
+
+Component declarations close the structural gap between the token name-object's `component`, `variant`, `anatomy`, and `state` fields and the declared surface of each component. Before this chapter, a token referencing `component: "button"` with `variant: "foo"` was undetectable as invalid because no machine-readable component contract existed in the same spec. After this chapter, validators enforce cross-reference rules (see [SPEC rules](#spec-rules)).
+
+Scoped under [RFC-A — Component Contract in Design Data Spec](https://github.com/adobe/spectrum-design-data/discussions/832). See also [rfc-coordination.md](../docs/rfc-coordination.md).
+
+## Document shape
+
+A component declaration is a **single JSON object** in a `.json` file. One file per component. Files live under a `components/` directory within a design-data package.
+
+**NORMATIVE:** Each component declaration file **MUST** validate against the Layer 1 schema [`component.schema.json`](../schemas/component.schema.json) (canonical `$id`: `https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json`).
+
+## Component object
+
+### Required fields
+
+A component declaration **MUST** contain:
+
+| Field         | Type              | Description                                                                           |
+| ------------- | ----------------- | ------------------------------------------------------------------------------------- |
+| `$id`         | URI string        | Canonical identifier for this component declaration.                                  |
+| `name`        | kebab-case string | Machine identifier; used as the value of the `component` field in token name objects. |
+| `displayName` | string            | Human-readable component name (e.g. `"Button"`).                                      |
+| `meta`        | object            | Category and documentation link — see [Meta](#meta).                                  |
+
+### Optional fields
+
+| Field         | Type            | Description                                                           |
+| ------------- | --------------- | --------------------------------------------------------------------- |
+| `specVersion` | `"1.0.0-draft"` | Declares which spec version this document targets.                    |
+| `description` | string          | Plain-text description of the component's purpose.                    |
+| `options`     | object          | Component API options — see [Options](#options).                      |
+| `slots`       | array           | Named content injection points — see [Slots](#slots).                 |
+| `anatomy`     | array           | Named anatomy parts — see [Anatomy (stub)](#anatomy-stub).            |
+| `states`      | array           | Per-component state declarations — see [States (stub)](#states-stub). |
+| `lifecycle`   | object          | Version lifecycle metadata — see [Lifecycle](#lifecycle).             |
+
+**NORMATIVE:** No properties beyond those listed above are permitted at the top level of a component declaration. Additional fields **MUST** cause a Layer 1 schema error.
+
+### `$id`
+
+**NORMATIVE:** The `$id` **MUST** be a valid URI identifying this component declaration document. The recommended pattern is:
+
+```
+https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/{name}.json
+```
+
+where `{name}` matches the component's `name` field.
+
+### `name`
+
+**NORMATIVE:** `name` **MUST** match the pattern `^[a-z][a-z0-9-]*$` — lower-case kebab-case, non-empty.
+
+**NORMATIVE:** `name` **MUST** be unique within a dataset. No two component declarations in the same design-data package may share a `name` value.
+
+**NORMATIVE:** Token name-object `component` field values **MUST** match the `name` of a declared component in the dataset (rule SPEC-018). An undeclared `component` value is a validation error.
+
+### Meta
+
+**NORMATIVE:** `meta` **MUST** contain:
+
+| Field              | Type          | Values                                                                                                    |
+| ------------------ | ------------- | --------------------------------------------------------------------------------------------------------- |
+| `category`         | string (enum) | `actions`, `containers`, `data visualization`, `feedback`, `inputs`, `navigation`, `status`, `typography` |
+| `documentationUrl` | URI string    | Link to the component's documentation page.                                                               |
+
+```json
+"meta": {
+  "category": "actions",
+  "documentationUrl": "https://spectrum.adobe.com/page/button/"
+}
+```
+
+## Options
+
+The `options` block declares the component's API surface — the configurable properties that affect its appearance or behavior. It mirrors the shape of `@adobe/spectrum-component-api-schemas` for backward compatibility.
+
+**NORMATIVE:** `options` **MUST** be a JSON object. Each key is an option name; each value is an **option descriptor**.
+
+### Option descriptor
+
+An option descriptor is a JSON object with the following fields:
+
+| Field         | Type            | Required | Description                                                                      |
+| ------------- | --------------- | -------- | -------------------------------------------------------------------------------- |
+| `type`        | string or array | OPTIONAL | JSON Schema primitive type(s): `"string"`, `"boolean"`, `"number"`, `"integer"`. |
+| `enum`        | array           | OPTIONAL | Exhaustive list of permitted values.                                             |
+| `default`     | any             | OPTIONAL | Default value when the option is not specified.                                  |
+| `description` | string          | OPTIONAL | Plain-text description of what the option controls.                              |
+| `$ref`        | URI string      | OPTIONAL | Reference to a shared type schema (e.g. `workflow-icon.json`).                   |
+
+**NORMATIVE:** Each key in `options` **MUST** be camelCase.
+
+**NORMATIVE:** Boolean option names **MUST** begin with `is` or `has` (e.g. `isDisabled`, `hasIcon`).
+
+**NORMATIVE:** When `enum` is present, token name-object `variant` field values referencing this component **MUST** be drawn from the declared `variant` option enum (rule SPEC-019). Other option enums are informative for tooling but do not currently drive SPEC rules.
+
+```json
+"options": {
+  "variant": {
+    "type": "string",
+    "enum": ["accent", "negative", "primary", "secondary"],
+    "default": "accent",
+    "description": "Visual emphasis level."
+  },
+  "size": {
+    "type": "string",
+    "enum": ["s", "m", "l", "xl"],
+    "default": "m"
+  },
+  "isDisabled": {
+    "type": "boolean",
+    "default": false
+  },
+  "icon": {
+    "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+    "description": "Icon placed at the start of the button. Required when hideLabel is true."
+  }
+}
+```
+
+## Slots
+
+The `slots` block declares the component's named **content injection points** — the positions where consumers place child content. Slot declarations are derived from the cross-platform audit in [`audits/slots.audit.md`](../audits/slots.audit.md).
+
+**NORMATIVE:** `slots` **MUST** be a JSON array. Each element is a **slot declaration**.
+
+### Slot declaration
+
+| Field         | Type    | Required | Description                                                                 |
+| ------------- | ------- | -------- | --------------------------------------------------------------------------- |
+| `name`        | string  | REQUIRED | Slot identifier. **SHOULD** come from the canonical vocabulary (see below). |
+| `description` | string  | OPTIONAL | Plain-text description of what content goes in this slot.                   |
+| `required`    | boolean | OPTIONAL | Whether consumers **MUST** populate this slot. Default: `false`.            |
+
+### Canonical slot vocabulary
+
+The following slot names are defined by the cross-platform audit and **SHOULD** be used in preference to custom names:
+
+| Name                 | Semantics                                                               |
+| -------------------- | ----------------------------------------------------------------------- |
+| `default`            | Primary content (text, children). The main content slot.                |
+| `icon`               | Decorative icon at the leading edge of the component.                   |
+| `label`              | Human-readable identifier / placeholder text (distinct from `default`). |
+| `help-text`          | Non-error guidance text below a form field.                             |
+| `negative-help-text` | Validation error message for a form field.                              |
+| `action`             | Secondary interactive button or call-to-action.                         |
+| `heading`            | Section or dialog heading.                                              |
+| `description`        | Section or dialog body text (distinct from `help-text`).                |
+| `hero`               | Large header media (e.g. dialog hero image).                            |
+| `footer`             | Below-content supplemental area (e.g. dialog footer).                   |
+| `tooltip`            | Floating annotation attached to the component.                          |
+
+**NORMATIVE:** Custom slot names are permitted but **SHOULD** be documented in the slot's `description` field (rule SPEC-021 fires a warning for undocumented custom names).
+
+**RECOMMENDED:** Components **SHOULD** declare a `default` slot when they accept primary child content.
+
+```json
+"slots": [
+  {
+    "name": "default",
+    "description": "Text label of the button.",
+    "required": false
+  },
+  {
+    "name": "icon",
+    "description": "Icon placed at the start of the button. Required when hideLabel is true."
+  }
+]
+```
+
+## Anatomy (stub)
+
+The `anatomy` block declares the component's named **visual parts** — the anatomy terms used in token name-object `anatomy` fields. Full normative definition is in [`spec/anatomy-format.md`](anatomy-format.md) (Phase 6.2).
+
+**NORMATIVE:** `anatomy` **MUST** be a JSON array. Each element is an anatomy part object.
+
+**NORMATIVE:** Token name-object `anatomy` field values referencing this component **MUST** match the `name` of a declared anatomy part (rule SPEC-020).
+
+Each anatomy part carries at minimum:
+
+| Field         | Type             | Required | Description                                                    |
+| ------------- | ---------------- | -------- | -------------------------------------------------------------- |
+| `name`        | string           | REQUIRED | Anatomy part identifier (e.g. `icon`, `label`, `handle`).      |
+| `description` | string           | OPTIONAL | Plain-text description of the part.                            |
+| `required`    | boolean          | OPTIONAL | Whether this part is always present. Default: `false`.         |
+| `contains`    | array of strings | OPTIONAL | Informative: other anatomy part names nested within this part. |
+
+See [`spec/anatomy-format.md`](anatomy-format.md) for constraints, cross-field validation, and the full anatomy part schema.
+
+```json
+"anatomy": [
+  { "name": "icon", "description": "Leading icon." },
+  { "name": "label", "description": "Button text.", "required": true }
+]
+```
+
+## States (stub)
+
+The `states` block declares the component's **interactive and semantic states** — the state terms used in token name-object `state` fields. Full normative definition is in [`spec/state-model.md`](state-model.md) (Phase 6.3).
+
+**NORMATIVE:** `states` **MUST** be a JSON array. Each element is a state declaration object.
+
+Each state carries at minimum:
+
+| Field        | Type    | Required | Description                                                                                                                               |
+| ------------ | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`       | string  | REQUIRED | State identifier (e.g. `hover`, `focus`, `disabled`).                                                                                     |
+| `trigger`    | string  | OPTIONAL | `"prop"` for persistent prop-driven states (e.g. `isDisabled`) or `"interaction"` for runtime interaction states (hover, focus, pressed). |
+| `precedence` | integer | OPTIONAL | Resolution precedence; higher integer wins when multiple states are active.                                                               |
+| `layered`    | boolean | OPTIONAL | `true` for states that compose with others (e.g. focus ring over hover). Default: `false`.                                                |
+
+See [`spec/state-model.md`](state-model.md) for the full state resolution algorithm, trigger semantics, and precedence rules.
+
+```json
+"states": [
+  { "name": "hover",    "trigger": "interaction", "precedence": 50 },
+  { "name": "focus",    "trigger": "interaction", "precedence": 60, "layered": true },
+  { "name": "disabled", "trigger": "prop",        "precedence": 100 }
+]
+```
+
+## Lifecycle
+
+The `lifecycle` block tracks a component declaration's version history. It mirrors the per-token lifecycle pattern from [`spec/token-format.md`](token-format.md#lifecycle-and-metadata).
+
+| Field                | Type            | Description                                                                    |
+| -------------------- | --------------- | ------------------------------------------------------------------------------ |
+| `introduced`         | string          | Spec version when this component declaration was added (e.g. `"1.0.0-draft"`). |
+| `deprecated`         | string          | Spec version when this component was deprecated. Truthy = deprecated.          |
+| `deprecated_comment` | string          | Human-readable explanation of the deprecation and migration path.              |
+| `replaced_by`        | string or array | `name` value(s) of the replacement component(s).                               |
+
+```json
+"lifecycle": {
+  "introduced": "1.0.0-draft"
+}
+```
+
+## SPEC rules
+
+The following rules are added to the Layer 2 rule catalog (`rules/rules.yaml`) by this chapter. New component cross-reference rules start at SPEC-018 to avoid collision with existing token rules (SPEC-001–SPEC-017).
+
+| Rule ID  | Name                        | Severity | Assert                                                                                                                                                                                  |
+| -------- | --------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-018 | `component-name-exists`     | error    | Token `component` field value **MUST** match the `name` of a declared component in the dataset.                                                                                         |
+| SPEC-019 | `component-variant-valid`   | error    | Token `variant` field value **MUST** match a value in the declared `variant` option enum for the referenced component (when that enum exists).                                          |
+| SPEC-020 | `component-anatomy-valid`   | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                           |
+| SPEC-021 | `component-slot-vocabulary` | warning  | Component `slots` entries with a `name` outside the canonical vocabulary **SHOULD** include a `description`. Custom slot names without descriptions are surfaced as tech-debt warnings. |
+
+## Full example
+
+A complete button component declaration:
+
+```json
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+  "specVersion": "1.0.0-draft",
+  "name": "button",
+  "displayName": "Button",
+  "description": "Buttons allow users to perform an action or to navigate to another page.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/button/"
+  },
+  "options": {
+    "variant": {
+      "type": "string",
+      "enum": ["accent", "negative", "primary", "secondary"],
+      "default": "accent",
+      "description": "Visual emphasis level."
+    },
+    "style": {
+      "type": "string",
+      "enum": ["fill", "outline"],
+      "default": "fill"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isDisabled": { "type": "boolean", "default": false },
+    "isPending": { "type": "boolean", "default": false },
+    "hideLabel": { "type": "boolean", "default": false },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+      "description": "Icon placed at the start of the button. Required when hideLabel is true."
+    },
+    "staticColor": {
+      "type": "string",
+      "enum": ["white", "black"],
+      "description": "Static color for use on colored backgrounds. Must not be set for the default variant."
+    }
+  },
+  "slots": [
+    {
+      "name": "default",
+      "description": "Text label of the button.",
+      "required": false
+    },
+    {
+      "name": "icon",
+      "description": "Icon placed at the start of the button."
+    }
+  ],
+  "anatomy": [
+    { "name": "icon",  "description": "Leading icon." },
+    { "name": "label", "description": "Button text.", "required": true }
+  ],
+  "states": [
+    { "name": "hover",    "trigger": "interaction", "precedence": 50 },
+    { "name": "focus",    "trigger": "interaction", "precedence": 60, "layered": true },
+    { "name": "disabled", "trigger": "prop",        "precedence": 100 }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}
+```

@@ -154,3 +154,39 @@ rules:
     message: 'Token "{name}" uses a string name instead of a name object — treat as tech debt and plan remediation'
     spec_ref: spec/token-format.md#string-name-escape-hatch
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-018
+    name: component-name-exists
+    severity: error
+    category: reference-integrity
+    assert: Token name-object 'component' field value MUST match the 'name' of a declared component in the dataset.
+    message: "Token '{token}' references undeclared component '{component}'"
+    spec_ref: spec/component-format.md#name
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-019
+    name: component-variant-valid
+    severity: error
+    category: reference-integrity
+    assert: Token name-object 'variant' field value MUST match a value in the declared 'variant' option enum for the referenced component, when that enum exists.
+    message: "Token '{token}' has variant '{variant}' which is not declared on component '{component}'"
+    spec_ref: spec/component-format.md#options
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-020
+    name: component-anatomy-valid
+    severity: error
+    category: reference-integrity
+    assert: Token name-object 'anatomy' field value MUST match the 'name' of a declared anatomy part on the referenced component.
+    message: "Token '{token}' references undeclared anatomy part '{anatomy}' on component '{component}'"
+    spec_ref: spec/component-format.md#anatomy-stub
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-021
+    name: component-slot-vocabulary
+    severity: warning
+    category: tech-debt
+    assert: Component slot declarations with a 'name' outside the canonical slot vocabulary SHOULD include a 'description' field documenting the custom slot's purpose.
+    message: "Component '{component}' has custom slot '{slot}' with no description — add a description or use a canonical slot name"
+    spec_ref: spec/component-format.md#canonical-slot-vocabulary
+    introduced_in: "1.0.0-draft"

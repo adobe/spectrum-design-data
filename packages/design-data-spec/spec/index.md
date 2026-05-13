@@ -11,12 +11,13 @@ The specification defines:
 
 1. **Token format** — structured token identity (`name`), literal `value` or alias `$ref`, and lifecycle metadata ([Token format](token-format.md)).
 2. **Taxonomy** — concept categories, token term vocabulary, formatting style, and the distinction between component anatomy and token objects ([Taxonomy](taxonomy.md)).
-3. **Cascade and resolution** — layered data (foundation, platform, product), specificity, and how a context picks a winning value ([Cascade](cascade.md)).
-4. **Dimensions** — declared modes, defaults, and coverage expectations ([Dimensions](dimensions.md)).
-5. **Platform manifest** — how a platform repo pins foundation data, filters tokens, and applies typed overrides ([Manifest](manifest.md)).
-6. **Semantic diff** — change taxonomy, token identity rules, and property-level change tracking for comparing dataset versions ([Diff](diff.md)).
-7. **Query notation** — filter syntax for selecting tokens by structured fields ([Query](query.md)).
-8. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
+3. **Component format** — component declaration shape: API options, named content slots, anatomy parts, state model, and cross-reference validation rules ([Component format](component-format.md)).
+4. **Cascade and resolution** — layered data (foundation, platform, product), specificity, and how a context picks a winning value ([Cascade](cascade.md)).
+5. **Dimensions** — declared modes, defaults, and coverage expectations ([Dimensions](dimensions.md)).
+6. **Platform manifest** — how a platform repo pins foundation data, filters tokens, and applies typed overrides ([Manifest](manifest.md)).
+7. **Semantic diff** — change taxonomy, token identity rules, and property-level change tracking for comparing dataset versions ([Diff](diff.md)).
+8. **Query notation** — filter syntax for selecting tokens by structured fields ([Query](query.md)).
+9. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
 
 ## Conformance
 
@@ -50,16 +51,17 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 
 ## Normative references (sibling documents)
 
-| Document                        | Role                                                             |
-| ------------------------------- | ---------------------------------------------------------------- |
-| [Token format](token-format.md) | Token `name`, `value` / `$ref`, value types, lifecycle metadata. |
-| [Taxonomy](taxonomy.md)         | Concept categories, vocabulary, formatting, anatomy vs objects.  |
-| [Cascade](cascade.md)           | Layers, specificity, resolution algorithm.                       |
-| [Dimensions](dimensions.md)     | Dimension declarations, built-in dimensions, coverage.           |
-| [Manifest](manifest.md)         | Platform manifest fields and validation expectations.            |
-| [Diff](diff.md)                 | Semantic diff change taxonomy, token identity, property changes. |
-| [Query](query.md)               | Filter notation for selecting tokens by structured fields.       |
-| [Evolution](evolution.md)       | Deprecation lifecycle, migration windows, change classification. |
+| Document                                | Role                                                                                           |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [Token format](token-format.md)         | Token `name`, `value` / `$ref`, value types, lifecycle metadata.                               |
+| [Taxonomy](taxonomy.md)                 | Concept categories, vocabulary, formatting, anatomy vs objects.                                |
+| [Component format](component-format.md) | Component declaration: options, slots, anatomy (→ Phase 6.2), states (→ Phase 6.3), lifecycle. |
+| [Cascade](cascade.md)                   | Layers, specificity, resolution algorithm.                                                     |
+| [Dimensions](dimensions.md)             | Dimension declarations, built-in dimensions, coverage.                                         |
+| [Manifest](manifest.md)                 | Platform manifest fields and validation expectations.                                          |
+| [Diff](diff.md)                         | Semantic diff change taxonomy, token identity, property changes.                               |
+| [Query](query.md)                       | Filter notation for selecting tokens by structured fields.                                     |
+| [Evolution](evolution.md)               | Deprecation lifecycle, migration windows, change classification.                               |
 
 ## JSON Schema `$id` and versioning
 
@@ -76,11 +78,11 @@ Packaged copies in this repository live under `packages/design-data-spec/schemas
 
 ## Relationship to existing Adobe packages
 
-| Package / area                          | Relationship                                                                                                                                                                                                                                                            |
-| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@adobe/spectrum-tokens`                | **Current** token JSON under `packages/tokens/` is the **legacy** shape (e.g. `color-set`, `scale-set`). This spec defines the **target** format; backward-compat schemas and migration are Phase 1 ([#723](https://github.com/adobe/spectrum-design-data/issues/723)). |
-| `@adobe/design-system-registry`         | Registry enums and component metadata MAY be referenced by validation rules (e.g. component association); exact coupling is Layer 2.                                                                                                                                    |
-| `@adobe/spectrum-component-api-schemas` | Component schemas MAY be cross-checked by graph rules; not required for Layer 1 structural validation.                                                                                                                                                                  |
+| Package / area                          | Relationship                                                                                                                                                                                                                                                                 |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@adobe/spectrum-tokens`                | **Current** token JSON under `packages/tokens/` is the **legacy** shape (e.g. `color-set`, `scale-set`). This spec defines the **target** format; backward-compat schemas and migration are Phase 1 ([#723](https://github.com/adobe/spectrum-design-data/issues/723)).      |
+| `@adobe/design-system-registry`         | Registry enums and component metadata MAY be referenced by validation rules (e.g. component association); exact coupling is Layer 2.                                                                                                                                         |
+| `@adobe/spectrum-component-api-schemas` | Will become a thin adapter over component declarations in `packages/design-data-spec/components/` (Phase 6.5). Until migration, existing schemas remain authoritative. Cross-reference rules SPEC-018–SPEC-020 apply when component declarations are present in the dataset. |
 
 ## Umbrella discussions
 
