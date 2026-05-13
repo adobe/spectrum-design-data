@@ -26,15 +26,28 @@
     "./schemas/field.schema.json": "./schemas/field.schema.json",
     "./schemas/manifest.schema.json": "./schemas/manifest.schema.json",
     "./schemas/value-types/color.schema.json": "./schemas/value-types/color.schema.json",
-    "./rules/rules.yaml": "./rules/rules.yaml"
+    "./schemas/component.schema.json": "./schemas/component.schema.json",
+    "./schemas/anatomy-part.schema.json": "./schemas/anatomy-part.schema.json",
+    "./schemas/state-declaration.schema.json": "./schemas/state-declaration.schema.json",
+    "./rules/rules.yaml": "./rules/rules.yaml",
+    "./src/validate.js": "./src/validate.js",
+    "./src/canonical.js": "./src/canonical.js"
   },
   "files": [
-    "spec",
-    "schemas",
+    "components",
+    "conformance",
     "fields",
     "rules",
-    "conformance",
+    "schemas",
+    "spec",
+    "src",
     "README.md"
   ],
-  "scripts": {}
+  "scripts": {
+    "test": "ava"
+  },
+  "devDependencies": {
+    "ava": "^6.0.1",
+    "glob": "^11.0.0"
+  }
 }

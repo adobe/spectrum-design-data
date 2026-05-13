@@ -249,7 +249,14 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(ajv@8.17.1)
 
-  packages/design-data-spec: {}
+  packages/design-data-spec:
+    devDependencies:
+      ava:
+        specifier: ^6.0.1
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+      glob:
+        specifier: ^11.0.0
+        version: 11.0.3
 
   packages/design-system-registry:
     devDependencies:
