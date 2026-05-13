@@ -1,5 +1,28 @@
 # @adobe/design-data-spec
 
+## 0.7.0
+
+### Minor Changes
+
+- [#863](https://github.com/adobe/spectrum-design-data/pull/863) [`0e30511`](https://github.com/adobe/spectrum-design-data/commit/0e30511ec5ce916b76b97d116459a6421f0ddd4e) Thanks [@GarthDB](https://github.com/GarthDB)! - Phase 8.x: product context document
+  - New spec chapter `spec/product-context.md` — defines the Layer 3 product context document:
+    rationale, overrides, extensions, and agent capture behavior.
+  - New schema `schemas/product-context.schema.json` — validates product-context.json documents.
+  - `spec/cascade.md` — note on product context in the layers table.
+  - `spec/manifest.md` — cross-reference to product context.
+  - `spec/agent-surface.md` — add `write_token` and `write_component` to tool catalog (RECOMMENDED);
+    note on rationale capture behavior.
+  - `spec/index.md` — add product context to normative references.
+  - `design-data write` CLI subcommand — creates or updates a product-context.json file; accepts
+    `--output` (path) and `--rationale` (text) flags.
+
+### Patch Changes
+
+- [#863](https://github.com/adobe/spectrum-design-data/pull/863) [`0e30511`](https://github.com/adobe/spectrum-design-data/commit/0e30511ec5ce916b76b97d116459a6421f0ddd4e) Thanks [@GarthDB](https://github.com/GarthDB)! - Phase 1.x: add optional `rationale` string field to token schema
+  - `schemas/token.schema.json`: add `rationale` to both `tokenWithValue` and `tokenWithRef`
+    properties. Field is OPTIONAL; no validation rules.
+  - `spec/token-format.md`: add `rationale` row to the lifecycle and metadata table.
+
 ## 0.6.0
 
 ### Minor Changes
