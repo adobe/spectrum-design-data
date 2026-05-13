@@ -57,5 +57,247 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "checkbox-control-size-small",
+      "context": "S2 Control (size)"
+    },
+    {
+      "token": "checkbox-control-size-medium",
+      "context": "S2 Control (size)"
+    },
+    {
+      "token": "checkbox-control-size-large",
+      "context": "S2 Control (size)"
+    },
+    {
+      "token": "checkbox-control-size-extra-large",
+      "context": "S2 Control (size)"
+    },
+    {
+      "token": "checkbox-top-to-control-small",
+      "context": "S2 Spacing (top edge to control)"
+    },
+    {
+      "token": "checkbox-top-to-control-medium",
+      "context": "S2 Spacing (top edge to control)"
+    },
+    {
+      "token": "checkbox-top-to-control-large",
+      "context": "S2 Spacing (top edge to control)"
+    },
+    {
+      "token": "checkbox-top-to-control-extra-large",
+      "context": "S2 Spacing (top edge to control)"
+    },
+    {
+      "token": "neutral-background-color-selected-default",
+      "context": "S2 Control (selected, non emphasized)"
+    },
+    {
+      "token": "neutral-background-color-selected-hover",
+      "context": "S2 Control (selected, non emphasized)"
+    },
+    {
+      "token": "neutral-background-color-selected-key-focus",
+      "context": "S2 Control (selected, non emphasized)"
+    },
+    {
+      "token": "component-height-75",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-size-difference-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-width-ratio-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-minimum-perspective-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "border-width-200",
+      "context": "Control (border)"
+    },
+    {
+      "token": "corner-radius-small-size-small",
+      "context": "Control (rounding)"
+    },
+    {
+      "token": "corner-radius-small-size-medium",
+      "context": "Control (rounding)"
+    },
+    {
+      "token": "corner-radius-small-size-large",
+      "context": "Control (rounding)"
+    },
+    {
+      "token": "corner-radius-small-size-extra-large",
+      "context": "Control (rounding)"
+    },
+    {
+      "token": "text-to-control-75",
+      "context": "Spacing (control to label)"
+    },
+    {
+      "token": "text-to-control-100",
+      "context": "Spacing (control to label)"
+    },
+    {
+      "token": "text-to-control-200",
+      "context": "Spacing (control to label)"
+    },
+    {
+      "token": "text-to-control-300",
+      "context": "Spacing (control to label)"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-200",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-300",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-75",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-100",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-200",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-300",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus ring"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus ring"
+    },
+    {
+      "token": "spacing-300",
+      "context": "Checkbox group spacing (horizontal)"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Label"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Label"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Label"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Label"
+    },
+    {
+      "token": "gray-25",
+      "context": "Control"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "accent-content-color-hover",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "accent-content-color-down",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "accent-content-color-key-focus",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Label (disabled)"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus ring"
+    },
+    {
+      "token": "negative-color-900",
+      "context": "Checkbox colors"
+    },
+    {
+      "token": "negative-color-1000",
+      "context": "Checkbox colors"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Label"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Label"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Label"
+    }
+  ]
 }
