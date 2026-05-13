@@ -16,6 +16,7 @@ design-data-core = { path = "../core", features = ["figma"] }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 miette = { version = "7.4", features = ["fancy"] }
 serde_json = "1.0"
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
 
 [dev-dependencies]
 assert_cmd = "2.0"

@@ -65,6 +65,10 @@ A platform **MAY** declare formatting rules that control how structured name obj
 
 **OPTIONAL:** Workflows **MAY** open upgrade PRs when `foundationVersion` lags the latest release; details are out of scope for this document (see [#715](https://github.com/adobe/spectrum-design-data/discussions/715)).
 
+## Relationship to product context
+
+The platform manifest is the Layer 2 context document. For Layer 3 (product-layer) context — rationale, overrides, and extensions specific to a product team's working copy — see [Product context](product-context.md).
+
 ## References
 
 * [#715 — Distributed Design Data Architecture](https://github.com/adobe/spectrum-design-data/discussions/715)

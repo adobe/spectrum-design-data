@@ -63,6 +63,7 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 | [Cascade](cascade.md)                   | Layers, specificity, resolution algorithm.                                                                  |
 | [Dimensions](dimensions.md)             | Dimension declarations, built-in dimensions, coverage.                                                      |
 | [Manifest](manifest.md)                 | Platform manifest fields and validation expectations.                                                       |
+| [Product context](product-context.md)   | Product-layer context document: rationale, overrides, and extensions.                                       |
 | [Diff](diff.md)                         | Semantic diff change taxonomy, token identity, property changes.                                            |
 | [Query](query.md)                       | Filter notation for selecting tokens by structured fields.                                                  |
 | [Evolution](evolution.md)               | Deprecation lifecycle, migration windows, change classification.                                            |
