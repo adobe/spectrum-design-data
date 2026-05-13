@@ -205,12 +205,15 @@
     "stateDeclaration": {
       "type": "object",
       "required": ["name"],
-      "description": "Per-component state declaration. Full spec in spec/state-model.md (Phase 6.3).",
+      "description": "Per-component state declaration. Full spec in spec/state-model.md.",
       "properties": {
         "name": {
           "type": "string",
           "minLength": 1,
           "description": "State identifier (e.g. 'hover', 'focus', 'disabled')."
+        },
+        "description": {
+          "type": "string"
         },
         "trigger": {
           "type": "string",
