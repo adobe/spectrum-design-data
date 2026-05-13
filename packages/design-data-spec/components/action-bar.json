@@ -57,7 +57,11 @@
     },
     {
       "token": "background-elevated-color",
-      "context": "Background"
+      "context": "Background (default)"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Background (emphasized)"
     },
     {
       "token": "action-bar-border",
@@ -92,8 +96,108 @@
       "context": "Counter"
     },
     {
-      "token": "neutral-content-color-default",
-      "context": "Counter"
+      "token": "accent-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "accent-background-color-hover",
+      "context": "Background"
+    },
+    {
+      "token": "accent-background-color-down",
+      "context": "Background"
+    },
+    {
+      "token": "accent-background-color-key-focus",
+      "context": "Background"
+    },
+    {
+      "token": "white",
+      "context": "Icon and Clear icon"
+    },
+    {
+      "token": "neutral-selected-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "neutral-selected-background-color-hover",
+      "context": "Background"
+    },
+    {
+      "token": "neutral-selected-background-color-down",
+      "context": "Background"
+    },
+    {
+      "token": "neutral-selected-background-color-key-focus",
+      "context": "Background"
+    },
+    {
+      "token": "gray-25",
+      "context": "Icon and Clear icon"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Control (selected, non emphasized)"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Control (selected, non emphasized)"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Control (selected, non emphasized)"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "accent-content-color-hover",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "accent-content-color-down",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "accent-content-color-key-focus",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-subdued-background-color-default",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-subdued-background-color-hover",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-subdued-background-color-key-focus",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-background-color-default",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-background-color-key-focus",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-visual-color",
+      "context": "Step visual"
     }
   ]
 }

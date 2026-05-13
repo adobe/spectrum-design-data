@@ -163,38 +163,6 @@
       "context": "Spacing (start/end edge to value)"
     },
     {
-      "token": "component-top-to-text-75",
-      "context": "Spacing (top/bottom edge to label)"
-    },
-    {
-      "token": "component-top-to-text-100",
-      "context": "Spacing (top/bottom edge to label)"
-    },
-    {
-      "token": "component-top-to-text-200",
-      "context": "Spacing (top/bottom edge to label)"
-    },
-    {
-      "token": "component-top-to-text-300",
-      "context": "Spacing (top/bottom edge to label)"
-    },
-    {
-      "token": "component-bottom-to-text-75",
-      "context": "Spacing (top/bottom edge to label)"
-    },
-    {
-      "token": "component-bottom-to-text-100",
-      "context": "Spacing (top/bottom edge to label)"
-    },
-    {
-      "token": "component-bottom-to-text-200",
-      "context": "Spacing (top/bottom edge to label)"
-    },
-    {
-      "token": "component-bottom-to-text-300",
-      "context": "Spacing (top/bottom edge to label)"
-    },
-    {
       "token": "focus-indicator-thickness",
       "context": "Focus indicator"
     },
@@ -215,6 +183,42 @@
       "context": "Component size (down)"
     },
     {
+      "token": "workflow-icon-size-75",
+      "context": "Prefix min-width"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Prefix min-width"
+    },
+    {
+      "token": "workflow-icon-size-200",
+      "context": "Prefix min-width"
+    },
+    {
+      "token": "workflow-icon-size-300",
+      "context": "Prefix min-width"
+    },
+    {
+      "token": "picker-end-edge-to-disclosure-icon-quiet",
+      "context": "Spacing (start/end edge to prefix)"
+    },
+    {
+      "token": "text-to-visual-75",
+      "context": "Spacing (prefix to value/placeholder)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (prefix to value/placeholder)"
+    },
+    {
+      "token": "text-to-visual-200",
+      "context": "Spacing (prefix to value/placeholder)"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Spacing (prefix to value/placeholder)"
+    },
+    {
       "token": "chevron-icon-size-75",
       "context": "Chevron/disclosure icon"
     },
@@ -229,22 +233,6 @@
     {
       "token": "chevron-icon-size-300",
       "context": "Chevron/disclosure icon"
-    },
-    {
-      "token": "text-to-visual-75",
-      "context": "Spacing (minimum, placeholder text/value to visual)"
-    },
-    {
-      "token": "text-to-visual-100",
-      "context": "Spacing (minimum, placeholder text/value to visual)"
-    },
-    {
-      "token": "text-to-visual-200",
-      "context": "Spacing (minimum, placeholder text/value to visual)"
-    },
-    {
-      "token": "text-to-visual-300",
-      "context": "Spacing (minimum, placeholder text/value to visual)"
     },
     {
       "token": "field-top-to-disclosure-icon-75",
@@ -279,24 +267,20 @@
       "context": "Spacing (end edge to disclosure icon)"
     },
     {
-      "token": "picker-end-edge-to-disclosure-icon-quiet",
-      "context": "Spacing (end edge to disclosure icon)"
+      "token": "field-edge-to-alert-icon-small",
+      "context": "Leading icon (leading icon to end edge)"
     },
     {
-      "token": "workflow-icon-size-75",
-      "context": "Icon and alert icon size"
+      "token": "field-edge-to-alert-icon-medium",
+      "context": "Leading icon (leading icon to end edge)"
     },
     {
-      "token": "workflow-icon-size-100",
-      "context": "Icon and alert icon size"
+      "token": "field-edge-to-alert-icon-large",
+      "context": "Leading icon (leading icon to end edge)"
     },
     {
-      "token": "workflow-icon-size-200",
-      "context": "Icon and alert icon size"
-    },
-    {
-      "token": "workflow-icon-size-300",
-      "context": "Icon and alert icon size"
+      "token": "field-edge-to-alert-icon-extra-large",
+      "context": "Leading icon (leading icon to end edge)"
     },
     {
       "token": "component-top-to-workflow-icon-75",
@@ -443,6 +427,10 @@
       "context": "Value"
     },
     {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Label"
+    },
+    {
       "token": "negative-visual-color",
       "context": "Alert icon"
     },
@@ -459,6 +447,10 @@
       "context": "Focus ring"
     },
     {
+      "token": "gray-700",
+      "context": "Prefix"
+    },
+    {
       "token": "default-font-family",
       "context": "Value"
     },
@@ -471,28 +463,60 @@
       "context": "Value"
     },
     {
-      "token": "font-size-75",
+      "token": "component-s-regular",
       "context": "Value"
     },
     {
-      "token": "font-size-100",
+      "token": "component-m-regular",
       "context": "Value"
     },
     {
-      "token": "font-size-200",
+      "token": "component-l-regular",
       "context": "Value"
     },
     {
-      "token": "font-size-300",
+      "token": "component-xl-regular",
       "context": "Value"
     },
     {
-      "token": "line-height-100",
+      "token": "line-height-font-size-75",
+      "context": "Value"
+    },
+    {
+      "token": "line-height-font-size-100",
+      "context": "Value"
+    },
+    {
+      "token": "line-height-font-size-200",
+      "context": "Value"
+    },
+    {
+      "token": "line-height-font-size-300",
       "context": "Value"
     },
     {
       "token": "cjk-line-height-100",
       "context": "Value"
+    },
+    {
+      "token": "medium-font-weight",
+      "context": "Prefix"
+    },
+    {
+      "token": "component-s-medium",
+      "context": "Prefix"
+    },
+    {
+      "token": "component-m-medium",
+      "context": "Prefix"
+    },
+    {
+      "token": "component-l-medium",
+      "context": "Prefix"
+    },
+    {
+      "token": "component-xl-medium",
+      "context": "Prefix"
     }
   ]
 }

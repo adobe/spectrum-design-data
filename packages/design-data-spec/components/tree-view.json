@@ -62,10 +62,6 @@
   },
   "tokenBindings": [
     {
-      "token": "in-field",
-      "context": "Components"
-    },
-    {
       "token": "workflow-icon-size-100",
       "context": "Icon"
     },
@@ -78,12 +74,8 @@
       "context": "Width (minimum)"
     },
     {
-      "token": "corner-radius-none",
-      "context": "Rounding"
-    },
-    {
       "token": "corner-radius-medium-default",
-      "context": "Rounding (detached)"
+      "context": "Rounding"
     },
     {
       "token": "tree-view-disclosure-indicator-height",
@@ -126,44 +118,20 @@
       "context": "Spacing (indentation)"
     },
     {
-      "token": "tree-view-top-to-drag-handle",
-      "context": "Spacing (top to drag handle)"
+      "token": "vertical-align-items",
+      "context": "Spacing (vertical)"
     },
     {
-      "token": "tree-view-top-to-checkbox",
-      "context": "Spacing (top to checkbox)"
-    },
-    {
-      "token": "tree-view-top-to-disclosure-indicator",
-      "context": "Spacing (top to disclosure-indicator)"
-    },
-    {
-      "token": "tree-view-minimum-top-to-context-area",
-      "context": "Spacing (top to context area, thumbnail)"
-    },
-    {
-      "token": "tree-view-top-to-label",
-      "context": "Spacing (top and bottom to label)"
-    },
-    {
-      "token": "tree-view-bottom-to-label",
-      "context": "Spacing (top and bottom to label)"
-    },
-    {
-      "token": "tree-view-top-to-action-button",
-      "context": "Spacing (top and bottom to action button)"
+      "token": "stack-item-minimum-padding-vertical",
+      "context": "Spacing (vertical)"
     },
     {
       "token": "border-width-100",
-      "context": "Border width (selected, selected + emphasized)"
-    },
-    {
-      "token": "side-focus-indicator",
-      "context": "Focus (default)"
+      "context": "Border width (selected, highlight)"
     },
     {
       "token": "focus-indicator-thickness",
-      "context": "Focus (detached)"
+      "context": "Focus "
     },
     {
       "token": "focus-indicator-gap",
@@ -174,12 +142,12 @@
       "context": "Height"
     },
     {
-      "token": "tree-view-item-to-item",
-      "context": "Spacing (vertically, between tree view items)"
+      "token": "stack-item-minimum-vertical-padding",
+      "context": "Spacing (vertical)"
     },
     {
-      "token": "tree-view-item-to-item-detached",
-      "context": "Spacing (vertically, between tree view items, detached)"
+      "token": "stack-item-item-to-item",
+      "context": "Spacing (vertically, between tree view items)"
     },
     {
       "token": "tree-view-item-to-header",
@@ -190,48 +158,96 @@
       "context": "Spacing (vertically, between tree view item and tree view header)"
     },
     {
-      "token": "tree-view-row-background-hover",
-      "context": "Background"
+      "token": "stack-item-header-to-item",
+      "context": "Spacing (vertically, between tree view item and tree view header)"
+    },
+    {
+      "token": "stack-item-background-color-hover",
+      "context": "Background (not selected)"
+    },
+    {
+      "token": "stack-item-background-color-down",
+      "context": "Background (not selected)"
+    },
+    {
+      "token": "stack-item-background-color-key-focus",
+      "context": "Background (not selected)"
     },
     {
       "token": "tree-view-selected-row-background-default",
-      "context": "Background (selected)"
+      "context": "Background (selected, checkbox)"
     },
     {
       "token": "tree-view-selected-row-background-hover",
-      "context": "Background (selected)"
+      "context": "Background (selected, checkbox)"
     },
     {
-      "token": "neutral-subdued-content-color-selected",
-      "context": "Border (selected)"
+      "token": "stack-item-selected-background-color-default",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-hover",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-down",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-key-focus",
+      "context": "Background (selected, checkbox)"
     },
     {
       "token": "tree-view-selected-row-background-color-emphasized",
-      "context": "Background (selected + emphasized)"
+      "context": "Background (selected, emphasized)"
     },
     {
       "token": "tree-view-selected-row-background-opacity-emphasized-hover",
-      "context": "Background (selected + emphasized)"
+      "context": "Background (selected, emphasized)"
+    },
+    {
+      "token": "stack-item-selected-background-color-highlight",
+      "context": "Background (selected + highlight)"
+    },
+    {
+      "token": "stack-item-selected-background-opacity-highlight-hover",
+      "context": "Background (selected + highlight)"
     },
     {
       "token": "accent-content-color-selected",
-      "context": "Border (selected + emphasized)"
+      "context": "Border (selected + highlight)"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-down",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Label and icon (non-selected)"
     },
     {
       "token": "neutral-content-color-default",
-      "context": "Label and icon"
+      "context": "Label and icon (selected, checkbox and highlight)"
     },
     {
       "token": "neutral-content-color-hover",
-      "context": "Label and icon"
+      "context": "Label and icon (selected, checkbox and highlight)"
     },
     {
       "token": "neutral-content-color-down",
-      "context": "Label and icon"
+      "context": "Label and icon (selected, checkbox and highlight)"
     },
     {
       "token": "neutral-content-color-key-focus",
-      "context": "Label and icon"
+      "context": "Label and icon (selected, checkbox and highlight)"
     },
     {
       "token": "disabled-content-color",
@@ -240,10 +256,6 @@
     {
       "token": "focus-indicator-color",
       "context": "Focus indicator"
-    },
-    {
-      "token": "neutral-subdued-content-color",
-      "context": "Label"
     },
     {
       "token": "title-content-color",
@@ -296,10 +308,6 @@
     {
       "token": "spacing-75",
       "context": "Opacity checkerboard (layer)"
-    },
-    {
-      "token": "border-width-200",
-      "context": "Border (layer, selected)"
     },
     {
       "token": "corner-radius-0",

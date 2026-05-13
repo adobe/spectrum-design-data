@@ -175,38 +175,6 @@
       "context": "Spacing (icon to text)"
     },
     {
-      "token": "component-top-to-text-75",
-      "context": "Spacing (top/bottom edge to text)"
-    },
-    {
-      "token": "component-top-to-text-100",
-      "context": "Spacing (top/bottom edge to text)"
-    },
-    {
-      "token": "component-top-to-text-200",
-      "context": "Spacing (top/bottom edge to text)"
-    },
-    {
-      "token": "component-top-to-text-300",
-      "context": "Spacing (top/bottom edge to text)"
-    },
-    {
-      "token": "component-bottom-to-text-75",
-      "context": "Spacing (top/bottom edge to text)"
-    },
-    {
-      "token": "component-bottom-to-text-100",
-      "context": "Spacing (top/bottom edge to text)"
-    },
-    {
-      "token": "component-bottom-to-text-200",
-      "context": "Spacing (top/bottom edge to text)"
-    },
-    {
-      "token": "component-bottom-to-text-300",
-      "context": "Spacing (top/bottom edge to text)"
-    },
-    {
       "token": "component-top-to-workflow-icon-75",
       "context": "Spacing (top edge to icon)"
     },
@@ -232,39 +200,51 @@
     },
     {
       "token": "default-font-family",
-      "context": "Text"
+      "context": "Label"
     },
     {
       "token": "regular-font-weight",
-      "context": "Text"
+      "context": "Label"
     },
     {
       "token": "default-font-style",
-      "context": "Text"
+      "context": "Label"
     },
     {
-      "token": "font-size-75",
-      "context": "Text"
+      "token": "component-s-regular",
+      "context": "Label"
     },
     {
-      "token": "font-size-100",
-      "context": "Text"
+      "token": "component-m-regular",
+      "context": "Label"
     },
     {
-      "token": "font-size-200",
-      "context": "Text"
+      "token": "component-l-regular",
+      "context": "Label"
     },
     {
-      "token": "font-size-300",
-      "context": "Text"
+      "token": "component-xl-regular",
+      "context": "Label"
     },
     {
-      "token": "line-height-100",
-      "context": "Text"
+      "token": "line-height-font-size-75",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-font-size-100",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-font-size-200",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-font-size-300",
+      "context": "Label"
     },
     {
       "token": "cjk-line-height-100",
-      "context": "Text"
+      "context": "Label"
     },
     {
       "token": "gray-25",
@@ -304,6 +284,10 @@
     },
     {
       "token": "neutral-content-color-key-focus",
+      "context": "Value, label and icon"
+    },
+    {
+      "token": "gray-600",
       "context": "Value, label and icon"
     },
     {

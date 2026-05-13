@@ -97,6 +97,30 @@
       "context": "S1 Spacing (alert icon/progress circle to field button)"
     },
     {
+      "token": "component-top-to-text-300",
+      "context": "S2 Leading icon (top/bottom edge to leading icon) position: inline"
+    },
+    {
+      "token": "component-top-to-workflow-icon-400",
+      "context": "S2 Leading icon (top/bottom edge to leading icon) position: inline"
+    },
+    {
+      "token": "component-padding-vertical-200",
+      "context": "S2 Spacing (top/bottom edge to text: inline)"
+    },
+    {
+      "token": "component-padding-vertical-300",
+      "context": "S2 Spacing (top/bottom edge to text: inline)"
+    },
+    {
+      "token": "component-top-to-text-50",
+      "context": "S2 Spacing (top/bottom edge to text: inline)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "S2 Spacing (top/bottom edge to text: inline)"
+    },
+    {
       "token": "field-default-width-small",
       "context": "Width (default)"
     },
@@ -165,36 +189,36 @@
       "context": "Spacing (start/end edge to value)"
     },
     {
-      "token": "component-top-to-text-75",
-      "context": "Spacing (top/bottom edge to label)"
+      "token": "workflow-icon-size-75",
+      "context": "Prefix min-width"
     },
     {
-      "token": "component-top-to-text-100",
-      "context": "Spacing (top/bottom edge to label)"
+      "token": "workflow-icon-size-100",
+      "context": "Prefix min-width"
     },
     {
-      "token": "component-top-to-text-200",
-      "context": "Spacing (top/bottom edge to label)"
+      "token": "workflow-icon-size-200",
+      "context": "Prefix min-width"
     },
     {
-      "token": "component-top-to-text-300",
-      "context": "Spacing (top/bottom edge to label)"
+      "token": "workflow-icon-size-300",
+      "context": "Prefix min-width"
     },
     {
-      "token": "component-bottom-to-text-75",
-      "context": "Spacing (top/bottom edge to label)"
+      "token": "text-to-visual-75",
+      "context": "Spacing (prefix to value/placeholder)"
     },
     {
-      "token": "component-bottom-to-text-100",
-      "context": "Spacing (top/bottom edge to label)"
+      "token": "text-to-visual-100",
+      "context": "Spacing (prefix to value/placeholder)"
     },
     {
-      "token": "component-bottom-to-text-200",
-      "context": "Spacing (top/bottom edge to label)"
+      "token": "text-to-visual-200",
+      "context": "Spacing (prefix to value/placeholder)"
     },
     {
-      "token": "component-bottom-to-text-300",
-      "context": "Spacing (top/bottom edge to label)"
+      "token": "text-to-visual-300",
+      "context": "Spacing (prefix to value/placeholder)"
     },
     {
       "token": "border-width-200",
@@ -213,22 +237,6 @@
       "context": "Spacing (alert icon/in-field progress circle to field button)"
     },
     {
-      "token": "workflow-icon-size-75",
-      "context": "Alert icon size"
-    },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Alert icon size"
-    },
-    {
-      "token": "workflow-icon-size-200",
-      "context": "Alert icon size"
-    },
-    {
-      "token": "workflow-icon-size-300",
-      "context": "Alert icon size"
-    },
-    {
       "token": "component-top-to-workflow-icon-75",
       "context": "Spacing (top/bottom edge to alert icon)"
     },
@@ -245,20 +253,20 @@
       "context": "Spacing (top/bottom edge to alert icon)"
     },
     {
-      "token": "text-to-visual-75",
-      "context": "Spacing (minimum, value to alert icon)"
+      "token": "field-edge-to-alert-icon-small",
+      "context": "Leading icon (leading icon to end edge)"
     },
     {
-      "token": "text-to-visual-100",
-      "context": "Spacing (minimum, value to alert icon)"
+      "token": "field-edge-to-alert-icon-medium",
+      "context": "Leading icon (leading icon to end edge)"
     },
     {
-      "token": "text-to-visual-200",
-      "context": "Spacing (minimum, value to alert icon)"
+      "token": "field-edge-to-alert-icon-large",
+      "context": "Leading icon (leading icon to end edge)"
     },
     {
-      "token": "text-to-visual-300",
-      "context": "Spacing (minimum, value to alert icon)"
+      "token": "field-edge-to-alert-icon-extra-large",
+      "context": "Leading icon (leading icon to end edge)"
     },
     {
       "token": "field-label-to-component",
@@ -322,6 +330,10 @@
     },
     {
       "token": "gray-800",
+      "context": "Background and border"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
       "context": "Background and border"
     },
     {
@@ -397,28 +409,72 @@
       "context": "Value"
     },
     {
-      "token": "font-size-75",
+      "token": "component-s-regular",
       "context": "Value"
     },
     {
-      "token": "font-size-100",
+      "token": "component-m-regular",
       "context": "Value"
     },
     {
-      "token": "font-size-200",
+      "token": "component-l-regular",
       "context": "Value"
     },
     {
-      "token": "font-size-300",
+      "token": "component-xl-regular",
       "context": "Value"
     },
     {
-      "token": "line-height-100",
+      "token": "line-height-font-size-75",
+      "context": "Value"
+    },
+    {
+      "token": "line-height-font-size-100",
+      "context": "Value"
+    },
+    {
+      "token": "line-height-font-size-200",
+      "context": "Value"
+    },
+    {
+      "token": "line-height-font-size-300",
       "context": "Value"
     },
     {
       "token": "cjk-line-height-100",
       "context": "Value"
+    },
+    {
+      "token": "medium-font-weight",
+      "context": "Prefix"
+    },
+    {
+      "token": "component-s-medium",
+      "context": "Prefix"
+    },
+    {
+      "token": "component-m-medium",
+      "context": "Prefix"
+    },
+    {
+      "token": "component-l-medium",
+      "context": "Prefix"
+    },
+    {
+      "token": "component-xl-medium",
+      "context": "Prefix"
+    },
+    {
+      "token": "field-label-top-to-asterisk-large",
+      "context": "Spacing (top/bottom edge to required)"
+    },
+    {
+      "token": "field-label-top-to-asterisk-extra-large",
+      "context": "Spacing (top/bottom edge to required)"
+    },
+    {
+      "token": "gray-600",
+      "context": "Label (populated true/false)"
     }
   ]
 }

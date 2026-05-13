@@ -92,12 +92,12 @@
   },
   "tokenBindings": [
     {
-      "token": "(multi-select)",
-      "context": "Variants (default)"
+      "token": "(multi-select",
+      "context": "Variants"
     },
     {
       "token": "multi-select)",
-      "context": "Variants (default)"
+      "context": "Variants"
     },
     {
       "token": "workflow-icon-size-100",
@@ -112,16 +112,8 @@
       "context": "Component width"
     },
     {
-      "token": "corner-radius-none",
-      "context": "Item rounding (none)"
-    },
-    {
-      "token": "list-view-item-top-corner-radius",
-      "context": "Item rounding (top and bottom)"
-    },
-    {
-      "token": "list-view-item-bottom-corner-radius",
-      "context": "Item rounding (top and bottom)"
+      "token": "corner-radius-medium-default",
+      "context": "Item rounding"
     },
     {
       "token": "stack-item-start-edge-to-content",
@@ -164,12 +156,20 @@
       "context": "Spacing (edge to Navigation icon)"
     },
     {
+      "token": "vertical-align-items",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "stack-item-minimum-padding-vertical",
+      "context": "Spacing (vertical)"
+    },
+    {
       "token": "label-to-description-0",
       "context": "Spacing (navigation indicator)"
     },
     {
       "token": "border-width-100",
-      "context": "Border width (selected, selected + emphasized)"
+      "context": "Border width (selected - highlight)"
     },
     {
       "token": "focus-indicator-thickness",
@@ -241,63 +241,67 @@
     },
     {
       "token": "stack-item-selected-background-color-default",
-      "context": "Background (selected)"
+      "context": "Background (selected, checkbox)"
     },
     {
       "token": "stack-item-selected-background-color-hover",
-      "context": "Background (selected)"
+      "context": "Background (selected, checkbox)"
     },
     {
       "token": "stack-item-selected-background-color-down",
-      "context": "Background (selected)"
+      "context": "Background (selected, checkbox)"
     },
     {
       "token": "stack-item-selected-background-color-key-focus",
-      "context": "Background (selected)"
+      "context": "Background (selected, checkbox)"
     },
     {
-      "token": "stack-item-selected-background-color-emphasized",
-      "context": "Background (selected + emphasized)"
+      "token": "stack-item-selected-background-color-highlight",
+      "context": "Background (selected, highlight)"
     },
     {
-      "token": "stack-item-selected-background-opacity-emphasized-hover",
-      "context": "Background (selected + emphasized)"
-    },
-    {
-      "token": "stack-item-selected-background-opacity-emphasized-down",
-      "context": "Background (selected + emphasized)"
-    },
-    {
-      "token": "stack-item-selected-background-opacity-emphasized-key-focus",
-      "context": "Background (selected + emphasized)"
-    },
-    {
-      "token": "neutral-subdued-content-color-selected",
-      "context": "Border (selected)"
+      "token": "stack-item-selected-background-opacity-highlight-hover",
+      "context": "Background (selected, highlight)"
     },
     {
       "token": "accent-content-color-selected",
-      "context": "Border (selected + emphasized)"
+      "context": "Border (selected, highlight)"
     },
     {
       "token": "gray-300",
       "context": "Border"
     },
     {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-down",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Label and icon (non-selected)"
+    },
+    {
       "token": "neutral-content-color-default",
-      "context": "Label and icon"
+      "context": "Label and icon (selected, checkbox and highlight)"
     },
     {
       "token": "neutral-content-color-hover",
-      "context": "Label and icon"
+      "context": "Label and icon (selected, checkbox and highlight)"
     },
     {
       "token": "neutral-content-color-down",
-      "context": "Label and icon"
+      "context": "Label and icon (selected, checkbox and highlight)"
     },
     {
       "token": "neutral-content-color-key-focus",
-      "context": "Label and icon"
+      "context": "Label and icon (selected, checkbox and highlight)"
     },
     {
       "token": "disabled-background-color",
@@ -312,12 +316,8 @@
       "context": "Focus indicator"
     },
     {
-      "token": "title-content-color",
+      "token": "title-color",
       "context": "Title label and icon"
-    },
-    {
-      "token": "neutral-content-color-default????",
-      "context": "Title icon"
     },
     {
       "token": "default-font-family",

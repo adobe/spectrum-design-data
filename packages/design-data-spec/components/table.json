@@ -162,11 +162,11 @@
     },
     {
       "token": "table-row-top-to-text-medium",
-      "context": "Note: desktop 10px, mobile 14px;"
+      "context": "Note: desktop 11px, mobile 14px;"
     },
     {
       "token": "table-row-bottom-to-text-medium",
-      "context": "Note: desktop 13px, mobile 15px;"
+      "context": "Note: desktop 11px, mobile 14px;"
     },
     {
       "token": "table-row-top-to-text-medium-spacious",
@@ -221,6 +221,14 @@
       "context": "Spacing (section header row top/bottom to text) "
     },
     {
+      "token": "accent-content-color-selected",
+      "context": "Selection indicator"
+    },
+    {
+      "token": "border-width-100",
+      "context": "Note: 1px;"
+    },
+    {
       "token": "corner-radius-small-default",
       "context": "Focus indicator (cell)"
     },
@@ -233,35 +241,35 @@
       "context": "Column header and row (text)"
     },
     {
-      "token": "neutral-content-color-default",
-      "context": "Column header and row (text)"
-    },
-    {
-      "token": "neutral-content-color-hover",
-      "context": "Column header and row (text)"
-    },
-    {
-      "token": "neutral-content-color-down",
-      "context": "Column header and row (text)"
-    },
-    {
-      "token": "neutral-content-color-key-focus",
-      "context": "Column header and row (text)"
-    },
-    {
       "token": "neutral-subdued-content-color-default",
-      "context": "Sort UI icon asset"
+      "context": "Row: not selected"
     },
     {
       "token": "neutral-subdued-content-color-hover",
-      "context": "Sort UI icon asset"
-    },
-    {
-      "token": "neutral-subdued-content-color-down",
-      "context": "Sort UI icon asset"
+      "context": "Row: not selected"
     },
     {
       "token": "neutral-subdued-content-color-key-focus",
+      "context": "Row: not selected"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Row: selected, checkbox & highlight"
+    },
+    {
+      "token": "neutral-content-color-default-hover",
+      "context": "Row: selected, checkbox & highlight"
+    },
+    {
+      "token": "neutral-content-color-default-down",
+      "context": "Row: selected, checkbox & highlight"
+    },
+    {
+      "token": "neutral-content-color-default-key-focus",
+      "context": "Row: selected, checkbox & highlight"
+    },
+    {
+      "token": "neutral-subdued-content-color-down",
       "context": "Sort UI icon asset"
     },
     {
@@ -273,32 +281,52 @@
       "context": "Column header and row (background, border and divider)"
     },
     {
+      "token": "gray-75",
+      "context": "Column header and row (background, border and divider)"
+    },
+    {
       "token": "gray-200",
       "context": "Summary row (background)"
     },
     {
-      "token": "table-row-hover-color",
-      "context": "Row (hover)"
+      "token": "gray-100",
+      "context": "Row (disabled)"
     },
     {
-      "token": "table-row-hover-opacity",
-      "context": "Row (hover)"
+      "token": "gray-400",
+      "context": "Row (disabled)"
     },
     {
-      "token": "table-row-down-opacity",
-      "context": "Row (down)"
+      "token": "stack-item-background-color-hover",
+      "context": "Row (not selected, hover)"
     },
     {
-      "token": "table-selected-row-background-color",
-      "context": "Selected row background (emphasis)"
+      "token": "stack-item-selected-background-color-default",
+      "context": "Row (checkbox selection)"
     },
     {
-      "token": "table-selected-row-background-opacity",
-      "context": "Selected row background (emphasis)"
+      "token": "stack-item-selected-background-color-hover",
+      "context": "Row (checkbox selection, hover)"
     },
     {
-      "token": "table-selected-row-background-opacity-hover",
-      "context": "Selected row background (emphasis, hover)"
+      "token": "stack-item-selected-background-color-down",
+      "context": "Row (checkbox selection, down)"
+    },
+    {
+      "token": "stack-item-selected-background-color-key-focus",
+      "context": "Row (checkbox selection, keyboard focus)"
+    },
+    {
+      "token": "table-selected-row-background-color-highlight",
+      "context": "Selected row background (highlight selection)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-highlight",
+      "context": "Selected row background (highlight selection)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-highlight-hover",
+      "context": "Selected row background (highlight selection, hover)"
     },
     {
       "token": "focus-indicator-color",
@@ -331,6 +359,34 @@
     {
       "token": "regular-font-weight",
       "context": "Column header and row"
+    },
+    {
+      "token": "table-row-hover-color;",
+      "context": "S1 Row (not selected, hover)"
+    },
+    {
+      "token": "table-row-hover-opacity",
+      "context": "S1 Row (not selected, hover)"
+    },
+    {
+      "token": "table-row-down-opacity",
+      "context": "S1 Row (checkbox selection, down)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-hover-highlight",
+      "context": "S2 Selected row background (highlight selection, hover)"
+    },
+    {
+      "token": "table-selected-row-background-color",
+      "context": "S1 Selected row background (highlight selection)"
+    },
+    {
+      "token": "table-selected-row-background-opacity",
+      "context": "S1 Selected row background (highlight selection)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-hover",
+      "context": "S1 Selected row background (highlight selection, hover)"
     }
   ]
 }

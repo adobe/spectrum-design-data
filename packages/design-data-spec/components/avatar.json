@@ -133,40 +133,32 @@
       "context": "Focus indicator"
     },
     {
-      "token": "avatar-border-color",
-      "context": "Border"
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "avatar-opacity-disabled",
-      "context": "Disabled"
-    },
-    {
-      "token": "static-fuchsia-400",
+      "token": "avatar-gradient-stop-1",
       "context": "0% "
     },
     {
-      "token": "static-fuchsia-500",
+      "token": "static-[color]-400",
       "context": "0% "
     },
     {
-      "token": "static-fuchsia-600",
+      "token": "avatar-gradient-stop-2",
       "context": "66% "
     },
     {
-      "token": "static-fuchsia-700",
+      "token": "static-[color]-600",
       "context": "66% "
     },
     {
-      "token": "static-fuchsia-800",
+      "token": "avatar-gradient-stop-3",
       "context": "100% "
     },
     {
-      "token": "static-fuchsia-900",
+      "token": "static-[color]-800",
       "context": "100% "
+    },
+    {
+      "token": "gradient-angle",
+      "context": "Top-left to bottom-right"
     },
     {
       "token": "default-font-family",
@@ -181,7 +173,7 @@
       "context": "Text (List view item)"
     },
     {
-      "token": "font-size-300",
+      "token": "font-size-100",
       "context": "Text (List view item)"
     },
     {

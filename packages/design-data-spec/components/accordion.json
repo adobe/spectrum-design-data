@@ -86,6 +86,22 @@
   },
   "tokenBindings": [
     {
+      "token": "accordion-minimum-width",
+      "context": "Width (default)"
+    },
+    {
+      "token": "field-default-width-medium",
+      "context": "Width (default)"
+    },
+    {
+      "token": "field-default-width-large",
+      "context": "Width (default)"
+    },
+    {
+      "token": "field-default-width-extra-large",
+      "context": "Width (default)"
+    },
+    {
       "token": "accordion-edge-to-content-area-small",
       "context": "Paddings"
     },
@@ -122,10 +138,6 @@
       "context": "Spacing (top/bottom edge to label)"
     },
     {
-      "token": "accordion-minimum-width",
-      "context": "Minimum width"
-    },
-    {
       "token": "accordion-edge-to-text",
       "context": "Spacing (end edges to content)"
     },
@@ -134,7 +146,7 @@
       "context": "Spacing (top edge to text)"
     },
     {
-      "token": "accordion-top-to-text-regular-small",
+      "token": "accordion-top-to-text-small",
       "context": "Spacing (top edge to text)"
     },
     {
@@ -146,7 +158,7 @@
       "context": "Spacing (top edge to text)"
     },
     {
-      "token": "accordion-top-to-text-regular-medium",
+      "token": "accordion-top-to-text-medium",
       "context": "Spacing (top edge to text)"
     },
     {
@@ -158,7 +170,7 @@
       "context": "Spacing (top edge to text)"
     },
     {
-      "token": "accordion-top-to-text-regular-large",
+      "token": "accordion-top-to-text-large",
       "context": "Spacing (top edge to text)"
     },
     {
@@ -170,7 +182,7 @@
       "context": "Spacing (top edge to text)"
     },
     {
-      "token": "accordion-top-to-text-regular-extra-large",
+      "token": "accordion-top-to-text-extra-large",
       "context": "Spacing (top edge to text)"
     },
     {
@@ -182,7 +194,7 @@
       "context": "Spacing (bottom edge to text)"
     },
     {
-      "token": "accordion-bottom-to-text-regular-small",
+      "token": "accordion-bottom-to-text-small",
       "context": "Spacing (bottom edge to text)"
     },
     {
@@ -194,7 +206,7 @@
       "context": "Spacing (bottom edge to text)"
     },
     {
-      "token": "accordion-bottom-to-text-regular-medium",
+      "token": "accordion-bottom-to-text-medium",
       "context": "Spacing (bottom edge to text)"
     },
     {
@@ -206,7 +218,7 @@
       "context": "Spacing (bottom edge to text)"
     },
     {
-      "token": "accordion-bottom-to-text-regular-large",
+      "token": "accordion-bottom-to-text-large",
       "context": "Spacing (bottom edge to text)"
     },
     {
@@ -218,7 +230,7 @@
       "context": "Spacing (bottom edge to text)"
     },
     {
-      "token": "accordion-bottom-to-text-regular-extra-large",
+      "token": "accordion-bottom-to-text-extra-large",
       "context": "Spacing (bottom edge to text)"
     },
     {
@@ -250,43 +262,51 @@
       "context": "Rounding"
     },
     {
-      "token": "field-top-to-disclosure-icon-75-compact",
+      "token": "field-top-to-disclosure-icon-compact-small",
       "context": "Spacing (top/bottom to disclosure icon)"
     },
     {
-      "token": "field-top-to-disclosure-icon-75-regular",
+      "token": "field-top-to-disclosure-icon-small",
       "context": "Spacing (top/bottom to disclosure icon)"
     },
     {
-      "token": "field-top-to-disclosure-icon-75-spacious",
+      "token": "field-top-to-disclosure-icon-spacious-small",
       "context": "Spacing (top/bottom to disclosure icon)"
     },
     {
-      "token": "field-top-to-disclosure-icon-100-compact",
+      "token": "field-top-to-disclosure-icon-compact-medium",
       "context": "Spacing (top/bottom to disclosure icon)"
     },
     {
-      "token": "field-top-to-disclosure-icon-200-compact",
+      "token": "field-top-to-disclosure-icon-medium",
       "context": "Spacing (top/bottom to disclosure icon)"
     },
     {
-      "token": "field-top-to-disclosure-icon-200-regular",
+      "token": "field-top-to-disclosure-icon-spacious-medium",
       "context": "Spacing (top/bottom to disclosure icon)"
     },
     {
-      "token": "field-top-to-disclosure-icon-200-spacious",
+      "token": "field-top-to-disclosure-icon-compact-large",
       "context": "Spacing (top/bottom to disclosure icon)"
     },
     {
-      "token": "field-top-to-disclosure-icon-300-compact",
+      "token": "field-top-to-disclosure-icon-large",
       "context": "Spacing (top/bottom to disclosure icon)"
     },
     {
-      "token": "field-top-to-disclosure-icon-300-regular",
+      "token": "field-top-to-disclosure-icon-spacious-large",
       "context": "Spacing (top/bottom to disclosure icon)"
     },
     {
-      "token": "field-top-to-disclosure-icon-300-spacious",
+      "token": "field-top-to-disclosure-icon-compact-extra-large",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-extra-large",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-spacious-extra-large",
       "context": "Spacing (top/bottom to disclosure icon)"
     },
     {
@@ -320,6 +340,10 @@
     {
       "token": "accordion-disclosure-indicator-to-text-extra-large",
       "context": "Spacing (disclosure icon to text)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (section title to action area)"
     },
     {
       "token": "accordion-content-area-top-to-content",
@@ -394,6 +418,10 @@
       "context": "Value"
     },
     {
+      "token": "font-size-100",
+      "context": "Value"
+    },
+    {
       "token": "font-size-200",
       "context": "Value"
     },
@@ -402,11 +430,7 @@
       "context": "Value"
     },
     {
-      "token": "font-size-500",
-      "context": "Value"
-    },
-    {
-      "token": "font-size-700",
+      "token": "font-size-400",
       "context": "Value"
     },
     {
@@ -416,6 +440,78 @@
     {
       "token": "cjk-line-height-100",
       "context": "Value"
+    },
+    {
+      "token": "accordion-top-to-text-regular-small",
+      "context": "S"
+    },
+    {
+      "token": "accordion-bottom-to-text-regular-small",
+      "context": "S"
+    },
+    {
+      "token": "accordion-top-to-text-regular-medium",
+      "context": "S"
+    },
+    {
+      "token": "accordion-bottom-to-text-regular-medium",
+      "context": "S"
+    },
+    {
+      "token": "accordion-top-to-text-regular-large",
+      "context": "S"
+    },
+    {
+      "token": "accordion-bottom-to-text-regular-large",
+      "context": "S"
+    },
+    {
+      "token": "accordion-top-to-text-regular-extra-large",
+      "context": "S"
+    },
+    {
+      "token": "accordion-bottom-to-text-regular-extra-large",
+      "context": "S"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-75-compact",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-75-regular",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-75-spacious",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-100-compact",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-200-compact",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-200-regular",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-200-spacious",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-300-compact",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-300-regular",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-300-spacious",
+      "context": "Spacing (top/bottom to disclosure icon)"
     }
   ]
 }

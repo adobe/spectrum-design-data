@@ -433,11 +433,11 @@
       "context": "Focus indicator"
     },
     {
-      "token": "transparent-white-800",
+      "token": "transparent-white-900",
       "context": "Background"
     },
     {
-      "token": "transparent-white-900",
+      "token": "transparent-white-1000",
       "context": "Background"
     },
     {
@@ -481,11 +481,11 @@
       "context": "Static white – Focus indicator"
     },
     {
-      "token": "transparent-black-800",
+      "token": "transparent-black-900",
       "context": "Background"
     },
     {
-      "token": "transparent-black-900",
+      "token": "transparent-black-1000",
       "context": "Background"
     },
     {
