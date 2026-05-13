@@ -1,5 +1,13 @@
 # @adobe/design-data-spec
 
+## 0.3.0
+
+### Minor Changes
+
+- [#853](https://github.com/adobe/spectrum-design-data/pull/853) [`e4b9656`](https://github.com/adobe/spectrum-design-data/commit/e4b9656bead7b9513c9df42f30ff32b8a70d4568) Thanks [@GarthDB](https://github.com/GarthDB)! - Add Layer 2 cross-reference validator implementing SPEC-018–024, conformance fixtures,
+  and a reference button component declaration. Export new component, anatomy-part, and
+  state-declaration schemas from the package.
+
 ## 0.2.0
 
 ### Minor Changes
