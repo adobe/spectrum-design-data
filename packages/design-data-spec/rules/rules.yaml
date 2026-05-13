@@ -226,3 +226,12 @@ rules:
     message: "Token '{token}' has 'anatomy' field without a 'component' field"
     spec_ref: spec/anatomy-format.md#cross-reference-with-token-name-objects
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-026
+    name: state-custom-name-documented
+    severity: warning
+    category: component-contract
+    assert: State declarations with a 'name' outside the canonical state vocabulary SHOULD include a 'description' field.
+    message: "Component '{component}' has custom state '{state}' with no description"
+    spec_ref: spec/state-model.md#canonical-state-vocabulary
+    introduced_in: "1.0.0-draft"

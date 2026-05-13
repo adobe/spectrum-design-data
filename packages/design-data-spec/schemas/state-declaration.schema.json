@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/state-declaration.schema.json",
+  "title": "State declaration",
+  "description": "Layer 1 structural schema for a single state declaration object within a component declaration. Semantic rules (component-state-valid, state-custom-name-documented) are Layer 2.",
+  "type": "object",
+  "required": ["name"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "minLength": 1,
+      "description": "Kebab-case state identifier. Must match the value used in token name-object 'state' fields."
+    },
+    "description": {
+      "type": "string",
+      "description": "Plain-text description of the state's semantics and the conditions under which it is active."
+    },
+    "trigger": {
+      "type": "string",
+      "enum": ["prop", "interaction"],
+      "description": "'prop' for persistent prop-driven states (e.g. isDisabled); 'interaction' for transient runtime interaction states (hover, focus, pressed)."
+    },
+    "precedence": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Resolution precedence. Higher value wins when multiple non-layered states are active simultaneously. Defaults to 0 when omitted."
+    },
+    "layered": {
+      "type": "boolean",
+      "default": false,
+      "description": "When true, this state composes on top of the winning non-layered state rather than competing with it. Use for focus rings, selection overlays, and similar compositing states."
+    }
+  },
+  "additionalProperties": false
+}
