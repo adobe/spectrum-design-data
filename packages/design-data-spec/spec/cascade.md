@@ -8,11 +8,11 @@ This document defines the **cascade model**: three **layers**, **semantic specif
 
 Design data is organized in three layers, ordered from lowest to highest precedence when values conflict:
 
-| Layer | Name           | Description                                                                                 |
-| ----- | -------------- | ------------------------------------------------------------------------------------------- |
-| 1     | **Foundation** | Canonical design system data (e.g. Spectrum foundation).                                    |
-| 2     | **Platform**   | Platform-specific adjustments; **MUST** remain type-compatible with foundation.             |
-| 3     | **Product**    | Product-specific overrides; **MUST** remain type-compatible with the resolved lower layers. |
+| Layer | Name           | Description                                                                                                                                                                                                                                                     |
+| ----- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1     | **Foundation** | Canonical design system data (e.g. Spectrum foundation).                                                                                                                                                                                                        |
+| 2     | **Platform**   | Platform-specific adjustments; **MUST** remain type-compatible with foundation.                                                                                                                                                                                 |
+| 3     | **Product**    | Product-specific overrides; **MUST** remain type-compatible with the resolved lower layers. A product-layer working copy **SHOULD** include a `product-context.json` document recording its rationale and overrides. See [Product context](product-context.md). |
 
 **NORMATIVE:** When two candidates match the same context, the candidate from the **higher** layer (larger number above) **MUST** win.
 

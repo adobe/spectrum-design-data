@@ -11,6 +11,8 @@
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
+use chrono::Utc;
+
 mod format;
 
 use std::collections::HashSet;
@@ -126,6 +128,15 @@ enum Commands {
     Figma {
         #[command(subcommand)]
         sub: FigmaSub,
+    },
+    /// Create or update a product-context.json document for a product-layer working copy
+    Write {
+        /// Path to the product context JSON file to create or update
+        #[arg(short, long, value_name = "FILE", default_value = "product-context.json")]
+        output: PathBuf,
+        /// Why this product-layer working copy exists (recorded in the document's rationale field)
+        #[arg(short, long, value_name = "TEXT")]
+        rationale: Option<String>,
     },
 }
 
@@ -788,6 +799,57 @@ fn run_figma_read(file_key: &str, token: &str, format: OutputFormat) -> miette::
     Ok(ExitCode::SUCCESS)
 }
 
+fn run_write(output: &Path, rationale: Option<&str>) -> miette::Result<ExitCode> {
+    use std::collections::BTreeMap;
+
+    let mut doc: BTreeMap<String, serde_json::Value> = if output.exists() {
+        let raw = std::fs::read_to_string(output)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to read {}", output.display()))?;
+        serde_json::from_str(&raw)
+            .into_diagnostic()
+            .wrap_err("failed to parse existing product-context.json")?
+    } else {
+        let mut d = BTreeMap::new();
+        d.insert(
+            "specVersion".to_string(),
+            serde_json::Value::String("1.0.0-draft".to_string()),
+        );
+        d.insert(
+            "layer".to_string(),
+            serde_json::Value::String("product".to_string()),
+        );
+        d.insert(
+            "createdBy".to_string(),
+            serde_json::json!({ "type": "agent", "tool": "design-data" }),
+        );
+        d.insert(
+            "createdAt".to_string(),
+            serde_json::Value::String(
+                Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string(),
+            ),
+        );
+        d
+    };
+
+    if let Some(r) = rationale {
+        doc.insert(
+            "rationale".to_string(),
+            serde_json::Value::String(r.to_string()),
+        );
+    }
+
+    let json = serde_json::to_string_pretty(&doc)
+        .into_diagnostic()
+        .wrap_err("failed to serialize product context")?;
+    std::fs::write(output, json + "\n")
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to write {}", output.display()))?;
+
+    println!("Wrote {}", output.display());
+    Ok(ExitCode::SUCCESS)
+}
+
 fn main() -> ExitCode {
     let cli = Cli::parse();
 
@@ -878,6 +940,9 @@ fn main() -> ExitCode {
                 dry_run,
             } => run_figma_export(&path, &file_key, &token, dry_run),
         },
+        Commands::Write { output, rationale } => {
+            run_write(&output, rationale.as_deref())
+        }
     };
 
     match result {

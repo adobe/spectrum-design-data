@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/product-context.schema.json",
+  "title": "Product context document",
+  "description": "Layer 3 — product-layer record of rationale, overrides, and extensions. See spec/product-context.md.",
+  "type": "object",
+  "required": ["specVersion", "layer"],
+  "properties": {
+    "specVersion": {
+      "const": "1.0.0-draft"
+    },
+    "layer": {
+      "const": "product"
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Why this product-layer working copy exists (e.g. feature name, project, team)."
+    },
+    "createdBy": {
+      "type": "object",
+      "description": "Tool or agent attribution.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["agent", "human"]
+        },
+        "tool": {
+          "type": "string",
+          "description": "Tool name (e.g. 'design-data', 'figma-plugin', 'manual')."
+        },
+        "model": {
+          "type": "string",
+          "description": "Model identifier when type is 'agent'."
+        }
+      },
+      "additionalProperties": false
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 datetime when the document was first created."
+    },
+    "overrides": {
+      "type": "array",
+      "description": "Overrides of foundation or platform tokens.",
+      "items": {
+        "$ref": "#/$defs/override"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Net-new tokens and components added at this layer.",
+      "properties": {
+        "tokens": {
+          "type": "array",
+          "description": "New token objects. Each item MUST conform to token.schema.json.",
+          "items": {
+            "type": "object"
+          }
+        },
+        "components": {
+          "type": "array",
+          "description": "New component objects. Each item MUST conform to component.schema.json.",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "override": {
+      "type": "object",
+      "required": ["uuid", "value"],
+      "description": "A product-layer value override of an existing token.",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "format": "uuid",
+          "description": "UUID of the token being overridden. MUST match a token in the merged cascade."
+        },
+        "value": {
+          "description": "The overriding value. MUST be type-compatible with the original token value type."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Why this specific value was chosen."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
