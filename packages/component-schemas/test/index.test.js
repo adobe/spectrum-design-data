@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Adobe. All rights reserved.
+Copyright 2026 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -67,6 +67,8 @@ test("getSlugFromDocumentationUrl should return last part of documentationUrl ev
 });
 
 test("getAllSlugs should return all component slugs sorted", async (t) => {
+  // getAllSlugs() extracts slugs from documentationUrl. This asserts that
+  // URL slugs match filename stems — a required invariant for all components.
   const files = await glob(`${componentsDir}/*.json`);
   const expected = files.map((f) => parse(f).name).sort();
   t.deepEqual(await getAllSlugs(), expected);
