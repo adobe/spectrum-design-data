@@ -319,3 +319,11 @@ test("empty dataset produces no diagnostics", (t) => {
   t.deepEqual(validateDataset({}), []);
   t.deepEqual(validateDataset({ tokens: [], components: [] }), []);
 });
+
+test("null token name produces no diagnostics", (t) => {
+  const dataset = {
+    tokens: [{ name: null, value: "#fff" }],
+    components: [],
+  };
+  t.deepEqual(validateDataset(dataset), []);
+});
