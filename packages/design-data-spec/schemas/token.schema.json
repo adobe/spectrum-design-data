@@ -172,6 +172,10 @@
           "type": "string",
           "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
         },
+        "rationale": {
+          "type": "string",
+          "description": "Why this token has its current value. Intended for product-layer authoring context; see spec/product-context.md."
+        },
         "componentBindings": {
           "type": "array",
           "items": { "$ref": "#/$defs/componentBinding" },
@@ -245,6 +249,10 @@
         "description": {
           "type": "string",
           "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Why this token has its current value. Intended for product-layer authoring context; see spec/product-context.md."
         },
         "componentBindings": {
           "type": "array",
