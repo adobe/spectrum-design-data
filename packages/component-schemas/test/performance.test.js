@@ -59,7 +59,7 @@ test("getSchemaBySlug should complete within reasonable time", async (t) => {
 
 test("getSchemaFile should complete within reasonable time", async (t) => {
   const start = performance.now();
-  const schema = await getSchemaFile("component.json");
+  const schema = await getSchemaFile("button.json");
   const end = performance.now();
   const duration = end - start;
 

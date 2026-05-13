@@ -1,0 +1,25 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/opacity-checkerboard.json",
+  "specVersion": "1.0.0-draft",
+  "name": "opacity-checkerboard",
+  "displayName": "Opacity Checkerboard",
+  "description": "Opacity checkerboards provide a visual pattern background used in color swatches and UI elements to indicate transparency or when no color is selected.",
+  "meta": {
+    "category": "status",
+    "documentationUrl": "https://spectrum.adobe.com/page/opacity-checkerboard/"
+  },
+  "options": {
+    "verticalSize": {
+      "type": "number",
+      "enum": [16, 32, 64, 128, 256]
+    },
+    "horizontalSize": {
+      "type": "number",
+      "enum": [24, 40]
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

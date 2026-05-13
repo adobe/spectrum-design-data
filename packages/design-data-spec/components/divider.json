@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/divider.json",
+  "specVersion": "1.0.0-draft",
+  "name": "divider",
+  "displayName": "Divider",
+  "description": "Dividers bring clarity to a layout by grouping and dividing content in close proximity. They can also be used to establish rhythm and hierarchy.",
+  "meta": {
+    "category": "containers",
+    "documentationUrl": "https://spectrum.adobe.com/page/divider/"
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l"],
+      "default": "s"
+    },
+    "orientation": {
+      "type": "string",
+      "enum": ["horizontal", "vertical"],
+      "default": "horizontal"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/popover.json",
+  "specVersion": "1.0.0-draft",
+  "name": "popover",
+  "displayName": "Popover",
+  "description": "Popovers are containers used to display transient content such as menus, options, additional actions, and more. They visually stand out through stroke and drop shadow and float on top of the interface.",
+  "meta": {
+    "category": "containers",
+    "documentationUrl": "https://spectrum.adobe.com/page/popover/"
+  },
+  "options": {
+    "width": {
+      "type": "number"
+    },
+    "height": {
+      "type": "number"
+    },
+    "hideTip": {
+      "type": "boolean",
+      "default": false
+    },
+    "placement": {
+      "type": "string",
+      "enum": [
+        "top",
+        "top left",
+        "top right",
+        "top start",
+        "top end",
+        "bottom",
+        "bottom left",
+        "bottom right",
+        "bottom start",
+        "bottom end",
+        "left",
+        "left top",
+        "left bottom",
+        "start",
+        "start top",
+        "start bottom",
+        "right",
+        "right top",
+        "right bottom",
+        "end",
+        "end top",
+        "end bottom"
+      ],
+      "default": "top"
+    },
+    "offset": {
+      "type": "number",
+      "default": 8,
+      "description": "pixel measurement"
+    },
+    "crossOffset": {
+      "type": "number",
+      "default": 0
+    },
+    "containerPadding": {
+      "type": "number",
+      "default": 8,
+      "description": "pixel measurement"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

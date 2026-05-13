@@ -1,0 +1,26 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/avatar-group.json",
+  "specVersion": "1.0.0-draft",
+  "name": "avatar-group",
+  "displayName": "Avatar group",
+  "description": "Avatar groups display a collection of avatars representing people or entities.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/avatar-group/"
+  },
+  "options": {
+    "label": {
+      "type": "string",
+      "description": "Optional text label displayed with the avatar group (e.g., group name)."
+    },
+    "size": {
+      "type": "number",
+      "enum": [50, 75, 100, 200, 300, 400, 500],
+      "default": 100
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

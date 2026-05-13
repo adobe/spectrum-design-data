@@ -1,0 +1,43 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/radio-button.json",
+  "specVersion": "1.0.0-draft",
+  "name": "radio-button",
+  "displayName": "Radio button",
+  "description": "Radio buttons allow users to select a single option from a list of mutually exclusive options.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/radio-button/"
+  },
+  "options": {
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "label": {
+      "type": "string",
+      "description": "The text displayed next to a radio button."
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

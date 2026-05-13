@@ -1,0 +1,73 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/badge.json",
+  "specVersion": "1.0.0-draft",
+  "name": "badge",
+  "displayName": "Badge",
+  "description": "Similar to status lights, badges are for showing a small amount of color-categorized metadata. They're ideal for getting a user''s attention.",
+  "meta": {
+    "category": "status",
+    "documentationUrl": "https://spectrum.adobe.com/page/badge/"
+  },
+  "options": {
+    "label": {
+      "type": "string",
+      "description": "When the label is not defined, the badge appears as icon-only."
+    },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json"
+    },
+    "variant": {
+      "type": "string",
+      "enum": [
+        "neutral",
+        "info",
+        "positive",
+        "negative",
+        "indigo",
+        "yellow",
+        "magenta",
+        "fuchsia",
+        "purple",
+        "seafoam",
+        "accent",
+        "notice",
+        "gray",
+        "red",
+        "orange",
+        "chartreuse",
+        "celery",
+        "green",
+        "cyan",
+        "blue",
+        "pink",
+        "turquoise",
+        "brown",
+        "cinnamon",
+        "silver"
+      ]
+    },
+    "style": {
+      "type": "string",
+      "enum": ["bold", "subtle", "outline"]
+    },
+    "fixed": {
+      "type": "string",
+      "enum": ["none", "top", "right", "bottom", "left"],
+      "default": "none"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "size": {
+      "type": "string",
+      "pattern": "^(x?s|m|x{0,3}l)$",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "s"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

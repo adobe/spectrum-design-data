@@ -1,0 +1,55 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/switch.json",
+  "specVersion": "1.0.0-draft",
+  "name": "switch",
+  "displayName": "Switch",
+  "description": "Switches allow users to turn an individual option on or off. They are usually used to activate or deactivate a specific setting.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/switch/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "isReadOnly": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

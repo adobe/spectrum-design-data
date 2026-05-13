@@ -238,6 +238,9 @@ importers:
 
   packages/component-schemas:
     dependencies:
+      "@adobe/design-data-spec":
+        specifier: workspace:*
+        version: link:../design-data-spec
       glob:
         specifier: ^10.3.12
         version: 10.4.5
@@ -588,7 +591,7 @@ importers:
     dependencies:
       "@modelcontextprotocol/sdk":
         specifier: ^1.0.4
-        version: 1.26.0(zod@3.25.76)
+        version: 1.27.1(zod@3.25.76)
       js-yaml:
         specifier: ^4.1.1
         version: 4.1.1
@@ -1733,19 +1736,6 @@ packages:
       }
     engines: { node: ">=18" }
     hasBin: true
-
-  "@modelcontextprotocol/sdk@1.26.0":
-    resolution:
-      {
-        integrity: sha512-Y5RmPncpiDtTXDbLKswIJzTqu2hyBKxTNsgKqKclDbhIgg1wgtf1fRuvxgTnRfcnxtvvgbIEcqUOzZrJ6iSReg==,
-      }
-    engines: { node: ">=18" }
-    peerDependencies:
-      "@cfworker/json-schema": ^4.1.1
-      zod: ^3.25 || ^4.0
-    peerDependenciesMeta:
-      "@cfworker/json-schema":
-        optional: true
 
   "@modelcontextprotocol/sdk@1.27.1":
     resolution:
@@ -3671,12 +3661,6 @@ packages:
         integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==,
       }
 
-  caniuse-lite@1.0.30001763:
-    resolution:
-      {
-        integrity: sha512-mh/dGtq56uN98LlNX9qdbKnzINhX0QzhiWBFEkFfsFO4QyCvL8YegrJAazCwXIeqkIob8BlZPGM3xdnY+sgmvQ==,
-      }
-
   caniuse-lite@1.0.30001769:
     resolution:
       {
@@ -5414,6 +5398,7 @@ packages:
         integrity: sha512-ICsMM1Wk8xSGMowkOmPrzo2Fgmfo4bMHLNX6ytHjajRJUqvHOw/TFapQ+QG75c3X/tTDDhOSRPGC52dDbNM8FQ==,
       }
     engines: { node: ">=16" }
+    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
     hasBin: true
 
   glob-parent@5.1.2:
@@ -5621,13 +5606,6 @@ packages:
         integrity: sha512-XJpDL/MLkV3dKwLzHwr2dY05dYNfBNlyPu4STQ8WvKCFdc6vC5tPXuq28of663+gHVg03C+16pHHs/+FmmDjcw==,
       }
     engines: { node: ">= 6" }
-
-  http-errors@2.0.0:
-    resolution:
-      {
-        integrity: sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==,
-      }
-    engines: { node: ">= 0.8" }
 
   http-errors@2.0.1:
     resolution:
@@ -7969,13 +7947,6 @@ packages:
       }
     engines: { node: ">= 0.6" }
 
-  raw-body@3.0.0:
-    resolution:
-      {
-        integrity: sha512-RmkhL8CAyCRPXCE28MMH0z2PNWQBNk2Q09ZdxM9IOOXwxwZbN+qbWaatPkdkWIKL2ZVDImrN/pK5HTRz2PcS4g==,
-      }
-    engines: { node: ">= 0.8" }
-
   raw-body@3.0.2:
     resolution:
       {
@@ -8493,13 +8464,6 @@ packages:
         integrity: sha512-XlkWvfIm6RmsWtNJx+uqtKLS8eqFbxUg0ZzLXqY0caEy9l7hruX8IpiDnjsLavoBgqCCR71TqWO8MaXYheJ3RQ==,
       }
     engines: { node: ">=10" }
-
-  statuses@2.0.1:
-    resolution:
-      {
-        integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==,
-      }
-    engines: { node: ">= 0.8" }
 
   statuses@2.0.2:
     resolution:
@@ -10177,28 +10141,6 @@ snapshots:
       - encoding
       - supports-color
 
-  "@modelcontextprotocol/sdk@1.26.0(zod@3.25.76)":
-    dependencies:
-      "@hono/node-server": 1.19.9(hono@4.11.9)
-      ajv: 8.17.1
-      ajv-formats: 3.0.1(ajv@8.17.1)
-      content-type: 1.0.5
-      cors: 2.8.6
-      cross-spawn: 7.0.6
-      eventsource: 3.0.7
-      eventsource-parser: 3.0.6
-      express: 5.2.1
-      express-rate-limit: 8.2.1(express@5.2.1)
-      hono: 4.11.9
-      jose: 6.1.3
-      json-schema-typed: 8.0.2
-      pkce-challenge: 5.0.1
-      raw-body: 3.0.0
-      zod: 3.25.76
-      zod-to-json-schema: 3.25.1(zod@3.25.76)
-    transitivePeerDependencies:
-      - supports-color
-
   "@modelcontextprotocol/sdk@1.27.1(zod@3.25.76)":
     dependencies:
       "@hono/node-server": 1.19.9(hono@4.11.9)
@@ -11808,7 +11750,7 @@ snapshots:
   browserslist@4.28.1:
     dependencies:
       baseline-browser-mapping: 2.9.14
-      caniuse-lite: 1.0.30001763
+      caniuse-lite: 1.0.30001769
       electron-to-chromium: 1.5.267
       node-releases: 2.0.27
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
@@ -11853,11 +11795,9 @@ snapshots:
   caniuse-api@3.0.0:
     dependencies:
       browserslist: 4.28.1
-      caniuse-lite: 1.0.30001763
+      caniuse-lite: 1.0.30001769
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
-
-  caniuse-lite@1.0.30001763: {}
 
   caniuse-lite@1.0.30001769: {}
 
@@ -13105,14 +13045,6 @@ snapshots:
       entities: 3.0.1
 
   http-equiv-refresh@2.0.1: {}
-
-  http-errors@2.0.0:
-    dependencies:
-      depd: 2.0.0
-      inherits: 2.0.4
-      setprototypeof: 1.2.0
-      statuses: 2.0.1
-      toidentifier: 1.0.1
 
   http-errors@2.0.1:
     dependencies:
@@ -14466,13 +14398,6 @@ snapshots:
 
   range-parser@1.2.1: {}
 
-  raw-body@3.0.0:
-    dependencies:
-      bytes: 3.1.2
-      http-errors: 2.0.0
-      iconv-lite: 0.6.3
-      unpipe: 1.0.0
-
   raw-body@3.0.2:
     dependencies:
       bytes: 3.1.2
@@ -14842,8 +14767,6 @@ snapshots:
   stack-utils@2.0.6:
     dependencies:
       escape-string-regexp: 2.0.0
-
-  statuses@2.0.1: {}
 
   statuses@2.0.2: {}
 

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button-group.json",
+  "specVersion": "1.0.0-draft",
+  "name": "button-group",
+  "displayName": "Button group",
+  "description": "A button group is a grouping of buttons whose actions are related to each other.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/button-group/"
+  },
+  "options": {
+    "orientation": {
+      "type": "string",
+      "default": "horizontal",
+      "enum": ["horizontal", "vertical"]
+    },
+    "size": {
+      "type": "string",
+      "pattern": "^(x?s|m|x{0,3}l)$",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "overflowMode": {
+      "type": "string",
+      "enum": ["wrap", "collapse"],
+      "default": "wrap"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

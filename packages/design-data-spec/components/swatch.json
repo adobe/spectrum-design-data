@@ -1,0 +1,59 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/swatch.json",
+  "specVersion": "1.0.0-draft",
+  "name": "swatch",
+  "displayName": "Swatch",
+  "description": "A swatch shows a small sample of a fill — such as a color, gradient, texture, or material — that is intended to be applied to an object.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/swatch/"
+  },
+  "options": {
+    "preview": {
+      "type": "string",
+      "description": "This will vary depending on implementation."
+    },
+    "size": {
+      "type": "string",
+      "enum": ["xs", "s", "m", "l"],
+      "default": "m"
+    },
+    "shape": {
+      "type": "string",
+      "enum": ["square", "rectangle"],
+      "default": "square"
+    },
+    "cornerRounding": {
+      "type": "string",
+      "enum": ["none", "partial", "full"],
+      "default": "none",
+      "description": "Determines the corner radius of the swatch. Partial refers to corner-radius-75."
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/scroll-zoom-bar.json",
+  "specVersion": "1.0.0-draft",
+  "name": "scroll-zoom-bar",
+  "displayName": "Scroll-zoom bar",
+  "description": "Primarily for usage in timelines, a scroll-zoom bar lets a user scroll or zoom with the same control.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/scroll-zoom-bar/"
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l"],
+      "default": "m"
+    },
+    "orientation": {
+      "type": "string",
+      "enum": ["horizontal", "vertical"],
+      "default": "horizontal"
+    },
+    "hideTrack": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideHandles": {
+      "type": "boolean",
+      "default": false
+    },
+    "scaleDown": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDetached": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

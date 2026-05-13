@@ -1,0 +1,77 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/color-area.json",
+  "specVersion": "1.0.0-draft",
+  "name": "color-area",
+  "displayName": "Color area",
+  "description": "A color area allows users to visually select two properties of a color simultaneously. It's commonly used together with a color slider or color wheel.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/color-area/"
+  },
+  "options": {
+    "background": {
+      "type": "string",
+      "description": "This will vary depending on implementation."
+    },
+    "x-value": {
+      "type": "number",
+      "description": "Number (from x-minValue to x-maxValue)"
+    },
+    "x-minValue": {
+      "type": "number",
+      "default": 0
+    },
+    "x-maxValue": {
+      "type": "number",
+      "default": 100
+    },
+    "y-value": {
+      "type": "number",
+      "description": "Number (from y-minValue to y-maxValue)"
+    },
+    "y-minValue": {
+      "type": "number",
+      "default": 0
+    },
+    "y-maxValue": {
+      "type": "number",
+      "default": 100
+    },
+    "step": {
+      "type": "number",
+      "default": 1
+    },
+    "width": {
+      "type": "number",
+      "default": 192,
+      "description": "units: px"
+    },
+    "height": {
+      "type": "number",
+      "default": 192,
+      "description": "units: px"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

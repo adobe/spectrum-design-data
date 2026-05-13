@@ -1,0 +1,30 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/cards.json",
+  "specVersion": "1.0.0-draft",
+  "name": "cards",
+  "displayName": "Cards",
+  "description": "Cards group related content into distinct layouts depending on context.",
+  "meta": {
+    "category": "containers",
+    "documentationUrl": "https://spectrum.adobe.com/page/cards/"
+  },
+  "options": {
+    "variant": {
+      "type": "string",
+      "enum": [
+        "asset",
+        "collection",
+        "flex",
+        "gallery",
+        "horizontal",
+        "product"
+      ],
+      "default": "asset",
+      "description": "Determines which card layout variant is used."
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

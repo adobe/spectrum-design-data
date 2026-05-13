@@ -1,0 +1,54 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/status-light.json",
+  "specVersion": "1.0.0-draft",
+  "name": "status-light",
+  "displayName": "Status light",
+  "description": "Status lights describe the condition of an entity. They can be used to convey semantic meaning, such as statuses and categories.",
+  "meta": {
+    "category": "status",
+    "documentationUrl": "https://spectrum.adobe.com/page/status-light/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string",
+      "enum": [
+        "informative",
+        "neutral",
+        "positive",
+        "notice",
+        "negative",
+        "indigo",
+        "celery",
+        "chartreuse",
+        "yellow",
+        "magenta",
+        "fuchsia",
+        "purple",
+        "seafoam",
+        "pink",
+        "turquoise",
+        "cinnamon",
+        "brown",
+        "silver",
+        "gray",
+        "red",
+        "orange",
+        "green",
+        "cyan"
+      ],
+      "default": "informative"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

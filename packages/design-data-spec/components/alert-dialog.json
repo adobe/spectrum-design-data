@@ -1,0 +1,46 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/alert-dialog.json",
+  "specVersion": "1.0.0-draft",
+  "name": "alert-dialog",
+  "displayName": "Alert dialog",
+  "description": "Alert dialogs display important information that users need to acknowledge. They appear over the interface and block further interactions until an action is selected.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/alert-dialog/"
+  },
+  "options": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string",
+      "enum": [
+        "confirmation",
+        "information",
+        "warning",
+        "destructive",
+        "error"
+      ],
+      "default": "confirmation"
+    },
+    "primaryActionLabel": {
+      "type": "string"
+    },
+    "secondaryActionLabel": {
+      "type": "string",
+      "description": "If undefined, this button does not appear."
+    },
+    "cancelActionLabel": {
+      "type": "string",
+      "default": "cancel",
+      "description": "If undefined, this button does not appear."
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

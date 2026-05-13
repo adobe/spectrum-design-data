@@ -1,0 +1,103 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/text-area.json",
+  "specVersion": "1.0.0-draft",
+  "name": "text-area",
+  "displayName": "Text area",
+  "description": "A text area lets a user input a longer amount of text than a standard text field. It can include all of the standard validation options supported by the text field component.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/text-area/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "enum": ["top", "side"]
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "value": {
+      "type": "string",
+      "description": "from minValue to maxValue"
+    },
+    "width": {
+      "type": "number"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "necessityIndicator": {
+      "type": "string",
+      "enum": ["text", "icon"],
+      "default": "icon"
+    },
+    "isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "hasCharacterCount": {
+      "type": "boolean",
+      "default": false
+    },
+    "showValidIcon": {
+      "type": "boolean",
+      "default": false
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideDragIcon": {
+      "type": "boolean",
+      "default": false
+    },
+    "height": {
+      "type": "number",
+      "description": "If undefined, height is dynamic and grows with input text."
+    },
+    "helpText": {
+      "type": "string"
+    },
+    "errorMessage": {
+      "type": "string"
+    },
+    "inputType": {
+      "type": "string",
+      "enum": ["text", "url", "phone", "email", "password"],
+      "default": "text"
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "focus-+-hover",
+      "trigger": "prop"
+    },
+    {
+      "name": "focus-+-not-hover",
+      "trigger": "prop"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/help-text.json",
+  "specVersion": "1.0.0-draft",
+  "name": "help-text",
+  "displayName": "Help text",
+  "description": "Help text provides either an informative description or an error message that gives more context about what a user needs to input. It’s commonly used in forms.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/help-text/"
+  },
+  "options": {
+    "text": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["neutral", "negative"],
+      "default": "neutral"
+    },
+    "hideIcon": {
+      "type": "boolean",
+      "default": false,
+      "description": "Only applicable if variant is negative."
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Help text cannot be both disabled and negative variant."
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

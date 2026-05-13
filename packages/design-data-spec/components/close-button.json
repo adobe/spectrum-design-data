@@ -1,0 +1,48 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/close-button.json",
+  "specVersion": "1.0.0-draft",
+  "name": "close-button",
+  "displayName": "Close button",
+  "description": "The close button is used inside of other components, like a toast or an action bar, for closing or dismissing its parent component.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/close-button/"
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "iconSize": {
+      "type": "string"
+    },
+    "staticColor": {
+      "type": "string",
+      "enum": ["white", "black"],
+      "description": "Static color must not be set for the default version of this component."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

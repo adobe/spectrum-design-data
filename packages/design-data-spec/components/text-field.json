@@ -1,0 +1,91 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/text-field.json",
+  "specVersion": "1.0.0-draft",
+  "name": "text-field",
+  "displayName": "Text field",
+  "description": "Text fields allow users to input custom text entries with a keyboard. Various options can be shown with the field to communicate the input requirements.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/text-field/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "enum": ["top", "side"]
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "value": {
+      "type": "string",
+      "description": "from minValue to maxValue"
+    },
+    "width": {
+      "type": "number"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "necessityIndicator": {
+      "type": "string",
+      "enum": ["text", "icon"],
+      "default": "icon"
+    },
+    "isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "hasCharacterCount": {
+      "type": "boolean",
+      "default": false
+    },
+    "showValidIcon": {
+      "type": "boolean",
+      "default": false
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false,
+      "description": "If there is an error, this property overrides show valid icon."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "helpText": {
+      "type": "string"
+    },
+    "errorMessage": {
+      "type": "string"
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "focus-+-hover",
+      "trigger": "prop"
+    },
+    {
+      "name": "focus-+-not-hover",
+      "trigger": "prop"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

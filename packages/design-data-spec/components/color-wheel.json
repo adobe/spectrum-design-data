@@ -1,0 +1,60 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/color-wheel.json",
+  "specVersion": "1.0.0-draft",
+  "name": "color-wheel",
+  "displayName": "Color wheel",
+  "description": "A color wheel lets users visually change an individual channel of a color on a circular track.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/color-wheel/"
+  },
+  "options": {
+    "background": {
+      "type": "string",
+      "description": "This will vary depending on implementation."
+    },
+    "value": {
+      "type": "number",
+      "description": "Number (from minValue to maxValue)"
+    },
+    "minValue": {
+      "type": "number",
+      "default": 0
+    },
+    "maxValue": {
+      "type": "number",
+      "default": 360
+    },
+    "step": {
+      "type": "number",
+      "default": 1
+    },
+    "size": {
+      "type": "number",
+      "default": 192,
+      "description": "units: px"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

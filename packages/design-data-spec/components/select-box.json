@@ -1,0 +1,62 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/select-box.json",
+  "specVersion": "1.0.0-draft",
+  "name": "select-box",
+  "displayName": "Select box",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "orientation": {
+      "type": "string",
+      "enum": ["horizontal", "vertical"],
+      "default": "vertical"
+    },
+    "body": {
+      "type": "string"
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideIllustration": {
+      "type": "boolean",
+      "default": false
+    },
+    "showCheckbox": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "multiple": {
+      "type": "boolean",
+      "default": false,
+      "description": "Set to true to allow multiple selections."
+    }
+  },
+  "states": [
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

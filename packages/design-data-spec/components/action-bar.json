@@ -1,0 +1,21 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/action-bar.json",
+  "specVersion": "1.0.0-draft",
+  "name": "action-bar",
+  "displayName": "Action bar",
+  "description": "Action bars are used for single and bulk selection patterns, when a user needs to perform actions on either a single or multiple items at the same time.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/action-bar/"
+  },
+  "options": {
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

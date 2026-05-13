@@ -1,0 +1,92 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/slider.json",
+  "specVersion": "1.0.0-draft",
+  "name": "slider",
+  "displayName": "Slider",
+  "description": "Sliders allow users to quickly select a value within a range. They should be used when the upper and lower bounds to the range are invariable.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/slider/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "enum": ["top", "side"]
+    },
+    "value": {
+      "type": "number",
+      "description": "from minValue to maxValue"
+    },
+    "minValue": {
+      "type": "number",
+      "default": 0
+    },
+    "maxValue": {
+      "type": "number",
+      "default": 100
+    },
+    "isRange": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the slider will allow selection of a range of values by displaying two handles."
+    },
+    "step": {
+      "type": "number",
+      "default": 1
+    },
+    "valueFormat": {
+      "type": "string",
+      "description": "This will vary depending on implementation."
+    },
+    "progressionScale": {
+      "type": "string",
+      "enum": ["linear", "log"],
+      "default": "linear"
+    },
+    "width": {
+      "type": "number"
+    },
+    "hasFill": {
+      "type": "boolean",
+      "default": false
+    },
+    "fillStart": {
+      "type": "number",
+      "default": 0
+    },
+    "hasGradient": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEditable": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/tree-view.json",
+  "specVersion": "1.0.0-draft",
+  "name": "tree-view",
+  "displayName": "Tree view",
+  "description": "A tree view provides users with a way to navigate nested hierarchical information.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/tree-view/"
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isDetached": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "showDragIcon": {
+      "type": "boolean",
+      "default": false
+    },
+    "selectionMode": {
+      "type": "string",
+      "enum": ["single", "multiple"],
+      "default": "multiple"
+    },
+    "selectionStyle": {
+      "type": "string",
+      "enum": ["checkbox", "highlight"],
+      "default": "checkbox"
+    },
+    "selectionBehavior": {
+      "type": "string",
+      "enum": ["toggle", "replace"],
+      "default": "toggle"
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

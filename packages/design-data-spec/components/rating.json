@@ -1,0 +1,47 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/rating.json",
+  "specVersion": "1.0.0-draft",
+  "name": "rating",
+  "displayName": "Rating",
+  "description": "The rating component lets users apply a rating to an item or experience, such as an image, a forum post, an item for sale in a marketplace, and more.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/rating/"
+  },
+  "options": {
+    "value": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "default": 0,
+      "multipleOf": 0.5,
+      "description": "From 0 to 5, can be a decimal to represent half stars"
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

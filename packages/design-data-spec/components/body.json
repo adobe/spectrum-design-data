@@ -1,0 +1,29 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/body.json",
+  "specVersion": "1.0.0-draft",
+  "name": "body",
+  "displayName": "Body",
+  "description": "Body is a typography component primarily used within Spectrum components and for blocks of text.",
+  "meta": {
+    "category": "typography",
+    "documentationUrl": "https://spectrum.adobe.com/page/body/"
+  },
+  "options": {
+    "script": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"
+    },
+    "classification": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-classification.json"
+    },
+    "size": {
+      "type": "string",
+      "pattern": "^(x?s|m|x{0,3}l)$",
+      "enum": ["xs", "s", "m", "l", "xl", "xxl", "xxxl"],
+      "default": "m"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

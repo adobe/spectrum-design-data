@@ -1,0 +1,53 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/standard-panel.json",
+  "specVersion": "1.0.0-draft",
+  "name": "standard-panel",
+  "displayName": "Standard Panel",
+  "description": "Standard Panels provide a flexible container for grouping related content and actions.",
+  "meta": {
+    "category": "containers",
+    "documentationUrl": "https://spectrum.adobe.com/page/standard-panel/"
+  },
+  "options": {
+    "container": {
+      "type": "string",
+      "enum": ["anchored", "floating", "dragged"],
+      "default": "anchored"
+    },
+    "label": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "density": {
+      "type": "string",
+      "enum": ["compact", "regular", "spacious"],
+      "default": "regular"
+    },
+    "style": {
+      "type": "string",
+      "enum": ["primary", "secondary"],
+      "default": "primary"
+    },
+    "hideGripper": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideCloseButton": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideDivider": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

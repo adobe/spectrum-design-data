@@ -1,0 +1,44 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/in-field-progress-button.json",
+  "specVersion": "1.0.0-draft",
+  "name": "in-field-progress-button",
+  "displayName": "In field progress button",
+  "description": "In field progress buttons provide interactive controls within form fields for actions like clearing, adding, or disclosing additional content.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/in-field-progress-button/"
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "style": {
+      "type": "string",
+      "enum": ["disclosure", "clear", "dash", "add"]
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

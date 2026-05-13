@@ -1,0 +1,33 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/heading.json",
+  "specVersion": "1.0.0-draft",
+  "name": "heading",
+  "displayName": "Heading",
+  "description": "Heading is a typography component used to create various levels of hierarchies between text.",
+  "meta": {
+    "category": "typography",
+    "documentationUrl": "https://spectrum.adobe.com/page/heading/"
+  },
+  "options": {
+    "script": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"
+    },
+    "classification": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-classification.json"
+    },
+    "weight": {
+      "type": "string",
+      "enum": ["light", "default", "heavy"],
+      "default": "default"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["xs", "s", "m", "l", "xl", "xxl", "xxxl"],
+      "default": "m"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

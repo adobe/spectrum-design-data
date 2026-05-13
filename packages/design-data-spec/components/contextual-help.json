@@ -1,0 +1,80 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/contextual-help.json",
+  "specVersion": "1.0.0-draft",
+  "name": "contextual-help",
+  "displayName": "Contextual help",
+  "description": "Contextual help shows a user extra information about the state of either an adjacent component or an entire view. It explains a high-level topic about an experience and can point users to more information elsewhere.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/contextual-help/"
+  },
+  "options": {
+    "icon": {
+      "type": "string",
+      "enum": ["info", "help"],
+      "default": "info"
+    },
+    "popoverPlacement": {
+      "type": "string",
+      "enum": [
+        "top",
+        "top left",
+        "top right",
+        "top start",
+        "top end",
+        "bottom",
+        "bottom left",
+        "bottom right",
+        "bottom start",
+        "bottom end",
+        "left",
+        "left top",
+        "left bottom",
+        "start",
+        "start top",
+        "start bottom",
+        "right",
+        "right top",
+        "right bottom",
+        "end",
+        "end top",
+        "end bottom"
+      ],
+      "default": "bottom start"
+    },
+    "popoverOffset": {
+      "type": "number",
+      "default": 8
+    },
+    "href": {
+      "type": "string",
+      "description": "Optional URL within contextual help content like a 'Learn more' link."
+    },
+    "popoverCrossOffset": {
+      "type": "number",
+      "default": 0
+    },
+    "containerPadding": {
+      "type": "number",
+      "default": 8
+    }
+  },
+  "states": [
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "open",
+      "trigger": "prop"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

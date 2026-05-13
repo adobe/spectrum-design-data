@@ -1,0 +1,72 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/search-field.json",
+  "specVersion": "1.0.0-draft",
+  "name": "search-field",
+  "displayName": "Search field",
+  "description": "A search field is used for searching and filtering items.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/search-field/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+      "description": "Icon must be present if the label is not defined."
+    },
+    "value": {
+      "type": "string"
+    },
+    "width": {
+      "type": "number"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m",
+      "pattern": "^(x?s|m|x{0,3}l)$"
+    },
+    "helpText": {
+      "type": "string"
+    },
+    "placeholder": {
+      "type": "string"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "focus-+-hover",
+      "trigger": "prop"
+    },
+    {
+      "name": "focus-+-not-hover",
+      "trigger": "prop"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

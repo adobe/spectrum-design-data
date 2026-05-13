@@ -1,0 +1,75 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/action-button.json",
+  "specVersion": "1.0.0-draft",
+  "name": "action-button",
+  "displayName": "Action button",
+  "description": "Action buttons allow users to perform an action or mark a selection. They're used for similar, task-based options within a workflow, and are ideal for interfaces where buttons aren't meant to draw a lot of attention.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/action-button/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+      "description": "Icon must be present if the label is not defined."
+    },
+    "size": {
+      "type": "string",
+      "enum": ["xs", "s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "staticColor": {
+      "type": "string",
+      "enum": ["white", "black"],
+      "description": "Static color must not be set for the default version of this component."
+    },
+    "selectedTextColor": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
+    },
+    "hasHoldIcon": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

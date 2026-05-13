@@ -1,0 +1,21 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/tray.json",
+  "specVersion": "1.0.0-draft",
+  "name": "tray",
+  "displayName": "Tray",
+  "description": "Trays are containers that display transient content such as menus, options, additional actions, and more. They only exist on mobile experiences and are used for exposing types of content that may be too overwhelming for popovers.",
+  "meta": {
+    "category": "containers",
+    "documentationUrl": "https://spectrum.adobe.com/page/tray/"
+  },
+  "options": {
+    "height": {
+      "type": "string",
+      "default": "auto"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

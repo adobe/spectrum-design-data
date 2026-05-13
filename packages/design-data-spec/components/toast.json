@@ -1,0 +1,33 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/toast.json",
+  "specVersion": "1.0.0-draft",
+  "name": "toast",
+  "displayName": "Toast",
+  "description": "Toasts display brief, temporary notifications. They're meant to be noticed without disrupting a user's experience or requiring an action to be taken.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/toast/"
+  },
+  "options": {
+    "text": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["neutral", "informative", "positive", "negative"],
+      "default": "neutral"
+    },
+    "actionLabel": {
+      "type": "string",
+      "description": "If undefined, this button does not appear."
+    },
+    "isAutoDismissible": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

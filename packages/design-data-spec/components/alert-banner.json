@@ -1,0 +1,33 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/alert-banner.json",
+  "specVersion": "1.0.0-draft",
+  "name": "alert-banner",
+  "displayName": "Alert banner",
+  "description": "Alert banners show pressing and high-signal messages, such as system alerts. They're meant to be noticed and prompt users to take action.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/alert-banner/"
+  },
+  "options": {
+    "text": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string",
+      "enum": ["neutral", "informative", "negative", "accent"],
+      "default": "neutral"
+    },
+    "actionLabel": {
+      "type": "string",
+      "description": "If undefined, this button does not appear."
+    },
+    "isDismissible": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

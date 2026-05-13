@@ -1,0 +1,53 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/tag-field.json",
+  "specVersion": "1.0.0-draft",
+  "name": "tag-field",
+  "displayName": "Tag field",
+  "description": "A tag field is an input field that allows users to enter and manage tags.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/tag-field/"
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l"],
+      "default": "m"
+    },
+    "style": {
+      "type": "string",
+      "enum": ["keyword", "icon", "thumbnail", "avatar"],
+      "default": "keyword"
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "focus-+-hover",
+      "trigger": "prop"
+    },
+    {
+      "name": "focus-+-not-hover",
+      "trigger": "prop"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

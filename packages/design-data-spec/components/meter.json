@@ -1,0 +1,48 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/meter.json",
+  "specVersion": "1.0.0-draft",
+  "name": "meter",
+  "displayName": "Meter",
+  "description": "Meters are visual representations of a quantity or an achievement. Their progress is determined by user actions, rather than system actions.",
+  "meta": {
+    "category": "status",
+    "documentationUrl": "https://spectrum.adobe.com/page/meter/"
+  },
+  "options": {
+    "variant": {
+      "type": "string",
+      "enum": ["informative", "positive", "notice", "negative"],
+      "default": "informative"
+    },
+    "label": {
+      "type": "string"
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "valueLabel": {
+      "type": "string"
+    },
+    "width": {
+      "type": "number"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "value": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "helpText": {
+      "type": "string"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

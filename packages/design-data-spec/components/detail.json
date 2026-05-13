@@ -1,0 +1,30 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/detail.json",
+  "specVersion": "1.0.0-draft",
+  "name": "detail",
+  "displayName": "Detail",
+  "description": "Detail is a typography component used for disclosing extra information or smaller items in hierarchical relationships of text.",
+  "meta": {
+    "category": "typography",
+    "documentationUrl": "https://spectrum.adobe.com/page/detail/"
+  },
+  "options": {
+    "script": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"
+    },
+    "weight": {
+      "type": "string",
+      "enum": ["light", "default"],
+      "default": "default"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

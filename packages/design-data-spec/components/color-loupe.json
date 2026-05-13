@@ -1,0 +1,20 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/color-loupe.json",
+  "specVersion": "1.0.0-draft",
+  "name": "color-loupe",
+  "displayName": "Color loupe",
+  "description": "A color loupe shows the output color that would otherwise be covered by a cursor, stylus, or finger during color selection.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/color-loupe/"
+  },
+  "options": {
+    "value": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

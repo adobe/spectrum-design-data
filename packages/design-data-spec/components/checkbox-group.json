@@ -1,0 +1,53 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/checkbox-group.json",
+  "specVersion": "1.0.0-draft",
+  "name": "checkbox-group",
+  "displayName": "Checkbox group",
+  "description": "A checkbox group is a grouping of checkboxes that are related to each other.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/checkbox-group/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "enum": ["top", "side"],
+      "default": "top"
+    },
+    "necessityIndicator": {
+      "type": "string",
+      "enum": ["text", "icon"],
+      "default": "icon"
+    },
+    "isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "orientation": {
+      "type": "string",
+      "enum": ["horizontal", "vertical"],
+      "default": "vertical"
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "description": {
+      "type": "string"
+    },
+    "errorMessage": {
+      "type": "string"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

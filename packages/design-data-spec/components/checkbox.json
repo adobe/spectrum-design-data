@@ -1,0 +1,61 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/checkbox.json",
+  "specVersion": "1.0.0-draft",
+  "name": "checkbox",
+  "displayName": "Checkbox",
+  "description": "Checkboxes allow users to select multiple items from a list of individual items, or to mark one individual item as selected.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/checkbox/"
+  },
+  "options": {
+    "label": {
+      "type": "string",
+      "description": "When the label is not defined, the checkbox appears as a standalone checkbox."
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "isIndeterminate": {
+      "type": "boolean",
+      "default": false,
+      "description": "When a checkbox is indeterminate, it overrides the selection state."
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

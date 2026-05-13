@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/thumbnail.json",
+  "specVersion": "1.0.0-draft",
+  "name": "thumbnail",
+  "displayName": "Thumbnail",
+  "description": "Thumbnails are small representations of images or content used for previews and navigation in galleries, lists, and media collections.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/thumbnail/"
+  },
+  "options": {
+    "size": {
+      "type": "number",
+      "enum": [50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+    }
+  },
+  "states": [
+    {
+      "name": "disabled",
+      "trigger": "prop"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

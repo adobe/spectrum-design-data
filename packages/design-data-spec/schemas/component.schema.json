@@ -102,7 +102,7 @@
     },
     "optionDescriptor": {
       "type": "object",
-      "description": "JSON Schema-compatible descriptor for a single component option.",
+      "description": "JSON Schema-compatible descriptor for a single component option. Standard JSON Schema keywords (type, enum, default, description, pattern, minimum, maximum, items, properties, etc.) are all permitted.",
       "properties": {
         "type": {
           "oneOf": [
@@ -154,7 +154,7 @@
           "description": "Reference to a shared type schema."
         }
       },
-      "additionalProperties": false
+      "additionalProperties": true
     },
     "slotDeclaration": {
       "type": "object",

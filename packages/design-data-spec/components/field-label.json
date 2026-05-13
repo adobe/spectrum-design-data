@@ -1,0 +1,43 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/field-label.json",
+  "specVersion": "1.0.0-draft",
+  "name": "field-label",
+  "displayName": "Field label",
+  "description": "Field labels give context to the information that a user needs to input. They're commonly used in forms.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/field-label/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "enum": ["top", "side"],
+      "default": "top"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l", "xl"],
+      "default": "m"
+    },
+    "necessityIndicator": {
+      "type": "string",
+      "enum": ["text", "icon"],
+      "default": "icon"
+    },
+    "isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

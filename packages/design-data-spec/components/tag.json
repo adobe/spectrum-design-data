@@ -1,0 +1,54 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/tag.json",
+  "specVersion": "1.0.0-draft",
+  "name": "tag",
+  "displayName": "Tag",
+  "description": "Tags allow users to categorize content. They can represent keywords or people, and are grouped to describe an item or a search request.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/tag/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "hasAvatar": {
+      "type": "boolean",
+      "default": false
+    },
+    "isRemovable": {
+      "type": "boolean",
+      "default": false
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "isReadOnly": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

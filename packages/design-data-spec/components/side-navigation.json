@@ -1,0 +1,71 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/side-navigation.json",
+  "specVersion": "1.0.0-draft",
+  "name": "side-navigation",
+  "displayName": "Side navigation",
+  "description": "Side navigation lets users navigate the entire content of a product or a section. These can be used for a single level or a multi-level navigation.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/side-navigation/"
+  },
+  "options": {
+    "items": {
+      "type": "array",
+      "description": "The list of navigation items.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Text label for the navigation item."
+          },
+          "state": {
+            "type": "string",
+            "enum": ["default", "hover", "down", "keyboard focus"],
+            "default": "default",
+            "description": "State of the navigation item."
+          },
+          "icon": {
+            "type": "string",
+            "description": "Optional icon token for the navigation item."
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the item is currently selected."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the item is disabled."
+          }
+        },
+        "required": ["label"]
+      }
+    },
+    "selectionMode": {
+      "type": "string",
+      "enum": ["none", "single", "multiple"],
+      "default": "single",
+      "description": "How selection is handled for items."
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}
