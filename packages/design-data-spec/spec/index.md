@@ -52,18 +52,18 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 
 ## Normative references (sibling documents)
 
-| Document                                | Role                                                                                                   |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| [Token format](token-format.md)         | Token `name`, `value` / `$ref`, value types, lifecycle metadata.                                       |
-| [Taxonomy](taxonomy.md)                 | Concept categories, vocabulary, formatting, anatomy vs objects.                                        |
-| [Component format](component-format.md) | Component declaration: options, slots, anatomy (→ anatomy-format.md), states (→ Phase 6.3), lifecycle. |
-| [Anatomy format](anatomy-format.md)     | Anatomy part declarations: field constraints, canonical vocabulary, SPEC-020/SPEC-023.                 |
-| [Cascade](cascade.md)                   | Layers, specificity, resolution algorithm.                                                             |
-| [Dimensions](dimensions.md)             | Dimension declarations, built-in dimensions, coverage.                                                 |
-| [Manifest](manifest.md)                 | Platform manifest fields and validation expectations.                                                  |
-| [Diff](diff.md)                         | Semantic diff change taxonomy, token identity, property changes.                                       |
-| [Query](query.md)                       | Filter notation for selecting tokens by structured fields.                                             |
-| [Evolution](evolution.md)               | Deprecation lifecycle, migration windows, change classification.                                       |
+| Document                                | Role                                                                                                     |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| [Token format](token-format.md)         | Token `name`, `value` / `$ref`, value types, lifecycle metadata.                                         |
+| [Taxonomy](taxonomy.md)                 | Concept categories, vocabulary, formatting, anatomy vs objects.                                          |
+| [Component format](component-format.md) | Component declaration: options, slots, anatomy (→ anatomy-format.md), states (→ Phase 6.3), lifecycle.   |
+| [Anatomy format](anatomy-format.md)     | Anatomy part declarations: field constraints, canonical vocabulary, SPEC-020/SPEC-023/SPEC-024/SPEC-025. |
+| [Cascade](cascade.md)                   | Layers, specificity, resolution algorithm.                                                               |
+| [Dimensions](dimensions.md)             | Dimension declarations, built-in dimensions, coverage.                                                   |
+| [Manifest](manifest.md)                 | Platform manifest fields and validation expectations.                                                    |
+| [Diff](diff.md)                         | Semantic diff change taxonomy, token identity, property changes.                                         |
+| [Query](query.md)                       | Filter notation for selecting tokens by structured fields.                                               |
+| [Evolution](evolution.md)               | Deprecation lifecycle, migration windows, change classification.                                         |
 
 ## JSON Schema `$id` and versioning
 
