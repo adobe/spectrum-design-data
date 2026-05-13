@@ -78,3 +78,116 @@ fn validate_bad_token_file_fails() {
         .assert()
         .failure();
 }
+
+#[test]
+fn write_creates_new_file() {
+    let tmp = tempfile::Builder::new()
+        .suffix(".json")
+        .tempfile()
+        .expect("tempfile");
+    let path = tmp.path().to_path_buf();
+    // tempfile creates the file; remove it so write creates it fresh.
+    drop(tmp);
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args(["write", "--output", path.to_str().expect("utf8 path")])
+        .assert()
+        .success();
+
+    let content = std::fs::read_to_string(&path).expect("read output");
+    let doc: serde_json::Value = serde_json::from_str(&content).expect("valid json");
+    assert_eq!(doc["specVersion"], "1.0.0-draft");
+    assert_eq!(doc["layer"], "product");
+    assert!(doc["createdBy"].is_object());
+    assert!(doc["createdAt"].is_string());
+    assert!(doc["rationale"].is_null(), "rationale should be absent");
+}
+
+#[test]
+fn write_with_rationale() {
+    let tmp = tempfile::Builder::new()
+        .suffix(".json")
+        .tempfile()
+        .expect("tempfile");
+    let path = tmp.path().to_path_buf();
+    drop(tmp);
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args([
+            "write",
+            "--output",
+            path.to_str().expect("utf8 path"),
+            "--rationale",
+            "Test run",
+        ])
+        .assert()
+        .success();
+
+    let content = std::fs::read_to_string(&path).expect("read output");
+    let doc: serde_json::Value = serde_json::from_str(&content).expect("valid json");
+    assert_eq!(doc["rationale"], "Test run");
+}
+
+#[test]
+fn write_updates_existing_rationale() {
+    let tmp = tempfile::Builder::new()
+        .suffix(".json")
+        .tempfile()
+        .expect("tempfile");
+    let path = tmp.path().to_path_buf();
+    drop(tmp);
+
+    // First write — establishes createdAt.
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args([
+            "write",
+            "--output",
+            path.to_str().expect("utf8 path"),
+            "--rationale",
+            "initial",
+        ])
+        .assert()
+        .success();
+
+    let first: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&path).expect("read")).expect("json");
+    let created_at = first["createdAt"].clone();
+
+    // Second write — updates rationale only.
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args([
+            "write",
+            "--output",
+            path.to_str().expect("utf8 path"),
+            "--rationale",
+            "updated",
+        ])
+        .assert()
+        .success();
+
+    let second: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&path).expect("read")).expect("json");
+    assert_eq!(second["rationale"], "updated");
+    assert_eq!(second["createdAt"], created_at, "createdAt must not change on update");
+}
+
+#[test]
+fn write_creates_parent_dirs() {
+    let tmp_dir = tempfile::tempdir().expect("tempdir");
+    let output = tmp_dir.path().join("nested").join("sub").join("pc.json");
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args(["write", "--output", output.to_str().expect("utf8 path")])
+        .assert()
+        .success();
+
+    assert!(output.exists(), "output file should exist after creating parent dirs");
+    let content = std::fs::read_to_string(&output).expect("read output");
+    let doc: serde_json::Value = serde_json::from_str(&content).expect("valid json");
+    assert_eq!(doc["specVersion"], "1.0.0-draft");
+}

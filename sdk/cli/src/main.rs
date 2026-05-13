@@ -800,9 +800,7 @@ fn run_figma_read(file_key: &str, token: &str, format: OutputFormat) -> miette::
 }
 
 fn run_write(output: &Path, rationale: Option<&str>) -> miette::Result<ExitCode> {
-    use std::collections::BTreeMap;
-
-    let mut doc: BTreeMap<String, serde_json::Value> = if output.exists() {
+    let mut doc: serde_json::Value = if output.exists() {
         let raw = std::fs::read_to_string(output)
             .into_diagnostic()
             .wrap_err_with(|| format!("failed to read {}", output.display()))?;
@@ -810,33 +808,50 @@ fn run_write(output: &Path, rationale: Option<&str>) -> miette::Result<ExitCode>
             .into_diagnostic()
             .wrap_err("failed to parse existing product-context.json")?
     } else {
-        let mut d = BTreeMap::new();
-        d.insert(
+        // Build in spec field order: specVersion → layer → createdBy → createdAt.
+        // rationale is inserted after layer when present (see below).
+        let mut map = serde_json::Map::new();
+        map.insert(
             "specVersion".to_string(),
             serde_json::Value::String("1.0.0-draft".to_string()),
         );
-        d.insert(
+        map.insert(
             "layer".to_string(),
             serde_json::Value::String("product".to_string()),
         );
-        d.insert(
+        if let Some(r) = rationale {
+            map.insert(
+                "rationale".to_string(),
+                serde_json::Value::String(r.to_string()),
+            );
+        }
+        map.insert(
             "createdBy".to_string(),
             serde_json::json!({ "type": "agent", "tool": "design-data" }),
         );
-        d.insert(
+        map.insert(
             "createdAt".to_string(),
             serde_json::Value::String(
                 Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string(),
             ),
         );
-        d
+        serde_json::Value::Object(map)
     };
 
-    if let Some(r) = rationale {
-        doc.insert(
-            "rationale".to_string(),
-            serde_json::Value::String(r.to_string()),
-        );
+    if output.exists() {
+        if let Some(r) = rationale {
+            doc["rationale"] = serde_json::Value::String(r.to_string());
+        }
+    }
+
+    if let Some(parent) = output.parent() {
+        if !parent.as_os_str().is_empty() {
+            std::fs::create_dir_all(parent)
+                .into_diagnostic()
+                .wrap_err_with(|| {
+                    format!("failed to create parent directory {}", parent.display())
+                })?;
+        }
     }
 
     let json = serde_json::to_string_pretty(&doc)

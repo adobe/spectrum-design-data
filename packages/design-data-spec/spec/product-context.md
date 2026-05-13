@@ -25,13 +25,13 @@ A product context document **MUST** conform to [`product-context.schema.json`](.
 
 ## Optional fields
 
-| Field        | Type   | Description                                                                        |
-| ------------ | ------ | ---------------------------------------------------------------------------------- |
-| `rationale`  | string | Why this product-layer working copy exists (e.g. feature name, project, team).     |
-| `createdBy`  | object | Tool or agent attribution (see [createdBy shape](#createdby-shape)).               |
-| `createdAt`  | string | ISO 8601 datetime when the document was first created.                             |
-| `overrides`  | array  | Overrides of foundation or platform tokens (see [overrides](#overrides)).          |
-| `extensions` | object | Net-new tokens and components added at this layer (see [extensions](#extensions)). |
+| Field        | Type   | Description                                                                                                                       |
+| ------------ | ------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| `rationale`  | string | Why this product-layer working copy exists (e.g. feature name, project, team).                                                    |
+| `createdBy`  | object | Tool or agent attribution (see [createdBy shape](#createdby-shape)).                                                              |
+| `createdAt`  | string | ISO 8601 datetime when the document was **first** created. Implementations SHOULD NOT overwrite this field on subsequent updates. |
+| `overrides`  | array  | Overrides of foundation or platform tokens (see [overrides](#overrides)).                                                         |
+| `extensions` | object | Net-new tokens and components added at this layer (see [extensions](#extensions)).                                                |
 
 ### `createdBy` shape
 
