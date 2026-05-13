@@ -50,5 +50,143 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "avatar-size-50",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-75",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-100",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-200",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-300",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-400",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-500",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-600",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-700",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-800",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-900",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-1000",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-1100",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-1200",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-1300",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-1400",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-size-1500",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-border-thickness",
+      "context": "Border"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "avatar-border-color",
+      "context": "Border"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "avatar-opacity-disabled",
+      "context": "Disabled"
+    },
+    {
+      "token": "static-fuchsia-400",
+      "context": "0% "
+    },
+    {
+      "token": "static-fuchsia-500",
+      "context": "0% "
+    },
+    {
+      "token": "static-fuchsia-600",
+      "context": "66% "
+    },
+    {
+      "token": "static-fuchsia-700",
+      "context": "66% "
+    },
+    {
+      "token": "static-fuchsia-800",
+      "context": "100% "
+    },
+    {
+      "token": "static-fuchsia-900",
+      "context": "100% "
+    },
+    {
+      "token": "default-font-family",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "extra-bold-font-weight",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Text (List view item)"
+    }
+  ]
 }

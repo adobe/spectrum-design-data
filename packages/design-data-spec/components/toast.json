@@ -29,5 +29,103 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "toast-height",
+      "context": "Height"
+    },
+    {
+      "token": "toast-maximum-width",
+      "context": "Width (maximum)"
+    },
+    {
+      "token": "corner-radius-800",
+      "context": "Rounding"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Spacing (icon to text)"
+    },
+    {
+      "token": "spacing-400",
+      "context": "Spacing (text to button, horizontal)"
+    },
+    {
+      "token": "spacing-300",
+      "context": "Spacing (start edge to text and icon)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (button to close button, horizontal)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (close button to end edge)"
+    },
+    {
+      "token": "toast-top-to-workflow-icon",
+      "context": "18px (desktop), 20px (mobile)"
+    },
+    {
+      "token": "toast-top-to-text",
+      "context": "18px (desktop), 20px (mobile)"
+    },
+    {
+      "token": "toast-bottom-to-text",
+      "context": "20px (desktop), 22px (mobile)"
+    },
+    {
+      "token": "neutral-subdued-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "informative-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "positive-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "negative-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "white",
+      "context": "Text and icon"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Value"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Value"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Value"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Value"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Value"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Value"
+    },
+    {
+      "token": "neutral-background-color-default",
+      "context": "Toast token changes (Jan 2025)"
+    }
+  ]
 }

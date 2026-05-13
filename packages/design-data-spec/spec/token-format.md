@@ -218,6 +218,24 @@ Within a composite value, a string sub-value **MAY** be an **inline alias**: a r
 
 **NORMATIVE:** Inline aliases within composite values are subject to alias resolution rules. Validators **MUST** resolve inline aliases and report errors for missing targets (SPEC-014), type mismatches (SPEC-015), and circular references (SPEC-003, extended).
 
+## Component bindings
+
+The optional `componentBindings` array on a token is the **reverse index** of `tokenBindings` on a component declaration (Phase 6.7). It declares which components reference this token in their `tokenBindings` list.
+
+```json
+"componentBindings": [
+  { "component": "button",    "context": "Minimum height" },
+  { "component": "checkbox",  "context": "Height" }
+]
+```
+
+| Field       | Required | Type   | Description                                                          |
+| ----------- | -------- | ------ | -------------------------------------------------------------------- |
+| `component` | yes      | string | Component name (kebab-case). MUST match a declared component `name`. |
+| `context`   | no       | string | Human-readable label for how this token is used in the component.    |
+
+`componentBindings` is **informative and optional**. It is fully derivable from the `tokenBindings` arrays on component declarations and does not need to be hand-maintained. Tooling that generates component files may populate `componentBindings` as a convenience for consumers that query token files directly.
+
 ## Relationship to legacy Spectrum tokens
 
 The current `@adobe/spectrum-tokens` JSON uses **sets** (`color-set`, `scale-set`, …). This specification describes the **target** per-token model. Mapping from legacy to this format is out of scope for this document; see [#743](https://github.com/adobe/spectrum-design-data/issues/743).

@@ -51,5 +51,107 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "coach-mark-width",
+      "context": "Width"
+    },
+    {
+      "token": "coach-mark-minimum-width",
+      "context": "Width"
+    },
+    {
+      "token": "coach-mark-maximum-width",
+      "context": "Width"
+    },
+    {
+      "token": "coach-mark-edge-to-content",
+      "context": "Spacing (top/bottom/start/end edge to text)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (header to body, body to footer)"
+    },
+    {
+      "token": "spacing-300",
+      "context": "Spacing (header to body, body to footer)"
+    },
+    {
+      "token": "coach-mark-pagination-text-to-bottom-edge",
+      "context": "Spacing (pagination to bottom)"
+    },
+    {
+      "token": "coach-mark-media-minimum-height",
+      "context": "Media (16:9)"
+    },
+    {
+      "token": "coach-mark-media-height",
+      "context": "Media (4:3)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (action button to menu)"
+    },
+    {
+      "token": "title-sans-serif-font-family",
+      "context": "Title"
+    },
+    {
+      "token": "title-sans-serif-font-weight",
+      "context": "Title"
+    },
+    {
+      "token": "title-serif-font-style",
+      "context": "Title"
+    },
+    {
+      "token": "coach-mark-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "title-line-height",
+      "context": "Title"
+    },
+    {
+      "token": "body-sans-serif-font-family",
+      "context": "Body"
+    },
+    {
+      "token": "body-sans-serif-font-weight",
+      "context": "Body"
+    },
+    {
+      "token": "body-serif-font-style",
+      "context": "Body"
+    },
+    {
+      "token": "coach-mark-body-font-size",
+      "context": "Body"
+    },
+    {
+      "token": "line-height-200",
+      "context": "Body"
+    },
+    {
+      "token": "medium-font-weight",
+      "context": "Pagination"
+    },
+    {
+      "token": "coach-mark-pagination-body-font-size",
+      "context": "Pagination"
+    },
+    {
+      "token": "heading-color",
+      "context": "Color"
+    },
+    {
+      "token": "body-color",
+      "context": "Color"
+    },
+    {
+      "token": "coach-mark-pagination-color",
+      "context": "Color"
+    }
+  ]
 }

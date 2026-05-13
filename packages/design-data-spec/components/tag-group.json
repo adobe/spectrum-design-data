@@ -31,5 +31,23 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "spacing-100",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "field-label-to-component",
+      "context": "Spacing (Field label to Tags)"
+    },
+    {
+      "token": "help-text-to-component",
+      "context": "Spacing (Text area to Help text)"
+    }
+  ]
 }

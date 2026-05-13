@@ -75,5 +75,47 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "color-slider-length",
+      "context": "Length"
+    },
+    {
+      "token": "color-slider-minimum-length",
+      "context": "Length"
+    },
+    {
+      "token": "color-control-track-width",
+      "context": "Width"
+    },
+    {
+      "token": "color-slider-border-width",
+      "context": "Border"
+    },
+    {
+      "token": "color-slider-border-rounding",
+      "context": "Border"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (field label value to track)"
+    },
+    {
+      "token": "color-slider-border-color",
+      "context": "Border"
+    },
+    {
+      "token": "color-slider-border-opacity",
+      "context": "Border"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Disabled"
+    }
+  ]
 }

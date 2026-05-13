@@ -87,5 +87,359 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "field-default-width-small",
+      "context": "Width (default)"
+    },
+    {
+      "token": "field-default-width-medium",
+      "context": "Width (default)"
+    },
+    {
+      "token": "field-default-width-large",
+      "context": "Width (default)"
+    },
+    {
+      "token": "field-default-width-extra-large",
+      "context": "Width (default)"
+    },
+    {
+      "token": "text-field-minimum-width-multiplier",
+      "context": "Width (minimum)"
+    },
+    {
+      "token": "component-height-75",
+      "context": "Height"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Height"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Height"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Height"
+    },
+    {
+      "token": "corner-radius-medium-size-small",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-medium",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-large",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-extra-large",
+      "context": "Rounding"
+    },
+    {
+      "token": "component-edge-to-text-75",
+      "context": "Spacing (start/end edge to value)"
+    },
+    {
+      "token": "component-edge-to-text-100",
+      "context": "Spacing (start/end edge to value)"
+    },
+    {
+      "token": "component-edge-to-text-200",
+      "context": "Spacing (start/end edge to value)"
+    },
+    {
+      "token": "component-edge-to-text-300",
+      "context": "Spacing (start/end edge to value)"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (top/bottom edge to value)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top/bottom edge to value)"
+    },
+    {
+      "token": "component-top-to-text-200",
+      "context": "Spacing (top/bottom edge to value)"
+    },
+    {
+      "token": "component-top-to-text-300",
+      "context": "Spacing (top/bottom edge to value)"
+    },
+    {
+      "token": "component-bottom-to-text-75",
+      "context": "Spacing (top/bottom edge to value)"
+    },
+    {
+      "token": "component-bottom-to-text-100",
+      "context": "Spacing (top/bottom edge to value)"
+    },
+    {
+      "token": "component-bottom-to-text-200",
+      "context": "Spacing (top/bottom edge to value)"
+    },
+    {
+      "token": "component-bottom-to-text-300",
+      "context": "Spacing (top/bottom edge to value)"
+    },
+    {
+      "token": "border-width-200",
+      "context": "Border"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "workflow-icon-size-75",
+      "context": "Alert icon"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Alert icon"
+    },
+    {
+      "token": "workflow-icon-size-200",
+      "context": "Alert icon"
+    },
+    {
+      "token": "workflow-icon-size-300",
+      "context": "Alert icon"
+    },
+    {
+      "token": "component-top-to-workflow-icon-75",
+      "context": "Spacing (top/bottom edge to alert icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-100",
+      "context": "Spacing (top/bottom edge to alert icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-200",
+      "context": "Spacing (top/bottom edge to alert icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-300",
+      "context": "Spacing (top/bottom edge to alert icon)"
+    },
+    {
+      "token": "field-edge-to-alert-icon-small",
+      "context": "Spacing (alert icon to end edge)"
+    },
+    {
+      "token": "field-edge-to-alert-icon-medium",
+      "context": "Spacing (alert icon to end edge)"
+    },
+    {
+      "token": "field-edge-to-alert-icon-large",
+      "context": "Spacing (alert icon to end edge)"
+    },
+    {
+      "token": "field-edge-to-alert-icon-extra-large",
+      "context": "Spacing (alert icon to end edge)"
+    },
+    {
+      "token": "checkmark-icon-size-75",
+      "context": "Checkmark UI icon asset"
+    },
+    {
+      "token": "checkmark-icon-size-100",
+      "context": "Checkmark UI icon asset"
+    },
+    {
+      "token": "checkmark-icon-size-200",
+      "context": "Checkmark UI icon asset"
+    },
+    {
+      "token": "checkmark-icon-size-300",
+      "context": "Checkmark UI icon asset"
+    },
+    {
+      "token": "field-top-to-validation-icon-small",
+      "context": "Spacing (top/bottom edge to validation icon)"
+    },
+    {
+      "token": "field-top-to-validation-icon-medium",
+      "context": "Spacing (top/bottom edge to validation icon)"
+    },
+    {
+      "token": "field-top-to-validation-icon-large",
+      "context": "Spacing (top/bottom edge to validation icon)"
+    },
+    {
+      "token": "field-top-to-validation-icon-extra-large",
+      "context": "Spacing (top/bottom edge to validation icon)"
+    },
+    {
+      "token": "field-edge-to-validation-icon-small",
+      "context": "Spacing (validation icon to end edge)"
+    },
+    {
+      "token": "field-edge-to-validation-icon-medium",
+      "context": "Spacing (validation icon to end edge)"
+    },
+    {
+      "token": "field-edge-to-validation-icon-large",
+      "context": "Spacing (validation icon to end edge)"
+    },
+    {
+      "token": "field-edge-to-validation-icon-extra-large",
+      "context": "Spacing (validation icon to end edge)"
+    },
+    {
+      "token": "text-to-visual-75",
+      "context": "Spacing (minimum, value to alert/validation icon)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (minimum, value to alert/validation icon)"
+    },
+    {
+      "token": "text-to-visual-200",
+      "context": "Spacing (minimum, value to alert/validation icon)"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Spacing (minimum, value to alert/validation icon)"
+    },
+    {
+      "token": "field-label-to-component",
+      "context": "Spacing (field label to text field)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (character count to field label)"
+    },
+    {
+      "token": "side-label-character-count-to-field",
+      "context": "Spacing (side label, field to character count)"
+    },
+    {
+      "token": "help-text-to-component",
+      "context": "Spacing (text field to help text)"
+    },
+    {
+      "token": "gray-25",
+      "context": "Background and border"
+    },
+    {
+      "token": "gray-300",
+      "context": "Background and border"
+    },
+    {
+      "token": "gray-400",
+      "context": "Background and border"
+    },
+    {
+      "token": "gray-900",
+      "context": "Background and border"
+    },
+    {
+      "token": "gray-800",
+      "context": "Background and border"
+    },
+    {
+      "token": "negative-border-color-default",
+      "context": "Border (error)"
+    },
+    {
+      "token": "negative-border-color-hover",
+      "context": "Border (error)"
+    },
+    {
+      "token": "negative-border-color-focus-hover",
+      "context": "Border (error)"
+    },
+    {
+      "token": "negative-border-color-focus",
+      "context": "Border (error)"
+    },
+    {
+      "token": "negative-border-color-key-focus",
+      "context": "Border (error)"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Value"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Value"
+    },
+    {
+      "token": "neutral-content-color-focus-hover",
+      "context": "Value"
+    },
+    {
+      "token": "neutral-content-color-focus",
+      "context": "Value"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Value"
+    },
+    {
+      "token": "negative-visual-color",
+      "context": "Alert icon"
+    },
+    {
+      "token": "positive-visual-color",
+      "context": "Positive icon"
+    },
+    {
+      "token": "disabled-border-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus ring"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Label"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Label"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Label"
+    }
+  ]
 }

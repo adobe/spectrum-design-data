@@ -36,5 +36,151 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "component-height-75",
+      "context": "Minimum Height"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Minimum Height"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Minimum Height"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Minimum Height"
+    },
+    {
+      "token": "workflow-icon-size-75",
+      "context": "Icon size"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon size"
+    },
+    {
+      "token": "workflow-icon-size-200",
+      "context": "Icon size"
+    },
+    {
+      "token": "workflow-icon-size-300",
+      "context": "Icon size"
+    },
+    {
+      "token": "text-to-visual-75",
+      "context": "Spacing (alert icon to text)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (alert icon to text)"
+    },
+    {
+      "token": "text-to-visual-200",
+      "context": "Spacing (alert icon to text)"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Spacing (alert icon to text)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-75",
+      "context": "Spacing (top/bottom edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-100",
+      "context": "Spacing (top/bottom edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-200",
+      "context": "Spacing (top/bottom edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-300",
+      "context": "Spacing (top/bottom edge to icon)"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (top/bottom edge to text)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top/bottom edge to text)"
+    },
+    {
+      "token": "component-top-to-text-200",
+      "context": "Spacing (top/bottom edge to text)"
+    },
+    {
+      "token": "component-top-to-text-300",
+      "context": "Spacing (top/bottom edge to text)"
+    },
+    {
+      "token": "component-bottom-to-text-75",
+      "context": "Spacing (top/bottom edge to text)"
+    },
+    {
+      "token": "component-bottom-to-text-100",
+      "context": "Spacing (top/bottom edge to text)"
+    },
+    {
+      "token": "component-bottom-to-text-200",
+      "context": "Spacing (top/bottom edge to text)"
+    },
+    {
+      "token": "component-bottom-to-text-300",
+      "context": "Spacing (top/bottom edge to text)"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Text"
+    },
+    {
+      "token": "disabled-content-color-default",
+      "context": "Text and alert icon (disabled)"
+    },
+    {
+      "token": "negative-content-color-default",
+      "context": "Text and alert icon (warning)"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Text"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Text"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Text"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Text"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Text"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Text"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Text"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Text"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Text"
+    }
+  ]
 }

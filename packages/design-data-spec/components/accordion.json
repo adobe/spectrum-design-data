@@ -83,5 +83,339 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "accordion-edge-to-content-area-small",
+      "context": "Paddings"
+    },
+    {
+      "token": "accordion-edge-to-content-area-medium",
+      "context": "Paddings"
+    },
+    {
+      "token": "accordion-edge-to-content-area-large",
+      "context": "Paddings"
+    },
+    {
+      "token": "accordion-edge-to-content-area-extra-large",
+      "context": "Paddings"
+    },
+    {
+      "token": "accordion-item-to-divider",
+      "context": "Spacing (between accordion item and divider)"
+    },
+    {
+      "token": "component-height-75",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "accordion-minimum-width",
+      "context": "Minimum width"
+    },
+    {
+      "token": "accordion-edge-to-text",
+      "context": "Spacing (end edges to content)"
+    },
+    {
+      "token": "accordion-top-to-text-compact-small",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "accordion-top-to-text-regular-small",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "accordion-top-to-text-spacious-small",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "accordion-top-to-text-compact-medium",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "accordion-top-to-text-regular-medium",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "accordion-top-to-text-spacious-medium",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "accordion-top-to-text-compact-large",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "accordion-top-to-text-regular-large",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "accordion-top-to-text-spacious-large",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "accordion-top-to-text-compact-extra-large",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "accordion-top-to-text-regular-extra-large",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "accordion-top-to-text-spacious-extra-large",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "accordion-bottom-to-text-compact-small",
+      "context": "Spacing (bottom edge to text)"
+    },
+    {
+      "token": "accordion-bottom-to-text-regular-small",
+      "context": "Spacing (bottom edge to text)"
+    },
+    {
+      "token": "accordion-bottom-to-text-spacious-small",
+      "context": "Spacing (bottom edge to text)"
+    },
+    {
+      "token": "accordion-bottom-to-text-compact-medium",
+      "context": "Spacing (bottom edge to text)"
+    },
+    {
+      "token": "accordion-bottom-to-text-regular-medium",
+      "context": "Spacing (bottom edge to text)"
+    },
+    {
+      "token": "accordion-bottom-to-text-spacious-medium",
+      "context": "Spacing (bottom edge to text)"
+    },
+    {
+      "token": "accordion-bottom-to-text-compact-large",
+      "context": "Spacing (bottom edge to text)"
+    },
+    {
+      "token": "accordion-bottom-to-text-regular-large",
+      "context": "Spacing (bottom edge to text)"
+    },
+    {
+      "token": "accordion-bottom-to-text-spacious-large",
+      "context": "Spacing (bottom edge to text)"
+    },
+    {
+      "token": "accordion-bottom-to-text-compact-extra-large",
+      "context": "Spacing (bottom edge to text)"
+    },
+    {
+      "token": "accordion-bottom-to-text-regular-extra-large",
+      "context": "Spacing (bottom edge to text)"
+    },
+    {
+      "token": "accordion-bottom-to-text-spacious-extra-large",
+      "context": "Spacing (bottom edge to text)"
+    },
+    {
+      "token": "accordion-focus-indicator-gap",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "corner-radius-medium-size-small",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-medium",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-large",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-extra-large",
+      "context": "Rounding"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-75-compact",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-75-regular",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-75-spacious",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-100-compact",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-200-compact",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-200-regular",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-200-spacious",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-300-compact",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-300-regular",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-top-to-disclosure-icon-300-spacious",
+      "context": "Spacing (top/bottom to disclosure icon)"
+    },
+    {
+      "token": "field-edge-to-disclosure-icon-75",
+      "context": "Spacing (end edge to disclosure icon)"
+    },
+    {
+      "token": "field-edge-to-disclosure-icon-100",
+      "context": "Spacing (end edge to disclosure icon)"
+    },
+    {
+      "token": "field-edge-to-disclosure-icon-200",
+      "context": "Spacing (end edge to disclosure icon)"
+    },
+    {
+      "token": "field-edge-to-disclosure-icon-300",
+      "context": "Spacing (end edge to disclosure icon)"
+    },
+    {
+      "token": "accordion-disclosure-indicator-to-text-small",
+      "context": "Spacing (disclosure icon to text)"
+    },
+    {
+      "token": "accordion-disclosure-indicator-to-text-medium",
+      "context": "Spacing (disclosure icon to text)"
+    },
+    {
+      "token": "accordion-disclosure-indicator-to-text-large",
+      "context": "Spacing (disclosure icon to text)"
+    },
+    {
+      "token": "accordion-disclosure-indicator-to-text-extra-large",
+      "context": "Spacing (disclosure icon to text)"
+    },
+    {
+      "token": "accordion-content-area-top-to-content",
+      "context": "Expanded (content area top/bottom to text)"
+    },
+    {
+      "token": "accordion-content-area-bottom-to-content",
+      "context": "Expanded (content area top/bottom to text)"
+    },
+    {
+      "token": "accordion-content-area-edge-to-content-small",
+      "context": "Expanded (content area start/end edges)"
+    },
+    {
+      "token": "accordion-content-area-edge-to-content-medium",
+      "context": "Expanded (content area start/end edges)"
+    },
+    {
+      "token": "accordion-content-area-edge-to-content-large",
+      "context": "Expanded (content area start/end edges)"
+    },
+    {
+      "token": "accordion-content-area-edge-to-content-extra-large",
+      "context": "Expanded (content area start/end edges)"
+    },
+    {
+      "token": "background-opacity-default",
+      "context": "Background"
+    },
+    {
+      "token": "background-opacity-hover",
+      "context": "Background"
+    },
+    {
+      "token": "background-opacity-down",
+      "context": "Background"
+    },
+    {
+      "token": "background-opacity-key-focus",
+      "context": "Background"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Section title and chevron"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Section title and chevron"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Section title and chevron"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus ring"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Value"
+    },
+    {
+      "token": "bold-font-weight",
+      "context": "Value"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Value"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Value"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Value"
+    },
+    {
+      "token": "font-size-500",
+      "context": "Value"
+    },
+    {
+      "token": "font-size-700",
+      "context": "Value"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Value"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Value"
+    }
+  ]
 }

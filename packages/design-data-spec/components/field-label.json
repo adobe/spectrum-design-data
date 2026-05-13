@@ -39,5 +39,151 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "component-height-75",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Minimum height"
+    },
+    {
+      "token": "field-label-text-to-asterisk-small",
+      "context": "Spacing (label to asterisk icon)"
+    },
+    {
+      "token": "field-label-text-to-asterisk-medium",
+      "context": "Spacing (label to asterisk icon)"
+    },
+    {
+      "token": "field-label-text-to-asterisk-large",
+      "context": "Spacing (label to asterisk icon)"
+    },
+    {
+      "token": "field-label-text-to-asterisk-extra-large",
+      "context": "Spacing (label to asterisk icon)"
+    },
+    {
+      "token": "field-label-top-to-asterisk-small",
+      "context": "Spacing (top edge to asterisk icon)"
+    },
+    {
+      "token": "field-label-top-to-asterisk-medium",
+      "context": "Spacing (top edge to asterisk icon)"
+    },
+    {
+      "token": "field-label-top-to-asterisk-large",
+      "context": "Spacing (top edge to asterisk icon)"
+    },
+    {
+      "token": "field-label-top-to-asterisk-extra-large",
+      "context": "Spacing (top edge to asterisk icon)"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-200",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-300",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-75",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-100",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-200",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-300",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "asterisk-icon-size-100",
+      "context": "Asterisk UI icon asset"
+    },
+    {
+      "token": "asterisk-icon-size-200",
+      "context": "Asterisk UI icon asset"
+    },
+    {
+      "token": "asterisk-icon-size-300",
+      "context": "Asterisk UI icon asset"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Label and asterisk icon"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Label and asterisk icon (disabled)"
+    },
+    {
+      "token": "white",
+      "context": "Label and asterisk icon (white)"
+    },
+    {
+      "token": "black",
+      "context": "Label and asterisk icon (black)"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Label"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Label"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Label"
+    }
+  ]
 }

@@ -25,15 +25,15 @@ The surface targets three consumer shapes:
 
 **NORMATIVE:** A conforming implementation MUST expose the following operations. Transport-specific naming (CLI subcommand vs MCP tool name vs skill action) MAY differ; the semantics MUST NOT.
 
-| Operation            | Reads                                                  | Returns                                                                                                                  | Backed by              |
-| -------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ---------------------- |
-| `resolve_token`      | property + dimension context                           | winning token (literal or resolved alias) with file/UUID/specificity                                                     | `cascade::resolve`     |
-| `query_tokens`       | filter expression (see [Query](query.md))              | matching token list                                                                                                      | `query::filter`        |
-| `validate_usage`     | candidate token document or fragment                   | `ValidationReport` (Layer 1 + Layer 2 diagnostics)                                                                       | `validate::validate_*` |
-| `describe_component` | component identifier                                   | component contract (anatomy, options, states); see [#832](https://github.com/adobe/spectrum-design-data/discussions/832) | (Phase 6 contract)     |
-| `suggest_token`      | natural-language intent + optional property hint       | ranked candidate tokens with rationale (RECOMMENDED, not NORMATIVE in v1)                                                | registry + query       |
-| `get_guidance`       | token UUID, component identifier, or anatomy reference | attached document blocks (Phase 9 / RFC-D); falls back to empty list pre-RFC-D                                           | document blocks        |
-| `diff_datasets`      | two dataset roots                                      | `DiffReport` per [Diff](diff.md)                                                                                         | `diff::semantic_diff`  |
+| Operation            | Reads                                                  | Returns                                                                                                                                                                                   | Backed by              |
+| -------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `resolve_token`      | property + dimension context                           | winning token (literal or resolved alias) with file/UUID/specificity                                                                                                                      | `cascade::resolve`     |
+| `query_tokens`       | filter expression (see [Query](query.md))              | matching token list                                                                                                                                                                       | `query::filter`        |
+| `validate_usage`     | candidate token document or fragment                   | `ValidationReport` (Layer 1 + Layer 2 diagnostics)                                                                                                                                        | `validate::validate_*` |
+| `describe_component` | component identifier                                   | component contract (anatomy, options, states, tokenBindings); see [#832](https://github.com/adobe/spectrum-design-data/discussions/832) and [Phase 6.7](#describe_component-return-shape) | (Phase 6 contract)     |
+| `suggest_token`      | natural-language intent + optional property hint       | ranked candidate tokens with rationale (RECOMMENDED, not NORMATIVE in v1)                                                                                                                 | registry + query       |
+| `get_guidance`       | token UUID, component identifier, or anatomy reference | attached document blocks (Phase 9 / RFC-D); falls back to empty list pre-RFC-D                                                                                                            | document blocks        |
+| `diff_datasets`      | two dataset roots                                      | `DiffReport` per [Diff](diff.md)                                                                                                                                                          | `diff::semantic_diff`  |
 
 **NORMATIVE:** `validate_usage`, `resolve_token`, `query_tokens`, and `diff_datasets` MUST be implemented in a conforming agent surface. `suggest_token` and `get_guidance` are RECOMMENDED. `describe_component` becomes NORMATIVE once [#832](https://github.com/adobe/spectrum-design-data/discussions/832) reaches implemented status.
 
@@ -81,6 +81,36 @@ A reference MCP server is RECOMMENDED to ship as `@adobe/design-data-agent-mcp` 
 A reference Claude Code Agent Skill is RECOMMENDED at `tools/design-data-agent-mcp/skills/design-data/SKILL.md`. The skill SHOULD trigger on intent words covering all three [Goals](#goals) — for example "design system", "design tokens", "drift", "spec-conformant", and explicit Spectrum mentions when the active manifest binds Spectrum.
 
 **RECOMMENDED:** The skill SHOULD shell out to the CLI rather than embedding tool calls, so its description (the only persistent context cost) stays small and the heavy lifting happens out-of-band.
+
+## `describe_component` return shape
+
+The `describe_component` tool returns the component declaration object as stored in the dataset, extended with `tokenBindings` when Phase 6.7 data is present. A conforming implementation MUST include `tokenBindings` in the response when the component declaration contains that field.
+
+```json
+{
+  "name": "button",
+  "displayName": "Button",
+  "meta": { "category": "actions", "documentationUrl": "https://spectrum.adobe.com/page/button/" },
+  "options": {
+    "variant": { "type": "string", "enum": ["accent", "negative", "primary", "secondary"], "default": "accent" }
+  },
+  "anatomy": [
+    { "name": "icon",  "description": "Leading icon." },
+    { "name": "label", "description": "Button text.", "required": true }
+  ],
+  "states": [
+    { "name": "hover",    "trigger": "interaction", "precedence": 50 },
+    { "name": "focus",    "trigger": "interaction", "precedence": 60, "layered": true },
+    { "name": "disabled", "trigger": "prop",        "precedence": 100 }
+  ],
+  "tokenBindings": [
+    { "token": "component-height-100", "context": "Minimum height" },
+    { "token": "corner-radius-full",   "context": "Rounding" }
+  ]
+}
+```
+
+`tokenBindings` enables agents to retrieve a complete picture of a component's token usage — including shared structure and foundation tokens that do not carry the component name in their name-object — without issuing a second `query_tokens` call.
 
 ## Conformance
 

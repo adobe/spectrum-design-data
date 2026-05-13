@@ -44,5 +44,119 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "meter-minimum-width",
+      "context": "Minimum width"
+    },
+    {
+      "token": "meter-maximum-width",
+      "context": "Maximum width"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Text"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Text"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Text"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Text"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Text"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Text"
+    },
+    {
+      "token": "spacing-75",
+      "context": "Spacing (field label to progress bar)"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "component-top-to-text-200",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "component-top-to-text-300",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Minimum spacing (field label to text)"
+    },
+    {
+      "token": "meter-thickness-small",
+      "context": "Meter (thickness)"
+    },
+    {
+      "token": "meter-thickness-medium",
+      "context": "Meter (thickness)"
+    },
+    {
+      "token": "meter-thickness-large",
+      "context": "Meter (thickness)"
+    },
+    {
+      "token": "meter-thickness-extra-large",
+      "context": "Meter (thickness)"
+    },
+    {
+      "token": "corner-radius-full",
+      "context": "Meter (rounding)"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Text"
+    },
+    {
+      "token": "track-color",
+      "context": "Track and indicator"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Track and indicator"
+    },
+    {
+      "token": "static-black-text-color",
+      "context": "Text (black)"
+    },
+    {
+      "token": "static-black-track-color",
+      "context": "Track and indicator (black)"
+    },
+    {
+      "token": "static-black-track-indicator-color",
+      "context": "Track and indicator (black)"
+    },
+    {
+      "token": "static-white-text-color",
+      "context": "Text (white)"
+    },
+    {
+      "token": "static-white-track-color",
+      "context": "Track and indicator (white)"
+    },
+    {
+      "token": "static-white-track-indicator-color",
+      "context": "Track and indicator (white)"
+    }
+  ]
 }

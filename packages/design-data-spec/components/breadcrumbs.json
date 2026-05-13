@@ -85,5 +85,179 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "component-height-200",
+      "context": "Height"
+    },
+    {
+      "token": "breadcrumbs-text-to-separator-large",
+      "context": "Spacing (breadcrumb item/title to separator icon)"
+    },
+    {
+      "token": "breadcrumbs-start-edge-to-text-large",
+      "context": "Spacing (start and end edge to text)"
+    },
+    {
+      "token": "breadcrumbs-end-edge-to-text",
+      "context": "Spacing (start and end edge to text)"
+    },
+    {
+      "token": "component-top-to-text-200",
+      "context": "Spacing (top and bottom edge to text)"
+    },
+    {
+      "token": "component-bottom-to-text-200",
+      "context": "Spacing (top and bottom edge to text)"
+    },
+    {
+      "token": "breadcrumbs-top-to-truncated-menu",
+      "context": "Spacing (top and bottom edge to truncated menu button)"
+    },
+    {
+      "token": "breadcrumbs-top-to-separator-large",
+      "context": "Spacing (top and bottom edge to separator icon)"
+    },
+    {
+      "token": "breadcrumbs-truncated-menu-to-separator",
+      "context": "Spacing (truncated menu button to separator icon)"
+    },
+    {
+      "token": "breadcrumbs-start-edge-to-truncated-menu",
+      "context": "Spacing (start edge to truncated menu button)"
+    },
+    {
+      "token": "text-underline-thickness",
+      "context": "Breadcrumb item (hover, down, focus states)"
+    },
+    {
+      "token": "text-underline-gap",
+      "context": "Breadcrumb item (hover, down, focus states)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Text (breadcrumb item and title)"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Text (breadcrumb item and title)"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Text (breadcrumb item and title)"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Text (breadcrumb item and title)"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Text (breadcrumb item and title)"
+    },
+    {
+      "token": "bold-font-weight",
+      "context": "Text (breadcrumb item and title)"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Breadcrumb item and title"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Breadcrumb item and title"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Breadcrumb item (disabled)"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Height (medium)"
+    },
+    {
+      "token": "breadcrumbs-text-to-separator-medium",
+      "context": "Spacing (breadcrumb item/title to separator icon, medium)"
+    },
+    {
+      "token": "breadcrumbs-start-edge-to-text-medium",
+      "context": "Spacing (start and end edge to text, medium)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top and bottom edge to text, medium)"
+    },
+    {
+      "token": "component-bottom-to-text-100",
+      "context": "Spacing (top and bottom edge to text, medium)"
+    },
+    {
+      "token": "breadcrumbs-top-to-separator-medium",
+      "context": "Spacing (top and bottom edge to separator icon, medium)"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Text (breadcrumb item and title, medium)"
+    },
+    {
+      "token": "breadcrumbs-height-multiline",
+      "context": "Height"
+    },
+    {
+      "token": "breadcrumbs-text-to-separator-multiline",
+      "context": "Spacing (breadcrumb item/title to separator icon, multiline)"
+    },
+    {
+      "token": "breadcrumbs-start-edge-to-text-multiline",
+      "context": "Spacing (start and end edge to text, multiline)"
+    },
+    {
+      "token": "breadcrumbs-top-to-text-multiline",
+      "context": "Spacing (top and bottom edge to text, multiline)"
+    },
+    {
+      "token": "breadcrumbs-bottom-to-text-multiline",
+      "context": "Spacing (top and bottom edge to text, multiline)"
+    },
+    {
+      "token": "breadcrumbs-top-to-separator-multiline",
+      "context": "Spacing (top edge to separator icon, multiline)"
+    },
+    {
+      "token": "breadcrumbs-separator-to-bottom-text-multiline",
+      "context": "Spacing (separator icon to bottom text, multiline)"
+    },
+    {
+      "token": "breadcrumbs-truncated-menu-to-bottom-text",
+      "context": "Spacing (truncated menu button to bottom text, multiline)"
+    },
+    {
+      "token": "breadcrumbs-top-text-to-bottom-text",
+      "context": "Spacing (top text to bottom text)"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Text (breadcrumb item and title, multiline)"
+    },
+    {
+      "token": "extra-bold-font-weight",
+      "context": "Text (breadcrumb item and title, multiline)"
+    },
+    {
+      "token": "heading-size-l",
+      "context": "Text (breadcrumb item and title, multiline)"
+    }
+  ]
 }

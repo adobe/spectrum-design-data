@@ -54,5 +54,39 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "takeover-dialog-width",
+      "context": "Height & width"
+    },
+    {
+      "token": "takeover-dialog-height",
+      "context": "Height & width"
+    },
+    {
+      "token": "window-to-edge",
+      "context": "Margins (dialog option)"
+    },
+    {
+      "token": "corner-radius-extra-large-default",
+      "context": "Rounding (dialog option)"
+    },
+    {
+      "token": "background-color-layer2",
+      "context": "Background"
+    },
+    {
+      "token": "overlay-color",
+      "context": "Overlay"
+    },
+    {
+      "token": "overlay-opacity",
+      "context": "Overlay"
+    },
+    {
+      "token": "heading-color",
+      "context": "Title"
+    }
+  ]
 }

@@ -50,5 +50,91 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "component-height-75",
+      "context": "Minimum height"
+    },
+    {
+      "token": "tooltip-maximum-width",
+      "context": "Maximum width"
+    },
+    {
+      "token": "corner-radius-500",
+      "context": "Rounding"
+    },
+    {
+      "token": "tooltip-tip-width",
+      "context": "Tip"
+    },
+    {
+      "token": "tooltip-tip-height",
+      "context": "Tip"
+    },
+    {
+      "token": "tooltip-tip-corner-radius",
+      "context": "Rounding (tip)"
+    },
+    {
+      "token": "component-edge-to-text-75",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (top/bottom edge to text)"
+    },
+    {
+      "token": "component-bottom-to-text-75",
+      "context": "Spacing (top/bottom edge to text)"
+    },
+    {
+      "token": "spacing-75",
+      "context": "Spacing (tip to source)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Container padding"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Label"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Label"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "gray-25",
+      "context": "Text"
+    },
+    {
+      "token": "neutral-background-color-default",
+      "context": "Background (Neutral)"
+    },
+    {
+      "token": "informative-background-color-default",
+      "context": "Background (Informative)"
+    },
+    {
+      "token": "negative-background-color-default",
+      "context": "Background (Negative)"
+    }
+  ]
 }

@@ -16,5 +16,59 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "tokenBindings": [
+    {
+      "token": "color-loupe-height",
+      "context": "Size"
+    },
+    {
+      "token": "color-loupe-width",
+      "context": "Size"
+    },
+    {
+      "token": "color-loupe-outer-border-width",
+      "context": "Border"
+    },
+    {
+      "token": "color-loupe-inner-border-width",
+      "context": "Border"
+    },
+    {
+      "token": "color-loupe-bottom-to-color-handle",
+      "context": "Spacing"
+    },
+    {
+      "token": "drop-shadow-elevated-x",
+      "context": "Shadows"
+    },
+    {
+      "token": "drop-shadow-elevated-y",
+      "context": "Shadows"
+    },
+    {
+      "token": "drop-shadow-elevated-blur",
+      "context": "Shadows"
+    },
+    {
+      "token": "color-loupe-outer-border",
+      "context": "Border"
+    },
+    {
+      "token": "drop-shadow-x",
+      "context": "S1 Shadows"
+    },
+    {
+      "token": "color-loupe-drop-shadow-y",
+      "context": "S1 Shadows"
+    },
+    {
+      "token": "color-loupe-drop-shadow-blur",
+      "context": "S1 Shadows"
+    },
+    {
+      "token": "color-loupe-drop-shadow-color",
+      "context": "S1 Shadows"
+    }
+  ]
 }
