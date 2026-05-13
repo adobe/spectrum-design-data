@@ -12,7 +12,7 @@ Scoped under [RFC-A — Component Contract in Design Data Spec](https://github.c
 
 A component declaration is a **single JSON object** in a `.json` file. One file per component. Files live under a `components/` directory within a design-data package.
 
-**NORMATIVE:** Each component declaration file **MUST** validate against the Layer 1 schema [`component.schema.json`](../schemas/component.schema.json) (canonical `$id`: `https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json`).
+**NORMATIVE:** Each component declaration file **MUST** validate against the Layer 1 schema [`component.schema.json`](../schemas/component.schema.json) (canonical `$id`: `https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json`). Layer 1 and Layer 2 validation are defined in the [validation layers](index.md#validation-layers) section of the overview.
 
 ## Component object
 
@@ -29,15 +29,15 @@ A component declaration **MUST** contain:
 
 ### Optional fields
 
-| Field         | Type            | Description                                                           |
-| ------------- | --------------- | --------------------------------------------------------------------- |
-| `specVersion` | `"1.0.0-draft"` | Declares which spec version this document targets.                    |
-| `description` | string          | Plain-text description of the component's purpose.                    |
-| `options`     | object          | Component API options — see [Options](#options).                      |
-| `slots`       | array           | Named content injection points — see [Slots](#slots).                 |
-| `anatomy`     | array           | Named anatomy parts — see [Anatomy (stub)](#anatomy-stub).            |
-| `states`      | array           | Per-component state declarations — see [States (stub)](#states-stub). |
-| `lifecycle`   | object          | Version lifecycle metadata — see [Lifecycle](#lifecycle).             |
+| Field         | Type   | Description                                                                                                                                |
+| ------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `specVersion` | string | Declares which spec version this document targets. Currently `"1.0.0-draft"`; future stable releases will accept their own version string. |
+| `description` | string | Plain-text description of the component's purpose.                                                                                         |
+| `options`     | object | Component API options — see [Options](#options).                                                                                           |
+| `slots`       | array  | Named content injection points — see [Slots](#slots).                                                                                      |
+| `anatomy`     | array  | Named anatomy parts — see [Anatomy (stub)](#anatomy-stub).                                                                                 |
+| `states`      | array  | Per-component state declarations — see [States (stub)](#states-stub).                                                                      |
+| `lifecycle`   | object | Version lifecycle metadata — see [Lifecycle](#lifecycle).                                                                                  |
 
 **NORMATIVE:** No properties beyond those listed above are permitted at the top level of a component declaration. Additional fields **MUST** cause a Layer 1 schema error.
 
@@ -168,7 +168,7 @@ The following slot names are defined by the cross-platform audit and **SHOULD** 
   },
   {
     "name": "icon",
-    "description": "Icon placed at the start of the button. Required when hideLabel is true."
+    "description": "Icon placed at the start of the button. Required when isLabelHidden is true."
   }
 ]
 ```
@@ -228,12 +228,12 @@ See [`spec/state-model.md`](state-model.md) for the full state resolution algori
 
 The `lifecycle` block tracks a component declaration's version history. It mirrors the per-token lifecycle pattern from [`spec/token-format.md`](token-format.md#lifecycle-and-metadata).
 
-| Field                | Type            | Description                                                                    |
-| -------------------- | --------------- | ------------------------------------------------------------------------------ |
-| `introduced`         | string          | Spec version when this component declaration was added (e.g. `"1.0.0-draft"`). |
-| `deprecated`         | string          | Spec version when this component was deprecated. Truthy = deprecated.          |
-| `deprecated_comment` | string          | Human-readable explanation of the deprecation and migration path.              |
-| `replaced_by`        | string or array | `name` value(s) of the replacement component(s).                               |
+| Field               | Type            | Description                                                                    |
+| ------------------- | --------------- | ------------------------------------------------------------------------------ |
+| `introduced`        | string          | Spec version when this component declaration was added (e.g. `"1.0.0-draft"`). |
+| `deprecated`        | string          | Spec version when this component was deprecated. Truthy = deprecated.          |
+| `deprecatedComment` | string          | Human-readable explanation of the deprecation and migration path.              |
+| `replacedBy`        | string or array | `name` value(s) of the replacement component(s).                               |
 
 ```json
 "lifecycle": {
@@ -245,12 +245,13 @@ The `lifecycle` block tracks a component declaration's version history. It mirro
 
 The following rules are added to the Layer 2 rule catalog (`rules/rules.yaml`) by this chapter. New component cross-reference rules start at SPEC-018 to avoid collision with existing token rules (SPEC-001–SPEC-017).
 
-| Rule ID  | Name                        | Severity | Assert                                                                                                                                                                                  |
-| -------- | --------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-018 | `component-name-exists`     | error    | Token `component` field value **MUST** match the `name` of a declared component in the dataset.                                                                                         |
-| SPEC-019 | `component-variant-valid`   | error    | Token `variant` field value **MUST** match a value in the declared `variant` option enum for the referenced component (when that enum exists).                                          |
-| SPEC-020 | `component-anatomy-valid`   | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                           |
-| SPEC-021 | `component-slot-vocabulary` | warning  | Component `slots` entries with a `name` outside the canonical vocabulary **SHOULD** include a `description`. Custom slot names without descriptions are surfaced as tech-debt warnings. |
+| Rule ID  | Name                        | Severity | Assert                                                                                                                                                                        |
+| -------- | --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-018 | `component-name-exists`     | error    | Token `component` field value **MUST** match the `name` of a declared component in the dataset.                                                                               |
+| SPEC-019 | `component-variant-valid`   | error    | Token `variant` field value **MUST** match a value in the declared `variant` option enum for the referenced component (when that enum exists).                                |
+| SPEC-020 | `component-anatomy-valid`   | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                 |
+| SPEC-021 | `component-slot-vocabulary` | warning  | Component `slots` entries with a `name` outside the canonical vocabulary **SHOULD** include a `description`. Custom slot names without descriptions are surfaced as warnings. |
+| SPEC-022 | `component-state-valid`     | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).                                    |
 
 ## Full example
 
@@ -287,10 +288,10 @@ A complete button component declaration:
     },
     "isDisabled": { "type": "boolean", "default": false },
     "isPending": { "type": "boolean", "default": false },
-    "hideLabel": { "type": "boolean", "default": false },
+    "isLabelHidden": { "type": "boolean", "default": false },
     "icon": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
-      "description": "Icon placed at the start of the button. Required when hideLabel is true."
+      "description": "Icon placed at the start of the button. Required when isLabelHidden is true."
     },
     "staticColor": {
       "type": "string",

@@ -185,8 +185,17 @@ rules:
   - id: SPEC-021
     name: component-slot-vocabulary
     severity: warning
-    category: tech-debt
+    category: component-contract
     assert: Component slot declarations with a 'name' outside the canonical slot vocabulary SHOULD include a 'description' field documenting the custom slot's purpose.
     message: "Component '{component}' has custom slot '{slot}' with no description — add a description or use a canonical slot name"
     spec_ref: spec/component-format.md#canonical-slot-vocabulary
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-022
+    name: component-state-valid
+    severity: error
+    category: reference-integrity
+    assert: Token name-object 'state' field value MUST match the 'name' of a declared state on the referenced component, when state declarations are present.
+    message: "Token '{token}' references undeclared state '{state}' on component '{component}'"
+    spec_ref: spec/component-format.md#spec-rules
     introduced_in: "1.0.0-draft"
