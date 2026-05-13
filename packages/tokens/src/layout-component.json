@@ -8529,6 +8529,7 @@
   },
   "stack-item-minimum-padding-vertical": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "stack-item",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -8569,11 +8570,13 @@
   },
   "stack-item-selected-background-opacity-highlight": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "component": "stack-item",
     "uuid": "2e8ef316-9ea1-41f3-bb2e-a9b777466794",
     "value": "0.1"
   },
   "stack-item-selected-background-opacity-highlight-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "component": "stack-item",
     "uuid": "2d07949e-416d-4ab6-b36e-15dde4df78b0",
     "value": "0.15"
   },
@@ -13906,10 +13909,5 @@
     "component": "user-card",
     "uuid": "3373c4d2-d81b-4649-bc24-5251879778c1",
     "value": "212px"
-  },
-  "vertical-align-items": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
-    "uuid": "b2f48da9-58a4-4e86-8340-78e0f52c67ba",
-    "value": "center"
   }
 }
