@@ -1,5 +1,26 @@
 # @adobe/design-data-spec
 
+## 0.4.0
+
+### Minor Changes
+
+- [#855](https://github.com/adobe/spectrum-design-data/pull/855) [`c9002db`](https://github.com/adobe/spectrum-design-data/commit/c9002db2da1d1bb40446b4991648dc7809a55f33) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(component-schemas): migrate source of truth to design-data-spec components
+
+  `@adobe/spectrum-component-api-schemas` is now a thin adapter over
+  `@adobe/design-data-spec/components/`. All 80 component declarations have been
+  converted to the new format and live in `packages/design-data-spec/components/`.
+
+  The API surface is unchanged: `getAllSchemas()`, `getAllSlugs()`,
+  `getSchemaBySlug()`, `getSchemaFile()`, and `schemaFileNames` all behave
+  identically. Returned objects now include new fields (`name`, `displayName`,
+  `options`, `states`, `lifecycle`) alongside the existing aliases (`title`,
+  `properties`, `slug`) — no consumer breakage.
+
+  `@adobe/design-data-spec` minor: 79 component declarations added to
+  `components/`. `optionDescriptor` in `component.schema.json` now allows
+  additional JSON Schema keywords (`pattern`, `minimum`, `items`, etc.)
+  to accommodate real-world component option descriptors.
+
 ## 0.3.0
 
 ### Minor Changes
