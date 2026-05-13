@@ -60,9 +60,9 @@ Coverage: 37 components audited, all with `@slot` JSDoc annotations and shadow D
 | tooltip             | `icon`                                                           |
 | tray                | — (default only)                                                 |
 
-Components with **default slot only**: accordion, action-bar, checkbox, close-button, divider, drop-zone, illustrated-message, link, menu, popover, progress-bar, progress-circle, tray
+Components with **default slot only**: accordion, action-bar, checkbox, close-button, drop-zone, illustrated-message, link, menu, popover, progress-bar, progress-circle, tray
 
-Components with **no slots**: avatar, divider, link, status-light
+Components with **no slots**: avatar, divider, status-light
 
 #### SWC slot naming patterns
 
@@ -122,15 +122,15 @@ RSP and SWC are **broadly aligned** on named content slots:
 Source: `~/Spectrum/spectrum-ios/Sources/SpectrumComponents/`\
 Coverage: \~7 components. All marked **🚧 Preview** as of Sept 2025. iOS implementation is significantly earlier-stage than web.
 
-| Component      | [**@ViewBuilder**](https://github.com/ViewBuilder) params (slots) |
-| -------------- | ----------------------------------------------------------------- |
-| SPButton       | `label: () -> Label`                                              |
-| SPToggleButton | `label: (Bool) -> Label`                                          |
-| SPMenu         | `content: () -> Content`, `label: () -> Label`                    |
-| SPPicker       | none (internal construction)                                      |
-| SPToast        | none (data model, not view)                                       |
-| SPPopUpButton  | none (uses fixed SPPopUpLabel)                                    |
-| Icon           | none (display-only)                                               |
+| Component      | **`@ViewBuilder`** params (slots)              |
+| -------------- | ---------------------------------------------- |
+| SPButton       | `label: () -> Label`                           |
+| SPToggleButton | `label: (Bool) -> Label`                       |
+| SPMenu         | `content: () -> Content`, `label: () -> Label` |
+| SPPicker       | none (internal construction)                   |
+| SPToast        | none (data model, not view)                    |
+| SPPopUpButton  | none (uses fixed SPPopUpLabel)                 |
+| Icon           | none (display-only)                            |
 
 **iOS finding**: The iOS implementation is too early-stage and too limited in component coverage to drive normative spec decisions. Of the \~80 components in `@adobe/spectrum-component-api-schemas`, only \~5 have iOS implementations at all. The `@ViewBuilder` parameter names don't yet show a stable naming pattern.
 

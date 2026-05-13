@@ -87,7 +87,7 @@ Coverage: 26 components emit custom events.
 
 **Lifecycle pair**: `sp-opened` / `sp-closed` — overlay lifecycle events on components that have popups (picker, tooltip).
 
-**Cancelable events** (application can `preventDefault`): `sp-accordion-item-toggle`, `alert-banner::close`, `sp-dropzone-should-accept`, `tag::delete`
+**Cancelable events** (application can `preventDefault`): `sp-accordion-item-toggle` (accordion), `close` (alert-banner), `sp-dropzone-should-accept` (drop-zone), `delete` (tag)
 
 ***
 
