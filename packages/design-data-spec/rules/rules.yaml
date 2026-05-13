@@ -208,3 +208,21 @@ rules:
     message: "Component '{component}' has custom anatomy part '{part}' with no description"
     spec_ref: spec/anatomy-format.md#canonical-anatomy-vocabulary
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-024
+    name: anatomy-part-name-unique
+    severity: error
+    category: component-contract
+    assert: Anatomy part names within a single component's anatomy array MUST be unique.
+    message: "Component '{component}' declares duplicate anatomy part name '{part}'"
+    spec_ref: spec/anatomy-format.md#name
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-025
+    name: anatomy-requires-component
+    severity: error
+    category: reference-integrity
+    assert: A token name object MUST NOT include an 'anatomy' field unless a 'component' field is also present.
+    message: "Token '{token}' has 'anatomy' field without a 'component' field"
+    spec_ref: spec/anatomy-format.md#cross-reference-with-token-name-objects
+    introduced_in: "1.0.0-draft"

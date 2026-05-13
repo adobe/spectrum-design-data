@@ -27,7 +27,7 @@ An anatomy part is a **JSON object** that appears as an element of a component d
 
 **NORMATIVE:** `name` **MUST** match the pattern `^[a-z][a-z0-9-]*$` — lower-case kebab-case, non-empty.
 
-**NORMATIVE:** `name` **MUST** be unique within the `anatomy` array of a single component declaration. No two anatomy part objects in the same component may share a `name` value.
+**NORMATIVE:** `name` **MUST** be unique within the `anatomy` array of a single component declaration (rule SPEC-024). Duplicate `name` values on the same component are a validation error.
 
 **NORMATIVE:** Token name-object `anatomy` field values referencing a component **MUST** match the `name` of a declared anatomy part on that component (rule SPEC-020). An undeclared `anatomy` value is a validation error.
 
@@ -94,7 +94,7 @@ Token name objects use an `anatomy` field to scope a token to a specific visible
 
 See [Token format — Name object](token-format.md#name-object) for the full name object field catalog.
 
-**NORMATIVE:** The `anatomy` field in a token name object **MUST NOT** be present unless the token's `component` field is also present. Anatomy is always scoped to a component.
+**NORMATIVE:** The `anatomy` field in a token name object **MUST NOT** be present unless the token's `component` field is also present (rule SPEC-025). Anatomy is always scoped to a component.
 
 ```json
 {
@@ -110,12 +110,14 @@ See [Token format — Name object](token-format.md#name-object) for the full nam
 
 ## SPEC rules
 
-The following rules in the Layer 2 rule catalog (`rules/rules.yaml`) apply to anatomy part declarations. SPEC-020 was introduced in Phase 6.1 (component-format); SPEC-023 is introduced by this chapter.
+The following rules in the Layer 2 rule catalog (`rules/rules.yaml`) apply to anatomy part declarations. SPEC-020 was introduced in Phase 6.1 (component-format); SPEC-023, SPEC-024, and SPEC-025 are introduced by this chapter.
 
 | Rule ID  | Name                             | Severity | Assert                                                                                                                                                    |
 | -------- | -------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | SPEC-020 | `component-anatomy-valid`        | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                             |
 | SPEC-023 | `anatomy-custom-part-documented` | warning  | Anatomy part declarations with a `name` outside the canonical anatomy vocabulary **SHOULD** include a `description` field documenting the part's purpose. |
+| SPEC-024 | `anatomy-part-name-unique`       | error    | Anatomy part `name` values **MUST** be unique within a single component's `anatomy` array.                                                                |
+| SPEC-025 | `anatomy-requires-component`     | error    | A token name object **MUST NOT** include an `anatomy` field unless a `component` field is also present.                                                   |
 
 ## Full example
 

@@ -12,7 +12,7 @@ The specification defines:
 1. **Token format** — structured token identity (`name`), literal `value` or alias `$ref`, and lifecycle metadata ([Token format](token-format.md)).
 2. **Taxonomy** — concept categories, token term vocabulary, formatting style, and the distinction between component anatomy and token objects ([Taxonomy](taxonomy.md)).
 3. **Component format** — component declaration shape: API options, named content slots, anatomy parts, state model, and cross-reference validation rules ([Component format](component-format.md)).
-   3a. **Anatomy format** — anatomy part declaration shape: field constraints, canonical anatomy vocabulary, and cross-reference rules for token `anatomy` field values ([Anatomy format](anatomy-format.md)).
+   * **Anatomy format** — anatomy part declaration shape: field constraints, canonical anatomy vocabulary, and cross-reference rules for token `anatomy` field values ([Anatomy format](anatomy-format.md)).
 4. **Cascade and resolution** — layered data (foundation, platform, product), specificity, and how a context picks a winning value ([Cascade](cascade.md)).
 5. **Dimensions** — declared modes, defaults, and coverage expectations ([Dimensions](dimensions.md)).
 6. **Platform manifest** — how a platform repo pins foundation data, filters tokens, and applies typed overrides ([Manifest](manifest.md)).

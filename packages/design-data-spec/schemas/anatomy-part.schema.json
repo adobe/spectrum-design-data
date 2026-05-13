@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/anatomy-part.schema.json",
   "title": "Anatomy part declaration",
-  "description": "Layer 1 structural schema for a single anatomy part object within a component declaration. Semantic rules (component-anatomy-valid, anatomy-custom-part-documented) are Layer 2.",
+  "description": "Layer 1 structural schema for a single anatomy part object within a component declaration. Semantic rules (component-anatomy-valid, anatomy-custom-part-documented, anatomy-part-name-unique, anatomy-requires-component) are Layer 2.",
   "type": "object",
   "required": ["name"],
   "properties": {
@@ -27,6 +27,7 @@
         "type": "string",
         "pattern": "^[a-z][a-z0-9-]*$"
       },
+      "uniqueItems": true,
       "description": "Informative list of child anatomy part names nested within this part. Does not carry enforcement semantics."
     }
   },
