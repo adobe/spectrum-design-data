@@ -335,3 +335,52 @@ fn primer_fails_on_nonexistent_path() {
         .assert()
         .failure();
 }
+
+fn component_dir() -> PathBuf {
+    let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let dir = manifest.join("../../packages/design-data-spec/components");
+    assert!(dir.is_dir(), "expected components at {}", dir.display());
+    dir
+}
+
+#[test]
+fn component_button_returns_json() {
+    let dir = component_dir();
+
+    let output = Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args([
+            "component",
+            "button",
+            "--components-dir",
+            dir.to_str().expect("utf8 path"),
+        ])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+
+    let doc: serde_json::Value =
+        serde_json::from_slice(&output).expect("component output must be valid JSON");
+
+    assert_eq!(doc["name"], "button");
+    assert!(doc["tokenBindings"].is_array(), "tokenBindings must be present");
+    assert!(doc["anatomy"].is_array(), "anatomy must be present");
+}
+
+#[test]
+fn component_nonexistent_fails() {
+    let dir = component_dir();
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args([
+            "component",
+            "nonexistent-xyz",
+            "--components-dir",
+            dir.to_str().expect("utf8 path"),
+        ])
+        .assert()
+        .failure();
+}
