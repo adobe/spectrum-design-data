@@ -185,5 +185,8 @@
       "token": "cjk-line-height-100",
       "context": "Label"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }

@@ -70,5 +70,8 @@
       "token": "color-loupe-drop-shadow-color",
       "context": "S1 Shadows"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }

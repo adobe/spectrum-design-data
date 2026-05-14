@@ -388,5 +388,27 @@
       "token": "table-selected-row-background-opacity-hover",
       "context": "S1 Selected row background (highlight selection, hover)"
     }
-  ]
+  ],
+  "accessibility": {
+    "intents": ["select", "navigate"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate", "select-all"],
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }

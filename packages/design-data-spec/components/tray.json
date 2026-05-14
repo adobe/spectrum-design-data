@@ -17,5 +17,16 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "intents": ["dismiss"],
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
   }
 }

@@ -151,5 +151,8 @@
       "token": "body-color",
       "context": "Description color"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }

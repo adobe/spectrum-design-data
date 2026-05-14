@@ -207,5 +207,22 @@
       "token": "white",
       "context": "Border, background, and text area color (filled, hover)"
     }
-  ]
+  ],
+  "accessibility": {
+    "intents": ["input"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }

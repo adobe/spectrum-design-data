@@ -49,5 +49,17 @@
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "intents": ["choose"],
+    "focusable": true,
+    "keyboardIntents": ["increment", "decrement"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      }
+    ]
   }
 }

@@ -78,5 +78,16 @@
       "token": "spacing-50",
       "context": "Spacing (horizontal, compact)"
     }
-  ]
+  ],
+  "accessibility": {
+    "intents": ["trigger"],
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      }
+    ]
+  }
 }

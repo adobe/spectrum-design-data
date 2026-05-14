@@ -69,5 +69,8 @@
       "token": "transparent-black-800",
       "context": "Fill (black)"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }

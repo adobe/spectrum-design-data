@@ -88,5 +88,23 @@
       "token": "heading-color",
       "context": "Title"
     }
-  ]
+  ],
+  "accessibility": {
+    "role": "dialog",
+    "intents": ["dismiss"],
+    "focusable": false,
+    "keyboardIntents": ["dismiss"],
+    "wcag": [
+      {
+        "criterion": "2.4.3",
+        "level": "A",
+        "title": "Focus Order"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }

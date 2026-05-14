@@ -351,5 +351,22 @@
       "token": "bold-font-weight",
       "context": "Text (List view title)"
     }
-  ]
+  ],
+  "accessibility": {
+    "intents": ["select", "navigate"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate", "select-all"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }

@@ -127,5 +127,17 @@
       "token": "neutral-background-color-default",
       "context": "Toast token changes (Jan 2025)"
     }
-  ]
+  ],
+  "accessibility": {
+    "intents": ["dismiss"],
+    "focusable": true,
+    "keyboardIntents": ["dismiss"],
+    "wcag": [
+      {
+        "criterion": "4.1.3",
+        "level": "AA",
+        "title": "Status Messages"
+      }
+    ]
+  }
 }

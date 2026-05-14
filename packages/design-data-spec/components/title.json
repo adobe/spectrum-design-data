@@ -26,14 +26,44 @@
     "introduced": "1.0.0-draft"
   },
   "tokenBindings": [
-    { "token": "font-family", "context": "Title-XXXL" },
-    { "token": "font-weight", "context": "Title-XXXL" },
-    { "token": "font-size", "context": "Title-XXXL" },
-    { "token": "line-height", "context": "Title-XXXL" },
-    { "token": "letter-spacing", "context": "Title-XXXL" },
-    { "token": "font-style", "context": "Title-XXXL" },
-    { "token": "title-margin-top-multiplier", "context": "Margins" },
-    { "token": "title-margin-bottom-multiplier", "context": "Margins" },
-    { "token": "title-color", "context": "Color" }
-  ]
+    {
+      "token": "font-family",
+      "context": "Title-XXXL"
+    },
+    {
+      "token": "font-weight",
+      "context": "Title-XXXL"
+    },
+    {
+      "token": "font-size",
+      "context": "Title-XXXL"
+    },
+    {
+      "token": "line-height",
+      "context": "Title-XXXL"
+    },
+    {
+      "token": "letter-spacing",
+      "context": "Title-XXXL"
+    },
+    {
+      "token": "font-style",
+      "context": "Title-XXXL"
+    },
+    {
+      "token": "title-margin-top-multiplier",
+      "context": "Margins"
+    },
+    {
+      "token": "title-margin-bottom-multiplier",
+      "context": "Margins"
+    },
+    {
+      "token": "title-color",
+      "context": "Color"
+    }
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }

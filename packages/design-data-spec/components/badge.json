@@ -498,5 +498,8 @@
     {
       "token": "cjk-line-height-100"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }

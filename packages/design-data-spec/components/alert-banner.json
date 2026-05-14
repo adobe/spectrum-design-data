@@ -107,5 +107,15 @@
       "token": "cjk-line-height-100",
       "context": "Text"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.3",
+        "level": "AA",
+        "title": "Status Messages"
+      }
+    ]
+  }
 }

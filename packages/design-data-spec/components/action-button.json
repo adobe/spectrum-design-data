@@ -477,5 +477,23 @@
       "token": "static-black-focus-indicator-color",
       "context": "Focus ring (black)"
     }
-  ]
+  ],
+  "accessibility": {
+    "role": "button",
+    "intents": ["trigger"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }

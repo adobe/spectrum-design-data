@@ -76,5 +76,8 @@
       "token": "progress-circle-thickness-large",
       "context": "S1 Thickness"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }

@@ -95,5 +95,8 @@
       "token": "static-black-track-indicator-color",
       "context": "Track and fill (black)"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }
