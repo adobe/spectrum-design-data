@@ -268,3 +268,27 @@ rules:
     message: "'{entity}' has documentBlocks but no purpose block — add a block with type 'purpose'"
     spec_ref: spec/document-blocks.md
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-030
+    name: accessibility-empty
+    severity: warning
+    category: completeness
+    assert: >
+      A component declaration that carries an accessibility object SHOULD populate at least one
+      of the five known fields (role, intents, focusable, keyboardIntents, wcag). An entirely
+      empty accessibility object provides no semantic value and should be populated or removed.
+    message: "Component '{entity}' has an empty accessibility object — populate at least one field or remove the property"
+    spec_ref: spec/accessibility.md
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-031
+    name: accessibility-wcag-missing
+    severity: warning
+    category: completeness
+    assert: >
+      A component whose accessibility declaration includes a role SHOULD also include a non-empty
+      wcag array listing applicable WCAG 2.x success criteria. WCAG citations improve audit
+      traceability for components with a named semantic role.
+    message: "Component '{entity}' accessibility has a role but no wcag entries — add applicable WCAG 2.x success criteria"
+    spec_ref: spec/accessibility.md
+    introduced_in: "1.0.0-draft"
