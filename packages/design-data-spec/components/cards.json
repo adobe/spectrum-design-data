@@ -508,5 +508,21 @@
       "token": "horizontal-card-edge-to-content-spacious",
       "context": "Spacing (top/side/bottom edge to content)"
     }
-  ]
+  ],
+  "accessibility": {
+    "intents": ["select"],
+    "focusable": true,
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }

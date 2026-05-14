@@ -136,5 +136,23 @@
       "token": "negative-background-color-default",
       "context": "Background (Negative)"
     }
-  ]
+  ],
+  "accessibility": {
+    "role": "tooltip",
+    "intents": [],
+    "focusable": false,
+    "keyboardIntents": [],
+    "wcag": [
+      {
+        "criterion": "1.4.13",
+        "level": "AA",
+        "title": "Content on Hover or Focus"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }

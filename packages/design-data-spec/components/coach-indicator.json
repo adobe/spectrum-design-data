@@ -72,5 +72,8 @@
       "token": "white",
       "context": "Indicator (Static white)"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }

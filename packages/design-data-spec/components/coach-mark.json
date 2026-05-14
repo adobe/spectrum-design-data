@@ -153,5 +153,16 @@
       "token": "coach-mark-pagination-color",
       "context": "Color"
     }
-  ]
+  ],
+  "accessibility": {
+    "intents": ["dismiss"],
+    "focusable": true,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }

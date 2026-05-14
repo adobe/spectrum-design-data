@@ -115,5 +115,16 @@
       "token": "drop-shadow-elevated-blur",
       "context": "Drop shadow"
     }
-  ]
+  ],
+  "accessibility": {
+    "intents": ["dismiss"],
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }
