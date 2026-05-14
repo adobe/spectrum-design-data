@@ -29,16 +29,17 @@ A component declaration **MUST** contain:
 
 ### Optional fields
 
-| Field           | Type   | Description                                                                                                                                |
-| --------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `specVersion`   | string | Declares which spec version this document targets. Currently `"1.0.0-draft"`; future stable releases will accept their own version string. |
-| `description`   | string | Plain-text description of the component's purpose.                                                                                         |
-| `options`       | object | Component API options — see [Options](#options).                                                                                           |
-| `slots`         | array  | Named content injection points — see [Slots](#slots).                                                                                      |
-| `anatomy`       | array  | Named anatomy parts — see [Anatomy (stub)](#anatomy-stub).                                                                                 |
-| `states`        | array  | Per-component state declarations — see [States (stub)](#states-stub).                                                                      |
-| `lifecycle`     | object | Version lifecycle metadata — see [Lifecycle](#lifecycle).                                                                                  |
-| `tokenBindings` | array  | Tokens this component uses — see [Token bindings](#token-bindings) (Phase 6.7).                                                            |
+| Field            | Type   | Description                                                                                                                                |
+| ---------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `specVersion`    | string | Declares which spec version this document targets. Currently `"1.0.0-draft"`; future stable releases will accept their own version string. |
+| `description`    | string | Plain-text description of the component's purpose.                                                                                         |
+| `options`        | object | Component API options — see [Options](#options).                                                                                           |
+| `slots`          | array  | Named content injection points — see [Slots](#slots).                                                                                      |
+| `anatomy`        | array  | Named anatomy parts — see [Anatomy (stub)](#anatomy-stub).                                                                                 |
+| `states`         | array  | Per-component state declarations — see [States (stub)](#states-stub).                                                                      |
+| `lifecycle`      | object | Version lifecycle metadata — see [Lifecycle](#lifecycle).                                                                                  |
+| `tokenBindings`  | array  | Tokens this component uses — see [Token bindings](#token-bindings) (Phase 6.7).                                                            |
+| `documentBlocks` | array  | Typed prose blocks for this component — see [Document blocks](#document-blocks) (Phase 9).                                                 |
 
 **NORMATIVE:** No properties beyond those listed above are permitted at the top level of a component declaration. Additional fields **MUST** cause a Layer 1 schema error.
 
@@ -347,5 +348,36 @@ A complete button component declaration:
   "lifecycle": {
     "introduced": "1.0.0-draft"
   }
+}
+```
+
+## Document blocks
+
+**Phase 9.** Component declarations MAY carry a `documentBlocks` array at the top level, and individual anatomy parts MAY carry their own `documentBlocks` arrays. See [spec/document-blocks.md](document-blocks.md) for the full block schema, type vocabulary, and SPEC rules.
+
+```json
+{
+  "name": "button",
+  "displayName": "Button",
+  "meta": { "category": "actions", "documentationUrl": "https://spectrum.adobe.com/page/button/" },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Buttons trigger a discrete action or event.",
+      "agents": "Use Button when the user must trigger an action. For navigation, use Link."
+    }
+  ],
+  "anatomy": [
+    {
+      "name": "label",
+      "required": true,
+      "documentBlocks": [
+        {
+          "type": "guideline",
+          "content": "Button labels should be action verbs (Save, Delete, Submit)."
+        }
+      ]
+    }
+  ]
 }
 ```

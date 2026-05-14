@@ -29,6 +29,11 @@
       },
       "uniqueItems": true,
       "description": "Informative list of child anatomy part names nested within this part. Does not carry enforcement semantics."
+    },
+    "documentBlocks": {
+      "type": "array",
+      "items": { "$ref": "document-block.schema.json" },
+      "description": "Typed prose blocks for this anatomy part. See spec/document-blocks.md (Phase 9)."
     }
   },
   "additionalProperties": false

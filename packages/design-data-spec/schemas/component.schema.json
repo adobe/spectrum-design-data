@@ -68,6 +68,11 @@
       "type": "array",
       "items": { "$ref": "#/$defs/tokenBinding" },
       "description": "Tokens this component uses, including foundation/structure tokens not scoped to the component in their name-object. See spec/component-format.md#token-bindings (Phase 6.7)."
+    },
+    "documentBlocks": {
+      "type": "array",
+      "items": { "$ref": "document-block.schema.json" },
+      "description": "Typed prose blocks for this component. See spec/document-blocks.md (Phase 9)."
     }
   },
   "additionalProperties": false,
@@ -203,6 +208,11 @@
           "type": "array",
           "items": { "type": "string" },
           "description": "Informative: anatomy part names nested within this part."
+        },
+        "documentBlocks": {
+          "type": "array",
+          "items": { "$ref": "document-block.schema.json" },
+          "description": "Typed prose blocks for this anatomy part. See spec/document-blocks.md (Phase 9)."
         }
       },
       "additionalProperties": false
