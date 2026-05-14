@@ -47,15 +47,20 @@ pub fn validate_all_with_exceptions(
     schema_registry: &SchemaRegistry,
     naming_exceptions: &HashSet<String>,
 ) -> Result<ValidationReport, CoreError> {
-    validate_all_with_options(data_path, schema_registry, naming_exceptions, None)
+    validate_all_with_options(data_path, schema_registry, naming_exceptions, None, None)
 }
 
 /// Full validation with all options.
+///
+/// `dimensions_path` — optional directory of spec-format dimension JSON files.
+/// `components_path` — optional directory of spec-format component JSON files;
+/// when provided, SPEC-028 and SPEC-029 also check components and anatomy parts.
 pub fn validate_all_with_options(
     data_path: &Path,
     schema_registry: &SchemaRegistry,
     naming_exceptions: &HashSet<String>,
     dimensions_path: Option<&Path>,
+    components_path: Option<&Path>,
 ) -> Result<ValidationReport, CoreError> {
     let mut report = structural::validate_structural(data_path, schema_registry)?;
     let mut graph = TokenGraph::from_json_dir(data_path)?;
@@ -63,6 +68,12 @@ pub fn validate_all_with_options(
         if dir.is_dir() {
             let dims = TokenGraph::load_spec_dimensions(dir)?;
             graph = graph.with_dimensions(dims);
+        }
+    }
+    if let Some(dir) = components_path {
+        if dir.is_dir() {
+            let comps = TokenGraph::load_spec_components(dir)?;
+            graph = graph.with_components(comps);
         }
     }
     let rel = relational::validate_relational(&graph, naming_exceptions);

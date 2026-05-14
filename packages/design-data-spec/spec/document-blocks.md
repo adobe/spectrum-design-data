@@ -75,6 +75,8 @@ Accessibility notes specific to this entity — contrast behavior, screen reader
 
 A paired recommended practice and anti-pattern. The `do` and `dont` fields carry the pairing; `content` provides context or a summary heading.
 
+**NORMATIVE:** A `do-dont` block **MUST** include at least one of `do` or `dont`. A `do-dont` block with neither field **MUST** fail Layer 1 schema validation.
+
 ```json
 {
   "type": "do-dont",
@@ -97,7 +99,7 @@ Concrete usage examples — code snippets, component references, or scenario des
 
 ## Attachment points
 
-**NORMATIVE:** Document blocks MAY be attached to the following entities.
+**NORMATIVE:** Document blocks MAY be attached to the following entities. When `documentBlocks` is present, it **MUST** contain at least one block — an empty array **MUST** fail Layer 1 schema validation.
 
 ### Tokens
 

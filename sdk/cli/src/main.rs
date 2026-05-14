@@ -63,6 +63,9 @@ enum Commands {
         /// Directory containing spec-format dimension declaration JSON files
         #[arg(long, value_name = "DIR")]
         dimensions_path: Option<PathBuf>,
+        /// Directory containing spec-format component declaration JSON files (enables SPEC-028/029 on components)
+        #[arg(long, value_name = "DIR")]
+        components_path: Option<PathBuf>,
         /// Treat warnings as errors
         #[arg(long)]
         strict: bool,
@@ -449,6 +452,7 @@ fn run_validate(
     schema_path: Option<PathBuf>,
     exceptions_path: Option<PathBuf>,
     dimensions_path: Option<PathBuf>,
+    components_path: Option<PathBuf>,
     strict: bool,
 ) -> miette::Result<ExitCode> {
     if !validate::engine_ready() {
@@ -461,11 +465,17 @@ fn run_validate(
     let exceptions = load_exceptions(exceptions_path.as_deref())?;
 
     let dims_dir = dimensions_path.or_else(default_dimensions_path);
+    let comps_dir = components_path.or_else(default_components_path);
 
-    let report =
-        validate::validate_all_with_options(path, &registry, &exceptions, dims_dir.as_deref())
-            .into_diagnostic()
-            .wrap_err("validation failed")?;
+    let report = validate::validate_all_with_options(
+        path,
+        &registry,
+        &exceptions,
+        dims_dir.as_deref(),
+        comps_dir.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err("validation failed")?;
 
     match format {
         OutputFormat::Json => {
@@ -1123,6 +1133,7 @@ fn main() -> ExitCode {
             schema_path,
             exceptions_path,
             dimensions_path,
+            components_path,
             strict,
         } => {
             let target = path.unwrap_or_else(|| PathBuf::from("."));
@@ -1132,6 +1143,7 @@ fn main() -> ExitCode {
                 schema_path,
                 exceptions_path,
                 dimensions_path,
+                components_path,
                 strict,
             )
         }

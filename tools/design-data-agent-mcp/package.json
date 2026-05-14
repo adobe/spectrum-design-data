@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-agent-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MCP server for design-data — shells out to the design-data CLI",
   "type": "module",
   "private": true,
