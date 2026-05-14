@@ -1,4 +1,4 @@
-# [**@adobe/design-data-agent-mcp**](https://github.com/adobe/design-data-agent-mcp)
+# `@adobe/design-data-agent-mcp`
 
 MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data-spec/) agent surface. Shells out to the `design-data` CLI — all logic stays in the Rust SDK.
 
