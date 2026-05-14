@@ -1,5 +1,11 @@
 # @adobe/design-data-spec
 
+## 0.9.0
+
+### Minor Changes
+
+- [#886](https://github.com/adobe/spectrum-design-data/pull/886) [`0710522`](https://github.com/adobe/spectrum-design-data/commit/071052225694d1442a3bdc8094f2a67f9a24277f) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(spec): accessibility vocabulary for component declarations (Phase 7.1)
+
 ## 0.8.0
 
 ### Minor Changes
