@@ -40,6 +40,9 @@ test.before(async () => {
   ajv = new Ajv({ allErrors: true, strict: false });
   addFormats(ajv);
   ajv.addSchema(
+    await readJSON(resolve(specPkgDir, "schemas/document-block.schema.json")),
+  );
+  ajv.addSchema(
     await readJSON(resolve(specPkgDir, "schemas/anatomy-part.schema.json")),
   );
   ajv.addSchema(
