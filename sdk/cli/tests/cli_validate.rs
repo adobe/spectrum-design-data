@@ -384,3 +384,21 @@ fn component_nonexistent_fails() {
         .assert()
         .failure();
 }
+
+#[test]
+fn component_path_traversal_rejected() {
+    let dir = component_dir();
+
+    for bad_id in &["../button", "/etc/passwd", "button.json", "Button", "button/x"] {
+        Command::cargo_bin("design-data")
+            .expect("binary design-data")
+            .args([
+                "component",
+                bad_id,
+                "--components-dir",
+                dir.to_str().expect("utf8 path"),
+            ])
+            .assert()
+            .failure();
+    }
+}

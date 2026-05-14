@@ -1012,6 +1012,15 @@ fn run_primer(
 }
 
 fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<ExitCode> {
+    // Reject IDs that could escape the components directory via path traversal.
+    if !id.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-')
+        || id.is_empty()
+        || !id.chars().next().map_or(false, |c| c.is_ascii_lowercase())
+    {
+        eprintln!("Invalid component ID '{id}'. IDs must match ^[a-z][a-z0-9-]*$");
+        return Ok(ExitCode::from(1));
+    }
+
     let dir = components_dir
         .or_else(default_components_path)
         .ok_or_else(|| miette::miette!("could not locate components directory"))?;
