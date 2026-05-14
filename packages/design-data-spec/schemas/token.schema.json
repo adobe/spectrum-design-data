@@ -184,6 +184,7 @@
         "documentBlocks": {
           "type": "array",
           "items": { "$ref": "document-block.schema.json" },
+          "minItems": 1,
           "description": "Typed prose blocks for this token. See spec/document-blocks.md (Phase 9)."
         }
       },
@@ -267,6 +268,7 @@
         "documentBlocks": {
           "type": "array",
           "items": { "$ref": "document-block.schema.json" },
+          "minItems": 1,
           "description": "Typed prose blocks for this token. See spec/document-blocks.md (Phase 9)."
         }
       },

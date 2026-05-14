@@ -32,5 +32,12 @@
       "description": "Anti-pattern to avoid. Meaningful only on do-dont blocks."
     }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "if": {
+    "properties": { "type": { "const": "do-dont" } },
+    "required": ["type"]
+  },
+  "then": {
+    "anyOf": [{ "required": ["do"] }, { "required": ["dont"] }]
+  }
 }

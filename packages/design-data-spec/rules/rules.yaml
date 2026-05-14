@@ -252,7 +252,8 @@ rules:
     assert: >
       A document block's agents field, when present, SHOULD contain phrasing that differs from
       content. An identical copy provides no agent-specific value and SHOULD be omitted or refined.
-    message: "Document block on '{entity}' has agents text identical to content — tailor it for agent consumption or omit the agents field"
+      Applies to tokens, components, and anatomy parts.
+    message: "'{entity}' has a document block whose agents text is identical to content — tailor it for agent consumption or omit the agents field"
     spec_ref: spec/document-blocks.md
     introduced_in: "1.0.0-draft"
 
@@ -263,6 +264,7 @@ rules:
     assert: >
       An entity that carries a non-empty documentBlocks array SHOULD include at least one block
       with type 'purpose' to document the entity's intent.
+      Applies to tokens, components, and anatomy parts.
     message: "'{entity}' has documentBlocks but no purpose block — add a block with type 'purpose'"
     spec_ref: spec/document-blocks.md
     introduced_in: "1.0.0-draft"

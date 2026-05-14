@@ -39,7 +39,7 @@ fn embedded_registry() -> &'static RegistryData {
     REGISTRY.get_or_init(RegistryData::embedded)
 }
 
-/// All default catalog rules (SPEC-001 … SPEC-029).
+/// All default catalog rules. See packages/design-data-spec/rules/rules.yaml for the full catalog.
 pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
     vec![
         Box::new(spec001::Rule),

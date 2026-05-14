@@ -18,6 +18,14 @@ use serde_json::Value;
 use crate::discovery::discover_json_files;
 use crate::CoreError;
 
+/// One component declaration (spec-format JSON), loaded for relational rules.
+#[derive(Debug, Clone)]
+pub struct ComponentRecord {
+    pub name: String,
+    pub file: PathBuf,
+    pub raw: Value,
+}
+
 /// One dimension declaration (new spec shape), when present in a JSON file.
 #[derive(Debug, Clone)]
 pub struct DimensionRecord {
@@ -46,6 +54,7 @@ pub struct TokenRecord {
 pub struct TokenGraph {
     pub tokens: HashMap<String, TokenRecord>,
     pub dimensions: Vec<DimensionRecord>,
+    pub components: Vec<ComponentRecord>,
     /// Secondary index: UUID value → primary key in `tokens`.
     ///
     /// Required for cascade-format alias resolution: cascade token keys are
@@ -205,6 +214,7 @@ impl TokenGraph {
         Self {
             tokens,
             dimensions: Vec::new(),
+            components: Vec::new(),
             uuid_index,
         }
     }
@@ -212,6 +222,34 @@ impl TokenGraph {
     /// Attach dimension records (e.g. from conformance fixtures).
     pub fn with_dimensions(mut self, dimensions: Vec<DimensionRecord>) -> Self {
         self.dimensions = dimensions;
+        self
+    }
+
+    /// Load spec-format component declarations from a catalog directory.
+    ///
+    /// Each file must be a JSON object with a `name` field (component identifier).
+    /// Silently skips files that do not match this shape.
+    pub fn load_spec_components(dir: &Path) -> Result<Vec<ComponentRecord>, CoreError> {
+        let mut out = Vec::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            let value: Value = serde_json::from_str(&text)?;
+            if let Some(obj) = value.as_object() {
+                if let Some(name) = obj.get("name").and_then(|v| v.as_str()) {
+                    out.push(ComponentRecord {
+                        name: name.to_string(),
+                        file: path,
+                        raw: value,
+                    });
+                }
+            }
+        }
+        Ok(out)
+    }
+
+    /// Attach component records loaded from a components directory.
+    pub fn with_components(mut self, components: Vec<ComponentRecord>) -> Self {
+        self.components = components;
         self
     }
 }
