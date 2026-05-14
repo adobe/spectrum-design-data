@@ -50,6 +50,9 @@ test.before(async () => {
       resolve(specPkgDir, "schemas/state-declaration.schema.json"),
     ),
   );
+  ajv.addSchema(
+    await readJSON(resolve(specPkgDir, "schemas/accessibility.schema.json")),
+  );
 });
 
 test("all component files should validate against component.schema.json", async (t) => {
