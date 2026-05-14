@@ -20,7 +20,8 @@ The specification defines:
 7. **Semantic diff** — change taxonomy, token identity rules, and property-level change tracking for comparing dataset versions ([Diff](diff.md)).
 8. **Query notation** — filter syntax for selecting tokens by structured fields ([Query](query.md)).
 9. **Document blocks** — typed prose blocks attachable to tokens, components, and anatomy parts; makes design guidance machine-readable and agent-queryable ([Document blocks](document-blocks.md)).
-10. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
+10. **Agent-readable surface** — operations and transport contracts (CLI, MCP server, Agent Skill) for AI agents consuming spec-conformant design data; covers session primer, token resolution, validation, query, and component description ([Agent-readable surface](agent-surface.md)).
+11. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
 
 ## Conformance
 
@@ -67,8 +68,9 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 | [Product context](product-context.md)   | Product-layer context document: rationale, overrides, and extensions.                                       |
 | [Diff](diff.md)                         | Semantic diff change taxonomy, token identity, property changes.                                            |
 | [Query](query.md)                       | Filter notation for selecting tokens by structured fields.                                                  |
-| [Document blocks](document-blocks.md)   | Typed prose blocks (purpose, guideline, accessibility, do-dont, examples) attachable to any entity.         |
-| [Evolution](evolution.md)               | Deprecation lifecycle, migration windows, change classification.                                            |
+| [Document blocks](document-blocks.md)         | Typed prose blocks (purpose, guideline, accessibility, do-dont, examples) attachable to any entity.                      |
+| [Agent-readable surface](agent-surface.md)    | Transport contracts (CLI, MCP, Agent Skill) and operation catalog for AI agents consuming spec-conformant design data.    |
+| [Evolution](evolution.md)                     | Deprecation lifecycle, migration windows, change classification.                                                          |
 
 ## JSON Schema `$id` and versioning
 
