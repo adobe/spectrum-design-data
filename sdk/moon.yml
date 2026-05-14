@@ -67,3 +67,12 @@ tasks:
       - warnings
     inputs:
       - "@globs(sources)"
+  version:
+    command: node
+    args:
+      - scripts/sync-cargo-version.mjs
+    inputs:
+      - "cli/package.json"
+    outputs:
+      - "cli/Cargo.toml"
+    platform: node

@@ -1,0 +1,13 @@
+{
+  "name": "@adobe/design-data-cli",
+  "version": "0.1.0",
+  "description": "design-data CLI — validate and inspect Spectrum design data",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "sdk/cli"
+  },
+  "author": "Garth Braithwaite <garthdb@gmail.com> (https://garthdb.com/)",
+  "license": "Apache-2.0"
+}

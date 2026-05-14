@@ -300,6 +300,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  sdk/cli: {}
+
   tools/changeset-linter:
     dependencies:
       chalk:
