@@ -63,12 +63,17 @@ design-data resolve accent-background-color-default "$DESIGN_DATA_PATH" \
 design-data query "$DESIGN_DATA_PATH" --filter "<expr>" --format json
 ```
 
+Valid filter keys: `property`, `component`, `variant`, `state`, `colorScheme`, `scale`, `contrast`, `uuid`, `$schema`. Any other key is a parse error.
+
 Filter syntax examples:
 
 ```
-category=color
-name-contains=background
-schema=spectrum-token
+property=background-color
+property=*background*
+component=button
+component=button,state=hover
+property=background-color|property=border-color
+$schema=https://spectrum.adobe.com/page/design-token/
 ```
 
 > **Exit codes:** `0` = matches found; `1` = no matches (returns `[]` — not an error); `>1` = error.
@@ -78,15 +83,15 @@ schema=spectrum-token
 ## Component info
 
 ```bash
-design-data component <id> --format json [--components-dir <dir>]
+design-data component <id> [--components-dir <dir>]
 ```
 
-Returns the component contract: `name`, `displayName`, `options`, `anatomy`, `states`, and `tokenBindings`.
+Returns the component contract: `name`, `displayName`, `options`, `anatomy`, `states`, and `tokenBindings`. Output is always JSON; there is no `--format` flag on this subcommand.
 
 Example:
 
 ```bash
-design-data component button --format json
+design-data component button
 ```
 
 ***
