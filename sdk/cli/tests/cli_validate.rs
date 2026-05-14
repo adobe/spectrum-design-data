@@ -191,3 +191,147 @@ fn write_creates_parent_dirs() {
     let doc: serde_json::Value = serde_json::from_str(&content).expect("valid json");
     assert_eq!(doc["specVersion"], "1.0.0-draft");
 }
+
+fn primer_paths() -> (PathBuf, PathBuf, PathBuf, PathBuf) {
+    let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let src = manifest.join("../../packages/tokens/src");
+    let components = manifest.join("../../packages/design-data-spec/components");
+    let dimensions = manifest.join("../../packages/design-data-spec/dimensions");
+    let fields = manifest.join("../../packages/design-data-spec/fields");
+    assert!(src.is_dir(), "expected token sources at {}", src.display());
+    assert!(
+        components.is_dir(),
+        "expected components at {}",
+        components.display()
+    );
+    assert!(
+        dimensions.is_dir(),
+        "expected dimensions at {}",
+        dimensions.display()
+    );
+    assert!(
+        fields.is_dir(),
+        "expected fields at {}",
+        fields.display()
+    );
+    (src, components, dimensions, fields)
+}
+
+#[test]
+fn primer_emits_json_with_required_fields() {
+    let (src, components, dimensions, fields) = primer_paths();
+
+    let output = Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args([
+            "primer",
+            src.to_str().expect("utf8 path"),
+            "--format",
+            "json",
+            "--components-dir",
+            components.to_str().expect("utf8 path"),
+            "--dimensions-dir",
+            dimensions.to_str().expect("utf8 path"),
+            "--fields-dir",
+            fields.to_str().expect("utf8 path"),
+        ])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+
+    let doc: serde_json::Value =
+        serde_json::from_slice(&output).expect("primer --format json must emit valid JSON");
+
+    assert_eq!(doc["specVersion"], "1.0.0-draft");
+    assert!(
+        doc["tokenCount"].as_u64().unwrap_or(0) > 0,
+        "tokenCount must be positive"
+    );
+    assert!(
+        doc["dimensions"].as_array().map_or(false, |a| !a.is_empty()),
+        "dimensions must be non-empty"
+    );
+    assert!(
+        doc["components"].as_array().map_or(false, |a| !a.is_empty()),
+        "components must be non-empty"
+    );
+    assert!(
+        doc["taxonomyFields"].as_array().map_or(false, |a| !a.is_empty()),
+        "taxonomyFields must be non-empty"
+    );
+}
+
+#[test]
+fn primer_components_are_sorted() {
+    let (src, components, dimensions, fields) = primer_paths();
+
+    let output = Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args([
+            "primer",
+            src.to_str().expect("utf8 path"),
+            "--format",
+            "json",
+            "--components-dir",
+            components.to_str().expect("utf8 path"),
+            "--dimensions-dir",
+            dimensions.to_str().expect("utf8 path"),
+            "--fields-dir",
+            fields.to_str().expect("utf8 path"),
+        ])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+
+    let doc: serde_json::Value = serde_json::from_slice(&output).expect("valid json");
+    let names: Vec<&str> = doc["components"]
+        .as_array()
+        .expect("components is an array")
+        .iter()
+        .filter_map(|v| v.as_str())
+        .collect();
+
+    assert!(!names.is_empty(), "components list must not be empty");
+    for window in names.windows(2) {
+        assert!(
+            window[0] <= window[1],
+            "components must be sorted: {:?} > {:?}",
+            window[0],
+            window[1]
+        );
+    }
+}
+
+#[test]
+fn primer_pretty_output_contains_token_count() {
+    let (src, components, dimensions, fields) = primer_paths();
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args([
+            "primer",
+            src.to_str().expect("utf8 path"),
+            "--components-dir",
+            components.to_str().expect("utf8 path"),
+            "--dimensions-dir",
+            dimensions.to_str().expect("utf8 path"),
+            "--fields-dir",
+            fields.to_str().expect("utf8 path"),
+        ])
+        .assert()
+        .success()
+        .stdout(contains("Token count:"));
+}
+
+#[test]
+fn primer_fails_on_nonexistent_path() {
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args(["primer", "/nonexistent/path/that/does/not/exist"])
+        .assert()
+        .failure();
+}

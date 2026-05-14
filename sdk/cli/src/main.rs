@@ -34,6 +34,8 @@ use design_data_core::schema::SchemaRegistry;
 use design_data_core::validate;
 use miette::{IntoDiagnostic, WrapErr};
 
+const SPEC_VERSION: &str = "1.0.0-draft";
+
 /// Spectrum Design Data tooling — validate and migrate design tokens.
 #[derive(Parser)]
 #[command(name = "design-data", version, about)]
@@ -128,6 +130,24 @@ enum Commands {
     Figma {
         #[command(subcommand)]
         sub: FigmaSub,
+    },
+    /// Emit a structural overview of the dataset for agent session start
+    Primer {
+        /// Path to the token dataset directory
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+        /// Override components directory
+        #[arg(long, value_name = "DIR")]
+        components_dir: Option<PathBuf>,
+        /// Override taxonomy fields directory
+        #[arg(long, value_name = "DIR")]
+        fields_dir: Option<PathBuf>,
+        /// Override dimensions directory
+        #[arg(long, value_name = "DIR")]
+        dimensions_dir: Option<PathBuf>,
     },
     /// Create or update a product-context.json document for a product-layer working copy
     Write {
@@ -286,6 +306,22 @@ fn default_dimensions_path() -> Option<PathBuf> {
     let candidates = [
         PathBuf::from("packages/design-data-spec/dimensions"),
         PathBuf::from("../packages/design-data-spec/dimensions"),
+    ];
+    candidates.into_iter().find(|c| c.is_dir())
+}
+
+fn default_components_path() -> Option<PathBuf> {
+    let candidates = [
+        PathBuf::from("packages/design-data-spec/components"),
+        PathBuf::from("../packages/design-data-spec/components"),
+    ];
+    candidates.into_iter().find(|c| c.is_dir())
+}
+
+fn default_fields_path() -> Option<PathBuf> {
+    let candidates = [
+        PathBuf::from("packages/design-data-spec/fields"),
+        PathBuf::from("../packages/design-data-spec/fields"),
     ];
     candidates.into_iter().find(|c| c.is_dir())
 }
@@ -799,6 +835,173 @@ fn run_figma_read(file_key: &str, token: &str, format: OutputFormat) -> miette::
     Ok(ExitCode::SUCCESS)
 }
 
+fn scan_json_name_field(dir: &Path) -> Vec<String> {
+    let Ok(entries) = std::fs::read_dir(dir) else {
+        return vec![];
+    };
+    let mut names: Vec<String> = entries
+        .flatten()
+        .filter_map(|e| {
+            let p = e.path();
+            if p.extension().and_then(|x| x.to_str()) != Some("json") {
+                return None;
+            }
+            let raw = std::fs::read_to_string(&p).ok()?;
+            let v: serde_json::Value = serde_json::from_str(&raw).ok()?;
+            v.get("name")?.as_str().map(|s| s.to_string())
+        })
+        .collect();
+    names.sort();
+    names
+}
+
+fn run_primer(
+    path: &Path,
+    format: OutputFormat,
+    components_dir: Option<PathBuf>,
+    fields_dir: Option<PathBuf>,
+    dimensions_dir: Option<PathBuf>,
+) -> miette::Result<ExitCode> {
+    let graph = TokenGraph::from_json_dir(path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+    let token_count = graph.tokens.len();
+
+    let dims_dir = dimensions_dir.or_else(default_dimensions_path);
+    let dimensions: Vec<serde_json::Value> = if let Some(dir) = dims_dir {
+        TokenGraph::load_spec_dimensions(&dir)
+            .unwrap_or_default()
+            .into_iter()
+            .map(|d| {
+                serde_json::json!({
+                    "name": d.name,
+                    "modes": d.modes,
+                    "defaultMode": d.default_mode,
+                })
+            })
+            .collect()
+    } else {
+        vec![]
+    };
+
+    let components = scan_json_name_field(
+        &components_dir
+            .or_else(default_components_path)
+            .unwrap_or_else(|| PathBuf::from("packages/design-data-spec/components")),
+    );
+
+    let taxonomy_fields: Vec<serde_json::Value> = fields_dir
+        .or_else(default_fields_path)
+        .map(|dir| {
+            let Ok(entries) = std::fs::read_dir(&dir) else {
+                return vec![];
+            };
+            let mut fields: Vec<serde_json::Value> = entries
+                .flatten()
+                .filter_map(|e| {
+                    let p = e.path();
+                    if p.extension().and_then(|x| x.to_str()) != Some("json") {
+                        return None;
+                    }
+                    let raw = std::fs::read_to_string(&p).ok()?;
+                    let v: serde_json::Value = serde_json::from_str(&raw).ok()?;
+                    let name = v.get("name")?.as_str()?.to_string();
+                    let required = v.get("required").and_then(|r| r.as_bool()).unwrap_or(false);
+                    let mut field = serde_json::json!({
+                        "name": name,
+                        "required": required,
+                    });
+                    if let Some(desc) = v.get("description") {
+                        if !desc.is_null() {
+                            field["description"] = desc.clone();
+                        }
+                    }
+                    Some(field)
+                })
+                .collect();
+            fields.sort_by_key(|f| f["name"].as_str().unwrap_or("").to_string());
+            fields
+        })
+        .unwrap_or_default();
+
+    let manifest: serde_json::Value = {
+        let mp = path.join("manifest.json");
+        if mp.is_file() {
+            std::fs::read_to_string(&mp)
+                .ok()
+                .and_then(|s| serde_json::from_str(&s).ok())
+                .unwrap_or(serde_json::Value::Null)
+        } else {
+            serde_json::Value::Null
+        }
+    };
+
+    let payload = serde_json::json!({
+        "specVersion": SPEC_VERSION,
+        "tokenCount": token_count,
+        "dimensions": dimensions,
+        "components": components,
+        "taxonomyFields": taxonomy_fields,
+        "manifest": manifest,
+    });
+
+    match format {
+        OutputFormat::Json => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&payload).into_diagnostic()?
+            );
+        }
+        OutputFormat::Pretty => {
+            let dim_summary: Vec<String> = dimensions
+                .iter()
+                .map(|d| {
+                    let name = d["name"].as_str().unwrap_or("");
+                    let default = d["defaultMode"].as_str().unwrap_or("");
+                    let mode_str = d["modes"]
+                        .as_array()
+                        .map(Vec::as_slice)
+                        .unwrap_or(&[])
+                        .iter()
+                        .filter_map(|m| m.as_str())
+                        .map(|m| {
+                            if m == default {
+                                format!("{m}*")
+                            } else {
+                                m.to_string()
+                            }
+                        })
+                        .collect::<Vec<_>>()
+                        .join("|");
+                    format!("{name} ({mode_str})")
+                })
+                .collect();
+            const COMPONENT_PREVIEW_COUNT: usize = 8;
+            let comp_count = components.len();
+            let comp_preview = if comp_count > COMPONENT_PREVIEW_COUNT {
+                format!(
+                    "{}, … and {} more",
+                    components[..COMPONENT_PREVIEW_COUNT].join(", "),
+                    comp_count - COMPONENT_PREVIEW_COUNT
+                )
+            } else {
+                components.join(", ")
+            };
+            println!("Spec version:  {SPEC_VERSION}");
+            println!("Token count:   {token_count}");
+            println!("Dimensions:    {}", dim_summary.join(", "));
+            println!("Components:    {comp_preview}");
+            println!("Fields:        {}", taxonomy_fields.len());
+            println!(
+                "Manifest:      {}",
+                if manifest.is_null() { "none" } else { "present" }
+            );
+        }
+    }
+
+    Ok(ExitCode::SUCCESS)
+}
+
 fn run_write(output: &Path, rationale: Option<&str>) -> miette::Result<ExitCode> {
     let mut doc: serde_json::Value = if output.exists() {
         let raw = std::fs::read_to_string(output)
@@ -813,7 +1016,7 @@ fn run_write(output: &Path, rationale: Option<&str>) -> miette::Result<ExitCode>
         let mut map = serde_json::Map::new();
         map.insert(
             "specVersion".to_string(),
-            serde_json::Value::String("1.0.0-draft".to_string()),
+            serde_json::Value::String(SPEC_VERSION.to_string()),
         );
         map.insert(
             "layer".to_string(),
@@ -955,6 +1158,16 @@ fn main() -> ExitCode {
                 dry_run,
             } => run_figma_export(&path, &file_key, &token, dry_run),
         },
+        Commands::Primer {
+            path,
+            format,
+            components_dir,
+            fields_dir,
+            dimensions_dir,
+        } => {
+            let target = path.unwrap_or_else(|| PathBuf::from("."));
+            run_primer(&target, format, components_dir, fields_dir, dimensions_dir)
+        }
         Commands::Write { output, rationale } => {
             run_write(&output, rationale.as_deref())
         }
