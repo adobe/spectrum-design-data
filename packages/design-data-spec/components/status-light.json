@@ -268,5 +268,8 @@
       "token": "neutral-content-color-default",
       "context": "Label"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }

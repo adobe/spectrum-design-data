@@ -178,5 +178,8 @@
       "token": "static-white-track-indicator-color",
       "context": "Track and indicator (white)"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }

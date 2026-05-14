@@ -21,5 +21,8 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "focusable": false
   }
 }
