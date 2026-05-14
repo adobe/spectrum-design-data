@@ -10,10 +10,11 @@ description: >
 
 `design-data` is the reference CLI for the Spectrum Design Data specification. It validates, queries, resolves, and authors spec-conformant tokens and components from any dataset on the local filesystem.
 
-Set `DESIGN_DATA_PATH` to the dataset root once and reference it throughout:
+Set two path variables once and reference them throughout. The token dataset and the spec catalog (components, fields, dimensions) live in separate directories:
 
 ```bash
 export DESIGN_DATA_PATH=./packages/tokens/src
+export DESIGN_DATA_SPEC_PATH=./packages/design-data-spec
 ```
 
 ***
@@ -24,12 +25,12 @@ Call `primer` at the start of every session that touches design data. It returns
 
 ```bash
 design-data primer "$DESIGN_DATA_PATH" --format json \
-  --components-dir "$DESIGN_DATA_PATH/components" \
-  --fields-dir "$DESIGN_DATA_PATH/fields" \
-  --dimensions-dir "$DESIGN_DATA_PATH/dimensions"
+  --components-dir "$DESIGN_DATA_SPEC_PATH/components" \
+  --fields-dir     "$DESIGN_DATA_SPEC_PATH/fields" \
+  --dimensions-dir "$DESIGN_DATA_SPEC_PATH/dimensions"
 ```
 
-Always pass `--components-dir`, `--fields-dir`, and `--dimensions-dir` explicitly. The CLI defaults probe for `packages/design-data-spec/{components,fields,dimensions}` relative to the current working directory — not relative to `DESIGN_DATA_PATH` — so omitting them when running from an arbitrary directory (or with an absolute dataset path) produces empty `components`, `taxonomyFields`, and `dimensions` in the primer response.
+Always pass `--components-dir`, `--fields-dir`, and `--dimensions-dir` explicitly. These directories live under `packages/design-data-spec/`, not under the token dataset. The CLI defaults probe those paths relative to CWD, so omitting the flags when running from an arbitrary directory (or with an absolute `DESIGN_DATA_PATH`) produces empty `components`, `taxonomyFields`, and `dimensions`.
 
 The payload includes `specVersion`, `manifest`, `dimensions`, `components`, `taxonomyFields`, and `tokenCount`.
 
@@ -79,7 +80,7 @@ $schema=https://spectrum.adobe.com/page/design-token/
 ## Component info
 
 ```bash
-design-data component <id> --components-dir "$DESIGN_DATA_PATH/components"
+design-data component <id> --components-dir "$DESIGN_DATA_SPEC_PATH/components"
 ```
 
 Returns the component contract: `name`, `displayName`, `options`, `anatomy`, `states`, and `tokenBindings`. Output is always JSON; there is no `--format` flag on this subcommand.
@@ -89,7 +90,7 @@ Pass `--components-dir` explicitly for the same reason as `primer` — the defau
 Example:
 
 ```bash
-design-data component button --components-dir "$DESIGN_DATA_PATH/components"
+design-data component button --components-dir "$DESIGN_DATA_SPEC_PATH/components"
 ```
 
 ***
