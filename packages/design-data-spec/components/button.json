@@ -478,7 +478,7 @@
     },
     {
       "token": "static-white-focus-indicator-color",
-      "context": "Static white – Focus indicator"
+      "context": "Static white \u2013 Focus indicator"
     },
     {
       "token": "transparent-black-900",
@@ -522,7 +522,25 @@
     },
     {
       "token": "static-black-focus-indicator-color",
-      "context": "Static black – Focus indicator"
+      "context": "Static black \u2013 Focus indicator"
     }
-  ]
+  ],
+  "accessibility": {
+    "role": "button",
+    "intents": ["trigger"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }

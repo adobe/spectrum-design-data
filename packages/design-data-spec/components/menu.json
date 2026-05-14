@@ -538,5 +538,23 @@
       "token": "font-size-50",
       "context": "Descriptions (section header and item)"
     }
-  ]
+  ],
+  "accessibility": {
+    "role": "menu",
+    "intents": ["select"],
+    "focusable": false,
+    "keyboardIntents": ["navigate-options", "activate", "dismiss"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }

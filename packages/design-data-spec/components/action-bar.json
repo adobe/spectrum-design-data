@@ -199,5 +199,16 @@
       "token": "neutral-visual-color",
       "context": "Step visual"
     }
-  ]
+  ],
+  "accessibility": {
+    "intents": ["trigger"],
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }
