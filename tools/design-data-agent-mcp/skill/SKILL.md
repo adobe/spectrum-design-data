@@ -60,7 +60,7 @@ design-data resolve accent-background-color-default "$DESIGN_DATA_PATH" \
 design-data query "$DESIGN_DATA_PATH" --filter "<expr>" --format json
 ```
 
-Valid filter keys: `property`, `component`, `variant`, `state`, `colorScheme`, `scale`, `contrast`, `uuid`, `$schema`. Any other key is a parse error.
+Valid filter keys: `property`, `component`, `variant`, `state`, `colorScheme`, `scale`, `contrast`, `uuid`, `$schema`. Any other key is a parse error. The dimension keys (`colorScheme`, `scale`, `contrast`) accept the same enum values as the `resolve` flags (`light`/`dark`, `desktop`/`mobile`, `regular`/`high`).
 
 Filter syntax examples:
 
@@ -104,7 +104,7 @@ design-data validate "$DESIGN_DATA_PATH" --format json \
   [--strict]
 ```
 
-Returns a `ValidationReport` with Layer 1 (schema) and Layer 2 (cascade) diagnostics. `--strict` treats warnings as errors.
+Returns a `ValidationReport` object: `{ layer: 1|2, errors: [...], warnings: [...] }` where each diagnostic has `rule_id` (e.g. `"SPEC-002"`), `severity` (`"error"` | `"warning"`), and `message`. Layer 1 is schema validation; Layer 2 is cascade-rule validation. `--strict` treats warnings as errors.
 
 ***
 
@@ -130,6 +130,8 @@ design-data write \
 
 Always pass `--output` with an explicit path inside the dataset. The default resolves relative to CWD, which is rarely correct in agent contexts.
 
+Generates a product-context scaffold at the output path (`specVersion`, `layer: "product"`, `rationale`, attribution metadata). Creates the file if absent; overwrites if it already exists. The confirmation string returned to stdout on success is a plain text message — not JSON.
+
 ***
 
 ## Gotchas
@@ -138,4 +140,4 @@ Always pass `--output` with an explicit path inside the dataset. The default res
 * **Contrast values:** `regular` and `high` — not `standard`/`high`.
 * **`query` exit 1** means no matches and still emits `[]`. Only `>1` is an error.
 * **`diff` exit 1** means changes were found. The JSON diff is in stdout — still a success result.
-* **`--format json`** is required for machine-readable output when stdout is not a TTY.
+* **`--format json`** — always pass this in agent and script contexts; the CLI pretty-prints when stdout is a TTY.
