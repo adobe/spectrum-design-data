@@ -1,5 +1,11 @@
 # @adobe/design-data-spec
 
+## 0.8.0
+
+### Minor Changes
+
+- [#877](https://github.com/adobe/spectrum-design-data/pull/877) [`d0297f0`](https://github.com/adobe/spectrum-design-data/commit/d0297f0042404a4e6381009ce80849c781f8db49) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(spec): document blocks — typed prose for tokens, components, and anatomy (Phase 9)
+
 ## 0.7.0
 
 ### Minor Changes
