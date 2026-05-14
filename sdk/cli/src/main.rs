@@ -1015,7 +1015,7 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
     // Reject IDs that could escape the components directory via path traversal.
     if !id.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-')
         || id.is_empty()
-        || !id.chars().next().map_or(false, |c| c.is_ascii_lowercase())
+        || !id.chars().next().is_some_and(|c| c.is_ascii_lowercase())
     {
         eprintln!("Invalid component ID '{id}'. IDs must match ^[a-z][a-z0-9-]*$");
         return Ok(ExitCode::from(1));
