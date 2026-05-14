@@ -23,17 +23,13 @@ export DESIGN_DATA_PATH=./packages/tokens/src
 Call `primer` at the start of every session that touches design data. It returns the active dimensions, component list, taxonomy fields, and token count — structural context that scopes all subsequent lookups.
 
 ```bash
-design-data primer "$DESIGN_DATA_PATH" --format json
-```
-
-Optional path overrides (defaults resolve under `DESIGN_DATA_PATH`):
-
-```bash
 design-data primer "$DESIGN_DATA_PATH" --format json \
-  [--components-dir <dir>] \
-  [--fields-dir <dir>] \
-  [--dimensions-dir <dir>]
+  --components-dir "$DESIGN_DATA_PATH/components" \
+  --fields-dir "$DESIGN_DATA_PATH/fields" \
+  --dimensions-dir "$DESIGN_DATA_PATH/dimensions"
 ```
+
+Always pass `--components-dir`, `--fields-dir`, and `--dimensions-dir` explicitly. The CLI defaults probe for `packages/design-data-spec/{components,fields,dimensions}` relative to the current working directory — not relative to `DESIGN_DATA_PATH` — so omitting them when running from an arbitrary directory (or with an absolute dataset path) produces empty `components`, `taxonomyFields`, and `dimensions` in the primer response.
 
 The payload includes `specVersion`, `manifest`, `dimensions`, `components`, `taxonomyFields`, and `tokenCount`.
 
@@ -83,15 +79,17 @@ $schema=https://spectrum.adobe.com/page/design-token/
 ## Component info
 
 ```bash
-design-data component <id> [--components-dir <dir>]
+design-data component <id> --components-dir "$DESIGN_DATA_PATH/components"
 ```
 
 Returns the component contract: `name`, `displayName`, `options`, `anatomy`, `states`, and `tokenBindings`. Output is always JSON; there is no `--format` flag on this subcommand.
 
+Pass `--components-dir` explicitly for the same reason as `primer` — the default probes CWD-relative paths that won't resolve in agent contexts.
+
 Example:
 
 ```bash
-design-data component button
+design-data component button --components-dir "$DESIGN_DATA_PATH/components"
 ```
 
 ***
