@@ -40,6 +40,7 @@ A component declaration **MUST** contain:
 | `lifecycle`      | object | Version lifecycle metadata — see [Lifecycle](#lifecycle).                                                                                  |
 | `tokenBindings`  | array  | Tokens this component uses — see [Token bindings](#token-bindings) (Phase 6.7).                                                            |
 | `documentBlocks` | array  | Typed prose blocks for this component — see [Document blocks](#document-blocks) (Phase 9).                                                 |
+| `accessibility`  | object | Semantic accessibility vocabulary — see [Accessibility](accessibility.md) (Phase 7).                                                       |
 
 **NORMATIVE:** No properties beyond those listed above are permitted at the top level of a component declaration. Additional fields **MUST** cause a Layer 1 schema error.
 
@@ -348,6 +349,37 @@ A complete button component declaration:
   "lifecycle": {
     "introduced": "1.0.0-draft"
   }
+}
+```
+
+## Accessibility
+
+**Phase 7.** Component declarations MAY carry an `accessibility` object at the top level. State declarations MAY carry `announce`, `communicates`, and `blocksInteraction` fields. See [spec/accessibility.md](accessibility.md) for the full vocabulary, SPEC rules, and examples.
+
+```json
+{
+  "name": "button",
+  "displayName": "Button",
+  "meta": { "category": "actions", "documentationUrl": "https://spectrum.adobe.com/page/button/" },
+  "accessibility": {
+    "role": "button",
+    "intents": ["trigger"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  },
+  "states": [
+    {
+      "name": "disabled",
+      "trigger": "prop",
+      "precedence": 100,
+      "announce": "Button disabled",
+      "communicates": "disabled",
+      "blocksInteraction": true
+    }
+  ]
 }
 ```
 

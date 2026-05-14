@@ -74,6 +74,10 @@
       "items": { "$ref": "document-block.schema.json" },
       "minItems": 1,
       "description": "Typed prose blocks for this component. See spec/document-blocks.md (Phase 9)."
+    },
+    "accessibility": {
+      "$ref": "accessibility.schema.json",
+      "description": "Semantic accessibility vocabulary for this component. See spec/accessibility.md (Phase 7)."
     }
   },
   "additionalProperties": false,
@@ -245,6 +249,21 @@
           "type": "boolean",
           "default": false,
           "description": "true for states that compose with others (e.g. focus ring layered over hover)."
+        },
+        "announce": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Screen-reader announcement hint for this state transition. See spec/accessibility.md."
+        },
+        "communicates": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Semantic meaning conveyed to AT when this state is active (e.g. 'expanded', 'disabled'). See spec/accessibility.md."
+        },
+        "blocksInteraction": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this state prevents all user interaction. See spec/accessibility.md."
         }
       },
       "additionalProperties": false
