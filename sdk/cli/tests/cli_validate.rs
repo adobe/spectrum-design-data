@@ -230,7 +230,7 @@ fn primer_emits_json_with_required_fields() {
             "json",
             "--components-dir",
             components.to_str().expect("utf8 path"),
-            "--dimensions-path",
+            "--dimensions-dir",
             dimensions.to_str().expect("utf8 path"),
             "--fields-dir",
             fields.to_str().expect("utf8 path"),
@@ -250,15 +250,15 @@ fn primer_emits_json_with_required_fields() {
         "tokenCount must be positive"
     );
     assert!(
-        !doc["dimensions"].as_array().unwrap_or(&vec![]).is_empty(),
+        doc["dimensions"].as_array().map_or(false, |a| !a.is_empty()),
         "dimensions must be non-empty"
     );
     assert!(
-        !doc["components"].as_array().unwrap_or(&vec![]).is_empty(),
+        doc["components"].as_array().map_or(false, |a| !a.is_empty()),
         "components must be non-empty"
     );
     assert!(
-        !doc["taxonomyFields"].as_array().unwrap_or(&vec![]).is_empty(),
+        doc["taxonomyFields"].as_array().map_or(false, |a| !a.is_empty()),
         "taxonomyFields must be non-empty"
     );
 }
@@ -276,7 +276,7 @@ fn primer_components_are_sorted() {
             "json",
             "--components-dir",
             components.to_str().expect("utf8 path"),
-            "--dimensions-path",
+            "--dimensions-dir",
             dimensions.to_str().expect("utf8 path"),
             "--fields-dir",
             fields.to_str().expect("utf8 path"),
@@ -317,7 +317,7 @@ fn primer_pretty_output_contains_token_count() {
             src.to_str().expect("utf8 path"),
             "--components-dir",
             components.to_str().expect("utf8 path"),
-            "--dimensions-path",
+            "--dimensions-dir",
             dimensions.to_str().expect("utf8 path"),
             "--fields-dir",
             fields.to_str().expect("utf8 path"),
@@ -325,4 +325,13 @@ fn primer_pretty_output_contains_token_count() {
         .assert()
         .success()
         .stdout(contains("Token count:"));
+}
+
+#[test]
+fn primer_fails_on_nonexistent_path() {
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args(["primer", "/nonexistent/path/that/does/not/exist"])
+        .assert()
+        .failure();
 }

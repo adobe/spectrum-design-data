@@ -34,6 +34,8 @@ use design_data_core::schema::SchemaRegistry;
 use design_data_core::validate;
 use miette::{IntoDiagnostic, WrapErr};
 
+const SPEC_VERSION: &str = "1.0.0-draft";
+
 /// Spectrum Design Data tooling — validate and migrate design tokens.
 #[derive(Parser)]
 #[command(name = "design-data", version, about)]
@@ -143,9 +145,9 @@ enum Commands {
         /// Override taxonomy fields directory
         #[arg(long, value_name = "DIR")]
         fields_dir: Option<PathBuf>,
-        /// Directory containing spec-format dimension declaration JSON files
+        /// Override dimensions directory
         #[arg(long, value_name = "DIR")]
-        dimensions_path: Option<PathBuf>,
+        dimensions_dir: Option<PathBuf>,
     },
     /// Create or update a product-context.json document for a product-layer working copy
     Write {
@@ -858,14 +860,14 @@ fn run_primer(
     format: OutputFormat,
     components_dir: Option<PathBuf>,
     fields_dir: Option<PathBuf>,
-    dimensions_path: Option<PathBuf>,
+    dimensions_dir: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
     let graph = TokenGraph::from_json_dir(path)
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
     let token_count = graph.tokens.len();
 
-    let dims_dir = dimensions_path.or_else(default_dimensions_path);
+    let dims_dir = dimensions_dir.or_else(default_dimensions_path);
     let dimensions: Vec<serde_json::Value> = if let Some(dir) = dims_dir {
         TokenGraph::load_spec_dimensions(&dir)
             .unwrap_or_default()
@@ -888,7 +890,7 @@ fn run_primer(
             .unwrap_or_else(|| PathBuf::from("packages/design-data-spec/components")),
     );
 
-    let mut taxonomy_fields: Vec<serde_json::Value> = fields_dir
+    let taxonomy_fields: Vec<serde_json::Value> = fields_dir
         .or_else(default_fields_path)
         .map(|dir| {
             let Ok(entries) = std::fs::read_dir(&dir) else {
@@ -904,18 +906,23 @@ fn run_primer(
                     let raw = std::fs::read_to_string(&p).ok()?;
                     let v: serde_json::Value = serde_json::from_str(&raw).ok()?;
                     let name = v.get("name")?.as_str()?.to_string();
-                    Some(serde_json::json!({
+                    let required = v.get("required").and_then(|r| r.as_bool()).unwrap_or(false);
+                    let mut field = serde_json::json!({
                         "name": name,
-                        "description": v.get("description"),
-                        "required": v.get("required").and_then(|r| r.as_bool()).unwrap_or(false),
-                    }))
+                        "required": required,
+                    });
+                    if let Some(desc) = v.get("description") {
+                        if !desc.is_null() {
+                            field["description"] = desc.clone();
+                        }
+                    }
+                    Some(field)
                 })
                 .collect();
             fields.sort_by_key(|f| f["name"].as_str().unwrap_or("").to_string());
             fields
         })
         .unwrap_or_default();
-    taxonomy_fields.sort_by_key(|f| f["name"].as_str().unwrap_or("").to_string());
 
     let manifest: serde_json::Value = {
         let mp = path.join("manifest.json");
@@ -930,7 +937,7 @@ fn run_primer(
     };
 
     let payload = serde_json::json!({
-        "specVersion": "1.0.0-draft",
+        "specVersion": SPEC_VERSION,
         "tokenCount": token_count,
         "dimensions": dimensions,
         "components": components,
@@ -953,7 +960,8 @@ fn run_primer(
                     let default = d["defaultMode"].as_str().unwrap_or("");
                     let mode_str = d["modes"]
                         .as_array()
-                        .unwrap_or(&vec![])
+                        .map(Vec::as_slice)
+                        .unwrap_or(&[])
                         .iter()
                         .filter_map(|m| m.as_str())
                         .map(|m| {
@@ -968,17 +976,18 @@ fn run_primer(
                     format!("{name} ({mode_str})")
                 })
                 .collect();
+            const COMPONENT_PREVIEW_COUNT: usize = 8;
             let comp_count = components.len();
-            let comp_preview = if comp_count > 8 {
+            let comp_preview = if comp_count > COMPONENT_PREVIEW_COUNT {
                 format!(
                     "{}, … and {} more",
-                    components[..8].join(", "),
-                    comp_count - 8
+                    components[..COMPONENT_PREVIEW_COUNT].join(", "),
+                    comp_count - COMPONENT_PREVIEW_COUNT
                 )
             } else {
                 components.join(", ")
             };
-            println!("Spec version:  1.0.0-draft");
+            println!("Spec version:  {SPEC_VERSION}");
             println!("Token count:   {token_count}");
             println!("Dimensions:    {}", dim_summary.join(", "));
             println!("Components:    {comp_preview}");
@@ -1007,7 +1016,7 @@ fn run_write(output: &Path, rationale: Option<&str>) -> miette::Result<ExitCode>
         let mut map = serde_json::Map::new();
         map.insert(
             "specVersion".to_string(),
-            serde_json::Value::String("1.0.0-draft".to_string()),
+            serde_json::Value::String(SPEC_VERSION.to_string()),
         );
         map.insert(
             "layer".to_string(),
@@ -1154,10 +1163,10 @@ fn main() -> ExitCode {
             format,
             components_dir,
             fields_dir,
-            dimensions_path,
+            dimensions_dir,
         } => {
             let target = path.unwrap_or_else(|| PathBuf::from("."));
-            run_primer(&target, format, components_dir, fields_dir, dimensions_path)
+            run_primer(&target, format, components_dir, fields_dir, dimensions_dir)
         }
         Commands::Write { output, rationale } => {
             run_write(&output, rationale.as_deref())
