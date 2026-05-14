@@ -24,6 +24,10 @@ The `accessibility` object is an optional top-level field on a [component declar
 
 **NORMATIVE:** An `accessibility` object SHOULD contain at least one field. An empty `accessibility` object provides no semantic value.
 
+> **Note:** Anatomy parts (see [Anatomy format](anatomy-format.md)) do not carry an
+> `accessibility` field at this spec version. Component-level accessibility applies to the
+> component as a whole. Per-part accessibility semantics are deferred to Phase 7.3.
+
 ### `role`
 
 The `role` field names the semantic role of the component. It maps conceptually to ARIA widget and landmark roles, iOS `UIAccessibilityTraits`, Android role descriptions, and equivalent constructs on other platforms — but it is **not** a direct ARIA attribute. Platform adapters perform the translation.
@@ -75,14 +79,20 @@ Platform adapters use `intents` to determine which ARIA properties, traits, or a
 The `focusable` boolean declares whether the component receives keyboard focus via the Tab key by default.
 
 * `true` — the component is in the tab order; platform adapters set `tabindex="0"` or the platform equivalent.
-* `false` — the component is not in the tab order; child elements may still be individually focusable.
+* `false` — the component is not in the tab order; child elements may still be individually
+  focusable. Components that manage focus internally (radio groups, toolbars, tree views)
+  use the roving `tabindex` pattern — one child is focusable at a time. For these, set
+  `focusable: false`; the platform adapter manages which child holds `tabindex="0"`.
 * When absent, focus behavior is unspecified at the foundation layer.
 
 ### `keyboardIntents`
 
 The `keyboardIntents` array lists the keyboard interaction intents the component responds to when focused. Platform adapters use this to bind keyboard event handlers.
 
-**RECOMMENDED:** Values in `keyboardIntents` SHOULD correspond to intents also declared in `intents` where applicable. A component with `expand` in `intents` SHOULD also include `expand` in `keyboardIntents`.
+**RECOMMENDED:** Where a `keyboardIntents` value has a direct semantic equivalent in `intents`,
+both SHOULD be declared. For example, a component with `expand` in `intents` SHOULD also include
+`expand` in `keyboardIntents`. Keyboard-specific intents such as `activate`, `navigate-options`,
+and `navigate-items` have no `intents` counterpart and are keyboard-only.
 
 **Canonical keyboard intent vocabulary:**
 
@@ -110,7 +120,10 @@ The `wcag` array lists the WCAG 2.x success criteria applicable to this componen
 | `level`     | string | Yes      | Conformance level: `"A"`, `"AA"`, or `"AAA"` |
 | `title`     | string | No       | Human-readable criterion title               |
 
-**NORMATIVE:** `criterion` MUST be a valid WCAG 2.x criterion number in `"<principle>.<guideline>.<criterion>"` format. `level` MUST be one of `"A"`, `"AA"`, or `"AAA"`.
+**NORMATIVE:** `criterion` MUST be a valid WCAG 2.x criterion number in
+`"<principle>.<guideline>.<criterion>"` format, where `<principle>` is 1–4 (matching WCAG 2.x
+principles: Perceivable, Operable, Understandable, Robust). `level` MUST be one of `"A"`,
+`"AA"`, or `"AAA"`.
 
 Example `wcag` entry:
 
@@ -122,11 +135,11 @@ Example `wcag` entry:
 
 State declarations (see [State model](state-model.md)) MAY carry the following additional fields that describe how assistive technology responds to state transitions. These fields extend the base state declaration object defined in `spec/state-model.md`.
 
-| Field                | Type    | Required | Description                                               |
-| -------------------- | ------- | -------- | --------------------------------------------------------- |
-| `announce`           | string  | No       | Screen-reader announcement hint for this state transition |
-| `communicates`       | string  | No       | Semantic meaning conveyed to AT when this state is active |
-| `blocks-interaction` | boolean | No       | Whether this state prevents all user interaction          |
+| Field               | Type    | Required | Description                                               |
+| ------------------- | ------- | -------- | --------------------------------------------------------- |
+| `announce`          | string  | No       | Screen-reader announcement hint for this state transition |
+| `communicates`      | string  | No       | Semantic meaning conveyed to AT when this state is active |
+| `blocksInteraction` | boolean | No       | Whether this state prevents all user interaction          |
 
 ### `announce`
 
@@ -151,7 +164,7 @@ A string describing the semantic state the component is in after the transition.
 
 The ARIA mapping column is informative; the foundation layer declares semantic meaning only.
 
-### `blocks-interaction`
+### `blocksInteraction`
 
 A boolean declaring whether this state prevents all user interaction with the component.
 
@@ -183,14 +196,14 @@ A `button` component with a complete accessibility declaration and two states ca
       "trigger": { "type": "prop", "prop": "disabled" },
       "announce": "Button disabled",
       "communicates": "disabled",
-      "blocks-interaction": true
+      "blocksInteraction": true
     },
     {
       "name": "loading",
       "trigger": { "type": "prop", "prop": "pending" },
       "announce": "Loading",
       "communicates": "busy",
-      "blocks-interaction": true
+      "blocksInteraction": true
     }
   ]
 }
@@ -198,9 +211,9 @@ A `button` component with a complete accessibility declaration and two states ca
 
 ## SPEC rules
 
-| Rule ID  | Severity | Name                       | Assert                                                                      |
-| -------- | -------- | -------------------------- | --------------------------------------------------------------------------- |
-| SPEC-030 | warning  | accessibility-role-missing | When `accessibility` is declared, `role` SHOULD be set                      |
-| SPEC-031 | warning  | accessibility-wcag-missing | When `accessibility` is declared, `wcag` SHOULD list at least one criterion |
+| Rule ID  | Severity | Name                       | Assert                                                                                 |
+| -------- | -------- | -------------------------- | -------------------------------------------------------------------------------------- |
+| SPEC-030 | warning  | accessibility-empty        | When `accessibility` is declared with no fields, the object provides no semantic value |
+| SPEC-031 | warning  | accessibility-wcag-missing | When `accessibility` is declared, `wcag` SHOULD list at least one criterion            |
 
 Both rules are `warning` severity — they do not block validation. Rules are defined in `rules/rules.yaml` and implemented in the SDK in Phase 7.4.
