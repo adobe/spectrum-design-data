@@ -140,7 +140,7 @@ Include WCAG criteria in component documentation and Accessibility Inspector aud
 ### State fields
 
 * `announce` → call `UIAccessibility.post(notification: .announcement, argument: announceText)` on state entry. In SwiftUI, use `AccessibilityNotification.Announcement`.
-* `communicates` → set the corresponding trait or value (e.g., `"expanded"` → add `.selected`; `"disabled"` → add `.notEnabled`; `"busy"` → add `.causesPageTurn` or a custom announcement).
+* `communicates` → set the corresponding trait or value (e.g., `"expanded"` → set `accessibilityValue = "expanded"` / `"collapsed"`; `"disabled"` → add `.notEnabled`; `"busy"` → add `.causesPageTurn` or a custom announcement).
 * `blocksInteraction` → add `.notEnabled` trait; set `isAccessibilityElement = false` on interactive children.
 
 ## Android / AccessibilityNodeInfo
@@ -196,8 +196,8 @@ Include criteria in component documentation and Accessibility Scanner audits. No
 ### State fields
 
 * `announce` → call `ViewCompat.announceForAccessibility(view, announceText)` or send `AccessibilityEvent.TYPE_ANNOUNCEMENT`. In Compose, use `LocalAccessibilityManager.current?.announce(...)`.
-* `communicates` → set the corresponding node property (e.g., `"expanded"` → `setExpanded(true)`; `"checked"` → `setChecked(true)`; `"disabled"` → `setEnabled(false)`).
-* `blocksInteraction` → call `setEnabled(false)` and `setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)` on child views.
+* `communicates` → set the corresponding node property (e.g., `"expanded"` → call `setExpandable(true)` then `setExpanded(true)`; `"checked"` → `setChecked(true)`; `"disabled"` → `setEnabled(false)`).
+* `blocksInteraction` → call `setEnabled(false)` on the root view. Use `IMPORTANT_FOR_ACCESSIBILITY_YES` to keep the element discoverable by AT as disabled; use `IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS` to hide the element and its subtree from AT entirely.
 
 ## Voice and multimodal
 
@@ -213,3 +213,7 @@ For voice interfaces (Alexa, Google Assistant, Siri Shortcuts) and future multim
 | `communicates`    | State value spoken when the user queries component status             |
 | `focusable`       | Not applicable for purely voice surfaces                              |
 | `keyboardIntents` | Not applicable for purely voice surfaces                              |
+
+### `wcag`
+
+WCAG 2.x success criteria apply at the web layer. For voice and multimodal surfaces, WCAG is not directly applicable; accessibility requirements for these surfaces are deferred to platform-specific adapter specs.
