@@ -105,5 +105,8 @@
       "token": "thumbnail-opacity-disabled",
       "context": "Disabled"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }

@@ -180,5 +180,8 @@
       "token": "line-height-100",
       "context": "Text (List view item)"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }

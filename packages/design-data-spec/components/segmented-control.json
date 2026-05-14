@@ -206,5 +206,22 @@
       "token": "line-height-100",
       "context": "Label"
     }
-  ]
+  ],
+  "accessibility": {
+    "intents": ["choose"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }

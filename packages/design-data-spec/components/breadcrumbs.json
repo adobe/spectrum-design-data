@@ -4,7 +4,7 @@
   "specVersion": "1.0.0-draft",
   "name": "breadcrumbs",
   "displayName": "Breadcrumbs",
-  "description": "Breadcrumbs show hierarchy and navigational context for a user’s location within an app.",
+  "description": "Breadcrumbs show hierarchy and navigational context for a user\u2019s location within an app.",
   "meta": {
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/breadcrumbs/"
@@ -259,5 +259,22 @@
       "token": "heading-size-l",
       "context": "Text (breadcrumb item and title, multiline)"
     }
-  ]
+  ],
+  "accessibility": {
+    "intents": ["navigate"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }
