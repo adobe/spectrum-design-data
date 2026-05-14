@@ -29,6 +29,7 @@
     "wcag": {
       "type": "array",
       "items": { "$ref": "#/$defs/wcagEntry" },
+      "uniqueItems": true,
       "description": "Applicable WCAG 2.x success criteria."
     }
   },

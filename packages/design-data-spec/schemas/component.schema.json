@@ -252,14 +252,17 @@
         },
         "announce": {
           "type": "string",
+          "minLength": 1,
           "description": "Screen-reader announcement hint for this state transition. See spec/accessibility.md."
         },
         "communicates": {
           "type": "string",
+          "minLength": 1,
           "description": "Semantic meaning conveyed to AT when this state is active (e.g. 'expanded', 'disabled'). See spec/accessibility.md."
         },
         "blocksInteraction": {
           "type": "boolean",
+          "default": false,
           "description": "Whether this state prevents all user interaction. See spec/accessibility.md."
         }
       },
