@@ -4,7 +4,7 @@
   "specVersion": "1.0.0-draft",
   "name": "help-text",
   "displayName": "Help text",
-  "description": "Help text provides either an informative description or an error message that gives more context about what a user needs to input. It’s commonly used in forms.",
+  "description": "Help text provides either an informative description or an error message that gives more context about what a user needs to input. It\u2019s commonly used in forms.",
   "meta": {
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/help-text/"
@@ -182,5 +182,8 @@
       "token": "cjk-line-height-100",
       "context": "Text"
     }
-  ]
+  ],
+  "accessibility": {
+    "focusable": false
+  }
 }

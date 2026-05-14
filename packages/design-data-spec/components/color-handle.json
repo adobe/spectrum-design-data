@@ -81,5 +81,16 @@
       "token": "disabled-background-color",
       "context": "Border (disabled)"
     }
-  ]
+  ],
+  "accessibility": {
+    "intents": ["choose"],
+    "focusable": true,
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      }
+    ]
+  }
 }

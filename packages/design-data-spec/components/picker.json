@@ -518,5 +518,28 @@
       "token": "component-xl-medium",
       "context": "Prefix"
     }
-  ]
+  ],
+  "accessibility": {
+    "role": "combobox",
+    "intents": ["select", "expand"],
+    "focusable": true,
+    "keyboardIntents": ["expand", "collapse", "navigate-options"],
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
 }
