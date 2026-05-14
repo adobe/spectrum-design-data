@@ -518,6 +518,16 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1(webpack@5.104.1)
 
+  tools/design-data-agent-mcp:
+    dependencies:
+      "@modelcontextprotocol/sdk":
+        specifier: ^1.27.1
+        version: 1.27.1(zod@3.25.76)
+    devDependencies:
+      ava:
+        specifier: ^6.0.1
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+
   tools/diff-generator:
     dependencies:
       "@adobe/optimized-diff":
