@@ -12,14 +12,15 @@ The specification defines:
 1. **Token format** — structured token identity (`name`), literal `value` or alias `$ref`, and lifecycle metadata ([Token format](token-format.md)).
 2. **Taxonomy** — concept categories, token term vocabulary, formatting style, and the distinction between component anatomy and token objects ([Taxonomy](taxonomy.md)).
 3. **Component format** — component declaration shape: API options, named content slots, anatomy parts, state model, and cross-reference validation rules ([Component format](component-format.md)).
-   3a. **Anatomy format** — anatomy part declaration shape: field constraints, canonical anatomy vocabulary, and cross-reference rules for token `anatomy` field values ([Anatomy format](anatomy-format.md)).
-   3b. **State model** — state declaration shape: trigger semantics, precedence and resolution algorithm, canonical state vocabulary, and cross-reference rules for token `state` field values ([State model](state-model.md)).
+   * **Anatomy format** — anatomy part declaration shape: field constraints, canonical anatomy vocabulary, and cross-reference rules for token `anatomy` field values ([Anatomy format](anatomy-format.md)).
+   * **State model** — state declaration shape: trigger semantics, precedence and resolution algorithm, canonical state vocabulary, and cross-reference rules for token `state` field values ([State model](state-model.md)).
 4. **Cascade and resolution** — layered data (foundation, platform, product), specificity, and how a context picks a winning value ([Cascade](cascade.md)).
 5. **Dimensions** — declared modes, defaults, and coverage expectations ([Dimensions](dimensions.md)).
 6. **Platform manifest** — how a platform repo pins foundation data, filters tokens, and applies typed overrides ([Manifest](manifest.md)).
 7. **Semantic diff** — change taxonomy, token identity rules, and property-level change tracking for comparing dataset versions ([Diff](diff.md)).
 8. **Query notation** — filter syntax for selecting tokens by structured fields ([Query](query.md)).
-9. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
+9. **Document blocks** — typed prose blocks attachable to tokens, components, and anatomy parts; makes design guidance machine-readable and agent-queryable ([Document blocks](document-blocks.md)).
+10. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
 
 ## Conformance
 
@@ -66,6 +67,7 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 | [Product context](product-context.md)   | Product-layer context document: rationale, overrides, and extensions.                                       |
 | [Diff](diff.md)                         | Semantic diff change taxonomy, token identity, property changes.                                            |
 | [Query](query.md)                       | Filter notation for selecting tokens by structured fields.                                                  |
+| [Document blocks](document-blocks.md)   | Typed prose blocks (purpose, guideline, accessibility, do-dont, examples) attachable to any entity.         |
 | [Evolution](evolution.md)               | Deprecation lifecycle, migration windows, change classification.                                            |
 
 ## JSON Schema `$id` and versioning
