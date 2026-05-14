@@ -1,0 +1,65 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/demo-toggle.json",
+  "specVersion": "1.0.0-draft",
+  "name": "demo-toggle",
+  "displayName": "Demo Toggle",
+  "description": "A minimal valid component declaration. Shows the spec contract at its smallest: identity, meta, options, anatomy, states (with accessibility-aware state fields), top-level accessibility declaration, and a typed document block.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://example.com/design-system/demo-toggle"
+  },
+  "options": {
+    "isOn": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the toggle is in the on position."
+    },
+    "size": {
+      "type": "string",
+      "enum": ["s", "m", "l"],
+      "default": "m"
+    }
+  },
+  "anatomy": [
+    {
+      "name": "track",
+      "description": "The background rail the handle slides along."
+    },
+    { "name": "handle", "description": "The draggable indicator." },
+    { "name": "label", "description": "Visible text label." }
+  ],
+  "states": [
+    { "name": "hover", "trigger": "interaction", "precedence": 50 },
+    {
+      "name": "focus",
+      "trigger": "interaction",
+      "precedence": 60,
+      "layered": true
+    },
+    {
+      "name": "disabled",
+      "trigger": "prop",
+      "precedence": 100,
+      "announce": "Toggle disabled",
+      "communicates": "disabled",
+      "blocksInteraction": true
+    }
+  ],
+  "accessibility": {
+    "role": "switch",
+    "intents": ["choose"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+    ]
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Demo Toggle lets a user turn a setting on or off with a single tap or keypress."
+    }
+  ]
+}
