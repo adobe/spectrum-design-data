@@ -59,6 +59,7 @@
         "level": "A",
         "title": "Keyboard"
       }
-    ]
+    ],
+    "keyboardIntents": ["increment", "decrement"]
   }
 }

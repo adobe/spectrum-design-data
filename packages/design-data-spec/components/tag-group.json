@@ -64,6 +64,7 @@
         "level": "A",
         "title": "Name, Role, Value"
       }
-    ]
+    ],
+    "keyboardIntents": ["navigate-items", "activate"]
   }
 }

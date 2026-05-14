@@ -523,6 +523,7 @@
         "level": "A",
         "title": "Name, Role, Value"
       }
-    ]
+    ],
+    "keyboardIntents": ["activate"]
   }
 }

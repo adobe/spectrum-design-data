@@ -502,7 +502,6 @@
     "role": "textbox",
     "intents": ["input"],
     "focusable": true,
-    "keyboardIntents": [],
     "wcag": [
       {
         "criterion": "1.3.1",

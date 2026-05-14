@@ -139,7 +139,6 @@
   ],
   "accessibility": {
     "role": "tooltip",
-    "intents": [],
     "focusable": false,
     "keyboardIntents": [],
     "wcag": [

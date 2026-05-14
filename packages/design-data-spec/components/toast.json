@@ -137,6 +137,7 @@
         "level": "AA",
         "title": "Status Messages"
       }
-    ]
+    ],
+    "keyboardIntents": ["dismiss"]
   }
 }
