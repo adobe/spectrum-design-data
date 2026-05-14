@@ -8,7 +8,9 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
+import { join } from "path";
 import { runCli } from "../cli.js";
+import { config } from "../config.js";
 
 export function createWriteTools() {
   return [
@@ -22,7 +24,7 @@ export function createWriteTools() {
           output: {
             type: "string",
             description:
-              "Output file path (defaults to product-context.json in dataset)",
+              "Output file path (defaults to product-context.json inside DESIGN_DATA_PATH)",
           },
           rationale: {
             type: "string",
@@ -32,8 +34,9 @@ export function createWriteTools() {
         additionalProperties: false,
       },
       async handler({ output, rationale } = {}) {
-        const args = ["write"];
-        if (output) args.push("--output", output);
+        const resolvedOutput =
+          output ?? join(config.dataPath, "product-context.json");
+        const args = ["write", "--output", resolvedOutput];
         if (rationale) args.push("--rationale", rationale);
         const { exitCode, stdout, stderr } = await runCli(args);
         if (exitCode !== 0)

@@ -52,10 +52,15 @@ export function createReadTools() {
             type: "string",
             description: "Color scheme: light or dark",
           },
-          scale: { type: "string", description: "Scale: medium or large" },
+          scale: {
+            type: "string",
+            enum: ["desktop", "mobile"],
+            description: "Scale: desktop or mobile",
+          },
           contrast: {
             type: "string",
-            description: "Contrast: standard or high",
+            enum: ["regular", "high"],
+            description: "Contrast: regular or high",
           },
         },
         additionalProperties: false,
@@ -99,8 +104,8 @@ export function createReadTools() {
           "json",
         ];
         const { exitCode, stdout, stderr } = await runCli(args);
-        if (exitCode !== 0)
-          throw new Error(stderr || `query exited ${exitCode}`);
+        // exit code 1 means no matches — still valid JSON []
+        if (exitCode > 1) throw new Error(stderr || `query exited ${exitCode}`);
         return JSON.parse(stdout);
       },
     },
