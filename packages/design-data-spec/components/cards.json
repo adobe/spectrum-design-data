@@ -512,6 +512,7 @@
   "accessibility": {
     "intents": ["select"],
     "focusable": true,
+    "keyboardIntents": ["activate"],
     "wcag": [
       {
         "criterion": "2.1.1",
@@ -523,7 +524,6 @@
         "level": "A",
         "title": "Name, Role, Value"
       }
-    ],
-    "keyboardIntents": ["activate"]
+    ]
   }
 }

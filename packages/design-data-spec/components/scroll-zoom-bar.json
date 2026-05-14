@@ -53,13 +53,13 @@
   "accessibility": {
     "intents": ["choose"],
     "focusable": true,
+    "keyboardIntents": ["increment", "decrement"],
     "wcag": [
       {
         "criterion": "2.1.1",
         "level": "A",
         "title": "Keyboard"
       }
-    ],
-    "keyboardIntents": ["increment", "decrement"]
+    ]
   }
 }

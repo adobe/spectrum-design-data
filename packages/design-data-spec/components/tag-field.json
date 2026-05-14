@@ -203,6 +203,7 @@
   "accessibility": {
     "intents": ["input", "select"],
     "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
       {
         "criterion": "1.3.1",
@@ -214,7 +215,6 @@
         "level": "A",
         "title": "Name, Role, Value"
       }
-    ],
-    "keyboardIntents": ["navigate-items", "activate"]
+    ]
   }
 }
