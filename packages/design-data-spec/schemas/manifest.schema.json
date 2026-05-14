@@ -64,7 +64,7 @@
     },
     "extensions": {
       "type": "object",
-      "description": "Platform-local tokens, dimensions, and formatting rules.",
+      "description": "Platform-local tokens, mode sets, and formatting rules.",
       "properties": {
         "formatting": {
           "type": "object",

@@ -3,7 +3,7 @@
 **Version:** `1.0.0-draft`\
 **Status:** Draft — normative text and schemas may change before `1.0.0`.
 
-This document is the top-level overview for the **Design Data Specification**: a machine-readable model for Spectrum design tokens, dimensions, platform manifests, and validation.
+This document is the top-level overview for the **Design Data Specification**: a machine-readable model for Spectrum design tokens, mode sets, platform manifests, and validation.
 
 ## Scope
 
@@ -15,7 +15,7 @@ The specification defines:
    * **Anatomy format** — anatomy part declaration shape: field constraints, canonical anatomy vocabulary, and cross-reference rules for token `anatomy` field values ([Anatomy format](anatomy-format.md)).
    * **State model** — state declaration shape: trigger semantics, precedence and resolution algorithm, canonical state vocabulary, and cross-reference rules for token `state` field values ([State model](state-model.md)).
 4. **Cascade and resolution** — layered data (foundation, platform, product), specificity, and how a context picks a winning value ([Cascade](cascade.md)).
-5. **Dimensions** — declared modes, defaults, and coverage expectations ([Dimensions](dimensions.md)).
+5. **Mode Sets** — declared modes, defaults, and coverage expectations ([Mode Sets](mode-sets.md)).
 6. **Platform manifest** — how a platform repo pins foundation data, filters tokens, and applies typed overrides ([Manifest](manifest.md)).
 7. **Semantic diff** — change taxonomy, token identity rules, and property-level change tracking for comparing dataset versions ([Diff](diff.md)).
 8. **Query notation** — filter syntax for selecting tokens by structured fields ([Query](query.md)).
@@ -65,7 +65,7 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 | [Anatomy format](anatomy-format.md)                 | Anatomy part declarations: field constraints, canonical vocabulary, SPEC-020/SPEC-023/SPEC-024/SPEC-025.                          |
 | [State model](state-model.md)                       | State declarations: trigger semantics, precedence algorithm, canonical vocabulary, SPEC-022/SPEC-026.                             |
 | [Cascade](cascade.md)                               | Layers, specificity, resolution algorithm.                                                                                        |
-| [Dimensions](dimensions.md)                         | Dimension declarations, built-in dimensions, coverage.                                                                            |
+| [Mode Sets](mode-sets.md)                           | Mode set declarations, built-in mode sets, coverage.                                                                              |
 | [Manifest](manifest.md)                             | Platform manifest fields and validation expectations.                                                                             |
 | [Product context](product-context.md)               | Product-layer context document: rationale, overrides, and extensions.                                                             |
 | [Diff](diff.md)                                     | Semantic diff change taxonomy, token identity, property changes.                                                                  |
@@ -81,7 +81,7 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 **NORMATIVE:** Canonical schema documents use **versioned path** `$id` URIs so major revisions can coexist on the documentation host:
 
 * Base: `https://opensource.adobe.com/spectrum-design-data/schemas/v0/`
-* Examples: `.../v0/token.schema.json`, `.../v0/dimension.schema.json`, `.../v0/manifest.schema.json`
+* Examples: `.../v0/token.schema.json`, `.../v0/mode-set.schema.json`, `.../v0/manifest.schema.json`
 
 The **`v0`** segment denotes the **draft / pre-1.0** schema family aligned with spec version `1.0.0-draft`. A future **1.0.0** stable release MAY introduce `v1` paths without reusing `v0` URLs for incompatible shapes.
 

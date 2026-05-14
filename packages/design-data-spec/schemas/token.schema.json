@@ -15,7 +15,7 @@
   "$defs": {
     "nameObject": {
       "type": "object",
-      "description": "Structured token identity. Semantic fields describe identity and structure; dimension fields drive cascade resolution. See spec/taxonomy.md and spec/token-format.md. Additional dimension keys MUST be strings.",
+      "description": "Structured token identity. Semantic fields describe identity and structure; mode-set fields drive cascade resolution. See spec/taxonomy.md and spec/token-format.md. Additional mode-set keys MUST be strings.",
       "required": ["property"],
       "properties": {
         "property": {
@@ -61,7 +61,7 @@
         },
         "size": {
           "type": "string",
-          "description": "Semantic: relative t-shirt sizing (e.g. small, medium, large). Distinct from dimension scale."
+          "description": "Semantic: relative t-shirt sizing (e.g. small, medium, large). Distinct from the `scale` mode set."
         },
         "density": {
           "type": "string",
@@ -73,15 +73,15 @@
         },
         "colorScheme": {
           "type": "string",
-          "description": "Dimension: color scheme mode (e.g. light, dark, wireframe)."
+          "description": "Mode set: color scheme mode (e.g. light, dark, wireframe)."
         },
         "scale": {
           "type": "string",
-          "description": "Dimension: platform density scale (e.g. desktop, mobile)."
+          "description": "Mode set: platform density scale (e.g. desktop, mobile)."
         },
         "contrast": {
           "type": "string",
-          "description": "Dimension: contrast level (e.g. regular, high)."
+          "description": "Mode set: contrast level (e.g. regular, high)."
         }
       },
       "additionalProperties": {

@@ -42,9 +42,9 @@ rules:
     name: cascade-coverage
     severity: error
     category: completeness
-    assert: Dimension declarations MUST satisfy coverage rules (e.g. default ∈ modes; peer mode requirements from coverage metadata).
-    message: "Dimension coverage violation for {dimension}"
-    spec_ref: spec/dimensions.md#coverage-validation
+    assert: Mode set declarations MUST satisfy coverage rules (e.g. default ∈ modes; peer mode requirements from coverage metadata).
+    message: "Mode-set coverage violation for {mode_set}"
+    spec_ref: spec/mode-sets.md#coverage-validation
     introduced_in: "1.0.0-draft"
 
   - id: SPEC-006
@@ -69,7 +69,7 @@ rules:
     name: cascade-completeness
     severity: warning
     category: completeness
-    assert: For every cascade token that has a non-default mode variant, a base/default variant (name object with no dimension fields for that dimension, or explicitly the default mode value) MUST also exist in the dataset. Ensures all consumers can resolve without a fallback gap.
+    assert: For every cascade token that has a non-default mode variant, a base/default variant (name object with no mode set fields for that mode set, or explicitly the default mode value) MUST also exist in the dataset. Ensures all consumers can resolve without a fallback gap.
     message: "Token property '{property}' has mode variant '{mode}' but no base/default variant"
     spec_ref: spec/cascade.md#coverage
     introduced_in: "1.0.0-draft"

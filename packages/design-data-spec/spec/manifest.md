@@ -22,7 +22,7 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 | `include`    | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.      |
 | `exclude`    | array of string | Queries removing tokens from the included set.                                   |
 | `overrides`  | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**. |
-| `extensions` | object          | New tokens or dimensions introduced at the platform layer.                       |
+| `extensions` | object          | New tokens or mode sets introduced at the platform layer.                        |
 
 ### `include` / `exclude`
 
@@ -38,7 +38,7 @@ Each override object **MUST** include enough information to identify a target to
 
 ### `extensions`
 
-**RECOMMENDED:** `extensions` follows the same structural conventions as foundation token files (tokens, dimensions) and **SHOULD** be validated with the same Layer 1 and Layer 2 rules.
+**RECOMMENDED:** `extensions` follows the same structural conventions as foundation token files (tokens, mode sets) and **SHOULD** be validated with the same Layer 1 and Layer 2 rules.
 
 #### `extensions.formatting`
 

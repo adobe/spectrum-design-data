@@ -23,7 +23,7 @@
     "./package.json": "./package.json",
     "./components/*.json": "./components/*.json",
     "./schemas/token.schema.json": "./schemas/token.schema.json",
-    "./schemas/dimension.schema.json": "./schemas/dimension.schema.json",
+    "./schemas/mode-set.schema.json": "./schemas/mode-set.schema.json",
     "./schemas/field.schema.json": "./schemas/field.schema.json",
     "./schemas/manifest.schema.json": "./schemas/manifest.schema.json",
     "./schemas/value-types/color.schema.json": "./schemas/value-types/color.schema.json",

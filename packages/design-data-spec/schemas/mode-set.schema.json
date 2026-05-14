@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/dimension.schema.json",
-  "title": "Dimension declaration",
-  "description": "Layer 1 — declares a dimension name, allowed modes, and default. default ∈ modes is validated in Layer 2 (SPEC-005) where needed.",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/mode-set.schema.json",
+  "title": "Mode Set declaration",
+  "description": "Layer 1 — declares a mode set name, allowed modes, and default. default ∈ modes is validated in Layer 2 (SPEC-005) where needed.",
   "type": "object",
   "required": ["name", "modes", "default"],
   "properties": {

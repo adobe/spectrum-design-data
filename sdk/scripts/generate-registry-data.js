@@ -45,7 +45,7 @@ const registryFields = fieldDeclarations
   .sort((a, b) => a.serialization.position - b.serialization.position);
 
 // Advisory subset — SPEC-009 only warns for these (strict fields are validated
-// elsewhere, e.g. SPEC-005/SPEC-008 for dimensions).
+// elsewhere, e.g. SPEC-005/SPEC-008 for mode sets).
 const advisoryFields = registryFields.filter(
   (d) => d.validation === "advisory",
 );

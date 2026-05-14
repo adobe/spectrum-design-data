@@ -17,7 +17,7 @@
 //!
 //! This is a warning-only rule. Fields excluded from this check:
 //! - `property` — free-form, no registry
-//! - `colorScheme`, `scale`, `contrast` — dimension fields, validated by SPEC-005/SPEC-008
+//! - `colorScheme`, `scale`, `contrast` — mode-set fields, validated by SPEC-005/SPEC-008
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
@@ -164,7 +164,7 @@ mod tests {
     }
 
     #[test]
-    fn dimension_fields_not_checked() {
+    fn mode_set_fields_not_checked() {
         // colorScheme, scale, contrast are validated by SPEC-005/008, not here.
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),

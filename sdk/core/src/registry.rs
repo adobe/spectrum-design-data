@@ -69,7 +69,7 @@ impl RegistryData {
     }
 
     /// Look up the vocabulary set for a name-object field.
-    /// Returns `None` for fields without a registry (e.g. `property`, dimension fields).
+    /// Returns `None` for fields without a registry (e.g. `property`, mode-set fields).
     pub fn for_field(&self, field: &str) -> Option<&HashSet<String>> {
         self.registries.get(field)
     }
@@ -116,7 +116,7 @@ mod tests {
         assert!(r.for_field("component").unwrap().contains("button"));
         assert!(r.for_field("object").unwrap().contains("background"));
         assert!(r.for_field("property").is_none()); // free-form, no registry
-        assert!(r.for_field("colorScheme").is_none()); // dimension, validated by SPEC-005/008
+        assert!(r.for_field("colorScheme").is_none()); // mode-set, validated by SPEC-005/008
     }
 
     #[test]
@@ -135,7 +135,7 @@ mod tests {
         assert!(fields.contains(&"state"));
         assert!(fields.contains(&"variant"));
         assert!(fields.contains(&"size"));
-        // property and dimension fields must not appear
+        // property and mode-set fields must not appear
         assert!(!fields.contains(&"property"));
         assert!(!fields.contains(&"colorScheme"));
         assert!(!fields.contains(&"scale"));

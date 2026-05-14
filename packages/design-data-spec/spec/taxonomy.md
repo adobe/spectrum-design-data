@@ -139,15 +139,15 @@ Semantic fields describe identity, structure, and intent. They are used for quer
 
 Semantic fields are those declared with `kind: "semantic"` in the field catalog. In Spectrum's foundation catalog, these are: `structure`, `substructure`, `component`, `anatomy`, `object`, `property`, `variant`, `state`, `orientation`, `position`, `size`, `density`, `shape`.
 
-### Dimension fields
+### Mode-set fields
 
-Dimension fields represent axes of variation that drive the [cascade](cascade.md) resolution algorithm and [specificity](cascade.md#semantic-specificity) calculation.
+Mode-set fields represent axes of variation that drive the [cascade](cascade.md) resolution algorithm and [specificity](cascade.md#semantic-specificity) calculation.
 
-**NORMATIVE:** Dimension field values are validated against declared [dimension](dimensions.md) modes with **strict** severity (error). An invalid mode value would silently fail to match any context during cascade resolution.
+**NORMATIVE:** Mode-set field values are validated against declared [mode set](mode-sets.md) modes with **strict** severity (error). An invalid mode value would silently fail to match any context during cascade resolution.
 
-Dimension fields are those declared with `kind: "dimension"` in the field catalog, plus any additional dimension keys from the dataset's [dimension declarations](dimensions.md). In Spectrum's foundation catalog, the standard dimension fields are: `colorScheme`, `scale`, `contrast`.
+Mode-set fields are those declared with `kind: "mode-set"` in the field catalog, plus any additional mode set keys from the dataset's [mode set declarations](mode-sets.md). In Spectrum's foundation catalog, the standard mode-set fields are: `colorScheme`, `scale`, `contrast`.
 
-See [Dimensions](dimensions.md) for dimension declarations, modes, and defaults.
+See [Mode Sets](mode-sets.md) for mode set declarations, modes, and defaults.
 
 ## Default serialization (legacy format)
 

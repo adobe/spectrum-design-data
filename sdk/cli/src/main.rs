@@ -60,9 +60,9 @@ enum Commands {
         /// Path to naming-exceptions.json allowlist for SPEC-007
         #[arg(long, value_name = "FILE")]
         exceptions_path: Option<PathBuf>,
-        /// Directory containing spec-format dimension declaration JSON files
+        /// Directory containing spec-format mode set declaration JSON files
         #[arg(long, value_name = "DIR")]
-        dimensions_path: Option<PathBuf>,
+        mode_sets_path: Option<PathBuf>,
         /// Directory containing spec-format component declaration JSON files (enables SPEC-028/029 on components)
         #[arg(long, value_name = "DIR")]
         components_path: Option<PathBuf>,
@@ -70,7 +70,7 @@ enum Commands {
         #[arg(long)]
         strict: bool,
     },
-    /// Resolve a token value for a given dimension context
+    /// Resolve a token value for a given mode set context
     Resolve {
         /// Token property name to resolve (e.g. background-color-default)
         #[arg(value_name = "PROPERTY")]
@@ -78,9 +78,9 @@ enum Commands {
         /// Directory containing cascade-format .tokens.json files
         #[arg(value_name = "PATH")]
         path: Option<PathBuf>,
-        /// Directory containing spec-format dimension declaration JSON files
+        /// Directory containing spec-format mode set declaration JSON files
         #[arg(long, value_name = "DIR")]
-        dimensions_path: Option<PathBuf>,
+        mode_sets_path: Option<PathBuf>,
         /// Color scheme mode (e.g. light, dark, wireframe)
         #[arg(long, value_name = "MODE")]
         color_scheme: Option<String>,
@@ -148,9 +148,9 @@ enum Commands {
         /// Override taxonomy fields directory
         #[arg(long, value_name = "DIR")]
         fields_dir: Option<PathBuf>,
-        /// Override dimensions directory
+        /// Override mode sets directory
         #[arg(long, value_name = "DIR")]
-        dimensions_dir: Option<PathBuf>,
+        mode_sets_dir: Option<PathBuf>,
     },
     /// Return the full component declaration for a given component identifier
     Component {
@@ -314,10 +314,10 @@ fn default_schema_path() -> PathBuf {
     PathBuf::from("packages/tokens/schemas")
 }
 
-fn default_dimensions_path() -> Option<PathBuf> {
+fn default_mode_sets_path() -> Option<PathBuf> {
     let candidates = [
-        PathBuf::from("packages/design-data-spec/dimensions"),
-        PathBuf::from("../packages/design-data-spec/dimensions"),
+        PathBuf::from("packages/design-data-spec/mode-sets"),
+        PathBuf::from("../packages/design-data-spec/mode-sets"),
     ];
     candidates.into_iter().find(|c| c.is_dir())
 }
@@ -341,7 +341,7 @@ fn default_fields_path() -> Option<PathBuf> {
 fn run_resolve(
     property: &str,
     path: &Path,
-    dimensions_path: Option<PathBuf>,
+    mode_sets_path: Option<PathBuf>,
     color_scheme: Option<String>,
     scale: Option<String>,
     contrast: Option<String>,
@@ -366,20 +366,20 @@ fn run_resolve(
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
-    // Load dimensions from spec catalog.
-    let dims_dir = dimensions_path.or_else(default_dimensions_path);
-    if let Some(dir) = dims_dir {
+    // Load mode sets from spec catalog.
+    let ms_dir = mode_sets_path.or_else(default_mode_sets_path);
+    if let Some(dir) = ms_dir {
         if dir.is_dir() {
-            let dims = TokenGraph::load_spec_dimensions(&dir)
+            let mode_sets = TokenGraph::load_spec_mode_sets(&dir)
                 .into_diagnostic()
-                .wrap_err_with(|| format!("failed to load dimensions from {}", dir.display()))?;
-            graph = graph.with_dimensions(dims);
+                .wrap_err_with(|| format!("failed to load mode sets from {}", dir.display()))?;
+            graph = graph.with_mode_sets(mode_sets);
         }
     }
 
     // Build a property-filtered context (remove the internal marker).
     let mut resolve_ctx = ResolutionContext::new();
-    for (k, v) in &ctx.dimensions {
+    for (k, v) in &ctx.mode_sets {
         if k != "__property_filter__" {
             resolve_ctx = resolve_ctx.with(k.clone(), v.clone());
         }
@@ -412,7 +412,7 @@ fn run_resolve(
             .map(|t| (t.name.clone(), t.file.clone(), t.raw.clone()))
             .collect(),
     )
-    .with_dimensions(graph.dimensions.clone());
+    .with_mode_sets(graph.mode_sets.clone());
 
     match resolve(&filtered_graph, &resolve_ctx) {
         None => {
@@ -451,7 +451,7 @@ fn run_validate(
     format: OutputFormat,
     schema_path: Option<PathBuf>,
     exceptions_path: Option<PathBuf>,
-    dimensions_path: Option<PathBuf>,
+    mode_sets_path: Option<PathBuf>,
     components_path: Option<PathBuf>,
     strict: bool,
 ) -> miette::Result<ExitCode> {
@@ -464,7 +464,7 @@ fn run_validate(
         .wrap_err_with(|| format!("failed to load schemas from {}", schema_root.display()))?;
     let exceptions = load_exceptions(exceptions_path.as_deref())?;
 
-    let dims_dir = dimensions_path.or_else(default_dimensions_path);
+    let dims_dir = mode_sets_path.or_else(default_mode_sets_path);
     let comps_dir = components_path.or_else(default_components_path);
 
     let report = validate::validate_all_with_options(
@@ -879,16 +879,16 @@ fn run_primer(
     format: OutputFormat,
     components_dir: Option<PathBuf>,
     fields_dir: Option<PathBuf>,
-    dimensions_dir: Option<PathBuf>,
+    mode_sets_dir: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
     let graph = TokenGraph::from_json_dir(path)
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
     let token_count = graph.tokens.len();
 
-    let dims_dir = dimensions_dir.or_else(default_dimensions_path);
-    let dimensions: Vec<serde_json::Value> = if let Some(dir) = dims_dir {
-        TokenGraph::load_spec_dimensions(&dir)
+    let ms_dir = mode_sets_dir.or_else(default_mode_sets_path);
+    let mode_sets: Vec<serde_json::Value> = if let Some(dir) = ms_dir {
+        TokenGraph::load_spec_mode_sets(&dir)
             .unwrap_or_default()
             .into_iter()
             .map(|d| {
@@ -958,7 +958,7 @@ fn run_primer(
     let payload = serde_json::json!({
         "specVersion": SPEC_VERSION,
         "tokenCount": token_count,
-        "dimensions": dimensions,
+        "modeSets": mode_sets,
         "components": components,
         "taxonomyFields": taxonomy_fields,
         "manifest": manifest,
@@ -972,7 +972,7 @@ fn run_primer(
             );
         }
         OutputFormat::Pretty => {
-            let dim_summary: Vec<String> = dimensions
+            let mode_set_summary: Vec<String> = mode_sets
                 .iter()
                 .map(|d| {
                     let name = d["name"].as_str().unwrap_or("");
@@ -1008,7 +1008,7 @@ fn run_primer(
             };
             println!("Spec version:  {SPEC_VERSION}");
             println!("Token count:   {token_count}");
-            println!("Dimensions:    {}", dim_summary.join(", "));
+            println!("Mode sets:     {}", mode_set_summary.join(", "));
             println!("Components:    {comp_preview}");
             println!("Fields:        {}", taxonomy_fields.len());
             println!(
@@ -1132,7 +1132,7 @@ fn main() -> ExitCode {
             format,
             schema_path,
             exceptions_path,
-            dimensions_path,
+            mode_sets_path,
             components_path,
             strict,
         } => {
@@ -1142,7 +1142,7 @@ fn main() -> ExitCode {
                 format,
                 schema_path,
                 exceptions_path,
-                dimensions_path,
+                mode_sets_path,
                 components_path,
                 strict,
             )
@@ -1150,7 +1150,7 @@ fn main() -> ExitCode {
         Commands::Resolve {
             property,
             path,
-            dimensions_path,
+            mode_sets_path,
             color_scheme,
             scale,
             contrast,
@@ -1160,7 +1160,7 @@ fn main() -> ExitCode {
             run_resolve(
                 &property,
                 &target,
-                dimensions_path,
+                mode_sets_path,
                 color_scheme,
                 scale,
                 contrast,
@@ -1220,10 +1220,10 @@ fn main() -> ExitCode {
             format,
             components_dir,
             fields_dir,
-            dimensions_dir,
+            mode_sets_dir,
         } => {
             let target = path.unwrap_or_else(|| PathBuf::from("."));
-            run_primer(&target, format, components_dir, fields_dir, dimensions_dir)
+            run_primer(&target, format, components_dir, fields_dir, mode_sets_dir)
         }
         Commands::Component { id, components_dir } => run_component(&id, components_dir),
         Commands::Write { output, rationale } => {

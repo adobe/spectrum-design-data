@@ -331,7 +331,7 @@ fn build_set_entry(
 ) -> Value {
     let mut out = Map::new();
 
-    // Name object: property + optional component from outer + dimension mode.
+    // Name object: property + optional component from outer + mode set mode.
     let mut name_obj = Map::new();
     name_obj.insert("property".into(), Value::String(property.to_string()));
     if let Some(c) = outer.get("component").and_then(|v| v.as_str()) {

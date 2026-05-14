@@ -13,7 +13,7 @@ Each **invalid** case lives under `invalid/<RULE_ID>/` with:
 | `invalid/SPEC-002` | SPEC-002 | Alias resolves to incompatible type (semantic).         |
 | `invalid/SPEC-003` | SPEC-003 | Circular alias chain.                                   |
 | `invalid/SPEC-004` | SPEC-004 | Duplicate `uuid` across tokens.                         |
-| `invalid/SPEC-005` | SPEC-005 | Dimension `default` not in `modes`.                     |
+| `invalid/SPEC-005` | SPEC-005 | Mode set `default` not in `modes`.                      |
 | `invalid/SPEC-006` | SPEC-006 | Ambiguous resolution / specificity tie (warning).       |
 | `invalid/SPEC-008` | SPEC-008 | Non-default mode variants with no base/default variant. |
 
@@ -26,15 +26,15 @@ Implementors SHOULD run these fixtures once the Rust validator exposes rule IDs 
 Each **resolution** case lives under `resolution/<name>/` with:
 
 * `input/` — cascade-format `.tokens.json` files
-* `dimensions/` — (optional) dimension declaration JSON files
+* `mode-sets/` — (optional) mode set declaration JSON files
 * `query.json` — `{ "property": "...", "context": { ... } }` — the resolution query
 * `expected.json` — `{ "resolved": bool, "expected_uuid": "..." }` — expected outcome
 
-| Folder                                    | Intent                                                               |
-| ----------------------------------------- | -------------------------------------------------------------------- |
-| `resolution/base-fallback`                | Dimensionless base token MUST match any context (wildcard behavior). |
-| `resolution/specificity-wins`             | Higher-specificity variant MUST win over base when both match.       |
-| `resolution/alias-resolved-after-cascade` | Cascade selects the winner first; alias `$ref` chain resolves after. |
+| Folder                                    | Intent                                                                   |
+| ----------------------------------------- | ------------------------------------------------------------------------ |
+| `resolution/base-fallback`                | Mode-set-agnostic base token MUST match any context (wildcard behavior). |
+| `resolution/specificity-wins`             | Higher-specificity variant MUST win over base when both match.           |
+| `resolution/alias-resolved-after-cascade` | Cascade selects the winner first; alias `$ref` chain resolves after.     |
 
 The Rust SDK drives these fixtures in `sdk/core/src/lib.rs` (`resolution_conformance` module, closes [#768](https://github.com/adobe/spectrum-design-data/issues/768)).
 

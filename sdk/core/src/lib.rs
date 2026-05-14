@@ -44,10 +44,10 @@ pub enum CoreError {
     #[error("expected token schema directory at {0}")]
     SchemaDirectoryMissing(PathBuf),
     #[error(
-        "token property '{0}' has tokens across multiple dimensions and cannot be represented \
-         in legacy set format; convert individual dimension slices separately"
+        "token property '{0}' has tokens across multiple mode sets and cannot be represented \
+         in legacy set format; convert individual mode-set slices separately"
     )]
-    MultiDimensionalToken(String),
+    MultiModeSetToken(String),
     #[error("query parse error: {0}")]
     QueryParse(String),
     #[error("parse error: {0}")]
@@ -93,7 +93,7 @@ mod relational_conformance {
 
     use serde_json::json;
 
-    use crate::graph::{DimensionRecord, TokenGraph};
+    use crate::graph::{ModeSetRecord, TokenGraph};
     use crate::validate::relational::diagnostics_for_rule;
 
     #[test]
@@ -178,9 +178,9 @@ mod relational_conformance {
     }
 
     #[test]
-    fn spec005_dimension_default_not_in_modes() {
-        let g = TokenGraph::default().with_dimensions(vec![DimensionRecord {
-            file: PathBuf::from("dimension.json"),
+    fn spec005_mode_set_default_not_in_modes() {
+        let g = TokenGraph::default().with_mode_sets(vec![ModeSetRecord {
+            file: PathBuf::from("mode-set.json"),
             name: "scale".into(),
             modes: vec!["medium".into(), "large".into()],
             default_mode: "xlarge".into(),
@@ -249,13 +249,12 @@ mod relational_conformance {
 
     #[test]
     fn spec008_cascade_completeness_warning() {
-        use crate::graph::DimensionRecord;
         let g = TokenGraph::from_pairs(vec![(
             "dark-only".into(),
             PathBuf::from("a.json"),
             json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#000"}),
         )])
-        .with_dimensions(vec![DimensionRecord {
+        .with_mode_sets(vec![ModeSetRecord {
             file: PathBuf::from("d.json"),
             name: "colorScheme".into(),
             modes: vec!["light".into(), "dark".into()],
@@ -440,7 +439,7 @@ mod relational_conformance {
 /// Resolution conformance tests — fixture-driven, closes #768.
 ///
 /// Each test case lives under `packages/design-data-spec/conformance/resolution/<name>/`
-/// with `input/` (cascade tokens), optional `dimensions/`, `query.json`, and `expected.json`.
+/// with `input/` (cascade tokens), optional `mode-sets/`, `query.json`, and `expected.json`.
 #[cfg(test)]
 mod resolution_conformance {
     use std::collections::HashMap;
@@ -488,11 +487,11 @@ mod resolution_conformance {
         let mut graph = TokenGraph::from_json_dir(&base.join("input"))
             .unwrap_or_else(|e| panic!("{case}: failed to load tokens: {e}"));
 
-        let dims_dir = base.join("dimensions");
-        if dims_dir.is_dir() {
-            let dims = TokenGraph::load_spec_dimensions(&dims_dir)
-                .unwrap_or_else(|e| panic!("{case}: failed to load dimensions: {e}"));
-            graph = graph.with_dimensions(dims);
+        let mode_sets_dir = base.join("mode-sets");
+        if mode_sets_dir.is_dir() {
+            let mode_sets = TokenGraph::load_spec_mode_sets(&mode_sets_dir)
+                .unwrap_or_else(|e| panic!("{case}: failed to load mode sets: {e}"));
+            graph = graph.with_mode_sets(mode_sets);
         }
 
         // Filter to property.
@@ -515,7 +514,7 @@ mod resolution_conformance {
                 .map(|t| (t.name.clone(), t.file.clone(), t.raw.clone()))
                 .collect(),
         )
-        .with_dimensions(graph.dimensions.clone());
+        .with_mode_sets(graph.mode_sets.clone());
 
         let should_resolve = expected["resolved"].as_bool().unwrap_or(true);
         let winner = resolve(&filtered, &ctx);
@@ -611,7 +610,7 @@ mod migration_roundtrip {
     #[test]
     fn scale_set_roundtrip_resolves_in_context() {
         use crate::cascade::{resolve, ResolutionContext};
-        use crate::graph::{DimensionRecord, TokenGraph};
+        use crate::graph::{ModeSetRecord, TokenGraph};
 
         let tokens = convert_token(
             "spacing-100",
@@ -633,7 +632,7 @@ mod migration_roundtrip {
                 (uuid, PathBuf::from("output.tokens.json"), v.clone())
             })
             .collect();
-        let graph = TokenGraph::from_pairs(pairs).with_dimensions(vec![DimensionRecord {
+        let graph = TokenGraph::from_pairs(pairs).with_mode_sets(vec![ModeSetRecord {
             file: PathBuf::from("scale.json"),
             name: "scale".into(),
             modes: vec!["desktop".into(), "mobile".into()],

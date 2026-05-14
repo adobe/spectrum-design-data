@@ -67,7 +67,7 @@ Accessibility notes specific to this entity — contrast behavior, screen reader
 ```json
 {
   "type": "accessibility",
-  "content": "Accent background tokens must maintain a minimum 3:1 contrast ratio against the surface they sit on in both light and dark schemes. The high-contrast dimension variant provides an alternative that meets 4.5:1."
+  "content": "Accent background tokens must maintain a minimum 3:1 contrast ratio against the surface they sit on in both light and dark schemes. The high-contrast mode-set variant provides an alternative that meets 4.5:1."
 }
 ```
 

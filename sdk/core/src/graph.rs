@@ -26,9 +26,9 @@ pub struct ComponentRecord {
     pub raw: Value,
 }
 
-/// One dimension declaration (new spec shape), when present in a JSON file.
+/// One mode set declaration (new spec shape), when present in a JSON file.
 #[derive(Debug, Clone)]
-pub struct DimensionRecord {
+pub struct ModeSetRecord {
     pub file: PathBuf,
     pub name: String,
     pub modes: Vec<String>,
@@ -53,7 +53,7 @@ pub struct TokenRecord {
 #[derive(Debug, Clone, Default)]
 pub struct TokenGraph {
     pub tokens: HashMap<String, TokenRecord>,
-    pub dimensions: Vec<DimensionRecord>,
+    pub mode_sets: Vec<ModeSetRecord>,
     pub components: Vec<ComponentRecord>,
     /// Secondary index: UUID value → primary key in `tokens`.
     ///
@@ -120,9 +120,9 @@ impl TokenGraph {
                 continue;
             };
 
-            if looks_like_dimension_doc(obj) {
-                if let Some(d) = parse_dimension(&path, obj) {
-                    g.dimensions.push(d);
+            if looks_like_mode_set_doc(obj) {
+                if let Some(d) = parse_mode_set(&path, obj) {
+                    g.mode_sets.push(d);
                 }
                 continue;
             }
@@ -161,18 +161,18 @@ impl TokenGraph {
         Ok(g)
     }
 
-    /// Load spec-format dimension declarations from a dedicated catalog directory.
+    /// Load spec-format mode set declarations from a dedicated catalog directory.
     ///
-    /// Each file must be a JSON object conforming to `dimension.schema.json`
+    /// Each file must be a JSON object conforming to `mode-set.schema.json`
     /// (fields: `name`, `modes`, `default`). Returns all successfully parsed
-    /// declarations; silently skips files that do not match the dimension shape.
-    pub fn load_spec_dimensions(dir: &Path) -> Result<Vec<DimensionRecord>, CoreError> {
+    /// declarations; silently skips files that do not match the mode set shape.
+    pub fn load_spec_mode_sets(dir: &Path) -> Result<Vec<ModeSetRecord>, CoreError> {
         let mut out = Vec::new();
         for path in discover_json_files(dir)? {
             let text = std::fs::read_to_string(&path)?;
             let value: Value = serde_json::from_str(&text)?;
             if let Some(obj) = value.as_object() {
-                if let Some(d) = parse_dimension(&path, obj) {
+                if let Some(d) = parse_mode_set(&path, obj) {
                     out.push(d);
                 }
             }
@@ -213,15 +213,15 @@ impl TokenGraph {
         }
         Self {
             tokens,
-            dimensions: Vec::new(),
+            mode_sets: Vec::new(),
             components: Vec::new(),
             uuid_index,
         }
     }
 
-    /// Attach dimension records (e.g. from conformance fixtures).
-    pub fn with_dimensions(mut self, dimensions: Vec<DimensionRecord>) -> Self {
-        self.dimensions = dimensions;
+    /// Attach mode set records (e.g. from conformance fixtures).
+    pub fn with_mode_sets(mut self, mode_sets: Vec<ModeSetRecord>) -> Self {
+        self.mode_sets = mode_sets;
         self
     }
 
@@ -262,7 +262,7 @@ fn looks_like_token_file(obj: &serde_json::Map<String, Value>) -> bool {
     })
 }
 
-fn looks_like_dimension_doc(obj: &serde_json::Map<String, Value>) -> bool {
+fn looks_like_mode_set_doc(obj: &serde_json::Map<String, Value>) -> bool {
     obj.contains_key("modes")
         && obj.contains_key("default")
         && obj.get("name").and_then(|v| v.as_str()).is_some()
@@ -271,7 +271,7 @@ fn looks_like_dimension_doc(obj: &serde_json::Map<String, Value>) -> bool {
             .any(|v| v.as_object().is_some_and(|o| o.contains_key("$schema")))
 }
 
-fn parse_dimension(path: &Path, obj: &serde_json::Map<String, Value>) -> Option<DimensionRecord> {
+fn parse_mode_set(path: &Path, obj: &serde_json::Map<String, Value>) -> Option<ModeSetRecord> {
     let name = obj.get("name")?.as_str()?.to_string();
     let default_mode = obj.get("default")?.as_str()?.to_string();
     let modes: Vec<String> = obj
@@ -280,7 +280,7 @@ fn parse_dimension(path: &Path, obj: &serde_json::Map<String, Value>) -> Option<
         .iter()
         .filter_map(|v| v.as_str().map(str::to_string))
         .collect();
-    Some(DimensionRecord {
+    Some(ModeSetRecord {
         file: path.to_path_buf(),
         name,
         modes,

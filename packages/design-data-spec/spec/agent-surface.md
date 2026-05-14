@@ -9,7 +9,7 @@ This document defines the **agent-readable surface**: the contract an external A
 
 The surface targets three consumer shapes:
 
-1. **Authoring an external system.** A non-Spectrum design system being constructed inside an AI tool (e.g. a finance-dashboard prototype tool) wants to produce spec-conformant tokens, dimensions, and components without re-deriving the format from prose.
+1. **Authoring an external system.** A non-Spectrum design system being constructed inside an AI tool (e.g. a finance-dashboard prototype tool) wants to produce spec-conformant tokens, mode sets, and components without re-deriving the format from prose.
 2. **Extending Spectrum.** A product or platform team adds tokens, components, or overrides on top of the published Spectrum foundation and needs to validate that the additions cascade and resolve correctly.
 3. **Adhering to Spectrum.** A prototyping tool generates UI that should match Spectrum even where no bound component exists (e.g. CSS for a custom card). The agent needs to look up tokens by intent, validate proposed property values against the foundation, and report drift.
 
@@ -27,7 +27,7 @@ The surface targets three consumer shapes:
 
 | Operation            | Reads                                                  | Returns                                                                                                                                                                                   | Backed by                                                 |
 | -------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| `resolve_token`      | property + dimension context                           | winning token (literal or resolved alias) with file/UUID/specificity                                                                                                                      | `cascade::resolve`                                        |
+| `resolve_token`      | property + mode set context                            | winning token (literal or resolved alias) with file/UUID/specificity                                                                                                                      | `cascade::resolve`                                        |
 | `query_tokens`       | filter expression (see [Query](query.md))              | matching token list                                                                                                                                                                       | `query::filter`                                           |
 | `validate_usage`     | candidate token document or fragment                   | `ValidationReport` (Layer 1 + Layer 2 diagnostics)                                                                                                                                        | `validate::validate_*`                                    |
 | `describe_component` | component identifier                                   | component contract (anatomy, options, states, tokenBindings); see [#832](https://github.com/adobe/spectrum-design-data/discussions/832) and [Phase 6.7](#describe_component-return-shape) | (Phase 6 contract)                                        |
@@ -51,7 +51,7 @@ An agent loop benefits from a small, structural overview at session start so tha
 | ---------------- | -------------- | ----------------------------------------------------------------- |
 | `specVersion`    | string         | The spec version the dataset declares (see [Overview](index.md)). |
 | `manifest`       | object \| null | Resolved platform manifest, if any (see [Manifest](manifest.md)). |
-| `dimensions`     | array          | Declared dimensions with modes and defaults.                      |
+| `modeSets`       | array          | Declared mode sets with modes and defaults.                       |
 | `components`     | array          | Component identifiers exposed by the dataset (post Phase 6).      |
 | `taxonomyFields` | array          | Active name-object fields and their declared vocabulary.          |
 | `tokenCount`     | integer        | Total tokens in the merged cascade.                               |
@@ -130,7 +130,7 @@ The `describe_component` tool returns the component declaration object as stored
 
 The following sketch shows an agent loop that adheres-to-Spectrum while authoring a non-bound component.
 
-1. Agent calls `primer ./spectrum-data` and learns that `colorScheme` and `scale` are the active dimensions and that `button`, `picker`, and `card` are exposed components.
+1. Agent calls `primer ./spectrum-data` and learns that `colorScheme` and `scale` are the active mode sets and that `button`, `picker`, and `card` are exposed components.
 2. User asks for a "subtle hover background for a card on dark mode".
 3. Agent calls `suggest_token "subtle hover background for card" --property background-color`.
 4. Surface returns a ranked list including `background-color-hover` from Spectrum foundation and `background-color-card-hover` from a card component group.

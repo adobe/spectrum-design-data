@@ -196,7 +196,7 @@ fn primer_paths() -> (PathBuf, PathBuf, PathBuf, PathBuf) {
     let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let src = manifest.join("../../packages/tokens/src");
     let components = manifest.join("../../packages/design-data-spec/components");
-    let dimensions = manifest.join("../../packages/design-data-spec/dimensions");
+    let mode_sets = manifest.join("../../packages/design-data-spec/mode-sets");
     let fields = manifest.join("../../packages/design-data-spec/fields");
     assert!(src.is_dir(), "expected token sources at {}", src.display());
     assert!(
@@ -205,21 +205,21 @@ fn primer_paths() -> (PathBuf, PathBuf, PathBuf, PathBuf) {
         components.display()
     );
     assert!(
-        dimensions.is_dir(),
-        "expected dimensions at {}",
-        dimensions.display()
+        mode_sets.is_dir(),
+        "expected mode sets at {}",
+        mode_sets.display()
     );
     assert!(
         fields.is_dir(),
         "expected fields at {}",
         fields.display()
     );
-    (src, components, dimensions, fields)
+    (src, components, mode_sets, fields)
 }
 
 #[test]
 fn primer_emits_json_with_required_fields() {
-    let (src, components, dimensions, fields) = primer_paths();
+    let (src, components, mode_sets, fields) = primer_paths();
 
     let output = Command::cargo_bin("design-data")
         .expect("binary design-data")
@@ -230,8 +230,8 @@ fn primer_emits_json_with_required_fields() {
             "json",
             "--components-dir",
             components.to_str().expect("utf8 path"),
-            "--dimensions-dir",
-            dimensions.to_str().expect("utf8 path"),
+            "--mode-sets-dir",
+            mode_sets.to_str().expect("utf8 path"),
             "--fields-dir",
             fields.to_str().expect("utf8 path"),
         ])
@@ -250,8 +250,8 @@ fn primer_emits_json_with_required_fields() {
         "tokenCount must be positive"
     );
     assert!(
-        doc["dimensions"].as_array().map_or(false, |a| !a.is_empty()),
-        "dimensions must be non-empty"
+        doc["modeSets"].as_array().map_or(false, |a| !a.is_empty()),
+        "modeSets must be non-empty"
     );
     assert!(
         doc["components"].as_array().map_or(false, |a| !a.is_empty()),
@@ -265,7 +265,7 @@ fn primer_emits_json_with_required_fields() {
 
 #[test]
 fn primer_components_are_sorted() {
-    let (src, components, dimensions, fields) = primer_paths();
+    let (src, components, mode_sets, fields) = primer_paths();
 
     let output = Command::cargo_bin("design-data")
         .expect("binary design-data")
@@ -276,8 +276,8 @@ fn primer_components_are_sorted() {
             "json",
             "--components-dir",
             components.to_str().expect("utf8 path"),
-            "--dimensions-dir",
-            dimensions.to_str().expect("utf8 path"),
+            "--mode-sets-dir",
+            mode_sets.to_str().expect("utf8 path"),
             "--fields-dir",
             fields.to_str().expect("utf8 path"),
         ])
@@ -308,7 +308,7 @@ fn primer_components_are_sorted() {
 
 #[test]
 fn primer_pretty_output_contains_token_count() {
-    let (src, components, dimensions, fields) = primer_paths();
+    let (src, components, mode_sets, fields) = primer_paths();
 
     Command::cargo_bin("design-data")
         .expect("binary design-data")
@@ -317,8 +317,8 @@ fn primer_pretty_output_contains_token_count() {
             src.to_str().expect("utf8 path"),
             "--components-dir",
             components.to_str().expect("utf8 path"),
-            "--dimensions-dir",
-            dimensions.to_str().expect("utf8 path"),
+            "--mode-sets-dir",
+            mode_sets.to_str().expect("utf8 path"),
             "--fields-dir",
             fields.to_str().expect("utf8 path"),
         ])

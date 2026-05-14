@@ -24,7 +24,7 @@ impl ValidationRule for Rule {
 
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
-        for d in &ctx.graph.dimensions {
+        for d in &ctx.graph.mode_sets {
             if !d.modes.iter().any(|m| m == &d.default_mode) {
                 out.push(Diagnostic {
                     file: d.file.clone(),
@@ -32,7 +32,7 @@ impl ValidationRule for Rule {
                     rule_id: Some(self.id().to_string()),
                     severity: Severity::Error,
                     message: format!(
-                        "Dimension coverage violation for {}: default {:?} is not in modes {:?}",
+                        "Mode-set coverage violation for {}: default {:?} is not in modes {:?}",
                         d.name, d.default_mode, d.modes
                     ),
                     instance_path: None,

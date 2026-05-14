@@ -35,7 +35,7 @@ A token's `name` field **MAY** be a non-empty plain string instead of a name obj
 
 **NORMATIVE:** String-named tokens **MUST** trigger rule SPEC-017 (severity: `warning`, category: `tech-debt`). The warning surfaces the token as tracked debt requiring future remediation.
 
-**NORMATIVE:** String-named tokens **MUST NOT** participate in name-object cascade dimension matching, specificity calculation, or registry vocabulary checks (SPEC-009 does not apply).
+**NORMATIVE:** String-named tokens **MUST NOT** participate in name-object cascade mode-set matching, specificity calculation, or registry vocabulary checks (SPEC-009 does not apply).
 
 **RECOMMENDED:** Authors **SHOULD** treat string names as a temporary escape hatch and track a remediation plan. Each string-named token **SHOULD** eventually be given a structured name object, at which point SPEC-017 no longer fires.
 
@@ -45,9 +45,9 @@ The **name object** identifies the token in a structured way. Implementations us
 
 **NORMATIVE fields** (all string unless noted):
 
-The set of available name-object fields is declared in the design system's **field catalog** (`fields/` directory). Each field declaration conforms to [`field.schema.json`](../schemas/field.schema.json) and specifies its kind (`semantic` or `dimension`), vocabulary registry, validation severity, and default serialization position. See [Taxonomy](taxonomy.md) for the full concept category hierarchy, component anatomy vs. token objects, and serialization rules.
+The set of available name-object fields is declared in the design system's **field catalog** (`fields/` directory). Each field declaration conforms to [`field.schema.json`](../schemas/field.schema.json) and specifies its kind (`semantic` or `mode-set`), vocabulary registry, validation severity, and default serialization position. See [Taxonomy](taxonomy.md) for the full concept category hierarchy, component anatomy vs. token objects, and serialization rules.
 
-Fields are divided into **semantic fields** (identity, structure, intent) and **dimension fields** (axes of variation for cascade resolution). The tables below list Spectrum's foundation-standard fields as declared in the catalog.
+Fields are divided into **semantic fields** (identity, structure, intent) and **mode-set fields** (axes of variation for cascade resolution). The tables below list Spectrum's foundation-standard fields as declared in the catalog.
 
 #### Semantic fields
 
@@ -67,16 +67,16 @@ Fields are divided into **semantic fields** (identity, structure, intent) and **
 | `density`      | OPTIONAL | Density           | Space within or around component parts (e.g. `spacious`, `compact`).                                                                                                     |
 | `shape`        | OPTIONAL | Shape             | Relative to overall component shape (e.g. `uniform`).                                                                                                                    |
 
-#### Dimension fields
+#### Mode-set fields
 
-| Field           | Status   | Description                                                                                     |
-| --------------- | -------- | ----------------------------------------------------------------------------------------------- |
-| `colorScheme`   | OPTIONAL | Dimension: light / dark / wireframe / etc.                                                      |
-| `scale`         | OPTIONAL | Dimension: platform density scale (e.g. `desktop`, `mobile`). Distinct from semantic `size`.    |
-| `contrast`      | OPTIONAL | Dimension: contrast level (e.g. `regular`, `high`).                                             |
-| Additional keys | OPTIONAL | Other dimensions declared in the dataset’s dimension catalog (see [Dimensions](dimensions.md)). |
+| Field           | Status   | Description                                                                                 |
+| --------------- | -------- | ------------------------------------------------------------------------------------------- |
+| `colorScheme`   | OPTIONAL | Mode set: light / dark / wireframe / etc.                                                   |
+| `scale`         | OPTIONAL | Mode set: platform density scale (e.g. `desktop`, `mobile`). Distinct from semantic `size`. |
+| `contrast`      | OPTIONAL | Mode set: contrast level (e.g. `regular`, `high`).                                          |
+| Additional keys | OPTIONAL | Other mode sets declared in the dataset’s mode set catalog (see [Mode Sets](mode-sets.md)). |
 
-**NORMATIVE:** Each field is validated according to the `validation` severity declared in its field declaration. Semantic fields typically use **advisory** severity (warning); dimension fields use **strict** severity (error). See [Taxonomy — Name object field categories](taxonomy.md#name-object-field-categories).
+**NORMATIVE:** Each field is validated according to the `validation` severity declared in its field declaration. Semantic fields typically use **advisory** severity (warning); mode-set fields use **strict** severity (error). See [Taxonomy — Name object field categories](taxonomy.md#name-object-field-categories).
 
 **RECOMMENDED:** Name objects use a consistent key ordering in authored files for diffs; this is not a conformance requirement. Concept ordering for serialized names is defined in [Taxonomy — Default serialization](taxonomy.md#default-serialization-legacy-format).
 
@@ -249,7 +249,7 @@ The current `@adobe/spectrum-tokens` JSON uses **sets** (`color-set`, `scale-set
 | ------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | Identity field      | `id`                                                                       | `uuid`                                                                     |
 | Name model          | `name.original` (string) + `name.structure` (nested object)                | Flat fields directly on `name` (`property`, `component`, `colorScheme`, …) |
-| Complexity tracking | `name.semanticComplexity` (stored on token)                                | Computed at validation time from dimension declarations                    |
+| Complexity tracking | `name.semanticComplexity` (stored on token)                                | Computed at validation time from mode set declarations                     |
 
 **NORMATIVE:** The flat `name` object defined in this spec is the authoritative serialization format. RFC [#646](https://github.com/adobe/spectrum-design-data/issues/646)'s `name.structure` / `name.original` shape is not a conformance target; it remains a useful reference for the analytical model that informed this design.
 

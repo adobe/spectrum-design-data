@@ -398,7 +398,7 @@ pub fn display_name(t: &TokenRecord) -> String {
             .get("property")
             .and_then(|v| v.as_str())
             .unwrap_or("?");
-        // Collect non-property fields as dimension qualifiers.
+        // Collect non-property fields as mode-set qualifiers.
         let mut qualifiers: Vec<String> = name_obj
             .iter()
             .filter(|(k, _)| *k != "property")

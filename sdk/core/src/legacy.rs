@@ -17,7 +17,7 @@
 //!
 //! # Format transformation
 //!
-//! **Cascade tokens for the same property with dimension variants:**
+//! **Cascade tokens for the same property with mode set variants:**
 //! ```json
 //! [
 //!   { "name": { "property": "overlay-opacity", "colorScheme": "light" }, "value": "0.4", "uuid": "aaa" },
@@ -443,12 +443,12 @@ fn effective_lifecycle_value<'a>(entry: &'a Map<String, Value>, field: &str) -> 
 
 /// Convert a cascade array to a legacy object map.
 ///
-/// Tokens that share a `name.property` and differ only by a **single** dimension
+/// Tokens that share a `name.property` and differ only by a **single** mode set
 /// key are grouped into a `color-set` or `scale-set` entry. Tokens with no
-/// recognized dimension key are emitted as flat entries.
+/// recognized mode set key are emitted as flat entries.
 ///
-/// Returns `Err(CoreError::MultiDimensionalToken)` if any property group has
-/// tokens spread across more than one dimension (e.g. colorScheme × scale).
+/// Returns `Err(CoreError::MultiModeSetToken)` if any property group has
+/// tokens spread across more than one mode set (e.g. colorScheme × scale).
 /// The legacy format has no representation for such combinations; emitting a
 /// partial output would silently discard data.
 fn convert_array(
@@ -479,11 +479,11 @@ fn convert_array(
             continue;
         }
 
-        // Collect ALL distinct dimension keys present across this property group.
-        let dim_keys = collect_dimension_keys(&tokens);
+        // Collect ALL distinct mode set keys present across this property group.
+        let dim_keys = collect_mode_set_keys(&tokens);
 
         if dim_keys.len() > 1 {
-            return Err(CoreError::MultiDimensionalToken(property));
+            return Err(CoreError::MultiModeSetToken(property));
         }
 
         let mut entry = if let Some(dim) = dim_keys.into_iter().next() {
@@ -491,7 +491,7 @@ fn convert_array(
             summary.sets_reconstructed += 1;
             result
         } else {
-            // No dimension key → flat entry (use first token, base/default variant).
+            // No mode set key → flat entry (use first token, base/default variant).
             summary.flat_tokens += 1;
             build_flat_entry(tokens[0])
         };
@@ -548,11 +548,11 @@ fn normalize_lifecycle_for_legacy(
     }
 }
 
-/// Collect the set of recognized dimension keys present in any token in the group.
+/// Collect the set of recognized mode set keys present in any token in the group.
 ///
-/// Only the known set-forming dimensions are considered (`colorScheme`, `scale`).
+/// Only the known set-forming mode sets are considered (`colorScheme`, `scale`).
 /// Returns a sorted set so error messages are deterministic.
-fn collect_dimension_keys(tokens: &[&Map<String, Value>]) -> BTreeSet<&'static str> {
+fn collect_mode_set_keys(tokens: &[&Map<String, Value>]) -> BTreeSet<&'static str> {
     const SET_DIMS: &[&str] = &["colorScheme", "scale"];
     let mut found = BTreeSet::new();
     for tok in tokens {
@@ -575,7 +575,7 @@ fn build_set_entry(
     _summary: &mut LegacySummary,
 ) -> Value {
     // Prefer the stored set_schema (written by migrate) so we can round-trip
-    // schema types that share a dimension key (e.g. typography-scale vs scale-set).
+    // schema types that share a mode set key (e.g. typography-scale vs scale-set).
     // Falls back to the legacy default (color-set or scale-set) for older cascade
     // files that were produced before set_schema was stored.
     let stored_set_schema = consistent_str_field(tokens, |t| {
@@ -666,7 +666,7 @@ fn build_mode_entry(
     entry
 }
 
-/// Build a flat legacy entry from a cascade token with no dimension key.
+/// Build a flat legacy entry from a cascade token with no mode-set key.
 fn build_flat_entry(tok: &Map<String, Value>) -> Value {
     let mut entry = Map::new();
 
@@ -701,7 +701,7 @@ fn build_flat_entry(tok: &Map<String, Value>) -> Value {
 
 /// Build an entry value directly from a cascade token (used by `convert_token`).
 fn build_entry(tok: &Map<String, Value>, name_obj: &Map<String, Value>) -> Value {
-    // If the token has a recognized dimension key in its name object, it cannot
+    // If the token has a recognized mode-set key in its name object, it cannot
     // be round-tripped as a standalone entry — return flat entry.
     let _ = name_obj;
     build_flat_entry(tok)
@@ -879,10 +879,10 @@ mod tests {
         assert!(entry["sets"]["light"].get("$ref").is_none());
     }
 
-    /// Regression for P1: multi-dimensional cascade tokens MUST error, not silently
+    /// Regression for P1: multi-mode-set cascade tokens MUST error, not silently
     /// discard data. A colorScheme × scale matrix cannot be represented in legacy format.
     #[test]
-    fn multi_dimensional_tokens_error_not_silently_lose_data() {
+    fn multi_mode_set_tokens_error_not_silently_lose_data() {
         let arr = json!([
             {"name": {"property": "bg", "colorScheme": "light", "scale": "desktop"}, "value": "#fff", "uuid": "md-0001"},
             {"name": {"property": "bg", "colorScheme": "dark",  "scale": "desktop"}, "value": "#000", "uuid": "md-0002"},
@@ -893,7 +893,7 @@ mod tests {
         let result = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new());
         assert!(
             result.is_err(),
-            "expected Err for multi-dimensional property, got Ok"
+            "expected Err for multi-mode-set property, got Ok"
         );
         let err = result.unwrap_err().to_string();
         assert!(
