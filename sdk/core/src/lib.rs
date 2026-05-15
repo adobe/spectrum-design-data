@@ -488,7 +488,7 @@ mod validation_conformance {
                 let layer = raw
                     .get("$layer")
                     .and_then(|v| v.as_str())
-                    .and_then(Layer::from_str)
+                    .and_then(|s| s.parse().ok())
                     .unwrap_or(Layer::Foundation);
                 let tok_obj = raw.as_object();
                 let schema_url = tok_obj

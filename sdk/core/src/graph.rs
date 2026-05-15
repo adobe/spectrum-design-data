@@ -30,13 +30,15 @@ pub enum Layer {
     Product = 3,
 }
 
-impl Layer {
-    pub fn from_str(s: &str) -> Option<Self> {
+impl std::str::FromStr for Layer {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-            "foundation" => Some(Layer::Foundation),
-            "platform" => Some(Layer::Platform),
-            "product" => Some(Layer::Product),
-            _ => None,
+            "foundation" => Ok(Layer::Foundation),
+            "platform" => Ok(Layer::Platform),
+            "product" => Ok(Layer::Product),
+            _ => Err(()),
         }
     }
 }
