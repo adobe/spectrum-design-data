@@ -201,4 +201,41 @@ mod tests {
         let diags = run(vec![foundation("uuid-5", json!("#abc"))]);
         assert!(diags.is_empty());
     }
+
+    #[test]
+    fn platform_layer_type_change_is_error() {
+        // Per spec/cascade.md, Platform layer MUST also remain type-compatible.
+        let platform = TokenRecord {
+            name: "platform:uuid-6:0".into(),
+            file: PathBuf::from("platform-context.json"),
+            index: 0,
+            schema_url: None,
+            uuid: Some("uuid-6".into()),
+            alias_target: None,
+            raw: json!({"name": {"property": "spacing"}, "uuid": "uuid-6", "value": 8}),
+            layer: Layer::Platform,
+        };
+        let diags = run(vec![foundation("uuid-6", json!("8px")), platform]);
+        assert_eq!(diags.len(), 1);
+        assert_eq!(diags[0].severity, Severity::Error);
+        assert_eq!(diags[0].rule_id.as_deref(), Some("SPEC-032"));
+        assert!(diags[0].message.contains("string"));
+        assert!(diags[0].message.contains("number"));
+    }
+
+    #[test]
+    fn platform_layer_same_type_no_error() {
+        let platform = TokenRecord {
+            name: "platform:uuid-7:0".into(),
+            file: PathBuf::from("platform-context.json"),
+            index: 0,
+            schema_url: None,
+            uuid: Some("uuid-7".into()),
+            alias_target: None,
+            raw: json!({"name": {"property": "spacing"}, "uuid": "uuid-7", "value": "12px"}),
+            layer: Layer::Platform,
+        };
+        let diags = run(vec![foundation("uuid-7", json!("8px")), platform]);
+        assert!(diags.is_empty());
+    }
 }

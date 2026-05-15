@@ -22,7 +22,7 @@ use crate::CoreError;
 ///
 /// Layer ordering is encoded in the discriminant so `Ord` gives correct
 /// precedence: `Foundation < Platform < Product`.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
 pub enum Layer {
     #[default]
     Foundation = 1,
@@ -291,17 +291,17 @@ impl TokenGraph {
                 };
 
                 // Find the Foundation token's name object via uuid_index.
-                let foundation_raw = self
+                // Skip overrides that reference an unknown UUID — inserting a synthetic
+                // token with "name": null would silently corrupt downstream validation.
+                let Some(name_obj) = self
                     .uuid_index
                     .get(uuid_str)
                     .and_then(|k| self.tokens.get(k))
-                    .map(|t| t.raw.clone());
-
-                let name_obj = foundation_raw
-                    .as_ref()
-                    .and_then(|r| r.get("name"))
+                    .and_then(|t| t.raw.get("name"))
                     .cloned()
-                    .unwrap_or(Value::Null);
+                else {
+                    continue;
+                };
 
                 // Synthesize a Product-layer token with the same name object and override value.
                 let mut synthetic_raw = serde_json::json!({
