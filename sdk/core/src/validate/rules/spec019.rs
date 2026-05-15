@@ -61,12 +61,12 @@ impl ValidationRule for Rule {
                 continue; // no enum declared — any variant is allowed
             };
 
-            let declared: Vec<&str> = variant_enum
+            let declared: std::collections::HashSet<&str> = variant_enum
                 .iter()
                 .filter_map(|v| v.as_str())
                 .collect();
 
-            if !declared.contains(&variant) {
+            if !declared.contains(variant) {
                 let token_label = serde_json::to_string(name_obj).unwrap_or_default();
                 out.push(Diagnostic {
                     file: t.file.clone(),
