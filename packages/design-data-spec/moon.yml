@@ -18,10 +18,6 @@ fileGroups:
     - "rules/**/*.{yaml,yml}"
   conformance:
     - "conformance/**/*"
-  source:
-    - "src/**/*.js"
-  components:
-    - "components/**/*.json"
 tasks:
   check:
     command:
@@ -34,13 +30,3 @@ tasks:
       - "@globs(rules)"
       - "@globs(conformance)"
       - "scripts/check-layout.mjs"
-  test:
-    command:
-      - pnpm
-      - ava
-    platform: node
-    inputs:
-      - "@globs(source)"
-      - "test/**/*.test.js"
-      - "@globs(conformance)"
-      - "@globs(components)"
