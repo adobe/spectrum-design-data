@@ -1,5 +1,11 @@
 # @adobe/design-system-registry
 
+## 1.4.0
+
+### Minor Changes
+
+- [#915](https://github.com/adobe/spectrum-design-data/pull/915) [`4f53a93`](https://github.com/adobe/spectrum-design-data/commit/4f53a932177c618e8b09e858cdeafe116d6b4f33) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(registry): expand anatomy-terms from 43 to 119 terms via S2 docs audit
+
 ## 1.3.0
 
 ### Minor Changes
