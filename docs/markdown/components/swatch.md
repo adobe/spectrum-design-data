@@ -20,4 +20,3 @@ A swatch shows a small sample of a fill — such as a color, gradient, texture, 
 | cornerRounding | string | none, partial, full | none | No | Determines the corner radius of the swatch. Partial refers to corner-radius-75. |
 | isSelected | boolean | - | false | No | - |
 | isDisabled | boolean | - | false | No | - |
-| state | string | default, hover, down, keyboard focus | default | No | - |

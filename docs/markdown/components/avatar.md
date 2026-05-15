@@ -18,4 +18,3 @@ An avatar is a thumbnail representation of an entity, such as a user or an organ
 | image | string | user image, gradient image, gradient, guest image, initials | user image | No | - |
 | isDisabled | boolean | - | false | No | - |
 | showStroke | boolean | - | false | No | - |
-| state | string | default, down, keyboard focus | default | No | - |

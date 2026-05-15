@@ -28,4 +28,3 @@ Text fields allow users to input custom text entries with a keyboard. Various op
 | isDisabled | boolean | - | false | No | - |
 | helpText | string | - | - | No | - |
 | errorMessage | string | - | - | No | - |
-| state | string | default, hover, focus + hover, focus + not hover, keyboard focus | default | No | - |

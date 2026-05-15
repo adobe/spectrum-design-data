@@ -17,4 +17,3 @@ The rating component lets users apply a rating to an item or experience, such as
 | value | number | - | 0 | No | From 0 to 5, can be a decimal to represent half stars |
 | isEmphasized | boolean | - | false | No | - |
 | isDisabled | boolean | - | false | No | - |
-| state | string | default, hover, down, keyboard focus | default | No | - |

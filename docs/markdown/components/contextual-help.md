@@ -20,4 +20,3 @@ Contextual help shows a user extra information about the state of either an adja
 | href | string | - | - | No | Optional URL within contextual help content like a 'Learn more' link. |
 | popoverCrossOffset | number | - | 0 | No | - |
 | containerPadding | number | - | 8 | No | - |
-| state | string | default, down, open, keyboard focus | default | No | - |

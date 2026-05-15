@@ -14,7 +14,6 @@ Breadcrumbs show hierarchy and navigational context for a user’s location with
 
 | Property | Type | Values | Default | Required | Description |
 | --- | --- | --- | --- | --- | --- |
-| state | string | default, hover, down, keyboard focus, drag and drop | default | No | - |
 | isMultiline | boolean | - | false | No | If true, the breadcrumb items will wrap to multiple lines. |
 | size | string | m, l | m | No | Controls the overall size of the breadcrumb component. |
 | items | array | - | - | No | An array of breadcrumb items. |

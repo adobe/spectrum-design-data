@@ -28,4 +28,3 @@ Pickers (sometimes known as "dropdowns" or "selects") allow users to choose from
 | isError | boolean | - | false | No | - |
 | description | string | - | null | No | - |
 | errorMessage | string | - | null | No | - |
-| state | string | default, hover, focus + hover, focus + not hover, keyboard focus | default | No | - |

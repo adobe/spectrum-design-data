@@ -19,5 +19,4 @@ tags:
 | hideIllustration | boolean | - | false | No | - |
 | showCheckbox | boolean | - | false | No | - |
 | isDisabled | boolean | - | false | No | - |
-| state | string | default, down, hover, keyboard focus | default | No | - |
 | multiple | boolean | - | false | No | Set to true to allow multiple selections. |

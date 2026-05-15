@@ -23,4 +23,3 @@ A search field is used for searching and filtering items.
 | helpText | string | - | - | No | - |
 | placeholder | string | - | - | No | - |
 | isDisabled | boolean | - | false | No | - |
-| state | string | default, down, hover, focus + hover, focus + not hover, keyboard focus | default | No | - |

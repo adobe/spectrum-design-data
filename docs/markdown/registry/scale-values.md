@@ -1,6 +1,6 @@
 ---
 title: Scale values
-description: Numeric scale values used in design tokens
+description: "Numeric scale values used in design tokens"
 source_url: https://opensource.adobe.com/spectrum-design-data/registry/scale-values/
 tags:
   - registry
@@ -22,4 +22,9 @@ tags:
 | 800 | Scale 800 | - | - |
 | 900 | Scale 900 | - | - |
 | 1000 | Scale 1000 | - | - |
+| 1100 | Scale 1100 | - | - |
+| 1200 | Scale 1200 | - | - |
+| 1300 | Scale 1300 | - | - |
+| 1400 | Scale 1400 | - | - |
+| 1500 | Scale 1500 | - | - |
 

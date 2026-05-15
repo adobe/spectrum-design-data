@@ -18,7 +18,6 @@ Number fields allow users to enter a numeric value, with optional increment and 
 | size | string | s, m, l, xl | m | No | - |
 | labelPosition | string | top, side | top | No | - |
 | hideLabel | boolean | - | false | No | - |
-| state | string | default, hover, focus + hover, focus + not hover | default | No | - |
 | isDisabled | boolean | - | false | No | - |
 | isError | boolean | - | false | No | - |
 | isRequired | boolean | - | false | No | - |

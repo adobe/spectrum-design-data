@@ -31,4 +31,3 @@ A text area lets a user input a longer amount of text than a standard text field
 | helpText | string | - | - | No | - |
 | errorMessage | string | - | - | No | - |
 | inputType | string | text, url, phone, email, password | text | No | - |
-| state | string | default, hover, focus + hover, focus + not hover, keyboard focus | default | No | - |

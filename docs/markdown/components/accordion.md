@@ -14,7 +14,6 @@ An accordion is a vertically stacked set of interactive headings that each conta
 
 | Property | Type | Values | Default | Required | Description |
 | --- | --- | --- | --- | --- | --- |
-| state | string | default, hover, down, keyboard focus | default | No | - |
 | size | string | s, m, l, xl | m | No | - |
 | isQuiet | boolean | - | false | No | - |
 | isDisabled | boolean | - | false | No | - |
