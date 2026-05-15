@@ -1,0 +1,16 @@
+{
+  "tokens": [
+    {
+      "name": { "property": "heading-style" },
+      "$valueType": "value-types/typography.schema.json",
+      "value": {
+        "fontFamily": "Adobe Clean",
+        "fontSize": "32px",
+        "fontWeight": "700",
+        "lineHeight": "1.2"
+      },
+      "uuid": "aaaaaaaa-0016-4000-8000-000000000002"
+    }
+  ],
+  "components": []
+}

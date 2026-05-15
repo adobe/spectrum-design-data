@@ -1,0 +1,12 @@
+{
+  "tokens": [
+    {
+      "name": { "property": "accent-color" },
+      "value": "#0d66d0",
+      "uuid": "aaaaaaaa-0014-4000-8000-000000000001",
+      "introduced": "1.0.0",
+      "lastModified": "1.2.0"
+    }
+  ],
+  "components": []
+}

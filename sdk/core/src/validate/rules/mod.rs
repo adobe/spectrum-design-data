@@ -22,6 +22,8 @@ mod spec011;
 mod spec012;
 mod spec013;
 mod spec014;
+// SPEC-015 (composite-inline-alias-type-compatible) not yet implemented — requires value-type
+// inference for inline aliases inside composite values, which depends on SPEC-016 schema lookup.
 mod spec016;
 mod spec017;
 mod spec018;
