@@ -25,3 +25,4 @@ default = []
 figma = ["dep:reqwest", "dep:tokio"]
 
 [dev-dependencies]
+regex = "1"

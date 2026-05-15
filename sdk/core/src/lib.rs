@@ -436,6 +436,272 @@ mod relational_conformance {
     }
 }
 
+/// Validation conformance tests — fixture-driven, exercises relational rules
+/// against `packages/design-data-spec/conformance/{invalid,valid}/` fixtures.
+///
+/// Each fixture directory contains `dataset.json` (neutral interchange format:
+/// `{ tokens, components, modeSets }`) and `expected-errors.json` (list of
+/// `{ rule_id, severity, message_pattern }` entries). Dirs without `dataset.json`
+/// are legacy-only and skipped until migrated.
+#[cfg(test)]
+mod validation_conformance {
+    use std::collections::HashSet;
+    use std::path::Path;
+
+    use regex::Regex;
+    use serde_json::Value;
+
+    use crate::graph::{ComponentRecord, ModeSetRecord, TokenGraph};
+    use crate::naming::NamingExceptionsFile;
+    use crate::report::Severity;
+    use crate::validate::rules::{default_rules, run_rules};
+
+    fn severity_str(s: &Severity) -> &'static str {
+        match s {
+            Severity::Error => "error",
+            Severity::Warning => "warning",
+            Severity::Info => "info",
+        }
+    }
+
+    fn build_graph(dataset: &Value) -> TokenGraph {
+        let tokens_json = dataset
+            .get("tokens")
+            .and_then(|v| v.as_array())
+            .cloned()
+            .unwrap_or_default();
+
+        let entries: Vec<(String, std::path::PathBuf, Value)> = tokens_json
+            .into_iter()
+            .enumerate()
+            .map(|(i, raw)| {
+                // For string names use the string directly (SPEC-007 roundtrip checks t.name).
+                // For object names generate a unique key from index.
+                let key = raw
+                    .get("name")
+                    .and_then(|n| n.as_str())
+                    .map(String::from)
+                    .unwrap_or_else(|| format!("token-{i}"));
+                (key, std::path::PathBuf::from("dataset.json"), raw)
+            })
+            .collect();
+
+        let mut graph = TokenGraph::from_pairs(entries);
+
+        if let Some(comps) = dataset.get("components").and_then(|v| v.as_array()) {
+            let comp_records: Vec<ComponentRecord> = comps
+                .iter()
+                .filter_map(|v| {
+                    let name = v.get("name")?.as_str()?.to_string();
+                    Some(ComponentRecord {
+                        name,
+                        file: std::path::PathBuf::from("dataset.json"),
+                        raw: v.clone(),
+                    })
+                })
+                .collect();
+            graph = graph.with_components(comp_records);
+        }
+
+        if let Some(mode_sets) = dataset.get("modeSets").and_then(|v| v.as_array()) {
+            let ms_records: Vec<ModeSetRecord> = mode_sets
+                .iter()
+                .filter_map(|v| {
+                    let name = v.get("name")?.as_str()?.to_string();
+                    let default_mode = v.get("default")?.as_str()?.to_string();
+                    let modes: Vec<String> = v
+                        .get("modes")?
+                        .as_array()?
+                        .iter()
+                        .filter_map(|m| m.as_str().map(String::from))
+                        .collect();
+                    Some(ModeSetRecord {
+                        file: std::path::PathBuf::from("dataset.json"),
+                        name,
+                        modes,
+                        default_mode,
+                    })
+                })
+                .collect();
+            graph = graph.with_mode_sets(ms_records);
+        }
+
+        graph
+    }
+
+    fn load_naming_exceptions() -> HashSet<String> {
+        let path = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/tokens/naming-exceptions.json");
+        NamingExceptionsFile::load(&path)
+            .map(|f| f.token_set())
+            .unwrap_or_default()
+    }
+
+    fn assert_invalid_fixtures() {
+        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/invalid");
+        let naming_exceptions = load_naming_exceptions();
+        // Only assert on rules that are registered. Phase 2+ adds the remaining rules;
+        // their fixtures are discovered but their assertions are skipped until then.
+        let registered: std::collections::HashSet<String> =
+            default_rules().iter().map(|r| r.id().to_string()).collect();
+        let mut failures = Vec::new();
+
+        let mut dirs: Vec<_> = std::fs::read_dir(&base)
+            .expect("conformance/invalid dir missing")
+            .filter_map(|e| e.ok())
+            .filter(|e| e.path().is_dir())
+            .collect();
+        dirs.sort_by_key(|e| e.path());
+
+        for entry in dirs {
+            let dir = entry.path();
+            let dataset_path = dir.join("dataset.json");
+            if !dataset_path.exists() {
+                // Legacy-only fixture: skipped until migrated in Phase 4.
+                continue;
+            }
+            let expected_path = dir.join("expected-errors.json");
+            let case = dir.file_name().unwrap().to_string_lossy().to_string();
+
+            let dataset: Value = serde_json::from_str(
+                &std::fs::read_to_string(&dataset_path)
+                    .unwrap_or_else(|e| panic!("{case}: failed to read dataset.json: {e}")),
+            )
+            .unwrap_or_else(|e| panic!("{case}: invalid dataset.json: {e}"));
+
+            let expected: Value = serde_json::from_str(
+                &std::fs::read_to_string(&expected_path)
+                    .unwrap_or_else(|e| panic!("{case}: failed to read expected-errors.json: {e}")),
+            )
+            .unwrap_or_else(|e| panic!("{case}: invalid expected-errors.json: {e}"));
+
+            let graph = build_graph(&dataset);
+            let diagnostics = run_rules(&graph, &naming_exceptions);
+
+            let expected_errors = expected
+                .get("errors")
+                .and_then(|v| v.as_array())
+                .cloned()
+                .unwrap_or_default();
+
+            for expected_err in &expected_errors {
+                let rule_id = expected_err
+                    .get("rule_id")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("");
+                // Skip assertions for rules not yet implemented in Rust.
+                if !registered.contains(rule_id) {
+                    continue;
+                }
+                let severity = expected_err
+                    .get("severity")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("");
+                let pattern = expected_err
+                    .get("message_pattern")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or(".*");
+                let re = Regex::new(pattern).unwrap_or_else(|e| {
+                    panic!("{case}: invalid message_pattern {pattern:?}: {e}")
+                });
+
+                let matched = diagnostics.iter().any(|d| {
+                    d.rule_id.as_deref() == Some(rule_id)
+                        && severity_str(&d.severity) == severity
+                        && re.is_match(&d.message)
+                });
+
+                if !matched {
+                    let got: Vec<String> = diagnostics
+                        .iter()
+                        .map(|d| {
+                            format!(
+                                "[{} {}] {}",
+                                d.rule_id.as_deref().unwrap_or("?"),
+                                severity_str(&d.severity),
+                                d.message
+                            )
+                        })
+                        .collect();
+                    failures.push(format!(
+                        "{case}: no diagnostic matched rule_id={rule_id:?} severity={severity:?} pattern={pattern:?}\n  Got: [{}]",
+                        got.join("; ")
+                    ));
+                }
+            }
+        }
+
+        assert!(
+            failures.is_empty(),
+            "Validation conformance failures:\n{}",
+            failures.join("\n")
+        );
+    }
+
+    fn assert_valid_fixtures() {
+        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/valid");
+        let naming_exceptions = load_naming_exceptions();
+        let mut failures = Vec::new();
+
+        let mut dirs: Vec<_> = std::fs::read_dir(&base)
+            .expect("conformance/valid dir missing")
+            .filter_map(|e| e.ok())
+            .filter(|e| e.path().is_dir())
+            .collect();
+        dirs.sort_by_key(|e| e.path());
+
+        for entry in dirs {
+            let dir = entry.path();
+            let dataset_path = dir.join("dataset.json");
+            if !dataset_path.exists() {
+                continue;
+            }
+            let case = dir.file_name().unwrap().to_string_lossy().to_string();
+            let dataset: Value = serde_json::from_str(
+                &std::fs::read_to_string(&dataset_path)
+                    .unwrap_or_else(|e| panic!("{case}: failed to read dataset.json: {e}")),
+            )
+            .unwrap_or_else(|e| panic!("{case}: invalid dataset.json: {e}"));
+
+            let graph = build_graph(&dataset);
+            let diagnostics = run_rules(&graph, &naming_exceptions);
+            let errors: Vec<_> = diagnostics
+                .iter()
+                .filter(|d| matches!(d.severity, Severity::Error))
+                .collect();
+
+            if !errors.is_empty() {
+                failures.push(format!(
+                    "{case}: expected no errors but got: {}",
+                    errors
+                        .iter()
+                        .map(|d| d.message.as_str())
+                        .collect::<Vec<_>>()
+                        .join("; ")
+                ));
+            }
+        }
+
+        assert!(
+            failures.is_empty(),
+            "Valid fixture failures:\n{}",
+            failures.join("\n")
+        );
+    }
+
+    #[test]
+    fn invalid_fixtures_match_expected() {
+        assert_invalid_fixtures();
+    }
+
+    #[test]
+    fn valid_fixtures_produce_no_errors() {
+        assert_valid_fixtures();
+    }
+}
+
 /// Resolution conformance tests — fixture-driven, closes #768.
 ///
 /// Each test case lives under `packages/design-data-spec/conformance/resolution/<name>/`

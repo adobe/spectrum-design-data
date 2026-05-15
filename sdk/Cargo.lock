@@ -343,6 +343,7 @@ name = "design-data-core"
 version = "0.1.0"
 dependencies = [
  "jsonschema",
+ "regex",
  "reqwest",
  "serde",
  "serde_json",
