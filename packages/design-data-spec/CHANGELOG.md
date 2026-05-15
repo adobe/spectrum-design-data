@@ -1,5 +1,56 @@
 # @adobe/design-data-spec
 
+## 0.13.0
+
+### Minor Changes
+
+- [#924](https://github.com/adobe/spectrum-design-data/pull/924) [`20bb703`](https://github.com/adobe/spectrum-design-data/commit/20bb7035ad7d62513670bfb393b70766a295e51c) Thanks [@GarthDB](https://github.com/GarthDB)! - Expand canonical accessibility role vocabulary with `progressbar`, `meter`,
+  `grid`, `listitem`, and `group` (issue #892, RFC-B Phase 7 follow-on).
+  - `spec/accessibility.md` — 5 new rows added to the canonical role vocabulary
+    table (21 total).
+  - `spec/accessibility-adapters.md` — 5 new rows added to each platform mapping
+    table (Web/ARIA, iOS, Android).
+  - `components/meter.json` — `role: "meter"`, WCAG 4.1.2 added.
+  - `components/progress-bar.json`, `progress-circle.json`,
+    `in-field-progress-circle.json` — `role: "progressbar"`, WCAG 4.1.2 and
+    4.1.3 added.
+  - `components/table.json` — `role: "grid"` added.
+  - `components/avatar-group.json`, `swatch-group.json`, `button-group.json` —
+    `role: "group"` added.
+  - `docs/rfc-coordination.md` — RFC-B open question for #892 marked resolved.
+
+- [#924](https://github.com/adobe/spectrum-design-data/pull/924) [`20bb703`](https://github.com/adobe/spectrum-design-data/commit/20bb7035ad7d62513670bfb393b70766a295e51c) Thanks [@GarthDB](https://github.com/GarthDB)! - Close RFC #661 category validation gap: add SPEC-034 advisory rule and
+  align the `data-visualization` category id across all surfaces.
+  - `spec/registry.md` — marks the categories.json gap closed; SPEC-034
+    is now the authoritative validator for `meta.category`.
+  - `schemas/component.schema.json` — loosens `meta.category` from a
+    hard-coded enum to a free-form string; SPEC-034 (warning-level) is
+    the single source of validation.
+  - `rules/rules.yaml` — adds SPEC-034
+    (`component-category-registry-sync`, severity: warning).
+  - `packages/design-system-registry/registry/categories.json` — removes
+    the `"data visualization"` alias from `data-visualization`; kebab-case
+    is the sole canonical form.
+  - `components/table.json` — migrates `meta.category` from
+    `"data visualization"` to `"data-visualization"`.
+  - `docs/rfc-coordination.md` — RFC #661 open question marked resolved.
+  - SDK: new `spec034.rs` rule + `categories()` accessor on `RegistryData`
+    - codegen updated to embed `categories.json`.
+
+- [#924](https://github.com/adobe/spectrum-design-data/pull/924) [`20bb703`](https://github.com/adobe/spectrum-design-data/commit/20bb7035ad7d62513670bfb393b70766a295e51c) Thanks [@GarthDB](https://github.com/GarthDB)! - Add SPEC-035 (`anatomy-part-name-registry-sync`) advisory warning rule.
+
+  Fires when a component anatomy part's `name` is not in the `anatomy-terms.json`
+  registry from `@adobe/design-system-registry`. Sibling of SPEC-034
+  (`component-category-registry-sync`) for the anatomy-terms vocabulary.
+  - `rules/rules.yaml` — adds SPEC-035 (severity: warning, category: naming-consistency)
+  - SDK: new `spec035.rs` rule using the existing `for_field("anatomy")` accessor on
+    `RegistryData`
+  - `spec/anatomy-format.md` — extends SPEC rules table; adds note pointing to registry as
+    authoritative vocabulary
+  - `spec/registry.md` — adds SPEC-035 to the "Validated by" line for `anatomy-terms.json`
+  - `docs/rfc-coordination.md` — marks anatomy-part name registry-sync gap as resolved
+  - Conformance fixtures: `conformance/valid/SPEC-035/` and `conformance/invalid/SPEC-035/`
+
 ## 0.12.0
 
 ### Minor Changes

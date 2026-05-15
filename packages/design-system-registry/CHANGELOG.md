@@ -1,5 +1,36 @@
 # @adobe/design-system-registry
 
+## 3.0.0
+
+### Major Changes
+
+- [#924](https://github.com/adobe/spectrum-design-data/pull/924) [`20bb703`](https://github.com/adobe/spectrum-design-data/commit/20bb7035ad7d62513670bfb393b70766a295e51c) Thanks [@GarthDB](https://github.com/GarthDB)! - Close RFC #661 category validation gap: add SPEC-034 advisory rule and
+  align the `data-visualization` category id across all surfaces.
+  - `spec/registry.md` — marks the categories.json gap closed; SPEC-034
+    is now the authoritative validator for `meta.category`.
+  - `schemas/component.schema.json` — loosens `meta.category` from a
+    hard-coded enum to a free-form string; SPEC-034 (warning-level) is
+    the single source of validation.
+  - `rules/rules.yaml` — adds SPEC-034
+    (`component-category-registry-sync`, severity: warning).
+  - `packages/design-system-registry/registry/categories.json` — removes
+    the `"data visualization"` alias from `data-visualization`; kebab-case
+    is the sole canonical form.
+  - `components/table.json` — migrates `meta.category` from
+    `"data visualization"` to `"data-visualization"`.
+  - `docs/rfc-coordination.md` — RFC #661 open question marked resolved.
+  - SDK: new `spec034.rs` rule + `categories()` accessor on `RegistryData`
+    - codegen updated to embed `categories.json`.
+
+### Patch Changes
+
+- [#927](https://github.com/adobe/spectrum-design-data/pull/927) [`6a855e9`](https://github.com/adobe/spectrum-design-data/commit/6a855e98caad99d8799e4c2ed4a822a5776bd2da) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `disclosure-triangle`, `picker`, `progress-bar` to anatomy-terms.json.
+
+  Closes the spec/registry divergence surfaced during SPEC-035 implementation
+  (#924) — these three names appear in the canonical vocabulary table in
+  spec/anatomy-format.md but were missing from the registry, causing SPEC-035
+  to advisory-warn on them. Resolves #925.
+
 ## 2.0.0
 
 ### Major Changes
