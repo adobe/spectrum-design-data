@@ -1,5 +1,42 @@
 # @adobe/design-data-spec
 
+## 0.12.0
+
+### Minor Changes
+
+- [#921](https://github.com/adobe/spectrum-design-data/pull/921) [`b98a17d`](https://github.com/adobe/spectrum-design-data/commit/b98a17dfeaff24bf1bc17d0705c1ff9ce734f7d7) Thanks [@GarthDB](https://github.com/GarthDB)! - Expand canonical accessibility role vocabulary with `progressbar`, `meter`,
+  `grid`, `listitem`, and `group` (issue #892, RFC-B Phase 7 follow-on).
+  - `spec/accessibility.md` — 5 new rows added to the canonical role vocabulary
+    table (21 total).
+  - `spec/accessibility-adapters.md` — 5 new rows added to each platform mapping
+    table (Web/ARIA, iOS, Android).
+  - `components/meter.json` — `role: "meter"`, WCAG 4.1.2 added.
+  - `components/progress-bar.json`, `progress-circle.json`,
+    `in-field-progress-circle.json` — `role: "progressbar"`, WCAG 4.1.2 and
+    4.1.3 added.
+  - `components/table.json` — `role: "grid"` added.
+  - `components/avatar-group.json`, `swatch-group.json`, `button-group.json` —
+    `role: "group"` added.
+  - `docs/rfc-coordination.md` — RFC-B open question for #892 marked resolved.
+
+- [#923](https://github.com/adobe/spectrum-design-data/pull/923) [`f3a0a6b`](https://github.com/adobe/spectrum-design-data/commit/f3a0a6b6bc03774e870aad989c16d9b532406aaf) Thanks [@GarthDB](https://github.com/GarthDB)! - Close RFC #661 category validation gap: add SPEC-034 advisory rule and
+  align the `data-visualization` category id across all surfaces.
+  - `spec/registry.md` — marks the categories.json gap closed; SPEC-034
+    is now the authoritative validator for `meta.category`.
+  - `schemas/component.schema.json` — loosens `meta.category` from a
+    hard-coded enum to a free-form string; SPEC-034 (warning-level) is
+    the single source of validation.
+  - `rules/rules.yaml` — adds SPEC-034
+    (`component-category-registry-sync`, severity: warning).
+  - `packages/design-system-registry/registry/categories.json` — removes
+    the `"data visualization"` alias from `data-visualization`; kebab-case
+    is the sole canonical form.
+  - `components/table.json` — migrates `meta.category` from
+    `"data visualization"` to `"data-visualization"`.
+  - `docs/rfc-coordination.md` — RFC #661 open question marked resolved.
+  - SDK: new `spec034.rs` rule + `categories()` accessor on `RegistryData`
+    - codegen updated to embed `categories.json`.
+
 ## 0.11.0
 
 ### Minor Changes
