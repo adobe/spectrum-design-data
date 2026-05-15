@@ -1,0 +1,10 @@
+{
+  "layer": 1,
+  "errors": [
+    {
+      "rule_id": "SPEC-015",
+      "severity": "error",
+      "message_pattern": "composite sub-value 'fontSize' resolves alias.*to value-type 'color'"
+    }
+  ]
+}

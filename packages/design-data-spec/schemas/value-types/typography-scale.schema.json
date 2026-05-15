@@ -5,8 +5,8 @@
   "description": "Pairs a font size with its corresponding line height at a single typographic tier.",
   "type": "object",
   "properties": {
-    "fontSize": { "type": "string" },
-    "lineHeight": { "type": "string" }
+    "fontSize": { "type": "string", "x-valueType": "dimension" },
+    "lineHeight": { "type": "string", "x-valueType": ["dimension", "number"] }
   },
   "required": ["fontSize", "lineHeight"],
   "additionalProperties": false

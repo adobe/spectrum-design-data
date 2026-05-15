@@ -7,11 +7,11 @@
   "items": {
     "type": "object",
     "properties": {
-      "x": { "type": "string" },
-      "y": { "type": "string" },
-      "blur": { "type": "string" },
-      "spread": { "type": "string" },
-      "color": { "type": "string" }
+      "x": { "type": "string", "x-valueType": "dimension" },
+      "y": { "type": "string", "x-valueType": "dimension" },
+      "blur": { "type": "string", "x-valueType": "dimension" },
+      "spread": { "type": "string", "x-valueType": "dimension" },
+      "color": { "type": "string", "x-valueType": "color" }
     },
     "required": ["x", "y", "blur", "spread", "color"],
     "additionalProperties": false
