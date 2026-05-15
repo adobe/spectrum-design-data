@@ -292,3 +292,15 @@ rules:
     message: "Component '{entity}' accessibility has a role but no wcag entries — add applicable WCAG 2.x success criteria"
     spec_ref: spec/accessibility.md
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-032
+    name: product-layer-override-type-compat
+    severity: error
+    category: cascade
+    assert: >
+      A Platform- or Product-layer token that overrides a Foundation token (matched by UUID)
+      MUST NOT change the JSON value type of the `value` field. Overrides may change the value
+      but must preserve its JSON kind (string, number, object, array, boolean).
+    message: "Token '{entity}' override changes value type from '{foundationType}' to '{overrideType}' — overrides MUST NOT change the resolved token's value type"
+    spec_ref: spec/cascade.md
+    introduced_in: "1.0.0-draft"

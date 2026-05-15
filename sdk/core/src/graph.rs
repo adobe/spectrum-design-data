@@ -18,6 +18,29 @@ use serde_json::Value;
 use crate::discovery::discover_json_files;
 use crate::CoreError;
 
+/// Cascade layer (Foundation < Platform < Product).
+///
+/// Layer ordering is encoded in the discriminant so `Ord` gives correct
+/// precedence: `Foundation < Platform < Product`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default)]
+pub enum Layer {
+    #[default]
+    Foundation = 1,
+    Platform = 2,
+    Product = 3,
+}
+
+impl Layer {
+    pub fn from_str(s: &str) -> Option<Self> {
+        match s {
+            "foundation" => Some(Layer::Foundation),
+            "platform" => Some(Layer::Platform),
+            "product" => Some(Layer::Product),
+            _ => None,
+        }
+    }
+}
+
 /// One component declaration (spec-format JSON), loaded for relational rules.
 #[derive(Debug, Clone)]
 pub struct ComponentRecord {
@@ -47,6 +70,8 @@ pub struct TokenRecord {
     /// Resolved alias target id when applicable.
     pub alias_target: Option<String>,
     pub raw: Value,
+    /// Cascade layer this token belongs to.
+    pub layer: Layer,
 }
 
 /// Token graph across files.
@@ -110,6 +135,7 @@ impl TokenGraph {
                             uuid,
                             alias_target,
                             raw: token_val.clone(),
+                            layer: Layer::Foundation,
                         },
                     );
                 }
@@ -154,6 +180,7 @@ impl TokenGraph {
                         uuid,
                         alias_target,
                         raw: token_val.clone(),
+                        layer: Layer::Foundation,
                     },
                 );
             }
@@ -208,6 +235,7 @@ impl TokenGraph {
                     uuid,
                     alias_target,
                     raw,
+                    layer: Layer::Foundation,
                 },
             );
         }
@@ -217,6 +245,122 @@ impl TokenGraph {
             components: Vec::new(),
             uuid_index,
         }
+    }
+
+    /// Build a graph from full `TokenRecord`s, preserving each record's `layer`.
+    ///
+    /// Use instead of `from_pairs` when layer information must be retained
+    /// (e.g. after loading a product-context overlay).
+    pub fn from_records(records: Vec<TokenRecord>) -> Self {
+        let mut tokens = HashMap::new();
+        let mut uuid_index = HashMap::new();
+        for record in records {
+            if let Some(u) = &record.uuid {
+                uuid_index.entry(u.clone()).or_insert_with(|| record.name.clone());
+            }
+            tokens.insert(record.name.clone(), record);
+        }
+        Self {
+            tokens,
+            mode_sets: Vec::new(),
+            components: Vec::new(),
+            uuid_index,
+        }
+    }
+
+    /// Load a `product-context.json` and insert Product-layer tokens into the graph.
+    ///
+    /// For each override `{uuid, value}` in the document, the corresponding Foundation
+    /// token is looked up by UUID; a synthetic Product-layer `TokenRecord` is created
+    /// that inherits the Foundation token's `name` object but carries the override value.
+    /// Net-new tokens in `extensions.tokens` are inserted directly at Product layer.
+    pub fn load_product_context(&mut self, path: &Path) -> Result<(), CoreError> {
+        let text = std::fs::read_to_string(path)?;
+        let doc: Value = serde_json::from_str(&text)?;
+
+        // Process overrides: each must reference an existing Foundation token by UUID.
+        if let Some(overrides) = doc.get("overrides").and_then(|v| v.as_array()) {
+            for (idx, entry) in overrides.iter().enumerate() {
+                let Some(uuid_str) = entry.get("uuid").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let Some(override_value) = entry.get("value") else {
+                    continue;
+                };
+
+                // Find the Foundation token's name object via uuid_index.
+                let foundation_raw = self
+                    .uuid_index
+                    .get(uuid_str)
+                    .and_then(|k| self.tokens.get(k))
+                    .map(|t| t.raw.clone());
+
+                let name_obj = foundation_raw
+                    .as_ref()
+                    .and_then(|r| r.get("name"))
+                    .cloned()
+                    .unwrap_or(Value::Null);
+
+                // Synthesize a Product-layer token with the same name object and override value.
+                let mut synthetic_raw = serde_json::json!({
+                    "name": name_obj,
+                    "value": override_value,
+                    "uuid": uuid_str,
+                });
+                if let Some(rationale) = entry.get("rationale") {
+                    synthetic_raw["rationale"] = rationale.clone();
+                }
+
+                let key = format!("product-context:{}:{}", uuid_str, idx);
+                self.tokens.insert(
+                    key.clone(),
+                    TokenRecord {
+                        name: key,
+                        file: path.to_path_buf(),
+                        index: idx,
+                        schema_url: None,
+                        uuid: Some(uuid_str.to_string()),
+                        alias_target: None,
+                        raw: synthetic_raw,
+                        layer: Layer::Product,
+                    },
+                );
+            }
+        }
+
+        // Process extensions.tokens: insert each as a Product-layer token.
+        if let Some(ext_tokens) = doc
+            .get("extensions")
+            .and_then(|v| v.get("tokens"))
+            .and_then(|v| v.as_array())
+        {
+            for (idx, token_val) in ext_tokens.iter().enumerate() {
+                let Some(tok_obj) = token_val.as_object() else {
+                    continue;
+                };
+                let uuid = tok_obj.get("uuid").and_then(|v| v.as_str()).map(str::to_string);
+                let alias_target = extract_alias_target(tok_obj);
+                let key = format!("product-context-ext:{}:{}", path.display(), idx);
+                if let Some(u) = &uuid {
+                    self.uuid_index.entry(u.clone()).or_insert_with(|| key.clone());
+                }
+                self.tokens.insert(
+                    key.clone(),
+                    TokenRecord {
+                        name: key,
+                        file: path.to_path_buf(),
+                        index: idx,
+                        schema_url: None,
+                        uuid,
+                        alias_target,
+                        raw: token_val.clone(),
+                        layer: Layer::Product,
+                    },
+                );
+            }
+        }
+
+        Ok(())
     }
 
     /// Attach mode set records (e.g. from conformance fixtures).
@@ -288,7 +432,7 @@ fn parse_mode_set(path: &Path, obj: &serde_json::Map<String, Value>) -> Option<M
     })
 }
 
-fn extract_alias_target(obj: &serde_json::Map<String, Value>) -> Option<String> {
+pub(crate) fn extract_alias_target(obj: &serde_json::Map<String, Value>) -> Option<String> {
     if let Some(r) = obj.get("$ref").and_then(|v| v.as_str()) {
         return Some(normalize_ref_target(r));
     }
