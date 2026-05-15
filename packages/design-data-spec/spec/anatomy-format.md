@@ -86,6 +86,8 @@ The following anatomy part names are defined by the cross-platform design audit 
 
 Custom part names are permitted. When a custom name is used, the anatomy part object **SHOULD** include a `description` field explaining its visual role (rule SPEC-023).
 
+The table above is informative; the authoritative vocabulary is `@adobe/design-system-registry/registry/anatomy-terms.json` (119 entries). SPEC-035 fires advisory warnings when a declared anatomy part `name` is not in that registry, pointing authors at the canonical list. Custom names remain valid — SPEC-035 is advisory, not an error.
+
 ## Cross-reference with token name objects
 
 Token name objects use an `anatomy` field to scope a token to a specific visible part of a component. The `anatomy` field value must correspond to a part declared in the component's `anatomy` array.
@@ -112,12 +114,13 @@ See [Token format — Name object](token-format.md#name-object) for the full nam
 
 The following rules in the Layer 2 rule catalog (`rules/rules.yaml`) apply to anatomy part declarations. SPEC-020 was introduced in Phase 6.1 (component-format); SPEC-023, SPEC-024, and SPEC-025 are introduced by this chapter.
 
-| Rule ID  | Name                             | Severity | Assert                                                                                                                                                    |
-| -------- | -------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-020 | `component-anatomy-valid`        | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                             |
-| SPEC-023 | `anatomy-custom-part-documented` | warning  | Anatomy part declarations with a `name` outside the canonical anatomy vocabulary **SHOULD** include a `description` field documenting the part's purpose. |
-| SPEC-024 | `anatomy-part-name-unique`       | error    | Anatomy part `name` values **MUST** be unique within a single component's `anatomy` array.                                                                |
-| SPEC-025 | `anatomy-requires-component`     | error    | A token name object **MUST NOT** include an `anatomy` field unless a `component` field is also present.                                                   |
+| Rule ID  | Name                              | Severity | Assert                                                                                                                                                    |
+| -------- | --------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-020 | `component-anatomy-valid`         | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                             |
+| SPEC-023 | `anatomy-custom-part-documented`  | warning  | Anatomy part declarations with a `name` outside the canonical anatomy vocabulary **SHOULD** include a `description` field documenting the part's purpose. |
+| SPEC-024 | `anatomy-part-name-unique`        | error    | Anatomy part `name` values **MUST** be unique within a single component's `anatomy` array.                                                                |
+| SPEC-025 | `anatomy-requires-component`      | error    | A token name object **MUST NOT** include an `anatomy` field unless a `component` field is also present.                                                   |
+| SPEC-035 | `anatomy-part-name-registry-sync` | warning  | A component anatomy part's `name` **SHOULD** appear in the canonical anatomy-terms registry (`anatomy-terms.json`).                                       |
 
 ## Full example
 

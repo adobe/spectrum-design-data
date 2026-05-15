@@ -332,3 +332,14 @@ rules:
     message: "Component '{entity}' meta.category value '{value}' is not in the design-system-registry categories vocabulary"
     spec_ref: spec/registry.md#categories
     introduced_in: "1.0.0-draft"
+  - id: SPEC-035
+    name: anatomy-part-name-registry-sync
+    severity: warning
+    category: naming-consistency
+    assert: >
+      A component anatomy part's name SHOULD reference an id from the anatomy-terms registry in
+      @adobe/design-system-registry (anatomy-terms.json). Unknown values are reported as
+      warnings; custom names remain permitted but the registry is the authoritative vocabulary.
+    message: "Component '{entity}' anatomy part name '{value}' is not in the design-system-registry anatomy-terms vocabulary"
+    spec_ref: spec/anatomy-format.md#canonical-anatomy-vocabulary
+    introduced_in: "1.0.0-draft"

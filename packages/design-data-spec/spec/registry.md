@@ -33,7 +33,7 @@ Anatomy terms fall into three tiers:
 | Component-specific | Unique to one component                | `loupe`, `gripper`, `hold-icon`                        |
 
 **File:** `packages/design-system-registry/registry/anatomy-terms.json`\
-**Validated by:** SPEC-020, SPEC-023, SPEC-024, SPEC-025\
+**Validated by:** SPEC-020, SPEC-023, SPEC-024, SPEC-025, SPEC-035 (advisory — anatomy part `name` values SHOULD match the anatomy-terms registry)\
 **See also:** [Taxonomy — Component anatomy vs. token objects](taxonomy.md#component-anatomy-vs-token-objects), [Anatomy format](anatomy-format.md)
 
 ### Token objects (`token-objects.json`)

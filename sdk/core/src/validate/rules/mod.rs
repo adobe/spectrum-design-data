@@ -43,6 +43,7 @@ mod spec032;
 // SPEC-033 is a meta-rule (registry-id-cross-namespace-allowed) documented in rules.yaml
 // but has no SDK implementation — it constrains validator behavior via spec prose, not data.
 mod spec034;
+mod spec035;
 
 use std::collections::HashSet;
 use std::sync::OnceLock;
@@ -94,6 +95,7 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec031::Rule),
         Box::new(spec032::Rule),
         Box::new(spec034::Rule),
+        Box::new(spec035::Rule),
     ]
 }
 
