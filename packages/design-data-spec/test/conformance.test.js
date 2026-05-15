@@ -20,19 +20,30 @@ governing permissions and limitations under the License.
 
 import test from "ava";
 import { readFile } from "fs/promises";
-import { readdirSync, existsSync } from "fs";
+import { readdirSync, existsSync, readFileSync } from "fs";
 import { join } from "path";
 import { validateDataset } from "../src/validate.js";
 
 const readJSON = async (p) => JSON.parse(await readFile(p, "utf8"));
 
 // Discover fixture directories synchronously (AVA requires synchronous test registration).
-// Only include directories that have dataset.json (SPEC-018+ format).
+// Only include Layer 2 directories: those with dataset.json and expected-errors.json
+// declaring "layer": 2. Layer 1 (structural) fixtures are exercised by the Rust harness only.
 const invalidBaseDir = "conformance/invalid";
 const fixtureDirs = readdirSync(invalidBaseDir)
   .sort()
   .map((entry) => join(invalidBaseDir, entry))
-  .filter((dir) => existsSync(join(dir, "dataset.json")));
+  .filter((dir) => {
+    if (!existsSync(join(dir, "dataset.json"))) return false;
+    const errorsPath = join(dir, "expected-errors.json");
+    if (!existsSync(errorsPath)) return false;
+    try {
+      const { layer } = JSON.parse(readFileSync(errorsPath, "utf8"));
+      return layer === 2;
+    } catch {
+      return false;
+    }
+  });
 
 for (const dir of fixtureDirs) {
   const ruleId = dir.split("/").pop();
