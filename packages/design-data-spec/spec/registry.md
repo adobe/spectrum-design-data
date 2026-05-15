@@ -51,6 +51,7 @@ Validates the `object` field on token name objects.
 | `content`    | Main content area                                     |
 
 **File:** `packages/design-system-registry/registry/token-objects.json`\
+**Validated by:** SPEC-009 (advisory — `name.object` field values SHOULD match the token-objects registry)\
 **See also:** [Taxonomy — Token objects (styling surfaces)](taxonomy.md#token-objects-styling-surfaces)
 
 ### Component categories (`categories.json`)
@@ -60,13 +61,14 @@ Validates the `category` field on component declarations.
 **What it contains:** Top-level categories for organizing components by purpose and interaction type. Used for documentation navigation and tooling filters.
 
 **File:** `packages/design-system-registry/registry/categories.json`\
+**Validated by:** gap — no dedicated SPEC rule yet; component `category` field validation against this registry is untracked. A future rule SHOULD enforce advisory validation here.\
 **See also:** [Component format](component-format.md)
 
 ## ID scoping
 
 Registry IDs are scoped to their registry. The same ID **MAY** appear in multiple registries when the same word is a valid term in each registry's distinct validation context. For example, `actions` is a legitimate anatomy term (a group of action controls within a list item) and also a component category — these are unrelated concepts that happen to share a label.
 
-**NORMATIVE:** Cross-registry ID overlap is not an error. Validators MUST NOT flag an ID as invalid solely because it appears in another registry.
+**NORMATIVE (SPEC-033):** Cross-registry ID overlap is not an error. Validators MUST NOT flag an ID as invalid solely because it appears in another registry.
 
 ## Other registries in the package
 

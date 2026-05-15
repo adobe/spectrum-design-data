@@ -304,3 +304,15 @@ rules:
     message: "Token '{entity}' override changes value type from '{foundationType}' to '{overrideType}' — overrides MUST NOT change the resolved token's value type"
     spec_ref: spec/cascade.md
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-033
+    name: registry-id-cross-namespace-allowed
+    severity: error
+    category: registry
+    assert: >
+      A validator MUST NOT flag a registry ID as invalid solely because that same ID appears in
+      a different registry. Registry IDs are scoped to their registry; cross-registry overlap is
+      intentional when the same word is a valid term in each registry's distinct validation context.
+    message: "Registry ID '{id}' appears in multiple registries — this is permitted; do not reject on cross-registry overlap alone"
+    spec_ref: spec/registry.md#id-scoping
+    introduced_in: "1.0.0-draft"
