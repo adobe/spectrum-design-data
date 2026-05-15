@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-component-api-schemas",
-  "version": "6.1.8",
+  "version": "6.1.9",
   "description": "",
   "type": "module",
   "main": "index.js",
