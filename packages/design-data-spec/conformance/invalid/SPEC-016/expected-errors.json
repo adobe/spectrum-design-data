@@ -1,10 +1,10 @@
 {
-  "layer": 2,
+  "layer": 1,
   "errors": [
     {
       "rule_id": "SPEC-016",
       "severity": "error",
-      "message_pattern": "value does not validate against declared $valueType schema"
+      "message_pattern": "value does not validate against declared \\$valueType schema"
     }
   ]
 }

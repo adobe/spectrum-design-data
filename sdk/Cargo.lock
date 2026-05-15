@@ -345,6 +345,7 @@ dependencies = [
  "jsonschema",
  "regex",
  "reqwest",
+ "semver",
  "serde",
  "serde_json",
  "tempfile",
