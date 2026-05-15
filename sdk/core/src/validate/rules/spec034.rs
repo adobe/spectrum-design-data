@@ -152,6 +152,15 @@ mod tests {
     }
 
     #[test]
+    fn empty_string_category_warns() {
+        // schema minLength:1 doesn't apply at the SDK layer; empty string is not
+        // in the registry, so SPEC-034 fires a warning rather than silently passing.
+        let g = graph_with_category("widget", "");
+        let diags = diagnostics_for_rule(&g, "SPEC-034");
+        assert_eq!(diags.len(), 1);
+    }
+
+    #[test]
     fn all_canonical_categories_pass() {
         for cat in &[
             "actions",
