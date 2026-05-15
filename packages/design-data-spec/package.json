@@ -30,9 +30,7 @@
     "./schemas/component.schema.json": "./schemas/component.schema.json",
     "./schemas/anatomy-part.schema.json": "./schemas/anatomy-part.schema.json",
     "./schemas/state-declaration.schema.json": "./schemas/state-declaration.schema.json",
-    "./rules/rules.yaml": "./rules/rules.yaml",
-    "./src/validate.js": "./src/validate.js",
-    "./src/canonical.js": "./src/canonical.js"
+    "./rules/rules.yaml": "./rules/rules.yaml"
   },
   "files": [
     "components",
@@ -41,13 +39,6 @@
     "rules",
     "schemas",
     "spec",
-    "src",
     "README.md"
-  ],
-  "scripts": {
-    "test": "ava"
-  },
-  "devDependencies": {
-    "ava": "^6.0.1"
-  }
+  ]
 }
