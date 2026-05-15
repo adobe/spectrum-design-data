@@ -1,0 +1,10 @@
+{
+  "tokens": [
+    {
+      "name": { "property": "alias-missing-target" },
+      "$ref": "nonexistent-token",
+      "uuid": "aaaaaaaa-0001-4000-8000-000000000001"
+    }
+  ],
+  "components": []
+}

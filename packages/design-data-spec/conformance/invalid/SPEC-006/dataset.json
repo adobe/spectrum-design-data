@@ -1,0 +1,15 @@
+{
+  "tokens": [
+    {
+      "name": { "property": "ambiguous", "colorScheme": "dark" },
+      "value": "rgb(20, 20, 20)",
+      "uuid": "11111111-0006-4000-8000-000000000001"
+    },
+    {
+      "name": { "property": "ambiguous", "colorScheme": "dark" },
+      "value": "rgb(10, 10, 10)",
+      "uuid": "ffffffff-0006-4000-8000-000000000002"
+    }
+  ],
+  "components": []
+}

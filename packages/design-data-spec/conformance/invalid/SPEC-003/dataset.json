@@ -1,0 +1,15 @@
+{
+  "tokens": [
+    {
+      "name": "cycle-a",
+      "$ref": "cycle-b",
+      "uuid": "cccccccc-0003-4000-8000-000000000001"
+    },
+    {
+      "name": "cycle-b",
+      "$ref": "cycle-a",
+      "uuid": "dddddddd-0003-4000-8000-000000000002"
+    }
+  ],
+  "components": []
+}

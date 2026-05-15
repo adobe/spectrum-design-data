@@ -1,4 +1,5 @@
 {
+  "layer": 1,
   "description": "A cascade token property that has non-default colorScheme variants (dark, wireframe) but no base/default variant (mode-set-agnostic or explicit light) MUST trigger SPEC-008.",
   "errors": [
     {
