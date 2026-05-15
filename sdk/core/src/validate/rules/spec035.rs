@@ -180,17 +180,17 @@ mod tests {
 
     #[test]
     fn all_canonical_anatomy_pass() {
-        // These 11 names appear in the canonical vocabulary table in spec/anatomy-format.md
-        // AND in anatomy-terms.json. The 3 spec-table terms absent from the registry
-        // (disclosure-triangle, picker, progress-bar) are tracked in issue #925.
         for part in &[
             "body",
             "checkmark",
+            "disclosure-triangle",
             "field",
             "handle",
             "header",
             "icon",
             "label",
+            "picker",
+            "progress-bar",
             "swatch",
             "thumbnail",
             "track",
