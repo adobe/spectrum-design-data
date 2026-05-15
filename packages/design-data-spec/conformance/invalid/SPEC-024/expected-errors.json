@@ -3,8 +3,8 @@
   "errors": [
     {
       "rule_id": "SPEC-024",
-      "severity": "warning",
-      "message_pattern": ".*custom state.*wobble.*no description.*"
+      "severity": "error",
+      "message_pattern": ".*duplicate anatomy part.*label.*"
     }
   ]
 }

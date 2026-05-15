@@ -9,10 +9,9 @@
         "category": "actions",
         "documentationUrl": "https://spectrum.adobe.com/page/button/"
       },
-      "anatomy": [
-        { "name": "label", "description": "Button text." },
-        { "name": "icon", "description": "Leading icon." },
-        { "name": "label", "description": "Duplicate label part." }
+      "states": [
+        { "name": "hover", "trigger": "interaction", "precedence": 50 },
+        { "name": "wobble" }
       ]
     }
   ]

@@ -22,6 +22,8 @@ mod spec011;
 mod spec012;
 mod spec013;
 mod spec017;
+mod spec025;
+mod spec026;
 mod spec028;
 mod spec029;
 mod spec030;
@@ -58,6 +60,8 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec012::Rule),
         Box::new(spec013::Rule),
         Box::new(spec017::Rule),
+        Box::new(spec025::Rule),
+        Box::new(spec026::Rule),
         Box::new(spec028::Rule),
         Box::new(spec029::Rule),
         Box::new(spec030::Rule),

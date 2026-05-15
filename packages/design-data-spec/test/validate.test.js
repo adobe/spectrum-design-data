@@ -74,7 +74,8 @@ test("SPEC-018: string token names are skipped", (t) => {
     tokens: [{ name: "legacy-token-name", value: "#fff" }],
     components: [],
   };
-  const diags = validateDataset(dataset);
+  // String-named tokens skip SPEC-018 cross-reference checks; SPEC-017 may fire separately.
+  const diags = validateDataset(dataset).filter((d) => d.ruleId === "SPEC-018");
   t.is(diags.length, 0);
 });
 
@@ -286,30 +287,61 @@ test("SPEC-023: no warning for canonical anatomy part without description", (t) 
   t.is(diags.length, 0);
 });
 
-// ---- SPEC-024: state-custom-name-documented ----------------------------------
+// ---- SPEC-024: anatomy-part-name-unique --------------------------------------
 
-test("SPEC-024: no warning when custom state has description", (t) => {
+test("SPEC-024: no error when anatomy part names are unique", (t) => {
   const comp = {
     ...button,
-    states: [{ name: "wobble", description: "Wobble animation state." }],
+    anatomy: [
+      { name: "label", description: "Button text." },
+      { name: "icon", description: "Leading icon." },
+    ],
   };
   const dataset = { tokens: [], components: [comp] };
   const diags = validateDataset(dataset).filter((d) => d.ruleId === "SPEC-024");
   t.is(diags.length, 0);
 });
 
-test("SPEC-024: warning when custom state has no description", (t) => {
-  const comp = { ...button, states: [{ name: "wobble" }] };
+test("SPEC-024: error when anatomy part names are duplicated", (t) => {
+  const comp = {
+    ...button,
+    anatomy: [
+      { name: "label", description: "Button text." },
+      { name: "icon", description: "Leading icon." },
+      { name: "label", description: "Duplicate." },
+    ],
+  };
   const dataset = { tokens: [], components: [comp] };
   const diags = validateDataset(dataset).filter((d) => d.ruleId === "SPEC-024");
+  t.is(diags.length, 1);
+  t.is(diags[0].severity, "error");
+  t.regex(diags[0].message, /duplicate anatomy part.*label/i);
+});
+
+// ---- SPEC-026: state-custom-name-documented ----------------------------------
+
+test("SPEC-026: no warning when custom state has description", (t) => {
+  const comp = {
+    ...button,
+    states: [{ name: "wobble", description: "Wobble animation state." }],
+  };
+  const dataset = { tokens: [], components: [comp] };
+  const diags = validateDataset(dataset).filter((d) => d.ruleId === "SPEC-026");
+  t.is(diags.length, 0);
+});
+
+test("SPEC-026: warning when custom state has no description", (t) => {
+  const comp = { ...button, states: [{ name: "wobble" }] };
+  const dataset = { tokens: [], components: [comp] };
+  const diags = validateDataset(dataset).filter((d) => d.ruleId === "SPEC-026");
   t.is(diags.length, 1);
   t.is(diags[0].severity, "warning");
 });
 
-test("SPEC-024: no warning for canonical state without description", (t) => {
+test("SPEC-026: no warning for canonical state without description", (t) => {
   const comp = { ...button, states: [{ name: "hover" }] };
   const dataset = { tokens: [], components: [comp] };
-  const diags = validateDataset(dataset).filter((d) => d.ruleId === "SPEC-024");
+  const diags = validateDataset(dataset).filter((d) => d.ruleId === "SPEC-026");
   t.is(diags.length, 0);
 });
 

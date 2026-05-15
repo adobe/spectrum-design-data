@@ -9,10 +9,11 @@
         "category": "actions",
         "documentationUrl": "https://spectrum.adobe.com/page/button/"
       },
-      "anatomy": [
-        { "name": "label", "description": "Button text." },
-        { "name": "icon", "description": "Leading icon." },
-        { "name": "label", "description": "Duplicate label part." }
+      "documentBlocks": [
+        {
+          "type": "usage",
+          "content": "Use for primary actions in forms and dialogs."
+        }
       ]
     }
   ]
