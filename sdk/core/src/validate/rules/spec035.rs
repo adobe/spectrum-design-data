@@ -35,10 +35,9 @@ impl ValidationRule for Rule {
 
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut diags = Vec::new();
-        let anatomy_vocab = ctx
-            .registry
-            .for_field("anatomy")
-            .expect("anatomy registry is always embedded");
+        let Some(anatomy_vocab) = ctx.registry.for_field("anatomy") else {
+            return diags;
+        };
 
         for comp in &ctx.graph.components {
             let Some(anatomy) = comp.raw.get("anatomy").and_then(|v| v.as_array()) else {
@@ -182,9 +181,8 @@ mod tests {
     #[test]
     fn all_canonical_anatomy_pass() {
         // These 11 names appear in the canonical vocabulary table in spec/anatomy-format.md
-        // AND in anatomy-terms.json. The 3 terms from the spec table that are not yet in
-        // the registry (disclosure-triangle, picker, progress-bar) are tracked as a
-        // spec/registry divergence for a follow-up issue.
+        // AND in anatomy-terms.json. The 3 spec-table terms absent from the registry
+        // (disclosure-triangle, picker, progress-bar) are tracked in issue #925.
         for part in &[
             "body",
             "checkmark",
