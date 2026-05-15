@@ -1322,6 +1322,24 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "label": "Guest Icon",
       "description": "Icon displayed in an avatar representing an unauthenticated guest user",
       "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "disclosure-triangle",
+      "label": "Disclosure Triangle",
+      "description": "Expand/collapse indicator for accordion, tree, or disclosure components",
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "picker",
+      "label": "Picker",
+      "description": "Dropdown trigger area — the visible affordance, not the overlay",
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "progress-bar",
+      "label": "Progress Bar",
+      "description": "Visual progress fill track indicating completion level",
+      "usedIn": ["tokens", "component-schemas"]
     }
   ]
 }
