@@ -103,8 +103,7 @@ function hasEmbeddedState(property) {
   if (segs.length <= 1) return false;
   for (let i = 0; i < segs.length - 1; i++) {
     if (STATE_WORDS.has(segs[i])) return true;
-    if (i + 1 < segs.length - 1 && STATE_WORDS.has(`${segs[i]}-${segs[i + 1]}`))
-      return true;
+    if (STATE_WORDS.has(`${segs[i]}-${segs[i + 1]}`)) return true;
   }
   return false;
 }
@@ -361,7 +360,8 @@ export function validateDataset(dataset) {
       }
     }
 
-    // SPEC-028/029: documentBlocks on tokens
+    // SPEC-028/029: tokens may also carry documentBlocks; the spec assertion
+    // applies to any entity, not only components.
     checkDocumentBlocks(
       token.documentBlocks,
       `Token '${tokenLabel}'`,

@@ -1,0 +1,13 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "component": "button",
+        "anatomy": "label",
+        "property": "color"
+      },
+      "value": "#ffffff"
+    }
+  ],
+  "components": []
+}

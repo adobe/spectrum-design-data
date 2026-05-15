@@ -672,6 +672,9 @@ mod validation_conformance {
                 .filter(|d| matches!(d.severity, Severity::Error))
                 .collect();
 
+            // Deliberate policy: only error-severity diagnostics fail the valid
+            // fixture. Warnings (e.g. undocumented custom states/slots) may still
+            // fire on intentionally minimal valid fixtures.
             if !errors.is_empty() {
                 failures.push(format!(
                     "{case}: expected no errors but got: {}",
