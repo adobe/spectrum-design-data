@@ -36,24 +36,29 @@ The `role` field names the semantic role of the component. It maps conceptually 
 
 **Canonical role vocabulary:**
 
-| Value        | Semantic meaning                                    |
-| ------------ | --------------------------------------------------- |
-| `button`     | Triggers a discrete action                          |
-| `checkbox`   | Binary on/off selection                             |
-| `combobox`   | Combined text input with a selectable option list   |
-| `dialog`     | Modal overlay requiring a user response             |
-| `link`       | Navigates the user to another context               |
-| `listbox`    | Selectable list of options                          |
-| `menu`       | List of commands or options                         |
-| `menuitem`   | Individual item within a menu                       |
-| `radio`      | Single-select option within a group                 |
-| `slider`     | Range input with a continuous value                 |
-| `spinbutton` | Numeric input with increment and decrement controls |
-| `switch`     | Toggles between two states (on/off)                 |
-| `tab`        | Selects a panel within a tabbed interface           |
-| `textbox`    | Accepts free-form text input                        |
-| `tooltip`    | Contextual information overlay; not interactive     |
-| `tree`       | Hierarchical navigable list                         |
+| Value         | Semantic meaning                                                                                 |
+| ------------- | ------------------------------------------------------------------------------------------------ |
+| `button`      | Triggers a discrete action                                                                       |
+| `checkbox`    | Binary on/off selection                                                                          |
+| `combobox`    | Combined text input with a selectable option list                                                |
+| `dialog`      | Modal overlay requiring a user response                                                          |
+| `link`        | Navigates the user to another context                                                            |
+| `listbox`     | Selectable list of options                                                                       |
+| `menu`        | List of commands or options                                                                      |
+| `menuitem`    | Individual item within a menu                                                                    |
+| `radio`       | Single-select option within a group                                                              |
+| `slider`      | Range input with a continuous value                                                              |
+| `spinbutton`  | Numeric input with increment and decrement controls                                              |
+| `switch`      | Toggles between two states (on/off)                                                              |
+| `tab`         | Selects a panel within a tabbed interface                                                        |
+| `textbox`     | Accepts free-form text input                                                                     |
+| `tooltip`     | Contextual information overlay; not interactive                                                  |
+| `tree`        | Hierarchical navigable list                                                                      |
+| `progressbar` | Visual indicator of task progress (determinate or indeterminate)                                 |
+| `meter`       | Scalar measurement within a known range (gauge, not a progress indicator)                        |
+| `grid`        | Two-dimensional tabular data with keyboard navigation                                            |
+| `listitem`    | Individual item within a list container (anatomy-part role; per-part accessibility is Phase 7.3) |
+| `group`       | Generic container that groups related elements without a more specific role                      |
 
 ### `intents`
 
