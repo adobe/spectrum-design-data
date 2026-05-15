@@ -60,6 +60,7 @@
     }
   ],
   "accessibility": {
+    "role": "group",
     "intents": ["choose"],
     "focusable": false,
     "wcag": [

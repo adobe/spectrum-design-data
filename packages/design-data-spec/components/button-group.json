@@ -45,6 +45,7 @@
     }
   ],
   "accessibility": {
+    "role": "group",
     "intents": ["trigger"],
     "focusable": false,
     "wcag": [

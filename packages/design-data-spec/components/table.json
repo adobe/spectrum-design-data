@@ -390,6 +390,7 @@
     }
   ],
   "accessibility": {
+    "role": "grid",
     "intents": ["select", "navigate"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate", "select-all"],
