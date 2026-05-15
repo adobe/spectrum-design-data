@@ -28,4 +28,3 @@ Combo boxes combine a text entry with a picker menu, allowing users to filter lo
 | isReadOnly | boolean | - | false | No | - |
 | description | string | - | - | No | - |
 | errorMessage | string | - | - | No | - |
-| state | string | default, hover (text area), hover (button area), focus + hover, focus + not hover, keyboard focus | default | No | - |

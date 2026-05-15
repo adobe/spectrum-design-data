@@ -20,4 +20,3 @@ Tags allow users to categorize content. They can represent keywords or people, a
 | isError | boolean | - | false | No | - |
 | isDisabled | boolean | - | false | No | - |
 | isReadOnly | boolean | - | false | No | - |
-| state | string | default, hover, down, keyboard focus | default | No | - |

@@ -1,6 +1,6 @@
 ---
 title: States
-description: Interaction states for components
+description: "Interaction states for components"
 source_url: https://opensource.adobe.com/spectrum-design-data/registry/states/
 tags:
   - registry
@@ -14,7 +14,7 @@ tags:
 | hover | Hover | Mouse hover state | - |
 | active | Active | Active or pressed state | - |
 | focus | Focus | Focused state (generic) | - |
-| keyboard-focus | Keyboard Focus | Focused via keyboard navigation | keyboard focus |
+| keyboard-focus | Keyboard Focus | Focused via keyboard navigation | keyboard focus, key-focus |
 | disabled | Disabled | Disabled or inactive state | - |
 | down | Down | Pressed or down state (mouse button down) | - |
 | pending | Pending | Loading or pending state | - |

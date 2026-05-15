@@ -21,4 +21,3 @@ A color wheel lets users visually change an individual channel of a color on a c
 | step | number | - | 1 | No | - |
 | size | number | - | 192 | No | units: px |
 | isDisabled | boolean | - | false | No | - |
-| state | string | default, hover, down, keyboard focus | default | No | - |

@@ -116,6 +116,11 @@ test("components registry has no duplicate IDs", (t) => {
   t.is(ids.length, uniqueIds.size);
 });
 
+test("anatomyTerms registry has no duplicate IDs", (t) => {
+  const ids = anatomyTerms.values.map((v) => v.id);
+  t.is(ids.length, new Set(ids).size);
+});
+
 // Test for duplicate aliases
 test("sizes registry has no duplicate aliases", (t) => {
   const aliases = sizes.values.flatMap((v) => v.aliases || []);

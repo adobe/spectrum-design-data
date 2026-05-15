@@ -1,6 +1,6 @@
 ---
 title: Components
-description: Spectrum component names
+description: "Spectrum component names"
 source_url: https://opensource.adobe.com/spectrum-design-data/registry/components/
 tags:
   - registry

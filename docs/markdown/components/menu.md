@@ -26,4 +26,3 @@ Menus help users take actions, choose from a list of options, configure settings
 | isCollapsible | boolean | - | false | No | - |
 | isUnavailable | boolean | - | false | No | - |
 | isDisabled | boolean | - | false | No | - |
-| state | string | default, hover, down, keyboard focus | default | No | - |

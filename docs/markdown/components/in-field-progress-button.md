@@ -15,6 +15,5 @@ In field progress buttons provide interactive controls within form fields for ac
 | Property | Type | Values | Default | Required | Description |
 | --- | --- | --- | --- | --- | --- |
 | size | string | s, m, l, xl | m | No | - |
-| state | string | default, hover, down, keyboard focus | default | No | - |
 | style | string | disclosure, clear, dash, add | - | No | - |
 | isQuiet | boolean | - | false | No | - |
