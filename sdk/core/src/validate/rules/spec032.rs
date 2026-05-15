@@ -37,6 +37,8 @@ impl ValidationRule for Rule {
         let mut out = Vec::new();
 
         // Build a map: UUID → Foundation-layer token value type.
+        // If two Foundation tokens share a UUID, HashMap insertion is non-deterministic;
+        // SPEC-004 catches that data error before this rule runs, so it's acceptable here.
         let foundation_value_types: HashMap<&str, &str> = ctx
             .graph
             .tokens
