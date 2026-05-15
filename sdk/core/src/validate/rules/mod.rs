@@ -44,6 +44,7 @@ mod spec032;
 // but has no SDK implementation — it constrains validator behavior via spec prose, not data.
 mod spec034;
 mod spec035;
+mod spec036;
 
 use std::collections::HashSet;
 use std::sync::OnceLock;
@@ -96,6 +97,7 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec032::Rule),
         Box::new(spec034::Rule),
         Box::new(spec035::Rule),
+        Box::new(spec036::Rule),
     ]
 }
 

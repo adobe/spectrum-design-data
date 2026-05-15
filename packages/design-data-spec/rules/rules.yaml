@@ -343,3 +343,15 @@ rules:
     message: "Component '{entity}' anatomy part name '{value}' is not in the design-system-registry anatomy-terms vocabulary"
     spec_ref: spec/anatomy-format.md#canonical-anatomy-vocabulary
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-036
+    name: component-deprecation-cascade
+    severity: warning
+    category: reference-integrity
+    assert: >
+      Tokens SHOULD NOT reference a deprecated component via `name.component` unless the token
+      is itself deprecated. Non-deprecated tokens referencing a deprecated component are surfaced
+      as warnings to prompt authors to update the reference or mark the token deprecated.
+    message: "Token '{token}' references deprecated component '{component}' (deprecated since {version}); update the reference or mark the token deprecated"
+    spec_ref: spec/component-format.md#lifecycle
+    introduced_in: "1.0.0-draft"
