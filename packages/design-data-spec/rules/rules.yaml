@@ -309,6 +309,11 @@ rules:
     name: registry-id-cross-namespace-allowed
     severity: error
     category: registry
+    # Meta-rule: constrains validator behavior, not data shape. No SDK implementation exists;
+    # this entry documents a MUST constraint for external validator implementors. The error
+    # severity correctly signals "MUST" — a validator that incorrectly rejects valid
+    # cross-registry IDs is non-conforming. No conformance fixture is required because the
+    # SDK never emits this diagnostic; the rule is enforced by spec prose alone.
     assert: >
       A validator MUST NOT flag a registry ID as invalid solely because that same ID appears in
       a different registry. Registry IDs are scoped to their registry; cross-registry overlap is
