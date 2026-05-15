@@ -37,52 +37,63 @@ static DROP_SHADOW_SCHEMA: &str = include_str!(concat!(
     "/../../packages/design-data-spec/schemas/value-types/drop-shadow.schema.json"
 ));
 
-/// For each composite `$valueType` path, a map from sub-key name to the list of
-/// acceptable scalar value-type names (from `x-valueType` in the schema).
-static SUB_KEY_TYPES: LazyLock<HashMap<&'static str, HashMap<String, Vec<String>>>> =
-    LazyLock::new(|| {
-        let entries: &[(&str, &str, bool)] = &[
-            ("value-types/typography.schema.json", TYPOGRAPHY_SCHEMA, false),
-            (
-                "value-types/typography-scale.schema.json",
-                TYPOGRAPHY_SCALE_SCHEMA,
-                false,
-            ),
-            ("value-types/drop-shadow.schema.json", DROP_SHADOW_SCHEMA, true),
-        ];
+/// Per-schema descriptor: whether the composite value is an array of objects
+/// (true) or a flat object (false), plus the sub-key → acceptable scalar types map.
+struct CompositeDescriptor {
+    value_is_array: bool,
+    sub_key_types: HashMap<String, Vec<String>>,
+}
 
-        let mut outer: HashMap<&'static str, HashMap<String, Vec<String>>> = HashMap::new();
-        for (key, src, is_array) in entries {
-            let schema: Value =
-                serde_json::from_str(src).expect("embedded value-type schema is valid JSON");
+/// Map of composite `$valueType` path → descriptor, initialized once.
+///
+/// Storing `value_is_array` here keeps the dispatch data-driven: adding a new
+/// array-typed composite schema requires only a new entry in the `entries` slice
+/// below, not a code-path change in `validate`.
+static DESCRIPTORS: LazyLock<HashMap<&'static str, CompositeDescriptor>> = LazyLock::new(|| {
+    let entries: &[(&str, &str, bool)] = &[
+        ("value-types/typography.schema.json", TYPOGRAPHY_SCHEMA, false),
+        (
+            "value-types/typography-scale.schema.json",
+            TYPOGRAPHY_SCALE_SCHEMA,
+            false,
+        ),
+        ("value-types/drop-shadow.schema.json", DROP_SHADOW_SCHEMA, true),
+    ];
 
-            let props_loc = if *is_array {
-                schema.pointer("/items/properties")
-            } else {
-                schema.pointer("/properties")
+    let mut map: HashMap<&'static str, CompositeDescriptor> = HashMap::new();
+    for (key, src, value_is_array) in entries {
+        let schema: Value =
+            serde_json::from_str(src).expect("embedded value-type schema is valid JSON");
+
+        let props_loc = if *value_is_array {
+            schema.pointer("/items/properties")
+        } else {
+            schema.pointer("/properties")
+        };
+
+        let Some(props) = props_loc.and_then(|v| v.as_object()) else {
+            continue;
+        };
+
+        let mut sub_key_types: HashMap<String, Vec<String>> = HashMap::new();
+        for (sub_key, prop_schema) in props {
+            let types: Vec<String> = match prop_schema.get("x-valueType") {
+                Some(Value::String(s)) => vec![s.clone()],
+                Some(Value::Array(arr)) => {
+                    arr.iter().filter_map(|v| v.as_str().map(String::from)).collect()
+                }
+                _ => continue,
             };
-
-            let Some(props) = props_loc.and_then(|v| v.as_object()) else {
-                continue;
-            };
-
-            let mut sub_map: HashMap<String, Vec<String>> = HashMap::new();
-            for (sub_key, prop_schema) in props {
-                let x_value_type = prop_schema.get("x-valueType");
-                let types: Vec<String> = match x_value_type {
-                    Some(Value::String(s)) => vec![s.clone()],
-                    Some(Value::Array(arr)) => arr
-                        .iter()
-                        .filter_map(|v| v.as_str().map(String::from))
-                        .collect(),
-                    _ => continue,
-                };
-                sub_map.insert(sub_key.clone(), types);
-            }
-            outer.insert(key, sub_map);
+            sub_key_types.insert(sub_key.clone(), types);
         }
-        outer
-    });
+
+        map.insert(
+            key,
+            CompositeDescriptor { value_is_array: *value_is_array, sub_key_types },
+        );
+    }
+    map
+});
 
 /// Extract the scalar value-type name from a `$valueType` string.
 ///
@@ -95,6 +106,9 @@ fn scalar_name_from_value_type(vt: &str) -> &str {
 }
 
 /// Returns `true` if the string looks like an inline alias: `{token-name}`.
+///
+/// `{` and `}` are single-byte ASCII, so `s.len() > 2` is a safe byte-length
+/// guard for the subsequent `&s[1..s.len()-1]` slice in `inline_alias_target`.
 fn is_inline_alias(s: &str) -> bool {
     s.starts_with('{') && s.ends_with('}') && s.len() > 2
 }
@@ -102,6 +116,36 @@ fn is_inline_alias(s: &str) -> bool {
 /// Extract the target name from an inline alias string (strips `{` and `}`).
 fn inline_alias_target(s: &str) -> &str {
     &s[1..s.len() - 1]
+}
+
+/// Collect `(sub_key, alias_target_name)` pairs from a composite token value.
+fn collect_inline_aliases(value: &Value, value_is_array: bool) -> Vec<(String, String)> {
+    if value_is_array {
+        let Some(arr) = value.as_array() else {
+            return Vec::new();
+        };
+        arr.iter()
+            .filter_map(|item| item.as_object())
+            .flat_map(|obj| {
+                obj.iter().filter_map(|(k, v)| {
+                    v.as_str()
+                        .filter(|s| is_inline_alias(s))
+                        .map(|s| (k.clone(), inline_alias_target(s).to_string()))
+                })
+            })
+            .collect()
+    } else {
+        let Some(obj) = value.as_object() else {
+            return Vec::new();
+        };
+        obj.iter()
+            .filter_map(|(k, v)| {
+                v.as_str()
+                    .filter(|s| is_inline_alias(s))
+                    .map(|s| (k.clone(), inline_alias_target(s).to_string()))
+            })
+            .collect()
+    }
 }
 
 pub struct Rule;
@@ -122,7 +166,7 @@ impl ValidationRule for Rule {
             let Some(value_type) = t.raw.get("$valueType").and_then(|v| v.as_str()) else {
                 continue;
             };
-            let Some(sub_key_types) = SUB_KEY_TYPES.get(value_type) else {
+            let Some(desc) = DESCRIPTORS.get(value_type) else {
                 // Not a composite schema we know about.
                 continue;
             };
@@ -130,35 +174,10 @@ impl ValidationRule for Rule {
                 continue;
             };
 
-            // Collect (sub_key, inline_alias_target) pairs from the composite value.
-            let aliases: Vec<(String, String)> =
-                if value_type == "value-types/drop-shadow.schema.json" {
-                    // Drop-shadow: array of objects.
-                    let Some(arr) = value.as_array() else { continue };
-                    arr.iter()
-                        .filter_map(|item| item.as_object())
-                        .flat_map(|obj| {
-                            obj.iter().filter_map(|(k, v)| {
-                                v.as_str()
-                                    .filter(|s| is_inline_alias(s))
-                                    .map(|s| (k.clone(), inline_alias_target(s).to_string()))
-                            })
-                        })
-                        .collect()
-                } else {
-                    // Typography / typography-scale: flat object.
-                    let Some(obj) = value.as_object() else { continue };
-                    obj.iter()
-                        .filter_map(|(k, v)| {
-                            v.as_str()
-                                .filter(|s| is_inline_alias(s))
-                                .map(|s| (k.clone(), inline_alias_target(s).to_string()))
-                        })
-                        .collect()
-                };
+            let aliases = collect_inline_aliases(value, desc.value_is_array);
 
             for (sub_key, target_name) in aliases {
-                let Some(expected_types) = sub_key_types.get(&sub_key) else {
+                let Some(expected_types) = desc.sub_key_types.get(&sub_key) else {
                     // Sub-key has no x-valueType annotation — skip.
                     continue;
                 };
@@ -215,9 +234,10 @@ mod tests {
     use crate::validate::rule::{ValidationContext, ValidationRule};
     use crate::validate::rules::spec015::Rule;
 
-    fn make_graph(tokens: Vec<(String, serde_json::Value)>) -> TokenGraph {
+    /// Build a graph from (name, raw_json, optional_alias_target) triples.
+    fn make_graph(tokens: Vec<(String, serde_json::Value, Option<String>)>) -> TokenGraph {
         let mut g = TokenGraph::default();
-        for (name, raw) in tokens {
+        for (name, raw, alias_target) in tokens {
             g.tokens.insert(
                 name.clone(),
                 TokenRecord {
@@ -226,7 +246,7 @@ mod tests {
                     index: 0,
                     schema_url: None,
                     uuid: None,
-                    alias_target: None,
+                    alias_target,
                     raw,
                 },
             );
@@ -234,7 +254,7 @@ mod tests {
         g
     }
 
-    fn run(tokens: Vec<(String, serde_json::Value)>) -> Vec<crate::report::Diagnostic> {
+    fn run(tokens: Vec<(String, serde_json::Value, Option<String>)>) -> Vec<crate::report::Diagnostic> {
         let g = make_graph(tokens);
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();
@@ -247,6 +267,7 @@ mod tests {
         let diags = run(vec![(
             "t".into(),
             json!({"name": {"property": "thing"}, "value": "1px"}),
+            None,
         )]);
         assert!(diags.is_empty());
     }
@@ -256,6 +277,7 @@ mod tests {
         let diags = run(vec![(
             "t".into(),
             json!({"name": {"property": "color"}, "$valueType": "value-types/color.schema.json", "value": "#fff"}),
+            None,
         )]);
         assert!(diags.is_empty());
     }
@@ -274,13 +296,13 @@ mod tests {
                     "lineHeight": "1.2"
                 }
             }),
+            None,
         )]);
         assert!(diags.is_empty());
     }
 
     #[test]
     fn typography_inline_alias_compatible_no_error() {
-        // fontSize alias resolves to a dimension token.
         let diags = run(vec![
             (
                 "font-size-100".into(),
@@ -289,6 +311,7 @@ mod tests {
                     "$valueType": "value-types/dimension.schema.json",
                     "value": "16px"
                 }),
+                None,
             ),
             (
                 "heading-style".into(),
@@ -302,6 +325,7 @@ mod tests {
                         "lineHeight": "1.2"
                     }
                 }),
+                None,
             ),
         ]);
         assert!(diags.is_empty());
@@ -309,7 +333,6 @@ mod tests {
 
     #[test]
     fn typography_inline_alias_type_mismatch_error() {
-        // fontSize alias resolves to a color token — mismatch.
         let diags = run(vec![
             (
                 "accent-color".into(),
@@ -318,6 +341,7 @@ mod tests {
                     "$valueType": "value-types/color.schema.json",
                     "value": "#0265DC"
                 }),
+                None,
             ),
             (
                 "heading-style".into(),
@@ -331,6 +355,7 @@ mod tests {
                         "lineHeight": "1.2"
                     }
                 }),
+                None,
             ),
         ]);
         assert_eq!(diags.len(), 1);
@@ -342,7 +367,6 @@ mod tests {
 
     #[test]
     fn typography_line_height_accepts_number_type() {
-        // lineHeight accepts both "dimension" and "number".
         let diags = run(vec![
             (
                 "line-height-token".into(),
@@ -351,6 +375,7 @@ mod tests {
                     "$valueType": "value-types/number.schema.json",
                     "value": "1.5"
                 }),
+                None,
             ),
             (
                 "heading-style".into(),
@@ -364,6 +389,7 @@ mod tests {
                         "lineHeight": "{line-height-token}"
                     }
                 }),
+                None,
             ),
         ]);
         assert!(diags.is_empty());
@@ -371,7 +397,6 @@ mod tests {
 
     #[test]
     fn missing_alias_target_no_spec015_error() {
-        // Missing target is SPEC-014's responsibility.
         let diags = run(vec![(
             "heading-style".into(),
             json!({
@@ -384,13 +409,13 @@ mod tests {
                     "lineHeight": "1.2"
                 }
             }),
+            None,
         )]);
         assert!(diags.is_empty());
     }
 
     #[test]
     fn drop_shadow_inline_alias_color_mismatch_error() {
-        // drop-shadow color sub-value aliases a dimension token — mismatch.
         let diags = run(vec![
             (
                 "a-dimension".into(),
@@ -399,6 +424,7 @@ mod tests {
                     "$valueType": "value-types/dimension.schema.json",
                     "value": "4px"
                 }),
+                None,
             ),
             (
                 "shadow-token".into(),
@@ -415,10 +441,154 @@ mod tests {
                         }
                     ]
                 }),
+                None,
             ),
         ]);
         assert_eq!(diags.len(), 1);
         assert_eq!(diags[0].severity, Severity::Error);
+        assert!(diags[0].message.contains("color"));
+        assert!(diags[0].message.contains("dimension"));
+    }
+
+    #[test]
+    fn typography_scale_inline_alias_type_mismatch_error() {
+        // Covers the typography-scale composite schema path.
+        let diags = run(vec![
+            (
+                "accent-color".into(),
+                json!({
+                    "name": {"property": "accent-color"},
+                    "$valueType": "value-types/color.schema.json",
+                    "value": "rgb(2, 101, 220)"
+                }),
+                None,
+            ),
+            (
+                "scale-100".into(),
+                json!({
+                    "name": {"property": "scale-100"},
+                    "$valueType": "value-types/typography-scale.schema.json",
+                    "value": {
+                        "fontSize": "{accent-color}",
+                        "lineHeight": "1.4"
+                    }
+                }),
+                None,
+            ),
+        ]);
+        assert_eq!(diags.len(), 1);
+        assert_eq!(diags[0].rule_id.as_deref(), Some("SPEC-015"));
+        assert!(diags[0].message.contains("fontSize"));
+        assert!(diags[0].message.contains("color"));
+    }
+
+    #[test]
+    fn typography_scale_inline_alias_compatible_no_error() {
+        let diags = run(vec![
+            (
+                "font-size-200".into(),
+                json!({
+                    "name": {"property": "font-size-200"},
+                    "$valueType": "value-types/dimension.schema.json",
+                    "value": "20px"
+                }),
+                None,
+            ),
+            (
+                "scale-200".into(),
+                json!({
+                    "name": {"property": "scale-200"},
+                    "$valueType": "value-types/typography-scale.schema.json",
+                    "value": {
+                        "fontSize": "{font-size-200}",
+                        "lineHeight": "1.4"
+                    }
+                }),
+                None,
+            ),
+        ]);
+        assert!(diags.is_empty());
+    }
+
+    #[test]
+    fn chained_alias_resolves_to_leaf_type() {
+        // fontSize → intermediate-alias → color-leaf: resolve_leaf follows the chain.
+        let diags = run(vec![
+            (
+                "color-leaf".into(),
+                json!({
+                    "name": {"property": "color-leaf"},
+                    "$valueType": "value-types/color.schema.json",
+                    "value": "rgb(2, 101, 220)"
+                }),
+                None,
+            ),
+            (
+                "intermediate-alias".into(),
+                // No $valueType on the alias itself; alias_target points to the leaf.
+                json!({"name": {"property": "intermediate-alias"}}),
+                Some("color-leaf".to_string()),
+            ),
+            (
+                "heading-style".into(),
+                json!({
+                    "name": {"property": "heading-style"},
+                    "$valueType": "value-types/typography.schema.json",
+                    "value": {
+                        "fontFamily": "Adobe Clean",
+                        "fontSize": "{intermediate-alias}",
+                        "fontWeight": "700",
+                        "lineHeight": "1.2"
+                    }
+                }),
+                None,
+            ),
+        ]);
+        assert_eq!(diags.len(), 1);
+        assert_eq!(diags[0].rule_id.as_deref(), Some("SPEC-015"));
+        assert!(diags[0].message.contains("color"));
+    }
+
+    #[test]
+    fn drop_shadow_multi_layer_partial_alias_error() {
+        // Array with two shadow layers; second layer's color aliases a dimension.
+        let diags = run(vec![
+            (
+                "a-dimension".into(),
+                json!({
+                    "name": {"property": "a-dimension"},
+                    "$valueType": "value-types/dimension.schema.json",
+                    "value": "4px"
+                }),
+                None,
+            ),
+            (
+                "shadow-token".into(),
+                json!({
+                    "name": {"property": "shadow-token"},
+                    "$valueType": "value-types/drop-shadow.schema.json",
+                    "value": [
+                        {
+                            "x": "0px",
+                            "y": "2px",
+                            "blur": "4px",
+                            "spread": "0px",
+                            "color": "rgb(0,0,0)"
+                        },
+                        {
+                            "x": "0px",
+                            "y": "4px",
+                            "blur": "8px",
+                            "spread": "0px",
+                            "color": "{a-dimension}"
+                        }
+                    ]
+                }),
+                None,
+            ),
+        ]);
+        assert_eq!(diags.len(), 1);
+        assert_eq!(diags[0].rule_id.as_deref(), Some("SPEC-015"));
         assert!(diags[0].message.contains("color"));
         assert!(diags[0].message.contains("dimension"));
     }
