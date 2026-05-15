@@ -39,7 +39,8 @@ impl ValidationRule for Rule {
 
         for t in ctx.graph.tokens.values() {
             // Skip tokens that are themselves deprecated — no cascaded warning needed.
-            if t.raw.get("deprecated").is_some() {
+            // Use as_str() so deprecated: null or deprecated: false does not suppress the warning.
+            if t.raw.get("deprecated").and_then(|v| v.as_str()).is_some() {
                 continue;
             }
 
@@ -60,15 +61,15 @@ impl ValidationRule for Rule {
                 .and_then(|v| v.as_str());
 
             if let Some(version) = dep_version {
-                let token_label = serde_json::to_string(name_obj).unwrap_or_default();
                 out.push(Diagnostic {
                     file: t.file.clone(),
                     token: Some(t.name.clone()),
                     rule_id: Some(self.id().to_string()),
                     severity: Severity::Warning,
                     message: format!(
-                        "Token '{token_label}' references deprecated component '{component}' \
-                         (deprecated since {version}); update the reference or mark the token deprecated"
+                        "Token '{}' references deprecated component '{component}' \
+                         (deprecated since {version}); update the reference or mark the token deprecated",
+                        t.name
                     ),
                     instance_path: Some("/name/component".to_string()),
                     schema_path: None,
@@ -181,6 +182,17 @@ mod tests {
             json!({"name": "other-component", "lifecycle": {"deprecated": "1.0.0-draft"}}),
         );
         assert!(diags.is_empty());
+    }
+
+    #[test]
+    fn deprecated_false_does_not_suppress_warning() {
+        // deprecated: false should NOT be treated as deprecated — warning must still fire.
+        let diags = run(
+            json!({"name": {"component": "old-widget", "property": "color"}, "value": "#000", "deprecated": false}),
+            json!({"name": "old-widget", "lifecycle": {"deprecated": "1.0.0-draft"}}),
+        );
+        assert_eq!(diags.len(), 1);
+        assert_eq!(diags[0].severity, Severity::Warning);
     }
 
     #[test]
