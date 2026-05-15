@@ -11,19 +11,20 @@ The specification defines:
 
 1. **Token format** — structured token identity (`name`), literal `value` or alias `$ref`, and lifecycle metadata ([Token format](token-format.md)).
 2. **Taxonomy** — concept categories, token term vocabulary, formatting style, and the distinction between component anatomy and token objects ([Taxonomy](taxonomy.md)).
-3. **Component format** — component declaration shape: API options, named content slots, anatomy parts, state model, and cross-reference validation rules ([Component format](component-format.md)).
+3. **Registry** — named value collections that supply allowed vocabulary for token name fields and component metadata; three-registry boundary (anatomy-terms, token-objects, categories) and packaging strategy ([Registry](registry.md)).
+4. **Component format** — component declaration shape: API options, named content slots, anatomy parts, state model, and cross-reference validation rules ([Component format](component-format.md)).
    * **Anatomy format** — anatomy part declaration shape: field constraints, canonical anatomy vocabulary, and cross-reference rules for token `anatomy` field values ([Anatomy format](anatomy-format.md)).
    * **State model** — state declaration shape: trigger semantics, precedence and resolution algorithm, canonical state vocabulary, and cross-reference rules for token `state` field values ([State model](state-model.md)).
-4. **Cascade and resolution** — layered data (foundation, platform, product), specificity, and how a context picks a winning value ([Cascade](cascade.md)).
-5. **Mode Sets** — declared modes, defaults, and coverage expectations ([Mode Sets](mode-sets.md)).
-6. **Platform manifest** — how a platform repo pins foundation data, filters tokens, and applies typed overrides ([Manifest](manifest.md)).
-7. **Semantic diff** — change taxonomy, token identity rules, and property-level change tracking for comparing dataset versions ([Diff](diff.md)).
-8. **Query notation** — filter syntax for selecting tokens by structured fields ([Query](query.md)).
-9. **Accessibility** — component accessibility vocabulary: semantic role, interaction and keyboard intents, focus behavior, WCAG criteria, and state-level AT fields ([Accessibility](accessibility.md)).
-   * **Accessibility adapters** — informative platform adapter contracts: Web/ARIA, iOS UIAccessibility, Android AccessibilityNodeInfo, and voice/multimodal ([Accessibility adapters](accessibility-adapters.md)).
-10. **Document blocks** — typed prose blocks attachable to tokens, components, and anatomy parts; makes design guidance machine-readable and agent-queryable ([Document blocks](document-blocks.md)).
-11. **Agent-readable surface** — operations and transport contracts (CLI, MCP server, Agent Skill) for AI agents consuming spec-conformant design data; covers session primer, token resolution, validation, query, and component description ([Agent-readable surface](agent-surface.md)).
-12. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
+5. **Cascade and resolution** — layered data (foundation, platform, product), specificity, and how a context picks a winning value ([Cascade](cascade.md)).
+6. **Mode Sets** — declared modes, defaults, and coverage expectations ([Mode Sets](mode-sets.md)).
+7. **Platform manifest** — how a platform repo pins foundation data, filters tokens, and applies typed overrides ([Manifest](manifest.md)).
+8. **Semantic diff** — change taxonomy, token identity rules, and property-level change tracking for comparing dataset versions ([Diff](diff.md)).
+9. **Query notation** — filter syntax for selecting tokens by structured fields ([Query](query.md)).
+10. **Accessibility** — component accessibility vocabulary: semantic role, interaction and keyboard intents, focus behavior, WCAG criteria, and state-level AT fields ([Accessibility](accessibility.md)).
+    * **Accessibility adapters** — informative platform adapter contracts: Web/ARIA, iOS UIAccessibility, Android AccessibilityNodeInfo, and voice/multimodal ([Accessibility adapters](accessibility-adapters.md)).
+11. **Document blocks** — typed prose blocks attachable to tokens, components, and anatomy parts; makes design guidance machine-readable and agent-queryable ([Document blocks](document-blocks.md)).
+12. **Agent-readable surface** — operations and transport contracts (CLI, MCP server, Agent Skill) for AI agents consuming spec-conformant design data; covers session primer, token resolution, validation, query, and component description ([Agent-readable surface](agent-surface.md)).
+13. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
 
 ## Conformance
 
@@ -61,6 +62,7 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | [Token format](token-format.md)                     | Token `name`, `value` / `$ref`, value types, lifecycle metadata.                                                                  |
 | [Taxonomy](taxonomy.md)                             | Concept categories, vocabulary, formatting, anatomy vs objects.                                                                   |
+| [Registry](registry.md)                             | Named value collections for vocabulary validation; three-registry boundary (anatomy, token objects, categories) and packaging.    |
 | [Component format](component-format.md)             | Component declaration: options, slots, anatomy (→ anatomy-format.md), states (→ state-model.md), lifecycle.                       |
 | [Anatomy format](anatomy-format.md)                 | Anatomy part declarations: field constraints, canonical vocabulary, SPEC-020/SPEC-023/SPEC-024/SPEC-025.                          |
 | [State model](state-model.md)                       | State declarations: trigger semantics, precedence algorithm, canonical vocabulary, SPEC-022/SPEC-026.                             |
