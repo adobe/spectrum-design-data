@@ -1,5 +1,14 @@
 # @adobe/design-data-spec
 
+## 0.14.0
+
+### Minor Changes
+
+- [#928](https://github.com/adobe/spectrum-design-data/pull/928) [`1849738`](https://github.com/adobe/spectrum-design-data/commit/1849738b1a65d2656280aa7777d1169fcc3f036b) Thanks [@GarthDB](https://github.com/GarthDB)! - Add SPEC-036 (`component-deprecation-cascade`) advisory rule: warn when a
+  non-deprecated token references a component declaration marked deprecated
+  via `lifecycle.deprecated`. Closes the deprecation-cascade open question
+  on rfc-coordination rows #735 / #832.
+
 ## 0.13.0
 
 ### Minor Changes
