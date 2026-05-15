@@ -88,17 +88,8 @@
       "properties": {
         "category": {
           "type": "string",
-          "enum": [
-            "actions",
-            "containers",
-            "data visualization",
-            "feedback",
-            "inputs",
-            "navigation",
-            "status",
-            "typography"
-          ],
-          "description": "Design system category for this component."
+          "minLength": 1,
+          "description": "Category id from @adobe/design-system-registry categories.json. Advisory validation via SPEC-034."
         },
         "documentationUrl": {
           "type": "string",

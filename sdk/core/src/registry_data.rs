@@ -1698,6 +1698,62 @@ const STATES_JSON: &str = r##"{
   ]
 }
 "##;
+const CATEGORIES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "category",
+  "description": "Component categories for organization and discovery",
+  "values": [
+    {
+      "id": "actions",
+      "label": "Actions",
+      "description": "Components that allow users to perform actions",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "containers",
+      "label": "Containers",
+      "description": "Components that contain or organize other content",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "data-visualization",
+      "label": "Data Visualization",
+      "description": "Components for displaying data and charts",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "feedback",
+      "label": "Feedback",
+      "description": "Components that provide feedback to users",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "inputs",
+      "label": "Inputs",
+      "description": "Components for user input and data entry",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "navigation",
+      "label": "Navigation",
+      "description": "Components for navigation and wayfinding",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "status",
+      "label": "Status",
+      "description": "Components that indicate status or state",
+      "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "typography",
+      "label": "Typography",
+      "description": "Text and typography components",
+      "usedIn": ["component-schemas"]
+    }
+  ]
+}
+"##;
 
 pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "orientation", "position", "size", "density", "shape", "state"];
 
@@ -1716,5 +1772,6 @@ pub(crate) fn build_registry_map(
     map.insert("density".to_string(), parse_registry(DENSITIES_JSON));
     map.insert("shape".to_string(), parse_registry(SHAPES_JSON));
     map.insert("state".to_string(), parse_registry(STATES_JSON));
+    map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
     map
 }

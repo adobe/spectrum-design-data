@@ -79,6 +79,14 @@ impl RegistryData {
     pub fn advisory_fields(&self) -> &[&str] {
         FIELD_ADVISORY_FIELDS
     }
+
+    /// The set of valid component category ids from the categories registry.
+    /// Used by SPEC-034 to validate `meta.category` on component declarations.
+    pub fn categories(&self) -> &HashSet<String> {
+        self.registries
+            .get("categories")
+            .expect("categories registry is always embedded")
+    }
 }
 
 #[cfg(test)]

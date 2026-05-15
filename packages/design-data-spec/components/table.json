@@ -6,7 +6,7 @@
   "displayName": "Table",
   "description": "Tables display information in rows and columns, allowing users to compare and scan structured data.",
   "meta": {
-    "category": "data visualization",
+    "category": "data-visualization",
     "documentationUrl": "https://spectrum.adobe.com/page/table/"
   },
   "options": {

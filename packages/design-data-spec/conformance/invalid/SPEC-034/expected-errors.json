@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-034",
+      "severity": "warning",
+      "message_pattern": ".*not in the design-system-registry categories vocabulary.*"
+    }
+  ]
+}

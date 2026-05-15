@@ -61,7 +61,7 @@ Validates the `category` field on component declarations.
 **What it contains:** Top-level categories for organizing components by purpose and interaction type. Used for documentation navigation and tooling filters.
 
 **File:** `packages/design-system-registry/registry/categories.json`\
-**Validated by:** gap — no dedicated SPEC rule yet; component `category` field validation against this registry is untracked. A future rule SHOULD enforce advisory validation here.\
+**Validated by:** SPEC-034 (advisory — `meta.category` field values SHOULD match the categories registry)\
 **See also:** [Component format](component-format.md)
 
 ## ID scoping

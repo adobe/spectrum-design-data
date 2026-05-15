@@ -321,3 +321,14 @@ rules:
     message: "Registry ID '{id}' appears in multiple registries — this is permitted; do not reject on cross-registry overlap alone"
     spec_ref: spec/registry.md#id-scoping
     introduced_in: "1.0.0-draft"
+  - id: SPEC-034
+    name: component-category-registry-sync
+    severity: warning
+    category: naming-consistency
+    assert: >
+      A component's meta.category SHOULD reference an id from the categories registry in
+      @adobe/design-system-registry (categories.json). Unknown values are reported as
+      warnings; the registry is the authoritative vocabulary.
+    message: "Component '{entity}' meta.category value '{value}' is not in the design-system-registry categories vocabulary"
+    spec_ref: spec/registry.md#categories
+    introduced_in: "1.0.0-draft"
