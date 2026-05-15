@@ -1,6 +1,6 @@
 ---
 "@adobe/design-data-spec": minor
-"@adobe/design-system-registry": minor
+"@adobe/design-system-registry": major
 ---
 
 Close RFC #661 category validation gap: add SPEC-034 advisory rule and
