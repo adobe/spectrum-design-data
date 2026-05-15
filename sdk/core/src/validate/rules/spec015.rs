@@ -248,6 +248,7 @@ mod tests {
                     uuid: None,
                     alias_target,
                     raw,
+                    layer: crate::graph::Layer::Foundation,
                 },
             );
         }

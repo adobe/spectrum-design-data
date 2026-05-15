@@ -12,7 +12,7 @@
 //!
 //! Implements the algorithm defined in `spec/cascade.md`:
 //! 1. Filter candidates by context match (mode set values).
-//! 2. Select by layer precedence (Foundation < Platform < Product).
+//! 2. Select by layer precedence: highest layer wins (Product > Platform > Foundation).
 //! 3. Within a layer, select by specificity (non-default mode set count).
 //! 4. Tie-break by document order (file path lexicographic, then array index).
 //! 5. Resolve alias chain on the winner.
@@ -104,15 +104,12 @@ pub fn matches_context(
 
 /// Resolve the winning token for a given context.
 ///
-/// Applies the full cascade algorithm:
+/// Applies the full cascade algorithm from `spec/cascade.md`:
 /// 1. Filter to tokens whose name object matches `context`.
-/// 2. Select maximum specificity among candidates.
-/// 3. Tie-break by document order: lexicographically earlier file path wins;
+/// 2. Sort by layer descending (Product > Platform > Foundation).
+/// 3. Within a layer, sort by specificity descending.
+/// 4. Tie-break by document order: lexicographically earlier file path wins;
 ///    within the same file, lower `index` wins.
-///
-/// Layer precedence (Foundation < Platform < Product) is not yet enforced
-/// because the current dataset is single-layer (Foundation). Layer support
-/// will be added when multi-layer datasets are introduced.
 ///
 /// Returns `None` when no candidate matches the context.
 pub fn resolve<'a>(graph: &'a TokenGraph, context: &ResolutionContext) -> Option<&'a TokenRecord> {
@@ -132,7 +129,7 @@ pub fn resolve<'a>(graph: &'a TokenGraph, context: &ResolutionContext) -> Option
         return None;
     }
 
-    // 2. Sort: highest specificity first; tie-break by (file path, index).
+    // 2. Sort: layer descending, then specificity descending, then document order.
     candidates.sort_by(|a, b| {
         let spec_a = a
             .raw
@@ -146,8 +143,9 @@ pub fn resolve<'a>(graph: &'a TokenGraph, context: &ResolutionContext) -> Option
             .and_then(|v| v.as_object())
             .map(|n| specificity(n, &graph.mode_sets))
             .unwrap_or(0);
-        spec_b
-            .cmp(&spec_a) // descending specificity
+        b.layer
+            .cmp(&a.layer) // descending layer: Product > Platform > Foundation
+            .then_with(|| spec_b.cmp(&spec_a)) // descending specificity
             .then_with(|| a.file.cmp(&b.file)) // lex file path
             .then_with(|| a.index.cmp(&b.index)) // document order within file
     });
@@ -164,7 +162,7 @@ mod tests {
     use serde_json::json;
 
     use super::*;
-    use crate::graph::{ModeSetRecord, TokenGraph};
+    use crate::graph::{Layer, ModeSetRecord, TokenGraph, TokenRecord};
 
     fn color_scheme_mode_set() -> ModeSetRecord {
         ModeSetRecord {
@@ -312,5 +310,39 @@ mod tests {
         let winner = resolve(&g, &ctx).expect("should find a winner");
         // a.tokens.json comes before b.tokens.json lexicographically
         assert_eq!(winner.file, PathBuf::from("a.tokens.json"));
+    }
+
+    #[test]
+    fn product_layer_beats_foundation_layer() {
+        // Foundation token with same name-object as the Product override.
+        let foundation = TokenRecord {
+            name: "foundation-bg".into(),
+            file: PathBuf::from("foundation.tokens.json"),
+            index: 0,
+            schema_url: None,
+            uuid: Some("uuid-bg".into()),
+            alias_target: None,
+            raw: json!({"name": {"property": "bg"}, "uuid": "uuid-bg", "value": "#foundation"}),
+            layer: Layer::Foundation,
+        };
+        // Product override: same name-object, overrides value.
+        let product = TokenRecord {
+            name: "product-context:uuid-bg:0".into(),
+            file: PathBuf::from("product-context.json"),
+            index: 0,
+            schema_url: None,
+            uuid: Some("uuid-bg".into()),
+            alias_target: None,
+            raw: json!({"name": {"property": "bg"}, "uuid": "uuid-bg", "value": "#product"}),
+            layer: Layer::Product,
+        };
+        let g = TokenGraph::from_records(vec![foundation, product]);
+        let ctx = ResolutionContext::new();
+        let winner = resolve(&g, &ctx).expect("should find a winner");
+        assert_eq!(winner.layer, Layer::Product);
+        assert_eq!(
+            winner.raw.get("value").and_then(|v| v.as_str()),
+            Some("#product")
+        );
     }
 }

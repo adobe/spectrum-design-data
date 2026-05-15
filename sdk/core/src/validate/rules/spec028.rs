@@ -109,6 +109,7 @@ mod tests {
                 schema_url: None,
                 uuid: None,
                 alias_target: None,
+                layer: crate::graph::Layer::Foundation,
                 raw,
             },
         );
@@ -133,7 +134,11 @@ mod tests {
         let g = make_graph(raw);
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();
-        let ctx = ValidationContext { graph: &g, naming_exceptions: &exceptions, registry: &registry };
+        let ctx = ValidationContext {
+            graph: &g,
+            naming_exceptions: &exceptions,
+            registry: &registry,
+        };
         Rule.validate(&ctx)
     }
 
@@ -141,7 +146,11 @@ mod tests {
         let g = make_graph_with_component(comp_raw);
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();
-        let ctx = ValidationContext { graph: &g, naming_exceptions: &exceptions, registry: &registry };
+        let ctx = ValidationContext {
+            graph: &g,
+            naming_exceptions: &exceptions,
+            registry: &registry,
+        };
         Rule.validate(&ctx)
     }
 

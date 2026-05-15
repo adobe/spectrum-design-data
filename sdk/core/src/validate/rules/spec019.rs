@@ -61,10 +61,8 @@ impl ValidationRule for Rule {
                 continue; // no enum declared — any variant is allowed
             };
 
-            let declared: std::collections::HashSet<&str> = variant_enum
-                .iter()
-                .filter_map(|v| v.as_str())
-                .collect();
+            let declared: std::collections::HashSet<&str> =
+                variant_enum.iter().filter_map(|v| v.as_str()).collect();
 
             if !declared.contains(variant) {
                 let token_label = serde_json::to_string(name_obj).unwrap_or_default();
@@ -109,6 +107,7 @@ mod tests {
                 schema_url: None,
                 uuid: None,
                 alias_target: None,
+                layer: crate::graph::Layer::Foundation,
                 raw: token_raw,
             },
         );
@@ -125,11 +124,18 @@ mod tests {
         g
     }
 
-    fn run(token_raw: serde_json::Value, comp_raw: serde_json::Value) -> Vec<crate::report::Diagnostic> {
+    fn run(
+        token_raw: serde_json::Value,
+        comp_raw: serde_json::Value,
+    ) -> Vec<crate::report::Diagnostic> {
         let g = make_graph(token_raw, comp_raw);
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();
-        let ctx = ValidationContext { graph: &g, naming_exceptions: &exceptions, registry: &registry };
+        let ctx = ValidationContext {
+            graph: &g,
+            naming_exceptions: &exceptions,
+            registry: &registry,
+        };
         Rule.validate(&ctx)
     }
 

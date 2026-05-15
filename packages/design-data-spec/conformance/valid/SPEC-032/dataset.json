@@ -1,0 +1,16 @@
+{
+  "tokens": [
+    {
+      "name": { "property": "background-color-default" },
+      "value": "#ffffff",
+      "uuid": "dddddddd-0032-4000-8000-000000000001"
+    },
+    {
+      "name": { "property": "background-color-default" },
+      "value": "#eeeeee",
+      "uuid": "dddddddd-0032-4000-8000-000000000001",
+      "$layer": "product"
+    }
+  ],
+  "components": []
+}

@@ -10,6 +10,7 @@
 
 use std::collections::HashMap;
 
+use crate::graph::Layer;
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
 
@@ -25,16 +26,20 @@ impl ValidationRule for Rule {
     }
 
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
-        let mut by_uuid: HashMap<&str, Vec<&crate::graph::TokenRecord>> = HashMap::new();
+        // Group by (uuid, layer): duplicate UUIDs across layers are intentional
+        // (product overrides reference the Foundation token by its UUID), so only
+        // flag duplicates within the same layer.
+        let mut by_uuid_layer: HashMap<(&str, Layer), Vec<&crate::graph::TokenRecord>> =
+            HashMap::new();
         for t in ctx.graph.tokens.values() {
             let Some(u) = t.uuid.as_deref() else {
                 continue;
             };
-            by_uuid.entry(u).or_default().push(t);
+            by_uuid_layer.entry((u, t.layer)).or_default().push(t);
         }
 
         let mut out = Vec::new();
-        for (uuid, group) in by_uuid {
+        for ((uuid, _layer), group) in by_uuid_layer {
             if group.len() < 2 {
                 continue;
             }

@@ -87,6 +87,7 @@ mod tests {
                     schema_url: None,
                     uuid: None,
                     alias_target: None,
+                    layer: crate::graph::Layer::Foundation,
                     raw,
                 },
             );
