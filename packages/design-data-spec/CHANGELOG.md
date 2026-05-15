@@ -1,5 +1,11 @@
 # @adobe/design-data-spec
 
+## 0.11.0
+
+### Minor Changes
+
+- [#918](https://github.com/adobe/spectrum-design-data/pull/918) [`e77379b`](https://github.com/adobe/spectrum-design-data/commit/e77379b24b3d66b09ce78b4cf20e2d15cefbe78b) Thanks [@GarthDB](https://github.com/GarthDB)! - docs(spec): add registry.md formalizing three-registry boundary and single-package strategy
+
 ## 0.10.0
 
 ### Minor Changes
