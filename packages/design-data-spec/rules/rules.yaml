@@ -398,3 +398,20 @@ rules:
     message: "Manifest {array}[{idx}] failed to parse as a query: {error}"
     spec_ref: spec/manifest.md#include--exclude
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-040
+    name: component-option-field-valid
+    severity: warning
+    layer: 2
+    category: component
+    rfc: "#806"
+    assert: >
+      For every token whose name object contains a key that is not a reserved name-object field
+      and that matches a declared component.options.<key> with a values[] list, the token's value
+      MUST appear in that values[] list. Reserved fields (component, variant, state, anatomy,
+      property, colorScheme, scale, contrast, uuid, object, category) are excluded; variant is
+      owned by SPEC-019. This rule generalises SPEC-019 to all remaining option-enum fields
+      (style, size, staticColor, etc.) at advisory severity.
+    message: "Token '{token}' has {field} '{value}' which is not declared on component '{component}'"
+    spec_ref: spec/component-format.md#options
+    introduced_in: "1.0.0-draft"
