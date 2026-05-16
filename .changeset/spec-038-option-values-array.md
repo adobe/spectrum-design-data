@@ -1,6 +1,5 @@
 ---
 "@adobe/design-data-spec": major
-"@adobe/design-data-core": minor
 ---
 
 **Breaking:** Replace `optionDescriptor.enum` + `deprecatedEnumValues` with a
