@@ -1377,6 +1377,184 @@ const TOKEN_OBJECTS_JSON: &str = r##"{
   ]
 }
 "##;
+const PROPERTY_TERMS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "property-term",
+  "description": "CSS/styling attributes assigned to token name objects via the `property` field. These are the stylistic properties being defined — not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
+  "values": [
+    {
+      "id": "color",
+      "label": "Color",
+      "description": "Text or foreground color"
+    },
+    {
+      "id": "background-color",
+      "label": "Background Color",
+      "description": "Background fill color"
+    },
+    {
+      "id": "border-color",
+      "label": "Border Color",
+      "description": "Border or outline color"
+    },
+    {
+      "id": "fill-color",
+      "label": "Fill Color",
+      "description": "SVG or icon fill color"
+    },
+    {
+      "id": "shadow-color",
+      "label": "Shadow Color",
+      "description": "Drop shadow color component"
+    },
+    {
+      "id": "overlay-color",
+      "label": "Overlay Color",
+      "description": "Overlay or scrim tint color"
+    },
+    {
+      "id": "outline-color",
+      "label": "Outline Color",
+      "description": "CSS outline color"
+    },
+    {
+      "id": "opacity",
+      "label": "Opacity",
+      "description": "Element transparency level"
+    },
+    {
+      "id": "border-opacity",
+      "label": "Border Opacity",
+      "description": "Border transparency level"
+    },
+    {
+      "id": "overlay-opacity",
+      "label": "Overlay Opacity",
+      "description": "Overlay or scrim transparency level"
+    },
+    {
+      "id": "width",
+      "label": "Width",
+      "description": "Element width"
+    },
+    {
+      "id": "height",
+      "label": "Height",
+      "description": "Element height"
+    },
+    {
+      "id": "min-width",
+      "label": "Min Width",
+      "description": "Minimum element width"
+    },
+    {
+      "id": "max-width",
+      "label": "Max Width",
+      "description": "Maximum element width"
+    },
+    {
+      "id": "min-height",
+      "label": "Min Height",
+      "description": "Minimum element height"
+    },
+    {
+      "id": "max-height",
+      "label": "Max Height",
+      "description": "Maximum element height"
+    },
+    {
+      "id": "size",
+      "label": "Size",
+      "description": "General dimension size (non-directional)"
+    },
+    {
+      "id": "padding",
+      "label": "Padding",
+      "description": "Internal spacing on all sides"
+    },
+    {
+      "id": "padding-horizontal",
+      "label": "Horizontal Padding",
+      "description": "Internal horizontal (left/right) spacing"
+    },
+    {
+      "id": "padding-vertical",
+      "label": "Vertical Padding",
+      "description": "Internal vertical (top/bottom) spacing"
+    },
+    {
+      "id": "gap",
+      "label": "Gap",
+      "description": "Space between flex or grid children"
+    },
+    {
+      "id": "spacing",
+      "label": "Spacing",
+      "description": "General spacing between elements"
+    },
+    {
+      "id": "border-width",
+      "label": "Border Width",
+      "description": "Border or stroke thickness"
+    },
+    {
+      "id": "border-radius",
+      "label": "Border Radius",
+      "description": "Corner rounding radius"
+    },
+    {
+      "id": "outline-width",
+      "label": "Outline Width",
+      "description": "CSS outline thickness"
+    },
+    {
+      "id": "blur",
+      "label": "Blur",
+      "description": "Blur radius (backdrop or drop shadow)"
+    },
+    {
+      "id": "shadow",
+      "label": "Shadow",
+      "description": "Full box or drop shadow definition"
+    },
+    {
+      "id": "font-size",
+      "label": "Font Size",
+      "description": "Typeface size"
+    },
+    {
+      "id": "font-weight",
+      "label": "Font Weight",
+      "description": "Typeface weight (boldness)"
+    },
+    {
+      "id": "font-family",
+      "label": "Font Family",
+      "description": "Typeface family name"
+    },
+    {
+      "id": "line-height",
+      "label": "Line Height",
+      "description": "Vertical spacing between lines of text"
+    },
+    {
+      "id": "letter-spacing",
+      "label": "Letter Spacing",
+      "description": "Horizontal spacing between characters"
+    },
+    {
+      "id": "duration",
+      "label": "Duration",
+      "description": "Animation or transition duration"
+    },
+    {
+      "id": "easing",
+      "label": "Easing",
+      "description": "Animation or transition easing function"
+    }
+  ]
+}
+"##;
 const ORIENTATIONS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "orientation",
@@ -1773,7 +1951,7 @@ const CATEGORIES_JSON: &str = r##"{
 }
 "##;
 
-pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "orientation", "position", "size", "density", "shape", "state"];
+pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "property", "orientation", "position", "size", "density", "shape", "state"];
 
 pub(crate) fn build_registry_map(
 ) -> std::collections::HashMap<String, std::collections::HashSet<String>> {
@@ -1784,6 +1962,7 @@ pub(crate) fn build_registry_map(
     map.insert("substructure".to_string(), parse_registry(SUBSTRUCTURES_JSON));
     map.insert("anatomy".to_string(), parse_registry(ANATOMY_TERMS_JSON));
     map.insert("object".to_string(), parse_registry(TOKEN_OBJECTS_JSON));
+    map.insert("property".to_string(), parse_registry(PROPERTY_TERMS_JSON));
     map.insert("orientation".to_string(), parse_registry(ORIENTATIONS_JSON));
     map.insert("position".to_string(), parse_registry(POSITIONS_JSON));
     map.insert("size".to_string(), parse_registry(SIZES_JSON));
