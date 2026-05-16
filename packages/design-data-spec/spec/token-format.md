@@ -147,6 +147,43 @@ When migrating legacy-format tokens to cascade:
 
 **RECOMMENDED:** Root token documents (when stored as standalone JSON files) include `specVersion` with const `1.0.0-draft` for self-identification. Embedded tokens inside larger files **MAY** omit it if the parent document carries version metadata.
 
+### Name-object migration policy
+
+This section defines the normative policy for migrating tokens from string-form names to structured name objects, and for narrowing the `property` field to its intended CSS/styling-attribute semantics.
+
+#### String-name escape hatch — SPEC-017 severity schedule
+
+String-named tokens (see [String-name escape hatch](#string-name-escape-hatch)) trigger SPEC-017 at **`warning`** severity through the current minor series. Authors **SHOULD** treat SPEC-017 warnings as actionable tech debt and maintain a remediation backlog (e.g. `packages/tokens/naming-exceptions.json`).
+
+**NORMATIVE:** SPEC-017 **MUST** graduate from `warning` to `error` at spec version `2.0.0`, no earlier than two minor versions after the minor release that ships this section. This conforms to the [evolution policy](evolution.md) — rule severity tightening is a major change.
+
+No string-named token may remain in a conforming dataset after the `2.0.0` cut without first being converted to a structured name object or removed.
+
+#### Narrowed `property` semantics
+
+The `property` field on a name object is the **CSS/styling attribute** being defined — not an anatomy part, not a styling surface, and not a legacy compound name string.
+
+**NORMATIVE:** Values for `property` **SHOULD** come from the [`property-terms`](../../packages/design-system-registry/registry/property-terms.json) registry. Non-registry values emit an advisory warning (SPEC-009 applied to the `property` field).
+
+Examples of **valid** `property` values: `color`, `background-color`, `border-radius`, `font-size`, `gap`, `opacity`.
+
+Examples of **invalid** `property` values (migration debt):
+
+* Anatomy parts — use the `anatomy` field instead (`handle`, `icon`, `label`).
+* Styling surfaces — use the `object` field instead (`background`, `border`, `edge`).
+* Legacy compound names — split into structured fields (`focus-ring-color-key-focus` → `component + anatomy + object + property + state`).
+
+#### Author migration guidance
+
+When converting a string-named token to a structured name object:
+
+1. Parse the legacy name string into its constituent segments using the [default serialization order](taxonomy.md#default-serialization-legacy-format).
+2. Place the CSS/styling attribute in `property` (must be in `property-terms.json`).
+3. Route anatomy parts to `anatomy` (validated against `anatomy-terms.json`).
+4. Route styling surfaces (background, border, edge) to `object` (validated against `token-objects.json`).
+5. Retain component, variant, state, and other structural fields as-is.
+6. Remove the token from `naming-exceptions.json` after conversion.
+
 ## Document shape
 
 Cascade-format tokens are stored in **JSON files** that conform to [`cascade-file.schema.json`](../schemas/cascade-file.schema.json) (canonical `$id`: `https://opensource.adobe.com/spectrum-design-data/schemas/v0/cascade-file.schema.json`).

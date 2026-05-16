@@ -16,6 +16,7 @@ import {
   states,
   variants,
   anatomyTerms,
+  propertyTerms,
   components,
   scaleValues,
   categories,
@@ -61,6 +62,13 @@ test("anatomyTerms registry loads successfully", (t) => {
   t.truthy(anatomyTerms.values);
   t.true(Array.isArray(anatomyTerms.values));
   t.true(anatomyTerms.values.length > 0);
+});
+
+test("propertyTerms registry loads successfully", (t) => {
+  t.truthy(propertyTerms);
+  t.truthy(propertyTerms.values);
+  t.true(Array.isArray(propertyTerms.values));
+  t.true(propertyTerms.values.length > 0);
 });
 
 test("components registry loads successfully", (t) => {
@@ -118,6 +126,11 @@ test("components registry has no duplicate IDs", (t) => {
 
 test("anatomyTerms registry has no duplicate IDs", (t) => {
   const ids = anatomyTerms.values.map((v) => v.id);
+  t.is(ids.length, new Set(ids).size);
+});
+
+test("propertyTerms registry has no duplicate IDs", (t) => {
+  const ids = propertyTerms.values.map((v) => v.id);
   t.is(ids.length, new Set(ids).size);
 });
 
@@ -274,6 +287,27 @@ test("anatomyTerms does not include styling surfaces", (t) => {
   t.false(ids.includes("border"));
   t.false(ids.includes("edge"));
   t.false(ids.includes("visual"));
+});
+
+test("propertyTerms includes core CSS styling attributes", (t) => {
+  const ids = getValues(propertyTerms);
+  t.true(ids.includes("color"));
+  t.true(ids.includes("background-color"));
+  t.true(ids.includes("border-color"));
+  t.true(ids.includes("opacity"));
+  t.true(ids.includes("width"));
+  t.true(ids.includes("height"));
+  t.true(ids.includes("font-size"));
+  t.true(ids.includes("gap"));
+});
+
+test("propertyTerms does not include anatomy parts or styling surfaces", (t) => {
+  const ids = getValues(propertyTerms);
+  t.false(ids.includes("background"));
+  t.false(ids.includes("border"));
+  t.false(ids.includes("icon"));
+  t.false(ids.includes("label"));
+  t.false(ids.includes("handle"));
 });
 
 test("tokenObjects includes styling surfaces", (t) => {
