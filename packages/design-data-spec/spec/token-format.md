@@ -161,7 +161,7 @@ No string-named token may remain in a conforming dataset after the `2.0.0` cut w
 
 #### Narrowed `property` semantics
 
-The `property` field on a name object is the **CSS/styling attribute** being defined — not an anatomy part, not a styling surface, and not a legacy compound name string.
+The `property` field on a name object is the **CSS/styling attribute or design-system abstraction** being defined — not an anatomy part, not a styling surface, and not a legacy compound name string. Not all valid values are CSS property identifiers; design-system abstractions (e.g. `padding-horizontal`, `overlay-color`, `size`) are permitted.
 
 **NORMATIVE:** Values for `property` **SHOULD** come from the [`property-terms`](../../packages/design-system-registry/registry/property-terms.json) registry. Non-registry values emit an advisory warning (SPEC-009 applied to the `property` field).
 
@@ -178,7 +178,7 @@ Examples of **invalid** `property` values (migration debt):
 When converting a string-named token to a structured name object:
 
 1. Parse the legacy name string into its constituent segments using the [default serialization order](taxonomy.md#default-serialization-legacy-format).
-2. Place the CSS/styling attribute in `property` (must be in `property-terms.json`).
+2. Place the CSS/styling attribute in `property` (SHOULD be in `property-terms.json`).
 3. Route anatomy parts to `anatomy` (validated against `anatomy-terms.json`).
 4. Route styling surfaces (background, border, edge) to `object` (validated against `token-objects.json`).
 5. Retain component, variant, state, and other structural fields as-is.
