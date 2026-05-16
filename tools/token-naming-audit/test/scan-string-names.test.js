@@ -13,21 +13,15 @@ governing permissions and limitations under the License.
 import test from "ava";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import esmock from "esmock";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const fixturesDir = join(__dirname, "fixtures");
 
 test("known exception token is marked as known", async (t) => {
-  const { scanStringNames } = await esmock(
-    "../src/scan-string-names.js",
-    {},
-    {
-      // Override the exceptions path resolution by pointing root at fixtures
-    },
-  );
+  // fixturesDir has packages/tokens/naming-exceptions.json which lists
+  // accent-background-color-default, so scanStringNames classifies it as known.
+  const { scanStringNames } = await import("../src/scan-string-names.js");
 
-  // Use the fixtures directory as the root; naming-exceptions.json lives there
   const results = await scanStringNames(fixturesDir);
 
   const known = results.find(

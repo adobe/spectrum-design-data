@@ -23,25 +23,12 @@ const allowedPropertyValues = new Set(getValues(propertyTerms));
 const anatomySet = new Set(getValues(anatomyTerms));
 const objectSet = new Set(getValues(tokenObjects));
 
-/**
- * Suggest which field a property value should move to.
- * Returns "anatomy", "object", or undefined if no suggestion can be made.
- * @param {string} value
- * @returns {"anatomy"|"object"|undefined}
- */
 function suggestField(value) {
   if (anatomySet.has(value)) return "anatomy";
   if (objectSet.has(value)) return "object";
   return undefined;
 }
 
-/**
- * Scan *.tokens.json files under root for structured-name tokens where
- * name.property is not in the property-terms registry.
- *
- * @param {string} root - Workspace root directory
- * @returns {Promise<Array<{token: string, file: string, propertyValue: string, suggestedField?: string}>>}
- */
 export async function scanPropertyValues(root) {
   const files = await glob("**/*.tokens.json", {
     cwd: root,
@@ -69,10 +56,17 @@ export async function scanPropertyValues(root) {
       if (allowedPropertyValues.has(propValue)) continue;
 
       const suggestion = suggestField(propValue);
+      const nameParts = [
+        token.name.component,
+        token.name.variant,
+        token.name.size,
+        token.name.state,
+        propValue,
+      ]
+        .filter(Boolean)
+        .join("/");
       results.push({
-        token: token.name.component
-          ? `${token.name.component}/${propValue}`
-          : String(token.name.property),
+        token: nameParts,
         file: filePath.slice(root.length + 1),
         propertyValue: propValue,
         ...(suggestion ? { suggestedField: suggestion } : {}),

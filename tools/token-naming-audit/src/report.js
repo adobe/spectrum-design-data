@@ -10,13 +10,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-/**
- * Group an array of items by a key.
- * @template T
- * @param {T[]} items
- * @param {(item: T) => string} keyFn
- * @returns {Map<string, T[]>}
- */
 function groupBy(items, keyFn) {
   const map = new Map();
   for (const item of items) {
@@ -27,13 +20,6 @@ function groupBy(items, keyFn) {
   return map;
 }
 
-/**
- * Render a Markdown audit report.
- *
- * @param {Array<{token: string, file: string, status: "known"|"unrecorded", category?: string, reason?: string}>} stringNames
- * @param {Array<{token: string, file: string, propertyValue: string, suggestedField?: string}>} propertyValues
- * @returns {string} Markdown document
- */
 export function renderReport(stringNames, propertyValues) {
   const generatedAt = new Date().toISOString().slice(0, 10);
   const unrecorded = stringNames.filter((r) => r.status === "unrecorded");

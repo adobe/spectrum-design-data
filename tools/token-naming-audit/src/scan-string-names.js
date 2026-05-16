@@ -14,11 +14,6 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { glob } from "glob";
 
-/**
- * Load the naming-exceptions.json index keyed by token name.
- * @param {string} root - Workspace root
- * @returns {Map<string, {category: string, reason: string}>}
- */
 function loadExceptions(root) {
   const path = resolve(root, "packages/tokens/naming-exceptions.json");
   let data;
@@ -34,12 +29,6 @@ function loadExceptions(root) {
   return map;
 }
 
-/**
- * Scan *.tokens.json files under root for tokens with a string-form name.
- *
- * @param {string} root - Workspace root directory
- * @returns {Promise<Array<{token: string, file: string, status: "known"|"unrecorded", category?: string, reason?: string}>>}
- */
 export async function scanStringNames(root) {
   const exceptions = loadExceptions(root);
 

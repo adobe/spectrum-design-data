@@ -13,11 +13,15 @@ governing permissions and limitations under the License.
 */
 
 import { writeFileSync } from "node:fs";
+import { createRequire } from "node:module";
 import { resolve } from "node:path";
 import { Command } from "commander";
 import { scanStringNames } from "./scan-string-names.js";
 import { scanPropertyValues } from "./scan-property-values.js";
 import { renderReport } from "./report.js";
+
+const require = createRequire(import.meta.url);
+const { version } = require("../package.json");
 
 const program = new Command();
 
@@ -26,7 +30,7 @@ program
   .description(
     "Audit *.tokens.json files for string-name debt and overloaded property values",
   )
-  .version("0.1.0")
+  .version(version)
   .option(
     "--root <dir>",
     "Workspace root to scan for *.tokens.json files",
