@@ -22,9 +22,16 @@
     },
     "selectionMode": {
       "type": "string",
-      "enum": ["single", "range"],
       "default": "single",
-      "description": "Controls whether the calendar allows selecting a single date or a date range."
+      "description": "Controls whether the calendar allows selecting a single date or a date range.",
+      "values": [
+        {
+          "value": "single"
+        },
+        {
+          "value": "range"
+        }
+      ]
     },
     "isDisabled": {
       "type": "boolean",

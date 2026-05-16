@@ -34,8 +34,10 @@ export async function generateComponentMarkdown(outputDir) {
     const rows = [];
     if (schema.properties && typeof schema.properties === "object") {
       for (const [propName, propSchema] of Object.entries(schema.properties)) {
-        const type = propSchema.type || (propSchema.enum ? "enum" : "-");
-        const values = propSchema.enum ? propSchema.enum.join(", ") : "-";
+        const type = propSchema.type || (propSchema.values ? "enum" : "-");
+        const values = propSchema.values
+          ? propSchema.values.map((v) => v.value).join(", ")
+          : "-";
         const defaultVal =
           propSchema.default !== undefined ? String(propSchema.default) : "-";
         const required = schema.required?.includes(propName) ? "Yes" : "No";

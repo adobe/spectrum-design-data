@@ -4,7 +4,7 @@
   "specVersion": "1.0.0-draft",
   "name": "swatch",
   "displayName": "Swatch",
-  "description": "A swatch shows a small sample of a fill \u2014 such as a color, gradient, texture, or material \u2014 that is intended to be applied to an object.",
+  "description": "A swatch shows a small sample of a fill — such as a color, gradient, texture, or material — that is intended to be applied to an object.",
   "meta": {
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/swatch/"
@@ -16,19 +16,49 @@
     },
     "size": {
       "type": "string",
-      "enum": ["xs", "s", "m", "l"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "xs"
+        },
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
     },
     "shape": {
       "type": "string",
-      "enum": ["square", "rectangle"],
-      "default": "square"
+      "default": "square",
+      "values": [
+        {
+          "value": "square"
+        },
+        {
+          "value": "rectangle"
+        }
+      ]
     },
     "cornerRounding": {
       "type": "string",
-      "enum": ["none", "partial", "full"],
       "default": "none",
-      "description": "Determines the corner radius of the swatch. Partial refers to corner-radius-75."
+      "description": "Determines the corner radius of the swatch. Partial refers to corner-radius-75.",
+      "values": [
+        {
+          "value": "none"
+        },
+        {
+          "value": "partial"
+        },
+        {
+          "value": "full"
+        }
+      ]
     },
     "isSelected": {
       "type": "boolean",
@@ -171,11 +201,11 @@
     },
     {
       "token": "gray-100",
-      "context": "Add \u201cbutton\u201d background"
+      "context": "Add “button” background"
     },
     {
       "token": "gray-200",
-      "context": "Add \u201cbutton\u201d background"
+      "context": "Add “button” background"
     },
     {
       "token": "focus-indicator-color",

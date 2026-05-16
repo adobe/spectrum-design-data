@@ -22,31 +22,75 @@
     },
     "placement": {
       "type": "string",
-      "enum": [
-        "top",
-        "top left",
-        "top right",
-        "top start",
-        "top end",
-        "bottom",
-        "bottom left",
-        "bottom right",
-        "bottom start",
-        "bottom end",
-        "left",
-        "left top",
-        "left bottom",
-        "start",
-        "start top",
-        "start bottom",
-        "right",
-        "right top",
-        "right bottom",
-        "end",
-        "end top",
-        "end bottom"
-      ],
-      "default": "top"
+      "default": "top",
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "top left"
+        },
+        {
+          "value": "top right"
+        },
+        {
+          "value": "top start"
+        },
+        {
+          "value": "top end"
+        },
+        {
+          "value": "bottom"
+        },
+        {
+          "value": "bottom left"
+        },
+        {
+          "value": "bottom right"
+        },
+        {
+          "value": "bottom start"
+        },
+        {
+          "value": "bottom end"
+        },
+        {
+          "value": "left"
+        },
+        {
+          "value": "left top"
+        },
+        {
+          "value": "left bottom"
+        },
+        {
+          "value": "start"
+        },
+        {
+          "value": "start top"
+        },
+        {
+          "value": "start bottom"
+        },
+        {
+          "value": "right"
+        },
+        {
+          "value": "right top"
+        },
+        {
+          "value": "right bottom"
+        },
+        {
+          "value": "end"
+        },
+        {
+          "value": "end top"
+        },
+        {
+          "value": "end bottom"
+        }
+      ]
     },
     "offset": {
       "type": "number",

@@ -21,7 +21,20 @@
       "options": {
         "variant": {
           "type": "string",
-          "enum": ["accent", "negative", "primary", "secondary"]
+          "values": [
+            {
+              "value": "accent"
+            },
+            {
+              "value": "negative"
+            },
+            {
+              "value": "primary"
+            },
+            {
+              "value": "secondary"
+            }
+          ]
         }
       }
     }

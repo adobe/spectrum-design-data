@@ -12,16 +12,36 @@
   "options": {
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "iconSize": {
       "type": "string"
     },
     "staticColor": {
       "type": "string",
-      "enum": ["white", "black"],
-      "description": "Static color must not be set for the default version of this component."
+      "description": "Static color must not be set for the default version of this component.",
+      "values": [
+        {
+          "value": "white"
+        },
+        {
+          "value": "black"
+        }
+      ]
     },
     "isDisabled": {
       "type": "boolean",

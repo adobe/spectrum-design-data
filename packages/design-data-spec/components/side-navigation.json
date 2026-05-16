@@ -46,9 +46,19 @@
     },
     "selectionMode": {
       "type": "string",
-      "enum": ["none", "single", "multiple"],
       "default": "single",
-      "description": "How selection is handled for items."
+      "description": "How selection is handled for items.",
+      "values": [
+        {
+          "value": "none"
+        },
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        }
+      ]
     }
   },
   "states": [

@@ -12,7 +12,14 @@
   "options": {
     "container": {
       "type": "string",
-      "enum": ["popover", "tray"]
+      "values": [
+        {
+          "value": "popover"
+        },
+        {
+          "value": "tray"
+        }
+      ]
     },
     "label": {
       "type": "string"
@@ -29,16 +36,46 @@
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "selectionMode": {
       "type": "string",
-      "enum": ["single", "multiple", "no selection"]
+      "values": [
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        },
+        {
+          "value": "no selection"
+        }
+      ]
     },
     "selectionStyle": {
       "type": "string",
-      "enum": ["checkbox", "switch"]
+      "values": [
+        {
+          "value": "checkbox"
+        },
+        {
+          "value": "switch"
+        }
+      ]
     },
     "sectionHeader": {
       "type": "string"

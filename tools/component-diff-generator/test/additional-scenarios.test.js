@@ -24,11 +24,11 @@ const buttonSchema = {
   properties: {
     variant: {
       type: "string",
-      enum: ["primary", "secondary"],
+      values: [{ value: "primary" }, { value: "secondary" }],
     },
     size: {
       type: "string",
-      enum: ["small", "medium", "large"],
+      values: [{ value: "small" }, { value: "medium" }, { value: "large" }],
     },
   },
   required: ["variant"],
@@ -58,14 +58,14 @@ test("isComponentChangeBreaking - adding multiple required properties", (t) => {
   );
 });
 
-test("isComponentChangeBreaking - removing enum values (should be breaking in real scenario)", (t) => {
+test("isComponentChangeBreaking - removing values entries (should be breaking in real scenario)", (t) => {
   // For now this is marked as breaking, but this test documents the expected behavior
   const componentChanges = {
     deleted: {
       properties: {
         variant: {
-          enum: {
-            1: "secondary", // Removed enum value
+          values: {
+            1: { value: "secondary" }, // Removed value
           },
         },
       },

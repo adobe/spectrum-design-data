@@ -4,7 +4,7 @@
   "specVersion": "1.0.0-draft",
   "name": "help-text",
   "displayName": "Help text",
-  "description": "Help text provides either an informative description or an error message that gives more context about what a user needs to input. It\u2019s commonly used in forms.",
+  "description": "Help text provides either an informative description or an error message that gives more context about what a user needs to input. It’s commonly used in forms.",
   "meta": {
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/help-text/"
@@ -15,8 +15,15 @@
     },
     "variant": {
       "type": "string",
-      "enum": ["neutral", "negative"],
-      "default": "neutral"
+      "default": "neutral",
+      "values": [
+        {
+          "value": "neutral"
+        },
+        {
+          "value": "negative"
+        }
+      ]
     },
     "hideIcon": {
       "type": "boolean",
@@ -25,8 +32,21 @@
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "isDisabled": {
       "type": "boolean",

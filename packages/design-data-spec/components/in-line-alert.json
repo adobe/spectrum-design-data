@@ -12,21 +12,43 @@
   "options": {
     "variant": {
       "type": "string",
-      "enum": [
-        "neutral",
-        "informative",
-        "positive",
-        "notice",
-        "negative",
-        "accent"
-      ],
-      "default": "neutral"
+      "default": "neutral",
+      "values": [
+        {
+          "value": "neutral"
+        },
+        {
+          "value": "informative"
+        },
+        {
+          "value": "positive"
+        },
+        {
+          "value": "notice"
+        },
+        {
+          "value": "negative"
+        },
+        {
+          "value": "accent"
+        }
+      ]
     },
     "style": {
       "type": "string",
-      "enum": ["bold", "subtle", "outline"],
       "default": "outline",
-      "description": "The visual style of the alert."
+      "description": "The visual style of the alert.",
+      "values": [
+        {
+          "value": "bold"
+        },
+        {
+          "value": "subtle"
+        },
+        {
+          "value": "outline"
+        }
+      ]
     },
     "href": {
       "type": "string",

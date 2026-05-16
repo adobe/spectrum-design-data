@@ -4,7 +4,7 @@
   "specVersion": "1.0.0-draft",
   "name": "breadcrumbs",
   "displayName": "Breadcrumbs",
-  "description": "Breadcrumbs show hierarchy and navigational context for a user\u2019s location within an app.",
+  "description": "Breadcrumbs show hierarchy and navigational context for a user’s location within an app.",
   "meta": {
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/breadcrumbs/"
@@ -17,9 +17,16 @@
     },
     "size": {
       "type": "string",
-      "enum": ["m", "l"],
       "default": "m",
-      "description": "Controls the overall size of the breadcrumb component."
+      "description": "Controls the overall size of the breadcrumb component.",
+      "values": [
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
     },
     "items": {
       "type": "array",
@@ -50,9 +57,16 @@
     },
     "separator": {
       "type": "string",
-      "enum": ["chevron", "none"],
       "default": "chevron",
-      "description": "The separator icon used between breadcrumb items."
+      "description": "The separator icon used between breadcrumb items.",
+      "values": [
+        {
+          "value": "chevron"
+        },
+        {
+          "value": "none"
+        }
+      ]
     },
     "isTruncated": {
       "type": "boolean",
@@ -61,8 +75,21 @@
     },
     "sizeOverride": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "description": "Overrides the size of the breadcrumb items when isMultiline is true."
+      "description": "Overrides the size of the breadcrumb items when isMultiline is true.",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     }
   },
   "states": [

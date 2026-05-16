@@ -16,15 +16,32 @@
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l"],
       "default": "m",
-      "description": "Size of the illustration."
+      "description": "Size of the illustration.",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
     },
     "orientation": {
       "type": "string",
-      "enum": ["vertical", "horizontal"],
       "default": "vertical",
-      "description": "Orientation of the illustrated message."
+      "description": "Orientation of the illustrated message.",
+      "values": [
+        {
+          "value": "vertical"
+        },
+        {
+          "value": "horizontal"
+        }
+      ]
     },
     "title": {
       "type": "string",

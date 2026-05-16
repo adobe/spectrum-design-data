@@ -19,42 +19,118 @@
     },
     "variant": {
       "type": "string",
-      "enum": [
-        "neutral",
-        "info",
-        "positive",
-        "negative",
-        "indigo",
-        "yellow",
-        "magenta",
-        "fuchsia",
-        "purple",
-        "seafoam",
-        "accent",
-        "notice",
-        "gray",
-        "red",
-        "orange",
-        "chartreuse",
-        "celery",
-        "green",
-        "cyan",
-        "blue",
-        "pink",
-        "turquoise",
-        "brown",
-        "cinnamon",
-        "silver"
+      "values": [
+        {
+          "value": "neutral"
+        },
+        {
+          "value": "info"
+        },
+        {
+          "value": "positive"
+        },
+        {
+          "value": "negative"
+        },
+        {
+          "value": "indigo"
+        },
+        {
+          "value": "yellow"
+        },
+        {
+          "value": "magenta"
+        },
+        {
+          "value": "fuchsia"
+        },
+        {
+          "value": "purple"
+        },
+        {
+          "value": "seafoam"
+        },
+        {
+          "value": "accent"
+        },
+        {
+          "value": "notice"
+        },
+        {
+          "value": "gray"
+        },
+        {
+          "value": "red"
+        },
+        {
+          "value": "orange"
+        },
+        {
+          "value": "chartreuse"
+        },
+        {
+          "value": "celery"
+        },
+        {
+          "value": "green"
+        },
+        {
+          "value": "cyan"
+        },
+        {
+          "value": "blue"
+        },
+        {
+          "value": "pink"
+        },
+        {
+          "value": "turquoise"
+        },
+        {
+          "value": "brown"
+        },
+        {
+          "value": "cinnamon"
+        },
+        {
+          "value": "silver"
+        }
       ]
     },
     "style": {
       "type": "string",
-      "enum": ["bold", "subtle", "outline"]
+      "values": [
+        {
+          "value": "bold"
+        },
+        {
+          "value": "subtle"
+        },
+        {
+          "value": "outline"
+        }
+      ]
     },
     "fixed": {
       "type": "string",
-      "enum": ["none", "top", "right", "bottom", "left"],
-      "default": "none"
+      "default": "none",
+      "values": [
+        {
+          "value": "none"
+        },
+        {
+          "value": "top"
+        },
+        {
+          "value": "right"
+        },
+        {
+          "value": "bottom"
+        },
+        {
+          "value": "left"
+        }
+      ]
     },
     "isDisabled": {
       "type": "boolean",
@@ -63,8 +139,21 @@
     "size": {
       "type": "string",
       "pattern": "^(x?s|m|x{0,3}l)$",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "s"
+      "default": "s",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     }
   },
   "lifecycle": {

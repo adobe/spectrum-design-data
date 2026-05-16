@@ -12,8 +12,18 @@
   "options": {
     "container": {
       "type": "string",
-      "enum": ["anchored", "floating", "dragged"],
-      "default": "anchored"
+      "default": "anchored",
+      "values": [
+        {
+          "value": "anchored"
+        },
+        {
+          "value": "floating"
+        },
+        {
+          "value": "dragged"
+        }
+      ]
     },
     "label": {
       "type": "string"
@@ -26,13 +36,30 @@
     },
     "density": {
       "type": "string",
-      "enum": ["compact", "regular", "spacious"],
-      "default": "regular"
+      "default": "regular",
+      "values": [
+        {
+          "value": "compact"
+        },
+        {
+          "value": "regular"
+        },
+        {
+          "value": "spacious"
+        }
+      ]
     },
     "style": {
       "type": "string",
-      "enum": ["primary", "secondary"],
-      "default": "primary"
+      "default": "primary",
+      "values": [
+        {
+          "value": "primary"
+        },
+        {
+          "value": "secondary"
+        }
+      ]
     },
     "hideGripper": {
       "type": "boolean",

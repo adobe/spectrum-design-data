@@ -88,35 +88,48 @@ The `options` block declares the component's API surface — the configurable pr
 
 An option descriptor is a JSON object with the following fields:
 
-| Field                  | Type            | Required | Description                                                                                                                                   |
-| ---------------------- | --------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`                 | string or array | OPTIONAL | JSON Schema primitive type(s): `"string"`, `"boolean"`, `"number"`, `"integer"`.                                                              |
-| `enum`                 | array           | OPTIONAL | Exhaustive list of permitted values.                                                                                                          |
-| `default`              | any             | OPTIONAL | Default value when the option is not specified.                                                                                               |
-| `description`          | string          | OPTIONAL | Plain-text description of what the option controls.                                                                                           |
-| `$ref`                 | URI string      | OPTIONAL | Reference to a shared type schema (e.g. `workflow-icon.json`).                                                                                |
-| `deprecatedEnumValues` | object          | OPTIONAL | Per-enum-value lifecycle metadata. Keys are enum value strings; values are lifecycle objects. Values absent from this map are not deprecated. |
+| Field         | Type            | Required | Description                                                                                                                                                                                                          |
+| ------------- | --------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`        | string or array | OPTIONAL | JSON Schema primitive type(s): `"string"`, `"boolean"`, `"number"`, `"integer"`.                                                                                                                                     |
+| `values`      | array           | OPTIONAL | Exhaustive list of permitted values, each an [`optionValue`](#optionvalue) object. Use this instead of JSON Schema's `enum` keyword so per-value lifecycle metadata can be expressed without a separate sidecar map. |
+| `default`     | any             | OPTIONAL | Default value when the option is not specified.                                                                                                                                                                      |
+| `description` | string          | OPTIONAL | Plain-text description of what the option controls.                                                                                                                                                                  |
+| `$ref`        | URI string      | OPTIONAL | Reference to a shared type schema (e.g. `workflow-icon.json`).                                                                                                                                                       |
+
+### optionValue
+
+Each entry in `values` is an object:
+
+| Field         | Type   | Required | Description                                                                              |
+| ------------- | ------ | -------- | ---------------------------------------------------------------------------------------- |
+| `value`       | any    | REQUIRED | The permitted option value.                                                              |
+| `description` | string | OPTIONAL | Plain-text description of what this value means.                                         |
+| `lifecycle`   | object | OPTIONAL | Version lifecycle metadata. Set `lifecycle.deprecated` to signal migration via SPEC-037. |
 
 **NORMATIVE:** Each key in `options` **MUST** be camelCase.
 
 **NORMATIVE:** Boolean option names **MUST** begin with `is` or `has` (e.g. `isDisabled`, `hasIcon`).
 
-**NORMATIVE:** When `enum` is present, token name-object `variant` field values referencing this component **MUST** be drawn from the declared `variant` option enum (rule SPEC-019). Other option enums are informative for tooling but do not currently drive SPEC rules.
+**NORMATIVE:** When `values` is present, token name-object `variant` field values referencing this component **MUST** be drawn from the declared `variant` option `values` list (rule SPEC-019). Other option `values` lists are informative for tooling but do not currently drive SPEC rules.
 
-**ADVISORY:** When a `deprecatedEnumValues` entry exists for a value that a non-deprecated token references via its `name` object field for that option, SPEC-037 fires an advisory warning. Keys in `deprecatedEnumValues` are not independently validated against `enum` — entries for values absent from `enum` are silently ignored by validators (a future rule may close this gap).
+**ADVISORY:** When a value in `values` carries a `lifecycle.deprecated` string and a non-deprecated token references that value via its `name` object field, SPEC-037 fires an advisory warning prompting migration or token deprecation.
 
-Example with a deprecated enum value:
+Example with a deprecated option value:
 
 ```json
 "variant": {
   "type": "string",
-  "enum": ["primary", "secondary", "cta"],
-  "deprecatedEnumValues": {
-    "cta": {
-      "deprecated": "1.0.0-draft",
-      "deprecatedComment": "Use primary instead."
+  "values": [
+    { "value": "primary" },
+    { "value": "secondary" },
+    {
+      "value": "cta",
+      "lifecycle": {
+        "deprecated": "1.0.0-draft",
+        "deprecatedComment": "Use primary instead."
+      }
     }
-  }
+  ]
 }
 ```
 
@@ -124,13 +137,23 @@ Example with a deprecated enum value:
 "options": {
   "variant": {
     "type": "string",
-    "enum": ["accent", "negative", "primary", "secondary"],
+    "values": [
+      { "value": "accent" },
+      { "value": "negative" },
+      { "value": "primary" },
+      { "value": "secondary" }
+    ],
     "default": "accent",
     "description": "Visual emphasis level."
   },
   "size": {
     "type": "string",
-    "enum": ["s", "m", "l", "xl"],
+    "values": [
+      { "value": "s" },
+      { "value": "m" },
+      { "value": "l" },
+      { "value": "xl" }
+    ],
     "default": "m"
   },
   "isDisabled": {
@@ -291,16 +314,17 @@ The `context` field is informative. It is used by `describe_component` (Phase 8 
 
 The following rules are added to the Layer 2 rule catalog (`rules/rules.yaml`) by this chapter. New component cross-reference rules start at SPEC-018 to avoid collision with existing token rules (SPEC-001–SPEC-017).
 
-| Rule ID  | Name                             | Severity | Assert                                                                                                                                                                                                                                         |
-| -------- | -------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-018 | `component-name-exists`          | error    | Token `component` field value **MUST** match the `name` of a declared component in the dataset.                                                                                                                                                |
-| SPEC-019 | `component-variant-valid`        | error    | Token `variant` field value **MUST** match a value in the declared `variant` option enum for the referenced component (when that enum exists).                                                                                                 |
-| SPEC-020 | `component-anatomy-valid`        | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                                                                                  |
-| SPEC-021 | `component-slot-vocabulary`      | warning  | Component `slots` entries with a `name` outside the canonical vocabulary **SHOULD** include a `description`. Custom slot names without descriptions are surfaced as warnings.                                                                  |
-| SPEC-022 | `component-state-valid`          | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).                                                                                                     |
-| SPEC-027 | `token-binding-token-exists`     | error    | Each `tokenBindings[].token` value **MUST** match the name of a declared token in the dataset (Phase 6.7).                                                                                                                                     |
-| SPEC-036 | `component-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated component via `name.component`. Advisory warning prompts updating the component reference or marking the token deprecated.                                                        |
-| SPEC-037 | `sub-entity-deprecation-cascade` | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part, state, or option-enum value via `name.*`. Advisory warning prompts migration. Requires `lifecycle` on anatomy/state or `deprecatedEnumValues` on option descriptor. |
+| Rule ID  | Name                             | Severity | Assert                                                                                                                                                                                                                                                            |
+| -------- | -------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-018 | `component-name-exists`          | error    | Token `component` field value **MUST** match the `name` of a declared component in the dataset.                                                                                                                                                                   |
+| SPEC-019 | `component-variant-valid`        | error    | Token `variant` field value **MUST** match a value in the declared `variant` option `values` list for the referenced component (when that list exists).                                                                                                           |
+| SPEC-020 | `component-anatomy-valid`        | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                                                                                                     |
+| SPEC-021 | `component-slot-vocabulary`      | warning  | Component `slots` entries with a `name` outside the canonical vocabulary **SHOULD** include a `description`. Custom slot names without descriptions are surfaced as warnings.                                                                                     |
+| SPEC-022 | `component-state-valid`          | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).                                                                                                                        |
+| SPEC-027 | `token-binding-token-exists`     | error    | Each `tokenBindings[].token` value **MUST** match the name of a declared token in the dataset (Phase 6.7).                                                                                                                                                        |
+| SPEC-036 | `component-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated component via `name.component`. Advisory warning prompts updating the component reference or marking the token deprecated.                                                                           |
+| SPEC-037 | `sub-entity-deprecation-cascade` | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part, state, or option value via `name.*`. Advisory warning prompts migration. Requires `lifecycle` on anatomy/state or `lifecycle` on the matching `values` entry on the option descriptor. |
+| SPEC-038 | `option-enum-obsolete`           | warning  | An option descriptor **SHOULD NOT** use the JSON Schema `enum` keyword. `additionalProperties: true` silently accepts `enum` at Layer 1; SPEC-038 flags it at Layer 2 so authors replace it with the `values` array.                                              |
 
 ## Full example
 
@@ -321,18 +345,28 @@ A complete button component declaration:
   "options": {
     "variant": {
       "type": "string",
-      "enum": ["accent", "negative", "primary", "secondary"],
+      "values": [
+        { "value": "accent" },
+        { "value": "negative" },
+        { "value": "primary" },
+        { "value": "secondary" }
+      ],
       "default": "accent",
       "description": "Visual emphasis level."
     },
     "style": {
       "type": "string",
-      "enum": ["fill", "outline"],
+      "values": [{ "value": "fill" }, { "value": "outline" }],
       "default": "fill"
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
+      "values": [
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
+      ],
       "default": "m"
     },
     "isDisabled": { "type": "boolean", "default": false },
@@ -344,7 +378,7 @@ A complete button component declaration:
     },
     "staticColor": {
       "type": "string",
-      "enum": ["white", "black"],
+      "values": [{ "value": "white" }, { "value": "black" }],
       "description": "Static color for use on colored backgrounds. Must not be set for the default variant."
     }
   },

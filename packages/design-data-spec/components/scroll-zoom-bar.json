@@ -12,13 +12,30 @@
   "options": {
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
     },
     "orientation": {
       "type": "string",
-      "enum": ["horizontal", "vertical"],
-      "default": "horizontal"
+      "default": "horizontal",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "hideTrack": {
       "type": "boolean",

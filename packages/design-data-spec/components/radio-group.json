@@ -15,18 +15,45 @@
     },
     "labelPosition": {
       "type": "string",
-      "enum": ["top", "side"],
-      "default": "top"
+      "default": "top",
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
     },
     "orientation": {
       "type": "string",
-      "enum": ["horizontal", "vertical"],
-      "default": "vertical"
+      "default": "vertical",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "isEmphasized": {
       "type": "boolean",
@@ -34,8 +61,15 @@
     },
     "necessityIndicator": {
       "type": "string",
-      "enum": ["text", "icon"],
-      "default": "icon"
+      "default": "icon",
+      "values": [
+        {
+          "value": "text"
+        },
+        {
+          "value": "icon"
+        }
+      ]
     },
     "isRequired": {
       "type": "boolean",

@@ -1,0 +1,20 @@
+{
+  "tokens": {},
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/badge.json",
+      "name": "badge",
+      "displayName": "Badge",
+      "meta": {
+        "category": "status",
+        "documentationUrl": "https://spectrum.adobe.com/page/badge/"
+      },
+      "options": {
+        "variant": {
+          "type": "string",
+          "enum": ["neutral", "informative", "positive", "negative"]
+        }
+      }
+    }
+  ]
+}

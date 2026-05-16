@@ -16,8 +16,30 @@
     },
     "size": {
       "type": "number",
-      "enum": [50, 75, 100, 200, 300, 400, 500],
-      "default": 100
+      "default": 100,
+      "values": [
+        {
+          "value": 50
+        },
+        {
+          "value": 75
+        },
+        {
+          "value": 100
+        },
+        {
+          "value": 200
+        },
+        {
+          "value": 300
+        },
+        {
+          "value": 400
+        },
+        {
+          "value": 500
+        }
+      ]
     }
   },
   "lifecycle": {

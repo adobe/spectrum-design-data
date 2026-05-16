@@ -15,13 +15,27 @@
     },
     "labelPosition": {
       "type": "string",
-      "enum": ["top", "side"],
-      "default": "top"
+      "default": "top",
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
     },
     "necessityIndicator": {
       "type": "string",
-      "enum": ["text", "icon"],
-      "default": "icon"
+      "default": "icon",
+      "values": [
+        {
+          "value": "text"
+        },
+        {
+          "value": "icon"
+        }
+      ]
     },
     "isRequired": {
       "type": "boolean",
@@ -29,8 +43,15 @@
     },
     "orientation": {
       "type": "string",
-      "enum": ["horizontal", "vertical"],
-      "default": "vertical"
+      "default": "vertical",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "isError": {
       "type": "boolean",

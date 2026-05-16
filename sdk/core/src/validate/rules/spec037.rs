@@ -120,11 +120,15 @@ impl ValidationRule for Rule {
                 }
             }
 
-            // --- option-enum cascade ---
+            // --- option-value cascade ---
             // Iterate every declared option; check if the token's name-field for that option
-            // matches a value listed in deprecatedEnumValues.
+            // matches a value in values[] that carries a deprecated lifecycle.
             if let Some(options) = comp.raw.get("options").and_then(|v| v.as_object()) {
                 for (option_key, option_desc) in options {
+                    // Only string token values are reachable here; numeric/boolean option
+                    // values use as_str() → None and are skipped. Non-string deprecated
+                    // values are not yet expressible in token name-objects, so this gap
+                    // is harmless today but worth revisiting if numeric options adopt lifecycle.
                     let Some(token_value) =
                         name_obj.get(option_key.as_str()).and_then(|v| v.as_str())
                     else {
@@ -132,10 +136,15 @@ impl ValidationRule for Rule {
                     };
 
                     let dep_version = option_desc
-                        .get("deprecatedEnumValues")
-                        .and_then(|m| m.as_object())
-                        .and_then(|m| m.get(token_value))
-                        .and_then(|entry| entry.get("deprecated"))
+                        .get("values")
+                        .and_then(|v| v.as_array())
+                        .and_then(|arr| {
+                            arr.iter().find(|entry| {
+                                entry.get("value").and_then(|v| v.as_str()) == Some(token_value)
+                            })
+                        })
+                        .and_then(|entry| entry.get("lifecycle"))
+                        .and_then(|l| l.get("deprecated"))
                         .and_then(|v| v.as_str());
 
                     if let Some(version) = dep_version {
@@ -273,7 +282,7 @@ mod tests {
     fn non_deprecated_option_no_warning() {
         let diags = run(
             json!({"name": {"component": "button", "variant": "primary", "property": "background-color"}, "value": "#0265dc"}),
-            json!({"name": "button", "options": {"variant": {"enum": ["primary", "secondary"]}}}),
+            json!({"name": "button", "options": {"variant": {"values": [{"value": "primary"}, {"value": "secondary"}]}}}),
         );
         assert!(diags.is_empty());
     }
@@ -286,10 +295,11 @@ mod tests {
                 "name": "button",
                 "options": {
                     "variant": {
-                        "enum": ["primary", "secondary", "cta"],
-                        "deprecatedEnumValues": {
-                            "cta": {"deprecated": "1.0.0-draft", "deprecatedComment": "Use primary instead."}
-                        }
+                        "values": [
+                            {"value": "primary"},
+                            {"value": "secondary"},
+                            {"value": "cta", "lifecycle": {"deprecated": "1.0.0-draft", "deprecatedComment": "Use primary instead."}}
+                        ]
                     }
                 }
             }),
