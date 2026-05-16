@@ -706,16 +706,7 @@ mod validation_conformance {
             )
             .unwrap_or_else(|e| panic!("{case}: invalid dataset.json: {e}"));
 
-            let manifest_val: Option<Value> = {
-                let mp = dir.join("manifest.json");
-                if mp.is_file() {
-                    std::fs::read_to_string(&mp)
-                        .ok()
-                        .and_then(|s| serde_json::from_str(&s).ok())
-                } else {
-                    None
-                }
-            };
+            let manifest_val = load_manifest(&dir);
 
             let graph = build_graph(&dataset);
             let diagnostics = run_rules(&graph, &naming_exceptions, manifest_val.as_ref());
