@@ -1,5 +1,14 @@
 # @adobe/design-data-spec
 
+## 0.15.0
+
+### Minor Changes
+
+- [#930](https://github.com/adobe/spectrum-design-data/pull/930) [`4e8ad86`](https://github.com/adobe/spectrum-design-data/commit/4e8ad86998b0e168396badb8a2a12207ebf535ae) Thanks [@GarthDB](https://github.com/GarthDB)! - Add SPEC-037 (`sub-entity-deprecation-cascade`) advisory rule: warn when a non-deprecated
+  token references a deprecated anatomy part, deprecated component state, or deprecated
+  option-enum value via its `name` object. Schemas extended to allow `lifecycle` on anatomy
+  parts and states, and `deprecatedEnumValues` on option descriptors.
+
 ## 0.14.0
 
 ### Minor Changes
