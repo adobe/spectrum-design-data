@@ -1,5 +1,37 @@
 # @adobe/design-data-spec
 
+## 1.2.0
+
+### Minor Changes
+
+- [#955](https://github.com/adobe/spectrum-design-data/pull/955) [`e05c3ef`](https://github.com/adobe/spectrum-design-data/commit/e05c3eff28caecbdb9782eb62023876e0d1f4947) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(spec): property field migration path + property-terms registry (#941)
+
+  Adds normative migration policy for the `name.property` field per RFC #806:
+  - New `### Name-object migration policy` section in `spec/token-format.md` —
+    documents SPEC-017 severity escalation to `error` at spec `2.0.0`, narrowed
+    `property` semantics (CSS/styling attribute only), and author migration steps.
+  - New `property-terms.json` registry — 35 seeded CSS/styling attribute terms
+    (`color`, `background-color`, `border-radius`, `font-size`, `gap`, etc.).
+  - Updated `fields/property.json` — sets `registry` path to `property-terms.json`;
+    exports `propertyTerms` from registry index.
+  - Updated `spec/taxonomy.md` Property row — links to migration section and
+    calls out anatomy/surface values as migration debt.
+  - Closed RFC #806 open question in `docs/rfc-coordination.md`.
+
+- [#950](https://github.com/adobe/spectrum-design-data/pull/950) [`a8dacbc`](https://github.com/adobe/spectrum-design-data/commit/a8dacbc3572f4e16da518707393a22d21d73272b) Thanks [@GarthDB](https://github.com/GarthDB)! - **SPEC-040 `component-option-field-valid` (Warning, Layer 2)**: token name-object keys
+  that match a declared `options.<key>` with a `values[]` list are now cross-validated
+  against that list. This generalises SPEC-019 (which covers `variant` at Error severity)
+  to all remaining option-enum fields — `style`, `size`, `staticColor`, and any future
+  component option with a declared `values` array.
+
+  The rule is advisory (Warning) so datasets can absorb the new check incrementally.
+  Tokens using option values not yet declared in `components/*.json` will emit warnings
+  rather than errors. Promotion to Error is deferred until the option catalog stabilises.
+
+  **Migration:** if your component declares `options.style.values` and your tokens
+  reference `name.style`, ensure the style values in use appear in the declared `values`
+  list. The warning message identifies the token, field, and undeclared value.
+
 ## 1.1.0
 
 ### Minor Changes
