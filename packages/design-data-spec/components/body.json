@@ -19,8 +19,30 @@
     "size": {
       "type": "string",
       "pattern": "^(x?s|m|x{0,3}l)$",
-      "enum": ["xs", "s", "m", "l", "xl", "xxl", "xxxl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "xs"
+        },
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        },
+        {
+          "value": "xxl"
+        },
+        {
+          "value": "xxxl"
+        }
+      ]
     }
   },
   "lifecycle": {

@@ -16,7 +16,14 @@
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "enum": ["top", "side"]
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
     },
     "value": {
       "type": "number",
@@ -45,8 +52,15 @@
     },
     "progressionScale": {
       "type": "string",
-      "enum": ["linear", "log"],
-      "default": "linear"
+      "default": "linear",
+      "values": [
+        {
+          "value": "linear"
+        },
+        {
+          "value": "log"
+        }
+      ]
     },
     "width": {
       "type": "number"

@@ -13,18 +13,45 @@
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "enum": ["horizontal", "vertical"]
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "size": {
       "type": "string",
       "pattern": "^(x?s|m|x{0,3}l)$",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "overflowMode": {
       "type": "string",
-      "enum": ["wrap", "collapse"],
-      "default": "wrap"
+      "default": "wrap",
+      "values": [
+        {
+          "value": "wrap"
+        },
+        {
+          "value": "collapse"
+        }
+      ]
     },
     "isDisabled": {
       "type": "boolean",
@@ -45,6 +72,7 @@
     }
   ],
   "accessibility": {
+    "role": "group",
     "intents": ["trigger"],
     "focusable": false,
     "wcag": [

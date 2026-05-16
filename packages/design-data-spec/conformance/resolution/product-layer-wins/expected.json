@@ -1,0 +1,5 @@
+{
+  "description": "When a Product-layer override shares a UUID with a Foundation token, the Product layer MUST win and its value MUST be used.",
+  "resolved": true,
+  "expected_value": "#product"
+}

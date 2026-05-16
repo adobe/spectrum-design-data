@@ -12,12 +12,32 @@
   "options": {
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "staticColor": {
       "type": "string",
-      "enum": ["white", "black"]
+      "values": [
+        {
+          "value": "white"
+        },
+        {
+          "value": "black"
+        }
+      ]
     }
   },
   "lifecycle": {
@@ -78,6 +98,19 @@
     }
   ],
   "accessibility": {
-    "focusable": false
+    "role": "progressbar",
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      },
+      {
+        "criterion": "4.1.3",
+        "level": "AA",
+        "title": "Status Messages"
+      }
+    ]
   }
 }

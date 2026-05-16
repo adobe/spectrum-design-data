@@ -12,8 +12,15 @@
   "options": {
     "orientation": {
       "type": "string",
-      "enum": ["horizontal", "vertical"],
-      "default": "horizontal"
+      "default": "horizontal",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "items": {
       "type": "array",

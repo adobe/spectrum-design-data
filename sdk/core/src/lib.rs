@@ -465,13 +465,15 @@ mod validation_conformance {
     }
 
     fn build_graph(dataset: &Value) -> TokenGraph {
+        use crate::graph::{extract_alias_target, Layer, TokenRecord};
+
         let tokens_json = dataset
             .get("tokens")
             .and_then(|v| v.as_array())
             .cloned()
             .unwrap_or_default();
 
-        let entries: Vec<(String, std::path::PathBuf, Value)> = tokens_json
+        let records: Vec<TokenRecord> = tokens_json
             .into_iter()
             .enumerate()
             .map(|(i, raw)| {
@@ -482,11 +484,36 @@ mod validation_conformance {
                     .and_then(|n| n.as_str())
                     .map(String::from)
                     .unwrap_or_else(|| format!("token-{i}"));
-                (key, std::path::PathBuf::from("dataset.json"), raw)
+                // Optional "$layer" field lets fixtures exercise multi-layer rules (e.g. SPEC-032).
+                let layer = raw
+                    .get("$layer")
+                    .and_then(|v| v.as_str())
+                    .and_then(|s| s.parse().ok())
+                    .unwrap_or(Layer::Foundation);
+                let tok_obj = raw.as_object();
+                let schema_url = tok_obj
+                    .and_then(|o| o.get("$schema"))
+                    .and_then(|v| v.as_str())
+                    .map(str::to_string);
+                let uuid = tok_obj
+                    .and_then(|o| o.get("uuid"))
+                    .and_then(|v| v.as_str())
+                    .map(str::to_string);
+                let alias_target = tok_obj.and_then(extract_alias_target);
+                TokenRecord {
+                    name: key,
+                    file: std::path::PathBuf::from("dataset.json"),
+                    index: i,
+                    schema_url,
+                    uuid,
+                    alias_target,
+                    raw,
+                    layer,
+                }
             })
             .collect();
 
-        let mut graph = TokenGraph::from_pairs(entries);
+        let mut graph = TokenGraph::from_records(records);
 
         if let Some(comps) = dataset.get("components").and_then(|v| v.as_array()) {
             let comp_records: Vec<ComponentRecord> = comps
@@ -537,6 +564,17 @@ mod validation_conformance {
             .unwrap_or_default()
     }
 
+    fn load_manifest(dir: &Path) -> Option<Value> {
+        let mp = dir.join("manifest.json");
+        if mp.is_file() {
+            std::fs::read_to_string(&mp)
+                .ok()
+                .and_then(|s| serde_json::from_str(&s).ok())
+        } else {
+            None
+        }
+    }
+
     fn assert_invalid_fixtures() {
         let base = Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("../../packages/design-data-spec/conformance/invalid");
@@ -576,8 +614,11 @@ mod validation_conformance {
             )
             .unwrap_or_else(|e| panic!("{case}: invalid expected-errors.json: {e}"));
 
+            // Load optional manifest.json alongside dataset.json (used by SPEC-039).
+            let manifest_val = load_manifest(&dir);
+
             let graph = build_graph(&dataset);
-            let diagnostics = run_rules(&graph, &naming_exceptions);
+            let diagnostics = run_rules(&graph, &naming_exceptions, manifest_val.as_ref());
 
             let expected_errors = expected
                 .get("errors")
@@ -665,8 +706,10 @@ mod validation_conformance {
             )
             .unwrap_or_else(|e| panic!("{case}: invalid dataset.json: {e}"));
 
+            let manifest_val = load_manifest(&dir);
+
             let graph = build_graph(&dataset);
-            let diagnostics = run_rules(&graph, &naming_exceptions);
+            let diagnostics = run_rules(&graph, &naming_exceptions, manifest_val.as_ref());
             let errors: Vec<_> = diagnostics
                 .iter()
                 .filter(|d| matches!(d.severity, Severity::Error))
@@ -763,7 +806,15 @@ mod resolution_conformance {
             graph = graph.with_mode_sets(mode_sets);
         }
 
-        // Filter to property.
+        // Optionally load a product-context.json to test multi-layer resolution.
+        let product_context_path = base.join("product-context.json");
+        if product_context_path.is_file() {
+            graph
+                .load_product_context(&product_context_path)
+                .unwrap_or_else(|e| panic!("{case}: failed to load product-context.json: {e}"));
+        }
+
+        // Filter to property, preserving layer info via from_records.
         let candidates: Vec<_> = graph
             .tokens
             .values()
@@ -775,15 +826,11 @@ mod resolution_conformance {
                     .and_then(|v| v.as_str())
                     == Some(property)
             })
+            .cloned()
             .collect();
 
-        let filtered = TokenGraph::from_pairs(
-            candidates
-                .iter()
-                .map(|t| (t.name.clone(), t.file.clone(), t.raw.clone()))
-                .collect(),
-        )
-        .with_mode_sets(graph.mode_sets.clone());
+        let filtered = TokenGraph::from_records(candidates)
+            .with_mode_sets(graph.mode_sets.clone());
 
         let should_resolve = expected["resolved"].as_bool().unwrap_or(true);
         let winner = resolve(&filtered, &ctx);
@@ -798,6 +845,14 @@ mod resolution_conformance {
                     actual_uuid,
                     Some(expected_uuid),
                     "{case}: wrong token selected (uuid mismatch)"
+                );
+            }
+            if let Some(expected_value) = expected.get("expected_value") {
+                let actual_value = winner.raw.get("value");
+                assert_eq!(
+                    actual_value,
+                    Some(expected_value),
+                    "{case}: wrong value resolved"
                 );
             }
         } else {
@@ -821,6 +876,11 @@ mod resolution_conformance {
     #[test]
     fn alias_resolved_after_cascade() {
         run_fixture("alias-resolved-after-cascade");
+    }
+
+    #[test]
+    fn product_layer_wins() {
+        run_fixture("product-layer-wins");
     }
 }
 

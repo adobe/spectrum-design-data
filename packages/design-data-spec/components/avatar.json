@@ -12,22 +12,81 @@
   "options": {
     "size": {
       "type": "number",
-      "enum": [
-        50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200,
-        1300, 1400, 1500
-      ],
-      "default": 500
+      "default": 500,
+      "values": [
+        {
+          "value": 50
+        },
+        {
+          "value": 75
+        },
+        {
+          "value": 100
+        },
+        {
+          "value": 200
+        },
+        {
+          "value": 300
+        },
+        {
+          "value": 400
+        },
+        {
+          "value": 500
+        },
+        {
+          "value": 600
+        },
+        {
+          "value": 700
+        },
+        {
+          "value": 800
+        },
+        {
+          "value": 900
+        },
+        {
+          "value": 1000
+        },
+        {
+          "value": 1100
+        },
+        {
+          "value": 1200
+        },
+        {
+          "value": 1300
+        },
+        {
+          "value": 1400
+        },
+        {
+          "value": 1500
+        }
+      ]
     },
     "image": {
       "type": "string",
-      "enum": [
-        "user image",
-        "gradient image",
-        "gradient",
-        "guest image",
-        "initials"
-      ],
-      "default": "user image"
+      "default": "user image",
+      "values": [
+        {
+          "value": "user image"
+        },
+        {
+          "value": "gradient image"
+        },
+        {
+          "value": "gradient"
+        },
+        {
+          "value": "guest image"
+        },
+        {
+          "value": "initials"
+        }
+      ]
     },
     "isDisabled": {
       "type": "boolean",

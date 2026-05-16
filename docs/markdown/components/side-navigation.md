@@ -14,6 +14,5 @@ Side navigation lets users navigate the entire content of a product or a section
 
 | Property | Type | Values | Default | Required | Description |
 | --- | --- | --- | --- | --- | --- |
-| state | string | default, hover, down, keyboard focus | default | No | - |
-| items | array | - | - | Yes | The list of navigation items. |
+| items | array | - | - | No | The list of navigation items. |
 | selectionMode | string | none, single, multiple | single | No | How selection is handled for items. |

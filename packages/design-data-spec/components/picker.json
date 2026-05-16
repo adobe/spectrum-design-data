@@ -16,7 +16,14 @@
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "enum": ["top", "side"]
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
     },
     "placeholder": {
       "type": "string"
@@ -30,8 +37,21 @@
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "isQuiet": {
       "type": "boolean",
@@ -39,8 +59,15 @@
     },
     "necessityIndicator": {
       "type": "string",
-      "enum": ["text", "icon"],
-      "default": "icon"
+      "default": "icon",
+      "values": [
+        {
+          "value": "text"
+        },
+        {
+          "value": "icon"
+        }
+      ]
     },
     "isRequired": {
       "type": "boolean",
@@ -48,8 +75,15 @@
     },
     "menuContainer": {
       "type": "string",
-      "enum": ["popover", "tray"],
-      "default": "popover"
+      "default": "popover",
+      "values": [
+        {
+          "value": "popover"
+        },
+        {
+          "value": "tray"
+        }
+      ]
     },
     "isDisabled": {
       "type": "boolean",

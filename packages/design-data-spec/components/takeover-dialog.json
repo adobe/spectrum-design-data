@@ -18,8 +18,15 @@
     },
     "variant": {
       "type": "string",
-      "enum": ["dialog", "full screen"],
-      "default": "dialog"
+      "default": "dialog",
+      "values": [
+        {
+          "value": "dialog"
+        },
+        {
+          "value": "full screen"
+        }
+      ]
     },
     "primaryActionLabel": {
       "type": "string"

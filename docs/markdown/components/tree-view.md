@@ -21,4 +21,3 @@ A tree view provides users with a way to navigate nested hierarchical informatio
 | selectionMode | string | single, multiple | multiple | No | - |
 | selectionStyle | string | checkbox, highlight | checkbox | No | - |
 | selectionBehavior | string | toggle, replace | toggle | No | - |
-| state | string | default, hover, down, keyboard focus | default | No | - |

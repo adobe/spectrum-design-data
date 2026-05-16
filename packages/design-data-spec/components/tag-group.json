@@ -12,13 +12,30 @@
   "options": {
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
     },
     "labelPosition": {
       "type": "string",
-      "enum": ["top", "side"],
-      "default": "top"
+      "default": "top",
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
     },
     "hideLabel": {
       "type": "boolean",

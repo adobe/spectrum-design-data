@@ -18,14 +18,24 @@
     },
     "variant": {
       "type": "string",
-      "enum": [
-        "confirmation",
-        "information",
-        "warning",
-        "destructive",
-        "error"
-      ],
-      "default": "confirmation"
+      "default": "confirmation",
+      "values": [
+        {
+          "value": "confirmation"
+        },
+        {
+          "value": "information"
+        },
+        {
+          "value": "warning"
+        },
+        {
+          "value": "destructive"
+        },
+        {
+          "value": "error"
+        }
+      ]
     },
     "primaryActionLabel": {
       "type": "string"

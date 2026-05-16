@@ -96,7 +96,7 @@ The `describe_component` tool returns the component declaration object as stored
   "displayName": "Button",
   "meta": { "category": "actions", "documentationUrl": "https://spectrum.adobe.com/page/button/" },
   "options": {
-    "variant": { "type": "string", "enum": ["accent", "negative", "primary", "secondary"], "default": "accent" }
+    "variant": { "type": "string", "values": [{"value": "accent"}, {"value": "negative"}, {"value": "primary"}, {"value": "secondary"}], "default": "accent" }
   },
   "anatomy": [
     { "name": "icon",  "description": "Leading icon." },

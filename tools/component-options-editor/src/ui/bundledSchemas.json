@@ -10,8 +10,21 @@
     "properties": {
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "isDetached": {
         "type": "boolean",
@@ -27,23 +40,57 @@
       },
       "selectionMode": {
         "type": "string",
-        "enum": ["single", "multiple"],
-        "default": "multiple"
+        "default": "multiple",
+        "values": [
+          {
+            "value": "single"
+          },
+          {
+            "value": "multiple"
+          }
+        ]
       },
       "selectionStyle": {
         "type": "string",
-        "enum": ["checkbox", "highlight"],
-        "default": "checkbox"
+        "default": "checkbox",
+        "values": [
+          {
+            "value": "checkbox"
+          },
+          {
+            "value": "highlight"
+          }
+        ]
       },
       "selectionBehavior": {
         "type": "string",
-        "enum": ["toggle", "replace"],
-        "default": "toggle"
+        "default": "toggle",
+        "values": [
+          {
+            "value": "toggle"
+          },
+          {
+            "value": "replace"
+          }
+        ]
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -76,8 +123,18 @@
       },
       "variant": {
         "type": "string",
-        "enum": ["neutral", "informative", "negative"],
-        "default": "neutral"
+        "default": "neutral",
+        "values": [
+          {
+            "value": "neutral"
+          },
+          {
+            "value": "informative"
+          },
+          {
+            "value": "negative"
+          }
+        ]
       },
       "hasIcon": {
         "type": "boolean",
@@ -91,8 +148,21 @@
       },
       "placement": {
         "type": "string",
-        "enum": ["top", "bottom", "left", "right"],
-        "default": "top"
+        "default": "top",
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "bottom"
+          },
+          {
+            "value": "left"
+          },
+          {
+            "value": "right"
+          }
+        ]
       },
       "shouldFlip": {
         "type": "boolean",
@@ -124,8 +194,21 @@
       },
       "variant": {
         "type": "string",
-        "enum": ["neutral", "informative", "positive", "negative"],
-        "default": "neutral"
+        "default": "neutral",
+        "values": [
+          {
+            "value": "neutral"
+          },
+          {
+            "value": "informative"
+          },
+          {
+            "value": "positive"
+          },
+          {
+            "value": "negative"
+          }
+        ]
       },
       "actionLabel": {
         "type": "string",
@@ -148,12 +231,56 @@
     "properties": {
       "size": {
         "type": "number",
-        "enum": [50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+        "values": [
+          {
+            "value": 50
+          },
+          {
+            "value": 75
+          },
+          {
+            "value": 100
+          },
+          {
+            "value": 200
+          },
+          {
+            "value": 300
+          },
+          {
+            "value": 400
+          },
+          {
+            "value": 500
+          },
+          {
+            "value": 600
+          },
+          {
+            "value": 700
+          },
+          {
+            "value": 800
+          },
+          {
+            "value": 900
+          },
+          {
+            "value": 1000
+          }
+        ]
       },
       "state": {
         "type": "string",
-        "enum": ["default", "disabled"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "disabled"
+          }
+        ]
       }
     }
   },
@@ -172,7 +299,14 @@
       "labelPosition": {
         "type": "string",
         "default": "top",
-        "enum": ["top", "side"]
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "side"
+          }
+        ]
       },
       "hideLabel": {
         "type": "boolean",
@@ -187,13 +321,33 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "necessityIndicator": {
         "type": "string",
-        "enum": ["text", "icon"],
-        "default": "icon"
+        "default": "icon",
+        "values": [
+          {
+            "value": "text"
+          },
+          {
+            "value": "icon"
+          }
+        ]
       },
       "isRequired": {
         "type": "boolean",
@@ -224,14 +378,24 @@
       },
       "state": {
         "type": "string",
-        "enum": [
-          "default",
-          "hover",
-          "focus + hover",
-          "focus + not hover",
-          "keyboard focus"
-        ],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "focus + hover"
+          },
+          {
+            "value": "focus + not hover"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -250,7 +414,14 @@
       "labelPosition": {
         "type": "string",
         "default": "top",
-        "enum": ["top", "side"]
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "side"
+          }
+        ]
       },
       "hideLabel": {
         "type": "boolean",
@@ -265,13 +436,33 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "necessityIndicator": {
         "type": "string",
-        "enum": ["text", "icon"],
-        "default": "icon"
+        "default": "icon",
+        "values": [
+          {
+            "value": "text"
+          },
+          {
+            "value": "icon"
+          }
+        ]
       },
       "isRequired": {
         "type": "boolean",
@@ -309,19 +500,45 @@
       },
       "inputType": {
         "type": "string",
-        "enum": ["text", "url", "phone", "email", "password"],
-        "default": "text"
+        "default": "text",
+        "values": [
+          {
+            "value": "text"
+          },
+          {
+            "value": "url"
+          },
+          {
+            "value": "phone"
+          },
+          {
+            "value": "email"
+          },
+          {
+            "value": "password"
+          }
+        ]
       },
       "state": {
         "type": "string",
-        "enum": [
-          "default",
-          "hover",
-          "focus + hover",
-          "focus + not hover",
-          "keyboard focus"
-        ],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "focus + hover"
+          },
+          {
+            "value": "focus + not hover"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -342,8 +559,15 @@
       },
       "variant": {
         "type": "string",
-        "enum": ["dialog", "full screen"],
-        "default": "dialog"
+        "default": "dialog",
+        "values": [
+          {
+            "value": "dialog"
+          },
+          {
+            "value": "full screen"
+          }
+        ]
       },
       "primaryActionLabel": {
         "type": "string"
@@ -411,8 +635,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -427,13 +664,30 @@
     "properties": {
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          }
+        ]
       },
       "labelPosition": {
         "type": "string",
-        "enum": ["top", "side"],
-        "default": "top"
+        "default": "top",
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "side"
+          }
+        ]
       },
       "hideLabel": {
         "type": "boolean",
@@ -456,24 +710,57 @@
     "properties": {
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          }
+        ]
       },
       "state": {
         "type": "string",
-        "enum": [
-          "default",
-          "hover",
-          "focus + hover",
-          "focus + not hover",
-          "keyboard focus"
-        ],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "focus + hover"
+          },
+          {
+            "value": "focus + not hover"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       },
       "style": {
         "type": "string",
-        "enum": ["keyword", "icon", "thumbnail", "avatar"],
-        "default": "keyword"
+        "default": "keyword",
+        "values": [
+          {
+            "value": "keyword"
+          },
+          {
+            "value": "icon"
+          },
+          {
+            "value": "thumbnail"
+          },
+          {
+            "value": "avatar"
+          }
+        ]
       },
       "isDisabled": {
         "type": "boolean",
@@ -496,8 +783,15 @@
     "properties": {
       "orientation": {
         "type": "string",
-        "enum": ["horizontal", "vertical"],
-        "default": "horizontal"
+        "default": "horizontal",
+        "values": [
+          {
+            "value": "horizontal"
+          },
+          {
+            "value": "vertical"
+          }
+        ]
       },
       "items": {
         "type": "array",
@@ -569,9 +863,19 @@
     "properties": {
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l"],
         "default": "m",
-        "description": "Controls the density of table rows."
+        "description": "Controls the density of table rows.",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          }
+        ]
       },
       "hideHeader": {
         "type": "boolean",
@@ -598,8 +902,18 @@
       },
       "density": {
         "type": "string",
-        "enum": ["compact", "regular", "spacious"],
-        "default": "regular"
+        "default": "regular",
+        "values": [
+          {
+            "value": "compact"
+          },
+          {
+            "value": "regular"
+          },
+          {
+            "value": "spacious"
+          }
+        ]
       },
       "isQuiet": {
         "type": "boolean",
@@ -688,16 +1002,30 @@
       },
       "labelPosition": {
         "type": "string",
-        "enum": ["bottom", "side"],
-        "default": "bottom"
+        "default": "bottom",
+        "values": [
+          {
+            "value": "bottom"
+          },
+          {
+            "value": "side"
+          }
+        ]
       },
       "icon": {
         "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json"
       },
       "background": {
         "type": "string",
-        "enum": ["primary", "secondary"],
-        "default": "primary"
+        "default": "primary",
+        "values": [
+          {
+            "value": "primary"
+          },
+          {
+            "value": "secondary"
+          }
+        ]
       },
       "hasBadge": {
         "type": "boolean",
@@ -727,8 +1055,21 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "isEmphasized": {
         "type": "boolean",
@@ -744,8 +1085,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -764,19 +1118,49 @@
       },
       "size": {
         "type": "string",
-        "enum": ["xs", "s", "m", "l"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "xs"
+          },
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          }
+        ]
       },
       "shape": {
         "type": "string",
-        "enum": ["square", "rectangle"],
-        "default": "square"
+        "default": "square",
+        "values": [
+          {
+            "value": "square"
+          },
+          {
+            "value": "rectangle"
+          }
+        ]
       },
       "cornerRounding": {
         "type": "string",
-        "enum": ["none", "partial", "full"],
         "default": "none",
-        "description": "Determines the corner radius of the swatch. Partial refers to corner-radius-75."
+        "description": "Determines the corner radius of the swatch. Partial refers to corner-radius-75.",
+        "values": [
+          {
+            "value": "none"
+          },
+          {
+            "value": "partial"
+          },
+          {
+            "value": "full"
+          }
+        ]
       },
       "isSelected": {
         "type": "boolean",
@@ -788,8 +1172,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -804,13 +1201,36 @@
     "properties": {
       "size": {
         "type": "string",
-        "enum": ["xs", "s", "m", "l"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "xs"
+          },
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          }
+        ]
       },
       "density": {
         "type": "string",
-        "enum": ["compact", "regular", "spacious"],
-        "default": "regular"
+        "default": "regular",
+        "values": [
+          {
+            "value": "compact"
+          },
+          {
+            "value": "regular"
+          },
+          {
+            "value": "spacious"
+          }
+        ]
       },
       "enableSelection": {
         "type": "boolean",
@@ -819,8 +1239,15 @@
       "selectionMode": {
         "type": "string",
         "description": "Only applicable if selection is enabled.",
-        "enum": ["single", "multiple"],
-        "default": "single"
+        "default": "single",
+        "values": [
+          {
+            "value": "single"
+          },
+          {
+            "value": "multiple"
+          }
+        ]
       },
       "allowsEmptySelection": {
         "type": "boolean",
@@ -829,9 +1256,19 @@
       },
       "cornerRadius": {
         "type": "string",
-        "enum": ["none", "full", "partial"],
         "default": "none",
-        "description": "Determines the corner radius of each swatch in the group. Partial refers to corner-radius-75."
+        "description": "Determines the corner radius of each swatch in the group. Partial refers to corner-radius-75.",
+        "values": [
+          {
+            "value": "none"
+          },
+          {
+            "value": "full"
+          },
+          {
+            "value": "partial"
+          }
+        ]
       }
     }
   },
@@ -846,8 +1283,15 @@
     "properties": {
       "orientation": {
         "type": "string",
-        "enum": ["horizontal", "vertical"],
-        "default": "horizontal"
+        "default": "horizontal",
+        "values": [
+          {
+            "value": "horizontal"
+          },
+          {
+            "value": "vertical"
+          }
+        ]
       },
       "items": {
         "type": "array",
@@ -899,37 +1343,96 @@
       },
       "variant": {
         "type": "string",
-        "enum": [
-          "informative",
-          "neutral",
-          "positive",
-          "notice",
-          "negative",
-          "indigo",
-          "celery",
-          "chartreuse",
-          "yellow",
-          "magenta",
-          "fuchsia",
-          "purple",
-          "seafoam",
-          "pink",
-          "turquoise",
-          "cinnamon",
-          "brown",
-          "silver",
-          "gray",
-          "red",
-          "orange",
-          "green",
-          "cyan"
-        ],
-        "default": "informative"
+        "default": "informative",
+        "values": [
+          {
+            "value": "informative"
+          },
+          {
+            "value": "neutral"
+          },
+          {
+            "value": "positive"
+          },
+          {
+            "value": "notice"
+          },
+          {
+            "value": "negative"
+          },
+          {
+            "value": "indigo"
+          },
+          {
+            "value": "celery"
+          },
+          {
+            "value": "chartreuse"
+          },
+          {
+            "value": "yellow"
+          },
+          {
+            "value": "magenta"
+          },
+          {
+            "value": "fuchsia"
+          },
+          {
+            "value": "purple"
+          },
+          {
+            "value": "seafoam"
+          },
+          {
+            "value": "pink"
+          },
+          {
+            "value": "turquoise"
+          },
+          {
+            "value": "cinnamon"
+          },
+          {
+            "value": "brown"
+          },
+          {
+            "value": "silver"
+          },
+          {
+            "value": "gray"
+          },
+          {
+            "value": "red"
+          },
+          {
+            "value": "orange"
+          },
+          {
+            "value": "green"
+          },
+          {
+            "value": "cyan"
+          }
+        ]
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       }
     },
     "required": ["label"]
@@ -945,8 +1448,18 @@
     "properties": {
       "container": {
         "type": "string",
-        "enum": ["anchored", "floating", "dragged"],
-        "default": "anchored"
+        "default": "anchored",
+        "values": [
+          {
+            "value": "anchored"
+          },
+          {
+            "value": "floating"
+          },
+          {
+            "value": "dragged"
+          }
+        ]
       },
       "label": {
         "type": "string"
@@ -959,13 +1472,30 @@
       },
       "density": {
         "type": "string",
-        "enum": ["compact", "regular", "spacious"],
-        "default": "regular"
+        "default": "regular",
+        "values": [
+          {
+            "value": "compact"
+          },
+          {
+            "value": "regular"
+          },
+          {
+            "value": "spacious"
+          }
+        ]
       },
       "style": {
         "type": "string",
-        "enum": ["primary", "secondary"],
-        "default": "primary"
+        "default": "primary",
+        "values": [
+          {
+            "value": "primary"
+          },
+          {
+            "value": "secondary"
+          }
+        ]
       },
       "hideGripper": {
         "type": "boolean",
@@ -1003,8 +1533,18 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          }
+        ]
       },
       "hideCloseButton": {
         "type": "boolean",
@@ -1043,7 +1583,14 @@
       "labelPosition": {
         "type": "string",
         "default": "top",
-        "enum": ["top", "side"]
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "side"
+          }
+        ]
       },
       "value": {
         "type": "number",
@@ -1072,8 +1619,15 @@
       },
       "progressionScale": {
         "type": "string",
-        "enum": ["linear", "log"],
-        "default": "linear"
+        "default": "linear",
+        "values": [
+          {
+            "value": "linear"
+          },
+          {
+            "value": "log"
+          }
+        ]
       },
       "width": {
         "type": "number"
@@ -1100,8 +1654,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -1116,8 +1683,21 @@
     "properties": {
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       },
       "items": {
         "type": "array",
@@ -1155,9 +1735,19 @@
       },
       "selectionMode": {
         "type": "string",
-        "enum": ["none", "single", "multiple"],
         "default": "single",
-        "description": "How selection is handled for items."
+        "description": "How selection is handled for items.",
+        "values": [
+          {
+            "value": "none"
+          },
+          {
+            "value": "single"
+          },
+          {
+            "value": "multiple"
+          }
+        ]
       }
     },
     "required": ["items"]
@@ -1176,8 +1766,15 @@
       },
       "orientation": {
         "type": "string",
-        "enum": ["horizontal", "vertical"],
-        "default": "vertical"
+        "default": "vertical",
+        "values": [
+          {
+            "value": "horizontal"
+          },
+          {
+            "value": "vertical"
+          }
+        ]
       },
       "body": {
         "type": "string"
@@ -1200,8 +1797,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "down", "hover", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       },
       "multiple": {
         "type": "boolean",
@@ -1221,8 +1831,15 @@
     "properties": {
       "orientation": {
         "type": "string",
-        "enum": ["horizontal", "vertical"],
-        "default": "horizontal"
+        "default": "horizontal",
+        "values": [
+          {
+            "value": "horizontal"
+          },
+          {
+            "value": "vertical"
+          }
+        ]
       },
       "isFluid": {
         "type": "boolean",
@@ -1231,8 +1848,15 @@
       },
       "alignment": {
         "type": "string",
-        "enum": ["start", "center"],
-        "default": "start"
+        "default": "start",
+        "values": [
+          {
+            "value": "start"
+          },
+          {
+            "value": "center"
+          }
+        ]
       },
       "hideTracker": {
         "type": "boolean",
@@ -1245,8 +1869,15 @@
       },
       "keyboardActivation": {
         "type": "string",
-        "enum": ["manual", "automatic"],
-        "default": "manual"
+        "default": "manual",
+        "values": [
+          {
+            "value": "manual"
+          },
+          {
+            "value": "automatic"
+          }
+        ]
       },
       "items": {
         "type": "array",
@@ -1308,9 +1939,22 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
         "default": "m",
-        "pattern": "^(x?s|m|x{0,3}l)$"
+        "pattern": "^(x?s|m|x{0,3}l)$",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "helpText": {
         "type": "string"
@@ -1324,15 +1968,27 @@
       },
       "state": {
         "type": "string",
-        "enum": [
-          "default",
-          "down",
-          "hover",
-          "focus + hover",
-          "focus + not hover",
-          "keyboard focus"
-        ],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "focus + hover"
+          },
+          {
+            "value": "focus + not hover"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -1347,13 +2003,30 @@
     "properties": {
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          }
+        ]
       },
       "orientation": {
         "type": "string",
-        "enum": ["horizontal", "vertical"],
-        "default": "horizontal"
+        "default": "horizontal",
+        "values": [
+          {
+            "value": "horizontal"
+          },
+          {
+            "value": "vertical"
+          }
+        ]
       },
       "hideTrack": {
         "type": "boolean",
@@ -1373,8 +2046,18 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -1405,8 +2088,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -1424,18 +2120,45 @@
       },
       "labelPosition": {
         "type": "string",
-        "enum": ["top", "side"],
-        "default": "top"
+        "default": "top",
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "side"
+          }
+        ]
       },
       "orientation": {
         "type": "string",
-        "enum": ["horizontal", "vertical"],
-        "default": "vertical"
+        "default": "vertical",
+        "values": [
+          {
+            "value": "horizontal"
+          },
+          {
+            "value": "vertical"
+          }
+        ]
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "isEmphasized": {
         "type": "boolean",
@@ -1443,8 +2166,15 @@
       },
       "necessityIndicator": {
         "type": "string",
-        "enum": ["text", "icon"],
-        "default": "icon"
+        "default": "icon",
+        "values": [
+          {
+            "value": "text"
+          },
+          {
+            "value": "icon"
+          }
+        ]
       },
       "isRequired": {
         "type": "boolean",
@@ -1477,8 +2207,21 @@
     "properties": {
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       },
       "isSelected": {
         "type": "boolean",
@@ -1505,8 +2248,15 @@
     "properties": {
       "variant": {
         "type": "string",
-        "enum": ["default", "over background"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "over background"
+          }
+        ]
       },
       "value": {
         "type": "number",
@@ -1524,8 +2274,18 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          }
+        ]
       },
       "isIndeterminate": {
         "type": "boolean",
@@ -1544,21 +2304,39 @@
     "properties": {
       "variant": {
         "type": "string",
-        "enum": ["default", "over background"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "over background"
+          }
+        ]
       },
       "staticColor": {
         "type": "string",
-        "enum": ["white"],
-        "description": "Static color can only be white, otherwise it is default."
+        "description": "Static color can only be white, otherwise it is default.",
+        "values": [
+          {
+            "value": "white"
+          }
+        ]
       },
       "label": {
         "type": "string"
       },
       "labelPosition": {
         "type": "string",
-        "enum": ["top", "side"],
-        "default": "top"
+        "default": "top",
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "side"
+          }
+        ]
       },
       "hideLabel": {
         "type": "boolean",
@@ -1586,8 +2364,21 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "isIndeterminate": {
         "type": "boolean",
@@ -1616,31 +2407,75 @@
       },
       "placement": {
         "type": "string",
-        "enum": [
-          "top",
-          "top left",
-          "top right",
-          "top start",
-          "top end",
-          "bottom",
-          "bottom left",
-          "bottom right",
-          "bottom start",
-          "bottom end",
-          "left",
-          "left top",
-          "left bottom",
-          "start",
-          "start top",
-          "start bottom",
-          "right",
-          "right top",
-          "right bottom",
-          "end",
-          "end top",
-          "end bottom"
-        ],
-        "default": "top"
+        "default": "top",
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "top left"
+          },
+          {
+            "value": "top right"
+          },
+          {
+            "value": "top start"
+          },
+          {
+            "value": "top end"
+          },
+          {
+            "value": "bottom"
+          },
+          {
+            "value": "bottom left"
+          },
+          {
+            "value": "bottom right"
+          },
+          {
+            "value": "bottom start"
+          },
+          {
+            "value": "bottom end"
+          },
+          {
+            "value": "left"
+          },
+          {
+            "value": "left top"
+          },
+          {
+            "value": "left bottom"
+          },
+          {
+            "value": "start"
+          },
+          {
+            "value": "start top"
+          },
+          {
+            "value": "start bottom"
+          },
+          {
+            "value": "right"
+          },
+          {
+            "value": "right top"
+          },
+          {
+            "value": "right bottom"
+          },
+          {
+            "value": "end"
+          },
+          {
+            "value": "end top"
+          },
+          {
+            "value": "end bottom"
+          }
+        ]
       },
       "offset": {
         "type": "number",
@@ -1673,7 +2508,14 @@
       "labelPosition": {
         "type": "string",
         "default": "top",
-        "enum": ["top", "side"]
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "side"
+          }
+        ]
       },
       "placeholder": {
         "type": "string"
@@ -1687,8 +2529,21 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "isQuiet": {
         "type": "boolean",
@@ -1696,8 +2551,15 @@
       },
       "necessityIndicator": {
         "type": "string",
-        "enum": ["text", "icon"],
-        "default": "icon"
+        "default": "icon",
+        "values": [
+          {
+            "value": "text"
+          },
+          {
+            "value": "icon"
+          }
+        ]
       },
       "isRequired": {
         "type": "boolean",
@@ -1705,8 +2567,15 @@
       },
       "menuContainer": {
         "type": "string",
-        "enum": ["popover", "tray"],
-        "default": "popover"
+        "default": "popover",
+        "values": [
+          {
+            "value": "popover"
+          },
+          {
+            "value": "tray"
+          }
+        ]
       },
       "isDisabled": {
         "type": "boolean",
@@ -1726,14 +2595,24 @@
       },
       "state": {
         "type": "string",
-        "enum": [
-          "default",
-          "hover",
-          "focus + hover",
-          "focus + not hover",
-          "keyboard focus"
-        ],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "focus + hover"
+          },
+          {
+            "value": "focus + not hover"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -1748,11 +2627,34 @@
     "properties": {
       "verticalSize": {
         "type": "number",
-        "enum": [16, 32, 64, 128, 256]
+        "values": [
+          {
+            "value": 16
+          },
+          {
+            "value": 32
+          },
+          {
+            "value": 64
+          },
+          {
+            "value": 128
+          },
+          {
+            "value": 256
+          }
+        ]
       },
       "horizontalSize": {
         "type": "number",
-        "enum": [24, 40]
+        "values": [
+          {
+            "value": 24
+          },
+          {
+            "value": 40
+          }
+        ]
       }
     }
   },
@@ -1770,13 +2672,33 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "labelPosition": {
         "type": "string",
         "default": "top",
-        "enum": ["top", "side"]
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "side"
+          }
+        ]
       },
       "hideLabel": {
         "type": "boolean",
@@ -1784,8 +2706,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "focus + hover", "focus + not hover"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "focus + hover"
+          },
+          {
+            "value": "focus + not hover"
+          }
+        ]
       },
       "isDisabled": {
         "type": "boolean",
@@ -1801,8 +2736,15 @@
       },
       "necessityIndicator": {
         "type": "string",
-        "enum": ["text", "icon"],
-        "default": "icon"
+        "default": "icon",
+        "values": [
+          {
+            "value": "text"
+          },
+          {
+            "value": "icon"
+          }
+        ]
       },
       "hideStepper": {
         "type": "boolean",
@@ -1822,8 +2764,21 @@
     "properties": {
       "variant": {
         "type": "string",
-        "enum": ["informative", "positive", "notice", "negative"],
-        "default": "informative"
+        "default": "informative",
+        "values": [
+          {
+            "value": "informative"
+          },
+          {
+            "value": "positive"
+          },
+          {
+            "value": "notice"
+          },
+          {
+            "value": "negative"
+          }
+        ]
       },
       "label": {
         "type": "string"
@@ -1840,8 +2795,21 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "value": {
         "type": "number",
@@ -1864,7 +2832,14 @@
     "properties": {
       "container": {
         "type": "string",
-        "enum": ["popover", "tray"]
+        "values": [
+          {
+            "value": "popover"
+          },
+          {
+            "value": "tray"
+          }
+        ]
       },
       "label": {
         "type": "string"
@@ -1881,16 +2856,46 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "selectionMode": {
         "type": "string",
-        "enum": ["single", "multiple", "no selection"]
+        "values": [
+          {
+            "value": "single"
+          },
+          {
+            "value": "multiple"
+          },
+          {
+            "value": "no selection"
+          }
+        ]
       },
       "selectionStyle": {
         "type": "string",
-        "enum": ["checkbox", "switch"]
+        "values": [
+          {
+            "value": "checkbox"
+          },
+          {
+            "value": "switch"
+          }
+        ]
       },
       "sectionHeader": {
         "type": "string"
@@ -1909,8 +2914,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -1925,9 +2943,19 @@
     "properties": {
       "selectionMode": {
         "type": "string",
-        "enum": ["none", "single", "multiple"],
         "default": "single",
-        "description": "Defines how many items can be selected at once."
+        "description": "Defines how many items can be selected at once.",
+        "values": [
+          {
+            "value": "none"
+          },
+          {
+            "value": "single"
+          },
+          {
+            "value": "multiple"
+          }
+        ]
       },
       "isQuiet": {
         "type": "boolean",
@@ -2012,8 +3040,15 @@
     "properties": {
       "variant": {
         "type": "string",
-        "enum": ["primary", "secondary"],
-        "default": "primary"
+        "default": "primary",
+        "values": [
+          {
+            "value": "primary"
+          },
+          {
+            "value": "secondary"
+          }
+        ]
       },
       "isQuiet": {
         "type": "boolean",
@@ -2021,13 +3056,33 @@
       },
       "staticColor": {
         "type": "string",
-        "enum": ["white", "black"],
-        "description": "Static color must not be set for the default version of this component."
+        "description": "Static color must not be set for the default version of this component.",
+        "values": [
+          {
+            "value": "white"
+          },
+          {
+            "value": "black"
+          }
+        ]
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -2042,21 +3097,43 @@
     "properties": {
       "variant": {
         "type": "string",
-        "enum": [
-          "neutral",
-          "informative",
-          "positive",
-          "notice",
-          "negative",
-          "accent"
-        ],
-        "default": "neutral"
+        "default": "neutral",
+        "values": [
+          {
+            "value": "neutral"
+          },
+          {
+            "value": "informative"
+          },
+          {
+            "value": "positive"
+          },
+          {
+            "value": "notice"
+          },
+          {
+            "value": "negative"
+          },
+          {
+            "value": "accent"
+          }
+        ]
       },
       "style": {
         "type": "string",
-        "enum": ["bold", "subtle", "outline"],
         "default": "outline",
-        "description": "The visual style of the alert."
+        "description": "The visual style of the alert.",
+        "values": [
+          {
+            "value": "bold"
+          },
+          {
+            "value": "subtle"
+          },
+          {
+            "value": "outline"
+          }
+        ]
       },
       "href": {
         "type": "string",
@@ -2083,12 +3160,32 @@
     "properties": {
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "staticColor": {
         "type": "string",
-        "enum": ["white", "black"]
+        "values": [
+          {
+            "value": "white"
+          },
+          {
+            "value": "black"
+          }
+        ]
       }
     }
   },
@@ -2103,17 +3200,56 @@
     "properties": {
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       },
       "style": {
         "type": "string",
-        "enum": ["disclosure", "clear", "dash", "add"]
+        "values": [
+          {
+            "value": "disclosure"
+          },
+          {
+            "value": "clear"
+          },
+          {
+            "value": "dash"
+          },
+          {
+            "value": "add"
+          }
+        ]
       },
       "isQuiet": {
         "type": "boolean",
@@ -2136,15 +3272,32 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l"],
         "default": "m",
-        "description": "Size of the illustration."
+        "description": "Size of the illustration.",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          }
+        ]
       },
       "orientation": {
         "type": "string",
-        "enum": ["vertical", "horizontal"],
         "default": "vertical",
-        "description": "Orientation of the illustrated message."
+        "description": "Orientation of the illustrated message.",
+        "values": [
+          {
+            "value": "vertical"
+          },
+          {
+            "value": "horizontal"
+          }
+        ]
       },
       "title": {
         "type": "string",
@@ -2178,8 +3331,15 @@
       },
       "variant": {
         "type": "string",
-        "enum": ["neutral", "negative"],
-        "default": "neutral"
+        "default": "neutral",
+        "values": [
+          {
+            "value": "neutral"
+          },
+          {
+            "value": "negative"
+          }
+        ]
       },
       "hideIcon": {
         "type": "boolean",
@@ -2188,8 +3348,21 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "isDisabled": {
         "type": "boolean",
@@ -2215,13 +3388,45 @@
       },
       "weight": {
         "type": "string",
-        "enum": ["light", "default", "heavy"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "light"
+          },
+          {
+            "value": "default"
+          },
+          {
+            "value": "heavy"
+          }
+        ]
       },
       "size": {
         "type": "string",
-        "enum": ["xs", "s", "m", "l", "xl", "xxl", "xxxl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "xs"
+          },
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          },
+          {
+            "value": "xxl"
+          },
+          {
+            "value": "xxxl"
+          }
+        ]
       }
     }
   },
@@ -2239,18 +3444,45 @@
       },
       "labelPosition": {
         "type": "string",
-        "enum": ["top", "side"],
-        "default": "top"
+        "default": "top",
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "side"
+          }
+        ]
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "necessityIndicator": {
         "type": "string",
-        "enum": ["text", "icon"],
-        "default": "icon"
+        "default": "icon",
+        "values": [
+          {
+            "value": "text"
+          },
+          {
+            "value": "icon"
+          }
+        ]
       },
       "isRequired": {
         "type": "boolean",
@@ -2280,8 +3512,18 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          }
+        ]
       },
       "actionLabel": {
         "type": "string",
@@ -2312,13 +3554,30 @@
     "properties": {
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l"],
-        "default": "s"
+        "default": "s",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          }
+        ]
       },
       "orientation": {
         "type": "string",
-        "enum": ["horizontal", "vertical"],
-        "default": "horizontal"
+        "default": "horizontal",
+        "values": [
+          {
+            "value": "horizontal"
+          },
+          {
+            "value": "vertical"
+          }
+        ]
       }
     }
   },
@@ -2336,13 +3595,33 @@
       },
       "weight": {
         "type": "string",
-        "enum": ["light", "default"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "light"
+          },
+          {
+            "value": "default"
+          }
+        ]
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       }
     }
   },
@@ -2357,9 +3636,19 @@
     "properties": {
       "variant": {
         "type": "string",
-        "enum": ["single", "double", "triple"],
         "default": "single",
-        "description": "Controls the number of months displayed in the calendar popover."
+        "description": "Controls the number of months displayed in the calendar popover.",
+        "values": [
+          {
+            "value": "single"
+          },
+          {
+            "value": "double"
+          },
+          {
+            "value": "triple"
+          }
+        ]
       },
       "selectedDate": {
         "type": "string",
@@ -2512,36 +3801,87 @@
     "properties": {
       "icon": {
         "type": "string",
-        "enum": ["info", "help"],
-        "default": "info"
+        "default": "info",
+        "values": [
+          {
+            "value": "info"
+          },
+          {
+            "value": "help"
+          }
+        ]
       },
       "popoverPlacement": {
         "type": "string",
-        "enum": [
-          "top",
-          "top left",
-          "top right",
-          "top start",
-          "top end",
-          "bottom",
-          "bottom left",
-          "bottom right",
-          "bottom start",
-          "bottom end",
-          "left",
-          "left top",
-          "left bottom",
-          "start",
-          "start top",
-          "start bottom",
-          "right",
-          "right top",
-          "right bottom",
-          "end",
-          "end top",
-          "end bottom"
-        ],
-        "default": "bottom start"
+        "default": "bottom start",
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "top left"
+          },
+          {
+            "value": "top right"
+          },
+          {
+            "value": "top start"
+          },
+          {
+            "value": "top end"
+          },
+          {
+            "value": "bottom"
+          },
+          {
+            "value": "bottom left"
+          },
+          {
+            "value": "bottom right"
+          },
+          {
+            "value": "bottom start"
+          },
+          {
+            "value": "bottom end"
+          },
+          {
+            "value": "left"
+          },
+          {
+            "value": "left top"
+          },
+          {
+            "value": "left bottom"
+          },
+          {
+            "value": "start"
+          },
+          {
+            "value": "start top"
+          },
+          {
+            "value": "start bottom"
+          },
+          {
+            "value": "right"
+          },
+          {
+            "value": "right top"
+          },
+          {
+            "value": "right bottom"
+          },
+          {
+            "value": "end"
+          },
+          {
+            "value": "end top"
+          },
+          {
+            "value": "end bottom"
+          }
+        ]
       },
       "popoverOffset": {
         "type": "number",
@@ -2561,8 +3901,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "down", "open", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "open"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -2580,8 +3933,18 @@
       },
       "labelPosition": {
         "type": "string",
-        "enum": ["top", "side", "in line"],
-        "default": "top"
+        "default": "top",
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "side"
+          },
+          {
+            "value": "in line"
+          }
+        ]
       },
       "value": {
         "type": "string"
@@ -2591,8 +3954,21 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "isRequired": {
         "type": "boolean",
@@ -2600,8 +3976,15 @@
       },
       "necessityIndicator": {
         "type": "string",
-        "enum": ["text", "icon"],
-        "default": "icon"
+        "default": "icon",
+        "values": [
+          {
+            "value": "text"
+          },
+          {
+            "value": "icon"
+          }
+        ]
       },
       "hasAutocomplete": {
         "type": "boolean",
@@ -2609,8 +3992,18 @@
       },
       "menuTrigger": {
         "type": "string",
-        "enum": ["input", "focus", "manual"],
-        "default": "input"
+        "default": "input",
+        "values": [
+          {
+            "value": "input"
+          },
+          {
+            "value": "focus"
+          },
+          {
+            "value": "manual"
+          }
+        ]
       },
       "isError": {
         "type": "boolean",
@@ -2632,15 +4025,27 @@
       },
       "state": {
         "type": "string",
-        "enum": [
-          "default",
-          "hover (text area)",
-          "hover (button area)",
-          "focus + hover",
-          "focus + not hover",
-          "keyboard focus"
-        ],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover (text area)"
+          },
+          {
+            "value": "hover (button area)"
+          },
+          {
+            "value": "focus + hover"
+          },
+          {
+            "value": "focus + not hover"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -2684,8 +4089,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -2704,17 +4122,31 @@
       },
       "channel": {
         "type": "string",
-        "enum": [
-          "hue",
-          "saturation",
-          "lightness",
-          "red",
-          "green",
-          "blue",
-          "alpha"
-        ],
         "default": "hue",
-        "description": "Which channel of the color this slider controls. Use 'alpha' for opacity."
+        "description": "Which channel of the color this slider controls. Use 'alpha' for opacity.",
+        "values": [
+          {
+            "value": "hue"
+          },
+          {
+            "value": "saturation"
+          },
+          {
+            "value": "lightness"
+          },
+          {
+            "value": "red"
+          },
+          {
+            "value": "green"
+          },
+          {
+            "value": "blue"
+          },
+          {
+            "value": "alpha"
+          }
+        ]
       },
       "value": {
         "type": "number",
@@ -2734,8 +4166,15 @@
       },
       "orientation": {
         "type": "string",
-        "enum": ["horizontal", "vertical"],
-        "default": "horizontal"
+        "default": "horizontal",
+        "values": [
+          {
+            "value": "horizontal"
+          },
+          {
+            "value": "vertical"
+          }
+        ]
       },
       "length": {
         "type": "number",
@@ -2748,8 +4187,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -2767,8 +4219,12 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          }
+        ]
       }
     }
   },
@@ -2783,17 +4239,31 @@
     "properties": {
       "channel": {
         "type": "string",
-        "enum": [
-          "hue",
-          "saturation",
-          "lightness",
-          "red",
-          "green",
-          "blue",
-          "alpha"
-        ],
         "default": "hue",
-        "description": "Which channel of the color this handle controls. Use 'alpha' for opacity."
+        "description": "Which channel of the color this handle controls. Use 'alpha' for opacity.",
+        "values": [
+          {
+            "value": "hue"
+          },
+          {
+            "value": "saturation"
+          },
+          {
+            "value": "lightness"
+          },
+          {
+            "value": "red"
+          },
+          {
+            "value": "green"
+          },
+          {
+            "value": "blue"
+          },
+          {
+            "value": "alpha"
+          }
+        ]
       },
       "isDisabled": {
         "type": "boolean",
@@ -2858,8 +4328,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -2877,8 +4360,24 @@
       },
       "size": {
         "type": "string",
-        "enum": ["xs", "s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "xs"
+          },
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       }
     }
   },
@@ -2942,24 +4441,50 @@
     "properties": {
       "cornerRounding": {
         "type": "string",
-        "enum": [
-          "none",
-          "corner-radius-75",
-          "corner-radius-100",
-          "corner-radius-200",
-          "corner-radius-300",
-          "corner-radius-400",
-          "corner-radius-500",
-          "corner-radius-600",
-          "corner-radius-700",
-          "corner-radius-800",
-          "full"
+        "values": [
+          {
+            "value": "none"
+          },
+          {
+            "value": "corner-radius-75"
+          },
+          {
+            "value": "corner-radius-100"
+          },
+          {
+            "value": "corner-radius-200"
+          },
+          {
+            "value": "corner-radius-300"
+          },
+          {
+            "value": "corner-radius-400"
+          },
+          {
+            "value": "corner-radius-500"
+          },
+          {
+            "value": "corner-radius-600"
+          },
+          {
+            "value": "corner-radius-700"
+          },
+          {
+            "value": "corner-radius-800"
+          },
+          {
+            "value": "full"
+          }
         ]
       },
       "staticColor": {
         "type": "string",
-        "enum": ["white"],
-        "description": "If not set to white, the coach indicator uses the default color."
+        "description": "If not set to white, the coach indicator uses the default color.",
+        "values": [
+          {
+            "value": "white"
+          }
+        ]
       }
     }
   },
@@ -2974,16 +4499,36 @@
     "properties": {
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "iconSize": {
         "type": "string"
       },
       "staticColor": {
         "type": "string",
-        "enum": ["white", "black"],
-        "description": "Static color must not be set for the default version of this component."
+        "description": "Static color must not be set for the default version of this component.",
+        "values": [
+          {
+            "value": "white"
+          },
+          {
+            "value": "black"
+          }
+        ]
       },
       "isDisabled": {
         "type": "boolean",
@@ -2991,8 +4536,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -3020,8 +4578,21 @@
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "isEmphasized": {
         "type": "boolean",
@@ -3037,8 +4608,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -3056,13 +4640,27 @@
       },
       "labelPosition": {
         "type": "string",
-        "enum": ["top", "side"],
-        "default": "top"
+        "default": "top",
+        "values": [
+          {
+            "value": "top"
+          },
+          {
+            "value": "side"
+          }
+        ]
       },
       "necessityIndicator": {
         "type": "string",
-        "enum": ["text", "icon"],
-        "default": "icon"
+        "default": "icon",
+        "values": [
+          {
+            "value": "text"
+          },
+          {
+            "value": "icon"
+          }
+        ]
       },
       "isRequired": {
         "type": "boolean",
@@ -3070,8 +4668,15 @@
       },
       "orientation": {
         "type": "string",
-        "enum": ["horizontal", "vertical"],
-        "default": "vertical"
+        "default": "vertical",
+        "values": [
+          {
+            "value": "horizontal"
+          },
+          {
+            "value": "vertical"
+          }
+        ]
       },
       "isError": {
         "type": "boolean",
@@ -3100,16 +4705,28 @@
     "properties": {
       "variant": {
         "type": "string",
-        "enum": [
-          "asset",
-          "collection",
-          "flex",
-          "gallery",
-          "horizontal",
-          "product"
-        ],
         "default": "asset",
-        "description": "Determines which card layout variant is used."
+        "description": "Determines which card layout variant is used.",
+        "values": [
+          {
+            "value": "asset"
+          },
+          {
+            "value": "collection"
+          },
+          {
+            "value": "flex"
+          },
+          {
+            "value": "gallery"
+          },
+          {
+            "value": "horizontal"
+          },
+          {
+            "value": "product"
+          }
+        ]
       }
     }
   },
@@ -3134,9 +4751,16 @@
       },
       "selectionMode": {
         "type": "string",
-        "enum": ["single", "range"],
         "default": "single",
-        "description": "Controls whether the calendar allows selecting a single date or a date range."
+        "description": "Controls whether the calendar allows selecting a single date or a date range.",
+        "values": [
+          {
+            "value": "single"
+          },
+          {
+            "value": "range"
+          }
+        ]
       },
       "isDisabled": {
         "type": "boolean",
@@ -3233,23 +4857,63 @@
       },
       "variant": {
         "type": "string",
-        "enum": ["accent", "negative", "primary", "secondary"],
-        "default": "accent"
+        "default": "accent",
+        "values": [
+          {
+            "value": "accent"
+          },
+          {
+            "value": "negative"
+          },
+          {
+            "value": "primary"
+          },
+          {
+            "value": "secondary"
+          }
+        ]
       },
       "staticColor": {
         "type": "string",
-        "enum": ["white", "black"],
-        "description": "Static color must not be set for the default version of this component."
+        "description": "Static color must not be set for the default version of this component.",
+        "values": [
+          {
+            "value": "white"
+          },
+          {
+            "value": "black"
+          }
+        ]
       },
       "style": {
         "type": "string",
         "default": "fill",
-        "enum": ["fill", "outline"]
+        "values": [
+          {
+            "value": "fill"
+          },
+          {
+            "value": "outline"
+          }
+        ]
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "justified": {
         "type": "boolean",
@@ -3265,8 +4929,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -3282,18 +4959,45 @@
       "orientation": {
         "type": "string",
         "default": "horizontal",
-        "enum": ["horizontal", "vertical"]
+        "values": [
+          {
+            "value": "horizontal"
+          },
+          {
+            "value": "vertical"
+          }
+        ]
       },
       "size": {
         "type": "string",
         "pattern": "^(x?s|m|x{0,3}l)$",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "overflowMode": {
         "type": "string",
-        "enum": ["wrap", "collapse"],
-        "default": "wrap"
+        "default": "wrap",
+        "values": [
+          {
+            "value": "wrap"
+          },
+          {
+            "value": "collapse"
+          }
+        ]
       },
       "isDisabled": {
         "type": "boolean",
@@ -3312,8 +5016,24 @@
     "properties": {
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus", "drag and drop"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          },
+          {
+            "value": "drag and drop"
+          }
+        ]
       },
       "isMultiline": {
         "type": "boolean",
@@ -3322,9 +5042,16 @@
       },
       "size": {
         "type": "string",
-        "enum": ["m", "l"],
         "default": "m",
-        "description": "Controls the overall size of the breadcrumb component."
+        "description": "Controls the overall size of the breadcrumb component.",
+        "values": [
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          }
+        ]
       },
       "items": {
         "type": "array",
@@ -3355,9 +5082,16 @@
       },
       "separator": {
         "type": "string",
-        "enum": ["chevron", "none"],
         "default": "chevron",
-        "description": "The separator icon used between breadcrumb items."
+        "description": "The separator icon used between breadcrumb items.",
+        "values": [
+          {
+            "value": "chevron"
+          },
+          {
+            "value": "none"
+          }
+        ]
       },
       "isTruncated": {
         "type": "boolean",
@@ -3366,8 +5100,21 @@
       },
       "sizeOverride": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "description": "Overrides the size of the breadcrumb items when isMultiline is true."
+        "description": "Overrides the size of the breadcrumb items when isMultiline is true.",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       }
     }
   },
@@ -3385,16 +5132,30 @@
       },
       "labelPosition": {
         "type": "string",
-        "enum": ["bottom", "side"],
-        "default": "bottom"
+        "default": "bottom",
+        "values": [
+          {
+            "value": "bottom"
+          },
+          {
+            "value": "side"
+          }
+        ]
       },
       "icon": {
         "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json"
       },
       "background": {
         "type": "string",
-        "enum": ["primary", "secondary"],
-        "default": "primary"
+        "default": "primary",
+        "values": [
+          {
+            "value": "primary"
+          },
+          {
+            "value": "secondary"
+          }
+        ]
       },
       "hasBadge": {
         "type": "boolean",
@@ -3424,8 +5185,30 @@
       "size": {
         "type": "string",
         "pattern": "^(x?s|m|x{0,3}l)$",
-        "enum": ["xs", "s", "m", "l", "xl", "xxl", "xxxl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "xs"
+          },
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          },
+          {
+            "value": "xxl"
+          },
+          {
+            "value": "xxxl"
+          }
+        ]
       }
     }
   },
@@ -3447,42 +5230,118 @@
       },
       "variant": {
         "type": "string",
-        "enum": [
-          "neutral",
-          "info",
-          "positive",
-          "negative",
-          "indigo",
-          "yellow",
-          "magenta",
-          "fuchsia",
-          "purple",
-          "seafoam",
-          "accent",
-          "notice",
-          "gray",
-          "red",
-          "orange",
-          "chartreuse",
-          "celery",
-          "green",
-          "cyan",
-          "blue",
-          "pink",
-          "turquoise",
-          "brown",
-          "cinnamon",
-          "silver"
+        "values": [
+          {
+            "value": "neutral"
+          },
+          {
+            "value": "info"
+          },
+          {
+            "value": "positive"
+          },
+          {
+            "value": "negative"
+          },
+          {
+            "value": "indigo"
+          },
+          {
+            "value": "yellow"
+          },
+          {
+            "value": "magenta"
+          },
+          {
+            "value": "fuchsia"
+          },
+          {
+            "value": "purple"
+          },
+          {
+            "value": "seafoam"
+          },
+          {
+            "value": "accent"
+          },
+          {
+            "value": "notice"
+          },
+          {
+            "value": "gray"
+          },
+          {
+            "value": "red"
+          },
+          {
+            "value": "orange"
+          },
+          {
+            "value": "chartreuse"
+          },
+          {
+            "value": "celery"
+          },
+          {
+            "value": "green"
+          },
+          {
+            "value": "cyan"
+          },
+          {
+            "value": "blue"
+          },
+          {
+            "value": "pink"
+          },
+          {
+            "value": "turquoise"
+          },
+          {
+            "value": "brown"
+          },
+          {
+            "value": "cinnamon"
+          },
+          {
+            "value": "silver"
+          }
         ]
       },
       "style": {
         "type": "string",
-        "enum": ["bold", "subtle", "outline"]
+        "values": [
+          {
+            "value": "bold"
+          },
+          {
+            "value": "subtle"
+          },
+          {
+            "value": "outline"
+          }
+        ]
       },
       "fixed": {
         "type": "string",
-        "enum": ["none", "top", "right", "bottom", "left"],
-        "default": "none"
+        "default": "none",
+        "values": [
+          {
+            "value": "none"
+          },
+          {
+            "value": "top"
+          },
+          {
+            "value": "right"
+          },
+          {
+            "value": "bottom"
+          },
+          {
+            "value": "left"
+          }
+        ]
       },
       "isDisabled": {
         "type": "boolean",
@@ -3491,8 +5350,21 @@
       "size": {
         "type": "string",
         "pattern": "^(x?s|m|x{0,3}l)$",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "s"
+        "default": "s",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       }
     }
   },
@@ -3507,22 +5379,81 @@
     "properties": {
       "size": {
         "type": "number",
-        "enum": [
-          50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200,
-          1300, 1400, 1500
-        ],
-        "default": 500
+        "default": 500,
+        "values": [
+          {
+            "value": 50
+          },
+          {
+            "value": 75
+          },
+          {
+            "value": 100
+          },
+          {
+            "value": 200
+          },
+          {
+            "value": 300
+          },
+          {
+            "value": 400
+          },
+          {
+            "value": 500
+          },
+          {
+            "value": 600
+          },
+          {
+            "value": 700
+          },
+          {
+            "value": 800
+          },
+          {
+            "value": 900
+          },
+          {
+            "value": 1000
+          },
+          {
+            "value": 1100
+          },
+          {
+            "value": 1200
+          },
+          {
+            "value": 1300
+          },
+          {
+            "value": 1400
+          },
+          {
+            "value": 1500
+          }
+        ]
       },
       "image": {
         "type": "string",
-        "enum": [
-          "user image",
-          "gradient image",
-          "gradient",
-          "guest image",
-          "initials"
-        ],
-        "default": "user image"
+        "default": "user image",
+        "values": [
+          {
+            "value": "user image"
+          },
+          {
+            "value": "gradient image"
+          },
+          {
+            "value": "gradient"
+          },
+          {
+            "value": "guest image"
+          },
+          {
+            "value": "initials"
+          }
+        ]
       },
       "isDisabled": {
         "type": "boolean",
@@ -3534,8 +5465,18 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -3554,8 +5495,30 @@
       },
       "size": {
         "type": "number",
-        "enum": [50, 75, 100, 200, 300, 400, 500],
-        "default": 100
+        "default": 100,
+        "values": [
+          {
+            "value": 50
+          },
+          {
+            "value": 75
+          },
+          {
+            "value": 100
+          },
+          {
+            "value": 200
+          },
+          {
+            "value": 300
+          },
+          {
+            "value": 400
+          },
+          {
+            "value": 500
+          }
+        ]
       }
     }
   },
@@ -3576,14 +5539,24 @@
       },
       "variant": {
         "type": "string",
-        "enum": [
-          "confirmation",
-          "information",
-          "warning",
-          "destructive",
-          "error"
-        ],
-        "default": "confirmation"
+        "default": "confirmation",
+        "values": [
+          {
+            "value": "confirmation"
+          },
+          {
+            "value": "information"
+          },
+          {
+            "value": "warning"
+          },
+          {
+            "value": "destructive"
+          },
+          {
+            "value": "error"
+          }
+        ]
       },
       "primaryActionLabel": {
         "type": "string"
@@ -3613,8 +5586,21 @@
       },
       "variant": {
         "type": "string",
-        "enum": ["neutral", "informative", "negative", "accent"],
-        "default": "neutral"
+        "default": "neutral",
+        "values": [
+          {
+            "value": "neutral"
+          },
+          {
+            "value": "informative"
+          },
+          {
+            "value": "negative"
+          },
+          {
+            "value": "accent"
+          }
+        ]
       },
       "actionLabel": {
         "type": "string",
@@ -3637,18 +5623,45 @@
     "properties": {
       "orientation": {
         "type": "string",
-        "enum": ["horizontal", "vertical"],
-        "default": "horizontal"
+        "default": "horizontal",
+        "values": [
+          {
+            "value": "horizontal"
+          },
+          {
+            "value": "vertical"
+          }
+        ]
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "density": {
         "type": "string",
-        "enum": ["regular", "compact"],
-        "default": "regular"
+        "default": "regular",
+        "values": [
+          {
+            "value": "regular"
+          },
+          {
+            "value": "compact"
+          }
+        ]
       },
       "isJustified": {
         "type": "boolean",
@@ -3668,9 +5681,16 @@
       },
       "selectionMode": {
         "type": "string",
-        "enum": ["single", "multiple"],
         "default": "single",
-        "description": "Only applicable if selection is enabled"
+        "description": "Only applicable if selection is enabled",
+        "values": [
+          {
+            "value": "single"
+          },
+          {
+            "value": "multiple"
+          }
+        ]
       },
       "allowsEmptySelection": {
         "type": "boolean",
@@ -3679,8 +5699,15 @@
       },
       "overflowMode": {
         "type": "string",
-        "enum": ["wrap", "collapse"],
-        "default": "wrap"
+        "default": "wrap",
+        "values": [
+          {
+            "value": "wrap"
+          },
+          {
+            "value": "collapse"
+          }
+        ]
       },
       "isDisabled": {
         "type": "boolean",
@@ -3710,8 +5737,24 @@
       },
       "size": {
         "type": "string",
-        "enum": ["xs", "s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "xs"
+          },
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "isQuiet": {
         "type": "boolean",
@@ -3727,8 +5770,15 @@
       },
       "staticColor": {
         "type": "string",
-        "enum": ["white", "black"],
-        "description": "Static color must not be set for the default version of this component."
+        "description": "Static color must not be set for the default version of this component.",
+        "values": [
+          {
+            "value": "white"
+          },
+          {
+            "value": "black"
+          }
+        ]
       },
       "selectedTextColor": {
         "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
@@ -3743,8 +5793,21 @@
       },
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       }
     }
   },
@@ -3774,13 +5837,39 @@
     "properties": {
       "state": {
         "type": "string",
-        "enum": ["default", "hover", "down", "keyboard focus"],
-        "default": "default"
+        "default": "default",
+        "values": [
+          {
+            "value": "default"
+          },
+          {
+            "value": "hover"
+          },
+          {
+            "value": "down"
+          },
+          {
+            "value": "keyboard focus"
+          }
+        ]
       },
       "size": {
         "type": "string",
-        "enum": ["s", "m", "l", "xl"],
-        "default": "m"
+        "default": "m",
+        "values": [
+          {
+            "value": "s"
+          },
+          {
+            "value": "m"
+          },
+          {
+            "value": "l"
+          },
+          {
+            "value": "xl"
+          }
+        ]
       },
       "isQuiet": {
         "type": "boolean",
@@ -3792,8 +5881,18 @@
       },
       "density": {
         "type": "string",
-        "enum": ["compact", "regular", "spacious"],
-        "default": "regular"
+        "default": "regular",
+        "values": [
+          {
+            "value": "compact"
+          },
+          {
+            "value": "regular"
+          },
+          {
+            "value": "spacious"
+          }
+        ]
       },
       "items": {
         "type": "array",

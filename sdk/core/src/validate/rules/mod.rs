@@ -22,8 +22,7 @@ mod spec011;
 mod spec012;
 mod spec013;
 mod spec014;
-// SPEC-015 (composite-inline-alias-type-compatible) not yet implemented — requires value-type
-// inference for inline aliases inside composite values, which depends on SPEC-016 schema lookup.
+mod spec015;
 mod spec016;
 mod spec017;
 mod spec018;
@@ -40,6 +39,15 @@ mod spec028;
 mod spec029;
 mod spec030;
 mod spec031;
+mod spec032;
+// SPEC-033 is a meta-rule (registry-id-cross-namespace-allowed) documented in rules.yaml
+// but has no SDK implementation — it constrains validator behavior via spec prose, not data.
+mod spec034;
+mod spec035;
+mod spec036;
+mod spec037;
+mod spec038;
+mod spec039;
 
 use std::collections::HashSet;
 use std::sync::OnceLock;
@@ -72,6 +80,7 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec012::Rule),
         Box::new(spec013::Rule),
         Box::new(spec014::Rule),
+        Box::new(spec015::Rule),
         Box::new(spec016::Rule),
         Box::new(spec017::Rule),
         Box::new(spec018::Rule),
@@ -88,16 +97,31 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec029::Rule),
         Box::new(spec030::Rule),
         Box::new(spec031::Rule),
+        Box::new(spec032::Rule),
+        Box::new(spec034::Rule),
+        Box::new(spec035::Rule),
+        Box::new(spec036::Rule),
+        Box::new(spec037::Rule),
+        Box::new(spec038::Rule),
+        Box::new(spec039::Rule),
     ]
 }
 
 /// Run every rule and collect diagnostics.
-pub fn run_rules(graph: &TokenGraph, naming_exceptions: &HashSet<String>) -> Vec<Diagnostic> {
+///
+/// Pass `manifest` when a platform manifest document is available; rules such
+/// as SPEC-039 read manifest fields and are silently no-ops when it is `None`.
+pub fn run_rules(
+    graph: &TokenGraph,
+    naming_exceptions: &HashSet<String>,
+    manifest: Option<&serde_json::Value>,
+) -> Vec<Diagnostic> {
     let registry = embedded_registry();
     let ctx = ValidationContext {
         graph,
         naming_exceptions,
         registry,
+        manifest,
     };
     let mut out = Vec::new();
     for r in default_rules() {

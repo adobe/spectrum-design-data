@@ -20,6 +20,7 @@ An anatomy part is a **JSON object** that appears as an element of a component d
 | `description` | string           | OPTIONAL | Plain-text description of the part's visual role and boundaries.                                                         |
 | `required`    | boolean          | OPTIONAL | Whether this part is always rendered regardless of configuration. Default: `false`.                                      |
 | `contains`    | array of strings | OPTIONAL | Informative list of child anatomy part names nested within this part (e.g. a `field` contains `["label", "help-text"]`). |
+| `lifecycle`   | object           | OPTIONAL | Version lifecycle metadata for this anatomy part — see [lifecycle](#lifecycle).                                          |
 
 **NORMATIVE:** No properties beyond those listed above are permitted in an anatomy part object. Additional fields **MUST** cause a Layer 1 schema error.
 
@@ -50,6 +51,18 @@ When `required` is `true`, the anatomy part is unconditionally rendered (e.g. a 
 **RECOMMENDED:** When a part logically encloses other declared anatomy parts, authors **SHOULD** use `contains` to make the nesting explicit.
 
 Each string in `contains` **MUST** match the pattern `^[a-z][a-z0-9-]*$`. References to anatomy part names not declared on the same component are permitted (they may refer to sub-component anatomy in layered designs) but validators **MAY** surface a warning for unresolved references.
+
+### `lifecycle`
+
+**OPTIONAL.** A version lifecycle object tracking the history of this anatomy part. Uses the same shape as the component-level `lifecycle` block (see [Component format — Lifecycle](component-format.md#lifecycle)).
+
+| Field               | Type   | Description                                                                                    |
+| ------------------- | ------ | ---------------------------------------------------------------------------------------------- |
+| `deprecated`        | string | Spec version when this anatomy part was deprecated. A truthy string signals deprecation.       |
+| `deprecatedComment` | string | Human-readable explanation of the deprecation and migration path (e.g. `"Renamed to thumb."`). |
+| `replacedBy`        | string | `name` of the replacement anatomy part.                                                        |
+
+**ADVISORY:** When an anatomy part carries a `lifecycle.deprecated` value, non-deprecated tokens that reference this anatomy part via `name.anatomy` **SHOULD** be updated to remove or replace the reference. Rule SPEC-037 fires an advisory warning for such references to prompt migration.
 
 ```json
 "anatomy": [
@@ -86,6 +99,8 @@ The following anatomy part names are defined by the cross-platform design audit 
 
 Custom part names are permitted. When a custom name is used, the anatomy part object **SHOULD** include a `description` field explaining its visual role (rule SPEC-023).
 
+The table above is informative; the authoritative vocabulary is `@adobe/design-system-registry/registry/anatomy-terms.json` (119 entries). SPEC-035 fires advisory warnings when a declared anatomy part `name` is not in that registry, pointing authors at the canonical list. Custom names remain valid — SPEC-035 is advisory, not an error.
+
 ## Cross-reference with token name objects
 
 Token name objects use an `anatomy` field to scope a token to a specific visible part of a component. The `anatomy` field value must correspond to a part declared in the component's `anatomy` array.
@@ -112,12 +127,14 @@ See [Token format — Name object](token-format.md#name-object) for the full nam
 
 The following rules in the Layer 2 rule catalog (`rules/rules.yaml`) apply to anatomy part declarations. SPEC-020 was introduced in Phase 6.1 (component-format); SPEC-023, SPEC-024, and SPEC-025 are introduced by this chapter.
 
-| Rule ID  | Name                             | Severity | Assert                                                                                                                                                    |
-| -------- | -------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-020 | `component-anatomy-valid`        | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                             |
-| SPEC-023 | `anatomy-custom-part-documented` | warning  | Anatomy part declarations with a `name` outside the canonical anatomy vocabulary **SHOULD** include a `description` field documenting the part's purpose. |
-| SPEC-024 | `anatomy-part-name-unique`       | error    | Anatomy part `name` values **MUST** be unique within a single component's `anatomy` array.                                                                |
-| SPEC-025 | `anatomy-requires-component`     | error    | A token name object **MUST NOT** include an `anatomy` field unless a `component` field is also present.                                                   |
+| Rule ID  | Name                              | Severity | Assert                                                                                                                                                    |
+| -------- | --------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-020 | `component-anatomy-valid`         | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                             |
+| SPEC-023 | `anatomy-custom-part-documented`  | warning  | Anatomy part declarations with a `name` outside the canonical anatomy vocabulary **SHOULD** include a `description` field documenting the part's purpose. |
+| SPEC-024 | `anatomy-part-name-unique`        | error    | Anatomy part `name` values **MUST** be unique within a single component's `anatomy` array.                                                                |
+| SPEC-025 | `anatomy-requires-component`      | error    | A token name object **MUST NOT** include an `anatomy` field unless a `component` field is also present.                                                   |
+| SPEC-035 | `anatomy-part-name-registry-sync` | warning  | A component anatomy part's `name` **SHOULD** appear in the canonical anatomy-terms registry (`anatomy-terms.json`).                                       |
+| SPEC-037 | `sub-entity-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part via `name.anatomy`. Advisory warning prompts migration.                         |
 
 ## Full example
 

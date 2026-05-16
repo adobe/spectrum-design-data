@@ -25,4 +25,3 @@ A color area allows users to visually select two properties of a color simultane
 | width | number | - | 192 | No | units: px |
 | height | number | - | 192 | No | units: px |
 | isDisabled | boolean | - | false | No | - |
-| state | string | default, hover, down, keyboard focus | default | No | - |

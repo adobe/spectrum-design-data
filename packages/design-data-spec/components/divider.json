@@ -12,13 +12,30 @@
   "options": {
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l"],
-      "default": "s"
+      "default": "s",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
     },
     "orientation": {
       "type": "string",
-      "enum": ["horizontal", "vertical"],
-      "default": "horizontal"
+      "default": "horizontal",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     }
   },
   "lifecycle": {

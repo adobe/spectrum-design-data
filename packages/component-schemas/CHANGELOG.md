@@ -1,5 +1,54 @@
 # [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)
 
+## 6.1.12
+
+### Patch Changes
+
+- Updated dependencies [[`0f256ce`](https://github.com/adobe/spectrum-design-data/commit/0f256ce0d067c87503979676d09cb4de7e904321)]:
+  - @adobe/design-data-spec@1.0.0
+
+## 6.1.11
+
+### Patch Changes
+
+- Updated dependencies [[`4e8ad86`](https://github.com/adobe/spectrum-design-data/commit/4e8ad86998b0e168396badb8a2a12207ebf535ae)]:
+  - @adobe/design-data-spec@0.15.0
+
+## 6.1.10
+
+### Patch Changes
+
+- Updated dependencies [[`1849738`](https://github.com/adobe/spectrum-design-data/commit/1849738b1a65d2656280aa7777d1169fcc3f036b)]:
+  - @adobe/design-data-spec@0.14.0
+
+## 6.1.9
+
+### Patch Changes
+
+- Updated dependencies [[`20bb703`](https://github.com/adobe/spectrum-design-data/commit/20bb7035ad7d62513670bfb393b70766a295e51c), [`20bb703`](https://github.com/adobe/spectrum-design-data/commit/20bb7035ad7d62513670bfb393b70766a295e51c), [`20bb703`](https://github.com/adobe/spectrum-design-data/commit/20bb7035ad7d62513670bfb393b70766a295e51c)]:
+  - @adobe/design-data-spec@0.13.0
+
+## 6.1.8
+
+### Patch Changes
+
+- Updated dependencies [[`b98a17d`](https://github.com/adobe/spectrum-design-data/commit/b98a17dfeaff24bf1bc17d0705c1ff9ce734f7d7), [`f3a0a6b`](https://github.com/adobe/spectrum-design-data/commit/f3a0a6b6bc03774e870aad989c16d9b532406aaf)]:
+  - @adobe/design-data-spec@0.12.0
+
+## 6.1.7
+
+### Patch Changes
+
+- Updated dependencies [[`e77379b`](https://github.com/adobe/spectrum-design-data/commit/e77379b24b3d66b09ce78b4cf20e2d15cefbe78b)]:
+  - @adobe/design-data-spec@0.11.0
+
+## 6.1.6
+
+### Patch Changes
+
+- Updated dependencies [[`8726a99`](https://github.com/adobe/spectrum-design-data/commit/8726a991f01f08e57c3545e5bb9274fab12f96b0), [`0650e39`](https://github.com/adobe/spectrum-design-data/commit/0650e39335edebfbefbadf7c39fb1cc399fa211e), [`9932351`](https://github.com/adobe/spectrum-design-data/commit/99323513890abb3ddad93f1394c756bf56526f27)]:
+  - @adobe/design-data-spec@0.10.0
+
 ## 6.1.5
 
 ### Patch Changes

@@ -14,6 +14,6 @@ Status lights describe the condition of an entity. They can be used to convey se
 
 | Property | Type | Values | Default | Required | Description |
 | --- | --- | --- | --- | --- | --- |
-| label | string | - | - | Yes | - |
+| label | string | - | - | No | - |
 | variant | string | informative, neutral, positive, notice, negative, indigo, celery, chartreuse, yellow, magenta, fuchsia, purple, seafoam, pink, turquoise, cinnamon, brown, silver, gray, red, orange, green, cyan | informative | No | - |
 | size | string | s, m, l, xl | m | No | - |

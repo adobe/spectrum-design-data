@@ -18,7 +18,6 @@
     {
       "id": "data-visualization",
       "label": "Data Visualization",
-      "aliases": ["data visualization"],
       "description": "Components for displaying data and charts",
       "usedIn": ["component-schemas"]
     },

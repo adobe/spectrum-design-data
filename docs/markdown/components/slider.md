@@ -29,4 +29,3 @@ Sliders allow users to quickly select a value within a range. They should be use
 | hasGradient | boolean | - | false | No | - |
 | isEditable | boolean | - | false | No | - |
 | isDisabled | boolean | - | false | No | - |
-| state | string | default, hover, down, keyboard focus | default | No | - |

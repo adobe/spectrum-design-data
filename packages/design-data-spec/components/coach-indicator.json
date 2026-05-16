@@ -12,24 +12,50 @@
   "options": {
     "cornerRounding": {
       "type": "string",
-      "enum": [
-        "none",
-        "corner-radius-75",
-        "corner-radius-100",
-        "corner-radius-200",
-        "corner-radius-300",
-        "corner-radius-400",
-        "corner-radius-500",
-        "corner-radius-600",
-        "corner-radius-700",
-        "corner-radius-800",
-        "full"
+      "values": [
+        {
+          "value": "none"
+        },
+        {
+          "value": "corner-radius-75"
+        },
+        {
+          "value": "corner-radius-100"
+        },
+        {
+          "value": "corner-radius-200"
+        },
+        {
+          "value": "corner-radius-300"
+        },
+        {
+          "value": "corner-radius-400"
+        },
+        {
+          "value": "corner-radius-500"
+        },
+        {
+          "value": "corner-radius-600"
+        },
+        {
+          "value": "corner-radius-700"
+        },
+        {
+          "value": "corner-radius-800"
+        },
+        {
+          "value": "full"
+        }
       ]
     },
     "staticColor": {
       "type": "string",
-      "enum": ["white"],
-      "description": "If not set to white, the coach indicator uses the default color."
+      "description": "If not set to white, the coach indicator uses the default color.",
+      "values": [
+        {
+          "value": "white"
+        }
+      ]
     }
   },
   "lifecycle": {

@@ -1,7 +1,7 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "anatomy-term",
-  "description": "Visible, named parts of components as defined by designers. These are the parts called out in component specification diagrams. Styling surfaces (background, border, etc.) belong in token-objects.json; positional terms (top, bottom, etc.) belong in positions.json.",
+  "description": "Visible, named parts of components as defined by designers. These are the parts called out in component specification diagrams. Styling surfaces (background, border, etc.) belong in token-objects.json; positional terms (top, bottom, etc.) belong in positions.json. Note: some terms (e.g. button, checkbox, accordion) share an ID with a component registry entry — this is intentional when the same element appears as both a standalone component and a named anatomy part within another component.",
   "values": [
     {
       "id": "text",
@@ -260,6 +260,480 @@
       "label": "UI Icon",
       "description": "System UI icon element (chevrons, checkmarks, close icons) within a component",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "action-button",
+      "label": "Action Button",
+      "description": "An action button used as a named part within another component (e.g. tag-group toolbar, tree-view item actions)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "action-menu",
+      "label": "Action Menu",
+      "description": "Overflow action menu within a component (e.g. action-group overflow)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "description": "A button element used as a named anatomy part within another component (e.g. drop-zone CTA, alert-banner action)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "button-group",
+      "label": "Button Group",
+      "description": "A grouped set of action buttons, typically in dialog footers or coach-mark controls",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "close-button",
+      "label": "Close Button",
+      "description": "Dismiss or close button element within a component (dialogs, alerts, tags, panels)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "back-button",
+      "label": "Back Button",
+      "description": "Back-navigation button within a panel or multi-step component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "hold-icon",
+      "label": "Hold Icon",
+      "description": "Small indicator icon on action-button signaling a hold interaction is available",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "actions",
+      "label": "Actions",
+      "description": "Group of action controls within a list item or tree node (action buttons, icon buttons)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "list-item",
+      "label": "List Item",
+      "description": "Individual row within a list-view component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "menu-item",
+      "label": "Menu Item",
+      "description": "Individual selectable item within a menu",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "section-header",
+      "label": "Section Header",
+      "description": "Label separating a named group of items within a menu or list-view",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "section-divider",
+      "label": "Section Divider",
+      "description": "Visual line separating sections within a menu or list",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "section-description",
+      "label": "Section Description",
+      "description": "Optional descriptive text accompanying a menu or list section header",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "drill-in-chevron",
+      "label": "Drill-in Chevron",
+      "description": "Chevron icon indicating a sub-menu or drill-in navigation action on a menu item",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "link-out-icon",
+      "label": "Link-out Icon",
+      "description": "Icon indicating a menu item opens an external link in a new context",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "trailing-icon",
+      "label": "Trailing Icon",
+      "description": "Icon placed at the trailing (end) edge of a list item or row",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "thumbnail",
+      "label": "Thumbnail",
+      "description": "Small image preview element used as a named part within list, menu, or card components",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "checkbox",
+      "label": "Checkbox",
+      "description": "Checkbox control used as a named anatomy part within another component (list-view, cards, tree-view)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "switch",
+      "label": "Switch",
+      "description": "Toggle switch used as a named anatomy part within another component (e.g. menu item)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "popover",
+      "label": "Popover",
+      "description": "Popover shell used as a named anatomy part within another component (menu, contextual-help)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "help-text",
+      "label": "Help Text",
+      "description": "Instructional or error message text displayed below a form field",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "character-count",
+      "label": "Character Count",
+      "description": "Remaining-character counter shown in text-field and text-area components",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "necessity-indicator",
+      "label": "Necessity Indicator",
+      "description": "Label or asterisk indicating whether a field is required or optional (field-label, combo-box)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "required-asterisk",
+      "label": "Required Asterisk",
+      "description": "Asterisk symbol denoting a required form field (text-field, picker, number-field)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "required-text",
+      "label": "Required Text",
+      "description": "Text label (e.g. 'Required') denoting a required form field",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "validation-marker",
+      "label": "Validation Marker",
+      "description": "Icon or mark indicating valid input state on a form field",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "error-icon",
+      "label": "Error Icon",
+      "description": "Icon indicating an error state on a form field (text-field, picker, number-field)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "placeholder",
+      "label": "Placeholder",
+      "description": "Placeholder text shown in a form field before a value is selected or entered",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "in-field-button",
+      "label": "In-field Button",
+      "description": "Button rendered inside a field element (e.g. clear button in search-field, calendar trigger in date-picker)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "leading-icon",
+      "label": "Leading Icon",
+      "description": "Icon placed at the leading (start) edge inside a field (e.g. search icon in search-field)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "field-label",
+      "label": "Field Label",
+      "description": "Field label component used as a named anatomy part within a group component (checkbox-group, radio-group, tag-field)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "input",
+      "label": "Input",
+      "description": "The actual input control(s) associated with a field-label component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "menu-container",
+      "label": "Menu Container",
+      "description": "Container element that holds the dropdown menu in picker and combo-box",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "date-field",
+      "label": "Date Field",
+      "description": "Date input component used as an anatomy part within a date-picker",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "time-field",
+      "label": "Time Field",
+      "description": "Time input component used as an anatomy part within a date-picker",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "calendar",
+      "label": "Calendar",
+      "description": "Calendar component used as an anatomy part within a date-picker",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "segmented-control-item",
+      "label": "Segmented Control Item",
+      "description": "Individual selectable item within a segmented-control component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "color-handle",
+      "label": "Color Handle",
+      "description": "Draggable handle element in color picker components (color-area, color-slider, color-wheel)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "swatch",
+      "label": "Swatch",
+      "description": "Individual color swatch element used as an anatomy part within a swatch-group",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "tag",
+      "label": "Tag",
+      "description": "Tag element used as an anatomy part within tag-group and tag-field",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "text-area",
+      "label": "Text Area",
+      "description": "Scrollable text input region used as an anatomy part within tag-field",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "image",
+      "label": "Image",
+      "description": "Image element used as a named anatomy part within thumbnail, avatar, or dialog components",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "link",
+      "label": "Link",
+      "description": "Inline link element used as a named anatomy part within contextual-help or similar components",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "overlay",
+      "label": "Overlay",
+      "description": "Semi-transparent backdrop element behind modal dialogs (alert-dialog, standard-dialog, takeover-dialog)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "header-area",
+      "label": "Header Area",
+      "description": "Distinct header region within a dialog or panel component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "body-area",
+      "label": "Body Area",
+      "description": "Main content region within a dialog, panel, or in-line-alert component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "footer-area",
+      "label": "Footer Area",
+      "description": "Distinct footer region within a dialog or card component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "header-content",
+      "label": "Header Content",
+      "description": "Optional content placed within the header area of a dialog or panel",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "footer-content",
+      "label": "Footer Content",
+      "description": "Optional content placed within the footer area of a dialog",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "cover-image",
+      "label": "Cover Image",
+      "description": "Large decorative image at the top of a standard dialog",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "primary-action",
+      "label": "Primary Action",
+      "description": "Primary call-to-action button within a dialog or alert component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "secondary-action",
+      "label": "Secondary Action",
+      "description": "Secondary action button within a dialog component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "cancel-action",
+      "label": "Cancel Action",
+      "description": "Cancel or dismiss action button within a dialog component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "column-header",
+      "label": "Column Header",
+      "description": "Header cell of a table column, typically containing a label and optional sort control",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "sort-icon",
+      "label": "Sort Icon",
+      "description": "Icon indicating sort direction on a table column header",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "column-divider",
+      "label": "Column Divider",
+      "description": "Vertical separator between table columns",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "row-divider",
+      "label": "Row Divider",
+      "description": "Horizontal separator between table rows",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "cell",
+      "label": "Cell",
+      "description": "Individual data cell within a table row",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "preview-well",
+      "label": "Preview Well",
+      "description": "Preview/asset display area within a card component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "metadata",
+      "label": "Metadata",
+      "description": "Supplemental metadata content area within a card component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "accordion",
+      "label": "Accordion",
+      "description": "Accordion component used as an anatomy part within a panel (standard-panel)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "tab-item",
+      "label": "Tab Item",
+      "description": "Individual tab button within a tabs component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "breadcrumb-item",
+      "label": "Breadcrumb Item",
+      "description": "Individual item in a breadcrumbs navigation trail",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "breadcrumb-title",
+      "label": "Breadcrumb Title",
+      "description": "Current-page title element at the end of a breadcrumbs trail",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "truncated-menu",
+      "label": "Truncated Menu",
+      "description": "Overflow menu replacing collapsed breadcrumb items when space is limited",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "accordion-item",
+      "label": "Accordion Item",
+      "description": "Individual collapsible section within an accordion component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "small-divider",
+      "label": "Small Divider",
+      "description": "Thin divider line between accordion items",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "item",
+      "label": "Item",
+      "description": "Generic individual item element within a list, navigation, or container component (use a more specific term such as accordion-item, list-item, or tab-item where available)",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "tree-view-item",
+      "label": "Tree View Item",
+      "description": "Individual node element within a tree-view component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "disclosure-button",
+      "label": "Disclosure Button",
+      "description": "Collapse/expand toggle button on a tree-view item or accordion item",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "drag-icon",
+      "label": "Drag Icon",
+      "description": "Drag handle icon on a reorderable tree-view item",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "context-area",
+      "label": "Context Area",
+      "description": "Optional icon or thumbnail context slot on the leading edge of a tree-view item",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "step-item",
+      "label": "Step Item",
+      "description": "Individual step node within a steplist component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "user-image",
+      "label": "User Image",
+      "description": "User profile photo displayed within an avatar component",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "initials",
+      "label": "Initials",
+      "description": "Text initials displayed in an avatar when no image is available",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "guest-icon",
+      "label": "Guest Icon",
+      "description": "Icon displayed in an avatar representing an unauthenticated guest user",
+      "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "disclosure-triangle",
+      "label": "Disclosure Triangle",
+      "description": "Expand/collapse indicator for accordion, tree, or disclosure components",
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "picker",
+      "label": "Picker",
+      "description": "Dropdown trigger area — the visible affordance, not the overlay",
+      "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "progress-bar",
+      "label": "Progress Bar",
+      "description": "Visual progress fill track indicating completion level",
+      "usedIn": ["tokens", "component-schemas"]
     }
   ]
 }

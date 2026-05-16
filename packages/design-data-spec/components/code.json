@@ -15,8 +15,24 @@
     },
     "size": {
       "type": "string",
-      "enum": ["xs", "s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "xs"
+        },
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     }
   },
   "lifecycle": {

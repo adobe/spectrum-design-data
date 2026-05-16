@@ -16,17 +16,31 @@
     },
     "channel": {
       "type": "string",
-      "enum": [
-        "hue",
-        "saturation",
-        "lightness",
-        "red",
-        "green",
-        "blue",
-        "alpha"
-      ],
       "default": "hue",
-      "description": "Which channel of the color this slider controls. Use 'alpha' for opacity."
+      "description": "Which channel of the color this slider controls. Use 'alpha' for opacity.",
+      "values": [
+        {
+          "value": "hue"
+        },
+        {
+          "value": "saturation"
+        },
+        {
+          "value": "lightness"
+        },
+        {
+          "value": "red"
+        },
+        {
+          "value": "green"
+        },
+        {
+          "value": "blue"
+        },
+        {
+          "value": "alpha"
+        }
+      ]
     },
     "value": {
       "type": "number",
@@ -46,8 +60,15 @@
     },
     "orientation": {
       "type": "string",
-      "enum": ["horizontal", "vertical"],
-      "default": "horizontal"
+      "default": "horizontal",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "length": {
       "type": "number",

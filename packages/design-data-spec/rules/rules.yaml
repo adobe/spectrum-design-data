@@ -168,7 +168,7 @@ rules:
     name: component-variant-valid
     severity: error
     category: reference-integrity
-    assert: Token name-object 'variant' field value MUST match a value in the declared 'variant' option enum for the referenced component, when that enum exists.
+    assert: Token name-object 'variant' field value MUST match a value in the declared 'variant' option `values` list for the referenced component, when that list exists.
     message: "Token '{token}' has variant '{variant}' which is not declared on component '{component}'"
     spec_ref: spec/component-format.md#options
     introduced_in: "1.0.0-draft"
@@ -291,4 +291,110 @@ rules:
       traceability for components with a named semantic role.
     message: "Component '{entity}' accessibility has a role but no wcag entries — add applicable WCAG 2.x success criteria"
     spec_ref: spec/accessibility.md
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-032
+    name: product-layer-override-type-compat
+    severity: error
+    category: cascade
+    assert: >
+      A Platform- or Product-layer token that overrides a Foundation token (matched by UUID)
+      MUST NOT change the JSON value type of the `value` field. Overrides may change the value
+      but must preserve its JSON kind (string, number, object, array, boolean).
+    message: "Token '{entity}' override changes value type from '{foundationType}' to '{overrideType}' — overrides MUST NOT change the resolved token's value type"
+    spec_ref: spec/cascade.md
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-033
+    name: registry-id-cross-namespace-allowed
+    severity: error
+    category: registry
+    # Meta-rule: constrains validator behavior, not data shape. No SDK implementation exists;
+    # this entry documents a MUST constraint for external validator implementors. The error
+    # severity correctly signals "MUST" — a validator that incorrectly rejects valid
+    # cross-registry IDs is non-conforming. No conformance fixture is required because the
+    # SDK never emits this diagnostic; the rule is enforced by spec prose alone.
+    assert: >
+      A validator MUST NOT flag a registry ID as invalid solely because that same ID appears in
+      a different registry. Registry IDs are scoped to their registry; cross-registry overlap is
+      intentional when the same word is a valid term in each registry's distinct validation context.
+    message: "Registry ID '{id}' appears in multiple registries — this is permitted; do not reject on cross-registry overlap alone"
+    spec_ref: spec/registry.md#id-scoping
+    introduced_in: "1.0.0-draft"
+  - id: SPEC-034
+    name: component-category-registry-sync
+    severity: warning
+    category: naming-consistency
+    assert: >
+      A component's meta.category SHOULD reference an id from the categories registry in
+      @adobe/design-system-registry (categories.json). Unknown values are reported as
+      warnings; the registry is the authoritative vocabulary.
+    message: "Component '{entity}' meta.category value '{value}' is not in the design-system-registry categories vocabulary"
+    spec_ref: spec/registry.md#categories
+    introduced_in: "1.0.0-draft"
+  - id: SPEC-035
+    name: anatomy-part-name-registry-sync
+    severity: warning
+    category: naming-consistency
+    assert: >
+      A component anatomy part's name SHOULD reference an id from the anatomy-terms registry in
+      @adobe/design-system-registry (anatomy-terms.json). Unknown values are reported as
+      warnings; custom names remain permitted but the registry is the authoritative vocabulary.
+    message: "Component '{entity}' anatomy part name '{value}' is not in the design-system-registry anatomy-terms vocabulary"
+    spec_ref: spec/anatomy-format.md#canonical-anatomy-vocabulary
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-036
+    name: component-deprecation-cascade
+    severity: warning
+    category: reference-integrity
+    assert: >
+      Tokens SHOULD NOT reference a deprecated component via `name.component` unless the token
+      is itself deprecated. Non-deprecated tokens referencing a deprecated component are surfaced
+      as warnings to prompt authors to update the reference or mark the token deprecated.
+    message: "Token '{token}' references deprecated component '{component}' (deprecated since {version}); update the reference or mark the token deprecated"
+    spec_ref: spec/component-format.md#lifecycle
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-037
+    name: sub-entity-deprecation-cascade
+    severity: warning
+    category: reference-integrity
+    assert: >
+      Tokens SHOULD NOT reference a deprecated anatomy part, deprecated component state, or
+      deprecated option value via their `name` object unless the token is itself deprecated.
+      Non-deprecated tokens referencing deprecated sub-entities are surfaced as warnings to
+      prompt authors to update the reference or mark the token deprecated.
+      Deprecation is declared via `lifecycle.deprecated` on anatomy parts, states, and individual
+      option values within the `values` array on option descriptors.
+    message: "Token '{token}' references deprecated {kind} '{value}' on component '{component}' (deprecated since {version}); update the reference or mark the token deprecated"
+    spec_ref: spec/component-format.md#lifecycle
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-038
+    name: option-enum-obsolete
+    severity: warning
+    category: component-contract
+    assert: >
+      Option descriptors SHOULD NOT use the JSON Schema `enum` keyword. The `enum` field is
+      silently accepted at Layer 1 (optionDescriptor uses additionalProperties: true) but has
+      no effect on SDK rules or lifecycle cascade. Use `values` instead so per-value lifecycle
+      metadata can be attached to individual values.
+    message: "Component '{component}' option '{option}' uses the obsolete `enum` keyword; replace with a `values` array so per-value lifecycle metadata can be expressed"
+    spec_ref: spec/component-format.md#option-descriptor
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-039
+    name: manifest-query-parseable
+    severity: error
+    layer: 2
+    category: manifest
+    rfc: "#715"
+    assert: >
+      Each entry in 'manifest.include' and 'manifest.exclude' MUST parse as a valid query
+      expression per spec/query.md and MUST use only the supported query keys.
+      Entries that fail to parse, or that reference unsupported keys, are Layer 2 errors.
+      This rule lifts the deferred 'treat as opaque' clause from earlier 1.0.0-draft revisions.
+    message: "Manifest {array}[{idx}] failed to parse as a query: {error}"
+    spec_ref: spec/manifest.md#include--exclude
     introduced_in: "1.0.0-draft"

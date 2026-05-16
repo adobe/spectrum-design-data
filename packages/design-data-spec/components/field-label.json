@@ -15,18 +15,45 @@
     },
     "labelPosition": {
       "type": "string",
-      "enum": ["top", "side"],
-      "default": "top"
+      "default": "top",
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "necessityIndicator": {
       "type": "string",
-      "enum": ["text", "icon"],
-      "default": "icon"
+      "default": "icon",
+      "values": [
+        {
+          "value": "text"
+        },
+        {
+          "value": "icon"
+        }
+      ]
     },
     "isRequired": {
       "type": "boolean",

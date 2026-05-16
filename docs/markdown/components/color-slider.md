@@ -23,4 +23,3 @@ A color slider lets users visually change an individual channel of a color.
 | orientation | string | horizontal, vertical | horizontal | No | - |
 | length | number | - | 192 | No | units: px |
 | isDisabled | boolean | - | false | No | - |
-| state | string | default, hover, down, keyboard focus | default | No | - |

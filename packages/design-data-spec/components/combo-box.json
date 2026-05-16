@@ -15,8 +15,18 @@
     },
     "labelPosition": {
       "type": "string",
-      "enum": ["top", "side", "in line"],
-      "default": "top"
+      "default": "top",
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        },
+        {
+          "value": "in line"
+        }
+      ]
     },
     "value": {
       "type": "string"
@@ -26,8 +36,21 @@
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "isRequired": {
       "type": "boolean",
@@ -35,8 +58,15 @@
     },
     "necessityIndicator": {
       "type": "string",
-      "enum": ["text", "icon"],
-      "default": "icon"
+      "default": "icon",
+      "values": [
+        {
+          "value": "text"
+        },
+        {
+          "value": "icon"
+        }
+      ]
     },
     "hasAutocomplete": {
       "type": "boolean",
@@ -44,8 +74,18 @@
     },
     "menuTrigger": {
       "type": "string",
-      "enum": ["input", "focus", "manual"],
-      "default": "input"
+      "default": "input",
+      "values": [
+        {
+          "value": "input"
+        },
+        {
+          "value": "focus"
+        },
+        {
+          "value": "manual"
+        }
+      ]
     },
     "isError": {
       "type": "boolean",

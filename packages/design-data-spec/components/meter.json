@@ -12,8 +12,21 @@
   "options": {
     "variant": {
       "type": "string",
-      "enum": ["informative", "positive", "notice", "negative"],
-      "default": "informative"
+      "default": "informative",
+      "values": [
+        {
+          "value": "informative"
+        },
+        {
+          "value": "positive"
+        },
+        {
+          "value": "notice"
+        },
+        {
+          "value": "negative"
+        }
+      ]
     },
     "label": {
       "type": "string"
@@ -30,8 +43,21 @@
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "value": {
       "type": "number",
@@ -160,6 +186,14 @@
     }
   ],
   "accessibility": {
-    "focusable": false
+    "role": "meter",
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
   }
 }

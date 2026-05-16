@@ -88,17 +88,8 @@
       "properties": {
         "category": {
           "type": "string",
-          "enum": [
-            "actions",
-            "containers",
-            "data visualization",
-            "feedback",
-            "inputs",
-            "navigation",
-            "status",
-            "typography"
-          ],
-          "description": "Design system category for this component."
+          "minLength": 1,
+          "description": "Category id from @adobe/design-system-registry categories.json. Advisory validation via SPEC-034."
         },
         "documentationUrl": {
           "type": "string",
@@ -117,7 +108,8 @@
     },
     "optionDescriptor": {
       "type": "object",
-      "description": "JSON Schema-compatible descriptor for a single component option. Standard JSON Schema keywords (type, enum, default, description, pattern, minimum, maximum, items, properties, etc.) are all permitted.",
+      "description": "Descriptor for a single component option. The `type` keyword follows JSON Schema conventions. Use `values` (not `enum`) to declare permitted values — the structured array allows per-value lifecycle metadata. Other JSON Schema keywords (default, description, pattern, minimum, maximum, items, properties, $ref) are permitted as needed.",
+      "$comment": "additionalProperties: true is required to allow JSON Schema passthrough keywords (pattern, minimum, etc.). This means the legacy `enum` keyword is silently accepted at Layer 1; SPEC-038 closes the gap at Layer 2 by warning when `enum` is present.",
       "properties": {
         "type": {
           "oneOf": [
@@ -151,10 +143,12 @@
             }
           ]
         },
-        "enum": {
+        "values": {
           "type": "array",
           "minItems": 1,
-          "description": "Exhaustive list of permitted values."
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/optionValue" },
+          "description": "Exhaustive list of permitted values for this option, each with optional per-value metadata. Use this instead of the JSON Schema `enum` keyword so that lifecycle annotations can be attached to individual values. Consumed by SPEC-019 (variant validation) and SPEC-037 (deprecation cascade)."
         },
         "default": {
           "description": "Default value when the option is not specified."
@@ -170,6 +164,25 @@
         }
       },
       "additionalProperties": true
+    },
+    "optionValue": {
+      "type": "object",
+      "required": ["value"],
+      "description": "A single permitted value for a component option, with optional per-value metadata.",
+      "properties": {
+        "value": {
+          "description": "The permitted option value. Typically a string; the schema does not constrain the type so booleans and numbers remain expressible."
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain-text description of what this value means."
+        },
+        "lifecycle": {
+          "$ref": "#/$defs/lifecycle",
+          "description": "Version lifecycle metadata for this value. Set lifecycle.deprecated to signal that tokens referencing this value should migrate (SPEC-037)."
+        }
+      },
+      "additionalProperties": false
     },
     "slotDeclaration": {
       "type": "object",
@@ -218,6 +231,10 @@
           "type": "array",
           "items": { "$ref": "document-block.schema.json" },
           "description": "Typed prose blocks for this anatomy part. See spec/document-blocks.md (Phase 9)."
+        },
+        "lifecycle": {
+          "$ref": "#/$defs/lifecycle",
+          "description": "Version lifecycle metadata for this anatomy part. Set lifecycle.deprecated to signal that tokens referencing this part should migrate."
         }
       },
       "additionalProperties": false
@@ -264,6 +281,10 @@
           "type": "boolean",
           "default": false,
           "description": "Whether this state prevents all user interaction. See spec/accessibility.md."
+        },
+        "lifecycle": {
+          "$ref": "#/$defs/lifecycle",
+          "description": "Version lifecycle metadata for this state. Set lifecycle.deprecated to signal that tokens referencing this state should migrate."
         }
       },
       "additionalProperties": false

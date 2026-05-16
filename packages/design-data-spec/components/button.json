@@ -12,19 +12,52 @@
   "options": {
     "variant": {
       "type": "string",
-      "enum": ["accent", "negative", "primary", "secondary"],
       "default": "accent",
-      "description": "Visual emphasis level."
+      "description": "Visual emphasis level.",
+      "values": [
+        {
+          "value": "accent"
+        },
+        {
+          "value": "negative"
+        },
+        {
+          "value": "primary"
+        },
+        {
+          "value": "secondary"
+        }
+      ]
     },
     "style": {
       "type": "string",
-      "enum": ["fill", "outline"],
-      "default": "fill"
+      "default": "fill",
+      "values": [
+        {
+          "value": "fill"
+        },
+        {
+          "value": "outline"
+        }
+      ]
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "isDisabled": {
       "type": "boolean",
@@ -44,8 +77,15 @@
     },
     "staticColor": {
       "type": "string",
-      "enum": ["white", "black"],
-      "description": "Static color for use on colored backgrounds."
+      "description": "Static color for use on colored backgrounds.",
+      "values": [
+        {
+          "value": "white"
+        },
+        {
+          "value": "black"
+        }
+      ]
     }
   },
   "slots": [
@@ -478,7 +518,7 @@
     },
     {
       "token": "static-white-focus-indicator-color",
-      "context": "Static white \u2013 Focus indicator"
+      "context": "Static white – Focus indicator"
     },
     {
       "token": "transparent-black-900",
@@ -522,7 +562,7 @@
     },
     {
       "token": "static-black-focus-indicator-color",
-      "context": "Static black \u2013 Focus indicator"
+      "context": "Static black – Focus indicator"
     }
   ],
   "accessibility": {

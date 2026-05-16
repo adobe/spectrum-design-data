@@ -1,0 +1,27 @@
+{
+  "tokens": [
+    {
+      "name": { "property": "color-default" },
+      "value": "#ffffff",
+      "uuid": "dddddddd-0032-4000-8000-000000000002"
+    },
+    {
+      "name": { "property": "color-default" },
+      "value": { "r": 0, "g": 0, "b": 0 },
+      "uuid": "dddddddd-0032-4000-8000-000000000002",
+      "$layer": "product"
+    },
+    {
+      "name": { "property": "spacing-default" },
+      "value": "8px",
+      "uuid": "dddddddd-0032-4000-8000-000000000004"
+    },
+    {
+      "name": { "property": "spacing-default" },
+      "value": 8,
+      "uuid": "dddddddd-0032-4000-8000-000000000004",
+      "$layer": "platform"
+    }
+  ],
+  "components": []
+}

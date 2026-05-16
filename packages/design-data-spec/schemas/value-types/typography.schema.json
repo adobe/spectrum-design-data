@@ -5,11 +5,11 @@
   "description": "Object bundling font properties for a typographic style. Sub-values may be literal strings or inline alias references ({token-name}).",
   "type": "object",
   "properties": {
-    "fontFamily": { "type": "string" },
-    "fontSize": { "type": "string" },
-    "fontWeight": { "type": "string" },
-    "letterSpacing": { "type": "string" },
-    "lineHeight": { "type": "string" }
+    "fontFamily": { "type": "string", "x-valueType": "font-family" },
+    "fontSize": { "type": "string", "x-valueType": "dimension" },
+    "fontWeight": { "type": "string", "x-valueType": "font-weight" },
+    "letterSpacing": { "type": "string", "x-valueType": "dimension" },
+    "lineHeight": { "type": "string", "x-valueType": ["dimension", "number"] }
   },
   "required": ["fontFamily", "fontSize", "fontWeight", "lineHeight"],
   "additionalProperties": false

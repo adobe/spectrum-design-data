@@ -30,6 +30,10 @@
       "type": "boolean",
       "default": false,
       "description": "When true, this state composes on top of the winning non-layered state rather than competing with it. Use for focus rings, selection overlays, and similar compositing states."
+    },
+    "lifecycle": {
+      "$ref": "component.schema.json#/$defs/lifecycle",
+      "description": "Version lifecycle metadata for this state. Set lifecycle.deprecated to signal that tokens referencing this state should migrate."
     }
   },
   "additionalProperties": false

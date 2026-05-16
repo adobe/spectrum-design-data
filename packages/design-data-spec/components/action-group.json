@@ -12,18 +12,45 @@
   "options": {
     "orientation": {
       "type": "string",
-      "enum": ["horizontal", "vertical"],
-      "default": "horizontal"
+      "default": "horizontal",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "density": {
       "type": "string",
-      "enum": ["regular", "compact"],
-      "default": "regular"
+      "default": "regular",
+      "values": [
+        {
+          "value": "regular"
+        },
+        {
+          "value": "compact"
+        }
+      ]
     },
     "isJustified": {
       "type": "boolean",
@@ -43,9 +70,16 @@
     },
     "selectionMode": {
       "type": "string",
-      "enum": ["single", "multiple"],
       "default": "single",
-      "description": "Only applicable if selection is enabled"
+      "description": "Only applicable if selection is enabled",
+      "values": [
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        }
+      ]
     },
     "allowsEmptySelection": {
       "type": "boolean",
@@ -54,8 +88,15 @@
     },
     "overflowMode": {
       "type": "string",
-      "enum": ["wrap", "collapse"],
-      "default": "wrap"
+      "default": "wrap",
+      "values": [
+        {
+          "value": "wrap"
+        },
+        {
+          "value": "collapse"
+        }
+      ]
     },
     "isDisabled": {
       "type": "boolean",

@@ -38,6 +38,11 @@ ARIA (Accessible Rich Internet Applications) is the primary web accessibility AP
 | `textbox`         | `<input type="text">` or `role="textbox"`      |
 | `tooltip`         | `role="tooltip"`                               |
 | `tree`            | `role="tree"`                                  |
+| `progressbar`     | `role="progressbar"`                           |
+| `meter`           | `role="meter"`                                 |
+| `grid`            | `role="grid"`                                  |
+| `listitem`        | `<li>` or `role="listitem"`                    |
+| `group`           | `role="group"`                                 |
 
 ### `intents`
 
@@ -93,24 +98,29 @@ iOS exposes accessibility semantics through `UIAccessibility` protocol propertie
 
 ### `role`
 
-| Foundation `role` | UIAccessibilityTraits / SwiftUI                                |
-| ----------------- | -------------------------------------------------------------- |
-| `button`          | `.button`                                                      |
-| `checkbox`        | `.button` with toggled state, or SwiftUI `Toggle`              |
-| `combobox`        | `.button` (picker-like behavior)                               |
-| `dialog`          | Presented as modal sheet; VoiceOver reads the accessible label |
-| `link`            | `.link`                                                        |
-| `listbox`         | Container view; children use `.button` or `.selected`          |
-| `menu`            | `.button` on trigger; menu items as `.button`                  |
-| `menuitem`        | `.button`                                                      |
-| `radio`           | `.button` with `.selected` when active                         |
-| `slider`          | `.adjustable`                                                  |
-| `spinbutton`      | `.adjustable`                                                  |
-| `switch`          | `.button` with `.selected` / SwiftUI `Toggle`                  |
-| `tab`             | `.button` with `.selected`                                     |
-| `textbox`         | `.keyboard` traits; `UITextField` or `UITextView`              |
-| `tooltip`         | `.staticText` on an overlay element                            |
-| `tree`            | Hierarchical cells with `accessibilityContainerType`           |
+| Foundation `role` | UIAccessibilityTraits / SwiftUI                                                 |
+| ----------------- | ------------------------------------------------------------------------------- |
+| `button`          | `.button`                                                                       |
+| `checkbox`        | `.button` with toggled state, or SwiftUI `Toggle`                               |
+| `combobox`        | `.button` (picker-like behavior)                                                |
+| `dialog`          | Presented as modal sheet; VoiceOver reads the accessible label                  |
+| `link`            | `.link`                                                                         |
+| `listbox`         | Container view; children use `.button` or `.selected`                           |
+| `menu`            | `.button` on trigger; menu items as `.button`                                   |
+| `menuitem`        | `.button`                                                                       |
+| `radio`           | `.button` with `.selected` when active                                          |
+| `slider`          | `.adjustable`                                                                   |
+| `spinbutton`      | `.adjustable`                                                                   |
+| `switch`          | `.button` with `.selected` / SwiftUI `Toggle`                                   |
+| `tab`             | `.button` with `.selected`                                                      |
+| `textbox`         | `.keyboard` traits; `UITextField` or `UITextView`                               |
+| `tooltip`         | `.staticText` on an overlay element                                             |
+| `tree`            | Hierarchical cells with `accessibilityContainerType`                            |
+| `progressbar`     | `.updatesFrequently` trait; `accessibilityValue` carries percent or description |
+| `meter`           | `.staticText` with `accessibilityValue` describing the current measurement      |
+| `grid`            | `accessibilityContainerType = .dataTable`                                       |
+| `listitem`        | Children of an accessibility container; `.staticText` trait on leaf items       |
+| `group`           | `accessibilityContainerType = .semanticGroup`                                   |
 
 ### `intents`
 
@@ -149,24 +159,29 @@ Android exposes accessibility semantics via `AccessibilityNodeInfo` populated th
 
 ### `role`
 
-| Foundation `role` | Android mapping                                             |
-| ----------------- | ----------------------------------------------------------- |
-| `button`          | `Button` widget or `setRoleDescription("button")`           |
-| `checkbox`        | `CheckBox` widget or `setCheckable(true)`                   |
-| `combobox`        | `Spinner` widget or `setRoleDescription("combobox")`        |
-| `dialog`          | Dialog window; `setDismissable(true)`                       |
-| `link`            | `setRoleDescription("link")`; add `ACTION_CLICK`            |
-| `listbox`         | `RecyclerView` with `setCollectionInfo`                     |
-| `menu`            | `setRoleDescription("menu")` on the container               |
-| `menuitem`        | `setRoleDescription("menu item")`                           |
-| `radio`           | `RadioButton` widget or `setCheckable(true)` + `setChecked` |
-| `slider`          | `SeekBar` widget or `RangeSemantics` in Compose             |
-| `spinbutton`      | `setRoleDescription("spin button")`                         |
-| `switch`          | `Switch` widget or `setRoleDescription("switch")`           |
-| `tab`             | `TabLayout` tab item; `setSelected(true)` when active       |
-| `textbox`         | `EditText` widget or `TextField` in Compose                 |
-| `tooltip`         | `setTooltipText(text)`                                      |
-| `tree`            | `setCollectionInfo` with hierarchical structure             |
+| Foundation `role` | Android mapping                                                          |
+| ----------------- | ------------------------------------------------------------------------ |
+| `button`          | `Button` widget or `setRoleDescription("button")`                        |
+| `checkbox`        | `CheckBox` widget or `setCheckable(true)`                                |
+| `combobox`        | `Spinner` widget or `setRoleDescription("combobox")`                     |
+| `dialog`          | Dialog window; `setDismissable(true)`                                    |
+| `link`            | `setRoleDescription("link")`; add `ACTION_CLICK`                         |
+| `listbox`         | `RecyclerView` with `setCollectionInfo`                                  |
+| `menu`            | `setRoleDescription("menu")` on the container                            |
+| `menuitem`        | `setRoleDescription("menu item")`                                        |
+| `radio`           | `RadioButton` widget or `setCheckable(true)` + `setChecked`              |
+| `slider`          | `SeekBar` widget or `RangeSemantics` in Compose                          |
+| `spinbutton`      | `setRoleDescription("spin button")`                                      |
+| `switch`          | `Switch` widget or `setRoleDescription("switch")`                        |
+| `tab`             | `TabLayout` tab item; `setSelected(true)` when active                    |
+| `textbox`         | `EditText` widget or `TextField` in Compose                              |
+| `tooltip`         | `setTooltipText(text)`                                                   |
+| `tree`            | `setCollectionInfo` with hierarchical structure                          |
+| `progressbar`     | `ProgressBar` widget or `setRoleDescription("progress bar")`             |
+| `meter`           | `setRoleDescription("meter")`; `setRangeInfo` on `AccessibilityNodeInfo` |
+| `grid`            | `setCollectionInfo` with row/column counts                               |
+| `listitem`        | Children within a `setCollectionInfo` container                          |
+| `group`           | `setRoleDescription("group")` or `CollectionInfo` without selection      |
 
 ### `intents`
 

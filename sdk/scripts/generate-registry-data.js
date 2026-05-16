@@ -79,6 +79,14 @@ for (const [constName, filePath] of uniqueRegistries) {
   generated += `const ${constName}: &str = r##"${content}"##;\n`;
 }
 
+// Embed categories.json for SPEC-034 meta.category validation.
+// This registry is not a name-object field so it lives outside the field catalog.
+const categoriesPath = join(
+  repoRoot,
+  "packages/design-system-registry/registry/categories.json",
+);
+generated += `const CATEGORIES_JSON: &str = r##"${readFileSync(categoriesPath, "utf-8")}"##;\n`;
+
 // Generate FIELD_ADVISORY_FIELDS — the list of semantic fields that SPEC-009 checks
 const advisoryFieldNames = advisoryFields.map((d) => `"${d.name}"`).join(", ");
 generated += `\npub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &[${advisoryFieldNames}];\n`;
@@ -94,6 +102,7 @@ for (const decl of registryFields) {
   const constName = registryPathToConstName(decl.registry);
   generated += `    map.insert("${decl.name}".to_string(), parse_registry(${constName}));\n`;
 }
+generated += `    map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));\n`;
 generated += `    map\n}\n`;
 
 // ── Update manifest.schema.json conceptOrder enum ─────────────────────────

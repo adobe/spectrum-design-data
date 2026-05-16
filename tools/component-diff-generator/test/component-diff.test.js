@@ -277,12 +277,12 @@ const menuSchemaOriginal = {
   properties: {
     container: {
       type: "string",
-      enum: ["popover", "tray"],
+      values: [{ value: "popover" }, { value: "tray" }],
       default: null,
     },
     selectionMode: {
       type: "string",
-      enum: ["single", "multiple"],
+      values: [{ value: "single" }, { value: "multiple" }],
       default: null,
     },
   },
@@ -296,13 +296,17 @@ const menuSchemaUpdated = {
   properties: {
     container: {
       type: "string",
-      enum: ["popover", "tray"],
+      values: [{ value: "popover" }, { value: "tray" }],
       // default: null removed
     },
     selectionMode: {
       type: "string",
-      enum: ["single", "multiple", "no selection"],
-      // default: null removed, new enum value added
+      values: [
+        { value: "single" },
+        { value: "multiple" },
+        { value: "no selection" },
+      ],
+      // default: null removed, new value added
     },
   },
 };
@@ -348,7 +352,7 @@ test("componentDiff - enhanced change descriptions for menu component", (t) => {
   );
   t.true(
     selectionModeChanges.changes.some((change) =>
-      change.includes('added enum values: "no selection"'),
+      change.includes('added values: "no selection"'),
     ),
   );
 
@@ -365,8 +369,8 @@ test("isComponentChangeBreaking - removing default null is non-breaking", (t) =>
     added: {
       properties: {
         selectionMode: {
-          enum: {
-            2: "no selection",
+          values: {
+            2: { value: "no selection" },
           },
         },
       },
@@ -389,16 +393,16 @@ test("isComponentChangeBreaking - removing default null is non-breaking", (t) =>
   );
 });
 
-test("isComponentChangeBreaking - adding enum value to menu is non-breaking", (t) => {
-  // Simulate what the diff should detect for enum value addition
+test("isComponentChangeBreaking - adding values entry to menu is non-breaking", (t) => {
+  // Simulate what the diff should detect for value addition
   const componentChanges = {
     added: {},
     deleted: {},
     updated: {
       properties: {
         selectionMode: {
-          enum: {
-            2: "no selection", // Adding a new enum value
+          values: {
+            2: { value: "no selection" }, // Adding a new value
           },
         },
       },
@@ -451,7 +455,7 @@ test("real menu issue from PR #613 - correct diff output", (t) => {
   );
   t.true(
     selectionModeChanges.changes.some((change) =>
-      change.includes('added enum values: "no selection"'),
+      change.includes('added values: "no selection"'),
     ),
   );
 

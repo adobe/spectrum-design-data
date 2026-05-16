@@ -15,16 +15,30 @@
     },
     "labelPosition": {
       "type": "string",
-      "enum": ["bottom", "side"],
-      "default": "bottom"
+      "default": "bottom",
+      "values": [
+        {
+          "value": "bottom"
+        },
+        {
+          "value": "side"
+        }
+      ]
     },
     "icon": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json"
     },
     "background": {
       "type": "string",
-      "enum": ["primary", "secondary"],
-      "default": "primary"
+      "default": "primary",
+      "values": [
+        {
+          "value": "primary"
+        },
+        {
+          "value": "secondary"
+        }
+      ]
     },
     "hasBadge": {
       "type": "boolean",
