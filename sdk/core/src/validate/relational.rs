@@ -17,9 +17,13 @@ use crate::report::{Diagnostic, Severity, ValidationReport};
 use crate::validate::rules;
 
 /// Run all relational rules; merges errors and warnings by severity on each diagnostic.
+///
+/// Pass `manifest` when a platform manifest document is present; manifest-aware
+/// rules (e.g. SPEC-039) read it and are silently no-ops when it is `None`.
 pub fn validate_relational(
     graph: &TokenGraph,
     naming_exceptions: &HashSet<String>,
+    manifest: Option<&serde_json::Value>,
 ) -> ValidationReport {
     let mut report = ValidationReport {
         valid: true,
@@ -27,7 +31,7 @@ pub fn validate_relational(
         warnings: Vec::new(),
     };
 
-    for d in rules::run_rules(graph, naming_exceptions) {
+    for d in rules::run_rules(graph, naming_exceptions, manifest) {
         match d.severity {
             Severity::Error => report.push_error(d),
             Severity::Warning => report.push_warning(d),
@@ -40,9 +44,13 @@ pub fn validate_relational(
 }
 
 /// Test helper: filter diagnostics by rule id.
+///
+/// Note: passes `manifest: None`, so manifest-only rules such as SPEC-039
+/// will never fire through this helper. Use `run_rules` directly when a
+/// manifest is needed.
 pub fn diagnostics_for_rule(graph: &TokenGraph, rule_id: &str) -> Vec<Diagnostic> {
     let empty = HashSet::new();
-    rules::run_rules(graph, &empty)
+    rules::run_rules(graph, &empty, None)
         .into_iter()
         .filter(|d| d.rule_id.as_deref() == Some(rule_id))
         .collect()

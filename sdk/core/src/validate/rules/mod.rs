@@ -47,6 +47,7 @@ mod spec035;
 mod spec036;
 mod spec037;
 mod spec038;
+mod spec039;
 
 use std::collections::HashSet;
 use std::sync::OnceLock;
@@ -102,16 +103,25 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec036::Rule),
         Box::new(spec037::Rule),
         Box::new(spec038::Rule),
+        Box::new(spec039::Rule),
     ]
 }
 
 /// Run every rule and collect diagnostics.
-pub fn run_rules(graph: &TokenGraph, naming_exceptions: &HashSet<String>) -> Vec<Diagnostic> {
+///
+/// Pass `manifest` when a platform manifest document is available; rules such
+/// as SPEC-039 read manifest fields and are silently no-ops when it is `None`.
+pub fn run_rules(
+    graph: &TokenGraph,
+    naming_exceptions: &HashSet<String>,
+    manifest: Option<&serde_json::Value>,
+) -> Vec<Diagnostic> {
     let registry = embedded_registry();
     let ctx = ValidationContext {
         graph,
         naming_exceptions,
         registry,
+        manifest,
     };
     let mut out = Vec::new();
     for r in default_rules() {

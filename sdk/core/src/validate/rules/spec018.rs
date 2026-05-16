@@ -111,7 +111,7 @@ mod tests {
         let g = make_graph(tokens, components);
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();
-        let ctx = ValidationContext { graph: &g, naming_exceptions: &exceptions, registry: &registry };
+        let ctx = ValidationContext { graph: &g, naming_exceptions: &exceptions, registry: &registry, manifest: None };
         Rule.validate(&ctx)
     }
 

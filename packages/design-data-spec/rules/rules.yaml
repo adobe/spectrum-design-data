@@ -383,3 +383,18 @@ rules:
     message: "Component '{component}' option '{option}' uses the obsolete `enum` keyword; replace with a `values` array so per-value lifecycle metadata can be expressed"
     spec_ref: spec/component-format.md#option-descriptor
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-039
+    name: manifest-query-parseable
+    severity: error
+    layer: 2
+    category: manifest
+    rfc: "#715"
+    assert: >
+      Each entry in 'manifest.include' and 'manifest.exclude' MUST parse as a valid query
+      expression per spec/query.md and MUST use only the supported query keys.
+      Entries that fail to parse, or that reference unsupported keys, are Layer 2 errors.
+      This rule lifts the deferred 'treat as opaque' clause from earlier 1.0.0-draft revisions.
+    message: "Manifest {array}[{idx}] failed to parse as a query: {error}"
+    spec_ref: spec/manifest.md#include--exclude
+    introduced_in: "1.0.0-draft"

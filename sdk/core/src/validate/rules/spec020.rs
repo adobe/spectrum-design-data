@@ -133,6 +133,7 @@ mod tests {
             graph: &g,
             naming_exceptions: &exceptions,
             registry: &registry,
+            manifest: None,
         };
         Rule.validate(&ctx)
     }

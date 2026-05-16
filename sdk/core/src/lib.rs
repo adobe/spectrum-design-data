@@ -564,6 +564,17 @@ mod validation_conformance {
             .unwrap_or_default()
     }
 
+    fn load_manifest(dir: &Path) -> Option<Value> {
+        let mp = dir.join("manifest.json");
+        if mp.is_file() {
+            std::fs::read_to_string(&mp)
+                .ok()
+                .and_then(|s| serde_json::from_str(&s).ok())
+        } else {
+            None
+        }
+    }
+
     fn assert_invalid_fixtures() {
         let base = Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("../../packages/design-data-spec/conformance/invalid");
@@ -603,8 +614,11 @@ mod validation_conformance {
             )
             .unwrap_or_else(|e| panic!("{case}: invalid expected-errors.json: {e}"));
 
+            // Load optional manifest.json alongside dataset.json (used by SPEC-039).
+            let manifest_val = load_manifest(&dir);
+
             let graph = build_graph(&dataset);
-            let diagnostics = run_rules(&graph, &naming_exceptions);
+            let diagnostics = run_rules(&graph, &naming_exceptions, manifest_val.as_ref());
 
             let expected_errors = expected
                 .get("errors")
@@ -692,8 +706,10 @@ mod validation_conformance {
             )
             .unwrap_or_else(|e| panic!("{case}: invalid dataset.json: {e}"));
 
+            let manifest_val = load_manifest(&dir);
+
             let graph = build_graph(&dataset);
-            let diagnostics = run_rules(&graph, &naming_exceptions);
+            let diagnostics = run_rules(&graph, &naming_exceptions, manifest_val.as_ref());
             let errors: Vec<_> = diagnostics
                 .iter()
                 .filter(|d| matches!(d.severity, Severity::Error))
