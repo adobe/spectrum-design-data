@@ -15,8 +15,18 @@
     },
     "variant": {
       "type": "string",
-      "enum": ["neutral", "informative", "negative"],
-      "default": "neutral"
+      "default": "neutral",
+      "values": [
+        {
+          "value": "neutral"
+        },
+        {
+          "value": "informative"
+        },
+        {
+          "value": "negative"
+        }
+      ]
     },
     "hasIcon": {
       "type": "boolean",
@@ -30,8 +40,21 @@
     },
     "placement": {
       "type": "string",
-      "enum": ["top", "bottom", "left", "right"],
-      "default": "top"
+      "default": "top",
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "bottom"
+        },
+        {
+          "value": "left"
+        },
+        {
+          "value": "right"
+        }
+      ]
     },
     "shouldFlip": {
       "type": "boolean",

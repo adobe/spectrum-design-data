@@ -12,8 +12,15 @@
   "options": {
     "variant": {
       "type": "string",
-      "enum": ["primary", "secondary"],
-      "default": "primary"
+      "default": "primary",
+      "values": [
+        {
+          "value": "primary"
+        },
+        {
+          "value": "secondary"
+        }
+      ]
     },
     "isQuiet": {
       "type": "boolean",
@@ -21,8 +28,15 @@
     },
     "staticColor": {
       "type": "string",
-      "enum": ["white", "black"],
-      "description": "Static color must not be set for the default version of this component."
+      "description": "Static color must not be set for the default version of this component.",
+      "values": [
+        {
+          "value": "white"
+        },
+        {
+          "value": "black"
+        }
+      ]
     }
   },
   "states": [

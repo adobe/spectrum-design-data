@@ -64,13 +64,21 @@
       "options": {
         "variant": {
           "type": "string",
-          "enum": ["primary", "secondary", "cta"],
-          "deprecatedEnumValues": {
-            "cta": {
-              "deprecated": "1.0.0-draft",
-              "deprecatedComment": "Use primary instead."
+          "values": [
+            {
+              "value": "primary"
+            },
+            {
+              "value": "secondary"
+            },
+            {
+              "value": "cta",
+              "lifecycle": {
+                "deprecated": "1.0.0-draft",
+                "deprecatedComment": "Use primary instead."
+              }
             }
-          }
+          ]
         }
       }
     }

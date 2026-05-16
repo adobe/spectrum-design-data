@@ -11,7 +11,7 @@
 //! SPEC-019: component-variant-valid
 //!
 //! Token name-object `variant` field MUST be a value in the component's
-//! `options.variant.enum` when that enum is declared.
+//! `options.variant.values` when that values list is declared.
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
@@ -51,18 +51,20 @@ impl ValidationRule for Rule {
                 continue; // SPEC-018 covers undeclared component
             };
 
-            let Some(variant_enum) = comp
+            let Some(variant_values) = comp
                 .raw
                 .get("options")
                 .and_then(|o| o.get("variant"))
-                .and_then(|v| v.get("enum"))
+                .and_then(|v| v.get("values"))
                 .and_then(|e| e.as_array())
             else {
-                continue; // no enum declared — any variant is allowed
+                continue; // no values declared — any variant is allowed
             };
 
-            let declared: std::collections::HashSet<&str> =
-                variant_enum.iter().filter_map(|v| v.as_str()).collect();
+            let declared: std::collections::HashSet<&str> = variant_values
+                .iter()
+                .filter_map(|entry| entry.get("value").and_then(|v| v.as_str()))
+                .collect();
 
             if !declared.contains(variant) {
                 let token_label = serde_json::to_string(name_obj).unwrap_or_default();
@@ -143,7 +145,7 @@ mod tests {
     fn valid_variant_no_error() {
         let diags = run(
             json!({"name": {"property": "color", "component": "button", "variant": "primary"}, "value": "#fff"}),
-            json!({"name": "button", "options": {"variant": {"enum": ["primary", "secondary"]}}}),
+            json!({"name": "button", "options": {"variant": {"values": [{"value": "primary"}, {"value": "secondary"}]}}}),
         );
         assert!(diags.is_empty());
     }
@@ -152,7 +154,7 @@ mod tests {
     fn invalid_variant_error() {
         let diags = run(
             json!({"name": {"property": "color", "component": "button", "variant": "electric"}, "value": "#fff"}),
-            json!({"name": "button", "options": {"variant": {"enum": ["primary", "secondary"]}}}),
+            json!({"name": "button", "options": {"variant": {"values": [{"value": "primary"}, {"value": "secondary"}]}}}),
         );
         assert_eq!(diags.len(), 1);
         assert_eq!(diags[0].severity, Severity::Error);

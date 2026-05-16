@@ -12,9 +12,19 @@
   "options": {
     "selectionMode": {
       "type": "string",
-      "enum": ["none", "single", "multiple"],
       "default": "single",
-      "description": "Defines how many items can be selected at once."
+      "description": "Defines how many items can be selected at once.",
+      "values": [
+        {
+          "value": "none"
+        },
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        }
+      ]
     },
     "isQuiet": {
       "type": "boolean",

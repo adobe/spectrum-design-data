@@ -18,13 +18,45 @@
     },
     "weight": {
       "type": "string",
-      "enum": ["light", "default", "heavy"],
-      "default": "default"
+      "default": "default",
+      "values": [
+        {
+          "value": "light"
+        },
+        {
+          "value": "default"
+        },
+        {
+          "value": "heavy"
+        }
+      ]
     },
     "size": {
       "type": "string",
-      "enum": ["xs", "s", "m", "l", "xl", "xxl", "xxxl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "xs"
+        },
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        },
+        {
+          "value": "xxl"
+        },
+        {
+          "value": "xxxl"
+        }
+      ]
     }
   },
   "lifecycle": {

@@ -12,16 +12,28 @@
   "options": {
     "variant": {
       "type": "string",
-      "enum": [
-        "asset",
-        "collection",
-        "flex",
-        "gallery",
-        "horizontal",
-        "product"
-      ],
       "default": "asset",
-      "description": "Determines which card layout variant is used."
+      "description": "Determines which card layout variant is used.",
+      "values": [
+        {
+          "value": "asset"
+        },
+        {
+          "value": "collection"
+        },
+        {
+          "value": "flex"
+        },
+        {
+          "value": "gallery"
+        },
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "product"
+        }
+      ]
     }
   },
   "lifecycle": {

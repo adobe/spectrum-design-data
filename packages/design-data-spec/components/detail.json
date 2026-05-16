@@ -15,13 +15,33 @@
     },
     "weight": {
       "type": "string",
-      "enum": ["light", "default"],
-      "default": "default"
+      "default": "default",
+      "values": [
+        {
+          "value": "light"
+        },
+        {
+          "value": "default"
+        }
+      ]
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     }
   },
   "lifecycle": {

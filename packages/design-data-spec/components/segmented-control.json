@@ -12,8 +12,15 @@
   "options": {
     "orientation": {
       "type": "string",
-      "enum": ["horizontal", "vertical"],
-      "default": "horizontal"
+      "default": "horizontal",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "isFluid": {
       "type": "boolean",
@@ -22,8 +29,15 @@
     },
     "alignment": {
       "type": "string",
-      "enum": ["start", "center"],
-      "default": "start"
+      "default": "start",
+      "values": [
+        {
+          "value": "start"
+        },
+        {
+          "value": "center"
+        }
+      ]
     },
     "hideTracker": {
       "type": "boolean",
@@ -36,8 +50,15 @@
     },
     "keyboardActivation": {
       "type": "string",
-      "enum": ["manual", "automatic"],
-      "default": "manual"
+      "default": "manual",
+      "values": [
+        {
+          "value": "manual"
+        },
+        {
+          "value": "automatic"
+        }
+      ]
     },
     "items": {
       "type": "array",

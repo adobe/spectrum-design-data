@@ -12,9 +12,19 @@
   "options": {
     "variant": {
       "type": "string",
-      "enum": ["single", "double", "triple"],
       "default": "single",
-      "description": "Controls the number of months displayed in the calendar popover."
+      "description": "Controls the number of months displayed in the calendar popover.",
+      "values": [
+        {
+          "value": "single"
+        },
+        {
+          "value": "double"
+        },
+        {
+          "value": "triple"
+        }
+      ]
     },
     "selectedDate": {
       "type": "string",

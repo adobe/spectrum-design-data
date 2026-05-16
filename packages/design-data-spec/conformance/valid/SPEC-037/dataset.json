@@ -62,7 +62,9 @@
         "documentationUrl": "https://spectrum.adobe.com/page/slider/"
       },
       "anatomy": [
-        { "name": "track" },
+        {
+          "name": "track"
+        },
         {
           "name": "handle",
           "lifecycle": {
@@ -81,7 +83,9 @@
         "documentationUrl": "https://spectrum.adobe.com/page/button/"
       },
       "states": [
-        { "name": "hover" },
+        {
+          "name": "hover"
+        },
         {
           "name": "pressed",
           "lifecycle": {
@@ -93,13 +97,21 @@
       "options": {
         "variant": {
           "type": "string",
-          "enum": ["primary", "secondary", "cta"],
-          "deprecatedEnumValues": {
-            "cta": {
-              "deprecated": "1.0.0-draft",
-              "deprecatedComment": "Use primary instead."
+          "values": [
+            {
+              "value": "primary"
+            },
+            {
+              "value": "secondary"
+            },
+            {
+              "value": "cta",
+              "lifecycle": {
+                "deprecated": "1.0.0-draft",
+                "deprecatedComment": "Use primary instead."
+              }
             }
-          }
+          ]
         }
       }
     }

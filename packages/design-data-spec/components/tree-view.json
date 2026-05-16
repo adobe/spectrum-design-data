@@ -12,8 +12,21 @@
   "options": {
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "isDetached": {
       "type": "boolean",
@@ -29,18 +42,39 @@
     },
     "selectionMode": {
       "type": "string",
-      "enum": ["single", "multiple"],
-      "default": "multiple"
+      "default": "multiple",
+      "values": [
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        }
+      ]
     },
     "selectionStyle": {
       "type": "string",
-      "enum": ["checkbox", "highlight"],
-      "default": "checkbox"
+      "default": "checkbox",
+      "values": [
+        {
+          "value": "checkbox"
+        },
+        {
+          "value": "highlight"
+        }
+      ]
     },
     "selectionBehavior": {
       "type": "string",
-      "enum": ["toggle", "replace"],
-      "default": "toggle"
+      "default": "toggle",
+      "values": [
+        {
+          "value": "toggle"
+        },
+        {
+          "value": "replace"
+        }
+      ]
     }
   },
   "states": [

@@ -37,26 +37,60 @@
       "options": {
         "variant": {
           "type": "string",
-          "enum": ["accent", "negative", "primary", "secondary"]
+          "values": [
+            {
+              "value": "accent"
+            },
+            {
+              "value": "negative"
+            },
+            {
+              "value": "primary"
+            },
+            {
+              "value": "secondary"
+            }
+          ]
         }
       },
       "slots": [
-        { "name": "default", "description": "Text label of the button." },
-        { "name": "icon", "description": "Leading icon." }
+        {
+          "name": "default",
+          "description": "Text label of the button."
+        },
+        {
+          "name": "icon",
+          "description": "Leading icon."
+        }
       ],
       "anatomy": [
-        { "name": "icon", "description": "Leading icon." },
-        { "name": "label", "description": "Button text.", "required": true }
+        {
+          "name": "icon",
+          "description": "Leading icon."
+        },
+        {
+          "name": "label",
+          "description": "Button text.",
+          "required": true
+        }
       ],
       "states": [
-        { "name": "hover", "trigger": "interaction", "precedence": 50 },
+        {
+          "name": "hover",
+          "trigger": "interaction",
+          "precedence": 50
+        },
         {
           "name": "focus",
           "trigger": "interaction",
           "precedence": 60,
           "layered": true
         },
-        { "name": "disabled", "trigger": "prop", "precedence": 100 }
+        {
+          "name": "disabled",
+          "trigger": "prop",
+          "precedence": 100
+        }
       ]
     }
   ]

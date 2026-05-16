@@ -33,15 +33,15 @@ The official Spectrum Design Data uses **JSON Schema format** designed for:
         "documentationUrl": "https://spectrum.adobe.com/page/button/"
     },
     "type": "object",
-    "properties": {
+    "options": {
         "size": {
             "type": "string",
-            "enum": ["s", "m", "l", "xl"],
+            "values": [{"value": "s"}, {"value": "m"}, {"value": "l"}, {"value": "xl"}],
             "default": "m"
         },
         "variant": {
             "type": "string",
-            "enum": ["accent", "negative", "primary", "secondary"],
+            "values": [{"value": "accent"}, {"value": "negative"}, {"value": "primary"}, {"value": "secondary"}],
             "default": "accent"
         },
         "isDisabled": {
@@ -101,15 +101,15 @@ The official Spectrum Design Data uses **JSON Schema format** designed for:
 
 ### 2. Type Representation
 
-| Concept     | Official Schema                    | Plugin Schema                            |
-| ----------- | ---------------------------------- | ---------------------------------------- |
-| **String**  | `"type": "string"`                 | `"type": "string"`                       |
-| **Boolean** | `"type": "boolean"`                | `"type": "boolean"`                      |
-| **Enum**    | `"enum": [...]`                    | `"type": "localEnum"` + `"items": [...]` |
-| **Size**    | `"enum": ["s", "m", ...]`          | `"type": "size"` + `"items": [...]`      |
-| **State**   | `"enum": ["hover", ...]`           | `"type": "state"` + `"items": [...]`     |
-| **Icon**    | `"$ref": ".../workflow-icon.json"` | `"type": "icon"` + `"defaultValue"`      |
-| **Color**   | `"$ref": ".../hex-color.json"`     | `"type": "color"` + `"defaultValue"`     |
+| Concept     | Official Schema                                   | Plugin Schema                            |
+| ----------- | ------------------------------------------------- | ---------------------------------------- |
+| **String**  | `"type": "string"`                                | `"type": "string"`                       |
+| **Boolean** | `"type": "boolean"`                               | `"type": "boolean"`                      |
+| **Enum**    | `"values": [{"value": "..."}, ...]`               | `"type": "localEnum"` + `"items": [...]` |
+| **Size**    | `"values": [{"value": "s"}, {"value": "m"}, ...]` | `"type": "size"` + `"items": [...]`      |
+| **State**   | `"values": [{"value": "hover"}, ...]`             | `"type": "state"` + `"items": [...]`     |
+| **Icon**    | `"$ref": ".../workflow-icon.json"`                | `"type": "icon"` + `"defaultValue"`      |
+| **Color**   | `"$ref": ".../hex-color.json"`                    | `"type": "color"` + `"defaultValue"`     |
 
 **Rationale**: The plugin uses explicit type strings to drive UI rendering (different forms for different types). JSON Schema uses standard types with constraints.
 
@@ -213,9 +213,9 @@ To convert plugin data to official Spectrum Design Data format:
    ```
 
 3. **Convert types**:
-   * `localEnum` → `enum` array
-   * `size` → `enum` with size values
-   * `state` → `enum` with state values
+   * `localEnum` → `values` array of `{value}` objects
+   * `size` → `values` with size value objects
+   * `state` → `values` with state value objects
    * `icon` → `$ref` to workflow-icon.json
    * `color` → `$ref` to hex-color.json
 
@@ -235,10 +235,10 @@ To convert official schema to plugin format:
 2. **Transform properties**:
 
    ```javascript
-   const options = Object.entries(schema.properties).map(([key, prop]) => ({
+   const options = Object.entries(schema.options).map(([key, prop]) => ({
        title: key,
        type: inferPluginType(prop),
-       items: prop.enum || extractEnumFromRef(prop.$ref),
+       items: prop.values?.map((v) => v.value) || extractValuesFromRef(prop.$ref),
        defaultValue: prop.default,
        required: schema.required?.includes(key) || false,
        description: prop.description
@@ -246,11 +246,11 @@ To convert official schema to plugin format:
    ```
 
 3. **Infer plugin types**:
-   * `enum` with size values → `size`
-   * `enum` with state values → `state`
+   * `values` with size values → `size`
+   * `values` with state values → `state`
    * `$ref` to workflow-icon → `icon`
    * `$ref` to hex-color → `color`
-   * Other `enum` → `localEnum`
+   * Other `values` → `localEnum`
 
 ## Recommendations
 
@@ -312,15 +312,15 @@ To convert official schema to plugin format:
         "documentationUrl": "https://spectrum.adobe.com/page/button/"
     },
     "type": "object",
-    "properties": {
+    "options": {
         "size": {
             "type": "string",
-            "enum": ["s", "m", "l", "xl"],
+            "values": [{"value": "s"}, {"value": "m"}, {"value": "l"}, {"value": "xl"}],
             "default": "m"
         },
         "variant": {
             "type": "string",
-            "enum": ["accent", "negative", "primary", "secondary"],
+            "values": [{"value": "accent"}, {"value": "negative"}, {"value": "primary"}, {"value": "secondary"}],
             "default": "accent"
         }
     }

@@ -17,8 +17,18 @@
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
     }
   },
   "anatomy": [
@@ -26,11 +36,21 @@
       "name": "track",
       "description": "The background rail the handle slides along."
     },
-    { "name": "handle", "description": "The draggable indicator." },
-    { "name": "label", "description": "Visible text label." }
+    {
+      "name": "handle",
+      "description": "The draggable indicator."
+    },
+    {
+      "name": "label",
+      "description": "Visible text label."
+    }
   ],
   "states": [
-    { "name": "hover", "trigger": "interaction", "precedence": 50 },
+    {
+      "name": "hover",
+      "trigger": "interaction",
+      "precedence": 50
+    },
     {
       "name": "focus",
       "trigger": "interaction",
@@ -52,8 +72,16 @@
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   },
   "documentBlocks": [

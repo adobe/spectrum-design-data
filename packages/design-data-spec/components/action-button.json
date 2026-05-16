@@ -23,8 +23,24 @@
     },
     "size": {
       "type": "string",
-      "enum": ["xs", "s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "xs"
+        },
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "isQuiet": {
       "type": "boolean",
@@ -40,8 +56,15 @@
     },
     "staticColor": {
       "type": "string",
-      "enum": ["white", "black"],
-      "description": "Static color must not be set for the default version of this component."
+      "description": "Static color must not be set for the default version of this component.",
+      "values": [
+        {
+          "value": "white"
+        },
+        {
+          "value": "black"
+        }
+      ]
     },
     "selectedTextColor": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"

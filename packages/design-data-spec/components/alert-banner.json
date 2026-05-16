@@ -15,8 +15,21 @@
     },
     "variant": {
       "type": "string",
-      "enum": ["neutral", "informative", "negative", "accent"],
-      "default": "neutral"
+      "default": "neutral",
+      "values": [
+        {
+          "value": "neutral"
+        },
+        {
+          "value": "informative"
+        },
+        {
+          "value": "negative"
+        },
+        {
+          "value": "accent"
+        }
+      ]
     },
     "actionLabel": {
       "type": "string",

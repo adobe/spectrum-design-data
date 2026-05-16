@@ -12,12 +12,38 @@
   "options": {
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l", "xl"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
     },
     "style": {
       "type": "string",
-      "enum": ["disclosure", "clear", "dash", "add"]
+      "values": [
+        {
+          "value": "disclosure"
+        },
+        {
+          "value": "clear"
+        },
+        {
+          "value": "dash"
+        },
+        {
+          "value": "add"
+        }
+      ]
     },
     "isQuiet": {
       "type": "boolean",

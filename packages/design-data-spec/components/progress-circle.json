@@ -12,8 +12,15 @@
   "options": {
     "variant": {
       "type": "string",
-      "enum": ["default", "over background"],
-      "default": "default"
+      "default": "default",
+      "values": [
+        {
+          "value": "default"
+        },
+        {
+          "value": "over background"
+        }
+      ]
     },
     "value": {
       "type": "number",
@@ -31,8 +38,18 @@
     },
     "size": {
       "type": "string",
-      "enum": ["s", "m", "l"],
-      "default": "m"
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
     },
     "isIndeterminate": {
       "type": "boolean",
