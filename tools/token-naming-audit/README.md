@@ -1,4 +1,4 @@
-# [**@adobe/token-naming-audit**](https://github.com/adobe/token-naming-audit)
+# Token Naming Audit
 
 Audit tool that scans `*.tokens.json` files and reports two classes of naming migration debt:
 
