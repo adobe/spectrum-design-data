@@ -123,7 +123,7 @@ mod tests {
         let r = RegistryData::embedded();
         assert!(r.for_field("component").unwrap().contains("button"));
         assert!(r.for_field("object").unwrap().contains("background"));
-        assert!(r.for_field("property").is_none()); // free-form, no registry
+        assert!(r.for_field("property").unwrap().contains("color")); // advisory registry
         assert!(r.for_field("colorScheme").is_none()); // mode-set, validated by SPEC-005/008
     }
 
@@ -143,8 +143,8 @@ mod tests {
         assert!(fields.contains(&"state"));
         assert!(fields.contains(&"variant"));
         assert!(fields.contains(&"size"));
-        // property and mode-set fields must not appear
-        assert!(!fields.contains(&"property"));
+        assert!(fields.contains(&"property")); // advisory registry added in #941
+        // mode-set fields must not appear
         assert!(!fields.contains(&"colorScheme"));
         assert!(!fields.contains(&"scale"));
         assert!(!fields.contains(&"contrast"));

@@ -1380,7 +1380,7 @@ const TOKEN_OBJECTS_JSON: &str = r##"{
 const PROPERTY_TERMS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "property-term",
-  "description": "CSS/styling attributes assigned to token name objects via the `property` field. These are the stylistic properties being defined — not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
+  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, overlay-color, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
   "values": [
     {
       "id": "color",

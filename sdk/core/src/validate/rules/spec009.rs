@@ -153,12 +153,23 @@ mod tests {
     }
 
     #[test]
-    fn property_field_not_checked() {
-        // "property" is free-form — any value is allowed.
+    fn property_unknown_value_warns() {
+        // "property" now has an advisory registry; unknown values trigger SPEC-009.
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
             json!({"name": {"property": "some-custom-css-thing"}, "value": "10px"}),
+        )]);
+        assert!(!diagnostics_for_rule(&g, "SPEC-009").is_empty());
+    }
+
+    #[test]
+    fn property_known_value_no_warning() {
+        // Values in property-terms.json must not produce a SPEC-009 warning.
+        let g = TokenGraph::from_pairs(vec![(
+            "t".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({"name": {"property": "color"}, "value": "#fff"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-009").is_empty());
     }
