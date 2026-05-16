@@ -1,0 +1,78 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "component": "slider",
+        "anatomy": "handle",
+        "property": "background-color"
+      },
+      "value": "#0265dc"
+    },
+    {
+      "name": {
+        "component": "button",
+        "state": "pressed",
+        "property": "background-color"
+      },
+      "value": "#cccccc"
+    },
+    {
+      "name": {
+        "component": "button",
+        "variant": "cta",
+        "property": "background-color"
+      },
+      "value": "#0265dc"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/slider.json",
+      "name": "slider",
+      "displayName": "Slider",
+      "meta": {
+        "category": "forms",
+        "documentationUrl": "https://spectrum.adobe.com/page/slider/"
+      },
+      "anatomy": [
+        {
+          "name": "handle",
+          "lifecycle": {
+            "deprecated": "1.0.0-draft",
+            "deprecatedComment": "Renamed to thumb."
+          }
+        }
+      ]
+    },
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/button/"
+      },
+      "states": [
+        {
+          "name": "pressed",
+          "lifecycle": {
+            "deprecated": "1.0.0-draft",
+            "deprecatedComment": "Use active instead."
+          }
+        }
+      ],
+      "options": {
+        "variant": {
+          "type": "string",
+          "enum": ["primary", "secondary", "cta"],
+          "deprecatedEnumValues": {
+            "cta": {
+              "deprecated": "1.0.0-draft",
+              "deprecatedComment": "Use primary instead."
+            }
+          }
+        }
+      }
+    }
+  ]
+}

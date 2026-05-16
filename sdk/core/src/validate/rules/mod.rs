@@ -45,6 +45,7 @@ mod spec032;
 mod spec034;
 mod spec035;
 mod spec036;
+mod spec037;
 
 use std::collections::HashSet;
 use std::sync::OnceLock;
@@ -98,6 +99,7 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec034::Rule),
         Box::new(spec035::Rule),
         Box::new(spec036::Rule),
+        Box::new(spec037::Rule),
     ]
 }
 

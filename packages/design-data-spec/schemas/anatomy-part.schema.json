@@ -35,6 +35,10 @@
       "items": { "$ref": "document-block.schema.json" },
       "minItems": 1,
       "description": "Typed prose blocks for this anatomy part. See spec/document-blocks.md (Phase 9)."
+    },
+    "lifecycle": {
+      "$ref": "component.schema.json#/$defs/lifecycle",
+      "description": "Version lifecycle metadata for this anatomy part. Set lifecycle.deprecated to signal that tokens referencing this part should migrate."
     }
   },
   "additionalProperties": false

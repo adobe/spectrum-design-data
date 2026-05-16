@@ -1,0 +1,20 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-037",
+      "severity": "warning",
+      "message_pattern": ".*deprecated anatomy part.*"
+    },
+    {
+      "rule_id": "SPEC-037",
+      "severity": "warning",
+      "message_pattern": ".*deprecated state.*"
+    },
+    {
+      "rule_id": "SPEC-037",
+      "severity": "warning",
+      "message_pattern": ".*deprecated option value.*"
+    }
+  ]
+}

@@ -355,3 +355,18 @@ rules:
     message: "Token '{token}' references deprecated component '{component}' (deprecated since {version}); update the reference or mark the token deprecated"
     spec_ref: spec/component-format.md#lifecycle
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-037
+    name: sub-entity-deprecation-cascade
+    severity: warning
+    category: reference-integrity
+    assert: >
+      Tokens SHOULD NOT reference a deprecated anatomy part, deprecated component state, or
+      deprecated option-enum value via their `name` object unless the token is itself deprecated.
+      Non-deprecated tokens referencing deprecated sub-entities are surfaced as warnings to
+      prompt authors to update the reference or mark the token deprecated.
+      Requires `lifecycle.deprecated` on anatomy parts and states, and `deprecatedEnumValues`
+      on option descriptors (introduced in this version of the schema).
+    message: "Token '{token}' references deprecated {kind} '{value}' on component '{component}' (deprecated since {version}); update the reference or mark the token deprecated"
+    spec_ref: spec/component-format.md#lifecycle
+    introduced_in: "1.0.0-draft"

@@ -1,0 +1,107 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "component": "slider",
+        "anatomy": "track",
+        "property": "background-color"
+      },
+      "value": "#e0e0e0"
+    },
+    {
+      "name": {
+        "component": "slider",
+        "anatomy": "handle",
+        "property": "background-color"
+      },
+      "value": "#0265dc",
+      "deprecated": "1.0.0-draft"
+    },
+    {
+      "name": {
+        "component": "button",
+        "state": "hover",
+        "property": "background-color"
+      },
+      "value": "#eeeeee"
+    },
+    {
+      "name": {
+        "component": "button",
+        "state": "pressed",
+        "property": "background-color"
+      },
+      "value": "#cccccc",
+      "deprecated": "1.0.0-draft"
+    },
+    {
+      "name": {
+        "component": "button",
+        "variant": "primary",
+        "property": "background-color"
+      },
+      "value": "#0265dc"
+    },
+    {
+      "name": {
+        "component": "button",
+        "variant": "cta",
+        "property": "background-color"
+      },
+      "value": "#0265dc",
+      "deprecated": "1.0.0-draft"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/slider.json",
+      "name": "slider",
+      "displayName": "Slider",
+      "meta": {
+        "category": "forms",
+        "documentationUrl": "https://spectrum.adobe.com/page/slider/"
+      },
+      "anatomy": [
+        { "name": "track" },
+        {
+          "name": "handle",
+          "lifecycle": {
+            "deprecated": "1.0.0-draft",
+            "deprecatedComment": "Renamed to thumb."
+          }
+        }
+      ]
+    },
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/button/"
+      },
+      "states": [
+        { "name": "hover" },
+        {
+          "name": "pressed",
+          "lifecycle": {
+            "deprecated": "1.0.0-draft",
+            "deprecatedComment": "Use active instead."
+          }
+        }
+      ],
+      "options": {
+        "variant": {
+          "type": "string",
+          "enum": ["primary", "secondary", "cta"],
+          "deprecatedEnumValues": {
+            "cta": {
+              "deprecated": "1.0.0-draft",
+              "deprecatedComment": "Use primary instead."
+            }
+          }
+        }
+      }
+    }
+  ]
+}
