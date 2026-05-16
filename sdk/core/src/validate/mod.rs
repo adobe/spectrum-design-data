@@ -55,6 +55,9 @@ pub fn validate_all_with_exceptions(
 /// `mode_sets_path` — optional directory of spec-format mode set JSON files.
 /// `components_path` — optional directory of spec-format component JSON files;
 /// when provided, SPEC-028 and SPEC-029 also check components and anatomy parts.
+///
+/// When `data_path` is a directory, a `manifest.json` sibling is loaded
+/// automatically and passed to manifest-aware rules (e.g. SPEC-039).
 pub fn validate_all_with_options(
     data_path: &Path,
     schema_registry: &SchemaRegistry,
@@ -76,7 +79,20 @@ pub fn validate_all_with_options(
             graph = graph.with_components(comps);
         }
     }
-    let rel = relational::validate_relational(&graph, naming_exceptions);
+    // Load manifest.json from the data directory when present.
+    let manifest: Option<serde_json::Value> = if data_path.is_dir() {
+        let mp = data_path.join("manifest.json");
+        if mp.is_file() {
+            std::fs::read_to_string(&mp)
+                .ok()
+                .and_then(|s| serde_json::from_str(&s).ok())
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+    let rel = relational::validate_relational(&graph, naming_exceptions, manifest.as_ref());
     report.merge(rel);
     Ok(report)
 }

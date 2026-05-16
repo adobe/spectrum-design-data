@@ -26,9 +26,11 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 
 ### `include` / `exclude`
 
-**NORMATIVE:** Entries **MUST** be non-empty strings.
+**NORMATIVE:** Each entry **MUST** be a non-empty string that parses as a valid query expression per [Query](query.md). An entry that fails to parse, or that references a key outside the [supported query key list](query.md#supported-keys), is a Layer 2 conformance error (SPEC-039 `manifest-query-parseable`).
 
-> **Note:** Query notation syntax is fully defined in [Query](query.md) and is normative for programmatic use. Its normative use in manifest `include`/`exclude` is deferred to a post-`1.0.0-draft` revision pending conformance fixtures; until then, implementations **MUST** treat manifest query values as opaque identifiers.
+See [Query — Formal grammar](query.md#formal-grammar) for the EBNF and [Query — Supported keys](query.md#supported-keys) for the normative list of allowed keys.
+
+> **Migration note (from earlier `1.0.0-draft` revisions):** Prior revisions instructed implementations to treat manifest query values as opaque identifiers. That clause is lifted as of this revision. Any manifest that uses non-query strings in `include`/`exclude` must be updated to use valid query notation; the SPEC-039 rule reports column-level parse errors to guide migration.
 
 ### `overrides`
 

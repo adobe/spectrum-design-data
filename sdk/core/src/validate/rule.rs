@@ -24,6 +24,10 @@ pub struct ValidationContext<'a> {
     pub naming_exceptions: &'a HashSet<String>,
     /// Design system registry data for SPEC-009 enum validation.
     pub registry: &'a RegistryData,
+    /// Parsed manifest document (e.g. `manifest.json`), when present.
+    /// Rules that validate manifest fields (e.g. SPEC-039) read this field;
+    /// all other rules ignore it.
+    pub manifest: Option<&'a serde_json::Value>,
 }
 
 /// Catalog-backed validation rule.
