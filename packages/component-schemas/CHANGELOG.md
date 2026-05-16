@@ -1,5 +1,12 @@
 # [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)
 
+## 6.1.12
+
+### Patch Changes
+
+- Updated dependencies [[`0f256ce`](https://github.com/adobe/spectrum-design-data/commit/0f256ce0d067c87503979676d09cb4de7e904321)]:
+  - @adobe/design-data-spec@1.0.0
+
 ## 6.1.11
 
 ### Patch Changes

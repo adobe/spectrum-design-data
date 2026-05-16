@@ -1,5 +1,24 @@
 # @adobe/design-data-spec
 
+## 1.0.0
+
+### Major Changes
+
+- [#932](https://github.com/adobe/spectrum-design-data/pull/932) [`0f256ce`](https://github.com/adobe/spectrum-design-data/commit/0f256ce0d067c87503979676d09cb4de7e904321) Thanks [@GarthDB](https://github.com/GarthDB)! - **Breaking:** Replace `optionDescriptor.enum` + `deprecatedEnumValues` with a
+  structured `values` array.
+
+  Each entry in `values` is an `optionValue` object (`{ value, description?, lifecycle? }`),
+  eliminating the key-drift hazard that existed when `deprecatedEnumValues` could reference
+  values absent from `enum`.
+
+  Migration: convert `"enum": ["a", "b"]` to
+  `"values": [{"value": "a"}, {"value": "b"}]`. Any `deprecatedEnumValues` entries fold into
+  the matching `values[].lifecycle` object.
+
+  SDK rules updated: SPEC-019 (`component-variant-valid`) reads `values[].value` instead of
+  `enum[]`; SPEC-037 (`sub-entity-deprecation-cascade`) reads `values[].lifecycle.deprecated`
+  for the option-value cascade.
+
 ## 0.15.0
 
 ### Minor Changes
