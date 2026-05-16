@@ -44,6 +44,10 @@ pub fn validate_relational(
 }
 
 /// Test helper: filter diagnostics by rule id.
+///
+/// Note: passes `manifest: None`, so manifest-only rules such as SPEC-039
+/// will never fire through this helper. Use `run_rules` directly when a
+/// manifest is needed.
 pub fn diagnostics_for_rule(graph: &TokenGraph, rule_id: &str) -> Vec<Diagnostic> {
     let empty = HashSet::new();
     rules::run_rules(graph, &empty, None)

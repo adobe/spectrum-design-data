@@ -58,6 +58,8 @@ pub fn validate_all_with_exceptions(
 ///
 /// When `data_path` is a directory, a `manifest.json` sibling is loaded
 /// automatically and passed to manifest-aware rules (e.g. SPEC-039).
+/// When `data_path` is a single file, no manifest is loaded and SPEC-039
+/// is a silent no-op even if a sibling `manifest.json` exists.
 pub fn validate_all_with_options(
     data_path: &Path,
     schema_registry: &SchemaRegistry,

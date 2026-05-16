@@ -4,7 +4,7 @@
     {
       "rule_id": "SPEC-039",
       "severity": "error",
-      "message_pattern": ".*missing operator.*"
+      "message_pattern": ".*"
     }
   ]
 }

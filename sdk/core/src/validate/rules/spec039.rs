@@ -176,4 +176,16 @@ mod tests {
         })));
         assert!(diags.is_empty());
     }
+
+    #[test]
+    fn non_string_entries_silently_skipped() {
+        // Non-string entries (e.g. a number) are skipped without an error.
+        // Layer 1 schema validation catches these; SPEC-039 only parses strings.
+        let diags = run(Some(json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "include": [42, true, null]
+        })));
+        assert!(diags.is_empty());
+    }
 }
