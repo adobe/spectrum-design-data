@@ -3,6 +3,9 @@ name: TDIFF - SPECTRUM FOUNDATIONS
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   tdiff:
     uses: ./.github/workflows/_tdiff.yml

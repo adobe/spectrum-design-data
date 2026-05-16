@@ -1,5 +1,10 @@
 name: CI
 on: pull_request
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   ci:
     name: CI
@@ -15,4 +20,4 @@ jobs:
       - uses: moonrepo/run-report-action@v1
         if: success() || failure()
         with:
-          access-token: ${{ secrets.GH_TOKEN }}
+          access-token: ${{ secrets.GITHUB_TOKEN }}
