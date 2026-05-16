@@ -24,12 +24,17 @@ use crate::validate::rule::{ValidationContext, ValidationRule};
 
 /// Name-object keys owned by other rules or the cascade machinery.
 /// SPEC-040 skips these to avoid double-reporting.
+///
+/// `state` is validated by SPEC-022 against `component.states[].name`, not
+/// `component.options.state.values[]`. If a future component declared a `state`
+/// option with its own `values[]`, SPEC-040 would still skip it — intentionally
+/// conservative so SPEC-022 remains the sole authority on state values.
 const RESERVED: &[&str] = &[
     "property",
     "component",
-    "variant",  // SPEC-019
-    "state",    // SPEC-022
-    "anatomy",  // SPEC-020
+    "variant",      // SPEC-019: component-variant-valid (Error)
+    "state",        // SPEC-022: component-state-valid (Error) — validated against states[], not options
+    "anatomy",      // SPEC-020: component-anatomy-valid (Error)
     "colorScheme",
     "scale",
     "contrast",
@@ -95,6 +100,18 @@ impl ValidationRule for Rule {
                     .filter_map(|entry| entry.get("value").and_then(|v| v.as_str()))
                     .collect();
 
+                // An empty values[] is a schema oddity (no valid values declared).
+                // Treat it the same as an absent values[] — no constraint — rather
+                // than warning on every token value, which would be a false-positive
+                // storm from a malformed component definition.
+                if declared.is_empty() {
+                    continue;
+                }
+
+                // Deprecated-but-declared values (lifecycle.deprecated on the values
+                // entry) still appear in `declared` and pass here. SPEC-037 fires the
+                // advisory warning for those separately — this rule only checks
+                // existence in the declared set, not lifecycle status.
                 if !declared.contains(field_val) {
                     out.push(Diagnostic {
                         file: t.file.clone(),
@@ -219,6 +236,25 @@ mod tests {
             }),
         );
         assert!(run(&g).is_empty());
+    }
+
+    #[test]
+    fn empty_values_array_skipped() {
+        // An empty values[] is a malformed component definition. Treat it the same
+        // as an absent values[] (no constraint) rather than warning on every value.
+        let g = make_graph(
+            json!({ "component": "button", "style": "fill" }),
+            json!({
+                "name": "button",
+                "options": {
+                    "style": {
+                        "type": "enum",
+                        "values": []
+                    }
+                }
+            }),
+        );
+        assert!(run(&g).is_empty(), "empty values[] must not warn");
     }
 
     #[test]
