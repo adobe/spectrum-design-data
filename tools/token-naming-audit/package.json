@@ -1,0 +1,35 @@
+{
+  "name": "@adobe/token-naming-audit",
+  "version": "0.1.0",
+  "description": "Audit tool that reports string-name token debt and overloaded property-field values",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "token-naming-audit": "src/cli.js"
+  },
+  "scripts": {
+    "test": "ava test/**/*.test.js",
+    "lint": "echo 'No linting configured'"
+  },
+  "keywords": [
+    "spectrum",
+    "tokens",
+    "migration",
+    "audit"
+  ],
+  "author": "Adobe",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@adobe/design-system-registry": "workspace:*",
+    "commander": "^12.1.0",
+    "glob": "^11.0.0"
+  },
+  "devDependencies": {
+    "ava": "^6.4.0",
+    "esmock": "^2.6.9"
+  },
+  "engines": {
+    "node": "~20.12"
+  },
+  "packageManager": "pnpm@10.17.1"
+}

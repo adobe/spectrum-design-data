@@ -22,6 +22,7 @@ projects:
   spectrum-design-data-mcp: "tools/spectrum-design-data-mcp"
   s2-docs-mcp: "tools/s2-docs-mcp"
   component-options-editor: "tools/component-options-editor"
+  token-naming-audit: "tools/token-naming-audit"
 vcs:
   manager: "git"
   defaultBranch: "main"

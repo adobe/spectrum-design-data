@@ -685,6 +685,25 @@ importers:
         specifier: ^6.1.1
         version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
 
+  tools/token-naming-audit:
+    dependencies:
+      "@adobe/design-system-registry":
+        specifier: workspace:*
+        version: link:../../packages/design-system-registry
+      commander:
+        specifier: ^12.1.0
+        version: 12.1.0
+      glob:
+        specifier: ^11.0.0
+        version: 11.0.3
+    devDependencies:
+      ava:
+        specifier: ^6.4.0
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+      esmock:
+        specifier: ^2.6.9
+        version: 2.7.1
+
   tools/transform-tokens-json:
     dependencies:
       jsonpath-plus:
