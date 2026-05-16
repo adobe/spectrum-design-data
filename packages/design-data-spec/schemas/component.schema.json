@@ -162,6 +162,7 @@
         "deprecatedEnumValues": {
           "type": "object",
           "description": "Per-enum-value lifecycle metadata keyed by enum value string. Values absent from this map are not deprecated. Consumed by SPEC-037.",
+          "$comment": "Keys are not validated against sibling 'enum' — JSON Schema cannot cross-reference sibling values without unevaluatedProperties. Entries for values absent from 'enum' are silently ignored by validators. A future SPEC rule may close this gap.",
           "additionalProperties": {
             "$ref": "#/$defs/lifecycle"
           }

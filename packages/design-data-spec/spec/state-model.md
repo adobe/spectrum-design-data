@@ -34,6 +34,7 @@ A state declaration is a **JSON object** that appears as an element of a compone
 | `trigger`     | string  | OPTIONAL | `"prop"` for persistent prop-driven states; `"interaction"` for runtime interaction states. See [Trigger semantics](#trigger-semantics).   |
 | `precedence`  | integer | OPTIONAL | Resolution precedence; higher value wins when multiple non-layered states are active simultaneously. Defaults to `0` if omitted.           |
 | `layered`     | boolean | OPTIONAL | When `true`, this state composes on top of the winning non-layered state rather than competing with it. Default: `false`.                  |
+| `lifecycle`   | object  | OPTIONAL | Version lifecycle metadata for this state — see [lifecycle](#lifecycle).                                                                   |
 
 **NORMATIVE:** No properties beyond those listed above are permitted in a state declaration object. Additional fields **MUST** cause a Layer 1 schema error.
 
@@ -75,6 +76,18 @@ When `precedence` is omitted, it is treated as `0`.
 When `layered: true`, the state does not participate in the non-layered precedence competition. Instead, after the winning non-layered state is determined, all active `layered: true` states are applied on top of it in order of their `precedence` values (higher precedence layered states apply last / outermost).
 
 Typical use: focus ring states (`focus`, `focus-visible`) that must be visible regardless of whether the component is also in a `hover` or `selected` state.
+
+### `lifecycle`
+
+**OPTIONAL.** A version lifecycle object tracking the history of this state declaration. Uses the same shape as the component-level `lifecycle` block (see [Component format — Lifecycle](component-format.md#lifecycle)).
+
+| Field               | Type   | Description                                                                                      |
+| ------------------- | ------ | ------------------------------------------------------------------------------------------------ |
+| `deprecated`        | string | Spec version when this state was deprecated. A truthy string signals deprecation.                |
+| `deprecatedComment` | string | Human-readable explanation of the deprecation and migration path (e.g. `"Use active instead."`). |
+| `replacedBy`        | string | `name` of the replacement state.                                                                 |
+
+**ADVISORY:** When a state carries a `lifecycle.deprecated` value, non-deprecated tokens that reference this state via `name.state` **SHOULD** be updated to remove or replace the reference. Rule SPEC-037 fires an advisory warning for such references to prompt migration.
 
 ## Trigger semantics
 
@@ -185,10 +198,11 @@ See [Token format — Name object](token-format.md#name-object) for the full nam
 
 The following rules in the Layer 2 rule catalog (`rules/rules.yaml`) apply to state declarations. SPEC-022 was introduced in Phase 6.1 (component-format); SPEC-026 is introduced by this chapter.
 
-| Rule ID  | Name                           | Severity | Assert                                                                                                                                              |
-| -------- | ------------------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-022 | `component-state-valid`        | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).          |
-| SPEC-026 | `state-custom-name-documented` | warning  | State declarations with a `name` outside the canonical state vocabulary **SHOULD** include a `description` field documenting the state's semantics. |
+| Rule ID  | Name                             | Severity | Assert                                                                                                                                              |
+| -------- | -------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-022 | `component-state-valid`          | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).          |
+| SPEC-026 | `state-custom-name-documented`   | warning  | State declarations with a `name` outside the canonical state vocabulary **SHOULD** include a `description` field documenting the state's semantics. |
+| SPEC-037 | `sub-entity-deprecation-cascade` | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated state via `name.state`. Advisory warning prompts migration.                            |
 
 ## Full example
 

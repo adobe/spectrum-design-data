@@ -88,19 +88,37 @@ The `options` block declares the component's API surface — the configurable pr
 
 An option descriptor is a JSON object with the following fields:
 
-| Field         | Type            | Required | Description                                                                      |
-| ------------- | --------------- | -------- | -------------------------------------------------------------------------------- |
-| `type`        | string or array | OPTIONAL | JSON Schema primitive type(s): `"string"`, `"boolean"`, `"number"`, `"integer"`. |
-| `enum`        | array           | OPTIONAL | Exhaustive list of permitted values.                                             |
-| `default`     | any             | OPTIONAL | Default value when the option is not specified.                                  |
-| `description` | string          | OPTIONAL | Plain-text description of what the option controls.                              |
-| `$ref`        | URI string      | OPTIONAL | Reference to a shared type schema (e.g. `workflow-icon.json`).                   |
+| Field                  | Type            | Required | Description                                                                                                                                   |
+| ---------------------- | --------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`                 | string or array | OPTIONAL | JSON Schema primitive type(s): `"string"`, `"boolean"`, `"number"`, `"integer"`.                                                              |
+| `enum`                 | array           | OPTIONAL | Exhaustive list of permitted values.                                                                                                          |
+| `default`              | any             | OPTIONAL | Default value when the option is not specified.                                                                                               |
+| `description`          | string          | OPTIONAL | Plain-text description of what the option controls.                                                                                           |
+| `$ref`                 | URI string      | OPTIONAL | Reference to a shared type schema (e.g. `workflow-icon.json`).                                                                                |
+| `deprecatedEnumValues` | object          | OPTIONAL | Per-enum-value lifecycle metadata. Keys are enum value strings; values are lifecycle objects. Values absent from this map are not deprecated. |
 
 **NORMATIVE:** Each key in `options` **MUST** be camelCase.
 
 **NORMATIVE:** Boolean option names **MUST** begin with `is` or `has` (e.g. `isDisabled`, `hasIcon`).
 
 **NORMATIVE:** When `enum` is present, token name-object `variant` field values referencing this component **MUST** be drawn from the declared `variant` option enum (rule SPEC-019). Other option enums are informative for tooling but do not currently drive SPEC rules.
+
+**ADVISORY:** When a `deprecatedEnumValues` entry exists for a value that a non-deprecated token references via its `name` object field for that option, SPEC-037 fires an advisory warning. Keys in `deprecatedEnumValues` are not independently validated against `enum` — entries for values absent from `enum` are silently ignored by validators (a future rule may close this gap).
+
+Example with a deprecated enum value:
+
+```json
+"variant": {
+  "type": "string",
+  "enum": ["primary", "secondary", "cta"],
+  "deprecatedEnumValues": {
+    "cta": {
+      "deprecated": "1.0.0-draft",
+      "deprecatedComment": "Use primary instead."
+    }
+  }
+}
+```
 
 ```json
 "options": {
@@ -186,12 +204,13 @@ The `anatomy` block declares the component's named **visual parts** — the anat
 
 Each anatomy part carries at minimum:
 
-| Field         | Type             | Required | Description                                                    |
-| ------------- | ---------------- | -------- | -------------------------------------------------------------- |
-| `name`        | string           | REQUIRED | Anatomy part identifier (e.g. `icon`, `label`, `handle`).      |
-| `description` | string           | OPTIONAL | Plain-text description of the part.                            |
-| `required`    | boolean          | OPTIONAL | Whether this part is always present. Default: `false`.         |
-| `contains`    | array of strings | OPTIONAL | Informative: other anatomy part names nested within this part. |
+| Field         | Type             | Required | Description                                                                                                         |
+| ------------- | ---------------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
+| `name`        | string           | REQUIRED | Anatomy part identifier (e.g. `icon`, `label`, `handle`).                                                           |
+| `description` | string           | OPTIONAL | Plain-text description of the part.                                                                                 |
+| `required`    | boolean          | OPTIONAL | Whether this part is always present. Default: `false`.                                                              |
+| `contains`    | array of strings | OPTIONAL | Informative: other anatomy part names nested within this part.                                                      |
+| `lifecycle`   | object           | OPTIONAL | Version lifecycle metadata for this part. When `lifecycle.deprecated` is set, SPEC-037 fires on referencing tokens. |
 
 See [`spec/anatomy-format.md`](anatomy-format.md) for constraints, cross-field validation, and the full anatomy part schema.
 
@@ -216,6 +235,7 @@ Each state carries at minimum:
 | `trigger`    | string  | OPTIONAL | `"prop"` for persistent prop-driven states (e.g. `isDisabled`) or `"interaction"` for runtime interaction states (hover, focus, pressed). |
 | `precedence` | integer | OPTIONAL | Resolution precedence; higher integer wins when multiple states are active.                                                               |
 | `layered`    | boolean | OPTIONAL | `true` for states that compose with others (e.g. focus ring over hover). Default: `false`.                                                |
+| `lifecycle`  | object  | OPTIONAL | Version lifecycle metadata for this state. When `lifecycle.deprecated` is set, SPEC-037 fires on referencing tokens.                      |
 
 See [`spec/state-model.md`](state-model.md) for the full state resolution algorithm, trigger semantics, and precedence rules.
 
@@ -271,14 +291,16 @@ The `context` field is informative. It is used by `describe_component` (Phase 8 
 
 The following rules are added to the Layer 2 rule catalog (`rules/rules.yaml`) by this chapter. New component cross-reference rules start at SPEC-018 to avoid collision with existing token rules (SPEC-001–SPEC-017).
 
-| Rule ID  | Name                         | Severity | Assert                                                                                                                                                                        |
-| -------- | ---------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-018 | `component-name-exists`      | error    | Token `component` field value **MUST** match the `name` of a declared component in the dataset.                                                                               |
-| SPEC-019 | `component-variant-valid`    | error    | Token `variant` field value **MUST** match a value in the declared `variant` option enum for the referenced component (when that enum exists).                                |
-| SPEC-020 | `component-anatomy-valid`    | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                 |
-| SPEC-021 | `component-slot-vocabulary`  | warning  | Component `slots` entries with a `name` outside the canonical vocabulary **SHOULD** include a `description`. Custom slot names without descriptions are surfaced as warnings. |
-| SPEC-022 | `component-state-valid`      | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).                                    |
-| SPEC-027 | `token-binding-token-exists` | error    | Each `tokenBindings[].token` value **MUST** match the name of a declared token in the dataset (Phase 6.7).                                                                    |
+| Rule ID  | Name                             | Severity | Assert                                                                                                                                                                                                                                         |
+| -------- | -------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-018 | `component-name-exists`          | error    | Token `component` field value **MUST** match the `name` of a declared component in the dataset.                                                                                                                                                |
+| SPEC-019 | `component-variant-valid`        | error    | Token `variant` field value **MUST** match a value in the declared `variant` option enum for the referenced component (when that enum exists).                                                                                                 |
+| SPEC-020 | `component-anatomy-valid`        | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                                                                                  |
+| SPEC-021 | `component-slot-vocabulary`      | warning  | Component `slots` entries with a `name` outside the canonical vocabulary **SHOULD** include a `description`. Custom slot names without descriptions are surfaced as warnings.                                                                  |
+| SPEC-022 | `component-state-valid`          | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).                                                                                                     |
+| SPEC-027 | `token-binding-token-exists`     | error    | Each `tokenBindings[].token` value **MUST** match the name of a declared token in the dataset (Phase 6.7).                                                                                                                                     |
+| SPEC-036 | `component-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated component via `name.component`. Advisory warning prompts updating the component reference or marking the token deprecated.                                                        |
+| SPEC-037 | `sub-entity-deprecation-cascade` | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part, state, or option-enum value via `name.*`. Advisory warning prompts migration. Requires `lifecycle` on anatomy/state or `deprecatedEnumValues` on option descriptor. |
 
 ## Full example
 
