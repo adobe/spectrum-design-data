@@ -109,6 +109,7 @@
     "optionDescriptor": {
       "type": "object",
       "description": "Descriptor for a single component option. The `type` keyword follows JSON Schema conventions. Use `values` (not `enum`) to declare permitted values — the structured array allows per-value lifecycle metadata. Other JSON Schema keywords (default, description, pattern, minimum, maximum, items, properties, $ref) are permitted as needed.",
+      "$comment": "additionalProperties: true is required to allow JSON Schema passthrough keywords (pattern, minimum, etc.). This means the legacy `enum` keyword is silently accepted at Layer 1; SPEC-038 closes the gap at Layer 2 by warning when `enum` is present.",
       "properties": {
         "type": {
           "oneOf": [

@@ -324,6 +324,7 @@ The following rules are added to the Layer 2 rule catalog (`rules/rules.yaml`) b
 | SPEC-027 | `token-binding-token-exists`     | error    | Each `tokenBindings[].token` value **MUST** match the name of a declared token in the dataset (Phase 6.7).                                                                                                                                                        |
 | SPEC-036 | `component-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated component via `name.component`. Advisory warning prompts updating the component reference or marking the token deprecated.                                                                           |
 | SPEC-037 | `sub-entity-deprecation-cascade` | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part, state, or option value via `name.*`. Advisory warning prompts migration. Requires `lifecycle` on anatomy/state or `lifecycle` on the matching `values` entry on the option descriptor. |
+| SPEC-038 | `option-enum-obsolete`           | warning  | An option descriptor **SHOULD NOT** use the JSON Schema `enum` keyword. `additionalProperties: true` silently accepts `enum` at Layer 1; SPEC-038 flags it at Layer 2 so authors replace it with the `values` array.                                              |
 
 ## Full example
 

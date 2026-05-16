@@ -370,3 +370,16 @@ rules:
     message: "Token '{token}' references deprecated {kind} '{value}' on component '{component}' (deprecated since {version}); update the reference or mark the token deprecated"
     spec_ref: spec/component-format.md#lifecycle
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-038
+    name: option-enum-obsolete
+    severity: warning
+    category: component-contract
+    assert: >
+      Option descriptors SHOULD NOT use the JSON Schema `enum` keyword. The `enum` field is
+      silently accepted at Layer 1 (optionDescriptor uses additionalProperties: true) but has
+      no effect on SDK rules or lifecycle cascade. Use `values` instead so per-value lifecycle
+      metadata can be attached to individual values.
+    message: "Component '{component}' option '{option}' uses the obsolete `enum` keyword; replace with a `values` array so per-value lifecycle metadata can be expressed"
+    spec_ref: spec/component-format.md#option-descriptor
+    introduced_in: "1.0.0-draft"

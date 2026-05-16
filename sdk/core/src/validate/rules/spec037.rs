@@ -125,6 +125,10 @@ impl ValidationRule for Rule {
             // matches a value in values[] that carries a deprecated lifecycle.
             if let Some(options) = comp.raw.get("options").and_then(|v| v.as_object()) {
                 for (option_key, option_desc) in options {
+                    // Only string token values are reachable here; numeric/boolean option
+                    // values use as_str() → None and are skipped. Non-string deprecated
+                    // values are not yet expressible in token name-objects, so this gap
+                    // is harmless today but worth revisiting if numeric options adopt lifecycle.
                     let Some(token_value) =
                         name_obj.get(option_key.as_str()).and_then(|v| v.as_str())
                     else {
