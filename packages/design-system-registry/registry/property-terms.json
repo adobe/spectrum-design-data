@@ -154,6 +154,11 @@
       "description": "Typeface family name"
     },
     {
+      "id": "font-style",
+      "label": "Font Style",
+      "description": "Typeface style (normal, italic, oblique)"
+    },
+    {
       "id": "line-height",
       "label": "Line Height",
       "description": "Vertical spacing between lines of text"

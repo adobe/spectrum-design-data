@@ -4,6 +4,11 @@
   "description": "Typographic style values for typography tokens. Assigned via the `style` name-object field. Corresponds to the CSS font-style axis. The normal/default style is not listed — omit the field when style is normal.",
   "values": [
     {
+      "id": "normal",
+      "label": "Normal",
+      "description": "Default upright font style (font-style: normal)"
+    },
+    {
       "id": "italic",
       "label": "Italic",
       "description": "Italic font style (font-style: italic)"

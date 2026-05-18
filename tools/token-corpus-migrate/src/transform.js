@@ -11,15 +11,24 @@ governing permissions and limitations under the License.
 */
 
 import colorFamiliesData from "@adobe/design-system-registry/registry/color-families.json" with { type: "json" };
+import typographyFamiliesData from "@adobe/design-system-registry/registry/typography-families.json" with { type: "json" };
+import typographyStylesData from "@adobe/design-system-registry/registry/typography-styles.json" with { type: "json" };
 import typographyWeightsData from "@adobe/design-system-registry/registry/typography-weights.json" with { type: "json" };
 
 const COLOR_FAMILIES = new Set(colorFamiliesData.values.map((v) => v.id));
+const TYPOGRAPHY_FAMILIES = new Set(
+  typographyFamiliesData.values.map((v) => v.id),
+);
+const TYPOGRAPHY_STYLES = new Set(typographyStylesData.values.map((v) => v.id));
 const TYPOGRAPHY_WEIGHTS = new Set(
   typographyWeightsData.values.map((v) => v.id),
 );
 
 const COLOR_SCHEMAS = new Set(["color.json", "color-set.json"]);
+const FONT_FAMILY_SCHEMA = "font-family.json";
+const FONT_STYLE_SCHEMA = "font-style.json";
 const FONT_WEIGHT_SCHEMA = "font-weight.json";
+const SCALE_SET_SCHEMA = "scale-set.json";
 
 /** Returns true when a $schema URL ends with the given suffix. */
 function schemaEndsWith(schemaUrl, suffix) {
@@ -93,6 +102,72 @@ export function fontWeightNameForKey(key) {
 }
 
 /**
+ * Derive the name object for a font-family token, or null if unclassifiable.
+ *
+ * Pattern:  <family>-font-family  where family is in the typography-families registry.
+ */
+export function fontFamilyNameForKey(key) {
+  const match = key.match(/^(.+)-font-family$/);
+  if (match) {
+    const [, family] = match;
+    if (TYPOGRAPHY_FAMILIES.has(family)) {
+      return { property: "font-family", family };
+    }
+  }
+  return null;
+}
+
+/**
+ * Derive the name object for a font-style token, or null if unclassifiable.
+ *
+ * Patterns:
+ *   <style>-font-style  where <style> is in the typography-styles registry.
+ *   <anything>-font-style  where the token value is a registry style id
+ *   (handles "default-font-style" whose value is "normal").
+ */
+export function fontStyleNameForKey(key, token) {
+  const match = key.match(/^(.+)-font-style$/);
+  if (!match) return null;
+  const [, candidate] = match;
+  if (TYPOGRAPHY_STYLES.has(candidate)) {
+    return { property: "font-style", style: candidate };
+  }
+  // Key prefix isn't a registry id — fall back to the token's value.
+  const value = typeof token?.value === "string" ? token.value : null;
+  if (value && TYPOGRAPHY_STYLES.has(value)) {
+    return { property: "font-style", style: value };
+  }
+  return null;
+}
+
+/**
+ * Derive the name object for a font-size scale-set token, or null if unclassifiable.
+ *
+ * Pattern:  font-size-<N>
+ */
+export function fontSizeNameForKey(key) {
+  const match = key.match(/^font-size-(\d+)$/);
+  if (match) {
+    return { property: "font-size", scaleIndex: Number(match[1]) };
+  }
+  return null;
+}
+
+/**
+ * Derive the name object for a line-height scale-set token expressed in font-size
+ * units, or null if unclassifiable.
+ *
+ * Pattern:  line-height-font-size-<N>
+ */
+export function lineHeightNameForKey(key) {
+  const match = key.match(/^line-height-font-size-(\d+)$/);
+  if (match) {
+    return { property: "line-height", scaleIndex: Number(match[1]) };
+  }
+  return null;
+}
+
+/**
  * Classify a single token entry and return a name object, or null to skip.
  *
  * @param {string} key            - Token key (e.g. "blue-100")
@@ -119,6 +194,24 @@ export function classifyToken(key, token, overrides = {}) {
     const name = fontWeightNameForKey(key);
     if (name) return { name };
     return { name: null }; // in-scope but unclassified
+  }
+
+  if (schemaEndsWith(schema, FONT_FAMILY_SCHEMA)) {
+    const name = fontFamilyNameForKey(key);
+    if (name) return { name };
+    return { name: null }; // in-scope but unclassified
+  }
+
+  if (schemaEndsWith(schema, FONT_STYLE_SCHEMA)) {
+    const name = fontStyleNameForKey(key, token);
+    if (name) return { name };
+    return { name: null }; // in-scope but unclassified
+  }
+
+  if (schemaEndsWith(schema, SCALE_SET_SCHEMA)) {
+    const name = fontSizeNameForKey(key) ?? lineHeightNameForKey(key);
+    if (name) return { name };
+    return null; // other scale-set tokens (layout, etc.) are out of scope
   }
 
   return null; // out of scope for this tool
