@@ -1,5 +1,18 @@
 # @adobe/design-data-spec
 
+## 1.3.0
+
+### Minor Changes
+
+- [#958](https://github.com/adobe/spectrum-design-data/pull/958) [`c5bd47e`](https://github.com/adobe/spectrum-design-data/commit/c5bd47e72c59c7b4132464af6b6f39864a77704d) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(spec): add `modeSetRestrictions` to platform manifest and SPEC-041 coverage rule
+
+  Platforms can now declare which mode values are valid in a given mode set via the optional
+  `modeSetRestrictions` manifest field (e.g. iOS restricting `colorScheme` to `["light"]`).
+  The cascade resolver filters restricted candidates before context matching (step 0 of the
+  resolution algorithm). SPEC-041 (`mode-set-restriction-coverage`) enforces that every token
+  group has at least one candidate surviving all restrictions simultaneously, and reports
+  unknown mode set names and missing defaults as separate sub-diagnostics.
+
 ## 1.2.0
 
 ### Minor Changes

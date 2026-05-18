@@ -1,5 +1,13 @@
 # markdown-generator
 
+## 0.1.27
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.15
+  - @adobe/design-system-registry@3.1.0
+
 ## 0.1.26
 
 ### Patch Changes
