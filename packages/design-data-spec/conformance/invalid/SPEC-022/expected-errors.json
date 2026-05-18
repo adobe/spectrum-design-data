@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-022",
+      "severity": "error",
+      "message_pattern": ".*undeclared state.*jello.*"
+    }
+  ]
+}

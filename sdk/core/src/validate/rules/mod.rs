@@ -21,8 +21,68 @@ mod spec010;
 mod spec011;
 mod spec012;
 mod spec013;
+mod spec014;
+mod spec015;
+mod spec016;
+mod spec017;
+mod spec018;
+mod spec019;
+mod spec020;
+mod spec021;
+mod spec022;
+mod spec023;
+mod spec024;
+mod spec025;
+mod spec026;
+mod spec027;
+mod spec028;
+mod spec029;
+mod spec030;
+mod spec031;
+mod spec032;
+// SPEC-033 is a meta-rule (registry-id-cross-namespace-allowed) documented in rules.yaml
+// but has no SDK implementation — it constrains validator behavior via spec prose, not data.
+mod spec034;
+mod spec035;
+mod spec036;
+mod spec037;
+mod spec038;
+mod spec039;
+mod spec040;
+mod spec041;
+mod spec042;
+mod spec043;
 
 use std::collections::HashSet;
+
+/// Domain → `$schema` URL suffix mapping shared by SPEC-042 and SPEC-043.
+/// Update this list when new token-type schemas are introduced; both rules
+/// pick up the change automatically.
+pub(super) const DOMAIN_SCHEMAS: &[(&str, &[&str])] = &[
+    ("color", &["color.json", "color-set.json", "gradient-stop.json"]),
+    (
+        "typography",
+        &[
+            "font-family.json",
+            "font-weight.json",
+            "font-style.json",
+            "font-size.json",
+            "typography.json",
+        ],
+    ),
+    (
+        "motion",
+        &["duration.json", "easing.json", "motion.json", "motion-set.json"],
+    ),
+];
+
+/// Returns the domain name for a token's `$schema` URL, or `None` if not a known domain type.
+pub(super) fn schema_domain(schema_url: &str) -> Option<&'static str> {
+    DOMAIN_SCHEMAS
+        .iter()
+        .find(|(_, suffixes)| suffixes.iter().any(|s| schema_url.ends_with(s)))
+        .map(|(domain, _)| *domain)
+}
 use std::sync::OnceLock;
 
 use crate::graph::TokenGraph;
@@ -36,7 +96,7 @@ fn embedded_registry() -> &'static RegistryData {
     REGISTRY.get_or_init(RegistryData::embedded)
 }
 
-/// All default catalog rules (SPEC-001 … SPEC-013).
+/// All default catalog rules. See packages/design-data-spec/rules/rules.yaml for the full catalog.
 pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
     vec![
         Box::new(spec001::Rule),
@@ -52,16 +112,53 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec011::Rule),
         Box::new(spec012::Rule),
         Box::new(spec013::Rule),
+        Box::new(spec014::Rule),
+        Box::new(spec015::Rule),
+        Box::new(spec016::Rule),
+        Box::new(spec017::Rule),
+        Box::new(spec018::Rule),
+        Box::new(spec019::Rule),
+        Box::new(spec020::Rule),
+        Box::new(spec021::Rule),
+        Box::new(spec022::Rule),
+        Box::new(spec023::Rule),
+        Box::new(spec024::Rule),
+        Box::new(spec025::Rule),
+        Box::new(spec026::Rule),
+        Box::new(spec027::Rule),
+        Box::new(spec028::Rule),
+        Box::new(spec029::Rule),
+        Box::new(spec030::Rule),
+        Box::new(spec031::Rule),
+        Box::new(spec032::Rule),
+        Box::new(spec034::Rule),
+        Box::new(spec035::Rule),
+        Box::new(spec036::Rule),
+        Box::new(spec037::Rule),
+        Box::new(spec038::Rule),
+        Box::new(spec039::Rule),
+        Box::new(spec040::Rule),
+        Box::new(spec041::Rule),
+        Box::new(spec042::Rule),
+        Box::new(spec043::Rule),
     ]
 }
 
 /// Run every rule and collect diagnostics.
-pub fn run_rules(graph: &TokenGraph, naming_exceptions: &HashSet<String>) -> Vec<Diagnostic> {
+///
+/// Pass `manifest` when a platform manifest document is available; rules such
+/// as SPEC-039 read manifest fields and are silently no-ops when it is `None`.
+pub fn run_rules(
+    graph: &TokenGraph,
+    naming_exceptions: &HashSet<String>,
+    manifest: Option<&serde_json::Value>,
+) -> Vec<Diagnostic> {
     let registry = embedded_registry();
     let ctx = ValidationContext {
         graph,
         naming_exceptions,
         registry,
+        manifest,
     };
     let mut out = Vec::new();
     for r in default_rules() {

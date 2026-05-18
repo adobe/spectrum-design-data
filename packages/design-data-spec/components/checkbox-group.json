@@ -1,0 +1,91 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/checkbox-group.json",
+  "specVersion": "1.0.0-draft",
+  "name": "checkbox-group",
+  "displayName": "Checkbox group",
+  "description": "A checkbox group is a grouping of checkboxes that are related to each other.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/checkbox-group/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
+    },
+    "necessityIndicator": {
+      "type": "string",
+      "default": "icon",
+      "values": [
+        {
+          "value": "text"
+        },
+        {
+          "value": "icon"
+        }
+      ]
+    },
+    "isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "orientation": {
+      "type": "string",
+      "default": "vertical",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "description": {
+      "type": "string"
+    },
+    "errorMessage": {
+      "type": "string"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [],
+  "accessibility": {
+    "intents": ["choose"],
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

@@ -20,4 +20,3 @@ Switches allow users to turn an individual option on or off. They are usually us
 | isEmphasized | boolean | - | false | No | - |
 | isDisabled | boolean | - | false | No | - |
 | isReadOnly | boolean | - | false | No | - |
-| state | string | default, hover, down, keyboard focus | default | No | - |

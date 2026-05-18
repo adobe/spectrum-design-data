@@ -1,5 +1,60 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.7.0
+
+### Minor Changes
+
+- [#842](https://github.com/adobe/spectrum-design-data/pull/842) [`c28702f`](https://github.com/adobe/spectrum-design-data/commit/c28702f19ad408d3dc1461bb059a1c7125f7d32f) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## Token sync from Spectrum Tokens Studio
+
+  **Original implementer:** @larz0
+
+  ### Design motivation
+
+  "Highlight selection is a visual treatment used in components (like list views, tables, or tree views) to indicate that an item is selected, without relying on checkboxes or radio buttons. It’s helpful when we want to avoid clutter or don’t want users interacting with extra controls like checkboxes."
+
+  ### Token changes
+
+  ## Tokens Changed (8)
+
+  **Original Branch:** `main`
+  **New Branch:** `tokens-sync/patch-spectrum2-from-main`
+
+  <details open><summary><strong>Newly "Un-deprecated" (1)</strong></summary>
+  - `stack-item-item-to-item`
+  </details>
+  <details open><summary><strong>Added (5)</strong></summary>
+  - `stack-item-selected-background-opacity-highlight`
+  - `stack-item-selected-background-opacity-highlight-hover`
+  - `vertical-align-items`
+  - `stack-item-minimum-padding-vertical`
+  - `stack-item-selected-background-color-highlight`
+  </details>
+
+  ### Updated (2)
+
+  <details open><summary><strong>Updated Properties (2)</strong></summary>
+  - `stack-item-item-to-item`
+    - `value`: `-1px` -> `0px`
+  - `stack-item-selected-background-color-down` - `value`: `{gray-200}` -> `{gray-300}`
+  </details>
+
+  ### References
+  - Tokens Studio PR: https://github.com/adobe/spectrum-tokens-studio-data/pull/303
+  - Spectrum Tokens PR: https://github.com/adobe/spectrum-design-data/pull/842
+
+## 14.6.0
+
+### Minor Changes
+
+- [#840](https://github.com/adobe/spectrum-design-data/pull/840) [`b11942c`](https://github.com/adobe/spectrum-design-data/commit/b11942cf52ec0077cfd53d8cb70ca722dc88c2e0) Thanks [@GarthDB](https://github.com/GarthDB)! - Generalize the `text-align` token type schema to `alignment`. The schema's
+  file name (`text-align.json` → `alignment.json`), `$id`
+  (`…/token-types/text-align.json` → `…/token-types/alignment.json`), title,
+  and description now describe a generic single-axis alignment value usable
+  for horizontal, vertical, or text alignment. The enum
+  (`start | center | end`) and default (`start`) are unchanged, and the
+  `text-align-*` token names are unchanged. Consumers referencing the old
+  schema `$id` or file path must update.
+
 ## 14.5.0
 
 ### Minor Changes

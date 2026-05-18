@@ -38,34 +38,63 @@ pub fn validate_all(
 
 /// Run structural + relational validation with a naming-exceptions allowlist.
 ///
-/// `dimensions_path` is an optional directory containing spec-format dimension
-/// declaration JSON files (e.g. `packages/design-data-spec/dimensions/`). When
-/// provided, dimensions are loaded and attached to the token graph so that
-/// dimension-aware rules (SPEC-005, SPEC-008) can fire correctly.
+/// `mode_sets_path` is an optional directory containing spec-format mode set
+/// declaration JSON files (e.g. `packages/design-data-spec/mode-sets/`). When
+/// provided, mode sets are loaded and attached to the token graph so that
+/// mode-set-aware rules (SPEC-005, SPEC-008) can fire correctly.
 pub fn validate_all_with_exceptions(
     data_path: &Path,
     schema_registry: &SchemaRegistry,
     naming_exceptions: &HashSet<String>,
 ) -> Result<ValidationReport, CoreError> {
-    validate_all_with_options(data_path, schema_registry, naming_exceptions, None)
+    validate_all_with_options(data_path, schema_registry, naming_exceptions, None, None)
 }
 
 /// Full validation with all options.
+///
+/// `mode_sets_path` — optional directory of spec-format mode set JSON files.
+/// `components_path` — optional directory of spec-format component JSON files;
+/// when provided, SPEC-028 and SPEC-029 also check components and anatomy parts.
+///
+/// When `data_path` is a directory, a `manifest.json` sibling is loaded
+/// automatically and passed to manifest-aware rules (e.g. SPEC-039).
+/// When `data_path` is a single file, no manifest is loaded and SPEC-039
+/// is a silent no-op even if a sibling `manifest.json` exists.
 pub fn validate_all_with_options(
     data_path: &Path,
     schema_registry: &SchemaRegistry,
     naming_exceptions: &HashSet<String>,
-    dimensions_path: Option<&Path>,
+    mode_sets_path: Option<&Path>,
+    components_path: Option<&Path>,
 ) -> Result<ValidationReport, CoreError> {
     let mut report = structural::validate_structural(data_path, schema_registry)?;
     let mut graph = TokenGraph::from_json_dir(data_path)?;
-    if let Some(dir) = dimensions_path {
+    if let Some(dir) = mode_sets_path {
         if dir.is_dir() {
-            let dims = TokenGraph::load_spec_dimensions(dir)?;
-            graph = graph.with_dimensions(dims);
+            let mode_sets = TokenGraph::load_spec_mode_sets(dir)?;
+            graph = graph.with_mode_sets(mode_sets);
         }
     }
-    let rel = relational::validate_relational(&graph, naming_exceptions);
+    if let Some(dir) = components_path {
+        if dir.is_dir() {
+            let comps = TokenGraph::load_spec_components(dir)?;
+            graph = graph.with_components(comps);
+        }
+    }
+    // Load manifest.json from the data directory when present.
+    let manifest: Option<serde_json::Value> = if data_path.is_dir() {
+        let mp = data_path.join("manifest.json");
+        if mp.is_file() {
+            std::fs::read_to_string(&mp)
+                .ok()
+                .and_then(|s| serde_json::from_str(&s).ok())
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+    let rel = relational::validate_relational(&graph, naming_exceptions, manifest.as_ref());
     report.merge(rel);
     Ok(report)
 }

@@ -82,7 +82,7 @@ export async function generateRegistryMarkdown(outputDir) {
 
     const frontmatter = `---
 title: ${title}
-description: ${description}
+description: ${JSON.stringify(description)}
 source_url: ${BASE_SOURCE_URL}/registry/${key}/
 tags:
 ${tags.map((t) => `  - ${t}`).join("\n")}

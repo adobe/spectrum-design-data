@@ -1,0 +1,132 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/progress-circle.json",
+  "specVersion": "1.0.0-draft",
+  "name": "progress-circle",
+  "displayName": "Progress circle",
+  "description": "Progress circles show the progression of a system operation such as downloading, uploading, processing, etc. in a visual way. They can represent determinate or indeterminate progress.",
+  "meta": {
+    "category": "status",
+    "documentationUrl": "https://spectrum.adobe.com/page/progress-circle/"
+  },
+  "options": {
+    "variant": {
+      "type": "string",
+      "default": "default",
+      "values": [
+        {
+          "value": "default"
+        },
+        {
+          "value": "over background"
+        }
+      ]
+    },
+    "value": {
+      "type": "number",
+      "description": "Not applicable when indeterminate."
+    },
+    "minValue": {
+      "type": "number",
+      "default": 0,
+      "description": "Not applicable when indeterminate."
+    },
+    "maxValue": {
+      "type": "number",
+      "default": 1,
+      "description": "Not applicable when indeterminate."
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
+    },
+    "isIndeterminate": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "progress-circle-size-small",
+      "context": "Size"
+    },
+    {
+      "token": "progress-circle-size-medium",
+      "context": "Size"
+    },
+    {
+      "token": "progress-circle-size-large",
+      "context": "Size"
+    },
+    {
+      "token": "progress-circle-thickness-small",
+      "context": "Thickness"
+    },
+    {
+      "token": "progress-circle-thickness-medium",
+      "context": "Thickness"
+    },
+    {
+      "token": "progress-circle-thickness-large",
+      "context": "Thickness"
+    },
+    {
+      "token": "corner-radius-full",
+      "context": "Rounding (fill)"
+    },
+    {
+      "token": "track-color",
+      "context": "Track and fill"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Track and fill"
+    },
+    {
+      "token": "static-white-track-color",
+      "context": "Track and fill (white)"
+    },
+    {
+      "token": "static-white-track-indicator-color",
+      "context": "Track and fill (white)"
+    },
+    {
+      "token": "static-black-track-color",
+      "context": "Track and fill (black)"
+    },
+    {
+      "token": "static-black-track-indicator-color",
+      "context": "Track and fill (black)"
+    }
+  ],
+  "accessibility": {
+    "role": "progressbar",
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      },
+      {
+        "criterion": "4.1.3",
+        "level": "AA",
+        "title": "Status Messages"
+      }
+    ]
+  }
+}

@@ -1,5 +1,155 @@
 # markdown-generator
 
+## 0.1.27
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.15
+  - @adobe/design-system-registry@3.1.0
+
+## 0.1.26
+
+### Patch Changes
+
+- Updated dependencies [[`e05c3ef`](https://github.com/adobe/spectrum-design-data/commit/e05c3eff28caecbdb9782eb62023876e0d1f4947)]:
+  - @adobe/design-system-registry@3.1.0
+  - @adobe/spectrum-component-api-schemas@6.1.14
+
+## 0.1.25
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.13
+  - @adobe/design-system-registry@3.0.0
+
+## 0.1.24
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.12
+  - @adobe/design-system-registry@3.0.0
+
+## 0.1.23
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.11
+  - @adobe/design-system-registry@3.0.0
+
+## 0.1.22
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.10
+  - @adobe/design-system-registry@3.0.0
+
+## 0.1.21
+
+### Patch Changes
+
+- Updated dependencies [[`6a855e9`](https://github.com/adobe/spectrum-design-data/commit/6a855e98caad99d8799e4c2ed4a822a5776bd2da), [`20bb703`](https://github.com/adobe/spectrum-design-data/commit/20bb7035ad7d62513670bfb393b70766a295e51c)]:
+  - @adobe/design-system-registry@3.0.0
+  - @adobe/spectrum-component-api-schemas@6.1.9
+
+## 0.1.20
+
+### Patch Changes
+
+- Updated dependencies [[`f3a0a6b`](https://github.com/adobe/spectrum-design-data/commit/f3a0a6b6bc03774e870aad989c16d9b532406aaf)]:
+  - @adobe/design-system-registry@2.0.0
+  - @adobe/spectrum-component-api-schemas@6.1.8
+
+## 0.1.19
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.7
+  - @adobe/design-system-registry@1.4.0
+
+## 0.1.18
+
+### Patch Changes
+
+- Updated dependencies [[`4f53a93`](https://github.com/adobe/spectrum-design-data/commit/4f53a932177c618e8b09e858cdeafe116d6b4f33)]:
+  - @adobe/design-system-registry@1.4.0
+
+## 0.1.17
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.6
+  - @adobe/design-system-registry@1.3.0
+
+## 0.1.16
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.5
+  - @adobe/design-system-registry@1.3.0
+
+## 0.1.15
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.4
+  - @adobe/design-system-registry@1.3.0
+
+## 0.1.14
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.3
+  - @adobe/design-system-registry@1.3.0
+
+## 0.1.13
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.2
+  - @adobe/design-system-registry@1.3.0
+
+## 0.1.12
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.1
+  - @adobe/design-system-registry@1.3.0
+
+## 0.1.11
+
+### Patch Changes
+
+- Updated dependencies [[`c9002db`](https://github.com/adobe/spectrum-design-data/commit/c9002db2da1d1bb40446b4991648dc7809a55f33)]:
+  - @adobe/spectrum-component-api-schemas@6.1.0
+  - @adobe/design-system-registry@1.3.0
+
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies [[`c28702f`](https://github.com/adobe/spectrum-design-data/commit/c28702f19ad408d3dc1461bb059a1c7125f7d32f)]:
+  - @adobe/spectrum-tokens@14.7.0
+
+## 0.1.9
+
+### Patch Changes
+
+- Updated dependencies [[`b11942c`](https://github.com/adobe/spectrum-design-data/commit/b11942cf52ec0077cfd53d8cb70ca722dc88c2e0), [`29531ee`](https://github.com/adobe/spectrum-design-data/commit/29531ee2a9935922bab329c26edce1de8489a423)]:
+  - @adobe/spectrum-tokens@14.6.0
+  - @adobe/design-system-registry@1.3.0
+
 ## 0.1.8
 
 ### Patch Changes

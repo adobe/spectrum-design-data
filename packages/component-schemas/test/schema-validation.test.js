@@ -1,131 +1,96 @@
-import test from "ava";
-import {
-  readJSON,
-  getSchemaFiles,
-  createAjvInstance,
-  validateSchema,
-  validateExamples,
-} from "./utils/test-helpers.js";
+/*
+Copyright 2026 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
 
-// Setup Ajv instance once for all tests
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+import test from "ava";
+import { readFile } from "fs/promises";
+import { resolve } from "path";
+import { glob } from "glob";
+import { createRequire } from "module";
+import Ajv from "ajv/dist/2020.js";
+import addFormats from "ajv-formats";
+import * as url from "url";
+
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
+
+const specPkgPath = createRequire(import.meta.url).resolve(
+  "@adobe/design-data-spec/package.json",
+);
+const specPkgDir = resolve(specPkgPath, "..");
+const componentsDir = resolve(specPkgDir, "components");
+
+const readJSON = async (filePath) =>
+  JSON.parse(await readFile(filePath, "utf8"));
+
 let ajv;
+let componentSchema;
 
 test.before(async () => {
-  ajv = await createAjvInstance();
-});
+  componentSchema = await readJSON(
+    resolve(specPkgDir, "schemas/component.schema.json"),
+  );
 
-test("component schema should be valid", async (t) => {
-  const componentSchema = await readJSON("schemas/component.json");
-  const result = validateSchema(componentSchema, ajv);
-
-  t.true(
-    result.valid,
-    `Component schema validation failed: ${JSON.stringify(result.errors, null, 2)}`,
+  ajv = new Ajv({ allErrors: true, strict: false });
+  addFormats(ajv);
+  ajv.addSchema(
+    await readJSON(resolve(specPkgDir, "schemas/document-block.schema.json")),
+  );
+  ajv.addSchema(
+    await readJSON(resolve(specPkgDir, "schemas/anatomy-part.schema.json")),
+  );
+  ajv.addSchema(
+    await readJSON(
+      resolve(specPkgDir, "schemas/state-declaration.schema.json"),
+    ),
+  );
+  ajv.addSchema(
+    await readJSON(resolve(specPkgDir, "schemas/accessibility.schema.json")),
   );
 });
 
-test("all component schemas should validate against the definition", async (t) => {
-  const componentFiles = await getSchemaFiles("schemas/components/*.json");
-  const validationResults = [];
+test("all component files should validate against component.schema.json", async (t) => {
+  const componentFiles = (await glob(`${componentsDir}/*.json`)).sort();
+  const validate = ajv.compile(componentSchema);
+  const failures = [];
 
   for (const filePath of componentFiles) {
-    const schema = await readJSON(filePath);
-    const result = validateSchema(schema, ajv);
-
-    if (!result.valid) {
-      validationResults.push({
-        file: filePath,
-        errors: result.errors,
-      });
+    const data = await readJSON(filePath);
+    const valid = validate(data);
+    if (!valid) {
+      failures.push({ file: filePath, errors: validate.errors });
     }
   }
 
   t.is(
-    validationResults.length,
+    failures.length,
     0,
-    `Schema validation failed for:\n${validationResults
-      .map((r) => `${r.file}:\n${JSON.stringify(r.errors, null, 2)}`)
+    `Schema validation failed:\n${failures
+      .map((f) => `${f.file}:\n${JSON.stringify(f.errors, null, 2)}`)
       .join("\n\n")}`,
   );
 });
 
-test("all component examples should validate against their schemas", async (t) => {
-  const componentFiles = await getSchemaFiles("schemas/components/*.json");
-  const validationResults = [];
+test("all component files should have required metadata", async (t) => {
+  const componentFiles = (await glob(`${componentsDir}/*.json`)).sort();
+  const missing = [];
 
   for (const filePath of componentFiles) {
-    const schema = await readJSON(filePath);
-    const result = validateExamples(schema, ajv);
+    const data = await readJSON(filePath);
 
-    if (!result.valid) {
-      validationResults.push({
-        file: filePath,
-        errors: result.errors,
-      });
-    }
+    if (!data.name) missing.push(`${filePath}: missing name`);
+    if (!data.displayName) missing.push(`${filePath}: missing displayName`);
+    if (!data.meta?.category)
+      missing.push(`${filePath}: missing meta.category`);
+    if (!data.meta?.documentationUrl)
+      missing.push(`${filePath}: missing meta.documentationUrl`);
   }
 
-  t.is(
-    validationResults.length,
-    0,
-    `Example validation failed for:\n${validationResults
-      .map((r) => `${r.file}:\n${JSON.stringify(r.errors, null, 2)}`)
-      .join("\n\n")}`,
-  );
-});
-
-test("all type schemas should be valid JSON Schema", async (t) => {
-  const typeFiles = await getSchemaFiles("schemas/types/*.json");
-  const validationResults = [];
-
-  for (const filePath of typeFiles) {
-    const schema = await readJSON(filePath);
-    const result = validateSchema(schema, ajv);
-
-    if (!result.valid) {
-      validationResults.push({
-        file: filePath,
-        errors: result.errors,
-      });
-    }
-  }
-
-  t.is(
-    validationResults.length,
-    0,
-    `Type schema validation failed for:\n${validationResults
-      .map((r) => `${r.file}:\n${JSON.stringify(r.errors, null, 2)}`)
-      .join("\n\n")}`,
-  );
-});
-
-test("component schemas should have required metadata", async (t) => {
-  const componentFiles = await getSchemaFiles("schemas/components/*.json");
-  const missingMetadata = [];
-
-  for (const filePath of componentFiles) {
-    const schema = await readJSON(filePath);
-
-    if (!schema.meta?.category) {
-      missingMetadata.push(`${filePath}: missing category`);
-    }
-
-    if (!schema.meta?.documentationUrl) {
-      missingMetadata.push(`${filePath}: missing documentationUrl`);
-    }
-
-    if (!schema.title) {
-      missingMetadata.push(`${filePath}: missing title`);
-    }
-
-    if (!Object.hasOwn(schema, "description")) {
-      missingMetadata.push(`${filePath}: missing description`);
-    }
-  }
-
-  t.is(
-    missingMetadata.length,
-    0,
-    `Missing required metadata:\n${missingMetadata.join("\n")}`,
-  );
+  t.is(missing.length, 0, `Missing required metadata:\n${missing.join("\n")}`);
 });

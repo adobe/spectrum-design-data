@@ -1,0 +1,230 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/contextual-help.json",
+  "specVersion": "1.0.0-draft",
+  "name": "contextual-help",
+  "displayName": "Contextual help",
+  "description": "Contextual help shows a user extra information about the state of either an adjacent component or an entire view. It explains a high-level topic about an experience and can point users to more information elsewhere.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/contextual-help/"
+  },
+  "options": {
+    "icon": {
+      "type": "string",
+      "default": "info",
+      "values": [
+        {
+          "value": "info"
+        },
+        {
+          "value": "help"
+        }
+      ]
+    },
+    "popoverPlacement": {
+      "type": "string",
+      "default": "bottom start",
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "top left"
+        },
+        {
+          "value": "top right"
+        },
+        {
+          "value": "top start"
+        },
+        {
+          "value": "top end"
+        },
+        {
+          "value": "bottom"
+        },
+        {
+          "value": "bottom left"
+        },
+        {
+          "value": "bottom right"
+        },
+        {
+          "value": "bottom start"
+        },
+        {
+          "value": "bottom end"
+        },
+        {
+          "value": "left"
+        },
+        {
+          "value": "left top"
+        },
+        {
+          "value": "left bottom"
+        },
+        {
+          "value": "start"
+        },
+        {
+          "value": "start top"
+        },
+        {
+          "value": "start bottom"
+        },
+        {
+          "value": "right"
+        },
+        {
+          "value": "right top"
+        },
+        {
+          "value": "right bottom"
+        },
+        {
+          "value": "end"
+        },
+        {
+          "value": "end top"
+        },
+        {
+          "value": "end bottom"
+        }
+      ]
+    },
+    "popoverOffset": {
+      "type": "number",
+      "default": 8
+    },
+    "href": {
+      "type": "string",
+      "description": "Optional URL within contextual help content like a 'Learn more' link."
+    },
+    "popoverCrossOffset": {
+      "type": "number",
+      "default": 0
+    },
+    "containerPadding": {
+      "type": "number",
+      "default": 8
+    }
+  },
+  "states": [
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "open",
+      "trigger": "prop"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "xs-s",
+      "context": "Components"
+    },
+    {
+      "token": "s-m",
+      "context": "Components"
+    },
+    {
+      "token": "contextual-help-minimum-width",
+      "context": "Minimum width"
+    },
+    {
+      "token": "corner-radius-large-default",
+      "context": "Rounding"
+    },
+    {
+      "token": "spacing-400",
+      "context": "Spacing (top/bottom/start/end edge to text)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (header to body, body to link)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (header to body, body to link)"
+    },
+    {
+      "token": "spacing-300",
+      "context": "Spacing (header to body, body to link)"
+    },
+    {
+      "token": "contextual-help-title-size",
+      "context": "Title"
+    },
+    {
+      "token": "title-sans-serif-font-family",
+      "context": "Title"
+    },
+    {
+      "token": "title-sans-serif-font-weight",
+      "context": "Title"
+    },
+    {
+      "token": "title-sans-serif-font-style",
+      "context": "Title"
+    },
+    {
+      "token": "title-line-height",
+      "context": "Title"
+    },
+    {
+      "token": "contextual-help-body-size",
+      "context": "Body"
+    },
+    {
+      "token": "body-sans-serif-font-family",
+      "context": "Body"
+    },
+    {
+      "token": "body-sans-serif-font-weight",
+      "context": "Body"
+    },
+    {
+      "token": "body-sans-serif-font-style",
+      "context": "Body"
+    },
+    {
+      "token": "line-height-200",
+      "context": "Body"
+    },
+    {
+      "token": "title-color",
+      "context": "Color"
+    },
+    {
+      "token": "body-color",
+      "context": "Color"
+    }
+  ],
+  "accessibility": {
+    "intents": ["trigger"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

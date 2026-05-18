@@ -1,0 +1,43 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "component": "new-widget",
+        "property": "background-color"
+      },
+      "value": "#0265dc"
+    },
+    {
+      "name": {
+        "component": "old-widget",
+        "property": "color"
+      },
+      "value": "#000000",
+      "deprecated": "1.0.0-draft"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/new-widget.json",
+      "name": "new-widget",
+      "displayName": "New Widget",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/new-widget/"
+      }
+    },
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/old-widget.json",
+      "name": "old-widget",
+      "displayName": "Old Widget",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/old-widget/"
+      },
+      "lifecycle": {
+        "deprecated": "1.0.0-draft",
+        "deprecatedComment": "Superseded by new-widget."
+      }
+    }
+  ]
+}

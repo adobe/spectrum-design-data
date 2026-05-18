@@ -17,16 +17,21 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 
 ## Optional fields
 
-| Field        | Type            | Description                                                                      |
-| ------------ | --------------- | -------------------------------------------------------------------------------- |
-| `include`    | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.      |
-| `exclude`    | array of string | Queries removing tokens from the included set.                                   |
-| `overrides`  | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**. |
-| `extensions` | object          | New tokens or dimensions introduced at the platform layer.                       |
+| Field                 | Type            | Description                                                                                                           |
+| --------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `include`             | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.                                           |
+| `exclude`             | array of string | Queries removing tokens from the included set.                                                                        |
+| `overrides`           | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**.                                      |
+| `extensions`          | object          | New tokens or mode sets introduced at the platform layer.                                                             |
+| `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions). |
 
 ### `include` / `exclude`
 
-**NORMATIVE:** Entries **MUST** be non-empty strings. The **query language** is **not** normative in `1.0.0-draft`; treat values as opaque identifiers for tooling until a future spec version defines syntax.
+**NORMATIVE:** Each entry **MUST** be a non-empty string that parses as a valid query expression per [Query](query.md). An entry that fails to parse, or that references a key outside the [supported query key list](query.md#supported-keys), is a Layer 2 conformance error (SPEC-039 `manifest-query-parseable`).
+
+See [Query — Formal grammar](query.md#formal-grammar) for the EBNF and [Query — Supported keys](query.md#supported-keys) for the normative list of allowed keys.
+
+> **Migration note (from earlier `1.0.0-draft` revisions):** Prior revisions instructed implementations to treat manifest query values as opaque identifiers. That clause is lifted as of this revision. Any manifest that uses non-query strings in `include`/`exclude` must be updated to use valid query notation; the SPEC-039 rule reports column-level parse errors to guide migration.
 
 ### `overrides`
 
@@ -36,7 +41,7 @@ Each override object **MUST** include enough information to identify a target to
 
 ### `extensions`
 
-**RECOMMENDED:** `extensions` follows the same structural conventions as foundation token files (tokens, dimensions) and **SHOULD** be validated with the same Layer 1 and Layer 2 rules.
+**RECOMMENDED:** `extensions` follows the same structural conventions as foundation token files (tokens, mode sets) and **SHOULD** be validated with the same Layer 1 and Layer 2 rules.
 
 #### `extensions.formatting`
 
@@ -62,6 +67,10 @@ A platform **MAY** declare formatting rules that control how structured name obj
 ## Automated upgrades
 
 **OPTIONAL:** Workflows **MAY** open upgrade PRs when `foundationVersion` lags the latest release; details are out of scope for this document (see [#715](https://github.com/adobe/spectrum-design-data/discussions/715)).
+
+## Relationship to product context
+
+The platform manifest is the Layer 2 context document. For Layer 3 (product-layer) context — rationale, overrides, and extensions specific to a product team's working copy — see [Product context](product-context.md).
 
 ## References
 

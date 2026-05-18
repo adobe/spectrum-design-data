@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "typography-family",
+  "description": "Type family identifiers for typography tokens. Assigned via the `family` name-object field. Represents the script or display context of the typeface, not a specific font name.",
+  "values": [
+    {
+      "id": "sans-serif",
+      "label": "Sans-Serif",
+      "description": "Sans-serif typeface family (e.g. Adobe Clean)"
+    },
+    {
+      "id": "serif",
+      "label": "Serif",
+      "description": "Serif typeface family (e.g. Adobe Clean Serif)"
+    },
+    {
+      "id": "cjk",
+      "label": "CJK",
+      "description": "CJK (Chinese, Japanese, Korean) script typeface family"
+    },
+    {
+      "id": "code",
+      "label": "Code",
+      "description": "Monospace typeface family for code and technical content"
+    }
+  ]
+}

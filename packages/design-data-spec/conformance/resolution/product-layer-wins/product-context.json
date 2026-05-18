@@ -1,0 +1,11 @@
+{
+  "$schema": "../../schemas/product-context.schema.json",
+  "layer": "product",
+  "overrides": [
+    {
+      "uuid": "cccccccc-0001-4000-8000-000000000001",
+      "value": "#product",
+      "rationale": "Product brand override for background color"
+    }
+  ]
+}

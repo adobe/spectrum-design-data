@@ -20,15 +20,16 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
  * Registry files are resolved from the field catalog declarations rather than
  * a hardcoded mapping.
  *
- * Returns { byField, terms, tokenNameMap, serializationOrder } where:
+ * Returns { byField, terms, tokenNameMap, serializationOrder, allFields } where:
  * - byField[fieldName] = Set of known ids
  * - terms = sorted list of { segments: string[], field: string, id: string }
  *   for greedy longest-match parsing
  * - tokenNameMap = id -> tokenName for serialization
  * - serializationOrder = field names ordered by serialization.position
+ * - allFields = Map of all field declarations from the catalog
  */
 export function loadRegistries() {
-  const { registryFiles, serializationOrder } = loadFieldCatalog();
+  const { registryFiles, serializationOrder, allFields } = loadFieldCatalog();
 
   const byField = {};
   const allTerms = [];
@@ -64,7 +65,13 @@ export function loadRegistries() {
   // Sort by segment count descending for greedy longest-match
   allTerms.sort((a, b) => b.segments.length - a.segments.length);
 
-  return { byField, terms: allTerms, tokenNameMap, serializationOrder };
+  return {
+    byField,
+    terms: allTerms,
+    tokenNameMap,
+    serializationOrder,
+    allFields,
+  };
 }
 
 /**

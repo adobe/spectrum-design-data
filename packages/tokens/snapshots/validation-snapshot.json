@@ -101,6 +101,13 @@
     },
     {
       "file": "./src/color-aliases.json",
+      "token": "stack-item-selected-background-color-highlight",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'stack-item-selected-background-color-highlight' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/color-aliases.json",
       "token": "static-black-focus-indicator-color",
       "rule_id": "SPEC-007",
       "severity": "info",
@@ -490,6 +497,20 @@
       "rule_id": "SPEC-007",
       "severity": "info",
       "message": "Known naming exception: 'stack-item-selected-background-opacity-emphasized-key-focus' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "stack-item-selected-background-opacity-highlight",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'stack-item-selected-background-opacity-highlight' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "stack-item-selected-background-opacity-highlight-hover",
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message": "Token 'stack-item-selected-background-opacity-highlight-hover' does not roundtrip through name-object generation rules and is not in the exceptions allowlist"
     },
     {
       "file": "./src/layout-component.json",

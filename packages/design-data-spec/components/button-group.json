@@ -1,0 +1,86 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button-group.json",
+  "specVersion": "1.0.0-draft",
+  "name": "button-group",
+  "displayName": "Button group",
+  "description": "A button group is a grouping of buttons whose actions are related to each other.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/button-group/"
+  },
+  "options": {
+    "orientation": {
+      "type": "string",
+      "default": "horizontal",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
+    },
+    "size": {
+      "type": "string",
+      "pattern": "^(x?s|m|x{0,3}l)$",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    },
+    "overflowMode": {
+      "type": "string",
+      "default": "wrap",
+      "values": [
+        {
+          "value": "wrap"
+        },
+        {
+          "value": "collapse"
+        }
+      ]
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "spacing-100",
+      "context": "Spacing (horizontal)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (horizontal)"
+    }
+  ],
+  "accessibility": {
+    "role": "group",
+    "intents": ["trigger"],
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

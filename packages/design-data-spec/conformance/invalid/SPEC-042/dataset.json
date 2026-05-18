@@ -1,0 +1,21 @@
+{
+  "tokens": [
+    {
+      "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
+      "name": {
+        "property": "font-weight",
+        "colorFamily": "blue"
+      },
+      "value": "bold"
+    },
+    {
+      "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+      "name": {
+        "property": "color",
+        "weight": "bold"
+      },
+      "value": "#0265dc"
+    }
+  ],
+  "components": []
+}

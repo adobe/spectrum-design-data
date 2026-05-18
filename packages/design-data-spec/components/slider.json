@@ -1,0 +1,407 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/slider.json",
+  "specVersion": "1.0.0-draft",
+  "name": "slider",
+  "displayName": "Slider",
+  "description": "Sliders allow users to quickly select a value within a range. They should be used when the upper and lower bounds to the range are invariable.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/slider/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
+    },
+    "value": {
+      "type": "number",
+      "description": "from minValue to maxValue"
+    },
+    "minValue": {
+      "type": "number",
+      "default": 0
+    },
+    "maxValue": {
+      "type": "number",
+      "default": 100
+    },
+    "isRange": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the slider will allow selection of a range of values by displaying two handles."
+    },
+    "step": {
+      "type": "number",
+      "default": 1
+    },
+    "valueFormat": {
+      "type": "string",
+      "description": "This will vary depending on implementation."
+    },
+    "progressionScale": {
+      "type": "string",
+      "default": "linear",
+      "values": [
+        {
+          "value": "linear"
+        },
+        {
+          "value": "log"
+        }
+      ]
+    },
+    "width": {
+      "type": "number"
+    },
+    "hasFill": {
+      "type": "boolean",
+      "default": false
+    },
+    "fillStart": {
+      "type": "number",
+      "default": 0
+    },
+    "hasGradient": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEditable": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "field-default-width-small",
+      "context": "Width (default)"
+    },
+    {
+      "token": "field-default-width-medium",
+      "context": "Width (default)"
+    },
+    {
+      "token": "field-default-width-large",
+      "context": "Width (default)"
+    },
+    {
+      "token": "field-default-width-extra-large",
+      "context": "Width (default)"
+    },
+    {
+      "token": "component-size-difference-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-width-ratio-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-minimum-perspective-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "slider-track-height-medium",
+      "context": "Track (height)"
+    },
+    {
+      "token": "slider-track-height-large",
+      "context": "Track (height)"
+    },
+    {
+      "token": "component-height-75",
+      "context": "Height (slider control) "
+    },
+    {
+      "token": "component-height-100",
+      "context": "Height (slider control) "
+    },
+    {
+      "token": "component-height-200",
+      "context": "Height (slider control) "
+    },
+    {
+      "token": "component-height-300",
+      "context": "Height (slider control) "
+    },
+    {
+      "token": "slider-handle-small",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "slider-handle-medium",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "slider-handle-large",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "slider-handle-extra-large",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "slider-precision-handle-height-small",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "slider-precision-handle-height-medium",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "slider-precision-handle-height-large",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "slider-precision-handle-height-extra-large",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "slider-precision-handle-width",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "border-width-200",
+      "context": "Handle (border)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus ring"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus ring"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-200",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-top-to-text-300",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-75",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-100",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-200",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "component-bottom-to-text-300",
+      "context": "Spacing (top/bottom edge to label)"
+    },
+    {
+      "token": "slider-control-to-field-label-small",
+      "context": "Spacing (field label to slider control)"
+    },
+    {
+      "token": "slider-control-to-field-label-medium",
+      "context": "Spacing (field label to slider control)"
+    },
+    {
+      "token": "slider-control-to-field-label-large",
+      "context": "Spacing (field label to slider control)"
+    },
+    {
+      "token": "slider-control-to-field-label-extra-large",
+      "context": "Spacing (field label to slider control)"
+    },
+    {
+      "token": "slider-control-to-field-label-editable-small",
+      "context": "Spacing (field label to slider control)"
+    },
+    {
+      "token": "slider-control-to-field-label-editable-medium",
+      "context": "Spacing (field label to slider control)"
+    },
+    {
+      "token": "slider-control-to-field-label-editable-large",
+      "context": "Spacing (field label to slider control)"
+    },
+    {
+      "token": "slider-control-to-field-label-editable-extra-large",
+      "context": "Spacing (field label to slider control)"
+    },
+    {
+      "token": "slider-control-to-side-field-label-small",
+      "context": "Spacing (field label to slider control)"
+    },
+    {
+      "token": "slider-control-to-side-field-label-medium",
+      "context": "Spacing (field label to slider control)"
+    },
+    {
+      "token": "slider-control-to-side-field-label-large",
+      "context": "Spacing (field label to slider control)"
+    },
+    {
+      "token": "slider-control-to-side-field-label-extra-large",
+      "context": "Spacing (field label to slider control)"
+    },
+    {
+      "token": "slider-control-to-text-field-small",
+      "context": "Spacing (slider to field)"
+    },
+    {
+      "token": "slider-control-to-text-field-medium",
+      "context": "Spacing (slider to field)"
+    },
+    {
+      "token": "slider-control-to-text-field-large",
+      "context": "Spacing (slider to field)"
+    },
+    {
+      "token": "slider-control-to-text-field-extra-large",
+      "context": "Spacing (slider to field)"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Value"
+    },
+    {
+      "token": "alias-track-default",
+      "context": "Track"
+    },
+    {
+      "token": "gray-700",
+      "context": "Track"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Track"
+    },
+    {
+      "token": "gray-800",
+      "context": "Handle"
+    },
+    {
+      "token": "gray-900",
+      "context": "Handle"
+    },
+    {
+      "token": "gray-25",
+      "context": "Handle"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus ring"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "disabled-border-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Label"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Label"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Label"
+    }
+  ],
+  "accessibility": {
+    "role": "slider",
+    "intents": ["choose"],
+    "focusable": true,
+    "keyboardIntents": ["increment", "decrement"],
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

@@ -34,6 +34,10 @@ export const anatomyTerms = JSON.parse(
   readFileSync(join(__dirname, "registry", "anatomy-terms.json"), "utf-8"),
 );
 
+export const propertyTerms = JSON.parse(
+  readFileSync(join(__dirname, "registry", "property-terms.json"), "utf-8"),
+);
+
 export const components = JSON.parse(
   readFileSync(join(__dirname, "registry", "components.json"), "utf-8"),
 );

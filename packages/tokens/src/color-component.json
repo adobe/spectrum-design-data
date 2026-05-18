@@ -449,8 +449,8 @@
   "stack-item-selected-background-color-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "stack-item",
-    "uuid": "1ad58d16-66da-44ae-829e-9ee1ff56a857",
-    "value": "{gray-200}"
+    "value": "{gray-300}",
+    "uuid": "1ad58d16-66da-44ae-829e-9ee1ff56a857"
   },
   "stack-item-selected-background-color-emphasized": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

@@ -20,4 +20,3 @@ Primarily for usage in timelines, a scroll-zoom bar lets a user scroll or zoom w
 | hideHandles | boolean | - | false | No | - |
 | scaleDown | boolean | - | false | No | - |
 | isDetached | boolean | - | false | No | - |
-| state | string | default, hover, keyboard focus | default | No | - |

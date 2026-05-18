@@ -5,9 +5,9 @@ import {
   getAllSlugs,
   getSlugFromDocumentationUrl,
   schemaFileNames,
+  componentsDir,
 } from "../index.js";
-import { getSchemaFiles } from "./utils/test-helpers.js";
-import { relative } from "path";
+import { glob } from "glob";
 
 test("getAllSchemas should return all schemas with slugs", async (t) => {
   const schemas = await getAllSchemas();
@@ -83,15 +83,13 @@ test("getSlugFromDocumentationUrl should handle various URL formats", (t) => {
 });
 
 test("schemaFileNames should match actual files on disk", async (t) => {
-  const actualFiles = await getSchemaFiles();
+  const actualFiles = await glob(`${componentsDir}/*.json`);
 
   t.is(schemaFileNames.length, actualFiles.length);
 
-  // Verify all files in schemaFileNames exist
   for (const fileName of schemaFileNames) {
-    const relativePath = relative(process.cwd(), fileName);
     t.true(
-      actualFiles.includes(relativePath),
+      actualFiles.includes(fileName),
       `File ${fileName} not found on disk`,
     );
   }

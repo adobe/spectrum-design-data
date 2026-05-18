@@ -1,0 +1,69 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/opacity-checkerboard.json",
+  "specVersion": "1.0.0-draft",
+  "name": "opacity-checkerboard",
+  "displayName": "Opacity Checkerboard",
+  "description": "Opacity checkerboards provide a visual pattern background used in color swatches and UI elements to indicate transparency or when no color is selected.",
+  "meta": {
+    "category": "status",
+    "documentationUrl": "https://spectrum.adobe.com/page/opacity-checkerboard/"
+  },
+  "options": {
+    "verticalSize": {
+      "type": "number",
+      "values": [
+        {
+          "value": 16
+        },
+        {
+          "value": 32
+        },
+        {
+          "value": 64
+        },
+        {
+          "value": 128
+        },
+        {
+          "value": 256
+        }
+      ]
+    },
+    "horizontalSize": {
+      "type": "number",
+      "values": [
+        {
+          "value": 24
+        },
+        {
+          "value": 40
+        }
+      ]
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "opacity-checkerboard-square-size-small",
+      "context": "Square size"
+    },
+    {
+      "token": "opacity-checkerboard-square-size-medium",
+      "context": "Square size"
+    },
+    {
+      "token": "opacity-checkerboard-square-light",
+      "context": "Square"
+    },
+    {
+      "token": "opacity-checkerboard-square-dark",
+      "context": "Square"
+    }
+  ],
+  "accessibility": {
+    "focusable": false
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "tokens": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/dialog.json",
+      "name": "dialog",
+      "displayName": "Dialog",
+      "meta": {
+        "category": "feedback",
+        "documentationUrl": "https://spectrum.adobe.com/page/dialog/"
+      },
+      "anatomy": [
+        {
+          "name": "header",
+          "description": "Top section of the dialog containing the title.",
+          "required": true
+        },
+        {
+          "name": "body",
+          "description": "Main content area of the dialog.",
+          "required": true
+        },
+        {
+          "name": "label",
+          "description": "Dialog title text.",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

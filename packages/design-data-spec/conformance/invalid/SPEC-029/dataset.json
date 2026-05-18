@@ -1,0 +1,20 @@
+{
+  "tokens": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/button/"
+      },
+      "documentBlocks": [
+        {
+          "type": "usage",
+          "content": "Use for primary actions in forms and dialogs."
+        }
+      ]
+    }
+  ]
+}

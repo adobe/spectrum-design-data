@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/naming-exceptions.json",
+  "description": "Test fixture for naming-exceptions.",
+  "exceptions": [
+    {
+      "token": "accent-background-color-default",
+      "file": "string-names.tokens.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules"
+    }
+  ]
+}

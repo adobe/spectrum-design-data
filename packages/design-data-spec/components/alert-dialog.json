@@ -1,0 +1,180 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/alert-dialog.json",
+  "specVersion": "1.0.0-draft",
+  "name": "alert-dialog",
+  "displayName": "Alert dialog",
+  "description": "Alert dialogs display important information that users need to acknowledge. They appear over the interface and block further interactions until an action is selected.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/alert-dialog/"
+  },
+  "options": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string",
+      "default": "confirmation",
+      "values": [
+        {
+          "value": "confirmation"
+        },
+        {
+          "value": "information"
+        },
+        {
+          "value": "warning"
+        },
+        {
+          "value": "destructive"
+        },
+        {
+          "value": "error"
+        }
+      ]
+    },
+    "primaryActionLabel": {
+      "type": "string"
+    },
+    "secondaryActionLabel": {
+      "type": "string",
+      "description": "If undefined, this button does not appear."
+    },
+    "cancelActionLabel": {
+      "type": "string",
+      "default": "cancel",
+      "description": "If undefined, this button does not appear."
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "heading-sans-serif-font-family",
+      "context": "Title"
+    },
+    {
+      "token": "heading-sans-serif-font-weight",
+      "context": "Title"
+    },
+    {
+      "token": "heading-sans-serif-font-style",
+      "context": "Title"
+    },
+    {
+      "token": "alert-dialog-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "heading-line-height",
+      "context": "Title"
+    },
+    {
+      "token": "heading-color",
+      "context": "Title"
+    },
+    {
+      "token": "body-sans-serif-font-family",
+      "context": "Description"
+    },
+    {
+      "token": "body-sans-serif-font-weight",
+      "context": "Description"
+    },
+    {
+      "token": "body-sans-serif-font-style",
+      "context": "Description"
+    },
+    {
+      "token": "alert-dialog-body-font-size",
+      "context": "Description"
+    },
+    {
+      "token": "line-height-200",
+      "context": "Description"
+    },
+    {
+      "token": "body-color",
+      "context": "Description"
+    },
+    {
+      "token": "alert-dialog-maximum-width",
+      "context": "Maximum width"
+    },
+    {
+      "token": "alert-dialog-minimum-width",
+      "context": "Minimum width"
+    },
+    {
+      "token": "corner-radius-extra-large-default",
+      "context": "Rounding"
+    },
+    {
+      "token": "spacing-500",
+      "context": "Spacing (edge to content)"
+    },
+    {
+      "token": "spacing-400",
+      "context": "Spacing (edge to content)"
+    },
+    {
+      "token": "alert-dialog-top-to-alert-icon",
+      "context": "Icon asset (error and warning variants)"
+    },
+    {
+      "token": "spacing-300",
+      "context": "Spacing (title to description)"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon (error and warning variants)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Minimum spacing (title to icon)"
+    },
+    {
+      "token": "background-color-layer2",
+      "context": "Background"
+    },
+    {
+      "token": "overlay-color",
+      "context": "Overlay"
+    },
+    {
+      "token": "overlay-opacity",
+      "context": "Overlay"
+    },
+    {
+      "token": "notice-visual-color",
+      "context": "Icon (warning variant)"
+    },
+    {
+      "token": "negative-visual-color",
+      "context": "Icon (error variant)"
+    }
+  ],
+  "accessibility": {
+    "role": "dialog",
+    "intents": ["dismiss"],
+    "focusable": false,
+    "keyboardIntents": ["dismiss"],
+    "wcag": [
+      {
+        "criterion": "2.4.3",
+        "level": "A",
+        "title": "Focus Order"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

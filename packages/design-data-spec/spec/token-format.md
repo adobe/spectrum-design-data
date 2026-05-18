@@ -12,12 +12,32 @@ A **token** is a JSON object that satisfies the Layer 1 schema [`token.schema.js
 
 A token **MUST** contain:
 
-1. **`name`** — a JSON object (the **name object**) as defined below.
+1. **`name`** — a JSON object (the **name object**) as defined below, or a non-empty plain string (escape hatch — see [String-name escape hatch](#string-name-escape-hatch)).
 2. Exactly one of:
    * **`value`** — a literal token value (type depends on value-type schema), or
    * **`$ref`** — a string reference to another token (alias).
 
 A token **MUST NOT** include both `value` and `$ref`.
+
+### String-name escape hatch
+
+A token's `name` field **MAY** be a non-empty plain string instead of a name object when the token's identity cannot be expressed using the structured taxonomy fields.
+
+```json
+{
+  "name": "focus-ring-color-key-focus",
+  "value": "#0265dc",
+  "uuid": "aaaaaaaa-0011-4000-8000-000000000001"
+}
+```
+
+**NORMATIVE:** String-named tokens are schema-valid. Validators **MUST** accept them without a structural error.
+
+**NORMATIVE:** String-named tokens **MUST** trigger rule SPEC-017 (severity: `warning`, category: `tech-debt`). The warning surfaces the token as tracked debt requiring future remediation.
+
+**NORMATIVE:** String-named tokens **MUST NOT** participate in name-object cascade mode-set matching, specificity calculation, or registry vocabulary checks (SPEC-009 does not apply).
+
+**RECOMMENDED:** Authors **SHOULD** treat string names as a temporary escape hatch and track a remediation plan. Each string-named token **SHOULD** eventually be given a structured name object, at which point SPEC-017 no longer fires.
 
 ### Name object
 
@@ -25,11 +45,15 @@ The **name object** identifies the token in a structured way. Implementations us
 
 **NORMATIVE fields** (all string unless noted):
 
-The set of available name-object fields is declared in the design system's **field catalog** (`fields/` directory). Each field declaration conforms to [`field.schema.json`](../schemas/field.schema.json) and specifies its kind (`semantic` or `dimension`), vocabulary registry, validation severity, and default serialization position. See [Taxonomy](taxonomy.md) for the full concept category hierarchy, component anatomy vs. token objects, and serialization rules.
+The set of available name-object fields is declared in the design system's **field catalog** (`fields/` directory). Each field declaration conforms to [`field.schema.json`](../schemas/field.schema.json) and specifies its kind (`semantic` or `mode-set`), vocabulary registry, validation severity, and default serialization position. See [Taxonomy](taxonomy.md) for the full concept category hierarchy, component anatomy vs. token objects, and serialization rules.
 
-Fields are divided into **semantic fields** (identity, structure, intent) and **dimension fields** (axes of variation for cascade resolution). The tables below list Spectrum's foundation-standard fields as declared in the catalog.
+Fields are divided into **semantic fields** (identity, structure, intent) and **mode-set fields** (axes of variation for cascade resolution). The tables below list Spectrum's foundation-standard fields as declared in the catalog.
 
 #### Semantic fields
+
+The table below lists all semantic fields. Fields marked with a scope are domain-restricted — see [Taxonomy — Token-type taxonomies](taxonomy.md#token-type-taxonomies) for the normative per-domain field rules and serialization orders. Validators enforce scope restrictions via rule SPEC-042.
+
+**Universal semantic fields** (`scope: null` — apply to all token types):
 
 | Field          | Status   | Taxonomy category | Description                                                                                                                                                              |
 | -------------- | -------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -46,17 +70,29 @@ Fields are divided into **semantic fields** (identity, structure, intent) and **
 | `size`         | OPTIONAL | Size              | Relative t-shirt sizing for relationships across tokens (e.g. `small`, `medium`, `large`).                                                                               |
 | `density`      | OPTIONAL | Density           | Space within or around component parts (e.g. `spacious`, `compact`).                                                                                                     |
 | `shape`        | OPTIONAL | Shape             | Relative to overall component shape (e.g. `uniform`).                                                                                                                    |
+| `scaleIndex`   | OPTIONAL | —                 | Numeric scale index appended at the end of the serialized name (e.g. `100`, `200`, `900`). Used by color palette, spacing, font-size, and motion duration tokens.        |
 
-#### Dimension fields
+**Domain-scoped semantic fields** (only valid on the indicated token type):
 
-| Field           | Status   | Description                                                                                     |
-| --------------- | -------- | ----------------------------------------------------------------------------------------------- |
-| `colorScheme`   | OPTIONAL | Dimension: light / dark / wireframe / etc.                                                      |
-| `scale`         | OPTIONAL | Dimension: platform density scale (e.g. `desktop`, `mobile`). Distinct from semantic `size`.    |
-| `contrast`      | OPTIONAL | Dimension: contrast level (e.g. `regular`, `high`).                                             |
-| Additional keys | OPTIONAL | Other dimensions declared in the dataset’s dimension catalog (see [Dimensions](dimensions.md)). |
+| Field         | Status   | Scope        | Description                                                                                                                                 |
+| ------------- | -------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `colorFamily` | OPTIONAL | `color`      | Hue family of the color (e.g. `blue`, `gray`, `cyan`). See [Taxonomy — Color token taxonomy](taxonomy.md#color-token-taxonomy).             |
+| `family`      | OPTIONAL | `typography` | Type family (e.g. `sans-serif`, `serif`, `cjk`, `code`). See [Taxonomy — Typography token taxonomy](taxonomy.md#typography-token-taxonomy). |
+| `weight`      | OPTIONAL | `typography` | Typographic weight (e.g. `regular`, `bold`, `light`). See [Taxonomy — Typography token taxonomy](taxonomy.md#typography-token-taxonomy).    |
+| `style`       | OPTIONAL | `typography` | Typographic style when non-default (e.g. `italic`). See [Taxonomy — Typography token taxonomy](taxonomy.md#typography-token-taxonomy).      |
+| `motionRole`  | OPTIONAL | `motion`     | Semantic animation role (e.g. `enter`, `exit`, `transition`). See [Taxonomy — Motion token taxonomy](taxonomy.md#motion-token-taxonomy).    |
+| `easing`      | OPTIONAL | `motion`     | Easing curve identifier (e.g. `ease-out`, `standard`). See [Taxonomy — Motion token taxonomy](taxonomy.md#motion-token-taxonomy).           |
 
-**NORMATIVE:** Each field is validated according to the `validation` severity declared in its field declaration. Semantic fields typically use **advisory** severity (warning); dimension fields use **strict** severity (error). See [Taxonomy — Name object field categories](taxonomy.md#name-object-field-categories).
+#### Mode-set fields
+
+| Field           | Status   | Description                                                                                 |
+| --------------- | -------- | ------------------------------------------------------------------------------------------- |
+| `colorScheme`   | OPTIONAL | Mode set: light / dark / wireframe / etc.                                                   |
+| `scale`         | OPTIONAL | Mode set: platform density scale (e.g. `desktop`, `mobile`). Distinct from semantic `size`. |
+| `contrast`      | OPTIONAL | Mode set: contrast level (e.g. `regular`, `high`).                                          |
+| Additional keys | OPTIONAL | Other mode sets declared in the dataset’s mode set catalog (see [Mode Sets](mode-sets.md)). |
+
+**NORMATIVE:** Each field is validated according to the `validation` severity declared in its field declaration. Semantic fields typically use **advisory** severity (warning); mode-set fields use **strict** severity (error). See [Taxonomy — Name object field categories](taxonomy.md#name-object-field-categories).
 
 **RECOMMENDED:** Name objects use a consistent key ordering in authored files for diffs; this is not a conformance requirement. Concept ordering for serialized names is defined in [Taxonomy — Default serialization](taxonomy.md#default-serialization-legacy-format).
 
@@ -72,15 +108,16 @@ When **`value`** is present, it **MUST** conform to the declared value type for 
 
 The following OPTIONAL fields implement the token lifecycle model described in [#623](https://github.com/adobe/spectrum-design-data/discussions/623) and the evolution policy in [Evolution](evolution.md). Inspired by Swift's `@available` attribute, Kotlin's `@Deprecated`, and OpenAPI 3.3's deprecation model.
 
-| Field                | Type                                    | Description                                                                                                     |
-| -------------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `uuid`               | string (UUID)                           | Stable unique id for rename tracking and diffs.                                                                 |
-| `introduced`         | string (version)                        | Spec version when the token was first added (e.g. `"1.0.0"`).                                                   |
-| `deprecated`         | string (version)                        | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated.                               |
-| `deprecated_comment` | string                                  | Human-readable deprecation explanation and migration guidance.                                                  |
-| `replaced_by`        | string (UUID) or array of string (UUID) | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.           |
-| `plannedRemoval`     | string (version)                        | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecated`. |
-| `private`            | boolean                                 | Not part of public API surface.                                                                                 |
+| Field                | Type                                    | Description                                                                                                                    |
+| -------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `uuid`               | string (UUID)                           | Stable unique id for rename tracking and diffs.                                                                                |
+| `introduced`         | string (version)                        | Spec version when the token was first added (e.g. `"1.0.0"`).                                                                  |
+| `deprecated`         | string (version)                        | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated.                                              |
+| `deprecated_comment` | string                                  | Human-readable deprecation explanation and migration guidance.                                                                 |
+| `replaced_by`        | string (UUID) or array of string (UUID) | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.                          |
+| `plannedRemoval`     | string (version)                        | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecated`.                |
+| `private`            | boolean                                 | Not part of public API surface.                                                                                                |
+| `rationale`          | string                                  | Why this token has its current value. Intended for product-layer authoring context; see [Product context](product-context.md). |
 
 #### Lifecycle example
 
@@ -126,6 +163,43 @@ When migrating legacy-format tokens to cascade:
 
 **RECOMMENDED:** Root token documents (when stored as standalone JSON files) include `specVersion` with const `1.0.0-draft` for self-identification. Embedded tokens inside larger files **MAY** omit it if the parent document carries version metadata.
 
+### Name-object migration policy
+
+This section defines the normative policy for migrating tokens from string-form names to structured name objects, and for narrowing the `property` field to its intended CSS/styling-attribute semantics.
+
+#### String-name escape hatch — SPEC-017 severity schedule
+
+String-named tokens (see [String-name escape hatch](#string-name-escape-hatch)) trigger SPEC-017 at **`warning`** severity through the current minor series. Authors **SHOULD** treat SPEC-017 warnings as actionable tech debt and maintain a remediation backlog (e.g. `packages/tokens/naming-exceptions.json`).
+
+**NORMATIVE:** SPEC-017 **MUST** graduate from `warning` to `error` at spec version `2.0.0`, no earlier than two minor versions after the minor release that ships this section. This conforms to the [evolution policy](evolution.md) — rule severity tightening is a major change.
+
+No string-named token may remain in a conforming dataset after the `2.0.0` cut without first being converted to a structured name object or removed.
+
+#### Narrowed `property` semantics
+
+The `property` field on a name object is the **CSS/styling attribute or design-system abstraction** being defined — not an anatomy part, not a styling surface, and not a legacy compound name string. Not all valid values are CSS property identifiers; design-system abstractions (e.g. `padding-horizontal`, `overlay-color`, `size`) are permitted.
+
+**NORMATIVE:** Values for `property` **SHOULD** come from the [`property-terms`](../../packages/design-system-registry/registry/property-terms.json) registry. Non-registry values emit an advisory warning (SPEC-009 applied to the `property` field).
+
+Examples of **valid** `property` values: `color`, `background-color`, `border-radius`, `font-size`, `gap`, `opacity`.
+
+Examples of **invalid** `property` values (migration debt):
+
+* Anatomy parts — use the `anatomy` field instead (`handle`, `icon`, `label`).
+* Styling surfaces — use the `object` field instead (`background`, `border`, `edge`).
+* Legacy compound names — split into structured fields (`focus-ring-color-key-focus` → `component + anatomy + object + property + state`).
+
+#### Author migration guidance
+
+When converting a string-named token to a structured name object:
+
+1. Parse the legacy name string into its constituent segments using the [default serialization order](taxonomy.md#default-serialization-legacy-format).
+2. Place the CSS/styling attribute in `property` (SHOULD be in `property-terms.json`).
+3. Route anatomy parts to `anatomy` (validated against `anatomy-terms.json`).
+4. Route styling surfaces (background, border, edge) to `object` (validated against `token-objects.json`).
+5. Retain component, variant, state, and other structural fields as-is.
+6. Remove the token from `naming-exceptions.json` after conversion.
+
 ## Document shape
 
 Cascade-format tokens are stored in **JSON files** that conform to [`cascade-file.schema.json`](../schemas/cascade-file.schema.json) (canonical `$id`: `https://opensource.adobe.com/spectrum-design-data/schemas/v0/cascade-file.schema.json`).
@@ -149,6 +223,73 @@ Example:
 
 Individual types (color, dimension, opacity, etc.) **MUST** be defined as JSON Schemas under `schemas/value-types/` and **MUST** use `$id` under the same `v0` base path as [Overview — JSON Schema `$id`](index.md).
 
+### Value-type declaration (`$valueType`)
+
+A token **MAY** include a `$valueType` field: a URI reference pointing to a value-type schema under `schemas/value-types/`.
+
+```json
+{
+  "name": { "property": "typography-scale", "scale": "desktop" },
+  "$valueType": "value-types/typography-scale.schema.json",
+  "value": { "fontSize": "14px", "lineHeight": "18px" },
+  "uuid": "377145e8-079b-43fd-b522-8f16b1b8f883"
+}
+```
+
+**NORMATIVE:** When `$valueType` is present on a token with a literal `value`, the value **MUST** validate against the referenced schema (rule SPEC-016).
+
+**NORMATIVE:** When `$valueType` is present on an alias token (`$ref`), the alias resolution chain **MUST** terminate at a token whose value validates against the same value-type schema (rule SPEC-002, extended).
+
+**RECOMMENDED:** All tokens with composite values (see below) **SHOULD** include `$valueType` to enable tooling discovery and validation. Tokens without `$valueType` remain valid under the permissive `anyOf` union in `token.schema.json`.
+
+### Composite value types
+
+A **composite value type** is a value-type schema whose root type is `object` or `array`. Composite values bundle multiple sub-values into a single token.
+
+**NORMATIVE:** Composite value types **MUST** be defined as JSON Schemas under `schemas/value-types/` following the same conventions as primitive value types.
+
+**NORMATIVE:** A composite token participates in cascade resolution as an **atomic unit**. Sub-values within a composite **MUST NOT** independently match, override, or participate in specificity calculation.
+
+### Inline alias references
+
+Within a composite value, a string sub-value **MAY** be an **inline alias**: a reference to another token that is resolved to produce the final sub-value.
+
+```json
+{
+  "name": { "property": "component-m-regular" },
+  "$valueType": "value-types/typography.schema.json",
+  "value": {
+    "fontFamily": "{sans-serif-font-family}",
+    "fontSize": "{font-size-100}",
+    "fontWeight": "{regular-font-weight}",
+    "letterSpacing": "{letter-spacing}",
+    "lineHeight": "{line-height-font-size-100}"
+  }
+}
+```
+
+**NORMATIVE:** In legacy format, inline aliases use the syntax `{token-name}` (curly-brace-wrapped token property name). In cascade format, the inline alias syntax is `{token-name}` for backward compatibility; UUID-based inline aliases are reserved for a future spec version.
+
+**NORMATIVE:** Inline aliases within composite values are subject to alias resolution rules. Validators **MUST** resolve inline aliases and report errors for missing targets (SPEC-014), type mismatches (SPEC-015), and circular references (SPEC-003, extended).
+
+## Component bindings
+
+The optional `componentBindings` array on a token is the **reverse index** of `tokenBindings` on a component declaration (Phase 6.7). It declares which components reference this token in their `tokenBindings` list.
+
+```json
+"componentBindings": [
+  { "component": "button",    "context": "Minimum height" },
+  { "component": "checkbox",  "context": "Height" }
+]
+```
+
+| Field       | Required | Type   | Description                                                          |
+| ----------- | -------- | ------ | -------------------------------------------------------------------- |
+| `component` | yes      | string | Component name (kebab-case). MUST match a declared component `name`. |
+| `context`   | no       | string | Human-readable label for how this token is used in the component.    |
+
+`componentBindings` is **informative and optional**. It is fully derivable from the `tokenBindings` arrays on component declarations and does not need to be hand-maintained. Tooling that generates component files may populate `componentBindings` as a convenience for consumers that query token files directly.
+
 ## Relationship to legacy Spectrum tokens
 
 The current `@adobe/spectrum-tokens` JSON uses **sets** (`color-set`, `scale-set`, …). This specification describes the **target** per-token model. Mapping from legacy to this format is out of scope for this document; see [#743](https://github.com/adobe/spectrum-design-data/issues/743).
@@ -161,7 +302,7 @@ The current `@adobe/spectrum-tokens` JSON uses **sets** (`color-set`, `scale-set
 | ------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | Identity field      | `id`                                                                       | `uuid`                                                                     |
 | Name model          | `name.original` (string) + `name.structure` (nested object)                | Flat fields directly on `name` (`property`, `component`, `colorScheme`, …) |
-| Complexity tracking | `name.semanticComplexity` (stored on token)                                | Computed at validation time from dimension declarations                    |
+| Complexity tracking | `name.semanticComplexity` (stored on token)                                | Computed at validation time from mode set declarations                     |
 
 **NORMATIVE:** The flat `name` object defined in this spec is the authoritative serialization format. RFC [#646](https://github.com/adobe/spectrum-design-data/issues/646)'s `name.structure` / `name.original` shape is not a conformance target; it remains a useful reference for the analytical model that informed this design.
 

@@ -1,0 +1,166 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/avatar-group.json",
+  "specVersion": "1.0.0-draft",
+  "name": "avatar-group",
+  "displayName": "Avatar group",
+  "description": "Avatar groups display a collection of avatars representing people or entities.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/avatar-group/"
+  },
+  "options": {
+    "label": {
+      "type": "string",
+      "description": "Optional text label displayed with the avatar group (e.g., group name)."
+    },
+    "size": {
+      "type": "number",
+      "default": 100,
+      "values": [
+        {
+          "value": 50
+        },
+        {
+          "value": 75
+        },
+        {
+          "value": 100
+        },
+        {
+          "value": 200
+        },
+        {
+          "value": 300
+        },
+        {
+          "value": 400
+        },
+        {
+          "value": 500
+        }
+      ]
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "avatar-group-size-50",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-group-size-75",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-group-size-100",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-group-size-200",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-group-size-300",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-group-size-400",
+      "context": "Size"
+    },
+    {
+      "token": "avatar-group-size-500",
+      "context": "Size"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (avatar group to label)"
+    },
+    {
+      "token": "avatar-to-avatar-50",
+      "context": "Spacing (avatar to avatar)"
+    },
+    {
+      "token": "avatar-to-avatar-75",
+      "context": "Spacing (avatar to avatar)"
+    },
+    {
+      "token": "avatar-to-avatar-100",
+      "context": "Spacing (avatar to avatar)"
+    },
+    {
+      "token": "avatar-to-avatar-200",
+      "context": "Spacing (avatar to avatar)"
+    },
+    {
+      "token": "avatar-to-avatar-300",
+      "context": "Spacing (avatar to avatar)"
+    },
+    {
+      "token": "avatar-to-avatar-400",
+      "context": "Spacing (avatar to avatar)"
+    },
+    {
+      "token": "avatar-to-avatar-500",
+      "context": "Spacing (avatar to avatar)"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Layout"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Layout"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Layout"
+    },
+    {
+      "token": "font-size-50",
+      "context": "Layout"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Layout"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Layout"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Layout"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Layout"
+    },
+    {
+      "token": "font-size-400",
+      "context": "Layout"
+    },
+    {
+      "token": "font-size-500",
+      "context": "Layout"
+    },
+    {
+      "token": "font-size-600",
+      "context": "Layout"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Layout"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Layout"
+    }
+  ],
+  "accessibility": {
+    "role": "group",
+    "focusable": false
+  }
+}

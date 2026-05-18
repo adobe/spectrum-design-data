@@ -18,9 +18,42 @@ use serde_json::Value;
 use crate::discovery::discover_json_files;
 use crate::CoreError;
 
-/// One dimension declaration (new spec shape), when present in a JSON file.
+/// Cascade layer (Foundation < Platform < Product).
+///
+/// Layer ordering is encoded in the discriminant so `Ord` gives correct
+/// precedence: `Foundation < Platform < Product`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
+pub enum Layer {
+    #[default]
+    Foundation = 1,
+    Platform = 2,
+    Product = 3,
+}
+
+impl std::str::FromStr for Layer {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "foundation" => Ok(Layer::Foundation),
+            "platform" => Ok(Layer::Platform),
+            "product" => Ok(Layer::Product),
+            _ => Err(()),
+        }
+    }
+}
+
+/// One component declaration (spec-format JSON), loaded for relational rules.
 #[derive(Debug, Clone)]
-pub struct DimensionRecord {
+pub struct ComponentRecord {
+    pub name: String,
+    pub file: PathBuf,
+    pub raw: Value,
+}
+
+/// One mode set declaration (new spec shape), when present in a JSON file.
+#[derive(Debug, Clone)]
+pub struct ModeSetRecord {
     pub file: PathBuf,
     pub name: String,
     pub modes: Vec<String>,
@@ -39,13 +72,16 @@ pub struct TokenRecord {
     /// Resolved alias target id when applicable.
     pub alias_target: Option<String>,
     pub raw: Value,
+    /// Cascade layer this token belongs to.
+    pub layer: Layer,
 }
 
 /// Token graph across files.
 #[derive(Debug, Clone, Default)]
 pub struct TokenGraph {
     pub tokens: HashMap<String, TokenRecord>,
-    pub dimensions: Vec<DimensionRecord>,
+    pub mode_sets: Vec<ModeSetRecord>,
+    pub components: Vec<ComponentRecord>,
     /// Secondary index: UUID value → primary key in `tokens`.
     ///
     /// Required for cascade-format alias resolution: cascade token keys are
@@ -101,6 +137,7 @@ impl TokenGraph {
                             uuid,
                             alias_target,
                             raw: token_val.clone(),
+                            layer: Layer::Foundation,
                         },
                     );
                 }
@@ -111,9 +148,9 @@ impl TokenGraph {
                 continue;
             };
 
-            if looks_like_dimension_doc(obj) {
-                if let Some(d) = parse_dimension(&path, obj) {
-                    g.dimensions.push(d);
+            if looks_like_mode_set_doc(obj) {
+                if let Some(d) = parse_mode_set(&path, obj) {
+                    g.mode_sets.push(d);
                 }
                 continue;
             }
@@ -145,6 +182,7 @@ impl TokenGraph {
                         uuid,
                         alias_target,
                         raw: token_val.clone(),
+                        layer: Layer::Foundation,
                     },
                 );
             }
@@ -152,18 +190,18 @@ impl TokenGraph {
         Ok(g)
     }
 
-    /// Load spec-format dimension declarations from a dedicated catalog directory.
+    /// Load spec-format mode set declarations from a dedicated catalog directory.
     ///
-    /// Each file must be a JSON object conforming to `dimension.schema.json`
+    /// Each file must be a JSON object conforming to `mode-set.schema.json`
     /// (fields: `name`, `modes`, `default`). Returns all successfully parsed
-    /// declarations; silently skips files that do not match the dimension shape.
-    pub fn load_spec_dimensions(dir: &Path) -> Result<Vec<DimensionRecord>, CoreError> {
+    /// declarations; silently skips files that do not match the mode set shape.
+    pub fn load_spec_mode_sets(dir: &Path) -> Result<Vec<ModeSetRecord>, CoreError> {
         let mut out = Vec::new();
         for path in discover_json_files(dir)? {
             let text = std::fs::read_to_string(&path)?;
             let value: Value = serde_json::from_str(&text)?;
             if let Some(obj) = value.as_object() {
-                if let Some(d) = parse_dimension(&path, obj) {
+                if let Some(d) = parse_mode_set(&path, obj) {
                     out.push(d);
                 }
             }
@@ -199,19 +237,165 @@ impl TokenGraph {
                     uuid,
                     alias_target,
                     raw,
+                    layer: Layer::Foundation,
                 },
             );
         }
         Self {
             tokens,
-            dimensions: Vec::new(),
+            mode_sets: Vec::new(),
+            components: Vec::new(),
             uuid_index,
         }
     }
 
-    /// Attach dimension records (e.g. from conformance fixtures).
-    pub fn with_dimensions(mut self, dimensions: Vec<DimensionRecord>) -> Self {
-        self.dimensions = dimensions;
+    /// Build a graph from full `TokenRecord`s, preserving each record's `layer`.
+    ///
+    /// Use instead of `from_pairs` when layer information must be retained
+    /// (e.g. after loading a product-context overlay).
+    pub fn from_records(records: Vec<TokenRecord>) -> Self {
+        let mut tokens = HashMap::new();
+        let mut uuid_index = HashMap::new();
+        for record in records {
+            if let Some(u) = &record.uuid {
+                uuid_index.entry(u.clone()).or_insert_with(|| record.name.clone());
+            }
+            tokens.insert(record.name.clone(), record);
+        }
+        Self {
+            tokens,
+            mode_sets: Vec::new(),
+            components: Vec::new(),
+            uuid_index,
+        }
+    }
+
+    /// Load a `product-context.json` and insert Product-layer tokens into the graph.
+    ///
+    /// For each override `{uuid, value}` in the document, the corresponding Foundation
+    /// token is looked up by UUID; a synthetic Product-layer `TokenRecord` is created
+    /// that inherits the Foundation token's `name` object but carries the override value.
+    /// Net-new tokens in `extensions.tokens` are inserted directly at Product layer.
+    pub fn load_product_context(&mut self, path: &Path) -> Result<(), CoreError> {
+        let text = std::fs::read_to_string(path)?;
+        let doc: Value = serde_json::from_str(&text)?;
+
+        // Process overrides: each must reference an existing Foundation token by UUID.
+        if let Some(overrides) = doc.get("overrides").and_then(|v| v.as_array()) {
+            for (idx, entry) in overrides.iter().enumerate() {
+                let Some(uuid_str) = entry.get("uuid").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let Some(override_value) = entry.get("value") else {
+                    continue;
+                };
+
+                // Find the Foundation token's name object via uuid_index.
+                // Skip overrides that reference an unknown UUID — inserting a synthetic
+                // token with "name": null would silently corrupt downstream validation.
+                let Some(name_obj) = self
+                    .uuid_index
+                    .get(uuid_str)
+                    .and_then(|k| self.tokens.get(k))
+                    .and_then(|t| t.raw.get("name"))
+                    .cloned()
+                else {
+                    continue;
+                };
+
+                // Synthesize a Product-layer token with the same name object and override value.
+                let mut synthetic_raw = serde_json::json!({
+                    "name": name_obj,
+                    "value": override_value,
+                    "uuid": uuid_str,
+                });
+                if let Some(rationale) = entry.get("rationale") {
+                    synthetic_raw["rationale"] = rationale.clone();
+                }
+
+                let key = format!("product-context:{}:{}", uuid_str, idx);
+                self.tokens.insert(
+                    key.clone(),
+                    TokenRecord {
+                        name: key,
+                        file: path.to_path_buf(),
+                        index: idx,
+                        schema_url: None,
+                        uuid: Some(uuid_str.to_string()),
+                        alias_target: None,
+                        raw: synthetic_raw,
+                        layer: Layer::Product,
+                    },
+                );
+            }
+        }
+
+        // Process extensions.tokens: insert each as a Product-layer token.
+        if let Some(ext_tokens) = doc
+            .get("extensions")
+            .and_then(|v| v.get("tokens"))
+            .and_then(|v| v.as_array())
+        {
+            for (idx, token_val) in ext_tokens.iter().enumerate() {
+                let Some(tok_obj) = token_val.as_object() else {
+                    continue;
+                };
+                let uuid = tok_obj.get("uuid").and_then(|v| v.as_str()).map(str::to_string);
+                let alias_target = extract_alias_target(tok_obj);
+                let key = format!("product-context-ext:{}:{}", path.display(), idx);
+                if let Some(u) = &uuid {
+                    self.uuid_index.entry(u.clone()).or_insert_with(|| key.clone());
+                }
+                self.tokens.insert(
+                    key.clone(),
+                    TokenRecord {
+                        name: key,
+                        file: path.to_path_buf(),
+                        index: idx,
+                        schema_url: None,
+                        uuid,
+                        alias_target,
+                        raw: token_val.clone(),
+                        layer: Layer::Product,
+                    },
+                );
+            }
+        }
+
+        Ok(())
+    }
+
+    /// Attach mode set records (e.g. from conformance fixtures).
+    pub fn with_mode_sets(mut self, mode_sets: Vec<ModeSetRecord>) -> Self {
+        self.mode_sets = mode_sets;
+        self
+    }
+
+    /// Load spec-format component declarations from a catalog directory.
+    ///
+    /// Each file must be a JSON object with a `name` field (component identifier).
+    /// Silently skips files that do not match this shape.
+    pub fn load_spec_components(dir: &Path) -> Result<Vec<ComponentRecord>, CoreError> {
+        let mut out = Vec::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            let value: Value = serde_json::from_str(&text)?;
+            if let Some(obj) = value.as_object() {
+                if let Some(name) = obj.get("name").and_then(|v| v.as_str()) {
+                    out.push(ComponentRecord {
+                        name: name.to_string(),
+                        file: path,
+                        raw: value,
+                    });
+                }
+            }
+        }
+        Ok(out)
+    }
+
+    /// Attach component records loaded from a components directory.
+    pub fn with_components(mut self, components: Vec<ComponentRecord>) -> Self {
+        self.components = components;
         self
     }
 }
@@ -224,7 +408,7 @@ fn looks_like_token_file(obj: &serde_json::Map<String, Value>) -> bool {
     })
 }
 
-fn looks_like_dimension_doc(obj: &serde_json::Map<String, Value>) -> bool {
+fn looks_like_mode_set_doc(obj: &serde_json::Map<String, Value>) -> bool {
     obj.contains_key("modes")
         && obj.contains_key("default")
         && obj.get("name").and_then(|v| v.as_str()).is_some()
@@ -233,7 +417,7 @@ fn looks_like_dimension_doc(obj: &serde_json::Map<String, Value>) -> bool {
             .any(|v| v.as_object().is_some_and(|o| o.contains_key("$schema")))
 }
 
-fn parse_dimension(path: &Path, obj: &serde_json::Map<String, Value>) -> Option<DimensionRecord> {
+fn parse_mode_set(path: &Path, obj: &serde_json::Map<String, Value>) -> Option<ModeSetRecord> {
     let name = obj.get("name")?.as_str()?.to_string();
     let default_mode = obj.get("default")?.as_str()?.to_string();
     let modes: Vec<String> = obj
@@ -242,7 +426,7 @@ fn parse_dimension(path: &Path, obj: &serde_json::Map<String, Value>) -> Option<
         .iter()
         .filter_map(|v| v.as_str().map(str::to_string))
         .collect();
-    Some(DimensionRecord {
+    Some(ModeSetRecord {
         file: path.to_path_buf(),
         name,
         modes,
@@ -250,7 +434,7 @@ fn parse_dimension(path: &Path, obj: &serde_json::Map<String, Value>) -> Option<
     })
 }
 
-fn extract_alias_target(obj: &serde_json::Map<String, Value>) -> Option<String> {
+pub(crate) fn extract_alias_target(obj: &serde_json::Map<String, Value>) -> Option<String> {
     if let Some(r) = obj.get("$ref").and_then(|v| v.as_str()) {
         return Some(normalize_ref_target(r));
     }

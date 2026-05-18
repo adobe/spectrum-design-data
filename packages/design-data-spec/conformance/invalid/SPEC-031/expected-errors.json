@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-031",
+      "severity": "warning",
+      "message_pattern": ".*no wcag entries.*"
+    }
+  ]
+}

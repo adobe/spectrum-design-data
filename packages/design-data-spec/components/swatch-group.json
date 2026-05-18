@@ -1,0 +1,114 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/swatch-group.json",
+  "specVersion": "1.0.0-draft",
+  "name": "swatch-group",
+  "displayName": "Swatch group",
+  "description": "A swatch group is a grouping of swatches that are related to each other.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/swatch-group/"
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "xs"
+        },
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
+    },
+    "density": {
+      "type": "string",
+      "default": "regular",
+      "values": [
+        {
+          "value": "compact"
+        },
+        {
+          "value": "regular"
+        },
+        {
+          "value": "spacious"
+        }
+      ]
+    },
+    "enableSelection": {
+      "type": "boolean",
+      "default": false
+    },
+    "selectionMode": {
+      "type": "string",
+      "description": "Only applicable if selection is enabled.",
+      "default": "single",
+      "values": [
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        }
+      ]
+    },
+    "allowsEmptySelection": {
+      "type": "boolean",
+      "default": false,
+      "description": "Only applicable if selection is enabled."
+    },
+    "cornerRadius": {
+      "type": "string",
+      "default": "none",
+      "description": "Determines the corner radius of each swatch in the group. Partial refers to corner-radius-75.",
+      "values": [
+        {
+          "value": "none"
+        },
+        {
+          "value": "full"
+        },
+        {
+          "value": "partial"
+        }
+      ]
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "swatch-group-spacing-spacious",
+      "context": "Spacing (spacious)"
+    },
+    {
+      "token": "swatch-group-border-color",
+      "context": "Border"
+    },
+    {
+      "token": "swatch-group-border-opacity",
+      "context": "Border"
+    }
+  ],
+  "accessibility": {
+    "role": "group",
+    "intents": ["choose"],
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

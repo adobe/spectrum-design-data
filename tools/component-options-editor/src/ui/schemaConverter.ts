@@ -15,9 +15,15 @@
  * from Adobe.
  **************************************************************************/
 
+interface OptionValue {
+  value: string | boolean | number;
+  description?: string;
+  lifecycle?: { deprecated?: string; deprecatedComment?: string };
+}
+
 interface SchemaProperty {
   type?: string;
-  enum?: string[];
+  values?: OptionValue[];
   default?: string | boolean | number;
   $ref?: string;
   description?: string;
@@ -35,19 +41,20 @@ interface OfficialSchema {
 }
 
 /**
- * Detect if an enum represents size values
+ * Detect if a values list represents size values
  */
-function isSizeEnum(enumValues: string[]): boolean {
+function isSizeEnum(optionValues: OptionValue[]): boolean {
   const sizeValues = ["xs", "s", "m", "l", "xl", "xxl", "xxxl"];
   return (
-    enumValues.length > 0 && enumValues.every((v) => sizeValues.includes(v))
+    optionValues.length > 0 &&
+    optionValues.every((v) => sizeValues.includes(String(v.value)))
   );
 }
 
 /**
- * Detect if an enum represents state values
+ * Detect if a values list represents state values
  */
-function isStateEnum(enumValues: string[]): boolean {
+function isStateEnum(optionValues: OptionValue[]): boolean {
   const stateKeywords = [
     "hover",
     "active",
@@ -57,8 +64,10 @@ function isStateEnum(enumValues: string[]): boolean {
     "down",
     "keyboard",
   ];
-  return enumValues.some((v) =>
-    stateKeywords.some((keyword) => v.toLowerCase().includes(keyword)),
+  return optionValues.some((v) =>
+    stateKeywords.some((keyword) =>
+      String(v.value).toLowerCase().includes(keyword),
+    ),
   );
 }
 
@@ -81,12 +90,12 @@ function detectOptionType(property: SchemaProperty): OptionTypes {
     return "boolean";
   }
 
-  if (property.type === "string" && property.enum) {
+  if (property.type === "string" && property.values) {
     // Detect special enum types
-    if (isSizeEnum(property.enum)) {
+    if (isSizeEnum(property.values)) {
       return "size";
     }
-    if (isStateEnum(property.enum)) {
+    if (isStateEnum(property.values)) {
       return "state";
     }
     return "localEnum";
@@ -131,12 +140,12 @@ function convertPropertyToOption(
 
   // Add items for enum types
   if (
-    property.enum &&
+    property.values &&
     (optionType === "localEnum" ||
       optionType === "size" ||
       optionType === "state")
   ) {
-    option.items = property.enum;
+    option.items = property.values.map((v) => String(v.value));
   }
 
   return option;

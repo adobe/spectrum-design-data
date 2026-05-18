@@ -15,7 +15,7 @@
   "$defs": {
     "nameObject": {
       "type": "object",
-      "description": "Structured token identity. Semantic fields describe identity and structure; dimension fields drive cascade resolution. See spec/taxonomy.md and spec/token-format.md. Additional dimension keys MUST be strings.",
+      "description": "Structured token identity. Semantic fields describe identity and structure; mode-set fields drive cascade resolution. See spec/taxonomy.md and spec/token-format.md. Additional mode-set keys MUST be strings.",
       "required": ["property"],
       "properties": {
         "property": {
@@ -61,7 +61,7 @@
         },
         "size": {
           "type": "string",
-          "description": "Semantic: relative t-shirt sizing (e.g. small, medium, large). Distinct from dimension scale."
+          "description": "Semantic: relative t-shirt sizing (e.g. small, medium, large). Distinct from the `scale` mode set."
         },
         "density": {
           "type": "string",
@@ -73,15 +73,15 @@
         },
         "colorScheme": {
           "type": "string",
-          "description": "Dimension: color scheme mode (e.g. light, dark, wireframe)."
+          "description": "Mode set: color scheme mode (e.g. light, dark, wireframe)."
         },
         "scale": {
           "type": "string",
-          "description": "Dimension: platform density scale (e.g. desktop, mobile)."
+          "description": "Mode set: platform density scale (e.g. desktop, mobile)."
         },
         "contrast": {
           "type": "string",
-          "description": "Dimension: contrast level (e.g. regular, high)."
+          "description": "Mode set: contrast level (e.g. regular, high)."
         }
       },
       "additionalProperties": {
@@ -99,7 +99,19 @@
           "const": "1.0.0-draft"
         },
         "name": {
-          "$ref": "#/$defs/nameObject"
+          "oneOf": [
+            { "$ref": "#/$defs/nameObject" },
+            {
+              "type": "string",
+              "minLength": 1,
+              "description": "String escape hatch for tokens that cannot be expressed as a name object. Valid but triggers SPEC-017 (tech-debt warning). See token-format.md#string-name-escape-hatch."
+            }
+          ]
+        },
+        "$valueType": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "URI reference to a value-type schema under schemas/value-types/. When present, value MUST validate against the referenced schema (rule SPEC-016)."
         },
         "value": {
           "description": "Literal value; type narrowed by value-type schemas where applicable.",
@@ -159,6 +171,21 @@
         "description": {
           "type": "string",
           "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Why this token has its current value. Intended for product-layer authoring context; see spec/product-context.md."
+        },
+        "componentBindings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/componentBinding" },
+          "description": "Reverse index: components that declare this token in their tokenBindings. Optional and derivable from component files."
+        },
+        "documentBlocks": {
+          "type": "array",
+          "items": { "$ref": "document-block.schema.json" },
+          "minItems": 1,
+          "description": "Typed prose blocks for this token. See spec/document-blocks.md (Phase 9)."
         }
       },
       "additionalProperties": false
@@ -174,7 +201,19 @@
           "const": "1.0.0-draft"
         },
         "name": {
-          "$ref": "#/$defs/nameObject"
+          "oneOf": [
+            { "$ref": "#/$defs/nameObject" },
+            {
+              "type": "string",
+              "minLength": 1,
+              "description": "String escape hatch for tokens that cannot be expressed as a name object. Valid but triggers SPEC-017 (tech-debt warning). See token-format.md#string-name-escape-hatch."
+            }
+          ]
+        },
+        "$valueType": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "URI reference to a value-type schema under schemas/value-types/. When present, the alias resolution chain MUST terminate at a token whose value validates against this schema."
         },
         "$ref": {
           "type": "string",
@@ -216,6 +255,38 @@
         "description": {
           "type": "string",
           "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Why this token has its current value. Intended for product-layer authoring context; see spec/product-context.md."
+        },
+        "componentBindings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/componentBinding" },
+          "description": "Reverse index: components that declare this token in their tokenBindings. Optional and derivable from component files."
+        },
+        "documentBlocks": {
+          "type": "array",
+          "items": { "$ref": "document-block.schema.json" },
+          "minItems": 1,
+          "description": "Typed prose blocks for this token. See spec/document-blocks.md (Phase 9)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "componentBinding": {
+      "type": "object",
+      "required": ["component"],
+      "description": "A single component usage binding on a token — the reverse of tokenBindings on the component.",
+      "properties": {
+        "component": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Component name (kebab-case). MUST match a declared component name."
+        },
+        "context": {
+          "type": "string",
+          "description": "Human-readable label for how this token is used in the component."
         }
       },
       "additionalProperties": false

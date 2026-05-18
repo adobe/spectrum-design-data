@@ -1,0 +1,208 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/close-button.json",
+  "specVersion": "1.0.0-draft",
+  "name": "close-button",
+  "displayName": "Close button",
+  "description": "The close button is used inside of other components, like a toast or an action bar, for closing or dismissing its parent component.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/close-button/"
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    },
+    "iconSize": {
+      "type": "string"
+    },
+    "staticColor": {
+      "type": "string",
+      "description": "Static color must not be set for the default version of this component.",
+      "values": [
+        {
+          "value": "white"
+        },
+        {
+          "value": "black"
+        }
+      ]
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "component-height-75",
+      "context": "Button size"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Button size"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Button size"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Button size"
+    },
+    {
+      "token": "component-size-difference-down",
+      "context": "Button size (down)"
+    },
+    {
+      "token": "component-size-width-ratio-down",
+      "context": "Button size (down)"
+    },
+    {
+      "token": "component-size-minimum-perspective-down",
+      "context": "Button size (down)"
+    },
+    {
+      "token": "cross-icon-size-200",
+      "context": "Cross icon size"
+    },
+    {
+      "token": "cross-icon-size-300",
+      "context": "Cross icon size"
+    },
+    {
+      "token": "cross-icon-size-400",
+      "context": "Cross icon size"
+    },
+    {
+      "token": "cross-icon-size-500",
+      "context": "Cross icon size"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus ring "
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus ring "
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Cross icon"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Cross icon"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Cross icon"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Cross icon"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Cross icon"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus ring"
+    },
+    {
+      "token": "gray-100",
+      "context": "Background "
+    },
+    {
+      "token": "transparent-white-800",
+      "context": "Cross icon (static white)"
+    },
+    {
+      "token": "transparent-white-900",
+      "context": "Cross icon (static white)"
+    },
+    {
+      "token": "disabled-static-white-background-color",
+      "context": "Cross icon (static white)"
+    },
+    {
+      "token": "static-white-focus-indicator-color",
+      "context": "Focus ring (static white)"
+    },
+    {
+      "token": "transparent-white-100",
+      "context": "Background (static white)"
+    },
+    {
+      "token": "transparent-black-800",
+      "context": "Cross icon (static black) "
+    },
+    {
+      "token": "transparent-black-900",
+      "context": "Cross icon (static black) "
+    },
+    {
+      "token": "disabled-static-black-background-color",
+      "context": "Cross icon (static black) "
+    },
+    {
+      "token": "static-black-focus-indicator-color",
+      "context": "Focus ring (static black) "
+    },
+    {
+      "token": "transparent-black-100",
+      "context": "Background (static black)"
+    }
+  ],
+  "accessibility": {
+    "role": "button",
+    "intents": ["dismiss"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

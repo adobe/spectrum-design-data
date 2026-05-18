@@ -87,6 +87,28 @@ This is the Spectrum Tokens project, a monorepo containing design tokens, compon
 * Never manually edit version numbers
 * Follow semantic versioning
 
+### Changeset Writing Guidelines
+
+* **Bump level**: `patch` for bug fixes, `minor` for additive/conformance-affecting changes,
+  `major` for breaking changes. When in doubt on minor vs patch, prefer `minor` for anything
+  that changes validation behavior or adds new spec normative content.
+* **Line limit**: keep the body to **20 lines or fewer** — the CI linter enforces this with
+  `--fail-on-warnings`. Use `node tools/changeset-linter/src/cli.js check --fail-on-warnings`
+  to verify locally before committing.
+* **Line length**: no hard character limit, but keep lines readable (≤100 chars preferred).
+* **Content**: one short intro sentence, then a tight bullet per changed artifact. Each bullet
+  should name the file/package and the key change in one line (two at most). Detailed
+  rationale belongs in the PR description, not the changeset.
+* **Format example**:
+  ```
+  Short summary of what changed (closes #NNN).
+
+  - **path/to/file**: what changed and why it matters.
+  - **SPEC-NNN** (`rule-name`, severity): one-line description.
+  ```
+* Always run `node tools/changeset-linter/src/cli.js check --fail-on-warnings` after writing
+  to catch issues before the pre-commit hook or CI.
+
 ### Commit Message Management
 
 * Use conventional commit format for all commits

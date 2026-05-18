@@ -62,9 +62,30 @@
         ]
       }
     },
+    "modeSetRestrictions": {
+      "type": "object",
+      "description": "Restricts the valid mode values for each named mode set on this platform. Keys are mode set names; values declare which modes are allowed.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["allowed"],
+        "properties": {
+          "allowed": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true,
+            "description": "Allowed mode values for this mode set. Must be a subset of the mode set's declared modes and must include the mode set's default."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
     "extensions": {
       "type": "object",
-      "description": "Platform-local tokens, dimensions, and formatting rules.",
+      "description": "Platform-local tokens, mode sets, and formatting rules.",
       "properties": {
         "formatting": {
           "type": "object",
@@ -87,7 +108,13 @@
                   "size",
                   "density",
                   "shape",
-                  "state"
+                  "state",
+                  "colorFamily",
+                  "family",
+                  "weight",
+                  "style",
+                  "motionRole",
+                  "easing"
                 ]
               },
               "uniqueItems": true,

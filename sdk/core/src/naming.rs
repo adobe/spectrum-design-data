@@ -193,12 +193,11 @@ fn has_embedded_state(property: &str) -> bool {
         if STATE_WORDS.contains(seg) {
             return true;
         }
-        // Two-segment compounds: check "{seg}-{next}".
-        if i + 1 < segments.len() - 1 {
-            let compound = format!("{}-{}", seg, segments[i + 1]);
-            if STATE_WORDS.contains(compound.as_str()) {
-                return true;
-            }
+        // Two-segment compounds: check "{seg}-{next}". The outer loop already
+        // excludes the last segment, so segments[i+1] always exists here.
+        let compound = format!("{}-{}", seg, segments[i + 1]);
+        if STATE_WORDS.contains(compound.as_str()) {
+            return true;
         }
     }
     false

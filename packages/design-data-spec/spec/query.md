@@ -8,29 +8,29 @@ This document defines the **query filter notation**: a concise syntax for select
 
 A **filter expression** is a string that describes a set of conditions a token must satisfy to be included in the result. The notation uses `key=value` pairs combined with logical operators.
 
-| Operator | Syntax           | Meaning                                                 |
-| -------- | ---------------- | ------------------------------------------------------- |
-| `=`      | `key=value`      | Field `key` equals `value`.                             |
-| `!=`     | `key!=value`     | Field `key` does not equal `value`.                     |
-| `,`      | `a=x,b=y`        | Logical AND — both conditions must match.               |
-| `\|`     | `a=x\|b=y`       | Logical OR — at least one condition must match.          |
-| `*`      | `key=patt*ern`   | Glob wildcard — `*` matches zero or more characters.    |
+| Operator | Syntax         | Meaning                                              |
+| -------- | -------------- | ---------------------------------------------------- |
+| `=`      | `key=value`    | Field `key` equals `value`.                          |
+| `!=`     | `key!=value`   | Field `key` does not equal `value`.                  |
+| `,`      | `a=x,b=y`      | Logical AND — both conditions must match.            |
+| `\|`     | `a=x\|b=y`     | Logical OR — at least one condition must match.      |
+| `*`      | `key=patt*ern` | Glob wildcard — `*` matches zero or more characters. |
 
 ## Supported keys
 
 **NORMATIVE:** Implementations **MUST** support the following keys:
 
-| Key              | Source                      | Description                                      |
-| ---------------- | --------------------------- | ------------------------------------------------ |
-| `property`       | `name.property`             | Token property identifier.                       |
-| `component`      | `name.component`            | Associated component name.                       |
-| `variant`        | `name.variant`              | Component variant.                               |
-| `state`          | `name.state`                | Component or interaction state.                  |
-| `colorScheme`    | `name.colorScheme`          | Color scheme dimension value.                    |
-| `scale`          | `name.scale`                | Scale dimension value.                           |
-| `contrast`       | `name.contrast`             | Contrast dimension value.                        |
-| `uuid`           | `uuid`                      | Token UUID (top-level field).                    |
-| `$schema`        | `$schema`                   | Token schema URL (top-level field).              |
+| Key           | Source             | Description                         |
+| ------------- | ------------------ | ----------------------------------- |
+| `property`    | `name.property`    | Token property identifier.          |
+| `component`   | `name.component`   | Associated component name.          |
+| `variant`     | `name.variant`     | Component variant.                  |
+| `state`       | `name.state`       | Component or interaction state.     |
+| `colorScheme` | `name.colorScheme` | Color scheme mode set value.        |
+| `scale`       | `name.scale`       | Scale mode set value.               |
+| `contrast`    | `name.contrast`    | Contrast mode set value.            |
+| `uuid`        | `uuid`             | Token UUID (top-level field).       |
+| `$schema`     | `$schema`          | Token schema URL (top-level field). |
 
 **NORMATIVE:** Implementations **MUST** reject filter expressions containing keys not listed above with a parse error. Future spec versions MAY add keys.
 

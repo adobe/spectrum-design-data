@@ -1,0 +1,87 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/tag-group.json",
+  "specVersion": "1.0.0-draft",
+  "name": "tag-group",
+  "displayName": "Tag group",
+  "description": "A tag group is a collection of tags that represent a set of related items.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/tag-group/"
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "actionLabel": {
+      "type": "string",
+      "description": "If undefined, this button does not appear."
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "spacing-100",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "field-label-to-component",
+      "context": "Spacing (Field label to Tags)"
+    },
+    {
+      "token": "help-text-to-component",
+      "context": "Spacing (Text area to Help text)"
+    }
+  ],
+  "accessibility": {
+    "intents": ["select"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate"],
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

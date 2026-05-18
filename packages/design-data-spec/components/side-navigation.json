@@ -1,0 +1,320 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/side-navigation.json",
+  "specVersion": "1.0.0-draft",
+  "name": "side-navigation",
+  "displayName": "Side navigation",
+  "description": "Side navigation lets users navigate the entire content of a product or a section. These can be used for a single level or a multi-level navigation.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/side-navigation/"
+  },
+  "options": {
+    "items": {
+      "type": "array",
+      "description": "The list of navigation items.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Text label for the navigation item."
+          },
+          "state": {
+            "type": "string",
+            "enum": ["default", "hover", "down", "keyboard focus"],
+            "default": "default",
+            "description": "State of the navigation item."
+          },
+          "icon": {
+            "type": "string",
+            "description": "Optional icon token for the navigation item."
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the item is currently selected."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the item is disabled."
+          }
+        },
+        "required": ["label"]
+      }
+    },
+    "selectionMode": {
+      "type": "string",
+      "default": "single",
+      "description": "How selection is handled for items.",
+      "values": [
+        {
+          "value": "none"
+        },
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        }
+      ]
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "component-height-100",
+      "context": "Minimum height"
+    },
+    {
+      "token": "side-navigation-width",
+      "context": "Width (default)"
+    },
+    {
+      "token": "side-navigation-minimum-width",
+      "context": "Width (minimum)"
+    },
+    {
+      "token": "side-navigation-maximum-width",
+      "context": "Width (maximum)"
+    },
+    {
+      "token": "component-size-difference-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-width-ratio-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-minimum-perspective-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "side-navigation-indicator-height",
+      "context": "Side navigation indicator"
+    },
+    {
+      "token": "side-navigation-indicator-thickness",
+      "context": "Side navigation indicator"
+    },
+    {
+      "token": "side-navigation-indicator-to-content",
+      "context": "Spacing (indicator to content)"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "component-edge-to-text-100",
+      "context": "Spacing (single-level, start/end to content)"
+    },
+    {
+      "token": "side-navigation-edge-to-indicator",
+      "context": "Spacing (single-level, start/end to content)"
+    },
+    {
+      "token": "side-navigation-second-level-edge-to-indicator",
+      "context": "Spacing (multi-level, no icon, start edge to content)"
+    },
+    {
+      "token": "side-navigation-third-level-edge-to-indicator",
+      "context": "Spacing (multi-level, no icon, start edge to content)"
+    },
+    {
+      "token": "side-navigation-with-icon-second-level-edge-to-indicator",
+      "context": "Spacing (multi-level, no icon, start edge to content)"
+    },
+    {
+      "token": "side-navigation-with-icon-third-level-edge-to-indicator",
+      "context": "Spacing (multi-level, no icon, start edge to content)"
+    },
+    {
+      "token": "side-navigation-second-level-edge-to-text",
+      "context": "Spacing (multi-level, no icon, start edge to content)"
+    },
+    {
+      "token": "side-navigation-third-level-edge-to-text",
+      "context": "Spacing (multi-level, no icon, start edge to content)"
+    },
+    {
+      "token": "side-navigation-with-icon-second-level-edge-to-text",
+      "context": "Spacing (multi-level, no icon, start edge to content)"
+    },
+    {
+      "token": "side-navigation-with-icon-third-level-edge-to-text",
+      "context": "Spacing (multi-level, no icon, start edge to content)"
+    },
+    {
+      "token": "field-edge-to-disclosure-icon-75",
+      "context": "Spacing (edge to disclosure icon)"
+    },
+    {
+      "token": "side-navigation-counter-to-disclosure",
+      "context": "Spacing (text to trailing accessory area)"
+    },
+    {
+      "token": "navigation-trailing-accessory-area-to-edge",
+      "context": "Spacing (single-level, end to content)"
+    },
+    {
+      "token": "side-navigation-item-to-item",
+      "context": "Spacing (vertically between side-nav items)"
+    },
+    {
+      "token": "side-navigation-item-to-header",
+      "context": "Spacing (vertically between side-nav item and side-nav title)"
+    },
+    {
+      "token": "side-navigation-header-to-item",
+      "context": "Spacing (vertically between side-nav item and side-nav title)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-100",
+      "context": "Layout"
+    },
+    {
+      "token": "component-padding-vertical-100",
+      "context": "Spacing (top edge to label)"
+    },
+    {
+      "token": "side-navigation-bottom-to-text",
+      "context": "Spacing (label wrapping)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "gray-400",
+      "context": "Side navigation indicator "
+    },
+    {
+      "token": "gray-800",
+      "context": "Side navigation indicator "
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Navigation item label and icon"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Navigation item label and icon"
+    },
+    {
+      "token": "neutral-subdued-content-color-down",
+      "context": "Navigation item label and icon"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Navigation item label and icon"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Navigation item label and icon (selected)"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Navigation item label and icon (selected)"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Navigation item label and icon (selected)"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Navigation item label and icon (selected)"
+    },
+    {
+      "token": "gray-600",
+      "context": "Side navigation title"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Label and icon (disabled)"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Text  "
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Text  "
+    },
+    {
+      "token": "default-font-style",
+      "context": "Text  "
+    },
+    {
+      "token": "font-size-100",
+      "context": "Text  "
+    },
+    {
+      "token": "line-height-100",
+      "context": "Text  "
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Text  "
+    },
+    {
+      "token": "bold-font-weight",
+      "context": "Text (selected)"
+    },
+    {
+      "token": "medium-font-weight",
+      "context": "Text (Side navigation title)"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Text (Side navigation title)"
+    }
+  ],
+  "accessibility": {
+    "intents": ["navigate"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

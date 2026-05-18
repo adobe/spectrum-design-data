@@ -1,5 +1,131 @@
 # [**@adobe/spectrum-design-data-mcp**](https://github.com/adobe/spectrum-design-data-mcp)
 
+## 1.1.25
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.15
+
+## 1.1.24
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.14
+
+## 1.1.23
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.13
+
+## 1.1.22
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.12
+
+## 1.1.21
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.11
+
+## 1.1.20
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.10
+
+## 1.1.19
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.9
+
+## 1.1.18
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.8
+
+## 1.1.17
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.7
+
+## 1.1.16
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.6
+
+## 1.1.15
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.5
+
+## 1.1.14
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.4
+
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.3
+
+## 1.1.12
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.2
+
+## 1.1.11
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.1
+
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies [[`c9002db`](https://github.com/adobe/spectrum-design-data/commit/c9002db2da1d1bb40446b4991648dc7809a55f33)]:
+  - @adobe/spectrum-component-api-schemas@6.1.0
+
+## 1.1.9
+
+### Patch Changes
+
+- Updated dependencies [[`c28702f`](https://github.com/adobe/spectrum-design-data/commit/c28702f19ad408d3dc1461bb059a1c7125f7d32f)]:
+  - @adobe/spectrum-tokens@14.7.0
+
+## 1.1.8
+
+### Patch Changes
+
+- Updated dependencies [[`b11942c`](https://github.com/adobe/spectrum-design-data/commit/b11942cf52ec0077cfd53d8cb70ca722dc88c2e0)]:
+  - @adobe/spectrum-tokens@14.6.0
+
 ## 1.1.7
 
 ### Patch Changes

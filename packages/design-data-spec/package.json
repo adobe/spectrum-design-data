@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-spec",
-  "version": "0.1.0",
+  "version": "1.3.0",
   "description": "Design Data Specification — prose, JSON Schemas, rule catalog, and conformance fixtures for Spectrum design data",
   "type": "module",
   "repository": {
@@ -21,20 +21,24 @@
   "packageManager": "pnpm@10.17.1",
   "exports": {
     "./package.json": "./package.json",
+    "./components/*.json": "./components/*.json",
     "./schemas/token.schema.json": "./schemas/token.schema.json",
-    "./schemas/dimension.schema.json": "./schemas/dimension.schema.json",
+    "./schemas/mode-set.schema.json": "./schemas/mode-set.schema.json",
     "./schemas/field.schema.json": "./schemas/field.schema.json",
     "./schemas/manifest.schema.json": "./schemas/manifest.schema.json",
     "./schemas/value-types/color.schema.json": "./schemas/value-types/color.schema.json",
+    "./schemas/component.schema.json": "./schemas/component.schema.json",
+    "./schemas/anatomy-part.schema.json": "./schemas/anatomy-part.schema.json",
+    "./schemas/state-declaration.schema.json": "./schemas/state-declaration.schema.json",
     "./rules/rules.yaml": "./rules/rules.yaml"
   },
   "files": [
-    "spec",
-    "schemas",
+    "components",
+    "conformance",
     "fields",
     "rules",
-    "conformance",
+    "schemas",
+    "spec",
     "README.md"
-  ],
-  "scripts": {}
+  ]
 }

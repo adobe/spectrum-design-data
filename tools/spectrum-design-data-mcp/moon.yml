@@ -29,9 +29,3 @@ tasks:
       - ava
     local: true
     platform: node
-  version:
-    command:
-      - node
-      - update-version.js
-    local: true
-    platform: node

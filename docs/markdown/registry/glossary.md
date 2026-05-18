@@ -1,6 +1,6 @@
 ---
 title: Glossary
-description: General design system terminology and concepts
+description: "General design system terminology and concepts"
 source_url: https://opensource.adobe.com/spectrum-design-data/registry/glossary/
 tags:
   - registry

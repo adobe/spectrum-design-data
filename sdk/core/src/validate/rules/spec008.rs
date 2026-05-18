@@ -12,9 +12,9 @@
 //!
 //! For every cascade token property that has a non-default mode variant, a
 //! base/default variant must also exist. A "base variant" is a token whose
-//! name object contains the `property` key but omits the dimension key
+//! name object contains the `property` key but omits the mode set key
 //! entirely (wildcard — applies to all modes) or explicitly sets it to the
-//! dimension's declared default value.
+//! mode set's declared default value.
 //!
 //! This prevents consumers from encountering resolution gaps when a non-default
 //! mode is not active.
@@ -36,20 +36,20 @@ impl ValidationRule for Rule {
     }
 
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
-        if ctx.graph.dimensions.is_empty() {
-            // No dimension declarations loaded — cannot evaluate coverage.
+        if ctx.graph.mode_sets.is_empty() {
+            // No mode set declarations loaded — cannot evaluate coverage.
             return Vec::new();
         }
 
-        // Collect dimension names and their defaults.
-        let dim_defaults: HashMap<&str, &str> = ctx
+        // Collect mode set names and their defaults.
+        let mode_set_defaults: HashMap<&str, &str> = ctx
             .graph
-            .dimensions
+            .mode_sets
             .iter()
             .map(|d| (d.name.as_str(), d.default_mode.as_str()))
             .collect();
 
-        // For each (property, dimension) pair, track:
+        // For each (property, mode_set) pair, track:
         // - whether a base/default variant exists
         // - which non-default modes are present (for diagnostics)
         #[derive(Default)]
@@ -57,7 +57,7 @@ impl ValidationRule for Rule {
             has_base: bool,
             non_default_modes: Vec<String>,
         }
-        // key: (property, dimension_name)
+        // key: (property, mode_set_name)
         let mut coverage: HashMap<(String, String), Coverage> = HashMap::new();
 
         for token in ctx.graph.tokens.values() {
@@ -68,13 +68,13 @@ impl ValidationRule for Rule {
                 continue;
             };
 
-            for (dim_name, default_mode) in &dim_defaults {
-                let key = (property.to_string(), dim_name.to_string());
+            for (mode_set_name, default_mode) in &mode_set_defaults {
+                let key = (property.to_string(), mode_set_name.to_string());
                 let entry = coverage.entry(key).or_default();
 
-                match name_obj.get(*dim_name).and_then(|v| v.as_str()) {
+                match name_obj.get(*mode_set_name).and_then(|v| v.as_str()) {
                     None => {
-                        // Dimension absent → wildcard → this serves as the base.
+                        // Mode set absent → wildcard → this serves as the base.
                         entry.has_base = true;
                     }
                     Some(mode) if mode == *default_mode => {
@@ -91,12 +91,12 @@ impl ValidationRule for Rule {
         let mut out = Vec::new();
         let mut reported: HashSet<(String, String)> = HashSet::new();
 
-        for ((property, dim_name), cov) in &coverage {
+        for ((property, mode_set_name), cov) in &coverage {
             if cov.has_base || cov.non_default_modes.is_empty() {
                 continue;
             }
-            // Non-default modes exist but no base — emit one warning per property+dim.
-            let key = (property.clone(), dim_name.clone());
+            // Non-default modes exist but no base — emit one warning per property+mode_set.
+            let key = (property.clone(), mode_set_name.clone());
             if reported.contains(&key) {
                 continue;
             }
@@ -125,7 +125,7 @@ impl ValidationRule for Rule {
                 rule_id: Some(self.id().to_string()),
                 severity: Severity::Warning,
                 message: format!(
-                    "Token property '{property}' has non-default {dim_name} variant(s) [{modes_str}] but no base/default variant — resolution will fail for unlisted contexts"
+                    "Token property '{property}' has non-default {mode_set_name} variant(s) [{modes_str}] but no base/default variant — resolution will fail for unlisted contexts"
                 ),
                 instance_path: None,
                 schema_path: None,
@@ -144,12 +144,12 @@ mod tests {
 
     use serde_json::json;
 
-    use crate::graph::{DimensionRecord, TokenGraph};
+    use crate::graph::{ModeSetRecord, TokenGraph};
     use crate::validate::relational::diagnostics_for_rule;
 
-    fn color_scheme_dim() -> DimensionRecord {
-        DimensionRecord {
-            file: PathBuf::from("dimensions/color-scheme.json"),
+    fn color_scheme_mode_set() -> ModeSetRecord {
+        ModeSetRecord {
+            file: PathBuf::from("mode-sets/color-scheme.json"),
             name: "colorScheme".into(),
             modes: vec!["light".into(), "dark".into()],
             default_mode: "light".into(),
@@ -170,7 +170,7 @@ mod tests {
                 json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#000"}),
             ),
         ])
-        .with_dimensions(vec![color_scheme_dim()]);
+        .with_mode_sets(vec![color_scheme_mode_set()]);
 
         assert!(diagnostics_for_rule(&g, "SPEC-008").is_empty());
     }
@@ -182,7 +182,7 @@ mod tests {
             PathBuf::from("a.tokens.json"),
             json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#000"}),
         )])
-        .with_dimensions(vec![color_scheme_dim()]);
+        .with_mode_sets(vec![color_scheme_mode_set()]);
 
         let diags = diagnostics_for_rule(&g, "SPEC-008");
         assert!(!diags.is_empty());
@@ -205,14 +205,14 @@ mod tests {
                 json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#000"}),
             ),
         ])
-        .with_dimensions(vec![color_scheme_dim()]);
+        .with_mode_sets(vec![color_scheme_mode_set()]);
 
         assert!(diagnostics_for_rule(&g, "SPEC-008").is_empty());
     }
 
     #[test]
-    fn no_warning_without_dimension_declarations() {
-        // Without dimension declarations we can't determine what's non-default.
+    fn no_warning_without_mode_set_declarations() {
+        // Without mode set declarations we can't determine what's non-default.
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),

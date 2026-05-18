@@ -1,5 +1,94 @@
 # @adobe/design-system-registry
 
+## 3.1.0
+
+### Minor Changes
+
+- [#955](https://github.com/adobe/spectrum-design-data/pull/955) [`e05c3ef`](https://github.com/adobe/spectrum-design-data/commit/e05c3eff28caecbdb9782eb62023876e0d1f4947) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(spec): property field migration path + property-terms registry (#941)
+
+  Adds normative migration policy for the `name.property` field per RFC #806:
+  - New `### Name-object migration policy` section in `spec/token-format.md` —
+    documents SPEC-017 severity escalation to `error` at spec `2.0.0`, narrowed
+    `property` semantics (CSS/styling attribute only), and author migration steps.
+  - New `property-terms.json` registry — 35 seeded CSS/styling attribute terms
+    (`color`, `background-color`, `border-radius`, `font-size`, `gap`, etc.).
+  - Updated `fields/property.json` — sets `registry` path to `property-terms.json`;
+    exports `propertyTerms` from registry index.
+  - Updated `spec/taxonomy.md` Property row — links to migration section and
+    calls out anatomy/surface values as migration debt.
+  - Closed RFC #806 open question in `docs/rfc-coordination.md`.
+
+## 3.0.0
+
+### Major Changes
+
+- [#924](https://github.com/adobe/spectrum-design-data/pull/924) [`20bb703`](https://github.com/adobe/spectrum-design-data/commit/20bb7035ad7d62513670bfb393b70766a295e51c) Thanks [@GarthDB](https://github.com/GarthDB)! - Close RFC #661 category validation gap: add SPEC-034 advisory rule and
+  align the `data-visualization` category id across all surfaces.
+  - `spec/registry.md` — marks the categories.json gap closed; SPEC-034
+    is now the authoritative validator for `meta.category`.
+  - `schemas/component.schema.json` — loosens `meta.category` from a
+    hard-coded enum to a free-form string; SPEC-034 (warning-level) is
+    the single source of validation.
+  - `rules/rules.yaml` — adds SPEC-034
+    (`component-category-registry-sync`, severity: warning).
+  - `packages/design-system-registry/registry/categories.json` — removes
+    the `"data visualization"` alias from `data-visualization`; kebab-case
+    is the sole canonical form.
+  - `components/table.json` — migrates `meta.category` from
+    `"data visualization"` to `"data-visualization"`.
+  - `docs/rfc-coordination.md` — RFC #661 open question marked resolved.
+  - SDK: new `spec034.rs` rule + `categories()` accessor on `RegistryData`
+    - codegen updated to embed `categories.json`.
+
+### Patch Changes
+
+- [#927](https://github.com/adobe/spectrum-design-data/pull/927) [`6a855e9`](https://github.com/adobe/spectrum-design-data/commit/6a855e98caad99d8799e4c2ed4a822a5776bd2da) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `disclosure-triangle`, `picker`, `progress-bar` to anatomy-terms.json.
+
+  Closes the spec/registry divergence surfaced during SPEC-035 implementation
+  (#924) — these three names appear in the canonical vocabulary table in
+  spec/anatomy-format.md but were missing from the registry, causing SPEC-035
+  to advisory-warn on them. Resolves #925.
+
+## 2.0.0
+
+### Major Changes
+
+- [#923](https://github.com/adobe/spectrum-design-data/pull/923) [`f3a0a6b`](https://github.com/adobe/spectrum-design-data/commit/f3a0a6b6bc03774e870aad989c16d9b532406aaf) Thanks [@GarthDB](https://github.com/GarthDB)! - Close RFC #661 category validation gap: add SPEC-034 advisory rule and
+  align the `data-visualization` category id across all surfaces.
+  - `spec/registry.md` — marks the categories.json gap closed; SPEC-034
+    is now the authoritative validator for `meta.category`.
+  - `schemas/component.schema.json` — loosens `meta.category` from a
+    hard-coded enum to a free-form string; SPEC-034 (warning-level) is
+    the single source of validation.
+  - `rules/rules.yaml` — adds SPEC-034
+    (`component-category-registry-sync`, severity: warning).
+  - `packages/design-system-registry/registry/categories.json` — removes
+    the `"data visualization"` alias from `data-visualization`; kebab-case
+    is the sole canonical form.
+  - `components/table.json` — migrates `meta.category` from
+    `"data visualization"` to `"data-visualization"`.
+  - `docs/rfc-coordination.md` — RFC #661 open question marked resolved.
+  - SDK: new `spec034.rs` rule + `categories()` accessor on `RegistryData`
+    - codegen updated to embed `categories.json`.
+
+## 1.4.0
+
+### Minor Changes
+
+- [#915](https://github.com/adobe/spectrum-design-data/pull/915) [`4f53a93`](https://github.com/adobe/spectrum-design-data/commit/4f53a932177c618e8b09e858cdeafe116d6b4f33) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(registry): expand anatomy-terms from 43 to 119 terms via S2 docs audit
+
+## 1.3.0
+
+### Minor Changes
+
+- [#837](https://github.com/adobe/spectrum-design-data/pull/837) [`29531ee`](https://github.com/adobe/spectrum-design-data/commit/29531ee2a9935922bab329c26edce1de8489a423) Thanks [@GarthDB](https://github.com/GarthDB)! - Expand registry vocabulary across `anatomy-terms`, `sizes`, and `variants`
+  to close the gaps surfaced by token-to-spec gap analysis. Adds anatomy
+  terms for component parts (field, fill, value, container, chevron, loupe,
+  dot, and related), broadens the sizes registry, and adds semantic dialog
+  and component variants (confirmation, destructive, warning, error,
+  information, plus typographic and component-axis variants). Vocabulary
+  only — no breaking changes for existing tokens.
+
 ## 1.2.0
 
 ### Minor Changes

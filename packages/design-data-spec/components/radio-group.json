@@ -1,0 +1,113 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/radio-group.json",
+  "specVersion": "1.0.0-draft",
+  "name": "radio-group",
+  "displayName": "Radio Group",
+  "description": "A radio group is a grouping of radio buttons that are related to each other.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/radio-group/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
+    },
+    "orientation": {
+      "type": "string",
+      "default": "vertical",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "necessityIndicator": {
+      "type": "string",
+      "default": "icon",
+      "values": [
+        {
+          "value": "text"
+        },
+        {
+          "value": "icon"
+        }
+      ]
+    },
+    "isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "isError": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "errorMessage": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [],
+  "accessibility": {
+    "intents": ["choose"],
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

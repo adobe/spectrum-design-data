@@ -1,0 +1,214 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/action-bar.json",
+  "specVersion": "1.0.0-draft",
+  "name": "action-bar",
+  "displayName": "Action bar",
+  "description": "Action bars are used for single and bulk selection patterns, when a user needs to perform actions on either a single or multiple items at the same time.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/action-bar/"
+  },
+  "options": {
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "action-bar-height",
+      "context": "Height"
+    },
+    {
+      "token": "action-bar-minimum-width",
+      "context": "Width (minimum)"
+    },
+    {
+      "token": "corner-radius-medium-size-extra-large",
+      "context": "Rounding"
+    },
+    {
+      "token": "action-bar-top-to-content-area",
+      "context": "Spacing (padding)"
+    },
+    {
+      "token": "action-bar-bottom-to-content-area",
+      "context": "Spacing (padding)"
+    },
+    {
+      "token": "action-bar-edge-to-content-area",
+      "context": "Spacing (padding)"
+    },
+    {
+      "token": "action-bar-label-to-action-button-group",
+      "context": "Spacing (label to action button group)"
+    },
+    {
+      "token": "action-bar-top-to-item-counter",
+      "context": "Spacing (counter)"
+    },
+    {
+      "token": "action-bar-close-button-to-counter",
+      "context": "Spacing (counter)"
+    },
+    {
+      "token": "background-elevated-color",
+      "context": "Background (default)"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Background (emphasized)"
+    },
+    {
+      "token": "action-bar-border",
+      "context": "Border"
+    },
+    {
+      "token": "drop-shadow-elevated-color",
+      "context": "Drop shadow"
+    },
+    {
+      "token": "drop-shadow-elevated-x",
+      "context": "Drop shadow"
+    },
+    {
+      "token": "drop-shadow-elevated-y",
+      "context": "Drop shadow"
+    },
+    {
+      "token": "drop-shadow-elevated-blur",
+      "context": "Drop shadow"
+    },
+    {
+      "token": "action-bar-counter-font-size",
+      "context": "Counter"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Counter"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Counter"
+    },
+    {
+      "token": "accent-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "accent-background-color-hover",
+      "context": "Background"
+    },
+    {
+      "token": "accent-background-color-down",
+      "context": "Background"
+    },
+    {
+      "token": "accent-background-color-key-focus",
+      "context": "Background"
+    },
+    {
+      "token": "white",
+      "context": "Icon and Clear icon"
+    },
+    {
+      "token": "neutral-selected-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "neutral-selected-background-color-hover",
+      "context": "Background"
+    },
+    {
+      "token": "neutral-selected-background-color-down",
+      "context": "Background"
+    },
+    {
+      "token": "neutral-selected-background-color-key-focus",
+      "context": "Background"
+    },
+    {
+      "token": "gray-25",
+      "context": "Icon and Clear icon"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Control (selected, non emphasized)"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Control (selected, non emphasized)"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Control (selected, non emphasized)"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "accent-content-color-hover",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "accent-content-color-down",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "accent-content-color-key-focus",
+      "context": "Control (selected, emphasized)"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-subdued-background-color-default",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-subdued-background-color-hover",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-subdued-background-color-key-focus",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-background-color-default",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-background-color-key-focus",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-visual-color",
+      "context": "Step visual"
+    }
+  ],
+  "accessibility": {
+    "intents": ["trigger"],
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

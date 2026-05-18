@@ -1,0 +1,11 @@
+{
+  "tokens": [],
+  "components": [],
+  "modeSets": [
+    {
+      "name": "scale",
+      "modes": ["medium", "large"],
+      "default": "xlarge"
+    }
+  ]
+}

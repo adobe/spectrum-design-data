@@ -17,4 +17,3 @@ Links allow users to navigate to a different location. They can be presented ins
 | variant | string | primary, secondary | primary | No | - |
 | isQuiet | boolean | - | false | No | - |
 | staticColor | string | white, black | - | No | Static color must not be set for the default version of this component. |
-| state | string | default, hover, down, keyboard focus | default | No | - |

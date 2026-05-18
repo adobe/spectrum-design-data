@@ -1,0 +1,117 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/takeover-dialog.json",
+  "specVersion": "1.0.0-draft",
+  "name": "takeover-dialog",
+  "displayName": "Takeover dialog",
+  "description": "Takeover dialogs are larger, flexible dialogs that contain other components to support complex workflows.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/takeover-dialog/"
+  },
+  "options": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string",
+      "default": "dialog",
+      "values": [
+        {
+          "value": "dialog"
+        },
+        {
+          "value": "full screen"
+        }
+      ]
+    },
+    "primaryActionLabel": {
+      "type": "string"
+    },
+    "secondaryActionLabel": {
+      "type": "string",
+      "description": "If undefined, this button does not appear."
+    },
+    "cancelActionLabel": {
+      "type": "string",
+      "default": "cancel",
+      "description": "If undefined, this button does not appear."
+    },
+    "slots": {
+      "type": "array",
+      "description": "Areas where other components can be inserted (e.g. Side navigation, Steplist, Forms).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Identifier for the slot (e.g. 'sidebar', 'content', 'footer')."
+          },
+          "component": {
+            "type": "string",
+            "description": "The type of component placed in this slot (e.g. side-navigation, steplist, form)."
+          }
+        },
+        "required": ["name", "component"]
+      }
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "takeover-dialog-width",
+      "context": "Height & width"
+    },
+    {
+      "token": "takeover-dialog-height",
+      "context": "Height & width"
+    },
+    {
+      "token": "window-to-edge",
+      "context": "Margins (dialog option)"
+    },
+    {
+      "token": "corner-radius-extra-large-default",
+      "context": "Rounding (dialog option)"
+    },
+    {
+      "token": "background-color-layer2",
+      "context": "Background"
+    },
+    {
+      "token": "overlay-color",
+      "context": "Overlay"
+    },
+    {
+      "token": "overlay-opacity",
+      "context": "Overlay"
+    },
+    {
+      "token": "heading-color",
+      "context": "Title"
+    }
+  ],
+  "accessibility": {
+    "role": "dialog",
+    "intents": ["dismiss"],
+    "focusable": false,
+    "keyboardIntents": ["dismiss"],
+    "wcag": [
+      {
+        "criterion": "2.4.3",
+        "level": "A",
+        "title": "Focus Order"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

@@ -3979,6 +3979,11 @@
     },
     "uuid": "e1029ff5-5b9c-4717-8cdb-4ced6b554c01"
   },
+  "vertical-align-items": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
+    "uuid": "b2f48da9-58a4-4e86-8340-78e0f52c67ba",
+    "value": "center"
+  },
   "workflow-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "sets": {

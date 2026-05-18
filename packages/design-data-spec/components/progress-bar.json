@@ -1,0 +1,229 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/progress-bar.json",
+  "specVersion": "1.0.0-draft",
+  "name": "progress-bar",
+  "displayName": "Progress bar",
+  "description": "Progress bars show the progression of a system operation: downloading, uploading, processing, etc., in a visual way. They can represent either determinate or indeterminate progress.",
+  "meta": {
+    "category": "status",
+    "documentationUrl": "https://spectrum.adobe.com/page/progress-bar/"
+  },
+  "options": {
+    "variant": {
+      "type": "string",
+      "default": "default",
+      "values": [
+        {
+          "value": "default"
+        },
+        {
+          "value": "over background"
+        }
+      ]
+    },
+    "staticColor": {
+      "type": "string",
+      "description": "Static color can only be white, otherwise it is default.",
+      "values": [
+        {
+          "value": "white"
+        }
+      ]
+    },
+    "label": {
+      "type": "string"
+    },
+    "labelPosition": {
+      "type": "string",
+      "default": "top",
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "value": {
+      "type": "number",
+      "description": "Not applicable when indeterminate."
+    },
+    "minValue": {
+      "type": "number",
+      "default": 0,
+      "description": "Not applicable when indeterminate."
+    },
+    "maxValue": {
+      "type": "number",
+      "default": 1,
+      "description": "Not applicable when indeterminate."
+    },
+    "valueLabel": {
+      "type": "string"
+    },
+    "width": {
+      "type": "number"
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    },
+    "isIndeterminate": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "progress-bar-minimum-width",
+      "context": "Minimum width"
+    },
+    {
+      "token": "progress-bar-maximum-width",
+      "context": "Maximum width"
+    },
+    {
+      "token": "spacing-75",
+      "context": "Spacing (field label to progress bar)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Minimum spacing (field label to text)"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "component-top-to-text-200",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "component-top-to-text-300",
+      "context": "Spacing (top edge to text)"
+    },
+    {
+      "token": "progress-bar-thickness-small",
+      "context": "Thickness (track)"
+    },
+    {
+      "token": "progress-bar-thickness-medium",
+      "context": "Thickness (track)"
+    },
+    {
+      "token": "progress-bar-thickness-large",
+      "context": "Thickness (track)"
+    },
+    {
+      "token": "progress-bar-thickness-extra-large",
+      "context": "Thickness (track)"
+    },
+    {
+      "token": "corner-radius-full",
+      "context": "Rounding"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Value"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Value"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Value"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Value"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Value"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Value"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Value"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Value"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Value"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Text"
+    },
+    {
+      "token": "track-color",
+      "context": "Track and indicator"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Track and indicator"
+    },
+    {
+      "token": "static-white-text-color",
+      "context": "Text (white)"
+    },
+    {
+      "token": "static-white-track-color",
+      "context": "Track and indicator (white)"
+    },
+    {
+      "token": "static-white-track-indicator-color",
+      "context": "Track and indicator (white)"
+    }
+  ],
+  "accessibility": {
+    "role": "progressbar",
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      },
+      {
+        "criterion": "4.1.3",
+        "level": "AA",
+        "title": "Status Messages"
+      }
+    ]
+  }
+}

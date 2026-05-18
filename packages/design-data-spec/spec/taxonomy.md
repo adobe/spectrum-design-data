@@ -46,29 +46,33 @@ The taxonomy is designed with three guiding principles:
 2. **Agnostic (with compromises)** — Platform-agnostic terms are used except when platforms have specific terms for the same concept. In those cases, the most common or clear term is used.
 3. **Verified** — Multiple existing components must be rebuildable using the taxonomy system, and consumers must find them reasonably understandable or learnable.
 
-## Semantic / layout token taxonomy
+## Token-type taxonomies
 
-Concept categories for name-object fields are declared in the design system's **field catalog** — a set of field declarations in the `fields/` directory, each conforming to [`field.schema.json`](../schemas/field.schema.json). Each declaration specifies the field name, vocabulary registry, validation severity, and default serialization position.
+Concept categories for name-object fields are declared in the design system's **field catalog** — a set of field declarations in the `fields/` directory, each conforming to [`field.schema.json`](../schemas/field.schema.json). Each declaration specifies the field name, vocabulary registry, validation severity, default serialization position, and an optional **scope** that restricts the field to a specific token type.
 
 **NORMATIVE:** The field catalog is the authoritative source for what fields exist on the name object. Tools, validators, and serializers **SHOULD** read the catalog rather than hardcoding field knowledge.
 
-The following concept categories are defined in Spectrum's foundation field catalog for semantic and layout tokens, ordered by default serialization position. This ordering is the **default serialization order** for legacy format output; it is not a conformance requirement for stored name objects.
+**NORMATIVE:** A field with a non-null `scope` declaration **MUST** only appear on tokens of that type. Using a scoped field on a mismatched token type triggers rule SPEC-042 (`field-scope-violation`, warning).
 
-**NORMATIVE:** Each category listed below corresponds to an OPTIONAL field on the token [name object](token-format.md). Tokens **MAY** use any subset of these fields.
+### Semantic / layout token taxonomy
 
-| Category      | Name object field | Answers   | Description                                                                                                                                                                                                              |
-| ------------- | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Structure     | `structure`       | What?     | Individual objects or object categories that have shared styling. Distinctly different from "components" in that they represent structures and visual patterns that can or do occur across many varieties of components. |
-| Sub-structure | `substructure`    | What?     | A structure within an element that should only exist within the context of its parent structure.                                                                                                                         |
-| Component     | `component`       | What?     | Component scope when the token is component-scoped.                                                                                                                                                                      |
-| Anatomy       | `anatomy`         | What?     | A visible, named part of a component as defined by designers.                                                                                                                                                            |
-| Object        | `object`          | Where?    | The styling surface to which a visual property is applied (e.g. background, border, edge).                                                                                                                               |
-| Property      | `property`        | Where?    | The stylistic attribute being defined (e.g. color, width, padding, gap).                                                                                                                                                 |
-| Orientation   | `orientation`     | When/Why? | The direction or order of structures and elements within a component or pattern.                                                                                                                                         |
-| Position      | `position`        | When/Why? | The location of an object relative to another, with or without respect to directional order.                                                                                                                             |
-| Size          | `size`            | When/Why? | Relative terms used to create relationships and patterns of usage across multiple tokens and token types.                                                                                                                |
-| Density       | `density`         | When/Why? | Options that create more or less space within or around the parts of a component.                                                                                                                                        |
-| Shape         | `shape`           | When/Why? | Relative to the overall shape of a component (e.g. "uniform" creates a 1:1 padding ratio between horizontal and vertical padding).                                                                                       |
+The following concept categories are defined in Spectrum's foundation field catalog for semantic and layout tokens (`scope: null` — universal), ordered by default serialization position. This ordering is the **default serialization order** for legacy format output; it is not a conformance requirement for stored name objects.
+
+**NORMATIVE:** Each category listed below corresponds to a field on the token [name object](token-format.md). Tokens **MAY** use any subset of these fields. Exception: `property` is REQUIRED on every name object — see [token-format.md](token-format.md#name-object).
+
+| Category      | Name object field | Answers   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| ------------- | ----------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Structure     | `structure`       | What?     | Individual objects or object categories that have shared styling. Distinctly different from "components" in that they represent structures and visual patterns that can or do occur across many varieties of components.                                                                                                                                                                                                                                                                                  |
+| Sub-structure | `substructure`    | What?     | A structure within an element that should only exist within the context of its parent structure.                                                                                                                                                                                                                                                                                                                                                                                                          |
+| Component     | `component`       | What?     | Component scope when the token is component-scoped.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| Anatomy       | `anatomy`         | What?     | A visible, named part of a component as defined by designers.                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| Object        | `object`          | Where?    | The styling surface to which a visual property is applied (e.g. background, border, edge).                                                                                                                                                                                                                                                                                                                                                                                                                |
+| Property      | `property`        | Where?    | The CSS/styling attribute or design-system abstraction being defined (e.g. color, width, padding, gap). REQUIRED — see exception in preamble. Values SHOULD come from [`property-terms.json`](../../packages/design-system-registry/registry/property-terms.json). Anatomy parts and styling surfaces do NOT belong here — they belong in `anatomy` and `object` respectively. See [token-format.md — Name-object migration policy](token-format.md#name-object-migration-policy) for migration guidance. |
+| Orientation   | `orientation`     | When/Why? | The direction or order of structures and elements within a component or pattern.                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| Position      | `position`        | When/Why? | The location of an object relative to another, with or without respect to directional order.                                                                                                                                                                                                                                                                                                                                                                                                              |
+| Size          | `size`            | When/Why? | Relative terms used to create relationships and patterns of usage across multiple tokens and token types.                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Density       | `density`         | When/Why? | Options that create more or less space within or around the parts of a component.                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Shape         | `shape`           | When/Why? | Relative to the overall shape of a component (e.g. "uniform" creates a 1:1 padding ratio between horizontal and vertical padding).                                                                                                                                                                                                                                                                                                                                                                        |
 
 Additional categories for variant and state are inherited from the existing name object:
 
@@ -77,7 +81,83 @@ Additional categories for variant and state are inherited from the existing name
 | Variant  | `variant`         | Variant within a component (e.g. accent, negative, primary). |
 | State    | `state`           | Interactive or semantic state (e.g. hover, focus, disabled). |
 
-**NOTE:** The categories above are filtered for semantic and layout token taxonomies. Additional categories do and will exist for other token types (e.g. color, typography). The taxonomy is built to scale as new concepts and terms are identified.
+### Color token taxonomy
+
+Color tokens describe palette entries and semantic color assignments. Their name objects use `scope: "color"` fields alongside the universal `property` and `state` fields.
+
+**NORMATIVE:** Color tokens SHOULD include `colorFamily`, `scaleIndex`, or both to allow tooling to group and sort palette entries. Tokens missing both are flagged by rule SPEC-043 (`domain-required-fields`, warning).
+
+| Category     | Name object field | Answers | Description                                                                                                                                                                                 |
+| ------------ | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Color Family | `colorFamily`     | What?   | Hue family of the color (e.g. `blue`, `gray`, `celery`, `transparent-black`). Values come from [`color-families.json`](../../packages/design-system-registry/registry/color-families.json). |
+| Ramp Index   | `scaleIndex`      | Which?  | Numeric perceptual ramp step (e.g. `100`, `400`, `900`, `1600`). Shared with layout tokens; see [scaleIndex field declaration](../fields/scaleIndex.json). Not scope-restricted.            |
+
+**Default serialization order for color tokens:**
+
+```
+{variant}-{colorFamily}-{scaleIndex}
+```
+
+Example: `colorFamily=blue` + `scaleIndex=100` → `blue-100`.
+
+### Typography token taxonomy
+
+Typography tokens describe typeface attributes: family, weight, style, and numeric scale. Their name objects use `scope: "typography"` fields alongside the universal `property` field.
+
+**NORMATIVE:** Typography tokens SHOULD include at least one of `family`, `weight`, or `style`. Tokens missing all three are flagged by rule SPEC-043 (`domain-required-fields`, warning).
+
+| Category | Name object field | Answers | Description                                                                                                                                                                                                             |
+| -------- | ----------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Family   | `family`          | What?   | Type family of the token (e.g. `sans-serif`, `serif`, `cjk`, `code`). Values come from [`typography-families.json`](../../packages/design-system-registry/registry/typography-families.json).                           |
+| Weight   | `weight`          | How?    | Typographic weight (e.g. `regular`, `bold`, `light`, `black`). Values come from [`typography-weights.json`](../../packages/design-system-registry/registry/typography-weights.json).                                    |
+| Style    | `style`           | How?    | Typographic style when non-default (e.g. `italic`, `oblique`). Omit the field when style is normal. Values come from [`typography-styles.json`](../../packages/design-system-registry/registry/typography-styles.json). |
+| Scale    | `scaleIndex`      | Which?  | Numeric size scale step (e.g. `75`, `100`, `200`). Shared with other token types; not scope-restricted.                                                                                                                 |
+
+**Default serialization order for typography tokens:**
+
+```
+{family}-{weight}-{style}-{scaleIndex}
+```
+
+Example: `family=sans-serif` + `weight=bold` → `sans-serif-bold`. `family=sans-serif` + `style=italic` + `scaleIndex=100` → `sans-serif-italic-100`.
+
+### Motion token taxonomy
+
+Motion tokens describe timing, easing, and animation role for UI animation. Their name objects use `scope: "motion"` fields alongside the universal `property` field.
+
+**NOTE:** No motion tokens exist in the foundation dataset at the time of this writing. This taxonomy is normative but the registry values for `motionRole` and `easing` are provisional — they will be refined when motion tokens are added to the foundation. Validators emit SPEC-043 at warning severity so provisional tokens are not blocked.
+
+**NORMATIVE:** Motion tokens SHOULD include `motionRole` or `easing`. Tokens missing both are flagged by rule SPEC-043 (`domain-required-fields`, warning).
+
+| Category    | Name object field | Answers | Description                                                                                                                                                                                |
+| ----------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Motion Role | `motionRole`      | What?   | Semantic role of the animation (e.g. `enter`, `exit`, `transition`, `emphasis`). Values come from [`motion-roles.json`](../../packages/design-system-registry/registry/motion-roles.json). |
+| Easing      | `easing`          | How?    | Easing curve identifier (e.g. `ease-in`, `ease-out`, `standard`). Values come from [`easing-curves.json`](../../packages/design-system-registry/registry/easing-curves.json).              |
+| Duration    | `scaleIndex`      | Which?  | Numeric duration bucket index (e.g. `100` for 100ms, `200` for 200ms). Shared with other token types; not scope-restricted.                                                                |
+
+**Default serialization order for motion tokens:**
+
+```
+{motionRole}-{easing}-{scaleIndex}
+```
+
+Example: `motionRole=enter` + `easing=ease-out` → `enter-ease-out`. `motionRole=transition` + `scaleIndex=100` → `transition-100`.
+
+### Structure vs. component — when does the line move?
+
+The `structure` and `component` fields both answer "What?" but apply at different scopes. A useful rule of thumb:
+
+* Use `component` when the token belongs to a specific component's surface (e.g. `button-background-color` — the background color of the Button component).
+* Use `structure` when the token belongs to a reusable visual pattern that recurs **across** components (e.g. `container-padding` — padding for any container-shaped surface, regardless of which component owns it).
+
+**Worked example — `card`:**
+
+* As a `structure`: when "card" describes a layout primitive used inside many components (e.g. `card-padding-medium` on a list item, a popover body, or a modal header), the token is structure-scoped.
+* As a `component`: when "card" describes the dedicated Card component's own surfaces (e.g. `card-background-color` on the Card root), the token is component-scoped.
+
+The same word can validly appear in both fields across the dataset; they are independent. Authors choose based on whether the token's *meaning* generalizes across many components (structure) or is specific to one component's identity (component).
+
+Source: Nate Baldwin, "Naming conventions & shared taxonomy" — Design Data & Platforms onsite, April 1, 2026.
 
 ## Component anatomy vs. token objects
 
@@ -123,15 +203,15 @@ Semantic fields describe identity, structure, and intent. They are used for quer
 
 Semantic fields are those declared with `kind: "semantic"` in the field catalog. In Spectrum's foundation catalog, these are: `structure`, `substructure`, `component`, `anatomy`, `object`, `property`, `variant`, `state`, `orientation`, `position`, `size`, `density`, `shape`.
 
-### Dimension fields
+### Mode-set fields
 
-Dimension fields represent axes of variation that drive the [cascade](cascade.md) resolution algorithm and [specificity](cascade.md#semantic-specificity) calculation.
+Mode-set fields represent axes of variation that drive the [cascade](cascade.md) resolution algorithm and [specificity](cascade.md#semantic-specificity) calculation.
 
-**NORMATIVE:** Dimension field values are validated against declared [dimension](dimensions.md) modes with **strict** severity (error). An invalid mode value would silently fail to match any context during cascade resolution.
+**NORMATIVE:** Mode-set field values are validated against declared [mode set](mode-sets.md) modes with **strict** severity (error). An invalid mode value would silently fail to match any context during cascade resolution.
 
-Dimension fields are those declared with `kind: "dimension"` in the field catalog, plus any additional dimension keys from the dataset's [dimension declarations](dimensions.md). In Spectrum's foundation catalog, the standard dimension fields are: `colorScheme`, `scale`, `contrast`.
+Mode-set fields are those declared with `kind: "mode-set"` in the field catalog, plus any additional mode set keys from the dataset's [mode set declarations](mode-sets.md). In Spectrum's foundation catalog, the standard mode-set fields are: `colorScheme`, `scale`, `contrast`.
 
-See [Dimensions](dimensions.md) for dimension declarations, modes, and defaults.
+See [Mode Sets](mode-sets.md) for mode set declarations, modes, and defaults.
 
 ## Default serialization (legacy format)
 
@@ -161,7 +241,7 @@ The taxonomy and terms are built to scale as new concepts and terms are identifi
 
 * New concept categories **MAY** be added by creating a new field declaration file in the field catalog — no spec version change is required for the mechanism itself.
 * New terms **MAY** be added to the vocabulary registry without spec version changes.
-* New token type taxonomies (beyond semantic/layout) **MAY** be defined in future spec versions.
+* New token type taxonomies **MAY** be added by creating scoped field declarations (non-null `scope`) and a corresponding registry section in taxonomy.md. Color, typography, and motion taxonomies are defined above.
 * Platform manifests **MAY** extend the vocabulary with platform-specific terms and formatting.
 
 ## References

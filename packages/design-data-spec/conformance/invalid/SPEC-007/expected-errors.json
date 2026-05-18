@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-007",
+      "severity": "warning",
+      "message_pattern": ".*does not roundtrip.*"
+    }
+  ]
+}

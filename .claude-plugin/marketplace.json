@@ -1,0 +1,15 @@
+{
+  "name": "spectrum-design-data",
+  "description": "Adobe Spectrum design tokens, component schemas, and Spectrum 2 docs for Claude Code.",
+  "owner": {
+    "name": "Adobe",
+    "email": "garthdb@adobe.com"
+  },
+  "plugins": [
+    {
+      "name": "s2-docs",
+      "description": "Spectrum 2 component documentation on-demand. Fetches S2 design guidelines, component options, and usage patterns without loading a persistent MCP server.",
+      "source": "./tools/s2-docs-mcp"
+    }
+  ]
+}

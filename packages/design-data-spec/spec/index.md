@@ -3,7 +3,7 @@
 **Version:** `1.0.0-draft`\
 **Status:** Draft — normative text and schemas may change before `1.0.0`.
 
-This document is the top-level overview for the **Design Data Specification**: a machine-readable model for Spectrum design tokens, dimensions, platform manifests, and validation.
+This document is the top-level overview for the **Design Data Specification**: a machine-readable model for Spectrum design tokens, mode sets, platform manifests, and validation.
 
 ## Scope
 
@@ -11,12 +11,20 @@ The specification defines:
 
 1. **Token format** — structured token identity (`name`), literal `value` or alias `$ref`, and lifecycle metadata ([Token format](token-format.md)).
 2. **Taxonomy** — concept categories, token term vocabulary, formatting style, and the distinction between component anatomy and token objects ([Taxonomy](taxonomy.md)).
-3. **Cascade and resolution** — layered data (foundation, platform, product), specificity, and how a context picks a winning value ([Cascade](cascade.md)).
-4. **Dimensions** — declared modes, defaults, and coverage expectations ([Dimensions](dimensions.md)).
-5. **Platform manifest** — how a platform repo pins foundation data, filters tokens, and applies typed overrides ([Manifest](manifest.md)).
-6. **Semantic diff** — change taxonomy, token identity rules, and property-level change tracking for comparing dataset versions ([Diff](diff.md)).
-7. **Query notation** — filter syntax for selecting tokens by structured fields ([Query](query.md)).
-8. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
+3. **Registry** — named value collections that supply allowed vocabulary for token name fields and component metadata; three-registry boundary (anatomy-terms, token-objects, categories) and packaging strategy ([Registry](registry.md)).
+4. **Component format** — component declaration shape: API options, named content slots, anatomy parts, state model, and cross-reference validation rules ([Component format](component-format.md)).
+   * **Anatomy format** — anatomy part declaration shape: field constraints, canonical anatomy vocabulary, and cross-reference rules for token `anatomy` field values ([Anatomy format](anatomy-format.md)).
+   * **State model** — state declaration shape: trigger semantics, precedence and resolution algorithm, canonical state vocabulary, and cross-reference rules for token `state` field values ([State model](state-model.md)).
+5. **Cascade and resolution** — layered data (foundation, platform, product), specificity, and how a context picks a winning value ([Cascade](cascade.md)).
+6. **Mode Sets** — declared modes, defaults, and coverage expectations ([Mode Sets](mode-sets.md)).
+7. **Platform manifest** — how a platform repo pins foundation data, filters tokens, and applies typed overrides ([Manifest](manifest.md)).
+8. **Semantic diff** — change taxonomy, token identity rules, and property-level change tracking for comparing dataset versions ([Diff](diff.md)).
+9. **Query notation** — filter syntax for selecting tokens by structured fields ([Query](query.md)).
+10. **Accessibility** — component accessibility vocabulary: semantic role, interaction and keyboard intents, focus behavior, WCAG criteria, and state-level AT fields ([Accessibility](accessibility.md)).
+    * **Accessibility adapters** — informative platform adapter contracts: Web/ARIA, iOS UIAccessibility, Android AccessibilityNodeInfo, and voice/multimodal ([Accessibility adapters](accessibility-adapters.md)).
+11. **Document blocks** — typed prose blocks attachable to tokens, components, and anatomy parts; makes design guidance machine-readable and agent-queryable ([Document blocks](document-blocks.md)).
+12. **Agent-readable surface** — operations and transport contracts (CLI, MCP server, Agent Skill) for AI agents consuming spec-conformant design data; covers session primer, token resolution, validation, query, and component description ([Agent-readable surface](agent-surface.md)).
+13. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
 
 ## Conformance
 
@@ -50,23 +58,32 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 
 ## Normative references (sibling documents)
 
-| Document                        | Role                                                             |
-| ------------------------------- | ---------------------------------------------------------------- |
-| [Token format](token-format.md) | Token `name`, `value` / `$ref`, value types, lifecycle metadata. |
-| [Taxonomy](taxonomy.md)         | Concept categories, vocabulary, formatting, anatomy vs objects.  |
-| [Cascade](cascade.md)           | Layers, specificity, resolution algorithm.                       |
-| [Dimensions](dimensions.md)     | Dimension declarations, built-in dimensions, coverage.           |
-| [Manifest](manifest.md)         | Platform manifest fields and validation expectations.            |
-| [Diff](diff.md)                 | Semantic diff change taxonomy, token identity, property changes. |
-| [Query](query.md)               | Filter notation for selecting tokens by structured fields.       |
-| [Evolution](evolution.md)       | Deprecation lifecycle, migration windows, change classification. |
+| Document                                            | Role                                                                                                                              |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| [Token format](token-format.md)                     | Token `name`, `value` / `$ref`, value types, lifecycle metadata.                                                                  |
+| [Taxonomy](taxonomy.md)                             | Concept categories, vocabulary, formatting, anatomy vs objects.                                                                   |
+| [Registry](registry.md)                             | Named value collections for vocabulary validation; three-registry boundary (anatomy, token objects, categories) and packaging.    |
+| [Component format](component-format.md)             | Component declaration: options, slots, anatomy (→ anatomy-format.md), states (→ state-model.md), lifecycle.                       |
+| [Anatomy format](anatomy-format.md)                 | Anatomy part declarations: field constraints, canonical vocabulary, SPEC-020/SPEC-023/SPEC-024/SPEC-025.                          |
+| [State model](state-model.md)                       | State declarations: trigger semantics, precedence algorithm, canonical vocabulary, SPEC-022/SPEC-026.                             |
+| [Cascade](cascade.md)                               | Layers, specificity, resolution algorithm.                                                                                        |
+| [Mode Sets](mode-sets.md)                           | Mode set declarations, built-in mode sets, coverage.                                                                              |
+| [Manifest](manifest.md)                             | Platform manifest fields and validation expectations.                                                                             |
+| [Product context](product-context.md)               | Product-layer context document: rationale, overrides, and extensions.                                                             |
+| [Diff](diff.md)                                     | Semantic diff change taxonomy, token identity, property changes.                                                                  |
+| [Query](query.md)                                   | Filter notation for selecting tokens by structured fields.                                                                        |
+| [Accessibility](accessibility.md)                   | Component accessibility vocabulary: role, intents, focusable, keyboardIntents, wcag, and state-level AT fields (SPEC-030/031).    |
+| [Accessibility adapters](accessibility-adapters.md) | Informative platform adapter contracts mapping foundation accessibility vocabulary to Web/ARIA, iOS, Android, and voice surfaces. |
+| [Document blocks](document-blocks.md)               | Typed prose blocks (purpose, guideline, accessibility, do-dont, examples) attachable to any entity.                               |
+| [Agent-readable surface](agent-surface.md)          | Transport contracts (CLI, MCP, Agent Skill) and operation catalog for AI agents consuming spec-conformant design data.            |
+| [Evolution](evolution.md)                           | Deprecation lifecycle, migration windows, change classification.                                                                  |
 
 ## JSON Schema `$id` and versioning
 
 **NORMATIVE:** Canonical schema documents use **versioned path** `$id` URIs so major revisions can coexist on the documentation host:
 
 * Base: `https://opensource.adobe.com/spectrum-design-data/schemas/v0/`
-* Examples: `.../v0/token.schema.json`, `.../v0/dimension.schema.json`, `.../v0/manifest.schema.json`
+* Examples: `.../v0/token.schema.json`, `.../v0/mode-set.schema.json`, `.../v0/manifest.schema.json`
 
 The **`v0`** segment denotes the **draft / pre-1.0** schema family aligned with spec version `1.0.0-draft`. A future **1.0.0** stable release MAY introduce `v1` paths without reusing `v0` URLs for incompatible shapes.
 
@@ -76,11 +93,11 @@ Packaged copies in this repository live under `packages/design-data-spec/schemas
 
 ## Relationship to existing Adobe packages
 
-| Package / area                          | Relationship                                                                                                                                                                                                                                                            |
-| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@adobe/spectrum-tokens`                | **Current** token JSON under `packages/tokens/` is the **legacy** shape (e.g. `color-set`, `scale-set`). This spec defines the **target** format; backward-compat schemas and migration are Phase 1 ([#723](https://github.com/adobe/spectrum-design-data/issues/723)). |
-| `@adobe/design-system-registry`         | Registry enums and component metadata MAY be referenced by validation rules (e.g. component association); exact coupling is Layer 2.                                                                                                                                    |
-| `@adobe/spectrum-component-api-schemas` | Component schemas MAY be cross-checked by graph rules; not required for Layer 1 structural validation.                                                                                                                                                                  |
+| Package / area                          | Relationship                                                                                                                                                                                                                                                                 |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@adobe/spectrum-tokens`                | **Current** token JSON under `packages/tokens/` is the **legacy** shape (e.g. `color-set`, `scale-set`). This spec defines the **target** format; backward-compat schemas and migration are Phase 1 ([#723](https://github.com/adobe/spectrum-design-data/issues/723)).      |
+| `@adobe/design-system-registry`         | Registry enums and component metadata MAY be referenced by validation rules (e.g. component association); exact coupling is Layer 2.                                                                                                                                         |
+| `@adobe/spectrum-component-api-schemas` | Will become a thin adapter over component declarations in `packages/design-data-spec/components/` (Phase 6.5). Until migration, existing schemas remain authoritative. Cross-reference rules SPEC-018–SPEC-020 apply when component declarations are present in the dataset. |
 
 ## Umbrella discussions
 

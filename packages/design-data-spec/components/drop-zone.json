@@ -1,0 +1,238 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/drop-zone.json",
+  "specVersion": "1.0.0-draft",
+  "name": "drop-zone",
+  "displayName": "Drop zone",
+  "description": "A drop zone allows users to drag and drop files or other content into a designated area.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/drop-zone/"
+  },
+  "options": {
+    "accept": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "File types that are accepted by the drop zone."
+      }
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
+    },
+    "actionLabel": {
+      "type": "string",
+      "description": "If undefined, this button does not appear."
+    },
+    "onDrop": {
+      "type": "string",
+      "description": "Callback function called when files are dropped onto the drop zone."
+    },
+    "onDragOver": {
+      "type": "string",
+      "description": "Callback function called when a file is dragged over the drop zone."
+    },
+    "onDragLeave": {
+      "type": "string",
+      "description": "Callback function called when a file is dragged out of the drop zone."
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "drop-zone-width",
+      "context": "Component width"
+    },
+    {
+      "token": "spacing-400",
+      "context": "Padding"
+    },
+    {
+      "token": "drop-zone-content-maximum-width",
+      "context": "Content width (maximum)"
+    },
+    {
+      "token": "border-width-200",
+      "context": "Border width and corner radius"
+    },
+    {
+      "token": "corner-radius-700",
+      "context": "Border width and corner radius"
+    },
+    {
+      "token": "drop-zone-border-dash-length",
+      "context": "Border width and corner radius"
+    },
+    {
+      "token": "drop-zone-border-dash-gap",
+      "context": "Border width and corner radius"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (illustration to title area) "
+    },
+    {
+      "token": "spacing-75",
+      "context": "Spacing (title area to body area) "
+    },
+    {
+      "token": "spacing-300",
+      "context": "Spacing (body area to action) "
+    },
+    {
+      "token": "component-height-300",
+      "context": "Text area (filled, hover)"
+    },
+    {
+      "token": "component-edge-to-text-300",
+      "context": "Text area (filled, hover)"
+    },
+    {
+      "token": "component-top",
+      "context": "Text area (filled, hover)"
+    },
+    {
+      "token": "text-300",
+      "context": "Text area (filled, hover)"
+    },
+    {
+      "token": "component-bottom-to-text-300",
+      "context": "Text area (filled, hover)"
+    },
+    {
+      "token": "title-sans-serif-font-family",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "title-sans-serif-font-weight",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "title-sans-serif-font-style",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "drop-zone-title-font-size",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "drop-zone-cjk-title-font-size",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "title-line-height",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "body-sans-serif-font-family",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "body-sans-serif-font-weight",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "body-sans-serif-font-style",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "drop-zone-body-font-size",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "body-line-height",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "sans-serif-font-family",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "bold-font-weight",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "default-font-size",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Title area and body area"
+    },
+    {
+      "token": "grey-300",
+      "context": "Border color"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Illustration color"
+    },
+    {
+      "token": "accent-content-color",
+      "context": "Illustration color"
+    },
+    {
+      "token": "heading-color",
+      "context": "Title and body color"
+    },
+    {
+      "token": "body-color",
+      "context": "Title and body color"
+    },
+    {
+      "token": "accent-visual-color",
+      "context": "Border and background color (empty, hover)"
+    },
+    {
+      "token": "drop-zone-background-color",
+      "context": "Border and background color (empty, hover)"
+    },
+    {
+      "token": "drop-zone-background-color-opacity",
+      "context": "Border and background color (empty, hover)"
+    },
+    {
+      "token": "drop-zone-background-color-opacity-indicatored",
+      "context": "Border, background, and text area color (filled, hover)"
+    },
+    {
+      "token": "white",
+      "context": "Border, background, and text area color (filled, hover)"
+    }
+  ],
+  "accessibility": {
+    "intents": ["input"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

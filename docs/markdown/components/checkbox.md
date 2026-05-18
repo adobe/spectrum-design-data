@@ -21,4 +21,3 @@ Checkboxes allow users to select multiple items from a list of individual items,
 | isEmphasized | boolean | - | false | No | - |
 | isDisabled | boolean | - | false | No | - |
 | isError | boolean | - | false | No | - |
-| state | string | default, hover, down, keyboard focus | default | No | - |

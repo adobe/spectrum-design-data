@@ -1,0 +1,93 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/divider.json",
+  "specVersion": "1.0.0-draft",
+  "name": "divider",
+  "displayName": "Divider",
+  "description": "Dividers bring clarity to a layout by grouping and dividing content in close proximity. They can also be used to establish rhythm and hierarchy.",
+  "meta": {
+    "category": "containers",
+    "documentationUrl": "https://spectrum.adobe.com/page/divider/"
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "default": "s",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
+    },
+    "orientation": {
+      "type": "string",
+      "default": "horizontal",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "divider-thickness-small",
+      "context": "Thickness"
+    },
+    {
+      "token": "divider-thickness-medium",
+      "context": "Thickness"
+    },
+    {
+      "token": "divider-thickness-large",
+      "context": "Thickness"
+    },
+    {
+      "token": "divider-horizontal-minimum-width",
+      "context": "Horizontal"
+    },
+    {
+      "token": "divider-vertical-minimum-height",
+      "context": "Horizontal"
+    },
+    {
+      "token": "gray-200",
+      "context": "Fill "
+    },
+    {
+      "token": "gray-800",
+      "context": "Fill "
+    },
+    {
+      "token": "transparent-white-200",
+      "context": "Fill (white)"
+    },
+    {
+      "token": "transparent-white-800",
+      "context": "Fill (white)"
+    },
+    {
+      "token": "transparent-black-200",
+      "context": "Fill (black)"
+    },
+    {
+      "token": "transparent-black-800",
+      "context": "Fill (black)"
+    }
+  ],
+  "accessibility": {
+    "focusable": false
+  }
+}

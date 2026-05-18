@@ -25,4 +25,3 @@ Action buttons allow users to perform an action or mark a selection. They're use
 | selectedTextColor | - | - | - | No | - |
 | hasHoldIcon | boolean | - | false | No | - |
 | isDisabled | boolean | - | false | No | - |
-| state | string | default, hover, down, keyboard focus | default | No | - |

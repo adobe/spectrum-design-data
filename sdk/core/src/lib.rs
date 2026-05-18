@@ -44,10 +44,10 @@ pub enum CoreError {
     #[error("expected token schema directory at {0}")]
     SchemaDirectoryMissing(PathBuf),
     #[error(
-        "token property '{0}' has tokens across multiple dimensions and cannot be represented \
-         in legacy set format; convert individual dimension slices separately"
+        "token property '{0}' has tokens across multiple mode sets and cannot be represented \
+         in legacy set format; convert individual mode-set slices separately"
     )]
-    MultiDimensionalToken(String),
+    MultiModeSetToken(String),
     #[error("query parse error: {0}")]
     QueryParse(String),
     #[error("parse error: {0}")]
@@ -93,7 +93,7 @@ mod relational_conformance {
 
     use serde_json::json;
 
-    use crate::graph::{DimensionRecord, TokenGraph};
+    use crate::graph::{ModeSetRecord, TokenGraph};
     use crate::validate::relational::diagnostics_for_rule;
 
     #[test]
@@ -178,9 +178,9 @@ mod relational_conformance {
     }
 
     #[test]
-    fn spec005_dimension_default_not_in_modes() {
-        let g = TokenGraph::default().with_dimensions(vec![DimensionRecord {
-            file: PathBuf::from("dimension.json"),
+    fn spec005_mode_set_default_not_in_modes() {
+        let g = TokenGraph::default().with_mode_sets(vec![ModeSetRecord {
+            file: PathBuf::from("mode-set.json"),
             name: "scale".into(),
             modes: vec!["medium".into(), "large".into()],
             default_mode: "xlarge".into(),
@@ -249,13 +249,12 @@ mod relational_conformance {
 
     #[test]
     fn spec008_cascade_completeness_warning() {
-        use crate::graph::DimensionRecord;
         let g = TokenGraph::from_pairs(vec![(
             "dark-only".into(),
             PathBuf::from("a.json"),
             json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#000"}),
         )])
-        .with_dimensions(vec![DimensionRecord {
+        .with_mode_sets(vec![ModeSetRecord {
             file: PathBuf::from("d.json"),
             name: "colorScheme".into(),
             modes: vec!["light".into(), "dark".into()],
@@ -437,10 +436,322 @@ mod relational_conformance {
     }
 }
 
+/// Validation conformance tests — fixture-driven, exercises relational rules
+/// against `packages/design-data-spec/conformance/{invalid,valid}/` fixtures.
+///
+/// Each fixture directory contains `dataset.json` (neutral interchange format:
+/// `{ tokens, components, modeSets }`) and `expected-errors.json` (list of
+/// `{ rule_id, severity, message_pattern }` entries). Dirs without `dataset.json`
+/// are legacy-only and skipped until migrated.
+#[cfg(test)]
+mod validation_conformance {
+    use std::collections::HashSet;
+    use std::path::Path;
+
+    use regex::Regex;
+    use serde_json::Value;
+
+    use crate::graph::{ComponentRecord, ModeSetRecord, TokenGraph};
+    use crate::naming::NamingExceptionsFile;
+    use crate::report::Severity;
+    use crate::validate::rules::{default_rules, run_rules};
+
+    fn severity_str(s: &Severity) -> &'static str {
+        match s {
+            Severity::Error => "error",
+            Severity::Warning => "warning",
+            Severity::Info => "info",
+        }
+    }
+
+    fn build_graph(dataset: &Value) -> TokenGraph {
+        use crate::graph::{extract_alias_target, Layer, TokenRecord};
+
+        let tokens_json = dataset
+            .get("tokens")
+            .and_then(|v| v.as_array())
+            .cloned()
+            .unwrap_or_default();
+
+        let records: Vec<TokenRecord> = tokens_json
+            .into_iter()
+            .enumerate()
+            .map(|(i, raw)| {
+                // For string names use the string directly (SPEC-007 roundtrip checks t.name).
+                // For object names generate a unique key from index.
+                let key = raw
+                    .get("name")
+                    .and_then(|n| n.as_str())
+                    .map(String::from)
+                    .unwrap_or_else(|| format!("token-{i}"));
+                // Optional "$layer" field lets fixtures exercise multi-layer rules (e.g. SPEC-032).
+                let layer = raw
+                    .get("$layer")
+                    .and_then(|v| v.as_str())
+                    .and_then(|s| s.parse().ok())
+                    .unwrap_or(Layer::Foundation);
+                let tok_obj = raw.as_object();
+                let schema_url = tok_obj
+                    .and_then(|o| o.get("$schema"))
+                    .and_then(|v| v.as_str())
+                    .map(str::to_string);
+                let uuid = tok_obj
+                    .and_then(|o| o.get("uuid"))
+                    .and_then(|v| v.as_str())
+                    .map(str::to_string);
+                let alias_target = tok_obj.and_then(extract_alias_target);
+                TokenRecord {
+                    name: key,
+                    file: std::path::PathBuf::from("dataset.json"),
+                    index: i,
+                    schema_url,
+                    uuid,
+                    alias_target,
+                    raw,
+                    layer,
+                }
+            })
+            .collect();
+
+        let mut graph = TokenGraph::from_records(records);
+
+        if let Some(comps) = dataset.get("components").and_then(|v| v.as_array()) {
+            let comp_records: Vec<ComponentRecord> = comps
+                .iter()
+                .filter_map(|v| {
+                    let name = v.get("name")?.as_str()?.to_string();
+                    Some(ComponentRecord {
+                        name,
+                        file: std::path::PathBuf::from("dataset.json"),
+                        raw: v.clone(),
+                    })
+                })
+                .collect();
+            graph = graph.with_components(comp_records);
+        }
+
+        if let Some(mode_sets) = dataset.get("modeSets").and_then(|v| v.as_array()) {
+            let ms_records: Vec<ModeSetRecord> = mode_sets
+                .iter()
+                .filter_map(|v| {
+                    let name = v.get("name")?.as_str()?.to_string();
+                    let default_mode = v.get("default")?.as_str()?.to_string();
+                    let modes: Vec<String> = v
+                        .get("modes")?
+                        .as_array()?
+                        .iter()
+                        .filter_map(|m| m.as_str().map(String::from))
+                        .collect();
+                    Some(ModeSetRecord {
+                        file: std::path::PathBuf::from("dataset.json"),
+                        name,
+                        modes,
+                        default_mode,
+                    })
+                })
+                .collect();
+            graph = graph.with_mode_sets(ms_records);
+        }
+
+        graph
+    }
+
+    fn load_naming_exceptions() -> HashSet<String> {
+        let path = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/tokens/naming-exceptions.json");
+        NamingExceptionsFile::load(&path)
+            .map(|f| f.token_set())
+            .unwrap_or_default()
+    }
+
+    fn load_manifest(dir: &Path) -> Option<Value> {
+        let mp = dir.join("manifest.json");
+        if mp.is_file() {
+            std::fs::read_to_string(&mp)
+                .ok()
+                .and_then(|s| serde_json::from_str(&s).ok())
+        } else {
+            None
+        }
+    }
+
+    fn assert_invalid_fixtures() {
+        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/invalid");
+        let naming_exceptions = load_naming_exceptions();
+        // Only assert on rules that are registered. Phase 2+ adds the remaining rules;
+        // their fixtures are discovered but their assertions are skipped until then.
+        let registered: std::collections::HashSet<String> =
+            default_rules().iter().map(|r| r.id().to_string()).collect();
+        let mut failures = Vec::new();
+
+        let mut dirs: Vec<_> = std::fs::read_dir(&base)
+            .expect("conformance/invalid dir missing")
+            .filter_map(|e| e.ok())
+            .filter(|e| e.path().is_dir())
+            .collect();
+        dirs.sort_by_key(|e| e.path());
+
+        for entry in dirs {
+            let dir = entry.path();
+            let dataset_path = dir.join("dataset.json");
+            if !dataset_path.exists() {
+                // Legacy-only fixture: skipped until migrated in Phase 4.
+                continue;
+            }
+            let expected_path = dir.join("expected-errors.json");
+            let case = dir.file_name().unwrap().to_string_lossy().to_string();
+
+            let dataset: Value = serde_json::from_str(
+                &std::fs::read_to_string(&dataset_path)
+                    .unwrap_or_else(|e| panic!("{case}: failed to read dataset.json: {e}")),
+            )
+            .unwrap_or_else(|e| panic!("{case}: invalid dataset.json: {e}"));
+
+            let expected: Value = serde_json::from_str(
+                &std::fs::read_to_string(&expected_path)
+                    .unwrap_or_else(|e| panic!("{case}: failed to read expected-errors.json: {e}")),
+            )
+            .unwrap_or_else(|e| panic!("{case}: invalid expected-errors.json: {e}"));
+
+            // Load optional manifest.json alongside dataset.json (used by SPEC-039).
+            let manifest_val = load_manifest(&dir);
+
+            let graph = build_graph(&dataset);
+            let diagnostics = run_rules(&graph, &naming_exceptions, manifest_val.as_ref());
+
+            let expected_errors = expected
+                .get("errors")
+                .and_then(|v| v.as_array())
+                .cloned()
+                .unwrap_or_default();
+
+            for expected_err in &expected_errors {
+                let rule_id = expected_err
+                    .get("rule_id")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("");
+                // Skip assertions for rules not yet implemented in Rust.
+                if !registered.contains(rule_id) {
+                    continue;
+                }
+                let severity = expected_err
+                    .get("severity")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("");
+                let pattern = expected_err
+                    .get("message_pattern")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or(".*");
+                let re = Regex::new(pattern).unwrap_or_else(|e| {
+                    panic!("{case}: invalid message_pattern {pattern:?}: {e}")
+                });
+
+                let matched = diagnostics.iter().any(|d| {
+                    d.rule_id.as_deref() == Some(rule_id)
+                        && severity_str(&d.severity) == severity
+                        && re.is_match(&d.message)
+                });
+
+                if !matched {
+                    let got: Vec<String> = diagnostics
+                        .iter()
+                        .map(|d| {
+                            format!(
+                                "[{} {}] {}",
+                                d.rule_id.as_deref().unwrap_or("?"),
+                                severity_str(&d.severity),
+                                d.message
+                            )
+                        })
+                        .collect();
+                    failures.push(format!(
+                        "{case}: no diagnostic matched rule_id={rule_id:?} severity={severity:?} pattern={pattern:?}\n  Got: [{}]",
+                        got.join("; ")
+                    ));
+                }
+            }
+        }
+
+        assert!(
+            failures.is_empty(),
+            "Validation conformance failures:\n{}",
+            failures.join("\n")
+        );
+    }
+
+    fn assert_valid_fixtures() {
+        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/valid");
+        let naming_exceptions = load_naming_exceptions();
+        let mut failures = Vec::new();
+
+        let mut dirs: Vec<_> = std::fs::read_dir(&base)
+            .expect("conformance/valid dir missing")
+            .filter_map(|e| e.ok())
+            .filter(|e| e.path().is_dir())
+            .collect();
+        dirs.sort_by_key(|e| e.path());
+
+        for entry in dirs {
+            let dir = entry.path();
+            let dataset_path = dir.join("dataset.json");
+            if !dataset_path.exists() {
+                continue;
+            }
+            let case = dir.file_name().unwrap().to_string_lossy().to_string();
+            let dataset: Value = serde_json::from_str(
+                &std::fs::read_to_string(&dataset_path)
+                    .unwrap_or_else(|e| panic!("{case}: failed to read dataset.json: {e}")),
+            )
+            .unwrap_or_else(|e| panic!("{case}: invalid dataset.json: {e}"));
+
+            let manifest_val = load_manifest(&dir);
+
+            let graph = build_graph(&dataset);
+            let diagnostics = run_rules(&graph, &naming_exceptions, manifest_val.as_ref());
+            let errors: Vec<_> = diagnostics
+                .iter()
+                .filter(|d| matches!(d.severity, Severity::Error))
+                .collect();
+
+            // Deliberate policy: only error-severity diagnostics fail the valid
+            // fixture. Warnings (e.g. undocumented custom states/slots) may still
+            // fire on intentionally minimal valid fixtures.
+            if !errors.is_empty() {
+                failures.push(format!(
+                    "{case}: expected no errors but got: {}",
+                    errors
+                        .iter()
+                        .map(|d| d.message.as_str())
+                        .collect::<Vec<_>>()
+                        .join("; ")
+                ));
+            }
+        }
+
+        assert!(
+            failures.is_empty(),
+            "Valid fixture failures:\n{}",
+            failures.join("\n")
+        );
+    }
+
+    #[test]
+    fn invalid_fixtures_match_expected() {
+        assert_invalid_fixtures();
+    }
+
+    #[test]
+    fn valid_fixtures_produce_no_errors() {
+        assert_valid_fixtures();
+    }
+}
+
 /// Resolution conformance tests — fixture-driven, closes #768.
 ///
 /// Each test case lives under `packages/design-data-spec/conformance/resolution/<name>/`
-/// with `input/` (cascade tokens), optional `dimensions/`, `query.json`, and `expected.json`.
+/// with `input/` (cascade tokens), optional `mode-sets/`, `query.json`, and `expected.json`.
 #[cfg(test)]
 mod resolution_conformance {
     use std::collections::HashMap;
@@ -488,14 +799,22 @@ mod resolution_conformance {
         let mut graph = TokenGraph::from_json_dir(&base.join("input"))
             .unwrap_or_else(|e| panic!("{case}: failed to load tokens: {e}"));
 
-        let dims_dir = base.join("dimensions");
-        if dims_dir.is_dir() {
-            let dims = TokenGraph::load_spec_dimensions(&dims_dir)
-                .unwrap_or_else(|e| panic!("{case}: failed to load dimensions: {e}"));
-            graph = graph.with_dimensions(dims);
+        let mode_sets_dir = base.join("mode-sets");
+        if mode_sets_dir.is_dir() {
+            let mode_sets = TokenGraph::load_spec_mode_sets(&mode_sets_dir)
+                .unwrap_or_else(|e| panic!("{case}: failed to load mode sets: {e}"));
+            graph = graph.with_mode_sets(mode_sets);
         }
 
-        // Filter to property.
+        // Optionally load a product-context.json to test multi-layer resolution.
+        let product_context_path = base.join("product-context.json");
+        if product_context_path.is_file() {
+            graph
+                .load_product_context(&product_context_path)
+                .unwrap_or_else(|e| panic!("{case}: failed to load product-context.json: {e}"));
+        }
+
+        // Filter to property, preserving layer info via from_records.
         let candidates: Vec<_> = graph
             .tokens
             .values()
@@ -507,15 +826,11 @@ mod resolution_conformance {
                     .and_then(|v| v.as_str())
                     == Some(property)
             })
+            .cloned()
             .collect();
 
-        let filtered = TokenGraph::from_pairs(
-            candidates
-                .iter()
-                .map(|t| (t.name.clone(), t.file.clone(), t.raw.clone()))
-                .collect(),
-        )
-        .with_dimensions(graph.dimensions.clone());
+        let filtered = TokenGraph::from_records(candidates)
+            .with_mode_sets(graph.mode_sets.clone());
 
         let should_resolve = expected["resolved"].as_bool().unwrap_or(true);
         let winner = resolve(&filtered, &ctx);
@@ -530,6 +845,14 @@ mod resolution_conformance {
                     actual_uuid,
                     Some(expected_uuid),
                     "{case}: wrong token selected (uuid mismatch)"
+                );
+            }
+            if let Some(expected_value) = expected.get("expected_value") {
+                let actual_value = winner.raw.get("value");
+                assert_eq!(
+                    actual_value,
+                    Some(expected_value),
+                    "{case}: wrong value resolved"
                 );
             }
         } else {
@@ -553,6 +876,11 @@ mod resolution_conformance {
     #[test]
     fn alias_resolved_after_cascade() {
         run_fixture("alias-resolved-after-cascade");
+    }
+
+    #[test]
+    fn product_layer_wins() {
+        run_fixture("product-layer-wins");
     }
 }
 
@@ -611,7 +939,7 @@ mod migration_roundtrip {
     #[test]
     fn scale_set_roundtrip_resolves_in_context() {
         use crate::cascade::{resolve, ResolutionContext};
-        use crate::graph::{DimensionRecord, TokenGraph};
+        use crate::graph::{ModeSetRecord, TokenGraph};
 
         let tokens = convert_token(
             "spacing-100",
@@ -633,7 +961,7 @@ mod migration_roundtrip {
                 (uuid, PathBuf::from("output.tokens.json"), v.clone())
             })
             .collect();
-        let graph = TokenGraph::from_pairs(pairs).with_dimensions(vec![DimensionRecord {
+        let graph = TokenGraph::from_pairs(pairs).with_mode_sets(vec![ModeSetRecord {
             file: PathBuf::from("scale.json"),
             name: "scale".into(),
             modes: vec!["desktop".into(), "mobile".into()],

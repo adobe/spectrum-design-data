@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-038",
+      "severity": "warning",
+      "message_pattern": ".*obsolete.*enum.*"
+    }
+  ]
+}
