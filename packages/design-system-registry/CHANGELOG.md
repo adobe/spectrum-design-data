@@ -1,5 +1,19 @@
 # @adobe/design-system-registry
 
+## 3.1.1
+
+### Patch Changes
+
+- [#963](https://github.com/adobe/spectrum-design-data/pull/963) [`af22092`](https://github.com/adobe/spectrum-design-data/commit/af22092744c70af7ce0c659e16cdabe31b92b111) Thanks [@GarthDB](https://github.com/GarthDB)! - Pilot name-object migration: add structured `name` fields to color palette and
+  font-weight tokens (closes first phase of taxonomy corpus migration).
+  - **color-palette.json**: 369 tokens gain `name: { property, colorFamily, scaleIndex? }`.
+  - **typography.json**: 6 canonical font-weight tokens gain `name: { property, weight }`.
+  - **design-system-registry**: export the six new taxonomy registries added in #961 via
+    the package.json `exports` map; add `propertyTerms` named export to `index.js`.
+  - **tools/token-corpus-migrate**: new migration tool for injecting name objects;
+    run dry-run with `node tools/token-corpus-migrate/src/cli.js --root <tokens-src>`,
+    apply with `--write`.
+
 ## 3.1.0
 
 ### Minor Changes
