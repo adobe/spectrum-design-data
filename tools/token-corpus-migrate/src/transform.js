@@ -10,8 +10,8 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import colorFamiliesData from "@adobe/design-system-registry/registry/color-families.json" assert { type: "json" };
-import typographyWeightsData from "@adobe/design-system-registry/registry/typography-weights.json" assert { type: "json" };
+import colorFamiliesData from "@adobe/design-system-registry/registry/color-families.json" with { type: "json" };
+import typographyWeightsData from "@adobe/design-system-registry/registry/typography-weights.json" with { type: "json" };
 
 const COLOR_FAMILIES = new Set(colorFamiliesData.values.map((v) => v.id));
 const TYPOGRAPHY_WEIGHTS = new Set(
@@ -21,9 +21,16 @@ const TYPOGRAPHY_WEIGHTS = new Set(
 const COLOR_SCHEMAS = new Set(["color.json", "color-set.json"]);
 const FONT_WEIGHT_SCHEMA = "font-weight.json";
 
-/** Returns true when a $schema URL ends with one of the given suffixes. */
+/** Returns true when a $schema URL ends with the given suffix. */
 function schemaEndsWith(schemaUrl, suffix) {
   return typeof schemaUrl === "string" && schemaUrl.endsWith(suffix);
+}
+
+function isColorSchema(schemaUrl) {
+  return (
+    typeof schemaUrl === "string" &&
+    COLOR_SCHEMAS.has(schemaUrl.split("/").pop())
+  );
 }
 
 /**
@@ -102,7 +109,7 @@ export function classifyToken(key, token, overrides = {}) {
 
   const schema = token["$schema"] ?? "";
 
-  if (COLOR_SCHEMAS.has(schema.split("/").pop())) {
+  if (isColorSchema(schema)) {
     const name = colorNameForKey(key);
     if (name) return { name };
     return { name: null }; // in-scope but unclassified

@@ -222,3 +222,24 @@ test("transformFile: unclassifiable in-scope token reported, not modified", (t) 
   t.is(unclassified[0], "gradient-stop-1-avatar");
   t.false("name" in transformed["gradient-stop-1-avatar"]);
 });
+
+test("transformFile: override is applied via transformFile", (t) => {
+  const tokens = {
+    "gradient-stop-1-avatar": { $schema: COLOR_SCHEMA, uuid: "a", value: "0" },
+  };
+  const overrides = {
+    "gradient-stop-1-avatar": {
+      name: { property: "color", colorFamily: "gray" },
+    },
+  };
+  const { transformed, classified, unclassified } = transformFile(
+    tokens,
+    overrides,
+  );
+  t.is(classified, 1);
+  t.is(unclassified.length, 0);
+  t.deepEqual(transformed["gradient-stop-1-avatar"].name, {
+    property: "color",
+    colorFamily: "gray",
+  });
+});

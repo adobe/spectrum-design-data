@@ -15,6 +15,9 @@
 //!
 //! Domain detection is based on the token's `$schema` URL suffix:
 //! - Color tokens (color.json, color-set.json) SHOULD have `colorFamily` or `scaleIndex`.
+//!   Either field alone satisfies the check intentionally — a token with only `scaleIndex`
+//!   (ramp step without family context) is still sortable, and a token with only
+//!   `colorFamily` (non-ramp token such as transparent-black) is also valid.
 //! - Typography tokens (font-*.json, typography.json) SHOULD have `family`, `weight`,
 //!   or `style`.
 //! - Motion tokens (duration.json, easing.json, motion.json) SHOULD have

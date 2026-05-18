@@ -12,7 +12,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -58,14 +58,7 @@ program
     if (options.all) {
       files = await glob("**/*.tokens.json", { cwd: root, absolute: true });
     } else {
-      files = PILOT_FILES.map((f) => resolve(root, f)).filter((f) => {
-        try {
-          readFileSync(f);
-          return true;
-        } catch {
-          return false;
-        }
-      });
+      files = PILOT_FILES.map((f) => resolve(root, f)).filter(existsSync);
     }
 
     if (files.length === 0) {
