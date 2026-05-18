@@ -2146,7 +2146,7 @@ const TYPOGRAPHY_WEIGHTS_JSON: &str = r##"{
 const TYPOGRAPHY_STYLES_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "typography-style",
-  "description": "Typographic style values for typography tokens. Assigned via the `style` name-object field. Corresponds to the CSS font-style axis. The normal/default style is not listed — omit the field when style is normal.",
+  "description": "Typographic style values for typography tokens. Assigned via the `style` name-object field. Corresponds to the CSS font-style axis. All recognized styles are listed; normal represents the default upright style.",
   "values": [
     {
       "id": "normal",
