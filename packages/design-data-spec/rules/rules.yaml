@@ -424,11 +424,15 @@ rules:
     rfc: "#806"
     assert: >
       When a manifest declares modeSetRestrictions, every token group (tokens sharing the same
-      non-mode-set name object fields) MUST have at least one candidate that survives the
-      restriction filter — i.e. at least one token in the group either omits the restricted
-      mode set field (wildcard) or sets it to an allowed mode value. A group whose every member
-      sets the restricted mode set field to a disallowed value has no resolvable candidate on
-      the restricted platform and MUST be reported as a coverage gap.
-    message: "Token group '{base_name}' has no resolvable candidate under {platform} mode-set restriction on '{mode_set}' (allowed: {allowed})"
+      non-mode-set name object fields) MUST have at least one candidate that survives ALL
+      restrictions simultaneously — i.e. at least one token whose name object either omits
+      each restricted mode set field (wildcard) or sets it to an allowed mode value for every
+      restriction. Restrictions are applied as a conjunction (matching cascade step 0), so a
+      group that satisfies each restriction individually but has no single token satisfying
+      all restrictions at once is also a coverage gap.
+      Sub-checks: (a) a modeSetRestrictions key that names an unknown mode set MUST emit a
+      Warning; (b) an allowed list that excludes the mode set's declared default MUST emit
+      an Error, since the resolver would return None for the default context on that platform.
+    message: "Token group '{base_name}' has no resolvable candidate under manifest mode-set restrictions ({restrictions})"
     spec_ref: spec/mode-sets.md#platform-restrictions
     introduced_in: "1.0.0-draft"
