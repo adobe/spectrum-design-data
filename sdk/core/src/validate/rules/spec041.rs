@@ -74,10 +74,7 @@ impl ValidationRule for Rule {
             let Some(mode_set_record) = ctx.graph.mode_sets.iter().find(|ms| ms.name == *ms_name)
             else {
                 out.push(Diagnostic {
-                    file: mode_set_names
-                        .first()
-                        .map(|_| std::path::PathBuf::from("manifest"))
-                        .unwrap_or_default(),
+                    file: std::path::PathBuf::from("manifest"),
                     token: None,
                     rule_id: Some(self.id().to_string()),
                     severity: Severity::Warning,
@@ -333,7 +330,7 @@ mod tests {
         assert!(diags[0].message.contains("light"));
     }
 
-    // ── Issue 1: multi-restriction correctness ───────────────────────────────
+    // ── Multi-restriction simultaneous check ─────────────────────────────────
 
     #[test]
     fn multi_restriction_gap_detected() {
@@ -397,7 +394,7 @@ mod tests {
         assert!(Rule.validate(&ctx).is_empty());
     }
 
-    // ── Issue 3: default must be in allowed ──────────────────────────────────
+    // ── Default-must-be-in-allowed sub-check ─────────────────────────────────
 
     #[test]
     fn default_not_in_allowed_emits_error() {
@@ -429,7 +426,7 @@ mod tests {
         assert_eq!(default_errs[0].severity, Severity::Error);
     }
 
-    // ── Issue 4: unknown mode set name ───────────────────────────────────────
+    // ── Unknown mode set name sub-check ──────────────────────────────────────
 
     #[test]
     fn unknown_mode_set_name_emits_warning() {

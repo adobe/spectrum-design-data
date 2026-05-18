@@ -1,5 +1,5 @@
 ---
-"@adobe/design-data-spec": patch
+"@adobe/design-data-spec": minor
 ---
 
 feat(spec): add `modeSetRestrictions` to platform manifest and SPEC-041 coverage rule
