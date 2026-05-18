@@ -22,6 +22,21 @@
       "id": "accessory",
       "label": "Accessory",
       "description": "Supplementary element attached to a primary structure"
+    },
+    {
+      "id": "group",
+      "label": "Group",
+      "description": "Collection of similar UI elements or relatedcontrols"
+    },
+    {
+      "id": "banner",
+      "label": "Banner",
+      "description": "Prominent element for displaying non-permanent information or actions"
+    },
+    {
+      "id": "table",
+      "label": "Table",
+      "description": "Tabular layout of rows and columns for structured data"
     }
   ]
 }
