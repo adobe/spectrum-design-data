@@ -19,7 +19,12 @@
         "value": "{blue-200}"
       }
     },
-    "uuid": "ce4c7cf5-e97a-439b-9724-9623a8f6ada3"
+    "uuid": "ce4c7cf5-e97a-439b-9724-9623a8f6ada3",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "blue",
+      "object": "background"
+    }
   },
   "icon-color-blue-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -41,7 +46,12 @@
         "value": "{blue-900}"
       }
     },
-    "uuid": "bc640c2f-c039-4aee-b1b6-a0f743364612"
+    "uuid": "bc640c2f-c039-4aee-b1b6-a0f743364612",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "blue",
+      "variant": "primary"
+    }
   },
   "icon-color-blue-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -63,7 +73,13 @@
         "value": "{blue-1100}"
       }
     },
-    "uuid": "f76a1c6d-3b8b-4bf5-940e-bd39ad6ef789"
+    "uuid": "f76a1c6d-3b8b-4bf5-940e-bd39ad6ef789",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "blue",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-blue-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -85,7 +101,13 @@
         "value": "{blue-1000}"
       }
     },
-    "uuid": "a63a3883-74a7-4bb0-96fc-2c716548e60d"
+    "uuid": "a63a3883-74a7-4bb0-96fc-2c716548e60d",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "blue",
+      "variant": "primary",
+      "state": "hover"
+    }
   },
   "icon-color-brown-background": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -107,7 +129,12 @@
         "value": "{brown-200}"
       }
     },
-    "uuid": "d74c00ca-a11f-4e2a-a3a4-71cd9d4d8ba6"
+    "uuid": "d74c00ca-a11f-4e2a-a3a4-71cd9d4d8ba6",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "brown",
+      "object": "background"
+    }
   },
   "icon-color-brown-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -129,7 +156,12 @@
         "value": "{brown-800}"
       }
     },
-    "uuid": "3e70443e-6765-4ee2-a271-84fb4eba66a6"
+    "uuid": "3e70443e-6765-4ee2-a271-84fb4eba66a6",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "brown",
+      "variant": "primary"
+    }
   },
   "icon-color-brown-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -151,7 +183,13 @@
         "value": "{brown-1000}"
       }
     },
-    "uuid": "9a01c0c0-e702-4081-ae56-2adbd00bbcf7"
+    "uuid": "9a01c0c0-e702-4081-ae56-2adbd00bbcf7",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "brown",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-brown-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -173,7 +211,13 @@
         "value": "{brown-900}"
       }
     },
-    "uuid": "aa1651a3-d002-42d0-8d22-8400c02ad368"
+    "uuid": "aa1651a3-d002-42d0-8d22-8400c02ad368",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "brown",
+      "variant": "primary",
+      "state": "hover"
+    }
   },
   "icon-color-celery-background": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -195,7 +239,12 @@
         "value": "{celery-100}"
       }
     },
-    "uuid": "4a588efb-726f-4122-8991-200fdeed9455"
+    "uuid": "4a588efb-726f-4122-8991-200fdeed9455",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "celery",
+      "object": "background"
+    }
   },
   "icon-color-celery-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -217,7 +266,12 @@
         "value": "{celery-700}"
       }
     },
-    "uuid": "8d25cc1e-0ce5-42f7-81ad-0f4f968f3d4d"
+    "uuid": "8d25cc1e-0ce5-42f7-81ad-0f4f968f3d4d",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "celery",
+      "variant": "primary"
+    }
   },
   "icon-color-celery-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -239,7 +293,13 @@
         "value": "{celery-900}"
       }
     },
-    "uuid": "d5688ac1-3726-4b14-8879-01aef1831def"
+    "uuid": "d5688ac1-3726-4b14-8879-01aef1831def",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "celery",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-celery-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -261,7 +321,13 @@
         "value": "{celery-800}"
       }
     },
-    "uuid": "e24e9976-ef3d-4356-8b9c-68fdf3e38d4e"
+    "uuid": "e24e9976-ef3d-4356-8b9c-68fdf3e38d4e",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "celery",
+      "variant": "primary",
+      "state": "hover"
+    }
   },
   "icon-color-chartreuse-background": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -283,7 +349,12 @@
         "value": "{chartreuse-200}"
       }
     },
-    "uuid": "3ab68956-d853-4296-8db8-b37fa6ec76d2"
+    "uuid": "3ab68956-d853-4296-8db8-b37fa6ec76d2",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "chartreuse",
+      "object": "background"
+    }
   },
   "icon-color-chartreuse-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -305,7 +376,12 @@
         "value": "{chartreuse-600}"
       }
     },
-    "uuid": "622815df-4c22-4cf3-8263-177c21df6c24"
+    "uuid": "622815df-4c22-4cf3-8263-177c21df6c24",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "chartreuse",
+      "variant": "primary"
+    }
   },
   "icon-color-chartreuse-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -327,7 +403,13 @@
         "value": "{chartreuse-800}"
       }
     },
-    "uuid": "2ac6e8b0-030d-4c4c-b8dc-1daa101789f6"
+    "uuid": "2ac6e8b0-030d-4c4c-b8dc-1daa101789f6",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "chartreuse",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-chartreuse-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -349,7 +431,13 @@
         "value": "{chartreuse-700}"
       }
     },
-    "uuid": "3b0fc446-0362-4856-a4ca-633262498b29"
+    "uuid": "3b0fc446-0362-4856-a4ca-633262498b29",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "chartreuse",
+      "variant": "primary",
+      "state": "hover"
+    }
   },
   "icon-color-cinnamon-background": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -371,7 +459,12 @@
         "value": "{cinnamon-200}"
       }
     },
-    "uuid": "174d3eef-4447-4e96-93a8-c125b455e1dd"
+    "uuid": "174d3eef-4447-4e96-93a8-c125b455e1dd",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "cinnamon",
+      "object": "background"
+    }
   },
   "icon-color-cinnamon-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -411,7 +504,12 @@
         "value": "{cyan-100}"
       }
     },
-    "uuid": "4a867e32-dac2-404e-a80f-2e5595685056"
+    "uuid": "4a867e32-dac2-404e-a80f-2e5595685056",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "cyan",
+      "object": "background"
+    }
   },
   "icon-color-cyan-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -469,7 +567,12 @@
         "value": "{fuchsia-900}"
       }
     },
-    "uuid": "299e2985-3d4e-4ced-97d9-7a81bf4ac644"
+    "uuid": "299e2985-3d4e-4ced-97d9-7a81bf4ac644",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "fuchsia",
+      "variant": "primary"
+    }
   },
   "icon-color-fuchsia-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -491,7 +594,13 @@
         "value": "{fuchsia-1100}"
       }
     },
-    "uuid": "f5992aa9-60d7-4e8f-8d53-31d2040e10c7"
+    "uuid": "f5992aa9-60d7-4e8f-8d53-31d2040e10c7",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "fuchsia",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-fuchsia-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -513,7 +622,13 @@
         "value": "{fuchsia-1000}"
       }
     },
-    "uuid": "8a42d5e3-9a1d-4f97-af00-72e6cb127d84"
+    "uuid": "8a42d5e3-9a1d-4f97-af00-72e6cb127d84",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "fuchsia",
+      "variant": "primary",
+      "state": "hover"
+    }
   },
   "icon-color-green-background": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -535,7 +650,12 @@
         "value": "{green-100}"
       }
     },
-    "uuid": "834b138e-265e-4313-acda-ea005b1836c8"
+    "uuid": "834b138e-265e-4313-acda-ea005b1836c8",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "green",
+      "object": "background"
+    }
   },
   "icon-color-green-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -575,7 +695,12 @@
         "value": "{indigo-200}"
       }
     },
-    "uuid": "81f2bf23-d0a9-4c59-b250-706a7aed4158"
+    "uuid": "81f2bf23-d0a9-4c59-b250-706a7aed4158",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "indigo",
+      "object": "background"
+    }
   },
   "icon-color-indigo-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -597,7 +722,12 @@
         "value": "{indigo-900}"
       }
     },
-    "uuid": "e1c92878-e06a-4692-b1f3-d0130be745a0"
+    "uuid": "e1c92878-e06a-4692-b1f3-d0130be745a0",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "indigo",
+      "variant": "primary"
+    }
   },
   "icon-color-indigo-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -619,7 +749,13 @@
         "value": "{indigo-1100}"
       }
     },
-    "uuid": "0cfba473-9739-40cf-84a2-6fa2e9a82a31"
+    "uuid": "0cfba473-9739-40cf-84a2-6fa2e9a82a31",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "indigo",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-indigo-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -641,7 +777,13 @@
         "value": "{indigo-1000}"
       }
     },
-    "uuid": "3baf7277-0033-4db2-b125-99be7010048b"
+    "uuid": "3baf7277-0033-4db2-b125-99be7010048b",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "indigo",
+      "variant": "primary",
+      "state": "hover"
+    }
   },
   "icon-color-inverse": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -682,7 +824,12 @@
         "value": "{magenta-900}"
       }
     },
-    "uuid": "df96212d-b4bf-4fbc-8599-a5a6096f510d"
+    "uuid": "df96212d-b4bf-4fbc-8599-a5a6096f510d",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "magenta",
+      "variant": "primary"
+    }
   },
   "icon-color-magenta-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -704,7 +851,13 @@
         "value": "{magenta-1100}"
       }
     },
-    "uuid": "070dba44-39f3-41f0-9b8a-082cc593ebbe"
+    "uuid": "070dba44-39f3-41f0-9b8a-082cc593ebbe",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "magenta",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-magenta-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -726,7 +879,13 @@
         "value": "{magenta-1000}"
       }
     },
-    "uuid": "8f1e3cb4-fcfb-415c-a353-67f3abaf0db9"
+    "uuid": "8f1e3cb4-fcfb-415c-a353-67f3abaf0db9",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "magenta",
+      "variant": "primary",
+      "state": "hover"
+    }
   },
   "icon-color-orange-background": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -748,7 +907,12 @@
         "value": "{orange-200}"
       }
     },
-    "uuid": "90a3c087-153b-4aaf-ad6c-77300d42fde5"
+    "uuid": "90a3c087-153b-4aaf-ad6c-77300d42fde5",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "orange",
+      "object": "background"
+    }
   },
   "icon-color-orange-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -770,7 +934,12 @@
         "value": "{orange-700}"
       }
     },
-    "uuid": "a7e402be-9ca8-491c-8a37-0d10c36ae45d"
+    "uuid": "a7e402be-9ca8-491c-8a37-0d10c36ae45d",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "orange",
+      "variant": "primary"
+    }
   },
   "icon-color-orange-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -792,7 +961,13 @@
         "value": "{orange-900}"
       }
     },
-    "uuid": "3c418011-0596-4f28-ae20-26ade2e73e95"
+    "uuid": "3c418011-0596-4f28-ae20-26ade2e73e95",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "orange",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-orange-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -814,7 +989,13 @@
         "value": "{orange-800}"
       }
     },
-    "uuid": "37aee2f6-f672-421f-b92b-b489adb4f3b9"
+    "uuid": "37aee2f6-f672-421f-b92b-b489adb4f3b9",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "orange",
+      "variant": "primary",
+      "state": "hover"
+    }
   },
   "icon-color-pink-background": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -842,7 +1023,12 @@
         "value": "{pink-800}"
       }
     },
-    "uuid": "7ad2203f-7595-4c14-b634-2bd5afac55f6"
+    "uuid": "7ad2203f-7595-4c14-b634-2bd5afac55f6",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "pink",
+      "variant": "primary"
+    }
   },
   "icon-color-pink-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -864,7 +1050,13 @@
         "value": "{pink-1000}"
       }
     },
-    "uuid": "7044ccda-e69a-4fac-b726-351773fa58f5"
+    "uuid": "7044ccda-e69a-4fac-b726-351773fa58f5",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "pink",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-pink-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -886,7 +1078,13 @@
         "value": "{pink-900}"
       }
     },
-    "uuid": "daa99344-9af2-4084-a361-6b8aaa85d2f6"
+    "uuid": "daa99344-9af2-4084-a361-6b8aaa85d2f6",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "pink",
+      "variant": "primary",
+      "state": "hover"
+    }
   },
   "icon-color-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -932,7 +1130,12 @@
         "value": "{purple-900}"
       }
     },
-    "uuid": "eb6fd090-430f-463d-9371-1c560fb3c2d5"
+    "uuid": "eb6fd090-430f-463d-9371-1c560fb3c2d5",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "purple",
+      "variant": "primary"
+    }
   },
   "icon-color-purple-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -954,7 +1157,13 @@
         "value": "{purple-1100}"
       }
     },
-    "uuid": "1d630c63-d443-4207-8da9-8a4fa27ebc2f"
+    "uuid": "1d630c63-d443-4207-8da9-8a4fa27ebc2f",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "purple",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-purple-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -976,7 +1185,13 @@
         "value": "{purple-1000}"
       }
     },
-    "uuid": "5bb2c6bb-a798-4560-ae51-e229630dbcc1"
+    "uuid": "5bb2c6bb-a798-4560-ae51-e229630dbcc1",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "purple",
+      "variant": "primary",
+      "state": "hover"
+    }
   },
   "icon-color-red-background": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -998,7 +1213,12 @@
         "value": "{red-200}"
       }
     },
-    "uuid": "2406da90-f230-4e70-8acc-22ed8078721d"
+    "uuid": "2406da90-f230-4e70-8acc-22ed8078721d",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "red",
+      "object": "background"
+    }
   },
   "icon-color-red-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1020,7 +1240,12 @@
         "value": "{red-900}"
       }
     },
-    "uuid": "f7a6c17f-70c1-401d-99a6-400a720c173b"
+    "uuid": "f7a6c17f-70c1-401d-99a6-400a720c173b",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "red",
+      "variant": "primary"
+    }
   },
   "icon-color-red-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1042,7 +1267,13 @@
         "value": "{red-1100}"
       }
     },
-    "uuid": "2633f970-1550-4389-aa5e-e26bef70a222"
+    "uuid": "2633f970-1550-4389-aa5e-e26bef70a222",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "red",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-red-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1064,7 +1295,13 @@
         "value": "{red-1000}"
       }
     },
-    "uuid": "8f3bfc49-c036-4196-9014-2ecee9db1c3f"
+    "uuid": "8f3bfc49-c036-4196-9014-2ecee9db1c3f",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "red",
+      "variant": "primary",
+      "state": "hover"
+    }
   },
   "icon-color-seafoam-background": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1086,7 +1323,12 @@
         "value": "{seafoam-200}"
       }
     },
-    "uuid": "18971672-bcfa-4a48-afa3-197a50d3ac33"
+    "uuid": "18971672-bcfa-4a48-afa3-197a50d3ac33",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "seafoam",
+      "object": "background"
+    }
   },
   "icon-color-seafoam-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1126,7 +1368,12 @@
         "value": "{silver-200}"
       }
     },
-    "uuid": "cdd3116b-9441-40be-bb20-368aec509ffd"
+    "uuid": "cdd3116b-9441-40be-bb20-368aec509ffd",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "silver",
+      "object": "background"
+    }
   },
   "icon-color-silver-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1148,7 +1395,12 @@
         "value": "{silver-700}"
       }
     },
-    "uuid": "696a03e3-12c5-4af8-acaf-90246dd7b3df"
+    "uuid": "696a03e3-12c5-4af8-acaf-90246dd7b3df",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "silver",
+      "variant": "primary"
+    }
   },
   "icon-color-silver-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1170,7 +1422,13 @@
         "value": "{silver-900}"
       }
     },
-    "uuid": "07de191f-8b9c-40a0-ac40-434a2865702b"
+    "uuid": "07de191f-8b9c-40a0-ac40-434a2865702b",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "silver",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-silver-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1192,7 +1450,13 @@
         "value": "{silver-800}"
       }
     },
-    "uuid": "fdaf49d9-5470-44b4-9c5a-0470ff539079"
+    "uuid": "fdaf49d9-5470-44b4-9c5a-0470ff539079",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "silver",
+      "variant": "primary",
+      "state": "hover"
+    }
   },
   "icon-color-turquoise-background": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1214,7 +1478,12 @@
         "value": "{turquoise-200}"
       }
     },
-    "uuid": "b7c72978-d28b-4aca-97d6-7897d2dae50e"
+    "uuid": "b7c72978-d28b-4aca-97d6-7897d2dae50e",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "turquoise",
+      "object": "background"
+    }
   },
   "icon-color-turquoise-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1236,7 +1505,12 @@
         "value": "{turquoise-700}"
       }
     },
-    "uuid": "eb0405dc-c3c4-42e4-9b05-892a1959a332"
+    "uuid": "eb0405dc-c3c4-42e4-9b05-892a1959a332",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "turquoise",
+      "variant": "primary"
+    }
   },
   "icon-color-turquoise-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1258,7 +1532,13 @@
         "value": "{turquoise-900}"
       }
     },
-    "uuid": "1911e604-88a5-4a64-a85c-fbfbabff604f"
+    "uuid": "1911e604-88a5-4a64-a85c-fbfbabff604f",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "turquoise",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-turquoise-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1280,7 +1560,13 @@
         "value": "{turquoise-800}"
       }
     },
-    "uuid": "aeb90a17-af9e-4bd4-ba02-5147c78465c6"
+    "uuid": "aeb90a17-af9e-4bd4-ba02-5147c78465c6",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "turquoise",
+      "variant": "primary",
+      "state": "hover"
+    }
   },
   "icon-color-yellow-background": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1302,7 +1588,12 @@
         "value": "{yellow-100}"
       }
     },
-    "uuid": "ca1cbd2f-3434-471c-8897-d70f8950795f"
+    "uuid": "ca1cbd2f-3434-471c-8897-d70f8950795f",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "yellow",
+      "object": "background"
+    }
   },
   "icon-color-yellow-primary-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1324,7 +1615,12 @@
         "value": "{yellow-400}"
       }
     },
-    "uuid": "8b1b13d9-4645-4512-a671-e51bd8250978"
+    "uuid": "8b1b13d9-4645-4512-a671-e51bd8250978",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "yellow",
+      "variant": "primary"
+    }
   },
   "icon-color-yellow-primary-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1346,7 +1642,13 @@
         "value": "{yellow-600}"
       }
     },
-    "uuid": "8d9c55fd-9bfd-4ae6-b178-95fd648b02a7"
+    "uuid": "8d9c55fd-9bfd-4ae6-b178-95fd648b02a7",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "yellow",
+      "variant": "primary",
+      "state": "down"
+    }
   },
   "icon-color-yellow-primary-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -1368,6 +1670,12 @@
         "value": "{yellow-500}"
       }
     },
-    "uuid": "5aa44700-fee8-46bc-9ef5-3c751f661479"
+    "uuid": "5aa44700-fee8-46bc-9ef5-3c751f661479",
+    "name": {
+      "property": "icon-color",
+      "colorFamily": "yellow",
+      "variant": "primary",
+      "state": "hover"
+    }
   }
 }

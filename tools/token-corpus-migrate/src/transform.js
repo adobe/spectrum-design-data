@@ -141,6 +141,69 @@ export function fontStyleNameForKey(key, token) {
 }
 
 /**
+ * Derive the name object for an icon-color token, or null if unclassifiable.
+ *
+ * Patterns handled:
+ *   icon-color-<family>-background           → { property, colorFamily, object }
+ *   icon-color-<family>-primary              → { property, colorFamily, variant }
+ *   icon-color-<family>-primary-<state>      → { property, colorFamily, variant, state }
+ *
+ * Applies to both color-set.json tokens and family-aliased alias.json tokens.
+ * Semantic aliases (inverse, disabled, emphasized, primary-*) return null.
+ */
+export function iconColorNameForKey(key) {
+  if (!key.startsWith("icon-color-")) return null;
+
+  // icon-color-<family>-background
+  const bgMatch = key.match(/^icon-color-(.+)-background$/);
+  if (bgMatch) {
+    const [, family] = bgMatch;
+    if (COLOR_FAMILIES.has(family)) {
+      return {
+        property: "icon-color",
+        colorFamily: family,
+        object: "background",
+      };
+    }
+    return null;
+  }
+
+  // icon-color-<family>-primary-<state>
+  const stateMatch = key.match(
+    /^icon-color-(.+)-primary-(default|down|hover)$/,
+  );
+  if (stateMatch) {
+    const [, family, state] = stateMatch;
+    if (COLOR_FAMILIES.has(family)) {
+      const name = {
+        property: "icon-color",
+        colorFamily: family,
+        variant: "primary",
+      };
+      if (state !== "default") name.state = state;
+      return name;
+    }
+    return null;
+  }
+
+  // icon-color-<family>-primary (bare, no state)
+  const primaryMatch = key.match(/^icon-color-(.+)-primary$/);
+  if (primaryMatch) {
+    const [, family] = primaryMatch;
+    if (COLOR_FAMILIES.has(family)) {
+      return {
+        property: "icon-color",
+        colorFamily: family,
+        variant: "primary",
+      };
+    }
+    return null;
+  }
+
+  return null;
+}
+
+/**
  * Derive the name object for a font-size scale-set token, or null if unclassifiable.
  *
  * Pattern:  font-size-<N>
@@ -185,6 +248,12 @@ export function classifyToken(key, token, overrides = {}) {
   const schema = token["$schema"] ?? "";
 
   if (isColorSchema(schema)) {
+    // Icon-color tokens share the color-set schema; classify before color-palette
+    if (key.startsWith("icon-color-")) {
+      const name = iconColorNameForKey(key);
+      if (name) return { name };
+      return { name: null }; // in-scope but unclassified (e.g. semantic aliases via color-set)
+    }
     const name = colorNameForKey(key);
     if (name) return { name };
     return { name: null }; // in-scope but unclassified

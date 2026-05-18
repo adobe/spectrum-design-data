@@ -1556,6 +1556,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "easing",
       "label": "Easing",
       "description": "Animation or transition easing function"
+    },
+    {
+      "id": "icon-color",
+      "label": "Icon Color",
+      "description": "Foreground color of an icon"
     }
   ]
 }
