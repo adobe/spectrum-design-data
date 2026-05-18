@@ -27,8 +27,6 @@ const COLOR_SET_SCHEMA =
   "https://example.com/schemas/token-types/color-set.json";
 const FONT_FAMILY_SCHEMA =
   "https://example.com/schemas/token-types/font-family.json";
-const FONT_SIZE_SCHEMA =
-  "https://example.com/schemas/token-types/font-size.json";
 const FONT_STYLE_SCHEMA =
   "https://example.com/schemas/token-types/font-style.json";
 const FONT_WEIGHT_SCHEMA =
