@@ -20,7 +20,13 @@
     "./registry/orientations.json": "./registry/orientations.json",
     "./registry/positions.json": "./registry/positions.json",
     "./registry/densities.json": "./registry/densities.json",
-    "./registry/shapes.json": "./registry/shapes.json"
+    "./registry/shapes.json": "./registry/shapes.json",
+    "./registry/color-families.json": "./registry/color-families.json",
+    "./registry/typography-families.json": "./registry/typography-families.json",
+    "./registry/typography-weights.json": "./registry/typography-weights.json",
+    "./registry/typography-styles.json": "./registry/typography-styles.json",
+    "./registry/motion-roles.json": "./registry/motion-roles.json",
+    "./registry/easing-curves.json": "./registry/easing-curves.json"
   },
   "scripts": {
     "validate": "node scripts/validate-registry.js",
