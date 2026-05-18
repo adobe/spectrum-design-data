@@ -17,12 +17,13 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 
 ## Optional fields
 
-| Field        | Type            | Description                                                                      |
-| ------------ | --------------- | -------------------------------------------------------------------------------- |
-| `include`    | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.      |
-| `exclude`    | array of string | Queries removing tokens from the included set.                                   |
-| `overrides`  | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**. |
-| `extensions` | object          | New tokens or mode sets introduced at the platform layer.                        |
+| Field                 | Type            | Description                                                                                                           |
+| --------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `include`             | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.                                           |
+| `exclude`             | array of string | Queries removing tokens from the included set.                                                                        |
+| `overrides`           | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**.                                      |
+| `extensions`          | object          | New tokens or mode sets introduced at the platform layer.                                                             |
+| `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions). |
 
 ### `include` / `exclude`
 

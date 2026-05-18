@@ -57,8 +57,25 @@ Additional mode sets (e.g. `language`, `motion`) **MAY** be declared in a datase
 
 **RECOMMENDED:** Explicit **combination** tokens are used for rare cross-mode-set cases instead of inferring Cartesian products.
 
+## Platform restrictions
+
+A platform manifest **MAY** declare which mode values are valid for a given mode set on that platform. This allows a platform (e.g. iOS) to express that it only supports a subset of modes (e.g. `colorScheme: light`, not `dark`).
+
+**NORMATIVE:** A manifest's `modeSetRestrictions` value **MUST** be an object whose keys are mode set names declared in the dataset. Each value **MUST** be an object with a required `allowed` array of mode value strings. Every mode value in `allowed` **MUST** be a member of the named mode set's `modes`. The mode set's `default` **MUST** be included in `allowed`.
+
+### Resolution semantics
+
+**NORMATIVE:** At resolution time, any token candidate whose name object sets a mode set field to a value **not** in the manifest's `allowed` list for that mode set **MUST** be filtered out before specificity tie-breaking. Tokens whose name object **omits** a restricted mode set field (wildcard) are **not** affected.
+
+This is a pre-filter step, inserted at the start of the [resolution algorithm](cascade.md#resolution-algorithm-informative-outline) before step 1 (context matching).
+
+### Coverage validation
+
+**NORMATIVE:** Validators implementing rule **`SPEC-041`** (`mode-set-restriction-coverage`) **MUST** report an error when a platform manifest's mode set restrictions leave a token group with no resolvable candidate — i.e. every token sharing the same non-mode-set name object fields references a restricted mode value, with no wildcard or allowed-mode alternative available. See `rules/rules.yaml` for the full rule definition.
+
 ## References
 
 * [#646 — Token Schema Structure and Validation System](https://github.com/adobe/spectrum-design-data/discussions/646)
 * [#714 — Design Data Specification](https://github.com/adobe/spectrum-design-data/discussions/714)
 * [#746 — Phase 2: Mode Set declarations (machine-readable)](https://github.com/adobe/spectrum-design-data/issues/746)
+* [#943 — RFC #806: platform mode-set restriction behavior](https://github.com/adobe/spectrum-design-data/issues/943)

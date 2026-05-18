@@ -36,6 +36,10 @@ use crate::graph::{ModeSetRecord, TokenGraph, TokenRecord};
 pub struct ResolutionContext {
     /// Map of mode set name → requested mode value.
     pub mode_sets: HashMap<String, String>,
+    /// Platform manifest mode set restrictions: mode set name → allowed mode values.
+    /// Candidates naming a mode value absent from the allowed list are filtered out
+    /// before context matching (spec cascade.md step 0). Empty = no restrictions.
+    pub mode_set_restrictions: HashMap<String, Vec<String>>,
 }
 
 impl ResolutionContext {
@@ -46,6 +50,17 @@ impl ResolutionContext {
     /// Builder: add a mode set → mode pair.
     pub fn with(mut self, mode_set: impl Into<String>, mode: impl Into<String>) -> Self {
         self.mode_sets.insert(mode_set.into(), mode.into());
+        self
+    }
+
+    /// Builder: add a mode set restriction (allowed modes for a given mode set).
+    pub fn with_restriction(
+        mut self,
+        mode_set: impl Into<String>,
+        allowed: Vec<impl Into<String>>,
+    ) -> Self {
+        self.mode_set_restrictions
+            .insert(mode_set.into(), allowed.into_iter().map(Into::into).collect());
         self
     }
 }
@@ -113,10 +128,33 @@ pub fn matches_context(
 ///
 /// Returns `None` when no candidate matches the context.
 pub fn resolve<'a>(graph: &'a TokenGraph, context: &ResolutionContext) -> Option<&'a TokenRecord> {
+    // 0. Collect all candidates, then apply platform mode-set restrictions (spec cascade.md step 0).
+    //    Candidates that set a mode set field to a disallowed value are filtered out before
+    //    context matching. Candidates that omit the mode set field (wildcard) are not affected —
+    //    restriction is orthogonal to matches_context, which only checks explicit name-object fields.
+    let restriction_filter = |t: &&TokenRecord| -> bool {
+        if context.mode_set_restrictions.is_empty() {
+            return true;
+        }
+        let Some(name_obj) = t.raw.get("name").and_then(|v| v.as_object()) else {
+            return true;
+        };
+        for (ms_name, allowed) in &context.mode_set_restrictions {
+            if let Some(mode) = name_obj.get(ms_name).and_then(|v| v.as_str()) {
+                if !allowed.iter().any(|a| a == mode) {
+                    return false;
+                }
+            }
+            // Mode set absent from name object → wildcard → passes restriction filter.
+        }
+        true
+    };
+
     // 1. Collect candidates with a `name` object matching the context.
     let mut candidates: Vec<&TokenRecord> = graph
         .tokens
         .values()
+        .filter(restriction_filter)
         .filter(|t| {
             t.raw
                 .get("name")
@@ -310,6 +348,100 @@ mod tests {
         let winner = resolve(&g, &ctx).expect("should find a winner");
         // a.tokens.json comes before b.tokens.json lexicographically
         assert_eq!(winner.file, PathBuf::from("a.tokens.json"));
+    }
+
+    // ── mode-set restrictions ────────────────────────────────────────────────
+
+    #[test]
+    fn restriction_filters_out_disallowed_mode_candidate() {
+        // Only light is allowed; dark token should be filtered out.
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "t-light".into(),
+                PathBuf::from("a.tokens.json"),
+                json!({"name": {"property": "bg", "colorScheme": "light"}, "value": "#fff"}),
+            ),
+            (
+                "t-dark".into(),
+                PathBuf::from("a.tokens.json"),
+                json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#000"}),
+            ),
+        ])
+        .with_mode_sets(vec![color_scheme_mode_set()]);
+
+        let ctx = ResolutionContext::new()
+            .with("colorScheme", "light")
+            .with_restriction("colorScheme", vec!["light"]);
+        let winner = resolve(&g, &ctx).expect("should find the light candidate");
+        assert_eq!(
+            winner
+                .raw
+                .get("name")
+                .unwrap()
+                .get("colorScheme")
+                .unwrap()
+                .as_str()
+                .unwrap(),
+            "light"
+        );
+    }
+
+    #[test]
+    fn restriction_allows_wildcard_candidate_through() {
+        // Wildcard token (no colorScheme) survives even when dark is restricted.
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "t-wildcard".into(),
+                PathBuf::from("a.tokens.json"),
+                json!({"name": {"property": "bg"}, "value": "#ccc"}),
+            ),
+            (
+                "t-dark".into(),
+                PathBuf::from("a.tokens.json"),
+                json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#000"}),
+            ),
+        ])
+        .with_mode_sets(vec![color_scheme_mode_set()]);
+
+        let ctx = ResolutionContext::new()
+            .with("colorScheme", "light")
+            .with_restriction("colorScheme", vec!["light"]);
+        let winner = resolve(&g, &ctx).expect("wildcard should survive");
+        // t-dark is filtered; t-wildcard wins.
+        assert!(
+            winner.raw.get("name").unwrap().get("colorScheme").is_none(),
+            "wildcard token should win"
+        );
+    }
+
+    #[test]
+    fn restriction_returns_none_when_all_candidates_are_restricted() {
+        // Only dark token exists; restriction allows only light → no candidate survives.
+        let g = TokenGraph::from_pairs(vec![(
+            "t-dark".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#000"}),
+        )])
+        .with_mode_sets(vec![color_scheme_mode_set()]);
+
+        let ctx = ResolutionContext::new()
+            .with("colorScheme", "light")
+            .with_restriction("colorScheme", vec!["light"]);
+        assert!(resolve(&g, &ctx).is_none());
+    }
+
+    #[test]
+    fn empty_restrictions_do_not_change_behavior() {
+        let g = TokenGraph::from_pairs(vec![(
+            "t-dark".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#000"}),
+        )])
+        .with_mode_sets(vec![color_scheme_mode_set()]);
+
+        let ctx = ResolutionContext::new().with("colorScheme", "dark");
+        // No restrictions set — dark token resolves normally.
+        assert!(resolve(&g, &ctx).is_some());
     }
 
     #[test]

@@ -41,6 +41,7 @@ A **resolution context** is a set of mode set key/value pairs (e.g. `colorScheme
 
 The following outline is **RECOMMENDED** for conforming resolvers:
 
+0. If the manifest declares `modeSetRestrictions`, **drop any candidate** whose name object sets a mode set field to a value not in the manifest’s `allowed` list for that mode set. Candidates that omit a restricted mode set field (wildcard) are **not** dropped. See [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions).
 1. Collect all token candidates whose name object **matches** the context (every specified mode set in the context equals the name object’s mode set field, or the name object omits that mode set where omission means “matches any” per mode set rules).
 2. Filter to candidates at or below the requested layer.
 3. Select the maximum **layer** precedence.

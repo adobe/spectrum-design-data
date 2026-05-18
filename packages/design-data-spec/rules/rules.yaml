@@ -415,3 +415,20 @@ rules:
     message: "Token '{token}' has {field} '{value}' which is not declared on component '{component}'"
     spec_ref: spec/component-format.md#options
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-041
+    name: mode-set-restriction-coverage
+    severity: error
+    layer: 2
+    category: completeness
+    rfc: "#806"
+    assert: >
+      When a manifest declares modeSetRestrictions, every token group (tokens sharing the same
+      non-mode-set name object fields) MUST have at least one candidate that survives the
+      restriction filter — i.e. at least one token in the group either omits the restricted
+      mode set field (wildcard) or sets it to an allowed mode value. A group whose every member
+      sets the restricted mode set field to a disallowed value has no resolvable candidate on
+      the restricted platform and MUST be reported as a coverage gap.
+    message: "Token group '{base_name}' has no resolvable candidate under {platform} mode-set restriction on '{mode_set}' (allowed: {allowed})"
+    spec_ref: spec/mode-sets.md#platform-restrictions
+    introduced_in: "1.0.0-draft"
