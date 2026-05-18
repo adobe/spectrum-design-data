@@ -2,7 +2,11 @@
   "black-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "uuid": "e2f23ca1-802b-40a2-a211-33090f9a043e",
-    "value": "black"
+    "value": "black",
+    "name": {
+      "property": "font-weight",
+      "weight": "black"
+    }
   },
   "body-cjk-emphasized-font-style": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -280,7 +284,11 @@
   "bold-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "uuid": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
-    "value": "bold"
+    "value": "bold",
+    "name": {
+      "property": "font-weight",
+      "weight": "bold"
+    }
   },
   "cjk-font-family": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-family.json",
@@ -1077,7 +1085,11 @@
   "extra-bold-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "uuid": "ccadf44e-5424-4920-979f-ea1ef39687c4",
-    "value": "extra-bold"
+    "value": "extra-bold",
+    "name": {
+      "property": "font-weight",
+      "weight": "extra-bold"
+    }
   },
   "font-size-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1987,7 +1999,11 @@
   "light-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "uuid": "fd477873-3767-4883-ab3f-5ee2758b923b",
-    "value": "light"
+    "value": "light",
+    "name": {
+      "property": "font-weight",
+      "weight": "light"
+    }
   },
   "line-height-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
@@ -2290,12 +2306,20 @@
   "medium-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "uuid": "c966c3b6-1bf5-4064-89f9-00d9ec673fd4",
-    "value": "medium"
+    "value": "medium",
+    "name": {
+      "property": "font-weight",
+      "weight": "medium"
+    }
   },
   "regular-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "uuid": "02a94ddf-1007-4c86-8863-905874e40f95",
-    "value": "regular"
+    "value": "regular",
+    "name": {
+      "property": "font-weight",
+      "weight": "regular"
+    }
   },
   "sans-serif-font-family": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-family.json",
