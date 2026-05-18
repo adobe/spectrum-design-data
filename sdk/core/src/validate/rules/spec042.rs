@@ -15,9 +15,9 @@
 //! token type. Using a color-scoped field on a font-weight token, or a
 //! typography-scoped field on a color token, is a taxonomy violation.
 //!
-//! Scoped field → valid `$schema` URL suffix mapping is hardcoded here;
-//! the authoritative declaration lives in the field catalog under
+//! The authoritative field→scope mapping is the field catalog under
 //! `packages/design-data-spec/fields/` (the `scope` property on each field JSON).
+//! The domain→schema-suffix mapping is shared with SPEC-043 via `super::DOMAIN_SCHEMAS`.
 //!
 //! Current token corpus has no name objects, so this rule fires zero diagnostics
 //! today. It is forward-looking for when tokens migrate to structured name objects.
@@ -27,28 +27,13 @@ use crate::validate::rule::{ValidationContext, ValidationRule};
 
 pub struct Rule;
 
-/// Returns the valid `$schema` URL suffixes for a given domain-scoped field name.
-/// Returns `None` for universal (unscoped) fields.
-fn valid_schema_suffixes(field: &str) -> Option<&'static [&'static str]> {
+/// Returns the domain name for a domain-scoped field, or `None` for universal fields.
+/// Authoritative source: `packages/design-data-spec/fields/*.json` `scope` property.
+fn field_domain(field: &str) -> Option<&'static str> {
     match field {
-        "colorFamily" => Some(&[
-            "color.json",
-            "color-set.json",
-            "gradient-stop.json",
-        ]),
-        "family" | "weight" | "style" => Some(&[
-            "font-family.json",
-            "font-weight.json",
-            "font-style.json",
-            "font-size.json",
-            "typography.json",
-        ]),
-        "motionRole" | "easing" => Some(&[
-            "duration.json",
-            "easing.json",
-            "motion.json",
-            "motion-set.json",
-        ]),
+        "colorFamily" => Some("color"),
+        "family" | "weight" | "style" => Some("typography"),
+        "motionRole" | "easing" => Some("motion"),
         _ => None,
     }
 }
@@ -71,25 +56,26 @@ impl ValidationRule for Rule {
                 None => continue,
             };
 
+            let schema_url = record.schema_url.as_deref().unwrap_or("");
+            // No schema URL means we cannot determine the token's domain;
+            // skip to avoid false positives on alias tokens or test fixtures.
+            if schema_url.is_empty() {
+                continue;
+            }
+
             for (field, _value) in name_obj {
-                let Some(valid_suffixes) = valid_schema_suffixes(field) else {
+                let Some(scope) = field_domain(field) else {
                     continue;
                 };
 
-                let schema_url = record.schema_url.as_deref().unwrap_or("");
-
-                let is_compatible = valid_suffixes
+                let is_compatible = super::DOMAIN_SCHEMAS
                     .iter()
-                    .any(|suffix| schema_url.ends_with(suffix));
-
-                // No schema URL on the token means we cannot determine the domain;
-                // skip to avoid false positives on alias tokens or test fixtures.
-                if schema_url.is_empty() {
-                    continue;
-                }
+                    .find(|(domain, _)| *domain == scope)
+                    .is_some_and(|(_, suffixes)| {
+                        suffixes.iter().any(|s| schema_url.ends_with(s))
+                    });
 
                 if !is_compatible {
-                    let scope = scope_for_field(field);
                     out.push(Diagnostic {
                         file: record.file.clone(),
                         token: Some(record.name.clone()),
@@ -107,15 +93,6 @@ impl ValidationRule for Rule {
         }
 
         out
-    }
-}
-
-fn scope_for_field(field: &str) -> &'static str {
-    match field {
-        "colorFamily" => "color",
-        "family" | "weight" | "style" => "typography",
-        "motionRole" | "easing" => "motion",
-        _ => "unknown",
     }
 }
 

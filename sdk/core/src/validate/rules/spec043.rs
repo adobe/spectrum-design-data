@@ -31,29 +31,11 @@ use crate::validate::rule::{ValidationContext, ValidationRule};
 
 pub struct Rule;
 
-/// Returns which domain an `$schema` URL suffix belongs to, or `None`.
-fn domain_for_schema(schema_url: &str) -> Option<&'static str> {
-    if schema_url.ends_with("color.json") || schema_url.ends_with("color-set.json") {
-        Some("color")
-    } else if schema_url.ends_with("font-family.json")
-        || schema_url.ends_with("font-weight.json")
-        || schema_url.ends_with("font-style.json")
-        || schema_url.ends_with("font-size.json")
-        || schema_url.ends_with("typography.json")
-    {
-        Some("typography")
-    } else if schema_url.ends_with("duration.json")
-        || schema_url.ends_with("motion.json")
-        || schema_url.ends_with("motion-set.json")
-    {
-        Some("motion")
-    } else {
-        None
-    }
-}
-
 /// Returns true when the name object satisfies the minimum field requirement for the domain.
-fn has_required_fields(name_obj: &serde_json::Map<String, serde_json::Value>, domain: &str) -> bool {
+fn has_required_fields(
+    name_obj: &serde_json::Map<String, serde_json::Value>,
+    domain: &str,
+) -> bool {
     match domain {
         "color" => {
             name_obj.contains_key("colorFamily") || name_obj.contains_key("scaleIndex")
@@ -88,7 +70,7 @@ impl ValidationRule for Rule {
                 _ => continue,
             };
 
-            let Some(domain) = domain_for_schema(schema_url) else {
+            let Some(domain) = super::schema_domain(schema_url) else {
                 continue;
             };
 
@@ -152,6 +134,8 @@ mod tests {
         "https://example.com/schemas/token-types/font-weight.json";
     const DURATION_SCHEMA: &str =
         "https://example.com/schemas/token-types/duration.json";
+    const EASING_SCHEMA: &str =
+        "https://example.com/schemas/token-types/easing.json";
     const DIMENSION_SCHEMA: &str =
         "https://example.com/schemas/token-types/dimension.json";
 
@@ -240,6 +224,27 @@ mod tests {
         let diags = diagnostics_for_rule(&g, "SPEC-043");
         assert_eq!(diags.len(), 1);
         assert!(diags[0].message.contains("motionRole"));
+    }
+
+    #[test]
+    fn easing_schema_is_motion_domain() {
+        // easing.json tokens are motion-domain; missing motionRole/easing should warn.
+        let g = make_token(
+            EASING_SCHEMA,
+            json!({ "property": "easing" }),
+        );
+        let diags = diagnostics_for_rule(&g, "SPEC-043");
+        assert_eq!(diags.len(), 1);
+        assert!(diags[0].message.contains("motionRole"));
+    }
+
+    #[test]
+    fn easing_schema_with_motion_role_no_warning() {
+        let g = make_token(
+            EASING_SCHEMA,
+            json!({ "property": "easing", "motionRole": "enter" }),
+        );
+        assert!(diagnostics_for_rule(&g, "SPEC-043").is_empty());
     }
 
     #[test]
