@@ -1,0 +1,15 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-042",
+      "severity": "warning",
+      "message_pattern": ".*colorFamily.*color-scoped.*font-weight.*"
+    },
+    {
+      "rule_id": "SPEC-042",
+      "severity": "warning",
+      "message_pattern": ".*weight.*typography-scoped.*color.*"
+    }
+  ]
+}

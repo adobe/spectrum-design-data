@@ -108,7 +108,13 @@
                   "size",
                   "density",
                   "shape",
-                  "state"
+                  "state",
+                  "colorFamily",
+                  "family",
+                  "weight",
+                  "style",
+                  "motionRole",
+                  "easing"
                 ]
               },
               "uniqueItems": true,

@@ -51,6 +51,10 @@ Fields are divided into **semantic fields** (identity, structure, intent) and **
 
 #### Semantic fields
 
+The table below lists all semantic fields. Fields marked with a scope are domain-restricted — see [Taxonomy — Token-type taxonomies](taxonomy.md#token-type-taxonomies) for the normative per-domain field rules and serialization orders. Validators enforce scope restrictions via rule SPEC-042.
+
+**Universal semantic fields** (`scope: null` — apply to all token types):
+
 | Field          | Status   | Taxonomy category | Description                                                                                                                                                              |
 | -------------- | -------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `property`     | REQUIRED | Property          | The stylistic attribute being defined (e.g. `color`, `width`, `padding`, `gap`).                                                                                         |
@@ -66,6 +70,18 @@ Fields are divided into **semantic fields** (identity, structure, intent) and **
 | `size`         | OPTIONAL | Size              | Relative t-shirt sizing for relationships across tokens (e.g. `small`, `medium`, `large`).                                                                               |
 | `density`      | OPTIONAL | Density           | Space within or around component parts (e.g. `spacious`, `compact`).                                                                                                     |
 | `shape`        | OPTIONAL | Shape             | Relative to overall component shape (e.g. `uniform`).                                                                                                                    |
+| `scaleIndex`   | OPTIONAL | —                 | Numeric scale index appended at the end of the serialized name (e.g. `100`, `200`, `900`). Used by color palette, spacing, font-size, and motion duration tokens.        |
+
+**Domain-scoped semantic fields** (only valid on the indicated token type):
+
+| Field         | Status   | Scope        | Description                                                                                                                                 |
+| ------------- | -------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `colorFamily` | OPTIONAL | `color`      | Hue family of the color (e.g. `blue`, `gray`, `cyan`). See [Taxonomy — Color token taxonomy](taxonomy.md#color-token-taxonomy).             |
+| `family`      | OPTIONAL | `typography` | Type family (e.g. `sans-serif`, `serif`, `cjk`, `code`). See [Taxonomy — Typography token taxonomy](taxonomy.md#typography-token-taxonomy). |
+| `weight`      | OPTIONAL | `typography` | Typographic weight (e.g. `regular`, `bold`, `light`). See [Taxonomy — Typography token taxonomy](taxonomy.md#typography-token-taxonomy).    |
+| `style`       | OPTIONAL | `typography` | Typographic style when non-default (e.g. `italic`). See [Taxonomy — Typography token taxonomy](taxonomy.md#typography-token-taxonomy).      |
+| `motionRole`  | OPTIONAL | `motion`     | Semantic animation role (e.g. `enter`, `exit`, `transition`). See [Taxonomy — Motion token taxonomy](taxonomy.md#motion-token-taxonomy).    |
+| `easing`      | OPTIONAL | `motion`     | Easing curve identifier (e.g. `ease-out`, `standard`). See [Taxonomy — Motion token taxonomy](taxonomy.md#motion-token-taxonomy).           |
 
 #### Mode-set fields
 

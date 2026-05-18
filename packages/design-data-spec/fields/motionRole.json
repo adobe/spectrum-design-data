@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "motionRole",
+  "description": "Semantic role of a motion token — the interaction pattern it governs (e.g. enter, exit, transition, emphasis). Registry is provisional until motion tokens are added to the foundation.",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/motion-roles.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 21
+  },
+  "scope": "motion",
+  "required": false,
+  "valueType": "string"
+}

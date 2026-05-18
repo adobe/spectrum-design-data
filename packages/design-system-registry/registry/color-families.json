@@ -1,0 +1,177 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "color-family",
+  "description": "Hue families for color palette and semantic color tokens. Assigned via the `colorFamily` name-object field. Paired with a numeric ramp index (scaleIndex) for palette tokens (e.g. colorFamily=blue + scaleIndex=100 → blue-100).",
+  "values": [
+    {
+      "id": "blue",
+      "label": "Blue",
+      "description": "Blue hue family"
+    },
+    {
+      "id": "brown",
+      "label": "Brown",
+      "description": "Brown hue family"
+    },
+    {
+      "id": "celery",
+      "label": "Celery",
+      "description": "Celery (yellow-green) hue family"
+    },
+    {
+      "id": "chartreuse",
+      "label": "Chartreuse",
+      "description": "Chartreuse (green-yellow) hue family"
+    },
+    {
+      "id": "cinnamon",
+      "label": "Cinnamon",
+      "description": "Cinnamon (warm orange-brown) hue family"
+    },
+    {
+      "id": "cyan",
+      "label": "Cyan",
+      "description": "Cyan hue family"
+    },
+    {
+      "id": "fuchsia",
+      "label": "Fuchsia",
+      "description": "Fuchsia (pink-purple) hue family"
+    },
+    {
+      "id": "gray",
+      "label": "Gray",
+      "description": "Gray neutral hue family"
+    },
+    {
+      "id": "green",
+      "label": "Green",
+      "description": "Green hue family"
+    },
+    {
+      "id": "indigo",
+      "label": "Indigo",
+      "description": "Indigo (blue-violet) hue family"
+    },
+    {
+      "id": "magenta",
+      "label": "Magenta",
+      "description": "Magenta hue family"
+    },
+    {
+      "id": "orange",
+      "label": "Orange",
+      "description": "Orange hue family"
+    },
+    {
+      "id": "pink",
+      "label": "Pink",
+      "description": "Pink hue family"
+    },
+    {
+      "id": "purple",
+      "label": "Purple",
+      "description": "Purple hue family"
+    },
+    {
+      "id": "red",
+      "label": "Red",
+      "description": "Red hue family"
+    },
+    {
+      "id": "seafoam",
+      "label": "Seafoam",
+      "description": "Seafoam (teal-green) hue family"
+    },
+    {
+      "id": "silver",
+      "label": "Silver",
+      "description": "Silver neutral hue family"
+    },
+    {
+      "id": "turquoise",
+      "label": "Turquoise",
+      "description": "Turquoise hue family"
+    },
+    {
+      "id": "yellow",
+      "label": "Yellow",
+      "description": "Yellow hue family"
+    },
+    {
+      "id": "black",
+      "label": "Black",
+      "description": "Black neutral endpoint"
+    },
+    {
+      "id": "white",
+      "label": "White",
+      "description": "White neutral endpoint"
+    },
+    {
+      "id": "static-blue",
+      "label": "Static Blue",
+      "description": "Blue palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-chartreuse",
+      "label": "Static Chartreuse",
+      "description": "Chartreuse palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-cyan",
+      "label": "Static Cyan",
+      "description": "Cyan palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-fuchsia",
+      "label": "Static Fuchsia",
+      "description": "Fuchsia palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-green",
+      "label": "Static Green",
+      "description": "Green palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-indigo",
+      "label": "Static Indigo",
+      "description": "Indigo palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-magenta",
+      "label": "Static Magenta",
+      "description": "Magenta palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-orange",
+      "label": "Static Orange",
+      "description": "Orange palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-purple",
+      "label": "Static Purple",
+      "description": "Purple palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-red",
+      "label": "Static Red",
+      "description": "Red palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-turquoise",
+      "label": "Static Turquoise",
+      "description": "Turquoise palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "transparent-black",
+      "label": "Transparent Black",
+      "description": "Black-based transparent color family for overlay and shadow effects"
+    },
+    {
+      "id": "transparent-white",
+      "label": "Transparent White",
+      "description": "White-based transparent color family for overlay and highlight effects"
+    }
+  ]
+}

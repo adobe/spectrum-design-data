@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "style",
+  "description": "Typographic style of a typography token (e.g. italic, oblique). Corresponds to the CSS font-style axis. Normal style is omitted (default).",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/typography-styles.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 20
+  },
+  "scope": "typography",
+  "required": false,
+  "valueType": "string"
+}

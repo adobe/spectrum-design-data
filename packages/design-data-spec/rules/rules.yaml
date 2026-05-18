@@ -436,3 +436,40 @@ rules:
     message: "Token group '{base_name}' has no resolvable candidate under manifest mode-set restrictions ({restrictions})"
     spec_ref: spec/mode-sets.md#platform-restrictions
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-042
+    name: field-scope-violation
+    severity: warning
+    layer: 2
+    category: taxonomy
+    rfc: "#806"
+    assert: >
+      When a token's name object contains a domain-scoped field (e.g. `colorFamily`,
+      `weight`, `motionRole`), the token's `$schema` MUST reference a compatible token
+      type for that domain. Using a color-scoped field on a typography token, or a
+      typography-scoped field on a color token, is a taxonomy violation. The set of
+      domain-scoped fields and their valid schema URL suffixes is declared in the field
+      catalog under `packages/design-data-spec/fields/` via the `scope` property.
+      Tokens without a `$schema` are skipped (domain cannot be determined).
+    message: "name.{field} is a {scope}-scoped field but token schema '{schema_url}' is not a {scope} token type"
+    spec_ref: spec/taxonomy.md#token-type-taxonomies
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-043
+    name: domain-required-fields
+    severity: warning
+    layer: 2
+    category: taxonomy
+    rfc: "#806"
+    assert: >
+      Tokens in a known domain SHOULD include at least one domain-identifying field in
+      their name object so tooling can group, sort, and validate them correctly.
+      Color tokens (schema: color.json, color-set.json) SHOULD have `colorFamily` or
+      `scaleIndex`. Typography tokens (schema: font-*.json, typography.json) SHOULD have
+      `family`, `weight`, or `style`. Motion tokens (schema: duration.json, motion.json)
+      SHOULD have `motionRole` or `easing`. String-named tokens and tokens without `$schema`
+      are skipped. Advisory severity: the existing corpus has not yet migrated to structured
+      name objects; this rule tracks progress rather than blocking.
+    message: "{domain} token has a name object but no domain-identifying field — add at least one of: {required_fields}"
+    spec_ref: spec/taxonomy.md#token-type-taxonomies
+    introduced_in: "1.0.0-draft"

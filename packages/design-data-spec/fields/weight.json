@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "weight",
+  "description": "Typographic weight of a typography token (e.g. regular, bold, light, black). Corresponds to the CSS font-weight axis.",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/typography-weights.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 19
+  },
+  "scope": "typography",
+  "required": false,
+  "valueType": "string"
+}

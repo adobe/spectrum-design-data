@@ -1894,6 +1894,344 @@ const STATES_JSON: &str = r##"{
   ]
 }
 "##;
+const COLOR_FAMILIES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "color-family",
+  "description": "Hue families for color palette and semantic color tokens. Assigned via the `colorFamily` name-object field. Paired with a numeric ramp index (scaleIndex) for palette tokens (e.g. colorFamily=blue + scaleIndex=100 → blue-100).",
+  "values": [
+    {
+      "id": "blue",
+      "label": "Blue",
+      "description": "Blue hue family"
+    },
+    {
+      "id": "brown",
+      "label": "Brown",
+      "description": "Brown hue family"
+    },
+    {
+      "id": "celery",
+      "label": "Celery",
+      "description": "Celery (yellow-green) hue family"
+    },
+    {
+      "id": "chartreuse",
+      "label": "Chartreuse",
+      "description": "Chartreuse (green-yellow) hue family"
+    },
+    {
+      "id": "cinnamon",
+      "label": "Cinnamon",
+      "description": "Cinnamon (warm orange-brown) hue family"
+    },
+    {
+      "id": "cyan",
+      "label": "Cyan",
+      "description": "Cyan hue family"
+    },
+    {
+      "id": "fuchsia",
+      "label": "Fuchsia",
+      "description": "Fuchsia (pink-purple) hue family"
+    },
+    {
+      "id": "gray",
+      "label": "Gray",
+      "description": "Gray neutral hue family"
+    },
+    {
+      "id": "green",
+      "label": "Green",
+      "description": "Green hue family"
+    },
+    {
+      "id": "indigo",
+      "label": "Indigo",
+      "description": "Indigo (blue-violet) hue family"
+    },
+    {
+      "id": "magenta",
+      "label": "Magenta",
+      "description": "Magenta hue family"
+    },
+    {
+      "id": "orange",
+      "label": "Orange",
+      "description": "Orange hue family"
+    },
+    {
+      "id": "pink",
+      "label": "Pink",
+      "description": "Pink hue family"
+    },
+    {
+      "id": "purple",
+      "label": "Purple",
+      "description": "Purple hue family"
+    },
+    {
+      "id": "red",
+      "label": "Red",
+      "description": "Red hue family"
+    },
+    {
+      "id": "seafoam",
+      "label": "Seafoam",
+      "description": "Seafoam (teal-green) hue family"
+    },
+    {
+      "id": "silver",
+      "label": "Silver",
+      "description": "Silver neutral hue family"
+    },
+    {
+      "id": "turquoise",
+      "label": "Turquoise",
+      "description": "Turquoise hue family"
+    },
+    {
+      "id": "yellow",
+      "label": "Yellow",
+      "description": "Yellow hue family"
+    },
+    {
+      "id": "black",
+      "label": "Black",
+      "description": "Black neutral endpoint"
+    },
+    {
+      "id": "white",
+      "label": "White",
+      "description": "White neutral endpoint"
+    },
+    {
+      "id": "static-blue",
+      "label": "Static Blue",
+      "description": "Blue palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-chartreuse",
+      "label": "Static Chartreuse",
+      "description": "Chartreuse palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-cyan",
+      "label": "Static Cyan",
+      "description": "Cyan palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-fuchsia",
+      "label": "Static Fuchsia",
+      "description": "Fuchsia palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-green",
+      "label": "Static Green",
+      "description": "Green palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-indigo",
+      "label": "Static Indigo",
+      "description": "Indigo palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-magenta",
+      "label": "Static Magenta",
+      "description": "Magenta palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-orange",
+      "label": "Static Orange",
+      "description": "Orange palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-purple",
+      "label": "Static Purple",
+      "description": "Purple palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-red",
+      "label": "Static Red",
+      "description": "Red palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "static-turquoise",
+      "label": "Static Turquoise",
+      "description": "Turquoise palette family that remains fixed in all color schemes"
+    },
+    {
+      "id": "transparent-black",
+      "label": "Transparent Black",
+      "description": "Black-based transparent color family for overlay and shadow effects"
+    },
+    {
+      "id": "transparent-white",
+      "label": "Transparent White",
+      "description": "White-based transparent color family for overlay and highlight effects"
+    }
+  ]
+}
+"##;
+const TYPOGRAPHY_FAMILIES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "typography-family",
+  "description": "Type family identifiers for typography tokens. Assigned via the `family` name-object field. Represents the script or display context of the typeface, not a specific font name.",
+  "values": [
+    {
+      "id": "sans-serif",
+      "label": "Sans-Serif",
+      "description": "Sans-serif typeface family (e.g. Adobe Clean)"
+    },
+    {
+      "id": "serif",
+      "label": "Serif",
+      "description": "Serif typeface family (e.g. Adobe Clean Serif)"
+    },
+    {
+      "id": "cjk",
+      "label": "CJK",
+      "description": "CJK (Chinese, Japanese, Korean) script typeface family"
+    },
+    {
+      "id": "code",
+      "label": "Code",
+      "description": "Monospace typeface family for code and technical content"
+    }
+  ]
+}
+"##;
+const TYPOGRAPHY_WEIGHTS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "typography-weight",
+  "description": "Typographic weight values for typography tokens. Assigned via the `weight` name-object field. Corresponds to the CSS font-weight axis. Note: 'black' is a typographic weight value (font-weight 900) and is distinct from the 'black' color-family entry in color-families.json (cross-registry ID overlap is intentional per SPEC-033).",
+  "values": [
+    {
+      "id": "light",
+      "label": "Light",
+      "description": "Light weight (font-weight 300)"
+    },
+    {
+      "id": "regular",
+      "label": "Regular",
+      "description": "Regular weight (font-weight 400)"
+    },
+    {
+      "id": "medium",
+      "label": "Medium",
+      "description": "Medium weight (font-weight 500)"
+    },
+    {
+      "id": "bold",
+      "label": "Bold",
+      "description": "Bold weight (font-weight 700)"
+    },
+    {
+      "id": "extra-bold",
+      "label": "Extra Bold",
+      "description": "Extra bold weight (font-weight 800)"
+    },
+    {
+      "id": "black",
+      "label": "Black",
+      "description": "Black weight (font-weight 900)"
+    }
+  ]
+}
+"##;
+const TYPOGRAPHY_STYLES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "typography-style",
+  "description": "Typographic style values for typography tokens. Assigned via the `style` name-object field. Corresponds to the CSS font-style axis. The normal/default style is not listed — omit the field when style is normal.",
+  "values": [
+    {
+      "id": "italic",
+      "label": "Italic",
+      "description": "Italic font style (font-style: italic)"
+    },
+    {
+      "id": "oblique",
+      "label": "Oblique",
+      "description": "Oblique font style (font-style: oblique)"
+    }
+  ]
+}
+"##;
+const MOTION_ROLES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "motion-role",
+  "description": "Semantic roles for motion tokens — the interaction pattern or animation purpose a token governs. Assigned via the `motionRole` name-object field. NOTE: This registry is provisional. Values are seeded from design intent; entries will be refined when motion tokens are added to the foundation dataset.",
+  "values": [
+    {
+      "id": "enter",
+      "label": "Enter",
+      "description": "Animation for an element entering the viewport or becoming visible"
+    },
+    {
+      "id": "exit",
+      "label": "Exit",
+      "description": "Animation for an element leaving the viewport or becoming hidden"
+    },
+    {
+      "id": "transition",
+      "label": "Transition",
+      "description": "Animation for state changes on a persistent element (e.g. hover, selection)"
+    },
+    {
+      "id": "emphasis",
+      "label": "Emphasis",
+      "description": "Animation that draws attention to an element without entering or exiting"
+    },
+    {
+      "id": "loading",
+      "label": "Loading",
+      "description": "Animation for indeterminate loading or progress states"
+    }
+  ]
+}
+"##;
+const EASING_CURVES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "easing-curve",
+  "description": "Easing curve identifiers for motion tokens. Assigned via the `easing` name-object field. NOTE: This registry is provisional. Values are seeded from design intent; entries will be refined when motion tokens are added to the foundation dataset.",
+  "values": [
+    {
+      "id": "linear",
+      "label": "Linear",
+      "description": "Constant-rate animation with no acceleration or deceleration"
+    },
+    {
+      "id": "ease-in",
+      "label": "Ease In",
+      "description": "Animation that starts slow and accelerates toward the end"
+    },
+    {
+      "id": "ease-out",
+      "label": "Ease Out",
+      "description": "Animation that starts fast and decelerates toward the end"
+    },
+    {
+      "id": "ease-in-out",
+      "label": "Ease In-Out",
+      "description": "Animation that starts slow, accelerates through the middle, and decelerates at the end"
+    },
+    {
+      "id": "standard",
+      "label": "Standard",
+      "description": "Spectrum standard easing curve for general UI motion"
+    },
+    {
+      "id": "decelerate",
+      "label": "Decelerate",
+      "description": "Decelerate curve for elements entering the screen"
+    },
+    {
+      "id": "accelerate",
+      "label": "Accelerate",
+      "description": "Accelerate curve for elements leaving the screen"
+    }
+  ]
+}
+"##;
 const CATEGORIES_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "category",
@@ -1951,7 +2289,7 @@ const CATEGORIES_JSON: &str = r##"{
 }
 "##;
 
-pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "property", "orientation", "position", "size", "density", "shape", "state"];
+pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "property", "orientation", "position", "size", "density", "shape", "state", "colorFamily", "family", "weight", "style", "motionRole", "easing"];
 
 pub(crate) fn build_registry_map(
 ) -> std::collections::HashMap<String, std::collections::HashSet<String>> {
@@ -1969,6 +2307,12 @@ pub(crate) fn build_registry_map(
     map.insert("density".to_string(), parse_registry(DENSITIES_JSON));
     map.insert("shape".to_string(), parse_registry(SHAPES_JSON));
     map.insert("state".to_string(), parse_registry(STATES_JSON));
+    map.insert("colorFamily".to_string(), parse_registry(COLOR_FAMILIES_JSON));
+    map.insert("family".to_string(), parse_registry(TYPOGRAPHY_FAMILIES_JSON));
+    map.insert("weight".to_string(), parse_registry(TYPOGRAPHY_WEIGHTS_JSON));
+    map.insert("style".to_string(), parse_registry(TYPOGRAPHY_STYLES_JSON));
+    map.insert("motionRole".to_string(), parse_registry(MOTION_ROLES_JSON));
+    map.insert("easing".to_string(), parse_registry(EASING_CURVES_JSON));
     map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
     map
 }

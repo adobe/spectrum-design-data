@@ -46,13 +46,17 @@ The taxonomy is designed with three guiding principles:
 2. **Agnostic (with compromises)** — Platform-agnostic terms are used except when platforms have specific terms for the same concept. In those cases, the most common or clear term is used.
 3. **Verified** — Multiple existing components must be rebuildable using the taxonomy system, and consumers must find them reasonably understandable or learnable.
 
-## Semantic / layout token taxonomy
+## Token-type taxonomies
 
-Concept categories for name-object fields are declared in the design system's **field catalog** — a set of field declarations in the `fields/` directory, each conforming to [`field.schema.json`](../schemas/field.schema.json). Each declaration specifies the field name, vocabulary registry, validation severity, and default serialization position.
+Concept categories for name-object fields are declared in the design system's **field catalog** — a set of field declarations in the `fields/` directory, each conforming to [`field.schema.json`](../schemas/field.schema.json). Each declaration specifies the field name, vocabulary registry, validation severity, default serialization position, and an optional **scope** that restricts the field to a specific token type.
 
 **NORMATIVE:** The field catalog is the authoritative source for what fields exist on the name object. Tools, validators, and serializers **SHOULD** read the catalog rather than hardcoding field knowledge.
 
-The following concept categories are defined in Spectrum's foundation field catalog for semantic and layout tokens, ordered by default serialization position. This ordering is the **default serialization order** for legacy format output; it is not a conformance requirement for stored name objects.
+**NORMATIVE:** A field with a non-null `scope` declaration **MUST** only appear on tokens of that type. Using a scoped field on a mismatched token type triggers rule SPEC-042 (`field-scope-violation`, warning).
+
+### Semantic / layout token taxonomy
+
+The following concept categories are defined in Spectrum's foundation field catalog for semantic and layout tokens (`scope: null` — universal), ordered by default serialization position. This ordering is the **default serialization order** for legacy format output; it is not a conformance requirement for stored name objects.
 
 **NORMATIVE:** Each category listed below corresponds to a field on the token [name object](token-format.md). Tokens **MAY** use any subset of these fields. Exception: `property` is REQUIRED on every name object — see [token-format.md](token-format.md#name-object).
 
@@ -77,7 +81,67 @@ Additional categories for variant and state are inherited from the existing name
 | Variant  | `variant`         | Variant within a component (e.g. accent, negative, primary). |
 | State    | `state`           | Interactive or semantic state (e.g. hover, focus, disabled). |
 
-**NOTE:** The categories above are filtered for semantic and layout token taxonomies. Additional taxonomies for other token types (color, typography, motion) will be defined in future spec versions — see the open follow-up RFC discussion [#806](https://github.com/adobe/spectrum-design-data/discussions/806) (Q3, taxonomy scoping). The taxonomy is built to scale as new concepts and terms are identified.
+### Color token taxonomy
+
+Color tokens describe palette entries and semantic color assignments. Their name objects use `scope: "color"` fields alongside the universal `property` and `state` fields.
+
+**NORMATIVE:** Color tokens SHOULD include `colorFamily`, `scaleIndex`, or both to allow tooling to group and sort palette entries. Tokens missing both are flagged by rule SPEC-043 (`domain-required-fields`, warning).
+
+| Category     | Name object field | Answers | Description                                                                                                                                                                                 |
+| ------------ | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Color Family | `colorFamily`     | What?   | Hue family of the color (e.g. `blue`, `gray`, `celery`, `transparent-black`). Values come from [`color-families.json`](../../packages/design-system-registry/registry/color-families.json). |
+| Ramp Index   | `scaleIndex`      | Which?  | Numeric perceptual ramp step (e.g. `100`, `400`, `900`, `1600`). Shared with layout tokens; see [scaleIndex field declaration](../fields/scaleIndex.json). Not scope-restricted.            |
+
+**Default serialization order for color tokens:**
+
+```
+{variant}-{colorFamily}-{scaleIndex}
+```
+
+Example: `colorFamily=blue` + `scaleIndex=100` → `blue-100`.
+
+### Typography token taxonomy
+
+Typography tokens describe typeface attributes: family, weight, style, and numeric scale. Their name objects use `scope: "typography"` fields alongside the universal `property` field.
+
+**NORMATIVE:** Typography tokens SHOULD include at least one of `family`, `weight`, or `style`. Tokens missing all three are flagged by rule SPEC-043 (`domain-required-fields`, warning).
+
+| Category | Name object field | Answers | Description                                                                                                                                                                                                             |
+| -------- | ----------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Family   | `family`          | What?   | Type family of the token (e.g. `sans-serif`, `serif`, `cjk`, `code`). Values come from [`typography-families.json`](../../packages/design-system-registry/registry/typography-families.json).                           |
+| Weight   | `weight`          | How?    | Typographic weight (e.g. `regular`, `bold`, `light`, `black`). Values come from [`typography-weights.json`](../../packages/design-system-registry/registry/typography-weights.json).                                    |
+| Style    | `style`           | How?    | Typographic style when non-default (e.g. `italic`, `oblique`). Omit the field when style is normal. Values come from [`typography-styles.json`](../../packages/design-system-registry/registry/typography-styles.json). |
+| Scale    | `scaleIndex`      | Which?  | Numeric size scale step (e.g. `75`, `100`, `200`). Shared with other token types; not scope-restricted.                                                                                                                 |
+
+**Default serialization order for typography tokens:**
+
+```
+{family}-{weight}-{style}-{scaleIndex}
+```
+
+Example: `family=sans-serif` + `weight=bold` → `sans-serif-bold`. `family=sans-serif` + `style=italic` + `scaleIndex=100` → `sans-serif-italic-100`.
+
+### Motion token taxonomy
+
+Motion tokens describe timing, easing, and animation role for UI animation. Their name objects use `scope: "motion"` fields alongside the universal `property` field.
+
+**NOTE:** No motion tokens exist in the foundation dataset at the time of this writing. This taxonomy is normative but the registry values for `motionRole` and `easing` are provisional — they will be refined when motion tokens are added to the foundation. Validators emit SPEC-043 at warning severity so provisional tokens are not blocked.
+
+**NORMATIVE:** Motion tokens SHOULD include `motionRole` or `easing`. Tokens missing both are flagged by rule SPEC-043 (`domain-required-fields`, warning).
+
+| Category    | Name object field | Answers | Description                                                                                                                                                                                |
+| ----------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Motion Role | `motionRole`      | What?   | Semantic role of the animation (e.g. `enter`, `exit`, `transition`, `emphasis`). Values come from [`motion-roles.json`](../../packages/design-system-registry/registry/motion-roles.json). |
+| Easing      | `easing`          | How?    | Easing curve identifier (e.g. `ease-in`, `ease-out`, `standard`). Values come from [`easing-curves.json`](../../packages/design-system-registry/registry/easing-curves.json).              |
+| Duration    | `scaleIndex`      | Which?  | Numeric duration bucket index (e.g. `100` for 100ms, `200` for 200ms). Shared with other token types; not scope-restricted.                                                                |
+
+**Default serialization order for motion tokens:**
+
+```
+{motionRole}-{easing}-{scaleIndex}
+```
+
+Example: `motionRole=enter` + `easing=ease-out` → `enter-ease-out`. `motionRole=transition` + `scaleIndex=100` → `transition-100`.
 
 ### Structure vs. component — when does the line move?
 
@@ -177,7 +241,7 @@ The taxonomy and terms are built to scale as new concepts and terms are identifi
 
 * New concept categories **MAY** be added by creating a new field declaration file in the field catalog — no spec version change is required for the mechanism itself.
 * New terms **MAY** be added to the vocabulary registry without spec version changes.
-* New token type taxonomies (beyond semantic/layout) **MAY** be defined in future spec versions.
+* New token type taxonomies **MAY** be added by creating scoped field declarations (non-null `scope`) and a corresponding registry section in taxonomy.md. Color, typography, and motion taxonomies are defined above.
 * Platform manifests **MAY** extend the vocabulary with platform-specific terms and formatting.
 
 ## References
