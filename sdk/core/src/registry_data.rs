@@ -1533,6 +1533,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "Typeface family name"
     },
     {
+      "id": "font-style",
+      "label": "Font Style",
+      "description": "Typeface style (normal, italic, oblique)"
+    },
+    {
       "id": "line-height",
       "label": "Line Height",
       "description": "Vertical spacing between lines of text"
@@ -2141,8 +2146,13 @@ const TYPOGRAPHY_WEIGHTS_JSON: &str = r##"{
 const TYPOGRAPHY_STYLES_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "typography-style",
-  "description": "Typographic style values for typography tokens. Assigned via the `style` name-object field. Corresponds to the CSS font-style axis. The normal/default style is not listed — omit the field when style is normal.",
+  "description": "Typographic style values for typography tokens. Assigned via the `style` name-object field. Corresponds to the CSS font-style axis. All recognized styles are listed; normal represents the default upright style.",
   "values": [
+    {
+      "id": "normal",
+      "label": "Normal",
+      "description": "Default upright font style (font-style: normal)"
+    },
     {
       "id": "italic",
       "label": "Italic",

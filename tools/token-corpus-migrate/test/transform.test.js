@@ -14,15 +14,25 @@ import test from "ava";
 import {
   classifyToken,
   colorNameForKey,
+  fontFamilyNameForKey,
+  fontSizeNameForKey,
+  fontStyleNameForKey,
   fontWeightNameForKey,
+  lineHeightNameForKey,
   transformFile,
 } from "../src/transform.js";
 
 const COLOR_SCHEMA = "https://example.com/schemas/token-types/color.json";
 const COLOR_SET_SCHEMA =
   "https://example.com/schemas/token-types/color-set.json";
+const FONT_FAMILY_SCHEMA =
+  "https://example.com/schemas/token-types/font-family.json";
+const FONT_STYLE_SCHEMA =
+  "https://example.com/schemas/token-types/font-style.json";
 const FONT_WEIGHT_SCHEMA =
   "https://example.com/schemas/token-types/font-weight.json";
+const SCALE_SET_SCHEMA =
+  "https://example.com/schemas/token-types/scale-set.json";
 const ALIAS_SCHEMA = "https://example.com/schemas/token-types/alias.json";
 
 // ── colorNameForKey ───────────────────────────────────────────────────────────
@@ -242,4 +252,221 @@ test("transformFile: override is applied via transformFile", (t) => {
     property: "color",
     colorFamily: "gray",
   });
+});
+
+// ── fontFamilyNameForKey ──────────────────────────────────────────────────────
+
+test("fontFamilyNameForKey: sans-serif", (t) => {
+  t.deepEqual(fontFamilyNameForKey("sans-serif-font-family"), {
+    property: "font-family",
+    family: "sans-serif",
+  });
+});
+
+test("fontFamilyNameForKey: serif", (t) => {
+  t.deepEqual(fontFamilyNameForKey("serif-font-family"), {
+    property: "font-family",
+    family: "serif",
+  });
+});
+
+test("fontFamilyNameForKey: cjk", (t) => {
+  t.deepEqual(fontFamilyNameForKey("cjk-font-family"), {
+    property: "font-family",
+    family: "cjk",
+  });
+});
+
+test("fontFamilyNameForKey: code", (t) => {
+  t.deepEqual(fontFamilyNameForKey("code-font-family"), {
+    property: "font-family",
+    family: "code",
+  });
+});
+
+test("fontFamilyNameForKey: unknown family returns null", (t) => {
+  t.is(fontFamilyNameForKey("monospace-font-family"), null);
+});
+
+test("fontFamilyNameForKey: non-family key returns null", (t) => {
+  t.is(fontFamilyNameForKey("body-font-size"), null);
+});
+
+// ── fontStyleNameForKey ───────────────────────────────────────────────────────
+
+test("fontStyleNameForKey: italic via key prefix", (t) => {
+  t.deepEqual(fontStyleNameForKey("italic-font-style", { value: "italic" }), {
+    property: "font-style",
+    style: "italic",
+  });
+});
+
+test("fontStyleNameForKey: default key falls back to token value (normal)", (t) => {
+  t.deepEqual(fontStyleNameForKey("default-font-style", { value: "normal" }), {
+    property: "font-style",
+    style: "normal",
+  });
+});
+
+test("fontStyleNameForKey: oblique via key prefix", (t) => {
+  t.deepEqual(fontStyleNameForKey("oblique-font-style", { value: "oblique" }), {
+    property: "font-style",
+    style: "oblique",
+  });
+});
+
+test("fontStyleNameForKey: unknown key and unknown value returns null", (t) => {
+  t.is(fontStyleNameForKey("mystery-font-style", { value: "condensed" }), null);
+});
+
+test("fontStyleNameForKey: non-style key returns null", (t) => {
+  t.is(fontStyleNameForKey("bold-font-weight", {}), null);
+});
+
+// ── fontSizeNameForKey ────────────────────────────────────────────────────────
+
+test("fontSizeNameForKey: font-size-100", (t) => {
+  t.deepEqual(fontSizeNameForKey("font-size-100"), {
+    property: "font-size",
+    scaleIndex: 100,
+  });
+});
+
+test("fontSizeNameForKey: font-size-1500", (t) => {
+  t.deepEqual(fontSizeNameForKey("font-size-1500"), {
+    property: "font-size",
+    scaleIndex: 1500,
+  });
+});
+
+test("fontSizeNameForKey: non-numeric suffix returns null", (t) => {
+  t.is(fontSizeNameForKey("font-size-foo"), null);
+});
+
+test("fontSizeNameForKey: line-height key returns null", (t) => {
+  t.is(fontSizeNameForKey("line-height-font-size-100"), null);
+});
+
+// ── lineHeightNameForKey ──────────────────────────────────────────────────────
+
+test("lineHeightNameForKey: line-height-font-size-75", (t) => {
+  t.deepEqual(lineHeightNameForKey("line-height-font-size-75"), {
+    property: "line-height",
+    scaleIndex: 75,
+  });
+});
+
+test("lineHeightNameForKey: line-height-font-size-900", (t) => {
+  t.deepEqual(lineHeightNameForKey("line-height-font-size-900"), {
+    property: "line-height",
+    scaleIndex: 900,
+  });
+});
+
+test("lineHeightNameForKey: plain font-size key returns null", (t) => {
+  t.is(lineHeightNameForKey("font-size-100"), null);
+});
+
+test("lineHeightNameForKey: non-match returns null", (t) => {
+  t.is(lineHeightNameForKey("body-line-height"), null);
+});
+
+// ── classifyToken (new schema types) ─────────────────────────────────────────
+
+test("classifyToken: font-family token gets name", (t) => {
+  const token = {
+    $schema: FONT_FAMILY_SCHEMA,
+    uuid: "abc",
+    value: "Adobe Clean",
+  };
+  t.deepEqual(classifyToken("sans-serif-font-family", token), {
+    name: { property: "font-family", family: "sans-serif" },
+  });
+});
+
+test("classifyToken: font-style italic token gets name", (t) => {
+  const token = { $schema: FONT_STYLE_SCHEMA, uuid: "abc", value: "italic" };
+  t.deepEqual(classifyToken("italic-font-style", token), {
+    name: { property: "font-style", style: "italic" },
+  });
+});
+
+test("classifyToken: font-style default token gets name with style: normal", (t) => {
+  const token = { $schema: FONT_STYLE_SCHEMA, uuid: "abc", value: "normal" };
+  t.deepEqual(classifyToken("default-font-style", token), {
+    name: { property: "font-style", style: "normal" },
+  });
+});
+
+test("classifyToken: scale-set font-size token gets name", (t) => {
+  const token = { $schema: SCALE_SET_SCHEMA, uuid: "abc" };
+  t.deepEqual(classifyToken("font-size-100", token), {
+    name: { property: "font-size", scaleIndex: 100 },
+  });
+});
+
+test("classifyToken: scale-set line-height token gets name", (t) => {
+  const token = { $schema: SCALE_SET_SCHEMA, uuid: "abc" };
+  t.deepEqual(classifyToken("line-height-font-size-100", token), {
+    name: { property: "line-height", scaleIndex: 100 },
+  });
+});
+
+test("classifyToken: other scale-set tokens are out of scope (null)", (t) => {
+  const token = { $schema: SCALE_SET_SCHEMA, uuid: "abc" };
+  // A layout token keyed as a scale-set — not in scope
+  t.is(classifyToken("spacing-100", token), null);
+});
+
+// ── transformFile (typography round) ─────────────────────────────────────────
+
+test("transformFile: injects name into typography canonical tokens", (t) => {
+  const tokens = {
+    "sans-serif-font-family": {
+      $schema: FONT_FAMILY_SCHEMA,
+      uuid: "a",
+      value: "Adobe Clean",
+    },
+    "italic-font-style": {
+      $schema: FONT_STYLE_SCHEMA,
+      uuid: "b",
+      value: "italic",
+    },
+    "default-font-style": {
+      $schema: FONT_STYLE_SCHEMA,
+      uuid: "c",
+      value: "normal",
+    },
+    "font-size-100": { $schema: SCALE_SET_SCHEMA, uuid: "d" },
+    "line-height-font-size-100": { $schema: SCALE_SET_SCHEMA, uuid: "e" },
+    "body-font-size": {
+      $schema: ALIAS_SCHEMA,
+      uuid: "f",
+      value: "{font-size-100}",
+    },
+  };
+  const { transformed, classified, skipped } = transformFile(tokens);
+  t.is(classified, 5);
+  t.is(skipped, 1); // alias
+  t.deepEqual(transformed["sans-serif-font-family"].name, {
+    property: "font-family",
+    family: "sans-serif",
+  });
+  t.deepEqual(transformed["italic-font-style"].name, {
+    property: "font-style",
+    style: "italic",
+  });
+  t.deepEqual(transformed["default-font-style"].name, {
+    property: "font-style",
+    style: "normal",
+  });
+  t.deepEqual(transformed["font-size-100"].name, {
+    property: "font-size",
+    scaleIndex: 100,
+  });
+  t.deepEqual(transformed["line-height-font-size-100"].name, {
+    property: "line-height",
+    scaleIndex: 100,
+  });
+  t.false("name" in transformed["body-font-size"]);
 });
