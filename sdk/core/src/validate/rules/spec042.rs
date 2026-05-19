@@ -19,8 +19,12 @@
 //! `packages/design-data-spec/fields/` (the `scope` property on each field JSON).
 //! The domain→schema-suffix mapping is shared with SPEC-043 via `super::DOMAIN_SCHEMAS`.
 //!
-//! Current token corpus has no name objects, so this rule fires zero diagnostics
-//! today. It is forward-looking for when tokens migrate to structured name objects.
+//! **Alias-target resolution**: for tokens whose `$schema` is `alias.json`, the
+//! rule follows the `alias_target` chain to find the terminal non-alias schema and
+//! checks that schema against the domain. This lets a color alias carry `colorFamily`
+//! when its target is a color-domain token. Broken alias chains fall through to the
+//! alias's own schema (already a no-op since alias.json is not in any DOMAIN_SCHEMAS);
+//! SPEC-001 owns the broken-alias diagnostic.
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
@@ -63,6 +67,31 @@ impl ValidationRule for Rule {
                 continue;
             }
 
+            // For alias tokens, resolve to the terminal schema so that a color alias
+            // carrying colorFamily is valid when its target is a color-domain schema.
+            let effective_schema = if schema_url.ends_with("/alias.json") {
+                let mut cursor = record.alias_target.as_deref();
+                let mut resolved = schema_url;
+                let mut hops = 0u8;
+                while let Some(target_name) = cursor {
+                    if hops > 8 {
+                        break; // depth guard; SPEC-003 enforces no true cycles
+                    }
+                    let Some(target) = ctx.graph.tokens.get(target_name) else {
+                        break; // broken alias — SPEC-001 owns this diagnostic
+                    };
+                    resolved = target.schema_url.as_deref().unwrap_or("");
+                    if !resolved.ends_with("/alias.json") {
+                        break;
+                    }
+                    cursor = target.alias_target.as_deref();
+                    hops += 1;
+                }
+                resolved
+            } else {
+                schema_url
+            };
+
             for (field, _value) in name_obj {
                 let Some(scope) = field_domain(field) else {
                     continue;
@@ -72,7 +101,7 @@ impl ValidationRule for Rule {
                     .iter()
                     .find(|(domain, _)| *domain == scope)
                     .is_some_and(|(_, suffixes)| {
-                        suffixes.iter().any(|s| schema_url.ends_with(s))
+                        suffixes.iter().any(|s| effective_schema.ends_with(s))
                     });
 
                 if !is_compatible {
@@ -83,7 +112,7 @@ impl ValidationRule for Rule {
                         severity: Severity::Warning,
                         message: format!(
                             "name.{field} is a {scope}-scoped field but token schema \
-                             '{schema_url}' is not a {scope} token type"
+                             '{effective_schema}' is not a {scope} token type"
                         ),
                         instance_path: Some(format!("/name/{field}")),
                         schema_path: None,
@@ -216,5 +245,123 @@ mod tests {
             json!({ "property": "font-weight", "state": "hover" }),
         );
         assert!(diagnostics_for_rule(&g, "SPEC-042").is_empty());
+    }
+
+    // ── Alias-target resolution ────────────────────────────────────────────────
+
+    fn make_alias_graph(
+        alias_name_obj: serde_json::Value,
+        target_schema: &str,
+    ) -> TokenGraph {
+        TokenGraph::from_pairs(vec![
+            (
+                "alias-token".into(),
+                PathBuf::from("a.tokens.json"),
+                json!({
+                    "$schema": "https://example.com/schemas/token-types/alias.json",
+                    "name": alias_name_obj,
+                    "value": "{target-token}"
+                }),
+            ),
+            (
+                "target-token".into(),
+                PathBuf::from("a.tokens.json"),
+                json!({ "$schema": target_schema, "value": "#aabbcc" }),
+            ),
+        ])
+    }
+
+    #[test]
+    fn alias_to_color_set_allows_color_family() {
+        // A color alias carrying colorFamily is valid when its target is color-set.json.
+        let g = make_alias_graph(
+            json!({ "property": "icon-color", "colorFamily": "blue" }),
+            "https://example.com/schemas/token-types/color-set.json",
+        );
+        assert!(diagnostics_for_rule(&g, "SPEC-042").is_empty());
+    }
+
+    #[test]
+    fn alias_to_color_allows_color_family() {
+        let g = make_alias_graph(
+            json!({ "property": "color", "colorFamily": "gray" }),
+            "https://example.com/schemas/token-types/color.json",
+        );
+        assert!(diagnostics_for_rule(&g, "SPEC-042").is_empty());
+    }
+
+    #[test]
+    fn alias_to_multiplier_disallows_color_family() {
+        // An alias whose target is multiplier.json is not color-domain; colorFamily fires.
+        let g = make_alias_graph(
+            json!({ "property": "line-height", "colorFamily": "blue" }),
+            "https://example.com/schemas/token-types/multiplier.json",
+        );
+        let diags = diagnostics_for_rule(&g, "SPEC-042");
+        assert_eq!(diags.len(), 1);
+        assert!(diags[0].message.contains("colorFamily"));
+    }
+
+    #[test]
+    fn alias_to_font_weight_allows_weight() {
+        // A typography alias carrying weight is valid when its target is font-weight.json.
+        let g = make_alias_graph(
+            json!({ "property": "font-weight", "weight": "bold" }),
+            "https://example.com/schemas/token-types/font-weight.json",
+        );
+        assert!(diagnostics_for_rule(&g, "SPEC-042").is_empty());
+    }
+
+    #[test]
+    fn chained_alias_resolves_to_terminal_schema() {
+        // A → B (alias) → C (color-set): colorFamily allowed on A.
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "alias-a".into(),
+                PathBuf::from("a.tokens.json"),
+                json!({
+                    "$schema": "https://example.com/schemas/token-types/alias.json",
+                    "name": { "property": "icon-color", "colorFamily": "red" },
+                    "value": "{alias-b}"
+                }),
+            ),
+            (
+                "alias-b".into(),
+                PathBuf::from("a.tokens.json"),
+                json!({
+                    "$schema": "https://example.com/schemas/token-types/alias.json",
+                    "value": "{target-c}"
+                }),
+            ),
+            (
+                "target-c".into(),
+                PathBuf::from("a.tokens.json"),
+                json!({
+                    "$schema": "https://example.com/schemas/token-types/color-set.json",
+                    "value": "#ff0000"
+                }),
+            ),
+        ]);
+        assert!(diagnostics_for_rule(&g, "SPEC-042").is_empty());
+    }
+
+    #[test]
+    fn alias_with_missing_target_falls_back_silently() {
+        // Broken alias (target not in graph): SPEC-042 falls through without panic.
+        // SPEC-001 owns the broken-alias diagnostic.
+        let g = TokenGraph::from_pairs(vec![(
+            "alias-token".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({
+                "$schema": "https://example.com/schemas/token-types/alias.json",
+                "name": { "property": "color", "colorFamily": "blue" },
+                "value": "{nonexistent-token}"
+            }),
+        )]);
+        // Falls back to alias.json schema which is not in DOMAIN_SCHEMAS → fires warning.
+        // (Same behavior as before this change for broken aliases.)
+        let diags = diagnostics_for_rule(&g, "SPEC-042");
+        assert_eq!(diags.len(), 1);
+        assert!(diags[0].message.contains("colorFamily"));
     }
 }

@@ -527,6 +527,37 @@ test("iconColorNameForKey: semantic alias (no family segment) returns null", (t)
   t.is(iconColorNameForKey("icon-color-inverse"), null);
 });
 
+test("iconColorNameForKey: semantic primary-default (no colorFamily)", (t) => {
+  t.deepEqual(iconColorNameForKey("icon-color-primary-default"), {
+    property: "icon-color",
+    variant: "primary",
+  });
+});
+
+test("iconColorNameForKey: semantic primary-hover (no colorFamily)", (t) => {
+  t.deepEqual(iconColorNameForKey("icon-color-primary-hover"), {
+    property: "icon-color",
+    variant: "primary",
+    state: "hover",
+  });
+});
+
+test("iconColorNameForKey: semantic primary-down (no colorFamily)", (t) => {
+  t.deepEqual(iconColorNameForKey("icon-color-primary-down"), {
+    property: "icon-color",
+    variant: "primary",
+    state: "down",
+  });
+});
+
+test("iconColorNameForKey: disabled-primary (state precedes variant in key)", (t) => {
+  t.deepEqual(iconColorNameForKey("icon-color-disabled-primary"), {
+    property: "icon-color",
+    variant: "primary",
+    state: "disabled",
+  });
+});
+
 test("iconColorNameForKey: non-icon key returns null", (t) => {
   t.is(iconColorNameForKey("blue-100"), null);
 });
@@ -556,14 +587,46 @@ test("classifyToken: color-set icon-color-primary-hover routes to icon classifie
   });
 });
 
-test("classifyToken: alias icon-color-blue-background is out of scope (SPEC-042: colorFamily not allowed on alias schema)", (t) => {
+test("classifyToken: alias icon-color-blue-background classifies via alias path", (t) => {
   const token = { $schema: ALIAS_SCHEMA, uuid: "abc", value: "{blue-200}" };
-  t.is(classifyToken("icon-color-blue-background", token), null);
+  t.deepEqual(classifyToken("icon-color-blue-background", token), {
+    name: { property: "icon-color", colorFamily: "blue", object: "background" },
+  });
 });
 
-test("classifyToken: alias icon-color-inverse is out of scope (null)", (t) => {
+test("classifyToken: alias icon-color-cinnamon-primary-hover classifies via alias path", (t) => {
+  const token = { $schema: ALIAS_SCHEMA, uuid: "abc", value: "{cinnamon-900}" };
+  t.deepEqual(classifyToken("icon-color-cinnamon-primary-hover", token), {
+    name: {
+      property: "icon-color",
+      colorFamily: "cinnamon",
+      variant: "primary",
+      state: "hover",
+    },
+  });
+});
+
+test("classifyToken: alias icon-color-primary-default (semantic, no colorFamily)", (t) => {
+  const token = {
+    $schema: ALIAS_SCHEMA,
+    uuid: "abc",
+    value: "{neutral-content-color-default}",
+  };
+  t.deepEqual(classifyToken("icon-color-primary-default", token), {
+    name: { property: "icon-color", variant: "primary" },
+  });
+});
+
+test("classifyToken: alias icon-color-disabled-primary (semantic, no colorFamily)", (t) => {
+  const token = { $schema: ALIAS_SCHEMA, uuid: "abc", value: "{gray-400}" };
+  t.deepEqual(classifyToken("icon-color-disabled-primary", token), {
+    name: { property: "icon-color", variant: "primary", state: "disabled" },
+  });
+});
+
+test("classifyToken: alias icon-color-inverse is in-scope but unclassified", (t) => {
   const token = { $schema: ALIAS_SCHEMA, uuid: "abc", value: "{gray-50}" };
-  t.is(classifyToken("icon-color-inverse", token), null);
+  t.deepEqual(classifyToken("icon-color-inverse", token), { name: null });
 });
 
 test("classifyToken: non-icon alias is out of scope (null)", (t) => {
@@ -573,7 +636,7 @@ test("classifyToken: non-icon alias is out of scope (null)", (t) => {
 
 // ── transformFile (icons round) ───────────────────────────────────────────────
 
-test("transformFile: injects names on color-set icon tokens; alias tokens are out of scope", (t) => {
+test("transformFile: injects names on color-set and alias icon tokens; inverse unclassified", (t) => {
   const tokens = {
     "icon-color-blue-background": { $schema: COLOR_SET_SCHEMA, uuid: "a" },
     "icon-color-blue-primary-default": { $schema: COLOR_SET_SCHEMA, uuid: "b" },
@@ -591,9 +654,9 @@ test("transformFile: injects names on color-set icon tokens; alias tokens are ou
   };
   const { transformed, classified, unclassified, skipped } =
     transformFile(tokens);
-  t.is(classified, 3);
-  t.is(skipped, 2); // alias tokens — colorFamily not allowed on alias.json (SPEC-042)
-  t.deepEqual(unclassified, []);
+  t.is(classified, 4); // 3 color-set + 1 alias (cinnamon)
+  t.is(skipped, 0);
+  t.deepEqual(unclassified, ["icon-color-inverse"]); // in-scope alias but no matching pattern
   t.deepEqual(transformed["icon-color-blue-background"].name, {
     property: "icon-color",
     colorFamily: "blue",
@@ -610,7 +673,11 @@ test("transformFile: injects names on color-set icon tokens; alias tokens are ou
     variant: "primary",
     state: "hover",
   });
-  t.false("name" in transformed["icon-color-cinnamon-primary-default"]);
+  t.deepEqual(transformed["icon-color-cinnamon-primary-default"].name, {
+    property: "icon-color",
+    colorFamily: "cinnamon",
+    variant: "primary",
+  });
   t.false("name" in transformed["icon-color-inverse"]);
 });
 
