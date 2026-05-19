@@ -10,7 +10,7 @@
 
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
-use design_data_tui::app::{ActiveView, App};
+use design_data_tui::app::{ActiveView, App, SubmitContext};
 use serde_json::json;
 use std::path::PathBuf;
 
@@ -55,7 +55,7 @@ fn submit_valid_query_populates_query_view() {
         app.handle_key(key(KeyCode::Char(c)));
     }
     // Palette is still open; submit_palette is called by main.rs after Enter.
-    app.submit_palette(&graph);
+    app.submit_palette(&SubmitContext::new(&graph));
     assert!(!app.palette_open);
     assert!(matches!(app.active_view, ActiveView::Query(_)));
 }
@@ -68,7 +68,7 @@ fn submit_query_resets_selection_to_zero() {
     for c in "query property=*".chars() {
         app.handle_key(key(KeyCode::Char(c)));
     }
-    app.submit_palette(&graph);
+    app.submit_palette(&SubmitContext::new(&graph));
     if let ActiveView::Query(ref qv) = app.active_view {
         assert_eq!(qv.table_state.selected(), Some(0));
     } else {
@@ -84,7 +84,7 @@ fn submit_invalid_query_sets_status_message() {
     for c in "query ===bad===".chars() {
         app.handle_key(key(KeyCode::Char(c)));
     }
-    app.submit_palette(&graph);
+    app.submit_palette(&SubmitContext::new(&graph));
     assert!(!app.palette_open);
     assert!(matches!(app.active_view, ActiveView::Empty));
     let msg = app.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
@@ -99,7 +99,7 @@ fn submit_unknown_command_sets_status_message() {
     for c in "foobar".chars() {
         app.handle_key(key(KeyCode::Char(c)));
     }
-    app.submit_palette(&graph);
+    app.submit_palette(&SubmitContext::new(&graph));
     let msg = app.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(msg.contains("unknown command"), "expected 'unknown command' in: {msg}");
 }
@@ -112,7 +112,7 @@ fn down_j_moves_selection() {
     for c in "query property=*".chars() {
         app.handle_key(key(KeyCode::Char(c)));
     }
-    app.submit_palette(&graph);
+    app.submit_palette(&SubmitContext::new(&graph));
     // Selection starts at 0.
     app.handle_key(key(KeyCode::Char('j')));
     if let ActiveView::Query(ref qv) = app.active_view {
@@ -130,7 +130,7 @@ fn up_k_moves_selection() {
     for c in "query property=*".chars() {
         app.handle_key(key(KeyCode::Char(c)));
     }
-    app.submit_palette(&graph);
+    app.submit_palette(&SubmitContext::new(&graph));
     app.handle_key(key(KeyCode::Char('j')));
     app.handle_key(key(KeyCode::Char('k')));
     if let ActiveView::Query(ref qv) = app.active_view {
@@ -148,7 +148,7 @@ fn selection_clamps_at_bounds() {
     for c in "query property=*".chars() {
         app.handle_key(key(KeyCode::Char(c)));
     }
-    app.submit_palette(&graph);
+    app.submit_palette(&SubmitContext::new(&graph));
     // Try to go above 0.
     app.handle_key(key(KeyCode::Up));
     if let ActiveView::Query(ref qv) = app.active_view {
@@ -174,7 +174,7 @@ fn y_sets_yank_pending_with_selected_name() {
     for c in "query property=*".chars() {
         app.handle_key(key(KeyCode::Char(c)));
     }
-    app.submit_palette(&graph);
+    app.submit_palette(&SubmitContext::new(&graph));
     app.handle_key(key(KeyCode::Char('y')));
     assert!(app.pending_yank.is_some());
 }
@@ -187,7 +187,7 @@ fn esc_from_query_view_returns_to_empty() {
     for c in "query property=*".chars() {
         app.handle_key(key(KeyCode::Char(c)));
     }
-    app.submit_palette(&graph);
+    app.submit_palette(&SubmitContext::new(&graph));
     assert!(matches!(app.active_view, ActiveView::Query(_)));
     app.handle_key(key(KeyCode::Esc));
     assert!(matches!(app.active_view, ActiveView::Empty));
@@ -202,14 +202,14 @@ fn re_query_replaces_results_and_resets_selection() {
     for c in "query property=*".chars() {
         app.handle_key(key(KeyCode::Char(c)));
     }
-    app.submit_palette(&graph);
+    app.submit_palette(&SubmitContext::new(&graph));
     app.handle_key(key(KeyCode::Char('j')));
     // Second query from within query view — `:` opens palette.
     app.handle_key(key(KeyCode::Char(':')));
     for c in "query property=*".chars() {
         app.handle_key(key(KeyCode::Char(c)));
     }
-    app.submit_palette(&graph);
+    app.submit_palette(&SubmitContext::new(&graph));
     if let ActiveView::Query(ref qv) = app.active_view {
         assert_eq!(qv.table_state.selected(), Some(0));
     } else {

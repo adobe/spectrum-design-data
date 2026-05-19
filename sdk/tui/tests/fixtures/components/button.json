@@ -1,0 +1,8 @@
+{
+  "name": "button",
+  "description": "A clickable button component.",
+  "anatomy": [
+    { "id": "label", "type": "text" },
+    { "id": "container", "type": "container" }
+  ]
+}
