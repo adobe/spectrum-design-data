@@ -449,6 +449,7 @@ fn run_resolve(
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 fn run_validate(
     path: &Path,
     format: OutputFormat,
