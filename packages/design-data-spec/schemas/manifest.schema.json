@@ -114,7 +114,8 @@
                   "weight",
                   "style",
                   "motionRole",
-                  "easing"
+                  "easing",
+                  "alignment"
                 ]
               },
               "uniqueItems": true,

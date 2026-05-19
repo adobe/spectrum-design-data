@@ -26,7 +26,7 @@
     {
       "id": "group",
       "label": "Group",
-      "description": "Collection of similar UI elements or relatedcontrols"
+      "description": "Collection of similar UI elements or related controls"
     },
     {
       "id": "banner",
@@ -37,6 +37,21 @@
       "id": "table",
       "label": "Table",
       "description": "Tabular layout of rows and columns for structured data"
+    },
+    {
+      "id": "body",
+      "label": "Body",
+      "description": "Body text typography scale — used for standard paragraph and UI text"
+    },
+    {
+      "id": "detail",
+      "label": "Detail",
+      "description": "Detail text typography scale — used for captions, labels, and supporting text"
+    },
+    {
+      "id": "heading",
+      "label": "Heading",
+      "description": "Heading text typography scale — used for section and page headings"
     }
   ]
 }

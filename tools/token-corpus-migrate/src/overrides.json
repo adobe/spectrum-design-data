@@ -1,0 +1,4 @@
+{
+  "$comment": "Manual overrides for token keys that cannot be classified by the regex rules. Shape: { \"<token-key>\": { \"name\": { … } } }. Add entries here when the dry-run report lists unclassified tokens that are genuinely in scope.",
+  "overrides": {}
+}

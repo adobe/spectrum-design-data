@@ -66,6 +66,9 @@ enum Commands {
         /// Directory containing spec-format component declaration JSON files (enables SPEC-028/029 on components)
         #[arg(long, value_name = "DIR")]
         components_path: Option<PathBuf>,
+        /// Directory containing sidecar name maps (mirrors tokens/src layout); merges name objects at ingest
+        #[arg(long, value_name = "DIR")]
+        names_dir: Option<PathBuf>,
         /// Treat warnings as errors
         #[arg(long)]
         strict: bool,
@@ -446,38 +449,41 @@ fn run_resolve(
     }
 }
 
-fn run_validate(
-    path: &Path,
+struct ValidateOpts {
     format: OutputFormat,
     schema_path: Option<PathBuf>,
     exceptions_path: Option<PathBuf>,
     mode_sets_path: Option<PathBuf>,
     components_path: Option<PathBuf>,
+    names_dir: Option<PathBuf>,
     strict: bool,
-) -> miette::Result<ExitCode> {
+}
+
+fn run_validate(path: &Path, opts: ValidateOpts) -> miette::Result<ExitCode> {
     if !validate::engine_ready() {
         miette::bail!("validation engine not ready");
     }
-    let schema_root = schema_path.unwrap_or_else(default_schema_path);
+    let schema_root = opts.schema_path.unwrap_or_else(default_schema_path);
     let registry = SchemaRegistry::load_legacy_token_schemas(&schema_root)
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load schemas from {}", schema_root.display()))?;
-    let exceptions = load_exceptions(exceptions_path.as_deref())?;
+    let exceptions = load_exceptions(opts.exceptions_path.as_deref())?;
 
-    let dims_dir = mode_sets_path.or_else(default_mode_sets_path);
-    let comps_dir = components_path.or_else(default_components_path);
+    let dims_dir = opts.mode_sets_path.or_else(default_mode_sets_path);
+    let comps_dir = opts.components_path.or_else(default_components_path);
 
-    let report = validate::validate_all_with_options(
+    let report = validate::validate_all_with_options_and_names(
         path,
         &registry,
         &exceptions,
         dims_dir.as_deref(),
         comps_dir.as_deref(),
+        opts.names_dir.as_deref(),
     )
     .into_diagnostic()
     .wrap_err("validation failed")?;
 
-    match format {
+    match opts.format {
         OutputFormat::Json => {
             println!("{}", format::format_report_json(&report).into_diagnostic()?);
         }
@@ -486,7 +492,7 @@ fn run_validate(
         }
     }
 
-    if report.failed(strict) {
+    if report.failed(opts.strict) {
         return Ok(ExitCode::from(1));
     }
     Ok(ExitCode::SUCCESS)
@@ -1134,17 +1140,21 @@ fn main() -> ExitCode {
             exceptions_path,
             mode_sets_path,
             components_path,
+            names_dir,
             strict,
         } => {
             let target = path.unwrap_or_else(|| PathBuf::from("."));
             run_validate(
                 &target,
-                format,
-                schema_path,
-                exceptions_path,
-                mode_sets_path,
-                components_path,
-                strict,
+                ValidateOpts {
+                    format,
+                    schema_path,
+                    exceptions_path,
+                    mode_sets_path,
+                    components_path,
+                    names_dir,
+                    strict,
+                },
             )
         }
         Commands::Resolve {

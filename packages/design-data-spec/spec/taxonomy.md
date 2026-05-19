@@ -106,12 +106,13 @@ Typography tokens describe typeface attributes: family, weight, style, and numer
 
 **NORMATIVE:** Typography tokens SHOULD include at least one of `family`, `weight`, or `style`. Tokens missing all three are flagged by rule SPEC-043 (`domain-required-fields`, warning).
 
-| Category | Name object field | Answers | Description                                                                                                                                                                                                             |
-| -------- | ----------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Family   | `family`          | What?   | Type family of the token (e.g. `sans-serif`, `serif`, `cjk`, `code`). Values come from [`typography-families.json`](../../packages/design-system-registry/registry/typography-families.json).                           |
-| Weight   | `weight`          | How?    | Typographic weight (e.g. `regular`, `bold`, `light`, `black`). Values come from [`typography-weights.json`](../../packages/design-system-registry/registry/typography-weights.json).                                    |
-| Style    | `style`           | How?    | Typographic style when non-default (e.g. `italic`, `oblique`). Omit the field when style is normal. Values come from [`typography-styles.json`](../../packages/design-system-registry/registry/typography-styles.json). |
-| Scale    | `scaleIndex`      | Which?  | Numeric size scale step (e.g. `75`, `100`, `200`). Shared with other token types; not scope-restricted.                                                                                                                 |
+| Category  | Name object field | Answers | Description                                                                                                                                                                                                                                                    |
+| --------- | ----------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Family    | `family`          | What?   | Type family of the token (e.g. `sans-serif`, `serif`, `cjk`, `code`). Values come from [`typography-families.json`](../../packages/design-system-registry/registry/typography-families.json).                                                                  |
+| Weight    | `weight`          | How?    | Typographic weight (e.g. `regular`, `bold`, `light`, `black`). Values come from [`typography-weights.json`](../../packages/design-system-registry/registry/typography-weights.json).                                                                           |
+| Style     | `style`           | How?    | Typographic style (e.g. `italic`, `oblique`, `normal`). Include `normal` when the token explicitly declares a normal style (e.g. a reset). Values come from [`typography-styles.json`](../../packages/design-system-registry/registry/typography-styles.json). |
+| Alignment | `alignment`       | How?    | Horizontal text-alignment direction (e.g. `start`, `center`, `end`). Corresponds to the CSS `text-align` axis. Values come from [`alignments.json`](../../packages/design-system-registry/registry/alignments.json).                                           |
+| Scale     | `scaleIndex`      | Which?  | Numeric size scale step (e.g. `75`, `100`, `200`). Shared with other token types; not scope-restricted.                                                                                                                                                        |
 
 **Default serialization order for typography tokens:**
 
@@ -142,6 +143,33 @@ Motion tokens describe timing, easing, and animation role for UI animation. Thei
 ```
 
 Example: `motionRole=enter` + `easing=ease-out` → `enter-ease-out`. `motionRole=transition` + `scaleIndex=100` → `transition-100`.
+
+### Alias / semantic token name objects
+
+Alias tokens (`$schema: …/alias.json`) MAY carry name objects using the same field vocabulary
+as their target domain. A color alias carrying `colorFamily` is valid when its alias chain
+resolves to a color-domain schema (`color.json`, `color-set.json`).
+
+**NORMATIVE:** SPEC-042 (`field-scope-violation`) evaluates alias tokens by following the
+`alias_target` chain to the terminal non-alias schema, then checking that schema against the
+field's domain. This is the **alias-target-domain** rule: the alias *inherits* its domain
+from what it ultimately resolves to.
+
+**Examples:**
+
+```json
+// icon-color-blue-primary-default  ($schema=alias.json, $ref → icon-color-blue-100 which is color-set.json)
+// Valid: colorFamily allowed because target resolves to color domain.
+{ "property": "icon-color", "colorFamily": "blue", "variant": "primary" }
+
+// icon-color-primary-default  ($schema=alias.json, $ref → icon-color-blue-primary-default)
+// Valid: no domain-scoped fields used — variant and state are universal.
+{ "property": "icon-color", "variant": "primary" }
+```
+
+**What stays deferred:** alias tokens referencing the same target but carrying modifiers that
+have no current field (e.g. `inverse`, `emphasized`, `subtle`, `subdued`) remain unclassified
+until a color-modifier RFC defines those fields.
 
 ### Structure vs. component — when does the line move?
 
@@ -243,6 +271,44 @@ The taxonomy and terms are built to scale as new concepts and terms are identifi
 * New terms **MAY** be added to the vocabulary registry without spec version changes.
 * New token type taxonomies **MAY** be added by creating scoped field declarations (non-null `scope`) and a corresponding registry section in taxonomy.md. Color, typography, and motion taxonomies are defined above.
 * Platform manifests **MAY** extend the vocabulary with platform-specific terms and formatting.
+
+## Where `name` objects live
+
+Token taxonomy data is **decoupled** from the published `@adobe/spectrum-tokens`
+package to avoid bumping the tokens version on every taxonomy change.
+
+| Artifact          | Location                            | Description                                                                      |
+| ----------------- | ----------------------------------- | -------------------------------------------------------------------------------- |
+| Token source data | `packages/tokens/src/*.json`        | `$schema`, `value`, `uuid`, `sets`, … — no `name` field                          |
+| Taxonomy sidecar  | `packages/token-names/names/*.json` | `{ "<slug>": { property, colorFamily, … }, … }` — one file per token source file |
+| Field definitions | `packages/design-data-spec/fields/` | Authoritative field catalog with scope and type                                  |
+
+The sidecar package (`@adobe/token-names`) is **private** (not published to npm).
+Its delivery format for downstream consumers is TBD.
+
+### SDK validator integration
+
+Pass `--names-dir packages/token-names/names/` to the `design-data validate` CLI
+to merge sidecar names into the token graph at ingest.  All relational rules
+(SPEC-042, SPEC-043, SPEC-018…022, cascade, diff, query) continue to read
+`record.raw["name"]` as if the field were inline:
+
+```bash
+cargo run --bin design-data -- validate packages/tokens/src/ \
+  --names-dir packages/token-names/names/
+```
+
+Validation without `--names-dir` is a valid fail-open configuration (name-scope
+rules are silent); CI always supplies the flag.
+
+### Regenerating name data
+
+```bash
+node tools/token-corpus-migrate/src/cli.js \
+  --root packages/tokens/src \
+  --names-out packages/token-names/names \
+  --write
+```
 
 ## References
 

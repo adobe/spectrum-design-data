@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "alignment",
+  "description": "Horizontal text-alignment values for text-align tokens. Assigned via the `alignment` name-object field. Corresponds to the CSS text-align axis.",
+  "values": [
+    {
+      "id": "start",
+      "label": "Start",
+      "description": "Align text to the inline-start edge"
+    },
+    {
+      "id": "center",
+      "label": "Center",
+      "description": "Center text horizontally"
+    },
+    {
+      "id": "end",
+      "label": "End",
+      "description": "Align text to the inline-end edge"
+    }
+  ]
+}

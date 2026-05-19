@@ -1,5 +1,74 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.11.0
+
+### Minor Changes
+
+- [#972](https://github.com/adobe/spectrum-design-data/pull/972) [`e9974fb`](https://github.com/adobe/spectrum-design-data/commit/e9974fb7360e849e928b31518b073996b49ecd6b) Thanks [@GarthDB](https://github.com/GarthDB)! - Move token `name` objects out of @adobe/spectrum-tokens into a new private
+  @adobe/token-names sidecar package.
+  - **@adobe/spectrum-tokens**: 497 inline `name` objects removed from
+    color-palette.json, icons.json, typography.json. Token data otherwise identical.
+  - **@adobe/token-names** (private, new): sidecar package mirroring tokens/src
+    layout; depends on @adobe/spectrum-tokens via workspace:\*.
+  - **sdk/core**: `TokenGraph::from_json_dir_with_names` merges sidecar names at
+    ingest; existing rules unchanged. CLI gains `--names-dir` flag.
+  - **token-corpus-migrate**: writes nameMap to sidecar dir, not inline to tokens.
+
+- [#969](https://github.com/adobe/spectrum-design-data/pull/969) [`ba06968`](https://github.com/adobe/spectrum-design-data/commit/ba06968226adb268600e0ed1befc9d381e7986b6) Thanks [@GarthDB](https://github.com/GarthDB)! - Typography stragglers: structured `name` on text-align and letter-spacing tokens.
+  - **typography.json**: 4 tokens classified — 3 `text-align-*` and 1 bare
+    `letter-spacing` (taxonomy metadata in `@adobe/token-names` sidecar, not inline).
+  - **design-system-registry**: add `text-align` to `property-terms.json`;
+    new `alignments.json` registry (start/center/end); regenerate `registry_data.rs`.
+  - **design-data-spec**: new `alignment` spec field; `taxonomy.md` updated.
+  - **token-corpus-migrate**: add `alignmentNameForKey`, `letterSpacingNameForKey`,
+    `lineHeightMultiplierNameForKey` (exported for future use); extend dispatch.
+  - Line-height multipliers and CJK line-height deferred — SPEC-006 collision
+    and SPEC-042 constraint; follow-ups tracked in beads.
+
+## 14.10.0
+
+### Minor Changes
+
+- [#967](https://github.com/adobe/spectrum-design-data/pull/967) [`dfddf12`](https://github.com/adobe/spectrum-design-data/commit/dfddf123e92ff31eeb8a71bb6350f189ef39de13) Thanks [@GarthDB](https://github.com/GarthDB)! - Icons name-object migration: structured `name` on family-scoped icon-color
+  tokens in `icons.json`.
+  - **icons.json**: 56 color-set tokens gain
+    `name: { property: "icon-color", colorFamily, [object|variant|state] }`.
+  - **design-system-registry**: add `icon-color` to `property-terms.json`;
+    regenerate `registry_data.rs`.
+  - **token-corpus-migrate**: add `iconColorNameForKey`; add `icons.json` to
+    pilot scope.
+  - 23 alias tokens deferred — `colorFamily` is not permitted on `alias.json`
+    by SPEC-042; follow-up will address when the alias name shape is defined.
+
+## 14.9.0
+
+### Minor Changes
+
+- [#965](https://github.com/adobe/spectrum-design-data/pull/965) [`c133c83`](https://github.com/adobe/spectrum-design-data/commit/c133c832f605e6f09b8bc5db80a6f98b46233b2c) Thanks [@GarthDB](https://github.com/GarthDB)! - Typography canonical name-object migration: add `name` fields to remaining
+  non-alias typography tokens in `typography.json`.
+  - **font-family tokens** (4): gain `name: { property: "font-family", family }`.
+  - **font-style tokens** (2): gain `name: { property: "font-style", style }`.
+  - **font-size scale-set tokens** (18): gain `name: { property: "font-size", scaleIndex }`.
+  - **line-height scale-set tokens** (18): gain `name: { property: "line-height", scaleIndex }`.
+  - **design-system-registry**: add `font-style` to `property-terms.json`; add
+    `normal` to `typography-styles.json`; update `registry_data.rs`.
+  - **token-corpus-migrate**: extend with `fontFamilyNameForKey`, `fontStyleNameForKey`,
+    `fontSizeNameForKey`, `lineHeightNameForKey` classifiers.
+
+## 14.8.0
+
+### Minor Changes
+
+- [#963](https://github.com/adobe/spectrum-design-data/pull/963) [`af22092`](https://github.com/adobe/spectrum-design-data/commit/af22092744c70af7ce0c659e16cdabe31b92b111) Thanks [@GarthDB](https://github.com/GarthDB)! - Pilot name-object migration: add structured `name` fields to color palette and
+  font-weight tokens (closes first phase of taxonomy corpus migration).
+  - **color-palette.json**: 369 tokens gain `name: { property, colorFamily, scaleIndex? }`.
+  - **typography.json**: 6 canonical font-weight tokens gain `name: { property, weight }`.
+  - **design-system-registry**: export the six new taxonomy registries added in #961 via
+    the package.json `exports` map; add `propertyTerms` named export to `index.js`.
+  - **tools/token-corpus-migrate**: new migration tool for injecting name objects;
+    run dry-run with `node tools/token-corpus-migrate/src/cli.js --root <tokens-src>`,
+    apply with `--write`.
+
 ## 14.7.0
 
 ### Minor Changes

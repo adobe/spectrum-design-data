@@ -587,6 +587,21 @@ const STRUCTURES_JSON: &str = r##"{
       "id": "accessory",
       "label": "Accessory",
       "description": "Supplementary element attached to a primary structure"
+    },
+    {
+      "id": "body",
+      "label": "Body",
+      "description": "Body text typography scale — used for standard paragraph and UI text"
+    },
+    {
+      "id": "detail",
+      "label": "Detail",
+      "description": "Detail text typography scale — used for captions, labels, and supporting text"
+    },
+    {
+      "id": "heading",
+      "label": "Heading",
+      "description": "Heading text typography scale — used for section and page headings"
     }
   ]
 }
@@ -1403,6 +1418,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "SVG or icon fill color"
     },
     {
+      "id": "icon-color",
+      "label": "Icon Color",
+      "description": "Foreground color of an icon"
+    },
+    {
       "id": "shadow-color",
       "label": "Shadow Color",
       "description": "Drop shadow color component"
@@ -1533,6 +1553,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "Typeface family name"
     },
     {
+      "id": "font-style",
+      "label": "Font Style",
+      "description": "Typeface style (normal, italic, oblique)"
+    },
+    {
       "id": "line-height",
       "label": "Line Height",
       "description": "Vertical spacing between lines of text"
@@ -1543,6 +1568,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "Horizontal spacing between characters"
     },
     {
+      "id": "text-align",
+      "label": "Text Align",
+      "description": "Horizontal alignment of text content"
+    },
+    {
       "id": "duration",
       "label": "Duration",
       "description": "Animation or transition duration"
@@ -1551,6 +1581,26 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "easing",
       "label": "Easing",
       "description": "Animation or transition easing function"
+    },
+    {
+      "id": "margin",
+      "label": "Margin",
+      "description": "External spacing on all sides (used for typography block margin multipliers)"
+    },
+    {
+      "id": "margin-top",
+      "label": "Margin Top",
+      "description": "External spacing above a block element"
+    },
+    {
+      "id": "margin-bottom",
+      "label": "Margin Bottom",
+      "description": "External spacing below a block element"
+    },
+    {
+      "id": "line-height-multiplier",
+      "label": "Line Height Multiplier",
+      "description": "Unitless line-height ratio (multiplier), distinct from the absolute px line-height paired with a specific font-size tier"
     }
   ]
 }
@@ -2141,8 +2191,13 @@ const TYPOGRAPHY_WEIGHTS_JSON: &str = r##"{
 const TYPOGRAPHY_STYLES_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "typography-style",
-  "description": "Typographic style values for typography tokens. Assigned via the `style` name-object field. Corresponds to the CSS font-style axis. The normal/default style is not listed — omit the field when style is normal.",
+  "description": "Typographic style values for typography tokens. Assigned via the `style` name-object field. Corresponds to the CSS font-style axis. All recognized styles are listed; normal represents the default upright style.",
   "values": [
+    {
+      "id": "normal",
+      "label": "Normal",
+      "description": "Default upright font style (font-style: normal)"
+    },
     {
       "id": "italic",
       "label": "Italic",
@@ -2232,6 +2287,29 @@ const EASING_CURVES_JSON: &str = r##"{
   ]
 }
 "##;
+const ALIGNMENTS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "alignment",
+  "description": "Horizontal text-alignment values for text-align tokens. Assigned via the `alignment` name-object field. Corresponds to the CSS text-align axis.",
+  "values": [
+    {
+      "id": "start",
+      "label": "Start",
+      "description": "Align text to the inline-start edge"
+    },
+    {
+      "id": "center",
+      "label": "Center",
+      "description": "Center text horizontally"
+    },
+    {
+      "id": "end",
+      "label": "End",
+      "description": "Align text to the inline-end edge"
+    }
+  ]
+}
+"##;
 const CATEGORIES_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "category",
@@ -2289,7 +2367,7 @@ const CATEGORIES_JSON: &str = r##"{
 }
 "##;
 
-pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "property", "orientation", "position", "size", "density", "shape", "state", "colorFamily", "family", "weight", "style", "motionRole", "easing"];
+pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "property", "orientation", "position", "size", "density", "shape", "state", "colorFamily", "family", "weight", "style", "motionRole", "easing", "alignment"];
 
 pub(crate) fn build_registry_map(
 ) -> std::collections::HashMap<String, std::collections::HashSet<String>> {
@@ -2313,6 +2391,7 @@ pub(crate) fn build_registry_map(
     map.insert("style".to_string(), parse_registry(TYPOGRAPHY_STYLES_JSON));
     map.insert("motionRole".to_string(), parse_registry(MOTION_ROLES_JSON));
     map.insert("easing".to_string(), parse_registry(EASING_CURVES_JSON));
+    map.insert("alignment".to_string(), parse_registry(ALIGNMENTS_JSON));
     map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
     map
 }

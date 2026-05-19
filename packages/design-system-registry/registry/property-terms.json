@@ -24,6 +24,11 @@
       "description": "SVG or icon fill color"
     },
     {
+      "id": "icon-color",
+      "label": "Icon Color",
+      "description": "Foreground color of an icon"
+    },
+    {
       "id": "shadow-color",
       "label": "Shadow Color",
       "description": "Drop shadow color component"
@@ -154,6 +159,11 @@
       "description": "Typeface family name"
     },
     {
+      "id": "font-style",
+      "label": "Font Style",
+      "description": "Typeface style (normal, italic, oblique)"
+    },
+    {
       "id": "line-height",
       "label": "Line Height",
       "description": "Vertical spacing between lines of text"
@@ -164,6 +174,11 @@
       "description": "Horizontal spacing between characters"
     },
     {
+      "id": "text-align",
+      "label": "Text Align",
+      "description": "Horizontal alignment of text content"
+    },
+    {
       "id": "duration",
       "label": "Duration",
       "description": "Animation or transition duration"
@@ -172,6 +187,26 @@
       "id": "easing",
       "label": "Easing",
       "description": "Animation or transition easing function"
+    },
+    {
+      "id": "margin",
+      "label": "Margin",
+      "description": "External spacing on all sides (used for typography block margin multipliers)"
+    },
+    {
+      "id": "margin-top",
+      "label": "Margin Top",
+      "description": "External spacing above a block element"
+    },
+    {
+      "id": "margin-bottom",
+      "label": "Margin Bottom",
+      "description": "External spacing below a block element"
+    },
+    {
+      "id": "line-height-multiplier",
+      "label": "Line Height Multiplier",
+      "description": "Unitless line-height ratio (multiplier), distinct from the absolute px line-height paired with a specific font-size tier"
     }
   ]
 }
