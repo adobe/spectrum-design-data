@@ -1,5 +1,20 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.9.0
+
+### Minor Changes
+
+- [#965](https://github.com/adobe/spectrum-design-data/pull/965) [`c133c83`](https://github.com/adobe/spectrum-design-data/commit/c133c832f605e6f09b8bc5db80a6f98b46233b2c) Thanks [@GarthDB](https://github.com/GarthDB)! - Typography canonical name-object migration: add `name` fields to remaining
+  non-alias typography tokens in `typography.json`.
+  - **font-family tokens** (4): gain `name: { property: "font-family", family }`.
+  - **font-style tokens** (2): gain `name: { property: "font-style", style }`.
+  - **font-size scale-set tokens** (18): gain `name: { property: "font-size", scaleIndex }`.
+  - **line-height scale-set tokens** (18): gain `name: { property: "line-height", scaleIndex }`.
+  - **design-system-registry**: add `font-style` to `property-terms.json`; add
+    `normal` to `typography-styles.json`; update `registry_data.rs`.
+  - **token-corpus-migrate**: extend with `fontFamilyNameForKey`, `fontStyleNameForKey`,
+    `fontSizeNameForKey`, `lineHeightNameForKey` classifiers.
+
 ## 14.8.0
 
 ### Minor Changes
