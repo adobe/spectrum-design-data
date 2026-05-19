@@ -80,7 +80,7 @@ impl ValidationRule for Rule {
                     let Some(target) = ctx.graph.tokens.get(target_name) else {
                         break; // broken alias — SPEC-001 owns this diagnostic
                     };
-                    resolved = target.schema_url.as_deref().unwrap_or("");
+                    resolved = target.schema_url.as_deref().unwrap_or("<missing schema>");
                     if !resolved.ends_with("/alias.json") {
                         break;
                     }
