@@ -27,26 +27,24 @@ process every `*.tokens.json` file under `--root`.
 
 Each token is matched against the rules in `src/transform.js`:
 
-| Token `$schema`                        | Key pattern                             | Resulting `name`                                                       |
-| -------------------------------------- | --------------------------------------- | ---------------------------------------------------------------------- |
-| Token `$schema`                        | Key pattern                             | Resulting `name`                                                       |
-| -------------------------------------- | --------------------------------------- | ---------------------------------------------------------------------- |
-| `color.json` / `color-set.json`        | `<family>-<N>`                          | `{ property: "color", colorFamily, scaleIndex }`                       |
-| `color.json` / `color-set.json`        | bare family id                          | `{ property: "color", colorFamily }`                                   |
-| `font-family.json`                     | `<family>-font-family`                  | `{ property: "font-family", family }`                                  |
-| `font-style.json`                      | `<style>-font-style`                    | `{ property: "font-style", style }`                                    |
-| `font-style.json`                      | any key with `value: "normal"`          | `{ property: "font-style", style: "normal" }`                          |
-| `font-weight.json`                     | `<weight>-font-weight`                  | `{ property: "font-weight", weight }`                                  |
-| `scale-set.json`                       | `font-size-<N>`                         | `{ property: "font-size", scaleIndex }`                                |
-| `scale-set.json`                       | `line-height-font-size-<N>`             | `{ property: "line-height", scaleIndex }`                              |
-| `color-set.json`                       | `icon-color-<family>-background`        | `{ property: "icon-color", colorFamily, object: "background" }`        |
-| `color-set.json`                       | `icon-color-<family>-primary[-<state>]` | `{ property: "icon-color", colorFamily, variant: "primary"[, state] }` |
-| `alias.json`                           | `icon-color-<family>-background`        | `{ property: "icon-color", colorFamily, object: "background" }`        |
-| `alias.json`                           | `icon-color-<family>-primary[-<state>]` | `{ property: "icon-color", colorFamily, variant: "primary"[, state] }` |
-| `alias.json`                           | `icon-color-primary[-<state>]`          | `{ property: "icon-color", variant: "primary"[, state] }`              |
-| `alias.json`                           | `icon-color-disabled-primary`           | `{ property: "icon-color", variant: "primary", state: "disabled" }`    |
-| `alignment.json`                       | `text-align-<alignment>`                | `{ property: "text-align", alignment }`                                |
-| `dimension.json`                       | `letter-spacing` (exact)                | `{ property: "letter-spacing" }`                                       |
+| Token `$schema`                 | Key pattern                             | Resulting `name`                                                       |
+| ------------------------------- | --------------------------------------- | ---------------------------------------------------------------------- |
+| `color.json` / `color-set.json` | `<family>-<N>`                          | `{ property: "color", colorFamily, scaleIndex }`                       |
+| `color.json` / `color-set.json` | bare family id                          | `{ property: "color", colorFamily }`                                   |
+| `font-family.json`              | `<family>-font-family`                  | `{ property: "font-family", family }`                                  |
+| `font-style.json`               | `<style>-font-style`                    | `{ property: "font-style", style }`                                    |
+| `font-style.json`               | any key with `value: "normal"`          | `{ property: "font-style", style: "normal" }`                          |
+| `font-weight.json`              | `<weight>-font-weight`                  | `{ property: "font-weight", weight }`                                  |
+| `scale-set.json`                | `font-size-<N>`                         | `{ property: "font-size", scaleIndex }`                                |
+| `scale-set.json`                | `line-height-font-size-<N>`             | `{ property: "line-height", scaleIndex }`                              |
+| `color-set.json`                | `icon-color-<family>-background`        | `{ property: "icon-color", colorFamily, object: "background" }`        |
+| `color-set.json`                | `icon-color-<family>-primary[-<state>]` | `{ property: "icon-color", colorFamily, variant: "primary"[, state] }` |
+| `alias.json`                    | `icon-color-<family>-background`        | `{ property: "icon-color", colorFamily, object: "background" }`        |
+| `alias.json`                    | `icon-color-<family>-primary[-<state>]` | `{ property: "icon-color", colorFamily, variant: "primary"[, state] }` |
+| `alias.json`                    | `icon-color-primary[-<state>]`          | `{ property: "icon-color", variant: "primary"[, state] }`              |
+| `alias.json`                    | `icon-color-disabled-primary`           | `{ property: "icon-color", variant: "primary", state: "disabled" }`    |
+| `alignment.json`                | `text-align-<alignment>`                | `{ property: "text-align", alignment }`                                |
+| `dimension.json`                | `letter-spacing` (exact)                | `{ property: "letter-spacing" }`                                       |
 
 Valid `colorFamily` values are sourced from `@adobe/design-system-registry/registry/color-families.json`.
 Valid `alignment` values are sourced from `@adobe/design-system-registry/registry/alignments.json`.
