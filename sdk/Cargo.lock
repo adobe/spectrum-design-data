@@ -459,6 +459,7 @@ dependencies = [
  "design-data-core",
  "miette",
  "ratatui",
+ "serde_json",
  "thiserror",
  "tui-input",
 ]

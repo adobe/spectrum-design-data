@@ -10,15 +10,24 @@
 
 //! Interactive TUI for Spectrum design data authoring and inspection.
 //!
-//! M0 surface: primer header + empty active view + palette prompt.
-//! The palette opens on `:` (command) or `/` (fuzzy-find) and closes on `Esc`.
+//! Three-region layout (RFC #973 §3.1):
+//! - Primer header (1 line): token count + dataset path.
+//! - Active view (flex): empty, or a query-results table.
+//! - Status + palette (2 lines at bottom): optional status message, then palette prompt.
+//!
+//! Key bindings (M1):
+//! - `:` opens palette in command mode; `/` opens in fuzzy-find mode.
+//! - In palette, Enter dispatches the command; Esc cancels.
+//! - In query view: Up/k and Down/j navigate; `y` yanks selected name; Esc returns to empty.
+//! - `q` quits when palette is closed; Ctrl-C always quits.
 
-use std::io::stderr;
+use std::io::{Write, stderr};
 use std::path::PathBuf;
+use std::process::{Command, Stdio};
 
 use clap::Parser;
 use crossterm::{
-    event::{self, Event, KeyEventKind},
+    event::{self, Event, KeyCode, KeyEventKind},
     execute,
     terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
 };
@@ -28,24 +37,21 @@ use ratatui::{
     Terminal,
     backend::CrosstermBackend,
     layout::{Constraint, Direction, Layout},
-    style::{Color, Style},
+    style::{Color, Modifier, Style},
     text::{Line, Span},
-    widgets::{Block, Borders, Paragraph},
+    widgets::{Block, Borders, Cell, Paragraph, Row, Table},
 };
 
-use design_data_tui::app::App;
+use design_data_tui::app::{ActiveView, App};
 
-/// Token count and path summary loaded once at startup.
-///
-/// Stores only the information needed to render the primer header.
-/// The `TokenGraph` itself is not retained after loading — it is only
-/// used to extract `token_count` before being dropped.
-struct PrimerData {
+/// Token dataset loaded once at startup and held for the full session.
+struct DatasetHandle {
     token_count: usize,
     dataset_path: PathBuf,
+    graph: TokenGraph,
 }
 
-impl PrimerData {
+impl DatasetHandle {
     fn load(path: PathBuf) -> Result<Self> {
         let graph = TokenGraph::from_json_dir(&path)
             .into_diagnostic()
@@ -53,10 +59,10 @@ impl PrimerData {
         Ok(Self {
             token_count: graph.tokens.len(),
             dataset_path: path,
+            graph,
         })
     }
 
-    /// One-line summary for the primer header.
     fn primer_line(&self) -> String {
         format!(
             " {} tokens  ·  {}",
@@ -73,9 +79,26 @@ struct Cli {
     dataset: PathBuf,
 }
 
+/// Write `text` to the system clipboard via pbcopy (macOS) or xclip (Linux).
+fn write_clipboard(text: &str) -> std::io::Result<()> {
+    #[cfg(target_os = "macos")]
+    let mut child = Command::new("pbcopy").stdin(Stdio::piped()).spawn()?;
+    #[cfg(not(target_os = "macos"))]
+    let mut child = Command::new("xclip")
+        .args(["-selection", "clipboard"])
+        .stdin(Stdio::piped())
+        .spawn()?;
+    if let Some(stdin) = child.stdin.take() {
+        let mut stdin = stdin;
+        stdin.write_all(text.as_bytes())?;
+    }
+    child.wait()?;
+    Ok(())
+}
+
 fn main() -> Result<()> {
     let cli = Cli::parse();
-    let primer = PrimerData::load(cli.dataset)?;
+    let handle = DatasetHandle::load(cli.dataset)?;
 
     // Restore terminal on panic so the shell is not left in a broken state.
     let original_hook = std::panic::take_hook();
@@ -92,10 +115,9 @@ fn main() -> Result<()> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend).into_diagnostic()?;
 
-    let result = run(&mut terminal, &primer);
+    let result = run(&mut terminal, &handle);
 
-    // Best-effort cleanup — continue even if individual steps fail so the
-    // caller always gets the original result rather than a cleanup error.
+    // Best-effort cleanup — continue even if individual steps fail.
     let _ = disable_raw_mode();
     let _ = execute!(terminal.backend_mut(), LeaveAlternateScreen);
     let _ = terminal.show_cursor();
@@ -103,34 +125,83 @@ fn main() -> Result<()> {
     result
 }
 
-fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, primer: &PrimerData) -> Result<()> {
+fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &DatasetHandle) -> Result<()> {
     let mut app = App::new();
 
     loop {
         terminal.draw(|f| {
             let size = f.area();
 
+            // Bottom area: status line (when present) + palette prompt.
+            let status_height = if app.status_message.is_some() { 1 } else { 0 };
             let chunks = Layout::default()
                 .direction(Direction::Vertical)
                 .constraints([
-                    Constraint::Length(1), // primer header
-                    Constraint::Min(0),    // active view
-                    Constraint::Length(1), // palette prompt
+                    Constraint::Length(1),                    // primer header
+                    Constraint::Min(0),                       // active view
+                    Constraint::Length(status_height),        // status message
+                    Constraint::Length(1),                    // palette prompt
                 ])
                 .split(size);
 
             // Primer header.
             let primer_text = Line::from(vec![
                 Span::styled("▶ ", Style::default().fg(Color::Green)),
-                Span::raw(primer.primer_line()),
+                Span::raw(handle.primer_line()),
             ]);
             f.render_widget(Paragraph::new(primer_text), chunks[0]);
 
-            // Active view (empty for M0).
-            let active_block = Block::default()
-                .borders(Borders::ALL)
-                .title(" Active View ");
-            f.render_widget(active_block, chunks[1]);
+            // Active view.
+            match &mut app.active_view {
+                ActiveView::Empty => {
+                    let block = Block::default()
+                        .borders(Borders::ALL)
+                        .title(" Active View ");
+                    f.render_widget(block, chunks[1]);
+                }
+                ActiveView::Query(ref mut qv) => {
+                    let header = Row::new(vec![
+                        Cell::from("Name").style(Style::default().add_modifier(Modifier::BOLD)),
+                        Cell::from("Value").style(Style::default().add_modifier(Modifier::BOLD)),
+                        Cell::from("File").style(Style::default().add_modifier(Modifier::BOLD)),
+                        Cell::from("Layer").style(Style::default().add_modifier(Modifier::BOLD)),
+                    ]);
+                    let rows: Vec<Row> = qv
+                        .rows
+                        .iter()
+                        .map(|r| {
+                            Row::new(vec![
+                                Cell::from(r.name.as_str()),
+                                Cell::from(r.value.as_str()),
+                                Cell::from(r.file.as_str()),
+                                Cell::from(r.layer.as_str()),
+                            ])
+                        })
+                        .collect();
+                    let widths = [
+                        Constraint::Percentage(40),
+                        Constraint::Percentage(30),
+                        Constraint::Percentage(20),
+                        Constraint::Percentage(10),
+                    ];
+                    let table = Table::new(rows, widths)
+                        .header(header)
+                        .block(
+                            Block::default()
+                                .borders(Borders::ALL)
+                                .title(format!(" Query: {} ", qv.expr_text)),
+                        )
+                        .highlight_style(Style::default().bg(Color::DarkGray));
+                    f.render_stateful_widget(table, chunks[1], &mut qv.table_state);
+                }
+            }
+
+            // Status message.
+            if let Some(ref msg) = app.status_message {
+                let status = Paragraph::new(msg.as_str())
+                    .style(Style::default().fg(Color::Red));
+                f.render_widget(status, chunks[2]);
+            }
 
             // Palette prompt.
             let palette_text = if app.palette_open {
@@ -138,14 +209,35 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, primer: &Primer
             } else {
                 String::new()
             };
-            f.render_widget(Paragraph::new(palette_text), chunks[2]);
+            f.render_widget(Paragraph::new(palette_text), chunks[3]);
         }).into_diagnostic()?;
+
+        // Copy to clipboard outside the draw closure (needs mutable app).
+        if app.yank_pending {
+            let text = app.last_yank.clone().unwrap_or_default();
+            // Use pbcopy (macOS) or xclip/xsel (Linux) via stdin pipe.
+            let result = write_clipboard(&text);
+            if let Err(e) = result {
+                app.status_message = Some(format!("clipboard unavailable: {e}"));
+            }
+            app.clear_yank();
+        }
 
         if event::poll(std::time::Duration::from_millis(16)).into_diagnostic()? {
             if let Event::Key(key) = event::read().into_diagnostic()? {
-                // Ignore key-release events (Windows sends them; crossterm surfaces them).
                 if key.kind == KeyEventKind::Press {
+                    let was_open = app.palette_open;
                     app.handle_key(key);
+                    // Palette just closed via Enter (not Esc) — dispatch command.
+                    if was_open
+                        && !app.palette_open
+                        && key.code == KeyCode::Enter
+                    {
+                        // handle_key forwarded Enter to the input buffer; undo that
+                        // and dispatch. The input value already has the text without
+                        // the Enter character because tui-input appends nothing for Enter.
+                        app.submit_palette(&handle.graph);
+                    }
                 }
             }
         }

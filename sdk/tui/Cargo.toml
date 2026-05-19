@@ -21,3 +21,5 @@ tui-input = "0.10"
 clap = { version = "4.5", features = ["derive"] }
 miette = { version = "7.4", features = ["fancy"] }
 thiserror = "2.0"
+[dev-dependencies]
+serde_json = "1"
