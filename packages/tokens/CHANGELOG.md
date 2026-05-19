@@ -15,8 +15,8 @@
   - **token-corpus-migrate**: writes nameMap to sidecar dir, not inline to tokens.
 
 - [#969](https://github.com/adobe/spectrum-design-data/pull/969) [`ba06968`](https://github.com/adobe/spectrum-design-data/commit/ba06968226adb268600e0ed1befc9d381e7986b6) Thanks [@GarthDB](https://github.com/GarthDB)! - Typography stragglers: structured `name` on text-align and letter-spacing tokens.
-  - **typography.json**: 4 tokens gain `name` — 3 `text-align-*` and 1 bare
-    `letter-spacing`.
+  - **typography.json**: 4 tokens classified — 3 `text-align-*` and 1 bare
+    `letter-spacing` (taxonomy metadata in `@adobe/token-names` sidecar, not inline).
   - **design-system-registry**: add `text-align` to `property-terms.json`;
     new `alignments.json` registry (start/center/end); regenerate `registry_data.rs`.
   - **design-data-spec**: new `alignment` spec field; `taxonomy.md` updated.
