@@ -87,8 +87,7 @@ fn submit_invalid_query_sets_status_message() {
     app.submit_palette(&graph);
     assert!(!app.palette_open);
     assert!(matches!(app.active_view, ActiveView::Empty));
-    assert!(app.status_message.is_some());
-    let msg = app.status_message.as_deref().unwrap_or("");
+    let msg = app.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(msg.contains("query error") || msg.contains("error"), "expected error message, got: {msg}");
 }
 
@@ -101,7 +100,8 @@ fn submit_unknown_command_sets_status_message() {
         app.handle_key(key(KeyCode::Char(c)));
     }
     app.submit_palette(&graph);
-    assert!(app.status_message.as_deref().unwrap_or("").contains("unknown command"));
+    let msg = app.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
+    assert!(msg.contains("unknown command"), "expected 'unknown command' in: {msg}");
 }
 
 #[test]
@@ -176,8 +176,7 @@ fn y_sets_yank_pending_with_selected_name() {
     }
     app.submit_palette(&graph);
     app.handle_key(key(KeyCode::Char('y')));
-    assert!(app.yank_pending);
-    assert!(app.last_yank.is_some());
+    assert!(app.pending_yank.is_some());
 }
 
 #[test]

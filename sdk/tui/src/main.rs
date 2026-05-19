@@ -42,7 +42,7 @@ use ratatui::{
     widgets::{Block, Borders, Cell, Paragraph, Row, Table},
 };
 
-use design_data_tui::app::{ActiveView, App};
+use design_data_tui::app::{ActiveView, App, StatusKind, StatusMessage};
 
 /// Token dataset loaded once at startup and held for the full session.
 struct DatasetHandle {
@@ -79,21 +79,35 @@ struct Cli {
     dataset: PathBuf,
 }
 
-/// Write `text` to the system clipboard via pbcopy (macOS) or xclip (Linux).
+/// Write `text` to the system clipboard.
+///
+/// - macOS: `pbcopy`
+/// - Linux: `xclip -selection clipboard`
+/// - Windows: not supported; returns an error that main.rs surfaces in the status bar.
 fn write_clipboard(text: &str) -> std::io::Result<()> {
     #[cfg(target_os = "macos")]
     let mut child = Command::new("pbcopy").stdin(Stdio::piped()).spawn()?;
-    #[cfg(not(target_os = "macos"))]
+
+    #[cfg(all(not(target_os = "macos"), not(target_os = "windows")))]
     let mut child = Command::new("xclip")
         .args(["-selection", "clipboard"])
         .stdin(Stdio::piped())
         .spawn()?;
-    if let Some(stdin) = child.stdin.take() {
-        let mut stdin = stdin;
-        stdin.write_all(text.as_bytes())?;
+
+    #[cfg(target_os = "windows")]
+    return Err(std::io::Error::new(
+        std::io::ErrorKind::Unsupported,
+        "clipboard yank is not supported on Windows (coming in M5)",
+    ));
+
+    #[cfg(not(target_os = "windows"))]
+    {
+        if let Some(mut stdin) = child.stdin.take() {
+            stdin.write_all(text.as_bytes())?;
+        }
+        child.wait()?;
+        Ok(())
     }
-    child.wait()?;
-    Ok(())
 }
 
 fn main() -> Result<()> {
@@ -137,10 +151,10 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &Datase
             let chunks = Layout::default()
                 .direction(Direction::Vertical)
                 .constraints([
-                    Constraint::Length(1),                    // primer header
-                    Constraint::Min(0),                       // active view
-                    Constraint::Length(status_height),        // status message
-                    Constraint::Length(1),                    // palette prompt
+                    Constraint::Length(1),             // primer header
+                    Constraint::Min(0),                // active view
+                    Constraint::Length(status_height), // status message
+                    Constraint::Length(1),             // palette prompt
                 ])
                 .split(size);
 
@@ -196,10 +210,14 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &Datase
                 }
             }
 
-            // Status message.
+            // Status message — green for info, red for errors.
             if let Some(ref msg) = app.status_message {
-                let status = Paragraph::new(msg.as_str())
-                    .style(Style::default().fg(Color::Red));
+                let color = match msg.kind {
+                    StatusKind::Info => Color::Green,
+                    StatusKind::Error => Color::Red,
+                };
+                let status = Paragraph::new(msg.text.as_str())
+                    .style(Style::default().fg(color));
                 f.render_widget(status, chunks[2]);
             }
 
@@ -213,14 +231,10 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &Datase
         }).into_diagnostic()?;
 
         // Copy to clipboard outside the draw closure (needs mutable app).
-        if app.yank_pending {
-            let text = app.last_yank.clone().unwrap_or_default();
-            // Use pbcopy (macOS) or xclip/xsel (Linux) via stdin pipe.
-            let result = write_clipboard(&text);
-            if let Err(e) = result {
-                app.status_message = Some(format!("clipboard unavailable: {e}"));
+        if let Some(text) = app.take_pending_yank() {
+            if let Err(e) = write_clipboard(&text) {
+                app.status_message = Some(StatusMessage::error(format!("clipboard unavailable: {e}")));
             }
-            app.clear_yank();
         }
 
         if event::poll(std::time::Duration::from_millis(16)).into_diagnostic()? {
@@ -228,14 +242,8 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &Datase
                 if key.kind == KeyEventKind::Press {
                     let was_open = app.palette_open;
                     app.handle_key(key);
-                    // Palette just closed via Enter (not Esc) — dispatch command.
-                    if was_open
-                        && !app.palette_open
-                        && key.code == KeyCode::Enter
-                    {
-                        // handle_key forwarded Enter to the input buffer; undo that
-                        // and dispatch. The input value already has the text without
-                        // the Enter character because tui-input appends nothing for Enter.
+                    // Palette just closed via Enter — dispatch command.
+                    if was_open && !app.palette_open && key.code == KeyCode::Enter {
                         app.submit_palette(&handle.graph);
                     }
                 }

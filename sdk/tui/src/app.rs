@@ -25,6 +25,29 @@ pub enum PaletteMode {
     FuzzyFind,
 }
 
+/// Severity of a status bar message; controls render colour.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StatusKind {
+    Info,
+    Error,
+}
+
+/// A status bar message with its display kind.
+#[derive(Debug, Clone)]
+pub struct StatusMessage {
+    pub text: String,
+    pub kind: StatusKind,
+}
+
+impl StatusMessage {
+    pub fn info(text: impl Into<String>) -> Self {
+        Self { text: text.into(), kind: StatusKind::Info }
+    }
+    pub fn error(text: impl Into<String>) -> Self {
+        Self { text: text.into(), kind: StatusKind::Error }
+    }
+}
+
 /// One row in the query results table.
 #[derive(Debug, Clone)]
 pub struct QueryRow {
@@ -113,12 +136,10 @@ pub struct App {
     pub quit: bool,
     /// The currently active view.
     pub active_view: ActiveView,
-    /// One-line status/error shown above the palette.
-    pub status_message: Option<String>,
-    /// The last yanked string, waiting to be written to the clipboard.
-    pub last_yank: Option<String>,
-    /// Set by `y` key; cleared by main.rs after copying to the clipboard.
-    pub yank_pending: bool,
+    /// One-line status message shown above the palette; `None` when hidden.
+    pub status_message: Option<StatusMessage>,
+    /// Non-None while a yank is pending clipboard write; cleared by main.rs.
+    pub pending_yank: Option<String>,
 }
 
 impl App {
@@ -130,8 +151,7 @@ impl App {
             quit: false,
             active_view: ActiveView::Empty,
             status_message: None,
-            last_yank: None,
-            yank_pending: false,
+            pending_yank: None,
         }
     }
 
@@ -174,8 +194,7 @@ impl App {
                     KeyCode::Char('y') => {
                         if let ActiveView::Query(ref qv) = self.active_view {
                             if let Some(row) = qv.selected_row() {
-                                self.last_yank = Some(row.name.clone());
-                                self.yank_pending = true;
+                                self.pending_yank = Some(row.name.clone());
                             }
                         }
                     }
@@ -241,7 +260,7 @@ impl App {
         match cmd.as_str() {
             "query" => {
                 if rest.is_empty() {
-                    self.status_message = Some("query: expression required".to_string());
+                    self.status_message = Some(StatusMessage::error("query: expression required"));
                     return;
                 }
                 match query::parse(&rest) {
@@ -250,22 +269,25 @@ impl App {
                         let rows: Vec<QueryRow> = records.iter().map(|r| QueryRow::from_record(r)).collect();
                         let count = rows.len();
                         self.active_view = ActiveView::Query(QueryView::new(rest.clone(), rows));
-                        self.status_message = Some(format!("{count} token(s) matched"));
+                        self.status_message = Some(StatusMessage::info(format!("{count} token(s) matched")));
                     }
                     Err(e) => {
-                        self.status_message = Some(format!("query error: {e}"));
+                        self.status_message = Some(StatusMessage::error(format!("query error: {e}")));
                     }
                 }
             }
             other => {
-                self.status_message = Some(format!("unknown command: {other}"));
+                self.status_message = Some(StatusMessage::error(format!("unknown command: {other}")));
             }
         }
     }
 
-    /// Clear the pending yank flag after main.rs has written to the clipboard.
-    pub fn clear_yank(&mut self) {
-        self.yank_pending = false;
+    /// Take the pending yank string, clearing it from app state.
+    ///
+    /// Returns `Some(text)` when a yank is pending; `None` otherwise.
+    /// main.rs calls this after writing to the clipboard.
+    pub fn take_pending_yank(&mut self) -> Option<String> {
+        self.pending_yank.take()
     }
 
     /// The prompt prefix to display when the palette is open.
