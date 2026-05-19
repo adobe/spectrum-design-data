@@ -14,8 +14,10 @@ fileGroups:
   sources:
     - "core/src/**/*.rs"
     - "cli/src/**/*.rs"
+    - "tui/src/**/*.rs"
     - "core/Cargo.toml"
     - "cli/Cargo.toml"
+    - "tui/Cargo.toml"
     - "Cargo.toml"
     - "rust-toolchain.toml"
 tasks:
@@ -73,6 +75,8 @@ tasks:
       - scripts/sync-cargo-version.mjs
     inputs:
       - "cli/package.json"
+      - "tui/package.json"
     outputs:
       - "cli/Cargo.toml"
+      - "tui/Cargo.toml"
     platform: node
