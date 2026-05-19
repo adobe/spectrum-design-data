@@ -18,8 +18,11 @@
 //!   Either field alone satisfies the check intentionally — a token with only `scaleIndex`
 //!   (ramp step without family context) is still sortable, and a token with only
 //!   `colorFamily` (non-ramp token such as transparent-black) is also valid.
-//! - Typography tokens (font-*.json, typography.json) SHOULD have `family`, `weight`,
-//!   or `style`.
+//! - Typography tokens (font-*.json, typography.json, multiplier.json) SHOULD have
+//!   `family`, `weight`, `style`, `scaleIndex`, or `structure`. The last two cover
+//!   typography-domain multiplier tokens (line-height ratios, margin multipliers)
+//!   which are identified by scale position or typography-scale category rather than
+//!   typeface attributes.
 //! - Motion tokens (duration.json, easing.json, motion.json) SHOULD have
 //!   `motionRole` or `easing`.
 //!
@@ -47,6 +50,8 @@ fn has_required_fields(
             name_obj.contains_key("family")
                 || name_obj.contains_key("weight")
                 || name_obj.contains_key("style")
+                || name_obj.contains_key("scaleIndex")
+                || name_obj.contains_key("structure")
         }
         "motion" => {
             name_obj.contains_key("motionRole") || name_obj.contains_key("easing")
@@ -106,7 +111,7 @@ impl ValidationRule for Rule {
 fn required_fields_description(domain: &str) -> &'static str {
     match domain {
         "color" => "colorFamily, scaleIndex",
-        "typography" => "family, weight, style",
+        "typography" => "family, weight, style, scaleIndex, structure",
         "motion" => "motionRole, easing",
         _ => "(unknown)",
     }
@@ -248,6 +253,42 @@ mod tests {
             json!({ "property": "easing", "motionRole": "enter" }),
         );
         assert!(diagnostics_for_rule(&g, "SPEC-043").is_empty());
+    }
+
+    #[test]
+    fn typography_multiplier_with_scale_index_no_warning() {
+        // multiplier.json is in the typography domain; scaleIndex satisfies the check.
+        const MULTIPLIER_SCHEMA: &str =
+            "https://example.com/schemas/token-types/multiplier.json";
+        let g = make_token(
+            MULTIPLIER_SCHEMA,
+            json!({ "property": "line-height-multiplier", "scaleIndex": 100 }),
+        );
+        assert!(diagnostics_for_rule(&g, "SPEC-043").is_empty());
+    }
+
+    #[test]
+    fn typography_multiplier_with_structure_no_warning() {
+        const MULTIPLIER_SCHEMA: &str =
+            "https://example.com/schemas/token-types/multiplier.json";
+        let g = make_token(
+            MULTIPLIER_SCHEMA,
+            json!({ "structure": "body", "property": "margin" }),
+        );
+        assert!(diagnostics_for_rule(&g, "SPEC-043").is_empty());
+    }
+
+    #[test]
+    fn typography_multiplier_missing_domain_fields_warns() {
+        const MULTIPLIER_SCHEMA: &str =
+            "https://example.com/schemas/token-types/multiplier.json";
+        let g = make_token(
+            MULTIPLIER_SCHEMA,
+            json!({ "property": "some-multiplier" }),
+        );
+        let diags = diagnostics_for_rule(&g, "SPEC-043");
+        assert_eq!(diags.len(), 1);
+        assert!(diags[0].message.contains("family"));
     }
 
     #[test]

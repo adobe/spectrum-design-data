@@ -11,6 +11,16 @@
     "property": "font-weight",
     "weight": "bold"
   },
+  "cjk-line-height-100": {
+    "property": "line-height-multiplier",
+    "family": "cjk",
+    "scaleIndex": 100
+  },
+  "cjk-line-height-200": {
+    "property": "line-height-multiplier",
+    "family": "cjk",
+    "scaleIndex": 200
+  },
   "cjk-font-family": {
     "property": "font-family",
     "family": "cjk"
@@ -118,6 +128,14 @@
   "italic-font-style": {
     "property": "font-style",
     "style": "italic"
+  },
+  "line-height-100": {
+    "property": "line-height-multiplier",
+    "scaleIndex": 100
+  },
+  "line-height-200": {
+    "property": "line-height-multiplier",
+    "scaleIndex": 200
   },
   "letter-spacing": {
     "property": "letter-spacing"

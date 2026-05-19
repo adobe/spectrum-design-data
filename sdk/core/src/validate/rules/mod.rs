@@ -68,6 +68,7 @@ pub(super) const DOMAIN_SCHEMAS: &[(&str, &[&str])] = &[
             "font-style.json",
             "font-size.json",
             "typography.json",
+            "multiplier.json",
         ],
     ),
     (

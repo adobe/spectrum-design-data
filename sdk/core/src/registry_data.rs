@@ -1596,6 +1596,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "margin-bottom",
       "label": "Margin Bottom",
       "description": "External spacing below a block element"
+    },
+    {
+      "id": "line-height-multiplier",
+      "label": "Line Height Multiplier",
+      "description": "Unitless line-height ratio (multiplier), distinct from the absolute px line-height paired with a specific font-size tier"
     }
   ]
 }

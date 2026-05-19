@@ -714,21 +714,29 @@ test("alignmentNameForKey: non-alignment key returns null", (t) => {
 
 test("lineHeightMultiplierNameForKey: line-height-100", (t) => {
   t.deepEqual(lineHeightMultiplierNameForKey("line-height-100"), {
-    property: "line-height",
+    property: "line-height-multiplier",
     scaleIndex: 100,
   });
 });
 
 test("lineHeightMultiplierNameForKey: line-height-200", (t) => {
   t.deepEqual(lineHeightMultiplierNameForKey("line-height-200"), {
-    property: "line-height",
+    property: "line-height-multiplier",
     scaleIndex: 200,
   });
 });
 
-test("lineHeightMultiplierNameForKey: cjk-line-height deferred (SPEC-042: family not allowed on multiplier.json)", (t) => {
-  t.is(lineHeightMultiplierNameForKey("cjk-line-height-100"), null);
-  t.is(lineHeightMultiplierNameForKey("cjk-line-height-200"), null);
+test("lineHeightMultiplierNameForKey: cjk-line-height classifies with family", (t) => {
+  t.deepEqual(lineHeightMultiplierNameForKey("cjk-line-height-100"), {
+    property: "line-height-multiplier",
+    family: "cjk",
+    scaleIndex: 100,
+  });
+  t.deepEqual(lineHeightMultiplierNameForKey("cjk-line-height-200"), {
+    property: "line-height-multiplier",
+    family: "cjk",
+    scaleIndex: 200,
+  });
 });
 
 test("lineHeightMultiplierNameForKey: margin multiplier is out of scope", (t) => {
@@ -780,14 +788,22 @@ test("classifyToken: alignment token with unknown value is in-scope but unclassi
   t.deepEqual(classifyToken("text-align-justify", token), { name: null });
 });
 
-test("classifyToken: line-height multiplier is out of scope (SPEC-006: collides with scale-set line-height-font-size-N)", (t) => {
+test("classifyToken: line-height multiplier classifies as line-height-multiplier", (t) => {
   const token = { $schema: MULTIPLIER_SCHEMA_URL, uuid: "abc", value: 1.3 };
-  t.is(classifyToken("line-height-100", token), null);
+  t.deepEqual(classifyToken("line-height-100", token), {
+    name: { property: "line-height-multiplier", scaleIndex: 100 },
+  });
 });
 
-test("classifyToken: cjk-line-height multiplier is out of scope (SPEC-042: family not allowed on multiplier.json)", (t) => {
+test("classifyToken: cjk-line-height multiplier classifies with family", (t) => {
   const token = { $schema: MULTIPLIER_SCHEMA_URL, uuid: "abc", value: 1.5 };
-  t.is(classifyToken("cjk-line-height-100", token), null);
+  t.deepEqual(classifyToken("cjk-line-height-100", token), {
+    name: {
+      property: "line-height-multiplier",
+      family: "cjk",
+      scaleIndex: 100,
+    },
+  });
 });
 
 test("classifyToken: margin multiplier classifies with component and property", (t) => {
@@ -878,8 +894,8 @@ test("transformFile: classifies text-align, line-height multipliers, and letter-
     },
   };
   const { nameMap, classified, unclassified, skipped } = transformFile(tokens);
-  t.is(classified, 5); // text-align-{start,center,end} + letter-spacing + body-margin-multiplier
-  t.is(skipped, 3); // line-height-100 + cjk-line-height-100 + detail-letter-spacing
+  t.is(classified, 7); // text-align-{start,center,end} + letter-spacing + body-margin-multiplier + line-height-100 + cjk-line-height-100
+  t.is(skipped, 1); // detail-letter-spacing
   t.deepEqual(unclassified, []);
   t.deepEqual(nameMap["text-align-start"], {
     property: "text-align",
@@ -893,8 +909,15 @@ test("transformFile: classifies text-align, line-height multipliers, and letter-
     property: "text-align",
     alignment: "end",
   });
-  t.falsy(nameMap["line-height-100"]);
-  t.falsy(nameMap["cjk-line-height-100"]);
+  t.deepEqual(nameMap["line-height-100"], {
+    property: "line-height-multiplier",
+    scaleIndex: 100,
+  });
+  t.deepEqual(nameMap["cjk-line-height-100"], {
+    property: "line-height-multiplier",
+    family: "cjk",
+    scaleIndex: 100,
+  });
   t.deepEqual(nameMap["letter-spacing"], {
     property: "letter-spacing",
   });
