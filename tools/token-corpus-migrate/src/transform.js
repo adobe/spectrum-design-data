@@ -393,13 +393,16 @@ export function classifyToken(key, token, overrides = {}) {
 
 /**
  * Process a parsed token file object and return:
- *   - transformed: new file object with name fields injected
+ *   - nameMap: object mapping token key → name object for all classified tokens
  *   - classified: count of tokens that got a name object
  *   - unclassified: keys whose schema was in-scope but couldn't be mapped
  *   - skipped: keys outside this tool's scope
+ *
+ * Token source data is not modified — name objects are written separately
+ * to the sidecar package (@adobe/token-names/names/).
  */
 export function transformFile(tokens, overrides = {}) {
-  const transformed = {};
+  const nameMap = {};
   const unclassified = [];
   let classified = 0;
   let skipped = 0;
@@ -408,19 +411,14 @@ export function transformFile(tokens, overrides = {}) {
     const result = classifyToken(key, token, overrides);
 
     if (result === null) {
-      // out of scope — copy as-is
-      transformed[key] = token;
       skipped++;
     } else if (result.name === null) {
-      // in-scope but unclassified
-      transformed[key] = token;
       unclassified.push(key);
     } else {
-      // inject name field; keep existing field order then add name
-      transformed[key] = { ...token, name: result.name };
+      nameMap[key] = result.name;
       classified++;
     }
   }
 
-  return { transformed, classified, unclassified, skipped };
+  return { nameMap, classified, unclassified, skipped };
 }

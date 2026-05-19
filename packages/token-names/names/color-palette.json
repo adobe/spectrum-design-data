@@ -1,0 +1,1845 @@
+{
+  "black": {
+    "property": "color",
+    "colorFamily": "black"
+  },
+  "blue-100": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 100
+  },
+  "blue-1000": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 1000
+  },
+  "blue-1100": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 1100
+  },
+  "blue-1200": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 1200
+  },
+  "blue-1300": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 1300
+  },
+  "blue-1400": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 1400
+  },
+  "blue-1500": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 1500
+  },
+  "blue-1600": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 1600
+  },
+  "blue-200": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 200
+  },
+  "blue-300": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 300
+  },
+  "blue-400": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 400
+  },
+  "blue-500": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 500
+  },
+  "blue-600": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 600
+  },
+  "blue-700": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 700
+  },
+  "blue-800": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 800
+  },
+  "blue-900": {
+    "property": "color",
+    "colorFamily": "blue",
+    "scaleIndex": 900
+  },
+  "brown-100": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 100
+  },
+  "brown-1000": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 1000
+  },
+  "brown-1100": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 1100
+  },
+  "brown-1200": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 1200
+  },
+  "brown-1300": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 1300
+  },
+  "brown-1400": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 1400
+  },
+  "brown-1500": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 1500
+  },
+  "brown-1600": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 1600
+  },
+  "brown-200": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 200
+  },
+  "brown-300": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 300
+  },
+  "brown-400": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 400
+  },
+  "brown-500": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 500
+  },
+  "brown-600": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 600
+  },
+  "brown-700": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 700
+  },
+  "brown-800": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 800
+  },
+  "brown-900": {
+    "property": "color",
+    "colorFamily": "brown",
+    "scaleIndex": 900
+  },
+  "celery-100": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 100
+  },
+  "celery-1000": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 1000
+  },
+  "celery-1100": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 1100
+  },
+  "celery-1200": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 1200
+  },
+  "celery-1300": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 1300
+  },
+  "celery-1400": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 1400
+  },
+  "celery-1500": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 1500
+  },
+  "celery-1600": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 1600
+  },
+  "celery-200": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 200
+  },
+  "celery-300": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 300
+  },
+  "celery-400": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 400
+  },
+  "celery-500": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 500
+  },
+  "celery-600": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 600
+  },
+  "celery-700": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 700
+  },
+  "celery-800": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 800
+  },
+  "celery-900": {
+    "property": "color",
+    "colorFamily": "celery",
+    "scaleIndex": 900
+  },
+  "chartreuse-100": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 100
+  },
+  "chartreuse-1000": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 1000
+  },
+  "chartreuse-1100": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 1100
+  },
+  "chartreuse-1200": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 1200
+  },
+  "chartreuse-1300": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 1300
+  },
+  "chartreuse-1400": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 1400
+  },
+  "chartreuse-1500": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 1500
+  },
+  "chartreuse-1600": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 1600
+  },
+  "chartreuse-200": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 200
+  },
+  "chartreuse-300": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 300
+  },
+  "chartreuse-400": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 400
+  },
+  "chartreuse-500": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 500
+  },
+  "chartreuse-600": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 600
+  },
+  "chartreuse-700": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 700
+  },
+  "chartreuse-800": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 800
+  },
+  "chartreuse-900": {
+    "property": "color",
+    "colorFamily": "chartreuse",
+    "scaleIndex": 900
+  },
+  "cinnamon-100": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 100
+  },
+  "cinnamon-1000": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 1000
+  },
+  "cinnamon-1100": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 1100
+  },
+  "cinnamon-1200": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 1200
+  },
+  "cinnamon-1300": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 1300
+  },
+  "cinnamon-1400": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 1400
+  },
+  "cinnamon-1500": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 1500
+  },
+  "cinnamon-1600": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 1600
+  },
+  "cinnamon-200": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 200
+  },
+  "cinnamon-300": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 300
+  },
+  "cinnamon-400": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 400
+  },
+  "cinnamon-500": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 500
+  },
+  "cinnamon-600": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 600
+  },
+  "cinnamon-700": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 700
+  },
+  "cinnamon-800": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 800
+  },
+  "cinnamon-900": {
+    "property": "color",
+    "colorFamily": "cinnamon",
+    "scaleIndex": 900
+  },
+  "cyan-100": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 100
+  },
+  "cyan-1000": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 1000
+  },
+  "cyan-1100": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 1100
+  },
+  "cyan-1200": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 1200
+  },
+  "cyan-1300": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 1300
+  },
+  "cyan-1400": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 1400
+  },
+  "cyan-1500": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 1500
+  },
+  "cyan-1600": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 1600
+  },
+  "cyan-200": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 200
+  },
+  "cyan-300": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 300
+  },
+  "cyan-400": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 400
+  },
+  "cyan-500": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 500
+  },
+  "cyan-600": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 600
+  },
+  "cyan-700": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 700
+  },
+  "cyan-800": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 800
+  },
+  "cyan-900": {
+    "property": "color",
+    "colorFamily": "cyan",
+    "scaleIndex": 900
+  },
+  "fuchsia-100": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 100
+  },
+  "fuchsia-1000": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 1000
+  },
+  "fuchsia-1100": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 1100
+  },
+  "fuchsia-1200": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 1200
+  },
+  "fuchsia-1300": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 1300
+  },
+  "fuchsia-1400": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 1400
+  },
+  "fuchsia-1500": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 1500
+  },
+  "fuchsia-1600": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 1600
+  },
+  "fuchsia-200": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 200
+  },
+  "fuchsia-300": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 300
+  },
+  "fuchsia-400": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 400
+  },
+  "fuchsia-500": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 500
+  },
+  "fuchsia-600": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 600
+  },
+  "fuchsia-700": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 700
+  },
+  "fuchsia-800": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 800
+  },
+  "fuchsia-900": {
+    "property": "color",
+    "colorFamily": "fuchsia",
+    "scaleIndex": 900
+  },
+  "gray-100": {
+    "property": "color",
+    "colorFamily": "gray",
+    "scaleIndex": 100
+  },
+  "gray-1000": {
+    "property": "color",
+    "colorFamily": "gray",
+    "scaleIndex": 1000
+  },
+  "gray-200": {
+    "property": "color",
+    "colorFamily": "gray",
+    "scaleIndex": 200
+  },
+  "gray-25": {
+    "property": "color",
+    "colorFamily": "gray",
+    "scaleIndex": 25
+  },
+  "gray-300": {
+    "property": "color",
+    "colorFamily": "gray",
+    "scaleIndex": 300
+  },
+  "gray-400": {
+    "property": "color",
+    "colorFamily": "gray",
+    "scaleIndex": 400
+  },
+  "gray-50": {
+    "property": "color",
+    "colorFamily": "gray",
+    "scaleIndex": 50
+  },
+  "gray-500": {
+    "property": "color",
+    "colorFamily": "gray",
+    "scaleIndex": 500
+  },
+  "gray-600": {
+    "property": "color",
+    "colorFamily": "gray",
+    "scaleIndex": 600
+  },
+  "gray-700": {
+    "property": "color",
+    "colorFamily": "gray",
+    "scaleIndex": 700
+  },
+  "gray-75": {
+    "property": "color",
+    "colorFamily": "gray",
+    "scaleIndex": 75
+  },
+  "gray-800": {
+    "property": "color",
+    "colorFamily": "gray",
+    "scaleIndex": 800
+  },
+  "gray-900": {
+    "property": "color",
+    "colorFamily": "gray",
+    "scaleIndex": 900
+  },
+  "green-100": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 100
+  },
+  "green-1000": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 1000
+  },
+  "green-1100": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 1100
+  },
+  "green-1200": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 1200
+  },
+  "green-1300": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 1300
+  },
+  "green-1400": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 1400
+  },
+  "green-1500": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 1500
+  },
+  "green-1600": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 1600
+  },
+  "green-200": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 200
+  },
+  "green-300": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 300
+  },
+  "green-400": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 400
+  },
+  "green-500": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 500
+  },
+  "green-600": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 600
+  },
+  "green-700": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 700
+  },
+  "green-800": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 800
+  },
+  "green-900": {
+    "property": "color",
+    "colorFamily": "green",
+    "scaleIndex": 900
+  },
+  "indigo-100": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 100
+  },
+  "indigo-1000": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 1000
+  },
+  "indigo-1100": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 1100
+  },
+  "indigo-1200": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 1200
+  },
+  "indigo-1300": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 1300
+  },
+  "indigo-1400": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 1400
+  },
+  "indigo-1500": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 1500
+  },
+  "indigo-1600": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 1600
+  },
+  "indigo-200": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 200
+  },
+  "indigo-300": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 300
+  },
+  "indigo-400": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 400
+  },
+  "indigo-500": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 500
+  },
+  "indigo-600": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 600
+  },
+  "indigo-700": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 700
+  },
+  "indigo-800": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 800
+  },
+  "indigo-900": {
+    "property": "color",
+    "colorFamily": "indigo",
+    "scaleIndex": 900
+  },
+  "magenta-100": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 100
+  },
+  "magenta-1000": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 1000
+  },
+  "magenta-1100": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 1100
+  },
+  "magenta-1200": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 1200
+  },
+  "magenta-1300": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 1300
+  },
+  "magenta-1400": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 1400
+  },
+  "magenta-1500": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 1500
+  },
+  "magenta-1600": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 1600
+  },
+  "magenta-200": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 200
+  },
+  "magenta-300": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 300
+  },
+  "magenta-400": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 400
+  },
+  "magenta-500": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 500
+  },
+  "magenta-600": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 600
+  },
+  "magenta-700": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 700
+  },
+  "magenta-800": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 800
+  },
+  "magenta-900": {
+    "property": "color",
+    "colorFamily": "magenta",
+    "scaleIndex": 900
+  },
+  "orange-100": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 100
+  },
+  "orange-1000": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 1000
+  },
+  "orange-1100": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 1100
+  },
+  "orange-1200": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 1200
+  },
+  "orange-1300": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 1300
+  },
+  "orange-1400": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 1400
+  },
+  "orange-1500": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 1500
+  },
+  "orange-1600": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 1600
+  },
+  "orange-200": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 200
+  },
+  "orange-300": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 300
+  },
+  "orange-400": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 400
+  },
+  "orange-500": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 500
+  },
+  "orange-600": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 600
+  },
+  "orange-700": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 700
+  },
+  "orange-800": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 800
+  },
+  "orange-900": {
+    "property": "color",
+    "colorFamily": "orange",
+    "scaleIndex": 900
+  },
+  "pink-100": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 100
+  },
+  "pink-1000": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 1000
+  },
+  "pink-1100": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 1100
+  },
+  "pink-1200": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 1200
+  },
+  "pink-1300": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 1300
+  },
+  "pink-1400": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 1400
+  },
+  "pink-1500": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 1500
+  },
+  "pink-1600": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 1600
+  },
+  "pink-200": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 200
+  },
+  "pink-300": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 300
+  },
+  "pink-400": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 400
+  },
+  "pink-500": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 500
+  },
+  "pink-600": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 600
+  },
+  "pink-700": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 700
+  },
+  "pink-800": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 800
+  },
+  "pink-900": {
+    "property": "color",
+    "colorFamily": "pink",
+    "scaleIndex": 900
+  },
+  "purple-100": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 100
+  },
+  "purple-1000": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 1000
+  },
+  "purple-1100": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 1100
+  },
+  "purple-1200": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 1200
+  },
+  "purple-1300": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 1300
+  },
+  "purple-1400": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 1400
+  },
+  "purple-1500": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 1500
+  },
+  "purple-1600": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 1600
+  },
+  "purple-200": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 200
+  },
+  "purple-300": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 300
+  },
+  "purple-400": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 400
+  },
+  "purple-500": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 500
+  },
+  "purple-600": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 600
+  },
+  "purple-700": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 700
+  },
+  "purple-800": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 800
+  },
+  "purple-900": {
+    "property": "color",
+    "colorFamily": "purple",
+    "scaleIndex": 900
+  },
+  "red-100": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 100
+  },
+  "red-1000": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 1000
+  },
+  "red-1100": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 1100
+  },
+  "red-1200": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 1200
+  },
+  "red-1300": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 1300
+  },
+  "red-1400": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 1400
+  },
+  "red-1500": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 1500
+  },
+  "red-1600": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 1600
+  },
+  "red-200": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 200
+  },
+  "red-300": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 300
+  },
+  "red-400": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 400
+  },
+  "red-500": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 500
+  },
+  "red-600": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 600
+  },
+  "red-700": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 700
+  },
+  "red-800": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 800
+  },
+  "red-900": {
+    "property": "color",
+    "colorFamily": "red",
+    "scaleIndex": 900
+  },
+  "seafoam-100": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 100
+  },
+  "seafoam-1000": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 1000
+  },
+  "seafoam-1100": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 1100
+  },
+  "seafoam-1200": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 1200
+  },
+  "seafoam-1300": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 1300
+  },
+  "seafoam-1400": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 1400
+  },
+  "seafoam-1500": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 1500
+  },
+  "seafoam-1600": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 1600
+  },
+  "seafoam-200": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 200
+  },
+  "seafoam-300": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 300
+  },
+  "seafoam-400": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 400
+  },
+  "seafoam-500": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 500
+  },
+  "seafoam-600": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 600
+  },
+  "seafoam-700": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 700
+  },
+  "seafoam-800": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 800
+  },
+  "seafoam-900": {
+    "property": "color",
+    "colorFamily": "seafoam",
+    "scaleIndex": 900
+  },
+  "silver-100": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 100
+  },
+  "silver-1000": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 1000
+  },
+  "silver-1100": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 1100
+  },
+  "silver-1200": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 1200
+  },
+  "silver-1300": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 1300
+  },
+  "silver-1400": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 1400
+  },
+  "silver-1500": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 1500
+  },
+  "silver-1600": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 1600
+  },
+  "silver-200": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 200
+  },
+  "silver-300": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 300
+  },
+  "silver-400": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 400
+  },
+  "silver-500": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 500
+  },
+  "silver-600": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 600
+  },
+  "silver-700": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 700
+  },
+  "silver-800": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 800
+  },
+  "silver-900": {
+    "property": "color",
+    "colorFamily": "silver",
+    "scaleIndex": 900
+  },
+  "static-blue-1000": {
+    "property": "color",
+    "colorFamily": "static-blue",
+    "scaleIndex": 1000
+  },
+  "static-blue-900": {
+    "property": "color",
+    "colorFamily": "static-blue",
+    "scaleIndex": 900
+  },
+  "static-chartreuse-400": {
+    "property": "color",
+    "colorFamily": "static-chartreuse",
+    "scaleIndex": 400
+  },
+  "static-chartreuse-600": {
+    "property": "color",
+    "colorFamily": "static-chartreuse",
+    "scaleIndex": 600
+  },
+  "static-chartreuse-800": {
+    "property": "color",
+    "colorFamily": "static-chartreuse",
+    "scaleIndex": 800
+  },
+  "static-cyan-400": {
+    "property": "color",
+    "colorFamily": "static-cyan",
+    "scaleIndex": 400
+  },
+  "static-cyan-600": {
+    "property": "color",
+    "colorFamily": "static-cyan",
+    "scaleIndex": 600
+  },
+  "static-cyan-800": {
+    "property": "color",
+    "colorFamily": "static-cyan",
+    "scaleIndex": 800
+  },
+  "static-fuchsia-1000": {
+    "property": "color",
+    "colorFamily": "static-fuchsia",
+    "scaleIndex": 1000
+  },
+  "static-fuchsia-400": {
+    "property": "color",
+    "colorFamily": "static-fuchsia",
+    "scaleIndex": 400
+  },
+  "static-fuchsia-600": {
+    "property": "color",
+    "colorFamily": "static-fuchsia",
+    "scaleIndex": 600
+  },
+  "static-fuchsia-800": {
+    "property": "color",
+    "colorFamily": "static-fuchsia",
+    "scaleIndex": 800
+  },
+  "static-fuchsia-900": {
+    "property": "color",
+    "colorFamily": "static-fuchsia",
+    "scaleIndex": 900
+  },
+  "static-green-400": {
+    "property": "color",
+    "colorFamily": "static-green",
+    "scaleIndex": 400
+  },
+  "static-green-600": {
+    "property": "color",
+    "colorFamily": "static-green",
+    "scaleIndex": 600
+  },
+  "static-green-800": {
+    "property": "color",
+    "colorFamily": "static-green",
+    "scaleIndex": 800
+  },
+  "static-indigo-1000": {
+    "property": "color",
+    "colorFamily": "static-indigo",
+    "scaleIndex": 1000
+  },
+  "static-indigo-400": {
+    "property": "color",
+    "colorFamily": "static-indigo",
+    "scaleIndex": 400
+  },
+  "static-indigo-600": {
+    "property": "color",
+    "colorFamily": "static-indigo",
+    "scaleIndex": 600
+  },
+  "static-indigo-800": {
+    "property": "color",
+    "colorFamily": "static-indigo",
+    "scaleIndex": 800
+  },
+  "static-indigo-900": {
+    "property": "color",
+    "colorFamily": "static-indigo",
+    "scaleIndex": 900
+  },
+  "static-magenta-1000": {
+    "property": "color",
+    "colorFamily": "static-magenta",
+    "scaleIndex": 1000
+  },
+  "static-magenta-400": {
+    "property": "color",
+    "colorFamily": "static-magenta",
+    "scaleIndex": 400
+  },
+  "static-magenta-600": {
+    "property": "color",
+    "colorFamily": "static-magenta",
+    "scaleIndex": 600
+  },
+  "static-magenta-800": {
+    "property": "color",
+    "colorFamily": "static-magenta",
+    "scaleIndex": 800
+  },
+  "static-magenta-900": {
+    "property": "color",
+    "colorFamily": "static-magenta",
+    "scaleIndex": 900
+  },
+  "static-orange-400": {
+    "property": "color",
+    "colorFamily": "static-orange",
+    "scaleIndex": 400
+  },
+  "static-orange-600": {
+    "property": "color",
+    "colorFamily": "static-orange",
+    "scaleIndex": 600
+  },
+  "static-orange-800": {
+    "property": "color",
+    "colorFamily": "static-orange",
+    "scaleIndex": 800
+  },
+  "static-purple-400": {
+    "property": "color",
+    "colorFamily": "static-purple",
+    "scaleIndex": 400
+  },
+  "static-purple-600": {
+    "property": "color",
+    "colorFamily": "static-purple",
+    "scaleIndex": 600
+  },
+  "static-purple-800": {
+    "property": "color",
+    "colorFamily": "static-purple",
+    "scaleIndex": 800
+  },
+  "static-red-1000": {
+    "property": "color",
+    "colorFamily": "static-red",
+    "scaleIndex": 1000
+  },
+  "static-red-400": {
+    "property": "color",
+    "colorFamily": "static-red",
+    "scaleIndex": 400
+  },
+  "static-red-600": {
+    "property": "color",
+    "colorFamily": "static-red",
+    "scaleIndex": 600
+  },
+  "static-red-800": {
+    "property": "color",
+    "colorFamily": "static-red",
+    "scaleIndex": 800
+  },
+  "static-red-900": {
+    "property": "color",
+    "colorFamily": "static-red",
+    "scaleIndex": 900
+  },
+  "static-turquoise-400": {
+    "property": "color",
+    "colorFamily": "static-turquoise",
+    "scaleIndex": 400
+  },
+  "static-turquoise-600": {
+    "property": "color",
+    "colorFamily": "static-turquoise",
+    "scaleIndex": 600
+  },
+  "static-turquoise-800": {
+    "property": "color",
+    "colorFamily": "static-turquoise",
+    "scaleIndex": 800
+  },
+  "transparent-black-100": {
+    "property": "color",
+    "colorFamily": "transparent-black",
+    "scaleIndex": 100
+  },
+  "transparent-black-1000": {
+    "property": "color",
+    "colorFamily": "transparent-black",
+    "scaleIndex": 1000
+  },
+  "transparent-black-200": {
+    "property": "color",
+    "colorFamily": "transparent-black",
+    "scaleIndex": 200
+  },
+  "transparent-black-25": {
+    "property": "color",
+    "colorFamily": "transparent-black",
+    "scaleIndex": 25
+  },
+  "transparent-black-300": {
+    "property": "color",
+    "colorFamily": "transparent-black",
+    "scaleIndex": 300
+  },
+  "transparent-black-400": {
+    "property": "color",
+    "colorFamily": "transparent-black",
+    "scaleIndex": 400
+  },
+  "transparent-black-50": {
+    "property": "color",
+    "colorFamily": "transparent-black",
+    "scaleIndex": 50
+  },
+  "transparent-black-500": {
+    "property": "color",
+    "colorFamily": "transparent-black",
+    "scaleIndex": 500
+  },
+  "transparent-black-600": {
+    "property": "color",
+    "colorFamily": "transparent-black",
+    "scaleIndex": 600
+  },
+  "transparent-black-700": {
+    "property": "color",
+    "colorFamily": "transparent-black",
+    "scaleIndex": 700
+  },
+  "transparent-black-75": {
+    "property": "color",
+    "colorFamily": "transparent-black",
+    "scaleIndex": 75
+  },
+  "transparent-black-800": {
+    "property": "color",
+    "colorFamily": "transparent-black",
+    "scaleIndex": 800
+  },
+  "transparent-black-900": {
+    "property": "color",
+    "colorFamily": "transparent-black",
+    "scaleIndex": 900
+  },
+  "transparent-white-100": {
+    "property": "color",
+    "colorFamily": "transparent-white",
+    "scaleIndex": 100
+  },
+  "transparent-white-1000": {
+    "property": "color",
+    "colorFamily": "transparent-white",
+    "scaleIndex": 1000
+  },
+  "transparent-white-200": {
+    "property": "color",
+    "colorFamily": "transparent-white",
+    "scaleIndex": 200
+  },
+  "transparent-white-25": {
+    "property": "color",
+    "colorFamily": "transparent-white",
+    "scaleIndex": 25
+  },
+  "transparent-white-300": {
+    "property": "color",
+    "colorFamily": "transparent-white",
+    "scaleIndex": 300
+  },
+  "transparent-white-400": {
+    "property": "color",
+    "colorFamily": "transparent-white",
+    "scaleIndex": 400
+  },
+  "transparent-white-50": {
+    "property": "color",
+    "colorFamily": "transparent-white",
+    "scaleIndex": 50
+  },
+  "transparent-white-500": {
+    "property": "color",
+    "colorFamily": "transparent-white",
+    "scaleIndex": 500
+  },
+  "transparent-white-600": {
+    "property": "color",
+    "colorFamily": "transparent-white",
+    "scaleIndex": 600
+  },
+  "transparent-white-700": {
+    "property": "color",
+    "colorFamily": "transparent-white",
+    "scaleIndex": 700
+  },
+  "transparent-white-75": {
+    "property": "color",
+    "colorFamily": "transparent-white",
+    "scaleIndex": 75
+  },
+  "transparent-white-800": {
+    "property": "color",
+    "colorFamily": "transparent-white",
+    "scaleIndex": 800
+  },
+  "transparent-white-900": {
+    "property": "color",
+    "colorFamily": "transparent-white",
+    "scaleIndex": 900
+  },
+  "turquoise-100": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 100
+  },
+  "turquoise-1000": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 1000
+  },
+  "turquoise-1100": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 1100
+  },
+  "turquoise-1200": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 1200
+  },
+  "turquoise-1300": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 1300
+  },
+  "turquoise-1400": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 1400
+  },
+  "turquoise-1500": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 1500
+  },
+  "turquoise-1600": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 1600
+  },
+  "turquoise-200": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 200
+  },
+  "turquoise-300": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 300
+  },
+  "turquoise-400": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 400
+  },
+  "turquoise-500": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 500
+  },
+  "turquoise-600": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 600
+  },
+  "turquoise-700": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 700
+  },
+  "turquoise-800": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 800
+  },
+  "turquoise-900": {
+    "property": "color",
+    "colorFamily": "turquoise",
+    "scaleIndex": 900
+  },
+  "white": {
+    "property": "color",
+    "colorFamily": "white"
+  },
+  "yellow-100": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 100
+  },
+  "yellow-1000": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 1000
+  },
+  "yellow-1100": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 1100
+  },
+  "yellow-1200": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 1200
+  },
+  "yellow-1300": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 1300
+  },
+  "yellow-1400": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 1400
+  },
+  "yellow-1500": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 1500
+  },
+  "yellow-1600": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 1600
+  },
+  "yellow-200": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 200
+  },
+  "yellow-300": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 300
+  },
+  "yellow-400": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 400
+  },
+  "yellow-500": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 500
+  },
+  "yellow-600": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 600
+  },
+  "yellow-700": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 700
+  },
+  "yellow-800": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 800
+  },
+  "yellow-900": {
+    "property": "color",
+    "colorFamily": "yellow",
+    "scaleIndex": 900
+  }
+}

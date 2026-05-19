@@ -1,0 +1,209 @@
+{
+  "black-font-weight": {
+    "property": "font-weight",
+    "weight": "black"
+  },
+  "bold-font-weight": {
+    "property": "font-weight",
+    "weight": "bold"
+  },
+  "cjk-font-family": {
+    "property": "font-family",
+    "family": "cjk"
+  },
+  "code-font-family": {
+    "property": "font-family",
+    "family": "code"
+  },
+  "default-font-style": {
+    "property": "font-style",
+    "style": "normal"
+  },
+  "extra-bold-font-weight": {
+    "property": "font-weight",
+    "weight": "extra-bold"
+  },
+  "font-size-100": {
+    "property": "font-size",
+    "scaleIndex": 100
+  },
+  "font-size-1000": {
+    "property": "font-size",
+    "scaleIndex": 1000
+  },
+  "font-size-1100": {
+    "property": "font-size",
+    "scaleIndex": 1100
+  },
+  "font-size-1200": {
+    "property": "font-size",
+    "scaleIndex": 1200
+  },
+  "font-size-1300": {
+    "property": "font-size",
+    "scaleIndex": 1300
+  },
+  "font-size-1400": {
+    "property": "font-size",
+    "scaleIndex": 1400
+  },
+  "font-size-1500": {
+    "property": "font-size",
+    "scaleIndex": 1500
+  },
+  "font-size-200": {
+    "property": "font-size",
+    "scaleIndex": 200
+  },
+  "font-size-25": {
+    "property": "font-size",
+    "scaleIndex": 25
+  },
+  "font-size-300": {
+    "property": "font-size",
+    "scaleIndex": 300
+  },
+  "font-size-400": {
+    "property": "font-size",
+    "scaleIndex": 400
+  },
+  "font-size-50": {
+    "property": "font-size",
+    "scaleIndex": 50
+  },
+  "font-size-500": {
+    "property": "font-size",
+    "scaleIndex": 500
+  },
+  "font-size-600": {
+    "property": "font-size",
+    "scaleIndex": 600
+  },
+  "font-size-700": {
+    "property": "font-size",
+    "scaleIndex": 700
+  },
+  "font-size-75": {
+    "property": "font-size",
+    "scaleIndex": 75
+  },
+  "font-size-800": {
+    "property": "font-size",
+    "scaleIndex": 800
+  },
+  "font-size-900": {
+    "property": "font-size",
+    "scaleIndex": 900
+  },
+  "italic-font-style": {
+    "property": "font-style",
+    "style": "italic"
+  },
+  "letter-spacing": {
+    "property": "letter-spacing"
+  },
+  "light-font-weight": {
+    "property": "font-weight",
+    "weight": "light"
+  },
+  "line-height-font-size-100": {
+    "property": "line-height",
+    "scaleIndex": 100
+  },
+  "line-height-font-size-1000": {
+    "property": "line-height",
+    "scaleIndex": 1000
+  },
+  "line-height-font-size-1100": {
+    "property": "line-height",
+    "scaleIndex": 1100
+  },
+  "line-height-font-size-1200": {
+    "property": "line-height",
+    "scaleIndex": 1200
+  },
+  "line-height-font-size-1300": {
+    "property": "line-height",
+    "scaleIndex": 1300
+  },
+  "line-height-font-size-1400": {
+    "property": "line-height",
+    "scaleIndex": 1400
+  },
+  "line-height-font-size-1500": {
+    "property": "line-height",
+    "scaleIndex": 1500
+  },
+  "line-height-font-size-200": {
+    "property": "line-height",
+    "scaleIndex": 200
+  },
+  "line-height-font-size-25": {
+    "property": "line-height",
+    "scaleIndex": 25
+  },
+  "line-height-font-size-300": {
+    "property": "line-height",
+    "scaleIndex": 300
+  },
+  "line-height-font-size-400": {
+    "property": "line-height",
+    "scaleIndex": 400
+  },
+  "line-height-font-size-50": {
+    "property": "line-height",
+    "scaleIndex": 50
+  },
+  "line-height-font-size-500": {
+    "property": "line-height",
+    "scaleIndex": 500
+  },
+  "line-height-font-size-600": {
+    "property": "line-height",
+    "scaleIndex": 600
+  },
+  "line-height-font-size-700": {
+    "property": "line-height",
+    "scaleIndex": 700
+  },
+  "line-height-font-size-75": {
+    "property": "line-height",
+    "scaleIndex": 75
+  },
+  "line-height-font-size-800": {
+    "property": "line-height",
+    "scaleIndex": 800
+  },
+  "line-height-font-size-900": {
+    "property": "line-height",
+    "scaleIndex": 900
+  },
+  "medium-font-weight": {
+    "property": "font-weight",
+    "weight": "medium"
+  },
+  "regular-font-weight": {
+    "property": "font-weight",
+    "weight": "regular"
+  },
+  "sans-serif-font-family": {
+    "property": "font-family",
+    "family": "sans-serif"
+  },
+  "serif-font-family": {
+    "property": "font-family",
+    "family": "serif"
+  },
+  "text-align-center": {
+    "property": "text-align",
+    "alignment": "center"
+  },
+  "text-align-end": {
+    "property": "text-align",
+    "alignment": "end"
+  },
+  "text-align-start": {
+    "property": "text-align",
+    "alignment": "start"
+  }
+}

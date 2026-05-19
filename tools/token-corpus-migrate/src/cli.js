@@ -12,9 +12,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
-import { dirname, resolve } from "node:path";
+import { basename, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Command } from "commander";
 import { glob } from "glob";
@@ -49,8 +49,19 @@ program
     "Process all *.tokens.json files (default: pilot scope only)",
     false,
   )
+  .option(
+    "--names-out <dir>",
+    "Directory to write sidecar name JSON files (default: packages/token-names/names)",
+  )
   .action(async (options) => {
     const root = resolve(options.root);
+    const defaultNamesOut = resolve(
+      __dirname,
+      "../../../packages/token-names/names",
+    );
+    const namesOut = options.namesOut
+      ? resolve(options.namesOut)
+      : defaultNamesOut;
     const overridesPath = resolve(__dirname, "overrides.json");
     const { overrides } = JSON.parse(readFileSync(overridesPath, "utf8"));
 
@@ -77,7 +88,7 @@ program
     for (const filePath of files) {
       const raw = readFileSync(filePath, "utf8");
       const tokens = JSON.parse(raw);
-      const { transformed, classified, unclassified, skipped } = transformFile(
+      const { nameMap, classified, unclassified, skipped } = transformFile(
         tokens,
         overrides,
       );
@@ -104,12 +115,18 @@ program
       }
 
       if (options.write && classified > 0) {
+        const sidecarFile = resolve(namesOut, basename(filePath));
+        // Merge with any existing sidecar entries so re-runs are safe.
+        const existing = existsSync(sidecarFile)
+          ? JSON.parse(readFileSync(sidecarFile, "utf8"))
+          : {};
+        mkdirSync(namesOut, { recursive: true });
         writeFileSync(
-          filePath,
-          JSON.stringify(transformed, null, 2) + "\n",
+          sidecarFile,
+          JSON.stringify({ ...existing, ...nameMap }, null, 2) + "\n",
           "utf8",
         );
-        lines.push(`_Written to disk._\n`);
+        lines.push(`_Sidecar written to ${sidecarFile}._\n`);
       }
     }
 

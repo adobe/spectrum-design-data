@@ -210,31 +210,30 @@ test("transformFile: injects name into color tokens, leaves others untouched", (
       value: "bold",
     },
   };
-  const { transformed, classified, unclassified, skipped } =
-    transformFile(tokens);
+  const { nameMap, classified, unclassified, skipped } = transformFile(tokens);
   t.is(classified, 2);
   t.is(skipped, 1);
   t.is(unclassified.length, 0);
-  t.deepEqual(transformed["blue-100"].name, {
+  t.deepEqual(nameMap["blue-100"], {
     property: "color",
     colorFamily: "blue",
     scaleIndex: 100,
   });
-  t.deepEqual(transformed["bold-font-weight"].name, {
+  t.deepEqual(nameMap["bold-font-weight"], {
     property: "font-weight",
     weight: "bold",
   });
-  t.false("name" in transformed["body-font"]);
+  t.falsy(nameMap["body-font"]);
 });
 
-test("transformFile: unclassifiable in-scope token reported, not modified", (t) => {
+test("transformFile: unclassifiable in-scope token reported, not in nameMap", (t) => {
   const tokens = {
     "gradient-stop-1-avatar": { $schema: COLOR_SCHEMA, uuid: "a", value: "0" },
   };
-  const { unclassified, transformed } = transformFile(tokens);
+  const { unclassified, nameMap } = transformFile(tokens);
   t.is(unclassified.length, 1);
   t.is(unclassified[0], "gradient-stop-1-avatar");
-  t.false("name" in transformed["gradient-stop-1-avatar"]);
+  t.falsy(nameMap["gradient-stop-1-avatar"]);
 });
 
 test("transformFile: override is applied via transformFile", (t) => {
@@ -246,13 +245,13 @@ test("transformFile: override is applied via transformFile", (t) => {
       name: { property: "color", colorFamily: "gray" },
     },
   };
-  const { transformed, classified, unclassified } = transformFile(
+  const { nameMap, classified, unclassified } = transformFile(
     tokens,
     overrides,
   );
   t.is(classified, 1);
   t.is(unclassified.length, 0);
-  t.deepEqual(transformed["gradient-stop-1-avatar"].name, {
+  t.deepEqual(nameMap["gradient-stop-1-avatar"], {
     property: "color",
     colorFamily: "gray",
   });
@@ -449,30 +448,30 @@ test("transformFile: injects name into typography canonical tokens", (t) => {
       value: "{font-size-100}",
     },
   };
-  const { transformed, classified, skipped } = transformFile(tokens);
+  const { nameMap, classified, skipped } = transformFile(tokens);
   t.is(classified, 5);
   t.is(skipped, 1); // alias
-  t.deepEqual(transformed["sans-serif-font-family"].name, {
+  t.deepEqual(nameMap["sans-serif-font-family"], {
     property: "font-family",
     family: "sans-serif",
   });
-  t.deepEqual(transformed["italic-font-style"].name, {
+  t.deepEqual(nameMap["italic-font-style"], {
     property: "font-style",
     style: "italic",
   });
-  t.deepEqual(transformed["default-font-style"].name, {
+  t.deepEqual(nameMap["default-font-style"], {
     property: "font-style",
     style: "normal",
   });
-  t.deepEqual(transformed["font-size-100"].name, {
+  t.deepEqual(nameMap["font-size-100"], {
     property: "font-size",
     scaleIndex: 100,
   });
-  t.deepEqual(transformed["line-height-font-size-100"].name, {
+  t.deepEqual(nameMap["line-height-font-size-100"], {
     property: "line-height",
     scaleIndex: 100,
   });
-  t.false("name" in transformed["body-font-size"]);
+  t.falsy(nameMap["body-font-size"]);
 });
 
 // ── iconColorNameForKey ───────────────────────────────────────────────────────
@@ -652,33 +651,32 @@ test("transformFile: injects names on color-set and alias icon tokens; inverse u
       value: "{gray-50}",
     },
   };
-  const { transformed, classified, unclassified, skipped } =
-    transformFile(tokens);
+  const { nameMap, classified, unclassified, skipped } = transformFile(tokens);
   t.is(classified, 4); // 3 color-set + 1 alias (cinnamon)
   t.is(skipped, 0);
   t.deepEqual(unclassified, ["icon-color-inverse"]); // in-scope alias but no matching pattern
-  t.deepEqual(transformed["icon-color-blue-background"].name, {
+  t.deepEqual(nameMap["icon-color-blue-background"], {
     property: "icon-color",
     colorFamily: "blue",
     object: "background",
   });
-  t.deepEqual(transformed["icon-color-blue-primary-default"].name, {
+  t.deepEqual(nameMap["icon-color-blue-primary-default"], {
     property: "icon-color",
     colorFamily: "blue",
     variant: "primary",
   });
-  t.deepEqual(transformed["icon-color-blue-primary-hover"].name, {
+  t.deepEqual(nameMap["icon-color-blue-primary-hover"], {
     property: "icon-color",
     colorFamily: "blue",
     variant: "primary",
     state: "hover",
   });
-  t.deepEqual(transformed["icon-color-cinnamon-primary-default"].name, {
+  t.deepEqual(nameMap["icon-color-cinnamon-primary-default"], {
     property: "icon-color",
     colorFamily: "cinnamon",
     variant: "primary",
   });
-  t.false("name" in transformed["icon-color-inverse"]);
+  t.falsy(nameMap["icon-color-inverse"]);
 });
 
 // ── alignmentNameForKey ───────────────────────────────────────────────────────
@@ -862,28 +860,27 @@ test("transformFile: classifies text-align, line-height multipliers, and letter-
       value: "0.06em",
     },
   };
-  const { transformed, classified, unclassified, skipped } =
-    transformFile(tokens);
+  const { nameMap, classified, unclassified, skipped } = transformFile(tokens);
   t.is(classified, 4);
   t.is(skipped, 4); // line-height-100 + cjk-line-height-100 + body-margin-multiplier + detail-letter-spacing
   t.deepEqual(unclassified, []);
-  t.deepEqual(transformed["text-align-start"].name, {
+  t.deepEqual(nameMap["text-align-start"], {
     property: "text-align",
     alignment: "start",
   });
-  t.deepEqual(transformed["text-align-center"].name, {
+  t.deepEqual(nameMap["text-align-center"], {
     property: "text-align",
     alignment: "center",
   });
-  t.deepEqual(transformed["text-align-end"].name, {
+  t.deepEqual(nameMap["text-align-end"], {
     property: "text-align",
     alignment: "end",
   });
-  t.false("name" in transformed["line-height-100"]);
-  t.false("name" in transformed["cjk-line-height-100"]);
-  t.deepEqual(transformed["letter-spacing"].name, {
+  t.falsy(nameMap["line-height-100"]);
+  t.falsy(nameMap["cjk-line-height-100"]);
+  t.deepEqual(nameMap["letter-spacing"], {
     property: "letter-spacing",
   });
-  t.false("name" in transformed["body-margin-multiplier"]);
-  t.false("name" in transformed["detail-letter-spacing"]);
+  t.falsy(nameMap["body-margin-multiplier"]);
+  t.falsy(nameMap["detail-letter-spacing"]);
 });
