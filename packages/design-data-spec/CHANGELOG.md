@@ -1,5 +1,42 @@
 # @adobe/design-data-spec
 
+## 1.5.0
+
+### Minor Changes
+
+- [#971](https://github.com/adobe/spectrum-design-data/pull/971) [`d12173a`](https://github.com/adobe/spectrum-design-data/commit/d12173abf2915df5b1dae02ef000dae769ba4b66) Thanks [@GarthDB](https://github.com/GarthDB)! - Semantic alias foundation: SPEC-042 alias-target-domain + icon-color alias pilot.
+  - **SPEC-042** (`sdk/core`): alias tokens now inherit domain from their target schema.
+    A color alias carrying `colorFamily` is valid when its alias chain resolves to a
+    color-domain schema (`color.json`, `color-set.json`).
+  - **taxonomy.md**: new "Alias / semantic token name objects" section documenting the
+    alias-target-domain rule with examples.
+  - **icons.json**: 20 alias tokens gain `name` — 4 hue-background, 12 hue-primary,
+    3 semantic primary, 1 disabled-primary. 3 polarity tokens deferred (RFC pending).
+  - **token-corpus-migrate**: alias.json dispatch + 4 new `iconColorNameForKey` patterns.
+
+- [#969](https://github.com/adobe/spectrum-design-data/pull/969) [`ba06968`](https://github.com/adobe/spectrum-design-data/commit/ba06968226adb268600e0ed1befc9d381e7986b6) Thanks [@GarthDB](https://github.com/GarthDB)! - Typography stragglers: structured `name` on text-align and letter-spacing tokens.
+  - **typography.json**: 4 tokens gain `name` — 3 `text-align-*` and 1 bare
+    `letter-spacing`.
+  - **design-system-registry**: add `text-align` to `property-terms.json`;
+    new `alignments.json` registry (start/center/end); regenerate `registry_data.rs`.
+  - **design-data-spec**: new `alignment` spec field; `taxonomy.md` updated.
+  - **token-corpus-migrate**: add `alignmentNameForKey`, `letterSpacingNameForKey`,
+    `lineHeightMultiplierNameForKey` (exported for future use); extend dispatch.
+  - Line-height multipliers and CJK line-height deferred — SPEC-006 collision
+    and SPEC-042 constraint; follow-ups tracked in beads.
+
+### Patch Changes
+
+- [#972](https://github.com/adobe/spectrum-design-data/pull/972) [`e9974fb`](https://github.com/adobe/spectrum-design-data/commit/e9974fb7360e849e928b31518b073996b49ecd6b) Thanks [@GarthDB](https://github.com/GarthDB)! - Move token `name` objects out of @adobe/spectrum-tokens into a new private
+  @adobe/token-names sidecar package.
+  - **@adobe/spectrum-tokens**: 497 inline `name` objects removed from
+    color-palette.json, icons.json, typography.json. Token data otherwise identical.
+  - **@adobe/token-names** (private, new): sidecar package mirroring tokens/src
+    layout; depends on @adobe/spectrum-tokens via workspace:\*.
+  - **sdk/core**: `TokenGraph::from_json_dir_with_names` merges sidecar names at
+    ingest; existing rules unchanged. CLI gains `--names-dir` flag.
+  - **token-corpus-migrate**: writes nameMap to sidecar dir, not inline to tokens.
+
 ## 1.4.0
 
 ### Minor Changes
