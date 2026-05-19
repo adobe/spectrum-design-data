@@ -55,6 +55,9 @@ pub fn validate_all_with_exceptions(
 /// `mode_sets_path` — optional directory of spec-format mode set JSON files.
 /// `components_path` — optional directory of spec-format component JSON files;
 /// when provided, SPEC-028 and SPEC-029 also check components and anatomy parts.
+/// `names_dir` — optional directory of sidecar name maps (mirrors the token
+/// source layout); when provided, name objects are merged into `record.raw`
+/// at ingest so relational rules see `name` as if it were inline.
 ///
 /// When `data_path` is a directory, a `manifest.json` sibling is loaded
 /// automatically and passed to manifest-aware rules (e.g. SPEC-039).
@@ -67,8 +70,27 @@ pub fn validate_all_with_options(
     mode_sets_path: Option<&Path>,
     components_path: Option<&Path>,
 ) -> Result<ValidationReport, CoreError> {
+    validate_all_with_options_and_names(
+        data_path,
+        schema_registry,
+        naming_exceptions,
+        mode_sets_path,
+        components_path,
+        None,
+    )
+}
+
+/// Full validation with all options including sidecar names directory.
+pub fn validate_all_with_options_and_names(
+    data_path: &Path,
+    schema_registry: &SchemaRegistry,
+    naming_exceptions: &HashSet<String>,
+    mode_sets_path: Option<&Path>,
+    components_path: Option<&Path>,
+    names_dir: Option<&Path>,
+) -> Result<ValidationReport, CoreError> {
     let mut report = structural::validate_structural(data_path, schema_registry)?;
-    let mut graph = TokenGraph::from_json_dir(data_path)?;
+    let mut graph = TokenGraph::from_json_dir_with_names(data_path, names_dir)?;
     if let Some(dir) = mode_sets_path {
         if dir.is_dir() {
             let mode_sets = TokenGraph::load_spec_mode_sets(dir)?;

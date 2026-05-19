@@ -1,0 +1,41 @@
+{
+  "name": "@adobe/token-names",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sidecar taxonomy name objects for Spectrum design tokens — decoupled from the published @adobe/spectrum-tokens package",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "packages/token-names"
+  },
+  "author": "Adobe",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20.12.0",
+    "pnpm": ">=10.17.1"
+  },
+  "packageManager": "pnpm@10.17.1",
+  "exports": {
+    "./package.json": "./package.json",
+    "./names/color-palette.json": "./names/color-palette.json",
+    "./names/icons.json": "./names/icons.json",
+    "./names/typography.json": "./names/typography.json"
+  },
+  "files": [
+    "names",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "ava test/**/*.test.js",
+    "check": "node scripts/check-coverage.mjs"
+  },
+  "dependencies": {
+    "@adobe/spectrum-tokens": "workspace:*",
+    "glob": "^13.0.6"
+  },
+  "devDependencies": {
+    "ava": "^6.4.0"
+  }
+}

@@ -66,6 +66,9 @@ enum Commands {
         /// Directory containing spec-format component declaration JSON files (enables SPEC-028/029 on components)
         #[arg(long, value_name = "DIR")]
         components_path: Option<PathBuf>,
+        /// Directory containing sidecar name maps (mirrors tokens/src layout); merges name objects at ingest
+        #[arg(long, value_name = "DIR")]
+        names_dir: Option<PathBuf>,
         /// Treat warnings as errors
         #[arg(long)]
         strict: bool,
@@ -453,6 +456,7 @@ fn run_validate(
     exceptions_path: Option<PathBuf>,
     mode_sets_path: Option<PathBuf>,
     components_path: Option<PathBuf>,
+    names_dir: Option<PathBuf>,
     strict: bool,
 ) -> miette::Result<ExitCode> {
     if !validate::engine_ready() {
@@ -467,12 +471,13 @@ fn run_validate(
     let dims_dir = mode_sets_path.or_else(default_mode_sets_path);
     let comps_dir = components_path.or_else(default_components_path);
 
-    let report = validate::validate_all_with_options(
+    let report = validate::validate_all_with_options_and_names(
         path,
         &registry,
         &exceptions,
         dims_dir.as_deref(),
         comps_dir.as_deref(),
+        names_dir.as_deref(),
     )
     .into_diagnostic()
     .wrap_err("validation failed")?;
@@ -1134,6 +1139,7 @@ fn main() -> ExitCode {
             exceptions_path,
             mode_sets_path,
             components_path,
+            names_dir,
             strict,
         } => {
             let target = path.unwrap_or_else(|| PathBuf::from("."));
@@ -1144,6 +1150,7 @@ fn main() -> ExitCode {
                 exceptions_path,
                 mode_sets_path,
                 components_path,
+                names_dir,
                 strict,
             )
         }

@@ -91,6 +91,38 @@ pub struct TokenGraph {
 }
 
 impl TokenGraph {
+    /// Load sidecar name maps from a directory of `*.json` files.
+    ///
+    /// Each file is `{ "<token-slug>": { <name-object> }, … }`.  All files are
+    /// merged into a single map.  Duplicate slugs across files return an error.
+    fn load_sidecar_names(
+        dir: &Path,
+    ) -> Result<HashMap<String, Value>, CoreError> {
+        let mut map: HashMap<String, Value> = HashMap::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            let value: Value = serde_json::from_str(&text)?;
+            let Some(obj) = value.as_object() else {
+                continue;
+            };
+            for (slug, name_val) in obj {
+                if map.contains_key(slug) {
+                    return Err(CoreError::ParseError(format!(
+                        "duplicate sidecar slug '{slug}' in {}",
+                        dir.display()
+                    )));
+                }
+                map.insert(slug.clone(), name_val.clone());
+            }
+        }
+        Ok(map)
+    }
+
+    /// Convenience wrapper: equivalent to `from_json_dir_with_names(root, None)`.
+    pub fn from_json_dir(root: &Path) -> Result<Self, CoreError> {
+        Self::from_json_dir_with_names(root, None)
+    }
+
     /// Build a graph from legacy Spectrum token sources (`*.json` token maps).
     ///
     /// Also handles cascade-format files: if the top-level JSON value is an array,
@@ -99,7 +131,20 @@ impl TokenGraph {
     /// ensures SPEC-004 (duplicate UUID) and SPEC-006 (duplicate name object)
     /// can inspect every token. UUIDs are indexed separately in `uuid_index` for
     /// alias `$ref` resolution.
-    pub fn from_json_dir(root: &Path) -> Result<Self, CoreError> {
+    ///
+    /// Pass `names_dir` to merge sidecar name objects at ingest so that relational
+    /// rules (SPEC-042, SPEC-043, SPEC-018…022, cascade, diff, query) can read
+    /// `record.raw["name"]` as usual.  An inline `name` in a token JSON always
+    /// wins over the sidecar (forward compat during migration).  Sidecar slugs
+    /// that don't match any token are silently skipped.
+    pub fn from_json_dir_with_names(
+        root: &Path,
+        names_dir: Option<&Path>,
+    ) -> Result<Self, CoreError> {
+        let sidecar = match names_dir {
+            Some(dir) if dir.is_dir() => Self::load_sidecar_names(dir)?,
+            _ => HashMap::new(),
+        };
         let mut g = TokenGraph::default();
         for path in discover_json_files(root)? {
             let text = std::fs::read_to_string(&path)?;
@@ -172,6 +217,18 @@ impl TokenGraph {
                     .and_then(|v| v.as_str())
                     .map(str::to_string);
                 let alias_target = extract_alias_target(tok_obj);
+                // Merge sidecar name when token has no inline `name` field.
+                let raw = if !tok_obj.contains_key("name") {
+                    if let Some(name_val) = sidecar.get(token_name) {
+                        let mut merged = tok_obj.clone();
+                        merged.insert("name".to_string(), name_val.clone());
+                        Value::Object(merged)
+                    } else {
+                        token_val.clone()
+                    }
+                } else {
+                    token_val.clone()
+                };
                 g.tokens.insert(
                     token_name.clone(),
                     TokenRecord {
@@ -181,7 +238,7 @@ impl TokenGraph {
                         schema_url,
                         uuid,
                         alias_target,
-                        raw: token_val.clone(),
+                        raw,
                         layer: Layer::Foundation,
                     },
                 );
@@ -481,5 +538,109 @@ impl TokenRecord {
             current = next;
         }
         current
+    }
+}
+
+// ── Tests ─────────────────────────────────────────────────────────────────────
+
+#[cfg(test)]
+mod tests {
+    use std::io::Write;
+    use tempfile::tempdir;
+    use serde_json::json;
+
+    use super::*;
+
+    fn write_json(dir: &tempfile::TempDir, filename: &str, value: serde_json::Value) {
+        let path = dir.path().join(filename);
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(f, "{}", value).unwrap();
+    }
+
+    #[test]
+    fn sidecar_merges_name_into_token_raw() {
+        let tokens_dir = tempdir().unwrap();
+        let names_dir = tempdir().unwrap();
+
+        write_json(&tokens_dir, "t.json", json!({
+            "blue-100": { "$schema": "https://example.com/color-set.json", "value": "#0000ff" }
+        }));
+        write_json(&names_dir, "t.json", json!({
+            "blue-100": { "property": "color", "colorFamily": "blue", "scaleIndex": 100 }
+        }));
+
+        let g = TokenGraph::from_json_dir_with_names(tokens_dir.path(), Some(names_dir.path()))
+            .unwrap();
+        let token = g.tokens.get("blue-100").unwrap();
+        let name = token.raw.get("name").expect("name merged from sidecar");
+        assert_eq!(name["colorFamily"], "blue");
+        assert_eq!(name["scaleIndex"], 100);
+    }
+
+    #[test]
+    fn inline_name_wins_over_sidecar() {
+        let tokens_dir = tempdir().unwrap();
+        let names_dir = tempdir().unwrap();
+
+        write_json(&tokens_dir, "t.json", json!({
+            "blue-100": {
+                "$schema": "https://example.com/color-set.json",
+                "value": "#0000ff",
+                "name": { "property": "color", "colorFamily": "inline-value" }
+            }
+        }));
+        write_json(&names_dir, "t.json", json!({
+            "blue-100": { "property": "color", "colorFamily": "sidecar-value" }
+        }));
+
+        let g = TokenGraph::from_json_dir_with_names(tokens_dir.path(), Some(names_dir.path()))
+            .unwrap();
+        let token = g.tokens.get("blue-100").unwrap();
+        let name = token.raw.get("name").unwrap();
+        assert_eq!(name["colorFamily"], "inline-value", "inline name must win over sidecar");
+    }
+
+    #[test]
+    fn sidecar_unknown_slug_is_ignored() {
+        let tokens_dir = tempdir().unwrap();
+        let names_dir = tempdir().unwrap();
+
+        write_json(&tokens_dir, "t.json", json!({
+            "real-token": { "$schema": "https://example.com/color.json", "value": "#fff" }
+        }));
+        write_json(&names_dir, "t.json", json!({
+            "nonexistent-token": { "property": "color", "colorFamily": "blue" }
+        }));
+
+        let g = TokenGraph::from_json_dir_with_names(tokens_dir.path(), Some(names_dir.path()))
+            .unwrap();
+        let token = g.tokens.get("real-token").unwrap();
+        assert!(token.raw.get("name").is_none());
+    }
+
+    #[test]
+    fn duplicate_sidecar_slug_returns_error() {
+        let names_dir = tempdir().unwrap();
+        write_json(&names_dir, "a.json", json!({
+            "blue-100": { "property": "color", "colorFamily": "blue" }
+        }));
+        write_json(&names_dir, "b.json", json!({
+            "blue-100": { "property": "color", "colorFamily": "blue" }
+        }));
+
+        let result = TokenGraph::load_sidecar_names(names_dir.path());
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn from_json_dir_without_names_unchanged() {
+        let tokens_dir = tempdir().unwrap();
+        write_json(&tokens_dir, "t.json", json!({
+            "blue-100": { "$schema": "https://example.com/color-set.json", "value": "#0000ff" }
+        }));
+
+        let g = TokenGraph::from_json_dir(tokens_dir.path()).unwrap();
+        let token = g.tokens.get("blue-100").unwrap();
+        assert!(token.raw.get("name").is_none());
     }
 }

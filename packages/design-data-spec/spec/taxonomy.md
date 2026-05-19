@@ -272,6 +272,44 @@ The taxonomy and terms are built to scale as new concepts and terms are identifi
 * New token type taxonomies **MAY** be added by creating scoped field declarations (non-null `scope`) and a corresponding registry section in taxonomy.md. Color, typography, and motion taxonomies are defined above.
 * Platform manifests **MAY** extend the vocabulary with platform-specific terms and formatting.
 
+## Where `name` objects live
+
+Token taxonomy data is **decoupled** from the published `@adobe/spectrum-tokens`
+package to avoid bumping the tokens version on every taxonomy change.
+
+| Artifact          | Location                            | Description                                                                      |
+| ----------------- | ----------------------------------- | -------------------------------------------------------------------------------- |
+| Token source data | `packages/tokens/src/*.json`        | `$schema`, `value`, `uuid`, `sets`, … — no `name` field                          |
+| Taxonomy sidecar  | `packages/token-names/names/*.json` | `{ "<slug>": { property, colorFamily, … }, … }` — one file per token source file |
+| Field definitions | `packages/design-data-spec/fields/` | Authoritative field catalog with scope and type                                  |
+
+The sidecar package (`@adobe/token-names`) is **private** (not published to npm).
+Its delivery format for downstream consumers is TBD.
+
+### SDK validator integration
+
+Pass `--names-dir packages/token-names/names/` to the `design-data validate` CLI
+to merge sidecar names into the token graph at ingest.  All relational rules
+(SPEC-042, SPEC-043, SPEC-018…022, cascade, diff, query) continue to read
+`record.raw["name"]` as if the field were inline:
+
+```bash
+cargo run --bin design-data -- validate packages/tokens/src/ \
+  --names-dir packages/token-names/names/
+```
+
+Validation without `--names-dir` is a valid fail-open configuration (name-scope
+rules are silent); CI always supplies the flag.
+
+### Regenerating name data
+
+```bash
+node tools/token-corpus-migrate/src/cli.js \
+  --root packages/tokens/src \
+  --names-out packages/token-names/names \
+  --write
+```
+
 ## References
 
 * [#806 — Token Taxonomy, Vocabulary, and Formatting](https://github.com/adobe/spectrum-design-data/discussions/806)
