@@ -74,7 +74,7 @@ impl ValidationRule for Rule {
                 let mut resolved = schema_url;
                 let mut hops = 0u8;
                 while let Some(target_name) = cursor {
-                    if hops > 8 {
+                    if hops >= 8 {
                         break; // depth guard; SPEC-003 enforces no true cycles
                     }
                     let Some(target) = ctx.graph.tokens.get(target_name) else {
