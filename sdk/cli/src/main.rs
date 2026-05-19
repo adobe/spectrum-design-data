@@ -17,7 +17,7 @@ mod format;
 
 use std::collections::HashSet;
 
-use clap::{Parser, Subcommand, ValueEnum};
+use clap::{ArgGroup, Parser, Subcommand, ValueEnum};
 use design_data_core::cascade::{resolve, ResolutionContext};
 use design_data_core::compat::{
     load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot,
@@ -31,7 +31,9 @@ use design_data_core::migrate;
 use design_data_core::naming::NamingExceptionsFile;
 use design_data_core::query;
 use design_data_core::schema::SchemaRegistry;
+use design_data_core::suggest;
 use design_data_core::validate;
+use design_data_core::write::{WriteTokenInput, write_token};
 use miette::{IntoDiagnostic, WrapErr};
 
 const SPEC_VERSION: &str = "1.0.0-draft";
@@ -164,6 +166,24 @@ enum Commands {
         #[arg(long, value_name = "DIR")]
         components_dir: Option<PathBuf>,
     },
+    /// Suggest existing tokens that match a natural-language intent string
+    Suggest {
+        /// Natural-language intent (e.g. "accent background hover")
+        #[arg(value_name = "INTENT")]
+        intent: String,
+        /// Path to the token dataset directory
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Restrict results to tokens whose name.property matches this hint
+        #[arg(long, value_name = "PROPERTY")]
+        property: Option<String>,
+        /// Maximum number of results to return
+        #[arg(long, default_value_t = 5)]
+        limit: usize,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
     /// Create or update a product-context.json document for a product-layer working copy
     Write {
         /// Path to the product context JSON file to create or update
@@ -172,6 +192,34 @@ enum Commands {
         /// Why this product-layer working copy exists (recorded in the document's rationale field)
         #[arg(short, long, value_name = "TEXT")]
         rationale: Option<String>,
+    },
+    /// Validate and write a product-layer token to a target file
+    #[command(group(ArgGroup::new("token_source").required(true).args(["token_json", "token_file"])))]
+    WriteToken {
+        /// Token key (its name in the target file, e.g. "checkout-background-color")
+        #[arg(value_name = "KEY")]
+        key: String,
+        /// Token object as a JSON string (must include $schema and value)
+        #[arg(long, value_name = "JSON", group = "token_source")]
+        token_json: Option<String>,
+        /// Path to a JSON file containing the token object
+        #[arg(long, value_name = "FILE", group = "token_source")]
+        token_file: Option<PathBuf>,
+        /// Target legacy JSON file to write to (created if absent, merged if present)
+        #[arg(long, value_name = "FILE")]
+        target: PathBuf,
+        /// Path to product-context.json for rationale capture (created if absent)
+        #[arg(long, value_name = "FILE")]
+        product_context: Option<PathBuf>,
+        /// Why this token was created or changed
+        #[arg(long, value_name = "TEXT")]
+        rationale: Option<String>,
+        /// Token overrides an existing foundation/platform token (records in overrides[])
+        #[arg(long)]
+        is_override: bool,
+        /// Path to schemas directory (default: packages/tokens/schemas relative to target)
+        #[arg(long, value_name = "DIR")]
+        schema_path: Option<PathBuf>,
     },
 }
 
@@ -1063,6 +1111,58 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
     Ok(ExitCode::from(1))
 }
 
+fn run_suggest(
+    intent: &str,
+    path: Option<&Path>,
+    property: Option<&str>,
+    limit: usize,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    let target = path
+        .map(PathBuf::from)
+        .unwrap_or_else(|| PathBuf::from("."));
+    let graph = TokenGraph::from_json_dir(&target)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load tokens from {}", target.display()))?;
+
+    let results = suggest::suggest(&graph, intent, property, limit);
+
+    if matches!(format, OutputFormat::Json) {
+        let json_vals: Vec<serde_json::Value> = results
+            .iter()
+            .map(|r| {
+                serde_json::json!({
+                    "token_name": r.token_name,
+                    "token_uuid": r.token_uuid,
+                    "file": r.file.display().to_string(),
+                    "layer": serde_json::to_value(r.layer).unwrap_or_default(),
+                    "confidence": r.confidence,
+                    "name_object": r.name_object,
+                    "value": r.value,
+                })
+            })
+            .collect();
+        println!("{}", serde_json::to_string_pretty(&json_vals).into_diagnostic()?);
+    } else if results.is_empty() {
+        println!("No matching tokens found for: {intent:?}");
+    } else {
+        println!("Suggestions for {:?} (top {}):", intent, results.len());
+        for (i, r) in results.iter().enumerate() {
+            println!(
+                "  {}. {} (confidence: {:.2})",
+                i + 1,
+                r.token_name,
+                r.confidence
+            );
+            if let Some(v) = &r.value {
+                println!("     value: {v}");
+            }
+        }
+    }
+
+    Ok(ExitCode::SUCCESS)
+}
+
 fn run_write(output: &Path, rationale: Option<&str>) -> miette::Result<ExitCode> {
     let mut doc: serde_json::Value = if output.exists() {
         let raw = std::fs::read_to_string(output)
@@ -1126,6 +1226,87 @@ fn run_write(output: &Path, rationale: Option<&str>) -> miette::Result<ExitCode>
         .wrap_err_with(|| format!("failed to write {}", output.display()))?;
 
     println!("Wrote {}", output.display());
+    Ok(ExitCode::SUCCESS)
+}
+
+struct WriteTokenOpts<'a> {
+    token_json: Option<&'a str>,
+    token_file: Option<&'a Path>,
+    product_context: Option<&'a Path>,
+    rationale: Option<&'a str>,
+    is_override: bool,
+    schema_path: Option<&'a Path>,
+}
+
+fn run_write_token(
+    key: &str,
+    target: &Path,
+    opts: WriteTokenOpts<'_>,
+) -> miette::Result<ExitCode> {
+    let WriteTokenOpts { token_json, token_file, product_context, rationale, is_override, schema_path } = opts;
+    let token: serde_json::Value = match (token_json, token_file) {
+        (Some(raw), _) => serde_json::from_str(raw)
+            .into_diagnostic()
+            .wrap_err("failed to parse --token-json")?,
+        (None, Some(path)) => {
+            let text = std::fs::read_to_string(path)
+                .into_diagnostic()
+                .wrap_err_with(|| format!("failed to read {}", path.display()))?;
+            serde_json::from_str(&text)
+                .into_diagnostic()
+                .wrap_err_with(|| format!("failed to parse {}", path.display()))?
+        }
+        (None, None) => {
+            return Err(miette::miette!(
+                "one of --token-json or --token-file is required"
+            ))
+        }
+    };
+
+    // Resolve schema directory: explicit flag → sibling of target → default relative path.
+    let schemas_dir = schema_path
+        .map(PathBuf::from)
+        .or_else(|| {
+            // Try target's parent up to repo root looking for packages/tokens/schemas.
+            target.ancestors().find_map(|p| {
+                let candidate = p.join("packages/tokens/schemas");
+                candidate.is_dir().then_some(candidate)
+            })
+        })
+        .ok_or_else(|| {
+            miette::miette!(
+                "cannot locate schemas directory; pass --schema-path explicitly"
+            )
+        })?;
+
+    let registry = SchemaRegistry::load_legacy_token_schemas(&schemas_dir)
+        .into_diagnostic()
+        .wrap_err("failed to load schema registry")?;
+
+    let result = write_token(
+        WriteTokenInput {
+            key: key.to_string(),
+            token,
+            target: target.to_path_buf(),
+            product_context: product_context.map(PathBuf::from),
+            rationale: rationale.map(str::to_string),
+            created_at: Some(Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string()),
+            is_override,
+        },
+        &registry,
+    )
+    .into_diagnostic()
+    .wrap_err("write_token failed")?;
+
+    println!("Wrote token '{}' to {}", key, result.written_to.display());
+    if result.product_context_updated {
+        println!(
+            "Updated {}",
+            product_context
+                .map(|p| p.display().to_string())
+                .unwrap_or_default()
+        );
+    }
     Ok(ExitCode::SUCCESS)
 }
 
@@ -1236,9 +1417,43 @@ fn main() -> ExitCode {
             run_primer(&target, format, components_dir, fields_dir, mode_sets_dir)
         }
         Commands::Component { id, components_dir } => run_component(&id, components_dir),
+        Commands::Suggest {
+            intent,
+            path,
+            property,
+            limit,
+            format,
+        } => run_suggest(
+            &intent,
+            path.as_deref(),
+            property.as_deref(),
+            limit,
+            format,
+        ),
         Commands::Write { output, rationale } => {
             run_write(&output, rationale.as_deref())
         }
+        Commands::WriteToken {
+            key,
+            token_json,
+            token_file,
+            target,
+            product_context,
+            rationale,
+            is_override,
+            schema_path,
+        } => run_write_token(
+            &key,
+            &target,
+            WriteTokenOpts {
+                token_json: token_json.as_deref(),
+                token_file: token_file.as_deref(),
+                product_context: product_context.as_deref(),
+                rationale: rationale.as_deref(),
+                is_override,
+                schema_path: schema_path.as_deref(),
+            },
+        ),
     };
 
     match result {

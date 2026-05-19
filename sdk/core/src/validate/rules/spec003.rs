@@ -30,10 +30,7 @@ impl ValidationRule for Rule {
             }
             let mut path: Vec<String> = vec![start.name.clone()];
             let mut current = start;
-            loop {
-                let Some(next_name) = current.alias_target.as_ref() else {
-                    break;
-                };
+            while let Some(next_name) = current.alias_target.as_ref() {
                 if path.iter().any(|p| p == next_name) {
                     out.push(Diagnostic {
                         file: start.file.clone(),
