@@ -95,7 +95,7 @@ pub fn suggest<'a>(
                 token_uuid: tok.uuid.clone(),
                 token_name: tok.name.clone(),
                 file: tok.file.clone(),
-                layer: tok.layer.clone(),
+                layer: tok.layer,
                 confidence,
                 name_object,
                 value,
