@@ -508,6 +508,14 @@ test("iconColorNameForKey: primary-down", (t) => {
   });
 });
 
+test("iconColorNameForKey: bare primary (no state suffix)", (t) => {
+  t.deepEqual(iconColorNameForKey("icon-color-blue-primary"), {
+    property: "icon-color",
+    colorFamily: "blue",
+    variant: "primary",
+  });
+});
+
 test("iconColorNameForKey: unknown family returns null", (t) => {
   t.is(iconColorNameForKey("icon-color-bogus-background"), null);
 });

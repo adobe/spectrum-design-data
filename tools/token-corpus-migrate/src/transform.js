@@ -148,8 +148,8 @@ export function fontStyleNameForKey(key, token) {
  *   icon-color-<family>-primary              → { property, colorFamily, variant }
  *   icon-color-<family>-primary-<state>      → { property, colorFamily, variant, state }
  *
- * Applies to both color-set.json tokens and family-aliased alias.json tokens.
- * Semantic aliases (inverse, disabled, emphasized, primary-*) return null.
+ * Called for color-set.json tokens only; alias tokens are filtered upstream by
+ * classifyToken (SPEC-042 prohibits colorFamily on alias.json schemas).
  */
 export function iconColorNameForKey(key) {
   if (!key.startsWith("icon-color-")) return null;
