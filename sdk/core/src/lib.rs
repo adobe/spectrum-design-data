@@ -24,6 +24,7 @@ pub mod query;
 pub mod registry;
 pub mod report;
 pub mod schema;
+pub mod suggest;
 pub mod validate;
 
 use std::path::PathBuf;

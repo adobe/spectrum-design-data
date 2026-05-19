@@ -31,6 +31,7 @@ use design_data_core::migrate;
 use design_data_core::naming::NamingExceptionsFile;
 use design_data_core::query;
 use design_data_core::schema::SchemaRegistry;
+use design_data_core::suggest;
 use design_data_core::validate;
 use miette::{IntoDiagnostic, WrapErr};
 
@@ -163,6 +164,24 @@ enum Commands {
         /// Override components directory
         #[arg(long, value_name = "DIR")]
         components_dir: Option<PathBuf>,
+    },
+    /// Suggest existing tokens that match a natural-language intent string
+    Suggest {
+        /// Natural-language intent (e.g. "accent background hover")
+        #[arg(value_name = "INTENT")]
+        intent: String,
+        /// Path to the token dataset directory
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Restrict results to tokens whose name.property matches this hint
+        #[arg(long, value_name = "PROPERTY")]
+        property: Option<String>,
+        /// Maximum number of results to return
+        #[arg(long, default_value_t = 5)]
+        limit: usize,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
     },
     /// Create or update a product-context.json document for a product-layer working copy
     Write {
@@ -1063,6 +1082,58 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
     Ok(ExitCode::from(1))
 }
 
+fn run_suggest(
+    intent: &str,
+    path: Option<&Path>,
+    property: Option<&str>,
+    limit: usize,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    let target = path
+        .map(PathBuf::from)
+        .unwrap_or_else(|| PathBuf::from("."));
+    let graph = TokenGraph::from_json_dir(&target)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load tokens from {}", target.display()))?;
+
+    let results = suggest::suggest(&graph, intent, property, limit);
+
+    if matches!(format, OutputFormat::Json) {
+        let json_vals: Vec<serde_json::Value> = results
+            .iter()
+            .map(|r| {
+                serde_json::json!({
+                    "token_name": r.token_name,
+                    "token_uuid": r.token_uuid,
+                    "file": r.file.display().to_string(),
+                    "layer": format!("{:?}", r.layer).to_lowercase(),
+                    "confidence": r.confidence,
+                    "name_object": r.name_object,
+                    "value": r.value,
+                })
+            })
+            .collect();
+        println!("{}", serde_json::to_string_pretty(&json_vals).into_diagnostic()?);
+    } else if results.is_empty() {
+        println!("No matching tokens found for: {intent:?}");
+    } else {
+        println!("Suggestions for {:?} (top {}):", intent, results.len());
+        for (i, r) in results.iter().enumerate() {
+            println!(
+                "  {}. {} (confidence: {:.2})",
+                i + 1,
+                r.token_name,
+                r.confidence
+            );
+            if let Some(v) = &r.value {
+                println!("     value: {v}");
+            }
+        }
+    }
+
+    Ok(ExitCode::SUCCESS)
+}
+
 fn run_write(output: &Path, rationale: Option<&str>) -> miette::Result<ExitCode> {
     let mut doc: serde_json::Value = if output.exists() {
         let raw = std::fs::read_to_string(output)
@@ -1236,6 +1307,19 @@ fn main() -> ExitCode {
             run_primer(&target, format, components_dir, fields_dir, mode_sets_dir)
         }
         Commands::Component { id, components_dir } => run_component(&id, components_dir),
+        Commands::Suggest {
+            intent,
+            path,
+            property,
+            limit,
+            format,
+        } => run_suggest(
+            &intent,
+            path.as_deref(),
+            property.as_deref(),
+            limit,
+            format,
+        ),
         Commands::Write { output, rationale } => {
             run_write(&output, rationale.as_deref())
         }
