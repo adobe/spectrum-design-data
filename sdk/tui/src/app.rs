@@ -57,6 +57,8 @@ impl StatusMessage {
     }
 }
 
+// ── View state types ──────────────────────────────────────────────────────────
+
 /// One row in the query results table.
 #[derive(Debug, Clone)]
 pub struct QueryRow {
@@ -81,13 +83,7 @@ impl QueryRow {
             .or_else(|| t.alias_target.clone())
             .unwrap_or_default();
         let file = t.file.file_name().map(|f| f.to_string_lossy().into_owned()).unwrap_or_default();
-        let layer = layer_str(t.layer).to_string();
-        Self {
-            name: display_name(t),
-            value,
-            file,
-            layer,
-        }
+        Self { name: display_name(t), value, file, layer: layer_str(t.layer).to_string() }
     }
 }
 
@@ -109,16 +105,6 @@ impl QueryView {
 
     fn selected_row(&self) -> Option<&QueryRow> {
         self.table_state.selected().and_then(|i| self.rows.get(i))
-    }
-
-    fn move_selection(&mut self, delta: i64) {
-        if self.rows.is_empty() {
-            return;
-        }
-        let len = self.rows.len() as i64;
-        let current = self.table_state.selected().unwrap_or(0) as i64;
-        let next = (current + delta).clamp(0, len - 1) as usize;
-        self.table_state.select(Some(next));
     }
 }
 
@@ -151,16 +137,6 @@ impl ResolveView {
 
     fn selected_row(&self) -> Option<&ResolvedRow> {
         self.table_state.selected().and_then(|i| self.rows.get(i))
-    }
-
-    fn move_selection(&mut self, delta: i64) {
-        if self.rows.is_empty() {
-            return;
-        }
-        let len = self.rows.len() as i64;
-        let current = self.table_state.selected().unwrap_or(0) as i64;
-        let next = (current + delta).clamp(0, len - 1) as usize;
-        self.table_state.select(Some(next));
     }
 }
 
@@ -198,16 +174,6 @@ impl ValidateView {
     fn selected_row(&self) -> Option<&DiagnosticRow> {
         self.table_state.selected().and_then(|i| self.rows.get(i))
     }
-
-    fn move_selection(&mut self, delta: i64) {
-        if self.rows.is_empty() {
-            return;
-        }
-        let len = self.rows.len() as i64;
-        let current = self.table_state.selected().unwrap_or(0) as i64;
-        let next = (current + delta).clamp(0, len - 1) as usize;
-        self.table_state.select(Some(next));
-    }
 }
 
 /// Which view the active area is showing.
@@ -241,6 +207,8 @@ impl<'a> SubmitContext<'a> {
         }
     }
 }
+
+// ── App ───────────────────────────────────────────────────────────────────────
 
 /// Top-level application state.
 pub struct App {
@@ -295,7 +263,7 @@ impl App {
                 KeyCode::Tab => {
                     if self.palette_mode == PaletteMode::Command {
                         let current = self.palette_input.value().to_string();
-                        // Only autocomplete when the user is still typing the command word.
+                        // Only autocomplete while the user is still typing the command word.
                         if !current.contains(' ') {
                             let matches: Vec<&str> = KNOWN_COMMANDS
                                 .iter()
@@ -320,176 +288,114 @@ impl App {
                     self.palette_input.handle_event(&crossterm::event::Event::Key(key));
                 }
             }
-        } else {
-            match &self.active_view {
-                ActiveView::Query(_) => match key.code {
-                    KeyCode::Up | KeyCode::Char('k') => {
-                        if let ActiveView::Query(ref mut qv) = self.active_view {
-                            qv.move_selection(-1);
-                        }
-                    }
-                    KeyCode::Down | KeyCode::Char('j') => {
-                        if let ActiveView::Query(ref mut qv) = self.active_view {
-                            qv.move_selection(1);
-                        }
-                    }
-                    KeyCode::Char('y') => {
-                        if let ActiveView::Query(ref qv) = self.active_view {
-                            if let Some(row) = qv.selected_row() {
-                                self.pending_yank = Some(row.name.clone());
-                            }
-                        }
-                    }
-                    KeyCode::Esc => {
-                        self.active_view = ActiveView::Empty;
-                        self.status_message = None;
-                    }
-                    KeyCode::Char(':') => {
-                        self.palette_open = true;
-                        self.palette_mode = PaletteMode::Command;
-                        self.palette_input = Input::default();
-                    }
-                    KeyCode::Char('/') => {
-                        self.palette_open = true;
-                        self.palette_mode = PaletteMode::FuzzyFind;
-                        self.palette_input = Input::default();
-                    }
-                    KeyCode::Char('q') => {
-                        self.quit = true;
-                    }
-                    _ => {}
-                },
-                ActiveView::Resolve(_) => match key.code {
-                    KeyCode::Up | KeyCode::Char('k') => {
-                        if let ActiveView::Resolve(ref mut rv) = self.active_view {
-                            rv.move_selection(-1);
-                        }
-                    }
-                    KeyCode::Down | KeyCode::Char('j') => {
-                        if let ActiveView::Resolve(ref mut rv) = self.active_view {
-                            rv.move_selection(1);
-                        }
-                    }
-                    KeyCode::Char('y') => {
-                        if let ActiveView::Resolve(ref rv) = self.active_view {
-                            if let Some(row) = rv.selected_row() {
-                                self.pending_yank = Some(row.name.clone());
-                            }
-                        }
-                    }
-                    KeyCode::Esc => {
-                        self.active_view = ActiveView::Empty;
-                        self.status_message = None;
-                    }
-                    KeyCode::Char(':') => {
-                        self.palette_open = true;
-                        self.palette_mode = PaletteMode::Command;
-                        self.palette_input = Input::default();
-                    }
-                    KeyCode::Char('/') => {
-                        self.palette_open = true;
-                        self.palette_mode = PaletteMode::FuzzyFind;
-                        self.palette_input = Input::default();
-                    }
-                    KeyCode::Char('q') => {
-                        self.quit = true;
-                    }
-                    _ => {}
-                },
-                ActiveView::Describe(_) => match key.code {
-                    KeyCode::Up | KeyCode::Char('k') => {
-                        if let ActiveView::Describe(ref mut dv) = self.active_view {
-                            dv.scroll = dv.scroll.saturating_sub(1);
-                        }
-                    }
-                    KeyCode::Down | KeyCode::Char('j') => {
-                        if let ActiveView::Describe(ref mut dv) = self.active_view {
-                            dv.scroll = dv.scroll.saturating_add(1);
-                        }
-                    }
-                    KeyCode::PageUp => {
-                        if let ActiveView::Describe(ref mut dv) = self.active_view {
-                            dv.scroll = dv.scroll.saturating_sub(10);
-                        }
-                    }
-                    KeyCode::PageDown => {
-                        if let ActiveView::Describe(ref mut dv) = self.active_view {
-                            dv.scroll = dv.scroll.saturating_add(10);
-                        }
-                    }
-                    KeyCode::Esc => {
-                        self.active_view = ActiveView::Empty;
-                        self.status_message = None;
-                    }
-                    KeyCode::Char(':') => {
-                        self.palette_open = true;
-                        self.palette_mode = PaletteMode::Command;
-                        self.palette_input = Input::default();
-                    }
-                    KeyCode::Char('/') => {
-                        self.palette_open = true;
-                        self.palette_mode = PaletteMode::FuzzyFind;
-                        self.palette_input = Input::default();
-                    }
-                    KeyCode::Char('q') => {
-                        self.quit = true;
-                    }
-                    _ => {}
-                },
-                ActiveView::Validate(_) => match key.code {
-                    KeyCode::Up | KeyCode::Char('k') => {
-                        if let ActiveView::Validate(ref mut vv) = self.active_view {
-                            vv.move_selection(-1);
-                        }
-                    }
-                    KeyCode::Down | KeyCode::Char('j') => {
-                        if let ActiveView::Validate(ref mut vv) = self.active_view {
-                            vv.move_selection(1);
-                        }
-                    }
-                    KeyCode::Char('y') => {
-                        if let ActiveView::Validate(ref vv) = self.active_view {
-                            if let Some(row) = vv.selected_row() {
-                                self.pending_yank = Some(row.message.clone());
-                            }
-                        }
-                    }
-                    KeyCode::Esc => {
-                        self.active_view = ActiveView::Empty;
-                        self.status_message = None;
-                    }
-                    KeyCode::Char(':') => {
-                        self.palette_open = true;
-                        self.palette_mode = PaletteMode::Command;
-                        self.palette_input = Input::default();
-                    }
-                    KeyCode::Char('/') => {
-                        self.palette_open = true;
-                        self.palette_mode = PaletteMode::FuzzyFind;
-                        self.palette_input = Input::default();
-                    }
-                    KeyCode::Char('q') => {
-                        self.quit = true;
-                    }
-                    _ => {}
-                },
-                ActiveView::Empty => match key.code {
-                    KeyCode::Char(':') => {
-                        self.palette_open = true;
-                        self.palette_mode = PaletteMode::Command;
-                        self.palette_input = Input::default();
-                    }
-                    KeyCode::Char('/') => {
-                        self.palette_open = true;
-                        self.palette_mode = PaletteMode::FuzzyFind;
-                        self.palette_input = Input::default();
-                    }
-                    KeyCode::Char('q') => {
-                        self.quit = true;
-                    }
-                    _ => {}
-                },
+            return;
+        }
+
+        // View-specific keys.  Returns true when the key was consumed so the
+        // shared fallback (palette open / quit) is skipped.
+        let consumed = self.handle_view_key(key.code);
+
+        if !consumed {
+            match key.code {
+                KeyCode::Char(':') => {
+                    self.palette_open = true;
+                    self.palette_mode = PaletteMode::Command;
+                    self.palette_input = Input::default();
+                }
+                KeyCode::Char('/') => {
+                    self.palette_open = true;
+                    self.palette_mode = PaletteMode::FuzzyFind;
+                    self.palette_input = Input::default();
+                }
+                KeyCode::Char('q') => {
+                    self.quit = true;
+                }
+                _ => {}
             }
+        }
+    }
+
+    /// Handle view-specific keys, returning `true` when the key was consumed.
+    fn handle_view_key(&mut self, code: KeyCode) -> bool {
+        match code {
+            KeyCode::Esc => {
+                if matches!(self.active_view, ActiveView::Empty) {
+                    return false;
+                }
+                self.active_view = ActiveView::Empty;
+                self.status_message = None;
+                true
+            }
+            KeyCode::Up | KeyCode::Char('k') => match &mut self.active_view {
+                ActiveView::Query(qv) => {
+                    move_table_selection(&mut qv.table_state, qv.rows.len(), -1);
+                    true
+                }
+                ActiveView::Resolve(rv) => {
+                    move_table_selection(&mut rv.table_state, rv.rows.len(), -1);
+                    true
+                }
+                ActiveView::Validate(vv) => {
+                    move_table_selection(&mut vv.table_state, vv.rows.len(), -1);
+                    true
+                }
+                ActiveView::Describe(dv) => {
+                    dv.scroll = dv.scroll.saturating_sub(1);
+                    true
+                }
+                ActiveView::Empty => false,
+            },
+            KeyCode::Down | KeyCode::Char('j') => match &mut self.active_view {
+                ActiveView::Query(qv) => {
+                    move_table_selection(&mut qv.table_state, qv.rows.len(), 1);
+                    true
+                }
+                ActiveView::Resolve(rv) => {
+                    move_table_selection(&mut rv.table_state, rv.rows.len(), 1);
+                    true
+                }
+                ActiveView::Validate(vv) => {
+                    move_table_selection(&mut vv.table_state, vv.rows.len(), 1);
+                    true
+                }
+                ActiveView::Describe(dv) => {
+                    dv.scroll = dv.scroll.saturating_add(1);
+                    true
+                }
+                ActiveView::Empty => false,
+            },
+            KeyCode::PageUp => {
+                if let ActiveView::Describe(ref mut dv) = self.active_view {
+                    dv.scroll = dv.scroll.saturating_sub(10);
+                    true
+                } else {
+                    false
+                }
+            }
+            KeyCode::PageDown => {
+                if let ActiveView::Describe(ref mut dv) = self.active_view {
+                    dv.scroll = dv.scroll.saturating_add(10);
+                    true
+                } else {
+                    false
+                }
+            }
+            KeyCode::Char('y') => {
+                // Clone the yank text before mutating pending_yank.
+                let yank = match &self.active_view {
+                    ActiveView::Query(qv) => qv.selected_row().map(|r| r.name.clone()),
+                    ActiveView::Resolve(rv) => rv.selected_row().map(|r| r.name.clone()),
+                    ActiveView::Validate(vv) => vv.selected_row().map(|r| r.message.clone()),
+                    ActiveView::Describe(_) | ActiveView::Empty => None,
+                };
+                if let Some(text) = yank {
+                    self.pending_yank = Some(text);
+                    true
+                } else {
+                    false
+                }
+            }
+            _ => false,
         }
     }
 
@@ -522,30 +428,36 @@ impl App {
                 match query::parse(&rest) {
                     Ok(expr) => {
                         let records = query::filter(ctx.graph, &expr);
-                        let rows: Vec<QueryRow> = records.iter().map(|r| QueryRow::from_record(r)).collect();
+                        let rows: Vec<QueryRow> =
+                            records.iter().map(|r| QueryRow::from_record(r)).collect();
                         let count = rows.len();
                         self.active_view = ActiveView::Query(QueryView::new(rest.clone(), rows));
-                        self.status_message = Some(StatusMessage::info(format!("{count} token(s) matched")));
+                        self.status_message =
+                            Some(StatusMessage::info(format!("{count} token(s) matched")));
                     }
                     Err(e) => {
-                        self.status_message = Some(StatusMessage::error(format!("query error: {e}")));
+                        self.status_message =
+                            Some(StatusMessage::error(format!("query error: {e}")));
                     }
                 }
             }
             "resolve" => {
                 if rest.is_empty() {
-                    self.status_message = Some(StatusMessage::error("resolve: property=<name> required"));
+                    self.status_message =
+                        Some(StatusMessage::error("resolve: property=<name> required"));
                     return;
                 }
                 let (prop, res_ctx) = match parse_resolve_args(&rest) {
                     Ok(v) => v,
                     Err(e) => {
-                        self.status_message = Some(StatusMessage::error(format!("resolve: {e}")));
+                        self.status_message =
+                            Some(StatusMessage::error(format!("resolve: {e}")));
                         return;
                     }
                 };
                 // Filter to tokens whose name.property matches.
-                let candidates: Vec<TokenRecord> = ctx.graph
+                let candidates: Vec<TokenRecord> = ctx
+                    .graph
                     .tokens
                     .values()
                     .filter(|t| {
@@ -565,37 +477,31 @@ impl App {
                 }
                 let filtered_graph = TokenGraph::from_records(candidates)
                     .with_mode_sets(ctx.graph.mode_sets.clone());
-                // Sort candidates in cascade precedence order.
-                let mut sorted: Vec<&TokenRecord> = filtered_graph.tokens.values().collect();
-                sorted.sort_by(|a, b| {
-                    let sa = a
-                        .raw
-                        .get("name")
-                        .and_then(|v| v.as_object())
-                        .map(|n| specificity(n, &filtered_graph.mode_sets))
-                        .unwrap_or(0);
-                    let sb = b
-                        .raw
-                        .get("name")
-                        .and_then(|v| v.as_object())
-                        .map(|n| specificity(n, &filtered_graph.mode_sets))
-                        .unwrap_or(0);
-                    b.layer
-                        .cmp(&a.layer)
-                        .then_with(|| sb.cmp(&sa))
-                        .then_with(|| a.file.cmp(&b.file))
-                        .then_with(|| a.index.cmp(&b.index))
-                });
-                let winner = cascade::resolve(&filtered_graph, &res_ctx);
-                let rows: Vec<ResolvedRow> = sorted
-                    .iter()
+                // Compute specificity once per token, then sort.
+                let mut with_spec: Vec<(&TokenRecord, u32)> = filtered_graph
+                    .tokens
+                    .values()
                     .map(|t| {
-                        let spec = t
+                        let s = t
                             .raw
                             .get("name")
                             .and_then(|v| v.as_object())
                             .map(|n| specificity(n, &filtered_graph.mode_sets))
                             .unwrap_or(0);
+                        (t, s)
+                    })
+                    .collect();
+                with_spec.sort_by(|(a, sa), (b, sb)| {
+                    b.layer
+                        .cmp(&a.layer)
+                        .then_with(|| sb.cmp(sa))
+                        .then_with(|| a.file.cmp(&b.file))
+                        .then_with(|| a.index.cmp(&b.index))
+                });
+                let winner = cascade::resolve(&filtered_graph, &res_ctx);
+                let rows: Vec<ResolvedRow> = with_spec
+                    .iter()
+                    .map(|(t, spec)| {
                         let value = t
                             .raw
                             .get("value")
@@ -619,24 +525,29 @@ impl App {
                             value,
                             file,
                             layer: layer_str(t.layer).to_string(),
-                            specificity: spec,
+                            specificity: *spec,
                             is_winner,
                         }
                     })
                     .collect();
                 let count = rows.len();
                 self.active_view = ActiveView::Resolve(ResolveView::new(prop, rows));
-                self.status_message = Some(StatusMessage::info(format!("{count} candidate(s)")));
+                self.status_message =
+                    Some(StatusMessage::info(format!("{count} candidate(s)")));
             }
             "describe" | "component" => {
                 if rest.is_empty() {
-                    self.status_message = Some(StatusMessage::error("describe: component ID required"));
+                    self.status_message =
+                        Some(StatusMessage::error("describe: component ID required"));
                     return;
                 }
                 let id = rest.trim();
+                // IDs must match ^[a-z][a-z0-9-]*$ (mirrors run_component in cli/main.rs).
                 if id.is_empty()
                     || !id.chars().next().is_some_and(|c| c.is_ascii_lowercase())
-                    || !id.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-')
+                    || !id
+                        .chars()
+                        .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-')
                 {
                     self.status_message =
                         Some(StatusMessage::error(format!("invalid component ID '{id}'")));
@@ -651,7 +562,8 @@ impl App {
                 let file_path = comp_dir.join(format!("{id}.json"));
                 if file_path.is_file() {
                     match std::fs::read_to_string(&file_path) {
-                        Ok(raw_text) => match serde_json::from_str::<serde_json::Value>(&raw_text) {
+                        Ok(raw_text) => match serde_json::from_str::<serde_json::Value>(&raw_text)
+                        {
                             Ok(doc) => match serde_json::to_string_pretty(&doc) {
                                 Ok(pretty) => {
                                     self.active_view = ActiveView::Describe(DescribeView {
@@ -723,8 +635,6 @@ impl App {
                     ));
                     return;
                 };
-                // Show a synchronous "validating…" flash; async is M5.
-                self.status_message = Some(StatusMessage::info("validating…"));
                 match validate::validate_all_with_options_and_names(
                     dataset_path,
                     registry,
@@ -799,6 +709,16 @@ fn layer_str(layer: Layer) -> &'static str {
         Layer::Platform => "platform",
         Layer::Product => "product",
     }
+}
+
+/// Advance a `TableState` selection by `delta` rows, clamping at the bounds.
+fn move_table_selection(state: &mut TableState, len: usize, delta: i64) {
+    if len == 0 {
+        return;
+    }
+    let current = state.selected().unwrap_or(0) as i64;
+    let next = (current + delta).clamp(0, len as i64 - 1) as usize;
+    state.select(Some(next));
 }
 
 /// Parse the rest-string for `:resolve` into a property name + `ResolutionContext`.
