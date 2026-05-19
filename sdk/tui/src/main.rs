@@ -13,6 +13,7 @@
 //! M0 surface: primer header + empty active view + palette prompt.
 //! The palette opens on `:` (command) or `/` (fuzzy-find) and closes on `Esc`.
 
+use std::io::stderr;
 use std::path::PathBuf;
 
 use clap::Parser;
@@ -34,13 +35,17 @@ use ratatui::{
 
 use design_data_tui::app::App;
 
-/// Dataset loaded once at startup.
-struct DatasetHandle {
+/// Token count and path summary loaded once at startup.
+///
+/// Stores only the information needed to render the primer header.
+/// The `TokenGraph` itself is not retained after loading — it is only
+/// used to extract `token_count` before being dropped.
+struct PrimerData {
     token_count: usize,
     dataset_path: PathBuf,
 }
 
-impl DatasetHandle {
+impl PrimerData {
     fn load(path: PathBuf) -> Result<Self> {
         let graph = TokenGraph::from_json_dir(&path)
             .into_diagnostic()
@@ -70,7 +75,15 @@ struct Cli {
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
-    let dataset = DatasetHandle::load(cli.dataset)?;
+    let primer = PrimerData::load(cli.dataset)?;
+
+    // Restore terminal on panic so the shell is not left in a broken state.
+    let original_hook = std::panic::take_hook();
+    std::panic::set_hook(Box::new(move |info| {
+        let _ = disable_raw_mode();
+        let _ = execute!(stderr(), LeaveAlternateScreen);
+        original_hook(info);
+    }));
 
     enable_raw_mode().into_diagnostic()?;
     let mut stdout = std::io::stdout();
@@ -79,16 +92,18 @@ fn main() -> Result<()> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend).into_diagnostic()?;
 
-    let result = run(&mut terminal, &dataset);
+    let result = run(&mut terminal, &primer);
 
-    disable_raw_mode().into_diagnostic()?;
-    execute!(terminal.backend_mut(), LeaveAlternateScreen).into_diagnostic()?;
-    terminal.show_cursor().into_diagnostic()?;
+    // Best-effort cleanup — continue even if individual steps fail so the
+    // caller always gets the original result rather than a cleanup error.
+    let _ = disable_raw_mode();
+    let _ = execute!(terminal.backend_mut(), LeaveAlternateScreen);
+    let _ = terminal.show_cursor();
 
     result
 }
 
-fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, dataset: &DatasetHandle) -> Result<()> {
+fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, primer: &PrimerData) -> Result<()> {
     let mut app = App::new();
 
     loop {
@@ -107,7 +122,7 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, dataset: &Datas
             // Primer header.
             let primer_text = Line::from(vec![
                 Span::styled("▶ ", Style::default().fg(Color::Green)),
-                Span::raw(dataset.primer_line()),
+                Span::raw(primer.primer_line()),
             ]);
             f.render_widget(Paragraph::new(primer_text), chunks[0]);
 

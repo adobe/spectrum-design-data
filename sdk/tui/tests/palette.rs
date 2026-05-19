@@ -94,3 +94,12 @@ fn palette_prefix_fuzzy_find() {
     app.handle_key(key(KeyCode::Char('/')));
     assert_eq!(app.palette_prefix(), "/");
 }
+
+#[test]
+fn colon_while_palette_open_goes_to_input_buffer() {
+    let mut app = App::new();
+    app.handle_key(key(KeyCode::Char(':'))); // open palette
+    app.handle_key(key(KeyCode::Char(':'))); // forwarded to input, not re-open
+    assert!(app.palette_open);
+    assert_eq!(app.palette_input.value(), ":");
+}
