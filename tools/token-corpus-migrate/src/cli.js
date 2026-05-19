@@ -24,7 +24,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const require = createRequire(import.meta.url);
 const { version } = require("../package.json");
 
-const PILOT_FILES = ["color-palette.json", "typography.json"];
+const PILOT_FILES = ["color-palette.json", "typography.json", "icons.json"];
 
 const program = new Command();
 

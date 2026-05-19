@@ -1403,6 +1403,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "SVG or icon fill color"
     },
     {
+      "id": "icon-color",
+      "label": "Icon Color",
+      "description": "Foreground color of an icon"
+    },
+    {
       "id": "shadow-color",
       "label": "Shadow Color",
       "description": "Drop shadow color component"

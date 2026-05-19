@@ -18,6 +18,7 @@ import {
   fontSizeNameForKey,
   fontStyleNameForKey,
   fontWeightNameForKey,
+  iconColorNameForKey,
   lineHeightNameForKey,
   transformFile,
 } from "../src/transform.js";
@@ -469,4 +470,143 @@ test("transformFile: injects name into typography canonical tokens", (t) => {
     scaleIndex: 100,
   });
   t.false("name" in transformed["body-font-size"]);
+});
+
+// ── iconColorNameForKey ───────────────────────────────────────────────────────
+
+test("iconColorNameForKey: background token", (t) => {
+  t.deepEqual(iconColorNameForKey("icon-color-blue-background"), {
+    property: "icon-color",
+    colorFamily: "blue",
+    object: "background",
+  });
+});
+
+test("iconColorNameForKey: primary-default (no state field)", (t) => {
+  t.deepEqual(iconColorNameForKey("icon-color-cinnamon-primary-default"), {
+    property: "icon-color",
+    colorFamily: "cinnamon",
+    variant: "primary",
+  });
+});
+
+test("iconColorNameForKey: primary-hover", (t) => {
+  t.deepEqual(iconColorNameForKey("icon-color-cinnamon-primary-hover"), {
+    property: "icon-color",
+    colorFamily: "cinnamon",
+    variant: "primary",
+    state: "hover",
+  });
+});
+
+test("iconColorNameForKey: primary-down", (t) => {
+  t.deepEqual(iconColorNameForKey("icon-color-cinnamon-primary-down"), {
+    property: "icon-color",
+    colorFamily: "cinnamon",
+    variant: "primary",
+    state: "down",
+  });
+});
+
+test("iconColorNameForKey: bare primary (no state suffix)", (t) => {
+  t.deepEqual(iconColorNameForKey("icon-color-blue-primary"), {
+    property: "icon-color",
+    colorFamily: "blue",
+    variant: "primary",
+  });
+});
+
+test("iconColorNameForKey: unknown family returns null", (t) => {
+  t.is(iconColorNameForKey("icon-color-bogus-background"), null);
+});
+
+test("iconColorNameForKey: semantic alias (no family segment) returns null", (t) => {
+  t.is(iconColorNameForKey("icon-color-inverse"), null);
+});
+
+test("iconColorNameForKey: non-icon key returns null", (t) => {
+  t.is(iconColorNameForKey("blue-100"), null);
+});
+
+// ── classifyToken (icon-color) ────────────────────────────────────────────────
+
+test("classifyToken: color-set icon-color-background routes to icon classifier", (t) => {
+  const token = { $schema: COLOR_SET_SCHEMA, uuid: "abc" };
+  t.deepEqual(classifyToken("icon-color-blue-background", token), {
+    name: {
+      property: "icon-color",
+      colorFamily: "blue",
+      object: "background",
+    },
+  });
+});
+
+test("classifyToken: color-set icon-color-primary-hover routes to icon classifier", (t) => {
+  const token = { $schema: COLOR_SET_SCHEMA, uuid: "abc" };
+  t.deepEqual(classifyToken("icon-color-blue-primary-hover", token), {
+    name: {
+      property: "icon-color",
+      colorFamily: "blue",
+      variant: "primary",
+      state: "hover",
+    },
+  });
+});
+
+test("classifyToken: alias icon-color-blue-background is out of scope (SPEC-042: colorFamily not allowed on alias schema)", (t) => {
+  const token = { $schema: ALIAS_SCHEMA, uuid: "abc", value: "{blue-200}" };
+  t.is(classifyToken("icon-color-blue-background", token), null);
+});
+
+test("classifyToken: alias icon-color-inverse is out of scope (null)", (t) => {
+  const token = { $schema: ALIAS_SCHEMA, uuid: "abc", value: "{gray-50}" };
+  t.is(classifyToken("icon-color-inverse", token), null);
+});
+
+test("classifyToken: non-icon alias is out of scope (null)", (t) => {
+  const token = { $schema: ALIAS_SCHEMA, uuid: "abc", value: "{blue-100}" };
+  t.is(classifyToken("body-color", token), null);
+});
+
+// ── transformFile (icons round) ───────────────────────────────────────────────
+
+test("transformFile: injects names on color-set icon tokens; alias tokens are out of scope", (t) => {
+  const tokens = {
+    "icon-color-blue-background": { $schema: COLOR_SET_SCHEMA, uuid: "a" },
+    "icon-color-blue-primary-default": { $schema: COLOR_SET_SCHEMA, uuid: "b" },
+    "icon-color-blue-primary-hover": { $schema: COLOR_SET_SCHEMA, uuid: "c" },
+    "icon-color-cinnamon-primary-default": {
+      $schema: ALIAS_SCHEMA,
+      uuid: "d",
+      value: "{cinnamon-800}",
+    },
+    "icon-color-inverse": {
+      $schema: ALIAS_SCHEMA,
+      uuid: "e",
+      value: "{gray-50}",
+    },
+  };
+  const { transformed, classified, unclassified, skipped } =
+    transformFile(tokens);
+  t.is(classified, 3);
+  t.is(skipped, 2); // alias tokens — colorFamily not allowed on alias.json (SPEC-042)
+  t.deepEqual(unclassified, []);
+  t.deepEqual(transformed["icon-color-blue-background"].name, {
+    property: "icon-color",
+    colorFamily: "blue",
+    object: "background",
+  });
+  t.deepEqual(transformed["icon-color-blue-primary-default"].name, {
+    property: "icon-color",
+    colorFamily: "blue",
+    variant: "primary",
+  });
+  t.deepEqual(transformed["icon-color-blue-primary-hover"].name, {
+    property: "icon-color",
+    colorFamily: "blue",
+    variant: "primary",
+    state: "hover",
+  });
+  t.false("name" in transformed["icon-color-cinnamon-primary-default"]);
+  t.false("name" in transformed["icon-color-inverse"]);
 });
