@@ -1157,16 +1157,21 @@ fn run_write(output: &Path, rationale: Option<&str>) -> miette::Result<ExitCode>
     Ok(ExitCode::SUCCESS)
 }
 
+struct WriteTokenOpts<'a> {
+    token_json: Option<&'a str>,
+    token_file: Option<&'a Path>,
+    product_context: Option<&'a Path>,
+    rationale: Option<&'a str>,
+    is_override: bool,
+    schema_path: Option<&'a Path>,
+}
+
 fn run_write_token(
     key: &str,
-    token_json: Option<&str>,
-    token_file: Option<&Path>,
     target: &Path,
-    product_context: Option<&Path>,
-    rationale: Option<&str>,
-    is_override: bool,
-    schema_path: Option<&Path>,
+    opts: WriteTokenOpts<'_>,
 ) -> miette::Result<ExitCode> {
+    let WriteTokenOpts { token_json, token_file, product_context, rationale, is_override, schema_path } = opts;
     let token: serde_json::Value = match (token_json, token_file) {
         (Some(raw), _) => serde_json::from_str(raw)
             .into_diagnostic()
@@ -1357,13 +1362,15 @@ fn main() -> ExitCode {
             schema_path,
         } => run_write_token(
             &key,
-            token_json.as_deref(),
-            token_file.as_deref(),
             &target,
-            product_context.as_deref(),
-            rationale.as_deref(),
-            is_override,
-            schema_path.as_deref(),
+            WriteTokenOpts {
+                token_json: token_json.as_deref(),
+                token_file: token_file.as_deref(),
+                product_context: product_context.as_deref(),
+                rationale: rationale.as_deref(),
+                is_override,
+                schema_path: schema_path.as_deref(),
+            },
         ),
     };
 
