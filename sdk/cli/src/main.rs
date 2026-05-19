@@ -1135,7 +1135,7 @@ fn run_suggest(
                     "token_name": r.token_name,
                     "token_uuid": r.token_uuid,
                     "file": r.file.display().to_string(),
-                    "layer": format!("{:?}", r.layer).to_lowercase(),
+                    "layer": serde_json::to_value(r.layer).unwrap_or_default(),
                     "confidence": r.confidence,
                     "name_object": r.name_object,
                     "value": r.value,

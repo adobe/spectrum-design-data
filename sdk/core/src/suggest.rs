@@ -129,9 +129,9 @@ fn score_token(tok: &TokenRecord, intent_words: &HashSet<String>, property_hint:
 }
 
 /// Whether a token's `property` field satisfies a hint string.
-/// Accepts exact match or prefix match (e.g. hint "color" matches "icon-color").
+/// Accepts exact match or suffix match (e.g. hint "color" matches "icon-color").
 fn property_matches(property: &str, hint: &str) -> bool {
-    property == hint || property.contains(hint) || hint.contains(property)
+    property == hint || property.contains(hint)
 }
 
 /// Build a word-bag from a token: key segments + name-object field values + description.
@@ -143,13 +143,10 @@ fn token_word_set(tok: &TokenRecord) -> HashSet<String> {
         words.insert(w);
     }
 
-    // Name-object field values.
+    // Name-object field values only (not keys — "property", "colorFamily", etc. are
+    // schema vocab, not semantic signal, and including them inflates every token's bag).
     if let Some(name_obj) = tok.raw.get("name").and_then(|v| v.as_object()) {
-        for (k, v) in name_obj {
-            // Include the field key itself (e.g. "property", "colorFamily").
-            for w in tokenize(k) {
-                words.insert(w);
-            }
+        for v in name_obj.values() {
             if let Some(s) = v.as_str() {
                 for w in tokenize(s) {
                     words.insert(w);
@@ -249,17 +246,16 @@ mod tests {
 
     #[test]
     fn suggest_respects_limit() {
-        let g = make_graph(
-            (1..=10)
-                .map(|i| {
-                    (
-                        format!("color-{i}"),
-                        json!({ "name": { "property": "color", "scaleIndex": i } }),
-                    )
-                })
-                .map(|(k, v)| (k.leak() as &str, v))
-                .collect::<Vec<_>>(),
-        );
+        // Collect keys into a Vec first so their lifetimes outlast the make_graph call.
+        let keys: Vec<String> = (1..=10).map(|i| format!("color-{i}")).collect();
+        let tokens: Vec<(&str, serde_json::Value)> = keys
+            .iter()
+            .enumerate()
+            .map(|(i, k)| {
+                (k.as_str(), json!({ "name": { "property": "color", "scaleIndex": i + 1 } }))
+            })
+            .collect();
+        let g = make_graph(tokens);
 
         let results = suggest(&g, "color", None, 3);
         assert_eq!(results.len(), 3);
