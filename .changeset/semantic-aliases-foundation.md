@@ -1,5 +1,4 @@
 ---
-"@adobe/spectrum-tokens": minor
 "@adobe/design-data-spec": minor
 ---
 
