@@ -273,6 +273,26 @@ export function alignmentNameForKey(key) {
 }
 
 /**
+ * Derive the name object for a margin multiplier token, or null if unclassifiable.
+ *
+ * Patterns handled:
+ *   <component>-margin-multiplier             → { component, property: "margin" }
+ *   <component>-margin-top-multiplier         → { component, property: "margin-top" }
+ *   <component>-margin-bottom-multiplier      → { component, property: "margin-bottom" }
+ *
+ * Known structures: body, detail, heading.
+ */
+export function marginMultiplierNameForKey(key) {
+  const match = key.match(
+    /^(body|detail|heading)-margin(-top|-bottom)?-multiplier$/,
+  );
+  if (!match) return null;
+  const [, structure, dir] = match;
+  const property = dir ? `margin${dir}` : "margin";
+  return { structure, property };
+}
+
+/**
  * Derive the name object for a line-height multiplier token, or null if unclassifiable.
  *
  * Pattern:  line-height-<N>  → { property, scaleIndex }
@@ -363,11 +383,13 @@ export function classifyToken(key, token, overrides = {}) {
   }
 
   if (schemaEndsWith(schema, MULTIPLIER_SCHEMA)) {
+    const name = marginMultiplierNameForKey(key);
+    if (name) return { name };
     // line-height multipliers (line-height-100, cjk-line-height-100) are deferred:
     // - line-height-N collides with line-height-font-size-N (SPEC-006 specificity tie)
     // - cjk-line-height-N would need `family` field, prohibited on multiplier.json (SPEC-042)
     // When SPEC-006 is resolved, use lineHeightMultiplierNameForKey(key) here.
-    return null; // out of scope
+    return null; // other multipliers out of scope
   }
 
   if (schemaEndsWith(schema, DIMENSION_SCHEMA)) {

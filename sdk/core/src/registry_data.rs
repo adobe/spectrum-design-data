@@ -587,6 +587,21 @@ const STRUCTURES_JSON: &str = r##"{
       "id": "accessory",
       "label": "Accessory",
       "description": "Supplementary element attached to a primary structure"
+    },
+    {
+      "id": "body",
+      "label": "Body",
+      "description": "Body text typography scale — used for standard paragraph and UI text"
+    },
+    {
+      "id": "detail",
+      "label": "Detail",
+      "description": "Detail text typography scale — used for captions, labels, and supporting text"
+    },
+    {
+      "id": "heading",
+      "label": "Heading",
+      "description": "Heading text typography scale — used for section and page headings"
     }
   ]
 }
@@ -1566,6 +1581,21 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "easing",
       "label": "Easing",
       "description": "Animation or transition easing function"
+    },
+    {
+      "id": "margin",
+      "label": "Margin",
+      "description": "External spacing on all sides (used for typography block margin multipliers)"
+    },
+    {
+      "id": "margin-top",
+      "label": "Margin Top",
+      "description": "External spacing above a block element"
+    },
+    {
+      "id": "margin-bottom",
+      "label": "Margin Bottom",
+      "description": "External spacing below a block element"
     }
   ]
 }

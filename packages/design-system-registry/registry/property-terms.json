@@ -187,6 +187,21 @@
       "id": "easing",
       "label": "Easing",
       "description": "Animation or transition easing function"
+    },
+    {
+      "id": "margin",
+      "label": "Margin",
+      "description": "External spacing on all sides (used for typography block margin multipliers)"
+    },
+    {
+      "id": "margin-top",
+      "label": "Margin Top",
+      "description": "External spacing above a block element"
+    },
+    {
+      "id": "margin-bottom",
+      "label": "Margin Bottom",
+      "description": "External spacing below a block element"
     }
   ]
 }

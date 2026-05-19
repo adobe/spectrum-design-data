@@ -1,4 +1,8 @@
 {
+  "body-margin-multiplier": {
+    "structure": "body",
+    "property": "margin"
+  },
   "black-font-weight": {
     "property": "font-weight",
     "weight": "black"
@@ -14,6 +18,14 @@
   "code-font-family": {
     "property": "font-family",
     "family": "code"
+  },
+  "detail-margin-bottom-multiplier": {
+    "structure": "detail",
+    "property": "margin-bottom"
+  },
+  "detail-margin-top-multiplier": {
+    "structure": "detail",
+    "property": "margin-top"
   },
   "default-font-style": {
     "property": "font-style",
@@ -94,6 +106,14 @@
   "font-size-900": {
     "property": "font-size",
     "scaleIndex": 900
+  },
+  "heading-margin-bottom-multiplier": {
+    "structure": "heading",
+    "property": "margin-bottom"
+  },
+  "heading-margin-top-multiplier": {
+    "structure": "heading",
+    "property": "margin-top"
   },
   "italic-font-style": {
     "property": "font-style",

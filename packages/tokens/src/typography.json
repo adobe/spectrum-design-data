@@ -119,6 +119,10 @@
   "body-margin-multiplier": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "body",
+    "name": {
+      "structure": "body",
+      "property": "margin"
+    },
     "uuid": "8f2e9283-4cbc-4374-9757-ed8d68542c89",
     "value": 0.75
   },
@@ -801,12 +805,20 @@
   "detail-margin-bottom-multiplier": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "detail",
+    "name": {
+      "structure": "detail",
+      "property": "margin-bottom"
+    },
     "uuid": "35ac24a4-0338-44c6-b780-120a0af0fc51",
     "value": 0.25
   },
   "detail-margin-top-multiplier": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "detail",
+    "name": {
+      "structure": "detail",
+      "property": "margin-top"
+    },
     "uuid": "5d34c3b5-fddd-420b-bfe4-0dee4e07701c",
     "value": 0.88888889
   },
@@ -1599,12 +1611,20 @@
   "heading-margin-bottom-multiplier": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "heading",
+    "name": {
+      "structure": "heading",
+      "property": "margin-bottom"
+    },
     "uuid": "dd2035b4-506f-41ab-a656-de3668d44e0f",
     "value": 0.25
   },
   "heading-margin-top-multiplier": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "heading",
+    "name": {
+      "structure": "heading",
+      "property": "margin-top"
+    },
     "uuid": "008fa04b-6d74-416b-a6ae-ceec90f08642",
     "value": 0.88888889
   },

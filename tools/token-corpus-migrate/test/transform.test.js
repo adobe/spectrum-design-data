@@ -790,13 +790,30 @@ test("classifyToken: cjk-line-height multiplier is out of scope (SPEC-042: famil
   t.is(classifyToken("cjk-line-height-100", token), null);
 });
 
-test("classifyToken: margin multiplier is out of scope (null)", (t) => {
+test("classifyToken: margin multiplier classifies with component and property", (t) => {
   const token = {
     $schema: MULTIPLIER_SCHEMA_URL,
     uuid: "abc",
     value: 0.75,
   };
-  t.is(classifyToken("body-margin-multiplier", token), null);
+  t.deepEqual(classifyToken("body-margin-multiplier", token), {
+    name: { structure: "body", property: "margin" },
+  });
+  t.deepEqual(
+    classifyToken("detail-margin-top-multiplier", { ...token, value: 0.89 }),
+    {
+      name: { structure: "detail", property: "margin-top" },
+    },
+  );
+  t.deepEqual(
+    classifyToken("heading-margin-bottom-multiplier", {
+      ...token,
+      value: 0.25,
+    }),
+    {
+      name: { structure: "heading", property: "margin-bottom" },
+    },
+  );
 });
 
 test("classifyToken: bare letter-spacing dimension classifies", (t) => {
@@ -861,8 +878,8 @@ test("transformFile: classifies text-align, line-height multipliers, and letter-
     },
   };
   const { nameMap, classified, unclassified, skipped } = transformFile(tokens);
-  t.is(classified, 4);
-  t.is(skipped, 4); // line-height-100 + cjk-line-height-100 + body-margin-multiplier + detail-letter-spacing
+  t.is(classified, 5); // text-align-{start,center,end} + letter-spacing + body-margin-multiplier
+  t.is(skipped, 3); // line-height-100 + cjk-line-height-100 + detail-letter-spacing
   t.deepEqual(unclassified, []);
   t.deepEqual(nameMap["text-align-start"], {
     property: "text-align",
@@ -881,6 +898,9 @@ test("transformFile: classifies text-align, line-height multipliers, and letter-
   t.deepEqual(nameMap["letter-spacing"], {
     property: "letter-spacing",
   });
-  t.falsy(nameMap["body-margin-multiplier"]);
+  t.deepEqual(nameMap["body-margin-multiplier"], {
+    structure: "body",
+    property: "margin",
+  });
   t.falsy(nameMap["detail-letter-spacing"]);
 });
