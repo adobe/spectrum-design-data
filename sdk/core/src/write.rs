@@ -46,8 +46,6 @@ pub struct WriteTokenResult {
     pub written_to: PathBuf,
     /// Whether `product-context.json` was created or updated.
     pub product_context_updated: bool,
-    /// Non-fatal validation warnings (schema errors block — warnings do not).
-    pub warnings: Vec<String>,
 }
 
 /// Validate, write, and record a product-layer token.
@@ -63,8 +61,6 @@ pub fn write_token(
     mut input: WriteTokenInput,
     registry: &SchemaRegistry,
 ) -> Result<WriteTokenResult, CoreError> {
-    let warnings: Vec<String> = Vec::new();
-
     // Inject rationale into the token object if supplied.
     if let Some(ref r) = input.rationale {
         if let Some(obj) = input.token.as_object_mut() {
@@ -100,7 +96,6 @@ pub fn write_token(
     Ok(WriteTokenResult {
         written_to: input.target,
         product_context_updated,
-        warnings,
     })
 }
 
@@ -234,36 +229,49 @@ fn update_product_context(
             }
         }
     } else {
-        let extensions = doc
+        let ext_obj = doc
             .entry("extensions")
-            .or_insert_with(|| serde_json::json!({ "tokens": [] }));
-        if let Some(tokens_arr) = extensions
+            .or_insert_with(|| serde_json::json!({}))
             .as_object_mut()
-            .and_then(|o| o.get_mut("tokens"))
-            .and_then(|v| v.as_array_mut())
-        {
-            // Upsert by UUID if present, otherwise by key name.
-            let exists = if let Some(u) = uuid.as_deref() {
-                tokens_arr
-                    .iter()
-                    .any(|e| e.get("uuid").and_then(|v| v.as_str()) == Some(u))
-            } else {
-                tokens_arr
-                    .iter()
-                    .any(|e| e.get("name").map(|v| v.to_string()) == token.get("name").map(|v| v.to_string()))
-            };
+            .ok_or_else(|| {
+                CoreError::ParseError(format!(
+                    "{}: product-context.json `extensions` field is not an object",
+                    path.display()
+                ))
+            })?;
 
-            if !exists {
-                // Record the token key alongside the token for human-readability.
-                let mut entry = Map::new();
-                entry.insert("key".into(), Value::String(key.into()));
-                if let Some(obj) = token.as_object() {
-                    for (k, v) in obj {
-                        entry.insert(k.clone(), v.clone());
-                    }
+        let tokens_arr = ext_obj
+            .entry("tokens")
+            .or_insert_with(|| Value::Array(Vec::new()))
+            .as_array_mut()
+            .ok_or_else(|| {
+                CoreError::ParseError(format!(
+                    "{}: product-context.json `extensions.tokens` is not an array",
+                    path.display()
+                ))
+            })?;
+
+        // Upsert by UUID if present, otherwise by key name.
+        let exists = if let Some(u) = uuid.as_deref() {
+            tokens_arr
+                .iter()
+                .any(|e| e.get("uuid").and_then(|v| v.as_str()) == Some(u))
+        } else {
+            tokens_arr
+                .iter()
+                .any(|e| e.get("name").map(|v| v.to_string()) == token.get("name").map(|v| v.to_string()))
+        };
+
+        if !exists {
+            // Record the token key alongside the token for human-readability.
+            let mut entry = Map::new();
+            entry.insert("key".into(), Value::String(key.into()));
+            if let Some(obj) = token.as_object() {
+                for (k, v) in obj {
+                    entry.insert(k.clone(), v.clone());
                 }
-                tokens_arr.push(Value::Object(entry));
             }
+            tokens_arr.push(Value::Object(entry));
         }
     }
 
@@ -524,5 +532,44 @@ mod tests {
         assert!(result.is_err());
         let msg = result.unwrap_err().to_string();
         assert!(msg.contains("$schema"), "error should mention $schema: {msg}");
+    }
+
+    #[test]
+    fn write_token_errors_when_extensions_tokens_is_not_array() {
+        let dir = TempDir::new().unwrap();
+        let target = dir.path().join("tokens.json");
+        let pc_path = dir.path().join("product-context.json");
+        let registry = test_registry();
+
+        // Seed a product-context.json where extensions.tokens is a string, not an array.
+        std::fs::write(
+            &pc_path,
+            r#"{"specVersion":"1.0.0-draft","layer":"product","extensions":{"tokens":"bad"}}"#,
+        )
+        .unwrap();
+
+        let result = write_token(
+            WriteTokenInput {
+                key: "t".into(),
+                token: json!({
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+                    "value": "rgb(1, 2, 3)",
+                    "uuid": "ffffffff-0006-4006-8006-000000000006"
+                }),
+                target,
+                product_context: Some(pc_path),
+                rationale: None,
+                created_at: None,
+                is_override: false,
+            },
+            &registry,
+        );
+
+        assert!(result.is_err());
+        let msg = result.unwrap_err().to_string();
+        assert!(
+            msg.contains("extensions.tokens"),
+            "error should name the bad field: {msg}"
+        );
     }
 }

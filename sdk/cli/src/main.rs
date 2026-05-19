@@ -1226,9 +1226,6 @@ fn run_write_token(
     .into_diagnostic()
     .wrap_err("write_token failed")?;
 
-    for warn in &result.warnings {
-        eprintln!("warning: {warn}");
-    }
     println!("Wrote token '{}' to {}", key, result.written_to.display());
     if result.product_context_updated {
         println!(
