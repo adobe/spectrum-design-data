@@ -106,12 +106,13 @@ Typography tokens describe typeface attributes: family, weight, style, and numer
 
 **NORMATIVE:** Typography tokens SHOULD include at least one of `family`, `weight`, or `style`. Tokens missing all three are flagged by rule SPEC-043 (`domain-required-fields`, warning).
 
-| Category | Name object field | Answers | Description                                                                                                                                                                                                             |
-| -------- | ----------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Family   | `family`          | What?   | Type family of the token (e.g. `sans-serif`, `serif`, `cjk`, `code`). Values come from [`typography-families.json`](../../packages/design-system-registry/registry/typography-families.json).                           |
-| Weight   | `weight`          | How?    | Typographic weight (e.g. `regular`, `bold`, `light`, `black`). Values come from [`typography-weights.json`](../../packages/design-system-registry/registry/typography-weights.json).                                    |
-| Style    | `style`           | How?    | Typographic style when non-default (e.g. `italic`, `oblique`). Omit the field when style is normal. Values come from [`typography-styles.json`](../../packages/design-system-registry/registry/typography-styles.json). |
-| Scale    | `scaleIndex`      | Which?  | Numeric size scale step (e.g. `75`, `100`, `200`). Shared with other token types; not scope-restricted.                                                                                                                 |
+| Category  | Name object field | Answers | Description                                                                                                                                                                                                             |
+| --------- | ----------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Family    | `family`          | What?   | Type family of the token (e.g. `sans-serif`, `serif`, `cjk`, `code`). Values come from [`typography-families.json`](../../packages/design-system-registry/registry/typography-families.json).                           |
+| Weight    | `weight`          | How?    | Typographic weight (e.g. `regular`, `bold`, `light`, `black`). Values come from [`typography-weights.json`](../../packages/design-system-registry/registry/typography-weights.json).                                    |
+| Style     | `style`           | How?    | Typographic style when non-default (e.g. `italic`, `oblique`). Omit the field when style is normal. Values come from [`typography-styles.json`](../../packages/design-system-registry/registry/typography-styles.json). |
+| Alignment | `alignment`       | How?    | Horizontal text-alignment direction (e.g. `start`, `center`, `end`). Corresponds to the CSS `text-align` axis. Values come from [`alignments.json`](../../packages/design-system-registry/registry/alignments.json).    |
+| Scale     | `scaleIndex`      | Which?  | Numeric size scale step (e.g. `75`, `100`, `200`). Shared with other token types; not scope-restricted.                                                                                                                 |
 
 **Default serialization order for typography tokens:**
 

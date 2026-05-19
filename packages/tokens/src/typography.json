@@ -2082,7 +2082,10 @@
   "letter-spacing": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "uuid": "d8caf3aa-1261-411f-b383-18f87334c117",
-    "value": "0em"
+    "value": "0em",
+    "name": {
+      "property": "letter-spacing"
+    }
   },
   "light-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
@@ -2502,16 +2505,28 @@
   "text-align-center": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
     "uuid": "df252e5a-f115-471d-bb35-c79e733d868b",
-    "value": "center"
+    "value": "center",
+    "name": {
+      "property": "text-align",
+      "alignment": "center"
+    }
   },
   "text-align-end": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
     "uuid": "a0c425b3-668b-4413-8739-c7844b26ebad",
-    "value": "end"
+    "value": "end",
+    "name": {
+      "property": "text-align",
+      "alignment": "end"
+    }
   },
   "text-align-start": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
     "uuid": "3a7f9e91-6e1a-4937-a6d2-6c39566dc875",
-    "value": "start"
+    "value": "start",
+    "name": {
+      "property": "text-align",
+      "alignment": "start"
+    }
   }
 }

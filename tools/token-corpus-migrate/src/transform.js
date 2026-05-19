@@ -10,11 +10,13 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import alignmentsData from "@adobe/design-system-registry/registry/alignments.json" with { type: "json" };
 import colorFamiliesData from "@adobe/design-system-registry/registry/color-families.json" with { type: "json" };
 import typographyFamiliesData from "@adobe/design-system-registry/registry/typography-families.json" with { type: "json" };
 import typographyStylesData from "@adobe/design-system-registry/registry/typography-styles.json" with { type: "json" };
 import typographyWeightsData from "@adobe/design-system-registry/registry/typography-weights.json" with { type: "json" };
 
+const ALIGNMENTS = new Set(alignmentsData.values.map((v) => v.id));
 const COLOR_FAMILIES = new Set(colorFamiliesData.values.map((v) => v.id));
 const TYPOGRAPHY_FAMILIES = new Set(
   typographyFamiliesData.values.map((v) => v.id),
@@ -25,9 +27,12 @@ const TYPOGRAPHY_WEIGHTS = new Set(
 );
 
 const COLOR_SCHEMAS = new Set(["color.json", "color-set.json"]);
+const ALIGNMENT_SCHEMA = "alignment.json";
+const DIMENSION_SCHEMA = "dimension.json";
 const FONT_FAMILY_SCHEMA = "font-family.json";
 const FONT_STYLE_SCHEMA = "font-style.json";
 const FONT_WEIGHT_SCHEMA = "font-weight.json";
+const MULTIPLIER_SCHEMA = "multiplier.json";
 const SCALE_SET_SCHEMA = "scale-set.json";
 
 /** Returns true when a $schema URL ends with the given suffix. */
@@ -231,6 +236,53 @@ export function lineHeightNameForKey(key) {
 }
 
 /**
+ * Derive the name object for a text-align token, or null if unclassifiable.
+ *
+ * Pattern:  text-align-<alignment>  where alignment is in the alignments registry.
+ */
+export function alignmentNameForKey(key) {
+  const match = key.match(/^text-align-(.+)$/);
+  if (match) {
+    const [, alignment] = match;
+    if (ALIGNMENTS.has(alignment)) {
+      return { property: "text-align", alignment };
+    }
+  }
+  return null;
+}
+
+/**
+ * Derive the name object for a line-height multiplier token, or null if unclassifiable.
+ *
+ * Pattern:  line-height-<N>  → { property, scaleIndex }
+ *
+ * cjk-line-height-<N> is deferred: SPEC-042 prohibits the `family` field on
+ * multiplier.json tokens (not in the typography domain schema set).
+ *
+ * Distinct from lineHeightNameForKey which handles line-height-font-size-<N> / scale-set.json.
+ */
+export function lineHeightMultiplierNameForKey(key) {
+  const plainMatch = key.match(/^line-height-(\d+)$/);
+  if (plainMatch) {
+    return { property: "line-height", scaleIndex: Number(plainMatch[1]) };
+  }
+  return null;
+}
+
+/**
+ * Derive the name object for the bare letter-spacing canonical token.
+ *
+ * Only the exact key "letter-spacing" is in scope; semantic dimension tokens
+ * such as "detail-letter-spacing" are deferred.
+ */
+export function letterSpacingNameForKey(key) {
+  if (key === "letter-spacing") {
+    return { property: "letter-spacing" };
+  }
+  return null;
+}
+
+/**
  * Classify a single token entry and return a name object, or null to skip.
  *
  * @param {string} key            - Token key (e.g. "blue-100")
@@ -281,6 +333,26 @@ export function classifyToken(key, token, overrides = {}) {
     const name = fontSizeNameForKey(key) ?? lineHeightNameForKey(key);
     if (name) return { name };
     return null; // other scale-set tokens (layout, etc.) are out of scope
+  }
+
+  if (schemaEndsWith(schema, ALIGNMENT_SCHEMA)) {
+    const name = alignmentNameForKey(key);
+    if (name) return { name };
+    return { name: null }; // in-scope but unclassified
+  }
+
+  if (schemaEndsWith(schema, MULTIPLIER_SCHEMA)) {
+    // line-height multipliers (line-height-100, cjk-line-height-100) are deferred:
+    // - line-height-N collides with line-height-font-size-N (SPEC-006 specificity tie)
+    // - cjk-line-height-N would need `family` field, prohibited on multiplier.json (SPEC-042)
+    return null; // out of scope
+  }
+
+  if (schemaEndsWith(schema, DIMENSION_SCHEMA)) {
+    // Only the bare canonical letter-spacing token is in scope.
+    const name = letterSpacingNameForKey(key);
+    if (name) return { name };
+    return null; // out of scope (detail-letter-spacing etc. deferred)
   }
 
   return null; // out of scope for this tool

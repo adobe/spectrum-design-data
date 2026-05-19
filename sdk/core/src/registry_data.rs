@@ -1553,6 +1553,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "Horizontal spacing between characters"
     },
     {
+      "id": "text-align",
+      "label": "Text Align",
+      "description": "Horizontal alignment of text content"
+    },
+    {
       "id": "duration",
       "label": "Duration",
       "description": "Animation or transition duration"
@@ -2247,6 +2252,29 @@ const EASING_CURVES_JSON: &str = r##"{
   ]
 }
 "##;
+const ALIGNMENTS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "alignment",
+  "description": "Horizontal text-alignment values for text-align tokens. Assigned via the `alignment` name-object field. Corresponds to the CSS text-align axis.",
+  "values": [
+    {
+      "id": "start",
+      "label": "Start",
+      "description": "Align text to the inline-start edge"
+    },
+    {
+      "id": "center",
+      "label": "Center",
+      "description": "Center text horizontally"
+    },
+    {
+      "id": "end",
+      "label": "End",
+      "description": "Align text to the inline-end edge"
+    }
+  ]
+}
+"##;
 const CATEGORIES_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "category",
@@ -2304,7 +2332,7 @@ const CATEGORIES_JSON: &str = r##"{
 }
 "##;
 
-pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "property", "orientation", "position", "size", "density", "shape", "state", "colorFamily", "family", "weight", "style", "motionRole", "easing"];
+pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "property", "orientation", "position", "size", "density", "shape", "state", "colorFamily", "family", "weight", "style", "motionRole", "easing", "alignment"];
 
 pub(crate) fn build_registry_map(
 ) -> std::collections::HashMap<String, std::collections::HashSet<String>> {
@@ -2328,6 +2356,7 @@ pub(crate) fn build_registry_map(
     map.insert("style".to_string(), parse_registry(TYPOGRAPHY_STYLES_JSON));
     map.insert("motionRole".to_string(), parse_registry(MOTION_ROLES_JSON));
     map.insert("easing".to_string(), parse_registry(EASING_CURVES_JSON));
+    map.insert("alignment".to_string(), parse_registry(ALIGNMENTS_JSON));
     map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
     map
 }

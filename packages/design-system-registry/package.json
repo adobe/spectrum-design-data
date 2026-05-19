@@ -22,6 +22,7 @@
     "./registry/densities.json": "./registry/densities.json",
     "./registry/shapes.json": "./registry/shapes.json",
     "./registry/color-families.json": "./registry/color-families.json",
+    "./registry/alignments.json": "./registry/alignments.json",
     "./registry/typography-families.json": "./registry/typography-families.json",
     "./registry/typography-weights.json": "./registry/typography-weights.json",
     "./registry/typography-styles.json": "./registry/typography-styles.json",

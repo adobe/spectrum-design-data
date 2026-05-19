@@ -39,8 +39,11 @@ Each token is matched against the rules in `src/transform.js`:
 | `scale-set.json`                | `line-height-font-size-<N>`             | `{ property: "line-height", scaleIndex }`                              |
 | `color-set.json`                | `icon-color-<family>-background`        | `{ property: "icon-color", colorFamily, object: "background" }`        |
 | `color-set.json`                | `icon-color-<family>-primary[-<state>]` | `{ property: "icon-color", colorFamily, variant: "primary"[, state] }` |
+| `alignment.json`                | `text-align-<alignment>`                | `{ property: "text-align", alignment }`                                |
+| `dimension.json`                | `letter-spacing` (exact)                | `{ property: "letter-spacing" }`                                       |
 
 Valid `colorFamily` values are sourced from `@adobe/design-system-registry/registry/color-families.json`.
+Valid `alignment` values are sourced from `@adobe/design-system-registry/registry/alignments.json`.
 Valid `family` values are sourced from `@adobe/design-system-registry/registry/typography-families.json`.
 Valid `style` values are sourced from `@adobe/design-system-registry/registry/typography-styles.json`.
 Valid `weight` values are sourced from `@adobe/design-system-registry/registry/typography-weights.json`.

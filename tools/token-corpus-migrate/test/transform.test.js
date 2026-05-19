@@ -12,6 +12,7 @@ governing permissions and limitations under the License.
 
 import test from "ava";
 import {
+  alignmentNameForKey,
   classifyToken,
   colorNameForKey,
   fontFamilyNameForKey,
@@ -19,6 +20,8 @@ import {
   fontStyleNameForKey,
   fontWeightNameForKey,
   iconColorNameForKey,
+  letterSpacingNameForKey,
+  lineHeightMultiplierNameForKey,
   lineHeightNameForKey,
   transformFile,
 } from "../src/transform.js";
@@ -609,4 +612,211 @@ test("transformFile: injects names on color-set icon tokens; alias tokens are ou
   });
   t.false("name" in transformed["icon-color-cinnamon-primary-default"]);
   t.false("name" in transformed["icon-color-inverse"]);
+});
+
+// ── alignmentNameForKey ───────────────────────────────────────────────────────
+
+test("alignmentNameForKey: start", (t) => {
+  t.deepEqual(alignmentNameForKey("text-align-start"), {
+    property: "text-align",
+    alignment: "start",
+  });
+});
+
+test("alignmentNameForKey: center", (t) => {
+  t.deepEqual(alignmentNameForKey("text-align-center"), {
+    property: "text-align",
+    alignment: "center",
+  });
+});
+
+test("alignmentNameForKey: end", (t) => {
+  t.deepEqual(alignmentNameForKey("text-align-end"), {
+    property: "text-align",
+    alignment: "end",
+  });
+});
+
+test("alignmentNameForKey: unregistered value returns null", (t) => {
+  t.is(alignmentNameForKey("text-align-justify"), null);
+});
+
+test("alignmentNameForKey: non-alignment key returns null", (t) => {
+  t.is(alignmentNameForKey("body-color"), null);
+});
+
+// ── lineHeightMultiplierNameForKey ────────────────────────────────────────────
+
+test("lineHeightMultiplierNameForKey: line-height-100", (t) => {
+  t.deepEqual(lineHeightMultiplierNameForKey("line-height-100"), {
+    property: "line-height",
+    scaleIndex: 100,
+  });
+});
+
+test("lineHeightMultiplierNameForKey: line-height-200", (t) => {
+  t.deepEqual(lineHeightMultiplierNameForKey("line-height-200"), {
+    property: "line-height",
+    scaleIndex: 200,
+  });
+});
+
+test("lineHeightMultiplierNameForKey: cjk-line-height deferred (SPEC-042: family not allowed on multiplier.json)", (t) => {
+  t.is(lineHeightMultiplierNameForKey("cjk-line-height-100"), null);
+  t.is(lineHeightMultiplierNameForKey("cjk-line-height-200"), null);
+});
+
+test("lineHeightMultiplierNameForKey: margin multiplier is out of scope", (t) => {
+  t.is(lineHeightMultiplierNameForKey("body-margin-multiplier"), null);
+});
+
+test("lineHeightMultiplierNameForKey: scale-set line-height key returns null", (t) => {
+  t.is(lineHeightMultiplierNameForKey("line-height-font-size-100"), null);
+});
+
+// ── letterSpacingNameForKey ───────────────────────────────────────────────────
+
+test("letterSpacingNameForKey: bare letter-spacing", (t) => {
+  t.deepEqual(letterSpacingNameForKey("letter-spacing"), {
+    property: "letter-spacing",
+  });
+});
+
+test("letterSpacingNameForKey: semantic detail-letter-spacing returns null", (t) => {
+  t.is(letterSpacingNameForKey("detail-letter-spacing"), null);
+});
+
+test("letterSpacingNameForKey: unrelated key returns null", (t) => {
+  t.is(letterSpacingNameForKey("font-size-100"), null);
+});
+
+// ── classifyToken (alignment / multiplier / dimension) ────────────────────────
+
+const ALIGNMENT_SCHEMA_URL =
+  "https://example.com/schemas/token-types/alignment.json";
+const DIMENSION_SCHEMA_URL =
+  "https://example.com/schemas/token-types/dimension.json";
+const MULTIPLIER_SCHEMA_URL =
+  "https://example.com/schemas/token-types/multiplier.json";
+
+test("classifyToken: alignment token classifies", (t) => {
+  const token = { $schema: ALIGNMENT_SCHEMA_URL, uuid: "abc", value: "start" };
+  t.deepEqual(classifyToken("text-align-start", token), {
+    name: { property: "text-align", alignment: "start" },
+  });
+});
+
+test("classifyToken: alignment token with unknown value is in-scope but unclassified", (t) => {
+  const token = {
+    $schema: ALIGNMENT_SCHEMA_URL,
+    uuid: "abc",
+    value: "justify",
+  };
+  t.deepEqual(classifyToken("text-align-justify", token), { name: null });
+});
+
+test("classifyToken: line-height multiplier is out of scope (SPEC-006: collides with scale-set line-height-font-size-N)", (t) => {
+  const token = { $schema: MULTIPLIER_SCHEMA_URL, uuid: "abc", value: 1.3 };
+  t.is(classifyToken("line-height-100", token), null);
+});
+
+test("classifyToken: cjk-line-height multiplier is out of scope (SPEC-042: family not allowed on multiplier.json)", (t) => {
+  const token = { $schema: MULTIPLIER_SCHEMA_URL, uuid: "abc", value: 1.5 };
+  t.is(classifyToken("cjk-line-height-100", token), null);
+});
+
+test("classifyToken: margin multiplier is out of scope (null)", (t) => {
+  const token = {
+    $schema: MULTIPLIER_SCHEMA_URL,
+    uuid: "abc",
+    value: 0.75,
+  };
+  t.is(classifyToken("body-margin-multiplier", token), null);
+});
+
+test("classifyToken: bare letter-spacing dimension classifies", (t) => {
+  const token = { $schema: DIMENSION_SCHEMA_URL, uuid: "abc", value: "0em" };
+  t.deepEqual(classifyToken("letter-spacing", token), {
+    name: { property: "letter-spacing" },
+  });
+});
+
+test("classifyToken: detail-letter-spacing dimension is out of scope (null)", (t) => {
+  const token = {
+    $schema: DIMENSION_SCHEMA_URL,
+    uuid: "abc",
+    value: "0.06em",
+  };
+  t.is(classifyToken("detail-letter-spacing", token), null);
+});
+
+// ── transformFile (typography stragglers round) ───────────────────────────────
+
+test("transformFile: classifies text-align, line-height multipliers, and letter-spacing; leaves semantic stragglers untouched", (t) => {
+  const tokens = {
+    "text-align-start": {
+      $schema: ALIGNMENT_SCHEMA_URL,
+      uuid: "a",
+      value: "start",
+    },
+    "text-align-center": {
+      $schema: ALIGNMENT_SCHEMA_URL,
+      uuid: "b",
+      value: "center",
+    },
+    "text-align-end": {
+      $schema: ALIGNMENT_SCHEMA_URL,
+      uuid: "c",
+      value: "end",
+    },
+    "line-height-100": {
+      $schema: MULTIPLIER_SCHEMA_URL,
+      uuid: "d",
+      value: 1.3,
+    },
+    "cjk-line-height-100": {
+      $schema: MULTIPLIER_SCHEMA_URL,
+      uuid: "f",
+      value: 1.5,
+    },
+    "letter-spacing": {
+      $schema: DIMENSION_SCHEMA_URL,
+      uuid: "h",
+      value: "0em",
+    },
+    "body-margin-multiplier": {
+      $schema: MULTIPLIER_SCHEMA_URL,
+      uuid: "i",
+      value: 0.75,
+    },
+    "detail-letter-spacing": {
+      $schema: DIMENSION_SCHEMA_URL,
+      uuid: "j",
+      value: "0.06em",
+    },
+  };
+  const { transformed, classified, unclassified, skipped } =
+    transformFile(tokens);
+  t.is(classified, 4);
+  t.is(skipped, 4); // line-height-100 + cjk-line-height-100 + body-margin-multiplier + detail-letter-spacing
+  t.deepEqual(unclassified, []);
+  t.deepEqual(transformed["text-align-start"].name, {
+    property: "text-align",
+    alignment: "start",
+  });
+  t.deepEqual(transformed["text-align-center"].name, {
+    property: "text-align",
+    alignment: "center",
+  });
+  t.deepEqual(transformed["text-align-end"].name, {
+    property: "text-align",
+    alignment: "end",
+  });
+  t.false("name" in transformed["line-height-100"]);
+  t.false("name" in transformed["cjk-line-height-100"]);
+  t.deepEqual(transformed["letter-spacing"].name, {
+    property: "letter-spacing",
+  });
+  t.false("name" in transformed["body-margin-multiplier"]);
+  t.false("name" in transformed["detail-letter-spacing"]);
 });
