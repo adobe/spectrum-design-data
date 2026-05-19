@@ -1,15 +1,11 @@
 ---
-"@adobe/spectrum-tokens": minor
 "@adobe/design-system-registry": minor
+"@adobe/token-names": minor
 "design-data-core": minor
 ---
 
 Classify line-height multiplier and CJK line-height multiplier tokens.
 
-- **tokens/typography.json**: 4 tokens gain `name` objects — `line-height-{100,200}`
-  → `{ property: "line-height-multiplier", scaleIndex: N }`;
-  `cjk-line-height-{100,200}` → `{ property: "line-height-multiplier", family: "cjk",
-  scaleIndex: N }`
 - **registry/property-terms.json**: add `line-height-multiplier` term (unitless ratio,
   distinct from absolute px line-height paired with a font-size tier).
 - **sdk/validate/rules/mod.rs**: add `multiplier.json` to typography `DOMAIN_SCHEMAS`
