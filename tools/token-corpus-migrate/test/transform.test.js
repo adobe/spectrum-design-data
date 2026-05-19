@@ -23,6 +23,7 @@ import {
   letterSpacingNameForKey,
   lineHeightMultiplierNameForKey,
   lineHeightNameForKey,
+  marginMultiplierNameForKey,
   transformFile,
 } from "../src/transform.js";
 
@@ -710,6 +711,35 @@ test("alignmentNameForKey: non-alignment key returns null", (t) => {
   t.is(alignmentNameForKey("body-color"), null);
 });
 
+// ── marginMultiplierNameForKey ────────────────────────────────────────────────
+
+test("marginMultiplierNameForKey: body-margin-multiplier", (t) => {
+  t.deepEqual(marginMultiplierNameForKey("body-margin-multiplier"), {
+    structure: "body",
+    property: "margin",
+  });
+});
+
+test("marginMultiplierNameForKey: detail-margin-top-multiplier", (t) => {
+  t.deepEqual(marginMultiplierNameForKey("detail-margin-top-multiplier"), {
+    structure: "detail",
+    property: "margin-top",
+  });
+});
+
+test("marginMultiplierNameForKey: heading-margin-bottom-multiplier", (t) => {
+  t.deepEqual(marginMultiplierNameForKey("heading-margin-bottom-multiplier"), {
+    structure: "heading",
+    property: "margin-bottom",
+  });
+});
+
+test("marginMultiplierNameForKey: unrecognized key returns null", (t) => {
+  t.is(marginMultiplierNameForKey("body-color"), null);
+  t.is(marginMultiplierNameForKey("line-height-100"), null);
+  t.is(marginMultiplierNameForKey("body-margin"), null);
+});
+
 // ── lineHeightMultiplierNameForKey ────────────────────────────────────────────
 
 test("lineHeightMultiplierNameForKey: line-height-100", (t) => {
@@ -806,7 +836,7 @@ test("classifyToken: cjk-line-height multiplier classifies with family", (t) => 
   });
 });
 
-test("classifyToken: margin multiplier classifies with component and property", (t) => {
+test("classifyToken: margin multiplier classifies with structure and property", (t) => {
   const token = {
     $schema: MULTIPLIER_SCHEMA_URL,
     uuid: "abc",

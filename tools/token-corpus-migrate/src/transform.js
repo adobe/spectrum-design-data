@@ -276,9 +276,9 @@ export function alignmentNameForKey(key) {
  * Derive the name object for a margin multiplier token, or null if unclassifiable.
  *
  * Patterns handled:
- *   <component>-margin-multiplier             → { component, property: "margin" }
- *   <component>-margin-top-multiplier         → { component, property: "margin-top" }
- *   <component>-margin-bottom-multiplier      → { component, property: "margin-bottom" }
+ *   <structure>-margin-multiplier             → { structure, property: "margin" }
+ *   <structure>-margin-top-multiplier         → { structure, property: "margin-top" }
+ *   <structure>-margin-bottom-multiplier      → { structure, property: "margin-bottom" }
  *
  * Known structures: body, detail, heading.
  */

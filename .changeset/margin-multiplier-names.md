@@ -1,6 +1,7 @@
 ---
 "@adobe/design-system-registry": minor
 "@adobe/token-names": minor
+"design-data-core": minor
 ---
 
 Classify 5 margin multiplier tokens; add margin property-terms and typography structures.
