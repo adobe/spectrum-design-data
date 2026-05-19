@@ -345,6 +345,7 @@ export function classifyToken(key, token, overrides = {}) {
     // line-height multipliers (line-height-100, cjk-line-height-100) are deferred:
     // - line-height-N collides with line-height-font-size-N (SPEC-006 specificity tie)
     // - cjk-line-height-N would need `family` field, prohibited on multiplier.json (SPEC-042)
+    // When SPEC-006 is resolved, use lineHeightMultiplierNameForKey(key) here.
     return null; // out of scope
   }
 
