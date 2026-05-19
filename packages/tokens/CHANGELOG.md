@@ -1,5 +1,20 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.10.0
+
+### Minor Changes
+
+- [#967](https://github.com/adobe/spectrum-design-data/pull/967) [`dfddf12`](https://github.com/adobe/spectrum-design-data/commit/dfddf123e92ff31eeb8a71bb6350f189ef39de13) Thanks [@GarthDB](https://github.com/GarthDB)! - Icons name-object migration: structured `name` on family-scoped icon-color
+  tokens in `icons.json`.
+  - **icons.json**: 56 color-set tokens gain
+    `name: { property: "icon-color", colorFamily, [object|variant|state] }`.
+  - **design-system-registry**: add `icon-color` to `property-terms.json`;
+    regenerate `registry_data.rs`.
+  - **token-corpus-migrate**: add `iconColorNameForKey`; add `icons.json` to
+    pilot scope.
+  - 23 alias tokens deferred — `colorFamily` is not permitted on `alias.json`
+    by SPEC-042; follow-up will address when the alias name shape is defined.
+
 ## 14.9.0
 
 ### Minor Changes
