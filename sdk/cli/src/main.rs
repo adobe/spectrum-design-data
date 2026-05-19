@@ -17,7 +17,7 @@ mod format;
 
 use std::collections::HashSet;
 
-use clap::{Parser, Subcommand, ValueEnum};
+use clap::{ArgGroup, Parser, Subcommand, ValueEnum};
 use design_data_core::cascade::{resolve, ResolutionContext};
 use design_data_core::compat::{
     load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot,
@@ -175,6 +175,7 @@ enum Commands {
         rationale: Option<String>,
     },
     /// Validate and write a product-layer token to a target file
+    #[command(group(ArgGroup::new("token_source").required(true).args(["token_json", "token_file"])))]
     WriteToken {
         /// Token key (its name in the target file, e.g. "checkout-background-color")
         #[arg(value_name = "KEY")]

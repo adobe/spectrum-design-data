@@ -58,35 +58,39 @@ pub struct WriteTokenResult {
 /// - The token fails structural JSON Schema validation (first error wins).
 /// - File I/O fails.
 pub fn write_token(
-    mut input: WriteTokenInput,
+    input: WriteTokenInput,
     registry: &SchemaRegistry,
 ) -> Result<WriteTokenResult, CoreError> {
+    // Destructure so it's clear only `token` is mutated.
+    let WriteTokenInput { key, mut token, target, product_context, rationale, created_at, is_override } =
+        input;
+
     // Inject rationale into the token object if supplied.
-    if let Some(ref r) = input.rationale {
-        if let Some(obj) = input.token.as_object_mut() {
+    if let Some(ref r) = rationale {
+        if let Some(obj) = token.as_object_mut() {
             obj.entry("rationale")
                 .or_insert_with(|| Value::String(r.clone()));
         }
     }
 
     // Structural validation against the token's $schema.
-    validate_token_object(&input.key, &input.token, registry)?;
+    validate_token_object(&key, &token, registry)?;
 
     // Read existing target file (if any) and merge.
-    let mut file_map = read_legacy_file(&input.target)?;
-    file_map.insert(input.key.clone(), input.token.clone());
+    let mut file_map = read_legacy_file(&target)?;
+    file_map.insert(key.clone(), token.clone());
 
-    write_json_file(&input.target, &Value::Object(file_map))?;
+    write_json_file(&target, &Value::Object(file_map))?;
 
     // Update product-context.json for rationale capture.
-    let product_context_updated = if let Some(ref pc_path) = input.product_context {
+    let product_context_updated = if let Some(ref pc_path) = product_context {
         update_product_context(
             pc_path,
-            &input.key,
-            &input.token,
-            input.rationale.as_deref(),
-            input.created_at.as_deref(),
-            input.is_override,
+            &key,
+            &token,
+            rationale.as_deref(),
+            created_at.as_deref(),
+            is_override,
         )?;
         true
     } else {
@@ -94,7 +98,7 @@ pub fn write_token(
     };
 
     Ok(WriteTokenResult {
-        written_to: input.target,
+        written_to: target,
         product_context_updated,
     })
 }
@@ -251,19 +255,30 @@ fn update_product_context(
                 ))
             })?;
 
-        // Upsert by UUID if present, otherwise by key name.
-        let exists = if let Some(u) = uuid.as_deref() {
+        // Upsert by UUID if present, otherwise by name string.
+        let token_name = token.get("name").and_then(|v| v.as_str());
+        let existing_idx = if let Some(u) = uuid.as_deref() {
             tokens_arr
                 .iter()
-                .any(|e| e.get("uuid").and_then(|v| v.as_str()) == Some(u))
+                .position(|e| e.get("uuid").and_then(|v| v.as_str()) == Some(u))
         } else {
             tokens_arr
                 .iter()
-                .any(|e| e.get("name").map(|v| v.to_string()) == token.get("name").map(|v| v.to_string()))
+                .position(|e| e.get("name").and_then(|v| v.as_str()) == token_name)
         };
 
-        if !exists {
-            // Record the token key alongside the token for human-readability.
+        if let Some(idx) = existing_idx {
+            // Update value and rationale in-place.
+            if let Some(obj) = tokens_arr[idx].as_object_mut() {
+                if let Some(v) = token.get("value") {
+                    obj.insert("value".into(), v.clone());
+                }
+                if let Some(r) = rationale {
+                    obj.insert("rationale".into(), Value::String(r.into()));
+                }
+            }
+        } else {
+            // New entry — record the token key for human-readability.
             let mut entry = Map::new();
             entry.insert("key".into(), Value::String(key.into()));
             if let Some(obj) = token.as_object() {
@@ -571,5 +586,54 @@ mod tests {
             msg.contains("extensions.tokens"),
             "error should name the bad field: {msg}"
         );
+    }
+
+    #[test]
+    fn write_token_upserts_extension_entry_in_place() {
+        let dir = TempDir::new().unwrap();
+        let target = dir.path().join("tokens.json");
+        let pc_path = dir.path().join("product-context.json");
+        let registry = test_registry();
+
+        let common = WriteTokenInput {
+            key: "tok".into(),
+            token: json!({
+                "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+                "value": "rgb(1, 1, 1)",
+                "uuid": "a7a7a7a7-0007-4007-8007-000000000007"
+            }),
+            target: target.clone(),
+            product_context: Some(pc_path.clone()),
+            rationale: Some("first write".into()),
+            created_at: None,
+            is_override: false,
+        };
+        write_token(common, &registry).unwrap();
+
+        // Second write: new value, new rationale — should update in place, not append.
+        write_token(
+            WriteTokenInput {
+                key: "tok".into(),
+                token: json!({
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+                    "value": "rgb(2, 2, 2)",
+                    "uuid": "a7a7a7a7-0007-4007-8007-000000000007"
+                }),
+                target,
+                product_context: Some(pc_path.clone()),
+                rationale: Some("updated rationale".into()),
+                created_at: None,
+                is_override: false,
+            },
+            &registry,
+        )
+        .unwrap();
+
+        let pc: serde_json::Value =
+            serde_json::from_str(&std::fs::read_to_string(&pc_path).unwrap()).unwrap();
+        let tokens = pc["extensions"]["tokens"].as_array().expect("tokens array");
+        assert_eq!(tokens.len(), 1, "upsert must not duplicate the entry");
+        assert_eq!(tokens[0]["value"].as_str(), Some("rgb(2, 2, 2)"));
+        assert_eq!(tokens[0]["rationale"].as_str(), Some("updated rationale"));
     }
 }
