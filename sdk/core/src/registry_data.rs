@@ -589,6 +589,21 @@ const STRUCTURES_JSON: &str = r##"{
       "description": "Supplementary element attached to a primary structure"
     },
     {
+      "id": "group",
+      "label": "Group",
+      "description": "Collection of similar UI elements or related controls"
+    },
+    {
+      "id": "banner",
+      "label": "Banner",
+      "description": "Prominent element for displaying non-permanent information or actions"
+    },
+    {
+      "id": "table",
+      "label": "Table",
+      "description": "Tabular layout of rows and columns for structured data"
+    },
+    {
       "id": "body",
       "label": "Body",
       "description": "Body text typography scale — used for standard paragraph and UI text"
