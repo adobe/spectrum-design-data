@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
   "title": "Multiplier",
-  "description": "A float used to multiply a value by a given amount. Also used as a line-height multiplier.",
+  "description": "A float used to multiply a value by a given amount. Used for line-height and margin multipliers.",
   "type": "object",
   "allOf": [
     {
