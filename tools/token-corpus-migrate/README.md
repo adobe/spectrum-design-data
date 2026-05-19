@@ -39,6 +39,10 @@ Each token is matched against the rules in `src/transform.js`:
 | `scale-set.json`                | `line-height-font-size-<N>`             | `{ property: "line-height", scaleIndex }`                              |
 | `color-set.json`                | `icon-color-<family>-background`        | `{ property: "icon-color", colorFamily, object: "background" }`        |
 | `color-set.json`                | `icon-color-<family>-primary[-<state>]` | `{ property: "icon-color", colorFamily, variant: "primary"[, state] }` |
+| `alias.json`                    | `icon-color-<family>-background`        | `{ property: "icon-color", colorFamily, object: "background" }`        |
+| `alias.json`                    | `icon-color-<family>-primary[-<state>]` | `{ property: "icon-color", colorFamily, variant: "primary"[, state] }` |
+| `alias.json`                    | `icon-color-primary[-<state>]`          | `{ property: "icon-color", variant: "primary"[, state] }`              |
+| `alias.json`                    | `icon-color-disabled-primary`           | `{ property: "icon-color", variant: "primary", state: "disabled" }`    |
 | `alignment.json`                | `text-align-<alignment>`                | `{ property: "text-align", alignment }`                                |
 | `dimension.json`                | `letter-spacing` (exact)                | `{ property: "letter-spacing" }`                                       |
 

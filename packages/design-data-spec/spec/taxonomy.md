@@ -144,6 +144,33 @@ Motion tokens describe timing, easing, and animation role for UI animation. Thei
 
 Example: `motionRole=enter` + `easing=ease-out` → `enter-ease-out`. `motionRole=transition` + `scaleIndex=100` → `transition-100`.
 
+### Alias / semantic token name objects
+
+Alias tokens (`$schema: …/alias.json`) MAY carry name objects using the same field vocabulary
+as their target domain. A color alias carrying `colorFamily` is valid when its alias chain
+resolves to a color-domain schema (`color.json`, `color-set.json`).
+
+**NORMATIVE:** SPEC-042 (`field-scope-violation`) evaluates alias tokens by following the
+`alias_target` chain to the terminal non-alias schema, then checking that schema against the
+field's domain. This is the **alias-target-domain** rule: the alias *inherits* its domain
+from what it ultimately resolves to.
+
+**Examples:**
+
+```json
+// icon-color-blue-primary-default  ($schema=alias.json, $ref → icon-color-blue-100 which is color-set.json)
+// Valid: colorFamily allowed because target resolves to color domain.
+{ "property": "icon-color", "colorFamily": "blue", "variant": "primary" }
+
+// icon-color-primary-default  ($schema=alias.json, $ref → icon-color-blue-primary-default)
+// Valid: no domain-scoped fields used — variant and state are universal.
+{ "property": "icon-color", "variant": "primary" }
+```
+
+**What stays deferred:** alias tokens referencing the same target but carrying modifiers that
+have no current field (e.g. `inverse`, `emphasized`, `subtle`, `subdued`) remain unclassified
+until a color-modifier RFC defines those fields.
+
 ### Structure vs. component — when does the line move?
 
 The `structure` and `component` fields both answer "What?" but apply at different scopes. A useful rule of thumb:

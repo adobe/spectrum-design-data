@@ -27,6 +27,7 @@ const TYPOGRAPHY_WEIGHTS = new Set(
 );
 
 const COLOR_SCHEMAS = new Set(["color.json", "color-set.json"]);
+const ALIAS_SCHEMA = "alias.json";
 const ALIGNMENT_SCHEMA = "alignment.json";
 const DIMENSION_SCHEMA = "dimension.json";
 const FONT_FAMILY_SCHEMA = "font-family.json";
@@ -152,9 +153,12 @@ export function fontStyleNameForKey(key, token) {
  *   icon-color-<family>-background           → { property, colorFamily, object }
  *   icon-color-<family>-primary              → { property, colorFamily, variant }
  *   icon-color-<family>-primary-<state>      → { property, colorFamily, variant, state }
+ *   icon-color-primary-<state>               → { property, variant, state? }
+ *   icon-color-disabled-primary              → { property, variant, state: "disabled" }
  *
- * Called for color-set.json tokens only; alias tokens are filtered upstream by
- * classifyToken (SPEC-042 prohibits colorFamily on alias.json schemas).
+ * Called for both color-set.json and alias.json tokens. For alias tokens, SPEC-042
+ * alias-target-domain resolution permits colorFamily when the alias target is in the
+ * color domain.
  */
 export function iconColorNameForKey(key) {
   if (!key.startsWith("icon-color-")) return null;
@@ -189,6 +193,23 @@ export function iconColorNameForKey(key) {
       return name;
     }
     return null;
+  }
+
+  // icon-color-disabled-primary  (semantic alias — state precedes variant in key;
+  // must be checked before the generic <family>-primary catch-all below)
+  if (key === "icon-color-disabled-primary") {
+    return { property: "icon-color", variant: "primary", state: "disabled" };
+  }
+
+  // icon-color-primary-<state>  (semantic alias — no color family)
+  const semanticStateMatch = key.match(
+    /^icon-color-primary-(default|down|hover)$/,
+  );
+  if (semanticStateMatch) {
+    const [, state] = semanticStateMatch;
+    const name = { property: "icon-color", variant: "primary" };
+    if (state !== "default") name.state = state;
+    return name;
   }
 
   // icon-color-<family>-primary (bare, no state)
@@ -354,6 +375,17 @@ export function classifyToken(key, token, overrides = {}) {
     const name = letterSpacingNameForKey(key);
     if (name) return { name };
     return null; // out of scope (detail-letter-spacing etc. deferred)
+  }
+
+  if (schemaEndsWith(schema, ALIAS_SCHEMA)) {
+    // Icon-color aliases use the same key-pattern rules as their non-alias counterparts.
+    // SPEC-042 alias-target-domain resolution permits domain-scoped fields here.
+    if (key.startsWith("icon-color-")) {
+      const name = iconColorNameForKey(key);
+      if (name) return { name };
+      return { name: null }; // in-scope but unclassified (e.g. inverse, emphasized)
+    }
+    return null; // other alias schemas out of scope for this tool
   }
 
   return null; // out of scope for this tool
