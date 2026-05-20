@@ -9,4 +9,6 @@
 // governing permissions and limitations under the License.
 
 pub mod app;
+pub mod help;
+pub mod theme;
 pub mod wizard;
