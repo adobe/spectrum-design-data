@@ -135,11 +135,16 @@ fn save_session(draft: &SessionDraft) -> Result<(), String> {
 /// while single-word/noise queries stay at 0.0–0.33, leaving a clean gap.
 ///
 /// Override at runtime with `DESIGN_DATA_ALIAS_THRESHOLD=<f32>`.
+/// Parsed once per process and cached.
 pub fn alias_threshold() -> f32 {
-    std::env::var("DESIGN_DATA_ALIAS_THRESHOLD")
-        .ok()
-        .and_then(|v| v.parse::<f32>().ok())
-        .unwrap_or(0.35)
+    use std::sync::OnceLock;
+    static THRESHOLD: OnceLock<f32> = OnceLock::new();
+    *THRESHOLD.get_or_init(|| {
+        std::env::var("DESIGN_DATA_ALIAS_THRESHOLD")
+            .ok()
+            .and_then(|v| v.parse::<f32>().ok())
+            .unwrap_or(0.35)
+    })
 }
 
 /// Create a new authoring session for the given dataset directory.

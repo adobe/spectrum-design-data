@@ -12,7 +12,7 @@
 //!
 //! Empirical basis for `alias_threshold()` in `authoring/session.rs`.
 //!
-//! Run with `cargo test -p design-data-core suggest_calibration -- --nocapture`
+//! Run with `cargo test -p design-data-core --test suggest_calibration -- --nocapture`
 //! to see the raw score distribution.
 //!
 //! **Calibration methodology** (RFC #973 Q1):
@@ -22,15 +22,12 @@
 //!     - Partial noise (single-word overlap on a 3-4 word token) scores 0.0–0.33.
 //!     - Chosen threshold: 0.35 — sits cleanly between the two bands.
 
-use design_data_core::suggest;
+use design_data_core::authoring::session::alias_threshold;
 use design_data_core::graph::TokenGraph;
+use design_data_core::suggest;
 use std::path::Path;
 
-/// Absolute path to the real Spectrum token source directory.
-///
-/// Integration tests run with cwd at the workspace root; adjust if needed.
 fn token_src() -> std::path::PathBuf {
-    // cargo test sets cwd to the workspace root.
     Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent() // sdk/
         .and_then(|p| p.parent()) // repo root
@@ -38,12 +35,9 @@ fn token_src() -> std::path::PathBuf {
         .join("packages/tokens/src")
 }
 
-/// Calibrated alias threshold (must match `authoring::session::alias_threshold` default).
-const CALIBRATED_THRESHOLD: f32 = 0.35;
-
 struct Case {
     intent: &'static str,
-    /// Expected top-match token name (substring match is fine).
+    /// Expected top-match token name (substring match).
     expected_top: &'static str,
     /// Expected confidence floor for the top result.
     min_confidence: f32,
@@ -52,12 +46,13 @@ struct Case {
 #[test]
 fn positive_intents_score_above_threshold() {
     let src = token_src();
-    if !src.is_dir() {
-        eprintln!("SKIP: packages/tokens/src not found at {:?}", src);
-        return;
-    }
-    let graph = TokenGraph::from_json_dir(&src)
-        .expect("failed to load token graph");
+    assert!(
+        src.is_dir(),
+        "packages/tokens/src not found at {:?} — tests must run from the repo root",
+        src
+    );
+    let graph = TokenGraph::from_json_dir(&src).expect("failed to load token graph");
+    let threshold = alias_threshold();
 
     let cases: &[Case] = &[
         Case { intent: "neutral content color", expected_top: "neutral-content-color", min_confidence: 0.70 },
@@ -79,7 +74,7 @@ fn positive_intents_score_above_threshold() {
 
         eprintln!(
             "[positive] {:?} → top={:?} score={:.3} (floor={:.2}, threshold={:.2})",
-            case.intent, name, score, case.min_confidence, CALIBRATED_THRESHOLD
+            case.intent, name, score, case.min_confidence, threshold
         );
 
         if score < case.min_confidence {
@@ -91,9 +86,9 @@ fn positive_intents_score_above_threshold() {
             all_pass = false;
         }
         assert!(
-            score >= CALIBRATED_THRESHOLD,
-            "intent {:?}: top score {:.3} is below CALIBRATED_THRESHOLD {:.2}",
-            case.intent, score, CALIBRATED_THRESHOLD
+            score >= threshold,
+            "intent {:?}: top score {:.3} is below alias_threshold() {:.2}",
+            case.intent, score, threshold
         );
     }
     assert!(all_pass, "one or more positive calibration cases failed — see output above");
@@ -102,61 +97,44 @@ fn positive_intents_score_above_threshold() {
 #[test]
 fn negative_intents_score_below_threshold() {
     let src = token_src();
-    if !src.is_dir() {
-        eprintln!("SKIP: packages/tokens/src not found at {:?}", src);
-        return;
-    }
-    let graph = TokenGraph::from_json_dir(&src)
-        .expect("failed to load token graph");
+    assert!(
+        src.is_dir(),
+        "packages/tokens/src not found at {:?} — tests must run from the repo root",
+        src
+    );
+    let graph = TokenGraph::from_json_dir(&src).expect("failed to load token graph");
+    let threshold = alias_threshold();
 
-    let negative_intents = &[
-        "frobozz qux",
-        "xyz plorp wibble",
-        "thequickbrownfox",
-    ];
+    let negative_intents = &["frobozz qux", "xyz plorp wibble", "thequickbrownfox"];
 
     for intent in negative_intents {
         let results = suggest::suggest(&graph, intent, None, 5);
         let top_score = results.first().map(|r| r.confidence).unwrap_or(0.0);
         eprintln!(
             "[negative] {:?} → top score={:.3} (threshold={:.2})",
-            intent, top_score, CALIBRATED_THRESHOLD
+            intent, top_score, threshold
         );
         assert!(
-            top_score < CALIBRATED_THRESHOLD,
+            top_score < threshold,
             "negative intent {:?} should score below {:.2}, got {:.3}",
-            intent, CALIBRATED_THRESHOLD, top_score
+            intent, threshold, top_score
         );
     }
 }
 
 #[test]
-fn threshold_separates_positive_from_noise() {
-    let src = token_src();
-    if !src.is_dir() {
-        eprintln!("SKIP: packages/tokens/src not found at {:?}", src);
-        return;
-    }
-    let _graph = TokenGraph::from_json_dir(&src)
-        .expect("failed to load token graph");
-
-    // The calibrated threshold must sit strictly below positive scores and above noise.
-    // Positive floor observed during calibration: 0.60+ for any meaningful multi-word match.
-    // Noise ceiling observed: 0.0 for nonsensical words absent from all token names.
-    // Gap: 0.0–0.33 (noise) … 0.35 (threshold) … 0.60+ (positives).
+fn threshold_sits_in_calibrated_gap() {
+    // Validate that alias_threshold() returns a value in the gap observed during
+    // calibration: above pure noise (0.0) and below the positive-match floor (0.60).
+    // Gap: 0.0–0.33 (noise) … threshold … 0.60+ (positives).
     //
-    // Note: single-word queries that exactly match a 2-segment token name can score 0.5
-    // and DO legitimately trigger the banner — that is correct behavior, not a false positive.
+    // Note: single-word queries matching a 2-segment token name can score ~0.5 and
+    // DO legitimately trigger the banner — correct behavior, not a false positive.
+    let threshold = alias_threshold();
+    eprintln!("[gap-check] alias_threshold()={:.2} should be in (0.0, 0.60)", threshold);
+    assert!(threshold > 0.0, "threshold must be above pure noise (0.0), got {threshold}");
     assert!(
-        CALIBRATED_THRESHOLD > 0.0,
-        "threshold must be above pure noise (0.0)"
-    );
-    assert!(
-        CALIBRATED_THRESHOLD < 0.60,
-        "threshold must be below the observed positive floor (0.60)"
-    );
-    eprintln!(
-        "[gap-check] CALIBRATED_THRESHOLD={:.2} sits in (0.0, 0.60) gap ✓",
-        CALIBRATED_THRESHOLD
+        threshold < 0.60,
+        "threshold must be below the positive-match floor (0.60), got {threshold}"
     );
 }
