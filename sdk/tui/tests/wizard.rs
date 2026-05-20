@@ -297,12 +297,12 @@ fn screen_4_submit_closes_modal_and_sets_status() {
 }
 
 #[test]
-fn submit_does_not_create_tokens_json_in_dataset() {
+fn submit_does_not_create_foundation_json_without_allow_write() {
     let graph = make_graph();
     let mut app = App::new();
-    // Use a fresh tempdir so there's no pre-existing tokens.json to confuse us.
     let tmpdir = tempfile::TempDir::new().expect("tempdir");
-    let tokens_file = tmpdir.path().join("tokens.json");
+    // foundation.json is the resolved target for a Foundation-layer token.
+    let foundation_file = tmpdir.path().join("foundation.json");
     let ctx = WizardCtx { graph: &graph, dataset_path: Some(tmpdir.path()), schema_registry: None, allow_write: false };
     open_wizard(&mut app, &graph, "background");
     app.handle_modal_key(key(KeyCode::Enter), &ctx);
@@ -313,8 +313,8 @@ fn submit_does_not_create_tokens_json_in_dataset() {
     }
     app.handle_modal_key(key(KeyCode::Enter), &ctx);
     assert!(
-        !tokens_file.exists(),
-        "M3 wizard submit must NOT write tokens.json to the dataset"
+        !foundation_file.exists(),
+        "wizard submit without --allow-write must NOT write foundation.json to the dataset"
     );
 }
 

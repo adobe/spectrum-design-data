@@ -289,7 +289,7 @@ fn render_wizard(f: &mut Frame<'_>, ws: &mut WizardState, area: Rect) {
             "a: alias  l: literal  e: edit value  ↑↓: select row  Enter: continue  Esc: cancel"
         }
         WizardScreen::Confirm => {
-            "Type rationale, then Enter to submit  ↑↓: scroll diff  Esc: cancel"
+            "Type rationale, then Enter to submit  ↑↓: scroll diff  Ctrl+S: edit $schema  Esc: cancel"
         }
     };
     f.render_widget(
@@ -450,7 +450,7 @@ fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
             Span::styled("▌", Style::default().fg(Color::Yellow)),
         ])
     } else {
-        let url_text = ws.schema_url.as_deref().unwrap_or("(none — press 's' to set)");
+        let url_text = ws.schema_url.as_deref().unwrap_or("(none — Ctrl+S to set)");
         Line::from(vec![
             Span::styled("  $schema: ", Style::default().fg(Color::DarkGray)),
             Span::raw(url_text),

@@ -215,7 +215,12 @@ impl WizardState {
     /// Route a key event through the appropriate screen handler.
     pub fn handle_key(&mut self, key: KeyEvent, ctx: &WizardCtx<'_>) -> WizardEvent {
         // Ctrl-C should not be consumed here — App handles it above us.
+        // Ctrl-S on Screen 4 opens the schema URL editor (safe since it uses a modifier).
         if key.modifiers.contains(KeyModifiers::CONTROL) {
+            if key.code == KeyCode::Char('s') && self.screen == WizardScreen::Confirm {
+                self.editing_schema_url = true;
+                return WizardEvent::Continue;
+            }
             return WizardEvent::Continue;
         }
         if key.code == KeyCode::Esc {
@@ -525,7 +530,9 @@ impl WizardState {
         } else {
             serde_json::json!({ "value": token_value, "uuid": uuid })
         };
-        // Rationale is injected by write_token, but add it here for the schema validation pass.
+        // Rationale is pre-injected so schema validation can see it. write_token also
+        // receives it via WriteTokenInput::rationale and merges it with or_insert_with —
+        // so the field is never written twice; only the copy already in token_obj wins.
         let rationale_text = self.rationale.value().trim().to_string();
         if !rationale_text.is_empty() {
             token_obj["rationale"] = serde_json::Value::String(rationale_text.clone());
@@ -646,6 +653,9 @@ impl Default for WizardState {
 /// - Foundation → `<dataset>/foundation.json`
 /// - Platform   → `<dataset>/platform.json`
 /// - Product    → `<dataset>/product.json`
+///
+/// `_property` is reserved for future sub-property routing (e.g. component-scoped
+/// files keyed by property name). Not used at this layer count.
 fn resolve_target_file(layer: Layer, _property: &str, dataset_path: &Path) -> PathBuf {
     let file = match layer {
         Layer::Foundation => "foundation.json",
