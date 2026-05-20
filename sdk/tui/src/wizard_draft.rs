@@ -116,6 +116,8 @@ pub fn from_draft(d: WizardDraft) -> WizardState {
         editing_schema_url: false,
         schema_url_input: Input::from(schema_url_str),
         error: None,
+        // Transient — rebuilt by refresh_suggestions on the Intent screen.
+        can_alias: false,
     }
 }
 

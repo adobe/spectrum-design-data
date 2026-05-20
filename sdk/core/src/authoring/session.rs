@@ -57,7 +57,7 @@ pub struct SuggestionSnapshot {
 pub struct IntentStepResult {
     pub session: SessionDraft,
     pub suggestions: Vec<SuggestionSnapshot>,
-    /// True when the top suggestion's confidence exceeds `ALIAS_THRESHOLD`.
+    /// True when the top suggestion's confidence meets or exceeds `alias_threshold()`.
     pub can_alias: bool,
 }
 
@@ -125,12 +125,22 @@ fn save_session(draft: &SessionDraft) -> Result<(), String> {
 
 // ── Public API ────────────────────────────────────────────────────────────────
 
-/// Confidence floor for surfacing the "reuse first" banner.
+/// Return the confidence floor for surfacing the "reuse first" banner.
 ///
-/// When the top suggestion meets or exceeds this threshold, `can_alias` is
-/// `true` in `IntentStepResult`.  Q1 of RFC #973 deferred the exact value;
-/// 0.5 is the working default until scoring is calibrated.
-pub const ALIAS_THRESHOLD: f32 = 0.5;
+/// When the top suggestion meets or exceeds this value, `can_alias` is `true`
+/// in `IntentStepResult` and the TUI Screen 1 banner is shown.
+///
+/// The default (0.35) was calibrated against `packages/tokens/src` in
+/// `sdk/core/tests/suggest_calibration.rs`: positive matches score 0.6–1.0
+/// while single-word/noise queries stay at 0.0–0.33, leaving a clean gap.
+///
+/// Override at runtime with `DESIGN_DATA_ALIAS_THRESHOLD=<f32>`.
+pub fn alias_threshold() -> f32 {
+    std::env::var("DESIGN_DATA_ALIAS_THRESHOLD")
+        .ok()
+        .and_then(|v| v.parse::<f32>().ok())
+        .unwrap_or(0.35)
+}
 
 /// Create a new authoring session for the given dataset directory.
 ///
@@ -191,8 +201,7 @@ pub fn step_intent(session_id: &str, intent: &str) -> Result<IntentStepResult, S
         .map_err(|e| format!("failed to load dataset at {:?}: {e}", session.dataset_path))?;
 
     let raw = suggest::suggest(&graph, intent, None, 10);
-    let can_alias =
-        raw.first().map(|s| s.confidence >= ALIAS_THRESHOLD).unwrap_or(false);
+    let can_alias = raw.first().map(|s| s.confidence >= alias_threshold()).unwrap_or(false);
 
     let suggestions: Vec<SuggestionSnapshot> = raw
         .iter()

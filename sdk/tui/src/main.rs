@@ -349,24 +349,47 @@ fn render_wizard(f: &mut Frame<'_>, ws: &mut WizardState, area: Rect, theme: &Th
 }
 
 fn render_intent_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme: &Theme) {
+    // Layout: input line, optional reuse banner (RFC §3.10), suggestions.
+    let banner_height: u16 = if ws.can_alias { 3 } else { 0 };
     let chunks = Layout::default()
         .direction(Direction::Vertical)
-        .constraints([Constraint::Length(1), Constraint::Min(0)])
+        .constraints([
+            Constraint::Length(1),
+            Constraint::Length(banner_height),
+            Constraint::Min(0),
+        ])
         .split(area);
 
     // Input line.
     let intent_line = format!("Intent: {}", ws.intent.value());
     f.render_widget(Paragraph::new(intent_line), chunks[0]);
 
+    // Reuse-first banner (RFC §3.10).
+    if ws.can_alias {
+        let accent = Style::default().fg(theme.accent).add_modifier(Modifier::BOLD);
+        let banner = Paragraph::new(vec![
+            Line::from(Span::styled(
+                "  These tokens already exist for similar intents.",
+                accent,
+            )),
+            Line::from(Span::styled(
+                "  Reusing one keeps the cascade healthy.  Tab to alias · Enter to create new",
+                Style::default().fg(theme.accent),
+            )),
+        ]);
+        f.render_widget(banner, chunks[1]);
+    }
+
     // Suggestions list.
+    let list_area = chunks[2];
     if ws.suggestions.is_empty() {
         if !ws.intent.value().is_empty() {
             f.render_widget(
                 Paragraph::new("  (no suggestions — will create new token)"),
-                chunks[1],
+                list_area,
             );
         } else {
-            f.render_widget(Paragraph::new("  Type to search for existing tokens…"), chunks[1]);
+            f.render_widget(Paragraph::new("  Type to search for existing tokens…"), list_area);
         }
     } else {
         let rows: Vec<Row> = ws
@@ -386,7 +409,7 @@ fn render_intent_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme: 
         let widths = [Constraint::Length(2), Constraint::Min(0), Constraint::Length(5)];
         let table =
             Table::new(rows, widths).highlight_style(Style::default().bg(theme.selection_bg));
-        f.render_widget(table, chunks[1]);
+        f.render_widget(table, list_area);
     }
 }
 

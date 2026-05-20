@@ -38,6 +38,7 @@ pub struct WizardCtx<'a> {
 // Defined in `design_data_core::authoring::draft`; re-exported here so callers
 // within this crate can still use the short `crate::wizard::WizardScreen` path.
 pub use design_data_core::authoring::draft::{ValueKind, WizardPath, WizardScreen};
+use design_data_core::authoring::session::alias_threshold;
 
 // ── Draft types ──────────────────────────────────────────────────────────────
 
@@ -130,6 +131,9 @@ pub struct WizardState {
     pub schema_url_input: Input,
     /// Write error surfaced on Screen 4 when `write_token` fails; keeps modal open.
     pub error: Option<String>,
+    /// True when the top suggestion's confidence meets the alias threshold.
+    /// Drives the reuse-first banner on Screen 1 (RFC §3.10).
+    pub can_alias: bool,
 }
 
 /// Outcome of a single key event inside the wizard.
@@ -159,6 +163,7 @@ impl WizardState {
             editing_schema_url: false,
             schema_url_input: Input::default(),
             error: None,
+            can_alias: false,
         }
     }
 
@@ -434,11 +439,16 @@ impl WizardState {
 
     // ── Public helpers ───────────────────────────────────────────────────────
 
-    /// Recompute `suggestions` from the current intent string.  Cheap; safe to call on
-    /// every key event.
+    /// Recompute `suggestions` and `can_alias` from the current intent string.
+    /// Cheap; safe to call on every key event.
     pub fn refresh_suggestions(&mut self, graph: &TokenGraph) {
         let intent = self.intent.value().to_string();
         self.suggestions = suggest::suggest(graph, &intent, None, 5);
+        self.can_alias = self
+            .suggestions
+            .first()
+            .map(|s| s.confidence >= alias_threshold())
+            .unwrap_or(false);
         // Clamp selection.
         if !self.suggestions.is_empty() && self.selected_suggestion >= self.suggestions.len() {
             self.selected_suggestion = self.suggestions.len() - 1;
