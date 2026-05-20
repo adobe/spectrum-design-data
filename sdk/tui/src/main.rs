@@ -21,14 +21,16 @@
 //! - In query/resolve/validate view: Up/k and Down/j navigate; `y` yanks; Esc returns.
 //! - In describe view: Up/k Down/j scroll line-by-line; PgUp/PgDn by 10 lines; Esc returns.
 //! - `q` quits when palette is closed; Ctrl-C always quits.
+//! - `?` opens the help overlay; Esc or `?` closes it.
+//! - `v` toggles text-selection mode; drag to copy.
 
 use std::io::{Write, stderr};
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
 
-use clap::Parser;
+use clap::{Parser, ValueEnum};
 use crossterm::{
-    event::{self, Event, KeyCode, KeyEventKind},
+    event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode, KeyEventKind},
     execute,
     terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
 };
@@ -39,13 +41,27 @@ use ratatui::{
     Frame, Terminal,
     backend::CrosstermBackend,
     layout::{Constraint, Direction, Layout, Rect},
-    style::{Color, Modifier, Style},
+    style::{Modifier, Style},
     text::{Line, Span},
     widgets::{Block, Borders, Cell, Clear, Paragraph, Row, Table},
 };
 
-use design_data_tui::app::{ActiveView, App, Modal, StatusKind, StatusMessage, SubmitContext};
+use design_data_tui::app::{
+    ActiveView, App, HitAction, HitRegion, Modal, StatusKind, StatusMessage, SubmitContext,
+};
+use design_data_tui::help::HELP_TEXT;
+use design_data_tui::theme::Theme;
 use design_data_tui::wizard::{ValueKind, WizardCtx, WizardScreen, WizardState};
+
+/// Which visual palette to use.
+#[derive(Clone, Copy, Debug, Default, ValueEnum)]
+enum ThemeChoice {
+    /// Terminal-native colors; works in any 256-color terminal.
+    #[default]
+    Terminal,
+    /// Adobe Spectrum palette; requires a 24-bit truecolor terminal.
+    Spectrum,
+}
 
 /// Token dataset loaded once at startup and held for the full session.
 struct DatasetHandle {
@@ -57,6 +73,8 @@ struct DatasetHandle {
     schema_registry: Option<SchemaRegistry>,
     /// When true, wizard Screen 4 Submit writes to disk via `write_token`.
     allow_write: bool,
+    /// Active color theme (terminal-native or Spectrum).
+    theme: Theme,
 }
 
 impl DatasetHandle {
@@ -65,6 +83,7 @@ impl DatasetHandle {
         components_arg: Option<PathBuf>,
         mode_sets_arg: Option<PathBuf>,
         allow_write: bool,
+        theme: Theme,
     ) -> Result<Self> {
         let mut graph = TokenGraph::from_json_dir(&path)
             .into_diagnostic()
@@ -108,6 +127,7 @@ impl DatasetHandle {
             mode_sets_dir,
             schema_registry,
             allow_write,
+            theme,
         })
     }
 
@@ -181,6 +201,10 @@ struct Cli {
     /// flag the wizard shows a diff preview but does not write to the dataset.
     #[arg(long)]
     allow_write: bool,
+    /// Color theme. `terminal` uses terminal-native colors (default).
+    /// `spectrum` uses the Adobe Spectrum palette (requires truecolor terminal).
+    #[arg(long, value_enum, default_value_t = ThemeChoice::Terminal)]
+    theme: ThemeChoice,
 }
 
 /// Write `text` to the system clipboard.
@@ -201,7 +225,7 @@ fn write_clipboard(text: &str) -> std::io::Result<()> {
     #[cfg(target_os = "windows")]
     return Err(std::io::Error::new(
         std::io::ErrorKind::Unsupported,
-        "clipboard yank is not supported on Windows (coming in M5)",
+        "clipboard yank is not supported on Windows",
     ));
 
     #[cfg(not(target_os = "windows"))]
@@ -236,19 +260,24 @@ fn centered_rect(percent_x: u16, percent_y: u16, area: Rect) -> Rect {
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
-    let handle = DatasetHandle::load(cli.dataset, cli.components, cli.mode_sets, cli.allow_write)?;
+    let theme = match cli.theme {
+        ThemeChoice::Terminal => Theme::terminal(),
+        ThemeChoice::Spectrum => Theme::spectrum(),
+    };
+    let handle =
+        DatasetHandle::load(cli.dataset, cli.components, cli.mode_sets, cli.allow_write, theme)?;
 
     // Restore terminal on panic so the shell is not left in a broken state.
     let original_hook = std::panic::take_hook();
     std::panic::set_hook(Box::new(move |info| {
         let _ = disable_raw_mode();
-        let _ = execute!(stderr(), LeaveAlternateScreen);
+        let _ = execute!(stderr(), LeaveAlternateScreen, DisableMouseCapture);
         original_hook(info);
     }));
 
     enable_raw_mode().into_diagnostic()?;
     let mut stdout = std::io::stdout();
-    execute!(stdout, EnterAlternateScreen).into_diagnostic()?;
+    execute!(stdout, EnterAlternateScreen, EnableMouseCapture).into_diagnostic()?;
 
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend).into_diagnostic()?;
@@ -257,13 +286,22 @@ fn main() -> Result<()> {
 
     // Best-effort cleanup — continue even if individual steps fail.
     let _ = disable_raw_mode();
-    let _ = execute!(terminal.backend_mut(), LeaveAlternateScreen);
+    let _ = execute!(terminal.backend_mut(), LeaveAlternateScreen, DisableMouseCapture);
     let _ = terminal.show_cursor();
 
     result
 }
 
-fn render_wizard(f: &mut Frame<'_>, ws: &mut WizardState, area: Rect) {
+fn render_help_modal(f: &mut Frame<'_>, scroll: u16, area: Rect) {
+    let popup_area = centered_rect(80, 90, area);
+    f.render_widget(Clear, popup_area);
+    let para = Paragraph::new(HELP_TEXT)
+        .block(Block::default().borders(Borders::ALL).title(" Help  ?/Esc to close "))
+        .scroll((scroll, 0));
+    f.render_widget(para, popup_area);
+}
+
+fn render_wizard(f: &mut Frame<'_>, ws: &mut WizardState, area: Rect, theme: &Theme) {
     let screen_num = ws.screen.number();
     let screen_name = ws.screen.name();
 
@@ -293,19 +331,19 @@ fn render_wizard(f: &mut Frame<'_>, ws: &mut WizardState, area: Rect) {
         }
     };
     f.render_widget(
-        Paragraph::new(footer_text).style(Style::default().fg(Color::DarkGray)),
+        Paragraph::new(footer_text).style(Style::default().fg(theme.muted)),
         inner_chunks[1],
     );
 
     match ws.screen {
-        WizardScreen::Intent => render_intent_screen(f, ws, inner_chunks[0]),
+        WizardScreen::Intent => render_intent_screen(f, ws, inner_chunks[0], theme),
         WizardScreen::Classification => render_classification_screen(f, ws, inner_chunks[0]),
-        WizardScreen::Values => render_values_screen(f, ws, inner_chunks[0]),
-        WizardScreen::Confirm => render_confirm_screen(f, ws, inner_chunks[0]),
+        WizardScreen::Values => render_values_screen(f, ws, inner_chunks[0], theme),
+        WizardScreen::Confirm => render_confirm_screen(f, ws, inner_chunks[0], theme),
     }
 }
 
-fn render_intent_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
+fn render_intent_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme: &Theme) {
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([Constraint::Length(1), Constraint::Min(0)])
@@ -341,7 +379,8 @@ fn render_intent_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
             })
             .collect();
         let widths = [Constraint::Length(2), Constraint::Min(0), Constraint::Length(5)];
-        let table = Table::new(rows, widths).highlight_style(Style::default().bg(Color::DarkGray));
+        let table =
+            Table::new(rows, widths).highlight_style(Style::default().bg(theme.selection_bg));
         f.render_widget(table, chunks[1]);
     }
 }
@@ -382,7 +421,7 @@ fn render_classification_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect)
     f.render_widget(Paragraph::new(lines), area);
 }
 
-fn render_values_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
+fn render_values_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme: &Theme) {
     if ws.values.rows.is_empty() {
         f.render_widget(Paragraph::new("  (no mode combinations — graph has no mode sets)"), area);
         return;
@@ -409,7 +448,7 @@ fn render_values_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
                 ValueKind::Literal => row.literal.value().to_string(),
             };
             let style = if i == ws.values.selected {
-                Style::default().bg(Color::DarkGray)
+                Style::default().bg(theme.selection_bg)
             } else {
                 Style::default()
             };
@@ -428,7 +467,7 @@ fn render_values_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
     f.render_widget(table, area);
 }
 
-fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
+fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme: &Theme) {
     let rationale_height = 3u16;
     let error_height = if ws.error.is_some() { 1u16 } else { 0u16 };
 
@@ -445,14 +484,14 @@ fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
     // Schema URL header / inline editor.
     let schema_line = if ws.editing_schema_url {
         Line::from(vec![
-            Span::styled("  $schema: ", Style::default().fg(Color::Yellow)),
+            Span::styled("  $schema: ", Style::default().fg(theme.accent)),
             Span::raw(ws.schema_url_input.value()),
-            Span::styled("▌", Style::default().fg(Color::Yellow)),
+            Span::styled("▌", Style::default().fg(theme.accent)),
         ])
     } else {
         let url_text = ws.schema_url.as_deref().unwrap_or("(none — Ctrl+S to set)");
         Line::from(vec![
-            Span::styled("  $schema: ", Style::default().fg(Color::DarkGray)),
+            Span::styled("  $schema: ", Style::default().fg(theme.muted)),
             Span::raw(url_text),
         ])
     };
@@ -464,7 +503,7 @@ fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
     let rationale_line = if rationale_text.len() > 280 {
         Line::from(vec![
             Span::raw(rationale_text),
-            Span::styled(" ⚠ >280 chars", Style::default().fg(Color::Yellow)),
+            Span::styled(" ⚠ >280 chars", Style::default().fg(theme.warn)),
         ])
     } else {
         Line::from(Span::raw(rationale_text))
@@ -480,37 +519,110 @@ fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
         .scroll((ws.diff_scroll, 0));
     f.render_widget(diff_para, chunks[2]);
 
-    // Write error (shown in red; keeps modal open).
+    // Write error (shown in error color; keeps modal open).
     if let Some(ref err) = ws.error {
         f.render_widget(
-            Paragraph::new(format!("  ⚠ {err}")).style(Style::default().fg(Color::Red)),
+            Paragraph::new(format!("  ⚠ {err}")).style(Style::default().fg(theme.error)),
             chunks[3],
         );
     }
+}
+
+/// Rebuild hit regions after a draw, mirroring the layout computed inside the draw closure.
+///
+/// SYNC WITH draw closure layout: the constraint array below must stay identical to the
+/// one in the `terminal.draw` call in `run()`. If a chunk is added or reordered there,
+/// update this function to match or click targets will silently drift.
+fn compute_hit_regions(app: &App, status_height: u16, frame_area: Rect) -> Vec<HitRegion> {
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(1),              // primer header  ← SYNC WITH draw closure
+            Constraint::Min(0),                 // active view    ← SYNC WITH draw closure
+            Constraint::Length(status_height),  // status message ← SYNC WITH draw closure
+            Constraint::Length(1),              // palette prompt ← SYNC WITH draw closure
+        ])
+        .split(frame_area);
+
+    let view_area = chunks[1];
+    // Tables have a top border (1) + header row (1) before data rows start.
+    let data_y = view_area.y + 2;
+    let data_height = view_area.height.saturating_sub(2); // available rows
+
+    let mut regions = Vec::new();
+    match &app.active_view {
+        ActiveView::Query(qv) => {
+            for (i, row) in qv.rows.iter().enumerate() {
+                let y = data_y + i as u16;
+                if i as u16 >= data_height {
+                    break;
+                }
+                regions.push(HitRegion {
+                    rect: Rect { x: view_area.x, y, width: view_area.width, height: 1 },
+                    action: HitAction::SelectListRow(i),
+                    text: format!("{}\t{}\t{}\t{}", row.name, row.value, row.file, row.layer),
+                });
+            }
+        }
+        ActiveView::Resolve(rv) => {
+            for (i, row) in rv.rows.iter().enumerate() {
+                let y = data_y + i as u16;
+                if i as u16 >= data_height {
+                    break;
+                }
+                regions.push(HitRegion {
+                    rect: Rect { x: view_area.x, y, width: view_area.width, height: 1 },
+                    action: HitAction::SelectListRow(i),
+                    text: format!("{}\t{}\t{}\t{}", row.name, row.value, row.file, row.layer),
+                });
+            }
+        }
+        ActiveView::Validate(vv) => {
+            for (i, row) in vv.rows.iter().enumerate() {
+                let y = data_y + i as u16;
+                if i as u16 >= data_height {
+                    break;
+                }
+                regions.push(HitRegion {
+                    rect: Rect { x: view_area.x, y, width: view_area.width, height: 1 },
+                    action: HitAction::SelectListRow(i),
+                    text: format!(
+                        "{}\t{}\t{}\t{}",
+                        row.severity, row.rule_id, row.token, row.message
+                    ),
+                });
+            }
+        }
+        ActiveView::Empty | ActiveView::Describe(_) => {}
+    }
+    regions
 }
 
 fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &DatasetHandle) -> Result<()> {
     let mut app = App::new();
 
     loop {
+        let mut frame_area = Rect::default();
+        let mut status_height: u16 = 0;
+
         terminal.draw(|f| {
-            let size = f.area();
+            frame_area = f.area();
 
             // Bottom area: status line (when present) + palette prompt.
-            let status_height = if app.status_message.is_some() { 1 } else { 0 };
+            status_height = if app.status_message.is_some() { 1 } else { 0 };
             let chunks = Layout::default()
                 .direction(Direction::Vertical)
                 .constraints([
-                    Constraint::Length(1),             // primer header
-                    Constraint::Min(0),                // active view
-                    Constraint::Length(status_height), // status message
-                    Constraint::Length(1),             // palette prompt
+                    Constraint::Length(1),              // primer header
+                    Constraint::Min(0),                 // active view
+                    Constraint::Length(status_height),  // status message
+                    Constraint::Length(1),              // palette prompt
                 ])
-                .split(size);
+                .split(frame_area);
 
             // Primer header.
             let primer_text = Line::from(vec![
-                Span::styled("▶ ", Style::default().fg(Color::Green)),
+                Span::styled("▶ ", Style::default().fg(handle.theme.ok)),
                 Span::raw(handle.primer_line()),
             ]);
             f.render_widget(Paragraph::new(primer_text), chunks[0]);
@@ -555,7 +667,7 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &Datase
                                 .borders(Borders::ALL)
                                 .title(format!(" Query: {} ", qv.expr_text)),
                         )
-                        .highlight_style(Style::default().bg(Color::DarkGray));
+                        .highlight_style(Style::default().bg(handle.theme.selection_bg));
                     f.render_stateful_widget(table, chunks[1], &mut qv.table_state);
                 }
                 ActiveView::Resolve(ref mut rv) => {
@@ -596,7 +708,7 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &Datase
                                 .borders(Borders::ALL)
                                 .title(format!(" Resolve: {} ", rv.property)),
                         )
-                        .highlight_style(Style::default().bg(Color::DarkGray));
+                        .highlight_style(Style::default().bg(handle.theme.selection_bg));
                     f.render_stateful_widget(table, chunks[1], &mut rv.table_state);
                 }
                 ActiveView::Describe(ref dv) => {
@@ -641,16 +753,16 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &Datase
                                 .borders(Borders::ALL)
                                 .title(" Validate "),
                         )
-                        .highlight_style(Style::default().bg(Color::DarkGray));
+                        .highlight_style(Style::default().bg(handle.theme.selection_bg));
                     f.render_stateful_widget(table, chunks[1], &mut vv.table_state);
                 }
             }
 
-            // Status message — green for info, red for errors.
+            // Status message — ok color for info, error color for errors.
             if let Some(ref msg) = app.status_message {
                 let color = match msg.kind {
-                    StatusKind::Info => Color::Green,
-                    StatusKind::Error => Color::Red,
+                    StatusKind::Info => handle.theme.ok,
+                    StatusKind::Error => handle.theme.error,
                 };
                 let status = Paragraph::new(msg.text.as_str())
                     .style(Style::default().fg(color));
@@ -666,35 +778,52 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &Datase
             f.render_widget(Paragraph::new(palette_text), chunks[3]);
 
             // Overlay modal (rendered last so it appears on top).
-            if let Some(Modal::Wizard(ref mut ws)) = app.modal {
-                let popup_area = centered_rect(82, 85, size);
-                f.render_widget(Clear, popup_area);
-                render_wizard(f, ws, popup_area);
+            match &mut app.modal {
+                Some(Modal::Wizard(ref mut ws)) => {
+                    let popup_area = centered_rect(82, 85, frame_area);
+                    f.render_widget(Clear, popup_area);
+                    render_wizard(f, ws, popup_area, &handle.theme);
+                }
+                Some(Modal::Help(ref hm)) => {
+                    render_help_modal(f, hm.scroll, frame_area);
+                }
+                None => {}
             }
         }).into_diagnostic()?;
+
+        // Rebuild hit regions from the frame geometry computed during draw.
+        app.hit_regions = compute_hit_regions(&app, status_height, frame_area);
 
         // Copy to clipboard outside the draw closure (needs mutable app).
         if let Some(text) = app.take_pending_yank() {
             if let Err(e) = write_clipboard(&text) {
-                app.status_message = Some(StatusMessage::error(format!("clipboard unavailable: {e}")));
+                app.status_message =
+                    Some(StatusMessage::error(format!("clipboard unavailable: {e}")));
             }
         }
 
         if event::poll(std::time::Duration::from_millis(16)).into_diagnostic()? {
-            if let Event::Key(key) = event::read().into_diagnostic()? {
-                if key.kind == KeyEventKind::Press {
-                    if app.modal.is_some() {
-                        // Modal captures all input; palette is suppressed.
-                        app.handle_modal_key(key, &handle.wizard_ctx());
-                    } else {
-                        let was_open = app.palette_open;
-                        app.handle_key(key);
-                        // Palette just closed via Enter — dispatch command.
-                        if was_open && !app.palette_open && key.code == KeyCode::Enter {
-                            app.submit_palette(&handle.submit_context());
+            match event::read().into_diagnostic()? {
+                Event::Key(key) => {
+                    if key.kind == KeyEventKind::Press {
+                        if app.modal.is_some() {
+                            // Modal captures all input; palette is suppressed.
+                            app.handle_modal_key(key, &handle.wizard_ctx());
+                        } else {
+                            let was_open = app.palette_open;
+                            app.handle_key(key);
+                            // Palette just closed via Enter — dispatch command.
+                            if was_open && !app.palette_open && key.code == KeyCode::Enter {
+                                app.submit_palette(&handle.submit_context());
+                            }
                         }
                     }
                 }
+                Event::Mouse(me) => {
+                    // handle_mouse sets pending_yank; it is drained above next frame.
+                    app.handle_mouse(me);
+                }
+                _ => {}
             }
         }
 

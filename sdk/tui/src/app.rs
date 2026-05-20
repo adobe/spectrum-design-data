@@ -9,15 +9,16 @@
 // governing permissions and limitations under the License.
 
 use std::collections::HashSet;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
+use crossterm::event::{KeyCode, KeyEvent, KeyModifiers, MouseButton, MouseEvent, MouseEventKind};
 use design_data_core::cascade::{self, ResolutionContext, specificity};
 use design_data_core::diff::display_name;
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
 use design_data_core::query;
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::validate;
+use ratatui::layout::Rect;
 use ratatui::widgets::TableState;
 use tui_input::Input;
 use tui_input::backend::crossterm::EventHandler;
@@ -26,6 +27,9 @@ use crate::wizard::{WizardCtx, WizardEvent, WizardState};
 
 /// Command names for Tab autocomplete.
 const KNOWN_COMMANDS: &[&str] = &["new", "query", "resolve", "describe", "validate"];
+
+/// Max palette history entries persisted to disk.
+const HISTORY_CAP: usize = 200;
 
 /// Which prefix the palette was opened with.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -97,7 +101,7 @@ pub struct QueryView {
 }
 
 impl QueryView {
-    fn new(expr_text: String, rows: Vec<QueryRow>) -> Self {
+    pub fn new(expr_text: String, rows: Vec<QueryRow>) -> Self {
         let mut table_state = TableState::default();
         if !rows.is_empty() {
             table_state.select(Some(0));
@@ -187,10 +191,36 @@ pub enum ActiveView {
     Validate(ValidateView),
 }
 
+// ── Modals ────────────────────────────────────────────────────────────────────
+
+/// State for the `?` help overlay.
+pub struct HelpModal {
+    pub scroll: u16,
+}
+
 /// An overlay modal that temporarily captures all keyboard input.
 pub enum Modal {
-    Wizard(WizardState),
+    Wizard(Box<WizardState>),
+    Help(HelpModal),
 }
+
+// ── Hit regions (mouse support) ───────────────────────────────────────────────
+
+/// What clicking a region does.
+pub enum HitAction {
+    /// Selects a row in the active list or table view.
+    SelectListRow(usize),
+}
+
+/// A rectangular region on screen with an associated action and text content.
+pub struct HitRegion {
+    pub rect: Rect,
+    pub action: HitAction,
+    /// Text representation of this element, used for drag-select copy.
+    pub text: String,
+}
+
+// ── Submit context ────────────────────────────────────────────────────────────
 
 /// Context passed to `submit_palette`; carries the graph plus optional paths for
 /// describe and validate commands.
@@ -235,6 +265,22 @@ pub struct App {
     pub pending_yank: Option<String>,
     /// Overlay modal; when present, all key events are routed here by main.rs.
     pub modal: Option<Modal>,
+
+    // ── History (palette command recall) ─────────────────────────────────────
+    /// Previously submitted palette commands, newest first.
+    pub palette_history: Vec<String>,
+    /// Index into `palette_history` being navigated; `None` = fresh input.
+    pub palette_history_cursor: Option<usize>,
+
+    // ── Mouse / selection ────────────────────────────────────────────────────
+    /// Hit regions from the most recent frame, used to handle click events.
+    pub hit_regions: Vec<HitRegion>,
+    /// When true, mouse drags record a selection instead of scrolling.
+    pub selection_mode: bool,
+    /// Drag start position (row, col) in selection mode.
+    pub sel_start: Option<(u16, u16)>,
+    /// Drag current/end position (row, col) in selection mode.
+    pub sel_end: Option<(u16, u16)>,
 }
 
 impl App {
@@ -248,8 +294,16 @@ impl App {
             status_message: None,
             pending_yank: None,
             modal: None,
+            palette_history: load_palette_history(),
+            palette_history_cursor: None,
+            hit_regions: Vec::new(),
+            selection_mode: false,
+            sel_start: None,
+            sel_end: None,
         }
     }
+
+    // ── Key handling ─────────────────────────────────────────────────────────
 
     /// Process a key event and update state accordingly.
     pub fn handle_key(&mut self, key: KeyEvent) {
@@ -264,16 +318,14 @@ impl App {
                 KeyCode::Esc => {
                     self.palette_open = false;
                     self.palette_input = Input::default();
+                    self.palette_history_cursor = None;
                 }
-                // Enter closes the palette; main.rs detects the closed state and
-                // calls submit_palette with the graph.
                 KeyCode::Enter => {
                     self.palette_open = false;
                 }
                 KeyCode::Tab => {
                     if self.palette_mode == PaletteMode::Command {
                         let current = self.palette_input.value().to_string();
-                        // Only autocomplete while the user is still typing the command word.
                         if !current.contains(' ') {
                             let matches: Vec<&str> = KNOWN_COMMANDS
                                 .iter()
@@ -294,28 +346,77 @@ impl App {
                         }
                     }
                 }
+                // History recall (↑ = older, ↓ = newer).
+                KeyCode::Up if self.palette_mode == PaletteMode::Command => {
+                    let next = match self.palette_history_cursor {
+                        None if !self.palette_history.is_empty() => Some(0),
+                        Some(i) if i + 1 < self.palette_history.len() => Some(i + 1),
+                        other => other,
+                    };
+                    self.palette_history_cursor = next;
+                    if let Some(i) = next {
+                        if let Some(entry) = self.palette_history.get(i) {
+                            self.palette_input = Input::from(entry.clone());
+                        }
+                    }
+                }
+                KeyCode::Down if self.palette_mode == PaletteMode::Command => {
+                    let next = self.palette_history_cursor.and_then(|i| {
+                        if i == 0 { None } else { Some(i - 1) }
+                    });
+                    self.palette_history_cursor = next;
+                    match next {
+                        Some(i) => {
+                            if let Some(entry) = self.palette_history.get(i) {
+                                self.palette_input = Input::from(entry.clone());
+                            }
+                        }
+                        None => {
+                            self.palette_input = Input::default();
+                        }
+                    }
+                }
                 _ => {
+                    // Any character input resets the history position so the next ↑ starts
+                    // from the head again (mirrors bash/zsh behavior).
+                    self.palette_history_cursor = None;
                     self.palette_input.handle_event(&crossterm::event::Event::Key(key));
                 }
             }
             return;
         }
 
-        // View-specific keys.  Returns true when the key was consumed so the
-        // shared fallback (palette open / quit) is skipped.
         let consumed = self.handle_view_key(key.code);
 
         if !consumed {
             match key.code {
+                // Help overlay.
+                KeyCode::Char('?') if self.modal.is_none() => {
+                    self.modal = Some(Modal::Help(HelpModal { scroll: 0 }));
+                }
+                // Text selection mode toggle.
+                KeyCode::Char('v') if self.modal.is_none() => {
+                    self.selection_mode = !self.selection_mode;
+                    if !self.selection_mode {
+                        self.sel_start = None;
+                        self.sel_end = None;
+                    }
+                    let label = if self.selection_mode { "on" } else { "off" };
+                    self.status_message = Some(StatusMessage::info(
+                        format!("selection mode {label}  (drag to select, release to copy)"),
+                    ));
+                }
                 KeyCode::Char(':') => {
                     self.palette_open = true;
                     self.palette_mode = PaletteMode::Command;
                     self.palette_input = Input::default();
+                    self.palette_history_cursor = None;
                 }
                 KeyCode::Char('/') => {
                     self.palette_open = true;
                     self.palette_mode = PaletteMode::FuzzyFind;
                     self.palette_input = Input::default();
+                    self.palette_history_cursor = None;
                 }
                 KeyCode::Char('q') => {
                     self.quit = true;
@@ -333,9 +434,33 @@ impl App {
             self.quit = true;
             return;
         }
+
+        // Help modal: closed by Esc or ?.
+        if let Some(Modal::Help(ref mut hm)) = self.modal {
+            match key.code {
+                KeyCode::Esc | KeyCode::Char('?') => {
+                    self.modal = None;
+                }
+                KeyCode::Up | KeyCode::Char('k') => {
+                    hm.scroll = hm.scroll.saturating_sub(1);
+                }
+                KeyCode::Down | KeyCode::Char('j') => {
+                    hm.scroll = hm.scroll.saturating_add(1);
+                }
+                KeyCode::PageUp => {
+                    hm.scroll = hm.scroll.saturating_sub(10);
+                }
+                KeyCode::PageDown => {
+                    hm.scroll = hm.scroll.saturating_add(10);
+                }
+                _ => {}
+            }
+            return;
+        }
+
         let event = match &mut self.modal {
             Some(Modal::Wizard(ws)) => ws.handle_key(key, ctx),
-            None => return,
+            _ => return,
         };
         match event {
             WizardEvent::Cancel => {
@@ -349,14 +474,12 @@ impl App {
                         "wizard preview ready — pass --allow-write to enable writes",
                     ));
                 } else {
-                    // Phase 1: borrow ws immutably to run perform_write.
                     let (assembled_name, write_result) =
                         if let Some(Modal::Wizard(ref ws)) = self.modal {
                             (ws.assembled_name(), Some(ws.perform_write(ctx)))
                         } else {
                             (String::new(), None)
                         };
-                    // Phase 2: handle result (borrow on self.modal released).
                     match write_result {
                         Some(Ok(written_path)) => {
                             self.modal = None;
@@ -376,6 +499,135 @@ impl App {
             WizardEvent::Continue => {}
         }
     }
+
+    // ── Mouse handling ────────────────────────────────────────────────────────
+
+    /// Process a mouse event and return any text that should be yanked to clipboard.
+    pub fn handle_mouse(&mut self, event: MouseEvent) -> Option<String> {
+        match event.kind {
+            MouseEventKind::ScrollUp => {
+                self.scroll_active(-1);
+            }
+            MouseEventKind::ScrollDown => {
+                self.scroll_active(1);
+            }
+            MouseEventKind::Down(MouseButton::Left) => {
+                if self.selection_mode {
+                    self.sel_start = Some((event.row, event.column));
+                    self.sel_end = Some((event.row, event.column));
+                } else {
+                    self.click_at(event.row, event.column);
+                }
+            }
+            MouseEventKind::Drag(MouseButton::Left) if self.selection_mode => {
+                self.sel_end = Some((event.row, event.column));
+            }
+            MouseEventKind::Up(MouseButton::Left) if self.selection_mode => {
+                let text = self.extract_selection();
+                self.sel_start = None;
+                self.sel_end = None;
+                if let Some(ref t) = text {
+                    if !t.is_empty() {
+                        self.pending_yank = Some(t.clone());
+                    }
+                }
+                return text;
+            }
+            _ => {}
+        }
+        None
+    }
+
+    /// Scroll the active scrollable region by `delta` rows (+1 = down, -1 = up).
+    fn scroll_active(&mut self, delta: i32) {
+        // Wizard diff scroll has priority when a modal is open.
+        if let Some(Modal::Wizard(ref mut ws)) = self.modal {
+            if delta > 0 {
+                ws.diff_scroll = ws.diff_scroll.saturating_add(delta as u16);
+            } else {
+                ws.diff_scroll = ws.diff_scroll.saturating_sub((-delta) as u16);
+            }
+            return;
+        }
+        // Help modal scroll.
+        if let Some(Modal::Help(ref mut hm)) = self.modal {
+            if delta > 0 {
+                hm.scroll = hm.scroll.saturating_add(delta as u16);
+            } else {
+                hm.scroll = hm.scroll.saturating_sub((-delta) as u16);
+            }
+            return;
+        }
+        match &mut self.active_view {
+            ActiveView::Describe(dv) => {
+                let amount = delta.unsigned_abs() as u16 * 3;
+                if delta > 0 {
+                    dv.scroll = dv.scroll.saturating_add(amount);
+                } else {
+                    dv.scroll = dv.scroll.saturating_sub(amount);
+                }
+            }
+            ActiveView::Query(qv) => {
+                move_table_selection(&mut qv.table_state, qv.rows.len(), delta as i64);
+            }
+            ActiveView::Resolve(rv) => {
+                move_table_selection(&mut rv.table_state, rv.rows.len(), delta as i64);
+            }
+            ActiveView::Validate(vv) => {
+                move_table_selection(&mut vv.table_state, vv.rows.len(), delta as i64);
+            }
+            ActiveView::Empty => {}
+        }
+    }
+
+    /// Click at a terminal (row, col) position and dispatch the matching hit action.
+    fn click_at(&mut self, row: u16, col: u16) {
+        // Collect matching actions first to avoid borrow issues.
+        let action = self.hit_regions.iter().find_map(|r| {
+            if rect_contains(r.rect, row, col) { Some(&r.action) } else { None }
+        });
+        match action {
+            Some(HitAction::SelectListRow(i)) => {
+                let i = *i;
+                match &mut self.active_view {
+                    ActiveView::Query(qv) => {
+                        qv.table_state.select(Some(i));
+                    }
+                    ActiveView::Resolve(rv) => {
+                        rv.table_state.select(Some(i));
+                    }
+                    ActiveView::Validate(vv) => {
+                        vv.table_state.select(Some(i));
+                    }
+                    _ => {}
+                }
+            }
+            None => {}
+        }
+    }
+
+    /// Materialise the text covered by the current drag selection.
+    fn extract_selection(&self) -> Option<String> {
+        let (Some((r1, c1)), Some((r2, c2))) = (self.sel_start, self.sel_end) else {
+            return None;
+        };
+        let min_row = r1.min(r2);
+        let max_row = r1.max(r2);
+        let min_col = c1.min(c2);
+        let max_col = c1.max(c2);
+        let mut lines: Vec<&str> = Vec::new();
+        for region in &self.hit_regions {
+            let r_y = region.rect.y;
+            let r_x = region.rect.x;
+            let r_x_end = r_x + region.rect.width;
+            if r_y >= min_row && r_y <= max_row && r_x_end > min_col && r_x <= max_col {
+                lines.push(&region.text);
+            }
+        }
+        if lines.is_empty() { None } else { Some(lines.join("\n")) }
+    }
+
+    // ── View key routing ─────────────────────────────────────────────────────
 
     /// Handle view-specific keys, returning `true` when the key was consumed.
     fn handle_view_key(&mut self, code: KeyCode) -> bool {
@@ -443,7 +695,6 @@ impl App {
                 }
             }
             KeyCode::Char('y') => {
-                // Clone the yank text before mutating pending_yank.
                 let yank = match &self.active_view {
                     ActiveView::Query(qv) => qv.selected_row().map(|r| r.name.clone()),
                     ActiveView::Resolve(rv) => rv.selected_row().map(|r| r.name.clone()),
@@ -461,10 +712,9 @@ impl App {
         }
     }
 
+    // ── Palette dispatch ─────────────────────────────────────────────────────
+
     /// Dispatch a committed palette command against the graph and optional context paths.
-    ///
-    /// Called by main.rs after Enter is pressed in Command mode. Fuzzy-find mode (M2+)
-    /// is a no-op here.
     pub fn submit_palette(&mut self, ctx: &SubmitContext<'_>) {
         if self.palette_mode != PaletteMode::Command {
             self.palette_open = false;
@@ -475,6 +725,16 @@ impl App {
         let raw = self.palette_input.value().trim().to_string();
         self.palette_open = false;
         self.palette_input = Input::default();
+        self.palette_history_cursor = None;
+
+        // Append to history (dedupe head, cap at HISTORY_CAP).
+        if !raw.is_empty()
+            && self.palette_history.first().map(|s| s.as_str()) != Some(raw.as_str())
+        {
+            self.palette_history.insert(0, raw.clone());
+            self.palette_history.truncate(HISTORY_CAP);
+            save_palette_history(&self.palette_history);
+        }
 
         let (cmd, rest) = match raw.split_once(' ') {
             Some((c, r)) => (c.to_lowercase(), r.trim().to_string()),
@@ -517,7 +777,6 @@ impl App {
                         return;
                     }
                 };
-                // Filter to tokens whose name.property matches.
                 let candidates: Vec<TokenRecord> = ctx
                     .graph
                     .tokens
@@ -539,7 +798,6 @@ impl App {
                 }
                 let filtered_graph = TokenGraph::from_records(candidates)
                     .with_mode_sets(ctx.graph.mode_sets.clone());
-                // Compute specificity once per token, then sort.
                 let mut with_spec: Vec<(&TokenRecord, u32)> = filtered_graph
                     .tokens
                     .values()
@@ -604,7 +862,6 @@ impl App {
                     return;
                 }
                 let id = rest.trim();
-                // IDs must match ^[a-z][a-z0-9-]*$ (mirrors run_component in cli/main.rs).
                 if id.is_empty()
                     || !id.chars().next().is_some_and(|c| c.is_ascii_lowercase())
                     || !id
@@ -654,7 +911,6 @@ impl App {
                         }
                     }
                 } else {
-                    // Suggest close prefix matches from the loaded component list.
                     let available: Vec<&str> =
                         ctx.graph.components.iter().map(|c| c.name.as_str()).collect();
                     let suggestion = if available.is_empty() {
@@ -736,7 +992,7 @@ impl App {
             "new" | "create" => {
                 let mut ws = WizardState::new_with_intent(rest.trim());
                 ws.refresh_suggestions(ctx.graph);
-                self.modal = Some(Modal::Wizard(ws));
+                self.modal = Some(Modal::Wizard(Box::new(ws)));
                 self.status_message = None;
             }
             other => {
@@ -746,10 +1002,9 @@ impl App {
         }
     }
 
+    // ── Misc helpers ─────────────────────────────────────────────────────────
+
     /// Take the pending yank string, clearing it from app state.
-    ///
-    /// Returns `Some(text)` when a yank is pending; `None` otherwise.
-    /// main.rs calls this after writing to the clipboard.
     pub fn take_pending_yank(&mut self) -> Option<String> {
         self.pending_yank.take()
     }
@@ -769,7 +1024,44 @@ impl Default for App {
     }
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// ── History persistence ───────────────────────────────────────────────────────
+
+/// Resolve the path for the persistent palette history file.
+///
+/// Reads `DESIGN_DATA_TUI_HISTORY` env var first (used in tests), then falls
+/// back to `dirs::data_dir()/design-data-tui/history`.
+pub fn history_path() -> Option<PathBuf> {
+    if let Ok(p) = std::env::var("DESIGN_DATA_TUI_HISTORY") {
+        return Some(PathBuf::from(p));
+    }
+    dirs::data_dir().map(|d| d.join("design-data-tui").join("history"))
+}
+
+fn load_palette_history() -> Vec<String> {
+    let Some(path) = history_path() else { return Vec::new() };
+    std::fs::read_to_string(&path)
+        .map(|s| {
+            s.lines()
+                .filter(|l| !l.is_empty())
+                .map(|l| l.to_string())
+                .collect()
+        })
+        .unwrap_or_default()
+}
+
+fn save_palette_history(history: &[String]) {
+    let Some(path) = history_path() else { return };
+    if let Some(parent) = path.parent() {
+        let _ = std::fs::create_dir_all(parent);
+    }
+    let content = history.join("\n");
+    let tmp = path.with_extension("tmp");
+    if std::fs::write(&tmp, &content).is_ok() {
+        let _ = std::fs::rename(&tmp, &path);
+    }
+}
+
+// ── Internal helpers ──────────────────────────────────────────────────────────
 
 fn layer_str(layer: Layer) -> &'static str {
     match layer {
@@ -780,7 +1072,7 @@ fn layer_str(layer: Layer) -> &'static str {
 }
 
 /// Advance a `TableState` selection by `delta` rows, clamping at the bounds.
-fn move_table_selection(state: &mut TableState, len: usize, delta: i64) {
+pub fn move_table_selection(state: &mut TableState, len: usize, delta: i64) {
     if len == 0 {
         return;
     }
@@ -789,9 +1081,15 @@ fn move_table_selection(state: &mut TableState, len: usize, delta: i64) {
     state.select(Some(next));
 }
 
+/// Test whether `(row, col)` is inside `rect`.
+fn rect_contains(rect: Rect, row: u16, col: u16) -> bool {
+    col >= rect.x
+        && col < rect.x + rect.width
+        && row >= rect.y
+        && row < rect.y + rect.height
+}
+
 /// Parse the rest-string for `:resolve` into a property name + `ResolutionContext`.
-///
-/// Syntax: `property=<name>[,<mode-set>=<mode>...]`
 fn parse_resolve_args(rest: &str) -> Result<(String, ResolutionContext), String> {
     let mut property: Option<String> = None;
     let mut ctx = ResolutionContext::new();
