@@ -12,3 +12,4 @@ pub mod app;
 pub mod help;
 pub mod theme;
 pub mod wizard;
+pub mod wizard_draft;

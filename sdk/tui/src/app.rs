@@ -24,6 +24,9 @@ use tui_input::Input;
 use tui_input::backend::crossterm::EventHandler;
 
 use crate::wizard::{WizardCtx, WizardEvent, WizardState};
+use crate::wizard_draft::{
+    clear_wizard_draft, from_draft, load_wizard_draft, save_wizard_draft, to_draft,
+};
 
 /// Command names for Tab autocomplete.
 const KNOWN_COMMANDS: &[&str] = &["new", "query", "resolve", "describe", "validate"];
@@ -285,6 +288,19 @@ pub struct App {
 
 impl App {
     pub fn new() -> Self {
+        Self::new_with_options(true)
+    }
+
+    /// Create the app, optionally restoring an in-progress wizard draft from disk.
+    ///
+    /// Pass `resume_wizard: false` for demo/recording sessions where you want a
+    /// clean slate regardless of what is saved on disk (corresponds to `--no-resume-wizard`).
+    pub fn new_with_options(resume_wizard: bool) -> Self {
+        let modal = if resume_wizard {
+            load_wizard_draft().map(|d| Modal::Wizard(Box::new(from_draft(d))))
+        } else {
+            None
+        };
         Self {
             palette_open: false,
             palette_mode: PaletteMode::Command,
@@ -293,7 +309,7 @@ impl App {
             active_view: ActiveView::Empty,
             status_message: None,
             pending_yank: None,
-            modal: None,
+            modal,
             palette_history: load_palette_history(),
             palette_history_cursor: None,
             hit_regions: Vec::new(),
@@ -465,11 +481,13 @@ impl App {
         match event {
             WizardEvent::Cancel => {
                 self.modal = None;
+                clear_wizard_draft();
                 self.status_message = Some(StatusMessage::info("wizard cancelled"));
             }
             WizardEvent::Submit => {
                 if !ctx.allow_write {
                     self.modal = None;
+                    clear_wizard_draft();
                     self.status_message = Some(StatusMessage::info(
                         "wizard preview ready — pass --allow-write to enable writes",
                     ));
@@ -483,6 +501,7 @@ impl App {
                     match write_result {
                         Some(Ok(written_path)) => {
                             self.modal = None;
+                            clear_wizard_draft();
                             self.status_message = Some(StatusMessage::info(format!(
                                 "wrote {assembled_name} → {written_path}"
                             )));
@@ -491,12 +510,23 @@ impl App {
                             if let Some(Modal::Wizard(ws)) = &mut self.modal {
                                 ws.error = Some(e);
                             }
+                            // Draft stays on disk; the next keystroke will re-save via
+                            // persist_wizard, keeping the last good state.
                         }
                         None => {}
                     }
                 }
             }
-            WizardEvent::Continue => {}
+            WizardEvent::Continue => {
+                self.persist_wizard();
+            }
+        }
+    }
+
+    /// Snapshot the current wizard modal to disk if one is open.
+    fn persist_wizard(&self) {
+        if let Some(Modal::Wizard(ref ws)) = self.modal {
+            save_wizard_draft(&to_draft(ws));
         }
     }
 

@@ -205,6 +205,10 @@ struct Cli {
     /// `spectrum` uses the Adobe Spectrum palette (requires truecolor terminal).
     #[arg(long, value_enum, default_value_t = ThemeChoice::Terminal)]
     theme: ThemeChoice,
+    /// Do not restore an in-progress wizard draft from the previous session.
+    /// Useful for demo recording where you want a clean slate on every launch.
+    #[arg(long)]
+    no_resume_wizard: bool,
 }
 
 /// Write `text` to the system clipboard.
@@ -266,6 +270,7 @@ fn main() -> Result<()> {
     };
     let handle =
         DatasetHandle::load(cli.dataset, cli.components, cli.mode_sets, cli.allow_write, theme)?;
+    let resume_wizard = !cli.no_resume_wizard;
 
     // Restore terminal on panic so the shell is not left in a broken state.
     let original_hook = std::panic::take_hook();
@@ -282,7 +287,7 @@ fn main() -> Result<()> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend).into_diagnostic()?;
 
-    let result = run(&mut terminal, &handle);
+    let result = run(&mut terminal, &handle, resume_wizard);
 
     // Best-effort cleanup — continue even if individual steps fail.
     let _ = disable_raw_mode();
@@ -598,8 +603,8 @@ fn compute_hit_regions(app: &App, status_height: u16, frame_area: Rect) -> Vec<H
     regions
 }
 
-fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &DatasetHandle) -> Result<()> {
-    let mut app = App::new();
+fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &DatasetHandle, resume_wizard: bool) -> Result<()> {
+    let mut app = App::new_with_options(resume_wizard);
 
     loop {
         let mut frame_area = Rect::default();
