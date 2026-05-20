@@ -35,41 +35,9 @@ pub struct WizardCtx<'a> {
 }
 
 // ── Screen & path enums ──────────────────────────────────────────────────────
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
-pub enum WizardScreen {
-    Intent,
-    Classification,
-    Values,
-    Confirm,
-}
-
-impl WizardScreen {
-    pub fn number(self) -> u8 {
-        match self {
-            WizardScreen::Intent => 1,
-            WizardScreen::Classification => 2,
-            WizardScreen::Values => 3,
-            WizardScreen::Confirm => 4,
-        }
-    }
-
-    pub fn name(self) -> &'static str {
-        match self {
-            WizardScreen::Intent => "Intent",
-            WizardScreen::Classification => "Classification",
-            WizardScreen::Values => "Values",
-            WizardScreen::Confirm => "Confirm",
-        }
-    }
-}
-
-/// Whether the user is creating a new token or aliasing an existing one.
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
-pub enum WizardPath {
-    CreateNew,
-    AliasToExisting(String), // token name of the reuse target
-}
+// Defined in `design_data_core::authoring::draft`; re-exported here so callers
+// within this crate can still use the short `crate::wizard::WizardScreen` path.
+pub use design_data_core::authoring::draft::{ValueKind, WizardPath, WizardScreen};
 
 // ── Draft types ──────────────────────────────────────────────────────────────
 
@@ -102,13 +70,6 @@ impl ClassificationDraft {
     fn field_count(&self) -> usize {
         2 + self.name_fields.len() // layer + property + name_fields
     }
-}
-
-/// Whether a value row uses an alias (reference) or a literal value.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
-pub enum ValueKind {
-    Alias,
-    Literal,
 }
 
 /// One row in Screen 3's values table.

@@ -809,21 +809,20 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &Datase
 
         if event::poll(std::time::Duration::from_millis(16)).into_diagnostic()? {
             match event::read().into_diagnostic()? {
-                Event::Key(key) => {
-                    if key.kind == KeyEventKind::Press {
-                        if app.modal.is_some() {
-                            // Modal captures all input; palette is suppressed.
-                            app.handle_modal_key(key, &handle.wizard_ctx());
-                        } else {
-                            let was_open = app.palette_open;
-                            app.handle_key(key);
-                            // Palette just closed via Enter — dispatch command.
-                            if was_open && !app.palette_open && key.code == KeyCode::Enter {
-                                app.submit_palette(&handle.submit_context());
-                            }
+                Event::Key(key) if key.kind == KeyEventKind::Press => {
+                    if app.modal.is_some() {
+                        // Modal captures all input; palette is suppressed.
+                        app.handle_modal_key(key, &handle.wizard_ctx());
+                    } else {
+                        let was_open = app.palette_open;
+                        app.handle_key(key);
+                        // Palette just closed via Enter — dispatch command.
+                        if was_open && !app.palette_open && key.code == KeyCode::Enter {
+                            app.submit_palette(&handle.submit_context());
                         }
                     }
                 }
+                Event::Key(_) => {}
                 Event::Mouse(me) => {
                     // handle_mouse sets pending_yank; it is drained above next frame.
                     app.handle_mouse(me);

@@ -428,6 +428,7 @@ dependencies = [
  "design-data-core",
  "miette",
  "predicates",
+ "serde",
  "serde_json",
  "tempfile",
  "tokio",
@@ -437,6 +438,7 @@ dependencies = [
 name = "design-data-core"
 version = "0.1.0"
 dependencies = [
+ "dirs",
  "jsonschema",
  "regex",
  "reqwest",

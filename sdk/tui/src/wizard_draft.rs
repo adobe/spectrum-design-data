@@ -8,70 +8,27 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! Serializable mirror DTOs for `WizardState` + atomic on-disk persistence.
+//! TUI wizard draft persistence — `WizardState` ↔ `WizardDraft` conversions
+//! and atomic on-disk save/load.
 //!
-//! Mirrors `app.rs`'s palette-history persistence pattern exactly.
-//! `tui_input::Input` is not `Serialize`, so each `Input` field is stored as
-//! a plain `String` and rehydrated via `Input::from(s)` on load.
+//! The serializable `WizardDraft` DTO and its sub-types now live in
+//! `design_data_core::authoring::draft` so they can be shared with the MCP
+//! authoring-session state machine.  This module owns only the TUI-specific
+//! conversion functions and the persistence helpers.
 //!
 //! Transient/derivable fields (suggestions, diff_preview, diff_scroll, error,
-//! editing_schema_url, ValuesDraft.editing) are intentionally omitted; they
-//! are either rebuilt by `refresh_suggestions`/`advance_to_confirm` or start
-//! at their default values.
+//! editing_schema_url, ValuesDraft.editing) are intentionally omitted from the
+//! DTO; they are either rebuilt by `refresh_suggestions`/`advance_to_confirm`
+//! or start at their default values.
 
 use std::path::PathBuf;
 
-use design_data_core::graph::Layer;
-use serde::{Deserialize, Serialize};
+use design_data_core::authoring::draft::{
+    ClassificationDraftDto, NameFieldDto, ValueRowDto, ValuesDraftDto, WizardDraft,
+};
 use tui_input::Input;
 
-use crate::wizard::{
-    ClassificationDraft, NameField, ValueKind, ValueRow, ValuesDraft, WizardPath, WizardScreen,
-    WizardState,
-};
-
-// ── DTOs ──────────────────────────────────────────────────────────────────────
-
-#[derive(Serialize, Deserialize)]
-pub struct WizardDraft {
-    pub screen: WizardScreen,
-    pub intent: String,
-    pub selected_suggestion: usize,
-    pub chosen_path: WizardPath,
-    pub classification: ClassificationDraftDto,
-    pub values: ValuesDraftDto,
-    pub rationale: String,
-    pub schema_url: Option<String>,
-    pub schema_url_input: String,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct ClassificationDraftDto {
-    pub layer: Layer,
-    pub property: String,
-    pub name_fields: Vec<NameFieldDto>,
-    pub focused_field: usize,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct NameFieldDto {
-    pub key: String,
-    pub value: String,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct ValuesDraftDto {
-    pub rows: Vec<ValueRowDto>,
-    pub selected: usize,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct ValueRowDto {
-    pub mode_combo: Vec<(String, String)>,
-    pub kind: ValueKind,
-    pub alias_target: String,
-    pub literal: String,
-}
+use crate::wizard::{ClassificationDraft, NameField, ValueRow, ValuesDraft, WizardState};
 
 // ── WizardState ↔ WizardDraft conversions ────────────────────────────────────
 

@@ -18,6 +18,7 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
+import { createAuthoringTools } from "./tools/authoring.js";
 import { createReadTools } from "./tools/read.js";
 import { createValidateTools } from "./tools/validate.js";
 import { createDiffTools } from "./tools/diff.js";
@@ -35,6 +36,7 @@ export function createMCPServer() {
     ...createValidateTools(),
     ...createDiffTools(),
     ...createWriteTools(),
+    ...createAuthoringTools(),
   ];
   const server = new Server(
     { name: "design-data-agent-mcp", version: pkg.version },

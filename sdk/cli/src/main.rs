@@ -13,6 +13,7 @@ use std::process::ExitCode;
 
 use chrono::Utc;
 
+mod authoring;
 mod format;
 
 use std::collections::HashSet;
@@ -220,6 +221,12 @@ enum Commands {
         /// Path to schemas directory (default: packages/tokens/schemas relative to target)
         #[arg(long, value_name = "DIR")]
         schema_path: Option<PathBuf>,
+    },
+    /// Manage token authoring sessions (MCP parity, RFC #973 Q4)
+    #[command(name = "authoring-session")]
+    AuthoringSession {
+        #[command(subcommand)]
+        cmd: authoring::AuthoringSessionCommand,
     },
 }
 
@@ -1454,6 +1461,9 @@ fn main() -> ExitCode {
                 schema_path: schema_path.as_deref(),
             },
         ),
+        Commands::AuthoringSession { cmd } => {
+            return authoring::run(cmd);
+        }
     };
 
     match result {
