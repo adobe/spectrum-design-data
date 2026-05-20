@@ -201,7 +201,5 @@ pub fn save_wizard_draft(draft: &WizardDraft) {
 /// Remove the wizard draft file.  Ignores `NotFound`.
 pub fn clear_wizard_draft() {
     let Some(path) = wizard_draft_path() else { return };
-    match std::fs::remove_file(&path) {
-        Ok(()) | Err(_) => {}
-    }
+    let _ = std::fs::remove_file(&path);
 }

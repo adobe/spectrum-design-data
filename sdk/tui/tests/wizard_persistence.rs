@@ -86,13 +86,6 @@ fn round_trip_preserves_classification_fields() {
         // Simulate setting property via Input::from (mirrors how handle_key would do it)
         ws.classification.property = tui_input::Input::from("background-color".to_string());
 
-        let _loaded = from_draft(load_wizard_draft().unwrap_or_else(|| {
-            let d = to_draft(&ws);
-            save_wizard_draft(&d);
-            load_wizard_draft().unwrap()
-        }));
-
-        // Use to_draft + from_draft directly without file I/O to test conversion.
         let restored = from_draft(to_draft(&ws));
         assert_eq!(restored.classification.layer, Layer::Platform);
         assert_eq!(restored.classification.property.value(), "background-color");
