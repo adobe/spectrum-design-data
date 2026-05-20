@@ -22,7 +22,10 @@ use crate::CoreError;
 ///
 /// Layer ordering is encoded in the discriminant so `Ord` gives correct
 /// precedence: `Foundation < Platform < Product`.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default, serde::Serialize)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default,
+    serde::Serialize, serde::Deserialize,
+)]
 #[serde(rename_all = "lowercase")]
 pub enum Layer {
     #[default]

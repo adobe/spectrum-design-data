@@ -36,7 +36,7 @@ pub struct WizardCtx<'a> {
 
 // ── Screen & path enums ──────────────────────────────────────────────────────
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub enum WizardScreen {
     Intent,
     Classification,
@@ -65,7 +65,7 @@ impl WizardScreen {
 }
 
 /// Whether the user is creating a new token or aliasing an existing one.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub enum WizardPath {
     CreateNew,
     AliasToExisting(String), // token name of the reuse target
@@ -105,7 +105,7 @@ impl ClassificationDraft {
 }
 
 /// Whether a value row uses an alias (reference) or a literal value.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub enum ValueKind {
     Alias,
     Literal,
