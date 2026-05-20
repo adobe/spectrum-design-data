@@ -67,6 +67,9 @@ impl Theme {
             ok: Color::Rgb(38, 142, 108),
             warn: Color::Rgb(203, 93, 0),
             error: Color::Rgb(201, 37, 45),
+            // Intentionally matches accent (Indigo 700) to give selected rows visual
+            // weight. A future UX pass may pick a distinct selection swatch if contrast
+            // proves insufficient for light-background text.
             selection_bg: Color::Rgb(64, 70, 202),
         }
     }

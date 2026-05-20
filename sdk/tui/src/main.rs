@@ -529,14 +529,18 @@ fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme:
 }
 
 /// Rebuild hit regions after a draw, mirroring the layout computed inside the draw closure.
+///
+/// SYNC WITH draw closure layout: the constraint array below must stay identical to the
+/// one in the `terminal.draw` call in `run()`. If a chunk is added or reordered there,
+/// update this function to match or click targets will silently drift.
 fn compute_hit_regions(app: &App, status_height: u16, frame_area: Rect) -> Vec<HitRegion> {
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
-            Constraint::Length(1),
-            Constraint::Min(0),
-            Constraint::Length(status_height),
-            Constraint::Length(1),
+            Constraint::Length(1),              // primer header  ← SYNC WITH draw closure
+            Constraint::Min(0),                 // active view    ← SYNC WITH draw closure
+            Constraint::Length(status_height),  // status message ← SYNC WITH draw closure
+            Constraint::Length(1),              // palette prompt ← SYNC WITH draw closure
         ])
         .split(frame_area);
 

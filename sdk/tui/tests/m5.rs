@@ -11,6 +11,7 @@
 //! M5 polish milestone tests: mouse, help overlay, palette history, theming.
 
 use std::env;
+use std::sync::Mutex;
 
 use crossterm::event::{
     KeyCode, KeyEvent, KeyEventKind, KeyEventState, KeyModifiers, MouseButton, MouseEvent,
@@ -104,9 +105,14 @@ fn arrow_keys_scroll_help_body() {
 
 // ── Palette history ───────────────────────────────────────────────────────────
 
+// Serialize env-touching tests to avoid DESIGN_DATA_TUI_HISTORY stomping across
+// concurrently running tests (cargo test runs in parallel by default).
+static HISTORY_ENV_LOCK: Mutex<()> = Mutex::new(());
+
 fn with_temp_history<F: FnOnce()>(f: F) -> TempDir {
     let dir = TempDir::new().unwrap();
     let history_path = dir.path().join("history");
+    let _guard = HISTORY_ENV_LOCK.lock().unwrap();
     env::set_var("DESIGN_DATA_TUI_HISTORY", &history_path);
     f();
     env::remove_var("DESIGN_DATA_TUI_HISTORY");
@@ -183,6 +189,27 @@ fn history_caps_at_200_entries() {
 
         assert_eq!(app.palette_history.len(), 200);
         assert_eq!(app.palette_history[0], "query new-token");
+    });
+}
+
+#[test]
+fn typing_resets_history_cursor() {
+    let _dir = with_temp_history(|| {
+        let mut app = App::new();
+        app.palette_history = vec!["query foo".to_string(), "query bar".to_string()];
+
+        open_palette(&mut app);
+        app.handle_key(key(KeyCode::Up)); // cursor = Some(0)
+        assert_eq!(app.palette_history_cursor, Some(0));
+
+        // Type a character — cursor must reset so the next ↑ starts from head.
+        app.handle_key(key(KeyCode::Char('x')));
+        assert_eq!(app.palette_history_cursor, None, "typing should reset history cursor");
+
+        // Pressing ↑ again should return to index 0 (newest entry), not continue from 1.
+        app.handle_key(key(KeyCode::Up));
+        assert_eq!(app.palette_history_cursor, Some(0));
+        assert_eq!(app.palette_input.value(), "query foo");
     });
 }
 

@@ -377,6 +377,9 @@ impl App {
                     }
                 }
                 _ => {
+                    // Any character input resets the history position so the next ↑ starts
+                    // from the head again (mirrors bash/zsh behavior).
+                    self.palette_history_cursor = None;
                     self.palette_input.handle_event(&crossterm::event::Event::Key(key));
                 }
             }
@@ -557,11 +560,11 @@ impl App {
         }
         match &mut self.active_view {
             ActiveView::Describe(dv) => {
+                let amount = delta.unsigned_abs() as u16 * 3;
                 if delta > 0 {
-                    dv.scroll = dv.scroll.saturating_add(delta.unsigned_abs() as u16 * 3);
+                    dv.scroll = dv.scroll.saturating_add(amount);
                 } else {
-                    dv.scroll =
-                        dv.scroll.saturating_sub((-delta).unsigned_abs() as u16 * 3);
+                    dv.scroll = dv.scroll.saturating_sub(amount);
                 }
             }
             ActiveView::Query(qv) => {
