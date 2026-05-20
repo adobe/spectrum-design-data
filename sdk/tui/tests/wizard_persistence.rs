@@ -37,8 +37,14 @@ fn empty_ctx(graph: &TokenGraph) -> WizardCtx<'_> {
     WizardCtx { graph, dataset_path: None, schema_registry: None, allow_write: false }
 }
 
-// Serialize env-touching tests to avoid DESIGN_DATA_TUI_WIZARD_DRAFT stomping
-// across concurrently running tests.
+// Serialize env-touching tests within this binary to prevent concurrent tests
+// from stomping on DESIGN_DATA_TUI_WIZARD_DRAFT.
+//
+// Scope note: cargo test compiles each tests/*.rs file into a separate binary,
+// so this Mutex only covers tests inside wizard_persistence.rs. That's sufficient
+// because no other test binary in this crate sets DESIGN_DATA_TUI_WIZARD_DRAFT.
+// If a future test file also needs to touch this var, extract the lock into a
+// shared test-helper crate or use a file-based lock instead.
 static DRAFT_ENV_LOCK: Mutex<()> = Mutex::new(());
 
 fn with_temp_draft<F: FnOnce()>(f: F) -> TempDir {
