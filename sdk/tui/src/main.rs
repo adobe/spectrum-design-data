@@ -55,6 +55,8 @@ struct DatasetHandle {
     components_dir: Option<PathBuf>,
     mode_sets_dir: Option<PathBuf>,
     schema_registry: Option<SchemaRegistry>,
+    /// When true, wizard Screen 4 Submit writes to disk via `write_token`.
+    allow_write: bool,
 }
 
 impl DatasetHandle {
@@ -62,6 +64,7 @@ impl DatasetHandle {
         path: PathBuf,
         components_arg: Option<PathBuf>,
         mode_sets_arg: Option<PathBuf>,
+        allow_write: bool,
     ) -> Result<Self> {
         let mut graph = TokenGraph::from_json_dir(&path)
             .into_diagnostic()
@@ -104,6 +107,7 @@ impl DatasetHandle {
             components_dir,
             mode_sets_dir,
             schema_registry,
+            allow_write,
         })
     }
 
@@ -126,7 +130,12 @@ impl DatasetHandle {
     }
 
     fn wizard_ctx(&self) -> WizardCtx<'_> {
-        WizardCtx { graph: &self.graph, dataset_path: Some(&self.dataset_path) }
+        WizardCtx {
+            graph: &self.graph,
+            dataset_path: Some(&self.dataset_path),
+            schema_registry: self.schema_registry.as_ref(),
+            allow_write: self.allow_write,
+        }
     }
 }
 
@@ -168,6 +177,10 @@ struct Cli {
     /// Path to the mode-sets directory (default: spec-bundled).
     #[arg(long = "mode-sets")]
     mode_sets: Option<PathBuf>,
+    /// Enable real disk writes from the wizard (Screen 4 Submit). Without this
+    /// flag the wizard shows a diff preview but does not write to the dataset.
+    #[arg(long)]
+    allow_write: bool,
 }
 
 /// Write `text` to the system clipboard.
@@ -223,7 +236,7 @@ fn centered_rect(percent_x: u16, percent_y: u16, area: Rect) -> Rect {
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
-    let handle = DatasetHandle::load(cli.dataset, cli.components, cli.mode_sets)?;
+    let handle = DatasetHandle::load(cli.dataset, cli.components, cli.mode_sets, cli.allow_write)?;
 
     // Restore terminal on panic so the shell is not left in a broken state.
     let original_hook = std::panic::take_hook();
@@ -276,7 +289,7 @@ fn render_wizard(f: &mut Frame<'_>, ws: &mut WizardState, area: Rect) {
             "a: alias  l: literal  e: edit value  ↑↓: select row  Enter: continue  Esc: cancel"
         }
         WizardScreen::Confirm => {
-            "Type rationale, then Enter to preview (no write)  Esc: cancel"
+            "Type rationale, then Enter to submit  ↑↓: scroll diff  Ctrl+S: edit $schema  Esc: cancel"
         }
     };
     f.render_widget(
@@ -417,10 +430,33 @@ fn render_values_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
 
 fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
     let rationale_height = 3u16;
+    let error_height = if ws.error.is_some() { 1u16 } else { 0u16 };
+
     let chunks = Layout::default()
         .direction(Direction::Vertical)
-        .constraints([Constraint::Length(rationale_height), Constraint::Min(0)])
+        .constraints([
+            Constraint::Length(1),             // schema URL / editor
+            Constraint::Length(rationale_height),
+            Constraint::Min(0),                // diff preview
+            Constraint::Length(error_height),  // write error
+        ])
         .split(area);
+
+    // Schema URL header / inline editor.
+    let schema_line = if ws.editing_schema_url {
+        Line::from(vec![
+            Span::styled("  $schema: ", Style::default().fg(Color::Yellow)),
+            Span::raw(ws.schema_url_input.value()),
+            Span::styled("▌", Style::default().fg(Color::Yellow)),
+        ])
+    } else {
+        let url_text = ws.schema_url.as_deref().unwrap_or("(none — Ctrl+S to set)");
+        Line::from(vec![
+            Span::styled("  $schema: ", Style::default().fg(Color::DarkGray)),
+            Span::raw(url_text),
+        ])
+    };
+    f.render_widget(Paragraph::new(schema_line), chunks[0]);
 
     // Rationale input.
     let rationale_block = Block::default().borders(Borders::ALL).title(" Rationale (required) ");
@@ -433,14 +469,24 @@ fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
     } else {
         Line::from(Span::raw(rationale_text))
     };
-    f.render_widget(Paragraph::new(rationale_line).block(rationale_block), chunks[0]);
+    f.render_widget(Paragraph::new(rationale_line).block(rationale_block), chunks[1]);
 
     // Diff preview.
-    let diff_text = ws.diff_preview.as_deref().unwrap_or("(diff will appear here once rationale is added and Enter pressed)");
+    let diff_text = ws.diff_preview.as_deref().unwrap_or(
+        "(diff will appear here once rationale is added and Enter pressed)",
+    );
     let diff_para = Paragraph::new(diff_text)
         .block(Block::default().borders(Borders::ALL).title(" Diff preview "))
         .scroll((ws.diff_scroll, 0));
-    f.render_widget(diff_para, chunks[1]);
+    f.render_widget(diff_para, chunks[2]);
+
+    // Write error (shown in red; keeps modal open).
+    if let Some(ref err) = ws.error {
+        f.render_widget(
+            Paragraph::new(format!("  ⚠ {err}")).style(Style::default().fg(Color::Red)),
+            chunks[3],
+        );
+    }
 }
 
 fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &DatasetHandle) -> Result<()> {

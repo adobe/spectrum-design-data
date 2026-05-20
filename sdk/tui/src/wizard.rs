@@ -10,14 +10,18 @@
 
 //! Four-screen token authoring wizard (RFC #973 §3.10–§3.15).
 //!
-//! Screens: Intent → Classification → Values → Confirm (diff preview).
-//! M3 ends at preview; no real disk writes (M4).
+//! Screens: Intent → Classification → Values → Confirm (diff preview + write).
+//! M4 adds `--allow-write` gating: when enabled, Screen 4 Submit calls
+//! `core::write::write_token` and records the token to disk.
 
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph};
+use design_data_core::schema::SchemaRegistry;
 use design_data_core::suggest::{self, SuggestionResult};
+use design_data_core::write::{WriteTokenInput, write_token};
+use uuid::Uuid;
 use tui_input::Input;
 use tui_input::backend::crossterm::EventHandler;
 
@@ -25,6 +29,9 @@ use tui_input::backend::crossterm::EventHandler;
 pub struct WizardCtx<'a> {
     pub graph: &'a TokenGraph,
     pub dataset_path: Option<&'a Path>,
+    pub schema_registry: Option<&'a SchemaRegistry>,
+    /// When true, Screen 4 Submit writes to disk via `write_token`.
+    pub allow_write: bool,
 }
 
 // ── Screen & path enums ──────────────────────────────────────────────────────
@@ -154,6 +161,14 @@ pub struct WizardState {
     pub rationale: Input,
     pub diff_preview: Option<String>,
     pub diff_scroll: u16,
+    /// `$schema` URL inferred or entered by the user; required for `write_token`.
+    pub schema_url: Option<String>,
+    /// True while the user is editing the schema URL inline on Screen 4.
+    pub editing_schema_url: bool,
+    /// Input buffer for the inline schema URL editor.
+    pub schema_url_input: Input,
+    /// Write error surfaced on Screen 4 when `write_token` fails; keeps modal open.
+    pub error: Option<String>,
 }
 
 /// Outcome of a single key event inside the wizard.
@@ -162,7 +177,7 @@ pub enum WizardEvent {
     Continue,
     /// User pressed Esc — App should close the modal.
     Cancel,
-    /// User confirmed on Screen 4 — App should close the modal and show the preview status.
+    /// User confirmed on Screen 4 — App should close the modal (or surface write error).
     Submit,
 }
 
@@ -179,6 +194,10 @@ impl WizardState {
             rationale: Input::default(),
             diff_preview: None,
             diff_scroll: 0,
+            schema_url: None,
+            editing_schema_url: false,
+            schema_url_input: Input::default(),
+            error: None,
         }
     }
 
@@ -196,7 +215,12 @@ impl WizardState {
     /// Route a key event through the appropriate screen handler.
     pub fn handle_key(&mut self, key: KeyEvent, ctx: &WizardCtx<'_>) -> WizardEvent {
         // Ctrl-C should not be consumed here — App handles it above us.
+        // Ctrl-S on Screen 4 opens the schema URL editor (safe since it uses a modifier).
         if key.modifiers.contains(KeyModifiers::CONTROL) {
+            if key.code == KeyCode::Char('s') && self.screen == WizardScreen::Confirm {
+                self.editing_schema_url = true;
+                return WizardEvent::Continue;
+            }
             return WizardEvent::Continue;
         }
         if key.code == KeyCode::Esc {
@@ -227,6 +251,15 @@ impl WizardState {
             KeyCode::Tab => {
                 if !self.suggestions.is_empty() {
                     let name = self.suggestions[self.selected_suggestion].token_name.clone();
+                    // Infer schema URL from the reuse target's token record.
+                    if self.schema_url.is_none() {
+                        if let Some(token) = ctx.graph.tokens.get(&name) {
+                            self.schema_url = token.schema_url.clone();
+                            if let Some(ref url) = self.schema_url {
+                                self.schema_url_input = Input::from(url.clone());
+                            }
+                        }
+                    }
                     self.chosen_path = WizardPath::AliasToExisting(name);
                     self.build_diff(ctx.dataset_path);
                     self.screen = WizardScreen::Confirm;
@@ -350,7 +383,7 @@ impl WizardState {
 
         match key.code {
             KeyCode::Enter => {
-                self.advance_to_confirm(ctx.dataset_path);
+                self.advance_to_confirm(ctx);
                 WizardEvent::Continue
             }
             KeyCode::Up | KeyCode::Char('k') => {
@@ -392,6 +425,25 @@ impl WizardState {
     // ── Screen 4: Confirm ────────────────────────────────────────────────────
 
     fn handle_confirm_key(&mut self, key: KeyEvent, ctx: &WizardCtx<'_>) -> WizardEvent {
+        // Schema URL editor captures all input while active.
+        if self.editing_schema_url {
+            match key.code {
+                KeyCode::Enter => {
+                    let url = self.schema_url_input.value().trim().to_string();
+                    self.schema_url = if url.is_empty() { None } else { Some(url) };
+                    self.editing_schema_url = false;
+                    self.build_diff(ctx.dataset_path);
+                }
+                KeyCode::Esc => {
+                    self.editing_schema_url = false;
+                }
+                _ => {
+                    self.schema_url_input.handle_event(&crossterm::event::Event::Key(key));
+                }
+            }
+            return WizardEvent::Continue;
+        }
+
         match key.code {
             KeyCode::Enter => {
                 if !self.rationale.value().is_empty() {
@@ -412,8 +464,7 @@ impl WizardState {
             }
             _ => {
                 self.rationale.handle_event(&crossterm::event::Event::Key(key));
-                // Regenerate the diff on each keystroke so the rationale field
-                // is reflected immediately in the preview panel.
+                // Regenerate diff on each keystroke so rationale is reflected immediately.
                 self.build_diff(ctx.dataset_path);
                 WizardEvent::Continue
             }
@@ -433,10 +484,79 @@ impl WizardState {
         }
     }
 
-    /// Advance Screen 3 → Screen 4, computing an initial diff preview.
-    pub fn advance_to_confirm(&mut self, dataset_path: Option<&Path>) {
-        self.build_diff(dataset_path);
+    /// Advance Screen 3 → Screen 4, inferring schema URL and computing an initial diff preview.
+    pub fn advance_to_confirm(&mut self, ctx: &WizardCtx<'_>) {
+        if self.schema_url.is_none() {
+            let property = self.classification.property.value().trim().to_string();
+            self.schema_url = infer_schema_url(ctx.graph, &property);
+            if let Some(ref url) = self.schema_url {
+                self.schema_url_input = Input::from(url.clone());
+            }
+        }
+        self.build_diff(ctx.dataset_path);
         self.screen = WizardScreen::Confirm;
+    }
+
+    /// Attempt to write the token to disk using `write_token`.
+    ///
+    /// Returns `Ok(written_path)` on success, `Err(message)` on failure.
+    /// Failures are non-fatal: the caller surfaces them on Screen 4 and keeps
+    /// the modal open so the user can correct the error.
+    pub fn perform_write(&self, ctx: &WizardCtx<'_>) -> Result<String, String> {
+        let registry = ctx.schema_registry.ok_or_else(|| {
+            "no schema registry available — run from the repo root or pass --schema-path".to_string()
+        })?;
+        let dataset_path = ctx.dataset_path.ok_or_else(|| {
+            "no dataset path available".to_string()
+        })?;
+
+        let key = self.assembled_name();
+        if key.is_empty() {
+            return Err("assembled token name is empty — fill in Property on Screen 2".to_string());
+        }
+
+        let property = self.classification.property.value().trim().to_string();
+        let target = resolve_target_file(self.classification.layer, &property, dataset_path);
+
+        // Build token JSON value from the first value row.
+        let token_value = build_token_value(&self.values.rows);
+
+        // Generate a fresh UUID for the new token.
+        let uuid = Uuid::new_v4().to_string();
+
+        // Build the full token object including $schema if known.
+        let mut token_obj = if let Some(ref url) = self.schema_url {
+            serde_json::json!({ "$schema": url, "value": token_value, "uuid": uuid })
+        } else {
+            serde_json::json!({ "value": token_value, "uuid": uuid })
+        };
+        // Rationale is pre-injected so schema validation can see it. write_token also
+        // receives it via WriteTokenInput::rationale and merges it with or_insert_with —
+        // so the field is never written twice; only the copy already in token_obj wins.
+        let rationale_text = self.rationale.value().trim().to_string();
+        if !rationale_text.is_empty() {
+            token_obj["rationale"] = serde_json::Value::String(rationale_text.clone());
+        }
+
+        let is_override = ctx.graph.tokens.contains_key(&key);
+
+        let pc_path = dataset_path.join("product-context.json");
+        let product_context = if pc_path.exists() { Some(pc_path) } else { None };
+
+        write_token(
+            WriteTokenInput {
+                key,
+                token: token_obj,
+                target,
+                product_context,
+                rationale: Some(rationale_text),
+                created_at: None,
+                is_override,
+            },
+            registry,
+        )
+        .map(|out| out.written_to.display().to_string())
+        .map_err(|e| e.to_string())
     }
 
     /// The assembled token name derived from classification fields (property + name fields).
@@ -463,7 +583,12 @@ impl WizardState {
             return;
         };
 
-        let target = path.join("tokens.json");
+        let property = self.classification.property.value().trim().to_string();
+        let target = resolve_target_file(self.classification.layer, &property, path);
+        let file_name = target
+            .file_name()
+            .map(|f| f.to_string_lossy().into_owned())
+            .unwrap_or_else(|| "tokens.json".to_string());
 
         // "before" — existing file content, or empty object.
         let before_raw = if target.exists() {
@@ -481,26 +606,14 @@ impl WizardState {
         let key = self.assembled_name();
         let key = if key.is_empty() { "new-token".to_string() } else { key };
 
-        // M3: preview uses only the first value row. Full per-mode diff is M4.
-        let token_value = match self.values.rows.first() {
-            Some(row) => match row.kind {
-                ValueKind::Alias => {
-                    let t = row.alias_target.value();
-                    if t.is_empty() {
-                        serde_json::Value::Null
-                    } else {
-                        serde_json::json!({ "$alias": t })
-                    }
-                }
-                ValueKind::Literal => {
-                    let v = row.literal.value().to_string();
-                    serde_json::Value::String(v)
-                }
-            },
-            None => serde_json::Value::Null,
-        };
+        // Preview uses the first value row; full per-mode shape is deferred.
+        let token_value = build_token_value(&self.values.rows);
 
-        let mut token_obj = serde_json::json!({ "value": token_value });
+        let mut token_obj = if let Some(ref url) = self.schema_url {
+            serde_json::json!({ "$schema": url, "value": token_value })
+        } else {
+            serde_json::json!({ "value": token_value })
+        };
         let rationale = self.rationale.value().trim().to_string();
         if !rationale.is_empty() {
             token_obj["rationale"] = serde_json::Value::String(rationale);
@@ -517,7 +630,7 @@ impl WizardState {
         // Build unified diff.
         let diff_text = similar::TextDiff::from_lines(before.as_str(), after.as_str())
             .unified_diff()
-            .header("a/tokens.json", "b/tokens.json")
+            .header(&format!("a/{file_name}"), &format!("b/{file_name}"))
             .to_string();
 
         // Cap at 200 lines.
@@ -533,6 +646,62 @@ impl Default for WizardState {
 }
 
 // ── Internal helpers ─────────────────────────────────────────────────────────
+
+/// Derive the target file path from `layer` and `property`.
+///
+/// Convention (mirrors `core::write` legacy-map merge target selection):
+/// - Foundation → `<dataset>/foundation.json`
+/// - Platform   → `<dataset>/platform.json`
+/// - Product    → `<dataset>/product.json`
+///
+/// `_property` is reserved for future sub-property routing (e.g. component-scoped
+/// files keyed by property name). Not used at this layer count.
+fn resolve_target_file(layer: Layer, _property: &str, dataset_path: &Path) -> PathBuf {
+    let file = match layer {
+        Layer::Foundation => "foundation.json",
+        Layer::Platform => "platform.json",
+        Layer::Product => "product.json",
+    };
+    dataset_path.join(file)
+}
+
+/// Scan the graph for a token whose `name.property` matches `property` and
+/// return its `$schema` URL.  Returns `None` when no matching token is found.
+fn infer_schema_url(graph: &TokenGraph, property: &str) -> Option<String> {
+    if property.is_empty() {
+        return None;
+    }
+    graph.tokens.values().find_map(|t| {
+        let prop_matches = t
+            .raw
+            .get("name")
+            .and_then(|n| n.as_object())
+            .and_then(|n| n.get("property"))
+            .and_then(|v| v.as_str())
+            == Some(property);
+        if prop_matches { t.schema_url.clone() } else { None }
+    })
+}
+
+/// Build the JSON value for a token from the wizard's value rows.
+///
+/// Uses the first row only; full per-mode shape is deferred to a later milestone.
+fn build_token_value(rows: &[ValueRow]) -> serde_json::Value {
+    match rows.first() {
+        Some(row) => match row.kind {
+            ValueKind::Alias => {
+                let t = row.alias_target.value().trim();
+                if t.is_empty() {
+                    serde_json::Value::Null
+                } else {
+                    serde_json::json!({ "$alias": t })
+                }
+            }
+            ValueKind::Literal => serde_json::Value::String(row.literal.value().to_string()),
+        },
+        None => serde_json::Value::Null,
+    }
+}
 
 fn cycle_layer_forward(layer: Layer) -> Layer {
     match layer {

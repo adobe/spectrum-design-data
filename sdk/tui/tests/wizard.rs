@@ -88,7 +88,7 @@ fn esc_cancels_wizard() {
     let graph = make_graph();
     let mut app = App::new();
     open_wizard(&mut app, &graph, "accent background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None };
+    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
     app.handle_modal_key(key(KeyCode::Esc), &ctx);
     assert!(app.modal.is_none(), "modal should close on Esc");
     let msg = app.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
@@ -115,7 +115,7 @@ fn enter_on_screen_1_advances_to_screen_2() {
     let graph = make_graph();
     let mut app = App::new();
     open_wizard(&mut app, &graph, "accent background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None };
+    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
     app.handle_modal_key(key(KeyCode::Enter), &ctx);
     if let Some(Modal::Wizard(ref ws)) = app.modal {
         assert_eq!(ws.screen, WizardScreen::Classification, "should advance to Screen 2");
@@ -129,7 +129,7 @@ fn tab_with_suggestion_sets_alias_path_and_jumps_to_confirm() {
     let graph = make_graph();
     let mut app = App::new();
     open_wizard(&mut app, &graph, "accent background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None };
+    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
     // Tab should reuse the top suggestion and skip to Screen 4.
     app.handle_modal_key(key(KeyCode::Tab), &ctx);
     if let Some(Modal::Wizard(ref ws)) = app.modal {
@@ -148,7 +148,7 @@ fn screen_2_layer_cycles_with_arrow_keys() {
     let graph = make_graph();
     let mut app = App::new();
     open_wizard(&mut app, &graph, "background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None };
+    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
     // Advance to Screen 2.
     app.handle_modal_key(key(KeyCode::Enter), &ctx);
     // focused_field = 0 (layer); Right cycles forward.
@@ -170,7 +170,7 @@ fn screen_2_enter_advances_to_screen_3() {
     let graph = make_graph();
     let mut app = App::new();
     open_wizard(&mut app, &graph, "background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None };
+    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
     app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
     app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
     if let Some(Modal::Wizard(ref ws)) = app.modal {
@@ -185,7 +185,7 @@ fn screen_3_mode_rows_match_cartesian_product() {
     let graph = make_graph_with_modes();
     let mut app = App::new();
     open_wizard(&mut app, &graph, "background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None };
+    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
     app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
     app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
     if let Some(Modal::Wizard(ref ws)) = app.modal {
@@ -201,7 +201,7 @@ fn screen_3_a_l_toggle_value_kind() {
     let graph = make_graph_with_modes();
     let mut app = App::new();
     open_wizard(&mut app, &graph, "background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None };
+    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
     app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
     app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
     // Default is Alias; 'l' should switch to Literal.
@@ -221,7 +221,7 @@ fn screen_3_enter_advances_to_screen_4() {
     let graph = make_graph();
     let mut app = App::new();
     let fixtures = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
-    let ctx = WizardCtx { graph: &graph, dataset_path: Some(&fixtures) };
+    let ctx = WizardCtx { graph: &graph, dataset_path: Some(&fixtures), schema_registry: None, allow_write: false };
     open_wizard(&mut app, &graph, "background");
     app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
     app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
@@ -238,7 +238,7 @@ fn screen_4_empty_rationale_blocks_submit() {
     let graph = make_graph();
     let mut app = App::new();
     let fixtures = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
-    let ctx = WizardCtx { graph: &graph, dataset_path: Some(&fixtures) };
+    let ctx = WizardCtx { graph: &graph, dataset_path: Some(&fixtures), schema_registry: None, allow_write: false };
     open_wizard(&mut app, &graph, "background");
     app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
     app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
@@ -253,7 +253,7 @@ fn screen_4_diff_preview_is_populated_on_enter() {
     let graph = make_graph();
     let mut app = App::new();
     let fixtures = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
-    let ctx = WizardCtx { graph: &graph, dataset_path: Some(&fixtures) };
+    let ctx = WizardCtx { graph: &graph, dataset_path: Some(&fixtures), schema_registry: None, allow_write: false };
     open_wizard(&mut app, &graph, "background");
     app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
     // Tab once: layer (0) → property (1).
@@ -277,7 +277,7 @@ fn screen_4_submit_closes_modal_and_sets_status() {
     let graph = make_graph();
     let mut app = App::new();
     let fixtures = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
-    let ctx = WizardCtx { graph: &graph, dataset_path: Some(&fixtures) };
+    let ctx = WizardCtx { graph: &graph, dataset_path: Some(&fixtures), schema_registry: None, allow_write: false };
     open_wizard(&mut app, &graph, "background");
     app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
     app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
@@ -297,13 +297,13 @@ fn screen_4_submit_closes_modal_and_sets_status() {
 }
 
 #[test]
-fn submit_does_not_create_tokens_json_in_dataset() {
+fn submit_does_not_create_foundation_json_without_allow_write() {
     let graph = make_graph();
     let mut app = App::new();
-    // Use a fresh tempdir so there's no pre-existing tokens.json to confuse us.
     let tmpdir = tempfile::TempDir::new().expect("tempdir");
-    let tokens_file = tmpdir.path().join("tokens.json");
-    let ctx = WizardCtx { graph: &graph, dataset_path: Some(tmpdir.path()) };
+    // foundation.json is the resolved target for a Foundation-layer token.
+    let foundation_file = tmpdir.path().join("foundation.json");
+    let ctx = WizardCtx { graph: &graph, dataset_path: Some(tmpdir.path()), schema_registry: None, allow_write: false };
     open_wizard(&mut app, &graph, "background");
     app.handle_modal_key(key(KeyCode::Enter), &ctx);
     app.handle_modal_key(key(KeyCode::Enter), &ctx);
@@ -313,8 +313,8 @@ fn submit_does_not_create_tokens_json_in_dataset() {
     }
     app.handle_modal_key(key(KeyCode::Enter), &ctx);
     assert!(
-        !tokens_file.exists(),
-        "M3 wizard submit must NOT write tokens.json to the dataset"
+        !foundation_file.exists(),
+        "wizard submit without --allow-write must NOT write foundation.json to the dataset"
     );
 }
 
