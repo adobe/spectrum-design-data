@@ -1,5 +1,32 @@
 # @adobe/design-data-agent-mcp
 
+## 1.2.0
+
+### Minor Changes
+
+- [#997](https://github.com/adobe/spectrum-design-data/pull/997) [`efd7737`](https://github.com/adobe/spectrum-design-data/commit/efd773751477875bb9a68c18fa8176e5c2350bae) Thanks [@GarthDB](https://github.com/GarthDB)! - Calibrate suggest threshold and wire reuse-first banner (RFC #973 Q1).
+  - **sdk/core/src/authoring/session.rs**: replace `ALIAS_THRESHOLD = 0.5` placeholder
+    with `alias_threshold()` (default 0.35, overridable via `DESIGN_DATA_ALIAS_THRESHOLD`);
+    calibrated against `packages/tokens/src`.
+  - **sdk/core/tests/suggest_calibration.rs**: new benchmark — positive matches 0.6–1.0,
+    nonsense 0.0, threshold 0.35 sits cleanly between.
+  - **sdk/tui/src/wizard.rs**: `refresh_suggestions` sets `can_alias` via `alias_threshold()`.
+  - **sdk/tui/src/main.rs**: `render_intent_screen` shows RFC §3.10 reuse-first banner
+    (accent-colored, 2-line) when `can_alias` is true.
+
+- [#995](https://github.com/adobe/spectrum-design-data/pull/995) [`3b6c20f`](https://github.com/adobe/spectrum-design-data/commit/3b6c20f483443e2627193cb8074bd1f5fd498bfb) Thanks [@GarthDB](https://github.com/GarthDB)! - Add MCP authoring-session tools — wizard state machine for agents (RFC #973 Q4).
+  - **sdk/core/src/authoring/draft.rs** (new): serializable DTOs shared between
+    TUI wizard and MCP sessions.
+  - **sdk/core/src/authoring/session.rs** (new): on-disk session state machine
+    (`start`, `step_intent`, `step_classification`, `step_values`,
+    `commit`, `cancel`, `get`, `list`).
+  - **sdk/tui/src/wizard.rs**: import `WizardScreen`, `WizardPath`, `ValueKind`
+    from core; remove local definitions.
+  - **sdk/cli/src/authoring.rs** (new): `authoring-session` CLI subcommand with
+    JSON output.
+  - **tools/design-data-agent-mcp/src/tools/authoring.js** (new): 8 MCP tools
+    wrapping the CLI subcommand.
+
 ## 1.1.0
 
 ### Minor Changes
