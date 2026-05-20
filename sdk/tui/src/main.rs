@@ -36,15 +36,16 @@ use design_data_core::graph::TokenGraph;
 use design_data_core::schema::SchemaRegistry;
 use miette::{IntoDiagnostic, Result, WrapErr};
 use ratatui::{
-    Terminal,
+    Frame, Terminal,
     backend::CrosstermBackend,
-    layout::{Constraint, Direction, Layout},
+    layout::{Constraint, Direction, Layout, Rect},
     style::{Color, Modifier, Style},
     text::{Line, Span},
-    widgets::{Block, Borders, Cell, Paragraph, Row, Table},
+    widgets::{Block, Borders, Cell, Clear, Paragraph, Row, Table},
 };
 
-use design_data_tui::app::{ActiveView, App, StatusKind, StatusMessage, SubmitContext};
+use design_data_tui::app::{ActiveView, App, Modal, StatusKind, StatusMessage, SubmitContext};
+use design_data_tui::wizard::{ValueKind, WizardCtx, WizardScreen, WizardState};
 
 /// Token dataset loaded once at startup and held for the full session.
 struct DatasetHandle {
@@ -123,6 +124,10 @@ impl DatasetHandle {
             mode_sets_dir: self.mode_sets_dir.as_deref(),
         }
     }
+
+    fn wizard_ctx(&self) -> WizardCtx<'_> {
+        WizardCtx { graph: &self.graph, dataset_path: Some(&self.dataset_path) }
+    }
 }
 
 fn default_schema_path() -> Option<PathBuf> {
@@ -196,6 +201,26 @@ fn write_clipboard(text: &str) -> std::io::Result<()> {
     }
 }
 
+/// Return a centered `Rect` covering `percent_x` × `percent_y` of `area`.
+fn centered_rect(percent_x: u16, percent_y: u16, area: Rect) -> Rect {
+    let vert = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Percentage((100 - percent_y) / 2),
+            Constraint::Percentage(percent_y),
+            Constraint::Percentage((100 - percent_y) / 2),
+        ])
+        .split(area);
+    Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([
+            Constraint::Percentage((100 - percent_x) / 2),
+            Constraint::Percentage(percent_x),
+            Constraint::Percentage((100 - percent_x) / 2),
+        ])
+        .split(vert[1])[1]
+}
+
 fn main() -> Result<()> {
     let cli = Cli::parse();
     let handle = DatasetHandle::load(cli.dataset, cli.components, cli.mode_sets)?;
@@ -223,6 +248,199 @@ fn main() -> Result<()> {
     let _ = terminal.show_cursor();
 
     result
+}
+
+fn render_wizard(f: &mut Frame<'_>, ws: &mut WizardState, area: Rect) {
+    let screen_num = ws.screen.number();
+    let screen_name = ws.screen.name();
+
+    let outer = Block::default()
+        .borders(Borders::ALL)
+        .title(format!(" Wizard · {screen_num}/4 · {screen_name} "));
+    let inner_area = outer.inner(area);
+    f.render_widget(outer, area);
+
+    let inner_chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([Constraint::Min(0), Constraint::Length(1)])
+        .split(inner_area);
+
+    let footer_text = match ws.screen {
+        WizardScreen::Intent => {
+            "Enter: continue  Tab: reuse selected  ↑↓: select suggestion  Esc: cancel"
+        }
+        WizardScreen::Classification => {
+            "Tab/Shift-Tab: next/prev field  ←→: cycle layer  +: add name field  Enter: continue  Esc: cancel"
+        }
+        WizardScreen::Values => {
+            "a: alias  l: literal  e: edit value  ↑↓: select row  Enter: continue  Esc: cancel"
+        }
+        WizardScreen::Confirm => {
+            "Type rationale, then Enter to preview (no write)  Esc: cancel"
+        }
+    };
+    f.render_widget(
+        Paragraph::new(footer_text).style(Style::default().fg(Color::DarkGray)),
+        inner_chunks[1],
+    );
+
+    match ws.screen {
+        WizardScreen::Intent => render_intent_screen(f, ws, inner_chunks[0]),
+        WizardScreen::Classification => render_classification_screen(f, ws, inner_chunks[0]),
+        WizardScreen::Values => render_values_screen(f, ws, inner_chunks[0]),
+        WizardScreen::Confirm => render_confirm_screen(f, ws, inner_chunks[0]),
+    }
+}
+
+fn render_intent_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([Constraint::Length(1), Constraint::Min(0)])
+        .split(area);
+
+    // Input line.
+    let intent_line = format!("Intent: {}", ws.intent.value());
+    f.render_widget(Paragraph::new(intent_line), chunks[0]);
+
+    // Suggestions list.
+    if ws.suggestions.is_empty() {
+        if !ws.intent.value().is_empty() {
+            f.render_widget(
+                Paragraph::new("  (no suggestions — will create new token)"),
+                chunks[1],
+            );
+        } else {
+            f.render_widget(Paragraph::new("  Type to search for existing tokens…"), chunks[1]);
+        }
+    } else {
+        let rows: Vec<Row> = ws
+            .suggestions
+            .iter()
+            .enumerate()
+            .map(|(i, s)| {
+                let marker = if i == ws.selected_suggestion { "▶" } else { " " };
+                let conf = format!("{:.0}%", s.confidence * 100.0);
+                Row::new(vec![
+                    Cell::from(marker),
+                    Cell::from(s.token_name.as_str()),
+                    Cell::from(conf),
+                ])
+            })
+            .collect();
+        let widths = [Constraint::Length(2), Constraint::Min(0), Constraint::Length(5)];
+        let table = Table::new(rows, widths).highlight_style(Style::default().bg(Color::DarkGray));
+        f.render_widget(table, chunks[1]);
+    }
+}
+
+fn render_classification_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
+    let layer_str = match ws.classification.layer {
+        design_data_core::graph::Layer::Foundation => "Foundation",
+        design_data_core::graph::Layer::Platform => "Platform",
+        design_data_core::graph::Layer::Product => "Product",
+    };
+
+    let mut lines: Vec<Line> = Vec::new();
+    let focused = ws.classification.focused_field;
+
+    let layer_label = if focused == 0 {
+        format!("▶ Layer:    ← {layer_str} →")
+    } else {
+        format!("  Layer:      {layer_str}")
+    };
+    lines.push(Line::from(layer_label));
+
+    let prop_label = if focused == 1 {
+        format!("▶ Property: {}", ws.classification.property.value())
+    } else {
+        format!("  Property: {}", ws.classification.property.value())
+    };
+    lines.push(Line::from(prop_label));
+
+    for (i, field) in ws.classification.name_fields.iter().enumerate() {
+        let marker = if focused == i + 2 { "▶" } else { " " };
+        lines.push(Line::from(format!("{marker} {}: {}", field.key, field.value.value())));
+    }
+
+    lines.push(Line::from(""));
+    let name = ws.assembled_name();
+    lines.push(Line::from(format!("  Preview: {name}")));
+
+    f.render_widget(Paragraph::new(lines), area);
+}
+
+fn render_values_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
+    if ws.values.rows.is_empty() {
+        f.render_widget(Paragraph::new("  (no mode combinations — graph has no mode sets)"), area);
+        return;
+    }
+
+    let header = Row::new(vec![
+        Cell::from("Mode combo").style(Style::default().add_modifier(Modifier::BOLD)),
+        Cell::from("Kind").style(Style::default().add_modifier(Modifier::BOLD)),
+        Cell::from("Value / Alias target").style(Style::default().add_modifier(Modifier::BOLD)),
+    ]);
+    let rows: Vec<Row> = ws
+        .values
+        .rows
+        .iter()
+        .enumerate()
+        .map(|(i, row)| {
+            let combo = row.combo_label();
+            let kind = match row.kind {
+                ValueKind::Alias => "alias",
+                ValueKind::Literal => "literal",
+            };
+            let value = match row.kind {
+                ValueKind::Alias => row.alias_target.value().to_string(),
+                ValueKind::Literal => row.literal.value().to_string(),
+            };
+            let style = if i == ws.values.selected {
+                Style::default().bg(Color::DarkGray)
+            } else {
+                Style::default()
+            };
+            Row::new(vec![Cell::from(combo), Cell::from(kind), Cell::from(value)]).style(style)
+        })
+        .collect();
+
+    let widths = [
+        Constraint::Percentage(30),
+        Constraint::Percentage(10),
+        Constraint::Percentage(60),
+    ];
+    let table = Table::new(rows, widths).header(header).block(
+        Block::default().borders(Borders::NONE),
+    );
+    f.render_widget(table, area);
+}
+
+fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
+    let rationale_height = 3u16;
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([Constraint::Length(rationale_height), Constraint::Min(0)])
+        .split(area);
+
+    // Rationale input.
+    let rationale_block = Block::default().borders(Borders::ALL).title(" Rationale (required) ");
+    let rationale_text = ws.rationale.value();
+    let warn = if rationale_text.len() > 280 {
+        " ⚠ >280 chars"
+    } else {
+        ""
+    };
+    f.render_widget(
+        Paragraph::new(format!("{rationale_text}{warn}")).block(rationale_block),
+        chunks[0],
+    );
+
+    // Diff preview.
+    let diff_text = ws.diff_preview.as_deref().unwrap_or("(diff will appear here once rationale is added and Enter pressed)");
+    let diff_para = Paragraph::new(diff_text)
+        .block(Block::default().borders(Borders::ALL).title(" Diff preview "))
+        .scroll((ws.diff_scroll, 0));
+    f.render_widget(diff_para, chunks[1]);
 }
 
 fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &DatasetHandle) -> Result<()> {
@@ -393,13 +611,20 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &Datase
                 f.render_widget(status, chunks[2]);
             }
 
-            // Palette prompt.
-            let palette_text = if app.palette_open {
+            // Palette prompt (hidden while a modal is open).
+            let palette_text = if app.modal.is_none() && app.palette_open {
                 format!("{}{}", app.palette_prefix(), app.palette_input.value())
             } else {
                 String::new()
             };
             f.render_widget(Paragraph::new(palette_text), chunks[3]);
+
+            // Overlay modal (rendered last so it appears on top).
+            if let Some(Modal::Wizard(ref mut ws)) = app.modal {
+                let popup_area = centered_rect(82, 85, size);
+                f.render_widget(Clear, popup_area);
+                render_wizard(f, ws, popup_area);
+            }
         }).into_diagnostic()?;
 
         // Copy to clipboard outside the draw closure (needs mutable app).
@@ -412,11 +637,16 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &Datase
         if event::poll(std::time::Duration::from_millis(16)).into_diagnostic()? {
             if let Event::Key(key) = event::read().into_diagnostic()? {
                 if key.kind == KeyEventKind::Press {
-                    let was_open = app.palette_open;
-                    app.handle_key(key);
-                    // Palette just closed via Enter — dispatch command.
-                    if was_open && !app.palette_open && key.code == KeyCode::Enter {
-                        app.submit_palette(&handle.submit_context());
+                    if app.modal.is_some() {
+                        // Modal captures all input; palette is suppressed.
+                        app.handle_modal_key(key, &handle.wizard_ctx());
+                    } else {
+                        let was_open = app.palette_open;
+                        app.handle_key(key);
+                        // Palette just closed via Enter — dispatch command.
+                        if was_open && !app.palette_open && key.code == KeyCode::Enter {
+                            app.submit_palette(&handle.submit_context());
+                        }
                     }
                 }
             }

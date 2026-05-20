@@ -22,8 +22,10 @@ use ratatui::widgets::TableState;
 use tui_input::Input;
 use tui_input::backend::crossterm::EventHandler;
 
+use crate::wizard::{WizardCtx, WizardEvent, WizardState};
+
 /// Command names for Tab autocomplete.
-const KNOWN_COMMANDS: &[&str] = &["query", "resolve", "describe", "validate"];
+const KNOWN_COMMANDS: &[&str] = &["new", "query", "resolve", "describe", "validate"];
 
 /// Which prefix the palette was opened with.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -185,6 +187,11 @@ pub enum ActiveView {
     Validate(ValidateView),
 }
 
+/// An overlay modal that temporarily captures all keyboard input.
+pub enum Modal {
+    Wizard(WizardState),
+}
+
 /// Context passed to `submit_palette`; carries the graph plus optional paths for
 /// describe and validate commands.
 pub struct SubmitContext<'a> {
@@ -226,6 +233,8 @@ pub struct App {
     pub status_message: Option<StatusMessage>,
     /// Non-None while a yank is pending clipboard write; cleared by main.rs.
     pub pending_yank: Option<String>,
+    /// Overlay modal; when present, all key events are routed here by main.rs.
+    pub modal: Option<Modal>,
 }
 
 impl App {
@@ -238,6 +247,7 @@ impl App {
             active_view: ActiveView::Empty,
             status_message: None,
             pending_yank: None,
+            modal: None,
         }
     }
 
@@ -312,6 +322,43 @@ impl App {
                 }
                 _ => {}
             }
+        }
+    }
+
+    /// Route a key event into the active modal, closing it on Cancel or Submit.
+    ///
+    /// Called by `main.rs` instead of `handle_key` when `app.modal.is_some()`.
+    pub fn handle_modal_key(&mut self, key: KeyEvent, ctx: &WizardCtx<'_>) {
+        if key.modifiers.contains(KeyModifiers::CONTROL) && key.code == KeyCode::Char('c') {
+            self.quit = true;
+            return;
+        }
+        let event = match &mut self.modal {
+            Some(Modal::Wizard(ws)) => {
+                // Special case: Screen 3 Enter needs dataset_path from ctx.
+                if matches!(ws.screen, crate::wizard::WizardScreen::Values)
+                    && key.code == KeyCode::Enter
+                    && !ws.values.editing
+                {
+                    ws.advance_to_confirm(ctx.dataset_path);
+                    return;
+                }
+                ws.handle_key(key, ctx)
+            }
+            None => return,
+        };
+        match event {
+            WizardEvent::Cancel => {
+                self.modal = None;
+                self.status_message = Some(StatusMessage::info("wizard cancelled"));
+            }
+            WizardEvent::Submit => {
+                self.modal = None;
+                self.status_message = Some(StatusMessage::info(
+                    "wizard preview ready — write disabled (M4)",
+                ));
+            }
+            WizardEvent::Continue => {}
         }
     }
 
@@ -670,6 +717,12 @@ impl App {
                             Some(StatusMessage::error(format!("validate: {e}")));
                     }
                 }
+            }
+            "new" | "create" => {
+                let mut ws = WizardState::new_with_intent(rest.trim());
+                ws.refresh_suggestions(ctx.graph);
+                self.modal = Some(Modal::Wizard(ws));
+                self.status_message = None;
             }
             other => {
                 self.status_message =
