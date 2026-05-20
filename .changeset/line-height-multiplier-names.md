@@ -1,7 +1,6 @@
 ---
 "@adobe/design-system-registry": minor
 "@adobe/token-names": minor
-"design-data-core": minor
 ---
 
 Classify line-height multiplier and CJK line-height multiplier tokens.
