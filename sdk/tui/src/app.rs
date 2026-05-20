@@ -343,10 +343,35 @@ impl App {
                 self.status_message = Some(StatusMessage::info("wizard cancelled"));
             }
             WizardEvent::Submit => {
-                self.modal = None;
-                self.status_message = Some(StatusMessage::info(
-                    "wizard preview ready — write disabled (M4)",
-                ));
+                if !ctx.allow_write {
+                    self.modal = None;
+                    self.status_message = Some(StatusMessage::info(
+                        "wizard preview ready — pass --allow-write to enable writes",
+                    ));
+                } else {
+                    // Phase 1: borrow ws immutably to run perform_write.
+                    let (assembled_name, write_result) =
+                        if let Some(Modal::Wizard(ref ws)) = self.modal {
+                            (ws.assembled_name(), Some(ws.perform_write(ctx)))
+                        } else {
+                            (String::new(), None)
+                        };
+                    // Phase 2: handle result (borrow on self.modal released).
+                    match write_result {
+                        Some(Ok(written_path)) => {
+                            self.modal = None;
+                            self.status_message = Some(StatusMessage::info(format!(
+                                "wrote {assembled_name} → {written_path}"
+                            )));
+                        }
+                        Some(Err(e)) => {
+                            if let Some(Modal::Wizard(ws)) = &mut self.modal {
+                                ws.error = Some(e);
+                            }
+                        }
+                        None => {}
+                    }
+                }
             }
             WizardEvent::Continue => {}
         }

@@ -464,6 +464,7 @@ dependencies = [
  "tempfile",
  "thiserror",
  "tui-input",
+ "uuid",
 ]
 
 [[package]]
