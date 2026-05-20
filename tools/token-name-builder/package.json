@@ -1,0 +1,35 @@
+{
+  "name": "@adobe/token-name-builder",
+  "version": "0.1.0",
+  "description": "Interactive web tool for building Spectrum design token names",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "tools/token-name-builder"
+  },
+  "author": "Adobe",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20.12.0",
+    "pnpm": ">=10.17.1"
+  },
+  "packageManager": "pnpm@10.17.1",
+  "dependencies": {
+    "lit": "^3.1.0",
+    "@spectrum-css/tokens": "^16.0.2"
+  },
+  "devDependencies": {
+    "@ava/typescript": "^6.0.0",
+    "ava": "^6.0.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.4.0"
+  }
+}

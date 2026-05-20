@@ -35,6 +35,11 @@ const WEB_TOOLS_CONFIG = [
     path: "/release-timeline/",
     label: "Release Timeline",
   },
+  {
+    dir: "token-name-builder",
+    path: "/token-name-builder/",
+    label: "Token Name Builder",
+  },
 ];
 
 const WEB_TOOLS_FALLBACK_DESCRIPTIONS = {
@@ -44,6 +49,8 @@ const WEB_TOOLS_FALLBACK_DESCRIPTIONS = {
   visualizer: "Interactive dependency graph for Spectrum 1 (legacy) tokens",
   "release-timeline":
     "Interactive visualization of Spectrum Tokens release history across legacy, stable, beta, and snapshot formats",
+  "token-name-builder":
+    "Interactive tool for building Spectrum design token names using the design data spec taxonomy",
 };
 
 function readJson(path) {
