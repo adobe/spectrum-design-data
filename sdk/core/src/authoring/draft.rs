@@ -121,6 +121,8 @@ pub struct ClassificationDraftDto {
     pub layer: Layer,
     pub property: String,
     pub name_fields: Vec<NameFieldDto>,
+    /// TUI-only cursor position; not meaningful for MCP sessions.
+    #[serde(skip)]
     pub focused_field: usize,
 }
 
@@ -133,6 +135,8 @@ pub struct NameFieldDto {
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ValuesDraftDto {
     pub rows: Vec<ValueRowDto>,
+    /// TUI-only cursor position; not meaningful for MCP sessions.
+    #[serde(skip)]
     pub selected: usize,
 }
 

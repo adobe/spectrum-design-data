@@ -24,6 +24,16 @@ import { createValidateTools } from "./tools/validate.js";
 import { createDiffTools } from "./tools/diff.js";
 import { createWriteTools } from "./tools/write.js";
 
+export function createAllTools() {
+  return [
+    ...createReadTools(),
+    ...createValidateTools(),
+    ...createDiffTools(),
+    ...createWriteTools(),
+    ...createAuthoringTools(),
+  ];
+}
+
 export function createMCPServer() {
   const pkg = JSON.parse(
     readFileSync(
@@ -31,13 +41,7 @@ export function createMCPServer() {
       "utf8",
     ),
   );
-  const allTools = [
-    ...createReadTools(),
-    ...createValidateTools(),
-    ...createDiffTools(),
-    ...createWriteTools(),
-    ...createAuthoringTools(),
-  ];
+  const allTools = createAllTools();
   const server = new Server(
     { name: "design-data-agent-mcp", version: pkg.version },
     { capabilities: { tools: {} } },

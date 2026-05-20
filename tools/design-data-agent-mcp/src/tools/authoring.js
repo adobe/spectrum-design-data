@@ -43,6 +43,11 @@ export function createAuthoringTools() {
       },
       async handler({ dataset_path } = {}) {
         const path = dataset_path ?? config.dataPath;
+        if (!path) {
+          throw new Error(
+            "dataset_path is required (or set DESIGN_DATA_PATH in the environment)",
+          );
+        }
         return callCli(["authoring-session", "start", path]);
       },
     },

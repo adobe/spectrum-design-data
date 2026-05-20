@@ -83,7 +83,7 @@ pub struct CommitInput {
 }
 
 /// Result of a successful `commit_session`.
-#[derive(Serialize)]
+#[derive(Debug, Serialize)]
 pub struct CommitResult {
     pub session_id: String,
     pub written_to: PathBuf,
@@ -107,19 +107,20 @@ fn session_path(session_id: &str) -> Option<PathBuf> {
     sessions_dir().map(|d| d.join(format!("{session_id}.json")))
 }
 
-fn save_session(draft: &SessionDraft) {
-    let Some(path) = session_path(&draft.session_id) else { return };
+fn save_session(draft: &SessionDraft) -> Result<(), String> {
+    let path = session_path(&draft.session_id)
+        .ok_or_else(|| "cannot determine sessions directory".to_string())?;
     if let Some(parent) = path.parent() {
-        let _ = std::fs::create_dir_all(parent);
+        std::fs::create_dir_all(parent)
+            .map_err(|e| format!("failed to create sessions directory: {e}"))?;
     }
-    let json = match serde_json::to_string_pretty(draft) {
-        Ok(j) => j,
-        Err(_) => return,
-    };
+    let json = serde_json::to_string_pretty(draft)
+        .map_err(|e| format!("failed to serialize session: {e}"))?;
     let tmp = path.with_extension("tmp");
-    if std::fs::write(&tmp, &json).is_ok() {
-        let _ = std::fs::rename(&tmp, &path);
-    }
+    std::fs::write(&tmp, &json)
+        .map_err(|e| format!("failed to write session file to {tmp:?}: {e}"))?;
+    std::fs::rename(&tmp, &path)
+        .map_err(|e| format!("failed to commit session file: {e}"))
 }
 
 // ── Public API ────────────────────────────────────────────────────────────────
@@ -141,7 +142,7 @@ pub fn start_session(dataset_path: &str) -> Result<SessionDraft, String> {
         dataset_path: dataset_path.to_string(),
         wizard: WizardDraft::new(),
     };
-    save_session(&draft);
+    save_session(&draft)?;
     Ok(draft)
 }
 
@@ -203,7 +204,7 @@ pub fn step_intent(session_id: &str, intent: &str) -> Result<IntentStepResult, S
         })
         .collect();
 
-    save_session(&session);
+    save_session(&session)?;
     Ok(IntentStepResult { session, suggestions, can_alias })
 }
 
@@ -228,7 +229,7 @@ pub fn step_classification(
     };
     session.wizard.screen = WizardScreen::Classification;
 
-    save_session(&session);
+    save_session(&session)?;
     Ok(session)
 }
 
@@ -254,7 +255,7 @@ pub fn step_values(
     };
     session.wizard.screen = WizardScreen::Values;
 
-    save_session(&session);
+    save_session(&session)?;
     Ok(session)
 }
 
@@ -299,7 +300,9 @@ pub fn commit_session(
 
 /// Derive a token key from the wizard's classification state.
 ///
-/// Joins the property and name-field values with `-`.
+/// Joins the property and name-field values with `-`.  Layer is intentionally
+/// excluded: property names are unique within a layer's schema, so
+/// `property-variant-state` is the canonical key regardless of layer.
 fn derive_token_key(wizard: &WizardDraft) -> String {
     let mut parts: Vec<&str> = Vec::new();
     if !wizard.classification.property.is_empty() {
@@ -314,6 +317,10 @@ fn derive_token_key(wizard: &WizardDraft) -> String {
 }
 
 /// Construct the token JSON value from wizard state.
+///
+/// A single row with an empty `mode_combo` produces a flat `value`/`$ref` field.
+/// Multiple rows, or rows with mode conditions, produce a nested `sets` structure
+/// keyed by each row's first-dimension mode value (recursively for deeper combos).
 fn build_token_value(
     wizard: &WizardDraft,
     schema_url: &str,
@@ -333,20 +340,26 @@ fn build_token_value(
     }
     obj.insert("name".into(), serde_json::Value::Object(name_obj));
 
-    if let Some(row) = wizard.values.rows.first() {
-        match row.kind {
-            ValueKind::Alias => {
-                obj.insert(
-                    "$ref".into(),
-                    serde_json::Value::String(row.alias_target.clone()),
-                );
+    match wizard.values.rows.as_slice() {
+        [] => {}
+        [single] if single.mode_combo.is_empty() => {
+            match single.kind {
+                ValueKind::Alias => {
+                    obj.insert(
+                        "$ref".into(),
+                        serde_json::Value::String(single.alias_target.clone()),
+                    );
+                }
+                ValueKind::Literal => {
+                    obj.insert(
+                        "value".into(),
+                        serde_json::Value::String(single.literal.clone()),
+                    );
+                }
             }
-            ValueKind::Literal => {
-                obj.insert(
-                    "value".into(),
-                    serde_json::Value::String(row.literal.clone()),
-                );
-            }
+        }
+        rows => {
+            obj.insert("sets".into(), build_sets_from_rows(rows));
         }
     }
 
@@ -359,6 +372,58 @@ fn build_token_value(
     serde_json::Value::Object(obj)
 }
 
+/// Recursively build a `sets` object from a slice of value rows.
+///
+/// Rows are grouped by their first mode-combo dimension value; each group is
+/// either a leaf (single row, no remaining dimensions) or recurses into an
+/// inner `sets` layer.
+fn build_sets_from_rows(rows: &[ValueRowDto]) -> serde_json::Value {
+    let mut groups: std::collections::BTreeMap<String, Vec<ValueRowDto>> =
+        std::collections::BTreeMap::new();
+
+    for row in rows {
+        if row.mode_combo.is_empty() {
+            // Flat row mixed into a multi-row set — skip rather than silently
+            // collide; callers should ensure consistency.
+            continue;
+        }
+        let first_val = row.mode_combo[0].1.clone();
+        let mut sub = row.clone();
+        sub.mode_combo = row.mode_combo[1..].to_vec();
+        groups.entry(first_val).or_default().push(sub);
+    }
+
+    let mut sets_map = serde_json::Map::new();
+    for (key, sub_rows) in &groups {
+        let entry = if sub_rows.len() == 1 && sub_rows[0].mode_combo.is_empty() {
+            let mut leaf = serde_json::Map::new();
+            match sub_rows[0].kind {
+                ValueKind::Alias => {
+                    leaf.insert(
+                        "$ref".into(),
+                        serde_json::Value::String(sub_rows[0].alias_target.clone()),
+                    );
+                }
+                ValueKind::Literal => {
+                    leaf.insert(
+                        "value".into(),
+                        serde_json::Value::String(sub_rows[0].literal.clone()),
+                    );
+                }
+            }
+            serde_json::Value::Object(leaf)
+        } else {
+            let inner = build_sets_from_rows(sub_rows);
+            let mut wrapper = serde_json::Map::new();
+            wrapper.insert("sets".into(), inner);
+            serde_json::Value::Object(wrapper)
+        };
+        sets_map.insert(key.clone(), entry);
+    }
+
+    serde_json::Value::Object(sets_map)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -369,10 +434,15 @@ mod tests {
 
     fn with_temp_sessions<F: FnOnce()>(f: F) -> tempfile::TempDir {
         let dir = tempfile::TempDir::new().unwrap();
-        let _guard = SESSION_DIR_LOCK.lock().unwrap();
+        // unwrap_or_else recovers a poisoned mutex (from a prior test panic).
+        let _guard = SESSION_DIR_LOCK.lock().unwrap_or_else(|e| e.into_inner());
         std::env::set_var("DESIGN_DATA_AUTHORING_SESSIONS_DIR", dir.path());
-        f();
+        // catch_unwind ensures remove_var runs even if f() panics.
+        let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(f));
         std::env::remove_var("DESIGN_DATA_AUTHORING_SESSIONS_DIR");
+        if let Err(e) = result {
+            std::panic::resume_unwind(e);
+        }
         dir
     }
 
@@ -458,6 +528,58 @@ mod tests {
     fn step_classification_returns_error_for_unknown_session() {
         let _dir = with_temp_sessions(|| {
             let result = step_classification("bad-id", Layer::Foundation, "color", vec![]);
+            assert!(result.is_err());
+            assert!(result.unwrap_err().contains("not found"));
+        });
+    }
+
+    #[test]
+    fn build_sets_from_rows_single_mode_dimension() {
+        let rows = vec![
+            ValueRowDto {
+                mode_combo: vec![("color-scheme".into(), "light".into())],
+                kind: ValueKind::Literal,
+                alias_target: String::new(),
+                literal: "white".into(),
+            },
+            ValueRowDto {
+                mode_combo: vec![("color-scheme".into(), "dark".into())],
+                kind: ValueKind::Literal,
+                alias_target: String::new(),
+                literal: "black".into(),
+            },
+        ];
+        let sets = build_sets_from_rows(&rows);
+        let obj = sets.as_object().unwrap();
+        let light = obj["light"].as_object().unwrap();
+        let dark = obj["dark"].as_object().unwrap();
+        assert_eq!(light["value"].as_str().unwrap(), "white");
+        assert_eq!(dark["value"].as_str().unwrap(), "black");
+    }
+
+    #[test]
+    fn commit_session_returns_error_for_unknown_session() {
+        let _dir = with_temp_sessions(|| {
+            // Simulate a double-commit: the session file is gone after the
+            // first commit, so a second attempt hits "session not found".
+            // We use an empty schema dir — the registry is never reached because
+            // the session lookup fails first.
+            use crate::schema::SchemaRegistry;
+            // new_stub() produces a no-op registry; it's never reached because
+            // commit_session returns early at the session-not-found check.
+            let registry = SchemaRegistry::new_stub();
+            let result = commit_session(
+                CommitInput {
+                    session_id: "nonexistent-id".into(),
+                    rationale: String::new(),
+                    target: std::path::PathBuf::from("/tmp/out.json"),
+                    schema_url: "https://example.com/schema.json".into(),
+                    schema_path: None,
+                    product_context: None,
+                    is_override: false,
+                },
+                &registry,
+            );
             assert!(result.is_err());
             assert!(result.unwrap_err().contains("not found"));
         });

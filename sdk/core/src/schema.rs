@@ -109,4 +109,19 @@ impl SchemaRegistry {
     pub fn token_file_schema_url(&self) -> &str {
         &self.token_file_schema_url
     }
+
+    /// Construct a no-op stub for unit tests where schema validation is never reached.
+    #[cfg(test)]
+    pub fn new_stub() -> Self {
+        use jsonschema::validator_for;
+        let empty_schema = serde_json::json!({
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
+        });
+        let validator = Arc::new(validator_for(&empty_schema).expect("stub schema is valid"));
+        Self {
+            by_url: HashMap::new(),
+            token_file_validator: validator,
+            token_file_schema_url: String::new(),
+        }
+    }
 }
