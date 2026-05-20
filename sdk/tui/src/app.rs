@@ -334,17 +334,7 @@ impl App {
             return;
         }
         let event = match &mut self.modal {
-            Some(Modal::Wizard(ws)) => {
-                // Special case: Screen 3 Enter needs dataset_path from ctx.
-                if matches!(ws.screen, crate::wizard::WizardScreen::Values)
-                    && key.code == KeyCode::Enter
-                    && !ws.values.editing
-                {
-                    ws.advance_to_confirm(ctx.dataset_path);
-                    return;
-                }
-                ws.handle_key(key, ctx)
-            }
+            Some(Modal::Wizard(ws)) => ws.handle_key(key, ctx),
             None => return,
         };
         match event {

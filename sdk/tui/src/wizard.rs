@@ -116,7 +116,8 @@ pub struct ValueRow {
 }
 
 impl ValueRow {
-    fn label(&self) -> String {
+    /// Human-readable label for the mode combo.
+    pub fn combo_label(&self) -> String {
         if self.mode_combo.is_empty() {
             "default".to_string()
         } else {
@@ -204,8 +205,8 @@ impl WizardState {
         let event = match self.screen {
             WizardScreen::Intent => self.handle_intent_key(key, ctx),
             WizardScreen::Classification => self.handle_classification_key(key),
-            WizardScreen::Values => self.handle_values_key(key),
-            WizardScreen::Confirm => self.handle_confirm_key(key),
+            WizardScreen::Values => self.handle_values_key(key, ctx),
+            WizardScreen::Confirm => self.handle_confirm_key(key, ctx),
         };
         // Refresh suggestions on every Screen 1 key.
         if matches!(self.screen, WizardScreen::Intent) {
@@ -327,7 +328,7 @@ impl WizardState {
 
     // ── Screen 3: Values ─────────────────────────────────────────────────────
 
-    fn handle_values_key(&mut self, key: KeyEvent) -> WizardEvent {
+    fn handle_values_key(&mut self, key: KeyEvent, ctx: &WizardCtx<'_>) -> WizardEvent {
         if self.values.editing {
             // Route keys into the active row input; Esc or Enter exits edit mode.
             match key.code {
@@ -349,8 +350,8 @@ impl WizardState {
 
         match key.code {
             KeyCode::Enter => {
-                // Advance to Screen 4, computing the diff.
-                WizardEvent::Continue // dataset_path not available here; caller handles via ctx
+                self.advance_to_confirm(ctx.dataset_path);
+                WizardEvent::Continue
             }
             KeyCode::Up | KeyCode::Char('k') => {
                 if self.values.selected > 0 {
@@ -390,10 +391,12 @@ impl WizardState {
 
     // ── Screen 4: Confirm ────────────────────────────────────────────────────
 
-    fn handle_confirm_key(&mut self, key: KeyEvent) -> WizardEvent {
+    fn handle_confirm_key(&mut self, key: KeyEvent, ctx: &WizardCtx<'_>) -> WizardEvent {
         match key.code {
             KeyCode::Enter => {
                 if !self.rationale.value().is_empty() {
+                    // Regenerate so the final diff includes the rationale field.
+                    self.build_diff(ctx.dataset_path);
                     WizardEvent::Submit
                 } else {
                     WizardEvent::Continue
@@ -409,6 +412,9 @@ impl WizardState {
             }
             _ => {
                 self.rationale.handle_event(&crossterm::event::Event::Key(key));
+                // Regenerate the diff on each keystroke so the rationale field
+                // is reflected immediately in the preview panel.
+                self.build_diff(ctx.dataset_path);
                 WizardEvent::Continue
             }
         }
@@ -427,10 +433,7 @@ impl WizardState {
         }
     }
 
-    /// Advance Screen 3 → Screen 4 with a pre-computed diff.
-    ///
-    /// Called by `App::handle_modal_key` when it detects that the wizard is on Screen 3
-    /// and Enter was pressed (so `dataset_path` from `WizardCtx` is available).
+    /// Advance Screen 3 → Screen 4, computing an initial diff preview.
     pub fn advance_to_confirm(&mut self, dataset_path: Option<&Path>) {
         self.build_diff(dataset_path);
         self.screen = WizardScreen::Confirm;
@@ -478,6 +481,7 @@ impl WizardState {
         let key = self.assembled_name();
         let key = if key.is_empty() { "new-token".to_string() } else { key };
 
+        // M3: preview uses only the first value row. Full per-mode diff is M4.
         let token_value = match self.values.rows.first() {
             Some(row) => match row.kind {
                 ValueKind::Alias => {
@@ -608,11 +612,3 @@ fn cartesian_product(mode_sets: &[ModeSetRecord]) -> Vec<Vec<(String, String)>> 
     result
 }
 
-// ── Re-export row label helper for tests ─────────────────────────────────────
-
-impl ValueRow {
-    /// Human-readable label for the mode combo.
-    pub fn combo_label(&self) -> String {
-        self.label()
-    }
-}

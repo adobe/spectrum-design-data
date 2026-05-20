@@ -425,15 +425,15 @@ fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
     // Rationale input.
     let rationale_block = Block::default().borders(Borders::ALL).title(" Rationale (required) ");
     let rationale_text = ws.rationale.value();
-    let warn = if rationale_text.len() > 280 {
-        " ⚠ >280 chars"
+    let rationale_line = if rationale_text.len() > 280 {
+        Line::from(vec![
+            Span::raw(rationale_text),
+            Span::styled(" ⚠ >280 chars", Style::default().fg(Color::Yellow)),
+        ])
     } else {
-        ""
+        Line::from(Span::raw(rationale_text))
     };
-    f.render_widget(
-        Paragraph::new(format!("{rationale_text}{warn}")).block(rationale_block),
-        chunks[0],
-    );
+    f.render_widget(Paragraph::new(rationale_line).block(rationale_block), chunks[0]);
 
     // Diff preview.
     let diff_text = ws.diff_preview.as_deref().unwrap_or("(diff will appear here once rationale is added and Enter pressed)");

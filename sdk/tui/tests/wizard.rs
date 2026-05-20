@@ -297,17 +297,13 @@ fn screen_4_submit_closes_modal_and_sets_status() {
 }
 
 #[test]
-fn submit_does_not_create_tokens_json_in_fixture_dir() {
+fn submit_does_not_create_tokens_json_in_dataset() {
     let graph = make_graph();
     let mut app = App::new();
-    let fixtures = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
-    let tokens_file = fixtures.join("tokens.json");
-    // Ensure the file doesn't exist before the test.
-    assert!(
-        !tokens_file.exists(),
-        "tokens.json should not exist in fixtures dir (it would make this test meaningless)"
-    );
-    let ctx = WizardCtx { graph: &graph, dataset_path: Some(&fixtures) };
+    // Use a fresh tempdir so there's no pre-existing tokens.json to confuse us.
+    let tmpdir = tempfile::TempDir::new().expect("tempdir");
+    let tokens_file = tmpdir.path().join("tokens.json");
+    let ctx = WizardCtx { graph: &graph, dataset_path: Some(tmpdir.path()) };
     open_wizard(&mut app, &graph, "background");
     app.handle_modal_key(key(KeyCode::Enter), &ctx);
     app.handle_modal_key(key(KeyCode::Enter), &ctx);
