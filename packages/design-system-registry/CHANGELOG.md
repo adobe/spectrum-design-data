@@ -1,5 +1,26 @@
 # @adobe/design-system-registry
 
+## 3.3.0
+
+### Minor Changes
+
+- [#977](https://github.com/adobe/spectrum-design-data/pull/977) [`526d2de`](https://github.com/adobe/spectrum-design-data/commit/526d2de363788c1e916a1ed6426e14600d84fd73) Thanks [@GarthDB](https://github.com/GarthDB)! - Classify line-height multiplier and CJK line-height multiplier tokens.
+  - **registry/property-terms.json**: add `line-height-multiplier` term (unitless ratio,
+    distinct from absolute px line-height paired with a font-size tier).
+  - **sdk/validate/rules/mod.rs**: add `multiplier.json` to typography `DOMAIN_SCHEMAS`
+    so the `family` field is permitted on CJK multiplier tokens (SPEC-042).
+  - **sdk/validate/rules/spec043.rs**: extend typography domain-required-fields check to
+    accept `scaleIndex` and `structure` alongside `family`/`weight`/`style`.
+  - **token-names/names/typography.json**: sidecar entries for all 4 tokens.
+  - Reduces SPEC-017 warning count by 4.
+
+- [#977](https://github.com/adobe/spectrum-design-data/pull/977) [`526d2de`](https://github.com/adobe/spectrum-design-data/commit/526d2de363788c1e916a1ed6426e14600d84fd73) Thanks [@GarthDB](https://github.com/GarthDB)! - Classify 5 margin multiplier tokens; add margin property-terms and typography structures.
+  - **registry/property-terms.json**: add `margin`, `margin-top`, `margin-bottom`.
+  - **registry/structures.json**: add `body`, `detail`, `heading` typography-scale structures.
+  - **token-names/names/typography.json**: sidecar entries for all 5 tokens using
+    `{ structure, property }` shape.
+  - Reduces SPEC-017 (`string-name-tech-debt`) warning count by 5.
+
 ## 3.2.0
 
 ### Minor Changes
