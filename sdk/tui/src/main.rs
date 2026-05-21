@@ -483,7 +483,7 @@ fn render_naming(f: &mut Frame<'_>, ns: &NamingWizardState, area: Rect, theme: &
 
     let outer = Block::default()
         .borders(Borders::ALL)
-        .title(format!(" Name · {screen_num}/3 · {screen_name} "));
+        .title(format!(" Name · {screen_num}/{} · {screen_name} ", NamingScreen::SCREEN_COUNT));
     let inner_area = outer.inner(area);
     f.render_widget(outer, area);
 
@@ -495,7 +495,7 @@ fn render_naming(f: &mut Frame<'_>, ns: &NamingWizardState, area: Rect, theme: &
     let footer_text = match ns.screen {
         NamingScreen::Intent => "Enter: continue  ↑↓: select suggestion  Esc: cancel",
         NamingScreen::Classification => {
-            "Tab/Shift-Tab: next/prev field  ←→: cycle layer  +: add name field  Enter: done  Esc: cancel"
+            "Tab/Shift-Tab: next/prev field  ←→/b: cycle layer / back to intent  +: add name field  Enter: done  Esc: cancel"
         }
         NamingScreen::Result => "c/y: copy name  e: edit  Esc/q: close",
     };

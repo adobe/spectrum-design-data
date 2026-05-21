@@ -14,7 +14,7 @@
 //! Output is an assembled token name string; no token is written to disk.
 //! Entry point: `:name [<intent>]` in the TUI palette.
 
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
+use crossterm::event::{KeyCode, KeyEvent};
 use design_data_core::graph::TokenGraph;
 use design_data_core::suggest::{self, SuggestionResult};
 use tui_input::Input;
@@ -35,6 +35,8 @@ pub enum NamingScreen {
 }
 
 impl NamingScreen {
+    pub const SCREEN_COUNT: u8 = 3;
+
     pub fn number(self) -> u8 {
         match self {
             NamingScreen::Intent => 1,
@@ -114,9 +116,6 @@ impl NamingWizardState {
     // ── Dispatch ─────────────────────────────────────────────────────────────
 
     pub fn handle_key(&mut self, key: KeyEvent, graph: &TokenGraph) -> NamingEvent {
-        if key.modifiers.contains(KeyModifiers::CONTROL) {
-            return NamingEvent::Continue;
-        }
         if key.code == KeyCode::Esc {
             return NamingEvent::Cancel;
         }
@@ -160,7 +159,7 @@ impl NamingWizardState {
         }
     }
 
-    fn advance_to_classification(&mut self, graph: &TokenGraph) {
+    fn advance_to_classification(&mut self, _graph: &TokenGraph) {
         let intent = self.intent.value().to_string();
         if !intent.is_empty() && self.classification.property.value().is_empty() {
             if let Some(top) = self.suggestions.first() {
@@ -174,7 +173,6 @@ impl NamingWizardState {
                 }
             }
         }
-        let _ = graph; // graph available for future primer-seeding
         self.screen = NamingScreen::Classification;
     }
 
@@ -184,6 +182,12 @@ impl NamingWizardState {
         match key.code {
             KeyCode::Enter => {
                 self.screen = NamingScreen::Result;
+                NamingEvent::Continue
+            }
+            // b goes back to Intent only when the layer selector is focused;
+            // when a text field is focused, b is regular text input.
+            KeyCode::Char('b') if self.classification.focused_field == 0 => {
+                self.screen = NamingScreen::Intent;
                 NamingEvent::Continue
             }
             KeyCode::Tab => {
