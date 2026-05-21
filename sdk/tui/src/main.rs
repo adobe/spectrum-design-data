@@ -50,8 +50,9 @@ use design_data_tui::app::{
     ActiveView, App, HitAction, HitRegion, Modal, StatusKind, StatusMessage, SubmitContext,
 };
 use design_data_tui::help::HELP_TEXT;
+use design_data_tui::naming::{NamingScreen, NamingWizardState};
 use design_data_tui::theme::Theme;
-use design_data_tui::wizard::{ValueKind, WizardCtx, WizardScreen, WizardState};
+use design_data_tui::wizard::{ClassificationDraft, ValueKind, WizardCtx, WizardScreen, WizardState};
 
 /// Which visual palette to use.
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
@@ -349,8 +350,33 @@ fn render_wizard(f: &mut Frame<'_>, ws: &mut WizardState, area: Rect, theme: &Th
 }
 
 fn render_intent_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme: &Theme) {
-    // Layout: input line, optional reuse banner (RFC §3.10), suggestions.
-    let banner_height: u16 = if ws.can_alias { 3 } else { 0 };
+    render_intent_content(
+        f,
+        ws.can_alias,
+        ws.intent.value(),
+        &ws.suggestions,
+        ws.selected_suggestion,
+        area,
+        theme,
+    );
+}
+
+fn render_classification_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
+    render_classification_content(f, &ws.classification, &ws.assembled_name(), area);
+}
+
+// ── Shared widget render helpers ─────────────────────────────────────────────
+
+fn render_intent_content(
+    f: &mut Frame<'_>,
+    can_alias: bool,
+    intent_value: &str,
+    suggestions: &[design_data_core::suggest::SuggestionResult],
+    selected_suggestion: usize,
+    area: Rect,
+    theme: &Theme,
+) {
+    let banner_height: u16 = if can_alias { 3 } else { 0 };
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
@@ -360,12 +386,10 @@ fn render_intent_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme: 
         ])
         .split(area);
 
-    // Input line.
-    let intent_line = format!("Intent: {}", ws.intent.value());
+    let intent_line = format!("Intent: {intent_value}");
     f.render_widget(Paragraph::new(intent_line), chunks[0]);
 
-    // Reuse-first banner (RFC §3.10).
-    if ws.can_alias {
+    if can_alias {
         let accent = Style::default().fg(theme.accent).add_modifier(Modifier::BOLD);
         let banner = Paragraph::new(vec![
             Line::from(Span::styled(
@@ -380,10 +404,9 @@ fn render_intent_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme: 
         f.render_widget(banner, chunks[1]);
     }
 
-    // Suggestions list.
     let list_area = chunks[2];
-    if ws.suggestions.is_empty() {
-        if !ws.intent.value().is_empty() {
+    if suggestions.is_empty() {
+        if !intent_value.is_empty() {
             f.render_widget(
                 Paragraph::new("  (no suggestions — will create new token)"),
                 list_area,
@@ -392,12 +415,11 @@ fn render_intent_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme: 
             f.render_widget(Paragraph::new("  Type to search for existing tokens…"), list_area);
         }
     } else {
-        let rows: Vec<Row> = ws
-            .suggestions
+        let rows: Vec<Row> = suggestions
             .iter()
             .enumerate()
             .map(|(i, s)| {
-                let marker = if i == ws.selected_suggestion { "▶" } else { " " };
+                let marker = if i == selected_suggestion { "▶" } else { " " };
                 let conf = format!("{:.0}%", s.confidence * 100.0);
                 Row::new(vec![
                     Cell::from(marker),
@@ -413,15 +435,20 @@ fn render_intent_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme: 
     }
 }
 
-fn render_classification_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect) {
-    let layer_str = match ws.classification.layer {
+fn render_classification_content(
+    f: &mut Frame<'_>,
+    classification: &ClassificationDraft,
+    assembled_name: &str,
+    area: Rect,
+) {
+    let layer_str = match classification.layer {
         design_data_core::graph::Layer::Foundation => "Foundation",
         design_data_core::graph::Layer::Platform => "Platform",
         design_data_core::graph::Layer::Product => "Product",
     };
 
     let mut lines: Vec<Line> = Vec::new();
-    let focused = ws.classification.focused_field;
+    let focused = classification.focused_field;
 
     let layer_label = if focused == 0 {
         format!("▶ Layer:    ← {layer_str} →")
@@ -431,22 +458,107 @@ fn render_classification_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect)
     lines.push(Line::from(layer_label));
 
     let prop_label = if focused == 1 {
-        format!("▶ Property: {}", ws.classification.property.value())
+        format!("▶ Property: {}", classification.property.value())
     } else {
-        format!("  Property: {}", ws.classification.property.value())
+        format!("  Property: {}", classification.property.value())
     };
     lines.push(Line::from(prop_label));
 
-    for (i, field) in ws.classification.name_fields.iter().enumerate() {
+    for (i, field) in classification.name_fields.iter().enumerate() {
         let marker = if focused == i + 2 { "▶" } else { " " };
         lines.push(Line::from(format!("{marker} {}: {}", field.key, field.value.value())));
     }
 
     lines.push(Line::from(""));
-    let name = ws.assembled_name();
-    lines.push(Line::from(format!("  Preview: {name}")));
+    lines.push(Line::from(format!("  Preview: {assembled_name}")));
 
     f.render_widget(Paragraph::new(lines), area);
+}
+
+// ── Naming wizard render ─────────────────────────────────────────────────────
+
+fn render_naming(f: &mut Frame<'_>, ns: &NamingWizardState, area: Rect, theme: &Theme) {
+    let screen_num = ns.screen.number();
+    let screen_name = ns.screen.name();
+
+    let outer = Block::default()
+        .borders(Borders::ALL)
+        .title(format!(" Name · {screen_num}/3 · {screen_name} "));
+    let inner_area = outer.inner(area);
+    f.render_widget(outer, area);
+
+    let inner_chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([Constraint::Min(0), Constraint::Length(1)])
+        .split(inner_area);
+
+    let footer_text = match ns.screen {
+        NamingScreen::Intent => "Enter: continue  ↑↓: select suggestion  Esc: cancel",
+        NamingScreen::Classification => {
+            "Tab/Shift-Tab: next/prev field  ←→: cycle layer  +: add name field  Enter: done  Esc: cancel"
+        }
+        NamingScreen::Result => "c/y: copy name  e: edit  Esc/q: close",
+    };
+    f.render_widget(
+        Paragraph::new(footer_text).style(Style::default().fg(theme.muted)),
+        inner_chunks[1],
+    );
+
+    match ns.screen {
+        NamingScreen::Intent => render_intent_content(
+            f,
+            ns.can_alias,
+            ns.intent.value(),
+            &ns.suggestions,
+            ns.selected_suggestion,
+            inner_chunks[0],
+            theme,
+        ),
+        NamingScreen::Classification => render_classification_content(
+            f,
+            &ns.classification,
+            &ns.assembled_name(),
+            inner_chunks[0],
+        ),
+        NamingScreen::Result => render_naming_result(f, ns, inner_chunks[0], theme),
+    }
+}
+
+fn render_naming_result(
+    f: &mut Frame<'_>,
+    ns: &NamingWizardState,
+    area: Rect,
+    theme: &Theme,
+) {
+    let name = ns.assembled_name();
+    let display = if name.is_empty() {
+        "(no name assembled — go back and fill in Property)".to_string()
+    } else {
+        name
+    };
+
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([Constraint::Length(3), Constraint::Min(0)])
+        .split(area);
+
+    let name_block = Block::default()
+        .borders(Borders::ALL)
+        .title(" Assembled name ");
+    let name_para = Paragraph::new(Span::styled(
+        display,
+        Style::default().fg(theme.accent).add_modifier(Modifier::BOLD),
+    ))
+    .block(name_block);
+    f.render_widget(name_para, chunks[0]);
+
+    let hint = Paragraph::new(vec![
+        Line::from("  Press c or y to copy this name to the clipboard."),
+        Line::from("  Press e to go back and refine the classification."),
+        Line::from("  Press Esc or q to close without copying."),
+    ])
+    .style(Style::default().fg(theme.muted));
+    f.render_widget(hint, chunks[1]);
 }
 
 fn render_values_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme: &Theme) {
@@ -811,6 +923,11 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &Datase
                     let popup_area = centered_rect(82, 85, frame_area);
                     f.render_widget(Clear, popup_area);
                     render_wizard(f, ws, popup_area, &handle.theme);
+                }
+                Some(Modal::Naming(ref mut ns)) => {
+                    let popup_area = centered_rect(82, 85, frame_area);
+                    f.render_widget(Clear, popup_area);
+                    render_naming(f, ns, popup_area, &handle.theme);
                 }
                 Some(Modal::Help(ref hm)) => {
                     render_help_modal(f, hm.scroll, frame_area);
