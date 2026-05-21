@@ -23,13 +23,14 @@ use ratatui::widgets::TableState;
 use tui_input::Input;
 use tui_input::backend::crossterm::EventHandler;
 
+use crate::naming::{NamingEvent, NamingWizardState};
 use crate::wizard::{WizardCtx, WizardEvent, WizardState};
 use crate::wizard_draft::{
     clear_wizard_draft, from_draft, load_wizard_draft, save_wizard_draft, to_draft,
 };
 
 /// Command names for Tab autocomplete.
-const KNOWN_COMMANDS: &[&str] = &["new", "query", "resolve", "describe", "validate"];
+const KNOWN_COMMANDS: &[&str] = &["name", "new", "query", "resolve", "describe", "validate"];
 
 /// Max palette history entries persisted to disk.
 const HISTORY_CAP: usize = 200;
@@ -204,6 +205,7 @@ pub struct HelpModal {
 /// An overlay modal that temporarily captures all keyboard input.
 pub enum Modal {
     Wizard(Box<WizardState>),
+    Naming(Box<NamingWizardState>),
     Help(HelpModal),
 }
 
@@ -474,6 +476,24 @@ impl App {
             return;
         }
 
+        // Naming modal — handled independently; no WizardCtx needed.
+        if let Some(Modal::Naming(ref mut ns)) = self.modal {
+            let event = ns.handle_key(key, ctx.graph);
+            match event {
+                NamingEvent::Cancel => {
+                    self.modal = None;
+                    self.status_message = Some(StatusMessage::info("naming wizard cancelled"));
+                }
+                NamingEvent::Copy(name) => {
+                    self.pending_yank = Some(name.clone());
+                    self.status_message =
+                        Some(StatusMessage::info(format!("copied: {name}")));
+                }
+                NamingEvent::Continue => {}
+            }
+            return;
+        }
+
         let event = match &mut self.modal {
             Some(Modal::Wizard(ws)) => ws.handle_key(key, ctx),
             _ => return,
@@ -570,6 +590,10 @@ impl App {
 
     /// Scroll the active scrollable region by `delta` rows (+1 = down, -1 = up).
     fn scroll_active(&mut self, delta: i32) {
+        // Naming modal has no scrollable content.
+        if matches!(self.modal, Some(Modal::Naming(_))) {
+            return;
+        }
         // Wizard diff scroll has priority when a modal is open.
         if let Some(Modal::Wizard(ref mut ws)) = self.modal {
             if delta > 0 {
@@ -1018,6 +1042,12 @@ impl App {
                             Some(StatusMessage::error(format!("validate: {e}")));
                     }
                 }
+            }
+            "name" => {
+                let mut ns = NamingWizardState::new_with_intent(rest.trim());
+                ns.refresh_suggestions(ctx.graph);
+                self.modal = Some(Modal::Naming(Box::new(ns)));
+                self.status_message = None;
             }
             "new" | "create" => {
                 let mut ws = WizardState::new_with_intent(rest.trim());

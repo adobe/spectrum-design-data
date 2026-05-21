@@ -10,6 +10,7 @@
 
 pub mod app;
 pub mod help;
+pub mod naming;
 pub mod theme;
 pub mod wizard;
 pub mod wizard_draft;

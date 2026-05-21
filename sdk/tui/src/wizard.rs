@@ -59,7 +59,7 @@ pub struct ClassificationDraft {
 }
 
 impl ClassificationDraft {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Self {
             layer: Layer::Foundation,
             property: Input::default(),
@@ -68,8 +68,14 @@ impl ClassificationDraft {
         }
     }
 
-    fn field_count(&self) -> usize {
+    pub fn field_count(&self) -> usize {
         2 + self.name_fields.len() // layer + property + name_fields
+    }
+}
+
+impl Default for ClassificationDraft {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -532,18 +538,7 @@ impl WizardState {
 
     /// The assembled token name derived from classification fields (property + name fields).
     pub fn assembled_name(&self) -> String {
-        let mut parts: Vec<String> = Vec::new();
-        let prop = self.classification.property.value().trim().to_string();
-        if !prop.is_empty() {
-            parts.push(prop);
-        }
-        for field in &self.classification.name_fields {
-            let v = field.value.value().trim().to_string();
-            if !v.is_empty() {
-                parts.push(v);
-            }
-        }
-        parts.join("-")
+        assemble_name_from_classification(&self.classification)
     }
 
     /// Build a unified diff between the current and predicted post-write state of the
@@ -616,6 +611,25 @@ impl Default for WizardState {
     }
 }
 
+// ── Shared widget helpers ────────────────────────────────────────────────────
+
+/// Assemble a token name from classification fields (property + name fields).
+/// Shared by the authoring and naming wizards.
+pub fn assemble_name_from_classification(classification: &ClassificationDraft) -> String {
+    let mut parts: Vec<String> = Vec::new();
+    let prop = classification.property.value().trim().to_string();
+    if !prop.is_empty() {
+        parts.push(prop);
+    }
+    for field in &classification.name_fields {
+        let v = field.value.value().trim().to_string();
+        if !v.is_empty() {
+            parts.push(v);
+        }
+    }
+    parts.join("-")
+}
+
 // ── Internal helpers ─────────────────────────────────────────────────────────
 
 /// Derive the target file path from `layer` and `property`.
@@ -674,7 +688,7 @@ fn build_token_value(rows: &[ValueRow]) -> serde_json::Value {
     }
 }
 
-fn cycle_layer_forward(layer: Layer) -> Layer {
+pub fn cycle_layer_forward(layer: Layer) -> Layer {
     match layer {
         Layer::Foundation => Layer::Platform,
         Layer::Platform => Layer::Product,
@@ -682,7 +696,7 @@ fn cycle_layer_forward(layer: Layer) -> Layer {
     }
 }
 
-fn cycle_layer_backward(layer: Layer) -> Layer {
+pub fn cycle_layer_backward(layer: Layer) -> Layer {
     match layer {
         Layer::Foundation => Layer::Product,
         Layer::Platform => Layer::Foundation,
