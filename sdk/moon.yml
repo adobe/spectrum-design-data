@@ -69,6 +69,20 @@ tasks:
       - warnings
     inputs:
       - "@globs(sources)"
+  tui:
+    command: cargo
+    args:
+      - run
+      - -p
+      - design-data-tui
+      - --release
+      - --
+      - packages/tokens/dist/json
+      - --theme
+      - spectrum
+      - --no-resume-wizard
+    platform: system
+    local: true
   version:
     command: node
     args:

@@ -41,6 +41,10 @@ Packages in this monorepo:
 * [Spectrum Design Data MCP](tools/spectrum-design-data-mcp/) Model Context Protocol server providing AI assistants with structured access to Spectrum design system data.
 * [S2 Docs MCP](tools/s2-docs-mcp/) MCP server providing AI assistants with access to Spectrum 2 component documentation and design guidelines.
 
+## SDK & TUI
+
+* [design-data-tui](sdk/tui/) interactive terminal UI for authoring and inspecting tokens — command palette, cascade resolver, validator, and four-screen guided authoring wizard.
+
 ## Setup monorepo locally
 
 1. Install pnpm using [this guide](https://pnpm.io/installation).

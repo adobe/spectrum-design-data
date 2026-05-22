@@ -49,6 +49,7 @@ use ratatui::{
 use design_data_tui::app::{
     ActiveView, App, HitAction, HitRegion, Modal, StatusKind, StatusMessage, SubmitContext,
 };
+use design_data_tui::find::{FindScreen, FindWizardState, MAX_PROPERTY_SUGGESTIONS, MAX_SUGGEST_RESULTS};
 use design_data_tui::help::HELP_TEXT;
 use design_data_tui::naming::{NamingScreen, NamingWizardState};
 use design_data_tui::theme::Theme;
@@ -561,6 +562,187 @@ fn render_naming_result(
     f.render_widget(hint, chunks[1]);
 }
 
+// ── Find wizard render ───────────────────────────────────────────────────────
+
+fn render_find(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, theme: &Theme) {
+    let screen_num = fs.screen.number();
+    let screen_name = fs.screen.name();
+
+    let outer = Block::default()
+        .borders(Borders::ALL)
+        .title(format!(" Find · {screen_num}/{} · {screen_name} ", FindScreen::SCREEN_COUNT));
+    let inner_area = outer.inner(area);
+    f.render_widget(outer, area);
+
+    let inner_chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([Constraint::Min(0), Constraint::Length(1)])
+        .split(inner_area);
+
+    let footer_text = match fs.screen {
+        FindScreen::Filters => {
+            "Tab/Shift-Tab: next field  ↑↓: cycle property suggestions  Enter: preview  Esc: cancel"
+        }
+        FindScreen::Preview => "Enter: open results  e: edit filters  Esc/q: cancel",
+    };
+    f.render_widget(
+        Paragraph::new(footer_text).style(Style::default().fg(theme.muted)),
+        inner_chunks[1],
+    );
+
+    match fs.screen {
+        FindScreen::Filters => render_filters_screen(f, fs, inner_chunks[0], theme),
+        FindScreen::Preview => render_preview_screen(f, fs, inner_chunks[0], theme),
+    }
+}
+
+fn render_filters_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, theme: &Theme) {
+    let foc = fs.focused_field;
+    let suggest_count = fs.property_suggestions.len() as u16;
+    // Reserve rows for property suggestion dropdown, capped at MAX_PROPERTY_SUGGESTIONS.
+    let dropdown_h = suggest_count.min(MAX_PROPERTY_SUGGESTIONS as u16);
+    let field_rows = 4u16; // component, variant, state, intent
+
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(1),                  // property label
+            Constraint::Length(dropdown_h),          // suggestion dropdown (0 when empty)
+            Constraint::Length(field_rows),          // component / variant / state / intent
+            Constraint::Length(1),                   // match count
+            Constraint::Min(0),                      // padding
+        ])
+        .split(area);
+
+    // Property field.
+    let prop_marker = if foc == 0 { "▶" } else { " " };
+    let prop_line = format!("{prop_marker} Property: {}", fs.property.value());
+    f.render_widget(
+        Paragraph::new(prop_line).style(if foc == 0 {
+            Style::default().fg(theme.accent)
+        } else {
+            Style::default()
+        }),
+        chunks[0],
+    );
+
+    // Suggestion dropdown (only when on property field and there are suggestions).
+    if dropdown_h > 0 {
+        let rows: Vec<Row> = fs
+            .property_suggestions
+            .iter()
+            .enumerate()
+            .map(|(i, term)| {
+                let marker = if i == fs.selected_property_suggestion { "  ▸" } else { "   " };
+                Row::new(vec![Cell::from(format!("{marker} {term}"))])
+                    .style(if i == fs.selected_property_suggestion {
+                        Style::default().bg(theme.selection_bg)
+                    } else {
+                        Style::default().fg(theme.muted)
+                    })
+            })
+            .collect();
+        let widths = [Constraint::Min(0)];
+        f.render_widget(Table::new(rows, widths), chunks[1]);
+    }
+
+    // Component, variant, state, intent fields.
+    let field_area = chunks[2];
+    let sub = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(1),
+            Constraint::Length(1),
+            Constraint::Length(1),
+            Constraint::Length(1),
+        ])
+        .split(field_area);
+
+    let labels = [
+        (1usize, "Component", fs.component.value()),
+        (2, "Variant  ", fs.variant.value()),
+        (3, "State    ", fs.state.value()),
+        (4, "Intent   ", fs.intent.value()),
+    ];
+    for (idx, (field_idx, label, val)) in labels.iter().enumerate() {
+        let marker = if foc == *field_idx { "▶" } else { " " };
+        let text = format!("{marker} {label}: {val}");
+        f.render_widget(
+            Paragraph::new(text).style(if foc == *field_idx {
+                Style::default().fg(theme.accent)
+            } else {
+                Style::default()
+            }),
+            sub[idx],
+        );
+    }
+
+    // Match count.
+    let count_text = if let Some(ref err) = fs.preview_error {
+        format!("  parse error: {err}")
+    } else if !fs.preview_rows.is_empty() || fs.preview_count > 0 {
+        format!("  {} token(s) matched", fs.preview_count)
+    } else {
+        "  (fill in filters then press Enter to preview)".to_string()
+    };
+    f.render_widget(
+        Paragraph::new(count_text).style(Style::default().fg(theme.muted)),
+        chunks[3],
+    );
+}
+
+fn render_preview_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, theme: &Theme) {
+    let expr = fs
+        .assemble_expr()
+        .unwrap_or_else(|| format!("intent: {}", fs.intent.value().trim()));
+
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(1), // expression line
+            Constraint::Length(1), // match count
+            Constraint::Min(0),    // results table
+        ])
+        .split(area);
+
+    f.render_widget(Paragraph::new(format!("  Query: {expr}")), chunks[0]);
+
+    let count_text = if let Some(ref err) = fs.preview_error {
+        format!("  error: {err}")
+    } else {
+        format!("  {} token(s) matched", fs.preview_count)
+    };
+    f.render_widget(
+        Paragraph::new(count_text).style(Style::default().fg(theme.muted)),
+        chunks[1],
+    );
+
+    let display_rows: Vec<Row> = fs
+        .preview_rows
+        .iter()
+        .take(MAX_SUGGEST_RESULTS)
+        .map(|r| {
+            Row::new(vec![
+                Cell::from(r.name.as_str()),
+                Cell::from(r.layer.as_str()).style(Style::default().fg(theme.muted)),
+            ])
+        })
+        .collect();
+    if !display_rows.is_empty() {
+        let widths = [Constraint::Min(0), Constraint::Length(10)];
+        f.render_widget(
+            Table::new(display_rows, widths)
+                .highlight_style(Style::default().bg(theme.selection_bg)),
+            chunks[2],
+        );
+    } else if fs.preview_error.is_none() {
+        f.render_widget(
+            Paragraph::new("  (no tokens matched)").style(Style::default().fg(theme.muted)),
+            chunks[2],
+        );
+    }
+}
+
 fn render_values_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme: &Theme) {
     if ws.values.rows.is_empty() {
         f.render_widget(Paragraph::new("  (no mode combinations — graph has no mode sets)"), area);
@@ -919,6 +1101,11 @@ fn run<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, handle: &Datase
 
             // Overlay modal (rendered last so it appears on top).
             match &mut app.modal {
+                Some(Modal::Find(ref mut fs)) => {
+                    let popup_area = centered_rect(82, 85, frame_area);
+                    f.render_widget(Clear, popup_area);
+                    render_find(f, fs, popup_area, &handle.theme);
+                }
                 Some(Modal::Wizard(ref mut ws)) => {
                     let popup_area = centered_rect(82, 85, frame_area);
                     f.render_widget(Clear, popup_area);

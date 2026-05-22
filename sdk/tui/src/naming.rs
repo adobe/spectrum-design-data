@@ -119,12 +119,15 @@ impl NamingWizardState {
         if key.code == KeyCode::Esc {
             return NamingEvent::Cancel;
         }
+        // Capture intent value before dispatch so we can skip suggest refresh when text
+        // didn't change (e.g. Up/Down arrow navigation).
+        let intent_before = self.intent.value().to_string();
         let event = match self.screen {
             NamingScreen::Intent => self.handle_intent_key(key, graph),
             NamingScreen::Classification => self.handle_classification_key(key),
             NamingScreen::Result => self.handle_result_key(key),
         };
-        if self.screen == NamingScreen::Intent {
+        if self.screen == NamingScreen::Intent && self.intent.value() != intent_before {
             self.refresh_suggestions(graph);
         }
         event
@@ -159,6 +162,7 @@ impl NamingWizardState {
         }
     }
 
+    // _graph is reserved for future classification seeding (e.g. mode-set discovery).
     fn advance_to_classification(&mut self, _graph: &TokenGraph) {
         let intent = self.intent.value().to_string();
         if !intent.is_empty() && self.classification.property.value().is_empty() {
