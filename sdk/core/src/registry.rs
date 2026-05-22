@@ -69,7 +69,7 @@ impl RegistryData {
     }
 
     /// Look up the vocabulary set for a name-object field.
-    /// Returns `None` for fields without a registry (e.g. `property`, mode-set fields).
+    /// Returns `None` for fields without a registry (e.g. mode-set fields).
     pub fn for_field(&self, field: &str) -> Option<&HashSet<String>> {
         self.registries.get(field)
     }
