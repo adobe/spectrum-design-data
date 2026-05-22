@@ -23,6 +23,7 @@ use ratatui::widgets::TableState;
 use tui_input::Input;
 use tui_input::backend::crossterm::EventHandler;
 
+use crate::find::{FindEvent, FindWizardState};
 use crate::naming::{NamingEvent, NamingWizardState};
 use crate::wizard::{WizardCtx, WizardEvent, WizardState};
 use crate::wizard_draft::{
@@ -30,7 +31,8 @@ use crate::wizard_draft::{
 };
 
 /// Command names for Tab autocomplete.
-const KNOWN_COMMANDS: &[&str] = &["name", "new", "query", "resolve", "describe", "validate"];
+const KNOWN_COMMANDS: &[&str] =
+    &["find", "name", "new", "query", "resolve", "describe", "validate"];
 
 /// Max palette history entries persisted to disk.
 const HISTORY_CAP: usize = 200;
@@ -79,7 +81,7 @@ pub struct QueryRow {
 }
 
 impl QueryRow {
-    fn from_record(t: &TokenRecord) -> Self {
+    pub(crate) fn from_record(t: &TokenRecord) -> Self {
         let value = t
             .raw
             .get("value")
@@ -204,6 +206,7 @@ pub struct HelpModal {
 
 /// An overlay modal that temporarily captures all keyboard input.
 pub enum Modal {
+    Find(Box<FindWizardState>),
     Wizard(Box<WizardState>),
     Naming(Box<NamingWizardState>),
     Help(HelpModal),
@@ -476,6 +479,26 @@ impl App {
             return;
         }
 
+        // Find wizard modal.
+        if let Some(Modal::Find(ref mut fs)) = self.modal {
+            let event = fs.handle_key(key, ctx.graph);
+            match event {
+                FindEvent::Cancel => {
+                    self.modal = None;
+                    self.status_message = Some(StatusMessage::info("find wizard cancelled"));
+                }
+                FindEvent::OpenResults(view) => {
+                    let count = view.rows.len();
+                    self.active_view = ActiveView::Query(view);
+                    self.status_message =
+                        Some(StatusMessage::info(format!("{count} token(s) matched")));
+                    self.modal = None;
+                }
+                FindEvent::Continue => {}
+            }
+            return;
+        }
+
         // Naming modal — handled independently; no WizardCtx needed.
         if let Some(Modal::Naming(ref mut ns)) = self.modal {
             let event = ns.handle_key(key, ctx.graph);
@@ -590,8 +613,8 @@ impl App {
 
     /// Scroll the active scrollable region by `delta` rows (+1 = down, -1 = up).
     fn scroll_active(&mut self, delta: i32) {
-        // Naming modal has no scrollable content.
-        if matches!(self.modal, Some(Modal::Naming(_))) {
+        // Find and Naming modals have no scrollable content.
+        if matches!(self.modal, Some(Modal::Find(_)) | Some(Modal::Naming(_))) {
             return;
         }
         // Wizard diff scroll has priority when a modal is open.
@@ -1042,6 +1065,11 @@ impl App {
                             Some(StatusMessage::error(format!("validate: {e}")));
                     }
                 }
+            }
+            "find" => {
+                let fs = FindWizardState::new_with_intent(rest.trim());
+                self.modal = Some(Modal::Find(Box::new(fs)));
+                self.status_message = None;
             }
             "name" => {
                 let mut ns = NamingWizardState::new_with_intent(rest.trim());
