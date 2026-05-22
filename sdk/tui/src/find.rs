@@ -24,6 +24,8 @@ use tui_input::backend::crossterm::EventHandler;
 
 use crate::app::{QueryRow, QueryView};
 
+pub const MAX_PROPERTY_SUGGESTIONS: usize = 8;
+
 /// The two wizard screens.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FindScreen {
@@ -164,12 +166,10 @@ impl FindWizardState {
                 }
             }
         } else if !self.intent.value().trim().is_empty() {
+            // assemble_expr() returned None, so all structured fields (including property) are
+            // empty. Pass no property hint.
             let intent = self.intent.value().to_string();
-            let prop_hint = {
-                let v = self.property.value().trim().to_string();
-                if v.is_empty() { None } else { Some(v) }
-            };
-            let results = suggest::suggest(graph, &intent, prop_hint.as_deref(), 20);
+            let results = suggest::suggest(graph, &intent, None, 20);
             self.preview_count = results.len();
             self.preview_rows = results.iter().map(suggestion_to_row).collect();
             self.preview_error = None;
@@ -192,7 +192,7 @@ impl FindWizardState {
             let mut matching: Vec<String> =
                 terms.iter().filter(|t| t.to_lowercase().contains(&typed)).cloned().collect();
             matching.sort();
-            matching.truncate(8);
+            matching.truncate(MAX_PROPERTY_SUGGESTIONS);
             self.property_suggestions = matching;
         } else {
             self.property_suggestions.clear();

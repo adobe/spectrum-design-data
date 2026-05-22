@@ -325,12 +325,17 @@ fn find_command_with_args_seeds_intent() {
 }
 
 #[test]
-fn find_command_no_args_opens_empty_modal() {
+fn find_command_no_args_opens_modal_with_empty_fields() {
     let graph = make_graph();
     let mut app = App::new();
     open_palette_cmd(&mut app);
     submit(&mut app, &graph, "find");
-    assert!(matches!(app.modal, Some(Modal::Find(_))));
+    if let Some(Modal::Find(ref fs)) = app.modal {
+        assert_eq!(fs.intent.value(), "");
+        assert_eq!(fs.focused_field, 0); // focus starts on property
+    } else {
+        panic!("expected Find modal");
+    }
 }
 
 #[test]
@@ -356,6 +361,34 @@ fn esc_in_find_modal_closes_it() {
     let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
     app.handle_modal_key(key(KeyCode::Esc), &ctx);
     assert!(app.modal.is_none());
+}
+
+#[test]
+fn backtab_wraps_from_first_to_last_field() {
+    let graph = make_graph();
+    let mut fs = FindWizardState::new();
+    assert_eq!(fs.focused_field, 0);
+    fs.handle_key(key(KeyCode::BackTab), &graph);
+    assert_eq!(fs.focused_field, FindWizardState::FIELD_COUNT - 1);
+}
+
+#[test]
+fn intent_only_flow_emits_open_results_with_intent_as_expr_text() {
+    let graph = make_graph();
+    let mut fs = FindWizardState::new_with_intent("accent background");
+    // Advance to Preview (refresh_preview runs).
+    fs.handle_key(key(KeyCode::Enter), &graph);
+    assert_eq!(fs.screen, FindScreen::Preview);
+    assert!(fs.preview_count > 0);
+    // Accept Preview → OpenResults.
+    let event = fs.handle_key(key(KeyCode::Enter), &graph);
+    if let FindEvent::OpenResults(view) = event {
+        // When assemble_expr() returns None, expr_text is the raw intent string.
+        assert_eq!(view.expr_text, "accent background");
+        assert!(!view.rows.is_empty());
+    } else {
+        panic!("expected OpenResults");
+    }
 }
 
 #[test]

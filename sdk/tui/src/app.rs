@@ -613,7 +613,7 @@ impl App {
 
     /// Scroll the active scrollable region by `delta` rows (+1 = down, -1 = up).
     fn scroll_active(&mut self, delta: i32) {
-        // Find and Naming modals have no scrollable content.
+        // Only Wizard and Help modals have scrollable content; bail out for all others.
         if matches!(self.modal, Some(Modal::Find(_)) | Some(Modal::Naming(_))) {
             return;
         }

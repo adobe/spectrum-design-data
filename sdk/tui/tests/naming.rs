@@ -223,6 +223,25 @@ fn copy_event_sets_pending_yank_and_status() {
     assert_eq!(app.pending_yank.as_deref(), Some("color"));
     let msg = app.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(msg.contains("copied"), "expected 'copied' in status: {msg}");
+    // Copy does NOT close the modal — user stays on Result to copy again or keep inspecting.
+    assert!(app.modal.is_some(), "Copy should not close the Naming modal");
+}
+
+#[test]
+fn y_key_on_result_screen_also_copies() {
+    let graph = make_graph();
+    let mut ns = NamingWizardState::new();
+    ns.screen = NamingScreen::Classification;
+    // Tab to property field, type "color", advance to Result.
+    ns.handle_key(key(KeyCode::Tab), &graph);
+    for c in "color".chars() {
+        ns.handle_key(key(KeyCode::Char(c)), &graph);
+    }
+    ns.handle_key(key(KeyCode::Enter), &graph);
+    assert_eq!(ns.screen, NamingScreen::Result);
+
+    let event = ns.handle_key(key(KeyCode::Char('y')), &graph);
+    assert!(matches!(event, NamingEvent::Copy(ref name) if name == "color"));
 }
 
 #[test]

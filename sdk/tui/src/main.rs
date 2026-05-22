@@ -599,14 +599,10 @@ fn render_find(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, theme: &Them
 fn render_filters_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, theme: &Theme) {
     let foc = fs.focused_field;
     let suggest_count = fs.property_suggestions.len() as u16;
-    // Reserve rows for property suggestion dropdown (at most 8, never more than area).
-    let dropdown_h = suggest_count.min(8);
-
-    // Layout: header rows (label + optional dropdown), then remaining fields, then match count.
+    // Reserve rows for property suggestion dropdown, capped at MAX_PROPERTY_SUGGESTIONS.
+    let dropdown_h =
+        suggest_count.min(design_data_tui::find::MAX_PROPERTY_SUGGESTIONS as u16);
     let field_rows = 4u16; // component, variant, state, intent
-    let match_row = 1u16;
-    let available = area.height.saturating_sub(1 + dropdown_h + field_rows + match_row + 1);
-    let _ = available; // layout is fixed; this is just for reference
 
     let chunks = Layout::default()
         .direction(Direction::Vertical)
