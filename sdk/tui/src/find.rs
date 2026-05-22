@@ -23,9 +23,7 @@ use tui_input::Input;
 use tui_input::backend::crossterm::EventHandler;
 
 use crate::app::{QueryRow, QueryView};
-
-pub const MAX_PROPERTY_SUGGESTIONS: usize = 8;
-pub const MAX_SUGGEST_RESULTS: usize = 20;
+pub use crate::wizard_common::caps::{MAX_PROPERTY_SUGGESTIONS, MAX_SUGGEST_RESULTS};
 
 /// The two wizard screens.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

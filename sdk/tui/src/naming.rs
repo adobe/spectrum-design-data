@@ -20,7 +20,7 @@ use design_data_core::suggest::{self, SuggestionResult};
 use tui_input::Input;
 use tui_input::backend::crossterm::EventHandler;
 
-use crate::wizard::{
+use crate::wizard_common::classification::{
     ClassificationDraft, NameField, assemble_name_from_classification,
     cycle_layer_backward, cycle_layer_forward,
 };
