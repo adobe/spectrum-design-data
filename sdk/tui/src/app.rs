@@ -613,8 +613,8 @@ impl App {
 
     /// Scroll the active scrollable region by `delta` rows (+1 = down, -1 = up).
     fn scroll_active(&mut self, delta: i32) {
-        // Only Wizard and Help modals have scrollable content; bail out for all others.
-        if matches!(self.modal, Some(Modal::Find(_)) | Some(Modal::Naming(_))) {
+        // Only Wizard and Help modals have scrollable content.
+        if !matches!(self.modal, Some(Modal::Wizard(_)) | Some(Modal::Help(_)) | None) {
             return;
         }
         // Wizard diff scroll has priority when a modal is open.

@@ -49,7 +49,7 @@ use ratatui::{
 use design_data_tui::app::{
     ActiveView, App, HitAction, HitRegion, Modal, StatusKind, StatusMessage, SubmitContext,
 };
-use design_data_tui::find::{FindScreen, FindWizardState};
+use design_data_tui::find::{FindScreen, FindWizardState, MAX_PROPERTY_SUGGESTIONS, MAX_SUGGEST_RESULTS};
 use design_data_tui::help::HELP_TEXT;
 use design_data_tui::naming::{NamingScreen, NamingWizardState};
 use design_data_tui::theme::Theme;
@@ -600,8 +600,7 @@ fn render_filters_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, th
     let foc = fs.focused_field;
     let suggest_count = fs.property_suggestions.len() as u16;
     // Reserve rows for property suggestion dropdown, capped at MAX_PROPERTY_SUGGESTIONS.
-    let dropdown_h =
-        suggest_count.min(design_data_tui::find::MAX_PROPERTY_SUGGESTIONS as u16);
+    let dropdown_h = suggest_count.min(MAX_PROPERTY_SUGGESTIONS as u16);
     let field_rows = 4u16; // component, variant, state, intent
 
     let chunks = Layout::default()
@@ -721,7 +720,7 @@ fn render_preview_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, th
     let display_rows: Vec<Row> = fs
         .preview_rows
         .iter()
-        .take(20)
+        .take(MAX_SUGGEST_RESULTS)
         .map(|r| {
             Row::new(vec![
                 Cell::from(r.name.as_str()),

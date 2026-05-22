@@ -25,6 +25,7 @@ use tui_input::backend::crossterm::EventHandler;
 use crate::app::{QueryRow, QueryView};
 
 pub const MAX_PROPERTY_SUGGESTIONS: usize = 8;
+pub const MAX_SUGGEST_RESULTS: usize = 20;
 
 /// The two wizard screens.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -168,8 +169,8 @@ impl FindWizardState {
         } else if !self.intent.value().trim().is_empty() {
             // assemble_expr() returned None, so all structured fields (including property) are
             // empty. Pass no property hint.
-            let intent = self.intent.value().to_string();
-            let results = suggest::suggest(graph, &intent, None, 20);
+            let intent = self.intent.value().trim().to_string();
+            let results = suggest::suggest(graph, &intent, None, MAX_SUGGEST_RESULTS);
             self.preview_count = results.len();
             self.preview_rows = results.iter().map(suggestion_to_row).collect();
             self.preview_error = None;
@@ -178,6 +179,11 @@ impl FindWizardState {
             self.preview_rows.clear();
             self.preview_error = None;
         }
+        debug_assert_eq!(
+            self.preview_count,
+            self.preview_rows.len(),
+            "preview_count must stay in sync with preview_rows.len()"
+        );
     }
 
     /// Recompute property autocomplete suggestions from the registry.

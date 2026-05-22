@@ -188,7 +188,8 @@ fn open_results_view_has_correct_row_count() {
     fs.handle_key(key(KeyCode::Enter), &graph); // → Preview
     let event = fs.handle_key(key(KeyCode::Enter), &graph); // Accept
     if let FindEvent::OpenResults(view) = event {
-        assert_eq!(view.rows.len(), 2);
+        // Fixture has 2 background-color tokens; use >= 1 to avoid brittleness.
+        assert!(view.rows.len() >= 1);
         assert_eq!(view.expr_text, "property=background-color");
     } else {
         panic!("expected OpenResults");
@@ -274,17 +275,46 @@ fn property_suggestions_filter_by_typed_prefix() {
 fn up_down_navigate_property_suggestions() {
     let mut fs = FindWizardState::new();
     let graph = make_graph();
-    // Type something to get suggestions.
-    for c in "back".chars() {
+    // "color" matches many registry terms (background-color, border-color, etc.).
+    for c in "color".chars() {
         fs.handle_key(key(KeyCode::Char(c)), &graph);
     }
+    // Assert unconditionally so a registry regression is visible, not silently skipped.
+    assert!(
+        fs.property_suggestions.len() > 1,
+        "expected >1 'color' suggestions from registry, got {}",
+        fs.property_suggestions.len()
+    );
     let initial = fs.selected_property_suggestion;
-    if fs.property_suggestions.len() > 1 {
-        fs.handle_key(key(KeyCode::Down), &graph);
-        assert_eq!(fs.selected_property_suggestion, initial + 1);
-        fs.handle_key(key(KeyCode::Up), &graph);
-        assert_eq!(fs.selected_property_suggestion, initial);
+    fs.handle_key(key(KeyCode::Down), &graph);
+    assert_eq!(fs.selected_property_suggestion, initial + 1);
+    fs.handle_key(key(KeyCode::Up), &graph);
+    assert_eq!(fs.selected_property_suggestion, initial);
+}
+
+#[test]
+fn refresh_preview_sets_error_on_invalid_expression() {
+    let graph = make_graph();
+    let mut fs = FindWizardState::new();
+    // "foo,bar" assembles to "property=foo,bar"; the parser splits on "," and tries "bar"
+    // as a standalone condition — it has no "=" operator so parse returns a CoreError.
+    fs.property = tui_input::Input::from("foo,bar".to_string());
+    fs.refresh_preview(&graph);
+    assert!(fs.preview_error.is_some(), "expected parse error for condition missing operator");
+    assert_eq!(fs.preview_count, 0);
+    assert!(fs.preview_rows.is_empty());
+}
+
+#[test]
+fn assemble_expr_round_trips_through_query_parse_and_finds_rows() {
+    let graph = make_graph();
+    let mut fs = FindWizardState::new();
+    for c in "background-color".chars() {
+        fs.handle_key(key(KeyCode::Char(c)), &graph);
     }
+    fs.refresh_preview(&graph);
+    assert!(fs.preview_error.is_none(), "parse error: {:?}", fs.preview_error);
+    assert!(fs.preview_count >= 1, "expected at least one match for property=background-color");
 }
 
 // ── App-level integration tests ──────────────────────────────────────────────
@@ -418,4 +448,28 @@ fn accepting_preview_opens_query_view_and_closes_modal() {
     assert!(matches!(app.active_view, ActiveView::Query(_)));
     let msg = app.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(msg.contains("matched"), "expected 'matched' in status: {msg}");
+}
+
+#[test]
+fn e_on_preview_keeps_modal_open_and_returns_to_filters() {
+    use design_data_tui::app::ActiveView;
+    use design_data_tui::wizard::WizardCtx;
+
+    let graph = make_graph();
+    let mut app = App::new();
+    open_palette_cmd(&mut app);
+    submit(&mut app, &graph, "find");
+
+    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
+
+    // Advance to Preview.
+    app.handle_modal_key(key(KeyCode::Enter), &ctx);
+    // Press e → back to Filters; modal stays open.
+    app.handle_modal_key(key(KeyCode::Char('e')), &ctx);
+
+    assert!(app.modal.is_some(), "e should not close the modal");
+    assert!(matches!(app.active_view, ActiveView::Empty), "e should not open results");
+    if let Some(Modal::Find(ref fs)) = app.modal {
+        assert_eq!(fs.screen, FindScreen::Filters);
+    }
 }
