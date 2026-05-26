@@ -40,44 +40,14 @@ pub struct WizardCtx<'a> {
 pub use design_data_core::authoring::draft::{ValueKind, WizardPath, WizardScreen};
 use design_data_core::authoring::session::alias_threshold;
 
-// ── Draft types ──────────────────────────────────────────────────────────────
-
-/// An additional name-object field (key + editable value).
-pub struct NameField {
-    pub key: String,
-    pub value: Input,
-}
-
-/// State for Screen 2 (Classification).
-///
-/// `focused_field` index:  0 = layer selector, 1 = property, 2..= name_fields[i-2].
-pub struct ClassificationDraft {
-    pub layer: Layer,
-    pub property: Input,
-    pub name_fields: Vec<NameField>,
-    pub focused_field: usize,
-}
-
-impl ClassificationDraft {
-    pub fn new() -> Self {
-        Self {
-            layer: Layer::Foundation,
-            property: Input::default(),
-            name_fields: Vec::new(),
-            focused_field: 0,
-        }
-    }
-
-    pub fn field_count(&self) -> usize {
-        2 + self.name_fields.len() // layer + property + name_fields
-    }
-}
-
-impl Default for ClassificationDraft {
-    fn default() -> Self {
-        Self::new()
-    }
-}
+// ── Classification types (re-exported from wizard_common) ───────────────────
+// These live in `wizard_common::classification` so the naming wizard can import
+// them without reaching into this module.  The re-exports keep every existing
+// call-site (tests, wizard_draft.rs, main.rs) working unchanged.
+pub use crate::wizard_common::classification::{
+    ClassificationDraft, NameField, assemble_name_from_classification, cycle_layer_backward,
+    cycle_layer_forward,
+};
 
 /// One row in Screen 3's values table.
 pub struct ValueRow {
@@ -611,25 +581,6 @@ impl Default for WizardState {
     }
 }
 
-// ── Shared widget helpers ────────────────────────────────────────────────────
-
-/// Assemble a token name from classification fields (property + name fields).
-/// Shared by the authoring and naming wizards.
-pub fn assemble_name_from_classification(classification: &ClassificationDraft) -> String {
-    let mut parts: Vec<String> = Vec::new();
-    let prop = classification.property.value().trim().to_string();
-    if !prop.is_empty() {
-        parts.push(prop);
-    }
-    for field in &classification.name_fields {
-        let v = field.value.value().trim().to_string();
-        if !v.is_empty() {
-            parts.push(v);
-        }
-    }
-    parts.join("-")
-}
-
 // ── Internal helpers ─────────────────────────────────────────────────────────
 
 /// Derive the target file path from `layer` and `property`.
@@ -685,22 +636,6 @@ fn build_token_value(rows: &[ValueRow]) -> serde_json::Value {
             ValueKind::Literal => serde_json::Value::String(row.literal.value().to_string()),
         },
         None => serde_json::Value::Null,
-    }
-}
-
-pub fn cycle_layer_forward(layer: Layer) -> Layer {
-    match layer {
-        Layer::Foundation => Layer::Platform,
-        Layer::Platform => Layer::Product,
-        Layer::Product => Layer::Foundation,
-    }
-}
-
-pub fn cycle_layer_backward(layer: Layer) -> Layer {
-    match layer {
-        Layer::Foundation => Layer::Product,
-        Layer::Platform => Layer::Foundation,
-        Layer::Product => Layer::Platform,
     }
 }
 

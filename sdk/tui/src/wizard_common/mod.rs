@@ -8,11 +8,11 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-pub mod app;
-pub mod find;
-pub mod help;
-pub mod naming;
-pub mod theme;
-pub mod wizard;
-pub mod wizard_common;
-pub mod wizard_draft;
+//! Shared types and constants used by two or more wizard modules.
+//!
+//! - `classification`: Screen 2 (Classification) draft types and helpers, shared
+//!   between the authoring wizard (`wizard`) and naming wizard (`naming`).
+//! - `caps`: Display-cap constants for suggestion/autocomplete lists.
+
+pub mod caps;
+pub mod classification;

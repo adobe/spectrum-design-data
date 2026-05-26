@@ -8,11 +8,10 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-pub mod app;
-pub mod find;
-pub mod help;
-pub mod naming;
-pub mod theme;
-pub mod wizard;
-pub mod wizard_common;
-pub mod wizard_draft;
+//! Shared display-cap constants for wizard suggestion/autocomplete lists.
+
+/// Maximum number of property autocomplete suggestions shown in the find wizard.
+pub const MAX_PROPERTY_SUGGESTIONS: usize = 8;
+
+/// Maximum number of suggest-ranked results shown in the find wizard preview.
+pub const MAX_SUGGEST_RESULTS: usize = 20;
