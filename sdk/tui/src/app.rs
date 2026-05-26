@@ -224,73 +224,50 @@ impl Modal {
     /// Only called when `wants_scroll()` returns `true`.
     pub fn on_scroll(&mut self, delta: i32) {
         match self {
-            Modal::Wizard(ws) => {
-                if delta > 0 {
-                    ws.diff_scroll = ws.diff_scroll.saturating_add(delta as u16);
-                } else {
-                    ws.diff_scroll = ws.diff_scroll.saturating_sub((-delta) as u16);
-                }
-            }
-            Modal::Help(hm) => {
-                if delta > 0 {
-                    hm.scroll = hm.scroll.saturating_add(delta as u16);
-                } else {
-                    hm.scroll = hm.scroll.saturating_sub((-delta) as u16);
-                }
-            }
+            Modal::Wizard(ws) => apply_scroll_delta(&mut ws.diff_scroll, delta),
+            Modal::Help(hm) => apply_scroll_delta(&mut hm.scroll, delta),
             Modal::Find(_) | Modal::Naming(_) => {}
         }
     }
 
     /// Persist any in-progress state to disk (no-op for modals without persistence).
     pub fn persist(&self) {
+        use crate::wizard_draft::{save_wizard_draft, to_draft};
         if let Modal::Wizard(ws) = self {
-            crate::wizard_draft::save_wizard_draft(&crate::wizard_draft::to_draft(ws));
+            save_wizard_draft(&to_draft(ws));
         }
     }
 
-    /// One-line label describing the current screen within this modal, e.g. "Step 1 of 2 — Filters".
+    /// One-line breadcrumb for the current screen, e.g. `"Step 1 of 2 — Filters"`.
+    ///
+    /// Intended for a future status-line indicator that shows which modal is open and
+    /// which screen the user is on.  Not yet wired to a renderer.
     pub fn screen_label(&self) -> String {
         match self {
             Modal::Find(fs) => {
                 use crate::find::FindScreen;
-                let n = match fs.screen {
-                    FindScreen::Filters => 1u8,
-                    FindScreen::Preview => 2u8,
-                };
-                let name = match fs.screen {
-                    FindScreen::Filters => "Filters",
-                    FindScreen::Preview => "Preview",
+                let (n, name) = match fs.screen {
+                    FindScreen::Filters => (1u8, "Filters"),
+                    FindScreen::Preview => (2u8, "Preview"),
                 };
                 format!("Step {n} of 2 — {name}")
             }
             Modal::Naming(ns) => {
                 use crate::naming::NamingScreen;
-                let n = match ns.screen {
-                    NamingScreen::Intent => 1u8,
-                    NamingScreen::Classification => 2u8,
-                    NamingScreen::Result => 3u8,
-                };
-                let name = match ns.screen {
-                    NamingScreen::Intent => "Intent",
-                    NamingScreen::Classification => "Classification",
-                    NamingScreen::Result => "Result",
+                let (n, name) = match ns.screen {
+                    NamingScreen::Intent => (1u8, "Intent"),
+                    NamingScreen::Classification => (2u8, "Classification"),
+                    NamingScreen::Result => (3u8, "Result"),
                 };
                 format!("Step {n} of 3 — {name}")
             }
             Modal::Wizard(ws) => {
                 use crate::wizard::WizardScreen;
-                let (n, total) = match ws.screen {
-                    WizardScreen::Intent => (1u8, 4u8),
-                    WizardScreen::Classification => (2, 4),
-                    WizardScreen::Values => (3, 4),
-                    WizardScreen::Confirm => (4, 4),
-                };
-                let name = match ws.screen {
-                    WizardScreen::Intent => "Intent",
-                    WizardScreen::Classification => "Classification",
-                    WizardScreen::Values => "Values",
-                    WizardScreen::Confirm => "Confirm",
+                let (n, total, name) = match ws.screen {
+                    WizardScreen::Intent => (1u8, 4u8, "Intent"),
+                    WizardScreen::Classification => (2, 4, "Classification"),
+                    WizardScreen::Values => (3, 4, "Values"),
+                    WizardScreen::Confirm => (4, 4, "Confirm"),
                 };
                 format!("Step {n} of {total} — {name}")
             }
@@ -1250,6 +1227,15 @@ fn rect_contains(rect: Rect, row: u16, col: u16) -> bool {
 }
 
 /// Parse the rest-string for `:resolve` into a property name + `ResolutionContext`.
+/// Apply a signed scroll delta to a `u16` scroll position using saturating arithmetic.
+fn apply_scroll_delta(scroll: &mut u16, delta: i32) {
+    if delta > 0 {
+        *scroll = scroll.saturating_add(delta as u16);
+    } else {
+        *scroll = scroll.saturating_sub((-delta) as u16);
+    }
+}
+
 fn parse_resolve_args(rest: &str) -> Result<(String, ResolutionContext), String> {
     let mut property: Option<String> = None;
     let mut ctx = ResolutionContext::new();
