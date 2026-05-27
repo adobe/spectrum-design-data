@@ -30,7 +30,9 @@
     "@spectrum-css/table": "^6.1.0",
     "@spectrum-css/tokens": "^16.0.2",
     "@spectrum-css/typography": "^8.1.0",
-    "markdown-it": "^14.0.0"
+    "github-slugger": "^2.0.0",
+    "markdown-it": "^14.0.0",
+    "markdown-it-anchor": "^9.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",

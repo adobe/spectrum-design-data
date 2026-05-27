@@ -152,9 +152,15 @@ importers:
       "@spectrum-css/typography":
         specifier: ^8.1.0
         version: 8.2.0(@spectrum-css/tokens@16.0.2)
+      github-slugger:
+        specifier: ^2.0.0
+        version: 2.0.0
       markdown-it:
         specifier: ^14.0.0
         version: 14.1.0
+      markdown-it-anchor:
+        specifier: ^9.2.0
+        version: 9.2.0(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
     devDependencies:
       autoprefixer:
         specifier: ^10.4.21
@@ -2933,10 +2939,28 @@ packages:
         integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==,
       }
 
+  "@types/linkify-it@5.0.0":
+    resolution:
+      {
+        integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==,
+      }
+
+  "@types/markdown-it@14.1.2":
+    resolution:
+      {
+        integrity: sha512-promo4eFwuiW+TfGxhi+0x3czqTYJkG8qB17ZUJiVF10Xm7NLVRSLUsfRTU/6h1e24VvRnXCx+hG7li58lkzog==,
+      }
+
   "@types/mdast@4.0.4":
     resolution:
       {
         integrity: sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA==,
+      }
+
+  "@types/mdurl@2.0.0":
+    resolution:
+      {
+        integrity: sha512-RGdgjQUZba5p6QEFAVx2OGb8rQDL/cPRG7GiedRzMcJ1tYnUANBncjbSB1NRGwbvjcPeikRABz2nshyPk1bhWg==,
       }
 
   "@types/ms@2.1.0":
@@ -5457,6 +5481,12 @@ packages:
     deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
     hasBin: true
 
+  github-slugger@2.0.0:
+    resolution:
+      {
+        integrity: sha512-IaOQ9puYtjrkq7Y0Ygl9KDZnrf/aiUJYUpVf89y8kyaxbRG7Y1SrX/jaumrv81vc61+kiMempujsM3Yw7w5qcw==,
+      }
+
   glob-parent@5.1.2:
     resolution:
       {
@@ -6518,6 +6548,15 @@ packages:
         integrity: sha512-o5vL7aDWatOTX8LzaS1WMoaoxIiLRQJuIKKe2wAw6IeULDHaqbiqiggmx+pKvZDb1Sj+pE46Sn1T7lCqfFtg1Q==,
       }
     engines: { node: ">=16" }
+
+  markdown-it-anchor@9.2.0:
+    resolution:
+      {
+        integrity: sha512-sa2ErMQ6kKOA4l31gLGYliFQrMKkqSO0ZJgGhDHKijPf0pNFM9vghjAh3gn26pS4JDRs7Iwa9S36gxm3vgZTzg==,
+      }
+    peerDependencies:
+      "@types/markdown-it": "*"
+      markdown-it: "*"
 
   markdown-it@14.1.0:
     resolution:
@@ -11292,9 +11331,18 @@ snapshots:
 
   "@types/json-schema@7.0.15": {}
 
+  "@types/linkify-it@5.0.0": {}
+
+  "@types/markdown-it@14.1.2":
+    dependencies:
+      "@types/linkify-it": 5.0.0
+      "@types/mdurl": 2.0.0
+
   "@types/mdast@4.0.4":
     dependencies:
       "@types/unist": 3.0.3
+
+  "@types/mdurl@2.0.0": {}
 
   "@types/ms@2.1.0": {}
 
@@ -12971,6 +13019,8 @@ snapshots:
       meow: 12.1.1
       split2: 4.2.0
 
+  github-slugger@2.0.0: {}
+
   glob-parent@5.1.2:
     dependencies:
       is-glob: 4.0.3
@@ -13510,6 +13560,11 @@ snapshots:
       semver: 7.7.3
 
   markdown-extensions@2.0.0: {}
+
+  markdown-it-anchor@9.2.0(@types/markdown-it@14.1.2)(markdown-it@14.1.0):
+    dependencies:
+      "@types/markdown-it": 14.1.2
+      markdown-it: 14.1.0
 
   markdown-it@14.1.0:
     dependencies:
