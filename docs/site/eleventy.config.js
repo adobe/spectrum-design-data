@@ -11,6 +11,8 @@ governing permissions and limitations under the License.
 */
 
 import { HtmlBasePlugin } from "@11ty/eleventy";
+import markdownItAnchor from "markdown-it-anchor";
+import GithubSlugger from "github-slugger";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { siteName, siteDescription } from "./src/data/meta.js";
@@ -54,6 +56,22 @@ export default async function (eleventyConfig) {
   });
   eleventyConfig.addCollection("spec", function (api) {
     return api.getFilteredByGlob("src/spec/**/*.md");
+  });
+
+  // Add GitHub-compatible heading IDs so intra-page fragment links (#token-bindings, etc.) resolve.
+  // GithubSlugger is stateful; wrap md.render to reset it between pages so duplicate-heading
+  // disambiguation doesn't bleed across files.
+  eleventyConfig.amendLibrary("md", (md) => {
+    const slugger = new GithubSlugger();
+    const originalRender = md.render.bind(md);
+    md.render = (...args) => {
+      slugger.reset();
+      return originalRender(...args);
+    };
+    md.use(markdownItAnchor, {
+      slugify: (s) => slugger.slug(s),
+      tabIndex: false,
+    });
   });
 
   // Apply spectrum-Link to anchors in main article (body content) so links use Spectrum link styling
