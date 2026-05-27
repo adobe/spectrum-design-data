@@ -2,7 +2,7 @@
 
 The design-data spec and tooling support two primary workflows. This page is a self-serve entry point for designers and engineers who want to evaluate or adopt the system.
 
-> Both scenarios share the same substrate: a normative spec, JSON schemas, 31 SPEC validation rules, a Rust CLI (`design-data`), an MCP server, and a Claude Code skill. The only thing that changes between them is what you bring to the table.
+> Both scenarios share the same substrate: a normative spec, JSON schemas, 43 SPEC validation rules, a Rust CLI (`design-data`), an MCP server, and a Claude Code skill. The only thing that changes between them is what you bring to the table.
 
 ***
 
@@ -61,8 +61,8 @@ You are a team launching a new product or design system. You want a contract tha
 ### What the spec gives you on day one
 
 * **A normative format** for tokens, components, anatomy, states, accessibility, and document blocks (see the [spec chapters](../packages/design-data-spec/spec/index.md))
-* **13 JSON schemas** (draft 2020-12) for structural validation
-* **31 SPEC validation rules** for semantic validation — reference integrity, alias resolution, cascade coverage, naming consistency, accessibility completeness, deprecation lifecycle
+* **11 JSON schemas** (draft 2020-12) for structural validation
+* **43 SPEC validation rules** for semantic validation — reference integrity, alias resolution, cascade coverage, naming consistency, accessibility completeness, deprecation lifecycle
 * **A CLI** for validating, querying, diffing, migrating, and exporting to Figma
 * **An MCP server + Claude Code skill** so agents can author and validate alongside humans
 
@@ -91,7 +91,7 @@ With the MCP installed, a designer can describe a new component in plain languag
 Both rely on the same three guarantees:
 
 1. **One source of truth** — schema + spec rules + CLI. There is no second interpretation layer between the design system and its consumers.
-2. **Continuous validation** — every change is checked against 31 rules. Drift fails loud.
+2. **Continuous validation** — every change is checked against 43 rules. Drift fails loud.
 3. **Agent-readable** — the spec is structured so an agent can participate in authoring, querying, and review without bespoke integration work.
 
 ***
@@ -99,8 +99,8 @@ Both rely on the same three guarantees:
 ## References
 
 * [Spec index](../packages/design-data-spec/spec/index.md) — all normative chapters
-* [SPEC rule catalog](../packages/design-data-spec/rules/rules.yaml) — all 31 validation rules with messages and spec cross-references
-* [CLI](../sdk/cli/) — `validate`, `resolve`, `diff`, `query`, `migrate`, `figma`, `primer`, `component`, `write`
+* [SPEC rule catalog](../packages/design-data-spec/rules/rules.yaml) — all 43 validation rules with messages and spec cross-references
+* [CLI](../sdk/cli/) — `validate`, `resolve`, `diff`, `query`, `migrate`, `figma`, `primer`, `component`, `suggest`, `write`, `write-token`, `authoring-session`
 * [Component declarations](../packages/design-data-spec/components/) — 81 declared Spectrum components
-* [Agent surface](../packages/design-data-agent-mcp/) — MCP server for agent integrations
+* [Agent surface](../tools/design-data-agent-mcp/) — MCP server for agent integrations
 * [s2-visualizer](https://opensource.adobe.com/spectrum-design-data/s2-visualizer/) — live token graph for Spectrum

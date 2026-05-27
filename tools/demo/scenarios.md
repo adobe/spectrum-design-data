@@ -1,4 +1,4 @@
-# Demo Scenarios — Director Review
+# Demo Scenarios
 
 Print this. Keep it next to the laptop. Each section is what to do, what to say, and what to expect.
 
@@ -60,7 +60,7 @@ Switch to Claude Code. Ask the question from `agent-questions.md`.
 
 Open `tools/demo/clean-component-example.json` in the editor.
 
-* **Say**: "This is a complete, valid component declaration. Identity, options, anatomy, states with accessibility-aware fields, a semantic accessibility role + WCAG citations, and a typed prose block. The schema enforces the structure; 31 SPEC rules enforce the semantics. A new team gets all of this on day one — they don't reinvent it."
+* **Say**: "This is a complete, valid component declaration. Identity, options, anatomy, states with accessibility-aware fields, a semantic accessibility role + WCAG citations, and a typed prose block. The schema enforces the structure; 43 SPEC rules enforce the semantics. A new team gets all of this on day one — they don't reinvent it."
 
 ### B2. Validation catches real mistakes
 
@@ -70,7 +70,7 @@ design-data validate tools/demo/broken-token-example.tokens.json
 
 Expect: `error: ... [SPEC-001] Alias target not found for $ref: this-token-does-not-exist`
 
-* **Say**: "A token that aliases something that doesn't exist. Easy to miss in review. The validator catches it before it ships. There are 30 more rules like this one — covering naming, cascade, accessibility, deprecation lifecycle. The contract is enforced."
+* **Say**: "A token that aliases something that doesn't exist. Easy to miss in review. The validator catches it before it ships. There are 42 more rules like this one — covering naming, cascade, accessibility, deprecation lifecycle. The contract is enforced."
 
 ### B3. The agent as participant
 

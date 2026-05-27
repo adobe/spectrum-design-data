@@ -1,6 +1,6 @@
-# Director Review Demo Materials
+# Demo Materials
 
-Self-contained demo assets for the design director review. Print `scenarios.md`, keep it next to the laptop, copy-paste from `demo-commands.sh`.
+Self-contained demo assets. Print `scenarios.md`, keep it next to the laptop, copy-paste from `demo-commands.sh`.
 
 | File                               | Purpose                                                                                                                                                                                                             |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -10,4 +10,4 @@ Self-contained demo assets for the design director review. Print `scenarios.md`,
 | `broken-token-example.tokens.json` | A token file with a dangling alias `$ref` — triggers SPEC-001 (`alias-target-exists`). Used for the "validator catches mistakes live" moment.                                                                       |
 | `agent-questions.md`               | The prepared Claude Code question, exact wording, expected answer shape.                                                                                                                                            |
 
-These materials are for the May 15 2026 review with Sean Voisen, Aaron Brownlee, Allison Shaw, and Shawn Cheris.
+Originally prepared for the May 15 2026 design director review; retained as general demo assets.

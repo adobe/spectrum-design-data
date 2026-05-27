@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Director Review Demo — copy-paste cheat sheet
+# Demo — copy-paste cheat sheet
 # Do NOT execute as a script. Run commands one at a time so the audience can read the output.
 # See ./scenarios.md for the narration.
 
