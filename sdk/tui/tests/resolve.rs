@@ -173,8 +173,9 @@ fn resolve_y_sets_pending_yank() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "resolve property=background-color");
-    update(&mut model, Message::Key(key(KeyCode::Char('y'))), &ctx);
-    assert!(model.pending_yank.is_some(), "expected pending yank");
+    let task = update(&mut model, Message::Key(key(KeyCode::Char('y'))), &ctx);
+    assert!(task.is_cmd(), "'y' should return Task::Cmd for clipboard write");
+    assert!(model.pending_yank.is_none(), "pending_yank should not be set — clipboard is via Task::Cmd");
 }
 
 #[test]

@@ -14,29 +14,20 @@ use std::env;
 use std::sync::Mutex;
 
 mod common;
-use common::key;
+use common::{empty_graph, key, update_ctx};
 
 use crossterm::event::KeyCode;
 use design_data_core::graph::TokenGraph;
-use design_data_tui::app::{App, Modal};
-use design_data_tui::wizard::{WizardCtx, WizardScreen, WizardState};
+use design_data_tui::app::Modal;
+use design_data_tui::wizard::{WizardScreen, WizardState};
 use design_data_tui::wizard_draft::{
     from_draft, load_wizard_draft, save_wizard_draft, to_draft, wizard_draft_path,
 };
+use design_data_tui::{update, Message, Model, Task};
 use tempfile::TempDir;
-
-fn empty_ctx(graph: &TokenGraph) -> WizardCtx<'_> {
-    WizardCtx { graph, dataset_path: None, schema_registry: None, allow_write: false }
-}
 
 // Serialize env-touching tests within this binary to prevent concurrent tests
 // from stomping on DESIGN_DATA_TUI_WIZARD_DRAFT.
-//
-// Scope note: cargo test compiles each tests/*.rs file into a separate binary,
-// so this Mutex only covers tests inside wizard_persistence.rs. That's sufficient
-// because no other test binary in this crate sets DESIGN_DATA_TUI_WIZARD_DRAFT.
-// If a future test file also needs to touch this var, extract the lock into a
-// shared test-helper crate or use a file-based lock instead.
 static DRAFT_ENV_LOCK: Mutex<()> = Mutex::new(());
 
 fn with_temp_draft<F: FnOnce()>(f: F) -> TempDir {
@@ -53,7 +44,7 @@ fn make_wizard_with_intent(intent: &str) -> WizardState {
     WizardState::new_with_intent(intent)
 }
 
-// ── Round-trip ────────────────────────────────────────────────────────────────
+// ── Round-trip (pure WizardState serialization, no App/update needed) ────────
 
 #[test]
 fn round_trip_preserves_intent_and_rationale() {
@@ -75,7 +66,6 @@ fn round_trip_preserves_classification_fields() {
     let _dir = with_temp_draft(|| {
         let mut ws = make_wizard_with_intent("color");
         ws.classification.layer = Layer::Platform;
-        // Simulate setting property via Input::from (mirrors how handle_key would do it)
         ws.classification.property = tui_input::Input::from("background-color".to_string());
 
         let restored = from_draft(to_draft(&ws));
@@ -94,127 +84,115 @@ fn round_trip_preserves_screen() {
     });
 }
 
-// ── Transient fields reset on restore ────────────────────────────────────────
-
 #[test]
 fn restoring_resets_transient_fields() {
     let ws = make_wizard_with_intent("something");
     let mut ws2 = from_draft(to_draft(&ws));
-    ws2.diff_preview = Some("fake diff".to_string()); // would be set post-restore
+    ws2.diff_preview = Some("fake diff".to_string());
     let restored = from_draft(to_draft(&ws));
-    assert!(restored.suggestions.is_empty(), "suggestions should be empty on restore");
-    assert!(restored.diff_preview.is_none(), "diff_preview should be None on restore");
-    assert!(restored.error.is_none(), "error should be None on restore");
-    assert!(!restored.editing_schema_url, "editing_schema_url should be false");
-    assert!(!restored.values.editing, "values.editing should be false");
+    assert!(restored.suggestions.is_empty());
+    assert!(restored.diff_preview.is_none());
+    assert!(restored.error.is_none());
+    assert!(!restored.editing_schema_url);
+    assert!(!restored.values.editing);
 }
 
-// ── App lifecycle: restore ────────────────────────────────────────────────────
+// ── Model lifecycle: restore ──────────────────────────────────────────────────
 
 #[test]
-fn app_new_restores_wizard_from_disk() {
+fn model_new_with_options_restores_wizard_from_disk() {
     let _dir = with_temp_draft(|| {
-        // Write a draft to disk.
         let ws = make_wizard_with_intent("restore test");
         save_wizard_draft(&to_draft(&ws));
 
-        // A fresh App should pick it up.
-        let app = App::new();
+        let model = Model::new_with_options(true);
         assert!(
-            matches!(app.modal, Some(Modal::Wizard(_))),
-            "App::new() should restore wizard from disk"
+            matches!(model.modal, Some(Modal::Wizard(_))),
+            "Model::new_with_options(true) should restore wizard from disk"
         );
-        if let Some(Modal::Wizard(ref ws)) = app.modal {
+        if let Some(Modal::Wizard(ref ws)) = model.modal {
             assert_eq!(ws.intent.value(), "restore test");
         }
     });
 }
 
 #[test]
-fn app_new_with_options_false_ignores_draft() {
+fn model_new_with_options_false_ignores_draft() {
     let _dir = with_temp_draft(|| {
         let ws = make_wizard_with_intent("should be ignored");
         save_wizard_draft(&to_draft(&ws));
 
-        let app = App::new_with_options(false);
+        let model = Model::new_with_options(false);
         assert!(
-            app.modal.is_none(),
+            model.modal.is_none(),
             "--no-resume-wizard: modal should be None even if draft exists on disk"
         );
-
-        // Draft file should still be there (we didn't delete it).
         let path = wizard_draft_path().unwrap();
         assert!(path.exists(), "draft file should remain untouched with --no-resume-wizard");
     });
 }
 
 #[test]
-fn app_new_with_no_draft_starts_with_no_modal() {
+fn model_new_with_no_draft_starts_with_no_modal() {
     let _dir = with_temp_draft(|| {
-        // No draft file exists — no wizard on startup.
-        let app = App::new();
-        assert!(app.modal.is_none(), "no draft → no modal");
+        let model = Model::new_with_options(true);
+        assert!(model.modal.is_none(), "no draft → no modal");
     });
 }
 
-// ── App lifecycle: clear on cancel ───────────────────────────────────────────
+// ── Model lifecycle: clear on cancel ─────────────────────────────────────────
 
 #[test]
-fn cancelling_wizard_clears_disk_draft() {
+fn cancelling_wizard_returns_draft_clear_task() {
     let _dir = with_temp_draft(|| {
-        let graph = TokenGraph::default();
-        let mut app = App::new();
+        let graph = empty_graph();
+        let ctx = update_ctx(&graph);
+        let mut model = Model::new();
 
-        // Open the wizard via keyboard.
-        app.handle_key(key(KeyCode::Char(':')));
-        for ch in "new test token".chars() {
-            app.handle_key(key(KeyCode::Char(ch)));
-        }
-        app.handle_key(key(KeyCode::Enter));
-        let ctx = design_data_tui::app::SubmitContext::new(&graph);
-        app.submit_palette(&ctx);
-        assert!(app.modal.is_some(), "wizard should be open");
-
-        // Persist something.
-        if let Some(Modal::Wizard(ref ws)) = app.modal {
+        // Open wizard and persist a draft manually.
+        update(&mut model, Message::PaletteSubmit("new test token".into()), &ctx);
+        assert!(model.modal.is_some(), "wizard should be open");
+        if let Some(Modal::Wizard(ref ws)) = model.modal {
             save_wizard_draft(&to_draft(ws));
         }
         assert!(wizard_draft_path().unwrap().exists(), "draft should be on disk");
 
-        // Cancel.
-        app.handle_modal_key(key(KeyCode::Esc), &empty_ctx(&graph));
-        assert!(app.modal.is_none(), "modal should be closed after Esc");
-        assert!(
-            !wizard_draft_path().unwrap().exists(),
-            "draft should be cleared after cancel"
-        );
+        // Cancel — should return Task::Cmd that clears the draft.
+        let task = update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
+        assert!(model.modal.is_none(), "modal should be closed after Esc");
+        assert!(task.is_cmd(), "cancel should return Task::Cmd for draft clear");
+
+        // Execute the task to verify it clears the draft file.
+        if let Task::Cmd(f) = task { f(); }
+        assert!(!wizard_draft_path().unwrap().exists(), "draft should be cleared after cancel");
     });
 }
 
-// ── App lifecycle: auto-save on keystrokes ────────────────────────────────────
+// ── Model lifecycle: auto-save on keystrokes ──────────────────────────────────
 
 #[test]
-fn wizard_keystroke_persists_state() {
+fn wizard_keystroke_returns_persist_task() {
     let _dir = with_temp_draft(|| {
         let graph = TokenGraph::default();
-        let mut app = App::new();
+        let ctx = update_ctx(&graph);
+        let mut model = Model::new();
 
-        // Open wizard.
-        app.handle_key(key(KeyCode::Char(':')));
-        for ch in "new".chars() {
-            app.handle_key(key(KeyCode::Char(ch)));
-        }
-        app.handle_key(key(KeyCode::Enter));
-        let ctx = design_data_tui::app::SubmitContext::new(&graph);
-        app.submit_palette(&ctx);
+        update(&mut model, Message::PaletteSubmit("new".into()), &ctx);
+        assert!(model.modal.is_some());
 
-        // Type into intent field — each key should persist.
-        let wiz_ctx = empty_ctx(&graph);
-        app.handle_modal_key(key(KeyCode::Char('a')), &wiz_ctx);
-        app.handle_modal_key(key(KeyCode::Char('b')), &wiz_ctx);
+        // Type into intent field — each key that advances WizardEvent::Continue
+        // should return Task::Cmd (save_wizard_draft).
+        let task = update(&mut model, Message::Key(key(KeyCode::Char('a'))), &ctx);
+        // WizardEvent::Continue → Task::Cmd(save_wizard_draft)
+        assert!(task.is_cmd(), "wizard keystroke should return Task::Cmd (save_wizard_draft)");
+
+        // Execute any task so the draft lands on disk.
+        if let Task::Cmd(f) = task { f(); }
+        let task2 = update(&mut model, Message::Key(key(KeyCode::Char('b'))), &ctx);
+        if let Task::Cmd(f) = task2 { f(); }
 
         let draft_path = wizard_draft_path().unwrap();
-        assert!(draft_path.exists(), "wizard keystrokes should auto-save draft");
+        assert!(draft_path.exists(), "wizard keystrokes should auto-save draft via Task::Cmd");
 
         let loaded = load_wizard_draft().expect("draft should be loadable");
         let restored = from_draft(loaded);

@@ -198,10 +198,11 @@ fn copy_event_sets_pending_yank_and_status() {
         update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
-    // Press 'c' → Copy.
-    update(&mut model, Message::Key(key(KeyCode::Char('c'))), &ctx);
+    // Press 'c' → Copy; should return Task::Cmd (clipboard write) instead of setting pending_yank.
+    let task = update(&mut model, Message::Key(key(KeyCode::Char('c'))), &ctx);
 
-    assert_eq!(model.pending_yank.as_deref(), Some("color"));
+    assert!(task.is_cmd(), "Copy should return Task::Cmd for clipboard write");
+    assert!(model.pending_yank.is_none(), "pending_yank should not be set — clipboard is via Task::Cmd");
     let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(msg.contains("copied"), "expected 'copied' in status: {msg}");
     assert!(model.modal.is_some(), "Copy should not close the Naming modal");
