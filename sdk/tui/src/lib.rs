@@ -11,6 +11,8 @@
 pub mod app;
 pub mod find;
 pub mod help;
+pub mod message;
+pub mod model;
 pub mod naming;
 pub mod theme;
 pub mod view;
@@ -18,4 +20,6 @@ pub mod wizard;
 pub mod wizard_common;
 pub mod wizard_draft;
 
+pub use message::Message;
+pub use model::Model;
 pub use view::draw;
