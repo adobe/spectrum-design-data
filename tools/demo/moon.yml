@@ -1,0 +1,15 @@
+type: tool
+language: bash
+
+tasks:
+  verify:
+    command: [bash, tools/demo/verify-demo.sh]
+    options:
+      runFromWorkspaceRoot: true
+    inputs:
+      - "verify-demo.sh"
+      - "demo-commands.sh"
+      - "broken-token-example.tokens.json"
+
+  ci:
+    deps: [verify]
