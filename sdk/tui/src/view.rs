@@ -95,35 +95,36 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
         );
     }
 
-    // Palette prompt (hidden while a modal is open).
-    let palette_text = if model.modal.is_none() && model.palette_open {
-        format!("{}{}", model.palette_prefix(), model.palette_input.value())
+    // Palette prompt (only visible in InPalette mode).
+    let palette_text = if model.is_palette_open() {
+        format!("{}{}", model.palette_prefix(), model.palette_input_value())
     } else {
         String::new()
     };
     frame.render_widget(Paragraph::new(palette_text), chunks[3]);
 
     // Overlay modal (rendered last so it appears on top).
-    match &mut model.modal {
-        Some(Modal::Find(ref mut fs)) => {
-            let popup_area = centered_rect(82, 85, area);
-            frame.render_widget(Clear, popup_area);
-            render_find(frame, fs, popup_area, theme);
+    if let Some(modal) = model.modal_mut() {
+        match modal {
+            Modal::Find(ref mut fs) => {
+                let popup_area = centered_rect(82, 85, area);
+                frame.render_widget(Clear, popup_area);
+                render_find(frame, fs, popup_area, theme);
+            }
+            Modal::Wizard(ref mut ws) => {
+                let popup_area = centered_rect(82, 85, area);
+                frame.render_widget(Clear, popup_area);
+                render_wizard(frame, ws, popup_area, theme);
+            }
+            Modal::Naming(ref mut ns) => {
+                let popup_area = centered_rect(82, 85, area);
+                frame.render_widget(Clear, popup_area);
+                render_naming(frame, ns, popup_area, theme);
+            }
+            Modal::Help(ref hm) => {
+                render_help_modal(frame, hm.scroll, area);
+            }
         }
-        Some(Modal::Wizard(ref mut ws)) => {
-            let popup_area = centered_rect(82, 85, area);
-            frame.render_widget(Clear, popup_area);
-            render_wizard(frame, ws, popup_area, theme);
-        }
-        Some(Modal::Naming(ref mut ns)) => {
-            let popup_area = centered_rect(82, 85, area);
-            frame.render_widget(Clear, popup_area);
-            render_naming(frame, ns, popup_area, theme);
-        }
-        Some(Modal::Help(ref hm)) => {
-            render_help_modal(frame, hm.scroll, area);
-        }
-        None => {}
     }
 }
 

@@ -329,7 +329,7 @@ fn find_command_opens_find_modal() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "find");
-    assert!(matches!(model.modal, Some(Modal::Find(_))));
+    assert!(matches!(model.modal(), Some(Modal::Find(_))));
 }
 
 #[test]
@@ -338,7 +338,7 @@ fn find_command_with_args_seeds_intent() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "find accent background");
-    if let Some(Modal::Find(ref fs)) = model.modal {
+    if let Some(Modal::Find(ref fs)) = model.modal() {
         assert_eq!(fs.intent.value(), "accent background");
     } else {
         panic!("expected Find modal");
@@ -351,7 +351,7 @@ fn find_command_no_args_opens_modal_with_empty_fields() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "find");
-    if let Some(Modal::Find(ref fs)) = model.modal {
+    if let Some(Modal::Find(ref fs)) = model.modal() {
         assert_eq!(fs.intent.value(), "");
         assert_eq!(fs.focused_field, 0);
     } else {
@@ -369,7 +369,7 @@ fn tab_autocompletes_find_command() {
         update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
-    assert_eq!(model.palette_input.value(), "find ");
+    assert_eq!(model.palette_input_value(), "find ");
 }
 
 #[test]
@@ -378,9 +378,9 @@ fn esc_in_find_modal_closes_it() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "find");
-    assert!(model.modal.is_some());
+    assert!(model.is_modal_open());
     update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
-    assert!(model.modal.is_none());
+    assert!(!model.is_modal_open());
 }
 
 #[test]
@@ -399,7 +399,7 @@ fn accepting_preview_opens_query_view_and_closes_modal() {
     // Enter → OpenResults.
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
 
-    assert!(model.modal.is_none());
+    assert!(!model.is_modal_open());
     assert!(matches!(model.active_view, ActiveView::Query(_)));
     let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(msg.contains("matched"), "expected 'matched' in status: {msg}");
@@ -417,9 +417,9 @@ fn e_on_preview_keeps_modal_open_and_returns_to_filters() {
     // Press e → back to Filters.
     update(&mut model, Message::Key(key(KeyCode::Char('e'))), &ctx);
 
-    assert!(model.modal.is_some(), "e should not close the modal");
+    assert!(model.is_modal_open(), "e should not close the modal");
     assert!(matches!(model.active_view, ActiveView::Empty));
-    if let Some(Modal::Find(ref fs)) = model.modal {
+    if let Some(Modal::Find(ref fs)) = model.modal() {
         assert_eq!(fs.screen, FindScreen::Filters);
     }
 }

@@ -45,7 +45,7 @@ fn new_command_opens_wizard() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     open_wizard(&mut model, &ctx, "accent background");
-    assert!(model.modal.is_some(), "modal should be open after :new");
+    assert!(model.is_modal_open(), "modal should be open after :new");
 }
 
 #[test]
@@ -55,7 +55,7 @@ fn esc_cancels_wizard() {
     let mut model = Model::new();
     open_wizard(&mut model, &ctx, "accent background");
     let task = update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
-    assert!(model.modal.is_none(), "modal should close on Esc");
+    assert!(!model.is_modal_open(), "modal should close on Esc");
     assert!(matches!(task, Task::Cmd(_)), "cancel should return Task::Cmd (draft clear)");
     let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(msg.contains("cancelled"), "status should say cancelled: {msg}");
@@ -67,7 +67,7 @@ fn intent_populates_suggestions_on_open() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     open_wizard(&mut model, &ctx, "accent background");
-    if let Some(Modal::Wizard(ref ws)) = model.modal {
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
         assert!(!ws.suggestions.is_empty(), "suggestions should be populated from intent");
     } else {
         panic!("expected wizard modal");
@@ -81,7 +81,7 @@ fn enter_on_screen_1_advances_to_screen_2() {
     let mut model = Model::new();
     open_wizard(&mut model, &ctx, "accent background");
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
-    if let Some(Modal::Wizard(ref ws)) = model.modal {
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
         assert_eq!(ws.screen, WizardScreen::Classification, "should advance to Screen 2");
     } else {
         panic!("expected wizard modal after Enter on Screen 1");
@@ -95,7 +95,7 @@ fn tab_with_suggestion_sets_alias_path_and_jumps_to_confirm() {
     let mut model = Model::new();
     open_wizard(&mut model, &ctx, "accent background");
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
-    if let Some(Modal::Wizard(ref ws)) = model.modal {
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
         assert_eq!(ws.screen, WizardScreen::Confirm, "Tab should jump to Confirm");
         assert!(
             matches!(ws.chosen_path, WizardPath::AliasToExisting(_)),
@@ -114,13 +114,13 @@ fn screen_2_layer_cycles_with_arrow_keys() {
     open_wizard(&mut model, &ctx, "background");
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
     update(&mut model, Message::Key(key(KeyCode::Right)), &ctx);
-    if let Some(Modal::Wizard(ref ws)) = model.modal {
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
         assert_eq!(ws.classification.layer, Layer::Platform, "Right should advance layer");
     } else {
         panic!("expected wizard modal");
     }
     update(&mut model, Message::Key(key(KeyCode::Left)), &ctx);
-    if let Some(Modal::Wizard(ref ws)) = model.modal {
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
         assert_eq!(ws.classification.layer, Layer::Foundation, "Left should reverse layer");
     }
 }
@@ -133,7 +133,7 @@ fn screen_2_enter_advances_to_screen_3() {
     open_wizard(&mut model, &ctx, "background");
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
-    if let Some(Modal::Wizard(ref ws)) = model.modal {
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
         assert_eq!(ws.screen, WizardScreen::Values, "should advance to Screen 3");
     } else {
         panic!("expected wizard modal");
@@ -148,7 +148,7 @@ fn screen_3_mode_rows_match_cartesian_product() {
     open_wizard(&mut model, &ctx, "background");
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
-    if let Some(Modal::Wizard(ref ws)) = model.modal {
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
         assert_eq!(ws.values.rows.len(), 2, "should have one row per mode combo");
     } else {
         panic!("expected wizard modal");
@@ -164,11 +164,11 @@ fn screen_3_a_l_toggle_value_kind() {
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
     update(&mut model, Message::Key(key(KeyCode::Char('l'))), &ctx);
-    if let Some(Modal::Wizard(ref ws)) = model.modal {
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
         assert_eq!(ws.values.rows[0].kind, ValueKind::Literal, "'l' should set Literal");
     }
     update(&mut model, Message::Key(key(KeyCode::Char('a'))), &ctx);
-    if let Some(Modal::Wizard(ref ws)) = model.modal {
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
         assert_eq!(ws.values.rows[0].kind, ValueKind::Alias, "'a' should restore Alias");
     }
 }
@@ -190,7 +190,7 @@ fn screen_3_enter_advances_to_screen_4() {
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 4
-    if let Some(Modal::Wizard(ref ws)) = model.modal {
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
         assert_eq!(ws.screen, WizardScreen::Confirm, "should advance to Screen 4");
     } else {
         panic!("expected wizard modal");
@@ -215,7 +215,7 @@ fn screen_4_empty_rationale_blocks_submit() {
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 4
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // Submit with empty rationale
-    assert!(model.modal.is_some(), "modal should stay open when rationale is empty");
+    assert!(model.is_modal_open(), "modal should stay open when rationale is empty");
 }
 
 #[test]
@@ -239,7 +239,7 @@ fn screen_4_diff_preview_is_populated_on_enter() {
     }
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 4
-    if let Some(Modal::Wizard(ref ws)) = model.modal {
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
         assert_eq!(ws.screen, WizardScreen::Confirm);
         let diff = ws.diff_preview.as_ref().expect("diff_preview should be populated");
         assert!(diff.contains('+'), "diff should contain '+' lines");
@@ -269,7 +269,7 @@ fn screen_4_submit_closes_modal_and_sets_status() {
         update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }
     let task = update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
-    assert!(model.modal.is_none(), "modal should close after submit");
+    assert!(!model.is_modal_open(), "modal should close after submit");
     assert!(matches!(task, Task::Cmd(_)), "submit should return Task::Cmd (draft clear)");
     let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(

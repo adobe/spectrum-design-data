@@ -107,10 +107,10 @@ fn model_new_with_options_restores_wizard_from_disk() {
 
         let model = Model::new_with_options(true);
         assert!(
-            matches!(model.modal, Some(Modal::Wizard(_))),
+            matches!(model.modal(), Some(Modal::Wizard(_))),
             "Model::new_with_options(true) should restore wizard from disk"
         );
-        if let Some(Modal::Wizard(ref ws)) = model.modal {
+        if let Some(Modal::Wizard(ref ws)) = model.modal() {
             assert_eq!(ws.intent.value(), "restore test");
         }
     });
@@ -124,7 +124,7 @@ fn model_new_with_options_false_ignores_draft() {
 
         let model = Model::new_with_options(false);
         assert!(
-            model.modal.is_none(),
+            !model.is_modal_open(),
             "--no-resume-wizard: modal should be None even if draft exists on disk"
         );
         let path = wizard_draft_path().unwrap();
@@ -136,7 +136,7 @@ fn model_new_with_options_false_ignores_draft() {
 fn model_new_with_no_draft_starts_with_no_modal() {
     let _dir = with_temp_draft(|| {
         let model = Model::new_with_options(true);
-        assert!(model.modal.is_none(), "no draft → no modal");
+        assert!(!model.is_modal_open(), "no draft → no modal");
     });
 }
 
@@ -151,15 +151,15 @@ fn cancelling_wizard_returns_draft_clear_task() {
 
         // Open wizard and persist a draft manually.
         update(&mut model, Message::PaletteSubmit("new test token".into()), &ctx);
-        assert!(model.modal.is_some(), "wizard should be open");
-        if let Some(Modal::Wizard(ref ws)) = model.modal {
+        assert!(model.is_modal_open(), "wizard should be open");
+        if let Some(Modal::Wizard(ref ws)) = model.modal() {
             save_wizard_draft(&to_draft(ws));
         }
         assert!(wizard_draft_path().unwrap().exists(), "draft should be on disk");
 
         // Cancel — should return Task::Cmd that clears the draft.
         let task = update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
-        assert!(model.modal.is_none(), "modal should be closed after Esc");
+        assert!(!model.is_modal_open(), "modal should be closed after Esc");
         assert!(task.is_cmd(), "cancel should return Task::Cmd for draft clear");
 
         // Execute the task to verify it clears the draft file.
@@ -178,7 +178,7 @@ fn wizard_keystroke_returns_persist_task() {
         let mut model = Model::new();
 
         update(&mut model, Message::PaletteSubmit("new".into()), &ctx);
-        assert!(model.modal.is_some());
+        assert!(model.is_modal_open());
 
         // Type into intent field — each key that advances WizardEvent::Continue
         // should return Task::Cmd (save_wizard_draft).

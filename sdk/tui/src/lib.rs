@@ -13,6 +13,7 @@ pub(crate) mod clipboard;
 pub mod find;
 pub mod help;
 pub mod message;
+pub mod mode;
 pub mod model;
 pub mod naming;
 pub mod runtime;
@@ -25,6 +26,7 @@ pub mod wizard_common;
 pub mod wizard_draft;
 
 pub use message::Message;
+pub use mode::{BrowsingState, Mode, ModalState, MouseMode, PaletteState};
 pub use model::Model;
 pub use runtime::{replay, run};
 pub use task::Task;

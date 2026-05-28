@@ -26,7 +26,7 @@ fn smoke_colon_opens_palette_and_renders_prompt() {
     let mut model = Model::new();
 
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
-    assert!(model.palette_open, "':' should open palette");
+    assert!(model.is_palette_open(), "':' should open palette");
 
     // Drive through draw — must not panic and must render ':' on last row.
     let buf = render_to_buffer(&mut model, 80, 24);
@@ -45,7 +45,7 @@ fn smoke_esc_closes_palette_and_clears_prompt() {
 
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
-    assert!(!model.palette_open, "Esc should close palette");
+    assert!(!model.is_palette_open(), "Esc should close palette");
 
     let buf = render_to_buffer(&mut model, 80, 24);
     let last = (0..80u16)
@@ -86,5 +86,5 @@ fn smoke_render_after_query_shows_data_row() {
 #[test]
 fn smoke_model_new_with_options_resume_false_has_no_modal() {
     let model = Model::new_with_options(false);
-    assert!(model.modal.is_none(), "resume_wizard=false should yield no modal");
+    assert!(!model.is_modal_open(), "resume_wizard=false should yield no modal");
 }

@@ -103,7 +103,7 @@ fn submit_without_allow_write_does_not_create_file() {
     }
     let task = update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
 
-    assert!(model.modal.is_none(), "modal should close without --allow-write");
+    assert!(!model.is_modal_open(), "modal should close without --allow-write");
     assert!(task.is_cmd(), "submit without allow_write should return Task::Cmd (draft clear)");
 
     let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");

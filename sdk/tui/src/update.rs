@@ -94,9 +94,7 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
         Message::Mouse(me) => handle_mouse(model, me),
         Message::PaletteSubmit(raw) => handle_palette_submit(model, raw, ctx),
         Message::PaletteCancel => {
-            model.palette_open = false;
-            model.palette_input = tui_input::Input::default();
-            model.palette_history_cursor = None;
+            model.close_palette();
             Task::none()
         }
         Message::PaletteHistoryNav { older } => {
@@ -110,7 +108,7 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
                         Some(StatusMessage::info(format!("wrote → {}", path.display())));
                 }
                 Err(e) => {
-                    if let Some(Modal::Wizard(ref mut ws)) = model.modal {
+                    if let Some(Modal::Wizard(ref mut ws)) = model.modal_mut() {
                         ws.error = Some(e);
                     }
                 }
@@ -151,12 +149,12 @@ fn handle_key(
     }
 
     // While the palette is open all keys are consumed here.
-    if model.palette_open {
+    if model.is_palette_open() {
         return handle_palette_key(model, key);
     }
 
     // Modal captures all key input when present.
-    if model.modal.is_some() {
+    if model.is_modal_open() {
         return route_modal_key(model, key, ctx);
     }
 
@@ -169,30 +167,21 @@ fn handle_key(
     // Global fallback keys.
     match key.code {
         KeyCode::Char('?') => {
-            model.modal = Some(Modal::Help(crate::app::HelpModal { scroll: 0 }));
+            model.open_modal(Modal::Help(crate::app::HelpModal { scroll: 0 }));
         }
         KeyCode::Char('v') => {
-            model.selection_mode = !model.selection_mode;
-            if !model.selection_mode {
-                model.sel_start = None;
-                model.sel_end = None;
-            }
-            let label = if model.selection_mode { "on" } else { "off" };
+            let was_selecting = model.is_selecting();
+            model.toggle_selection_mode();
+            let label = if !was_selecting { "on" } else { "off" };
             model.status_message = Some(StatusMessage::info(
                 format!("selection mode {label}  (drag to select, release to copy)"),
             ));
         }
         KeyCode::Char(':') => {
-            model.palette_open = true;
-            model.palette_mode = PaletteMode::Command;
-            model.palette_input = tui_input::Input::default();
-            model.palette_history_cursor = None;
+            model.open_command_palette();
         }
         KeyCode::Char('/') => {
-            model.palette_open = true;
-            model.palette_mode = PaletteMode::FuzzyFind;
-            model.palette_input = tui_input::Input::default();
-            model.palette_history_cursor = None;
+            model.open_fuzzy_palette();
         }
         KeyCode::Char('q') => {
             model.quit = true;
@@ -206,19 +195,19 @@ fn handle_palette_key(
     model: &mut Model,
     key: crossterm::event::KeyEvent,
 ) -> Task<Message> {
+    let palette_cmd_mode = model.palette_mode() == Some(PaletteMode::Command);
+
     match key.code {
         KeyCode::Esc => {
-            model.palette_open = false;
-            model.palette_input = tui_input::Input::default();
-            model.palette_history_cursor = None;
+            model.close_palette();
         }
         KeyCode::Enter => {
             // Close the palette. The runtime sends a separate Message::PaletteSubmit
             // after detecting this transition; submit is NOT dispatched here.
-            model.palette_open = false;
+            model.close_palette();
         }
-        KeyCode::Tab if model.palette_mode == PaletteMode::Command => {
-            let current = model.palette_input.value().to_string();
+        KeyCode::Tab if palette_cmd_mode => {
+            let current = model.palette_input_value().to_string();
             if !current.contains(' ') {
                 let matches: Vec<&str> = KNOWN_COMMANDS
                     .iter()
@@ -228,8 +217,10 @@ fn handle_palette_key(
                 match matches.len() {
                     0 => {}
                     1 => {
-                        model.palette_input =
-                            tui_input::Input::from(format!("{} ", matches[0]));
+                        let new_input = tui_input::Input::from(format!("{} ", matches[0]));
+                        if let Some(ps) = model.palette_state_mut() {
+                            ps.input = new_input;
+                        }
                     }
                     _ => {
                         model.status_message = Some(StatusMessage::info(
@@ -239,50 +230,46 @@ fn handle_palette_key(
                 }
             }
         }
-        KeyCode::Up if model.palette_mode == PaletteMode::Command => {
+        KeyCode::Up if palette_cmd_mode => {
             handle_history_nav(model, true);
         }
-        KeyCode::Down if model.palette_mode == PaletteMode::Command => {
+        KeyCode::Down if palette_cmd_mode => {
             handle_history_nav(model, false);
         }
         _ => {
-            model.palette_history_cursor = None;
-            model
-                .palette_input
-                .handle_event(&crossterm::event::Event::Key(key));
+            if let Some(ps) = model.palette_state_mut() {
+                ps.history_cursor = None;
+                ps.input.handle_event(&crossterm::event::Event::Key(key));
+            }
         }
     }
     Task::none()
 }
 
 fn handle_history_nav(model: &mut Model, older: bool) {
-    if older {
-        let next = match model.palette_history_cursor {
-            None if !model.palette_history.is_empty() => Some(0),
-            Some(i) if i + 1 < model.palette_history.len() => Some(i + 1),
+    // Called only when palette is open (from handle_palette_key).
+    // Two-pass: read first (no borrow conflict), then write.
+    let current_cursor = model.palette_history_cursor();
+    let history_len = model.palette_history.len();
+
+    let next = if older {
+        match current_cursor {
+            None if history_len > 0 => Some(0),
+            Some(i) if i + 1 < history_len => Some(i + 1),
             other => other,
-        };
-        model.palette_history_cursor = next;
-        if let Some(i) = next {
-            if let Some(entry) = model.palette_history.get(i) {
-                model.palette_input = tui_input::Input::from(entry.clone());
-            }
         }
     } else {
-        let next = model.palette_history_cursor.and_then(|i| {
-            if i == 0 { None } else { Some(i - 1) }
-        });
-        model.palette_history_cursor = next;
-        match next {
-            Some(i) => {
-                if let Some(entry) = model.palette_history.get(i) {
-                    model.palette_input = tui_input::Input::from(entry.clone());
-                }
-            }
-            None => {
-                model.palette_input = tui_input::Input::default();
-            }
-        }
+        current_cursor.and_then(|i| if i == 0 { None } else { Some(i - 1) })
+    };
+
+    let entry = next.and_then(|i| model.palette_history.get(i)).cloned();
+
+    if let Some(ps) = model.palette_state_mut() {
+        ps.history_cursor = next;
+        ps.input = match entry {
+            Some(text) => tui_input::Input::from(text),
+            None => tui_input::Input::default(),
+        };
     }
 }
 
@@ -379,10 +366,10 @@ fn route_modal_key(
     ctx: &UpdateCtx<'_>,
 ) -> Task<Message> {
     // Help modal.
-    if let Some(Modal::Help(ref mut hm)) = model.modal {
+    if let Some(Modal::Help(ref mut hm)) = model.modal_mut() {
         match key.code {
             KeyCode::Esc | KeyCode::Char('?') => {
-                model.modal = None;
+                model.close_modal();
             }
             KeyCode::Up | KeyCode::Char('k') => {
                 hm.scroll = hm.scroll.saturating_sub(1);
@@ -402,11 +389,11 @@ fn route_modal_key(
     }
 
     // Find modal.
-    if let Some(Modal::Find(ref mut fs)) = model.modal {
+    if let Some(Modal::Find(ref mut fs)) = model.modal_mut() {
         let event = fs.handle_key(key, ctx.graph);
         match event {
             FindEvent::Cancel => {
-                model.modal = None;
+                model.close_modal();
                 model.status_message = Some(StatusMessage::info("find wizard cancelled"));
             }
             FindEvent::OpenResults(view) => {
@@ -414,7 +401,7 @@ fn route_modal_key(
                 model.active_view = ActiveView::Query(view);
                 model.status_message =
                     Some(StatusMessage::info(format!("{count} token(s) matched")));
-                model.modal = None;
+                model.close_modal();
             }
             FindEvent::Continue => {}
         }
@@ -422,11 +409,11 @@ fn route_modal_key(
     }
 
     // Naming modal.
-    if let Some(Modal::Naming(ref mut ns)) = model.modal {
+    if let Some(Modal::Naming(ref mut ns)) = model.modal_mut() {
         let event = ns.handle_key(key, ctx.graph);
         match event {
             NamingEvent::Cancel => {
-                model.modal = None;
+                model.close_modal();
                 model.status_message = Some(StatusMessage::info("naming wizard cancelled"));
             }
             NamingEvent::Copy(name) => {
@@ -445,20 +432,20 @@ fn route_modal_key(
 
     // Wizard modal.
     let wctx = ctx.as_wizard_ctx();
-    let event = match &mut model.modal {
+    let event = match model.modal_mut() {
         Some(Modal::Wizard(ws)) => ws.handle_key(key, &wctx),
         _ => return Task::none(),
     };
 
     match event {
         WizardEvent::Cancel => {
-            model.modal = None;
+            model.close_modal();
             model.status_message = Some(StatusMessage::info("wizard cancelled"));
             Task::cmd(|| { clear_wizard_draft(); Message::Tick })
         }
         WizardEvent::Submit => {
             if !ctx.allow_write {
-                model.modal = None;
+                model.close_modal();
                 model.status_message = Some(StatusMessage::info(
                     "wizard preview ready — pass --allow-write to enable writes",
                 ));
@@ -466,21 +453,21 @@ fn route_modal_key(
             } else {
                 // TODO(#1023): extract perform_write into Task::Cmd once WizardState
                 // exposes owned submit-data that can be moved into a 'static closure.
-                let write_result = if let Some(Modal::Wizard(ref ws)) = model.modal {
+                let write_result = if let Some(Modal::Wizard(ref ws)) = model.modal() {
                     Some((ws.assembled_name(), ws.perform_write(&wctx)))
                 } else {
                     None
                 };
                 match write_result {
                     Some((name, Ok(written_path))) => {
-                        model.modal = None;
+                        model.close_modal();
                         model.status_message = Some(StatusMessage::info(
                             format!("wrote {name} → {written_path}"),
                         ));
                         Task::cmd(|| { clear_wizard_draft(); Message::Tick })
                     }
                     Some((_, Err(e))) => {
-                        if let Some(Modal::Wizard(ref mut ws)) = model.modal {
+                        if let Some(Modal::Wizard(ref mut ws)) = model.modal_mut() {
                             ws.error = Some(e);
                         }
                         Task::none()
@@ -490,7 +477,7 @@ fn route_modal_key(
             }
         }
         WizardEvent::Continue => {
-            let draft = if let Some(Modal::Wizard(ref ws)) = model.modal {
+            let draft = if let Some(Modal::Wizard(ref ws)) = model.modal() {
                 Some(to_draft(ws))
             } else {
                 None
@@ -514,26 +501,26 @@ fn handle_mouse(model: &mut Model, me: crossterm::event::MouseEvent) -> Task<Mes
             scroll_active(model, 1);
         }
         MouseEventKind::Down(MouseButton::Left) => {
-            if model.selection_mode {
-                model.sel_start = Some((me.row, me.column));
-                model.sel_end = Some((me.row, me.column));
+            if model.is_selection_mode_enabled() {
+                model.start_selection((me.row, me.column));
             } else {
                 click_at(model, me.row, me.column);
             }
         }
-        MouseEventKind::Drag(MouseButton::Left) if model.selection_mode => {
-            model.sel_end = Some((me.row, me.column));
+        MouseEventKind::Drag(MouseButton::Left) if model.is_selecting() => {
+            model.update_selection_end((me.row, me.column));
         }
-        MouseEventKind::Up(MouseButton::Left) if model.selection_mode => {
-            let yank = extract_selection(model);
-            model.sel_start = None;
-            model.sel_end = None;
-            if let Some(text) = yank {
-                if !text.is_empty() {
-                    return Task::cmd(move || {
-                        let err = write_clipboard(&text).err().map(|e| e.to_string());
-                        Message::ClipboardDone(err)
-                    });
+        MouseEventKind::Up(MouseButton::Left) if model.is_selecting() => {
+            if let Some((start, end)) = model.end_selection() {
+                // Extract text from hit regions within the selection bounds.
+                let text = extract_selection_from_regions(&model.hit_regions, start, end);
+                if let Some(t) = text {
+                    if !t.is_empty() {
+                        return Task::cmd(move || {
+                            let err = write_clipboard(&t).err().map(|e| e.to_string());
+                            Message::ClipboardDone(err)
+                        });
+                    }
                 }
             }
         }
@@ -543,7 +530,7 @@ fn handle_mouse(model: &mut Model, me: crossterm::event::MouseEvent) -> Task<Mes
 }
 
 fn scroll_active(model: &mut Model, delta: i32) {
-    if let Some(ref mut modal) = model.modal {
+    if let Some(modal) = model.modal_mut() {
         if modal.wants_scroll() {
             modal.on_scroll(delta);
         }
@@ -589,16 +576,20 @@ fn click_at(model: &mut Model, row: u16, col: u16) {
     }
 }
 
-fn extract_selection(model: &Model) -> Option<String> {
-    let (Some((r1, c1)), Some((r2, c2))) = (model.sel_start, model.sel_end) else {
-        return None;
-    };
+/// Extract text from hit regions within a rectangular selection.
+fn extract_selection_from_regions(
+    regions: &[crate::app::HitRegion],
+    start: (u16, u16),
+    end: (u16, u16),
+) -> Option<String> {
+    let (r1, c1) = start;
+    let (r2, c2) = end;
     let min_row = r1.min(r2);
     let max_row = r1.max(r2);
     let min_col = c1.min(c2);
     let max_col = c1.max(c2);
     let mut lines: Vec<&str> = Vec::new();
-    for region in &model.hit_regions {
+    for region in regions {
         let ry = region.rect.y;
         let rx = region.rect.x;
         let rx_end = rx + region.rect.width;
@@ -617,16 +608,16 @@ fn handle_palette_submit(
     ctx: &UpdateCtx<'_>,
 ) -> Task<Message> {
     // FuzzyFind mode: close without dispatching.
-    if model.palette_mode != PaletteMode::Command {
-        model.palette_open = false;
-        model.palette_input = tui_input::Input::default();
+    // When the model is in Browsing mode (e.g. direct PaletteSubmit from tests or replay),
+    // treat as command mode — the submit should always dispatch.
+    let is_fuzzy = model.palette_mode() == Some(PaletteMode::FuzzyFind);
+    if is_fuzzy {
+        model.close_palette();
         return Task::none();
     }
 
     let raw = raw.trim().to_string();
-    model.palette_open = false;
-    model.palette_input = tui_input::Input::default();
-    model.palette_history_cursor = None;
+    model.close_palette();
 
     // Append to history (dedupe head, cap at HISTORY_CAP).
     let history_task = if !raw.is_empty()
@@ -894,21 +885,21 @@ fn dispatch_command(
         }
         "find" => {
             let fs = FindWizardState::new_with_intent(rest.trim());
-            model.modal = Some(Modal::Find(Box::new(fs)));
+            model.open_modal(Modal::Find(Box::new(fs)));
             model.status_message = None;
             Task::none()
         }
         "name" => {
             let mut ns = NamingWizardState::new_with_intent(rest.trim());
             ns.refresh_suggestions(ctx.graph);
-            model.modal = Some(Modal::Naming(Box::new(ns)));
+            model.open_modal(Modal::Naming(Box::new(ns)));
             model.status_message = None;
             Task::none()
         }
         "new" | "create" => {
             let mut ws = WizardState::new_with_intent(rest.trim());
             ws.refresh_suggestions(ctx.graph);
-            model.modal = Some(Modal::Wizard(Box::new(ws)));
+            model.open_modal(Modal::Wizard(Box::new(ws)));
             model.status_message = None;
             Task::none()
         }

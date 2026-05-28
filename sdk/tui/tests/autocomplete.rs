@@ -28,7 +28,7 @@ fn tab_completes_query() {
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     type_str(&mut model, &ctx, "q");
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
-    assert_eq!(model.palette_input.value(), "query ");
+    assert_eq!(model.palette_input_value(), "query ");
 }
 
 #[test]
@@ -39,7 +39,7 @@ fn tab_completes_resolve() {
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     type_str(&mut model, &ctx, "re");
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
-    assert_eq!(model.palette_input.value(), "resolve ");
+    assert_eq!(model.palette_input_value(), "resolve ");
 }
 
 #[test]
@@ -50,7 +50,7 @@ fn tab_completes_describe() {
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     type_str(&mut model, &ctx, "d");
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
-    assert_eq!(model.palette_input.value(), "describe ");
+    assert_eq!(model.palette_input_value(), "describe ");
 }
 
 #[test]
@@ -61,7 +61,7 @@ fn tab_completes_validate() {
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     type_str(&mut model, &ctx, "v");
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
-    assert_eq!(model.palette_input.value(), "validate ");
+    assert_eq!(model.palette_input_value(), "validate ");
 }
 
 #[test]
@@ -72,7 +72,7 @@ fn ambiguous_prefix_sets_status_and_leaves_buffer_unchanged() {
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     // Empty prefix matches all commands → ambiguous.
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
-    assert_eq!(model.palette_input.value(), "");
+    assert_eq!(model.palette_input_value(), "");
     let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(msg.contains("matches:"), "expected 'matches:' in status: {msg}");
 }
@@ -85,7 +85,7 @@ fn tab_after_space_is_noop() {
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     type_str(&mut model, &ctx, "query ");
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
-    assert_eq!(model.palette_input.value(), "query ");
+    assert_eq!(model.palette_input_value(), "query ");
 }
 
 #[test]
@@ -96,7 +96,7 @@ fn tab_on_no_match_is_noop() {
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     type_str(&mut model, &ctx, "zzz");
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
-    assert_eq!(model.palette_input.value(), "zzz");
+    assert_eq!(model.palette_input_value(), "zzz");
 }
 
 #[test]
@@ -107,5 +107,5 @@ fn tab_in_fuzzy_mode_is_noop() {
     update(&mut model, Message::Key(key(KeyCode::Char('/'))), &ctx);
     type_str(&mut model, &ctx, "q");
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
-    assert_eq!(model.palette_input.value(), "q");
+    assert_eq!(model.palette_input_value(), "q");
 }
