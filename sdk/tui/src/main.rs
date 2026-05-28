@@ -24,7 +24,7 @@
 //! - `?` opens the help overlay; Esc or `?` closes it.
 //! - `v` toggles text-selection mode; drag to copy.
 
-use std::io::stderr;
+use std::io::{BufRead as _, BufReader, stderr};
 use std::path::PathBuf;
 
 use clap::{Parser, ValueEnum};
@@ -39,7 +39,7 @@ use miette::{IntoDiagnostic, Result, WrapErr};
 use ratatui::{Terminal, backend::CrosstermBackend};
 
 use design_data_tui::theme::Theme;
-use design_data_tui::{Model, UpdateCtx};
+use design_data_tui::{replay as tui_replay, Message, Model, UpdateCtx};
 
 /// Which visual palette to use.
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
@@ -189,6 +189,13 @@ struct Cli {
     /// Useful for demo recording where you want a clean slate on every launch.
     #[arg(long)]
     no_resume_wizard: bool,
+    /// Record every dispatched Message to this file as NDJSON for later replay.
+    #[arg(long, conflicts_with = "replay")]
+    record: Option<PathBuf>,
+    /// Replay a previously recorded NDJSON message stream and print the final buffer.
+    /// Mutually exclusive with normal interactive mode.
+    #[arg(long)]
+    replay: Option<PathBuf>,
 }
 
 fn main() -> Result<()> {
@@ -197,6 +204,9 @@ fn main() -> Result<()> {
         ThemeChoice::Terminal => Theme::terminal(),
         ThemeChoice::Spectrum => Theme::spectrum(),
     };
+    // Extract record/replay paths before the partial move into DatasetHandle::load.
+    let record_path = cli.record;
+    let replay_path = cli.replay;
     let handle =
         DatasetHandle::load(cli.dataset, cli.components, cli.mode_sets, cli.allow_write, theme)?;
     let resume_wizard = !cli.no_resume_wizard;
@@ -216,7 +226,7 @@ fn main() -> Result<()> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend).into_diagnostic()?;
 
-    let result = run(&mut terminal, &handle, resume_wizard);
+    let result = run(&mut terminal, &handle, resume_wizard, record_path, replay_path);
 
     // Best-effort cleanup — continue even if individual steps fail.
     let _ = disable_raw_mode();
@@ -230,8 +240,58 @@ fn run<B: ratatui::backend::Backend>(
     terminal: &mut Terminal<B>,
     handle: &DatasetHandle,
     resume_wizard: bool,
+    record_path: Option<PathBuf>,
+    replay_path: Option<PathBuf>,
 ) -> Result<()> {
-    let model = Model::new_with_options(resume_wizard);
     let ctx = handle.update_ctx();
-    design_data_tui::run(terminal, model, &ctx, &handle.theme, &handle.primer_line())
+
+    // --replay: feed recorded messages through update, print final buffer, exit.
+    if let Some(ref replay_path) = replay_path {
+        let file = std::fs::File::open(replay_path)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to open replay file {}", replay_path.display()))?;
+        let mut skipped = 0usize;
+        let mut messages: Vec<Message> = Vec::new();
+        for line_result in BufReader::new(file).lines() {
+            let line = line_result.into_diagnostic().wrap_err("replay: read error")?;
+            if line.trim().is_empty() { continue; }
+            match serde_json::from_str::<Message>(&line) {
+                Ok(m) => messages.push(m),
+                Err(_) => skipped += 1,
+            }
+        }
+        if skipped > 0 {
+            eprintln!(
+                "warning: skipped {skipped} undeserializable line(s) in {}",
+                replay_path.display()
+            );
+        }
+        let model = Model::new_with_options(false);
+        tui_replay(
+            terminal, model, &ctx, &handle.theme, &handle.primer_line(),
+            messages.into_iter(),
+        )?;
+        // Print the final buffer as plain text.
+        let buf = terminal.current_buffer_mut();
+        let area = buf.area();
+        for y in 0..area.height {
+            let row: String = (0..area.width)
+                .map(|x| buf.cell((x, y)).map(|c| c.symbol().to_string()).unwrap_or_default())
+                .collect();
+            println!("{}", row.trim_end());
+        }
+        return Ok(());
+    }
+
+    // Normal interactive mode (with optional --record).
+    let model = Model::new_with_options(resume_wizard);
+    let mut record_file = record_path
+        .map(std::fs::File::create)
+        .transpose()
+        .into_diagnostic()
+        .wrap_err("failed to create record file")?;
+    design_data_tui::run(
+        terminal, model, &ctx, &handle.theme, &handle.primer_line(),
+        record_file.as_mut().map(|f| f as &mut dyn std::io::Write),
+    )
 }

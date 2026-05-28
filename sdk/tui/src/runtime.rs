@@ -8,11 +8,14 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! Crossterm event loop — the runtime adapter (GH #1021).
+//! Crossterm event loop — the runtime adapter (GH #1021) and record/replay (GH #1025).
 //!
 //! `run` pumps crossterm events through `update`, executes returned `Task::Cmd`
 //! closures synchronously, calls `draw` each frame, and rebuilds hit regions.
-//! `main.rs` is now a thin CLI entry point that delegates entirely to this function.
+//! Pass `record = Some(&mut writer)` to serialize every `Message` to NDJSON.
+//! `replay` feeds a pre-recorded message stream through `update` deterministically.
+
+use std::io::Write;
 
 use crossterm::event::{self, Event, KeyCode, KeyEventKind};
 use miette::{IntoDiagnostic, Result};
@@ -32,12 +35,14 @@ use crate::view::draw;
 /// Run the TUI event loop until the user quits.
 ///
 /// Pumps crossterm events → `Message` → `update` → `Task` execution → `draw` each frame.
+/// Pass `record = Some(writer)` to serialize every dispatched `Message` to NDJSON.
 pub fn run<B: ratatui::backend::Backend>(
     terminal: &mut Terminal<B>,
     mut model: Model,
     ctx: &UpdateCtx<'_>,
     theme: &Theme,
     primer_line: &str,
+    mut record: Option<&mut dyn Write>,
 ) -> Result<()> {
     loop {
         let mut frame_area = Rect::default();
@@ -71,29 +76,26 @@ pub fn run<B: ratatui::backend::Backend>(
                         None
                     };
 
-                    let task = update(&mut model, Message::Key(key), ctx);
-                    execute_task(task, &mut model, ctx);
+                    dispatch_and_record(&mut model, Message::Key(key), ctx, &mut record);
 
                     // Dispatch the command only if Enter actually closed the palette.
                     if let Some(text) = palette_text {
                         if !model.palette_open {
-                            let task =
-                                update(&mut model, Message::PaletteSubmit(text), ctx);
-                            execute_task(task, &mut model, ctx);
+                            dispatch_and_record(
+                                &mut model, Message::PaletteSubmit(text), ctx, &mut record,
+                            );
                         }
                     }
                 }
                 Event::Key(_) => {}
                 Event::Mouse(me) => {
-                    let task = update(&mut model, Message::Mouse(me), ctx);
-                    execute_task(task, &mut model, ctx);
+                    dispatch_and_record(&mut model, Message::Mouse(me), ctx, &mut record);
                 }
                 _ => {}
             }
         } else {
             // No event this frame — send a Tick so subscriptions can fire (#1022).
-            let task = update(&mut model, Message::Tick, ctx);
-            execute_task(task, &mut model, ctx);
+            dispatch_and_record(&mut model, Message::Tick, ctx, &mut record);
         }
 
         if model.quit {
@@ -102,6 +104,48 @@ pub fn run<B: ratatui::backend::Backend>(
     }
 
     Ok(())
+}
+
+/// Replay a pre-recorded `Message` stream through `update` + `draw` deterministically.
+///
+/// Does not poll for real events. After all messages are consumed, calls `draw` once
+/// so the terminal's backend buffer reflects the final state.
+pub fn replay<B: ratatui::backend::Backend>(
+    terminal: &mut Terminal<B>,
+    mut model: Model,
+    ctx: &UpdateCtx<'_>,
+    theme: &Theme,
+    primer_line: &str,
+    messages: impl Iterator<Item = Message>,
+) -> Result<()> {
+    for msg in messages {
+        let task = update(&mut model, msg, ctx);
+        execute_task(task, &mut model, ctx);
+        if model.quit {
+            break;
+        }
+    }
+    // Final draw so the caller can inspect the terminal buffer.
+    terminal
+        .draw(|f| draw(&mut model, f, theme, primer_line))
+        .into_diagnostic()?;
+    Ok(())
+}
+
+/// Record `msg` to the optional writer as a JSON line, then dispatch through update.
+fn dispatch_and_record(
+    model: &mut Model,
+    msg: Message,
+    ctx: &UpdateCtx<'_>,
+    record: &mut Option<&mut dyn Write>,
+) {
+    if let Some(w) = record.as_deref_mut() {
+        if let Ok(line) = serde_json::to_string(&msg) {
+            let _ = writeln!(w, "{line}");
+        }
+    }
+    let task = update(model, msg, ctx);
+    execute_task(task, model, ctx);
 }
 
 /// Execute a task tree synchronously, feeding results back through `update`.

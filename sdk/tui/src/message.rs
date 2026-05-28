@@ -17,12 +17,13 @@
 //! budget is enforced by the `message_size_budget` unit test below.
 
 use crossterm::event::{KeyEvent, MouseEvent};
+use serde::{Deserialize, Serialize};
 
 /// Every event that can flow through the TUI runtime's `update` function.
 ///
 /// Variants are grouped by source: raw input, palette lifecycle, per-modal
 /// events, and side-effect completion signals.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Message {
     // ── Raw input ─────────────────────────────────────────────────────────────
     /// A key press event from crossterm.
