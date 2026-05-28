@@ -8,42 +8,11 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
-use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
+mod common;
+use common::{empty_graph, key, make_graph_with_tokens};
+
+use crossterm::event::KeyCode;
 use design_data_tui::app::{ActiveView, App, SubmitContext};
-use serde_json::json;
-use std::path::PathBuf;
-
-fn key(code: KeyCode) -> KeyEvent {
-    KeyEvent::new(code, KeyModifiers::NONE)
-}
-
-fn make_graph_with_tokens(names: &[&str]) -> TokenGraph {
-    let records: Vec<TokenRecord> = names
-        .iter()
-        .enumerate()
-        .map(|(i, &name)| TokenRecord {
-            name: name.to_string(),
-            file: PathBuf::from("test.json"),
-            index: i,
-            schema_url: None,
-            uuid: None,
-            alias_target: None,
-            // Include name.property so property=* queries match.
-            raw: json!({
-                "value": "red",
-                "$schema": "https://example.com",
-                "name": { "property": name }
-            }),
-            layer: Layer::Foundation,
-        })
-        .collect();
-    TokenGraph::from_records(records)
-}
-
-fn empty_graph() -> TokenGraph {
-    make_graph_with_tokens(&[])
-}
 
 #[test]
 fn submit_valid_query_populates_query_view() {

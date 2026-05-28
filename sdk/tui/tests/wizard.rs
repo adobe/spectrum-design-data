@@ -8,49 +8,14 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
-use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph, TokenRecord};
+mod common;
+use common::{key, make_graph};
+
+use crossterm::event::KeyCode;
+use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph};
 use design_data_tui::app::{App, Modal, SubmitContext};
 use design_data_tui::wizard::{ValueKind, WizardCtx, WizardPath, WizardScreen};
-use serde_json::json;
 use std::path::PathBuf;
-
-fn key(code: KeyCode) -> KeyEvent {
-    KeyEvent::new(code, KeyModifiers::NONE)
-}
-
-/// Simple graph with a few color tokens.
-fn make_graph() -> TokenGraph {
-    let records: Vec<TokenRecord> = vec![
-        TokenRecord {
-            name: "accent-background-color-default".into(),
-            file: PathBuf::from("tokens.json"),
-            index: 0,
-            schema_url: None,
-            uuid: None,
-            alias_target: None,
-            raw: json!({
-                "value": "#0265DC",
-                "name": { "property": "background-color", "variant": "accent" }
-            }),
-            layer: Layer::Foundation,
-        },
-        TokenRecord {
-            name: "neutral-background-color-default".into(),
-            file: PathBuf::from("tokens.json"),
-            index: 1,
-            schema_url: None,
-            uuid: None,
-            alias_target: None,
-            raw: json!({
-                "value": "#F5F5F5",
-                "name": { "property": "background-color", "variant": "neutral" }
-            }),
-            layer: Layer::Foundation,
-        },
-    ];
-    TokenGraph::from_records(records)
-}
 
 /// Graph with a colorScheme mode set — used for Screen 3 tests.
 fn make_graph_with_modes() -> TokenGraph {

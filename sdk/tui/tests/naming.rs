@@ -8,34 +8,16 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
-use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
+mod common;
+use common::{key, make_graph_with_tokens};
+
+use crossterm::event::KeyCode;
+use design_data_core::graph::{Layer, TokenGraph};
 use design_data_tui::app::{App, Modal, SubmitContext};
 use design_data_tui::naming::{NamingEvent, NamingScreen, NamingWizardState};
-use serde_json::json;
-use std::path::PathBuf;
-
-fn key(code: KeyCode) -> KeyEvent {
-    KeyEvent::new(code, KeyModifiers::NONE)
-}
 
 fn make_graph() -> TokenGraph {
-    let records: Vec<TokenRecord> = vec![
-        TokenRecord {
-            name: "accent-background-color-default".into(),
-            file: PathBuf::from("tokens.json"),
-            index: 0,
-            schema_url: None,
-            uuid: None,
-            alias_target: None,
-            raw: json!({
-                "value": "#0265DC",
-                "name": { "property": "background-color", "variant": "accent" }
-            }),
-            layer: Layer::Foundation,
-        },
-    ];
-    TokenGraph::from_records(records)
+    make_graph_with_tokens(&["accent-background-color-default"])
 }
 
 // ── NamingWizardState unit tests ─────────────────────────────────────────────

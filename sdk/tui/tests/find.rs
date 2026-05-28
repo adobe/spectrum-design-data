@@ -8,18 +8,17 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
+mod common;
+use common::key;
+
+use crossterm::event::KeyCode;
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
 use design_data_tui::app::{App, Modal, SubmitContext};
 use design_data_tui::find::{FindEvent, FindScreen, FindWizardState};
 use serde_json::json;
 use std::path::PathBuf;
 
-fn key(code: KeyCode) -> KeyEvent {
-    KeyEvent::new(code, KeyModifiers::NONE)
-}
-
-fn make_graph() -> TokenGraph {
+fn make_find_graph() -> TokenGraph {
     let records: Vec<TokenRecord> = vec![
         TokenRecord {
             name: "accent-background-color-default".into(),
@@ -99,7 +98,7 @@ fn new_with_empty_intent_leaves_focus_at_property() {
 fn assemble_expr_from_property_and_variant() {
     let mut fs = FindWizardState::new();
     // Tab to property field (already there at 0), type value.
-    let graph = make_graph();
+    let graph = make_find_graph();
     for c in "background-color".chars() {
         fs.handle_key(key(KeyCode::Char(c)), &graph);
     }
@@ -121,7 +120,7 @@ fn assemble_expr_returns_none_when_all_fields_empty() {
 
 #[test]
 fn refresh_preview_populates_rows_for_structured_filter() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     // Set property field directly via handle_key.
     for c in "background-color".chars() {
@@ -134,7 +133,7 @@ fn refresh_preview_populates_rows_for_structured_filter() {
 
 #[test]
 fn refresh_preview_uses_suggest_when_only_intent_filled() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new_with_intent("accent background");
     fs.refresh_preview(&graph);
     // suggest should find the accent-background-color-default token.
@@ -145,7 +144,7 @@ fn refresh_preview_uses_suggest_when_only_intent_filled() {
 
 #[test]
 fn refresh_preview_is_empty_when_nothing_filled() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     fs.refresh_preview(&graph);
     assert_eq!(fs.preview_count, 0);
@@ -155,7 +154,7 @@ fn refresh_preview_is_empty_when_nothing_filled() {
 
 #[test]
 fn enter_on_filters_advances_to_preview() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     let event = fs.handle_key(key(KeyCode::Enter), &graph);
     assert!(matches!(event, FindEvent::Continue));
@@ -164,7 +163,7 @@ fn enter_on_filters_advances_to_preview() {
 
 #[test]
 fn enter_on_preview_emits_open_results() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     // Set property field.
     for c in "background-color".chars() {
@@ -180,7 +179,7 @@ fn enter_on_preview_emits_open_results() {
 
 #[test]
 fn open_results_view_has_correct_row_count() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     for c in "background-color".chars() {
         fs.handle_key(key(KeyCode::Char(c)), &graph);
@@ -198,7 +197,7 @@ fn open_results_view_has_correct_row_count() {
 
 #[test]
 fn e_on_preview_goes_back_to_filters() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     fs.handle_key(key(KeyCode::Enter), &graph); // → Preview
     let event = fs.handle_key(key(KeyCode::Char('e')), &graph);
@@ -208,7 +207,7 @@ fn e_on_preview_goes_back_to_filters() {
 
 #[test]
 fn esc_cancels_on_filters_screen() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     let event = fs.handle_key(key(KeyCode::Esc), &graph);
     assert!(matches!(event, FindEvent::Cancel));
@@ -216,7 +215,7 @@ fn esc_cancels_on_filters_screen() {
 
 #[test]
 fn esc_cancels_on_preview_screen() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     fs.handle_key(key(KeyCode::Enter), &graph); // → Preview
     let event = fs.handle_key(key(KeyCode::Esc), &graph);
@@ -225,7 +224,7 @@ fn esc_cancels_on_preview_screen() {
 
 #[test]
 fn q_cancels_on_preview_screen() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     fs.handle_key(key(KeyCode::Enter), &graph); // → Preview
     let event = fs.handle_key(key(KeyCode::Char('q')), &graph);
@@ -234,7 +233,7 @@ fn q_cancels_on_preview_screen() {
 
 #[test]
 fn tab_cycles_through_fields() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     assert_eq!(fs.focused_field, 0);
     fs.handle_key(key(KeyCode::Tab), &graph);
@@ -248,7 +247,7 @@ fn tab_cycles_through_fields() {
 
 #[test]
 fn tab_wraps_around_from_last_to_first_field() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     // Jump to last field (4 = intent).
     for _ in 0..4 {
@@ -262,7 +261,7 @@ fn tab_wraps_around_from_last_to_first_field() {
 #[test]
 fn property_suggestions_filter_by_typed_prefix() {
     let mut fs = FindWizardState::new();
-    let graph = make_graph();
+    let graph = make_find_graph();
     for c in "background".chars() {
         fs.handle_key(key(KeyCode::Char(c)), &graph);
     }
@@ -274,7 +273,7 @@ fn property_suggestions_filter_by_typed_prefix() {
 #[test]
 fn up_down_navigate_property_suggestions() {
     let mut fs = FindWizardState::new();
-    let graph = make_graph();
+    let graph = make_find_graph();
     // "color" matches many registry terms (background-color, border-color, etc.).
     for c in "color".chars() {
         fs.handle_key(key(KeyCode::Char(c)), &graph);
@@ -294,7 +293,7 @@ fn up_down_navigate_property_suggestions() {
 
 #[test]
 fn refresh_preview_sets_error_on_invalid_expression() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     // "foo,bar" assembles to "property=foo,bar"; the parser splits on "," and tries "bar"
     // as a standalone condition — it has no "=" operator so parse returns a CoreError.
@@ -307,7 +306,7 @@ fn refresh_preview_sets_error_on_invalid_expression() {
 
 #[test]
 fn assemble_expr_round_trips_through_query_parse_and_finds_rows() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     for c in "background-color".chars() {
         fs.handle_key(key(KeyCode::Char(c)), &graph);
@@ -334,7 +333,7 @@ fn open_palette_cmd(app: &mut App) {
 
 #[test]
 fn find_command_opens_find_modal() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut app = App::new();
     open_palette_cmd(&mut app);
     submit(&mut app, &graph, "find");
@@ -343,7 +342,7 @@ fn find_command_opens_find_modal() {
 
 #[test]
 fn find_command_with_args_seeds_intent() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut app = App::new();
     open_palette_cmd(&mut app);
     submit(&mut app, &graph, "find accent background");
@@ -356,7 +355,7 @@ fn find_command_with_args_seeds_intent() {
 
 #[test]
 fn find_command_no_args_opens_modal_with_empty_fields() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut app = App::new();
     open_palette_cmd(&mut app);
     submit(&mut app, &graph, "find");
@@ -383,7 +382,7 @@ fn tab_autocompletes_find_command() {
 fn esc_in_find_modal_closes_it() {
     use design_data_tui::wizard::WizardCtx;
 
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut app = App::new();
     open_palette_cmd(&mut app);
     submit(&mut app, &graph, "find");
@@ -395,7 +394,7 @@ fn esc_in_find_modal_closes_it() {
 
 #[test]
 fn backtab_wraps_from_first_to_last_field() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new();
     assert_eq!(fs.focused_field, 0);
     fs.handle_key(key(KeyCode::BackTab), &graph);
@@ -404,7 +403,7 @@ fn backtab_wraps_from_first_to_last_field() {
 
 #[test]
 fn intent_only_flow_emits_open_results_with_intent_as_expr_text() {
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut fs = FindWizardState::new_with_intent("accent background");
     // Advance to Preview (refresh_preview runs).
     fs.handle_key(key(KeyCode::Enter), &graph);
@@ -426,7 +425,7 @@ fn accepting_preview_opens_query_view_and_closes_modal() {
     use design_data_tui::app::ActiveView;
     use design_data_tui::wizard::WizardCtx;
 
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut app = App::new();
     open_palette_cmd(&mut app);
     submit(&mut app, &graph, "find");
@@ -455,7 +454,7 @@ fn e_on_preview_keeps_modal_open_and_returns_to_filters() {
     use design_data_tui::app::ActiveView;
     use design_data_tui::wizard::WizardCtx;
 
-    let graph = make_graph();
+    let graph = make_find_graph();
     let mut app = App::new();
     open_palette_cmd(&mut app);
     submit(&mut app, &graph, "find");

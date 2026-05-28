@@ -16,19 +16,16 @@
 
 use std::path::PathBuf;
 
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
+mod common;
+use common::key;
+
+use crossterm::event::KeyCode;
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
 use design_data_core::schema::SchemaRegistry;
 use design_data_tui::app::{App, SubmitContext};
 use design_data_tui::wizard::{ValueKind, ValueRow, WizardCtx, WizardState};
 use serde_json::json;
 use tui_input::Input;
-
-// ── Fixtures ──────────────────────────────────────────────────────────────────
-
-fn key(code: KeyCode) -> KeyEvent {
-    KeyEvent::new(code, KeyModifiers::NONE)
-}
 
 /// Valid color schema URL from the real registry.
 const COLOR_SCHEMA: &str =

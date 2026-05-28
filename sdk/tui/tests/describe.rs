@@ -8,15 +8,14 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
+mod common;
+use common::key;
+
+use crossterm::event::KeyCode;
 use design_data_core::graph::{ComponentRecord, TokenGraph};
 use design_data_tui::app::{ActiveView, App, SubmitContext};
 use serde_json::json;
 use std::path::PathBuf;
-
-fn key(code: KeyCode) -> KeyEvent {
-    KeyEvent::new(code, KeyModifiers::NONE)
-}
 
 fn fixtures_components_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/components")

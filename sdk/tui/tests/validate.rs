@@ -8,15 +8,14 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
+mod common;
+use common::key;
+
+use crossterm::event::KeyCode;
 use design_data_core::graph::TokenGraph;
 use design_data_core::schema::SchemaRegistry;
 use design_data_tui::app::{ActiveView, App, SubmitContext};
 use std::path::PathBuf;
-
-fn key(code: KeyCode) -> KeyEvent {
-    KeyEvent::new(code, KeyModifiers::NONE)
-}
 
 fn manifest_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
