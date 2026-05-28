@@ -29,6 +29,7 @@ use design_data_core::diff::display_name;
 use design_data_core::graph::{TokenGraph, TokenRecord};
 use design_data_core::schema::SchemaRegistry;
 
+use crate::clipboard::write_clipboard;
 use crate::app::{
     ActiveView, DescribeView, HitAction, Modal, PaletteMode, QueryRow, QueryView, ResolvedRow,
     ResolveView, StatusMessage, ValidateView, HISTORY_CAP, KNOWN_COMMANDS,
@@ -127,7 +128,12 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
         | Message::FindOpenResults
         | Message::FindCancel
         | Message::Tick
-        | Message::ClipboardDone => Task::none(),
+        | Message::ClipboardDone(None) => Task::none(),
+        Message::ClipboardDone(Some(err)) => {
+            model.status_message =
+                Some(StatusMessage::error(format!("clipboard unavailable: {err}")));
+            Task::none()
+        }
     }
 }
 
@@ -156,7 +162,8 @@ fn handle_key(
 
     // View-specific keys (navigation, yank).
     if handle_view_key(model, key.code) {
-        return Task::none();
+        // 'y' key sets model.pending_yank; drain it here and return a clipboard Task.
+        return clipboard_task_from_yank(model);
     }
 
     // Global fallback keys.
@@ -352,6 +359,8 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 ActiveView::Describe(_) | ActiveView::Empty => None,
             };
             if let Some(text) = yank {
+                // Stash in pending_yank; handle_key drains it after this returns and
+                // builds a Task::Cmd(write_clipboard) so the clipboard I/O is a side effect.
                 model.pending_yank = Some(text);
                 true
             } else {
@@ -421,9 +430,13 @@ fn route_modal_key(
                 model.status_message = Some(StatusMessage::info("naming wizard cancelled"));
             }
             NamingEvent::Copy(name) => {
-                model.pending_yank = Some(name.clone());
                 model.status_message =
                     Some(StatusMessage::info(format!("copied: {name}")));
+                let text = name.clone();
+                return Task::cmd(move || {
+                    let err = write_clipboard(&text).err().map(|e| e.to_string());
+                    Message::ClipboardDone(err)
+                });
             }
             NamingEvent::Continue => {}
         }
@@ -512,13 +525,17 @@ fn handle_mouse(model: &mut Model, me: crossterm::event::MouseEvent) -> Task<Mes
             model.sel_end = Some((me.row, me.column));
         }
         MouseEventKind::Up(MouseButton::Left) if model.selection_mode => {
-            if let Some(text) = extract_selection(model) {
-                if !text.is_empty() {
-                    model.pending_yank = Some(text);
-                }
-            }
+            let yank = extract_selection(model);
             model.sel_start = None;
             model.sel_end = None;
+            if let Some(text) = yank {
+                if !text.is_empty() {
+                    return Task::cmd(move || {
+                        let err = write_clipboard(&text).err().map(|e| e.to_string());
+                        Message::ClipboardDone(err)
+                    });
+                }
+            }
         }
         _ => {}
     }
@@ -904,6 +921,18 @@ fn dispatch_command(
 }
 
 // ── Internal helpers ──────────────────────────────────────────────────────────
+
+/// Drain `model.pending_yank` and, if non-empty, return a `Task::Cmd` that writes
+/// to the clipboard. Returns `Task::None` if nothing was pending.
+fn clipboard_task_from_yank(model: &mut Model) -> Task<Message> {
+    match model.pending_yank.take() {
+        Some(text) if !text.is_empty() => Task::cmd(move || {
+            let err = write_clipboard(&text).err().map(|e| e.to_string());
+            Message::ClipboardDone(err)
+        }),
+        _ => Task::none(),
+    }
+}
 
 fn build_did_you_mean(id: &str, available: &[&str]) -> String {
     if available.is_empty() {

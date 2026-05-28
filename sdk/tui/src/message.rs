@@ -68,8 +68,8 @@ pub enum Message {
     /// A write-token operation completed. `Ok` carries the written path;
     /// `Err` carries the error string.
     WriteDone(Result<std::path::PathBuf, String>),
-    /// A clipboard write completed (success or silent failure).
-    ClipboardDone,
+    /// A clipboard write completed. `None` = success; `Some(err)` = failure message.
+    ClipboardDone(Option<String>),
 }
 
 #[cfg(test)]

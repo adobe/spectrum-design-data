@@ -9,6 +9,7 @@
 // governing permissions and limitations under the License.
 
 pub mod app;
+pub(crate) mod clipboard;
 pub mod find;
 pub mod help;
 pub mod message;

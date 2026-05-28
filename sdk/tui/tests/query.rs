@@ -119,8 +119,10 @@ fn y_sets_yank_pending_with_selected_name() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::PaletteSubmit("query property=*".into()), &ctx);
-    update(&mut model, Message::Key(key(KeyCode::Char('y'))), &ctx);
-    assert!(model.pending_yank.is_some());
+    let task = update(&mut model, Message::Key(key(KeyCode::Char('y'))), &ctx);
+    // 'y' now returns Task::Cmd (clipboard write) instead of setting pending_yank.
+    assert!(task.is_cmd(), "'y' should return Task::Cmd for clipboard write");
+    assert!(model.pending_yank.is_none(), "pending_yank should not be set");
 }
 
 #[test]

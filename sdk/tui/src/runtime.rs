@@ -14,9 +14,6 @@
 //! closures synchronously, calls `draw` each frame, and rebuilds hit regions.
 //! `main.rs` is now a thin CLI entry point that delegates entirely to this function.
 
-use std::io::Write;
-use std::process::{Command, Stdio};
-
 use crossterm::event::{self, Event, KeyCode, KeyEventKind};
 use miette::{IntoDiagnostic, Result};
 use ratatui::{
@@ -24,7 +21,7 @@ use ratatui::{
     layout::{Constraint, Direction, Layout, Rect},
 };
 
-use crate::app::{ActiveView, HitAction, HitRegion, StatusMessage};
+use crate::app::{ActiveView, HitAction, HitRegion};
 use crate::message::Message;
 use crate::model::Model;
 use crate::task::Task;
@@ -56,15 +53,6 @@ pub fn run<B: ratatui::backend::Backend>(
 
         // Rebuild mouse hit regions from the frame geometry set during draw.
         model.hit_regions = compute_hit_regions(&model, status_height, frame_area);
-
-        // Drain pending clipboard yank.
-        // TODO(#1023): move into Task::Cmd so this side effect is explicit.
-        if let Some(text) = model.pending_yank.take() {
-            if let Err(e) = write_clipboard(&text) {
-                model.status_message =
-                    Some(StatusMessage::error(format!("clipboard unavailable: {e}")));
-            }
-        }
 
         // Poll for the next crossterm event (16 ms ≈ 60 fps cadence).
         if event::poll(std::time::Duration::from_millis(16)).into_diagnostic()? {
@@ -211,33 +199,3 @@ fn compute_hit_regions(model: &Model, status_height: u16, frame_area: Rect) -> V
     regions
 }
 
-/// Write `text` to the system clipboard.
-///
-/// - macOS: `pbcopy`
-/// - Linux: `xclip -selection clipboard`
-/// - Windows: not supported.
-fn write_clipboard(text: &str) -> std::io::Result<()> {
-    #[cfg(target_os = "macos")]
-    let mut child = Command::new("pbcopy").stdin(Stdio::piped()).spawn()?;
-
-    #[cfg(all(not(target_os = "macos"), not(target_os = "windows")))]
-    let mut child = Command::new("xclip")
-        .args(["-selection", "clipboard"])
-        .stdin(Stdio::piped())
-        .spawn()?;
-
-    #[cfg(target_os = "windows")]
-    return Err(std::io::Error::new(
-        std::io::ErrorKind::Unsupported,
-        "clipboard yank is not supported on Windows",
-    ));
-
-    #[cfg(not(target_os = "windows"))]
-    {
-        if let Some(mut stdin) = child.stdin.take() {
-            stdin.write_all(text.as_bytes())?;
-        }
-        child.wait()?;
-        Ok(())
-    }
-}
