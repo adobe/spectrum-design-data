@@ -3,7 +3,9 @@ language: bash
 
 tasks:
   verify:
-    command: [bash, ./verify-demo.sh]
+    command: [bash, tools/demo/verify-demo.sh]
+    options:
+      runFromWorkspaceRoot: true
     inputs:
       - "verify-demo.sh"
       - "demo-commands.sh"
