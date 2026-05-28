@@ -9,25 +9,25 @@
 // governing permissions and limitations under the License.
 
 mod common;
-use common::{key, make_graph_with_tokens};
+use common::{key, make_graph_with_tokens, update_ctx};
 
 use crossterm::event::KeyCode;
 use design_data_core::graph::{Layer, TokenGraph};
-use design_data_tui::app::{App, Modal, SubmitContext};
+use design_data_tui::app::Modal;
 use design_data_tui::naming::{NamingEvent, NamingScreen, NamingWizardState};
+use design_data_tui::{update, Message, Model, UpdateCtx};
 
 fn make_graph() -> TokenGraph {
     make_graph_with_tokens(&["accent-background-color-default"])
 }
 
-// ── NamingWizardState unit tests ─────────────────────────────────────────────
+// ── NamingWizardState unit tests (test naming module directly, no App/update) ─
 
 #[test]
 fn assembled_name_joins_property_and_name_fields() {
     let graph = make_graph();
     let mut ns = NamingWizardState::new();
     ns.screen = NamingScreen::Classification;
-    // Tab to move focus to property field (focused_field 0→1).
     ns.handle_key(key(KeyCode::Tab), &graph);
     for c in "background-color".chars() {
         ns.handle_key(key(KeyCode::Char(c)), &graph);
@@ -67,14 +67,12 @@ fn c_on_result_screen_returns_copy_event() {
     let graph = make_graph();
     let mut ns = NamingWizardState::new();
     ns.screen = NamingScreen::Classification;
-    // Tab to property field, then type.
     ns.handle_key(key(KeyCode::Tab), &graph);
     for c in "color".chars() {
         ns.handle_key(key(KeyCode::Char(c)), &graph);
     }
-    ns.handle_key(key(KeyCode::Enter), &graph); // advance to Result
+    ns.handle_key(key(KeyCode::Enter), &graph);
     assert_eq!(ns.screen, NamingScreen::Result);
-
     let event = ns.handle_key(key(KeyCode::Char('c')), &graph);
     assert!(matches!(event, NamingEvent::Copy(ref name) if name == "color"));
 }
@@ -114,54 +112,58 @@ fn layer_cycles_with_arrow_keys_on_classification() {
     let graph = make_graph();
     let mut ns = NamingWizardState::new();
     ns.screen = NamingScreen::Classification;
-    // focused_field == 0 (layer), right cycles forward Foundation → Platform.
     ns.handle_key(key(KeyCode::Right), &graph);
     assert_eq!(ns.classification.layer, Layer::Platform);
     ns.handle_key(key(KeyCode::Left), &graph);
     assert_eq!(ns.classification.layer, Layer::Foundation);
 }
 
-// ── App-level integration tests ───────────────────────────────────────────────
-
-fn submit(app: &mut App, graph: &TokenGraph, cmd: &str) {
-    let ctx = SubmitContext::new(graph);
-    let chars: Vec<char> = cmd.chars().collect();
-    for c in chars {
-        app.handle_key(key(KeyCode::Char(c)));
+#[test]
+fn y_key_on_result_screen_also_copies() {
+    let graph = make_graph();
+    let mut ns = NamingWizardState::new();
+    ns.screen = NamingScreen::Classification;
+    ns.handle_key(key(KeyCode::Tab), &graph);
+    for c in "color".chars() {
+        ns.handle_key(key(KeyCode::Char(c)), &graph);
     }
-    app.handle_key(key(KeyCode::Enter));
-    app.submit_palette(&ctx);
+    ns.handle_key(key(KeyCode::Enter), &graph);
+    assert_eq!(ns.screen, NamingScreen::Result);
+    let event = ns.handle_key(key(KeyCode::Char('y')), &graph);
+    assert!(matches!(event, NamingEvent::Copy(ref name) if name == "color"));
 }
 
-fn open_palette_cmd(app: &mut App) {
-    app.handle_key(key(KeyCode::Char(':')));
+// ── App-level integration tests (migrated to Model + update) ─────────────────
+
+fn submit(model: &mut Model, ctx: &UpdateCtx<'_>, cmd: &str) {
+    update(model, Message::PaletteSubmit(cmd.into()), ctx);
 }
 
 #[test]
 fn name_command_opens_naming_modal() {
     let graph = make_graph();
-    let mut app = App::new();
-    open_palette_cmd(&mut app);
-    submit(&mut app, &graph, "name accent background");
-    assert!(matches!(app.modal, Some(Modal::Naming(_))));
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    submit(&mut model, &ctx, "name accent background");
+    assert!(matches!(model.modal, Some(Modal::Naming(_))));
 }
 
 #[test]
 fn name_command_no_args_opens_naming_modal() {
     let graph = make_graph();
-    let mut app = App::new();
-    open_palette_cmd(&mut app);
-    submit(&mut app, &graph, "name");
-    assert!(matches!(app.modal, Some(Modal::Naming(_))));
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    submit(&mut model, &ctx, "name");
+    assert!(matches!(model.modal, Some(Modal::Naming(_))));
 }
 
 #[test]
 fn name_command_seeds_intent_from_args() {
     let graph = make_graph();
-    let mut app = App::new();
-    open_palette_cmd(&mut app);
-    submit(&mut app, &graph, "name accent background");
-    if let Some(Modal::Naming(ref ns)) = app.modal {
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    submit(&mut model, &ctx, "name accent background");
+    if let Some(Modal::Naming(ref ns)) = model.modal {
         assert_eq!(ns.intent.value(), "accent background");
     } else {
         panic!("expected Naming modal");
@@ -170,72 +172,48 @@ fn name_command_seeds_intent_from_args() {
 
 #[test]
 fn tab_autocompletes_name_command() {
-    let mut app = App::new();
-    open_palette_cmd(&mut app);
-    // "na" is unambiguous — "name" is the only command with that prefix.
-    app.handle_key(key(KeyCode::Char('n')));
-    app.handle_key(key(KeyCode::Char('a')));
-    app.handle_key(key(KeyCode::Tab));
-    assert_eq!(app.palette_input.value(), "name ");
+    let graph = make_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
+    for c in "na".chars() {
+        update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
+    }
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
+    assert_eq!(model.palette_input.value(), "name ");
 }
 
 #[test]
 fn copy_event_sets_pending_yank_and_status() {
-    use design_data_tui::wizard::WizardCtx;
-
     let graph = make_graph();
-    let mut app = App::new();
-    open_palette_cmd(&mut app);
-    submit(&mut app, &graph, "name");
-
-    // Drive to result screen with a property typed.
-    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    submit(&mut model, &ctx, "name");
 
     // Enter on intent screen → Classification.
-    app.handle_modal_key(key(KeyCode::Enter), &ctx);
-    // On Classification: Tab to property field, type "color", then Enter → Result.
-    app.handle_modal_key(key(KeyCode::Tab), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
+    // Tab to property field, type "color", Enter → Result.
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
     for c in "color".chars() {
-        app.handle_modal_key(key(KeyCode::Char(c)), &ctx);
+        update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }
-    app.handle_modal_key(key(KeyCode::Enter), &ctx);
-    // On Result: press 'c' → Copy.
-    app.handle_modal_key(key(KeyCode::Char('c')), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
+    // Press 'c' → Copy.
+    update(&mut model, Message::Key(key(KeyCode::Char('c'))), &ctx);
 
-    assert_eq!(app.pending_yank.as_deref(), Some("color"));
-    let msg = app.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
+    assert_eq!(model.pending_yank.as_deref(), Some("color"));
+    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(msg.contains("copied"), "expected 'copied' in status: {msg}");
-    // Copy does NOT close the modal — user stays on Result to copy again or keep inspecting.
-    assert!(app.modal.is_some(), "Copy should not close the Naming modal");
-}
-
-#[test]
-fn y_key_on_result_screen_also_copies() {
-    let graph = make_graph();
-    let mut ns = NamingWizardState::new();
-    ns.screen = NamingScreen::Classification;
-    // Tab to property field, type "color", advance to Result.
-    ns.handle_key(key(KeyCode::Tab), &graph);
-    for c in "color".chars() {
-        ns.handle_key(key(KeyCode::Char(c)), &graph);
-    }
-    ns.handle_key(key(KeyCode::Enter), &graph);
-    assert_eq!(ns.screen, NamingScreen::Result);
-
-    let event = ns.handle_key(key(KeyCode::Char('y')), &graph);
-    assert!(matches!(event, NamingEvent::Copy(ref name) if name == "color"));
+    assert!(model.modal.is_some(), "Copy should not close the Naming modal");
 }
 
 #[test]
 fn esc_in_naming_modal_closes_it() {
-    use design_data_tui::wizard::WizardCtx;
-
     let graph = make_graph();
-    let mut app = App::new();
-    open_palette_cmd(&mut app);
-    submit(&mut app, &graph, "name");
-
-    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
-    app.handle_modal_key(key(KeyCode::Esc), &ctx);
-    assert!(app.modal.is_none());
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    submit(&mut model, &ctx, "name");
+    assert!(model.modal.is_some());
+    update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
+    assert!(model.modal.is_none());
 }

@@ -10,62 +10,55 @@
 
 //! M5 polish milestone tests: mouse, help overlay, palette history, theming.
 
-use std::env;
-use std::sync::Mutex;
-
 mod common;
-use common::{key, mouse};
+use common::{empty_graph, key, mouse, update_ctx};
 
 use crossterm::event::{KeyCode, MouseButton, MouseEventKind};
-use design_data_core::graph::TokenGraph;
-use design_data_tui::app::{App, HitAction, HitRegion, Modal};
+use design_data_tui::app::{ActiveView, DescribeView, HitAction, HitRegion, Modal, QueryRow,
+    QueryView};
 use design_data_tui::theme::Theme;
-use design_data_tui::wizard::WizardCtx;
+use design_data_tui::{update, Message, Model};
 use ratatui::layout::Rect;
-use tempfile::TempDir;
-
-fn empty_ctx(graph: &TokenGraph) -> WizardCtx<'_> {
-    WizardCtx { graph, dataset_path: None, schema_registry: None, allow_write: false }
-}
-
-fn open_palette(app: &mut App) {
-    app.handle_key(key(KeyCode::Char(':')));
-}
 
 // ── Help overlay ──────────────────────────────────────────────────────────────
 
 #[test]
 fn question_mark_opens_help_modal() {
-    let mut app = App::new();
-    app.handle_key(key(KeyCode::Char('?')));
-    assert!(matches!(app.modal, Some(Modal::Help(_))), "? should open help modal");
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
+    assert!(matches!(model.modal, Some(Modal::Help(_))), "? should open help modal");
 }
 
 #[test]
 fn esc_closes_help_modal() {
-    let graph = TokenGraph::default();
-    let mut app = App::new();
-    app.handle_key(key(KeyCode::Char('?')));
-    app.handle_modal_key(key(KeyCode::Esc), &empty_ctx(&graph));
-    assert!(app.modal.is_none(), "Esc should close help modal");
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
+    assert!(model.modal.is_none(), "Esc should close help modal");
 }
 
 #[test]
 fn question_mark_closes_help_modal() {
-    let graph = TokenGraph::default();
-    let mut app = App::new();
-    app.handle_key(key(KeyCode::Char('?')));
-    app.handle_modal_key(key(KeyCode::Char('?')), &empty_ctx(&graph));
-    assert!(app.modal.is_none(), "second ? should close help modal");
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
+    assert!(model.modal.is_none(), "second ? should close help modal");
 }
 
 #[test]
 fn pgdn_scrolls_help_body() {
-    let graph = TokenGraph::default();
-    let mut app = App::new();
-    app.handle_key(key(KeyCode::Char('?')));
-    app.handle_modal_key(key(KeyCode::PageDown), &empty_ctx(&graph));
-    if let Some(Modal::Help(ref hm)) = app.modal {
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::PageDown)), &ctx);
+    if let Some(Modal::Help(ref hm)) = model.modal {
         assert_eq!(hm.scroll, 10, "PageDown should advance help scroll by 10");
     } else {
         panic!("expected Help modal to still be open");
@@ -74,14 +67,14 @@ fn pgdn_scrolls_help_body() {
 
 #[test]
 fn arrow_keys_scroll_help_body() {
-    let graph = TokenGraph::default();
-    let mut app = App::new();
-    app.handle_key(key(KeyCode::Char('?')));
-    let ctx = empty_ctx(&graph);
-    app.handle_modal_key(key(KeyCode::Down), &ctx);
-    app.handle_modal_key(key(KeyCode::Down), &ctx);
-    app.handle_modal_key(key(KeyCode::Up), &ctx);
-    if let Some(Modal::Help(ref hm)) = app.modal {
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Down)), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Down)), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
+    if let Some(Modal::Help(ref hm)) = model.modal {
         assert_eq!(hm.scroll, 1);
     } else {
         panic!("expected Help modal");
@@ -90,127 +83,87 @@ fn arrow_keys_scroll_help_body() {
 
 // ── Palette history ───────────────────────────────────────────────────────────
 
-// Serialize env-touching tests to avoid DESIGN_DATA_TUI_HISTORY stomping across
-// concurrently running tests (cargo test runs in parallel by default).
-static HISTORY_ENV_LOCK: Mutex<()> = Mutex::new(());
-
-fn with_temp_history<F: FnOnce()>(f: F) -> TempDir {
-    let dir = TempDir::new().unwrap();
-    let history_path = dir.path().join("history");
-    let _guard = HISTORY_ENV_LOCK.lock().unwrap();
-    env::set_var("DESIGN_DATA_TUI_HISTORY", &history_path);
-    f();
-    env::remove_var("DESIGN_DATA_TUI_HISTORY");
-    dir
-}
-
 #[test]
 fn submit_palette_appends_to_history() {
-    let _dir = with_temp_history(|| {
-        let mut app = App::new();
-        open_palette(&mut app);
-        for ch in "query *".chars() {
-            app.handle_key(key(KeyCode::Char(ch)));
-        }
-        app.handle_key(key(KeyCode::Enter));
-        let graph = TokenGraph::default();
-        let ctx = design_data_tui::app::SubmitContext::new(&graph);
-        app.submit_palette(&ctx);
-
-        assert_eq!(app.palette_history.first().map(|s| s.as_str()), Some("query *"));
-    });
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::PaletteSubmit("query *".into()), &ctx);
+    assert_eq!(model.palette_history.first().map(|s| s.as_str()), Some("query *"));
 }
 
 #[test]
 fn up_arrow_in_palette_recalls_last_command() {
-    let _dir = with_temp_history(|| {
-        let mut app = App::new();
-        app.palette_history = vec!["query foo".to_string(), "query bar".to_string()];
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.palette_history = vec!["query foo".to_string(), "query bar".to_string()];
 
-        open_palette(&mut app);
-        app.handle_key(key(KeyCode::Up));
-        assert_eq!(app.palette_input.value(), "query foo");
+    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx); // open palette
+    update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
+    assert_eq!(model.palette_input.value(), "query foo");
 
-        app.handle_key(key(KeyCode::Up));
-        assert_eq!(app.palette_input.value(), "query bar");
+    update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
+    assert_eq!(model.palette_input.value(), "query bar");
 
-        app.handle_key(key(KeyCode::Down));
-        assert_eq!(app.palette_input.value(), "query foo");
-    });
+    update(&mut model, Message::Key(key(KeyCode::Down)), &ctx);
+    assert_eq!(model.palette_input.value(), "query foo");
 }
 
 #[test]
 fn history_dedupes_consecutive_duplicates() {
-    let _dir = with_temp_history(|| {
-        let mut app = App::new();
-        app.palette_history = vec!["query *".to_string()];
-        open_palette(&mut app);
-        for ch in "query *".chars() {
-            app.handle_key(key(KeyCode::Char(ch)));
-        }
-        app.handle_key(key(KeyCode::Enter));
-        let graph = TokenGraph::default();
-        let ctx = design_data_tui::app::SubmitContext::new(&graph);
-        app.submit_palette(&ctx);
-
-        assert_eq!(app.palette_history.len(), 1, "same command should not be duplicated");
-    });
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.palette_history = vec!["query *".to_string()];
+    update(&mut model, Message::PaletteSubmit("query *".into()), &ctx);
+    assert_eq!(model.palette_history.len(), 1, "same command should not be duplicated");
 }
 
 #[test]
 fn history_caps_at_200_entries() {
-    let _dir = with_temp_history(|| {
-        let mut app = App::new();
-        app.palette_history = (0..199).map(|i| format!("query token-{i}")).collect();
-
-        open_palette(&mut app);
-        for ch in "query new-token".chars() {
-            app.handle_key(key(KeyCode::Char(ch)));
-        }
-        app.handle_key(key(KeyCode::Enter));
-        let graph = TokenGraph::default();
-        let ctx = design_data_tui::app::SubmitContext::new(&graph);
-        app.submit_palette(&ctx);
-
-        assert_eq!(app.palette_history.len(), 200);
-        assert_eq!(app.palette_history[0], "query new-token");
-    });
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.palette_history = (0..199).map(|i| format!("query token-{i}")).collect();
+    update(&mut model, Message::PaletteSubmit("query new-token".into()), &ctx);
+    assert_eq!(model.palette_history.len(), 200);
+    assert_eq!(model.palette_history[0], "query new-token");
 }
 
 #[test]
 fn typing_resets_history_cursor() {
-    let _dir = with_temp_history(|| {
-        let mut app = App::new();
-        app.palette_history = vec!["query foo".to_string(), "query bar".to_string()];
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.palette_history = vec!["query foo".to_string(), "query bar".to_string()];
 
-        open_palette(&mut app);
-        app.handle_key(key(KeyCode::Up)); // cursor = Some(0)
-        assert_eq!(app.palette_history_cursor, Some(0));
+    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
+    assert_eq!(model.palette_history_cursor, Some(0));
 
-        // Type a character — cursor must reset so the next ↑ starts from head.
-        app.handle_key(key(KeyCode::Char('x')));
-        assert_eq!(app.palette_history_cursor, None, "typing should reset history cursor");
+    update(&mut model, Message::Key(key(KeyCode::Char('x'))), &ctx);
+    assert_eq!(model.palette_history_cursor, None, "typing should reset history cursor");
 
-        // Pressing ↑ again should return to index 0 (newest entry), not continue from 1.
-        app.handle_key(key(KeyCode::Up));
-        assert_eq!(app.palette_history_cursor, Some(0));
-        assert_eq!(app.palette_input.value(), "query foo");
-    });
+    update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
+    assert_eq!(model.palette_history_cursor, Some(0));
+    assert_eq!(model.palette_input.value(), "query foo");
 }
 
 // ── Mouse: wheel scroll ───────────────────────────────────────────────────────
 
 #[test]
 fn wheel_scroll_down_increments_describe_scroll() {
-    use design_data_tui::app::ActiveView;
-    let mut app = App::new();
-    app.active_view = ActiveView::Describe(design_data_tui::app::DescribeView {
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.active_view = ActiveView::Describe(DescribeView {
         component: "button".to_string(),
         pretty_json: "{}".to_string(),
         scroll: 0,
     });
-    app.handle_mouse(mouse(MouseEventKind::ScrollDown, 5, 5));
-    if let ActiveView::Describe(ref dv) = app.active_view {
+    update(&mut model, Message::Mouse(mouse(MouseEventKind::ScrollDown, 5, 5)), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
         assert!(dv.scroll > 0, "scroll down should advance describe scroll");
     }
 }
@@ -219,51 +172,22 @@ fn wheel_scroll_down_increments_describe_scroll() {
 
 #[test]
 fn click_on_hit_region_selects_row() {
-    use design_data_tui::app::{ActiveView, QueryRow, QueryView};
-    let mut app = App::new();
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
     let rows = vec![
-        QueryRow {
-            name: "a".into(),
-            value: "1".into(),
-            file: "f".into(),
-            layer: "foundation".into(),
-        },
-        QueryRow {
-            name: "b".into(),
-            value: "2".into(),
-            file: "f".into(),
-            layer: "foundation".into(),
-        },
-        QueryRow {
-            name: "c".into(),
-            value: "3".into(),
-            file: "f".into(),
-            layer: "foundation".into(),
-        },
+        QueryRow { name: "a".into(), value: "1".into(), file: "f".into(), layer: "foundation".into() },
+        QueryRow { name: "b".into(), value: "2".into(), file: "f".into(), layer: "foundation".into() },
+        QueryRow { name: "c".into(), value: "3".into(), file: "f".into(), layer: "foundation".into() },
     ];
-    app.active_view = ActiveView::Query(QueryView::new("*".to_string(), rows));
-
-    app.hit_regions = vec![
-        HitRegion {
-            rect: Rect { x: 0, y: 2, width: 80, height: 1 },
-            action: HitAction::SelectListRow(0),
-            text: "a".into(),
-        },
-        HitRegion {
-            rect: Rect { x: 0, y: 3, width: 80, height: 1 },
-            action: HitAction::SelectListRow(1),
-            text: "b".into(),
-        },
-        HitRegion {
-            rect: Rect { x: 0, y: 4, width: 80, height: 1 },
-            action: HitAction::SelectListRow(2),
-            text: "c".into(),
-        },
+    model.active_view = ActiveView::Query(QueryView::new("*".to_string(), rows));
+    model.hit_regions = vec![
+        HitRegion { rect: Rect { x: 0, y: 2, width: 80, height: 1 }, action: HitAction::SelectListRow(0), text: "a".into() },
+        HitRegion { rect: Rect { x: 0, y: 3, width: 80, height: 1 }, action: HitAction::SelectListRow(1), text: "b".into() },
+        HitRegion { rect: Rect { x: 0, y: 4, width: 80, height: 1 }, action: HitAction::SelectListRow(2), text: "c".into() },
     ];
-
-    // Click row 1 (y=3).
-    app.handle_mouse(mouse(MouseEventKind::Down(MouseButton::Left), 3, 10));
-    if let ActiveView::Query(ref qv) = app.active_view {
+    update(&mut model, Message::Mouse(mouse(MouseEventKind::Down(MouseButton::Left), 3, 10)), &ctx);
+    if let ActiveView::Query(ref qv) = model.active_view {
         assert_eq!(qv.table_state.selected(), Some(1), "click should select row 1");
     }
 }
@@ -272,27 +196,33 @@ fn click_on_hit_region_selects_row() {
 
 #[test]
 fn v_key_enters_selection_mode() {
-    let mut app = App::new();
-    app.handle_key(key(KeyCode::Char('v')));
-    assert!(app.selection_mode, "v should enable selection mode");
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
+    assert!(model.selection_mode, "v should enable selection mode");
 }
 
 #[test]
 fn v_key_toggles_selection_mode_off() {
-    let mut app = App::new();
-    app.handle_key(key(KeyCode::Char('v')));
-    app.handle_key(key(KeyCode::Char('v')));
-    assert!(!app.selection_mode, "second v should disable selection mode");
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
+    assert!(!model.selection_mode, "second v should disable selection mode");
 }
 
 #[test]
 fn drag_records_selection_endpoints() {
-    let mut app = App::new();
-    app.handle_key(key(KeyCode::Char('v')));
-    app.handle_mouse(mouse(MouseEventKind::Down(MouseButton::Left), 2, 0));
-    app.handle_mouse(mouse(MouseEventKind::Drag(MouseButton::Left), 4, 10));
-    assert_eq!(app.sel_start, Some((2, 0)));
-    assert_eq!(app.sel_end, Some((4, 10)));
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
+    update(&mut model, Message::Mouse(mouse(MouseEventKind::Down(MouseButton::Left), 2, 0)), &ctx);
+    update(&mut model, Message::Mouse(mouse(MouseEventKind::Drag(MouseButton::Left), 4, 10)), &ctx);
+    assert_eq!(model.sel_start, Some((2, 0)));
+    assert_eq!(model.sel_end, Some((4, 10)));
 }
 
 // ── Theming ───────────────────────────────────────────────────────────────────
@@ -308,11 +238,7 @@ fn theme_terminal_has_reset_fg() {
 fn theme_spectrum_overrides_accent() {
     use ratatui::style::Color;
     let t = Theme::spectrum();
-    assert_eq!(
-        t.accent,
-        Color::Rgb(64, 70, 202),
-        "spectrum theme accent should be Indigo 700"
-    );
+    assert_eq!(t.accent, Color::Rgb(64, 70, 202), "spectrum theme accent should be Indigo 700");
 }
 
 #[test]

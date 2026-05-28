@@ -13,6 +13,7 @@ use crossterm::event::{
 };
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
 use design_data_tui::app::App;
+use design_data_tui::UpdateCtx;
 use design_data_tui::theme::Theme;
 use ratatui::backend::TestBackend;
 use ratatui::buffer::Buffer;
@@ -66,6 +67,11 @@ pub fn make_graph_with_tokens(names: &[&str]) -> TokenGraph {
 /// Empty graph — useful for testing empty-state rendering and error paths.
 pub fn empty_graph() -> TokenGraph {
     make_graph_with_tokens(&[])
+}
+
+/// Minimal `UpdateCtx` for tests that only need key/palette/modal behavior.
+pub fn update_ctx(graph: &TokenGraph) -> UpdateCtx<'_> {
+    UpdateCtx::minimal(graph)
 }
 
 /// Primer line shown in the header during test renders.

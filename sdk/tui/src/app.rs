@@ -29,11 +29,11 @@ use crate::wizard::{WizardCtx, WizardEvent, WizardState};
 use crate::wizard_draft::{clear_wizard_draft, from_draft, load_wizard_draft};
 
 /// Command names for Tab autocomplete.
-const KNOWN_COMMANDS: &[&str] =
+pub(crate) const KNOWN_COMMANDS: &[&str] =
     &["find", "name", "new", "query", "resolve", "describe", "validate"];
 
 /// Max palette history entries persisted to disk.
-const HISTORY_CAP: usize = 200;
+pub(crate) const HISTORY_CAP: usize = 200;
 
 /// Which prefix the palette was opened with.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -113,7 +113,7 @@ impl QueryView {
         Self { expr_text, rows, table_state }
     }
 
-    fn selected_row(&self) -> Option<&QueryRow> {
+    pub(crate) fn selected_row(&self) -> Option<&QueryRow> {
         self.table_state.selected().and_then(|i| self.rows.get(i))
     }
 }
@@ -137,7 +137,7 @@ pub struct ResolveView {
 }
 
 impl ResolveView {
-    fn new(property: String, rows: Vec<ResolvedRow>) -> Self {
+    pub(crate) fn new(property: String, rows: Vec<ResolvedRow>) -> Self {
         let mut table_state = TableState::default();
         if !rows.is_empty() {
             table_state.select(Some(0));
@@ -145,7 +145,7 @@ impl ResolveView {
         Self { property, rows, table_state }
     }
 
-    fn selected_row(&self) -> Option<&ResolvedRow> {
+    pub(crate) fn selected_row(&self) -> Option<&ResolvedRow> {
         self.table_state.selected().and_then(|i| self.rows.get(i))
     }
 }
@@ -173,7 +173,7 @@ pub struct ValidateView {
 }
 
 impl ValidateView {
-    fn new(rows: Vec<DiagnosticRow>) -> Self {
+    pub(crate) fn new(rows: Vec<DiagnosticRow>) -> Self {
         let mut table_state = TableState::default();
         if !rows.is_empty() {
             table_state.select(Some(0));
@@ -181,7 +181,7 @@ impl ValidateView {
         Self { rows, table_state }
     }
 
-    fn selected_row(&self) -> Option<&DiagnosticRow> {
+    pub(crate) fn selected_row(&self) -> Option<&DiagnosticRow> {
         self.table_state.selected().and_then(|i| self.rows.get(i))
     }
 }
@@ -1186,7 +1186,7 @@ fn load_palette_history() -> Vec<String> {
         .unwrap_or_default()
 }
 
-fn save_palette_history(history: &[String]) {
+pub(crate) fn save_palette_history(history: &[String]) {
     let Some(path) = history_path() else { return };
     if let Some(parent) = path.parent() {
         let _ = std::fs::create_dir_all(parent);
@@ -1200,7 +1200,7 @@ fn save_palette_history(history: &[String]) {
 
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
-fn layer_str(layer: Layer) -> &'static str {
+pub(crate) fn layer_str(layer: Layer) -> &'static str {
     match layer {
         Layer::Foundation => "foundation",
         Layer::Platform => "platform",
@@ -1219,7 +1219,7 @@ pub fn move_table_selection(state: &mut TableState, len: usize, delta: i64) {
 }
 
 /// Test whether `(row, col)` is inside `rect`.
-fn rect_contains(rect: Rect, row: u16, col: u16) -> bool {
+pub(crate) fn rect_contains(rect: Rect, row: u16, col: u16) -> bool {
     col >= rect.x
         && col < rect.x + rect.width
         && row >= rect.y
@@ -1236,7 +1236,7 @@ fn apply_scroll_delta(scroll: &mut u16, delta: i32) {
     }
 }
 
-fn parse_resolve_args(rest: &str) -> Result<(String, ResolutionContext), String> {
+pub(crate) fn parse_resolve_args(rest: &str) -> Result<(String, ResolutionContext), String> {
     let mut property: Option<String> = None;
     let mut ctx = ResolutionContext::new();
     for pair in rest.split(',') {
