@@ -13,7 +13,10 @@
 use std::env;
 use std::sync::Mutex;
 
-use crossterm::event::{KeyCode, KeyEvent, KeyEventKind, KeyEventState, KeyModifiers};
+mod common;
+use common::key;
+
+use crossterm::event::KeyCode;
 use design_data_core::graph::TokenGraph;
 use design_data_tui::app::{App, Modal};
 use design_data_tui::wizard::{WizardCtx, WizardScreen, WizardState};
@@ -21,17 +24,6 @@ use design_data_tui::wizard_draft::{
     from_draft, load_wizard_draft, save_wizard_draft, to_draft, wizard_draft_path,
 };
 use tempfile::TempDir;
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
-
-fn key(code: KeyCode) -> KeyEvent {
-    KeyEvent {
-        code,
-        modifiers: KeyModifiers::NONE,
-        kind: KeyEventKind::Press,
-        state: KeyEventState::NONE,
-    }
-}
 
 fn empty_ctx(graph: &TokenGraph) -> WizardCtx<'_> {
     WizardCtx { graph, dataset_path: None, schema_registry: None, allow_write: false }

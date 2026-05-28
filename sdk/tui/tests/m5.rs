@@ -13,31 +13,16 @@
 use std::env;
 use std::sync::Mutex;
 
-use crossterm::event::{
-    KeyCode, KeyEvent, KeyEventKind, KeyEventState, KeyModifiers, MouseButton, MouseEvent,
-    MouseEventKind,
-};
+mod common;
+use common::{key, mouse};
+
+use crossterm::event::{KeyCode, MouseButton, MouseEventKind};
 use design_data_core::graph::TokenGraph;
 use design_data_tui::app::{App, HitAction, HitRegion, Modal};
 use design_data_tui::theme::Theme;
 use design_data_tui::wizard::WizardCtx;
 use ratatui::layout::Rect;
 use tempfile::TempDir;
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
-
-fn key(code: KeyCode) -> KeyEvent {
-    KeyEvent {
-        code,
-        modifiers: KeyModifiers::NONE,
-        kind: KeyEventKind::Press,
-        state: KeyEventState::NONE,
-    }
-}
-
-fn mouse(kind: MouseEventKind, row: u16, col: u16) -> MouseEvent {
-    MouseEvent { kind, row, column: col, modifiers: KeyModifiers::NONE }
-}
 
 fn empty_ctx(graph: &TokenGraph) -> WizardCtx<'_> {
     WizardCtx { graph, dataset_path: None, schema_registry: None, allow_write: false }

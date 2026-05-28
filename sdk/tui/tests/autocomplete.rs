@@ -8,12 +8,11 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
-use design_data_tui::app::App;
+mod common;
+use common::key;
 
-fn key(code: KeyCode) -> KeyEvent {
-    KeyEvent::new(code, KeyModifiers::NONE)
-}
+use crossterm::event::KeyCode;
+use design_data_tui::app::App;
 
 fn open_palette(app: &mut App) {
     app.handle_key(key(KeyCode::Char(':')));
