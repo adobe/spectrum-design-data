@@ -13,6 +13,9 @@ pub mod find;
 pub mod help;
 pub mod naming;
 pub mod theme;
+pub mod view;
 pub mod wizard;
 pub mod wizard_common;
 pub mod wizard_draft;
+
+pub use view::draw;
