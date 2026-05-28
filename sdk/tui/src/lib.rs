@@ -14,6 +14,7 @@ pub mod help;
 pub mod message;
 pub mod model;
 pub mod naming;
+pub mod runtime;
 pub mod task;
 pub mod theme;
 pub mod update;
@@ -24,6 +25,7 @@ pub mod wizard_draft;
 
 pub use message::Message;
 pub use model::Model;
+pub use runtime::run;
 pub use task::Task;
 pub use update::{update, UpdateCtx};
 pub use view::draw;

@@ -1174,7 +1174,7 @@ pub fn history_path() -> Option<PathBuf> {
     dirs::data_dir().map(|d| d.join("design-data-tui").join("history"))
 }
 
-fn load_palette_history() -> Vec<String> {
+pub(crate) fn load_palette_history() -> Vec<String> {
     let Some(path) = history_path() else { return Vec::new() };
     std::fs::read_to_string(&path)
         .map(|s| {

@@ -12,8 +12,7 @@ use crossterm::event::{
     KeyCode, KeyEvent, KeyEventKind, KeyEventState, KeyModifiers, MouseEvent, MouseEventKind,
 };
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
-use design_data_tui::app::App;
-use design_data_tui::UpdateCtx;
+use design_data_tui::{Model, UpdateCtx};
 use design_data_tui::theme::Theme;
 use ratatui::backend::TestBackend;
 use ratatui::buffer::Buffer;
@@ -77,20 +76,20 @@ pub fn update_ctx(graph: &TokenGraph) -> UpdateCtx<'_> {
 /// Primer line shown in the header during test renders.
 pub const TEST_PRIMER: &str = "test · 0 tokens";
 
-/// Render `app` via `design_data_tui::draw` into a `TestBackend` and return the `Buffer`.
-pub fn render_to_buffer(app: &mut App, w: u16, h: u16) -> Buffer {
+/// Render `model` via `design_data_tui::draw` into a `TestBackend` and return the `Buffer`.
+pub fn render_to_buffer(model: &mut Model, w: u16, h: u16) -> Buffer {
     let backend = TestBackend::new(w, h);
     let mut terminal = Terminal::new(backend).unwrap();
     terminal
-        .draw(|f| design_data_tui::draw(app, f, &Theme::terminal(), TEST_PRIMER))
+        .draw(|f| design_data_tui::draw(model, f, &Theme::terminal(), TEST_PRIMER))
         .unwrap();
     terminal.backend().buffer().clone()
 }
 
 #[test]
-fn render_to_buffer_does_not_panic_on_empty_app() {
-    let mut app = App::new();
-    let buf = render_to_buffer(&mut app, 80, 24);
+fn render_to_buffer_does_not_panic_on_empty_model() {
+    let mut model = Model::new();
+    let buf = render_to_buffer(&mut model, 80, 24);
     assert_eq!(buf.area().width, 80);
     assert_eq!(buf.area().height, 24);
 }

@@ -41,6 +41,23 @@ pub struct Model {
 }
 
 impl Model {
+    /// Create the model for a real session, loading palette history from disk and
+    /// optionally restoring an in-progress wizard draft.
+    pub fn new_with_options(resume_wizard: bool) -> Self {
+        use crate::app::Modal;
+        use crate::wizard_draft::{from_draft, load_wizard_draft};
+        let modal = if resume_wizard {
+            load_wizard_draft().map(|d| Modal::Wizard(Box::new(from_draft(d))))
+        } else {
+            None
+        };
+        Self {
+            palette_history: crate::app::load_palette_history(),
+            modal,
+            ..Self::new()
+        }
+    }
+
     pub fn new() -> Self {
         Self {
             palette_open: false,
