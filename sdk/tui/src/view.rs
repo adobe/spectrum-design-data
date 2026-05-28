@@ -17,8 +17,9 @@ use ratatui::{
 };
 
 use crate::app::{
-    ActiveView, App, DescribeView, Modal, QueryView, ResolveView, StatusKind, ValidateView,
+    ActiveView, DescribeView, Modal, QueryView, ResolveView, StatusKind, ValidateView,
 };
+use crate::model::Model;
 use crate::find::{FindScreen, FindWizardState, MAX_PROPERTY_SUGGESTIONS, MAX_SUGGEST_RESULTS};
 use crate::help::HELP_TEXT;
 use crate::naming::{NamingScreen, NamingWizardState};
@@ -48,8 +49,8 @@ fn centered_rect(percent_x: u16, percent_y: u16, area: Rect) -> Rect {
 /// Render a complete frame: primer header, active view, status bar, palette prompt, and any
 /// overlay modal. This is the single entry point for all rendering; call it from
 /// `terminal.draw(|f| draw(app, f, theme, primer_line))`.
-pub fn draw(app: &mut App, frame: &mut Frame, theme: &Theme, primer_line: &str) {
-    let status_height = u16::from(app.status_message.is_some());
+pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &str) {
+    let status_height = u16::from(model.status_message.is_some());
     let area = frame.area();
 
     // Three-region layout (RFC #973 §3.1): primer header / active view / status+palette.
@@ -71,7 +72,7 @@ pub fn draw(app: &mut App, frame: &mut Frame, theme: &Theme, primer_line: &str) 
     frame.render_widget(Paragraph::new(primer_text), chunks[0]);
 
     // Active view.
-    match &mut app.active_view {
+    match &mut model.active_view {
         ActiveView::Empty => {
             let block = Block::default().borders(Borders::ALL).title(" Active View ");
             frame.render_widget(block, chunks[1]);
@@ -83,7 +84,7 @@ pub fn draw(app: &mut App, frame: &mut Frame, theme: &Theme, primer_line: &str) 
     }
 
     // Status message — ok color for info, error color for errors.
-    if let Some(ref msg) = app.status_message {
+    if let Some(ref msg) = model.status_message {
         let color = match msg.kind {
             StatusKind::Info => theme.ok,
             StatusKind::Error => theme.error,
@@ -95,15 +96,15 @@ pub fn draw(app: &mut App, frame: &mut Frame, theme: &Theme, primer_line: &str) 
     }
 
     // Palette prompt (hidden while a modal is open).
-    let palette_text = if app.modal.is_none() && app.palette_open {
-        format!("{}{}", app.palette_prefix(), app.palette_input.value())
+    let palette_text = if model.modal.is_none() && model.palette_open {
+        format!("{}{}", model.palette_prefix(), model.palette_input.value())
     } else {
         String::new()
     };
     frame.render_widget(Paragraph::new(palette_text), chunks[3]);
 
     // Overlay modal (rendered last so it appears on top).
-    match &mut app.modal {
+    match &mut model.modal {
         Some(Modal::Find(ref mut fs)) => {
             let popup_area = centered_rect(82, 85, area);
             frame.render_widget(Clear, popup_area);

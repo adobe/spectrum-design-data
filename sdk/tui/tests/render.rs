@@ -10,14 +10,14 @@
 
 //! Buffer-cell render tests (GH #1017).
 //!
-//! Pattern: build App state, call render_to_buffer, assert specific cells.
+//! Pattern: build Model state via `update()`, call render_to_buffer, assert specific cells.
 //! No snapshot deps — assertions are direct `buf.cell((x, y)).symbol()` checks.
 
 mod common;
-use common::{key, make_graph_with_tokens, render_to_buffer, TEST_PRIMER};
+use common::{key, make_graph_with_tokens, render_to_buffer, update_ctx, TEST_PRIMER};
 
 use crossterm::event::KeyCode;
-use design_data_tui::app::{App, SubmitContext};
+use design_data_tui::{update, Message, Model};
 use ratatui::buffer::Buffer;
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
@@ -32,7 +32,7 @@ fn row_str(buf: &Buffer, y: u16, w: u16) -> String {
 
 /// Scan all rows for the first one whose text contains `needle`. Returns that
 /// row's content as a String, or panics with a helpful message if not found.
-fn find_row_containing<'a>(buf: &Buffer, needle: &str, w: u16, h: u16) -> String {
+fn find_row_containing(buf: &Buffer, needle: &str, w: u16, h: u16) -> String {
     for y in 0..h {
         let row = row_str(buf, y, w);
         if row.contains(needle) {
@@ -42,30 +42,24 @@ fn find_row_containing<'a>(buf: &Buffer, needle: &str, w: u16, h: u16) -> String
     panic!("no row contains '{needle}' in {w}×{h} buffer");
 }
 
-/// Open command palette, type `cmd`, submit. Returns the updated app.
-fn submit_query(app: &mut App, graph: &design_data_core::graph::TokenGraph, cmd: &str) {
-    app.handle_key(key(KeyCode::Char(':')));
-    for c in cmd.chars() {
-        app.handle_key(key(KeyCode::Char(c)));
-    }
-    app.submit_palette(&SubmitContext::new(graph));
+/// Open command palette, type `cmd`, submit.
+fn submit_query(model: &mut Model, ctx: &design_data_tui::UpdateCtx<'_>, cmd: &str) {
+    update(model, Message::PaletteSubmit(cmd.into()), ctx);
 }
 
 // ── Empty / initial view ───────────────────────────────────────────────────────
 
 #[test]
 fn empty_app_renders_primer_arrow() {
-    let mut app = App::new();
-    let buf = render_to_buffer(&mut app, W, H);
-    // Row 0 is always the primer header; the arrow marker is the first character.
+    let mut model = Model::new();
+    let buf = render_to_buffer(&mut model, W, H);
     assert_eq!(buf.cell((0, 0)).unwrap().symbol(), "▶");
 }
 
 #[test]
 fn empty_app_renders_primer_text() {
-    let mut app = App::new();
-    let buf = render_to_buffer(&mut app, W, H);
-    // TEST_PRIMER starts at col 2 (after "▶ ").
+    let mut model = Model::new();
+    let buf = render_to_buffer(&mut model, W, H);
     let row = row_str(&buf, 0, W);
     assert!(
         row.contains(TEST_PRIMER),
@@ -75,18 +69,16 @@ fn empty_app_renders_primer_text() {
 
 #[test]
 fn empty_app_renders_active_view_border() {
-    let mut app = App::new();
-    let buf = render_to_buffer(&mut app, W, H);
-    // Scan rows 1..H for the top-left border corner "┌" — layout-agnostic.
+    let mut model = Model::new();
+    let buf = render_to_buffer(&mut model, W, H);
     let border_row = (1..H).find(|&y| buf.cell((0, y)).unwrap().symbol() == "┌");
     assert!(border_row.is_some(), "expected a '┌' border somewhere in rows 1..{H}");
 }
 
 #[test]
 fn empty_app_palette_prompt_row_is_last() {
-    let mut app = App::new();
-    let buf = render_to_buffer(&mut app, W, H);
-    // Last row (H-1) is the palette prompt — empty when palette is closed.
+    let mut model = Model::new();
+    let buf = render_to_buffer(&mut model, W, H);
     let last_row = row_str(&buf, H - 1, W);
     assert!(
         last_row.trim().is_empty(),
@@ -99,11 +91,11 @@ fn empty_app_palette_prompt_row_is_last() {
 #[test]
 fn query_view_renders_column_headers() {
     let graph = make_graph_with_tokens(&["accent-color", "background-color"]);
-    let mut app = App::new();
-    submit_query(&mut app, &graph, "query property=accent-color");
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    submit_query(&mut model, &ctx, "query property=accent-color");
 
-    let buf = render_to_buffer(&mut app, W, H);
-    // Scan for the row that contains "Name" — the table header row.
+    let buf = render_to_buffer(&mut model, W, H);
     let header_row = find_row_containing(&buf, "Name", W, H);
     assert!(header_row.contains("Value"), "header should also contain 'Value': {header_row}");
 }
@@ -111,11 +103,11 @@ fn query_view_renders_column_headers() {
 #[test]
 fn query_view_renders_token_name_in_data_row() {
     let graph = make_graph_with_tokens(&["accent-color"]);
-    let mut app = App::new();
-    submit_query(&mut app, &graph, "query property=accent-color");
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    submit_query(&mut model, &ctx, "query property=accent-color");
 
-    let buf = render_to_buffer(&mut app, W, H);
-    // Scan for the row that contains the token name — layout-agnostic.
+    let buf = render_to_buffer(&mut model, W, H);
     find_row_containing(&buf, "accent-color", W, H);
 }
 
@@ -123,10 +115,11 @@ fn query_view_renders_token_name_in_data_row() {
 
 #[test]
 fn help_modal_renders_title() {
-    let mut app = App::new();
-    app.handle_key(key(KeyCode::Char('?')));
-    let buf = render_to_buffer(&mut app, W, H);
-    // Scan for any row containing "Help" — the modal title bar.
+    let graph = make_graph_with_tokens(&[]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
+    let buf = render_to_buffer(&mut model, W, H);
     find_row_containing(&buf, "Help", W, H);
 }
 
@@ -134,9 +127,11 @@ fn help_modal_renders_title() {
 
 #[test]
 fn open_palette_renders_colon_on_last_row() {
-    let mut app = App::new();
-    app.handle_key(key(KeyCode::Char(':')));
-    let buf = render_to_buffer(&mut app, W, H);
+    let graph = make_graph_with_tokens(&[]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
+    let buf = render_to_buffer(&mut model, W, H);
     assert_eq!(
         buf.cell((0, H - 1)).unwrap().symbol(),
         ":",
@@ -146,9 +141,11 @@ fn open_palette_renders_colon_on_last_row() {
 
 #[test]
 fn fuzzy_palette_renders_slash_on_last_row() {
-    let mut app = App::new();
-    app.handle_key(key(KeyCode::Char('/')));
-    let buf = render_to_buffer(&mut app, W, H);
+    let graph = make_graph_with_tokens(&[]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char('/'))), &ctx);
+    let buf = render_to_buffer(&mut model, W, H);
     assert_eq!(
         buf.cell((0, H - 1)).unwrap().symbol(),
         "/",
@@ -160,9 +157,9 @@ fn fuzzy_palette_renders_slash_on_last_row() {
 
 #[test]
 fn two_consecutive_renders_are_identical() {
-    let mut app = App::new();
-    let buf1 = render_to_buffer(&mut app, W, H);
-    let buf2 = render_to_buffer(&mut app, W, H);
+    let mut model = Model::new();
+    let buf1 = render_to_buffer(&mut model, W, H);
+    let buf2 = render_to_buffer(&mut model, W, H);
     assert!(
         buf1 == buf2,
         "draw must be deterministic — two renders of the same state must be identical"
@@ -173,12 +170,12 @@ fn two_consecutive_renders_are_identical() {
 
 #[test]
 fn draw_does_not_panic_on_1x1_terminal() {
-    let mut app = App::new();
-    render_to_buffer(&mut app, 1, 1);
+    let mut model = Model::new();
+    render_to_buffer(&mut model, 1, 1);
 }
 
 #[test]
 fn draw_does_not_panic_on_narrow_terminal() {
-    let mut app = App::new();
-    render_to_buffer(&mut app, 10, 5);
+    let mut model = Model::new();
+    render_to_buffer(&mut model, 10, 5);
 }

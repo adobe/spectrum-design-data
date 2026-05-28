@@ -24,28 +24,22 @@
 //! - `?` opens the help overlay; Esc or `?` closes it.
 //! - `v` toggles text-selection mode; drag to copy.
 
-use std::io::{Write, stderr};
+use std::io::stderr;
 use std::path::PathBuf;
-use std::process::{Command, Stdio};
 
 use clap::{Parser, ValueEnum};
 use crossterm::{
-    event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode, KeyEventKind},
+    event::{DisableMouseCapture, EnableMouseCapture},
     execute,
     terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
 };
 use design_data_core::graph::TokenGraph;
 use design_data_core::schema::SchemaRegistry;
 use miette::{IntoDiagnostic, Result, WrapErr};
-use ratatui::{
-    Terminal,
-    backend::CrosstermBackend,
-    layout::{Constraint, Direction, Layout, Rect},
-};
+use ratatui::{Terminal, backend::CrosstermBackend};
 
-use design_data_tui::app::{ActiveView, App, HitAction, HitRegion, StatusMessage, SubmitContext};
 use design_data_tui::theme::Theme;
-use design_data_tui::wizard::WizardCtx;
+use design_data_tui::{Model, UpdateCtx};
 
 /// Which visual palette to use.
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
@@ -133,21 +127,13 @@ impl DatasetHandle {
         )
     }
 
-    fn submit_context(&self) -> SubmitContext<'_> {
-        SubmitContext {
+    fn update_ctx(&self) -> UpdateCtx<'_> {
+        UpdateCtx {
             graph: &self.graph,
             dataset_path: Some(&self.dataset_path),
             components_dir: self.components_dir.as_deref(),
             schema_registry: self.schema_registry.as_ref(),
             mode_sets_dir: self.mode_sets_dir.as_deref(),
-        }
-    }
-
-    fn wizard_ctx(&self) -> WizardCtx<'_> {
-        WizardCtx {
-            graph: &self.graph,
-            dataset_path: Some(&self.dataset_path),
-            schema_registry: self.schema_registry.as_ref(),
             allow_write: self.allow_write,
         }
     }
@@ -205,37 +191,6 @@ struct Cli {
     no_resume_wizard: bool,
 }
 
-/// Write `text` to the system clipboard.
-///
-/// - macOS: `pbcopy`
-/// - Linux: `xclip -selection clipboard`
-/// - Windows: not supported; returns an error that main.rs surfaces in the status bar.
-fn write_clipboard(text: &str) -> std::io::Result<()> {
-    #[cfg(target_os = "macos")]
-    let mut child = Command::new("pbcopy").stdin(Stdio::piped()).spawn()?;
-
-    #[cfg(all(not(target_os = "macos"), not(target_os = "windows")))]
-    let mut child = Command::new("xclip")
-        .args(["-selection", "clipboard"])
-        .stdin(Stdio::piped())
-        .spawn()?;
-
-    #[cfg(target_os = "windows")]
-    return Err(std::io::Error::new(
-        std::io::ErrorKind::Unsupported,
-        "clipboard yank is not supported on Windows",
-    ));
-
-    #[cfg(not(target_os = "windows"))]
-    {
-        if let Some(mut stdin) = child.stdin.take() {
-            stdin.write_all(text.as_bytes())?;
-        }
-        child.wait()?;
-        Ok(())
-    }
-}
-
 fn main() -> Result<()> {
     let cli = Cli::parse();
     let theme = match cli.theme {
@@ -271,131 +226,12 @@ fn main() -> Result<()> {
     result
 }
 
-/// Rebuild hit regions after a draw, mirroring the layout computed inside `view::draw`.
-///
-/// SYNC WITH view::draw layout: the constraint array below must stay identical to the
-/// one in `view::draw`. If a chunk is added or reordered there, update this function to
-/// match or click targets will silently drift.
-fn compute_hit_regions(app: &App, status_height: u16, frame_area: Rect) -> Vec<HitRegion> {
-    let chunks = Layout::default()
-        .direction(Direction::Vertical)
-        .constraints([
-            Constraint::Length(1),             // primer header  ← SYNC WITH view::draw
-            Constraint::Min(0),                // active view    ← SYNC WITH view::draw
-            Constraint::Length(status_height), // status message ← SYNC WITH view::draw
-            Constraint::Length(1),             // palette prompt ← SYNC WITH view::draw
-        ])
-        .split(frame_area);
-
-    let view_area = chunks[1];
-    // Tables have a top border (1) + header row (1) before data rows start.
-    let data_y = view_area.y + 2;
-    let data_height = view_area.height.saturating_sub(2);
-
-    let mut regions = Vec::new();
-    match &app.active_view {
-        ActiveView::Query(qv) => {
-            for (i, row) in qv.rows.iter().enumerate() {
-                let y = data_y + i as u16;
-                if i as u16 >= data_height {
-                    break;
-                }
-                regions.push(HitRegion {
-                    rect: Rect { x: view_area.x, y, width: view_area.width, height: 1 },
-                    action: HitAction::SelectListRow(i),
-                    text: format!("{}\t{}\t{}\t{}", row.name, row.value, row.file, row.layer),
-                });
-            }
-        }
-        ActiveView::Resolve(rv) => {
-            for (i, row) in rv.rows.iter().enumerate() {
-                let y = data_y + i as u16;
-                if i as u16 >= data_height {
-                    break;
-                }
-                regions.push(HitRegion {
-                    rect: Rect { x: view_area.x, y, width: view_area.width, height: 1 },
-                    action: HitAction::SelectListRow(i),
-                    text: format!("{}\t{}\t{}\t{}", row.name, row.value, row.file, row.layer),
-                });
-            }
-        }
-        ActiveView::Validate(vv) => {
-            for (i, row) in vv.rows.iter().enumerate() {
-                let y = data_y + i as u16;
-                if i as u16 >= data_height {
-                    break;
-                }
-                regions.push(HitRegion {
-                    rect: Rect { x: view_area.x, y, width: view_area.width, height: 1 },
-                    action: HitAction::SelectListRow(i),
-                    text: format!(
-                        "{}\t{}\t{}\t{}",
-                        row.severity, row.rule_id, row.token, row.message
-                    ),
-                });
-            }
-        }
-        ActiveView::Empty | ActiveView::Describe(_) => {}
-    }
-    regions
-}
-
 fn run<B: ratatui::backend::Backend>(
     terminal: &mut Terminal<B>,
     handle: &DatasetHandle,
     resume_wizard: bool,
 ) -> Result<()> {
-    let mut app = App::new_with_options(resume_wizard);
-
-    loop {
-        let mut frame_area = Rect::default();
-        let status_height = u16::from(app.status_message.is_some());
-
-        terminal.draw(|f| {
-            frame_area = f.area();
-            design_data_tui::draw(&mut app, f, &handle.theme, &handle.primer_line());
-        }).into_diagnostic()?;
-
-        // Rebuild hit regions from the frame geometry computed during draw.
-        app.hit_regions = compute_hit_regions(&app, status_height, frame_area);
-
-        // Copy to clipboard outside the draw closure (needs mutable app).
-        if let Some(text) = app.take_pending_yank() {
-            if let Err(e) = write_clipboard(&text) {
-                app.status_message =
-                    Some(StatusMessage::error(format!("clipboard unavailable: {e}")));
-            }
-        }
-
-        if event::poll(std::time::Duration::from_millis(16)).into_diagnostic()? {
-            match event::read().into_diagnostic()? {
-                Event::Key(key) if key.kind == KeyEventKind::Press => {
-                    if app.modal.is_some() {
-                        // Modal captures all input; palette is suppressed.
-                        app.handle_modal_key(key, &handle.wizard_ctx());
-                    } else {
-                        let was_open = app.palette_open;
-                        app.handle_key(key);
-                        // Palette just closed via Enter — dispatch command.
-                        if was_open && !app.palette_open && key.code == KeyCode::Enter {
-                            app.submit_palette(&handle.submit_context());
-                        }
-                    }
-                }
-                Event::Key(_) => {}
-                Event::Mouse(me) => {
-                    // handle_mouse sets pending_yank; it is drained above next frame.
-                    app.handle_mouse(me);
-                }
-                _ => {}
-            }
-        }
-
-        if app.quit {
-            break;
-        }
-    }
-
-    Ok(())
+    let model = Model::new_with_options(resume_wizard);
+    let ctx = handle.update_ctx();
+    design_data_tui::run(terminal, model, &ctx, &handle.theme, &handle.primer_line())
 }
