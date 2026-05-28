@@ -1,0 +1,13 @@
+type: tool
+language: bash
+
+tasks:
+  verify:
+    command: [bash, ./verify-demo.sh]
+    inputs:
+      - "verify-demo.sh"
+      - "demo-commands.sh"
+      - "broken-token-example.tokens.json"
+
+  ci:
+    deps: [verify]
