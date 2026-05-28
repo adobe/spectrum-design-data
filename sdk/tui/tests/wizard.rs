@@ -9,15 +9,15 @@
 // governing permissions and limitations under the License.
 
 mod common;
-use common::{key, make_graph};
+use common::{key, make_graph, update_ctx};
 
 use crossterm::event::KeyCode;
 use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph};
 use design_data_tui::app::{App, Modal, SubmitContext};
 use design_data_tui::wizard::{ValueKind, WizardCtx, WizardPath, WizardScreen};
+use design_data_tui::{Task, UpdateCtx, update, Message, Model};
 use std::path::PathBuf;
 
-/// Graph with a colorScheme mode set — used for Screen 3 tests.
 fn make_graph_with_modes() -> TokenGraph {
     let ms = ModeSetRecord {
         file: PathBuf::from("mode-sets/color-scheme.json"),
@@ -28,14 +28,13 @@ fn make_graph_with_modes() -> TokenGraph {
     make_graph().with_mode_sets(vec![ms])
 }
 
-/// Open the wizard via `:new <intent>`.
-fn open_wizard(app: &mut App, graph: &TokenGraph, intent: &str) {
-    let cmd = format!("new {intent}");
-    app.handle_key(key(KeyCode::Char(':')));
-    for c in cmd.chars() {
-        app.handle_key(key(KeyCode::Char(c)));
-    }
-    app.submit_palette(&SubmitContext::new(graph));
+fn fixtures_path() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures")
+}
+
+/// Open the wizard via `PaletteSubmit("new <intent>")`.
+fn open_wizard(model: &mut Model, ctx: &UpdateCtx<'_>, intent: &str) {
+    update(model, Message::PaletteSubmit(format!("new {intent}")), ctx);
 }
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
@@ -43,33 +42,33 @@ fn open_wizard(app: &mut App, graph: &TokenGraph, intent: &str) {
 #[test]
 fn new_command_opens_wizard() {
     let graph = make_graph();
-    let mut app = App::new();
-    open_wizard(&mut app, &graph, "accent background");
-    assert!(app.modal.is_some(), "modal should be open after :new");
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "accent background");
+    assert!(model.modal.is_some(), "modal should be open after :new");
 }
 
 #[test]
 fn esc_cancels_wizard() {
     let graph = make_graph();
-    let mut app = App::new();
-    open_wizard(&mut app, &graph, "accent background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
-    app.handle_modal_key(key(KeyCode::Esc), &ctx);
-    assert!(app.modal.is_none(), "modal should close on Esc");
-    let msg = app.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "accent background");
+    let task = update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
+    assert!(model.modal.is_none(), "modal should close on Esc");
+    assert!(matches!(task, Task::Cmd(_)), "cancel should return Task::Cmd (draft clear)");
+    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(msg.contains("cancelled"), "status should say cancelled: {msg}");
 }
 
 #[test]
 fn intent_populates_suggestions_on_open() {
     let graph = make_graph();
-    let mut app = App::new();
-    open_wizard(&mut app, &graph, "accent background");
-    if let Some(Modal::Wizard(ref ws)) = app.modal {
-        assert!(
-            !ws.suggestions.is_empty(),
-            "suggestions should be populated from intent"
-        );
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "accent background");
+    if let Some(Modal::Wizard(ref ws)) = model.modal {
+        assert!(!ws.suggestions.is_empty(), "suggestions should be populated from intent");
     } else {
         panic!("expected wizard modal");
     }
@@ -78,11 +77,11 @@ fn intent_populates_suggestions_on_open() {
 #[test]
 fn enter_on_screen_1_advances_to_screen_2() {
     let graph = make_graph();
-    let mut app = App::new();
-    open_wizard(&mut app, &graph, "accent background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
-    app.handle_modal_key(key(KeyCode::Enter), &ctx);
-    if let Some(Modal::Wizard(ref ws)) = app.modal {
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "accent background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
+    if let Some(Modal::Wizard(ref ws)) = model.modal {
         assert_eq!(ws.screen, WizardScreen::Classification, "should advance to Screen 2");
     } else {
         panic!("expected wizard modal after Enter on Screen 1");
@@ -92,13 +91,12 @@ fn enter_on_screen_1_advances_to_screen_2() {
 #[test]
 fn tab_with_suggestion_sets_alias_path_and_jumps_to_confirm() {
     let graph = make_graph();
-    let mut app = App::new();
-    open_wizard(&mut app, &graph, "accent background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
-    // Tab should reuse the top suggestion and skip to Screen 4.
-    app.handle_modal_key(key(KeyCode::Tab), &ctx);
-    if let Some(Modal::Wizard(ref ws)) = app.modal {
-        assert_eq!(ws.screen, WizardScreen::Confirm, "should jump to Confirm after Tab reuse");
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "accent background");
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
+    if let Some(Modal::Wizard(ref ws)) = model.modal {
+        assert_eq!(ws.screen, WizardScreen::Confirm, "Tab should jump to Confirm");
         assert!(
             matches!(ws.chosen_path, WizardPath::AliasToExisting(_)),
             "chosen_path should be AliasToExisting"
@@ -111,21 +109,18 @@ fn tab_with_suggestion_sets_alias_path_and_jumps_to_confirm() {
 #[test]
 fn screen_2_layer_cycles_with_arrow_keys() {
     let graph = make_graph();
-    let mut app = App::new();
-    open_wizard(&mut app, &graph, "background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
-    // Advance to Screen 2.
-    app.handle_modal_key(key(KeyCode::Enter), &ctx);
-    // focused_field = 0 (layer); Right cycles forward.
-    app.handle_modal_key(key(KeyCode::Right), &ctx);
-    if let Some(Modal::Wizard(ref ws)) = app.modal {
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
+    update(&mut model, Message::Key(key(KeyCode::Right)), &ctx);
+    if let Some(Modal::Wizard(ref ws)) = model.modal {
         assert_eq!(ws.classification.layer, Layer::Platform, "Right should advance layer");
     } else {
         panic!("expected wizard modal");
     }
-    // Left cycles back.
-    app.handle_modal_key(key(KeyCode::Left), &ctx);
-    if let Some(Modal::Wizard(ref ws)) = app.modal {
+    update(&mut model, Message::Key(key(KeyCode::Left)), &ctx);
+    if let Some(Modal::Wizard(ref ws)) = model.modal {
         assert_eq!(ws.classification.layer, Layer::Foundation, "Left should reverse layer");
     }
 }
@@ -133,12 +128,12 @@ fn screen_2_layer_cycles_with_arrow_keys() {
 #[test]
 fn screen_2_enter_advances_to_screen_3() {
     let graph = make_graph();
-    let mut app = App::new();
-    open_wizard(&mut app, &graph, "background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
-    if let Some(Modal::Wizard(ref ws)) = app.modal {
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
+    if let Some(Modal::Wizard(ref ws)) = model.modal {
         assert_eq!(ws.screen, WizardScreen::Values, "should advance to Screen 3");
     } else {
         panic!("expected wizard modal");
@@ -148,13 +143,12 @@ fn screen_2_enter_advances_to_screen_3() {
 #[test]
 fn screen_3_mode_rows_match_cartesian_product() {
     let graph = make_graph_with_modes();
-    let mut app = App::new();
-    open_wizard(&mut app, &graph, "background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
-    if let Some(Modal::Wizard(ref ws)) = app.modal {
-        // colorScheme has 2 modes → 2 rows.
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
+    if let Some(Modal::Wizard(ref ws)) = model.modal {
         assert_eq!(ws.values.rows.len(), 2, "should have one row per mode combo");
     } else {
         panic!("expected wizard modal");
@@ -164,34 +158,39 @@ fn screen_3_mode_rows_match_cartesian_product() {
 #[test]
 fn screen_3_a_l_toggle_value_kind() {
     let graph = make_graph_with_modes();
-    let mut app = App::new();
-    open_wizard(&mut app, &graph, "background");
-    let ctx = WizardCtx { graph: &graph, dataset_path: None, schema_registry: None, allow_write: false };
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
-    // Default is Alias; 'l' should switch to Literal.
-    app.handle_modal_key(key(KeyCode::Char('l')), &ctx);
-    if let Some(Modal::Wizard(ref ws)) = app.modal {
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
+    update(&mut model, Message::Key(key(KeyCode::Char('l'))), &ctx);
+    if let Some(Modal::Wizard(ref ws)) = model.modal {
         assert_eq!(ws.values.rows[0].kind, ValueKind::Literal, "'l' should set Literal");
     }
-    // 'a' should switch back.
-    app.handle_modal_key(key(KeyCode::Char('a')), &ctx);
-    if let Some(Modal::Wizard(ref ws)) = app.modal {
+    update(&mut model, Message::Key(key(KeyCode::Char('a'))), &ctx);
+    if let Some(Modal::Wizard(ref ws)) = model.modal {
         assert_eq!(ws.values.rows[0].kind, ValueKind::Alias, "'a' should restore Alias");
     }
 }
 
 #[test]
 fn screen_3_enter_advances_to_screen_4() {
+    let fixtures = fixtures_path();
     let graph = make_graph();
-    let mut app = App::new();
-    let fixtures = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
-    let ctx = WizardCtx { graph: &graph, dataset_path: Some(&fixtures), schema_registry: None, allow_write: false };
-    open_wizard(&mut app, &graph, "background");
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 4
-    if let Some(Modal::Wizard(ref ws)) = app.modal {
+    let ctx = UpdateCtx {
+        graph: &graph,
+        dataset_path: Some(fixtures.as_path()),
+        components_dir: None,
+        schema_registry: None,
+        mode_sets_dir: None,
+        allow_write: false,
+    };
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 4
+    if let Some(Modal::Wizard(ref ws)) = model.modal {
         assert_eq!(ws.screen, WizardScreen::Confirm, "should advance to Screen 4");
     } else {
         panic!("expected wizard modal");
@@ -200,38 +199,50 @@ fn screen_3_enter_advances_to_screen_4() {
 
 #[test]
 fn screen_4_empty_rationale_blocks_submit() {
+    let fixtures = fixtures_path();
     let graph = make_graph();
-    let mut app = App::new();
-    let fixtures = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
-    let ctx = WizardCtx { graph: &graph, dataset_path: Some(&fixtures), schema_registry: None, allow_write: false };
-    open_wizard(&mut app, &graph, "background");
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 4
-    // Rationale is empty; Enter should NOT close the modal.
-    app.handle_modal_key(key(KeyCode::Enter), &ctx);
-    assert!(app.modal.is_some(), "modal should stay open when rationale is empty");
+    let ctx = UpdateCtx {
+        graph: &graph,
+        dataset_path: Some(fixtures.as_path()),
+        components_dir: None,
+        schema_registry: None,
+        mode_sets_dir: None,
+        allow_write: false,
+    };
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 4
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // Submit with empty rationale
+    assert!(model.modal.is_some(), "modal should stay open when rationale is empty");
 }
 
 #[test]
 fn screen_4_diff_preview_is_populated_on_enter() {
+    let fixtures = fixtures_path();
     let graph = make_graph();
-    let mut app = App::new();
-    let fixtures = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
-    let ctx = WizardCtx { graph: &graph, dataset_path: Some(&fixtures), schema_registry: None, allow_write: false };
-    open_wizard(&mut app, &graph, "background");
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
-    // Tab once: layer (0) → property (1).
-    app.handle_modal_key(key(KeyCode::Tab), &ctx);
+    let ctx = UpdateCtx {
+        graph: &graph,
+        dataset_path: Some(fixtures.as_path()),
+        components_dir: None,
+        schema_registry: None,
+        mode_sets_dir: None,
+        allow_write: false,
+    };
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx); // focus → property
     for c in "background-color".chars() {
-        app.handle_modal_key(key(KeyCode::Char(c)), &ctx);
+        update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 4 (triggers build_diff)
-    if let Some(Modal::Wizard(ref ws)) = app.modal {
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 4
+    if let Some(Modal::Wizard(ref ws)) = model.modal {
         assert_eq!(ws.screen, WizardScreen::Confirm);
         let diff = ws.diff_preview.as_ref().expect("diff_preview should be populated");
-        assert!(diff.contains('+'), "diff should contain '+' lines for the new token");
+        assert!(diff.contains('+'), "diff should contain '+' lines");
     } else {
         panic!("expected wizard modal");
     }
@@ -239,37 +250,54 @@ fn screen_4_diff_preview_is_populated_on_enter() {
 
 #[test]
 fn screen_4_submit_closes_modal_and_sets_status() {
+    let fixtures = fixtures_path();
     let graph = make_graph();
-    let mut app = App::new();
-    let fixtures = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
-    let ctx = WizardCtx { graph: &graph, dataset_path: Some(&fixtures), schema_registry: None, allow_write: false };
-    open_wizard(&mut app, &graph, "background");
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 4
-    // Type a rationale.
+    let ctx = UpdateCtx {
+        graph: &graph,
+        dataset_path: Some(fixtures.as_path()),
+        components_dir: None,
+        schema_registry: None,
+        mode_sets_dir: None,
+        allow_write: false,
+    };
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 4
     for c in "Needed for the checkout redesign".chars() {
-        app.handle_modal_key(key(KeyCode::Char(c)), &ctx);
+        update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }
-    // Submit.
-    app.handle_modal_key(key(KeyCode::Enter), &ctx);
-    assert!(app.modal.is_none(), "modal should close after submit");
-    let msg = app.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
+    let task = update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
+    assert!(model.modal.is_none(), "modal should close after submit");
+    assert!(matches!(task, Task::Cmd(_)), "submit should return Task::Cmd (draft clear)");
+    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(
         msg.contains("write disabled") || msg.contains("preview"),
         "status should mention preview/write disabled: {msg}"
     );
 }
 
+// ── Test that keeps App path (uses tempfile for FS write assertion) ────────────
+
 #[test]
 fn submit_does_not_create_foundation_json_without_allow_write() {
     let graph = make_graph();
     let mut app = App::new();
     let tmpdir = tempfile::TempDir::new().expect("tempdir");
-    // foundation.json is the resolved target for a Foundation-layer token.
     let foundation_file = tmpdir.path().join("foundation.json");
-    let ctx = WizardCtx { graph: &graph, dataset_path: Some(tmpdir.path()), schema_registry: None, allow_write: false };
-    open_wizard(&mut app, &graph, "background");
+    let ctx = WizardCtx {
+        graph: &graph,
+        dataset_path: Some(tmpdir.path()),
+        schema_registry: None,
+        allow_write: false,
+    };
+    // Use old App path since this test verifies filesystem behavior.
+    app.handle_key(key(KeyCode::Char(':')));
+    for c in "new background".chars() {
+        app.handle_key(key(KeyCode::Char(c)));
+    }
+    app.submit_palette(&SubmitContext::new(&graph));
     app.handle_modal_key(key(KeyCode::Enter), &ctx);
     app.handle_modal_key(key(KeyCode::Enter), &ctx);
     app.handle_modal_key(key(KeyCode::Enter), &ctx);
@@ -277,17 +305,15 @@ fn submit_does_not_create_foundation_json_without_allow_write() {
         app.handle_modal_key(key(KeyCode::Char(c)), &ctx);
     }
     app.handle_modal_key(key(KeyCode::Enter), &ctx);
-    assert!(
-        !foundation_file.exists(),
-        "wizard submit without --allow-write must NOT write foundation.json to the dataset"
-    );
+    assert!(!foundation_file.exists(), "wizard submit without --allow-write must NOT write");
 }
+
+// ── WizardState unit test ─────────────────────────────────────────────────────
 
 #[test]
 fn assembled_name_joins_property_and_fields() {
     use design_data_tui::wizard::WizardState;
     let mut ws = WizardState::new();
-    // Set property via Classification input.
     use tui_input::Input;
     ws.classification.property = Input::from("background-color".to_string());
     ws.classification.name_fields.push(design_data_tui::wizard::NameField {
