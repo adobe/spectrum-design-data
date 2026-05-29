@@ -67,15 +67,19 @@ jobs:
       # lifecycle hooks.
       - run: pnpm install --frozen-lockfile --ignore-scripts
 
-      # Moon codegen generates sdk/core/src/registry_data.rs, which is a
-      # required build input for cargo (declared in sdk/moon.yml inputs).
+      # Regenerate sdk/core/src/registry_data.rs before cargo build.
+      # We run sdk:codegen (not codegen-check) because codegen-check compares
+      # file content as strings and fails on Windows when git checks out the
+      # committed LF file with CRLF endings, producing a spurious mismatch.
+      # Regenerating is always safe — it produces the same content as the
+      # committed file and sidesteps the line-ending issue entirely.
       - name: Set up moonrepo
         uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
 
-      - name: Run codegen
-        run: moon run sdk:codegen-check
+      - name: Regenerate registry data
+        run: moon run sdk:codegen
         working-directory: .
 
       - name: Build binary
