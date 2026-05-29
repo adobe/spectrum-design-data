@@ -19,6 +19,7 @@ dirs = "5"
 tempfile = "3.14"
 thiserror = "2.0"
 uuid = { version = "1.11", features = ["v4"] }
+include_dir = "0.7"
 semver = "1"
 toml = "0.8"
 walkdir = "2.5"

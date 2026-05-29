@@ -1038,6 +1038,22 @@ fn run_primer(
         }
     };
 
+    let provenance = match &resolved.provenance {
+        data_source::Provenance::InRepo => serde_json::json!({ "source": "in-repo" }),
+        data_source::Provenance::Config { config_path } => serde_json::json!({
+            "source": "config",
+            "configPath": config_path.display().to_string(),
+        }),
+        data_source::Provenance::Cache { cache_dir } => serde_json::json!({
+            "source": "cache",
+            "cacheDir": cache_dir.display().to_string(),
+        }),
+        data_source::Provenance::Embedded { version } => serde_json::json!({
+            "source": "embedded",
+            "tokensVersion": version,
+        }),
+    };
+
     let payload = serde_json::json!({
         "specVersion": SPEC_VERSION,
         "tokenCount": token_count,
@@ -1045,6 +1061,7 @@ fn run_primer(
         "components": components,
         "taxonomyFields": taxonomy_fields,
         "manifest": manifest,
+        "provenance": provenance,
     });
 
     match format {
