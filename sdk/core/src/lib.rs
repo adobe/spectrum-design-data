@@ -12,6 +12,7 @@
 
 pub mod authoring;
 pub mod cascade;
+pub mod data_source;
 pub mod compat;
 pub mod diff;
 pub mod discovery;

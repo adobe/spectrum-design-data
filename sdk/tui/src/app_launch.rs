@@ -24,6 +24,7 @@ use crossterm::{
     execute,
     terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
 };
+use design_data_core::data_source::{self, CliPathOverrides};
 use design_data_core::graph::TokenGraph;
 use design_data_core::schema::SchemaRegistry;
 use miette::{IntoDiagnostic, Result, WrapErr};
@@ -93,8 +94,17 @@ impl DatasetHandle {
             .into_diagnostic()
             .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
-        // Resolve components directory: explicit arg → spec-bundled fallback.
-        let components_dir = components_arg.or_else(default_components_path);
+        // Resolve spec paths via the central data_source resolver.
+        // The dataset path is already explicit; we only need spec catalog dirs + schema.
+        let cwd = std::env::current_dir().into_diagnostic()?;
+        let resolved = data_source::resolve(&cwd, &CliPathOverrides {
+            components: components_arg,
+            mode_sets: mode_sets_arg,
+            ..Default::default()
+        })
+        .into_diagnostic()?;
+
+        let components_dir = resolved.components;
         if let Some(ref dir) = components_dir {
             if dir.is_dir() {
                 let comps = TokenGraph::load_spec_components(dir)
@@ -106,8 +116,7 @@ impl DatasetHandle {
             }
         }
 
-        // Resolve mode-sets directory: explicit arg → spec-bundled fallback.
-        let mode_sets_dir = mode_sets_arg.or_else(default_mode_sets_path);
+        let mode_sets_dir = resolved.mode_sets;
         if let Some(ref dir) = mode_sets_dir {
             if dir.is_dir() {
                 let mode_sets = TokenGraph::load_spec_mode_sets(dir)
@@ -119,9 +128,10 @@ impl DatasetHandle {
             }
         }
 
-        // Load schema registry for `:validate`. Silently skip if schema dir is absent.
-        let schema_registry = default_schema_path()
-            .and_then(|p| SchemaRegistry::load_legacy_token_schemas(&p).ok());
+        // Load schema registry for `:validate`. Silently skip if schema dir is absent
+        // (schema_root has a fallback default; the load itself may fail when not in-repo).
+        let schema_registry =
+            SchemaRegistry::load_legacy_token_schemas(&resolved.schemas_root).ok();
 
         Ok(Self {
             token_count: graph.tokens.len(),
@@ -153,33 +163,6 @@ impl DatasetHandle {
             allow_write: self.allow_write,
         }
     }
-}
-
-fn default_schema_path() -> Option<PathBuf> {
-    if let Ok(p) = std::env::var("DESIGN_DATA_SCHEMA_ROOT") {
-        return Some(PathBuf::from(p));
-    }
-    let candidates = [
-        PathBuf::from("packages/tokens/schemas"),
-        PathBuf::from("../packages/tokens/schemas"),
-    ];
-    candidates.into_iter().find(|c| c.join("token-types").is_dir())
-}
-
-fn default_components_path() -> Option<PathBuf> {
-    let candidates = [
-        PathBuf::from("packages/design-data-spec/components"),
-        PathBuf::from("../packages/design-data-spec/components"),
-    ];
-    candidates.into_iter().find(|c| c.is_dir())
-}
-
-fn default_mode_sets_path() -> Option<PathBuf> {
-    let candidates = [
-        PathBuf::from("packages/design-data-spec/mode-sets"),
-        PathBuf::from("../packages/design-data-spec/mode-sets"),
-    ];
-    candidates.into_iter().find(|c| c.is_dir())
 }
 
 /// Set up the terminal, run the TUI event loop, and restore the terminal on exit.
