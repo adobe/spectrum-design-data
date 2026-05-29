@@ -152,12 +152,13 @@ fn resolve_cache_base(override_dir: Option<&Path>) -> Result<PathBuf, FetchError
 // ---------------------------------------------------------------------------
 
 fn fetch_github(base: &Path, repo: &str, tag: &str) -> Result<PathBuf, FetchError> {
-    // Sanitize tag for use as a filesystem path component (replace `/` and `@`).
-    let safe_tag = tag.replace('/', "-").replace('@', "");
-    let key = format!(
-        "github/{}/{safe_tag}",
-        repo.replace('/', "-"),
-    );
+    // Sanitize repo and tag for use as filesystem path components.
+    // We keep an `@` separator between the repo slug and the safe tag so that a
+    // tag like `adobe/spectrum-tokens14.11.0` (no `@`) doesn't collide with
+    // `@adobe/spectrum-tokens@14.11.0` after sanitization.
+    let safe_repo = repo.replace('/', "-");
+    let safe_tag = tag.replace(['/', '@'], "-");
+    let key = format!("github/{safe_repo}@{safe_tag}");
     let root = base.join(&key);
     let sentinel = root.join(".complete");
 
@@ -165,25 +166,35 @@ fn fetch_github(base: &Path, repo: &str, tag: &str) -> Result<PathBuf, FetchErro
         return Ok(root);
     }
 
-    let url = format!(
-        "https://github.com/{repo}/archive/refs/tags/{tag}.tar.gz",
-        repo = repo,
-        tag = tag,
-    );
+    let url = format!("https://github.com/{repo}/archive/refs/tags/{tag}.tar.gz");
 
     let bytes = download_bytes(&url)?;
     extract_github_tarball(&bytes, &url, &root)?;
-    evict_stale_versions(&root, &base.join("github").join(repo.replace('/', "-")));
+    evict_stale_versions(&root, &base.join("github").join(&safe_repo));
 
     Ok(root)
 }
 
 /// Download `url` and return the response body as bytes.
-/// Uses async `reqwest` + a one-shot `tokio::Runtime` (same pattern as the Figma client).
+///
+/// Uses async `reqwest` + a one-shot `tokio::Runtime` (same pattern as the Figma
+/// client).  A 60-second overall timeout prevents silent hangs on slow or stuck
+/// connections.
+///
+/// The body is buffered in memory before returning (~2 MB for a Spectrum release
+/// tarball).  This is a deliberate tradeoff: streaming directly into a `tar`
+/// decoder would complicate the API and error paths, and the current tarball size
+/// is well within typical memory budgets.
 fn download_bytes(url: &str) -> Result<Vec<u8>, FetchError> {
     let rt = tokio::runtime::Runtime::new().map_err(FetchError::Io)?;
     rt.block_on(async {
-        let resp = reqwest::get(url)
+        let client = reqwest::Client::builder()
+            .timeout(std::time::Duration::from_secs(60))
+            .build()
+            .map_err(|e| FetchError::Network { url: url.to_string(), source: e })?;
+        let resp = client
+            .get(url)
+            .send()
             .await
             .map_err(|e| FetchError::Network { url: url.to_string(), source: e })?;
         let status = resp.status();
