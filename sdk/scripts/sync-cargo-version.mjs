@@ -67,21 +67,6 @@ for (const platform of platforms) {
   console.log(`Updated sdk/npm/${platform}/package.json to ${cliVersion}`);
 }
 
-// Update optionalDependencies in the launcher to pin the same version.
-const launcherPath = resolve(root, 'cli/package.json');
-const launcher = JSON.parse(readFileSync(launcherPath, 'utf8'));
-
-let launcherChanged = false;
-for (const dep of Object.keys(launcher.optionalDependencies ?? {})) {
-  if (launcher.optionalDependencies[dep] !== cliVersion) {
-    launcher.optionalDependencies[dep] = cliVersion;
-    launcherChanged = true;
-  }
-}
-
-if (launcherChanged) {
-  writeFileSync(launcherPath, JSON.stringify(launcher, null, 2) + '\n');
-  console.log(`Updated sdk/cli/package.json optionalDependencies to ${cliVersion}`);
-} else {
-  console.log(`sdk/cli/package.json optionalDependencies already at ${cliVersion}`);
-}
+// Note: optionalDependencies in sdk/cli/package.json use "workspace:*" —
+// pnpm converts these to the actual resolved version at publish time via
+// `pnpm publish`. No manual update needed here.

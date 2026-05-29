@@ -11,10 +11,10 @@
     "README.md"
   ],
   "optionalDependencies": {
-    "@adobe/design-data-darwin-arm64": "0.0.0",
-    "@adobe/design-data-darwin-x64": "0.0.0",
-    "@adobe/design-data-linux-x64": "0.0.0",
-    "@adobe/design-data-win32-x64": "0.0.0"
+    "@adobe/design-data-darwin-arm64": "workspace:*",
+    "@adobe/design-data-darwin-x64": "workspace:*",
+    "@adobe/design-data-linux-x64": "workspace:*",
+    "@adobe/design-data-win32-x64": "workspace:*"
   },
   "engines": {
     "node": ">=20.12.0"
