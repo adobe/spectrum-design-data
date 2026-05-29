@@ -20,6 +20,7 @@ pub mod runtime;
 pub mod task;
 pub mod theme;
 pub mod update;
+pub(crate) mod update_command;
 pub mod view;
 pub mod wizard;
 pub mod wizard_common;
