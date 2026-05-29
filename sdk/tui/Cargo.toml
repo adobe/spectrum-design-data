@@ -16,7 +16,7 @@ path = "src/main.rs"
 [dependencies]
 design-data-core = { path = "../core" }
 ratatui = "0.28"
-crossterm = "0.28"
+crossterm = { version = "0.28", features = ["serde"] }
 tui-input = "0.10"
 clap = { version = "4.5", features = ["derive"] }
 miette = { version = "7.4", features = ["fancy"] }

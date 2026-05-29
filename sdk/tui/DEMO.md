@@ -326,6 +326,25 @@ agg --theme monokai --speed 1.25 \
 
 ***
 
+## Replay Debugging
+
+The TUI supports recording and replaying sessions for deterministic bug reproduction.
+See [REPLAY.md](REPLAY.md) for the full workflow.
+
+Quick reference:
+
+```bash
+# Record a session to NDJSON
+cargo run -p design-data-tui --release -- \
+  packages/tokens/dist/json --record /tmp/session.jsonl
+
+# Replay: feeds the stream through update headlessly, prints the final Buffer to stdout
+cargo run -p design-data-tui --release -- \
+  packages/tokens/dist/json --replay /tmp/session.jsonl
+```
+
+***
+
 ## Fallbacks
 
 | Problem                   | Recovery                                                                                        |

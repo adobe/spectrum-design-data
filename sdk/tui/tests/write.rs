@@ -16,19 +16,16 @@
 
 use std::path::PathBuf;
 
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
+mod common;
+use common::key;
+
+use crossterm::event::KeyCode;
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
 use design_data_core::schema::SchemaRegistry;
-use design_data_tui::app::{App, SubmitContext};
 use design_data_tui::wizard::{ValueKind, ValueRow, WizardCtx, WizardState};
+use design_data_tui::{update, Message, Model, UpdateCtx};
 use serde_json::json;
 use tui_input::Input;
-
-// ── Fixtures ──────────────────────────────────────────────────────────────────
-
-fn key(code: KeyCode) -> KeyEvent {
-    KeyEvent::new(code, KeyModifiers::NONE)
-}
 
 /// Valid color schema URL from the real registry.
 const COLOR_SCHEMA: &str =
@@ -83,47 +80,38 @@ fn submit_without_allow_write_does_not_create_file() {
     let registry = load_registry();
     let graph = make_graph_with_schema();
     let tmpdir = tempfile::TempDir::new().expect("tempdir");
-    let ctx = WizardCtx {
+    let ctx = UpdateCtx {
         graph: &graph,
         dataset_path: Some(tmpdir.path()),
         schema_registry: Some(&registry),
-        allow_write: false, // write disabled
+        components_dir: None,
+        mode_sets_dir: None,
+        allow_write: false,
     };
+    let mut model = Model::new();
+    update(&mut model, Message::PaletteSubmit("new background-color".into()), &ctx);
 
-    // Verify the App-level allow_write gate by driving through the UI.
-    let mut app = App::new();
-    app.handle_key(key(KeyCode::Char(':')));
-    for c in "new background-color".chars() {
-        app.handle_key(key(KeyCode::Char(c)));
-    }
-    app.submit_palette(&SubmitContext::new(&graph));
-
-    // Drive through screens programmatically.
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 2
-    app.handle_modal_key(key(KeyCode::Tab), &ctx);   // focus property
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);   // focus property
     for c in "background-color".chars() {
-        app.handle_modal_key(key(KeyCode::Char(c)), &ctx);
+        update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 3
-    app.handle_modal_key(key(KeyCode::Enter), &ctx); // → Screen 4
-
-    // Type rationale and submit.
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 4
     for c in "Needed for checkout redesign".chars() {
-        app.handle_modal_key(key(KeyCode::Char(c)), &ctx);
+        update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }
-    app.handle_modal_key(key(KeyCode::Enter), &ctx);
+    let task = update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
 
-    // Modal should close.
-    assert!(app.modal.is_none(), "modal should close without --allow-write");
+    assert!(!model.is_modal_open(), "modal should close without --allow-write");
+    assert!(task.is_cmd(), "submit without allow_write should return Task::Cmd (draft clear)");
 
-    // Status must mention --allow-write.
-    let msg = app.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
+    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(
         msg.contains("allow-write") || msg.contains("preview"),
         "status should mention --allow-write: {msg}"
     );
 
-    // No files written.
     let foundation = tmpdir.path().join("foundation.json");
     assert!(!foundation.exists(), "foundation.json must NOT be created without --allow-write");
 }

@@ -8,103 +8,104 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
-use design_data_tui::app::App;
+mod common;
+use common::{empty_graph, key, update_ctx};
 
-fn key(code: KeyCode) -> KeyEvent {
-    KeyEvent::new(code, KeyModifiers::NONE)
-}
+use crossterm::event::KeyCode;
+use design_data_tui::{update, Message, Model};
 
-fn open_palette(app: &mut App) {
-    app.handle_key(key(KeyCode::Char(':')));
-}
-
-fn type_str(app: &mut App, s: &str) {
+fn type_str(model: &mut Model, ctx: &design_data_tui::UpdateCtx<'_>, s: &str) {
     for c in s.chars() {
-        app.handle_key(key(KeyCode::Char(c)));
+        update(model, Message::Key(key(KeyCode::Char(c))), ctx);
     }
 }
 
 #[test]
 fn tab_completes_query() {
-    let mut app = App::new();
-    open_palette(&mut app);
-    type_str(&mut app, "q");
-    app.handle_key(key(KeyCode::Tab));
-    assert_eq!(app.palette_input.value(), "query ");
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
+    type_str(&mut model, &ctx, "q");
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
+    assert_eq!(model.palette_input_value(), "query ");
 }
 
 #[test]
 fn tab_completes_resolve() {
-    let mut app = App::new();
-    open_palette(&mut app);
-    type_str(&mut app, "re");
-    app.handle_key(key(KeyCode::Tab));
-    assert_eq!(app.palette_input.value(), "resolve ");
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
+    type_str(&mut model, &ctx, "re");
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
+    assert_eq!(model.palette_input_value(), "resolve ");
 }
 
 #[test]
 fn tab_completes_describe() {
-    let mut app = App::new();
-    open_palette(&mut app);
-    type_str(&mut app, "d");
-    app.handle_key(key(KeyCode::Tab));
-    assert_eq!(app.palette_input.value(), "describe ");
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
+    type_str(&mut model, &ctx, "d");
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
+    assert_eq!(model.palette_input_value(), "describe ");
 }
 
 #[test]
 fn tab_completes_validate() {
-    let mut app = App::new();
-    open_palette(&mut app);
-    type_str(&mut app, "v");
-    app.handle_key(key(KeyCode::Tab));
-    assert_eq!(app.palette_input.value(), "validate ");
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
+    type_str(&mut model, &ctx, "v");
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
+    assert_eq!(model.palette_input_value(), "validate ");
 }
 
 #[test]
 fn ambiguous_prefix_sets_status_and_leaves_buffer_unchanged() {
-    // "r" matches resolve (and only resolve with current set, but let's use "")
-    // Use "q" which is unambiguous — use a prefix that matches multiple:
-    // Actually all current commands start with unique first letters.
-    // "re" vs "res" — let's use an empty string which matches all 4.
-    // Or type nothing and tab:
-    let mut app = App::new();
-    open_palette(&mut app);
-    // Empty prefix — matches all 4 commands → ambiguous.
-    app.handle_key(key(KeyCode::Tab));
-    assert_eq!(app.palette_input.value(), ""); // buffer unchanged
-    let msg = app.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
-    assert!(
-        msg.contains("matches:"),
-        "expected 'matches:' in status: {msg}"
-    );
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
+    // Empty prefix matches all commands → ambiguous.
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
+    assert_eq!(model.palette_input_value(), "");
+    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
+    assert!(msg.contains("matches:"), "expected 'matches:' in status: {msg}");
 }
 
 #[test]
 fn tab_after_space_is_noop() {
-    let mut app = App::new();
-    open_palette(&mut app);
-    type_str(&mut app, "query ");
-    app.handle_key(key(KeyCode::Tab));
-    // Buffer should remain "query " — Tab inside argument is ignored.
-    assert_eq!(app.palette_input.value(), "query ");
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
+    type_str(&mut model, &ctx, "query ");
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
+    assert_eq!(model.palette_input_value(), "query ");
 }
 
 #[test]
 fn tab_on_no_match_is_noop() {
-    let mut app = App::new();
-    open_palette(&mut app);
-    type_str(&mut app, "zzz");
-    app.handle_key(key(KeyCode::Tab));
-    assert_eq!(app.palette_input.value(), "zzz");
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
+    type_str(&mut model, &ctx, "zzz");
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
+    assert_eq!(model.palette_input_value(), "zzz");
 }
 
 #[test]
 fn tab_in_fuzzy_mode_is_noop() {
-    let mut app = App::new();
-    app.handle_key(key(KeyCode::Char('/'))); // open in fuzzy mode
-    type_str(&mut app, "q");
-    app.handle_key(key(KeyCode::Tab));
-    // Tab does nothing in fuzzy mode — no autocomplete.
-    assert_eq!(app.palette_input.value(), "q");
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char('/'))), &ctx);
+    type_str(&mut model, &ctx, "q");
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
+    assert_eq!(model.palette_input_value(), "q");
 }
