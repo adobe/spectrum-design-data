@@ -61,7 +61,11 @@ jobs:
 
       - run: npm install -g pnpm@10.17.1
 
-      - run: pnpm install --frozen-lockfile
+      # --ignore-scripts skips prepare hooks (e.g. docs/s2-tokens-viewer uses
+      # `mkdir -p` which is not available on the Windows runner).
+      # The codegen-check step only needs Node + the script itself, not workspace
+      # lifecycle hooks.
+      - run: pnpm install --frozen-lockfile --ignore-scripts
 
       # Moon codegen generates sdk/core/src/registry_data.rs, which is a
       # required build input for cargo (declared in sdk/moon.yml inputs).
