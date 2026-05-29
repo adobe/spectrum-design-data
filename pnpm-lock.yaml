@@ -317,6 +317,14 @@ importers:
 
   sdk/cli: {}
 
+  sdk/npm/darwin-arm64: {}
+
+  sdk/npm/darwin-x64: {}
+
+  sdk/npm/linux-x64: {}
+
+  sdk/npm/win32-x64: {}
+
   tools/changeset-linter:
     dependencies:
       chalk:

@@ -116,6 +116,15 @@ dist
 # Rust (design-data SDK workspace)
 sdk/target/
 
+# design-data platform binary stubs — the placeholder scripts are tracked,
+# but real compiled binaries written by CI should not be committed.
+# (CI writes them just before `npm publish` and never commits them.)
+# Uncomment these if real binaries accidentally end up in the working tree:
+# sdk/npm/darwin-arm64/bin/design-data
+# sdk/npm/darwin-x64/bin/design-data
+# sdk/npm/linux-x64/bin/design-data
+# sdk/npm/win32-x64/bin/design-data.exe
+
 # visual studio code
 .vscode/
 
