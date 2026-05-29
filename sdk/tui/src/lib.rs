@@ -9,6 +9,8 @@
 // governing permissions and limitations under the License.
 
 pub mod app;
+pub mod app_views;
+pub(crate) mod app_palette;
 pub(crate) mod clipboard;
 pub mod find;
 pub mod help;
@@ -20,7 +22,9 @@ pub mod runtime;
 pub mod task;
 pub mod theme;
 pub mod update;
+pub(crate) mod update_command;
 pub mod view;
+pub(crate) mod view_find;
 pub mod wizard;
 pub mod wizard_common;
 pub mod wizard_draft;
