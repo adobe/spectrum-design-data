@@ -580,6 +580,9 @@ pub fn history_path() -> Option<PathBuf> {
     if let Ok(p) = std::env::var("DESIGN_DATA_TUI_HISTORY") {
         return Some(PathBuf::from(p));
     }
+    // "design-data-tui" is the stable app-data name, intentionally kept even
+    // though the binary is now `design-data`, to avoid orphaning history on
+    // existing installs when the binary was renamed.
     dirs::data_dir().map(|d| d.join("design-data-tui").join("history"))
 }
 

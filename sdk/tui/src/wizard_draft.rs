@@ -131,6 +131,9 @@ pub fn wizard_draft_path() -> Option<PathBuf> {
     if let Ok(p) = std::env::var("DESIGN_DATA_TUI_WIZARD_DRAFT") {
         return Some(PathBuf::from(p));
     }
+    // "design-data-tui" is the stable app-data name, intentionally kept even
+    // though the binary is now `design-data`, to avoid orphaning saved drafts
+    // on existing installs when the binary was renamed.
     dirs::data_dir().map(|d| d.join("design-data-tui").join("wizard-draft.json"))
 }
 

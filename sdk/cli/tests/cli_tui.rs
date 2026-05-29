@@ -13,6 +13,12 @@
 use assert_cmd::Command;
 use predicates::prelude::*;
 
+// NOTE: bare `design-data` (no args) is not tested here because it immediately tries
+// to open an interactive TUI session, which requires a TTY and raw-mode terminal that
+// are not available in the test harness. Any user (or CI job) running bare `design-data`
+// in a non-TTY context will get a crossterm raw-mode error — expected and acceptable;
+// `design-data --help` is the correct non-interactive entry point.
+
 /// `design-data --help` must exit 0 and list both CLI subcommands and the `tui` entry.
 #[test]
 fn help_lists_tui_subcommand() {
