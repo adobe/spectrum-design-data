@@ -307,17 +307,15 @@ pub fn resolve(
 
 /// Returns `true` when `cwd` is inside a monorepo checkout.
 ///
-/// Uses the same signal as the original `default_schema_path()`: the presence of
-/// `packages/tokens/schemas/token-types` (or its `../` sibling) as a directory.
+/// Walks up the ancestor chain from `cwd` looking for a directory that contains
+/// `packages/tokens/schemas/token-types`.  This works regardless of how deeply
+/// nested `cwd` is inside the repo (repo root, `sdk/`, `packages/tokens/`, etc.).
+///
 /// When this returns `true` the resolver skips the embedded tier and uses
 /// CWD-relative probing instead, preserving the original in-monorepo workflow.
 fn is_in_repo(cwd: &Path) -> bool {
-    [
-        cwd.join("packages/tokens/schemas/token-types"),
-        cwd.join("../packages/tokens/schemas/token-types"),
-    ]
-    .iter()
-    .any(|c| c.is_dir())
+    cwd.ancestors()
+        .any(|dir| dir.join("packages/tokens/schemas/token-types").is_dir())
 }
 
 /// Walk ancestors of `start` looking for `.design-data.toml`.
@@ -390,10 +388,17 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
     }
 }
 
-/// Tier 3: replicate the original `default_*_path()` probing logic.
+/// Tier 3: replicate the original `default_*_path()` probing logic verbatim.
 ///
-/// Tries both `packages/…` (run from repo root) and `../packages/…` (run from
-/// inside `sdk/`), exactly matching the previous per-function behaviour.
+/// Tries `packages/…` (run from repo root) and `../packages/…` (run from one
+/// level below the root, e.g. `sdk/`).  Returns `None` for any path not found —
+/// preserving the pre-resolver behaviour exactly for every existing working directory.
+///
+/// NOTE: `is_in_repo` uses an ancestor-walk so it returns `true` from ANY
+/// subdirectory of the repo.  This function intentionally keeps the original
+/// two-candidate probing so that callers running from deeply-nested dirs (e.g.
+/// `packages/tokens/`) get `None` for spec dirs they can't reach — the same
+/// result they got before the resolver was introduced.
 fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
     // tokens_root — original default was PathBuf::from(".") i.e. CWD.
     let tokens_root = overrides
