@@ -26,9 +26,14 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 // ── 1. Sync cli + tui: package.json → Cargo.toml ─────────────────────────────
 
+// Read the CLI package.json once; its version drives everything below.
+const cliPkg = JSON.parse(readFileSync(resolve(root, 'cli/package.json'), 'utf8'));
+const cliVersion = cliPkg.version;
+
 for (const crate of ['cli', 'tui']) {
-  const pkg = JSON.parse(readFileSync(resolve(root, `${crate}/package.json`), 'utf8'));
-  const { version } = pkg;
+  const version = crate === 'cli'
+    ? cliVersion
+    : JSON.parse(readFileSync(resolve(root, `${crate}/package.json`), 'utf8')).version;
 
   const cargoPath = resolve(root, `${crate}/Cargo.toml`);
   const cargo = readFileSync(cargoPath, 'utf8');
@@ -44,10 +49,6 @@ for (const crate of ['cli', 'tui']) {
 }
 
 // ── 2. Propagate CLI version to platform packages and optionalDependencies ───
-
-const cliVersion = JSON.parse(
-  readFileSync(resolve(root, 'cli/package.json'), 'utf8'),
-).version;
 
 const platforms = ['darwin-arm64', 'darwin-x64', 'linux-x64', 'win32-x64'];
 

@@ -58,5 +58,11 @@ try {
 try {
   execFileSync(binaryPath, process.argv.slice(2), { stdio: "inherit" });
 } catch (/** @type {any} */ err) {
+  if (err?.code === "EACCES") {
+    process.stderr.write(
+      `design-data: permission denied executing "${binaryPath}".\n` +
+        `Try: chmod +x "${binaryPath}"\n`,
+    );
+  }
   process.exit(err?.status ?? 1);
 }

@@ -27,9 +27,13 @@ jobs:
             platform: darwin-arm64
             runner: macos-latest
             ext: ""
+          # Pin macos-13 (Intel) for the x64 target: macos-latest resolves to
+          # macos-14 (arm64) as of late 2024, and while cross-compiling
+          # x86_64-apple-darwin from arm64 works, using a native x64 runner
+          # avoids any ambiguity with linker flags or toolchain detection.
           - target: x86_64-apple-darwin
             platform: darwin-x64
-            runner: macos-latest
+            runner: macos-13
             ext: ""
           - target: x86_64-unknown-linux-gnu
             platform: linux-x64
@@ -49,8 +53,18 @@ jobs:
           toolchain: "1.85.0"
           targets: ${{ matrix.target }}
 
-      # Moon / proto codegen must run before cargo build because it generates
-      # sdk/core/src/registry_data.rs which is an explicit build input.
+      # Explicit Node + pnpm setup so that moon's codegen-check step has a
+      # consistent toolchain regardless of what proto auto-installs.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.17.0"
+
+      - run: npm install -g pnpm@10.17.1
+
+      - run: pnpm install --frozen-lockfile
+
+      # Moon codegen generates sdk/core/src/registry_data.rs, which is a
+      # required build input for cargo (declared in sdk/moon.yml inputs).
       - name: Set up moonrepo
         uses: moonrepo/setup-toolchain@v0
         with:
