@@ -1,5 +1,11 @@
 # @adobe/design-data-cli
 
+## 0.1.2
+
+### Patch Changes
+
+- first release of new packages.
+
 ## 0.1.1
 
 ### Patch Changes
