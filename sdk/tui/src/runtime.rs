@@ -150,24 +150,24 @@ fn dispatch_and_record(
 
 /// Execute a task tree synchronously, feeding results back through `update`.
 ///
-/// All current `Task::Cmd` closures are fast (FS writes, clipboard) so synchronous
-/// execution is appropriate. Async `Perform` support is deferred to #1022.
+/// Execute a task tree iteratively, feeding `Cmd` results back through `update`.
 ///
-/// **Recursion depth**: each `Task::Cmd` result is fed back through `update`, which
-/// in turn may return another `Task`. In practice the chain is shallow (draft save →
-/// `Tick` → `Task::None`). If #1022 introduces `Task::Perform` with chained batches
-/// this should be converted to an explicit stack to avoid stack overflow.
-fn execute_task(task: Task<Message>, model: &mut Model, ctx: &UpdateCtx<'_>) {
-    match task {
-        Task::None => {}
-        Task::Cmd(f) => {
-            let msg = f();
-            let next = update(model, msg, ctx);
-            execute_task(next, model, ctx);
-        }
-        Task::Batch(tasks) => {
-            for t in tasks {
-                execute_task(t, model, ctx);
+/// Uses an explicit work queue (no recursion) so arbitrarily deep `Task::Batch`
+/// trees — as may arise when #1022 Subscriptions land — are handled without
+/// stack-overflow risk. All current `Cmd` closures are synchronous (FS writes,
+/// clipboard); async `Task::Perform` support is deferred.
+fn execute_task(initial: Task<Message>, model: &mut Model, ctx: &UpdateCtx<'_>) {
+    let mut work: Vec<Task<Message>> = vec![initial];
+    while let Some(task) = work.pop() {
+        match task {
+            Task::None => {}
+            Task::Cmd(f) => {
+                let msg = f();
+                work.push(update(model, msg, ctx));
+            }
+            Task::Batch(tasks) => {
+                // Reverse so the first element in the batch executes first (LIFO pop).
+                work.extend(tasks.into_iter().rev());
             }
         }
     }
@@ -241,5 +241,26 @@ fn compute_hit_regions(model: &Model, status_height: u16, frame_area: Rect) -> V
         ActiveView::Empty | ActiveView::Describe(_) => {}
     }
     regions
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use design_data_core::graph::TokenGraph;
+    use crate::update::UpdateCtx;
+
+    #[test]
+    fn execute_task_handles_deeply_nested_batch_without_stack_overflow() {
+        // 10 000 levels of Batch nesting would overflow the call stack with a
+        // recursive execute_task. The iterative implementation handles it in O(1) stack.
+        let graph = TokenGraph::default();
+        let ctx = UpdateCtx::minimal(&graph);
+        let mut model = Model::new();
+
+        let deep = (0..10_000).fold(Task::none(), |inner, _| Task::batch(vec![inner]));
+
+        // Passes if it completes without stack overflow or panic.
+        execute_task(deep, &mut model, &ctx);
+    }
 }
 
