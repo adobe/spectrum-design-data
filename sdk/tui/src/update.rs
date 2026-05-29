@@ -36,7 +36,7 @@ use crate::message::Message;
 use crate::model::Model;
 use crate::naming::NamingEvent;
 use crate::task::Task;
-use crate::update_command::handle_palette_submit;
+use crate::update_command::{extract_selection_from_regions, handle_palette_submit};
 use crate::wizard::{WizardCtx, WizardEvent};
 use crate::wizard_draft::{clear_wizard_draft, save_wizard_draft, to_draft};
 
@@ -573,29 +573,6 @@ fn click_at(model: &mut Model, row: u16, col: u16) {
     }
 }
 
-/// Extract text from hit regions within a rectangular selection.
-fn extract_selection_from_regions(
-    regions: &[crate::app::HitRegion],
-    start: (u16, u16),
-    end: (u16, u16),
-) -> Option<String> {
-    let (r1, c1) = start;
-    let (r2, c2) = end;
-    let min_row = r1.min(r2);
-    let max_row = r1.max(r2);
-    let min_col = c1.min(c2);
-    let max_col = c1.max(c2);
-    let mut lines: Vec<&str> = Vec::new();
-    for region in regions {
-        let ry = region.rect.y;
-        let rx = region.rect.x;
-        let rx_end = rx + region.rect.width;
-        if ry >= min_row && ry <= max_row && rx_end > min_col && rx <= max_col {
-            lines.push(&region.text);
-        }
-    }
-    if lines.is_empty() { None } else { Some(lines.join("\n")) }
-}
 
 // ── Internal helpers ──────────────────────────────────────────────────────────
 

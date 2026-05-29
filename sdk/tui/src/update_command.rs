@@ -24,8 +24,9 @@ use design_data_core::diff::display_name;
 use design_data_core::graph::{TokenGraph, TokenRecord};
 
 use crate::app::{
-    ActiveView, DescribeView, DiagnosticRow, Modal, QueryRow, QueryView, ResolvedRow, ResolveView,
-    StatusMessage, ValidateView, HISTORY_CAP, layer_str, parse_resolve_args, save_palette_history,
+    ActiveView, DescribeView, DiagnosticRow, HitRegion, Modal, QueryRow, QueryView, ResolvedRow,
+    ResolveView, StatusMessage, ValidateView, HISTORY_CAP, layer_str, parse_resolve_args,
+    save_palette_history,
 };
 use crate::find::FindWizardState;
 use crate::message::Message;
@@ -34,6 +35,32 @@ use crate::naming::NamingWizardState;
 use crate::task::Task;
 use crate::update::UpdateCtx;
 use crate::wizard::WizardState;
+
+// ── Selection helper ──────────────────────────────────────────────────────────
+
+/// Extract text from hit regions within a rectangular selection.
+pub(crate) fn extract_selection_from_regions(
+    regions: &[HitRegion],
+    start: (u16, u16),
+    end: (u16, u16),
+) -> Option<String> {
+    let (r1, c1) = start;
+    let (r2, c2) = end;
+    let min_row = r1.min(r2);
+    let max_row = r1.max(r2);
+    let min_col = c1.min(c2);
+    let max_col = c1.max(c2);
+    let mut lines: Vec<&str> = Vec::new();
+    for region in regions {
+        let ry = region.rect.y;
+        let rx = region.rect.x;
+        let rx_end = rx + region.rect.width;
+        if ry >= min_row && ry <= max_row && rx_end > min_col && rx <= max_col {
+            lines.push(&region.text);
+        }
+    }
+    if lines.is_empty() { None } else { Some(lines.join("\n")) }
+}
 
 // ── Palette submit ─────────────────────────────────────────────────────────────
 
