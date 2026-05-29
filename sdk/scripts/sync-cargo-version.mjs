@@ -16,6 +16,7 @@
  * - For the launcher (`cli`): keeps all `optionalDependencies` pinned to the same version.
  *
  * Run after `changeset version` via `moon run sdk:version`.
+ * Smoke-tested by sdk/scripts/test-sync-cargo-version.mjs.
  */
 
 import { readFileSync, writeFileSync } from 'fs';
