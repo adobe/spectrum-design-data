@@ -25,5 +25,8 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/",
     "provenance": true
+  },
+  "engines": {
+    "node": ">=20.12.0"
   }
 }
