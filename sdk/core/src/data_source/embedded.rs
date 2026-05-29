@@ -140,7 +140,23 @@ pub fn materialize() -> io::Result<PathBuf> {
         )
     })?;
     materialize_to(&root)?;
+    evict_stale_versions(&root);
     Ok(root)
+}
+
+/// Remove sibling version directories under `embedded/` that don't match the
+/// current [`EMBEDDED_TOKENS_VERSION`], keeping the cache footprint bounded as
+/// the binary is updated across releases.  Errors are silently ignored — eviction
+/// is best-effort and must never cause the calling `materialize` to fail.
+fn evict_stale_versions(current: &Path) {
+    let Some(parent) = current.parent() else { return };
+    let Ok(entries) = std::fs::read_dir(parent) else { return };
+    for entry in entries.flatten() {
+        let path = entry.path();
+        if path != current && path.is_dir() {
+            let _ = std::fs::remove_dir_all(&path);
+        }
+    }
 }
 
 /// Write the embedded snapshot into `root` and return when complete.
@@ -197,8 +213,15 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
         TOKENS_MANIFEST.as_bytes(),
     )?;
 
-    // Rename tmp → root (atomic on most OSes; non-atomic on Windows cross-device,
-    // but acceptable — the sentinel guarantees correctness regardless).
+    // Rename tmp → root.  Atomic on POSIX (same filesystem); non-atomic on Windows
+    // cross-device, but the sentinel guarantees correctness regardless.
+    //
+    // Known race window: if two processes reach this point simultaneously they
+    // share the same `tmp` path (root.with_extension("tmp")).  The second
+    // remove_dir_all(&tmp) at the top of materialize_to will delete the first
+    // process's in-progress work, but both will eventually succeed in writing a
+    // complete snapshot.  For a design tool this is acceptable; a PID-suffixed tmp
+    // dir would eliminate the race if stricter isolation is needed in future.
     if root.exists() {
         std::fs::remove_dir_all(root)?;
     }
@@ -293,6 +316,11 @@ mod tests {
 
     #[test]
     fn materialize_token_src_contains_json_files() {
+        // Regression guard: if the number of embedded token source files changes
+        // (files added/removed from packages/tokens/src/), this test fails
+        // deliberately so the change is noticed and EMBEDDED_TOKENS_VERSION is
+        // bumped alongside it.  Update the expected count if you've intentionally
+        // added or removed token source files.
         let (_tmp, root) = temp_root();
         let json_files: Vec<_> = fs::read_dir(root.join("packages/tokens/src"))
             .unwrap()
@@ -302,8 +330,8 @@ mod tests {
         assert_eq!(
             json_files.len(),
             8,
-            "expected 8 token source files, got {}",
-            json_files.len()
+            "expected 8 token source files — update this count if you've added/removed \
+             files from packages/tokens/src/ and bump EMBEDDED_TOKENS_VERSION"
         );
     }
 
@@ -324,6 +352,9 @@ mod tests {
 
     #[test]
     fn materialize_components_count() {
+        // Regression guard: if a component schema is added to or removed from
+        // packages/design-data-spec/components/, this test fails deliberately.
+        // Update the expected count when you've intentionally changed the set.
         let (_tmp, root) = temp_root();
         let components: Vec<_> =
             fs::read_dir(root.join("packages/design-data-spec/components"))
@@ -334,8 +365,8 @@ mod tests {
         assert_eq!(
             components.len(),
             81,
-            "expected 81 component schemas, got {}",
-            components.len()
+            "expected 81 component schemas — update this count if you've added/removed \
+             schemas from packages/design-data-spec/components/"
         );
     }
 

@@ -28,7 +28,7 @@
 //! [`resolve`] returns a [`ResolvedData`] with concrete [`PathBuf`]s for every
 //! location the CLI needs.
 
-pub mod embedded;
+pub(crate) mod embedded;
 
 use std::path::{Path, PathBuf};
 
@@ -285,15 +285,18 @@ pub fn resolve(
             ));
         }
         Err(e) => {
-            // Log to stderr but don't error — fall back to probe_cwd.
-            eprintln!(
-                "design-data: warning: embedded snapshot materialization failed ({e}); \
-                 falling back to in-repo probing"
-            );
+            // Only surface the warning under debug logging — materialisation
+            // failures are non-fatal and the message would be noisy in scripts.
+            if std::env::var("DESIGN_DATA_LOG").as_deref() == Ok("debug") {
+                eprintln!(
+                    "design-data: warning: embedded snapshot materialization failed ({e}); \
+                     falling back to in-repo probing"
+                );
+            }
         }
     }
 
-    // Tier 4 fallback: CWD probing (will likely find nothing outside a repo, but
+    // Tier 3 fallback: CWD probing (will likely find nothing outside a repo, but
     // callers handle None fields gracefully).
     Ok(probe_cwd(cwd, overrides))
 }
@@ -487,7 +490,13 @@ fn resolve_schema_root(overrides: &CliPathOverrides, fallback: impl FnOnce() -> 
 mod tests {
     use super::*;
     use std::fs;
+    use std::sync::Mutex;
     use tempfile::TempDir;
+
+    // Serialize all tests that mutate process-global env vars (DESIGN_DATA_CACHE_DIR,
+    // DESIGN_DATA_SCHEMA_ROOT).  Rust runs tests in parallel by default, so without
+    // this lock two tests setting the same var will race.
+    static ENV_LOCK: Mutex<()> = Mutex::new(());
 
     fn make_monorepo(dir: &Path) {
         fs::create_dir_all(dir.join("packages/tokens/schemas/token-types")).unwrap();
@@ -672,6 +681,7 @@ mod tests {
 
     #[test]
     fn env_var_schema_root_wins_over_probe() {
+        let _guard = ENV_LOCK.lock().unwrap();
         let tmp = TempDir::new().unwrap();
         make_monorepo(tmp.path());
 
@@ -691,16 +701,23 @@ mod tests {
 
     #[test]
     fn resolve_outside_repo_uses_embedded_tier() {
+        let _guard = ENV_LOCK.lock().unwrap();
         // A completely empty temp dir has no monorepo layout, so is_in_repo returns
         // false and the resolver must fall through to the embedded tier.
-        let tmp = TempDir::new().unwrap();
-        let resolved = resolve(tmp.path(), &CliPathOverrides::default()).unwrap();
+        // Set DESIGN_DATA_CACHE_DIR to a temp path to avoid writing to the real OS
+        // cache during tests.
+        let cache_tmp = TempDir::new().unwrap();
+        std::env::set_var("DESIGN_DATA_CACHE_DIR", cache_tmp.path());
+
+        let cwd_tmp = TempDir::new().unwrap();
+        let resolved = resolve(cwd_tmp.path(), &CliPathOverrides::default()).unwrap();
+        std::env::remove_var("DESIGN_DATA_CACHE_DIR");
+
         assert!(
             matches!(resolved.provenance, Provenance::Embedded { .. }),
             "expected Embedded provenance outside the repo, got {:?}",
             resolved.provenance
         );
-        // The tokens_root should point at the materialized cache dir.
         assert!(
             resolved.tokens_root.exists(),
             "tokens_root should be materialized"
@@ -713,15 +730,23 @@ mod tests {
 
     #[test]
     fn cli_override_wins_over_embedded() {
-        let tmp = TempDir::new().unwrap();
-        let custom_schema = tmp.path().join("custom-schemas");
+        let _guard = ENV_LOCK.lock().unwrap();
+        // Set DESIGN_DATA_CACHE_DIR to a temp path to avoid writing to the real OS
+        // cache during tests.
+        let cache_tmp = TempDir::new().unwrap();
+        std::env::set_var("DESIGN_DATA_CACHE_DIR", cache_tmp.path());
+
+        let cwd_tmp = TempDir::new().unwrap();
+        let custom_schema = cwd_tmp.path().join("custom-schemas");
         fs::create_dir_all(&custom_schema).unwrap();
 
         let overrides = CliPathOverrides {
             schema_root: Some(custom_schema.clone()),
             ..Default::default()
         };
-        let resolved = resolve(tmp.path(), &overrides).unwrap();
+        let resolved = resolve(cwd_tmp.path(), &overrides).unwrap();
+        std::env::remove_var("DESIGN_DATA_CACHE_DIR");
+
         // Provenance is Embedded (we're outside the repo) but the schema override wins.
         assert!(matches!(resolved.provenance, Provenance::Embedded { .. }));
         assert_eq!(resolved.schemas_root, custom_schema);
