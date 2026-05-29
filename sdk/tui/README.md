@@ -1,4 +1,4 @@
-# design-data-tui
+# design-data — Interactive TUI
 
 An interactive terminal UI for authoring and inspecting Spectrum design tokens, built
 as part of [RFC #973](https://github.com/orgs/adobe/discussions/TODO). It loads a
@@ -13,8 +13,11 @@ tokens before letting you create a new one.
 ## Quick start
 
 ```bash
-# From the repo root
-cargo run -p design-data-tui --release -- packages/tokens/dist/json --theme spectrum
+# From the repo root — bare invocation launches the TUI on the current directory
+cargo run -p design-data-cli --release -- packages/tokens/dist/json --theme spectrum
+
+# Equivalent explicit form
+cargo run -p design-data-cli --release -- tui packages/tokens/dist/json --theme spectrum
 ```
 
 The TUI loads the full Spectrum token corpus (\~2 400 tokens) in under a second and
@@ -26,7 +29,7 @@ drops you into an interactive session. Press `?` for the full keymap.
 
 | Flag                         | Default       | Description                                                                                                                  |
 | ---------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `<dataset>`                  | *(required)*  | Path to a directory of token JSON files                                                                                      |
+| `<dataset>`                  | `.` (cwd)     | Path to a directory of token JSON files                                                                                      |
 | `--theme terminal\|spectrum` | `terminal`    | `terminal` uses terminal-native colors. `spectrum` uses the Adobe Spectrum palette (requires a 24-bit truecolor terminal).   |
 | `--allow-write`              | off           | Enable real disk writes from the wizard Screen 4 Submit. Without this flag the wizard shows a diff preview but never writes. |
 | `--components <dir>`         | auto-detected | Path to component JSON files. Defaults to `packages/design-data-spec/components` relative to the working directory.          |

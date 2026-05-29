@@ -1,13 +1,13 @@
 # TUI Architecture
 
-The `design-data-tui` binary follows **The Elm Architecture (TEA)** — a functional
+The `design-data` TUI follows **The Elm Architecture (TEA)** — a functional
 state machine where a single `update` function is the only place state can change, and
 all I/O is described as data (`Task`) rather than executed inline.
 
 ## Layered overview
 
 ```
-main.rs        CLI entry point — parse args, build Model + UpdateCtx, call lib::run
+cli/src/main.rs → app_launch::launch  parse args, build Model + UpdateCtx, call lib::run
    │
 runtime.rs     Event loop — poll crossterm → Message → update → execute_task → draw
    │                └── execute_task runs Task::Cmd closures synchronously

@@ -5,7 +5,7 @@ The TUI supports recording and replaying sessions for deterministic bug reproduc
 ## Recording a session
 
 ```sh
-design-data-tui --record /tmp/session.jsonl packages/design-data-spec/tokens
+design-data --record /tmp/session.jsonl packages/design-data-spec/tokens
 ```
 
 Every `Message` dispatched during the session is appended to the file as one line of
@@ -15,7 +15,7 @@ a text editor.
 ## Replaying a session
 
 ```sh
-design-data-tui --replay /tmp/session.jsonl packages/design-data-spec/tokens
+design-data --replay /tmp/session.jsonl packages/design-data-spec/tokens
 ```
 
 The replay path feeds each recorded message through `update` with a `TestBackend`,
@@ -29,7 +29,7 @@ then prints the final rendered buffer to stdout. No terminal is required.
 ```sh
 # Keep only the first N lines and replay.
 head -N /tmp/session.jsonl > /tmp/half.jsonl
-design-data-tui --replay /tmp/half.jsonl packages/design-data-spec/tokens
+design-data --replay /tmp/half.jsonl packages/design-data-spec/tokens
 ```
 
 3. Narrow `N` until you find the exact message that triggers the wrong state.

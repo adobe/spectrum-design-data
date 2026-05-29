@@ -1,4 +1,4 @@
-# design-data-tui Demo Script
+# design-data TUI Demo Script
 
 Two tracks. **Track A** (\~5 min) is for Adobe leadership — outcome-focused, minimal
 jargon. **Track B** (\~15 min) adds technical depth for the Spectrum team and builds on
@@ -15,20 +15,20 @@ Spectrum theme and wizard modal render cleanly.
 cd /path/to/spectrum-design-data
 
 # Clean slate (use this for recordings or first demo run)
-cargo run -p design-data-tui --release -- \
+cargo run -p design-data-cli --release -- \
   packages/tokens/dist/json \
   --theme spectrum \
   --no-resume-wizard
 
 # Draft-restore variant (for the "survives crashes" beat — omit --no-resume-wizard)
-cargo run -p design-data-tui --release -- \
+cargo run -p design-data-cli --release -- \
   packages/tokens/dist/json \
   --theme spectrum
 ```
 
 > **Troubleshooting**: if `cargo run` is slow, build first:
-> `cargo build -p design-data-tui --release`
-> then run the binary directly from `sdk/target/release/design-data-tui`.
+> `cargo build -p design-data-cli --release`
+> then run the binary directly from `sdk/target/release/design-data`.
 
 ***
 
@@ -155,7 +155,7 @@ fields, then press **Ctrl-C** to kill the process abruptly.
 Relaunch **without** `--no-resume-wizard`:
 
 ```bash
-cargo run -p design-data-tui --release -- packages/tokens/dist/json --theme spectrum
+cargo run -p design-data-cli --release -- packages/tokens/dist/json --theme spectrum
 ```
 
 Open the wizard again: `:` → `new` `Enter`. The draft from the previous session is
@@ -198,7 +198,7 @@ This beat uses the `tokens-bad/` fixture so we get visible errors.
 Quit the current session (`q`). Relaunch pointing at the bad fixtures:
 
 ```bash
-cargo run -p design-data-tui --release -- \
+cargo run -p design-data-cli --release -- \
   sdk/tui/tests/fixtures/tokens-bad \
   --theme spectrum \
   --no-resume-wizard
@@ -302,12 +302,12 @@ roughly 9 months of iterative RFC work, all checkpointed."*
 # Leadership cast — 120×36, clean slate
 asciinema rec sdk/tui/docs/demo-leadership.cast \
   --cols 120 --rows 36 \
-  --title "design-data-tui — leadership demo"
+  --title "design-data TUI — leadership demo"
 
 # Spectrum team cast — same dimensions
 asciinema rec sdk/tui/docs/demo-spectrum.cast \
   --cols 120 --rows 36 \
-  --title "design-data-tui — Spectrum team demo"
+  --title "design-data TUI — Spectrum team demo"
 
 # Convert leadership cast to GIF (requires agg)
 # cargo install --git https://github.com/asciinema/agg
@@ -335,11 +335,11 @@ Quick reference:
 
 ```bash
 # Record a session to NDJSON
-cargo run -p design-data-tui --release -- \
+cargo run -p design-data-cli --release -- \
   packages/tokens/dist/json --record /tmp/session.jsonl
 
 # Replay: feeds the stream through update headlessly, prints the final Buffer to stdout
-cargo run -p design-data-tui --release -- \
+cargo run -p design-data-cli --release -- \
   packages/tokens/dist/json --replay /tmp/session.jsonl
 ```
 
@@ -350,7 +350,7 @@ cargo run -p design-data-tui --release -- \
 | Problem                   | Recovery                                                                                        |
 | ------------------------- | ----------------------------------------------------------------------------------------------- |
 | Reuse banner doesn't fire | Type `accent-background` as the intent — high confidence guaranteed                             |
-| Cargo compile time        | Pre-build: `cargo build -p design-data-tui --release` before demo                               |
+| Cargo compile time        | Pre-build: `cargo build -p design-data-cli --release` before demo                               |
 | Terminal leaves raw mode  | Run `reset` in the shell to restore                                                             |
 | Mouse not working         | Ensure terminal supports mouse capture (iTerm2, kitty, wezterm ✓; basic macOS Terminal may not) |
 | Draft not restoring       | Check `~/Library/Application Support/design-data-tui/wizard_draft.json` exists                  |

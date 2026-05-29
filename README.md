@@ -43,7 +43,7 @@ Packages in this monorepo:
 
 ## SDK & TUI
 
-* [design-data-tui](sdk/tui/) interactive terminal UI for authoring and inspecting tokens — command palette, cascade resolver, validator, and four-screen guided authoring wizard.
+* [design-data](sdk/cli/) unified CLI and interactive TUI — validate, resolve, diff, query, and migrate tokens from the command line; run bare (`design-data`) to launch the interactive TUI (command palette, cascade resolver, validator, four-screen authoring wizard). The TUI library lives in [sdk/tui/](sdk/tui/).
 
 ## Setup monorepo locally
 
