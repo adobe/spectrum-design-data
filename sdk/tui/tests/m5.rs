@@ -120,6 +120,24 @@ fn history_dedupes_consecutive_duplicates() {
     assert_eq!(model.palette_history.len(), 1, "same command should not be duplicated");
 }
 
+/// History dedup is head-only: only consecutive duplicates are suppressed.
+/// A command that already exists deeper in history IS added again.
+/// This is intentional (matches bash/zsh behavior).
+#[test]
+fn history_dedup_is_head_only_not_global() {
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    // History newest-first: [B, A] — head is B, submit A; B != A, so A IS added.
+    // This documents that dedup is head-only: an identical entry deeper in history
+    // is NOT deduplicated (matches bash/zsh behavior).
+    model.palette_history = vec!["query B".to_string(), "query A".to_string()];
+    update(&mut model, Message::PaletteSubmit("query A".into()), &ctx);
+    assert_eq!(model.palette_history[0], "query A");
+    assert_eq!(model.palette_history.len(), 3, "non-consecutive duplicate should be added");
+    assert_eq!(model.palette_history, vec!["query A", "query B", "query A"]);
+}
+
 #[test]
 fn history_caps_at_200_entries() {
     let graph = empty_graph();

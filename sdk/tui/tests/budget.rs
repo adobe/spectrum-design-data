@@ -13,10 +13,8 @@
 //! Enforces the three invariants from the rmux `tests/budget.rs` precedent:
 //!
 //! 1. **LOC cap**: no `src/**/*.rs` file exceeds 800 lines.
-//! 2. **No async in render path**: render-path modules (`view.rs`, `view_find.rs`,
-//!    and any future `view_*.rs` splits) must not contain `async fn` or `tokio::`.
-//!    The explicit file list lives in `no_async_in_render_path` — update it when
-//!    new render modules are added.
+//! 2. **No async in render path**: all `src/view*.rs` files must not contain
+//!    `async fn` or `tokio::`. The test scans automatically — no list to maintain.
 //! 3. **Message variant size**: `size_of::<Message>() <= 128` bytes.
 //!
 //! The Message size is also checked inline in `src/message.rs`; the budget test
@@ -77,20 +75,35 @@ fn no_source_file_exceeds_loc_cap() {
     );
 }
 
-/// Render-path modules must not contain `async fn` or `tokio::`.
+/// Render-path modules (`view*.rs`) must not contain `async fn` or `tokio::`.
 ///
 /// Async code in the render path would block the draw loop and cause frame stutter.
-/// **When adding a new render module (e.g. `view_wizard.rs`, `view_tokens.rs`),
-/// add its filename to `RENDER_FILES` below.**
+/// This test scans all `src/view*.rs` files automatically, so new render modules
+/// (e.g. `view_wizard.rs`) are covered without updating any list.
 #[test]
 fn no_async_in_render_path() {
     let src_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src");
-    // Explicit allowlist — update when new render modules are split out of view.rs.
-    let render_files = ["view.rs", "view_find.rs"];
 
-    for name in &render_files {
-        let path = src_dir.join(name);
-        let content = fs::read_to_string(&path)
+    let render_files: Vec<PathBuf> = fs::read_dir(&src_dir)
+        .expect("src dir readable")
+        .flatten()
+        .map(|e| e.path())
+        .filter(|p| {
+            p.file_name()
+                .and_then(|n| n.to_str())
+                .map(|n| n.starts_with("view") && n.ends_with(".rs"))
+                .unwrap_or(false)
+        })
+        .collect();
+
+    assert!(
+        !render_files.is_empty(),
+        "no view*.rs files found in src/ — check CARGO_MANIFEST_DIR"
+    );
+
+    for path in &render_files {
+        let name = path.file_name().unwrap().to_string_lossy();
+        let content = fs::read_to_string(path)
             .unwrap_or_else(|_| panic!("could not read {name}"));
         assert!(
             !content.contains("async fn"),
