@@ -23,11 +23,14 @@ include_dir = "0.7"
 semver = "1"
 toml = "0.8"
 walkdir = "2.5"
+flate2 = { version = "1", optional = true }
 reqwest = { version = "0.12", features = ["json", "rustls-tls"], optional = true }
+tar = { version = "0.4", optional = true }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"], optional = true }
 
 [features]
 default = []
+fetch = ["dep:reqwest", "dep:tokio", "dep:flate2", "dep:tar"]
 figma = ["dep:reqwest", "dep:tokio"]
 
 [dev-dependencies]

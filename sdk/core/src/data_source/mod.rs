@@ -29,6 +29,8 @@
 //! location the CLI needs.
 
 pub(crate) mod embedded;
+#[cfg(feature = "fetch")]
+pub(crate) mod fetch;
 
 use std::path::{Path, PathBuf};
 
@@ -205,6 +207,10 @@ pub enum DataSourceError {
         /// The resolved (possibly absolute) path that was probed.
         root: PathBuf,
     },
+    /// A remote fetch (github / npm / git) failed.
+    #[cfg(feature = "fetch")]
+    #[error("fetch failed: {0}")]
+    Fetch(#[from] fetch::FetchError),
 }
 
 // ---------------------------------------------------------------------------
@@ -251,15 +257,11 @@ pub fn resolve(
                     let canonical = abs_root.canonicalize().unwrap_or(abs_root);
                     Ok(from_root(&canonical, overrides, Provenance::Config { config_path }))
                 }
-                SourceConfig::Npm { .. } => Err(DataSourceError::NotYetImplemented {
-                    source_type: "npm".into(),
-                }),
-                SourceConfig::Github { .. } => Err(DataSourceError::NotYetImplemented {
-                    source_type: "github".into(),
-                }),
-                SourceConfig::Git { .. } => Err(DataSourceError::NotYetImplemented {
-                    source_type: "git".into(),
-                }),
+                SourceConfig::Npm { .. }
+                | SourceConfig::Github { .. }
+                | SourceConfig::Git { .. } => {
+                    fetch_source(source, config.cache.as_ref().and_then(|c| c.dir.as_deref()), overrides)
+                }
             };
         }
         // Config file present but no [source] block → fall through to probing.
@@ -487,6 +489,33 @@ fn resolve_schema_root(overrides: &CliPathOverrides, fallback: impl FnOnce() -> 
         .unwrap_or_else(fallback)
 }
 
+/// Dispatch a remote-fetch source through the fetch module (tier 2, config-driven).
+///
+/// When the `fetch` feature is disabled this always returns `NotYetImplemented`
+/// so default builds still compile cleanly.
+fn fetch_source(
+    source: &SourceConfig,
+    cache_dir_override: Option<&Path>,
+    overrides: &CliPathOverrides,
+) -> Result<ResolvedData, DataSourceError> {
+    #[cfg(feature = "fetch")]
+    {
+        let cache_root = fetch::ensure_cached(source, cache_dir_override)?;
+        Ok(from_root(
+            &cache_root,
+            overrides,
+            Provenance::Cache { cache_dir: cache_root.clone() },
+        ))
+    }
+    #[cfg(not(feature = "fetch"))]
+    {
+        let _ = (source, cache_dir_override, overrides);
+        Err(DataSourceError::NotYetImplemented {
+            source_type: "fetch feature not enabled in this build".into(),
+        })
+    }
+}
+
 // ---------------------------------------------------------------------------
 // Tests
 // ---------------------------------------------------------------------------
@@ -630,8 +659,11 @@ mod tests {
     }
 
     #[test]
-    fn config_npm_source_returns_not_yet_implemented() {
+    fn config_npm_source_returns_not_yet_supported() {
+        let _guard = ENV_LOCK.lock().unwrap();
         let tmp = TempDir::new().unwrap();
+        // Set DESIGN_DATA_CACHE_DIR so the fetch engine doesn't touch the real OS cache.
+        std::env::set_var("DESIGN_DATA_CACHE_DIR", tmp.path());
         fs::write(
             tmp.path().join(".design-data.toml"),
             "[source]\ntype = \"npm\"\npackage = \"@adobe/spectrum-tokens\"\nversion = \"14.0.0\"\n",
@@ -639,7 +671,16 @@ mod tests {
         .unwrap();
 
         let err = resolve(tmp.path(), &CliPathOverrides::default()).unwrap_err();
-        assert!(matches!(err, DataSourceError::NotYetImplemented { .. }));
+        std::env::remove_var("DESIGN_DATA_CACHE_DIR");
+
+        // With the `fetch` feature enabled, npm returns DataSourceError::Fetch wrapping
+        // FetchError::NotYetSupported; without the feature, NotYetImplemented.
+        // Either way the resolve fails — verify via the Display message.
+        let msg = err.to_string();
+        assert!(
+            msg.contains("not yet") || msg.contains("npm"),
+            "expected an unsupported-source error message, got: {msg}"
+        );
     }
 
     #[test]

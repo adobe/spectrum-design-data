@@ -951,24 +951,28 @@ fn scan_json_name_field(dir: &Path) -> Vec<String> {
 }
 
 fn run_primer(
-    path: &Path,
+    explicit_path: Option<&Path>,
     format: OutputFormat,
     components_dir: Option<PathBuf>,
     fields_dir: Option<PathBuf>,
     mode_sets_dir: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
-    let graph = TokenGraph::from_json_dir(path)
-        .into_diagnostic()
-        .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
-    let token_count = graph.tokens.len();
-
     let cwd = std::env::current_dir().into_diagnostic()?;
     let resolved = data_source::resolve(&cwd, &CliPathOverrides {
+        tokens_root: explicit_path.map(|p| p.to_path_buf()),
         mode_sets: mode_sets_dir,
         components: components_dir,
         fields: fields_dir,
         ..Default::default()
     }).into_diagnostic()?;
+
+    // Dataset path: explicit arg wins; otherwise use the resolved tokens root (which
+    // comes from the config source, embedded snapshot, or in-repo CWD probing).
+    let path = resolved.tokens_root.clone();
+    let graph = TokenGraph::from_json_dir(&path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+    let token_count = graph.tokens.len();
     let ms_dir = resolved.mode_sets;
     let mode_sets: Vec<serde_json::Value> = if let Some(dir) = ms_dir {
         TokenGraph::load_spec_mode_sets(&dir)
@@ -1492,8 +1496,7 @@ fn main() -> ExitCode {
             fields_dir,
             mode_sets_dir,
         } => {
-            let target = path.unwrap_or_else(|| PathBuf::from("."));
-            run_primer(&target, format, components_dir, fields_dir, mode_sets_dir)
+            run_primer(path.as_deref(), format, components_dir, fields_dir, mode_sets_dir)
         }
         Commands::Component { id, components_dir } => run_component(&id, components_dir),
         Commands::Suggest {

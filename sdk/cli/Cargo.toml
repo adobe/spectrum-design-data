@@ -12,7 +12,7 @@ path = "src/main.rs"
 
 [dependencies]
 clap = { version = "4.5", features = ["derive", "env"] }
-design-data-core = { path = "../core", features = ["figma"] }
+design-data-core = { path = "../core", features = ["figma", "fetch"] }
 design-data-tui = { path = "../tui" }
 serde = { version = "1.0", features = ["derive"] }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
