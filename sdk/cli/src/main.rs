@@ -986,11 +986,11 @@ fn run_primer(
         vec![]
     };
 
-    let components = scan_json_name_field(
-        &resolved
-            .components
-            .unwrap_or_else(|| PathBuf::from("packages/design-data-spec/components")),
-    );
+    let components = resolved
+        .components
+        .as_deref()
+        .map(scan_json_name_field)
+        .unwrap_or_default();
 
     let taxonomy_fields: Vec<serde_json::Value> = resolved
         .fields

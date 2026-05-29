@@ -164,6 +164,8 @@ pub struct ResolvedData {
     /// `naming-exceptions.json` path.
     pub exceptions: Option<PathBuf>,
     /// Build `manifest.json` path (the token-source file list, not the platform manifest).
+    /// Populated here but consumed by #1049 (embedded snapshot provenance tracking).
+    #[allow(dead_code)]
     pub manifest: Option<PathBuf>,
     /// How these paths were determined.
     pub provenance: Provenance,
@@ -612,5 +614,22 @@ mod tests {
 
         let err = resolve(tmp.path(), &CliPathOverrides::default()).unwrap_err();
         assert!(matches!(err, DataSourceError::ConfigParse { .. }));
+    }
+
+    #[test]
+    fn env_var_schema_root_wins_over_probe() {
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+
+        let custom = tmp.path().join("my-schemas");
+        fs::create_dir_all(&custom).unwrap();
+
+        // Set the env var; resolve must return its value even though CWD probing
+        // would find packages/tokens/schemas instead.
+        std::env::set_var("DESIGN_DATA_SCHEMA_ROOT", custom.to_str().unwrap());
+        let resolved = resolve(tmp.path(), &CliPathOverrides::default()).unwrap();
+        std::env::remove_var("DESIGN_DATA_SCHEMA_ROOT");
+
+        assert_eq!(resolved.schemas_root, custom);
     }
 }
