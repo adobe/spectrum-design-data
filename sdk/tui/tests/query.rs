@@ -21,7 +21,7 @@ fn submit_valid_query_populates_query_view() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::PaletteSubmit("query property=accent-color".into()), &ctx);
-    assert!(!model.palette_open);
+    assert!(!model.is_palette_open());
     assert!(matches!(model.active_view, ActiveView::Query(_)));
 }
 
@@ -44,7 +44,7 @@ fn submit_invalid_query_sets_status_message() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::PaletteSubmit("query ===bad===".into()), &ctx);
-    assert!(!model.palette_open);
+    assert!(!model.is_palette_open());
     assert!(matches!(model.active_view, ActiveView::Empty));
     let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(

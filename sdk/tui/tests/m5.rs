@@ -28,7 +28,7 @@ fn question_mark_opens_help_modal() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
-    assert!(matches!(model.modal, Some(Modal::Help(_))), "? should open help modal");
+    assert!(matches!(model.modal(), Some(Modal::Help(_))), "? should open help modal");
 }
 
 #[test]
@@ -38,7 +38,7 @@ fn esc_closes_help_modal() {
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
-    assert!(model.modal.is_none(), "Esc should close help modal");
+    assert!(!model.is_modal_open(), "Esc should close help modal");
 }
 
 #[test]
@@ -48,7 +48,7 @@ fn question_mark_closes_help_modal() {
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
-    assert!(model.modal.is_none(), "second ? should close help modal");
+    assert!(!model.is_modal_open(), "second ? should close help modal");
 }
 
 #[test]
@@ -58,7 +58,7 @@ fn pgdn_scrolls_help_body() {
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
     update(&mut model, Message::Key(key(KeyCode::PageDown)), &ctx);
-    if let Some(Modal::Help(ref hm)) = model.modal {
+    if let Some(Modal::Help(ref hm)) = model.modal() {
         assert_eq!(hm.scroll, 10, "PageDown should advance help scroll by 10");
     } else {
         panic!("expected Help modal to still be open");
@@ -74,7 +74,7 @@ fn arrow_keys_scroll_help_body() {
     update(&mut model, Message::Key(key(KeyCode::Down)), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Down)), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
-    if let Some(Modal::Help(ref hm)) = model.modal {
+    if let Some(Modal::Help(ref hm)) = model.modal() {
         assert_eq!(hm.scroll, 1);
     } else {
         panic!("expected Help modal");
@@ -101,13 +101,13 @@ fn up_arrow_in_palette_recalls_last_command() {
 
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx); // open palette
     update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
-    assert_eq!(model.palette_input.value(), "query foo");
+    assert_eq!(model.palette_input_value(), "query foo");
 
     update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
-    assert_eq!(model.palette_input.value(), "query bar");
+    assert_eq!(model.palette_input_value(), "query bar");
 
     update(&mut model, Message::Key(key(KeyCode::Down)), &ctx);
-    assert_eq!(model.palette_input.value(), "query foo");
+    assert_eq!(model.palette_input_value(), "query foo");
 }
 
 #[test]
@@ -140,14 +140,14 @@ fn typing_resets_history_cursor() {
 
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
-    assert_eq!(model.palette_history_cursor, Some(0));
+    assert_eq!(model.palette_history_cursor(), Some(0));
 
     update(&mut model, Message::Key(key(KeyCode::Char('x'))), &ctx);
-    assert_eq!(model.palette_history_cursor, None, "typing should reset history cursor");
+    assert_eq!(model.palette_history_cursor(), None, "typing should reset history cursor");
 
     update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
-    assert_eq!(model.palette_history_cursor, Some(0));
-    assert_eq!(model.palette_input.value(), "query foo");
+    assert_eq!(model.palette_history_cursor(), Some(0));
+    assert_eq!(model.palette_input_value(), "query foo");
 }
 
 // ── Mouse: wheel scroll ───────────────────────────────────────────────────────
@@ -200,7 +200,7 @@ fn v_key_enters_selection_mode() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
-    assert!(model.selection_mode, "v should enable selection mode");
+    assert!(model.is_selection_mode_enabled(), "v should enable selection mode");
 }
 
 #[test]
@@ -210,7 +210,7 @@ fn v_key_toggles_selection_mode_off() {
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
-    assert!(!model.selection_mode, "second v should disable selection mode");
+    assert!(!model.is_selection_mode_enabled(), "second v should disable selection mode");
 }
 
 #[test]
@@ -221,8 +221,8 @@ fn drag_records_selection_endpoints() {
     update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
     update(&mut model, Message::Mouse(mouse(MouseEventKind::Down(MouseButton::Left), 2, 0)), &ctx);
     update(&mut model, Message::Mouse(mouse(MouseEventKind::Drag(MouseButton::Left), 4, 10)), &ctx);
-    assert_eq!(model.sel_start, Some((2, 0)));
-    assert_eq!(model.sel_end, Some((4, 10)));
+    assert_eq!(model.selection_start(), Some((2, 0)));
+    assert_eq!(model.selection_end(), Some((4, 10)));
 }
 
 // ── Theming ───────────────────────────────────────────────────────────────────

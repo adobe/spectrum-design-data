@@ -145,7 +145,7 @@ fn name_command_opens_naming_modal() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "name accent background");
-    assert!(matches!(model.modal, Some(Modal::Naming(_))));
+    assert!(matches!(model.modal(), Some(Modal::Naming(_))));
 }
 
 #[test]
@@ -154,7 +154,7 @@ fn name_command_no_args_opens_naming_modal() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "name");
-    assert!(matches!(model.modal, Some(Modal::Naming(_))));
+    assert!(matches!(model.modal(), Some(Modal::Naming(_))));
 }
 
 #[test]
@@ -163,7 +163,7 @@ fn name_command_seeds_intent_from_args() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "name accent background");
-    if let Some(Modal::Naming(ref ns)) = model.modal {
+    if let Some(Modal::Naming(ref ns)) = model.modal() {
         assert_eq!(ns.intent.value(), "accent background");
     } else {
         panic!("expected Naming modal");
@@ -180,7 +180,7 @@ fn tab_autocompletes_name_command() {
         update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
-    assert_eq!(model.palette_input.value(), "name ");
+    assert_eq!(model.palette_input_value(), "name ");
 }
 
 #[test]
@@ -205,7 +205,7 @@ fn copy_event_sets_pending_yank_and_status() {
     assert!(model.pending_yank.is_none(), "pending_yank should not be set — clipboard is via Task::Cmd");
     let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
     assert!(msg.contains("copied"), "expected 'copied' in status: {msg}");
-    assert!(model.modal.is_some(), "Copy should not close the Naming modal");
+    assert!(model.is_modal_open(), "Copy should not close the Naming modal");
 }
 
 #[test]
@@ -214,7 +214,7 @@ fn esc_in_naming_modal_closes_it() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "name");
-    assert!(model.modal.is_some());
+    assert!(model.is_modal_open());
     update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
-    assert!(model.modal.is_none());
+    assert!(!model.is_modal_open());
 }

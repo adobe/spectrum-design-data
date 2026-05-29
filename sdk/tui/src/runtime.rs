@@ -70,8 +70,8 @@ pub fn run<B: ratatui::backend::Backend>(
                     // ever defers closing (e.g., for validation), palette_text is Some but
                     // the guard `!model.palette_open` will be false, so PaletteSubmit is
                     // correctly suppressed.
-                    let palette_text = if model.palette_open && key.code == KeyCode::Enter {
-                        Some(model.palette_input.value().to_string())
+                    let palette_text = if model.is_palette_open() && key.code == KeyCode::Enter {
+                        Some(model.palette_input_value().to_string())
                     } else {
                         None
                     };
@@ -80,7 +80,7 @@ pub fn run<B: ratatui::backend::Backend>(
 
                     // Dispatch the command only if Enter actually closed the palette.
                     if let Some(text) = palette_text {
-                        if !model.palette_open {
+                        if !model.is_palette_open() {
                             dispatch_and_record(
                                 &mut model, Message::PaletteSubmit(text), ctx, &mut record,
                             );
