@@ -21,6 +21,7 @@ use std::collections::HashSet;
 use clap::{ArgGroup, Args, Parser, Subcommand, ValueEnum};
 use design_data_tui::{LaunchOptions, ThemeChoice};
 use design_data_core::cascade::{resolve, ResolutionContext};
+use design_data_core::data_source::{self, CliPathOverrides};
 use design_data_core::compat::{
     load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot,
 };
@@ -377,63 +378,13 @@ enum DiffFormat {
 
 fn load_exceptions(path: Option<&Path>) -> miette::Result<HashSet<String>> {
     let Some(p) = path else {
-        return Ok(default_exceptions_path()
-            .and_then(|p| NamingExceptionsFile::load(&p).ok())
-            .map(|f| f.token_set())
-            .unwrap_or_default());
+        // No path provided and not resolved — no exceptions file found.
+        return Ok(HashSet::new());
     };
     let file = NamingExceptionsFile::load(p)
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load exceptions from {}", p.display()))?;
     Ok(file.token_set())
-}
-
-fn default_exceptions_path() -> Option<PathBuf> {
-    let candidates = [
-        PathBuf::from("packages/tokens/naming-exceptions.json"),
-        PathBuf::from("../packages/tokens/naming-exceptions.json"),
-    ];
-    candidates.into_iter().find(|c| c.is_file())
-}
-
-fn default_schema_path() -> PathBuf {
-    if let Ok(p) = std::env::var("DESIGN_DATA_SCHEMA_ROOT") {
-        return PathBuf::from(p);
-    }
-    let candidates = [
-        PathBuf::from("packages/tokens/schemas"),
-        PathBuf::from("../packages/tokens/schemas"),
-    ];
-    for c in &candidates {
-        if c.join("token-types").is_dir() {
-            return c.clone();
-        }
-    }
-    PathBuf::from("packages/tokens/schemas")
-}
-
-fn default_mode_sets_path() -> Option<PathBuf> {
-    let candidates = [
-        PathBuf::from("packages/design-data-spec/mode-sets"),
-        PathBuf::from("../packages/design-data-spec/mode-sets"),
-    ];
-    candidates.into_iter().find(|c| c.is_dir())
-}
-
-fn default_components_path() -> Option<PathBuf> {
-    let candidates = [
-        PathBuf::from("packages/design-data-spec/components"),
-        PathBuf::from("../packages/design-data-spec/components"),
-    ];
-    candidates.into_iter().find(|c| c.is_dir())
-}
-
-fn default_fields_path() -> Option<PathBuf> {
-    let candidates = [
-        PathBuf::from("packages/design-data-spec/fields"),
-        PathBuf::from("../packages/design-data-spec/fields"),
-    ];
-    candidates.into_iter().find(|c| c.is_dir())
 }
 
 fn run_resolve(
@@ -465,7 +416,12 @@ fn run_resolve(
         .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
     // Load mode sets from spec catalog.
-    let ms_dir = mode_sets_path.or_else(default_mode_sets_path);
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let resolved = data_source::resolve(&cwd, &CliPathOverrides {
+        mode_sets: mode_sets_path,
+        ..Default::default()
+    }).into_diagnostic()?;
+    let ms_dir = resolved.mode_sets;
     if let Some(dir) = ms_dir {
         if dir.is_dir() {
             let mode_sets = TokenGraph::load_spec_mode_sets(&dir)
@@ -558,14 +514,23 @@ fn run_validate(path: &Path, opts: ValidateOpts) -> miette::Result<ExitCode> {
     if !validate::engine_ready() {
         miette::bail!("validation engine not ready");
     }
-    let schema_root = opts.schema_path.unwrap_or_else(default_schema_path);
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let resolved = data_source::resolve(&cwd, &CliPathOverrides {
+        schema_root: opts.schema_path,
+        exceptions: opts.exceptions_path,
+        mode_sets: opts.mode_sets_path,
+        components: opts.components_path,
+        ..Default::default()
+    }).into_diagnostic()?;
+
+    let schema_root = resolved.schemas_root;
     let registry = SchemaRegistry::load_legacy_token_schemas(&schema_root)
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load schemas from {}", schema_root.display()))?;
-    let exceptions = load_exceptions(opts.exceptions_path.as_deref())?;
+    let exceptions = load_exceptions(resolved.exceptions.as_deref())?;
 
-    let dims_dir = opts.mode_sets_path.or_else(default_mode_sets_path);
-    let comps_dir = opts.components_path.or_else(default_components_path);
+    let dims_dir = resolved.mode_sets;
+    let comps_dir = resolved.components;
 
     let report = validate::validate_all_with_options_and_names(
         path,
@@ -599,9 +564,14 @@ fn run_migrate_verify(
     schema_path: Option<PathBuf>,
     exceptions_path: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
-    let schema_root = schema_path.unwrap_or_else(default_schema_path);
-    let registry = SchemaRegistry::load_legacy_token_schemas(&schema_root).into_diagnostic()?;
-    let exceptions = load_exceptions(exceptions_path.as_deref())?;
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let resolved = data_source::resolve(&cwd, &CliPathOverrides {
+        schema_root: schema_path,
+        exceptions: exceptions_path,
+        ..Default::default()
+    }).into_diagnostic()?;
+    let registry = SchemaRegistry::load_legacy_token_schemas(&resolved.schemas_root).into_diagnostic()?;
+    let exceptions = load_exceptions(resolved.exceptions.as_deref())?;
     let report =
         validate::validate_all_with_exceptions(path, &registry, &exceptions).into_diagnostic()?;
     let expected = load_snapshot(snapshot).into_diagnostic()?;
@@ -694,9 +664,14 @@ fn run_migrate_snapshot(
     schema_path: Option<PathBuf>,
     exceptions_path: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
-    let schema_root = schema_path.unwrap_or_else(default_schema_path);
-    let registry = SchemaRegistry::load_legacy_token_schemas(&schema_root).into_diagnostic()?;
-    let exceptions = load_exceptions(exceptions_path.as_deref())?;
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let resolved = data_source::resolve(&cwd, &CliPathOverrides {
+        schema_root: schema_path,
+        exceptions: exceptions_path,
+        ..Default::default()
+    }).into_diagnostic()?;
+    let registry = SchemaRegistry::load_legacy_token_schemas(&resolved.schemas_root).into_diagnostic()?;
+    let exceptions = load_exceptions(resolved.exceptions.as_deref())?;
     let report =
         validate::validate_all_with_exceptions(path, &registry, &exceptions).into_diagnostic()?;
     let snap = ValidationSnapshot::from(&report);
@@ -987,7 +962,14 @@ fn run_primer(
         .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
     let token_count = graph.tokens.len();
 
-    let ms_dir = mode_sets_dir.or_else(default_mode_sets_path);
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let resolved = data_source::resolve(&cwd, &CliPathOverrides {
+        mode_sets: mode_sets_dir,
+        components: components_dir,
+        fields: fields_dir,
+        ..Default::default()
+    }).into_diagnostic()?;
+    let ms_dir = resolved.mode_sets;
     let mode_sets: Vec<serde_json::Value> = if let Some(dir) = ms_dir {
         TokenGraph::load_spec_mode_sets(&dir)
             .unwrap_or_default()
@@ -1004,14 +986,14 @@ fn run_primer(
         vec![]
     };
 
-    let components = scan_json_name_field(
-        &components_dir
-            .or_else(default_components_path)
-            .unwrap_or_else(|| PathBuf::from("packages/design-data-spec/components")),
-    );
+    let components = resolved
+        .components
+        .as_deref()
+        .map(scan_json_name_field)
+        .unwrap_or_default();
 
-    let taxonomy_fields: Vec<serde_json::Value> = fields_dir
-        .or_else(default_fields_path)
+    let taxonomy_fields: Vec<serde_json::Value> = resolved
+        .fields
         .map(|dir| {
             let Ok(entries) = std::fs::read_dir(&dir) else {
                 return vec![];
@@ -1132,8 +1114,13 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
         return Ok(ExitCode::from(1));
     }
 
-    let dir = components_dir
-        .or_else(default_components_path)
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let resolved = data_source::resolve(&cwd, &CliPathOverrides {
+        components: components_dir,
+        ..Default::default()
+    }).into_diagnostic()?;
+    let dir = resolved
+        .components
         .ok_or_else(|| miette::miette!("could not locate components directory"))?;
 
     let file = dir.join(format!("{id}.json"));
