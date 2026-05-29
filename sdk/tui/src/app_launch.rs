@@ -8,26 +8,17 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! Interactive TUI for Spectrum design data authoring and inspection.
+//! Terminal lifecycle and launch orchestration for the interactive TUI.
 //!
-//! Three-region layout (RFC #973 §3.1):
-//! - Primer header (1 line): token count + dataset path.
-//! - Active view (flex): empty, query, resolve, describe, or validate.
-//! - Status + palette (2 lines at bottom): optional status message, then palette prompt.
-//!
-//! Key bindings (M2):
-//! - `:` opens palette in command mode; `/` opens in fuzzy-find mode.
-//! - In palette, Enter dispatches the command; Esc cancels; Tab completes command name.
-//! - In query/resolve/validate view: Up/k and Down/j navigate; `y` yanks; Esc returns.
-//! - In describe view: Up/k Down/j scroll line-by-line; PgUp/PgDn by 10 lines; Esc returns.
-//! - `q` quits when palette is closed; Ctrl-C always quits.
-//! - `?` opens the help overlay; Esc or `?` closes it.
-//! - `v` toggles text-selection mode; drag to copy.
+//! The public [`launch`] function sets up raw mode, the alternate screen, the
+//! panic hook, drives the event loop via [`crate::runtime::run`] / [`crate::replay`],
+//! and restores the terminal on exit.  All other items in this module are
+//! implementation details moved here from the former standalone binary.
 
 use std::io::{BufRead as _, BufReader, stderr};
 use std::path::PathBuf;
 
-use clap::{Parser, ValueEnum};
+use clap::ValueEnum;
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
     execute,
@@ -38,17 +29,42 @@ use design_data_core::schema::SchemaRegistry;
 use miette::{IntoDiagnostic, Result, WrapErr};
 use ratatui::{Terminal, backend::CrosstermBackend};
 
-use design_data_tui::theme::Theme;
-use design_data_tui::{replay as tui_replay, Message, Model, UpdateCtx};
+use crate::theme::Theme;
+use crate::{Message, Model, UpdateCtx};
+use crate::runtime::{run as tui_run, replay as tui_replay};
 
 /// Which visual palette to use.
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
-enum ThemeChoice {
+pub enum ThemeChoice {
     /// Terminal-native colors; works in any 256-color terminal.
     #[default]
     Terminal,
     /// Adobe Spectrum palette; requires a 24-bit truecolor terminal.
     Spectrum,
+}
+
+/// Options for [`launch`].
+pub struct LaunchOptions {
+    /// Path to the token dataset directory.
+    pub dataset: PathBuf,
+    /// Path to the components directory (default: spec-bundled).
+    pub components: Option<PathBuf>,
+    /// Path to the mode-sets directory (default: spec-bundled).
+    pub mode_sets: Option<PathBuf>,
+    /// Enable real disk writes from the wizard (Screen 4 Submit). Without this flag the
+    /// wizard shows a diff preview but does not write to the dataset.
+    pub allow_write: bool,
+    /// Color theme.
+    pub theme: ThemeChoice,
+    /// Do not restore an in-progress wizard draft from the previous session. Useful for
+    /// demo recording where you want a clean slate on every launch.
+    pub no_resume_wizard: bool,
+    /// Record every dispatched Message to this file as NDJSON for later replay.
+    /// Mutually exclusive with `replay`.
+    pub record: Option<PathBuf>,
+    /// Replay a previously recorded NDJSON message stream and print the final buffer.
+    /// Mutually exclusive with `record`.
+    pub replay: Option<PathBuf>,
 }
 
 /// Token dataset loaded once at startup and held for the full session.
@@ -166,50 +182,26 @@ fn default_mode_sets_path() -> Option<PathBuf> {
     candidates.into_iter().find(|c| c.is_dir())
 }
 
-#[derive(Parser)]
-#[command(name = "design-data-tui", about = "Interactive Spectrum design data TUI")]
-struct Cli {
-    /// Path to the token dataset directory.
-    dataset: PathBuf,
-    /// Path to the components directory (default: spec-bundled).
-    #[arg(long)]
-    components: Option<PathBuf>,
-    /// Path to the mode-sets directory (default: spec-bundled).
-    #[arg(long = "mode-sets")]
-    mode_sets: Option<PathBuf>,
-    /// Enable real disk writes from the wizard (Screen 4 Submit). Without this
-    /// flag the wizard shows a diff preview but does not write to the dataset.
-    #[arg(long)]
-    allow_write: bool,
-    /// Color theme. `terminal` uses terminal-native colors (default).
-    /// `spectrum` uses the Adobe Spectrum palette (requires truecolor terminal).
-    #[arg(long, value_enum, default_value_t = ThemeChoice::Terminal)]
-    theme: ThemeChoice,
-    /// Do not restore an in-progress wizard draft from the previous session.
-    /// Useful for demo recording where you want a clean slate on every launch.
-    #[arg(long)]
-    no_resume_wizard: bool,
-    /// Record every dispatched Message to this file as NDJSON for later replay.
-    #[arg(long, conflicts_with = "replay")]
-    record: Option<PathBuf>,
-    /// Replay a previously recorded NDJSON message stream and print the final buffer.
-    /// Mutually exclusive with normal interactive mode.
-    #[arg(long)]
-    replay: Option<PathBuf>,
-}
-
-fn main() -> Result<()> {
-    let cli = Cli::parse();
-    let theme = match cli.theme {
+/// Set up the terminal, run the TUI event loop, and restore the terminal on exit.
+///
+/// This is the public entrypoint for launching the interactive TUI from any binary.
+/// It owns the full terminal lifecycle: raw mode, alternate screen, mouse capture,
+/// panic hook installation, and cleanup.
+pub fn launch(opts: LaunchOptions) -> miette::Result<()> {
+    let theme = match opts.theme {
         ThemeChoice::Terminal => Theme::terminal(),
         ThemeChoice::Spectrum => Theme::spectrum(),
     };
-    // Extract record/replay paths before the partial move into DatasetHandle::load.
-    let record_path = cli.record;
-    let replay_path = cli.replay;
-    let handle =
-        DatasetHandle::load(cli.dataset, cli.components, cli.mode_sets, cli.allow_write, theme)?;
-    let resume_wizard = !cli.no_resume_wizard;
+    let record_path = opts.record;
+    let replay_path = opts.replay;
+    let handle = DatasetHandle::load(
+        opts.dataset,
+        opts.components,
+        opts.mode_sets,
+        opts.allow_write,
+        theme,
+    )?;
+    let resume_wizard = !opts.no_resume_wizard;
 
     // Restore terminal on panic so the shell is not left in a broken state.
     let original_hook = std::panic::take_hook();
@@ -226,7 +218,7 @@ fn main() -> Result<()> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend).into_diagnostic()?;
 
-    let result = run(&mut terminal, &handle, resume_wizard, record_path, replay_path);
+    let result = drive_terminal(&mut terminal, &handle, resume_wizard, record_path, replay_path);
 
     // Best-effort cleanup — continue even if individual steps fail.
     let _ = disable_raw_mode();
@@ -236,7 +228,10 @@ fn main() -> Result<()> {
     result
 }
 
-fn run<B: ratatui::backend::Backend>(
+/// Drive the terminal event loop (replay or interactive) with an already-constructed
+/// `Terminal`.  Extracted from the former standalone binary's `run()` function and
+/// renamed to avoid shadowing the re-exported [`crate::runtime::run`].
+fn drive_terminal<B: ratatui::backend::Backend>(
     terminal: &mut Terminal<B>,
     handle: &DatasetHandle,
     resume_wizard: bool,
@@ -290,7 +285,7 @@ fn run<B: ratatui::backend::Backend>(
         .transpose()
         .into_diagnostic()
         .wrap_err("failed to create record file")?;
-    design_data_tui::run(
+    tui_run(
         terminal, model, &ctx, &handle.theme, &handle.primer_line(),
         record_file.as_mut().map(|f| f as &mut dyn std::io::Write),
     )

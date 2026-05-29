@@ -18,7 +18,8 @@ mod format;
 
 use std::collections::HashSet;
 
-use clap::{ArgGroup, Parser, Subcommand, ValueEnum};
+use clap::{ArgGroup, Args, Parser, Subcommand, ValueEnum};
+use design_data_tui::{LaunchOptions, ThemeChoice};
 use design_data_core::cascade::{resolve, ResolutionContext};
 use design_data_core::compat::{
     load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot,
@@ -40,11 +41,48 @@ use miette::{IntoDiagnostic, WrapErr};
 const SPEC_VERSION: &str = "1.0.0-draft";
 
 /// Spectrum Design Data tooling — validate and migrate design tokens.
+///
+/// Run with no arguments to launch the interactive TUI. Pass a subcommand for
+/// non-interactive use.
 #[derive(Parser)]
-#[command(name = "design-data", version, about)]
+#[command(name = "design-data", version, about,
+          args_conflicts_with_subcommands = true,
+          subcommand_negates_reqs = true)]
 struct Cli {
     #[command(subcommand)]
-    command: Commands,
+    command: Option<Commands>,
+    /// TUI launch options (used when no subcommand is given).
+    #[command(flatten)]
+    tui: TuiArgs,
+}
+
+/// Arguments for launching the interactive TUI (bare invocation or `tui` subcommand).
+#[derive(Args)]
+struct TuiArgs {
+    /// Path to the token dataset directory (default: current directory).
+    #[arg(value_name = "DATASET")]
+    dataset: Option<PathBuf>,
+    /// Path to the components directory (default: spec-bundled).
+    #[arg(long)]
+    components: Option<PathBuf>,
+    /// Path to the mode-sets directory (default: spec-bundled).
+    #[arg(long = "mode-sets")]
+    mode_sets: Option<PathBuf>,
+    /// Enable real disk writes from the wizard (Screen 4 Submit).
+    #[arg(long)]
+    allow_write: bool,
+    /// Color theme (`terminal` or `spectrum`).
+    #[arg(long, value_enum, default_value_t = ThemeChoice::Terminal)]
+    theme: ThemeChoice,
+    /// Do not restore an in-progress wizard draft from the previous session.
+    #[arg(long)]
+    no_resume_wizard: bool,
+    /// Record every dispatched Message to this file as NDJSON for later replay.
+    #[arg(long, conflicts_with = "replay")]
+    record: Option<PathBuf>,
+    /// Replay a previously recorded NDJSON message stream and print the final buffer.
+    #[arg(long)]
+    replay: Option<PathBuf>,
 }
 
 #[derive(Subcommand)]
@@ -228,6 +266,8 @@ enum Commands {
         #[command(subcommand)]
         cmd: authoring::AuthoringSessionCommand,
     },
+    /// Launch the interactive TUI (same as running with no arguments)
+    Tui(TuiArgs),
 }
 
 #[derive(Subcommand)]
@@ -1317,10 +1357,38 @@ fn run_write_token(
     Ok(ExitCode::SUCCESS)
 }
 
+/// Launch the interactive TUI from a set of parsed TUI arguments.
+fn run_tui(args: TuiArgs) -> ExitCode {
+    let opts = LaunchOptions {
+        dataset: args.dataset.unwrap_or_else(|| PathBuf::from(".")),
+        components: args.components,
+        mode_sets: args.mode_sets,
+        allow_write: args.allow_write,
+        theme: args.theme,
+        no_resume_wizard: args.no_resume_wizard,
+        record: args.record,
+        replay: args.replay,
+    };
+    match design_data_tui::launch(opts) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(e) => {
+            eprintln!("Error: {e:?}");
+            ExitCode::from(2)
+        }
+    }
+}
+
 fn main() -> ExitCode {
     let cli = Cli::parse();
 
-    let result = match cli.command {
+    // Bare invocation (no subcommand) or explicit `tui` subcommand → launch the TUI.
+    let command = match cli.command {
+        None => return run_tui(cli.tui),
+        Some(Commands::Tui(args)) => return run_tui(args),
+        Some(other) => other,
+    };
+
+    let result = match command {
         Commands::Validate {
             path,
             format,
@@ -1464,6 +1532,7 @@ fn main() -> ExitCode {
         Commands::AuthoringSession { cmd } => {
             return authoring::run(cmd);
         }
+        Commands::Tui(_) => unreachable!("handled above"),
     };
 
     match result {

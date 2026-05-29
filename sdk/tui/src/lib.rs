@@ -9,6 +9,7 @@
 // governing permissions and limitations under the License.
 
 pub mod app;
+pub mod app_launch;
 pub mod app_views;
 pub(crate) mod app_palette;
 pub(crate) mod clipboard;
@@ -29,10 +30,12 @@ pub mod wizard;
 pub mod wizard_common;
 pub mod wizard_draft;
 
+pub use app_launch::{launch, LaunchOptions, ThemeChoice};
 pub use message::Message;
 pub use mode::{BrowsingState, Mode, ModalState, MouseMode, PaletteState};
 pub use model::Model;
 pub use runtime::{replay, run};
 pub use task::Task;
+pub use theme::Theme;
 pub use update::{update, UpdateCtx};
 pub use view::draw;

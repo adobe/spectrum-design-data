@@ -9,10 +9,6 @@ description = "Interactive TUI for Spectrum design data authoring and inspection
 [lib]
 path = "src/lib.rs"
 
-[[bin]]
-name = "design-data-tui"
-path = "src/main.rs"
-
 [dependencies]
 design-data-core = { path = "../core" }
 ratatui = "0.28"
