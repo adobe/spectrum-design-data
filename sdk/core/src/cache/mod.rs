@@ -31,8 +31,9 @@
 //!
 //! - `cache_base`: `DESIGN_DATA_CACHE_DIR` env override, else `dirs::cache_dir()/design-data`.
 //! - `tokens_version`: [`EMBEDDED_TOKENS_VERSION`] — upgrades self-invalidate.
-//! - `dataset_key`: hash of the dataset's absolute path, so distinct datasets do
-//!   not thrash a single shared cache file.
+//! - `dataset_key`: hash of the tokens root absolute path plus any configured
+//!   catalog directory paths (`mode-sets`, `components`), so distinct datasets
+//!   and catalog configurations do not thrash a single shared cache file.
 //!
 //! ## redb schema (v2)
 //!
@@ -76,6 +77,13 @@
 //! - Sidecar name directories merged by [`TokenGraph::from_json_dir_with_names`] are
 //!   not part of the cache build path; callers using sidecars should keep loading
 //!   from JSON or extend the cache inputs explicitly.
+//! - [`open_cached`] (no catalog dirs) and [`open_cached_with_catalogs`] write
+//!   separate cache files for the same tokens root. CLI/TUI always pass catalogs;
+//!   WASM/tools using plain [`build_bytes`] / [`open_cached`] maintain a distinct
+//!   entry unless they adopt the `*_with_catalogs` APIs.
+//! - `dataset_key` uses [`std::collections::hash_map::DefaultHasher`] (not stable
+//!   across Rust versions). Fine for local dev caches; do not share cache dirs
+//!   across heterogeneous CI runners expecting identical keys.
 
 mod mem_backend;
 

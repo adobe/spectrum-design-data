@@ -1031,11 +1031,8 @@ fn run_primer(
         })
         .collect();
 
-    let components = resolved
-        .components
-        .as_deref()
-        .map(scan_json_name_field)
-        .unwrap_or_default();
+    let mut components: Vec<String> = graph.components.iter().map(|c| c.name.clone()).collect();
+    components.sort();
 
     let taxonomy_fields: Vec<serde_json::Value> = resolved
         .fields
