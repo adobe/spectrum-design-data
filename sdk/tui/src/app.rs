@@ -14,8 +14,8 @@ use crossterm::event::{KeyCode, KeyEvent, KeyModifiers, MouseButton, MouseEvent,
 use design_data_core::cascade::ResolutionContext;
 use ratatui::layout::Rect;
 use ratatui::widgets::TableState;
-use tui_input::Input;
 use tui_input::backend::crossterm::EventHandler;
+use tui_input::Input;
 
 use crate::find::FindEvent;
 use crate::naming::NamingEvent;
@@ -130,9 +130,10 @@ impl App {
                                     self.palette_input = Input::from(format!("{} ", matches[0]));
                                 }
                                 _ => {
-                                    self.status_message = Some(StatusMessage::info(
-                                        format!("matches: {}", matches.join(" | ")),
-                                    ));
+                                    self.status_message = Some(StatusMessage::info(format!(
+                                        "matches: {}",
+                                        matches.join(" | ")
+                                    )));
                                 }
                             }
                         }
@@ -154,7 +155,11 @@ impl App {
                 }
                 KeyCode::Down if self.palette_mode == PaletteMode::Command => {
                     let next = self.palette_history_cursor.and_then(|i| {
-                        if i == 0 { None } else { Some(i - 1) }
+                        if i == 0 {
+                            None
+                        } else {
+                            Some(i - 1)
+                        }
                     });
                     self.palette_history_cursor = next;
                     match next {
@@ -172,7 +177,8 @@ impl App {
                     // Any character input resets the history position so the next ↑ starts
                     // from the head again (mirrors bash/zsh behavior).
                     self.palette_history_cursor = None;
-                    self.palette_input.handle_event(&crossterm::event::Event::Key(key));
+                    self.palette_input
+                        .handle_event(&crossterm::event::Event::Key(key));
                 }
             }
             return;
@@ -194,9 +200,9 @@ impl App {
                         self.sel_end = None;
                     }
                     let label = if self.selection_mode { "on" } else { "off" };
-                    self.status_message = Some(StatusMessage::info(
-                        format!("selection mode {label}  (drag to select, release to copy)"),
-                    ));
+                    self.status_message = Some(StatusMessage::info(format!(
+                        "selection mode {label}  (drag to select, release to copy)"
+                    )));
                 }
                 KeyCode::Char(':') => {
                     self.palette_open = true;
@@ -280,8 +286,7 @@ impl App {
                 }
                 NamingEvent::Copy(name) => {
                     self.pending_yank = Some(name.clone());
-                    self.status_message =
-                        Some(StatusMessage::info(format!("copied: {name}")));
+                    self.status_message = Some(StatusMessage::info(format!("copied: {name}")));
                 }
                 NamingEvent::Continue => {}
             }
@@ -417,7 +422,11 @@ impl App {
     fn click_at(&mut self, row: u16, col: u16) {
         // Collect matching actions first to avoid borrow issues.
         let action = self.hit_regions.iter().find_map(|r| {
-            if rect_contains(r.rect, row, col) { Some(&r.action) } else { None }
+            if rect_contains(r.rect, row, col) {
+                Some(&r.action)
+            } else {
+                None
+            }
         });
         match action {
             Some(HitAction::SelectListRow(i)) => {
@@ -457,7 +466,11 @@ impl App {
                 lines.push(&region.text);
             }
         }
-        if lines.is_empty() { None } else { Some(lines.join("\n")) }
+        if lines.is_empty() {
+            None
+        } else {
+            Some(lines.join("\n"))
+        }
     }
 
     // ── View key routing ─────────────────────────────────────────────────────
@@ -587,7 +600,9 @@ pub fn history_path() -> Option<PathBuf> {
 }
 
 pub(crate) fn load_palette_history() -> Vec<String> {
-    let Some(path) = history_path() else { return Vec::new() };
+    let Some(path) = history_path() else {
+        return Vec::new();
+    };
     std::fs::read_to_string(&path)
         .map(|s| {
             s.lines()
@@ -626,10 +641,7 @@ pub fn move_table_selection(state: &mut TableState, len: usize, delta: i64) {
 
 /// Test whether `(row, col)` is inside `rect`.
 pub(crate) fn rect_contains(rect: Rect, row: u16, col: u16) -> bool {
-    col >= rect.x
-        && col < rect.x + rect.width
-        && row >= rect.y
-        && row < rect.y + rect.height
+    col >= rect.x && col < rect.x + rect.width && row >= rect.y && row < rect.y + rect.height
 }
 
 pub(crate) fn parse_resolve_args(rest: &str) -> Result<(String, ResolutionContext), String> {

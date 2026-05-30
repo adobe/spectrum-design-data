@@ -24,8 +24,17 @@ use crate::CoreError;
 /// Layer ordering is encoded in the discriminant so `Ord` gives correct
 /// precedence: `Foundation < Platform < Product`.
 #[derive(
-    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default,
-    serde::Serialize, serde::Deserialize,
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    Default,
+    serde::Serialize,
+    serde::Deserialize,
 )]
 #[serde(rename_all = "lowercase")]
 pub enum Layer {
@@ -49,7 +58,7 @@ impl std::str::FromStr for Layer {
 }
 
 /// One component declaration (spec-format JSON), loaded for relational rules.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct ComponentRecord {
     pub name: String,
     pub file: PathBuf,
@@ -57,7 +66,7 @@ pub struct ComponentRecord {
 }
 
 /// One mode set declaration (new spec shape), when present in a JSON file.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct ModeSetRecord {
     pub file: PathBuf,
     pub name: String,
@@ -66,7 +75,7 @@ pub struct ModeSetRecord {
 }
 
 /// One token entry (legacy file key, cascade array element, or test fixture id).
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct TokenRecord {
     pub name: String,
     pub file: PathBuf,
@@ -100,9 +109,7 @@ impl TokenGraph {
     ///
     /// Each file is `{ "<token-slug>": { <name-object> }, … }`.  All files are
     /// merged into a single map.  Duplicate slugs across files return an error.
-    fn load_sidecar_names(
-        dir: &Path,
-    ) -> Result<HashMap<String, Value>, CoreError> {
+    fn load_sidecar_names(dir: &Path) -> Result<HashMap<String, Value>, CoreError> {
         let mut map: HashMap<String, Value> = HashMap::new();
         for path in discover_json_files(dir)? {
             let text = std::fs::read_to_string(&path)?;
@@ -126,6 +133,24 @@ impl TokenGraph {
     /// Convenience wrapper: equivalent to `from_json_dir_with_names(root, None)`.
     pub fn from_json_dir(root: &Path) -> Result<Self, CoreError> {
         Self::from_json_dir_with_names(root, None)
+    }
+
+    /// Load a graph for `root`, using the derived embedded-database cache when
+    /// the `cache` feature is enabled.
+    ///
+    /// Drop-in replacement for [`Self::from_json_dir`]: a fresh cache is
+    /// hydrated without re-parsing JSON; a stale/absent/corrupt cache rebuilds
+    /// from JSON (the source of truth) and rewrites the cache best-effort. When
+    /// the `cache` feature is disabled this is exactly [`Self::from_json_dir`].
+    pub fn open_cached(root: &Path) -> Result<Self, CoreError> {
+        #[cfg(feature = "cache")]
+        {
+            crate::cache::open_cached(root)
+        }
+        #[cfg(not(feature = "cache"))]
+        {
+            Self::from_json_dir(root)
+        }
     }
 
     /// Build a graph from legacy Spectrum token sources (`*.json` token maps).
@@ -320,7 +345,9 @@ impl TokenGraph {
         let mut uuid_index = HashMap::new();
         for record in records {
             if let Some(u) = &record.uuid {
-                uuid_index.entry(u.clone()).or_insert_with(|| record.name.clone());
+                uuid_index
+                    .entry(u.clone())
+                    .or_insert_with(|| record.name.clone());
             }
             tokens.insert(record.name.clone(), record);
         }
@@ -402,11 +429,16 @@ impl TokenGraph {
                 let Some(tok_obj) = token_val.as_object() else {
                     continue;
                 };
-                let uuid = tok_obj.get("uuid").and_then(|v| v.as_str()).map(str::to_string);
+                let uuid = tok_obj
+                    .get("uuid")
+                    .and_then(|v| v.as_str())
+                    .map(str::to_string);
                 let alias_target = extract_alias_target(tok_obj);
                 let key = format!("product-context-ext:{}:{}", path.display(), idx);
                 if let Some(u) = &uuid {
-                    self.uuid_index.entry(u.clone()).or_insert_with(|| key.clone());
+                    self.uuid_index
+                        .entry(u.clone())
+                        .or_insert_with(|| key.clone());
                 }
                 self.tokens.insert(
                     key.clone(),
@@ -526,7 +558,9 @@ impl TokenGraph {
                     let alias_target = raw.as_object().and_then(extract_alias_target);
                     let key = format!("platform-override:{target}:{idx}:{match_idx}");
                     if let Some(u) = &uuid {
-                        self.uuid_index.entry(u.clone()).or_insert_with(|| key.clone());
+                        self.uuid_index
+                            .entry(u.clone())
+                            .or_insert_with(|| key.clone());
                     }
                     self.tokens.insert(
                         key.clone(),
@@ -555,7 +589,10 @@ impl TokenGraph {
                 let Some(tok_obj) = token_val.as_object() else {
                     continue;
                 };
-                let uuid = tok_obj.get("uuid").and_then(|v| v.as_str()).map(str::to_string);
+                let uuid = tok_obj
+                    .get("uuid")
+                    .and_then(|v| v.as_str())
+                    .map(str::to_string);
                 let schema_url = tok_obj
                     .get("$schema")
                     .and_then(|v| v.as_str())
@@ -563,7 +600,9 @@ impl TokenGraph {
                 let alias_target = extract_alias_target(tok_obj);
                 let key = format!("platform-ext:{idx}");
                 if let Some(u) = &uuid {
-                    self.uuid_index.entry(u.clone()).or_insert_with(|| key.clone());
+                    self.uuid_index
+                        .entry(u.clone())
+                        .or_insert_with(|| key.clone());
                 }
                 self.tokens.insert(
                     key.clone(),
@@ -583,7 +622,10 @@ impl TokenGraph {
 
         // 4. modeSetRestrictions — returned for the resolution context.
         let mut mode_set_restrictions: HashMap<String, Vec<String>> = HashMap::new();
-        if let Some(obj) = manifest.get("modeSetRestrictions").and_then(|v| v.as_object()) {
+        if let Some(obj) = manifest
+            .get("modeSetRestrictions")
+            .and_then(|v| v.as_object())
+        {
             for (ms_name, restr) in obj {
                 if let Some(allowed) = restr.get("allowed").and_then(|v| v.as_array()) {
                     let modes: Vec<String> = allowed
@@ -615,9 +657,10 @@ impl TokenGraph {
             return Ok(query::filter(self, &filter)
                 .into_iter()
                 .filter_map(|rec| {
-                    rec.raw.get("name").cloned().map(|name_obj| {
-                        (name_obj, rec.raw.get("value").cloned(), rec.uuid.clone())
-                    })
+                    rec.raw
+                        .get("name")
+                        .cloned()
+                        .map(|name_obj| (name_obj, rec.raw.get("value").cloned(), rec.uuid.clone()))
                 })
                 .collect());
         }
@@ -628,7 +671,11 @@ impl TokenGraph {
             .or_else(|| self.tokens.get(target));
         if let Some(rec) = record {
             if let Some(name_obj) = rec.raw.get("name").cloned() {
-                return Ok(vec![(name_obj, rec.raw.get("value").cloned(), rec.uuid.clone())]);
+                return Ok(vec![(
+                    name_obj,
+                    rec.raw.get("value").cloned(),
+                    rec.uuid.clone(),
+                )]);
             }
         }
         Ok(Vec::new())
@@ -796,9 +843,9 @@ impl TokenRecord {
 
 #[cfg(test)]
 mod tests {
+    use serde_json::json;
     use std::io::Write;
     use tempfile::tempdir;
-    use serde_json::json;
 
     use super::*;
 
@@ -813,12 +860,20 @@ mod tests {
         let tokens_dir = tempdir().unwrap();
         let names_dir = tempdir().unwrap();
 
-        write_json(&tokens_dir, "t.json", json!({
-            "blue-100": { "$schema": "https://example.com/color-set.json", "value": "#0000ff" }
-        }));
-        write_json(&names_dir, "t.json", json!({
-            "blue-100": { "property": "color", "colorFamily": "blue", "scaleIndex": 100 }
-        }));
+        write_json(
+            &tokens_dir,
+            "t.json",
+            json!({
+                "blue-100": { "$schema": "https://example.com/color-set.json", "value": "#0000ff" }
+            }),
+        );
+        write_json(
+            &names_dir,
+            "t.json",
+            json!({
+                "blue-100": { "property": "color", "colorFamily": "blue", "scaleIndex": 100 }
+            }),
+        );
 
         let g = TokenGraph::from_json_dir_with_names(tokens_dir.path(), Some(names_dir.path()))
             .unwrap();
@@ -833,22 +888,33 @@ mod tests {
         let tokens_dir = tempdir().unwrap();
         let names_dir = tempdir().unwrap();
 
-        write_json(&tokens_dir, "t.json", json!({
-            "blue-100": {
-                "$schema": "https://example.com/color-set.json",
-                "value": "#0000ff",
-                "name": { "property": "color", "colorFamily": "inline-value" }
-            }
-        }));
-        write_json(&names_dir, "t.json", json!({
-            "blue-100": { "property": "color", "colorFamily": "sidecar-value" }
-        }));
+        write_json(
+            &tokens_dir,
+            "t.json",
+            json!({
+                "blue-100": {
+                    "$schema": "https://example.com/color-set.json",
+                    "value": "#0000ff",
+                    "name": { "property": "color", "colorFamily": "inline-value" }
+                }
+            }),
+        );
+        write_json(
+            &names_dir,
+            "t.json",
+            json!({
+                "blue-100": { "property": "color", "colorFamily": "sidecar-value" }
+            }),
+        );
 
         let g = TokenGraph::from_json_dir_with_names(tokens_dir.path(), Some(names_dir.path()))
             .unwrap();
         let token = g.tokens.get("blue-100").unwrap();
         let name = token.raw.get("name").unwrap();
-        assert_eq!(name["colorFamily"], "inline-value", "inline name must win over sidecar");
+        assert_eq!(
+            name["colorFamily"], "inline-value",
+            "inline name must win over sidecar"
+        );
     }
 
     #[test]
@@ -856,12 +922,20 @@ mod tests {
         let tokens_dir = tempdir().unwrap();
         let names_dir = tempdir().unwrap();
 
-        write_json(&tokens_dir, "t.json", json!({
-            "real-token": { "$schema": "https://example.com/color.json", "value": "#fff" }
-        }));
-        write_json(&names_dir, "t.json", json!({
-            "nonexistent-token": { "property": "color", "colorFamily": "blue" }
-        }));
+        write_json(
+            &tokens_dir,
+            "t.json",
+            json!({
+                "real-token": { "$schema": "https://example.com/color.json", "value": "#fff" }
+            }),
+        );
+        write_json(
+            &names_dir,
+            "t.json",
+            json!({
+                "nonexistent-token": { "property": "color", "colorFamily": "blue" }
+            }),
+        );
 
         let g = TokenGraph::from_json_dir_with_names(tokens_dir.path(), Some(names_dir.path()))
             .unwrap();
@@ -872,12 +946,20 @@ mod tests {
     #[test]
     fn duplicate_sidecar_slug_returns_error() {
         let names_dir = tempdir().unwrap();
-        write_json(&names_dir, "a.json", json!({
-            "blue-100": { "property": "color", "colorFamily": "blue" }
-        }));
-        write_json(&names_dir, "b.json", json!({
-            "blue-100": { "property": "color", "colorFamily": "blue" }
-        }));
+        write_json(
+            &names_dir,
+            "a.json",
+            json!({
+                "blue-100": { "property": "color", "colorFamily": "blue" }
+            }),
+        );
+        write_json(
+            &names_dir,
+            "b.json",
+            json!({
+                "blue-100": { "property": "color", "colorFamily": "blue" }
+            }),
+        );
 
         let result = TokenGraph::load_sidecar_names(names_dir.path());
         assert!(result.is_err());
@@ -886,9 +968,13 @@ mod tests {
     #[test]
     fn from_json_dir_without_names_unchanged() {
         let tokens_dir = tempdir().unwrap();
-        write_json(&tokens_dir, "t.json", json!({
-            "blue-100": { "$schema": "https://example.com/color-set.json", "value": "#0000ff" }
-        }));
+        write_json(
+            &tokens_dir,
+            "t.json",
+            json!({
+                "blue-100": { "$schema": "https://example.com/color-set.json", "value": "#0000ff" }
+            }),
+        );
 
         let g = TokenGraph::from_json_dir(tokens_dir.path()).unwrap();
         let token = g.tokens.get("blue-100").unwrap();
@@ -988,12 +1074,12 @@ mod tests {
             .values()
             .find(|t| t.layer == Layer::Platform && t.uuid.as_deref() == Some("u-btn-bg"))
             .expect("platform override token present");
-        assert_eq!(overridden.raw.get("value").and_then(|v| v.as_str()), Some("#ffffff"));
-        // Name object is inherited from the foundation token.
         assert_eq!(
-            overridden.raw["name"]["component"].as_str(),
-            Some("button")
+            overridden.raw.get("value").and_then(|v| v.as_str()),
+            Some("#ffffff")
         );
+        // Name object is inherited from the foundation token.
+        assert_eq!(overridden.raw["name"]["component"].as_str(), Some("button"));
     }
 
     #[test]

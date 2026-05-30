@@ -126,7 +126,10 @@ impl SchemaRegistry {
             .with_draft(Draft::Draft202012)
             .build(&schema)
             .map_err(|e| CoreError::SchemaBuild(e.to_string()))?;
-        Ok(validator.iter_errors(manifest).map(|e| e.to_string()).collect())
+        Ok(validator
+            .iter_errors(manifest)
+            .map(|e| e.to_string())
+            .collect())
     }
 
     /// Construct a no-op stub for unit tests where schema validation is never reached.

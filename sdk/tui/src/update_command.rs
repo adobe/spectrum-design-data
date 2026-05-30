@@ -24,8 +24,8 @@ use design_data_core::diff::display_name;
 use design_data_core::graph::{TokenGraph, TokenRecord};
 
 use crate::app::{
-    ActiveView, DescribeView, DiagnosticRow, Modal, QueryRow, QueryView, ResolvedRow, ResolveView,
-    StatusMessage, ValidateView, HISTORY_CAP, layer_str, parse_resolve_args, save_palette_history,
+    layer_str, parse_resolve_args, save_palette_history, ActiveView, DescribeView, DiagnosticRow,
+    Modal, QueryRow, QueryView, ResolveView, ResolvedRow, StatusMessage, ValidateView, HISTORY_CAP,
 };
 use crate::find::FindWizardState;
 use crate::message::Message;
@@ -66,7 +66,10 @@ pub(crate) fn handle_palette_submit(
         model.palette_history.insert(0, raw.clone());
         model.palette_history.truncate(HISTORY_CAP);
         let snap = model.palette_history.clone();
-        Task::cmd(move || { save_palette_history(&snap); Message::Tick })
+        Task::cmd(move || {
+            save_palette_history(&snap);
+            Message::Tick
+        })
     } else {
         Task::none()
     };
@@ -96,8 +99,7 @@ fn dispatch_command(
     match cmd {
         "query" => {
             if rest.is_empty() {
-                model.status_message =
-                    Some(StatusMessage::error("query: expression required"));
+                model.status_message = Some(StatusMessage::error("query: expression required"));
                 return Task::none();
             }
             match design_data_core::query::parse(rest) {
@@ -106,14 +108,12 @@ fn dispatch_command(
                     let rows: Vec<QueryRow> =
                         records.iter().map(|r| QueryRow::from_record(r)).collect();
                     let count = rows.len();
-                    model.active_view =
-                        ActiveView::Query(QueryView::new(rest.to_string(), rows));
+                    model.active_view = ActiveView::Query(QueryView::new(rest.to_string(), rows));
                     model.status_message =
                         Some(StatusMessage::info(format!("{count} token(s) matched")));
                 }
                 Err(e) => {
-                    model.status_message =
-                        Some(StatusMessage::error(format!("query error: {e}")));
+                    model.status_message = Some(StatusMessage::error(format!("query error: {e}")));
                 }
             }
             Task::none()
@@ -127,8 +127,7 @@ fn dispatch_command(
             let (prop, res_ctx) = match parse_resolve_args(rest) {
                 Ok(v) => v,
                 Err(e) => {
-                    model.status_message =
-                        Some(StatusMessage::error(format!("resolve: {e}")));
+                    model.status_message = Some(StatusMessage::error(format!("resolve: {e}")));
                     return Task::none();
                 }
             };
@@ -147,13 +146,12 @@ fn dispatch_command(
                 .cloned()
                 .collect();
             if candidates.is_empty() {
-                model.active_view =
-                    ActiveView::Resolve(ResolveView::new(prop, vec![]));
+                model.active_view = ActiveView::Resolve(ResolveView::new(prop, vec![]));
                 model.status_message = Some(StatusMessage::info("no match"));
                 return Task::none();
             }
-            let filtered_graph = TokenGraph::from_records(candidates)
-                .with_mode_sets(ctx.graph.mode_sets.clone());
+            let filtered_graph =
+                TokenGraph::from_records(candidates).with_mode_sets(ctx.graph.mode_sets.clone());
             let mut with_spec: Vec<(&TokenRecord, u32)> = filtered_graph
                 .tokens
                 .values()
@@ -208,8 +206,7 @@ fn dispatch_command(
                 .collect();
             let count = rows.len();
             model.active_view = ActiveView::Resolve(ResolveView::new(prop, rows));
-            model.status_message =
-                Some(StatusMessage::info(format!("{count} candidate(s)")));
+            model.status_message = Some(StatusMessage::info(format!("{count} candidate(s)")));
             Task::none()
         }
         "describe" | "component" => {
@@ -223,7 +220,9 @@ fn dispatch_command(
             let id = rest.trim();
             if id.is_empty()
                 || !id.chars().next().is_some_and(|c| c.is_ascii_lowercase())
-                || !id.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-')
+                || !id
+                    .chars()
+                    .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-')
             {
                 model.status_message =
                     Some(StatusMessage::error(format!("invalid component ID '{id}'")));
@@ -249,26 +248,28 @@ fn dispatch_command(
                                 model.status_message = None;
                             }
                             Err(e) => {
-                                model.status_message = Some(StatusMessage::error(
-                                    format!("describe: render error: {e}"),
-                                ));
+                                model.status_message = Some(StatusMessage::error(format!(
+                                    "describe: render error: {e}"
+                                )));
                             }
                         },
                         Err(e) => {
-                            model.status_message = Some(StatusMessage::error(
-                                format!("describe: parse error: {e}"),
-                            ));
+                            model.status_message =
+                                Some(StatusMessage::error(format!("describe: parse error: {e}")));
                         }
                     },
                     Err(e) => {
-                        model.status_message = Some(StatusMessage::error(
-                            format!("describe: read error: {e}"),
-                        ));
+                        model.status_message =
+                            Some(StatusMessage::error(format!("describe: read error: {e}")));
                     }
                 }
             } else {
-                let available: Vec<&str> =
-                    ctx.graph.components.iter().map(|c| c.name.as_str()).collect();
+                let available: Vec<&str> = ctx
+                    .graph
+                    .components
+                    .iter()
+                    .map(|c| c.name.as_str())
+                    .collect();
                 let suggestion = build_did_you_mean(id, &available);
                 model.status_message = Some(StatusMessage::error(format!(
                     "component '{id}' not found{suggestion}"
@@ -314,12 +315,10 @@ fn dispatch_command(
                         .collect();
                     let count = rows.len();
                     model.active_view = ActiveView::Validate(ValidateView::new(rows));
-                    model.status_message =
-                        Some(StatusMessage::info(format!("{count} finding(s)")));
+                    model.status_message = Some(StatusMessage::info(format!("{count} finding(s)")));
                 }
                 Err(e) => {
-                    model.status_message =
-                        Some(StatusMessage::error(format!("validate: {e}")));
+                    model.status_message = Some(StatusMessage::error(format!("validate: {e}")));
                 }
             }
             Task::none()
@@ -345,8 +344,7 @@ fn dispatch_command(
             Task::none()
         }
         other => {
-            model.status_message =
-                Some(StatusMessage::error(format!("unknown command: {other}")));
+            model.status_message = Some(StatusMessage::error(format!("unknown command: {other}")));
             Task::none()
         }
     }

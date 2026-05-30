@@ -54,8 +54,12 @@ impl ValidationRule for Rule {
             return Vec::new();
         };
 
-        let mode_set_names: Vec<&str> =
-            ctx.graph.mode_sets.iter().map(|ms| ms.name.as_str()).collect();
+        let mode_set_names: Vec<&str> = ctx
+            .graph
+            .mode_sets
+            .iter()
+            .map(|ms| ms.name.as_str())
+            .collect();
 
         let mut out = Vec::new();
 
@@ -270,7 +274,10 @@ mod tests {
             }
         });
         let ctx = make_ctx(&g, &manifest, &registry, &exceptions);
-        assert!(Rule.validate(&ctx).is_empty(), "wildcard token covers the restriction");
+        assert!(
+            Rule.validate(&ctx).is_empty(),
+            "wildcard token covers the restriction"
+        );
     }
 
     #[test]
@@ -365,7 +372,12 @@ mod tests {
         let ctx = make_ctx(&g, &manifest, &registry, &exceptions);
         let diags = Rule.validate(&ctx);
         // Must detect the gap even though each restriction individually had a survivor.
-        assert_eq!(diags.len(), 1, "expected 1 coverage-gap error, got: {:?}", diags);
+        assert_eq!(
+            diags.len(),
+            1,
+            "expected 1 coverage-gap error, got: {:?}",
+            diags
+        );
         assert_eq!(diags[0].severity, Severity::Error);
     }
 

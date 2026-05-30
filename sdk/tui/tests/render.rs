@@ -27,7 +27,9 @@ const H: u16 = 24;
 
 /// Collect a single row of the buffer as a `String`.
 fn row_str(buf: &Buffer, y: u16, w: u16) -> String {
-    (0..w).map(|x| buf.cell((x, y)).unwrap().symbol().to_string()).collect()
+    (0..w)
+        .map(|x| buf.cell((x, y)).unwrap().symbol().to_string())
+        .collect()
 }
 
 /// Scan all rows for the first one whose text contains `needle`. Returns that
@@ -72,7 +74,10 @@ fn empty_app_renders_active_view_border() {
     let mut model = Model::new();
     let buf = render_to_buffer(&mut model, W, H);
     let border_row = (1..H).find(|&y| buf.cell((0, y)).unwrap().symbol() == "┌");
-    assert!(border_row.is_some(), "expected a '┌' border somewhere in rows 1..{H}");
+    assert!(
+        border_row.is_some(),
+        "expected a '┌' border somewhere in rows 1..{H}"
+    );
 }
 
 #[test]
@@ -97,7 +102,10 @@ fn query_view_renders_column_headers() {
 
     let buf = render_to_buffer(&mut model, W, H);
     let header_row = find_row_containing(&buf, "Name", W, H);
-    assert!(header_row.contains("Value"), "header should also contain 'Value': {header_row}");
+    assert!(
+        header_row.contains("Value"),
+        "header should also contain 'Value': {header_row}"
+    );
 }
 
 #[test]

@@ -128,7 +128,10 @@ fn model_new_with_options_false_ignores_draft() {
             "--no-resume-wizard: modal should be None even if draft exists on disk"
         );
         let path = wizard_draft_path().unwrap();
-        assert!(path.exists(), "draft file should remain untouched with --no-resume-wizard");
+        assert!(
+            path.exists(),
+            "draft file should remain untouched with --no-resume-wizard"
+        );
     });
 }
 
@@ -150,21 +153,36 @@ fn cancelling_wizard_returns_draft_clear_task() {
         let mut model = Model::new();
 
         // Open wizard and persist a draft manually.
-        update(&mut model, Message::PaletteSubmit("new test token".into()), &ctx);
+        update(
+            &mut model,
+            Message::PaletteSubmit("new test token".into()),
+            &ctx,
+        );
         assert!(model.is_modal_open(), "wizard should be open");
         if let Some(Modal::Wizard(ref ws)) = model.modal() {
             save_wizard_draft(&to_draft(ws));
         }
-        assert!(wizard_draft_path().unwrap().exists(), "draft should be on disk");
+        assert!(
+            wizard_draft_path().unwrap().exists(),
+            "draft should be on disk"
+        );
 
         // Cancel — should return Task::Cmd that clears the draft.
         let task = update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
         assert!(!model.is_modal_open(), "modal should be closed after Esc");
-        assert!(task.is_cmd(), "cancel should return Task::Cmd for draft clear");
+        assert!(
+            task.is_cmd(),
+            "cancel should return Task::Cmd for draft clear"
+        );
 
         // Execute the task to verify it clears the draft file.
-        if let Task::Cmd(f) = task { f(); }
-        assert!(!wizard_draft_path().unwrap().exists(), "draft should be cleared after cancel");
+        if let Task::Cmd(f) = task {
+            f();
+        }
+        assert!(
+            !wizard_draft_path().unwrap().exists(),
+            "draft should be cleared after cancel"
+        );
     });
 }
 
@@ -184,18 +202,32 @@ fn wizard_keystroke_returns_persist_task() {
         // should return Task::Cmd (save_wizard_draft).
         let task = update(&mut model, Message::Key(key(KeyCode::Char('a'))), &ctx);
         // WizardEvent::Continue → Task::Cmd(save_wizard_draft)
-        assert!(task.is_cmd(), "wizard keystroke should return Task::Cmd (save_wizard_draft)");
+        assert!(
+            task.is_cmd(),
+            "wizard keystroke should return Task::Cmd (save_wizard_draft)"
+        );
 
         // Execute any task so the draft lands on disk.
-        if let Task::Cmd(f) = task { f(); }
+        if let Task::Cmd(f) = task {
+            f();
+        }
         let task2 = update(&mut model, Message::Key(key(KeyCode::Char('b'))), &ctx);
-        if let Task::Cmd(f) = task2 { f(); }
+        if let Task::Cmd(f) = task2 {
+            f();
+        }
 
         let draft_path = wizard_draft_path().unwrap();
-        assert!(draft_path.exists(), "wizard keystrokes should auto-save draft via Task::Cmd");
+        assert!(
+            draft_path.exists(),
+            "wizard keystrokes should auto-save draft via Task::Cmd"
+        );
 
         let loaded = load_wizard_draft().expect("draft should be loadable");
         let restored = from_draft(loaded);
-        assert_eq!(restored.intent.value(), "ab", "persisted intent should match typed text");
+        assert_eq!(
+            restored.intent.value(),
+            "ab",
+            "persisted intent should match typed text"
+        );
     });
 }

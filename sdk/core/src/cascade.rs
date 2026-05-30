@@ -59,8 +59,10 @@ impl ResolutionContext {
         mode_set: impl Into<String>,
         allowed: Vec<impl Into<String>>,
     ) -> Self {
-        self.mode_set_restrictions
-            .insert(mode_set.into(), allowed.into_iter().map(Into::into).collect());
+        self.mode_set_restrictions.insert(
+            mode_set.into(),
+            allowed.into_iter().map(Into::into).collect(),
+        );
         self
     }
 }

@@ -65,9 +65,7 @@ use super::SourceConfig;
 #[derive(Debug, Error)]
 pub enum FetchError {
     /// The source type is recognised but not yet implemented.
-    #[error(
-        "source type '{source_type}' is not yet fully implemented: {reason}"
-    )]
+    #[error("source type '{source_type}' is not yet fully implemented: {reason}")]
     NotYetSupported {
         source_type: &'static str,
         reason: &'static str,
@@ -191,12 +189,18 @@ fn download_bytes(url: &str) -> Result<Vec<u8>, FetchError> {
         let client = reqwest::Client::builder()
             .timeout(std::time::Duration::from_secs(60))
             .build()
-            .map_err(|e| FetchError::Network { url: url.to_string(), source: e })?;
+            .map_err(|e| FetchError::Network {
+                url: url.to_string(),
+                source: e,
+            })?;
         let resp = client
             .get(url)
             .send()
             .await
-            .map_err(|e| FetchError::Network { url: url.to_string(), source: e })?;
+            .map_err(|e| FetchError::Network {
+                url: url.to_string(),
+                source: e,
+            })?;
         let status = resp.status();
         if !status.is_success() {
             return Err(FetchError::Network {
@@ -206,10 +210,10 @@ fn download_bytes(url: &str) -> Result<Vec<u8>, FetchError> {
                     .expect_err("non-success status confirmed"),
             });
         }
-        let bytes = resp
-            .bytes()
-            .await
-            .map_err(|e| FetchError::Network { url: url.to_string(), source: e })?;
+        let bytes = resp.bytes().await.map_err(|e| FetchError::Network {
+            url: url.to_string(),
+            source: e,
+        })?;
         Ok(bytes.to_vec())
     })
 }
@@ -258,16 +262,22 @@ fn extract_tarball_inner(bytes: &[u8], url: &str, dest: &Path) -> Result<(), Fet
     // We'll strip it from every path before writing.
     let mut prefix: Option<String> = None;
 
-    let entries = archive
-        .entries()
-        .map_err(|e| FetchError::Extract { url: url.to_string(), source: e })?;
+    let entries = archive.entries().map_err(|e| FetchError::Extract {
+        url: url.to_string(),
+        source: e,
+    })?;
 
     for entry_result in entries {
-        let mut entry = entry_result
-            .map_err(|e| FetchError::Extract { url: url.to_string(), source: e })?;
+        let mut entry = entry_result.map_err(|e| FetchError::Extract {
+            url: url.to_string(),
+            source: e,
+        })?;
         let raw_path = entry
             .path()
-            .map_err(|e| FetchError::Extract { url: url.to_string(), source: e })?
+            .map_err(|e| FetchError::Extract {
+                url: url.to_string(),
+                source: e,
+            })?
             .to_path_buf();
 
         // Establish the top-level prefix from the first *regular* entry.
@@ -309,16 +319,21 @@ fn extract_tarball_inner(bytes: &[u8], url: &str, dest: &Path) -> Result<(), Fet
         let target = dest.join(&rel);
 
         if entry.header().entry_type().is_dir() {
-            std::fs::create_dir_all(&target)
-                .map_err(|e| FetchError::Extract { url: url.to_string(), source: e })?;
+            std::fs::create_dir_all(&target).map_err(|e| FetchError::Extract {
+                url: url.to_string(),
+                source: e,
+            })?;
         } else {
             if let Some(parent) = target.parent() {
-                std::fs::create_dir_all(parent)
-                    .map_err(|e| FetchError::Extract { url: url.to_string(), source: e })?;
+                std::fs::create_dir_all(parent).map_err(|e| FetchError::Extract {
+                    url: url.to_string(),
+                    source: e,
+                })?;
             }
-            entry
-                .unpack(&target)
-                .map_err(|e| FetchError::Extract { url: url.to_string(), source: e })?;
+            entry.unpack(&target).map_err(|e| FetchError::Extract {
+                url: url.to_string(),
+                source: e,
+            })?;
         }
     }
 
@@ -366,7 +381,9 @@ fn evict_stale_versions(current: &Path, parent_dir: &Path) {
         Some(n) => n,
         None => return,
     };
-    let Ok(entries) = std::fs::read_dir(parent_dir) else { return };
+    let Ok(entries) = std::fs::read_dir(parent_dir) else {
+        return;
+    };
     for entry in entries.flatten() {
         let path = entry.path();
         if path.file_name() != Some(current_name) && path.is_dir() {
@@ -387,11 +404,15 @@ mod tests {
     #[test]
     fn should_extract_tokens_src() {
         assert!(should_extract(Path::new("packages/tokens/src/color.json")));
-        assert!(should_extract(Path::new("packages/tokens/schemas/token-file.json")));
+        assert!(should_extract(Path::new(
+            "packages/tokens/schemas/token-file.json"
+        )));
         assert!(should_extract(Path::new(
             "packages/tokens/schemas/token-types/color.json"
         )));
-        assert!(should_extract(Path::new("packages/tokens/naming-exceptions.json")));
+        assert!(should_extract(Path::new(
+            "packages/tokens/naming-exceptions.json"
+        )));
         assert!(should_extract(Path::new("packages/tokens/manifest.json")));
     }
 
@@ -416,7 +437,9 @@ mod tests {
         assert!(!should_extract(Path::new(
             "packages/design-data-spec/rules/rules.yaml"
         )));
-        assert!(!should_extract(Path::new("packages/component-schemas/index.js")));
+        assert!(!should_extract(Path::new(
+            "packages/component-schemas/index.js"
+        )));
         assert!(!should_extract(Path::new("sdk/cli/src/main.rs")));
         assert!(!should_extract(Path::new("README.md")));
     }
@@ -432,7 +455,13 @@ mod tests {
         };
         let err = ensure_cached(&source, None).unwrap_err();
         std::env::remove_var("DESIGN_DATA_CACHE_DIR");
-        assert!(matches!(err, FetchError::NotYetSupported { source_type: "npm", .. }));
+        assert!(matches!(
+            err,
+            FetchError::NotYetSupported {
+                source_type: "npm",
+                ..
+            }
+        ));
     }
 
     #[test]
@@ -446,7 +475,13 @@ mod tests {
         };
         let err = ensure_cached(&source, None).unwrap_err();
         std::env::remove_var("DESIGN_DATA_CACHE_DIR");
-        assert!(matches!(err, FetchError::NotYetSupported { source_type: "git", .. }));
+        assert!(matches!(
+            err,
+            FetchError::NotYetSupported {
+                source_type: "git",
+                ..
+            }
+        ));
     }
 
     // Integration test — requires network; skipped in offline/CI environments.
@@ -465,7 +500,10 @@ mod tests {
 
         // First call — downloads.
         let root = ensure_cached(&source, None).expect("first fetch failed");
-        assert!(root.join("packages/tokens/src").is_dir(), "tokens/src missing");
+        assert!(
+            root.join("packages/tokens/src").is_dir(),
+            "tokens/src missing"
+        );
         assert!(
             root.join("packages/tokens/schemas/token-types").is_dir(),
             "schemas/token-types missing"

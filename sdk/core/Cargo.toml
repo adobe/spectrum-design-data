@@ -27,9 +27,24 @@ flate2 = { version = "1", optional = true }
 reqwest = { version = "0.12", features = ["json", "rustls-tls"], optional = true }
 tar = { version = "0.4", optional = true }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"], optional = true }
+# Embedded-database cache layer. Pinned to 2.6.x to keep the workspace MSRV at
+# Rust 1.85 (redb 4.x requires Rust 1.89). Pure-Rust + WASM-capable via the
+# in-memory storage backend in `cache::mem_backend`.
+redb = { version = "2.6", optional = true }
+# MessagePack codec for the values stored in the cache. Must be self-describing
+# (supports `deserialize_any`) so it can round-trip `serde_json::Value`; this
+# rules out postcard/bincode. Pure-Rust, compact, and WASM-friendly.
+rmp-serde = { version = "1.3", optional = true }
 
 [features]
-default = []
+default = ["cache"]
+# Derived embedded-database cache over the canonical JSON files. On by default so
+# the CLI/TUI skip re-parsing JSON on every invocation; library consumers may opt
+# out with `--no-default-features`.
+cache = ["dep:redb", "dep:rmp-serde"]
+# Forward-looking flag for `wasm32` web tools: the cache's in-memory open-from-bytes
+# path (`cache::load_from_bytes`) needs no filesystem and works under this feature.
+wasm = ["cache"]
 fetch = ["dep:reqwest", "dep:tokio", "dep:flate2", "dep:tar"]
 figma = ["dep:reqwest", "dep:tokio"]
 

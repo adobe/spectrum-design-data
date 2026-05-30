@@ -10,8 +10,8 @@
 
 pub mod app;
 pub mod app_launch;
-pub mod app_views;
 pub(crate) mod app_palette;
+pub mod app_views;
 pub(crate) mod clipboard;
 pub mod find;
 pub mod help;
@@ -32,7 +32,7 @@ pub mod wizard_draft;
 
 pub use app_launch::{launch, LaunchOptions, ThemeChoice};
 pub use message::Message;
-pub use mode::{BrowsingState, Mode, ModalState, MouseMode, PaletteState};
+pub use mode::{BrowsingState, ModalState, Mode, MouseMode, PaletteState};
 pub use model::Model;
 pub use runtime::{replay, run};
 pub use task::Task;

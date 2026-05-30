@@ -90,7 +90,11 @@ fn e_on_result_screen_goes_back_to_classification() {
 #[test]
 fn esc_on_any_screen_cancels() {
     let graph = make_graph();
-    for start_screen in [NamingScreen::Intent, NamingScreen::Classification, NamingScreen::Result] {
+    for start_screen in [
+        NamingScreen::Intent,
+        NamingScreen::Classification,
+        NamingScreen::Result,
+    ] {
         let mut ns = NamingWizardState::new();
         ns.screen = start_screen;
         let event = ns.handle_key(key(KeyCode::Esc), &graph);
@@ -201,11 +205,24 @@ fn copy_event_sets_pending_yank_and_status() {
     // Press 'c' → Copy; should return Task::Cmd (clipboard write) instead of setting pending_yank.
     let task = update(&mut model, Message::Key(key(KeyCode::Char('c'))), &ctx);
 
-    assert!(task.is_cmd(), "Copy should return Task::Cmd for clipboard write");
-    assert!(model.pending_yank.is_none(), "pending_yank should not be set — clipboard is via Task::Cmd");
-    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
+    assert!(
+        task.is_cmd(),
+        "Copy should return Task::Cmd for clipboard write"
+    );
+    assert!(
+        model.pending_yank.is_none(),
+        "pending_yank should not be set — clipboard is via Task::Cmd"
+    );
+    let msg = model
+        .status_message
+        .as_ref()
+        .map(|m| m.text.as_str())
+        .unwrap_or("");
     assert!(msg.contains("copied"), "expected 'copied' in status: {msg}");
-    assert!(model.is_modal_open(), "Copy should not close the Naming modal");
+    assert!(
+        model.is_modal_open(),
+        "Copy should not close the Naming modal"
+    );
 }
 
 #[test]

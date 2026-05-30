@@ -249,10 +249,7 @@ mod tests {
 
     // ── Alias-target resolution ────────────────────────────────────────────────
 
-    fn make_alias_graph(
-        alias_name_obj: serde_json::Value,
-        target_schema: &str,
-    ) -> TokenGraph {
+    fn make_alias_graph(alias_name_obj: serde_json::Value, target_schema: &str) -> TokenGraph {
         TokenGraph::from_pairs(vec![
             (
                 "alias-token".into(),

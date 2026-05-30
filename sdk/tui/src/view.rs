@@ -9,21 +9,21 @@
 // governing permissions and limitations under the License.
 
 use ratatui::{
-    Frame,
     layout::{Constraint, Direction, Layout, Rect},
     style::{Modifier, Style},
     text::{Line, Span},
     widgets::{Block, Borders, Cell, Clear, Paragraph, Row, Table},
+    Frame,
 };
 
 use crate::app::{
     ActiveView, DescribeView, Modal, QueryView, ResolveView, StatusKind, ValidateView,
 };
-use crate::model::Model;
-use crate::view_find::render_find;
 use crate::help::HELP_TEXT;
+use crate::model::Model;
 use crate::naming::{NamingScreen, NamingWizardState};
 use crate::theme::Theme;
+use crate::view_find::render_find;
 use crate::wizard::{ClassificationDraft, ValueKind, WizardScreen, WizardState};
 
 /// Return a centered `Rect` covering `percent_x` × `percent_y` of `area`.
@@ -74,7 +74,9 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
     // Active view.
     match &mut model.active_view {
         ActiveView::Empty => {
-            let block = Block::default().borders(Borders::ALL).title(" Active View ");
+            let block = Block::default()
+                .borders(Borders::ALL)
+                .title(" Active View ");
             frame.render_widget(block, chunks[1]);
         }
         ActiveView::Query(ref mut qv) => render_query(frame, qv, chunks[1], theme),
@@ -257,7 +259,11 @@ fn render_help_modal(f: &mut Frame<'_>, scroll: u16, area: Rect) {
     let popup_area = centered_rect(80, 90, area);
     f.render_widget(Clear, popup_area);
     let para = Paragraph::new(HELP_TEXT)
-        .block(Block::default().borders(Borders::ALL).title(" Help  ?/Esc to close "))
+        .block(
+            Block::default()
+                .borders(Borders::ALL)
+                .title(" Help  ?/Esc to close "),
+        )
         .scroll((scroll, 0));
     f.render_widget(para, popup_area);
 }
@@ -347,7 +353,9 @@ fn render_intent_content(
     f.render_widget(Paragraph::new(intent_line), chunks[0]);
 
     if can_alias {
-        let accent = Style::default().fg(theme.accent).add_modifier(Modifier::BOLD);
+        let accent = Style::default()
+            .fg(theme.accent)
+            .add_modifier(Modifier::BOLD);
         let banner = Paragraph::new(vec![
             Line::from(Span::styled(
                 "  These tokens already exist for similar intents.",
@@ -369,7 +377,10 @@ fn render_intent_content(
                 list_area,
             );
         } else {
-            f.render_widget(Paragraph::new("  Type to search for existing tokens…"), list_area);
+            f.render_widget(
+                Paragraph::new("  Type to search for existing tokens…"),
+                list_area,
+            );
         }
     } else {
         let rows: Vec<Row> = suggestions
@@ -385,7 +396,11 @@ fn render_intent_content(
                 ])
             })
             .collect();
-        let widths = [Constraint::Length(2), Constraint::Min(0), Constraint::Length(5)];
+        let widths = [
+            Constraint::Length(2),
+            Constraint::Min(0),
+            Constraint::Length(5),
+        ];
         let table =
             Table::new(rows, widths).highlight_style(Style::default().bg(theme.selection_bg));
         f.render_widget(table, list_area);
@@ -423,7 +438,11 @@ fn render_classification_content(
 
     for (i, field) in classification.name_fields.iter().enumerate() {
         let marker = if focused == i + 2 { "▶" } else { " " };
-        lines.push(Line::from(format!("{marker} {}: {}", field.key, field.value.value())));
+        lines.push(Line::from(format!(
+            "{marker} {}: {}",
+            field.key,
+            field.value.value()
+        )));
     }
 
     lines.push(Line::from(""));
@@ -438,9 +457,10 @@ fn render_naming(f: &mut Frame<'_>, ns: &NamingWizardState, area: Rect, theme: &
     let screen_num = ns.screen.number();
     let screen_name = ns.screen.name();
 
-    let outer = Block::default()
-        .borders(Borders::ALL)
-        .title(format!(" Name · {screen_num}/{} · {screen_name} ", NamingScreen::SCREEN_COUNT));
+    let outer = Block::default().borders(Borders::ALL).title(format!(
+        " Name · {screen_num}/{} · {screen_name} ",
+        NamingScreen::SCREEN_COUNT
+    ));
     let inner_area = outer.inner(area);
     f.render_widget(outer, area);
 
@@ -481,12 +501,7 @@ fn render_naming(f: &mut Frame<'_>, ns: &NamingWizardState, area: Rect, theme: &
     }
 }
 
-fn render_naming_result(
-    f: &mut Frame<'_>,
-    ns: &NamingWizardState,
-    area: Rect,
-    theme: &Theme,
-) {
+fn render_naming_result(f: &mut Frame<'_>, ns: &NamingWizardState, area: Rect, theme: &Theme) {
     let name = ns.assembled_name();
     let display = if name.is_empty() {
         "(no name assembled — go back and fill in Property)".to_string()
@@ -499,10 +514,14 @@ fn render_naming_result(
         .constraints([Constraint::Length(3), Constraint::Min(0)])
         .split(area);
 
-    let name_block = Block::default().borders(Borders::ALL).title(" Assembled name ");
+    let name_block = Block::default()
+        .borders(Borders::ALL)
+        .title(" Assembled name ");
     let name_para = Paragraph::new(Span::styled(
         display,
-        Style::default().fg(theme.accent).add_modifier(Modifier::BOLD),
+        Style::default()
+            .fg(theme.accent)
+            .add_modifier(Modifier::BOLD),
     ))
     .block(name_block);
     f.render_widget(name_para, chunks[0]);
@@ -574,7 +593,7 @@ fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme:
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
-            Constraint::Length(1),            // schema URL / editor
+            Constraint::Length(1), // schema URL / editor
             Constraint::Length(rationale_height),
             Constraint::Min(0),               // diff preview
             Constraint::Length(error_height), // write error
@@ -598,7 +617,9 @@ fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme:
     f.render_widget(Paragraph::new(schema_line), chunks[0]);
 
     // Rationale input.
-    let rationale_block = Block::default().borders(Borders::ALL).title(" Rationale (required) ");
+    let rationale_block = Block::default()
+        .borders(Borders::ALL)
+        .title(" Rationale (required) ");
     let rationale_text = ws.rationale.value();
     let rationale_line = if rationale_text.len() > 280 {
         Line::from(vec![
@@ -608,14 +629,22 @@ fn render_confirm_screen(f: &mut Frame<'_>, ws: &WizardState, area: Rect, theme:
     } else {
         Line::from(Span::raw(rationale_text))
     };
-    f.render_widget(Paragraph::new(rationale_line).block(rationale_block), chunks[1]);
+    f.render_widget(
+        Paragraph::new(rationale_line).block(rationale_block),
+        chunks[1],
+    );
 
     // Diff preview.
-    let diff_text = ws.diff_preview.as_deref().unwrap_or(
-        "(diff will appear here once rationale is added and Enter pressed)",
-    );
+    let diff_text = ws
+        .diff_preview
+        .as_deref()
+        .unwrap_or("(diff will appear here once rationale is added and Enter pressed)");
     let diff_para = Paragraph::new(diff_text)
-        .block(Block::default().borders(Borders::ALL).title(" Diff preview "))
+        .block(
+            Block::default()
+                .borders(Borders::ALL)
+                .title(" Diff preview "),
+        )
         .scroll((ws.diff_scroll, 0));
     f.render_widget(diff_para, chunks[2]);
 

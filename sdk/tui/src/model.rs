@@ -15,7 +15,7 @@
 //! combinations become compile-time errors.
 
 use crate::app::{ActiveView, HitRegion, Modal, StatusMessage};
-use crate::mode::{BrowsingState, Mode, ModalState, MouseMode, PaletteState};
+use crate::mode::{BrowsingState, ModalState, Mode, MouseMode, PaletteState};
 
 /// Top-level application state for the TEA runtime.
 pub struct Model {
@@ -42,7 +42,11 @@ impl Model {
         use crate::wizard_draft::{from_draft, load_wizard_draft};
         let mode = if resume_wizard {
             load_wizard_draft()
-                .map(|d| Mode::InModal(ModalState { modal: Modal::Wizard(Box::new(from_draft(d))) }))
+                .map(|d| {
+                    Mode::InModal(ModalState {
+                        modal: Modal::Wizard(Box::new(from_draft(d))),
+                    })
+                })
                 .unwrap_or_else(|| Mode::Browsing(BrowsingState::default()))
         } else {
             Mode::Browsing(BrowsingState::default())
@@ -89,12 +93,20 @@ impl Model {
 
     /// Return the palette prompt prefix (`:` or `/`), or `""` if closed.
     pub fn palette_prefix(&self) -> &'static str {
-        if let Mode::InPalette(ref ps) = self.mode { ps.prefix() } else { "" }
+        if let Mode::InPalette(ref ps) = self.mode {
+            ps.prefix()
+        } else {
+            ""
+        }
     }
 
     /// Return the current palette input text, or `""` if palette is closed.
     pub fn palette_input_value(&self) -> &str {
-        if let Mode::InPalette(ref ps) = self.mode { ps.input.value() } else { "" }
+        if let Mode::InPalette(ref ps) = self.mode {
+            ps.input.value()
+        } else {
+            ""
+        }
     }
 
     // ── Modal helpers ─────────────────────────────────────────────────────────
@@ -117,12 +129,20 @@ impl Model {
 
     /// Immutable reference to the active modal, if any.
     pub fn modal(&self) -> Option<&Modal> {
-        if let Mode::InModal(ref ms) = self.mode { Some(&ms.modal) } else { None }
+        if let Mode::InModal(ref ms) = self.mode {
+            Some(&ms.modal)
+        } else {
+            None
+        }
     }
 
     /// Mutable reference to the active modal, if any.
     pub fn modal_mut(&mut self) -> Option<&mut Modal> {
-        if let Mode::InModal(ref mut ms) = self.mode { Some(&mut ms.modal) } else { None }
+        if let Mode::InModal(ref mut ms) = self.mode {
+            Some(&mut ms.modal)
+        } else {
+            None
+        }
     }
 
     // ── Palette accessors ─────────────────────────────────────────────────────
@@ -130,12 +150,20 @@ impl Model {
     /// Return the palette history cursor position (`None` = fresh input), or
     /// `None` if the palette is closed.
     pub fn palette_history_cursor(&self) -> Option<usize> {
-        if let Mode::InPalette(ref ps) = self.mode { ps.history_cursor } else { None }
+        if let Mode::InPalette(ref ps) = self.mode {
+            ps.history_cursor
+        } else {
+            None
+        }
     }
 
     /// Mutable access to the active `PaletteState`, or `None` if the palette is closed.
     pub fn palette_state_mut(&mut self) -> Option<&mut PaletteState> {
-        if let Mode::InPalette(ref mut ps) = self.mode { Some(ps) } else { None }
+        if let Mode::InPalette(ref mut ps) = self.mode {
+            Some(ps)
+        } else {
+            None
+        }
     }
 
     /// Return the current `PaletteMode`, or `None` if the palette is closed.
@@ -143,7 +171,11 @@ impl Model {
     /// Guard with `is_palette_open()` before calling this to avoid confusing
     /// "palette closed" with "palette open in Command mode".
     pub fn palette_mode(&self) -> Option<crate::app::PaletteMode> {
-        if let Mode::InPalette(ref ps) = self.mode { Some(ps.mode) } else { None }
+        if let Mode::InPalette(ref ps) = self.mode {
+            Some(ps.mode)
+        } else {
+            None
+        }
     }
 
     // ── Selection helpers ─────────────────────────────────────────────────────
@@ -163,20 +195,26 @@ impl Model {
     pub fn is_selecting(&self) -> bool {
         matches!(
             self.mode,
-            Mode::Browsing(BrowsingState { mouse: MouseMode::Selecting { .. } })
+            Mode::Browsing(BrowsingState {
+                mouse: MouseMode::Selecting { .. }
+            })
         )
     }
 
     /// Begin a drag-selection at `pos`. Transitions `SelectionEnabled → Selecting`.
     pub fn start_selection(&mut self, pos: (u16, u16)) {
         if let Mode::Browsing(ref mut bs) = self.mode {
-            bs.mouse = MouseMode::Selecting { start: pos, end: pos };
+            bs.mouse = MouseMode::Selecting {
+                start: pos,
+                end: pos,
+            };
         }
     }
 
     pub fn update_selection_end(&mut self, pos: (u16, u16)) {
-        if let Mode::Browsing(BrowsingState { mouse: MouseMode::Selecting { ref mut end, .. } }) =
-            self.mode
+        if let Mode::Browsing(BrowsingState {
+            mouse: MouseMode::Selecting { ref mut end, .. },
+        }) = self.mode
         {
             *end = pos;
         }
@@ -196,8 +234,9 @@ impl Model {
 
     /// Return the selection start position, if a drag is in progress.
     pub fn selection_start(&self) -> Option<(u16, u16)> {
-        if let Mode::Browsing(BrowsingState { mouse: MouseMode::Selecting { start, .. } }) =
-            self.mode
+        if let Mode::Browsing(BrowsingState {
+            mouse: MouseMode::Selecting { start, .. },
+        }) = self.mode
         {
             Some(start)
         } else {
@@ -207,8 +246,9 @@ impl Model {
 
     /// Return the selection end position, if a drag is in progress.
     pub fn selection_end(&self) -> Option<(u16, u16)> {
-        if let Mode::Browsing(BrowsingState { mouse: MouseMode::Selecting { end, .. } }) =
-            self.mode
+        if let Mode::Browsing(BrowsingState {
+            mouse: MouseMode::Selecting { end, .. },
+        }) = self.mode
         {
             Some(end)
         } else {

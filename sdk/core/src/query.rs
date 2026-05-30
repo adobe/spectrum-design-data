@@ -21,7 +21,7 @@ use crate::CoreError;
 // ── Allowed keys (per spec) ─────────────────────────────────────────────────
 
 /// Keys that may appear in filter expressions.
-const ALLOWED_KEYS: &[&str] = &[
+pub(crate) const ALLOWED_KEYS: &[&str] = &[
     "property",
     "component",
     "variant",
@@ -50,6 +50,27 @@ const NAME_OBJECT_KEYS: &[&str] = &[
 #[derive(Debug, Clone)]
 pub struct TokenFilter {
     expr: FilterExpr,
+}
+
+impl TokenFilter {
+    /// If this filter is exactly one `key=value` equality condition (no `,`,
+    /// `|`, `!=`, or `*`), return `(key, value)`. Used to choose the index-backed
+    /// fast path in [`filter_with_index`].
+    fn single_equality(&self) -> Option<(&str, &str)> {
+        let FilterExpr::Or(alternatives) = &self.expr else {
+            return None;
+        };
+        let [group] = alternatives.as_slice() else {
+            return None;
+        };
+        let [cond] = group.as_slice() else {
+            return None;
+        };
+        if cond.op != Operator::Eq || cond.value.contains('*') {
+            return None;
+        }
+        Some((&cond.key, &cond.value))
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -193,7 +214,7 @@ fn matches_condition(raw: &serde_json::Value, cond: &Condition) -> bool {
 }
 
 /// Resolve a query key to the field value in a token's raw JSON.
-fn resolve_key(raw: &serde_json::Value, key: &str) -> Option<String> {
+pub(crate) fn resolve_key(raw: &serde_json::Value, key: &str) -> Option<String> {
     if NAME_OBJECT_KEYS.contains(&key) {
         raw.get("name")
             .and_then(|n| n.get(key))
@@ -247,11 +268,56 @@ fn glob_match(pattern: &str, text: &str) -> bool {
     true
 }
 
-// ── Index builder (optional optimization, #783) ─────────────────────────────
+// ── Secondary index (#783) ──────────────────────────────────────────────────
 
-/// Build a secondary index mapping field values to token graph keys.
+/// A prebuilt secondary index: `field -> value -> graph keys`.
 ///
-/// Useful for accelerating single-field equality queries on large token sets.
+/// Accelerates single-field equality queries from an O(n) scan over every token
+/// to an O(matches) lookup. Built once from a [`TokenGraph`] (or hydrated from
+/// the cache's multimap tables) and reused across queries.
+#[derive(Debug, Clone, Default)]
+pub struct TokenIndex {
+    by_field: HashMap<String, HashMap<String, Vec<String>>>,
+}
+
+impl TokenIndex {
+    /// Build an index over every queryable field of every token in `graph`.
+    pub fn build(graph: &TokenGraph) -> Self {
+        let mut index = TokenIndex::default();
+        for (graph_key, token) in &graph.tokens {
+            for key in ALLOWED_KEYS {
+                if let Some(value) = resolve_key(&token.raw, key) {
+                    index.insert(key, &value, graph_key);
+                }
+            }
+        }
+        index
+    }
+
+    /// Insert one `field=value -> graph key` mapping (used when loading the
+    /// index from the cache's multimap tables).
+    pub(crate) fn insert(&mut self, field: &str, value: &str, graph_key: &str) {
+        self.by_field
+            .entry(field.to_string())
+            .or_default()
+            .entry(value.to_string())
+            .or_default()
+            .push(graph_key.to_string());
+    }
+
+    /// Graph keys matching `field == value`, if that field is indexed.
+    fn lookup(&self, field: &str, value: &str) -> Option<&[String]> {
+        self.by_field
+            .get(field)
+            .and_then(|m| m.get(value))
+            .map(Vec::as_slice)
+    }
+}
+
+/// Build a secondary index mapping a single field's values to token graph keys.
+///
+/// Retained for callers that only need one field; prefer [`TokenIndex`] when
+/// querying repeatedly across fields.
 pub fn build_index(graph: &TokenGraph, key: &str) -> HashMap<String, Vec<String>> {
     let mut index: HashMap<String, Vec<String>> = HashMap::new();
     for (graph_key, token) in &graph.tokens {
@@ -260,6 +326,33 @@ pub fn build_index(graph: &TokenGraph, key: &str) -> HashMap<String, Vec<String>
         }
     }
     index
+}
+
+/// Filter tokens using a prebuilt [`TokenIndex`] for the common single-field
+/// equality case, falling back to the full [`filter`] scan for everything else
+/// (wildcards, negation, `AND`/`OR` compositions).
+///
+/// Results are identical to [`filter`]; only the evaluation strategy differs.
+pub fn filter_with_index<'a>(
+    graph: &'a TokenGraph,
+    index: &TokenIndex,
+    expr: &TokenFilter,
+) -> Vec<&'a TokenRecord> {
+    if let Some((key, value)) = expr.single_equality() {
+        if let Some(graph_keys) = index.lookup(key, value) {
+            let mut results: Vec<&TokenRecord> = graph_keys
+                .iter()
+                .filter_map(|k| graph.tokens.get(k))
+                .collect();
+            results.sort_by(|a, b| a.name.cmp(&b.name));
+            return results;
+        }
+        // Indexed field, but no entries for this value → empty (not a fallback).
+        if index.by_field.contains_key(key) {
+            return Vec::new();
+        }
+    }
+    filter(graph, expr)
 }
 
 // ── Tests ───────────────────────────────────────────────────────────────────

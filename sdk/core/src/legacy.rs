@@ -578,9 +578,8 @@ fn build_set_entry(
     // schema types that share a mode set key (e.g. typography-scale vs scale-set).
     // Falls back to the legacy default (color-set or scale-set) for older cascade
     // files that were produced before set_schema was stored.
-    let stored_set_schema = consistent_str_field(tokens, |t| {
-        t.get("set_schema").and_then(|v| v.as_str())
-    });
+    let stored_set_schema =
+        consistent_str_field(tokens, |t| t.get("set_schema").and_then(|v| v.as_str()));
     let set_schema = stored_set_schema.unwrap_or(if dim_key == "colorScheme" {
         COLOR_SET_SCHEMA
     } else {

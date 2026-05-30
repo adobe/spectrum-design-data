@@ -49,10 +49,7 @@ pub enum MouseMode {
     /// Selection mode enabled (`v` key was pressed) but no drag has started yet.
     SelectionEnabled,
     /// A drag-selection is in progress (mouse Down → Drag).
-    Selecting {
-        start: (u16, u16),
-        end: (u16, u16),
-    },
+    Selecting { start: (u16, u16), end: (u16, u16) },
 }
 
 // ── Modal state ───────────────────────────────────────────────────────────────
@@ -76,12 +73,20 @@ pub struct PaletteState {
 impl PaletteState {
     /// Open the palette in command (`:`) mode.
     pub fn command() -> Self {
-        Self { mode: PaletteMode::Command, input: Input::default(), history_cursor: None }
+        Self {
+            mode: PaletteMode::Command,
+            input: Input::default(),
+            history_cursor: None,
+        }
     }
 
     /// Open the palette in fuzzy-find (`/`) mode.
     pub fn fuzzy() -> Self {
-        Self { mode: PaletteMode::FuzzyFind, input: Input::default(), history_cursor: None }
+        Self {
+            mode: PaletteMode::FuzzyFind,
+            input: Input::default(),
+            history_cursor: None,
+        }
     }
 
     /// The prompt prefix character for this palette mode.

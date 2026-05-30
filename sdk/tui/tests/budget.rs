@@ -60,7 +60,9 @@ fn no_source_file_exceeds_loc_cap() {
             let content = fs::read_to_string(path).unwrap_or_default();
             let lines = content.lines().count();
             if lines > CAP {
-                let rel = path.strip_prefix(env!("CARGO_MANIFEST_DIR")).unwrap_or(path);
+                let rel = path
+                    .strip_prefix(env!("CARGO_MANIFEST_DIR"))
+                    .unwrap_or(path);
                 Some(format!("{}: {} lines (cap {})", rel.display(), lines, CAP))
             } else {
                 None
@@ -103,8 +105,7 @@ fn no_async_in_render_path() {
 
     for path in &render_files {
         let name = path.file_name().unwrap().to_string_lossy();
-        let content = fs::read_to_string(path)
-            .unwrap_or_else(|_| panic!("could not read {name}"));
+        let content = fs::read_to_string(path).unwrap_or_else(|_| panic!("could not read {name}"));
         assert!(
             !content.contains("async fn"),
             "{name} must not contain `async fn` (render path must stay synchronous)"

@@ -17,12 +17,12 @@
 use crossterm::event::{KeyCode, KeyEvent};
 use design_data_core::graph::TokenGraph;
 use design_data_core::suggest::{self, SuggestionResult};
-use tui_input::Input;
 use tui_input::backend::crossterm::EventHandler;
+use tui_input::Input;
 
 use crate::wizard_common::classification::{
-    ClassificationDraft, NameField, assemble_name_from_classification,
-    cycle_layer_backward, cycle_layer_forward,
+    assemble_name_from_classification, cycle_layer_backward, cycle_layer_forward,
+    ClassificationDraft, NameField,
 };
 use design_data_core::authoring::session::alias_threshold;
 
@@ -196,8 +196,7 @@ impl NamingWizardState {
             }
             KeyCode::Tab => {
                 let count = self.classification.field_count();
-                self.classification.focused_field =
-                    (self.classification.focused_field + 1) % count;
+                self.classification.focused_field = (self.classification.focused_field + 1) % count;
                 NamingEvent::Continue
             }
             KeyCode::BackTab => {

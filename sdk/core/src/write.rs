@@ -62,8 +62,15 @@ pub fn write_token(
     registry: &SchemaRegistry,
 ) -> Result<WriteTokenResult, CoreError> {
     // Destructure so it's clear only `token` is mutated.
-    let WriteTokenInput { key, mut token, target, product_context, rationale, created_at, is_override } =
-        input;
+    let WriteTokenInput {
+        key,
+        mut token,
+        target,
+        product_context,
+        rationale,
+        created_at,
+        is_override,
+    } = input;
 
     // Inject rationale into the token object if supplied.
     if let Some(ref r) = rationale {
@@ -302,8 +309,7 @@ mod tests {
     use tempfile::TempDir;
 
     fn test_registry() -> SchemaRegistry {
-        let schemas = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../packages/tokens/schemas");
+        let schemas = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas");
         SchemaRegistry::load_legacy_token_schemas(&schemas).expect("schemas load")
     }
 
@@ -456,10 +462,7 @@ mod tests {
         assert_eq!(pc["createdAt"].as_str(), Some("2026-05-19T00:00:00Z"));
         let tokens = &pc["extensions"]["tokens"];
         assert!(tokens.as_array().map(|a| !a.is_empty()).unwrap_or(false));
-        assert_eq!(
-            tokens[0]["rationale"].as_str(),
-            Some("New brand color")
-        );
+        assert_eq!(tokens[0]["rationale"].as_str(), Some("New brand color"));
     }
 
     #[test]
@@ -522,7 +525,10 @@ mod tests {
 
         assert!(result.is_err());
         let msg = result.unwrap_err().to_string();
-        assert!(msg.contains("unknown"), "error should mention unknown schema: {msg}");
+        assert!(
+            msg.contains("unknown"),
+            "error should mention unknown schema: {msg}"
+        );
     }
 
     #[test]
@@ -546,7 +552,10 @@ mod tests {
 
         assert!(result.is_err());
         let msg = result.unwrap_err().to_string();
-        assert!(msg.contains("$schema"), "error should mention $schema: {msg}");
+        assert!(
+            msg.contains("$schema"),
+            "error should mention $schema: {msg}"
+        );
     }
 
     #[test]

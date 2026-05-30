@@ -15,24 +15,24 @@
 //! and restores the terminal on exit.  All other items in this module are
 //! implementation details moved here from the former standalone binary.
 
-use std::io::{BufRead as _, BufReader, stderr};
+use std::io::{stderr, BufRead as _, BufReader};
 use std::path::PathBuf;
 
 use clap::ValueEnum;
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
     execute,
-    terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
+    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 };
 use design_data_core::data_source::{self, CliPathOverrides};
 use design_data_core::graph::TokenGraph;
 use design_data_core::schema::SchemaRegistry;
 use miette::{IntoDiagnostic, Result, WrapErr};
-use ratatui::{Terminal, backend::CrosstermBackend};
+use ratatui::{backend::CrosstermBackend, Terminal};
 
+use crate::runtime::{replay as tui_replay, run as tui_run};
 use crate::theme::Theme;
 use crate::{Message, Model, UpdateCtx};
-use crate::runtime::{run as tui_run, replay as tui_replay};
 
 /// Which visual palette to use.
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
@@ -90,18 +90,21 @@ impl DatasetHandle {
         allow_write: bool,
         theme: Theme,
     ) -> Result<Self> {
-        let mut graph = TokenGraph::from_json_dir(&path)
+        let mut graph = TokenGraph::open_cached(&path)
             .into_diagnostic()
             .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
         // Resolve spec paths via the central data_source resolver.
         // The dataset path is already explicit; we only need spec catalog dirs + schema.
         let cwd = std::env::current_dir().into_diagnostic()?;
-        let resolved = data_source::resolve(&cwd, &CliPathOverrides {
-            components: components_arg,
-            mode_sets: mode_sets_arg,
-            ..Default::default()
-        })
+        let resolved = data_source::resolve(
+            &cwd,
+            &CliPathOverrides {
+                components: components_arg,
+                mode_sets: mode_sets_arg,
+                ..Default::default()
+            },
+        )
         .into_diagnostic()?;
 
         let components_dir = resolved.components;
@@ -121,9 +124,7 @@ impl DatasetHandle {
             if dir.is_dir() {
                 let mode_sets = TokenGraph::load_spec_mode_sets(dir)
                     .into_diagnostic()
-                    .wrap_err_with(|| {
-                        format!("failed to load mode sets from {}", dir.display())
-                    })?;
+                    .wrap_err_with(|| format!("failed to load mode sets from {}", dir.display()))?;
                 graph = graph.with_mode_sets(mode_sets);
             }
         }
@@ -201,11 +202,21 @@ pub fn launch(opts: LaunchOptions) -> miette::Result<()> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend).into_diagnostic()?;
 
-    let result = drive_terminal(&mut terminal, &handle, resume_wizard, record_path, replay_path);
+    let result = drive_terminal(
+        &mut terminal,
+        &handle,
+        resume_wizard,
+        record_path,
+        replay_path,
+    );
 
     // Best-effort cleanup — continue even if individual steps fail.
     let _ = disable_raw_mode();
-    let _ = execute!(terminal.backend_mut(), LeaveAlternateScreen, DisableMouseCapture);
+    let _ = execute!(
+        terminal.backend_mut(),
+        LeaveAlternateScreen,
+        DisableMouseCapture
+    );
     let _ = terminal.show_cursor();
 
     result
@@ -231,8 +242,12 @@ fn drive_terminal<B: ratatui::backend::Backend>(
         let mut skipped = 0usize;
         let mut messages: Vec<Message> = Vec::new();
         for line_result in BufReader::new(file).lines() {
-            let line = line_result.into_diagnostic().wrap_err("replay: read error")?;
-            if line.trim().is_empty() { continue; }
+            let line = line_result
+                .into_diagnostic()
+                .wrap_err("replay: read error")?;
+            if line.trim().is_empty() {
+                continue;
+            }
             match serde_json::from_str::<Message>(&line) {
                 Ok(m) => messages.push(m),
                 Err(_) => skipped += 1,
@@ -246,7 +261,11 @@ fn drive_terminal<B: ratatui::backend::Backend>(
         }
         let model = Model::new_with_options(false);
         tui_replay(
-            terminal, model, &ctx, &handle.theme, &handle.primer_line(),
+            terminal,
+            model,
+            &ctx,
+            &handle.theme,
+            &handle.primer_line(),
             messages.into_iter(),
         )?;
         // Print the final buffer as plain text.
@@ -254,7 +273,11 @@ fn drive_terminal<B: ratatui::backend::Backend>(
         let area = buf.area();
         for y in 0..area.height {
             let row: String = (0..area.width)
-                .map(|x| buf.cell((x, y)).map(|c| c.symbol().to_string()).unwrap_or_default())
+                .map(|x| {
+                    buf.cell((x, y))
+                        .map(|c| c.symbol().to_string())
+                        .unwrap_or_default()
+                })
                 .collect();
             println!("{}", row.trim_end());
         }
@@ -269,7 +292,11 @@ fn drive_terminal<B: ratatui::backend::Backend>(
         .into_diagnostic()
         .wrap_err("failed to create record file")?;
     tui_run(
-        terminal, model, &ctx, &handle.theme, &handle.primer_line(),
+        terminal,
+        model,
+        &ctx,
+        &handle.theme,
+        &handle.primer_line(),
         record_file.as_mut().map(|f| f as &mut dyn std::io::Write),
     )
 }

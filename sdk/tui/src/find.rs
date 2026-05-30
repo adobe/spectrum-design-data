@@ -19,8 +19,8 @@ use crossterm::event::{KeyCode, KeyEvent};
 use design_data_core::graph::{Layer, TokenGraph};
 use design_data_core::registry::RegistryData;
 use design_data_core::{query, suggest};
-use tui_input::Input;
 use tui_input::backend::crossterm::EventHandler;
+use tui_input::Input;
 
 use crate::app::{QueryRow, QueryView};
 pub use crate::wizard_common::caps::{MAX_PROPERTY_SUGGESTIONS, MAX_SUGGEST_RESULTS};
@@ -141,7 +141,11 @@ impl FindWizardState {
             parts.push(format!("state={st}"));
         }
 
-        if parts.is_empty() { None } else { Some(parts.join(",")) }
+        if parts.is_empty() {
+            None
+        } else {
+            Some(parts.join(","))
+        }
     }
 
     /// Refresh `preview_rows`, `preview_count`, and `preview_error`.
@@ -154,8 +158,7 @@ impl FindWizardState {
                 Ok(filter) => {
                     let records = query::filter(graph, &filter);
                     self.preview_count = records.len();
-                    self.preview_rows =
-                        records.iter().map(|r| QueryRow::from_record(r)).collect();
+                    self.preview_rows = records.iter().map(|r| QueryRow::from_record(r)).collect();
                     self.preview_error = None;
                 }
                 Err(e) => {
@@ -193,8 +196,11 @@ impl FindWizardState {
             return;
         }
         if let Some(terms) = RegistryData::embedded().for_field("property") {
-            let mut matching: Vec<String> =
-                terms.iter().filter(|t| t.to_lowercase().contains(&typed)).cloned().collect();
+            let mut matching: Vec<String> = terms
+                .iter()
+                .filter(|t| t.to_lowercase().contains(&typed))
+                .cloned()
+                .collect();
             matching.sort();
             matching.truncate(MAX_PROPERTY_SUGGESTIONS);
             self.property_suggestions = matching;
@@ -244,8 +250,7 @@ impl FindWizardState {
             }
             KeyCode::Down if self.focused_field == 0 => {
                 if !self.property_suggestions.is_empty()
-                    && self.selected_property_suggestion
-                        < self.property_suggestions.len() - 1
+                    && self.selected_property_suggestion < self.property_suggestions.len() - 1
                 {
                     self.selected_property_suggestion += 1;
                 }
@@ -264,11 +269,21 @@ impl FindWizardState {
     fn dispatch_to_focused_field(&mut self, key: KeyEvent) {
         let ev = crossterm::event::Event::Key(key);
         match self.focused_field {
-            0 => { self.property.handle_event(&ev); }
-            1 => { self.component.handle_event(&ev); }
-            2 => { self.variant.handle_event(&ev); }
-            3 => { self.state.handle_event(&ev); }
-            4 => { self.intent.handle_event(&ev); }
+            0 => {
+                self.property.handle_event(&ev);
+            }
+            1 => {
+                self.component.handle_event(&ev);
+            }
+            2 => {
+                self.variant.handle_event(&ev);
+            }
+            3 => {
+                self.state.handle_event(&ev);
+            }
+            4 => {
+                self.intent.handle_event(&ev);
+            }
             _ => {}
         }
     }
@@ -305,15 +320,27 @@ fn suggestion_to_row(s: &suggest::SuggestionResult) -> QueryRow {
         .value
         .as_ref()
         .map(|v| {
-            if v.is_string() { v.as_str().unwrap_or("").to_string() } else { v.to_string() }
+            if v.is_string() {
+                v.as_str().unwrap_or("").to_string()
+            } else {
+                v.to_string()
+            }
         })
         .unwrap_or_default();
-    let file =
-        s.file.file_name().map(|f| f.to_string_lossy().into_owned()).unwrap_or_default();
+    let file = s
+        .file
+        .file_name()
+        .map(|f| f.to_string_lossy().into_owned())
+        .unwrap_or_default();
     let layer = match s.layer {
         Layer::Foundation => "foundation",
         Layer::Platform => "platform",
         Layer::Product => "product",
     };
-    QueryRow { name: s.token_name.clone(), value, file, layer: layer.to_string() }
+    QueryRow {
+        name: s.token_name.clone(),
+        value,
+        file,
+        layer: layer.to_string(),
+    }
 }

@@ -20,8 +20,8 @@ use std::io::Write;
 use crossterm::event::{self, Event, KeyCode, KeyEventKind};
 use miette::{IntoDiagnostic, Result};
 use ratatui::{
-    Terminal,
     layout::{Constraint, Direction, Layout, Rect},
+    Terminal,
 };
 
 use crate::app::{ActiveView, HitAction, HitRegion};
@@ -82,7 +82,10 @@ pub fn run<B: ratatui::backend::Backend>(
                     if let Some(text) = palette_text {
                         if !model.is_palette_open() {
                             dispatch_and_record(
-                                &mut model, Message::PaletteSubmit(text), ctx, &mut record,
+                                &mut model,
+                                Message::PaletteSubmit(text),
+                                ctx,
+                                &mut record,
                             );
                         }
                     }
@@ -203,7 +206,12 @@ fn compute_hit_regions(model: &Model, status_height: u16, frame_area: Rect) -> V
                     break;
                 }
                 regions.push(HitRegion {
-                    rect: Rect { x: view_area.x, y, width: view_area.width, height: 1 },
+                    rect: Rect {
+                        x: view_area.x,
+                        y,
+                        width: view_area.width,
+                        height: 1,
+                    },
                     action: HitAction::SelectListRow(i),
                     text: format!("{}\t{}\t{}\t{}", row.name, row.value, row.file, row.layer),
                 });
@@ -216,7 +224,12 @@ fn compute_hit_regions(model: &Model, status_height: u16, frame_area: Rect) -> V
                     break;
                 }
                 regions.push(HitRegion {
-                    rect: Rect { x: view_area.x, y, width: view_area.width, height: 1 },
+                    rect: Rect {
+                        x: view_area.x,
+                        y,
+                        width: view_area.width,
+                        height: 1,
+                    },
                     action: HitAction::SelectListRow(i),
                     text: format!("{}\t{}\t{}\t{}", row.name, row.value, row.file, row.layer),
                 });
@@ -229,7 +242,12 @@ fn compute_hit_regions(model: &Model, status_height: u16, frame_area: Rect) -> V
                     break;
                 }
                 regions.push(HitRegion {
-                    rect: Rect { x: view_area.x, y, width: view_area.width, height: 1 },
+                    rect: Rect {
+                        x: view_area.x,
+                        y,
+                        width: view_area.width,
+                        height: 1,
+                    },
                     action: HitAction::SelectListRow(i),
                     text: format!(
                         "{}\t{}\t{}\t{}",
@@ -246,8 +264,8 @@ fn compute_hit_regions(model: &Model, status_height: u16, frame_area: Rect) -> V
 #[cfg(test)]
 mod tests {
     use super::*;
-    use design_data_core::graph::TokenGraph;
     use crate::update::UpdateCtx;
+    use design_data_core::graph::TokenGraph;
 
     #[test]
     fn execute_task_handles_deeply_nested_batch_without_stack_overflow() {
@@ -263,4 +281,3 @@ mod tests {
         execute_task(deep, &mut model, &ctx);
     }
 }
-

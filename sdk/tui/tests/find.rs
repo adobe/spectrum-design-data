@@ -247,7 +247,10 @@ fn property_suggestions_filter_by_typed_prefix() {
         fs.handle_key(key(KeyCode::Char(c)), &graph);
     }
     assert!(!fs.property_suggestions.is_empty());
-    assert!(fs.property_suggestions.iter().all(|s| s.contains("background")));
+    assert!(fs
+        .property_suggestions
+        .iter()
+        .all(|s| s.contains("background")));
 }
 
 #[test]
@@ -275,7 +278,10 @@ fn refresh_preview_sets_error_on_invalid_expression() {
     let mut fs = FindWizardState::new();
     fs.property = tui_input::Input::from("foo,bar".to_string());
     fs.refresh_preview(&graph);
-    assert!(fs.preview_error.is_some(), "expected parse error for condition missing operator");
+    assert!(
+        fs.preview_error.is_some(),
+        "expected parse error for condition missing operator"
+    );
     assert_eq!(fs.preview_count, 0);
     assert!(fs.preview_rows.is_empty());
 }
@@ -288,8 +294,15 @@ fn assemble_expr_round_trips_through_query_parse_and_finds_rows() {
         fs.handle_key(key(KeyCode::Char(c)), &graph);
     }
     fs.refresh_preview(&graph);
-    assert!(fs.preview_error.is_none(), "parse error: {:?}", fs.preview_error);
-    assert!(fs.preview_count >= 1, "expected at least one match for property=background-color");
+    assert!(
+        fs.preview_error.is_none(),
+        "parse error: {:?}",
+        fs.preview_error
+    );
+    assert!(
+        fs.preview_count >= 1,
+        "expected at least one match for property=background-color"
+    );
 }
 
 #[test]
@@ -401,8 +414,15 @@ fn accepting_preview_opens_query_view_and_closes_modal() {
 
     assert!(!model.is_modal_open());
     assert!(matches!(model.active_view, ActiveView::Query(_)));
-    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
-    assert!(msg.contains("matched"), "expected 'matched' in status: {msg}");
+    let msg = model
+        .status_message
+        .as_ref()
+        .map(|m| m.text.as_str())
+        .unwrap_or("");
+    assert!(
+        msg.contains("matched"),
+        "expected 'matched' in status: {msg}"
+    );
 }
 
 #[test]

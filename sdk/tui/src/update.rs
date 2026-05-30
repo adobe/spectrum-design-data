@@ -22,15 +22,15 @@
 use std::path::Path;
 
 use crossterm::event::{KeyCode, KeyModifiers, MouseButton, MouseEventKind};
-use tui_input::backend::crossterm::EventHandler;
 use design_data_core::graph::TokenGraph;
 use design_data_core::schema::SchemaRegistry;
+use tui_input::backend::crossterm::EventHandler;
 
-use crate::clipboard::write_clipboard;
 use crate::app::{
-    ActiveView, HitAction, Modal, PaletteMode, StatusMessage, KNOWN_COMMANDS,
-    move_table_selection, rect_contains,
+    move_table_selection, rect_contains, ActiveView, HitAction, Modal, PaletteMode, StatusMessage,
+    KNOWN_COMMANDS,
 };
+use crate::clipboard::write_clipboard;
 use crate::find::FindEvent;
 use crate::message::Message;
 use crate::model::Model;
@@ -125,8 +125,9 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
         | Message::Tick
         | Message::ClipboardDone(None) => Task::none(),
         Message::ClipboardDone(Some(err)) => {
-            model.status_message =
-                Some(StatusMessage::error(format!("clipboard unavailable: {err}")));
+            model.status_message = Some(StatusMessage::error(format!(
+                "clipboard unavailable: {err}"
+            )));
             Task::none()
         }
     }
@@ -170,9 +171,9 @@ fn handle_key(
             let was_selecting = model.is_selecting();
             model.toggle_selection_mode();
             let label = if !was_selecting { "on" } else { "off" };
-            model.status_message = Some(StatusMessage::info(
-                format!("selection mode {label}  (drag to select, release to copy)"),
-            ));
+            model.status_message = Some(StatusMessage::info(format!(
+                "selection mode {label}  (drag to select, release to copy)"
+            )));
         }
         KeyCode::Char(':') => {
             model.open_command_palette();
@@ -188,10 +189,7 @@ fn handle_key(
     Task::none()
 }
 
-fn handle_palette_key(
-    model: &mut Model,
-    key: crossterm::event::KeyEvent,
-) -> Task<Message> {
+fn handle_palette_key(model: &mut Model, key: crossterm::event::KeyEvent) -> Task<Message> {
     let palette_cmd_mode = model.palette_mode() == Some(PaletteMode::Command);
 
     match key.code {
@@ -220,9 +218,10 @@ fn handle_palette_key(
                         }
                     }
                     _ => {
-                        model.status_message = Some(StatusMessage::info(
-                            format!("matches: {}", matches.join(" | ")),
-                        ));
+                        model.status_message = Some(StatusMessage::info(format!(
+                            "matches: {}",
+                            matches.join(" | ")
+                        )));
                     }
                 }
             }
@@ -414,8 +413,7 @@ fn route_modal_key(
                 model.status_message = Some(StatusMessage::info("naming wizard cancelled"));
             }
             NamingEvent::Copy(name) => {
-                model.status_message =
-                    Some(StatusMessage::info(format!("copied: {name}")));
+                model.status_message = Some(StatusMessage::info(format!("copied: {name}")));
                 let text = name.clone();
                 return Task::cmd(move || {
                     let err = write_clipboard(&text).err().map(|e| e.to_string());
@@ -438,7 +436,10 @@ fn route_modal_key(
         WizardEvent::Cancel => {
             model.close_modal();
             model.status_message = Some(StatusMessage::info("wizard cancelled"));
-            Task::cmd(|| { clear_wizard_draft(); Message::Tick })
+            Task::cmd(|| {
+                clear_wizard_draft();
+                Message::Tick
+            })
         }
         WizardEvent::Submit => {
             if !ctx.allow_write {
@@ -446,7 +447,10 @@ fn route_modal_key(
                 model.status_message = Some(StatusMessage::info(
                     "wizard preview ready — pass --allow-write to enable writes",
                 ));
-                Task::cmd(|| { clear_wizard_draft(); Message::Tick })
+                Task::cmd(|| {
+                    clear_wizard_draft();
+                    Message::Tick
+                })
             } else {
                 // TODO(#1023): extract perform_write into Task::Cmd once WizardState
                 // exposes owned submit-data that can be moved into a 'static closure.
@@ -458,10 +462,13 @@ fn route_modal_key(
                 match write_result {
                     Some((name, Ok(written_path))) => {
                         model.close_modal();
-                        model.status_message = Some(StatusMessage::info(
-                            format!("wrote {name} → {written_path}"),
-                        ));
-                        Task::cmd(|| { clear_wizard_draft(); Message::Tick })
+                        model.status_message = Some(StatusMessage::info(format!(
+                            "wrote {name} → {written_path}"
+                        )));
+                        Task::cmd(|| {
+                            clear_wizard_draft();
+                            Message::Tick
+                        })
                     }
                     Some((_, Err(e))) => {
                         if let Some(Modal::Wizard(ref mut ws)) = model.modal_mut() {
@@ -480,7 +487,10 @@ fn route_modal_key(
                 None
             };
             match draft {
-                Some(d) => Task::cmd(move || { save_wizard_draft(&d); Message::Tick }),
+                Some(d) => Task::cmd(move || {
+                    save_wizard_draft(&d);
+                    Message::Tick
+                }),
                 None => Task::none(),
             }
         }
@@ -557,15 +567,25 @@ fn scroll_active(model: &mut Model, delta: i32) {
 
 fn click_at(model: &mut Model, row: u16, col: u16) {
     let action = model.hit_regions.iter().find_map(|r| {
-        if rect_contains(r.rect, row, col) { Some(&r.action) } else { None }
+        if rect_contains(r.rect, row, col) {
+            Some(&r.action)
+        } else {
+            None
+        }
     });
     match action {
         Some(HitAction::SelectListRow(i)) => {
             let i = *i;
             match &mut model.active_view {
-                ActiveView::Query(qv) => { qv.table_state.select(Some(i)); }
-                ActiveView::Resolve(rv) => { rv.table_state.select(Some(i)); }
-                ActiveView::Validate(vv) => { vv.table_state.select(Some(i)); }
+                ActiveView::Query(qv) => {
+                    qv.table_state.select(Some(i));
+                }
+                ActiveView::Resolve(rv) => {
+                    rv.table_state.select(Some(i));
+                }
+                ActiveView::Validate(vv) => {
+                    vv.table_state.select(Some(i));
+                }
                 _ => {}
             }
         }
@@ -594,7 +614,11 @@ fn extract_selection_from_regions(
             lines.push(&region.text);
         }
     }
-    if lines.is_empty() { None } else { Some(lines.join("\n")) }
+    if lines.is_empty() {
+        None
+    } else {
+        Some(lines.join("\n"))
+    }
 }
 
 // ── Internal helpers ──────────────────────────────────────────────────────────

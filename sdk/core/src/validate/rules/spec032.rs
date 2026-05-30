@@ -52,7 +52,12 @@ impl ValidationRule for Rule {
             .collect();
 
         // Check every non-Foundation token against the Foundation type for its UUID.
-        for t in ctx.graph.tokens.values().filter(|t| t.layer > Layer::Foundation) {
+        for t in ctx
+            .graph
+            .tokens
+            .values()
+            .filter(|t| t.layer > Layer::Foundation)
+        {
             let Some(uuid) = t.uuid.as_deref() else {
                 continue;
             };

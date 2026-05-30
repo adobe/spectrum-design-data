@@ -144,7 +144,7 @@ mod tests {
         assert!(fields.contains(&"variant"));
         assert!(fields.contains(&"size"));
         assert!(fields.contains(&"property")); // advisory registry added in #941
-        // mode-set fields must not appear
+                                               // mode-set fields must not appear
         assert!(!fields.contains(&"colorScheme"));
         assert!(!fields.contains(&"scale"));
         assert!(!fields.contains(&"contrast"));

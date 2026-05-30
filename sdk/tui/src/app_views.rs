@@ -30,8 +30,9 @@ use crate::wizard::{WizardScreen, WizardState};
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 /// Command names for Tab autocomplete.
-pub(crate) const KNOWN_COMMANDS: &[&str] =
-    &["find", "name", "new", "query", "resolve", "describe", "validate"];
+pub(crate) const KNOWN_COMMANDS: &[&str] = &[
+    "find", "name", "new", "query", "resolve", "describe", "validate",
+];
 
 /// Max palette history entries persisted to disk.
 pub(crate) const HISTORY_CAP: usize = 200;
@@ -63,10 +64,16 @@ pub struct StatusMessage {
 
 impl StatusMessage {
     pub fn info(text: impl Into<String>) -> Self {
-        Self { text: text.into(), kind: StatusKind::Info }
+        Self {
+            text: text.into(),
+            kind: StatusKind::Info,
+        }
     }
     pub fn error(text: impl Into<String>) -> Self {
-        Self { text: text.into(), kind: StatusKind::Error }
+        Self {
+            text: text.into(),
+            kind: StatusKind::Error,
+        }
     }
 }
 
@@ -95,8 +102,17 @@ impl QueryRow {
             })
             .or_else(|| t.alias_target.clone())
             .unwrap_or_default();
-        let file = t.file.file_name().map(|f| f.to_string_lossy().into_owned()).unwrap_or_default();
-        Self { name: display_name(t), value, file, layer: layer_str(t.layer).to_string() }
+        let file = t
+            .file
+            .file_name()
+            .map(|f| f.to_string_lossy().into_owned())
+            .unwrap_or_default();
+        Self {
+            name: display_name(t),
+            value,
+            file,
+            layer: layer_str(t.layer).to_string(),
+        }
     }
 }
 
@@ -113,7 +129,11 @@ impl QueryView {
         if !rows.is_empty() {
             table_state.select(Some(0));
         }
-        Self { expr_text, rows, table_state }
+        Self {
+            expr_text,
+            rows,
+            table_state,
+        }
     }
 
     pub(crate) fn selected_row(&self) -> Option<&QueryRow> {
@@ -145,7 +165,11 @@ impl ResolveView {
         if !rows.is_empty() {
             table_state.select(Some(0));
         }
-        Self { property, rows, table_state }
+        Self {
+            property,
+            rows,
+            table_state,
+        }
     }
 
     pub(crate) fn selected_row(&self) -> Option<&ResolvedRow> {

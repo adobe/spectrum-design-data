@@ -36,10 +36,8 @@ impl ValidationRule for Rule {
 
             // Skip check if either version string can't be parsed — don't emit false positives
             // for unexpected formats; a separate structural rule can flag unparseable versions.
-            let (Ok(lm), Ok(intro)) = (
-                Version::parse(last_modified),
-                Version::parse(introduced),
-            ) else {
+            let (Ok(lm), Ok(intro)) = (Version::parse(last_modified), Version::parse(introduced))
+            else {
                 continue;
             };
 

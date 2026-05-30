@@ -55,14 +55,46 @@ fn positive_intents_score_above_threshold() {
     let threshold = alias_threshold();
 
     let cases: &[Case] = &[
-        Case { intent: "neutral content color", expected_top: "neutral-content-color", min_confidence: 0.70 },
-        Case { intent: "accent content color default", expected_top: "accent-content-color-default", min_confidence: 0.90 },
-        Case { intent: "card background color", expected_top: "card-background", min_confidence: 0.70 },
-        Case { intent: "spacing 100", expected_top: "spacing-100", min_confidence: 0.90 },
-        Case { intent: "body font size", expected_top: "body", min_confidence: 0.60 },
-        Case { intent: "static black text", expected_top: "static-black-text", min_confidence: 0.70 },
-        Case { intent: "icon color cyan", expected_top: "icon-color-cyan", min_confidence: 0.55 },
-        Case { intent: "drop zone background", expected_top: "drop-zone-background", min_confidence: 0.70 },
+        Case {
+            intent: "neutral content color",
+            expected_top: "neutral-content-color",
+            min_confidence: 0.70,
+        },
+        Case {
+            intent: "accent content color default",
+            expected_top: "accent-content-color-default",
+            min_confidence: 0.90,
+        },
+        Case {
+            intent: "card background color",
+            expected_top: "card-background",
+            min_confidence: 0.70,
+        },
+        Case {
+            intent: "spacing 100",
+            expected_top: "spacing-100",
+            min_confidence: 0.90,
+        },
+        Case {
+            intent: "body font size",
+            expected_top: "body",
+            min_confidence: 0.60,
+        },
+        Case {
+            intent: "static black text",
+            expected_top: "static-black-text",
+            min_confidence: 0.70,
+        },
+        Case {
+            intent: "icon color cyan",
+            expected_top: "icon-color-cyan",
+            min_confidence: 0.55,
+        },
+        Case {
+            intent: "drop zone background",
+            expected_top: "drop-zone-background",
+            min_confidence: 0.70,
+        },
     ];
 
     let mut all_pass = true;
@@ -78,20 +110,31 @@ fn positive_intents_score_above_threshold() {
         );
 
         if score < case.min_confidence {
-            eprintln!("  FAIL: expected score >= {:.2}, got {:.3}", case.min_confidence, score);
+            eprintln!(
+                "  FAIL: expected score >= {:.2}, got {:.3}",
+                case.min_confidence, score
+            );
             all_pass = false;
         }
         if !name.contains(case.expected_top) {
-            eprintln!("  FAIL: expected top match to contain {:?}, got {:?}", case.expected_top, name);
+            eprintln!(
+                "  FAIL: expected top match to contain {:?}, got {:?}",
+                case.expected_top, name
+            );
             all_pass = false;
         }
         assert!(
             score >= threshold,
             "intent {:?}: top score {:.3} is below alias_threshold() {:.2}",
-            case.intent, score, threshold
+            case.intent,
+            score,
+            threshold
         );
     }
-    assert!(all_pass, "one or more positive calibration cases failed — see output above");
+    assert!(
+        all_pass,
+        "one or more positive calibration cases failed — see output above"
+    );
 }
 
 #[test]
@@ -117,7 +160,9 @@ fn negative_intents_score_below_threshold() {
         assert!(
             top_score < threshold,
             "negative intent {:?} should score below {:.2}, got {:.3}",
-            intent, threshold, top_score
+            intent,
+            threshold,
+            top_score
         );
     }
 }
@@ -131,8 +176,14 @@ fn threshold_sits_in_calibrated_gap() {
     // Note: single-word queries matching a 2-segment token name can score ~0.5 and
     // DO legitimately trigger the banner — correct behavior, not a false positive.
     let threshold = alias_threshold();
-    eprintln!("[gap-check] alias_threshold()={:.2} should be in (0.0, 0.60)", threshold);
-    assert!(threshold > 0.0, "threshold must be above pure noise (0.0), got {threshold}");
+    eprintln!(
+        "[gap-check] alias_threshold()={:.2} should be in (0.0, 0.60)",
+        threshold
+    );
+    assert!(
+        threshold > 0.0,
+        "threshold must be above pure noise (0.0), got {threshold}"
+    );
     assert!(
         threshold < 0.60,
         "threshold must be below the positive-match floor (0.60), got {threshold}"

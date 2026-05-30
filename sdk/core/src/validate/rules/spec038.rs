@@ -162,7 +162,9 @@ mod tests {
         }));
         assert_eq!(diags.len(), 2);
         assert!(diags.iter().all(|d| d.severity == Severity::Warning));
-        assert!(diags.iter().all(|d| d.rule_id.as_deref() == Some("SPEC-038")));
+        assert!(diags
+            .iter()
+            .all(|d| d.rule_id.as_deref() == Some("SPEC-038")));
     }
 
     #[test]

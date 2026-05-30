@@ -180,7 +180,10 @@ fn write_updates_existing_rationale() {
     let second: serde_json::Value =
         serde_json::from_str(&std::fs::read_to_string(&path).expect("read")).expect("json");
     assert_eq!(second["rationale"], "updated");
-    assert_eq!(second["createdAt"], created_at, "createdAt must not change on update");
+    assert_eq!(
+        second["createdAt"], created_at,
+        "createdAt must not change on update"
+    );
 }
 
 #[test]
@@ -194,7 +197,10 @@ fn write_creates_parent_dirs() {
         .assert()
         .success();
 
-    assert!(output.exists(), "output file should exist after creating parent dirs");
+    assert!(
+        output.exists(),
+        "output file should exist after creating parent dirs"
+    );
     let content = std::fs::read_to_string(&output).expect("read output");
     let doc: serde_json::Value = serde_json::from_str(&content).expect("valid json");
     assert_eq!(doc["specVersion"], "1.0.0-draft");
@@ -217,11 +223,7 @@ fn primer_paths() -> (PathBuf, PathBuf, PathBuf, PathBuf) {
         "expected mode sets at {}",
         mode_sets.display()
     );
-    assert!(
-        fields.is_dir(),
-        "expected fields at {}",
-        fields.display()
-    );
+    assert!(fields.is_dir(), "expected fields at {}", fields.display());
     (src, components, mode_sets, fields)
 }
 
@@ -262,11 +264,15 @@ fn primer_emits_json_with_required_fields() {
         "modeSets must be non-empty"
     );
     assert!(
-        doc["components"].as_array().map_or(false, |a| !a.is_empty()),
+        doc["components"]
+            .as_array()
+            .map_or(false, |a| !a.is_empty()),
         "components must be non-empty"
     );
     assert!(
-        doc["taxonomyFields"].as_array().map_or(false, |a| !a.is_empty()),
+        doc["taxonomyFields"]
+            .as_array()
+            .map_or(false, |a| !a.is_empty()),
         "taxonomyFields must be non-empty"
     );
 }
@@ -373,7 +379,10 @@ fn component_button_returns_json() {
         serde_json::from_slice(&output).expect("component output must be valid JSON");
 
     assert_eq!(doc["name"], "button");
-    assert!(doc["tokenBindings"].is_array(), "tokenBindings must be present");
+    assert!(
+        doc["tokenBindings"].is_array(),
+        "tokenBindings must be present"
+    );
     assert!(doc["anatomy"].is_array(), "anatomy must be present");
 }
 
@@ -397,7 +406,13 @@ fn component_nonexistent_fails() {
 fn component_path_traversal_rejected() {
     let dir = component_dir();
 
-    for bad_id in &["../button", "/etc/passwd", "button.json", "Button", "button/x"] {
+    for bad_id in &[
+        "../button",
+        "/etc/passwd",
+        "button.json",
+        "Button",
+        "button/x",
+    ] {
         Command::cargo_bin("design-data")
             .expect("binary design-data")
             .args([

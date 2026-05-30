@@ -109,10 +109,7 @@ mod tests {
 
     #[test]
     fn valid_canonical_name_no_warning() {
-        let g = graph_with_anatomy(
-            "button",
-            json!([{"name": "label"}, {"name": "icon"}]),
-        );
+        let g = graph_with_anatomy("button", json!([{"name": "label"}, {"name": "icon"}]));
         assert!(diagnostics_for_rule(&g, "SPEC-035").is_empty());
     }
 
@@ -128,7 +125,10 @@ mod tests {
 
     #[test]
     fn unknown_name_warns() {
-        let g = graph_with_anatomy("widget", json!([{"name": "wibble", "description": "Custom."}]));
+        let g = graph_with_anatomy(
+            "widget",
+            json!([{"name": "wibble", "description": "Custom."}]),
+        );
         let diags = diagnostics_for_rule(&g, "SPEC-035");
         assert_eq!(diags.len(), 1);
         assert!(diags[0].message.contains("wibble"));

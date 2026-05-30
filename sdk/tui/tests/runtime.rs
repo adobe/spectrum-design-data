@@ -72,19 +72,30 @@ fn smoke_render_after_query_shows_data_row() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
 
-    update(&mut model, Message::PaletteSubmit("query property=accent-color".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("query property=accent-color".into()),
+        &ctx,
+    );
 
     let buf = render_to_buffer(&mut model, 80, 24);
     let found = (0..24u16).any(|y| {
-        let row: String =
-            (0..80u16).map(|x| buf.cell((x, y)).unwrap().symbol().to_string()).collect();
+        let row: String = (0..80u16)
+            .map(|x| buf.cell((x, y)).unwrap().symbol().to_string())
+            .collect();
         row.contains("accent-color")
     });
-    assert!(found, "query result 'accent-color' should appear somewhere in the rendered buffer");
+    assert!(
+        found,
+        "query result 'accent-color' should appear somewhere in the rendered buffer"
+    );
 }
 
 #[test]
 fn smoke_model_new_with_options_resume_false_has_no_modal() {
     let model = Model::new_with_options(false);
-    assert!(!model.is_modal_open(), "resume_wizard=false should yield no modal");
+    assert!(
+        !model.is_modal_open(),
+        "resume_wizard=false should yield no modal"
+    );
 }

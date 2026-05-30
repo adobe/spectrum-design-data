@@ -40,7 +40,7 @@
 use std::io;
 use std::path::{Path, PathBuf};
 
-use include_dir::{Dir, include_dir};
+use include_dir::{include_dir, Dir};
 // Dir is used for the embedded static types; include_dir! for the macros.
 
 // ---------------------------------------------------------------------------
@@ -48,41 +48,35 @@ use include_dir::{Dir, include_dir};
 // ---------------------------------------------------------------------------
 
 /// Token source files (`packages/tokens/src/*.json`, 8 files, ~1.3 MB).
-static TOKENS_SRC: Dir<'_> = include_dir!(
-    "$CARGO_MANIFEST_DIR/../../packages/tokens/src"
-);
+static TOKENS_SRC: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/tokens/src");
 
 /// JSON Schema files for token validation (`packages/tokens/schemas/`, ~88 KB).
 /// Includes the `token-types/` subdirectory.
-static TOKENS_SCHEMAS: Dir<'_> = include_dir!(
-    "$CARGO_MANIFEST_DIR/../../packages/tokens/schemas"
-);
+static TOKENS_SCHEMAS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/tokens/schemas");
 
 /// Mode-set declarations (`packages/design-data-spec/mode-sets/`, 3 files, ~12 KB).
-static MODE_SETS: Dir<'_> = include_dir!(
-    "$CARGO_MANIFEST_DIR/../../packages/design-data-spec/mode-sets"
-);
+static MODE_SETS: Dir<'_> =
+    include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data-spec/mode-sets");
 
 /// Component declaration JSONs (`packages/design-data-spec/components/`, 81 files, ~620 KB).
-static COMPONENTS: Dir<'_> = include_dir!(
-    "$CARGO_MANIFEST_DIR/../../packages/design-data-spec/components"
-);
+static COMPONENTS: Dir<'_> =
+    include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data-spec/components");
 
 /// Taxonomy field JSONs (`packages/design-data-spec/fields/`, 24 files, ~96 KB).
-static FIELDS: Dir<'_> = include_dir!(
-    "$CARGO_MANIFEST_DIR/../../packages/design-data-spec/fields"
-);
+static FIELDS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data-spec/fields");
 
 /// Naming exceptions list (`packages/tokens/naming-exceptions.json`, ~46 KB).
-static NAMING_EXCEPTIONS: &str = include_str!(
-    concat!(env!("CARGO_MANIFEST_DIR"), "/../../packages/tokens/naming-exceptions.json")
-);
+static NAMING_EXCEPTIONS: &str = include_str!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/../../packages/tokens/naming-exceptions.json"
+));
 
 /// Token build manifest — lists the 8 source JSON file paths
 /// (`packages/tokens/manifest.json`).
-static TOKENS_MANIFEST: &str = include_str!(
-    concat!(env!("CARGO_MANIFEST_DIR"), "/../../packages/tokens/manifest.json")
-);
+static TOKENS_MANIFEST: &str = include_str!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/../../packages/tokens/manifest.json"
+));
 
 // ---------------------------------------------------------------------------
 // Version provenance
@@ -149,8 +143,12 @@ pub fn materialize() -> io::Result<PathBuf> {
 /// the binary is updated across releases.  Errors are silently ignored — eviction
 /// is best-effort and must never cause the calling `materialize` to fail.
 fn evict_stale_versions(current: &Path) {
-    let Some(parent) = current.parent() else { return };
-    let Ok(entries) = std::fs::read_dir(parent) else { return };
+    let Some(parent) = current.parent() else {
+        return;
+    };
+    let Ok(entries) = std::fs::read_dir(parent) else {
+        return;
+    };
     for entry in entries.flatten() {
         let path = entry.path();
         if path != current && path.is_dir() {
@@ -201,7 +199,10 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
     extract(&TOKENS_SRC, &tmp.join("packages/tokens/src"))?;
     extract(&TOKENS_SCHEMAS, &tmp.join("packages/tokens/schemas"))?;
     extract(&MODE_SETS, &tmp.join("packages/design-data-spec/mode-sets"))?;
-    extract(&COMPONENTS, &tmp.join("packages/design-data-spec/components"))?;
+    extract(
+        &COMPONENTS,
+        &tmp.join("packages/design-data-spec/components"),
+    )?;
     extract(&FIELDS, &tmp.join("packages/design-data-spec/fields"))?;
 
     write_file(
@@ -268,7 +269,10 @@ mod tests {
     fn materialize_creates_expected_layout() {
         let (_tmp, root) = temp_root();
 
-        assert!(root.join("packages/tokens/src").is_dir(), "tokens/src missing");
+        assert!(
+            root.join("packages/tokens/src").is_dir(),
+            "tokens/src missing"
+        );
         assert!(
             root.join("packages/tokens/schemas/token-types").is_dir(),
             "schemas/token-types missing"
@@ -286,14 +290,18 @@ mod tests {
             "fields missing"
         );
         assert!(
-            root.join("packages/tokens/naming-exceptions.json").is_file(),
+            root.join("packages/tokens/naming-exceptions.json")
+                .is_file(),
             "naming-exceptions.json missing"
         );
         assert!(
             root.join("packages/tokens/manifest.json").is_file(),
             "manifest.json missing"
         );
-        assert!(root.join(".complete").is_file(), ".complete sentinel missing");
+        assert!(
+            root.join(".complete").is_file(),
+            ".complete sentinel missing"
+        );
     }
 
     #[test]
@@ -338,12 +346,11 @@ mod tests {
     #[test]
     fn materialize_schemas_has_token_types_subdir() {
         let (_tmp, root) = temp_root();
-        let schemas: Vec<_> =
-            fs::read_dir(root.join("packages/tokens/schemas/token-types"))
-                .unwrap()
-                .flatten()
-                .filter(|e| e.path().extension().is_some_and(|x| x == "json"))
-                .collect();
+        let schemas: Vec<_> = fs::read_dir(root.join("packages/tokens/schemas/token-types"))
+            .unwrap()
+            .flatten()
+            .filter(|e| e.path().extension().is_some_and(|x| x == "json"))
+            .collect();
         assert!(
             !schemas.is_empty(),
             "token-types/ should contain at least one JSON schema"
@@ -356,12 +363,11 @@ mod tests {
         // packages/design-data-spec/components/, this test fails deliberately.
         // Update the expected count when you've intentionally changed the set.
         let (_tmp, root) = temp_root();
-        let components: Vec<_> =
-            fs::read_dir(root.join("packages/design-data-spec/components"))
-                .unwrap()
-                .flatten()
-                .filter(|e| e.path().extension().is_some_and(|x| x == "json"))
-                .collect();
+        let components: Vec<_> = fs::read_dir(root.join("packages/design-data-spec/components"))
+            .unwrap()
+            .flatten()
+            .filter(|e| e.path().extension().is_some_and(|x| x == "json"))
+            .collect();
         assert_eq!(
             components.len(),
             81,
@@ -388,12 +394,10 @@ mod tests {
             .expect("packages/tokens/package.json should have a string 'version' field");
 
         assert_eq!(
-            EMBEDDED_TOKENS_VERSION,
-            pkg_version,
+            EMBEDDED_TOKENS_VERSION, pkg_version,
             "EMBEDDED_TOKENS_VERSION is '{}' but packages/tokens/package.json says '{}'. \
              Update the constant in sdk/core/src/data_source/embedded.rs.",
-            EMBEDDED_TOKENS_VERSION,
-            pkg_version
+            EMBEDDED_TOKENS_VERSION, pkg_version
         );
     }
 }

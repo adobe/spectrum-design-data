@@ -11,9 +11,11 @@
 //! Design Data core library — validation, resolution, and tooling.
 
 pub mod authoring;
+#[cfg(feature = "cache")]
+pub mod cache;
 pub mod cascade;
-pub mod data_source;
 pub mod compat;
+pub mod data_source;
 pub mod diff;
 pub mod discovery;
 #[cfg(feature = "figma")]
@@ -647,9 +649,8 @@ mod validation_conformance {
                     .get("message_pattern")
                     .and_then(|v| v.as_str())
                     .unwrap_or(".*");
-                let re = Regex::new(pattern).unwrap_or_else(|e| {
-                    panic!("{case}: invalid message_pattern {pattern:?}: {e}")
-                });
+                let re = Regex::new(pattern)
+                    .unwrap_or_else(|e| panic!("{case}: invalid message_pattern {pattern:?}: {e}"));
 
                 let matched = diagnostics.iter().any(|d| {
                     d.rule_id.as_deref() == Some(rule_id)
@@ -833,8 +834,7 @@ mod resolution_conformance {
             .cloned()
             .collect();
 
-        let filtered = TokenGraph::from_records(candidates)
-            .with_mode_sets(graph.mode_sets.clone());
+        let filtered = TokenGraph::from_records(candidates).with_mode_sets(graph.mode_sets.clone());
 
         let should_resolve = expected["resolved"].as_bool().unwrap_or(true);
         let winner = resolve(&filtered, &ctx);

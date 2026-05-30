@@ -116,6 +116,12 @@ dist
 # Rust (design-data SDK workspace)
 sdk/target/
 
+# design-data derived embedded-database cache (rebuildable from canonical JSON,
+# never authoritative). Includes the OS cache dir contents and any locally built
+# cache assets emitted by `design-data cache-build`.
+*.redb
+*.redb.tmp
+
 # design-data platform binary slots — tracked placeholder shell scripts are
 # committed in sdk/npm/{platform}/bin/; real compiled binaries are written
 # there by CI immediately before `npm publish` and are NEVER committed.

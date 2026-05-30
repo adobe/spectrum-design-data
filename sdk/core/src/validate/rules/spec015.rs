@@ -51,13 +51,21 @@ struct CompositeDescriptor {
 /// below, not a code-path change in `validate`.
 static DESCRIPTORS: LazyLock<HashMap<&'static str, CompositeDescriptor>> = LazyLock::new(|| {
     let entries: &[(&str, &str, bool)] = &[
-        ("value-types/typography.schema.json", TYPOGRAPHY_SCHEMA, false),
+        (
+            "value-types/typography.schema.json",
+            TYPOGRAPHY_SCHEMA,
+            false,
+        ),
         (
             "value-types/typography-scale.schema.json",
             TYPOGRAPHY_SCALE_SCHEMA,
             false,
         ),
-        ("value-types/drop-shadow.schema.json", DROP_SHADOW_SCHEMA, true),
+        (
+            "value-types/drop-shadow.schema.json",
+            DROP_SHADOW_SCHEMA,
+            true,
+        ),
     ];
 
     let mut map: HashMap<&'static str, CompositeDescriptor> = HashMap::new();
@@ -79,9 +87,10 @@ static DESCRIPTORS: LazyLock<HashMap<&'static str, CompositeDescriptor>> = LazyL
         for (sub_key, prop_schema) in props {
             let types: Vec<String> = match prop_schema.get("x-valueType") {
                 Some(Value::String(s)) => vec![s.clone()],
-                Some(Value::Array(arr)) => {
-                    arr.iter().filter_map(|v| v.as_str().map(String::from)).collect()
-                }
+                Some(Value::Array(arr)) => arr
+                    .iter()
+                    .filter_map(|v| v.as_str().map(String::from))
+                    .collect(),
                 _ => continue,
             };
             sub_key_types.insert(sub_key.clone(), types);
@@ -89,7 +98,10 @@ static DESCRIPTORS: LazyLock<HashMap<&'static str, CompositeDescriptor>> = LazyL
 
         map.insert(
             key,
-            CompositeDescriptor { value_is_array: *value_is_array, sub_key_types },
+            CompositeDescriptor {
+                value_is_array: *value_is_array,
+                sub_key_types,
+            },
         );
     }
     map
@@ -255,11 +267,18 @@ mod tests {
         g
     }
 
-    fn run(tokens: Vec<(String, serde_json::Value, Option<String>)>) -> Vec<crate::report::Diagnostic> {
+    fn run(
+        tokens: Vec<(String, serde_json::Value, Option<String>)>,
+    ) -> Vec<crate::report::Diagnostic> {
         let g = make_graph(tokens);
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();
-        let ctx = ValidationContext { graph: &g, naming_exceptions: &exceptions, registry: &registry, manifest: None };
+        let ctx = ValidationContext {
+            graph: &g,
+            naming_exceptions: &exceptions,
+            registry: &registry,
+            manifest: None,
+        };
         Rule.validate(&ctx)
     }
 

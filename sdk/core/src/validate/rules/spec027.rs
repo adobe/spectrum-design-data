@@ -35,11 +35,7 @@ impl ValidationRule for Rule {
             .graph
             .tokens
             .values()
-            .filter_map(|t| {
-                t.raw
-                    .get("name")
-                    .and_then(|n| n.as_str())
-            })
+            .filter_map(|t| t.raw.get("name").and_then(|n| n.as_str()))
             .collect();
 
         for comp in &ctx.graph.components {
@@ -113,11 +109,19 @@ mod tests {
         g
     }
 
-    fn run(tokens: Vec<serde_json::Value>, comp_raw: serde_json::Value) -> Vec<crate::report::Diagnostic> {
+    fn run(
+        tokens: Vec<serde_json::Value>,
+        comp_raw: serde_json::Value,
+    ) -> Vec<crate::report::Diagnostic> {
         let g = make_graph(tokens, comp_raw);
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();
-        let ctx = ValidationContext { graph: &g, naming_exceptions: &exceptions, registry: &registry, manifest: None };
+        let ctx = ValidationContext {
+            graph: &g,
+            naming_exceptions: &exceptions,
+            registry: &registry,
+            manifest: None,
+        };
         Rule.validate(&ctx)
     }
 

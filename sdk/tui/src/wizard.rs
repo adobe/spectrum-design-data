@@ -20,10 +20,10 @@ use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph};
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::suggest::{self, SuggestionResult};
-use design_data_core::write::{WriteTokenInput, write_token};
-use uuid::Uuid;
-use tui_input::Input;
+use design_data_core::write::{write_token, WriteTokenInput};
 use tui_input::backend::crossterm::EventHandler;
+use tui_input::Input;
+use uuid::Uuid;
 
 /// Minimal graph context passed to wizard key handlers.
 pub struct WizardCtx<'a> {
@@ -45,8 +45,8 @@ use design_data_core::authoring::session::alias_threshold;
 // them without reaching into this module.  The re-exports keep every existing
 // call-site (tests, wizard_draft.rs, main.rs) working unchanged.
 pub use crate::wizard_common::classification::{
-    ClassificationDraft, NameField, assemble_name_from_classification, cycle_layer_backward,
-    cycle_layer_forward,
+    assemble_name_from_classification, cycle_layer_backward, cycle_layer_forward,
+    ClassificationDraft, NameField,
 };
 
 /// One row in Screen 3's values table.
@@ -66,7 +66,11 @@ impl ValueRow {
         if self.mode_combo.is_empty() {
             "default".to_string()
         } else {
-            self.mode_combo.iter().map(|(k, v)| format!("{k}={v}")).collect::<Vec<_>>().join(", ")
+            self.mode_combo
+                .iter()
+                .map(|(k, v)| format!("{k}={v}"))
+                .collect::<Vec<_>>()
+                .join(", ")
         }
     }
 }
@@ -81,7 +85,11 @@ pub struct ValuesDraft {
 
 impl ValuesDraft {
     fn new() -> Self {
-        Self { rows: Vec::new(), selected: 0, editing: false }
+        Self {
+            rows: Vec::new(),
+            selected: 0,
+            editing: false,
+        }
     }
 }
 
@@ -192,7 +200,9 @@ impl WizardState {
             }
             KeyCode::Tab => {
                 if !self.suggestions.is_empty() {
-                    let name = self.suggestions[self.selected_suggestion].token_name.clone();
+                    let name = self.suggestions[self.selected_suggestion]
+                        .token_name
+                        .clone();
                     // Infer schema URL from the reuse target's token record.
                     if self.schema_url.is_none() {
                         if let Some(token) = ctx.graph.tokens.get(&name) {
@@ -260,8 +270,7 @@ impl WizardState {
             }
             KeyCode::Tab => {
                 let count = self.classification.field_count();
-                self.classification.focused_field =
-                    (self.classification.focused_field + 1) % count;
+                self.classification.focused_field = (self.classification.focused_field + 1) % count;
                 WizardEvent::Continue
             }
             KeyCode::BackTab => {
@@ -289,7 +298,9 @@ impl WizardState {
             _ => {
                 let focused = self.classification.focused_field;
                 if focused == 1 {
-                    self.classification.property.handle_event(&crossterm::event::Event::Key(key));
+                    self.classification
+                        .property
+                        .handle_event(&crossterm::event::Event::Key(key));
                 } else if focused >= 2 {
                     let idx = focused - 2;
                     if let Some(field) = self.classification.name_fields.get_mut(idx) {
@@ -335,8 +346,7 @@ impl WizardState {
                 WizardEvent::Continue
             }
             KeyCode::Down | KeyCode::Char('j') => {
-                if !self.values.rows.is_empty()
-                    && self.values.selected < self.values.rows.len() - 1
+                if !self.values.rows.is_empty() && self.values.selected < self.values.rows.len() - 1
                 {
                     self.values.selected += 1;
                 }
@@ -380,7 +390,8 @@ impl WizardState {
                     self.editing_schema_url = false;
                 }
                 _ => {
-                    self.schema_url_input.handle_event(&crossterm::event::Event::Key(key));
+                    self.schema_url_input
+                        .handle_event(&crossterm::event::Event::Key(key));
                 }
             }
             return WizardEvent::Continue;
@@ -405,7 +416,8 @@ impl WizardState {
                 WizardEvent::Continue
             }
             _ => {
-                self.rationale.handle_event(&crossterm::event::Event::Key(key));
+                self.rationale
+                    .handle_event(&crossterm::event::Event::Key(key));
                 // Regenerate diff on each keystroke so rationale is reflected immediately.
                 self.build_diff(ctx.dataset_path);
                 WizardEvent::Continue
@@ -451,11 +463,12 @@ impl WizardState {
     /// the modal open so the user can correct the error.
     pub fn perform_write(&self, ctx: &WizardCtx<'_>) -> Result<String, String> {
         let registry = ctx.schema_registry.ok_or_else(|| {
-            "no schema registry available — run from the repo root or pass --schema-path".to_string()
+            "no schema registry available — run from the repo root or pass --schema-path"
+                .to_string()
         })?;
-        let dataset_path = ctx.dataset_path.ok_or_else(|| {
-            "no dataset path available".to_string()
-        })?;
+        let dataset_path = ctx
+            .dataset_path
+            .ok_or_else(|| "no dataset path available".to_string())?;
 
         let key = self.assembled_name();
         if key.is_empty() {
@@ -488,7 +501,11 @@ impl WizardState {
         let is_override = ctx.graph.tokens.contains_key(&key);
 
         let pc_path = dataset_path.join("product-context.json");
-        let product_context = if pc_path.exists() { Some(pc_path) } else { None };
+        let product_context = if pc_path.exists() {
+            Some(pc_path)
+        } else {
+            None
+        };
 
         write_token(
             WriteTokenInput {
@@ -540,7 +557,11 @@ impl WizardState {
 
         // Build the new token object.
         let key = self.assembled_name();
-        let key = if key.is_empty() { "new-token".to_string() } else { key };
+        let key = if key.is_empty() {
+            "new-token".to_string()
+        } else {
+            key
+        };
 
         // Preview uses the first value row; full per-mode shape is deferred.
         let token_value = build_token_value(&self.values.rows);
@@ -570,7 +591,11 @@ impl WizardState {
             .to_string();
 
         // Cap at 200 lines.
-        let capped: String = diff_text.lines().take(200).collect::<Vec<&str>>().join("\n");
+        let capped: String = diff_text
+            .lines()
+            .take(200)
+            .collect::<Vec<&str>>()
+            .join("\n");
         self.diff_preview = Some(capped);
     }
 }
@@ -615,7 +640,11 @@ fn infer_schema_url(graph: &TokenGraph, property: &str) -> Option<String> {
             .and_then(|n| n.get("property"))
             .and_then(|v| v.as_str())
             == Some(property);
-        if prop_matches { t.schema_url.clone() } else { None }
+        if prop_matches {
+            t.schema_url.clone()
+        } else {
+            None
+        }
     })
 }
 
@@ -664,11 +693,7 @@ fn build_value_rows(
             ValueRow {
                 mode_combo: combo,
                 kind: ValueKind::Alias,
-                alias_target: seed_alias(
-                    graph,
-                    intent,
-                    property_hint.as_deref(),
-                ),
+                alias_target: seed_alias(graph, intent, property_hint.as_deref()),
                 literal: Input::default(),
             }
         })
@@ -700,4 +725,3 @@ fn cartesian_product(mode_sets: &[ModeSetRecord]) -> Vec<Vec<(String, String)>> 
     }
     result
 }
-

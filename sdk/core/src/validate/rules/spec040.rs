@@ -32,9 +32,9 @@ use crate::validate::rule::{ValidationContext, ValidationRule};
 const RESERVED: &[&str] = &[
     "property",
     "component",
-    "variant",      // SPEC-019: component-variant-valid (Error)
-    "state",        // SPEC-022: component-state-valid (Error) — validated against states[], not options
-    "anatomy",      // SPEC-020: component-anatomy-valid (Error)
+    "variant", // SPEC-019: component-variant-valid (Error)
+    "state",   // SPEC-022: component-state-valid (Error) — validated against states[], not options
+    "anatomy", // SPEC-020: component-anatomy-valid (Error)
     "colorScheme",
     "scale",
     "contrast",
@@ -282,7 +282,10 @@ mod tests {
                 }
             }),
         );
-        assert!(run(&g).is_empty(), "variant must be skipped (owned by SPEC-019)");
+        assert!(
+            run(&g).is_empty(),
+            "variant must be skipped (owned by SPEC-019)"
+        );
     }
 
     #[test]

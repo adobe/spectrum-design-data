@@ -20,12 +20,22 @@ use ratatui::Terminal;
 
 // ── Helper ────────────────────────────────────────────────────────────────────
 
-fn replay_messages(messages: Vec<Message>, graph: &design_data_core::graph::TokenGraph) -> ratatui::buffer::Buffer {
+fn replay_messages(
+    messages: Vec<Message>,
+    graph: &design_data_core::graph::TokenGraph,
+) -> ratatui::buffer::Buffer {
     let ctx = update_ctx(graph);
     let backend = TestBackend::new(80, 24);
     let mut terminal = Terminal::new(backend).unwrap();
-    replay(&mut terminal, Model::new(), &ctx, &Theme::terminal(), TEST_PRIMER,
-           messages.into_iter()).unwrap();
+    replay(
+        &mut terminal,
+        Model::new(),
+        &ctx,
+        &Theme::terminal(),
+        TEST_PRIMER,
+        messages.into_iter(),
+    )
+    .unwrap();
     terminal.backend().buffer().clone()
 }
 
@@ -84,14 +94,19 @@ fn replay_query_command_shows_token_in_buffer() {
             .collect();
         row.contains("accent-color")
     });
-    assert!(found, "replayed buffer should show 'accent-color' after query");
+    assert!(
+        found,
+        "replayed buffer should show 'accent-color' after query"
+    );
 }
 
 #[test]
 fn replay_palette_open_shows_colon_prompt() {
     let graph = make_graph_with_tokens(&[]);
     let buf = replay_messages(
-        vec![Message::Key(common::key(crossterm::event::KeyCode::Char(':')))],
+        vec![Message::Key(common::key(crossterm::event::KeyCode::Char(
+            ':',
+        )))],
         &graph,
     );
     assert_eq!(
@@ -114,11 +129,17 @@ fn replay_produces_same_buffer_as_direct_update() {
     // whether or not the task is executed. This verifies render output parity,
     // not side-effect parity (which is tested elsewhere).
     let mut model_direct = Model::new();
-    update(&mut model_direct, Message::PaletteSubmit("query property=accent-color".into()), &ctx);
+    update(
+        &mut model_direct,
+        Message::PaletteSubmit("query property=accent-color".into()),
+        &ctx,
+    );
     let buf_direct = {
         let backend = TestBackend::new(80, 24);
         let mut terminal = Terminal::new(backend).unwrap();
-        terminal.draw(|f| design_data_tui::draw(&mut model_direct, f, &Theme::terminal(), TEST_PRIMER)).unwrap();
+        terminal
+            .draw(|f| design_data_tui::draw(&mut model_direct, f, &Theme::terminal(), TEST_PRIMER))
+            .unwrap();
         terminal.backend().buffer().clone()
     };
 
@@ -128,5 +149,8 @@ fn replay_produces_same_buffer_as_direct_update() {
         &graph,
     );
 
-    assert!(buf_direct == buf_replay, "replay must produce byte-identical buffer to direct update");
+    assert!(
+        buf_direct == buf_replay,
+        "replay must produce byte-identical buffer to direct update"
+    );
 }

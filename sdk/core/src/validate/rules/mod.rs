@@ -59,7 +59,10 @@ use std::collections::HashSet;
 /// Update this list when new token-type schemas are introduced; both rules
 /// pick up the change automatically.
 pub(super) const DOMAIN_SCHEMAS: &[(&str, &[&str])] = &[
-    ("color", &["color.json", "color-set.json", "gradient-stop.json"]),
+    (
+        "color",
+        &["color.json", "color-set.json", "gradient-stop.json"],
+    ),
     (
         "typography",
         &[
@@ -73,7 +76,12 @@ pub(super) const DOMAIN_SCHEMAS: &[(&str, &[&str])] = &[
     ),
     (
         "motion",
-        &["duration.json", "easing.json", "motion.json", "motion-set.json"],
+        &[
+            "duration.json",
+            "easing.json",
+            "motion.json",
+            "motion-set.json",
+        ],
     ),
 ];
 

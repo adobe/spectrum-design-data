@@ -32,7 +32,7 @@ pub(crate) mod embedded;
 #[cfg(feature = "fetch")]
 pub(crate) mod fetch;
 #[cfg(test)]
-mod test_support;
+pub(crate) mod test_support;
 
 use std::path::{Path, PathBuf};
 
@@ -215,9 +215,7 @@ pub enum DataSourceError {
         source: toml::de::Error,
     },
     /// `source.type = "path"` but the `root` directory does not exist.
-    #[error(
-        "source.root '{root}' in `.design-data.toml` does not exist or is not a directory"
-    )]
+    #[error("source.root '{root}' in `.design-data.toml` does not exist or is not a directory")]
     PathNotFound {
         /// The resolved (possibly absolute) path that was probed.
         root: PathBuf,
@@ -247,10 +245,7 @@ pub enum DataSourceError {
 /// - A `.design-data.toml` exists but cannot be read or parsed.
 /// - `source.type = "path"` and `root` does not exist.
 /// - `source.type` is `npm`, `github`, or `git` (not yet implemented).
-pub fn resolve(
-    cwd: &Path,
-    overrides: &CliPathOverrides,
-) -> Result<ResolvedData, DataSourceError> {
+pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData, DataSourceError> {
     // Tier 1 is handled per-field inside each helper (overrides win always).
 
     // Tier 2: look for `.design-data.toml` walking up from cwd.
@@ -286,9 +281,11 @@ pub fn resolve(
                 }
                 SourceConfig::Npm { .. }
                 | SourceConfig::Github { .. }
-                | SourceConfig::Git { .. } => {
-                    fetch_source(source, config.cache.as_ref().and_then(|c| c.dir.as_deref()), overrides)
-                }
+                | SourceConfig::Git { .. } => fetch_source(
+                    source,
+                    config.cache.as_ref().and_then(|c| c.dir.as_deref()),
+                    overrides,
+                ),
             };
         }
         // Config file present but no [source] block → fall through to probing.
@@ -354,10 +351,11 @@ fn find_config(start: &Path) -> Result<Option<(PathBuf, DesignDataConfig)>, Data
     for dir in start.ancestors() {
         let candidate = dir.join(".design-data.toml");
         if candidate.is_file() {
-            let text = std::fs::read_to_string(&candidate).map_err(|e| DataSourceError::ConfigRead {
-                path: candidate.clone(),
-                source: e,
-            })?;
+            let text =
+                std::fs::read_to_string(&candidate).map_err(|e| DataSourceError::ConfigRead {
+                    path: candidate.clone(),
+                    source: e,
+                })?;
             let config: DesignDataConfig =
                 toml::from_str(&text).map_err(|e| DataSourceError::ConfigParse {
                     path: candidate.clone(),
@@ -510,11 +508,18 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
 ///
 /// The env var is honoured at this level so it works regardless of which tier
 /// resolved the other paths.
-fn resolve_schema_root(overrides: &CliPathOverrides, fallback: impl FnOnce() -> PathBuf) -> PathBuf {
+fn resolve_schema_root(
+    overrides: &CliPathOverrides,
+    fallback: impl FnOnce() -> PathBuf,
+) -> PathBuf {
     overrides
         .schema_root
         .clone()
-        .or_else(|| std::env::var("DESIGN_DATA_SCHEMA_ROOT").ok().map(PathBuf::from))
+        .or_else(|| {
+            std::env::var("DESIGN_DATA_SCHEMA_ROOT")
+                .ok()
+                .map(PathBuf::from)
+        })
         .unwrap_or_else(fallback)
 }
 
@@ -533,7 +538,9 @@ fn fetch_source(
         Ok(from_root(
             &cache_root,
             overrides,
-            Provenance::Cache { cache_dir: cache_root.clone() },
+            Provenance::Cache {
+                cache_dir: cache_root.clone(),
+            },
         ))
     }
     #[cfg(not(feature = "fetch"))]
@@ -719,7 +726,10 @@ mod tests {
         fs::create_dir_all(&parent).unwrap();
         fs::write(
             parent.join(".design-data.toml"),
-            format!("[source]\ntype = \"path\"\nroot = \"{}\"\n", ext_repo.display()),
+            format!(
+                "[source]\ntype = \"path\"\nroot = \"{}\"\n",
+                ext_repo.display()
+            ),
         )
         .unwrap();
 
@@ -820,9 +830,7 @@ mod tests {
         // Embedded-tier coverage lives in resolve_outside_repo_uses_embedded_tier.
         assert_eq!(resolved.schemas_root, custom_schema);
         assert!(
-            !resolved
-                .schemas_root
-                .ends_with("packages/tokens/schemas"),
+            !resolved.schemas_root.ends_with("packages/tokens/schemas"),
             "schema override must not fall through to the embedded/in-repo default"
         );
     }

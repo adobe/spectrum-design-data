@@ -53,7 +53,10 @@ fn describe_known_component_returns_describe_view() {
     let ctx = describe_ctx(&graph, &dir);
     let mut model = Model::new();
     submit_describe(&mut model, &ctx, "button");
-    assert!(matches!(model.active_view, ActiveView::Describe(_)), "expected Describe view");
+    assert!(
+        matches!(model.active_view, ActiveView::Describe(_)),
+        "expected Describe view"
+    );
 }
 
 #[test]
@@ -79,8 +82,15 @@ fn describe_unknown_component_sets_error_status() {
     let mut model = Model::new();
     submit_describe(&mut model, &ctx, "nonexistent");
     assert!(matches!(model.active_view, ActiveView::Empty));
-    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
-    assert!(msg.contains("not found"), "expected 'not found' in error message: {msg}");
+    let msg = model
+        .status_message
+        .as_ref()
+        .map(|m| m.text.as_str())
+        .unwrap_or("");
+    assert!(
+        msg.contains("not found"),
+        "expected 'not found' in error message: {msg}"
+    );
 }
 
 #[test]
@@ -90,8 +100,15 @@ fn describe_unknown_with_components_suggests_match() {
     let ctx = describe_ctx(&graph, &dir);
     let mut model = Model::new();
     submit_describe(&mut model, &ctx, "but");
-    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
-    assert!(msg.contains("button"), "expected suggestion for 'button' in: {msg}");
+    let msg = model
+        .status_message
+        .as_ref()
+        .map(|m| m.text.as_str())
+        .unwrap_or("");
+    assert!(
+        msg.contains("button"),
+        "expected suggestion for 'button' in: {msg}"
+    );
 }
 
 #[test]
@@ -101,7 +118,11 @@ fn describe_invalid_id_sets_error_status() {
     let ctx = describe_ctx(&graph, &dir);
     let mut model = Model::new();
     submit_describe(&mut model, &ctx, "Button");
-    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
+    let msg = model
+        .status_message
+        .as_ref()
+        .map(|m| m.text.as_str())
+        .unwrap_or("");
     assert!(msg.contains("invalid"), "expected 'invalid' in: {msg}");
 }
 
@@ -110,9 +131,20 @@ fn describe_no_components_dir_sets_error_status() {
     let graph = TokenGraph::default();
     let ctx = UpdateCtx::minimal(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::PaletteSubmit("describe button".into()), &ctx);
-    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
-    assert!(msg.contains("no components directory"), "expected 'no components directory': {msg}");
+    update(
+        &mut model,
+        Message::PaletteSubmit("describe button".into()),
+        &ctx,
+    );
+    let msg = model
+        .status_message
+        .as_ref()
+        .map(|m| m.text.as_str())
+        .unwrap_or("");
+    assert!(
+        msg.contains("no components directory"),
+        "expected 'no components directory': {msg}"
+    );
 }
 
 #[test]

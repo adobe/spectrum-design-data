@@ -13,10 +13,10 @@
 //! within the 800-LOC budget enforced by `tests/budget.rs` (GH #1018).
 
 use ratatui::{
-    Frame,
     layout::{Constraint, Direction, Layout, Rect},
     style::Style,
     widgets::{Block, Borders, Cell, Paragraph, Row, Table},
+    Frame,
 };
 
 use crate::find::{FindScreen, FindWizardState, MAX_PROPERTY_SUGGESTIONS, MAX_SUGGEST_RESULTS};
@@ -28,9 +28,10 @@ pub(crate) fn render_find(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, t
     let screen_num = fs.screen.number();
     let screen_name = fs.screen.name();
 
-    let outer = Block::default()
-        .borders(Borders::ALL)
-        .title(format!(" Find · {screen_num}/{} · {screen_name} ", FindScreen::SCREEN_COUNT));
+    let outer = Block::default().borders(Borders::ALL).title(format!(
+        " Find · {screen_num}/{} · {screen_name} ",
+        FindScreen::SCREEN_COUNT
+    ));
     let inner_area = outer.inner(area);
     f.render_widget(outer, area);
 
@@ -67,11 +68,11 @@ fn render_filters_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, th
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
-            Constraint::Length(1),         // property label
+            Constraint::Length(1),          // property label
             Constraint::Length(dropdown_h), // suggestion dropdown (0 when empty)
             Constraint::Length(field_rows), // component / variant / state / intent
-            Constraint::Length(1),         // match count
-            Constraint::Min(0),            // padding
+            Constraint::Length(1),          // match count
+            Constraint::Min(0),             // padding
         ])
         .split(area);
 
@@ -94,13 +95,18 @@ fn render_filters_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, th
             .iter()
             .enumerate()
             .map(|(i, term)| {
-                let marker = if i == fs.selected_property_suggestion { "  ▸" } else { "   " };
-                Row::new(vec![Cell::from(format!("{marker} {term}"))])
-                    .style(if i == fs.selected_property_suggestion {
+                let marker = if i == fs.selected_property_suggestion {
+                    "  ▸"
+                } else {
+                    "   "
+                };
+                Row::new(vec![Cell::from(format!("{marker} {term}"))]).style(
+                    if i == fs.selected_property_suggestion {
                         Style::default().bg(theme.selection_bg)
                     } else {
                         Style::default().fg(theme.muted)
-                    })
+                    },
+                )
             })
             .collect();
         let widths = [Constraint::Min(0)];

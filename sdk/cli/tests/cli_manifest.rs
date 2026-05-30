@@ -124,13 +124,7 @@ fn resolve_applies_manifest_override_by_uuid() {
     Command::cargo_bin("design-data")
         .expect("binary design-data")
         .current_dir(project.path())
-        .args([
-            "resolve",
-            "background-color",
-            "tokens",
-            "--format",
-            "json",
-        ])
+        .args(["resolve", "background-color", "tokens", "--format", "json"])
         .assert()
         .success()
         .stdout(contains("#ffffff"));

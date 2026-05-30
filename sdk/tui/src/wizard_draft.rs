@@ -88,7 +88,10 @@ pub fn from_draft(d: WizardDraft) -> WizardState {
                 .classification
                 .name_fields
                 .into_iter()
-                .map(|f| NameField { key: f.key, value: Input::from(f.value) })
+                .map(|f| NameField {
+                    key: f.key,
+                    value: Input::from(f.value),
+                })
                 .collect(),
             focused_field: d.classification.focused_field,
         },
@@ -146,7 +149,9 @@ pub fn load_wizard_draft() -> Option<WizardDraft> {
 
 /// Write the wizard draft to disk atomically (write to `.tmp`, then rename).
 pub fn save_wizard_draft(draft: &WizardDraft) {
-    let Some(path) = wizard_draft_path() else { return };
+    let Some(path) = wizard_draft_path() else {
+        return;
+    };
     if let Some(parent) = path.parent() {
         let _ = std::fs::create_dir_all(parent);
     }
@@ -162,6 +167,8 @@ pub fn save_wizard_draft(draft: &WizardDraft) {
 
 /// Remove the wizard draft file.  Ignores `NotFound`.
 pub fn clear_wizard_draft() {
-    let Some(path) = wizard_draft_path() else { return };
+    let Some(path) = wizard_draft_path() else {
+        return;
+    };
     let _ = std::fs::remove_file(&path);
 }

@@ -14,8 +14,9 @@ mod common;
 use common::{empty_graph, key, mouse, update_ctx};
 
 use crossterm::event::{KeyCode, MouseButton, MouseEventKind};
-use design_data_tui::app::{ActiveView, DescribeView, HitAction, HitRegion, Modal, QueryRow,
-    QueryView};
+use design_data_tui::app::{
+    ActiveView, DescribeView, HitAction, HitRegion, Modal, QueryRow, QueryView,
+};
 use design_data_tui::theme::Theme;
 use design_data_tui::{update, Message, Model};
 use ratatui::layout::Rect;
@@ -28,7 +29,10 @@ fn question_mark_opens_help_modal() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
-    assert!(matches!(model.modal(), Some(Modal::Help(_))), "? should open help modal");
+    assert!(
+        matches!(model.modal(), Some(Modal::Help(_))),
+        "? should open help modal"
+    );
 }
 
 #[test]
@@ -89,7 +93,10 @@ fn submit_palette_appends_to_history() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::PaletteSubmit("query *".into()), &ctx);
-    assert_eq!(model.palette_history.first().map(|s| s.as_str()), Some("query *"));
+    assert_eq!(
+        model.palette_history.first().map(|s| s.as_str()),
+        Some("query *")
+    );
 }
 
 #[test]
@@ -117,7 +124,11 @@ fn history_dedupes_consecutive_duplicates() {
     let mut model = Model::new();
     model.palette_history = vec!["query *".to_string()];
     update(&mut model, Message::PaletteSubmit("query *".into()), &ctx);
-    assert_eq!(model.palette_history.len(), 1, "same command should not be duplicated");
+    assert_eq!(
+        model.palette_history.len(),
+        1,
+        "same command should not be duplicated"
+    );
 }
 
 /// History dedup is head-only: only consecutive duplicates are suppressed.
@@ -134,7 +145,11 @@ fn history_dedup_is_head_only_not_global() {
     model.palette_history = vec!["query B".to_string(), "query A".to_string()];
     update(&mut model, Message::PaletteSubmit("query A".into()), &ctx);
     assert_eq!(model.palette_history[0], "query A");
-    assert_eq!(model.palette_history.len(), 3, "non-consecutive duplicate should be added");
+    assert_eq!(
+        model.palette_history.len(),
+        3,
+        "non-consecutive duplicate should be added"
+    );
     assert_eq!(model.palette_history, vec!["query A", "query B", "query A"]);
 }
 
@@ -144,7 +159,11 @@ fn history_caps_at_200_entries() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     model.palette_history = (0..199).map(|i| format!("query token-{i}")).collect();
-    update(&mut model, Message::PaletteSubmit("query new-token".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("query new-token".into()),
+        &ctx,
+    );
     assert_eq!(model.palette_history.len(), 200);
     assert_eq!(model.palette_history[0], "query new-token");
 }
@@ -161,7 +180,11 @@ fn typing_resets_history_cursor() {
     assert_eq!(model.palette_history_cursor(), Some(0));
 
     update(&mut model, Message::Key(key(KeyCode::Char('x'))), &ctx);
-    assert_eq!(model.palette_history_cursor(), None, "typing should reset history cursor");
+    assert_eq!(
+        model.palette_history_cursor(),
+        None,
+        "typing should reset history cursor"
+    );
 
     update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
     assert_eq!(model.palette_history_cursor(), Some(0));
@@ -180,7 +203,11 @@ fn wheel_scroll_down_increments_describe_scroll() {
         pretty_json: "{}".to_string(),
         scroll: 0,
     });
-    update(&mut model, Message::Mouse(mouse(MouseEventKind::ScrollDown, 5, 5)), &ctx);
+    update(
+        &mut model,
+        Message::Mouse(mouse(MouseEventKind::ScrollDown, 5, 5)),
+        &ctx,
+    );
     if let ActiveView::Describe(ref dv) = model.active_view {
         assert!(dv.scroll > 0, "scroll down should advance describe scroll");
     }
@@ -194,19 +221,69 @@ fn click_on_hit_region_selects_row() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     let rows = vec![
-        QueryRow { name: "a".into(), value: "1".into(), file: "f".into(), layer: "foundation".into() },
-        QueryRow { name: "b".into(), value: "2".into(), file: "f".into(), layer: "foundation".into() },
-        QueryRow { name: "c".into(), value: "3".into(), file: "f".into(), layer: "foundation".into() },
+        QueryRow {
+            name: "a".into(),
+            value: "1".into(),
+            file: "f".into(),
+            layer: "foundation".into(),
+        },
+        QueryRow {
+            name: "b".into(),
+            value: "2".into(),
+            file: "f".into(),
+            layer: "foundation".into(),
+        },
+        QueryRow {
+            name: "c".into(),
+            value: "3".into(),
+            file: "f".into(),
+            layer: "foundation".into(),
+        },
     ];
     model.active_view = ActiveView::Query(QueryView::new("*".to_string(), rows));
     model.hit_regions = vec![
-        HitRegion { rect: Rect { x: 0, y: 2, width: 80, height: 1 }, action: HitAction::SelectListRow(0), text: "a".into() },
-        HitRegion { rect: Rect { x: 0, y: 3, width: 80, height: 1 }, action: HitAction::SelectListRow(1), text: "b".into() },
-        HitRegion { rect: Rect { x: 0, y: 4, width: 80, height: 1 }, action: HitAction::SelectListRow(2), text: "c".into() },
+        HitRegion {
+            rect: Rect {
+                x: 0,
+                y: 2,
+                width: 80,
+                height: 1,
+            },
+            action: HitAction::SelectListRow(0),
+            text: "a".into(),
+        },
+        HitRegion {
+            rect: Rect {
+                x: 0,
+                y: 3,
+                width: 80,
+                height: 1,
+            },
+            action: HitAction::SelectListRow(1),
+            text: "b".into(),
+        },
+        HitRegion {
+            rect: Rect {
+                x: 0,
+                y: 4,
+                width: 80,
+                height: 1,
+            },
+            action: HitAction::SelectListRow(2),
+            text: "c".into(),
+        },
     ];
-    update(&mut model, Message::Mouse(mouse(MouseEventKind::Down(MouseButton::Left), 3, 10)), &ctx);
+    update(
+        &mut model,
+        Message::Mouse(mouse(MouseEventKind::Down(MouseButton::Left), 3, 10)),
+        &ctx,
+    );
     if let ActiveView::Query(ref qv) = model.active_view {
-        assert_eq!(qv.table_state.selected(), Some(1), "click should select row 1");
+        assert_eq!(
+            qv.table_state.selected(),
+            Some(1),
+            "click should select row 1"
+        );
     }
 }
 
@@ -218,7 +295,10 @@ fn v_key_enters_selection_mode() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
-    assert!(model.is_selection_mode_enabled(), "v should enable selection mode");
+    assert!(
+        model.is_selection_mode_enabled(),
+        "v should enable selection mode"
+    );
 }
 
 #[test]
@@ -228,7 +308,10 @@ fn v_key_toggles_selection_mode_off() {
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
-    assert!(!model.is_selection_mode_enabled(), "second v should disable selection mode");
+    assert!(
+        !model.is_selection_mode_enabled(),
+        "second v should disable selection mode"
+    );
 }
 
 #[test]
@@ -237,8 +320,16 @@ fn drag_records_selection_endpoints() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
-    update(&mut model, Message::Mouse(mouse(MouseEventKind::Down(MouseButton::Left), 2, 0)), &ctx);
-    update(&mut model, Message::Mouse(mouse(MouseEventKind::Drag(MouseButton::Left), 4, 10)), &ctx);
+    update(
+        &mut model,
+        Message::Mouse(mouse(MouseEventKind::Down(MouseButton::Left), 2, 0)),
+        &ctx,
+    );
+    update(
+        &mut model,
+        Message::Mouse(mouse(MouseEventKind::Drag(MouseButton::Left), 4, 10)),
+        &ctx,
+    );
     assert_eq!(model.selection_start(), Some((2, 0)));
     assert_eq!(model.selection_end(), Some((4, 10)));
 }
@@ -249,14 +340,22 @@ fn drag_records_selection_endpoints() {
 fn theme_terminal_has_reset_fg() {
     use ratatui::style::Color;
     let t = Theme::terminal();
-    assert_eq!(t.fg, Color::Reset, "terminal theme fg should be Color::Reset");
+    assert_eq!(
+        t.fg,
+        Color::Reset,
+        "terminal theme fg should be Color::Reset"
+    );
 }
 
 #[test]
 fn theme_spectrum_overrides_accent() {
     use ratatui::style::Color;
     let t = Theme::spectrum();
-    assert_eq!(t.accent, Color::Rgb(64, 70, 202), "spectrum theme accent should be Indigo 700");
+    assert_eq!(
+        t.accent,
+        Color::Rgb(64, 70, 202),
+        "spectrum theme accent should be Indigo 700"
+    );
 }
 
 #[test]

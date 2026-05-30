@@ -73,8 +73,15 @@ fn ambiguous_prefix_sets_status_and_leaves_buffer_unchanged() {
     // Empty prefix matches all commands → ambiguous.
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
     assert_eq!(model.palette_input_value(), "");
-    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
-    assert!(msg.contains("matches:"), "expected 'matches:' in status: {msg}");
+    let msg = model
+        .status_message
+        .as_ref()
+        .map(|m| m.text.as_str())
+        .unwrap_or("");
+    assert!(
+        msg.contains("matches:"),
+        "expected 'matches:' in status: {msg}"
+    );
 }
 
 #[test]

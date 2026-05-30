@@ -13,8 +13,8 @@
 //! Component slot declarations with a name outside the canonical slot vocabulary
 //! SHOULD include a description.
 
-use std::sync::LazyLock;
 use std::collections::HashSet;
+use std::sync::LazyLock;
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
@@ -119,7 +119,12 @@ mod tests {
         let g = make_graph(comp_raw);
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();
-        let ctx = ValidationContext { graph: &g, naming_exceptions: &exceptions, registry: &registry, manifest: None };
+        let ctx = ValidationContext {
+            graph: &g,
+            naming_exceptions: &exceptions,
+            registry: &registry,
+            manifest: None,
+        };
         Rule.validate(&ctx)
     }
 

@@ -102,7 +102,10 @@ impl WizardDraft {
                 name_fields: Vec::new(),
                 focused_field: 0,
             },
-            values: ValuesDraftDto { rows: Vec::new(), selected: 0 },
+            values: ValuesDraftDto {
+                rows: Vec::new(),
+                selected: 0,
+            },
             rationale: String::new(),
             schema_url: None,
             schema_url_input: String::new(),

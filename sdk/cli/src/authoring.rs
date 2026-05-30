@@ -18,8 +18,8 @@ use std::process::ExitCode;
 
 use clap::Subcommand;
 use design_data_core::authoring::session::{
-    CommitInput, ValueRowInput, cancel_session, commit_session, get_session, list_sessions,
-    start_session, step_classification, step_intent, step_values,
+    cancel_session, commit_session, get_session, list_sessions, start_session, step_classification,
+    step_intent, step_values, CommitInput, ValueRowInput,
 };
 use design_data_core::graph::Layer;
 use design_data_core::schema::SchemaRegistry;
@@ -143,7 +143,9 @@ fn run_inner(cmd: AuthoringSessionCommand) -> Result<(), String> {
     match cmd {
         AuthoringSessionCommand::Start { dataset_path } => {
             let session = start_session(
-                dataset_path.to_str().ok_or("dataset_path is not valid UTF-8")?,
+                dataset_path
+                    .to_str()
+                    .ok_or("dataset_path is not valid UTF-8")?,
             )?;
             print_json(&session)?;
         }
@@ -153,9 +155,15 @@ fn run_inner(cmd: AuthoringSessionCommand) -> Result<(), String> {
                 let result = step_intent(&session_id, &intent)?;
                 print_json(&result)?;
             }
-            StepCommand::Classification { session_id, layer, property, name_fields } => {
+            StepCommand::Classification {
+                session_id,
+                layer,
+                property,
+                name_fields,
+            } => {
                 let parsed_fields = parse_name_fields(&name_fields)?;
-                let session = step_classification(&session_id, layer.into(), &property, parsed_fields)?;
+                let session =
+                    step_classification(&session_id, layer.into(), &property, parsed_fields)?;
                 print_json(&session)?;
             }
             StepCommand::Values { session_id, rows } => {

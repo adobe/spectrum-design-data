@@ -75,7 +75,10 @@ mod tests {
     use crate::validate::rule::{ValidationContext, ValidationRule};
     use crate::validate::rules::spec018::Rule;
 
-    fn make_graph(tokens: Vec<serde_json::Value>, components: Vec<serde_json::Value>) -> TokenGraph {
+    fn make_graph(
+        tokens: Vec<serde_json::Value>,
+        components: Vec<serde_json::Value>,
+    ) -> TokenGraph {
         let mut g = TokenGraph::default();
         for (i, raw) in tokens.into_iter().enumerate() {
             g.tokens.insert(
@@ -107,11 +110,19 @@ mod tests {
         g
     }
 
-    fn run(tokens: Vec<serde_json::Value>, components: Vec<serde_json::Value>) -> Vec<crate::report::Diagnostic> {
+    fn run(
+        tokens: Vec<serde_json::Value>,
+        components: Vec<serde_json::Value>,
+    ) -> Vec<crate::report::Diagnostic> {
         let g = make_graph(tokens, components);
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();
-        let ctx = ValidationContext { graph: &g, naming_exceptions: &exceptions, registry: &registry, manifest: None };
+        let ctx = ValidationContext {
+            graph: &g,
+            naming_exceptions: &exceptions,
+            registry: &registry,
+            manifest: None,
+        };
         Rule.validate(&ctx)
     }
 

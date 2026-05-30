@@ -70,7 +70,10 @@ fn resolve_with_matching_property_returns_resolve_view() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "resolve property=background-color");
-    assert!(matches!(model.active_view, ActiveView::Resolve(_)), "expected Resolve view");
+    assert!(
+        matches!(model.active_view, ActiveView::Resolve(_)),
+        "expected Resolve view"
+    );
 }
 
 #[test]
@@ -94,8 +97,15 @@ fn resolve_no_args_sets_error_status() {
     let mut model = Model::new();
     submit(&mut model, &ctx, "resolve");
     assert!(matches!(model.active_view, ActiveView::Empty));
-    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
-    assert!(msg.contains("required") || msg.contains("error"), "expected error: {msg}");
+    let msg = model
+        .status_message
+        .as_ref()
+        .map(|m| m.text.as_str())
+        .unwrap_or("");
+    assert!(
+        msg.contains("required") || msg.contains("error"),
+        "expected error: {msg}"
+    );
 }
 
 #[test]
@@ -109,7 +119,11 @@ fn resolve_unknown_property_returns_empty_candidates() {
     } else {
         panic!("expected Resolve view");
     }
-    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
+    let msg = model
+        .status_message
+        .as_ref()
+        .map(|m| m.text.as_str())
+        .unwrap_or("");
     assert!(msg.contains("no match"), "expected 'no match': {msg}");
 }
 
@@ -118,7 +132,11 @@ fn resolve_with_color_scheme_context_selects_dark_winner() {
     let graph = make_resolve_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    submit(&mut model, &ctx, "resolve property=background-color,colorScheme=dark");
+    submit(
+        &mut model,
+        &ctx,
+        "resolve property=background-color,colorScheme=dark",
+    );
     if let ActiveView::Resolve(ref rv) = model.active_view {
         assert!(!rv.rows.is_empty());
         let winner = rv.rows.iter().find(|r| r.is_winner);
@@ -174,8 +192,14 @@ fn resolve_y_sets_pending_yank() {
     let mut model = Model::new();
     submit(&mut model, &ctx, "resolve property=background-color");
     let task = update(&mut model, Message::Key(key(KeyCode::Char('y'))), &ctx);
-    assert!(task.is_cmd(), "'y' should return Task::Cmd for clipboard write");
-    assert!(model.pending_yank.is_none(), "pending_yank should not be set — clipboard is via Task::Cmd");
+    assert!(
+        task.is_cmd(),
+        "'y' should return Task::Cmd for clipboard write"
+    );
+    assert!(
+        model.pending_yank.is_none(),
+        "pending_yank should not be set — clipboard is via Task::Cmd"
+    );
 }
 
 #[test]

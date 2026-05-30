@@ -45,9 +45,16 @@ fn tui_subcommand_help() {
 #[test]
 fn record_replay_conflict_is_rejected() {
     let mut cmd = Command::cargo_bin("design-data").unwrap();
-    cmd.args(["tui", "--record", "out.ndjson", "--replay", "in.ndjson", "."])
-        .assert()
-        .failure();
+    cmd.args([
+        "tui",
+        "--record",
+        "out.ndjson",
+        "--replay",
+        "in.ndjson",
+        ".",
+    ])
+    .assert()
+    .failure();
 }
 
 /// Passing mutually exclusive `--record` and `--replay` flags at the top level (bare TUI

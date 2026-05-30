@@ -21,14 +21,14 @@ use std::path::PathBuf;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use crate::graph::{Layer, TokenGraph};
-use crate::schema::SchemaRegistry;
-use crate::suggest;
-use crate::write::{WriteTokenInput, write_token};
 use super::draft::{
     ClassificationDraftDto, NameFieldDto, ValueKind, ValueRowDto, ValuesDraftDto, WizardDraft,
     WizardScreen,
 };
+use crate::graph::{Layer, TokenGraph};
+use crate::schema::SchemaRegistry;
+use crate::suggest;
+use crate::write::{write_token, WriteTokenInput};
 
 // ── On-disk session format ────────────────────────────────────────────────────
 
@@ -119,8 +119,7 @@ fn save_session(draft: &SessionDraft) -> Result<(), String> {
     let tmp = path.with_extension("tmp");
     std::fs::write(&tmp, &json)
         .map_err(|e| format!("failed to write session file to {tmp:?}: {e}"))?;
-    std::fs::rename(&tmp, &path)
-        .map_err(|e| format!("failed to commit session file: {e}"))
+    std::fs::rename(&tmp, &path).map_err(|e| format!("failed to commit session file: {e}"))
 }
 
 // ── Public API ────────────────────────────────────────────────────────────────
@@ -170,8 +169,12 @@ pub fn get_session(session_id: &str) -> Option<SessionDraft> {
 
 /// List all sessions in the sessions directory, sorted by session_id.
 pub fn list_sessions() -> Vec<SessionDraft> {
-    let Some(dir) = sessions_dir() else { return Vec::new() };
-    let Ok(entries) = std::fs::read_dir(&dir) else { return Vec::new() };
+    let Some(dir) = sessions_dir() else {
+        return Vec::new();
+    };
+    let Ok(entries) = std::fs::read_dir(&dir) else {
+        return Vec::new();
+    };
     let mut sessions: Vec<SessionDraft> = entries
         .filter_map(|e| e.ok())
         .filter(|e| e.path().extension().map(|x| x == "json").unwrap_or(false))
@@ -186,7 +189,9 @@ pub fn list_sessions() -> Vec<SessionDraft> {
 
 /// Delete the session file.  Ignores `NotFound`.
 pub fn cancel_session(session_id: &str) {
-    let Some(path) = session_path(session_id) else { return };
+    let Some(path) = session_path(session_id) else {
+        return;
+    };
     let _ = std::fs::remove_file(&path);
 }
 
@@ -206,7 +211,10 @@ pub fn step_intent(session_id: &str, intent: &str) -> Result<IntentStepResult, S
         .map_err(|e| format!("failed to load dataset at {:?}: {e}", session.dataset_path))?;
 
     let raw = suggest::suggest(&graph, intent, None, 10);
-    let can_alias = raw.first().map(|s| s.confidence >= alias_threshold()).unwrap_or(false);
+    let can_alias = raw
+        .first()
+        .map(|s| s.confidence >= alias_threshold())
+        .unwrap_or(false);
 
     let suggestions: Vec<SuggestionSnapshot> = raw
         .iter()
@@ -219,7 +227,11 @@ pub fn step_intent(session_id: &str, intent: &str) -> Result<IntentStepResult, S
         .collect();
 
     save_session(&session)?;
-    Ok(IntentStepResult { session, suggestions, can_alias })
+    Ok(IntentStepResult {
+        session,
+        suggestions,
+        can_alias,
+    })
 }
 
 /// Update classification fields (layer, property, name-object fields).
@@ -248,10 +260,7 @@ pub fn step_classification(
 }
 
 /// Replace the values rows for Screen 3.
-pub fn step_values(
-    session_id: &str,
-    rows: Vec<ValueRowInput>,
-) -> Result<SessionDraft, String> {
+pub fn step_values(session_id: &str, rows: Vec<ValueRowInput>) -> Result<SessionDraft, String> {
     let mut session =
         get_session(session_id).ok_or_else(|| format!("session not found: {session_id}"))?;
 
@@ -285,8 +294,11 @@ pub fn commit_session(
     let key = derive_token_key(wizard);
     let token = build_token_value(wizard, &input.schema_url, &input.rationale);
 
-    let rationale_opt =
-        if input.rationale.is_empty() { None } else { Some(input.rationale.clone()) };
+    let rationale_opt = if input.rationale.is_empty() {
+        None
+    } else {
+        Some(input.rationale.clone())
+    };
 
     let write_input = WriteTokenInput {
         key,
@@ -327,7 +339,11 @@ fn derive_token_key(wizard: &WizardDraft) -> String {
             parts.push(&field.value);
         }
     }
-    if parts.is_empty() { "unnamed-token".to_string() } else { parts.join("-") }
+    if parts.is_empty() {
+        "unnamed-token".to_string()
+    } else {
+        parts.join("-")
+    }
 }
 
 /// Construct the token JSON value from wizard state.
@@ -335,14 +351,13 @@ fn derive_token_key(wizard: &WizardDraft) -> String {
 /// A single row with an empty `mode_combo` produces a flat `value`/`$ref` field.
 /// Multiple rows, or rows with mode conditions, produce a nested `sets` structure
 /// keyed by each row's first-dimension mode value (recursively for deeper combos).
-fn build_token_value(
-    wizard: &WizardDraft,
-    schema_url: &str,
-    rationale: &str,
-) -> serde_json::Value {
+fn build_token_value(wizard: &WizardDraft, schema_url: &str, rationale: &str) -> serde_json::Value {
     let mut obj = serde_json::Map::new();
 
-    obj.insert("$schema".into(), serde_json::Value::String(schema_url.to_string()));
+    obj.insert(
+        "$schema".into(),
+        serde_json::Value::String(schema_url.to_string()),
+    );
 
     let mut name_obj = serde_json::Map::new();
     name_obj.insert(
@@ -350,38 +365,45 @@ fn build_token_value(
         serde_json::Value::String(wizard.classification.property.clone()),
     );
     for field in &wizard.classification.name_fields {
-        name_obj.insert(field.key.clone(), serde_json::Value::String(field.value.clone()));
+        name_obj.insert(
+            field.key.clone(),
+            serde_json::Value::String(field.value.clone()),
+        );
     }
     obj.insert("name".into(), serde_json::Value::Object(name_obj));
 
     match wizard.values.rows.as_slice() {
         [] => {}
-        [single] if single.mode_combo.is_empty() => {
-            match single.kind {
-                ValueKind::Alias => {
-                    obj.insert(
-                        "$ref".into(),
-                        serde_json::Value::String(single.alias_target.clone()),
-                    );
-                }
-                ValueKind::Literal => {
-                    obj.insert(
-                        "value".into(),
-                        serde_json::Value::String(single.literal.clone()),
-                    );
-                }
+        [single] if single.mode_combo.is_empty() => match single.kind {
+            ValueKind::Alias => {
+                obj.insert(
+                    "$ref".into(),
+                    serde_json::Value::String(single.alias_target.clone()),
+                );
             }
-        }
+            ValueKind::Literal => {
+                obj.insert(
+                    "value".into(),
+                    serde_json::Value::String(single.literal.clone()),
+                );
+            }
+        },
         rows => {
             obj.insert("sets".into(), build_sets_from_rows(rows));
         }
     }
 
     if !rationale.is_empty() {
-        obj.insert("rationale".into(), serde_json::Value::String(rationale.to_string()));
+        obj.insert(
+            "rationale".into(),
+            serde_json::Value::String(rationale.to_string()),
+        );
     }
 
-    obj.insert("uuid".into(), serde_json::Value::String(Uuid::new_v4().to_string()));
+    obj.insert(
+        "uuid".into(),
+        serde_json::Value::String(Uuid::new_v4().to_string()),
+    );
 
     serde_json::Value::Object(obj)
 }
@@ -531,8 +553,7 @@ mod tests {
             let s1 = start_session("/a").unwrap();
             let s2 = start_session("/b").unwrap();
             let sessions = list_sessions();
-            let ids: Vec<&str> =
-                sessions.iter().map(|s| s.session_id.as_str()).collect();
+            let ids: Vec<&str> = sessions.iter().map(|s| s.session_id.as_str()).collect();
             assert!(ids.contains(&s1.session_id.as_str()));
             assert!(ids.contains(&s2.session_id.as_str()));
         });

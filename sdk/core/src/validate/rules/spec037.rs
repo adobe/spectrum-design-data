@@ -61,9 +61,8 @@ impl ValidationRule for Rule {
                     .get("anatomy")
                     .and_then(|v| v.as_array())
                     .and_then(|arr| {
-                        arr.iter().find(|p| {
-                            p.get("name").and_then(|n| n.as_str()) == Some(part_name)
-                        })
+                        arr.iter()
+                            .find(|p| p.get("name").and_then(|n| n.as_str()) == Some(part_name))
                     })
                     .and_then(|p| p.get("lifecycle"))
                     .and_then(|l| l.get("deprecated"))
@@ -94,9 +93,8 @@ impl ValidationRule for Rule {
                     .get("states")
                     .and_then(|v| v.as_array())
                     .and_then(|arr| {
-                        arr.iter().find(|s| {
-                            s.get("name").and_then(|n| n.as_str()) == Some(state_name)
-                        })
+                        arr.iter()
+                            .find(|s| s.get("name").and_then(|n| n.as_str()) == Some(state_name))
                     })
                     .and_then(|s| s.get("lifecycle"))
                     .and_then(|l| l.get("deprecated"))
@@ -212,7 +210,10 @@ mod tests {
         g
     }
 
-    fn run(token_raw: serde_json::Value, comp_raw: serde_json::Value) -> Vec<crate::report::Diagnostic> {
+    fn run(
+        token_raw: serde_json::Value,
+        comp_raw: serde_json::Value,
+    ) -> Vec<crate::report::Diagnostic> {
         let g = make_graph(token_raw, comp_raw);
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();
@@ -370,7 +371,9 @@ mod tests {
         );
         assert_eq!(diags.len(), 2);
         assert!(diags.iter().all(|d| d.severity == Severity::Warning));
-        assert!(diags.iter().all(|d| d.rule_id.as_deref() == Some("SPEC-037")));
+        assert!(diags
+            .iter()
+            .all(|d| d.rule_id.as_deref() == Some("SPEC-037")));
         let paths: std::collections::HashSet<&str> = diags
             .iter()
             .filter_map(|d| d.instance_path.as_deref())

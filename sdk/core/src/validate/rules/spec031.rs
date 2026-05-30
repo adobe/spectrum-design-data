@@ -92,7 +92,12 @@ mod tests {
         });
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();
-        let ctx = ValidationContext { graph: &g, naming_exceptions: &exceptions, registry: &registry, manifest: None };
+        let ctx = ValidationContext {
+            graph: &g,
+            naming_exceptions: &exceptions,
+            registry: &registry,
+            manifest: None,
+        };
         Rule.validate(&ctx)
     }
 

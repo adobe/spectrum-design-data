@@ -12,8 +12,8 @@ use crossterm::event::{
     KeyCode, KeyEvent, KeyEventKind, KeyEventState, KeyModifiers, MouseEvent, MouseEventKind,
 };
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
-use design_data_tui::{Model, UpdateCtx};
 use design_data_tui::theme::Theme;
+use design_data_tui::{Model, UpdateCtx};
 use ratatui::backend::TestBackend;
 use ratatui::buffer::Buffer;
 use ratatui::Terminal;
@@ -32,12 +32,20 @@ pub fn key(code: KeyCode) -> KeyEvent {
 
 /// Build a mouse event at the given terminal cell.
 pub fn mouse(kind: MouseEventKind, row: u16, col: u16) -> MouseEvent {
-    MouseEvent { kind, row, column: col, modifiers: KeyModifiers::NONE }
+    MouseEvent {
+        kind,
+        row,
+        column: col,
+        modifiers: KeyModifiers::NONE,
+    }
 }
 
 /// Standard 2-token graph used across most test suites.
 pub fn make_graph() -> TokenGraph {
-    make_graph_with_tokens(&["accent-background-color-default", "neutral-background-color-default"])
+    make_graph_with_tokens(&[
+        "accent-background-color-default",
+        "neutral-background-color-default",
+    ])
 }
 
 /// Build a graph from a list of token names. Each token gets `value = "red"` and

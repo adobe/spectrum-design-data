@@ -43,9 +43,7 @@ fn has_required_fields(
     domain: &str,
 ) -> bool {
     match domain {
-        "color" => {
-            name_obj.contains_key("colorFamily") || name_obj.contains_key("scaleIndex")
-        }
+        "color" => name_obj.contains_key("colorFamily") || name_obj.contains_key("scaleIndex"),
         "typography" => {
             name_obj.contains_key("family")
                 || name_obj.contains_key("weight")
@@ -53,9 +51,7 @@ fn has_required_fields(
                 || name_obj.contains_key("scaleIndex")
                 || name_obj.contains_key("structure")
         }
-        "motion" => {
-            name_obj.contains_key("motionRole") || name_obj.contains_key("easing")
-        }
+        "motion" => name_obj.contains_key("motionRole") || name_obj.contains_key("easing"),
         _ => true,
     }
 }
@@ -136,16 +132,11 @@ mod tests {
         )])
     }
 
-    const COLOR_SCHEMA: &str =
-        "https://example.com/schemas/token-types/color.json";
-    const FONT_WEIGHT_SCHEMA: &str =
-        "https://example.com/schemas/token-types/font-weight.json";
-    const DURATION_SCHEMA: &str =
-        "https://example.com/schemas/token-types/duration.json";
-    const EASING_SCHEMA: &str =
-        "https://example.com/schemas/token-types/easing.json";
-    const DIMENSION_SCHEMA: &str =
-        "https://example.com/schemas/token-types/dimension.json";
+    const COLOR_SCHEMA: &str = "https://example.com/schemas/token-types/color.json";
+    const FONT_WEIGHT_SCHEMA: &str = "https://example.com/schemas/token-types/font-weight.json";
+    const DURATION_SCHEMA: &str = "https://example.com/schemas/token-types/duration.json";
+    const EASING_SCHEMA: &str = "https://example.com/schemas/token-types/easing.json";
+    const DIMENSION_SCHEMA: &str = "https://example.com/schemas/token-types/dimension.json";
 
     #[test]
     fn color_with_color_family_no_warning() {
@@ -196,10 +187,7 @@ mod tests {
 
     #[test]
     fn typography_missing_domain_fields_warns() {
-        let g = make_token(
-            FONT_WEIGHT_SCHEMA,
-            json!({ "property": "font-weight" }),
-        );
+        let g = make_token(FONT_WEIGHT_SCHEMA, json!({ "property": "font-weight" }));
         let diags = diagnostics_for_rule(&g, "SPEC-043");
         assert_eq!(diags.len(), 1);
         assert!(diags[0].message.contains("family"));
@@ -225,10 +213,7 @@ mod tests {
 
     #[test]
     fn motion_missing_domain_fields_warns() {
-        let g = make_token(
-            DURATION_SCHEMA,
-            json!({ "property": "duration" }),
-        );
+        let g = make_token(DURATION_SCHEMA, json!({ "property": "duration" }));
         let diags = diagnostics_for_rule(&g, "SPEC-043");
         assert_eq!(diags.len(), 1);
         assert!(diags[0].message.contains("motionRole"));
@@ -237,10 +222,7 @@ mod tests {
     #[test]
     fn easing_schema_is_motion_domain() {
         // easing.json tokens are motion-domain; missing motionRole/easing should warn.
-        let g = make_token(
-            EASING_SCHEMA,
-            json!({ "property": "easing" }),
-        );
+        let g = make_token(EASING_SCHEMA, json!({ "property": "easing" }));
         let diags = diagnostics_for_rule(&g, "SPEC-043");
         assert_eq!(diags.len(), 1);
         assert!(diags[0].message.contains("motionRole"));
@@ -258,8 +240,7 @@ mod tests {
     #[test]
     fn typography_multiplier_with_scale_index_no_warning() {
         // multiplier.json is in the typography domain; scaleIndex satisfies the check.
-        const MULTIPLIER_SCHEMA: &str =
-            "https://example.com/schemas/token-types/multiplier.json";
+        const MULTIPLIER_SCHEMA: &str = "https://example.com/schemas/token-types/multiplier.json";
         let g = make_token(
             MULTIPLIER_SCHEMA,
             json!({ "property": "line-height-multiplier", "scaleIndex": 100 }),
@@ -269,8 +250,7 @@ mod tests {
 
     #[test]
     fn typography_multiplier_with_structure_no_warning() {
-        const MULTIPLIER_SCHEMA: &str =
-            "https://example.com/schemas/token-types/multiplier.json";
+        const MULTIPLIER_SCHEMA: &str = "https://example.com/schemas/token-types/multiplier.json";
         let g = make_token(
             MULTIPLIER_SCHEMA,
             json!({ "structure": "body", "property": "margin" }),
@@ -280,12 +260,8 @@ mod tests {
 
     #[test]
     fn typography_multiplier_missing_domain_fields_warns() {
-        const MULTIPLIER_SCHEMA: &str =
-            "https://example.com/schemas/token-types/multiplier.json";
-        let g = make_token(
-            MULTIPLIER_SCHEMA,
-            json!({ "property": "some-multiplier" }),
-        );
+        const MULTIPLIER_SCHEMA: &str = "https://example.com/schemas/token-types/multiplier.json";
+        let g = make_token(MULTIPLIER_SCHEMA, json!({ "property": "some-multiplier" }));
         let diags = diagnostics_for_rule(&g, "SPEC-043");
         assert_eq!(diags.len(), 1);
         assert!(diags[0].message.contains("family"));
@@ -294,10 +270,7 @@ mod tests {
     #[test]
     fn unrecognized_schema_skipped() {
         // dimension.json is not a known domain — no SPEC-043 diagnostic.
-        let g = make_token(
-            DIMENSION_SCHEMA,
-            json!({ "property": "width" }),
-        );
+        let g = make_token(DIMENSION_SCHEMA, json!({ "property": "width" }));
         assert!(diagnostics_for_rule(&g, "SPEC-043").is_empty());
     }
 

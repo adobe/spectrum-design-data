@@ -83,13 +83,16 @@ pub fn suggest<'a>(
         .into_iter()
         .take(limit)
         .map(|(confidence, tok)| {
-            let name_object = tok.raw.get("name").and_then(|v| {
-                if v.is_object() {
-                    Some(v.clone())
-                } else {
-                    None
-                }
-            });
+            let name_object =
+                tok.raw.get("name").and_then(
+                    |v| {
+                        if v.is_object() {
+                            Some(v.clone())
+                        } else {
+                            None
+                        }
+                    },
+                );
             let value = tok.raw.get("value").cloned();
             SuggestionResult {
                 token_uuid: tok.uuid.clone(),
@@ -109,7 +112,11 @@ pub fn suggest<'a>(
 /// Returns 0.0 when:
 /// - `property_hint` is set and the token's `name.property` does not match it.
 /// - There is no word overlap at all.
-fn score_token(tok: &TokenRecord, intent_words: &HashSet<String>, property_hint: Option<&str>) -> f32 {
+fn score_token(
+    tok: &TokenRecord,
+    intent_words: &HashSet<String>,
+    property_hint: Option<&str>,
+) -> f32 {
     // Property hint filter: hard-exclude tokens whose name.property doesn't match.
     if let Some(hint) = property_hint {
         let token_property = tok
@@ -252,7 +259,10 @@ mod tests {
             .iter()
             .enumerate()
             .map(|(i, k)| {
-                (k.as_str(), json!({ "name": { "property": "color", "scaleIndex": i + 1 } }))
+                (
+                    k.as_str(),
+                    json!({ "name": { "property": "color", "scaleIndex": i + 1 } }),
+                )
             })
             .collect();
         let g = make_graph(tokens);
@@ -277,7 +287,10 @@ mod tests {
             results[0].token_uuid.as_deref(),
             Some("aaaaaaaa-0001-4001-8001-000000000001")
         );
-        assert_eq!(results[0].value.as_ref().and_then(|v| v.as_str()), Some("rgb(0, 0, 0)"));
+        assert_eq!(
+            results[0].value.as_ref().and_then(|v| v.as_str()),
+            Some("rgb(0, 0, 0)")
+        );
     }
 
     #[test]

@@ -121,7 +121,10 @@ mod tests {
         g
     }
 
-    fn run(token_raw: serde_json::Value, comp_raw: serde_json::Value) -> Vec<crate::report::Diagnostic> {
+    fn run(
+        token_raw: serde_json::Value,
+        comp_raw: serde_json::Value,
+    ) -> Vec<crate::report::Diagnostic> {
         let g = make_graph(token_raw, comp_raw);
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();

@@ -20,7 +20,11 @@ fn submit_valid_query_populates_query_view() {
     let graph = make_graph_with_tokens(&["accent-color", "background-color"]);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::PaletteSubmit("query property=accent-color".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("query property=accent-color".into()),
+        &ctx,
+    );
     assert!(!model.is_palette_open());
     assert!(matches!(model.active_view, ActiveView::Query(_)));
 }
@@ -30,7 +34,11 @@ fn submit_query_resets_selection_to_zero() {
     let graph = make_graph_with_tokens(&["accent-color", "background-color"]);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::PaletteSubmit("query property=*".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("query property=*".into()),
+        &ctx,
+    );
     if let ActiveView::Query(ref qv) = model.active_view {
         assert_eq!(qv.table_state.selected(), Some(0));
     } else {
@@ -43,10 +51,18 @@ fn submit_invalid_query_sets_status_message() {
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::PaletteSubmit("query ===bad===".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("query ===bad===".into()),
+        &ctx,
+    );
     assert!(!model.is_palette_open());
     assert!(matches!(model.active_view, ActiveView::Empty));
-    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
+    let msg = model
+        .status_message
+        .as_ref()
+        .map(|m| m.text.as_str())
+        .unwrap_or("");
     assert!(
         msg.contains("query error") || msg.contains("error"),
         "expected error message, got: {msg}"
@@ -59,8 +75,15 @@ fn submit_unknown_command_sets_status_message() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::PaletteSubmit("foobar".into()), &ctx);
-    let msg = model.status_message.as_ref().map(|m| m.text.as_str()).unwrap_or("");
-    assert!(msg.contains("unknown command"), "expected 'unknown command' in: {msg}");
+    let msg = model
+        .status_message
+        .as_ref()
+        .map(|m| m.text.as_str())
+        .unwrap_or("");
+    assert!(
+        msg.contains("unknown command"),
+        "expected 'unknown command' in: {msg}"
+    );
 }
 
 #[test]
@@ -68,7 +91,11 @@ fn down_j_moves_selection() {
     let graph = make_graph_with_tokens(&["a", "b", "c"]);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::PaletteSubmit("query property=*".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("query property=*".into()),
+        &ctx,
+    );
     update(&mut model, Message::Key(key(KeyCode::Char('j'))), &ctx);
     if let ActiveView::Query(ref qv) = model.active_view {
         assert_eq!(qv.table_state.selected(), Some(1));
@@ -82,7 +109,11 @@ fn up_k_moves_selection() {
     let graph = make_graph_with_tokens(&["a", "b", "c"]);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::PaletteSubmit("query property=*".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("query property=*".into()),
+        &ctx,
+    );
     update(&mut model, Message::Key(key(KeyCode::Char('j'))), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Char('k'))), &ctx);
     if let ActiveView::Query(ref qv) = model.active_view {
@@ -97,7 +128,11 @@ fn selection_clamps_at_bounds() {
     let graph = make_graph_with_tokens(&["a", "b"]);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::PaletteSubmit("query property=*".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("query property=*".into()),
+        &ctx,
+    );
     update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
     if let ActiveView::Query(ref qv) = model.active_view {
         assert_eq!(qv.table_state.selected(), Some(0));
@@ -118,11 +153,21 @@ fn y_sets_yank_pending_with_selected_name() {
     let graph = make_graph_with_tokens(&["accent-color"]);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::PaletteSubmit("query property=*".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("query property=*".into()),
+        &ctx,
+    );
     let task = update(&mut model, Message::Key(key(KeyCode::Char('y'))), &ctx);
     // 'y' now returns Task::Cmd (clipboard write) instead of setting pending_yank.
-    assert!(task.is_cmd(), "'y' should return Task::Cmd for clipboard write");
-    assert!(model.pending_yank.is_none(), "pending_yank should not be set");
+    assert!(
+        task.is_cmd(),
+        "'y' should return Task::Cmd for clipboard write"
+    );
+    assert!(
+        model.pending_yank.is_none(),
+        "pending_yank should not be set"
+    );
 }
 
 #[test]
@@ -130,7 +175,11 @@ fn esc_from_query_view_returns_to_empty() {
     let graph = make_graph_with_tokens(&["a"]);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::PaletteSubmit("query property=*".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("query property=*".into()),
+        &ctx,
+    );
     assert!(matches!(model.active_view, ActiveView::Query(_)));
     update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
     assert!(matches!(model.active_view, ActiveView::Empty));
@@ -141,9 +190,17 @@ fn re_query_replaces_results_and_resets_selection() {
     let graph = make_graph_with_tokens(&["a", "b", "c"]);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::PaletteSubmit("query property=*".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("query property=*".into()),
+        &ctx,
+    );
     update(&mut model, Message::Key(key(KeyCode::Char('j'))), &ctx);
-    update(&mut model, Message::PaletteSubmit("query property=*".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("query property=*".into()),
+        &ctx,
+    );
     if let ActiveView::Query(ref qv) = model.active_view {
         assert_eq!(qv.table_state.selected(), Some(0));
     } else {
