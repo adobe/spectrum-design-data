@@ -815,8 +815,15 @@ mod tests {
         let resolved = resolve(cwd_tmp.path(), &overrides).unwrap();
         std::env::remove_var("DESIGN_DATA_CACHE_DIR");
 
-        // Provenance is Embedded (we're outside the repo) but the schema override wins.
-        assert!(matches!(resolved.provenance, Provenance::Embedded { .. }));
+        // Behavioral contract: CLI --schema-path wins regardless of which tier resolved
+        // the other paths (Embedded vs InRepo depends on host layout and parallel tests).
+        // Embedded-tier coverage lives in resolve_outside_repo_uses_embedded_tier.
         assert_eq!(resolved.schemas_root, custom_schema);
+        assert!(
+            !resolved
+                .schemas_root
+                .ends_with("packages/tokens/schemas"),
+            "schema override must not fall through to the embedded/in-repo default"
+        );
     }
 }
