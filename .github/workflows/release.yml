@@ -20,9 +20,14 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 #     Gated on hasChangesets==false AND the local package version being ahead of
 #     npm. Builds the Rust binary for all four platforms in a matrix.
 #
-#   Phase 3 — `release`  (after all binaries built)
-#     Downloads the artifacts, stages them into sdk/npm/*/bin/, then runs
-#     `pnpm release` (changeset publish) via OIDC.
+#   Phase 3 — `release`  (every version-PR merge)
+#     Runs whenever a version PR merges (hasChangesets==false), independent of
+#     whether anything was compiled. When binaries were built it downloads the
+#     artifacts and stages them into sdk/npm/*/bin/; when build-binaries was
+#     skipped (nothing to compile, e.g. an MCP-only release) those steps are
+#     skipped and it publishes the bumped Node packages. Then runs
+#     `pnpm release` (changeset publish) via OIDC. Only an actual binary build
+#     failure blocks the publish.
 #
 # Net effect: `cargo build --release` runs exactly ONCE per release cycle —
 # never on unrelated pushes or the changeset-PR-creation commit.
@@ -180,8 +185,14 @@ jobs:
   # ── Phase 3: publish ────────────────────────────────────────────────────────
   release:
     name: Publish to npm
-    needs: build-binaries
-    if: needs.build-binaries.result == 'success'
+    needs: [changesets, version, build-binaries]
+    # Runs on any version-PR merge. Only blocks on an actual binary build
+    # failure: 'skipped' (nothing to compile, e.g. MCP-only release) and
+    # 'success' both proceed, while 'failure' aborts the publish.
+    if: |
+      !cancelled() &&
+      needs.changesets.outputs.hasChangesets == 'false' &&
+      needs.build-binaries.result != 'failure'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -203,14 +214,17 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       # Download pre-built binaries and stage them into the platform packages
-      # so they are present when `npm publish` runs.
+      # so they are present when `npm publish` runs. Skipped when cli-version is
+      # empty (nothing was compiled, e.g. an MCP-only release).
       - name: Download binary artifacts
+        if: needs.version.outputs.cli-version
         uses: actions/download-artifact@v4
         with:
           pattern: design-data-*
           merge-multiple: false
 
       - name: Stage binaries into platform packages
+        if: needs.version.outputs.cli-version
         shell: bash
         run: |
           for platform in darwin-arm64 darwin-x64 linux-x64; do
