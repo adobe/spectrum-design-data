@@ -57,6 +57,10 @@ test('optionalDependencies all point to the same version', () => {
     // skip the version equality check in that case so the test passes in CI
     // before the first changeset version bump.
     if (ver === '0.0.0') continue;
+    // `workspace:*` (and `workspace:^`/`workspace:~`) is the intended source
+    // form — pnpm rewrites it to the resolved version at publish time, so the
+    // raw package.json never carries a literal version here. Treat as valid.
+    if (ver.startsWith('workspace:')) continue;
     assert.equal(ver, cliVersion, `${dep} should be pinned to ${cliVersion}, got ${ver}`);
   }
 });

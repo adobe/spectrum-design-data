@@ -5,7 +5,15 @@
     { "repo": "adobe/spectrum-design-data" }
   ],
   "commit": false,
-  "fixed": [],
+  "fixed": [
+    [
+      "@adobe/design-data",
+      "@adobe/design-data-darwin-arm64",
+      "@adobe/design-data-darwin-x64",
+      "@adobe/design-data-linux-x64",
+      "@adobe/design-data-win32-x64"
+    ]
+  ],
   "linked": [],
   "access": "public",
   "baseBranch": "main",

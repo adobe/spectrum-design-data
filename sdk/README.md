@@ -209,4 +209,18 @@ The `figma` module in `design-data-core` is gated behind the optional `figma` fe
 
 ## Versioning
 
-Versions are managed via [changesets](https://github.com/changesets/changesets) at the repo root. After running `changeset version`, `moon run sdk:version` (`scripts/sync-cargo-version.mjs`) mirrors the npm version from `cli/package.json` into `cli/Cargo.toml`.
+Versions are managed via [changesets](https://github.com/changesets/changesets) at the repo root. Run `pnpm version` (which chains `changeset version && moon run :version`) so the npm bump and the Rust crate versions stay in sync. `moon run sdk:version` (`scripts/sync-cargo-version.mjs`) mirrors the npm version from `cli/package.json` into `cli/Cargo.toml` and `tui/Cargo.toml`.
+
+### Platform package version locking
+
+`@adobe/design-data` is a thin JS launcher that delegates to a native binary shipped in one of four platform packages (`@adobe/design-data-darwin-arm64`, `-darwin-x64`, `-linux-x64`, `-win32-x64`). The launcher pins these as `optionalDependencies` using `workspace:*`, which pnpm resolves to the exact version at publish time.
+
+All five packages **must** publish at the same version every release, or `npm i -g @adobe/design-data` will pull a launcher that points at a stale (or missing) binary. This is enforced by a [`fixed`](https://github.com/changesets/changesets/blob/main/docs/fixed-packages.md) group in [`.changeset/config.json`](../.changeset/config.json):
+
+```json
+"fixed": [
+  ["@adobe/design-data", "@adobe/design-data-darwin-arm64", "@adobe/design-data-darwin-x64", "@adobe/design-data-linux-x64", "@adobe/design-data-win32-x64"]
+]
+```
+
+With `fixed`, a changeset targeting only `@adobe/design-data` bumps and republishes all five together — contributors never need to write changesets for the platform packages. The release workflow also runs `sdk/scripts/test-sync-cargo-version.mjs` as a pre-publish guard to abort if any platform version drifts. Do not add the four `*-mcp`/`-spec`/`-tui` packages to this group; they version independently.
