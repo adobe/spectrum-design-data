@@ -8,16 +8,95 @@ on:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
+# ──────────────────────────────────────────────────────────────────────────────
+# Three-phase release pipeline (biome pattern):
+#
+#   Phase 1 — `changesets`  (every push)
+#     Runs the changesets action in version-only mode. On a changeset push this
+#     creates or updates the "Version Packages" PR. On the version-PR merge it
+#     does nothing (no pending changesets) and exposes hasChangesets=false.
+#
+#   Phase 2 — `version` → `build-binaries`  (version-PR merge only)
+#     Gated on hasChangesets==false AND the local package version being ahead of
+#     npm. Builds the Rust binary for all four platforms in a matrix.
+#
+#   Phase 3 — `release`  (after all binaries built)
+#     Downloads the artifacts, stages them into sdk/npm/*/bin/, then runs
+#     `pnpm release` (changeset publish) via OIDC.
+#
+# Net effect: `cargo build --release` runs exactly ONCE per release cycle —
+# never on unrelated pushes or the changeset-PR-creation commit.
+# ──────────────────────────────────────────────────────────────────────────────
+
 jobs:
-  # Build the design-data binary for each supported platform.
-  # Artifacts are downloaded by the `release` job so they are in place
-  # when `npm publish` runs for the per-platform packages.
-  #
-  # NOTE: New @adobe/design-data-* packages must be published manually
-  # the first time (to create the package on the registry and configure
-  # npm trusted publishing) before this workflow can publish them via OIDC.
+  # ── Phase 1: always runs ────────────────────────────────────────────────────
+  changesets:
+    name: Changesets (version PR)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      hasChangesets: ${{ steps.cs.outputs.hasChangesets }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.17.0"
+
+      - run: npm install -g npm@11.6.2
+
+      - run: npm install -g pnpm@10.17.1
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build tokens package
+        run: |
+          cd packages/tokens
+          node tasks/buildSpectrumTokens.js
+          node tasks/buildManifest.js
+
+      - name: Create or update Version Packages PR
+        id: cs
+        uses: GarthDB/changesets-action@v1.6.8
+        with:
+          commit: "chore: release"
+          title: "Version Packages"
+          version: pnpm changeset version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  # ── Phase 2a: gate — only on version-PR merge ───────────────────────────────
+  version:
+    name: Check version change
+    needs: changesets
+    # hasChangesets=='false' means the version PR was just merged (no pending changesets).
+    if: needs.changesets.outputs.hasChangesets == 'false'
+    runs-on: ubuntu-latest
+    outputs:
+      cli-version: ${{ steps.v.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.17.0"
+
+      - name: Compare local version to npm
+        id: v
+        # Writes the new version to the output if ahead of npm, empty string otherwise.
+        # sdk/scripts/check-cli-version.mjs handles network errors gracefully.
+        run: echo "version=$(node sdk/scripts/check-cli-version.mjs)" >> "$GITHUB_OUTPUT"
+
+  # ── Phase 2b: build — runs only when version actually changed ───────────────
   build-binaries:
     name: Build binary (${{ matrix.platform }})
+    needs: version
+    # cli-version is empty when nothing changed → all four matrix legs are skipped.
+    if: needs.version.outputs.cli-version
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
@@ -27,11 +106,9 @@ jobs:
             platform: darwin-arm64
             runner: macos-latest
             ext: ""
-          # Cross-compile x86_64-apple-darwin from the ARM runner — Rust has
-          # tier-1 support for this target pair and the Apple SDK on macOS
-          # includes both architecture slices, so no extra linker flags are
-          # needed. Using macos-latest (ARM) avoids the macos-13 pool which
-          # is being deprecated and has much longer queue times.
+          # Cross-compile x86_64-apple-darwin from the ARM runner — Rust tier-1
+          # support for this target pair. Using macos-latest (ARM) avoids the
+          # deprecated macos-13 pool which has much longer queue times.
           - target: x86_64-apple-darwin
             platform: darwin-x64
             runner: macos-latest
@@ -54,8 +131,6 @@ jobs:
           toolchain: "1.85.0"
           targets: ${{ matrix.target }}
 
-      # Explicit Node + pnpm setup so that moon's codegen-check step has a
-      # consistent toolchain regardless of what proto auto-installs.
       - uses: actions/setup-node@v4
         with:
           node-version: "20.17.0"
@@ -64,16 +139,12 @@ jobs:
 
       # --ignore-scripts skips prepare hooks (e.g. docs/s2-tokens-viewer uses
       # `mkdir -p` which is not available on the Windows runner).
-      # The codegen-check step only needs Node + the script itself, not workspace
-      # lifecycle hooks.
       - run: pnpm install --frozen-lockfile --ignore-scripts
 
       # Regenerate sdk/core/src/registry_data.rs before cargo build.
       # We run sdk:codegen (not codegen-check) because codegen-check compares
       # file content as strings and fails on Windows when git checks out the
-      # committed LF file with CRLF endings, producing a spurious mismatch.
-      # Regenerating is always safe — it produces the same content as the
-      # committed file and sidesteps the line-ending issue entirely.
+      # committed LF file with CRLF endings.
       - name: Set up moonrepo
         uses: moonrepo/setup-toolchain@v0
         with:
@@ -101,9 +172,11 @@ jobs:
           path: sdk/npm/${{ matrix.platform }}/bin/design-data${{ matrix.ext }}
           retention-days: 1
 
+  # ── Phase 3: publish ────────────────────────────────────────────────────────
   release:
-    name: Release
+    name: Publish to npm
     needs: build-binaries
+    if: needs.build-binaries.result == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -113,22 +186,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Set up Node.js without proto to test OIDC compatibility
       - uses: actions/setup-node@v4
         with:
           node-version: "20.17.0"
 
-      # Install npm 11.6.2 (required for OIDC) - bypassing proto
+      # npm 11.6.2 required for OIDC trusted publishing
       - run: npm install -g npm@11.6.2
 
-      # Install pnpm directly
       - run: npm install -g pnpm@10.17.1
 
-      # Install dependencies
       - run: pnpm install --frozen-lockfile
 
-      # Download pre-built binaries into the platform packages so they are
-      # present when `npm publish` runs.
+      # Download pre-built binaries and stage them into the platform packages
+      # so they are present when `npm publish` runs.
       - name: Download binary artifacts
         uses: actions/download-artifact@v4
         with:
@@ -146,19 +216,17 @@ jobs:
           mkdir -p sdk/npm/win32-x64/bin
           mv design-data-win32-x64/design-data.exe sdk/npm/win32-x64/bin/design-data.exe
 
-      # Build packages directly (bypassing moon - only tokens package has build tasks)
       - name: Build tokens package
         run: |
           cd packages/tokens
           node tasks/buildSpectrumTokens.js
           node tasks/buildManifest.js
 
-      - name: Create Release Pull Request or Publish to npm
-        id: changesets
+      - name: Publish packages
+        id: cs
         uses: GarthDB/changesets-action@v1.6.8
         with:
-          commit: "chore: release"
           publish: pnpm release
-          oidcAuth: true # Test OIDC without proto shims
+          oidcAuth: true
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
