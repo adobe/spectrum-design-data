@@ -59,9 +59,14 @@ jobs:
           node tasks/buildSpectrumTokens.js
           node tasks/buildManifest.js
 
+      # Use the official changesets/action here — NOT the GarthDB fork.
+      # The GarthDB fork only supports `publish:` and silently ignores `version:`,
+      # so it never creates the Version Packages PR. The official action supports
+      # both parameters independently. The fork is still used in the `release` job
+      # where `oidcAuth: true` is needed for npm trusted publishing.
       - name: Create or update Version Packages PR
         id: cs
-        uses: GarthDB/changesets-action@v1.6.8
+        uses: changesets/action@v1
         with:
           commit: "chore: release"
           title: "Version Packages"
