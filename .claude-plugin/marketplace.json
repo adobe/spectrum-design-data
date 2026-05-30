@@ -15,6 +15,11 @@
       "name": "design-data",
       "description": "Spectrum design tokens and component schemas via the design-data CLI.",
       "source": "./tools/design-data-skill"
+    },
+    {
+      "name": "design-data-agent",
+      "description": "Spec-conformant design token lookup, validation, diff, and authoring for any dataset.",
+      "source": "./tools/design-data-agent-mcp"
     }
   ]
 }

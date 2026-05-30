@@ -110,9 +110,16 @@ Example: `npx @adobe/design-data resolve background-color-default --format json 
 
 ## When working in Cursor
 
-Cursor's native agent does not support Claude Code Skills. For Cursor users,
-recommend the `@adobe/design-data-mcp` MCP server instead — add to
-`.cursor/mcp-servers.json` in the project root:
+Install this skill as a **Remote Rule (GitHub)** — same pattern as the s2-docs skill:
+
+Cursor Settings → Rules → **Add Rule** → **Remote Rule (GitHub)** → paste:
+
+```
+https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-skill/skills/design-data
+```
+
+For always-available tool access (higher context cost), add `@adobe/design-data-mcp` to
+`.cursor/mcp.json` in your project root:
 
 ```json
 {
@@ -124,6 +131,10 @@ recommend the `@adobe/design-data-mcp` MCP server instead — add to
   }
 }
 ```
+
+For custom datasets with validate/diff/write, use the `design-data-agent` skill or
+`@adobe/design-data-agent-mcp` instead — see
+[`tools/design-data-agent-mcp/skills/design-data/SKILL.md`](../../design-data-agent-mcp/skills/design-data/SKILL.md).
 
 ## Using a custom dataset
 

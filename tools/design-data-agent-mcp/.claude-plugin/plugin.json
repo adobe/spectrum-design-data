@@ -1,0 +1,11 @@
+{
+  "name": "design-data-agent",
+  "description": "Spec-conformant design token lookup, validation, diff, and authoring for any dataset via the design-data CLI.",
+  "version": "1.2.0",
+  "author": {
+    "name": "Adobe"
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-mcp",
+  "repository": "https://github.com/adobe/spectrum-design-data",
+  "license": "Apache-2.0"
+}

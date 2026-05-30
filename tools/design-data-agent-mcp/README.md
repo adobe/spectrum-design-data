@@ -2,25 +2,44 @@
 
 MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data-spec/) agent surface. Shells out to the `design-data` CLI — all logic stays in the Rust SDK.
 
-## Claude Code skill
+## Install
 
-Install by symlinking the `skill/` directory into your Claude Code skills folder:
+### Claude Code (skill + optional MCP)
 
-```bash
-ln -s "$(pwd)/tools/design-data-agent-mcp/skill" ~/.claude/skills/design-data
+Add the Spectrum Design Data marketplace, then install the spec-generic skill:
+
+```
+/plugin marketplace add adobe/spectrum-design-data
+/plugin install design-data-agent@spectrum-design-data
 ```
 
-Then add the skill to your `~/.claude/CLAUDE.md`:
+For Spectrum tokens with zero setup (embedded snapshot), install `design-data@spectrum-design-data` instead — see [`tools/design-data-skill/`](../design-data-skill/).
 
-```markdown
-### design-data
-- **design-data** (`~/.claude/skills/design-data/SKILL.md`) — design token lookup, validation, and authoring via the design-data CLI. Trigger: `/design-data`
-When the user types `/design-data`, invoke the Skill tool with `skill: "design-data"` before doing anything else.
+### Cursor (skill)
+
+Cursor Settings → Rules → **Add Rule** → **Remote Rule (GitHub)** → paste:
+
 ```
+https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-mcp/skills/design-data
+```
+
+### npm (MCP server)
+
+```sh
+npx @adobe/design-data-agent-mcp
+```
+
+Requires the `@adobe/design-data` CLI on `PATH` (or set `DESIGN_DATA_BIN`).
 
 ## MCP server
 
 Configure your MCP client to run:
+
+```sh
+npx -y @adobe/design-data-agent-mcp
+```
+
+Or from a repo clone:
 
 ```bash
 node tools/design-data-agent-mcp/src/index.js
@@ -38,16 +57,35 @@ node tools/design-data-agent-mcp/src/index.js
 | `DESIGN_DATA_SCHEMAS`    | —             | Override schema path (for `validate`)     |
 | `DESIGN_DATA_EXCEPTIONS` | —             | Override exceptions path (for `validate`) |
 
+### Example (Cursor `.cursor/mcp.json`)
+
+```json
+{
+  "mcpServers": {
+    "design-data-agent": {
+      "command": "npx",
+      "args": ["-y", "@adobe/design-data-agent-mcp"],
+      "env": {
+        "DESIGN_DATA_PATH": "./packages/tokens/src",
+        "DESIGN_DATA_COMPONENTS": "./packages/design-data-spec/components",
+        "DESIGN_DATA_FIELDS": "./packages/design-data-spec/fields",
+        "DESIGN_DATA_DIMENSIONS": "./packages/design-data-spec/dimensions"
+      }
+    }
+  }
+}
+```
+
 ### Example (Claude Desktop `claude_desktop_config.json`)
 
 ```json
 {
   "mcpServers": {
-    "design-data": {
-      "command": "node",
-      "args": ["/path/to/spectrum-design-data/tools/design-data-agent-mcp/src/index.js"],
+    "design-data-agent": {
+      "command": "npx",
+      "args": ["-y", "@adobe/design-data-agent-mcp"],
       "env": {
-        "DESIGN_DATA_BIN": "/path/to/design-data",
+        "DESIGN_DATA_BIN": "design-data",
         "DESIGN_DATA_PATH": "/path/to/your/dataset"
       }
     }
@@ -66,3 +104,11 @@ node tools/design-data-agent-mcp/src/index.js
 | `validate_usage`     | Validate token usage and return a diagnostic report             |
 | `diff_datasets`      | Compare two datasets and return a semantic diff                 |
 | `write`              | Write agent-generated product context to the dataset            |
+
+## Skill
+
+The Claude Code skill lives at [`skills/design-data/SKILL.md`](skills/design-data/SKILL.md). It shells out to `npx @adobe/design-data` for validate, query, resolve, diff, and write operations against local datasets.
+
+## License
+
+Apache-2.0
