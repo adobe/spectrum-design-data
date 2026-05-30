@@ -114,10 +114,6 @@ Build a portable `.redb` cache asset from a token dataset (for WASM web tools or
 
 ```bash
 design-data cache-build packages/tokens/src -o index.redb
-design-data cache-build packages/tokens/src \
-  --mode-sets-path packages/design-data-spec/mode-sets \
-  --components-path packages/design-data-spec/components \
-  -o index.redb
 ```
 
 ### Derived cache (CLI/TUI)
@@ -129,14 +125,10 @@ The SDK builds a **derived, content-addressed redb cache** over the canonical JS
 | `DESIGN_DATA_CACHE_DIR`   | Override the OS cache root (default: `dirs::cache_dir()/design-data`) |
 | `DESIGN_DATA_LOG=debug`   | Log cache miss/rebuild/fallback events to stderr                      |
 | `design-data cache-build` | Emit a portable `index.redb` blob for WASM or CI artifacts            |
-| `--mode-sets-path`        | Include spec mode-sets catalog in cache build (resolved by default)   |
-| `--components-path`       | Include spec components catalog in cache build (resolved by default)  |
 
-Cache files live at `<cache_root>/cache/<tokens-version>/<dataset-key>.redb` and are gitignored (`*.redb`). The dataset key incorporates the tokens root and any configured catalog directories.
+Cache files live at `<cache_root>/cache/<tokens-version>/<dataset-key>.redb` and are gitignored (`*.redb`).
 
-**Schema v2** persists tokens, query indexes (`idx_*`), inline mode-set docs co-located in the token tree, and spec catalog `mode_sets` / `components` tables. Stale v1 caches auto-invalidate on upgrade.
-
-**Invalidation** uses per-file size + mtime (not a full content hash) for speed. A stale miss only forces a rebuild. **Known limitation:** sidecar name directories merged by `from_json_dir_with_names` are not part of the cache build path.
+**Invalidation** uses per-file size + mtime (not a full content hash) for speed. A stale miss only forces a rebuild. **Known limitation (schema v1):** inline mode-set JSON files co-located in the token tree are not persisted in the cache; the canonical Spectrum layout (mode sets under `design-data-spec/mode-sets`) is unaffected.
 
 **Platform manifest (CLI/TUI):** Both surfaces apply a configured `[source].manifest` at session start via the shared `design-data-core::manifest::apply_configured` helper. Query/find use the platform-scoped token set and index; `:resolve` layers manifest mode-set restrictions through `cascade::resolve_property`. The TUI header shows `N platform` (vs `N tokens`) when a manifest is active. CLI `primer` still reports raw on-disk counts.
 

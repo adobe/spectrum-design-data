@@ -34,19 +34,16 @@
 //! - `dataset_key`: hash of the dataset's absolute path, so distinct datasets do
 //!   not thrash a single shared cache file.
 //!
-//! ## redb schema (v2)
+//! ## redb schema
 //!
 //! | table          | kind        | key            | value                          |
 //! |----------------|-------------|----------------|--------------------------------|
 //! | `meta`         | table       | `"meta"`       | MessagePack [`CacheMeta`]      |
 //! | `tokens`       | table       | graph key      | MessagePack [`TokenRecord`]    |
 //! | `uuid_index`   | table       | uuid           | graph key                      |
-//! | `mode_sets`    | table       | ordinal        | MessagePack [`ModeSetRecord`]  |
-//! | `components`   | table       | ordinal        | MessagePack [`ComponentRecord`]|
 //! | `idx_<field>`  | multimap    | field value    | graph keys (one per query key) |
 //!
-//! `tokens` drives hydration; `mode_sets` / `components` preserve inline mode-set
-//! docs and spec catalog entries; the `uuid_index` / `idx_*` tables exist so a
+//! `tokens` drives hydration; the `uuid_index` / `idx_*` tables exist so a
 //! read-only consumer (e.g. a WASM web tool via [`load_index_from_bytes`]) can
 //! answer indexed equality queries without materializing the whole graph.
 //!
@@ -63,19 +60,14 @@
 //! same-size edit with an unchanged mtime — unlikely in normal editor/git
 //! workflows, but possible in CI that preserves mtimes aggressively.
 //!
-//! ## Catalog-aware caching
+//! ## Known limitations (schema v1)
 //!
-//! [`open_cached_with_catalogs`] / [`open_cached_with_index_with_catalogs`] accept
-//! optional `mode-sets` and `components` catalog directories (resolved separately
-//! from `tokens_root`). Catalog JSON files are folded into the content hash and
-//! the cache file key so edits self-invalidate. Inline mode-set docs co-located in
-//! the tokens tree are persisted automatically.
-//!
-//! ## Known limitations (schema v2)
-//!
-//! - Sidecar name directories merged by [`TokenGraph::from_json_dir_with_names`] are
-//!   not part of the cache build path; callers using sidecars should keep loading
-//!   from JSON or extend the cache inputs explicitly.
+//! - **Inline mode sets** discovered by [`TokenGraph::from_json_dir`] inside the
+//!   tokens tree are not persisted; hydration uses [`TokenGraph::from_records`],
+//!   which clears `mode_sets`. The canonical Spectrum layout (mode sets under
+//!   `design-data-spec/mode-sets`) is unaffected.
+//! - **`components` / `mode_sets` catalog tables** from the plan are deferred;
+//!   only tokens and query indexes are cached today.
 
 mod mem_backend;
 
@@ -91,7 +83,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::data_source::embedded::EMBEDDED_TOKENS_VERSION;
 use crate::discovery::discover_json_files;
-use crate::graph::{ComponentRecord, ModeSetRecord, TokenGraph, TokenRecord};
+use crate::graph::{TokenGraph, TokenRecord};
 use crate::query::{self, TokenIndex, ALLOWED_KEYS};
 use crate::CoreError;
 
@@ -104,13 +96,11 @@ pub struct CachedDataset {
 
 /// Bump when the on-disk schema or value encoding changes, to invalidate caches
 /// written by older binaries (in addition to the tokens-version namespace).
-const CACHE_SCHEMA_VERSION: u32 = 2;
+const CACHE_SCHEMA_VERSION: u32 = 1;
 
 const META: TableDefinition<&str, &[u8]> = TableDefinition::new("meta");
 const TOKENS: TableDefinition<&str, &[u8]> = TableDefinition::new("tokens");
 const UUID_INDEX: TableDefinition<&str, &str> = TableDefinition::new("uuid_index");
-const MODE_SETS: TableDefinition<&str, &[u8]> = TableDefinition::new("mode_sets");
-const COMPONENTS: TableDefinition<&str, &[u8]> = TableDefinition::new("components");
 
 // One multimap index table per query field (see `query::ALLOWED_KEYS`).
 const IDX_PROPERTY: MultimapTableDefinition<&str, &str> =
@@ -198,21 +188,10 @@ fn debug_log(args: std::fmt::Arguments<'_>) {
 ///
 /// Drop-in replacement for [`TokenGraph::from_json_dir`]. Prefer
 /// [`open_cached_with_index`] when you also need the persisted query index.
-/// For spec catalog dirs, use [`open_cached_with_catalogs`].
 ///
 /// Never fails because of the cache; only a JSON load error propagates.
 pub fn open_cached(tokens_root: &Path) -> Result<TokenGraph, CoreError> {
-    open_cached_with_catalogs(tokens_root, None, None)
-}
-
-/// Load a graph with optional spec catalog directories.
-pub fn open_cached_with_catalogs(
-    tokens_root: &Path,
-    mode_sets_dir: Option<&Path>,
-    components_dir: Option<&Path>,
-) -> Result<TokenGraph, CoreError> {
-    open_cached_with_index_with_catalogs(tokens_root, mode_sets_dir, components_dir)
-        .map(|loaded| loaded.graph)
+    open_cached_with_index(tokens_root).map(|loaded| loaded.graph)
 }
 
 /// Load a graph **and** its query index for `tokens_root`.
@@ -222,28 +201,15 @@ pub fn open_cached_with_catalogs(
 /// cache error the graph is built from JSON (source of truth), the index is
 /// built from that graph, and the cache is rewritten best-effort.
 pub fn open_cached_with_index(tokens_root: &Path) -> Result<CachedDataset, CoreError> {
-    open_cached_with_index_with_catalogs(tokens_root, None, None)
-}
-
-/// Load a graph and query index with optional spec catalog directories.
-pub fn open_cached_with_index_with_catalogs(
-    tokens_root: &Path,
-    mode_sets_dir: Option<&Path>,
-    components_dir: Option<&Path>,
-) -> Result<CachedDataset, CoreError> {
-    match load_from_disk(tokens_root, mode_sets_dir, components_dir) {
+    match load_from_disk(tokens_root) {
         Ok(Some(loaded)) => return Ok(loaded),
         Ok(None) => {}
         Err(e) => debug_log(format_args!("read failed ({e}); rebuilding from json")),
     }
 
-    let graph = TokenGraph::from_json_dir_with_catalogs(
-        tokens_root,
-        mode_sets_dir,
-        components_dir,
-    )?;
+    let graph = TokenGraph::from_json_dir(tokens_root)?;
     let index = TokenIndex::build(&graph);
-    if let Err(e) = write_to_disk(tokens_root, mode_sets_dir, components_dir, &graph) {
+    if let Err(e) = write_to_disk(tokens_root, &graph) {
         debug_log(format_args!("write failed ({e}); cache not updated"));
     }
     Ok(CachedDataset { graph, index })
@@ -253,21 +219,8 @@ pub fn open_cached_with_index_with_catalogs(
 /// buffer (no filesystem). Use this as a build step to emit a `index.redb`
 /// static asset for WASM web tools.
 pub fn build_bytes(tokens_root: &Path) -> Result<Vec<u8>, CoreError> {
-    build_bytes_with_catalogs(tokens_root, None, None)
-}
-
-/// Build cache bytes including optional spec catalog directories.
-pub fn build_bytes_with_catalogs(
-    tokens_root: &Path,
-    mode_sets_dir: Option<&Path>,
-    components_dir: Option<&Path>,
-) -> Result<Vec<u8>, CoreError> {
-    let graph = TokenGraph::from_json_dir_with_catalogs(
-        tokens_root,
-        mode_sets_dir,
-        components_dir,
-    )?;
-    let hash = content_hash(tokens_root, mode_sets_dir, components_dir).map_err(CoreError::Io)?;
+    let graph = TokenGraph::from_json_dir(tokens_root)?;
+    let hash = content_hash(tokens_root).map_err(CoreError::Io)?;
     build_bytes_from_graph(&graph, hash).map_err(into_core)
 }
 
@@ -277,22 +230,8 @@ pub fn build_bytes_with_catalogs(
 /// [`open_cached`], the destination is caller-controlled rather than the OS
 /// cache directory.
 pub fn build_file(tokens_root: &Path, out_path: &Path) -> Result<(), CoreError> {
-    build_file_with_catalogs(tokens_root, None, None, out_path)
-}
-
-/// Build a cache file including optional spec catalog directories.
-pub fn build_file_with_catalogs(
-    tokens_root: &Path,
-    mode_sets_dir: Option<&Path>,
-    components_dir: Option<&Path>,
-    out_path: &Path,
-) -> Result<(), CoreError> {
-    let graph = TokenGraph::from_json_dir_with_catalogs(
-        tokens_root,
-        mode_sets_dir,
-        components_dir,
-    )?;
-    let hash = content_hash(tokens_root, mode_sets_dir, components_dir).map_err(CoreError::Io)?;
+    let graph = TokenGraph::from_json_dir(tokens_root)?;
+    let hash = content_hash(tokens_root).map_err(CoreError::Io)?;
     write_db_file(out_path, &graph, hash).map_err(into_core)
 }
 
@@ -325,30 +264,18 @@ pub fn load_index_from_bytes(bytes: &[u8]) -> Result<TokenIndex, CoreError> {
 // Disk path resolution + invalidation
 // ---------------------------------------------------------------------------
 
-fn cache_db_path(
-    tokens_root: &Path,
-    mode_sets_dir: Option<&Path>,
-    components_dir: Option<&Path>,
-) -> Option<PathBuf> {
+fn cache_db_path(tokens_root: &Path) -> Option<PathBuf> {
     let base = if let Ok(p) = std::env::var("DESIGN_DATA_CACHE_DIR") {
         PathBuf::from(p)
     } else {
         dirs::cache_dir()?.join("design-data")
     };
-    // Namespace by absolute dataset + catalog paths so distinct configs get distinct files.
+    // Namespace by absolute dataset path so distinct datasets get distinct files.
     let abs = tokens_root
         .canonicalize()
         .unwrap_or_else(|_| tokens_root.to_path_buf());
     let mut hasher = std::collections::hash_map::DefaultHasher::new();
     abs.to_string_lossy().hash(&mut hasher);
-    if let Some(dir) = mode_sets_dir {
-        let abs_ms = dir.canonicalize().unwrap_or_else(|_| dir.to_path_buf());
-        abs_ms.to_string_lossy().hash(&mut hasher);
-    }
-    if let Some(dir) = components_dir {
-        let abs_c = dir.canonicalize().unwrap_or_else(|_| dir.to_path_buf());
-        abs_c.to_string_lossy().hash(&mut hasher);
-    }
     let dataset_key = format!("{:016x}", hasher.finish());
     Some(
         base.join("cache")
@@ -357,45 +284,23 @@ fn cache_db_path(
     )
 }
 
-fn hash_json_dir(
-    hasher: &mut std::collections::hash_map::DefaultHasher,
-    root: &Path,
-) -> std::io::Result<()> {
-    let mut paths = discover_json_files(root)?;
-    paths.sort();
-    for p in &paths {
-        p.to_string_lossy().hash(hasher);
-        let meta = std::fs::metadata(p)?;
-        meta.len().hash(hasher);
-        if let Ok(modified) = meta.modified() {
-            if let Ok(dur) = modified.duration_since(std::time::UNIX_EPOCH) {
-                dur.as_nanos().hash(hasher);
-            }
-        }
-    }
-    Ok(())
-}
-
 /// Content hash of the canonical inputs: per-file `(path, len, mtime)`, sorted.
 /// `mtime + len` is used (rather than full content) for speed; a false-positive
 /// match is impossible in practice and a false miss only forces a rebuild.
-fn content_hash(
-    tokens_root: &Path,
-    mode_sets_dir: Option<&Path>,
-    components_dir: Option<&Path>,
-) -> std::io::Result<u64> {
+fn content_hash(tokens_root: &Path) -> std::io::Result<u64> {
     let mut hasher = std::collections::hash_map::DefaultHasher::new();
     CACHE_SCHEMA_VERSION.hash(&mut hasher);
     EMBEDDED_TOKENS_VERSION.hash(&mut hasher);
-    hash_json_dir(&mut hasher, tokens_root)?;
-    if let Some(dir) = mode_sets_dir {
-        if dir.is_dir() {
-            hash_json_dir(&mut hasher, dir)?;
-        }
-    }
-    if let Some(dir) = components_dir {
-        if dir.is_dir() {
-            hash_json_dir(&mut hasher, dir)?;
+    let mut paths = discover_json_files(tokens_root)?;
+    paths.sort();
+    for p in &paths {
+        p.to_string_lossy().hash(&mut hasher);
+        let meta = std::fs::metadata(p)?;
+        meta.len().hash(&mut hasher);
+        if let Ok(modified) = meta.modified() {
+            if let Ok(dur) = modified.duration_since(std::time::UNIX_EPOCH) {
+                dur.as_nanos().hash(&mut hasher);
+            }
         }
     }
     Ok(hasher.finish())
@@ -407,18 +312,14 @@ fn content_hash(
 
 /// Returns `Ok(Some(loaded))` on a fresh cache hit, `Ok(None)` on a miss
 /// (absent/stale), or `Err` on a real cache error.
-fn load_from_disk(
-    tokens_root: &Path,
-    mode_sets_dir: Option<&Path>,
-    components_dir: Option<&Path>,
-) -> Result<Option<CachedDataset>, CacheError> {
-    let Some(path) = cache_db_path(tokens_root, mode_sets_dir, components_dir) else {
+fn load_from_disk(tokens_root: &Path) -> Result<Option<CachedDataset>, CacheError> {
+    let Some(path) = cache_db_path(tokens_root) else {
         return Ok(None);
     };
     if !path.exists() {
         return Ok(None);
     }
-    let expected = content_hash(tokens_root, mode_sets_dir, components_dir)?;
+    let expected = content_hash(tokens_root)?;
     let db = Database::open(&path)?;
     let rtx = db.begin_read()?;
 
@@ -446,7 +347,7 @@ fn read_meta(rtx: &redb::ReadTransaction) -> Result<Option<CacheMeta>, CacheErro
     Ok(Some(rmp_serde::from_slice(bytes.value())?))
 }
 
-/// Rebuild the in-memory [`TokenGraph`] from persisted tables. `from_records`
+/// Rebuild the in-memory [`TokenGraph`] from the `tokens` table. `from_records`
 /// rebuilds the UUID index, so the cached `uuid_index` table is not needed here.
 fn hydrate(rtx: &redb::ReadTransaction) -> Result<TokenGraph, CacheError> {
     let table = rtx.open_table(TOKENS)?;
@@ -456,29 +357,7 @@ fn hydrate(rtx: &redb::ReadTransaction) -> Result<TokenGraph, CacheError> {
         let record: TokenRecord = rmp_serde::from_slice(value.value())?;
         records.push(record);
     }
-    let mut graph = TokenGraph::from_records(records);
-    graph.mode_sets = read_ordinal_table::<ModeSetRecord>(rtx, MODE_SETS)?;
-    graph.components = read_ordinal_table::<ComponentRecord>(rtx, COMPONENTS)?;
-    Ok(graph)
-}
-
-fn read_ordinal_table<T: serde::de::DeserializeOwned>(
-    rtx: &redb::ReadTransaction,
-    def: TableDefinition<'static, &str, &[u8]>,
-) -> Result<Vec<T>, CacheError> {
-    let table = match rtx.open_table(def) {
-        Ok(t) => t,
-        Err(redb::TableError::TableDoesNotExist(_)) => return Ok(Vec::new()),
-        Err(e) => return Err(e.into()),
-    };
-    let mut entries: Vec<(String, T)> = Vec::new();
-    for item in table.iter()? {
-        let (key, value) = item?;
-        let record: T = rmp_serde::from_slice(value.value())?;
-        entries.push((key.value().to_string(), record));
-    }
-    entries.sort_by(|a, b| a.0.cmp(&b.0));
-    Ok(entries.into_iter().map(|(_, record)| record).collect())
+    Ok(TokenGraph::from_records(records))
 }
 
 fn read_index(rtx: &redb::ReadTransaction) -> Result<TokenIndex, CacheError> {
@@ -509,15 +388,9 @@ fn read_index(rtx: &redb::ReadTransaction) -> Result<TokenIndex, CacheError> {
 // Write path
 // ---------------------------------------------------------------------------
 
-fn write_to_disk(
-    tokens_root: &Path,
-    mode_sets_dir: Option<&Path>,
-    components_dir: Option<&Path>,
-    graph: &TokenGraph,
-) -> Result<(), CacheError> {
-    let path = cache_db_path(tokens_root, mode_sets_dir, components_dir)
-        .ok_or(CacheError::NoCacheDir)?;
-    let hash = content_hash(tokens_root, mode_sets_dir, components_dir)?;
+fn write_to_disk(tokens_root: &Path, graph: &TokenGraph) -> Result<(), CacheError> {
+    let path = cache_db_path(tokens_root).ok_or(CacheError::NoCacheDir)?;
+    let hash = content_hash(tokens_root)?;
     write_db_file(&path, graph, hash)?;
     evict_stale_versions(&path);
     Ok(())
@@ -580,22 +453,6 @@ fn write_tables(db: &Database, graph: &TokenGraph, hash: u64) -> Result<(), Cach
                     uuid_t.insert(uuid.as_str(), key.as_str())?;
                 }
             }
-        }
-    }
-    {
-        let mut table = wtx.open_table(MODE_SETS)?;
-        for (idx, record) in graph.mode_sets.iter().enumerate() {
-            let key = format!("{idx:020}");
-            let bytes = rmp_serde::to_vec(record)?;
-            table.insert(key.as_str(), bytes.as_slice())?;
-        }
-    }
-    {
-        let mut table = wtx.open_table(COMPONENTS)?;
-        for (idx, record) in graph.components.iter().enumerate() {
-            let key = format!("{idx:020}");
-            let bytes = rmp_serde::to_vec(record)?;
-            table.insert(key.as_str(), bytes.as_slice())?;
         }
     }
     for field in ALLOWED_KEYS {
@@ -702,7 +559,7 @@ mod tests {
 
         // First load builds + writes the cache (miss).
         let g1 = open_cached(&root).unwrap();
-        let path = cache_db_path(&root, None, None).unwrap();
+        let path = cache_db_path(&root).unwrap();
         assert!(path.exists(), "cache file should be written on first load");
 
         // Second load is a hit; graph must match the JSON-built one.
@@ -726,7 +583,7 @@ mod tests {
 
         // load_from_disk must report a genuine hit (Some) — proving the redb
         // read + MessagePack hydration path works, not the JSON fallback.
-        let hit = load_from_disk(&root, None, None).unwrap();
+        let hit = load_from_disk(&root).unwrap();
         let loaded = hit.expect("expected a cache hit after priming");
         assert_eq!(loaded.graph.tokens.len(), 2);
         assert!(loaded.graph.tokens.contains_key("blue-100"));
@@ -783,7 +640,7 @@ mod tests {
 
         // Prime the cache, then corrupt the file.
         let _ = open_cached(&root).unwrap();
-        let path = cache_db_path(&root, None, None).unwrap();
+        let path = cache_db_path(&root).unwrap();
         std::fs::write(&path, b"not a redb database").unwrap();
 
         // Must not error — falls back to JSON and rewrites the cache.
@@ -824,188 +681,5 @@ mod tests {
             via_index[0].uuid.as_deref(),
             Some("22222222-2222-4222-8222-222222222222")
         );
-    }
-
-    #[test]
-    fn inline_mode_set_survives_roundtrip() {
-        let _env = crate::data_source::test_support::env_lock();
-        let data = TempDir::new().unwrap();
-        let cache = TempDir::new().unwrap();
-        write_tokens(
-            data.path(),
-            "tokens.json",
-            json!({
-                "blue-100": {
-                    "$schema": "https://example.com/color.json",
-                    "value": "#00f",
-                    "uuid": "11111111-1111-4111-8111-111111111111",
-                    "name": {"property": "background-color", "component": "button"}
-                }
-            }),
-        );
-        write_tokens(
-            data.path(),
-            "color-scheme.json",
-            json!({
-                "name": "colorScheme",
-                "modes": ["light", "dark"],
-                "default": "light"
-            }),
-        );
-        let root = data.path().to_path_buf();
-        std::env::set_var("DESIGN_DATA_CACHE_DIR", cache.path());
-
-        let _ = open_cached(&root).unwrap();
-        let cached = open_cached(&root).unwrap();
-        assert_eq!(cached.mode_sets.len(), 1);
-        assert_eq!(cached.mode_sets[0].name, "colorScheme");
-        assert_eq!(cached.mode_sets[0].modes, vec!["light", "dark"]);
-
-        std::env::remove_var("DESIGN_DATA_CACHE_DIR");
-    }
-
-    #[test]
-    fn catalog_mode_sets_and_components_roundtrip() {
-        let _env = crate::data_source::test_support::env_lock();
-        let data = TempDir::new().unwrap();
-        let mode_sets = TempDir::new().unwrap();
-        let components = TempDir::new().unwrap();
-        let cache = TempDir::new().unwrap();
-
-        write_tokens(
-            data.path(),
-            "color.json",
-            json!({
-                "blue-100": {
-                    "$schema": "https://example.com/color.json",
-                    "value": "#00f",
-                    "uuid": "11111111-1111-4111-8111-111111111111",
-                    "name": {"property": "background-color", "component": "button"}
-                }
-            }),
-        );
-        write_tokens(
-            mode_sets.path(),
-            "color-scheme.json",
-            json!({
-                "name": "colorScheme",
-                "modes": ["light", "dark"],
-                "default": "light"
-            }),
-        );
-        write_tokens(
-            components.path(),
-            "button.json",
-            json!({
-                "name": "button",
-                "description": "Primary action"
-            }),
-        );
-
-        let root = data.path().to_path_buf();
-        std::env::set_var("DESIGN_DATA_CACHE_DIR", cache.path());
-
-        let _ = open_cached_with_catalogs(
-            &root,
-            Some(mode_sets.path()),
-            Some(components.path()),
-        )
-        .unwrap();
-        let cached = open_cached_with_catalogs(
-            &root,
-            Some(mode_sets.path()),
-            Some(components.path()),
-        )
-        .unwrap();
-        assert_eq!(cached.mode_sets.len(), 1);
-        assert_eq!(cached.mode_sets[0].name, "colorScheme");
-        assert_eq!(cached.components.len(), 1);
-        assert_eq!(cached.components[0].name, "button");
-
-        std::env::remove_var("DESIGN_DATA_CACHE_DIR");
-    }
-
-    #[test]
-    fn catalog_edit_invalidates_cache() {
-        let _env = crate::data_source::test_support::env_lock();
-        let data = TempDir::new().unwrap();
-        let mode_sets = TempDir::new().unwrap();
-        let cache = TempDir::new().unwrap();
-
-        write_tokens(
-            data.path(),
-            "color.json",
-            json!({
-                "blue-100": {
-                    "$schema": "https://example.com/color.json",
-                    "value": "#00f",
-                    "uuid": "11111111-1111-4111-8111-111111111111",
-                    "name": {"property": "background-color", "component": "button"}
-                }
-            }),
-        );
-        write_tokens(
-            mode_sets.path(),
-            "color-scheme.json",
-            json!({
-                "name": "colorScheme",
-                "modes": ["light"],
-                "default": "light"
-            }),
-        );
-
-        let root = data.path().to_path_buf();
-        std::env::set_var("DESIGN_DATA_CACHE_DIR", cache.path());
-
-        let g1 = open_cached_with_catalogs(&root, Some(mode_sets.path()), None).unwrap();
-        assert_eq!(g1.mode_sets[0].modes, vec!["light"]);
-
-        std::thread::sleep(std::time::Duration::from_millis(10));
-        write_tokens(
-            mode_sets.path(),
-            "scale.json",
-            json!({
-                "name": "scale",
-                "modes": ["medium", "large"],
-                "default": "medium"
-            }),
-        );
-
-        let g2 = open_cached_with_catalogs(&root, Some(mode_sets.path()), None).unwrap();
-        assert_eq!(g2.mode_sets.len(), 2);
-
-        std::env::remove_var("DESIGN_DATA_CACHE_DIR");
-    }
-
-    #[test]
-    fn stale_v1_cache_is_treated_as_miss() {
-        let _env = crate::data_source::test_support::env_lock();
-        let (_data, cache, root) = fixture();
-        std::env::set_var("DESIGN_DATA_CACHE_DIR", cache.path());
-
-        let _ = open_cached(&root).unwrap();
-        let path = cache_db_path(&root, None, None).unwrap();
-
-        {
-            let db = Database::open(&path).unwrap();
-            let wtx = db.begin_write().unwrap();
-            {
-                let mut meta_t = wtx.open_table(META).unwrap();
-                let meta_bytes = meta_t.get("meta").unwrap().unwrap().value().to_vec();
-                let mut meta: CacheMeta = rmp_serde::from_slice(&meta_bytes).unwrap();
-                meta.schema_version = 1;
-                let bytes = rmp_serde::to_vec(&meta).unwrap();
-                meta_t.insert("meta", bytes.as_slice()).unwrap();
-            }
-            wtx.commit().unwrap();
-        }
-
-        let hit = load_from_disk(&root, None, None).unwrap();
-        assert!(hit.is_none(), "v1 schema_version must invalidate cache");
-
-        let g = open_cached(&root).unwrap();
-        assert_eq!(g.tokens.len(), 2);
-
-        std::env::remove_var("DESIGN_DATA_CACHE_DIR");
     }
 }
