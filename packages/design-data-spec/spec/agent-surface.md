@@ -84,6 +84,8 @@ A reference MCP server is RECOMMENDED to ship as `@adobe/design-data-agent-mcp` 
 
 A reference Claude Code Agent Skill is RECOMMENDED at `tools/design-data-agent-mcp/skills/design-data/SKILL.md`. The skill SHOULD trigger on intent words covering all three [Goals](#goals) — for example "design system", "design tokens", "drift", "spec-conformant", and explicit Spectrum mentions when the active manifest binds Spectrum.
 
+A separate Spectrum-oriented skill (embedded snapshot, zero config) lives at `tools/design-data-skill/skills/design-data/SKILL.md`. Install both via the `spectrum-design-data` Claude Code marketplace as `design-data-agent@spectrum-design-data` and `design-data@spectrum-design-data` respectively.
+
 **RECOMMENDED:** The skill SHOULD shell out to the CLI rather than embedding tool calls, so its description (the only persistent context cost) stays small and the heavy lifting happens out-of-band.
 
 ## `describe_component` return shape

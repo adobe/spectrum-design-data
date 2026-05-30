@@ -1,12 +1,17 @@
 ---
-name: design-data
+name: design-data-agent
 description: >
-  Validate, query, resolve, and author spec-conformant design tokens and components using the
-  design-data CLI. Use when the user asks about design tokens, a design system, Spectrum, token
-  lookup, spec-conformance, drift detection, or token authoring.
+  Validate, query, resolve, diff, and author spec-conformant design tokens and components using the
+  design-data CLI against a local dataset. Use when the user asks about design tokens, a design
+  system, token lookup, spec-conformance, drift detection, or token authoring on custom data.
+when_to_use: >
+  Trigger on: design system, design tokens, spec-conformant, drift, validate tokens, token
+  authoring, custom dataset, DESIGN_DATA_PATH, design-data validate, design-data diff,
+  design-data write, product-context.json.
+allowed-tools: Bash(npx @adobe/design-data *)
 ---
 
-# design-data CLI skill
+# design-data agent skill
 
 `design-data` is the reference CLI for the Spectrum Design Data specification. It validates, queries, resolves, and authors spec-conformant tokens and components from any dataset on the local filesystem.
 
@@ -17,6 +22,16 @@ export DESIGN_DATA_PATH=./packages/tokens/src
 export DESIGN_DATA_SPEC_PATH=./packages/design-data-spec
 ```
 
+For Spectrum tokens with zero setup (embedded snapshot), use the `design-data` skill instead — this skill targets custom or repo-local datasets.
+
+## Bootstrap
+
+On first use, ensure the CLI is available:
+
+```
+npx @adobe/design-data --version
+```
+
 ***
 
 ## Session start — call `primer` first
@@ -24,7 +39,7 @@ export DESIGN_DATA_SPEC_PATH=./packages/design-data-spec
 Call `primer` at the start of every session that touches design data. It returns the active dimensions, component list, taxonomy fields, and token count — structural context that scopes all subsequent lookups.
 
 ```bash
-design-data primer "$DESIGN_DATA_PATH" --format json \
+npx @adobe/design-data primer "$DESIGN_DATA_PATH" --format json \
   --components-dir "$DESIGN_DATA_SPEC_PATH/components" \
   --fields-dir     "$DESIGN_DATA_SPEC_PATH/fields" \
   --dimensions-dir "$DESIGN_DATA_SPEC_PATH/dimensions"
@@ -41,7 +56,7 @@ The payload includes `specVersion`, `manifest`, `dimensions`, `components`, `tax
 ### Resolve a token to its literal value
 
 ```bash
-design-data resolve <property> "$DESIGN_DATA_PATH" --format json \
+npx @adobe/design-data resolve <property> "$DESIGN_DATA_PATH" --format json \
   [--color-scheme light|dark] \
   [--scale desktop|mobile] \
   [--contrast regular|high]
@@ -50,14 +65,14 @@ design-data resolve <property> "$DESIGN_DATA_PATH" --format json \
 Example:
 
 ```bash
-design-data resolve accent-background-color-default "$DESIGN_DATA_PATH" \
+npx @adobe/design-data resolve accent-background-color-default "$DESIGN_DATA_PATH" \
   --format json --color-scheme dark --scale desktop
 ```
 
 ### Query tokens by filter expression
 
 ```bash
-design-data query "$DESIGN_DATA_PATH" --filter "<expr>" --format json
+npx @adobe/design-data query "$DESIGN_DATA_PATH" --filter "<expr>" --format json
 ```
 
 Valid filter keys: `property`, `component`, `variant`, `state`, `colorScheme`, `scale`, `contrast`, `uuid`, `$schema`. Any other key is a parse error. The dimension keys (`colorScheme`, `scale`, `contrast`) accept the same enum values as the `resolve` flags (`light`/`dark`, `desktop`/`mobile`, `regular`/`high`).
@@ -80,7 +95,7 @@ $schema=https://spectrum.adobe.com/page/design-token/
 ## Component info
 
 ```bash
-design-data component <id> --components-dir "$DESIGN_DATA_SPEC_PATH/components"
+npx @adobe/design-data component <id> --components-dir "$DESIGN_DATA_SPEC_PATH/components"
 ```
 
 Returns the component contract: `name`, `displayName`, `options`, `anatomy`, `states`, and `tokenBindings`. Output is always JSON; there is no `--format` flag on this subcommand.
@@ -90,7 +105,7 @@ Pass `--components-dir` explicitly for the same reason as `primer` — the defau
 Example:
 
 ```bash
-design-data component button --components-dir "$DESIGN_DATA_SPEC_PATH/components"
+npx @adobe/design-data component button --components-dir "$DESIGN_DATA_SPEC_PATH/components"
 ```
 
 ***
@@ -98,7 +113,7 @@ design-data component button --components-dir "$DESIGN_DATA_SPEC_PATH/components
 ## Validation
 
 ```bash
-design-data validate "$DESIGN_DATA_PATH" --format json \
+npx @adobe/design-data validate "$DESIGN_DATA_PATH" --format json \
   [--schema-path <path>] \
   [--exceptions-path <path>] \
   [--strict]
@@ -111,7 +126,7 @@ Returns a `ValidationReport` object: `{ layer: 1|2, errors: [...], warnings: [..
 ## Dataset diff
 
 ```bash
-design-data diff <old-path> <new-path> --format json [--filter <expr>]
+npx @adobe/design-data diff <old-path> <new-path> --format json [--filter <expr>]
 ```
 
 > **Exit codes:** `0` = no changes; `1` = differences found (returns JSON diff — not an error); `>1` = error.
@@ -123,7 +138,7 @@ design-data diff <old-path> <new-path> --format json [--filter <expr>]
 Write or update the product context document in the dataset:
 
 ```bash
-design-data write \
+npx @adobe/design-data write \
   --output "$DESIGN_DATA_PATH/product-context.json" \
   --rationale "Why these overrides exist"
 ```
@@ -141,3 +156,32 @@ Generates a product-context scaffold at the output path (`specVersion`, `layer: 
 * **`query` exit 1** means no matches and still emits `[]`. Only `>1` is an error.
 * **`diff` exit 1** means changes were found. The JSON diff is in stdout — still a success result.
 * **`--format json`** — always pass this in agent and script contexts; the CLI pretty-prints when stdout is a TTY.
+
+## When working in Cursor
+
+Cursor Settings → Rules → **Add Rule** → **Remote Rule (GitHub)** → paste this URL:
+
+```
+https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-mcp/skills/design-data
+```
+
+For always-available tool access (higher context cost), add `@adobe/design-data-agent-mcp` to `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "design-data-agent": {
+      "command": "npx",
+      "args": ["-y", "@adobe/design-data-agent-mcp"],
+      "env": {
+        "DESIGN_DATA_PATH": "./packages/tokens/src",
+        "DESIGN_DATA_COMPONENTS": "./packages/design-data-spec/components",
+        "DESIGN_DATA_FIELDS": "./packages/design-data-spec/fields",
+        "DESIGN_DATA_DIMENSIONS": "./packages/design-data-spec/dimensions"
+      }
+    }
+  }
+}
+```
+
+Adjust paths to match your dataset layout.

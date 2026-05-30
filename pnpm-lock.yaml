@@ -574,6 +574,8 @@ importers:
         specifier: ^6.0.1
         version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
 
+  tools/design-data-skill: {}
+
   tools/diff-generator:
     dependencies:
       "@adobe/optimized-diff":

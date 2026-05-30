@@ -1,0 +1,36 @@
+{
+  "name": "@adobe/design-data-skill",
+  "version": "1.0.0",
+  "description": "Claude Code skill for Spectrum design tokens and component schemas via the design-data CLI",
+  "type": "module",
+  "files": [
+    "skills/",
+    ".claude-plugin/",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "tools/design-data-skill"
+  },
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-skill#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "provenance": true
+  },
+  "keywords": [
+    "claude-code",
+    "skill",
+    "spectrum",
+    "design-system",
+    "design-tokens",
+    "design-data"
+  ],
+  "author": "Adobe",
+  "license": "Apache-2.0"
+}
