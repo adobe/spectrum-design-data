@@ -154,6 +154,11 @@ impl TokenGraph {
     /// preserved and catalog mode sets are appended (not replaced), matching the
     /// cache/query/resolve graph. Components are loaded from `components_dir`
     /// (replace) since `from_json_dir_with_names` never discovers components.
+    ///
+    /// Mode sets are not deduplicated: an inline and a catalog mode set sharing
+    /// the same `name` both remain in `mode_sets` (intentional consistency with
+    /// the cache/query/resolve graph). The canonical Spectrum layout keeps mode
+    /// sets only in the catalog, so this overlap does not arise there.
     pub fn from_json_dir_with_names_and_catalogs(
         root: &Path,
         names_dir: Option<&Path>,
