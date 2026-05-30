@@ -421,7 +421,7 @@ fn run_resolve(
         mode_sets: mode_sets_path,
         ..Default::default()
     }).into_diagnostic()?;
-    let ms_dir = resolved.mode_sets;
+    let ms_dir = resolved.mode_sets.clone();
     if let Some(dir) = ms_dir {
         if dir.is_dir() {
             let mode_sets = TokenGraph::load_spec_mode_sets(&dir)
@@ -431,12 +431,19 @@ fn run_resolve(
         }
     }
 
+    // Apply a configured platform manifest (Foundation→Platform cascade): filter the
+    // token set, layer in overrides/extensions, and capture mode-set restrictions.
+    let restrictions = apply_configured_manifest(&mut graph, &resolved)?;
+
     // Build a property-filtered context (remove the internal marker).
     let mut resolve_ctx = ResolutionContext::new();
     for (k, v) in &ctx.mode_sets {
         if k != "__property_filter__" {
             resolve_ctx = resolve_ctx.with(k.clone(), v.clone());
         }
+    }
+    for (mode_set, allowed) in &restrictions {
+        resolve_ctx = resolve_ctx.with_restriction(mode_set.clone(), allowed.clone());
     }
 
     // Filter graph to tokens matching the requested property.
@@ -460,13 +467,11 @@ fn run_resolve(
     }
 
     // Build a temporary graph with only the filtered tokens for resolution.
-    let filtered_graph = TokenGraph::from_pairs(
-        candidates
-            .iter()
-            .map(|t| (t.name.clone(), t.file.clone(), t.raw.clone()))
-            .collect(),
-    )
-    .with_mode_sets(graph.mode_sets.clone());
+    // Preserve full records (and their cascade `layer`) so Platform-layer
+    // manifest overrides correctly win over Foundation tokens.
+    let filtered_records: Vec<_> = candidates.iter().map(|t| (*t).clone()).collect();
+    let filtered_graph =
+        TokenGraph::from_records(filtered_records).with_mode_sets(graph.mode_sets.clone());
 
     match resolve(&filtered_graph, &resolve_ctx) {
         None => {
@@ -742,15 +747,71 @@ fn run_diff(
     }
 }
 
+/// Locate the spec's `manifest.schema.json` by walking up from the token schemas
+/// directory to the repo root. Returns `None` when not found (e.g. outside a repo).
+fn locate_manifest_schema(schemas_root: &Path) -> Option<PathBuf> {
+    schemas_root.ancestors().find_map(|p| {
+        let candidate = p.join("packages/design-data-spec/schemas/manifest.schema.json");
+        candidate.is_file().then_some(candidate)
+    })
+}
+
+/// Apply the Layer 2 platform manifest declared in `.design-data.toml`
+/// (`[source].manifest`) to `graph`, returning the mode-set restrictions to feed
+/// into a [`ResolutionContext`]. A no-op (empty map) when no manifest is configured.
+///
+/// When the spec's `manifest.schema.json` is locatable, the manifest is first
+/// validated (Layer 1); schema violations abort with an error.
+fn apply_configured_manifest(
+    graph: &mut TokenGraph,
+    resolved: &data_source::ResolvedData,
+) -> miette::Result<std::collections::HashMap<String, Vec<String>>> {
+    let Some(manifest_path) = resolved.platform_manifest.as_ref() else {
+        return Ok(std::collections::HashMap::new());
+    };
+    let text = std::fs::read_to_string(manifest_path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to read platform manifest {}", manifest_path.display()))?;
+    let manifest: serde_json::Value = serde_json::from_str(&text)
+        .into_diagnostic()
+        .wrap_err_with(|| {
+            format!("failed to parse platform manifest {}", manifest_path.display())
+        })?;
+
+    if let Some(schema_path) = locate_manifest_schema(&resolved.schemas_root) {
+        let errors = SchemaRegistry::validate_manifest(&manifest, &schema_path)
+            .into_diagnostic()
+            .wrap_err("failed to validate platform manifest against manifest.schema.json")?;
+        if !errors.is_empty() {
+            return Err(miette::miette!(
+                "platform manifest {} failed Layer 1 schema validation:\n  {}",
+                manifest_path.display(),
+                errors.join("\n  ")
+            ));
+        }
+    }
+
+    let outcome = graph
+        .apply_platform_manifest(&manifest)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+    Ok(outcome.mode_set_restrictions)
+}
+
 fn run_query(
     path: &Path,
     filter_expr: &str,
     format: OutputFormat,
     count_only: bool,
 ) -> miette::Result<ExitCode> {
-    let graph = TokenGraph::from_json_dir(path)
+    let mut graph = TokenGraph::from_json_dir(path)
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+
+    // Apply a configured platform manifest (filters/overrides/extensions) before querying.
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let resolved = data_source::resolve(&cwd, &CliPathOverrides::default()).into_diagnostic()?;
+    apply_configured_manifest(&mut graph, &resolved)?;
 
     let expr = query::parse(filter_expr)
         .into_diagnostic()

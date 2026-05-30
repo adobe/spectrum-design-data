@@ -382,10 +382,7 @@ fn evict_stale_versions(current: &Path, parent_dir: &Path) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::sync::Mutex;
-
-    // Serialize tests that mutate DESIGN_DATA_CACHE_DIR.
-    static ENV_LOCK: Mutex<()> = Mutex::new(());
+    use crate::data_source::test_support::env_lock;
 
     #[test]
     fn should_extract_tokens_src() {
@@ -426,7 +423,7 @@ mod tests {
 
     #[test]
     fn npm_source_returns_not_yet_supported() {
-        let _guard = ENV_LOCK.lock().unwrap();
+        let _guard = env_lock();
         let tmp = tempfile::TempDir::new().unwrap();
         std::env::set_var("DESIGN_DATA_CACHE_DIR", tmp.path());
         let source = SourceConfig::Npm {
@@ -440,7 +437,7 @@ mod tests {
 
     #[test]
     fn git_source_returns_not_yet_supported() {
-        let _guard = ENV_LOCK.lock().unwrap();
+        let _guard = env_lock();
         let tmp = tempfile::TempDir::new().unwrap();
         std::env::set_var("DESIGN_DATA_CACHE_DIR", tmp.path());
         let source = SourceConfig::Git {
@@ -457,7 +454,7 @@ mod tests {
     #[test]
     #[ignore = "requires network access"]
     fn fetch_github_downloads_and_caches() {
-        let _guard = ENV_LOCK.lock().unwrap();
+        let _guard = env_lock();
         let tmp = tempfile::TempDir::new().unwrap();
         std::env::set_var("DESIGN_DATA_CACHE_DIR", tmp.path());
 

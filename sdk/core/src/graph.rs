@@ -10,12 +10,13 @@
 
 //! In-memory token graph for relational (Layer 2) validation.
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
 
 use serde_json::Value;
 
 use crate::discovery::discover_json_files;
+use crate::query;
 use crate::CoreError;
 
 /// Cascade layer (Foundation < Platform < Product).
@@ -426,6 +427,225 @@ impl TokenGraph {
         Ok(())
     }
 
+    /// Apply a Layer 2 **platform manifest** to this (foundation) graph in place.
+    ///
+    /// Implements the Foundation → Platform cascade from `spec/manifest.md` and
+    /// `spec/cascade.md`. The manifest is the platform-layer analog of the
+    /// product-context overlay handled by [`Self::load_product_context`].
+    ///
+    /// Steps (applied in order):
+    /// 1. `include` / `exclude` — filter the foundation token set using the
+    ///    query grammar (`spec/query.md`). When `include` is present and
+    ///    non-empty, only tokens matching at least one include query are kept;
+    ///    `exclude` then removes tokens matching any exclude query. Each entry
+    ///    MUST be a parseable query (SPEC-039); a parse error is surfaced as
+    ///    [`CoreError::QueryParse`].
+    /// 2. `overrides` — typed overrides inserted at [`Layer::Platform`]. Each
+    ///    `overrides[].target` string is resolved in order: (a) when it contains
+    ///    `=` or `!=`, as a query expression (may match multiple tokens); (b)
+    ///    otherwise as a token UUID via the graph's UUID index; (c) otherwise as
+    ///    a graph key (legacy slug or cascade `"file:index"` key). Each override
+    ///    MUST preserve the target token's value JSON type
+    ///    (`spec/cascade.md` type safety / SPEC-006); a type change is a
+    ///    [`CoreError::ParseError`].
+    /// 3. `extensions.tokens` — net-new platform tokens inserted at
+    ///    [`Layer::Platform`].
+    /// 4. `modeSetRestrictions` — returned so the caller can seed a
+    ///    [`crate::cascade::ResolutionContext`]; restrictions are enforced at
+    ///    resolution time, not by mutating the graph.
+    ///
+    /// The caller is responsible for Layer 1 schema validation of the manifest
+    /// (see [`crate::schema::validate_manifest`]); this method assumes a
+    /// structurally valid document and ignores fields it does not recognise.
+    pub fn apply_platform_manifest(
+        &mut self,
+        manifest: &Value,
+    ) -> Result<PlatformManifest, CoreError> {
+        // 1. include / exclude filtering.
+        if let Some(entries) = manifest.get("include").and_then(|v| v.as_array()) {
+            if !entries.is_empty() {
+                let mut keep: HashSet<String> = HashSet::new();
+                for entry in entries {
+                    let Some(s) = entry.as_str() else { continue };
+                    let filter = query::parse(s)?;
+                    for rec in query::filter(self, &filter) {
+                        keep.insert(rec.name.clone());
+                    }
+                }
+                self.tokens.retain(|k, _| keep.contains(k));
+            }
+        }
+        if let Some(entries) = manifest.get("exclude").and_then(|v| v.as_array()) {
+            let mut drop: HashSet<String> = HashSet::new();
+            for entry in entries {
+                let Some(s) = entry.as_str() else { continue };
+                let filter = query::parse(s)?;
+                for rec in query::filter(self, &filter) {
+                    drop.insert(rec.name.clone());
+                }
+            }
+            if !drop.is_empty() {
+                self.tokens.retain(|k, _| !drop.contains(k));
+            }
+        }
+        // Rebuild the UUID index so override/alias resolution below cannot point
+        // at tokens that were just filtered out.
+        self.rebuild_uuid_index();
+
+        // 2. overrides — typed, Platform layer, type-preserving.
+        if let Some(overrides) = manifest.get("overrides").and_then(|v| v.as_array()) {
+            for (idx, entry) in overrides.iter().enumerate() {
+                let Some(target) = entry.get("target").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let matches = self.resolve_override_targets(target)?;
+                for (match_idx, (name_obj, orig_value, uuid)) in matches.into_iter().enumerate() {
+                    let mut synthetic = serde_json::Map::new();
+                    synthetic.insert("name".to_string(), name_obj);
+                    if let Some(new_value) = entry.get("value") {
+                        if let Some(orig) = &orig_value {
+                            if json_kind(orig) != json_kind(new_value) {
+                                return Err(CoreError::ParseError(format!(
+                                    "manifest overrides[{idx}] for target {target:?} changes value \
+                                     type from {} to {} (violates cascade type safety)",
+                                    json_kind(orig),
+                                    json_kind(new_value),
+                                )));
+                            }
+                        }
+                        synthetic.insert("value".to_string(), new_value.clone());
+                    } else if let Some(ref_val) = entry.get("$ref") {
+                        synthetic.insert("$ref".to_string(), ref_val.clone());
+                    } else {
+                        continue;
+                    }
+                    if let Some(u) = &uuid {
+                        synthetic.insert("uuid".to_string(), Value::String(u.clone()));
+                    }
+                    let raw = Value::Object(synthetic);
+                    let alias_target = raw.as_object().and_then(extract_alias_target);
+                    let key = format!("platform-override:{target}:{idx}:{match_idx}");
+                    if let Some(u) = &uuid {
+                        self.uuid_index.entry(u.clone()).or_insert_with(|| key.clone());
+                    }
+                    self.tokens.insert(
+                        key.clone(),
+                        TokenRecord {
+                            name: key,
+                            file: PathBuf::from("manifest.json"),
+                            index: idx,
+                            schema_url: None,
+                            uuid,
+                            alias_target,
+                            raw,
+                            layer: Layer::Platform,
+                        },
+                    );
+                }
+            }
+        }
+
+        // 3. extensions.tokens — net-new Platform-layer tokens.
+        if let Some(ext_tokens) = manifest
+            .get("extensions")
+            .and_then(|v| v.get("tokens"))
+            .and_then(|v| v.as_array())
+        {
+            for (idx, token_val) in ext_tokens.iter().enumerate() {
+                let Some(tok_obj) = token_val.as_object() else {
+                    continue;
+                };
+                let uuid = tok_obj.get("uuid").and_then(|v| v.as_str()).map(str::to_string);
+                let schema_url = tok_obj
+                    .get("$schema")
+                    .and_then(|v| v.as_str())
+                    .map(str::to_string);
+                let alias_target = extract_alias_target(tok_obj);
+                let key = format!("platform-ext:{idx}");
+                if let Some(u) = &uuid {
+                    self.uuid_index.entry(u.clone()).or_insert_with(|| key.clone());
+                }
+                self.tokens.insert(
+                    key.clone(),
+                    TokenRecord {
+                        name: key,
+                        file: PathBuf::from("manifest.json"),
+                        index: idx,
+                        schema_url,
+                        uuid,
+                        alias_target,
+                        raw: token_val.clone(),
+                        layer: Layer::Platform,
+                    },
+                );
+            }
+        }
+
+        // 4. modeSetRestrictions — returned for the resolution context.
+        let mut mode_set_restrictions: HashMap<String, Vec<String>> = HashMap::new();
+        if let Some(obj) = manifest.get("modeSetRestrictions").and_then(|v| v.as_object()) {
+            for (ms_name, restr) in obj {
+                if let Some(allowed) = restr.get("allowed").and_then(|v| v.as_array()) {
+                    let modes: Vec<String> = allowed
+                        .iter()
+                        .filter_map(|v| v.as_str().map(str::to_string))
+                        .collect();
+                    if !modes.is_empty() {
+                        mode_set_restrictions.insert(ms_name.clone(), modes);
+                    }
+                }
+            }
+        }
+
+        Ok(PlatformManifest {
+            mode_set_restrictions,
+        })
+    }
+
+    /// Resolve a manifest override `target` to the affected token name objects.
+    ///
+    /// Resolution order matches [`Self::apply_platform_manifest`]: query expression
+    /// (when `target` contains `=` or `!=`), then UUID lookup, then graph key.
+    fn resolve_override_targets(
+        &self,
+        target: &str,
+    ) -> Result<Vec<OverrideTargetMatch>, CoreError> {
+        if target.contains('=') {
+            let filter = query::parse(target)?;
+            return Ok(query::filter(self, &filter)
+                .into_iter()
+                .filter_map(|rec| {
+                    rec.raw.get("name").cloned().map(|name_obj| {
+                        (name_obj, rec.raw.get("value").cloned(), rec.uuid.clone())
+                    })
+                })
+                .collect());
+        }
+        let record = self
+            .uuid_index
+            .get(target)
+            .and_then(|k| self.tokens.get(k))
+            .or_else(|| self.tokens.get(target));
+        if let Some(rec) = record {
+            if let Some(name_obj) = rec.raw.get("name").cloned() {
+                return Ok(vec![(name_obj, rec.raw.get("value").cloned(), rec.uuid.clone())]);
+            }
+        }
+        Ok(Vec::new())
+    }
+
+    /// Rebuild `uuid_index` from the current `tokens` map (after filtering).
+    fn rebuild_uuid_index(&mut self) {
+        self.uuid_index.clear();
+        for (key, rec) in &self.tokens {
+            if let Some(u) = &rec.uuid {
+                self.uuid_index
+                    .entry(u.clone())
+                    .or_insert_with(|| key.clone());
+            }
+        }
+    }
+
     /// Attach mode set records (e.g. from conformance fixtures).
     pub fn with_mode_sets(mut self, mode_sets: Vec<ModeSetRecord>) -> Self {
         self.mode_sets = mode_sets;
@@ -458,6 +678,33 @@ impl TokenGraph {
     pub fn with_components(mut self, components: Vec<ComponentRecord>) -> Self {
         self.components = components;
         self
+    }
+}
+
+/// Outcome of [`TokenGraph::apply_platform_manifest`].
+///
+/// The graph itself is mutated in place (filtered set + Platform-layer override
+/// and extension tokens). Mode set restrictions are returned separately because
+/// they are enforced at resolution time via
+/// [`crate::cascade::ResolutionContext`], not by mutating the graph.
+#[derive(Debug, Clone, Default)]
+pub struct PlatformManifest {
+    /// Mode set name → allowed mode values declared by `modeSetRestrictions`.
+    pub mode_set_restrictions: HashMap<String, Vec<String>>,
+}
+
+/// One foundation token matched by a manifest `overrides[].target` string.
+type OverrideTargetMatch = (Value, Option<Value>, Option<String>);
+
+/// The JSON "kind" of a value, used for override type-safety checks.
+fn json_kind(v: &Value) -> &'static str {
+    match v {
+        Value::Null => "null",
+        Value::Bool(_) => "boolean",
+        Value::Number(_) => "number",
+        Value::String(_) => "string",
+        Value::Array(_) => "array",
+        Value::Object(_) => "object",
     }
 }
 
@@ -646,5 +893,189 @@ mod tests {
         let g = TokenGraph::from_json_dir(tokens_dir.path()).unwrap();
         let token = g.tokens.get("blue-100").unwrap();
         assert!(token.raw.get("name").is_none());
+    }
+
+    // ── apply_platform_manifest (Foundation→Platform cascade) ──────────────────
+
+    /// Build a small foundation graph for manifest cascade tests.
+    fn foundation_graph() -> TokenGraph {
+        TokenGraph::from_pairs(vec![
+            (
+                "btn-bg".into(),
+                PathBuf::from("button.json"),
+                json!({"name": {"property": "background-color", "component": "button"}, "value": "#aaa", "uuid": "u-btn-bg"}),
+            ),
+            (
+                "btn-fg".into(),
+                PathBuf::from("button.json"),
+                json!({"name": {"property": "color", "component": "button"}, "value": "#111", "uuid": "u-btn-fg"}),
+            ),
+            (
+                "chk-bg".into(),
+                PathBuf::from("checkbox.json"),
+                json!({"name": {"property": "background-color", "component": "checkbox"}, "value": "#bbb", "uuid": "u-chk-bg"}),
+            ),
+        ])
+    }
+
+    #[test]
+    fn manifest_include_filters_to_matching_tokens() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "include": ["component=button"]
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+        assert_eq!(g.tokens.len(), 2);
+        assert!(g.tokens.contains_key("btn-bg"));
+        assert!(g.tokens.contains_key("btn-fg"));
+        assert!(!g.tokens.contains_key("chk-bg"));
+    }
+
+    #[test]
+    fn manifest_exclude_removes_matching_tokens() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "exclude": ["property=color"]
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+        assert!(!g.tokens.contains_key("btn-fg"));
+        assert_eq!(g.tokens.len(), 2);
+    }
+
+    #[test]
+    fn manifest_include_then_exclude_compose() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "include": ["component=button"],
+            "exclude": ["property=color"]
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+        assert_eq!(g.tokens.len(), 1);
+        assert!(g.tokens.contains_key("btn-bg"));
+    }
+
+    #[test]
+    fn manifest_unparseable_query_errors() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "include": ["not-a-valid-query"]
+        });
+        assert!(matches!(
+            g.apply_platform_manifest(&manifest),
+            Err(CoreError::QueryParse(_))
+        ));
+    }
+
+    #[test]
+    fn manifest_override_by_uuid_adds_platform_token() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "overrides": [{"target": "u-btn-bg", "value": "#ffffff"}]
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+        let overridden = g
+            .tokens
+            .values()
+            .find(|t| t.layer == Layer::Platform && t.uuid.as_deref() == Some("u-btn-bg"))
+            .expect("platform override token present");
+        assert_eq!(overridden.raw.get("value").and_then(|v| v.as_str()), Some("#ffffff"));
+        // Name object is inherited from the foundation token.
+        assert_eq!(
+            overridden.raw["name"]["component"].as_str(),
+            Some("button")
+        );
+    }
+
+    #[test]
+    fn manifest_override_by_query_targets_all_matches() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "overrides": [{"target": "property=background-color", "value": "#000000"}]
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+        let platform_overrides = g
+            .tokens
+            .values()
+            .filter(|t| t.layer == Layer::Platform)
+            .count();
+        assert_eq!(platform_overrides, 2); // btn-bg + chk-bg
+    }
+
+    #[test]
+    fn manifest_override_type_change_errors() {
+        let mut g = foundation_graph();
+        // btn-bg value is a string; overriding with a number violates type safety.
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "overrides": [{"target": "u-btn-bg", "value": 42}]
+        });
+        assert!(matches!(
+            g.apply_platform_manifest(&manifest),
+            Err(CoreError::ParseError(_))
+        ));
+    }
+
+    #[test]
+    fn manifest_extensions_add_platform_tokens() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "tokens": [
+                    {"name": {"property": "elevation", "component": "card"}, "value": "4dp", "uuid": "u-card-elev"}
+                ]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+        let ext = g
+            .tokens
+            .values()
+            .find(|t| t.uuid.as_deref() == Some("u-card-elev"))
+            .expect("extension token present");
+        assert_eq!(ext.layer, Layer::Platform);
+    }
+
+    #[test]
+    fn manifest_mode_set_restrictions_returned() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "modeSetRestrictions": {
+                "colorScheme": {"allowed": ["light", "dark"]}
+            }
+        });
+        let outcome = g.apply_platform_manifest(&manifest).unwrap();
+        assert_eq!(
+            outcome.mode_set_restrictions.get("colorScheme"),
+            Some(&vec!["light".to_string(), "dark".to_string()])
+        );
+    }
+
+    #[test]
+    fn manifest_empty_is_noop() {
+        let mut g = foundation_graph();
+        let before = g.tokens.len();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0"
+        });
+        let outcome = g.apply_platform_manifest(&manifest).unwrap();
+        assert_eq!(g.tokens.len(), before);
+        assert!(outcome.mode_set_restrictions.is_empty());
     }
 }

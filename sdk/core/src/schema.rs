@@ -110,6 +110,25 @@ impl SchemaRegistry {
         &self.token_file_schema_url
     }
 
+    /// Validate a platform manifest document against `manifest.schema.json`.
+    ///
+    /// `manifest_schema_path` points at the spec's `schemas/manifest.schema.json`.
+    /// Returns the list of Layer 1 schema violation messages (empty = valid).
+    /// This is the manifest analog of token schema validation and is used by the
+    /// Foundation→Platform cascade ([`crate::graph::TokenGraph::apply_platform_manifest`]).
+    pub fn validate_manifest(
+        manifest: &Value,
+        manifest_schema_path: &Path,
+    ) -> Result<Vec<String>, CoreError> {
+        let text = fs::read_to_string(manifest_schema_path)?;
+        let schema: Value = serde_json::from_str(&text)?;
+        let validator = jsonschema::options()
+            .with_draft(Draft::Draft202012)
+            .build(&schema)
+            .map_err(|e| CoreError::SchemaBuild(e.to_string()))?;
+        Ok(validator.iter_errors(manifest).map(|e| e.to_string()).collect())
+    }
+
     /// Construct a no-op stub for unit tests where schema validation is never reached.
     #[cfg(test)]
     pub fn new_stub() -> Self {
@@ -123,5 +142,48 @@ impl SchemaRegistry {
             token_file_validator: validator,
             token_file_schema_url: String::new(),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    fn manifest_schema_path() -> std::path::PathBuf {
+        Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/schemas/manifest.schema.json")
+    }
+
+    #[test]
+    fn validate_manifest_accepts_valid_document() {
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "include": ["component=button"],
+            "modeSetRestrictions": {"colorScheme": {"allowed": ["light", "dark"]}}
+        });
+        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
+        assert!(errors.is_empty(), "expected no errors, got: {errors:?}");
+    }
+
+    #[test]
+    fn validate_manifest_rejects_missing_required_field() {
+        // Missing the required `foundationVersion`.
+        let manifest = json!({ "specVersion": "1.0.0-draft" });
+        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
+        assert!(!errors.is_empty());
+    }
+
+    #[test]
+    fn validate_manifest_rejects_unknown_top_level_key() {
+        // Schema sets additionalProperties:false at the top level.
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "bogusKey": true
+        });
+        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
+        assert!(!errors.is_empty());
     }
 }
