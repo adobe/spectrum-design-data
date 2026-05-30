@@ -1,7 +1,6 @@
 {
   "name": "design-data-agent",
   "description": "Spec-conformant design token lookup, validation, diff, and authoring for any dataset via the design-data CLI.",
-  "version": "1.2.0",
   "author": {
     "name": "Adobe"
   },

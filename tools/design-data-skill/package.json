@@ -6,7 +6,8 @@
   "files": [
     "skills/",
     ".claude-plugin/",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",
