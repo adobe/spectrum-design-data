@@ -10,6 +10,11 @@
       "name": "s2-docs",
       "description": "Spectrum 2 component documentation on-demand. Fetches S2 design guidelines, component options, and usage patterns without loading a persistent MCP server.",
       "source": "./tools/s2-docs-mcp"
+    },
+    {
+      "name": "design-data",
+      "description": "Spectrum design tokens and component schemas via the design-data CLI.",
+      "source": "./tools/design-data-skill"
     }
   ]
 }

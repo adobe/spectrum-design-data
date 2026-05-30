@@ -1,0 +1,9 @@
+{
+  "name": "design-data",
+  "description": "Spectrum design tokens, component schemas, and design-system insights for Claude Code.",
+  "version": "1.0.0",
+  "author": { "name": "Adobe" },
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-skill",
+  "repository": "https://github.com/adobe/spectrum-design-data",
+  "license": "Apache-2.0"
+}
