@@ -421,18 +421,16 @@ fn run_resolve(
     format: OutputFormat,
 ) -> miette::Result<ExitCode> {
     // Build resolution context from flags.
-    let mut ctx = ResolutionContext::new();
+    let mut resolve_ctx = ResolutionContext::new();
     if let Some(m) = color_scheme {
-        ctx = ctx.with("colorScheme", m);
+        resolve_ctx = resolve_ctx.with("colorScheme", m);
     }
     if let Some(m) = scale {
-        ctx = ctx.with("scale", m);
+        resolve_ctx = resolve_ctx.with("scale", m);
     }
     if let Some(m) = contrast {
-        ctx = ctx.with("contrast", m);
+        resolve_ctx = resolve_ctx.with("contrast", m);
     }
-    // A property filter: only consider tokens whose name.property matches.
-    ctx = ctx.with("__property_filter__", property.to_string());
 
     // Load token graph (via the embedded-database cache when fresh).
     let mut graph = TokenGraph::open_cached(path)
@@ -465,13 +463,6 @@ fn run_resolve(
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
 
-    // Build a property-filtered context (remove the internal marker).
-    let mut resolve_ctx = ResolutionContext::new();
-    for (k, v) in &ctx.mode_sets {
-        if k != "__property_filter__" {
-            resolve_ctx = resolve_ctx.with(k.clone(), v.clone());
-        }
-    }
     for (mode_set, allowed) in &restrictions {
         resolve_ctx = resolve_ctx.with_restriction(mode_set.clone(), allowed.clone());
     }

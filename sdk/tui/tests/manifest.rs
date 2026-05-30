@@ -12,7 +12,7 @@
 
 use std::collections::HashMap;
 use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use design_data_core::cascade::{resolve_property, ResolutionContext};
 use design_data_core::data_source::{self, CliPathOverrides};
@@ -68,8 +68,8 @@ fn setup_project(manifest: serde_json::Value) -> tempfile::TempDir {
 
 /// Mirror `DatasetHandle::load` manifest application for integration tests.
 fn load_session(
-    project_path: &PathBuf,
-    tokens_path: &PathBuf,
+    project_path: &Path,
+    tokens_path: &Path,
 ) -> (TokenGraph, TokenIndex, HashMap<String, Vec<String>>) {
     let (mut graph, mut token_index) =
         TokenGraph::open_cached_with_index(tokens_path).expect("open cached graph");
@@ -161,6 +161,9 @@ fn resolve_respects_manifest_restrictions() {
             assert!(!view.rows.is_empty());
             assert!(view.rows.iter().any(|r| r.is_winner));
         }
-        other => panic!("expected resolve view, got {:?}", std::mem::discriminant(other)),
+        other => panic!(
+            "expected resolve view, got {:?}",
+            std::mem::discriminant(other)
+        ),
     }
 }

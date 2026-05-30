@@ -359,7 +359,6 @@ fn submit(model: &mut Model, ctx: &UpdateCtx<'_>, cmd: &str) {
 #[test]
 fn find_command_opens_find_modal() {
     let graph = make_find_graph();
-    let index = TokenIndex::build(&graph);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "find");
@@ -369,7 +368,6 @@ fn find_command_opens_find_modal() {
 #[test]
 fn find_command_with_args_seeds_intent() {
     let graph = make_find_graph();
-    let index = TokenIndex::build(&graph);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "find accent background");
@@ -383,7 +381,6 @@ fn find_command_with_args_seeds_intent() {
 #[test]
 fn find_command_no_args_opens_modal_with_empty_fields() {
     let graph = make_find_graph();
-    let index = TokenIndex::build(&graph);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "find");
@@ -398,7 +395,6 @@ fn find_command_no_args_opens_modal_with_empty_fields() {
 #[test]
 fn tab_autocompletes_find_command() {
     let graph = make_find_graph();
-    let index = TokenIndex::build(&graph);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
@@ -412,7 +408,6 @@ fn tab_autocompletes_find_command() {
 #[test]
 fn esc_in_find_modal_closes_it() {
     let graph = make_find_graph();
-    let index = TokenIndex::build(&graph);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "find");
@@ -424,7 +419,6 @@ fn esc_in_find_modal_closes_it() {
 #[test]
 fn accepting_preview_opens_query_view_and_closes_modal() {
     let graph = make_find_graph();
-    let index = TokenIndex::build(&graph);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "find");
@@ -454,7 +448,6 @@ fn accepting_preview_opens_query_view_and_closes_modal() {
 #[test]
 fn e_on_preview_keeps_modal_open_and_returns_to_filters() {
     let graph = make_find_graph();
-    let index = TokenIndex::build(&graph);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     submit(&mut model, &ctx, "find");
