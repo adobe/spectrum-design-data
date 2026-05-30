@@ -70,19 +70,22 @@ jobs:
       # both parameters independently. The fork is still used in the `release` job
       # where `oidcAuth: true` is needed for npm trusted publishing.
       #
-      # `pnpm version` runs `changeset version && moon run :version`. The Moon
-      # step (sync-cargo-version.mjs) mirrors the bumped npm version into the
-      # cli/tui Cargo.toml files. The `fixed` group in .changeset/config.json
-      # keeps all five @adobe/design-data* npm packages bumping together, so the
-      # platform binary packages can never lag behind the launcher version (the
-      # 0.2.0 partial-publish failure mode).
+      # `pnpm run version` runs the package.json "version" script
+      # (`changeset version && moon run :version`). The explicit `run` is
+      # required — bare `pnpm version` collides with pnpm's built-in npm-style
+      # version command and would NOT execute the script. The Moon step
+      # (sync-cargo-version.mjs) mirrors the bumped npm version into the cli/tui
+      # Cargo.toml files. The `fixed` group in .changeset/config.json keeps all
+      # five @adobe/design-data* npm packages bumping together, so the platform
+      # binary packages can never lag behind the launcher version (the 0.2.0
+      # partial-publish failure mode).
       - name: Create or update Version Packages PR
         id: cs
         uses: changesets/action@v1
         with:
           commit: "chore: release"
           title: "Version Packages"
-          version: pnpm version
+          version: pnpm run version
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 

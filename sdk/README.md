@@ -209,7 +209,7 @@ The `figma` module in `design-data-core` is gated behind the optional `figma` fe
 
 ## Versioning
 
-Versions are managed via [changesets](https://github.com/changesets/changesets) at the repo root. Run `pnpm version` (which chains `changeset version && moon run :version`) so the npm bump and the Rust crate versions stay in sync. `moon run sdk:version` (`scripts/sync-cargo-version.mjs`) mirrors the npm version from `cli/package.json` into `cli/Cargo.toml` and `tui/Cargo.toml`.
+Versions are managed via [changesets](https://github.com/changesets/changesets) at the repo root. Run `pnpm run version` (which chains `changeset version && moon run :version`) so the npm bump and the Rust crate versions stay in sync. The explicit `run` is required — bare `pnpm version` invokes pnpm's built-in version command and skips the script. `moon run sdk:version` (`scripts/sync-cargo-version.mjs`) mirrors the npm version from `cli/package.json` into `cli/Cargo.toml` and `tui/Cargo.toml`.
 
 ### Platform package version locking
 
