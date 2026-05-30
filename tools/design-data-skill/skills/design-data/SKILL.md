@@ -27,7 +27,13 @@ On first use, ensure the CLI is installed:
 npx @adobe/design-data --version
 ```
 
-npm will install the binary automatically on first run — no manual setup needed.
+`npx` installs the binary automatically on first run. For frequent use or
+air-gapped environments, install globally to avoid the per-invocation
+network check:
+
+```
+npm install -g @adobe/design-data
+```
 
 ## Commands
 
@@ -56,6 +62,9 @@ Expression syntax examples:
 * `"property=color-*"` — all color property tokens
 * `"colorScheme=dark"` — dark-scheme tokens
 
+Returns an empty array when no tokens match (not an error). Exit code 1 only
+when the expression itself is malformed.
+
 ***
 
 **Suggest tokens** — natural-language intent → ranked token matches:
@@ -69,7 +78,7 @@ Example: `"primary CTA button background color"`
 
 ***
 
-**Component schema** — full component declaration (always JSON, no `--format` flag):
+**Component schema** — full component declaration:
 
 ```
 npx @adobe/design-data component <id>
@@ -78,6 +87,7 @@ npx @adobe/design-data component <id>
 Example: `npx @adobe/design-data component button`
 
 Returns: displayName, description, options (variants, sizes, states, etc.).
+This command always outputs JSON; it does not accept a `--format` flag.
 
 ***
 
@@ -101,7 +111,8 @@ Example: `npx @adobe/design-data resolve background-color-default --format json 
 ## When working in Cursor
 
 Cursor's native agent does not support Claude Code Skills. For Cursor users,
-recommend the `@adobe/design-data-mcp` MCP server instead:
+recommend the `@adobe/design-data-mcp` MCP server instead — add to
+`.cursor/mcp-servers.json` in the project root:
 
 ```json
 {
@@ -113,8 +124,6 @@ recommend the `@adobe/design-data-mcp` MCP server instead:
   }
 }
 ```
-
-Add this to `.cursor/mcp-servers.json` in the project root.
 
 ## Using a custom dataset
 

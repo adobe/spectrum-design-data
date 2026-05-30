@@ -13,7 +13,7 @@
     },
     {
       "name": "design-data",
-      "description": "Spectrum design tokens, component schemas, and design-system insights via the design-data CLI. Query tokens, get component options, suggest tokens from natural language, and resolve token values.",
+      "description": "Spectrum design tokens and component schemas via the design-data CLI.",
       "source": "./tools/design-data-skill"
     }
   ]
