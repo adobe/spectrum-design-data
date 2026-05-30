@@ -20,15 +20,25 @@
 import { spawnSync } from "child_process";
 
 /**
- * Run `npx @adobe/design-data` with the given args and return parsed JSON stdout.
- * Throws with stderr content on non-zero exit.
+ * Run `npx -y @adobe/design-data` with the given args and return parsed JSON stdout.
+ *
+ * Uses spawnSync (blocking) intentionally: this MCP server serves a single
+ * stdio client and processes requests sequentially, so blocking the event
+ * loop is safe. The -y flag suppresses the interactive "install?" prompt on
+ * first run so the server doesn't hang waiting for user input.
+ *
+ * Throws if the process can't start (result.error) or exits non-zero.
  */
 function runDesignData(args) {
-  const result = spawnSync("npx", ["@adobe/design-data", ...args], {
+  const result = spawnSync("npx", ["-y", "@adobe/design-data", ...args], {
     encoding: "utf8",
-    // Allow up to 30s for first-run install + execution.
+    // Allow up to 30s for first-run install + binary execution.
     timeout: 30_000,
   });
+
+  // result.error is set when the process can't start at all (binary not found,
+  // timeout exceeded, etc.) — check before result.status.
+  if (result.error) throw result.error;
 
   if (result.status !== 0) {
     const msg = (result.stderr || result.stdout || "").trim();
@@ -57,6 +67,7 @@ export function createDesignDataTools() {
       inputSchema: {
         type: "object",
         properties: {},
+        additionalProperties: false,
       },
       handler() {
         return runDesignData(["primer", "--format", "json"]);
@@ -81,6 +92,7 @@ export function createDesignDataTools() {
           },
         },
         required: ["filter"],
+        additionalProperties: false,
       },
       handler({ filter }) {
         return runDesignData(["query", "--filter", filter, "--format", "json"]);
@@ -109,6 +121,7 @@ export function createDesignDataTools() {
           },
         },
         required: ["intent"],
+        additionalProperties: false,
       },
       handler({ intent, limit = 5 }) {
         return runDesignData([
@@ -140,6 +153,7 @@ export function createDesignDataTools() {
           },
         },
         required: ["id"],
+        additionalProperties: false,
       },
       handler({ id }) {
         // component always outputs JSON — no --format flag.
@@ -176,6 +190,7 @@ export function createDesignDataTools() {
           },
         },
         required: ["property"],
+        additionalProperties: false,
       },
       handler({ property, colorScheme, scale, contrast }) {
         const args = ["resolve", property, "--format", "json"];
