@@ -96,10 +96,6 @@ impl DatasetHandle {
         allow_write: bool,
         theme: Theme,
     ) -> Result<Self> {
-        let (mut graph, mut token_index) = TokenGraph::open_cached_with_index(&path)
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
-
         // Resolve spec paths via the central data_source resolver.
         // The dataset path is already explicit; we only need spec catalog dirs + schema.
         let cwd = std::env::current_dir().into_diagnostic()?;
@@ -114,26 +110,15 @@ impl DatasetHandle {
         .into_diagnostic()?;
 
         let components_dir = resolved.components.clone();
-        if let Some(ref dir) = components_dir {
-            if dir.is_dir() {
-                let comps = TokenGraph::load_spec_components(dir)
-                    .into_diagnostic()
-                    .wrap_err_with(|| {
-                        format!("failed to load components from {}", dir.display())
-                    })?;
-                graph = graph.with_components(comps);
-            }
-        }
-
         let mode_sets_dir = resolved.mode_sets.clone();
-        if let Some(ref dir) = mode_sets_dir {
-            if dir.is_dir() {
-                let mode_sets = TokenGraph::load_spec_mode_sets(dir)
-                    .into_diagnostic()
-                    .wrap_err_with(|| format!("failed to load mode sets from {}", dir.display()))?;
-                graph = graph.with_mode_sets(mode_sets);
-            }
-        }
+
+        let (mut graph, mut token_index) = TokenGraph::open_cached_with_index_with_catalogs(
+            &path,
+            mode_sets_dir.as_deref(),
+            components_dir.as_deref(),
+        )
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
         // Apply a configured platform manifest (Foundation→Platform cascade), matching CLI query/resolve.
         let platform_manifest_active = resolved.platform_manifest.is_some();
