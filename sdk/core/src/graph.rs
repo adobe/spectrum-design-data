@@ -144,7 +144,23 @@ impl TokenGraph {
         mode_sets_dir: Option<&Path>,
         components_dir: Option<&Path>,
     ) -> Result<Self, CoreError> {
-        let mut graph = Self::from_json_dir(root)?;
+        Self::from_json_dir_with_names_and_catalogs(root, None, mode_sets_dir, components_dir)
+    }
+
+    /// Load tokens with optional sidecar names **and** spec catalog directories.
+    ///
+    /// Combines [`Self::from_json_dir_with_names`] (sidecar name merge) with
+    /// catalog loading: inline mode-set docs discovered in the tokens tree are
+    /// preserved and catalog mode sets are appended (not replaced), matching the
+    /// cache/query/resolve graph. Components are loaded from `components_dir`
+    /// (replace) since `from_json_dir_with_names` never discovers components.
+    pub fn from_json_dir_with_names_and_catalogs(
+        root: &Path,
+        names_dir: Option<&Path>,
+        mode_sets_dir: Option<&Path>,
+        components_dir: Option<&Path>,
+    ) -> Result<Self, CoreError> {
+        let mut graph = Self::from_json_dir_with_names(root, names_dir)?;
         if let Some(dir) = mode_sets_dir {
             if dir.is_dir() {
                 graph.mode_sets.extend(Self::load_spec_mode_sets(dir)?);
@@ -943,6 +959,72 @@ mod tests {
         let name = token.raw.get("name").expect("name merged from sidecar");
         assert_eq!(name["colorFamily"], "blue");
         assert_eq!(name["scaleIndex"], 100);
+    }
+
+    #[test]
+    fn names_and_catalogs_extends_inline_mode_sets_and_merges_sidecar() {
+        let tokens_dir = tempdir().unwrap();
+        let names_dir = tempdir().unwrap();
+        let mode_sets_dir = tempdir().unwrap();
+        let components_dir = tempdir().unwrap();
+
+        // Token plus an inline mode-set doc co-located in the tokens tree.
+        write_json(
+            &tokens_dir,
+            "color.json",
+            json!({
+                "blue-100": { "$schema": "https://example.com/color-set.json", "value": "#0000ff" }
+            }),
+        );
+        write_json(
+            &tokens_dir,
+            "inline-mode-set.json",
+            json!({ "name": "scale", "modes": ["desktop", "mobile"], "default": "desktop" }),
+        );
+        // Sidecar name for the token.
+        write_json(
+            &names_dir,
+            "color.json",
+            json!({
+                "blue-100": { "property": "color", "colorFamily": "blue" }
+            }),
+        );
+        // Catalog mode-set + component in separate dirs.
+        write_json(
+            &mode_sets_dir,
+            "color-scheme.json",
+            json!({ "name": "colorScheme", "modes": ["light", "dark"], "default": "light" }),
+        );
+        write_json(
+            &components_dir,
+            "button.json",
+            json!({ "name": "button", "description": "Primary action" }),
+        );
+
+        let g = TokenGraph::from_json_dir_with_names_and_catalogs(
+            tokens_dir.path(),
+            Some(names_dir.path()),
+            Some(mode_sets_dir.path()),
+            Some(components_dir.path()),
+        )
+        .unwrap();
+
+        // Inline mode set is preserved AND catalog mode set is appended (extend).
+        let names: Vec<&str> = g.mode_sets.iter().map(|m| m.name.as_str()).collect();
+        assert!(names.contains(&"scale"), "inline mode set must be kept");
+        assert!(
+            names.contains(&"colorScheme"),
+            "catalog mode set must be appended"
+        );
+        assert_eq!(g.mode_sets.len(), 2);
+
+        // Catalog component is loaded.
+        assert_eq!(g.components.len(), 1);
+        assert_eq!(g.components[0].name, "button");
+
+        // Sidecar name merged into the token raw.
+        let token = g.tokens.get("blue-100").unwrap();
+        assert_eq!(token.raw["name"]["colorFamily"], "blue");
     }
 
     #[test]
