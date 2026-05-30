@@ -27,13 +27,14 @@ jobs:
             platform: darwin-arm64
             runner: macos-latest
             ext: ""
-          # Pin macos-13 (Intel) for the x64 target: macos-latest resolves to
-          # macos-14 (arm64) as of late 2024, and while cross-compiling
-          # x86_64-apple-darwin from arm64 works, using a native x64 runner
-          # avoids any ambiguity with linker flags or toolchain detection.
+          # Cross-compile x86_64-apple-darwin from the ARM runner — Rust has
+          # tier-1 support for this target pair and the Apple SDK on macOS
+          # includes both architecture slices, so no extra linker flags are
+          # needed. Using macos-latest (ARM) avoids the macos-13 pool which
+          # is being deprecated and has much longer queue times.
           - target: x86_64-apple-darwin
             platform: darwin-x64
-            runner: macos-13
+            runner: macos-latest
             ext: ""
           - target: x86_64-unknown-linux-gnu
             platform: linux-x64
