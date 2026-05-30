@@ -13,7 +13,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "start": "node src/cli.js"
+    "start": "node src/cli.js",
+    "test": "ava"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,9 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.27.1"
+  },
+  "devDependencies": {
+    "ava": "^6.0.1"
   },
   "engines": {
     "node": ">=20.12.0"

@@ -19,6 +19,9 @@
 
 import { spawnSync } from "child_process";
 
+/** npx executable name — .cmd suffix required on Windows without shell: true. */
+const NPX = process.platform === "win32" ? "npx.cmd" : "npx";
+
 /**
  * Run `npx -y @adobe/design-data` with the given args and return parsed JSON stdout.
  *
@@ -30,7 +33,7 @@ import { spawnSync } from "child_process";
  * Throws if the process can't start (result.error) or exits non-zero.
  */
 function runDesignData(args) {
-  const result = spawnSync("npx", ["-y", "@adobe/design-data", ...args], {
+  const result = spawnSync(NPX, ["-y", "@adobe/design-data", ...args], {
     encoding: "utf8",
     // Allow up to 30s for first-run install + binary execution.
     timeout: 30_000,
@@ -126,6 +129,7 @@ export function createDesignDataTools() {
       handler({ intent, limit = 5 }) {
         return runDesignData([
           "suggest",
+          "--",
           intent,
           "--format",
           "json",
@@ -157,7 +161,7 @@ export function createDesignDataTools() {
       },
       handler({ id }) {
         // component always outputs JSON — no --format flag.
-        return runDesignData(["component", id]);
+        return runDesignData(["component", "--", id]);
       },
     },
 
@@ -193,7 +197,7 @@ export function createDesignDataTools() {
         additionalProperties: false,
       },
       handler({ property, colorScheme, scale, contrast }) {
-        const args = ["resolve", property, "--format", "json"];
+        const args = ["resolve", "--", property, "--format", "json"];
         if (colorScheme) args.push("--color-scheme", colorScheme);
         if (scale) args.push("--scale", scale);
         if (contrast) args.push("--contrast", contrast);

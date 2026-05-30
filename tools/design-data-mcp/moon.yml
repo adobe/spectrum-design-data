@@ -16,3 +16,8 @@ tasks:
       - src/cli.js
     platform: node
     local: true
+  test:
+    command:
+      - pnpm
+      - ava
+    platform: node
