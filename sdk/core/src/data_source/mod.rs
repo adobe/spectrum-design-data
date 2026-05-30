@@ -68,6 +68,12 @@ pub enum SourceConfig {
         /// Path to the local design-data repo root (absolute, or relative to
         /// the directory containing `.design-data.toml`).
         root: PathBuf,
+        /// Optional path to a Layer 2 platform `manifest.json` (absolute, or
+        /// relative to the directory containing `.design-data.toml`). When set,
+        /// the resolver records it on [`ResolvedData::platform_manifest`] so the
+        /// caller can apply the Foundation→Platform cascade
+        /// ([`crate::graph::TokenGraph::apply_platform_manifest`]).
+        manifest: Option<PathBuf>,
     },
     /// `@adobe/spectrum-tokens` (and matching `design-data-spec`) from the npm
     /// registry.  **Not yet implemented — planned for `#1050`.**
@@ -172,6 +178,13 @@ pub struct ResolvedData {
     /// Populated here but consumed by #1049 (embedded snapshot provenance tracking).
     #[allow(dead_code)]
     pub manifest: Option<PathBuf>,
+    /// Layer 2 **platform** `manifest.json` path from `[source].manifest`, if any.
+    ///
+    /// Unlike [`Self::manifest`] (the token build manifest), this is the platform
+    /// cascade manifest declaring `foundationVersion`, include/exclude filters,
+    /// overrides, extensions, and mode set restrictions. Applied via
+    /// [`crate::graph::TokenGraph::apply_platform_manifest`].
+    pub platform_manifest: Option<PathBuf>,
     /// How these paths were determined.
     pub provenance: Provenance,
 }
@@ -242,7 +255,7 @@ pub fn resolve(
     if let Some((config_path, config)) = find_config(cwd)? {
         if let Some(source) = &config.source {
             return match source {
-                SourceConfig::Path { root } => {
+                SourceConfig::Path { root, manifest } => {
                     // Resolve root relative to the config file's directory.
                     let config_dir = config_path.parent().unwrap_or(cwd);
                     let abs_root = if root.is_absolute() {
@@ -253,9 +266,21 @@ pub fn resolve(
                     if !abs_root.is_dir() {
                         return Err(DataSourceError::PathNotFound { root: abs_root });
                     }
+                    // Resolve the optional platform manifest relative to the config dir
+                    // before `config_path` is moved into the provenance record.
+                    let platform_manifest = manifest.as_ref().map(|m| {
+                        if m.is_absolute() {
+                            m.clone()
+                        } else {
+                            config_dir.join(m)
+                        }
+                    });
                     // Canonicalize to resolve `..` components before passing to from_root.
                     let canonical = abs_root.canonicalize().unwrap_or(abs_root);
-                    Ok(from_root(&canonical, overrides, Provenance::Config { config_path }))
+                    let mut resolved =
+                        from_root(&canonical, overrides, Provenance::Config { config_path });
+                    resolved.platform_manifest = platform_manifest;
+                    Ok(resolved)
                 }
                 SourceConfig::Npm { .. }
                 | SourceConfig::Github { .. }
@@ -386,6 +411,7 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
         fields,
         exceptions,
         manifest,
+        platform_manifest: None,
         provenance,
     }
 }
@@ -473,6 +499,7 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
         fields,
         exceptions,
         manifest,
+        platform_manifest: None,
         provenance: Provenance::InRepo,
     }
 }
