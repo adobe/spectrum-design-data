@@ -90,19 +90,12 @@ pub fn validate_all_with_options_and_names(
     names_dir: Option<&Path>,
 ) -> Result<ValidationReport, CoreError> {
     let mut report = structural::validate_structural(data_path, schema_registry)?;
-    let mut graph = TokenGraph::from_json_dir_with_names(data_path, names_dir)?;
-    if let Some(dir) = mode_sets_path {
-        if dir.is_dir() {
-            let mode_sets = TokenGraph::load_spec_mode_sets(dir)?;
-            graph = graph.with_mode_sets(mode_sets);
-        }
-    }
-    if let Some(dir) = components_path {
-        if dir.is_dir() {
-            let comps = TokenGraph::load_spec_components(dir)?;
-            graph = graph.with_components(comps);
-        }
-    }
+    let graph = TokenGraph::from_json_dir_with_names_and_catalogs(
+        data_path,
+        names_dir,
+        mode_sets_path,
+        components_path,
+    )?;
     // Load manifest.json from the data directory when present.
     let manifest: Option<serde_json::Value> = if data_path.is_dir() {
         let mp = data_path.join("manifest.json");
@@ -119,4 +112,76 @@ pub fn validate_all_with_options_and_names(
     let rel = relational::validate_relational(&graph, naming_exceptions, manifest.as_ref());
     report.merge(rel);
     Ok(report)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+    use std::io::Write;
+    use tempfile::TempDir;
+
+    fn write_json(dir: &Path, file: &str, value: serde_json::Value) {
+        let mut f = std::fs::File::create(dir.join(file)).unwrap();
+        write!(f, "{value}").unwrap();
+    }
+
+    /// Inline mode sets co-located in the token tree must survive even when a
+    /// separate mode-sets catalog is also passed (extend, not replace). A broken
+    /// inline mode set (default outside modes) must still trip SPEC-005.
+    #[test]
+    fn inline_mode_set_retained_when_catalog_passed() {
+        let data = TempDir::new().unwrap();
+        let catalog = TempDir::new().unwrap();
+
+        write_json(
+            data.path(),
+            "color.json",
+            json!({
+                "blue-100": {
+                    "$schema": "https://example.com/color.json",
+                    "value": "#00f",
+                    "name": {"property": "background-color"}
+                }
+            }),
+        );
+        // Inline mode set with default NOT in modes → SPEC-005 violation.
+        write_json(
+            data.path(),
+            "broken-mode-set.json",
+            json!({ "name": "scale", "modes": ["medium"], "default": "large" }),
+        );
+        // Valid catalog mode set (default in modes) → no SPEC-005 violation.
+        write_json(
+            catalog.path(),
+            "color-scheme.json",
+            json!({ "name": "colorScheme", "modes": ["light", "dark"], "default": "light" }),
+        );
+
+        let report = validate_all_with_options(
+            data.path(),
+            &SchemaRegistry::new_stub(),
+            &HashSet::new(),
+            Some(catalog.path()),
+            None,
+        )
+        .unwrap();
+
+        let spec005: Vec<_> = report
+            .errors
+            .iter()
+            .chain(report.warnings.iter())
+            .filter(|d| d.rule_id.as_deref() == Some("SPEC-005"))
+            .collect();
+        assert_eq!(
+            spec005.len(),
+            1,
+            "inline mode set must be retained and trip SPEC-005"
+        );
+        assert!(
+            spec005[0].message.contains("scale"),
+            "diagnostic should name the inline 'scale' mode set, got: {}",
+            spec005[0].message
+        );
+    }
 }
