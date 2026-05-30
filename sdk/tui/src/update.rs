@@ -19,6 +19,7 @@
 //! and `--allow-write` wizard writes still execute inline; they are tagged with
 //! `// TODO(#1023)` comments.
 
+use std::collections::HashMap;
 use std::path::Path;
 
 use crossterm::event::{KeyCode, KeyModifiers, MouseButton, MouseEventKind};
@@ -54,6 +55,7 @@ pub struct UpdateCtx<'a> {
     pub schema_registry: Option<&'a SchemaRegistry>,
     pub mode_sets_dir: Option<&'a Path>,
     pub token_index: TokenIndex,
+    pub mode_set_restrictions: HashMap<String, Vec<String>>,
     pub allow_write: bool,
 }
 
@@ -67,6 +69,7 @@ impl<'a> UpdateCtx<'a> {
             schema_registry: None,
             mode_sets_dir: None,
             token_index: TokenIndex::build(graph),
+            mode_set_restrictions: HashMap::new(),
             allow_write: false,
         }
     }

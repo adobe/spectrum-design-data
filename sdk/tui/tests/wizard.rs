@@ -229,6 +229,7 @@ fn screen_3_enter_advances_to_screen_4() {
         schema_registry: None,
         mode_sets_dir: None,
         token_index: design_data_core::query::TokenIndex::build(&graph),
+        mode_set_restrictions: std::collections::HashMap::new(),
         allow_write: false,
     };
     let mut model = Model::new();
@@ -258,6 +259,7 @@ fn screen_4_empty_rationale_blocks_submit() {
         schema_registry: None,
         mode_sets_dir: None,
         token_index: design_data_core::query::TokenIndex::build(&graph),
+        mode_set_restrictions: std::collections::HashMap::new(),
         allow_write: false,
     };
     let mut model = Model::new();
@@ -283,6 +285,7 @@ fn screen_4_diff_preview_is_populated_on_enter() {
         schema_registry: None,
         mode_sets_dir: None,
         token_index: design_data_core::query::TokenIndex::build(&graph),
+        mode_set_restrictions: std::collections::HashMap::new(),
         allow_write: false,
     };
     let mut model = Model::new();
@@ -317,6 +320,7 @@ fn screen_4_submit_closes_modal_and_sets_status() {
         schema_registry: None,
         mode_sets_dir: None,
         token_index: design_data_core::query::TokenIndex::build(&graph),
+        mode_set_restrictions: std::collections::HashMap::new(),
         allow_write: false,
     };
     let mut model = Model::new();

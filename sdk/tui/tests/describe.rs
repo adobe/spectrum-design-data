@@ -40,6 +40,7 @@ fn describe_ctx<'a>(graph: &'a TokenGraph, dir: &'a PathBuf) -> UpdateCtx<'a> {
         schema_registry: None,
         mode_sets_dir: None,
         token_index: TokenIndex::build(graph),
+        mode_set_restrictions: std::collections::HashMap::new(),
         allow_write: false,
     }
 }

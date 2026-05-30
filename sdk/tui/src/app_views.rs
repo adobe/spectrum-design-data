@@ -15,14 +15,16 @@
 //! it) and the private `apply_scroll_delta` helper used by `Modal::on_scroll`.
 //! `app.rs` re-exports everything here via `pub use crate::app_views::*;`.
 
+use std::collections::HashMap;
+use std::path::Path;
+
+use design_data_core::cascade::ResolvedCandidate;
 use design_data_core::diff::display_name;
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
 use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use ratatui::layout::Rect;
 use ratatui::widgets::TableState;
-
-use std::path::Path;
 
 use crate::find::{FindScreen, FindWizardState};
 use crate::naming::{NamingScreen, NamingWizardState};
@@ -151,6 +153,38 @@ pub struct ResolvedRow {
     pub layer: String,
     pub specificity: u32,
     pub is_winner: bool,
+}
+
+impl ResolvedRow {
+    /// Map a core [`ResolvedCandidate`] into a TUI table row.
+    pub fn from_candidate(c: &ResolvedCandidate) -> Self {
+        let t = &c.record;
+        let value = t
+            .raw
+            .get("value")
+            .map(|v| {
+                if v.is_string() {
+                    v.as_str().unwrap_or("").to_string()
+                } else {
+                    v.to_string()
+                }
+            })
+            .or_else(|| t.alias_target.clone())
+            .unwrap_or_default();
+        let file = t
+            .file
+            .file_name()
+            .map(|f| f.to_string_lossy().into_owned())
+            .unwrap_or_default();
+        Self {
+            name: display_name(t),
+            value,
+            file,
+            layer: layer_str(t.layer).to_string(),
+            specificity: c.specificity,
+            is_winner: c.is_winner,
+        }
+    }
 }
 
 /// State for a resolve results view (winner + ranked candidates).
@@ -324,6 +358,7 @@ pub struct HitRegion {
 pub struct SubmitContext<'a> {
     pub graph: &'a TokenGraph,
     pub token_index: TokenIndex,
+    pub mode_set_restrictions: HashMap<String, Vec<String>>,
     pub dataset_path: Option<&'a Path>,
     pub components_dir: Option<&'a Path>,
     pub schema_registry: Option<&'a SchemaRegistry>,
@@ -336,6 +371,7 @@ impl<'a> SubmitContext<'a> {
         Self {
             graph,
             token_index: TokenIndex::build(graph),
+            mode_set_restrictions: HashMap::new(),
             dataset_path: None,
             components_dir: None,
             schema_registry: None,

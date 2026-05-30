@@ -15,6 +15,7 @@
 //! and restores the terminal on exit.  All other items in this module are
 //! implementation details moved here from the former standalone binary.
 
+use std::collections::HashMap;
 use std::io::{stderr, BufRead as _, BufReader};
 use std::path::PathBuf;
 
@@ -26,6 +27,7 @@ use crossterm::{
 };
 use design_data_core::data_source::{self, CliPathOverrides};
 use design_data_core::graph::TokenGraph;
+use design_data_core::manifest;
 use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use miette::{IntoDiagnostic, Result, WrapErr};
@@ -75,6 +77,8 @@ struct DatasetHandle {
     dataset_path: PathBuf,
     graph: TokenGraph,
     token_index: TokenIndex,
+    mode_set_restrictions: HashMap<String, Vec<String>>,
+    platform_manifest_active: bool,
     components_dir: Option<PathBuf>,
     mode_sets_dir: Option<PathBuf>,
     schema_registry: Option<SchemaRegistry>,
@@ -92,7 +96,7 @@ impl DatasetHandle {
         allow_write: bool,
         theme: Theme,
     ) -> Result<Self> {
-        let (mut graph, token_index) = TokenGraph::open_cached_with_index(&path)
+        let (mut graph, mut token_index) = TokenGraph::open_cached_with_index(&path)
             .into_diagnostic()
             .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
@@ -109,7 +113,7 @@ impl DatasetHandle {
         )
         .into_diagnostic()?;
 
-        let components_dir = resolved.components;
+        let components_dir = resolved.components.clone();
         if let Some(ref dir) = components_dir {
             if dir.is_dir() {
                 let comps = TokenGraph::load_spec_components(dir)
@@ -121,7 +125,7 @@ impl DatasetHandle {
             }
         }
 
-        let mode_sets_dir = resolved.mode_sets;
+        let mode_sets_dir = resolved.mode_sets.clone();
         if let Some(ref dir) = mode_sets_dir {
             if dir.is_dir() {
                 let mode_sets = TokenGraph::load_spec_mode_sets(dir)
@@ -129,6 +133,15 @@ impl DatasetHandle {
                     .wrap_err_with(|| format!("failed to load mode sets from {}", dir.display()))?;
                 graph = graph.with_mode_sets(mode_sets);
             }
+        }
+
+        // Apply a configured platform manifest (Foundation→Platform cascade), matching CLI query/resolve.
+        let platform_manifest_active = resolved.platform_manifest.is_some();
+        let mode_set_restrictions = manifest::apply_configured(&mut graph, &resolved)
+            .into_diagnostic()
+            .wrap_err("failed to apply platform manifest cascade")?;
+        if platform_manifest_active {
+            token_index = TokenIndex::build(&graph);
         }
 
         // Load schema registry for `:validate`. Silently skip if schema dir is absent
@@ -141,6 +154,8 @@ impl DatasetHandle {
             dataset_path: path,
             graph,
             token_index,
+            mode_set_restrictions,
+            platform_manifest_active,
             components_dir,
             mode_sets_dir,
             schema_registry,
@@ -150,8 +165,13 @@ impl DatasetHandle {
     }
 
     fn primer_line(&self) -> String {
+        let scope = if self.platform_manifest_active {
+            "platform"
+        } else {
+            "tokens"
+        };
         format!(
-            " {} tokens  ·  {}",
+            " {} {scope}  ·  {}",
             self.token_count,
             self.dataset_path.display()
         )
@@ -165,6 +185,7 @@ impl DatasetHandle {
             schema_registry: self.schema_registry.as_ref(),
             mode_sets_dir: self.mode_sets_dir.as_deref(),
             token_index: self.token_index.clone(),
+            mode_set_restrictions: self.mode_set_restrictions.clone(),
             allow_write: self.allow_write,
         }
     }

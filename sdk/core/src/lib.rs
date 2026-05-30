@@ -22,6 +22,7 @@ pub mod discovery;
 pub mod figma;
 pub mod graph;
 pub mod legacy;
+pub mod manifest;
 pub mod migrate;
 pub mod naming;
 pub mod query;

@@ -665,3 +665,13 @@ pub(crate) fn parse_resolve_args(rest: &str) -> Result<(String, ResolutionContex
     }
     Ok((prop, ctx))
 }
+
+/// Layer platform manifest mode-set restrictions onto a parsed resolve context.
+pub(crate) fn resolve_context_with_restrictions(
+    ctx: ResolutionContext,
+    restrictions: &std::collections::HashMap<String, Vec<String>>,
+) -> ResolutionContext {
+    restrictions.iter().fold(ctx, |acc, (mode_set, allowed)| {
+        acc.with_restriction(mode_set.clone(), allowed.clone())
+    })
+}

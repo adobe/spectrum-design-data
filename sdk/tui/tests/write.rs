@@ -14,6 +14,7 @@
 //! Tests that exercise the real `write_token` path load `SchemaRegistry` from
 //! `packages/tokens/schemas` (relative to the repo root via `CARGO_MANIFEST_DIR`).
 
+use std::collections::HashMap;
 use std::path::PathBuf;
 
 mod common;
@@ -88,6 +89,7 @@ fn submit_without_allow_write_does_not_create_file() {
         schema_registry: Some(&registry),
         components_dir: None,
         mode_sets_dir: None,
+        mode_set_restrictions: HashMap::new(),
         allow_write: false,
     };
     let mut model = Model::new();

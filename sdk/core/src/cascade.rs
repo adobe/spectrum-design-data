@@ -193,6 +193,84 @@ pub fn resolve<'a>(graph: &'a TokenGraph, context: &ResolutionContext) -> Option
     candidates.into_iter().next()
 }
 
+// ── Property-scoped resolution ────────────────────────────────────────────────
+
+/// One candidate returned by [`resolve_property`]: a token matching the
+/// requested property, its cascade specificity, and whether it won resolution.
+#[derive(Debug, Clone)]
+pub struct ResolvedCandidate {
+    pub record: TokenRecord,
+    pub specificity: u32,
+    pub is_winner: bool,
+}
+
+/// Resolve all tokens whose `name.property` equals `property`, ranked by cascade
+/// precedence, with the winning token flagged.
+///
+/// Builds a property-filtered subgraph (preserving full records and their cascade
+/// `layer` so Platform-layer manifest overrides correctly win over Foundation
+/// tokens), sorts candidates by layer/specificity/document order, and runs
+/// [`resolve`] on the subgraph to determine the winner.
+pub fn resolve_property(
+    graph: &TokenGraph,
+    property: &str,
+    ctx: &ResolutionContext,
+) -> Vec<ResolvedCandidate> {
+    let candidates: Vec<TokenRecord> = graph
+        .tokens
+        .values()
+        .filter(|t| {
+            t.raw
+                .get("name")
+                .and_then(|v| v.as_object())
+                .and_then(|n| n.get("property"))
+                .and_then(|v| v.as_str())
+                == Some(property)
+        })
+        .cloned()
+        .collect();
+
+    if candidates.is_empty() {
+        return Vec::new();
+    }
+
+    let filtered_graph =
+        TokenGraph::from_records(candidates).with_mode_sets(graph.mode_sets.clone());
+
+    let mut with_spec: Vec<(&TokenRecord, u32)> = filtered_graph
+        .tokens
+        .values()
+        .map(|t| {
+            let s = t
+                .raw
+                .get("name")
+                .and_then(|v| v.as_object())
+                .map(|n| specificity(n, &filtered_graph.mode_sets))
+                .unwrap_or(0);
+            (t, s)
+        })
+        .collect();
+
+    with_spec.sort_by(|(a, sa), (b, sb)| {
+        b.layer
+            .cmp(&a.layer)
+            .then_with(|| sb.cmp(sa))
+            .then_with(|| a.file.cmp(&b.file))
+            .then_with(|| a.index.cmp(&b.index))
+    });
+
+    let winner = resolve(&filtered_graph, ctx);
+
+    with_spec
+        .into_iter()
+        .map(|(t, spec)| ResolvedCandidate {
+            record: t.clone(),
+            specificity: spec,
+            is_winner: winner.map(|w| w.name == t.name).unwrap_or(false),
+        })
+        .collect()
+}
+
 // ── Tests ─────────────────────────────────────────────────────────────────────
 
 #[cfg(test)]
@@ -477,6 +555,57 @@ mod tests {
         assert_eq!(
             winner.raw.get("value").and_then(|v| v.as_str()),
             Some("#product")
+        );
+    }
+
+    // ── resolve_property ─────────────────────────────────────────────────────
+
+    #[test]
+    fn resolve_property_flags_winner_and_filters_by_property() {
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "btn-bg".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "background-color", "component": "button"}, "value": "#aaa"}),
+            ),
+            (
+                "btn-fg".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "color", "component": "button"}, "value": "#111"}),
+            ),
+        ]);
+        let ctx = ResolutionContext::new();
+        let results = resolve_property(&g, "background-color", &ctx);
+        assert_eq!(results.len(), 1);
+        assert!(results[0].is_winner);
+        assert_eq!(results[0].record.name, "btn-bg");
+    }
+
+    #[test]
+    fn resolve_property_respects_restrictions() {
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "t-light".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "bg", "colorScheme": "light"}, "value": "#fff"}),
+            ),
+            (
+                "t-dark".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#000"}),
+            ),
+        ])
+        .with_mode_sets(vec![color_scheme_mode_set()]);
+
+        let ctx = ResolutionContext::new()
+            .with("colorScheme", "light")
+            .with_restriction("colorScheme", vec!["light"]);
+        let results = resolve_property(&g, "bg", &ctx);
+        assert_eq!(results.len(), 2);
+        let winner = results.iter().find(|c| c.is_winner).expect("winner");
+        assert_eq!(
+            winner.record.raw["name"]["colorScheme"].as_str(),
+            Some("light")
         );
     }
 }

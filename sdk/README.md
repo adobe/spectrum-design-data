@@ -130,7 +130,7 @@ Cache files live at `<cache_root>/cache/<tokens-version>/<dataset-key>.redb` and
 
 **Invalidation** uses per-file size + mtime (not a full content hash) for speed. A stale miss only forces a rebuild. **Known limitation (schema v1):** inline mode-set JSON files co-located in the token tree are not persisted in the cache; the canonical Spectrum layout (mode sets under `design-data-spec/mode-sets`) is unaffected.
 
-**CLI vs TUI with a platform manifest:** `design-data query` applies a configured `[source].manifest` before filtering and rebuilds the query index; the TUI loads the raw token set for the session and does not apply manifests — so query results can differ when a manifest is present.
+**Platform manifest (CLI/TUI):** Both surfaces apply a configured `[source].manifest` at session start via the shared `design-data-core::manifest::apply_configured` helper. Query/find use the platform-scoped token set and index; `:resolve` layers manifest mode-set restrictions through `cascade::resolve_property`. The TUI header shows `N platform` (vs `N tokens`) when a manifest is active. CLI `primer` still reports raw on-disk counts.
 
 Opt out of the cache layer when depending on `design-data-core` as a library:
 

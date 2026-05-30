@@ -55,6 +55,7 @@ fn validate_ctx<'a>(
         schema_registry: Some(registry),
         mode_sets_dir: None,
         token_index: TokenIndex::build(graph),
+        mode_set_restrictions: std::collections::HashMap::new(),
         allow_write: false,
     }
 }
@@ -74,6 +75,7 @@ fn validate_without_registry_sets_error_status() {
         schema_registry: None,
         mode_sets_dir: None,
         token_index: TokenIndex::build(&graph),
+        mode_set_restrictions: std::collections::HashMap::new(),
         allow_write: false,
     };
     let mut model = Model::new();

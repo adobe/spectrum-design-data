@@ -20,7 +20,7 @@ use std::collections::HashSet;
 
 use clap::{ArgGroup, Args, Parser, Subcommand, ValueEnum};
 use design_data_core::cache;
-use design_data_core::cascade::{resolve, ResolutionContext};
+use design_data_core::cascade::{resolve_property, ResolutionContext};
 use design_data_core::compat::{
     load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot,
 };
@@ -30,6 +30,7 @@ use design_data_core::diff::display_name;
 use design_data_core::figma;
 use design_data_core::graph::TokenGraph;
 use design_data_core::legacy;
+use design_data_core::manifest;
 use design_data_core::migrate;
 use design_data_core::naming::NamingExceptionsFile;
 use design_data_core::query;
@@ -460,7 +461,9 @@ fn run_resolve(
 
     // Apply a configured platform manifest (Foundation→Platform cascade): filter the
     // token set, layer in overrides/extensions, and capture mode-set restrictions.
-    let restrictions = apply_configured_manifest(&mut graph, &resolved)?;
+    let restrictions = manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
 
     // Build a property-filtered context (remove the internal marker).
     let mut resolve_ctx = ResolutionContext::new();
@@ -473,39 +476,20 @@ fn run_resolve(
         resolve_ctx = resolve_ctx.with_restriction(mode_set.clone(), allowed.clone());
     }
 
-    // Filter graph to tokens matching the requested property.
-    let property_filter = property.to_string();
-    let candidates: Vec<_> = graph
-        .tokens
-        .values()
-        .filter(|t| {
-            t.raw
-                .get("name")
-                .and_then(|v| v.as_object())
-                .and_then(|n| n.get("property"))
-                .and_then(|v| v.as_str())
-                == Some(property_filter.as_str())
-        })
-        .collect();
+    let candidates = resolve_property(&graph, property, &resolve_ctx);
 
     if candidates.is_empty() {
         eprintln!("No tokens found with property: {property}");
         return Ok(ExitCode::from(1));
     }
 
-    // Build a temporary graph with only the filtered tokens for resolution.
-    // Preserve full records (and their cascade `layer`) so Platform-layer
-    // manifest overrides correctly win over Foundation tokens.
-    let filtered_records: Vec<_> = candidates.iter().map(|t| (*t).clone()).collect();
-    let filtered_graph =
-        TokenGraph::from_records(filtered_records).with_mode_sets(graph.mode_sets.clone());
-
-    match resolve(&filtered_graph, &resolve_ctx) {
+    match candidates.iter().find(|c| c.is_winner) {
         None => {
             eprintln!("No matching token for property '{property}' in given context");
             Ok(ExitCode::from(1))
         }
         Some(winner) => {
+            let winner = &winner.record;
             match format {
                 OutputFormat::Json => {
                     println!(
@@ -788,65 +772,6 @@ fn run_diff(
     }
 }
 
-/// Locate the spec's `manifest.schema.json` by walking up from the token schemas
-/// directory to the repo root. Returns `None` when not found (e.g. outside a repo).
-fn locate_manifest_schema(schemas_root: &Path) -> Option<PathBuf> {
-    schemas_root.ancestors().find_map(|p| {
-        let candidate = p.join("packages/design-data-spec/schemas/manifest.schema.json");
-        candidate.is_file().then_some(candidate)
-    })
-}
-
-/// Apply the Layer 2 platform manifest declared in `.design-data.toml`
-/// (`[source].manifest`) to `graph`, returning the mode-set restrictions to feed
-/// into a [`ResolutionContext`]. A no-op (empty map) when no manifest is configured.
-///
-/// When the spec's `manifest.schema.json` is locatable, the manifest is first
-/// validated (Layer 1); schema violations abort with an error.
-fn apply_configured_manifest(
-    graph: &mut TokenGraph,
-    resolved: &data_source::ResolvedData,
-) -> miette::Result<std::collections::HashMap<String, Vec<String>>> {
-    let Some(manifest_path) = resolved.platform_manifest.as_ref() else {
-        return Ok(std::collections::HashMap::new());
-    };
-    let text = std::fs::read_to_string(manifest_path)
-        .into_diagnostic()
-        .wrap_err_with(|| {
-            format!(
-                "failed to read platform manifest {}",
-                manifest_path.display()
-            )
-        })?;
-    let manifest: serde_json::Value = serde_json::from_str(&text)
-        .into_diagnostic()
-        .wrap_err_with(|| {
-            format!(
-                "failed to parse platform manifest {}",
-                manifest_path.display()
-            )
-        })?;
-
-    if let Some(schema_path) = locate_manifest_schema(&resolved.schemas_root) {
-        let errors = SchemaRegistry::validate_manifest(&manifest, &schema_path)
-            .into_diagnostic()
-            .wrap_err("failed to validate platform manifest against manifest.schema.json")?;
-        if !errors.is_empty() {
-            return Err(miette::miette!(
-                "platform manifest {} failed Layer 1 schema validation:\n  {}",
-                manifest_path.display(),
-                errors.join("\n  ")
-            ));
-        }
-    }
-
-    let outcome = graph
-        .apply_platform_manifest(&manifest)
-        .into_diagnostic()
-        .wrap_err("failed to apply platform manifest cascade")?;
-    Ok(outcome.mode_set_restrictions)
-}
-
 fn run_query(
     path: &Path,
     filter_expr: &str,
@@ -861,7 +786,9 @@ fn run_query(
         .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
     // Apply a configured platform manifest (filters/overrides/extensions) before querying.
-    apply_configured_manifest(&mut graph, &resolved)?;
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
     // Manifest overlays change the token set — rebuild the index when one is configured.
     if resolved.platform_manifest.is_some() {
         index = query::TokenIndex::build(&graph);
