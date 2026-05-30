@@ -441,7 +441,11 @@ impl TokenGraph {
     ///    MUST be a parseable query (SPEC-039); a parse error is surfaced as
     ///    [`CoreError::QueryParse`].
     /// 2. `overrides` — typed overrides inserted at [`Layer::Platform`]. Each
-    ///    override MUST preserve the target token's value JSON type
+    ///    `overrides[].target` string is resolved in order: (a) when it contains
+    ///    `=` or `!=`, as a query expression (may match multiple tokens); (b)
+    ///    otherwise as a token UUID via the graph's UUID index; (c) otherwise as
+    ///    a graph key (legacy slug or cascade `"file:index"` key). Each override
+    ///    MUST preserve the target token's value JSON type
     ///    (`spec/cascade.md` type safety / SPEC-006); a type change is a
     ///    [`CoreError::ParseError`].
     /// 3. `extensions.tokens` — net-new platform tokens inserted at
@@ -600,13 +604,12 @@ impl TokenGraph {
 
     /// Resolve a manifest override `target` to the affected token name objects.
     ///
-    /// `target` is matched, in order, as: (1) a query expression when it contains
-    /// an operator (`=`); (2) a token UUID; (3) a graph key (token name). Returns
-    /// `(name_object, original_value, uuid)` tuples for each matched token.
+    /// Resolution order matches [`Self::apply_platform_manifest`]: query expression
+    /// (when `target` contains `=` or `!=`), then UUID lookup, then graph key.
     fn resolve_override_targets(
         &self,
         target: &str,
-    ) -> Result<Vec<(Value, Option<Value>, Option<String>)>, CoreError> {
+    ) -> Result<Vec<OverrideTargetMatch>, CoreError> {
         if target.contains('=') {
             let filter = query::parse(target)?;
             return Ok(query::filter(self, &filter)
@@ -689,6 +692,9 @@ pub struct PlatformManifest {
     /// Mode set name → allowed mode values declared by `modeSetRestrictions`.
     pub mode_set_restrictions: HashMap<String, Vec<String>>,
 }
+
+/// One foundation token matched by a manifest `overrides[].target` string.
+type OverrideTargetMatch = (Value, Option<Value>, Option<String>);
 
 /// The JSON "kind" of a value, used for override type-safety checks.
 fn json_kind(v: &Value) -> &'static str {

@@ -31,6 +31,8 @@
 pub(crate) mod embedded;
 #[cfg(feature = "fetch")]
 pub(crate) mod fetch;
+#[cfg(test)]
+mod test_support;
 
 use std::path::{Path, PathBuf};
 
@@ -551,13 +553,9 @@ fn fetch_source(
 mod tests {
     use super::*;
     use std::fs;
-    use std::sync::Mutex;
     use tempfile::TempDir;
 
-    // Serialize all tests that mutate process-global env vars (DESIGN_DATA_CACHE_DIR,
-    // DESIGN_DATA_SCHEMA_ROOT).  Rust runs tests in parallel by default, so without
-    // this lock two tests setting the same var will race.
-    static ENV_LOCK: Mutex<()> = Mutex::new(());
+    use crate::data_source::test_support::{env_lock, outside_repo_tempdir};
 
     fn make_monorepo(dir: &Path) {
         fs::create_dir_all(dir.join("packages/tokens/schemas/token-types")).unwrap();
@@ -687,7 +685,7 @@ mod tests {
 
     #[test]
     fn config_npm_source_returns_not_yet_supported() {
-        let _guard = ENV_LOCK.lock().unwrap();
+        let _guard = env_lock();
         let tmp = TempDir::new().unwrap();
         // Set DESIGN_DATA_CACHE_DIR so the fetch engine doesn't touch the real OS cache.
         std::env::set_var("DESIGN_DATA_CACHE_DIR", tmp.path());
@@ -754,7 +752,7 @@ mod tests {
 
     #[test]
     fn env_var_schema_root_wins_over_probe() {
-        let _guard = ENV_LOCK.lock().unwrap();
+        let _guard = env_lock();
         let tmp = TempDir::new().unwrap();
         make_monorepo(tmp.path());
 
@@ -774,15 +772,14 @@ mod tests {
 
     #[test]
     fn resolve_outside_repo_uses_embedded_tier() {
-        let _guard = ENV_LOCK.lock().unwrap();
+        let _guard = env_lock();
         // A completely empty temp dir has no monorepo layout, so is_in_repo returns
         // false and the resolver must fall through to the embedded tier.
-        // Set DESIGN_DATA_CACHE_DIR to a temp path to avoid writing to the real OS
-        // cache during tests.
-        let cache_tmp = TempDir::new().unwrap();
+        // Use /tmp on Unix so ancestor-walk cannot reach the CI workspace checkout.
+        let cache_tmp = outside_repo_tempdir();
         std::env::set_var("DESIGN_DATA_CACHE_DIR", cache_tmp.path());
 
-        let cwd_tmp = TempDir::new().unwrap();
+        let cwd_tmp = outside_repo_tempdir();
         let resolved = resolve(cwd_tmp.path(), &CliPathOverrides::default()).unwrap();
         std::env::remove_var("DESIGN_DATA_CACHE_DIR");
 
@@ -803,13 +800,11 @@ mod tests {
 
     #[test]
     fn cli_override_wins_over_embedded() {
-        let _guard = ENV_LOCK.lock().unwrap();
-        // Set DESIGN_DATA_CACHE_DIR to a temp path to avoid writing to the real OS
-        // cache during tests.
-        let cache_tmp = TempDir::new().unwrap();
+        let _guard = env_lock();
+        let cache_tmp = outside_repo_tempdir();
         std::env::set_var("DESIGN_DATA_CACHE_DIR", cache_tmp.path());
 
-        let cwd_tmp = TempDir::new().unwrap();
+        let cwd_tmp = outside_repo_tempdir();
         let custom_schema = cwd_tmp.path().join("custom-schemas");
         fs::create_dir_all(&custom_schema).unwrap();
 

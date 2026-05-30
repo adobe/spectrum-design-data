@@ -15,6 +15,7 @@ use std::fs;
 use std::path::PathBuf;
 
 use assert_cmd::Command;
+use predicates::str::contains;
 use serde_json::json;
 
 /// Absolute path to the repo root (so the resolver can locate the spec schemas).
@@ -35,9 +36,9 @@ fn setup_project(manifest: serde_json::Value) -> tempfile::TempDir {
     fs::write(
         tokens_dir.join("tokens.json"),
         json!({
-            "btn-bg": {"name": {"property": "background-color", "component": "button"}, "value": "#aaa"},
-            "btn-fg": {"name": {"property": "color", "component": "button"}, "value": "#111"},
-            "chk-bg": {"name": {"property": "background-color", "component": "checkbox"}, "value": "#bbb"}
+            "btn-bg": {"name": {"property": "background-color", "component": "button"}, "value": "#aaa", "uuid": "u-btn-bg"},
+            "btn-fg": {"name": {"property": "color", "component": "button"}, "value": "#111", "uuid": "u-btn-fg"},
+            "chk-bg": {"name": {"property": "background-color", "component": "checkbox"}, "value": "#bbb", "uuid": "u-chk-bg"}
         })
         .to_string(),
     )
@@ -110,4 +111,27 @@ fn query_rejects_manifest_failing_schema_validation() {
         .args(["query", "tokens", "--filter", "", "--count"])
         .assert()
         .failure();
+}
+
+#[test]
+fn resolve_applies_manifest_override_by_uuid() {
+    let project = setup_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "overrides": [{"target": "u-btn-bg", "value": "#ffffff"}]
+    }));
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args([
+            "resolve",
+            "background-color",
+            "tokens",
+            "--format",
+            "json",
+        ])
+        .assert()
+        .success()
+        .stdout(contains("#ffffff"));
 }
