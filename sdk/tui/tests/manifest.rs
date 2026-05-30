@@ -71,18 +71,15 @@ fn load_session(
     project_path: &Path,
     tokens_path: &Path,
 ) -> (TokenGraph, TokenIndex, HashMap<String, Vec<String>>) {
-    let (mut graph, mut token_index) =
-        TokenGraph::open_cached_with_index(tokens_path).expect("open cached graph");
-
     let resolved =
         data_source::resolve(project_path, &CliPathOverrides::default()).expect("resolve");
 
-    if let Some(ref dir) = resolved.mode_sets {
-        if dir.is_dir() {
-            let mode_sets = TokenGraph::load_spec_mode_sets(dir).expect("mode sets");
-            graph = graph.with_mode_sets(mode_sets);
-        }
-    }
+    let (mut graph, mut token_index) = TokenGraph::open_cached_with_index_with_catalogs(
+        tokens_path,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .expect("open cached graph");
 
     let mode_set_restrictions =
         manifest::apply_configured(&mut graph, &resolved).expect("manifest");
@@ -166,4 +163,24 @@ fn resolve_respects_manifest_restrictions() {
             std::mem::discriminant(other)
         ),
     }
+}
+
+#[test]
+fn session_load_hydrates_catalog_mode_sets_from_cache() {
+    let project = setup_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0"
+    }));
+
+    let project_path = project.path().to_path_buf();
+    let tokens_dir = project_path.join("tokens");
+    let (graph, _, _) = load_session(&project_path, &tokens_dir);
+
+    let color_scheme = graph
+        .mode_sets
+        .iter()
+        .find(|ms| ms.name == "colorScheme")
+        .expect("colorScheme mode set from repo catalog");
+    assert!(color_scheme.modes.contains(&"light".to_string()));
+    assert!(color_scheme.modes.contains(&"dark".to_string()));
 }

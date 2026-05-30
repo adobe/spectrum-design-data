@@ -284,6 +284,12 @@ enum Commands {
         /// Output .redb file path
         #[arg(short, long, value_name = "FILE", default_value = "index.redb")]
         output: PathBuf,
+        /// Mode sets catalog directory
+        #[arg(long, value_name = "DIR")]
+        mode_sets_path: Option<PathBuf>,
+        /// Components catalog directory
+        #[arg(long, value_name = "DIR")]
+        components_path: Option<PathBuf>,
     },
     /// Manage token authoring sessions (MCP parity, RFC #973 Q4)
     #[command(name = "authoring-session")]
@@ -432,12 +438,7 @@ fn run_resolve(
         resolve_ctx = resolve_ctx.with("contrast", m);
     }
 
-    // Load token graph (via the embedded-database cache when fresh).
-    let mut graph = TokenGraph::open_cached(path)
-        .into_diagnostic()
-        .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
-
-    // Load mode sets from spec catalog.
+    // Resolve catalog paths first so the cache can hydrate them on hit.
     let cwd = std::env::current_dir().into_diagnostic()?;
     let resolved = data_source::resolve(
         &cwd,
@@ -447,15 +448,15 @@ fn run_resolve(
         },
     )
     .into_diagnostic()?;
-    let ms_dir = resolved.mode_sets.clone();
-    if let Some(dir) = ms_dir {
-        if dir.is_dir() {
-            let mode_sets = TokenGraph::load_spec_mode_sets(&dir)
-                .into_diagnostic()
-                .wrap_err_with(|| format!("failed to load mode sets from {}", dir.display()))?;
-            graph = graph.with_mode_sets(mode_sets);
-        }
-    }
+
+    // Load token graph (via the embedded-database cache when fresh).
+    let mut graph = TokenGraph::open_cached_with_catalogs(
+        path,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
     // Apply a configured platform manifest (Foundation→Platform cascade): filter the
     // token set, layer in overrides/extensions, and capture mode-set restrictions.
@@ -772,7 +773,11 @@ fn run_query(
     let cwd = std::env::current_dir().into_diagnostic()?;
     let resolved = data_source::resolve(&cwd, &CliPathOverrides::default()).into_diagnostic()?;
 
-    let (mut graph, mut index) = TokenGraph::open_cached_with_index(path)
+    let (mut graph, mut index) = TokenGraph::open_cached_with_index_with_catalogs(
+        path,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
@@ -1006,26 +1011,25 @@ fn run_primer(
     // Dataset path: explicit arg wins; otherwise use the resolved tokens root (which
     // comes from the config source, embedded snapshot, or in-repo CWD probing).
     let path = resolved.tokens_root.clone();
-    let graph = TokenGraph::open_cached(&path)
-        .into_diagnostic()
-        .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+    let graph = TokenGraph::open_cached_with_catalogs(
+        &path,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
     let token_count = graph.tokens.len();
-    let ms_dir = resolved.mode_sets;
-    let mode_sets: Vec<serde_json::Value> = if let Some(dir) = ms_dir {
-        TokenGraph::load_spec_mode_sets(&dir)
-            .unwrap_or_default()
-            .into_iter()
-            .map(|d| {
-                serde_json::json!({
-                    "name": d.name,
-                    "modes": d.modes,
-                    "defaultMode": d.default_mode,
-                })
+    let mode_sets: Vec<serde_json::Value> = graph
+        .mode_sets
+        .iter()
+        .map(|d| {
+            serde_json::json!({
+                "name": d.name,
+                "modes": d.modes,
+                "defaultMode": d.default_mode,
             })
-            .collect()
-    } else {
-        vec![]
-    };
+        })
+        .collect();
 
     let components = resolved
         .components
@@ -1268,27 +1272,40 @@ fn run_suggest(
     Ok(ExitCode::SUCCESS)
 }
 
-fn run_cache_build(explicit_path: Option<&Path>, output: &Path) -> miette::Result<ExitCode> {
+fn run_cache_build(
+    explicit_path: Option<&Path>,
+    output: &Path,
+    mode_sets_path: Option<&Path>,
+    components_path: Option<&Path>,
+) -> miette::Result<ExitCode> {
     // Resolve the dataset: explicit arg wins, else the canonical resolved root.
-    let tokens_root = match explicit_path {
-        Some(p) => p.to_path_buf(),
-        None => {
-            let cwd = std::env::current_dir().into_diagnostic()?;
-            let resolved =
-                data_source::resolve(&cwd, &CliPathOverrides::default()).into_diagnostic()?;
-            resolved.tokens_root
-        }
-    };
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let resolved = data_source::resolve(
+        &cwd,
+        &CliPathOverrides {
+            tokens_root: explicit_path.map(|p| p.to_path_buf()),
+            mode_sets: mode_sets_path.map(|p| p.to_path_buf()),
+            components: components_path.map(|p| p.to_path_buf()),
+            ..Default::default()
+        },
+    )
+    .into_diagnostic()?;
+    let tokens_root = resolved.tokens_root;
 
-    cache::build_file(&tokens_root, output)
-        .into_diagnostic()
-        .wrap_err_with(|| {
-            format!(
-                "failed to build cache from {} into {}",
-                tokens_root.display(),
-                output.display()
-            )
-        })?;
+    cache::build_file_with_catalogs(
+        &tokens_root,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+        output,
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| {
+        format!(
+            "failed to build cache from {} into {}",
+            tokens_root.display(),
+            output.display()
+        )
+    })?;
 
     println!(
         "Built cache from {} → {}",
@@ -1611,7 +1628,17 @@ fn main() -> ExitCode {
                 schema_path: schema_path.as_deref(),
             },
         ),
-        Commands::CacheBuild { path, output } => run_cache_build(path.as_deref(), &output),
+        Commands::CacheBuild {
+            path,
+            output,
+            mode_sets_path,
+            components_path,
+        } => run_cache_build(
+            path.as_deref(),
+            &output,
+            mode_sets_path.as_deref(),
+            components_path.as_deref(),
+        ),
         Commands::AuthoringSession { cmd } => {
             return authoring::run(cmd);
         }

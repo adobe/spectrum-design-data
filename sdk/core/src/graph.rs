@@ -135,19 +135,51 @@ impl TokenGraph {
         Self::from_json_dir_with_names(root, None)
     }
 
+    /// Load tokens plus optional spec catalog directories.
+    ///
+    /// Inline mode-set docs in the tokens tree are preserved; catalog mode sets
+    /// are appended (not replaced).
+    pub fn from_json_dir_with_catalogs(
+        root: &Path,
+        mode_sets_dir: Option<&Path>,
+        components_dir: Option<&Path>,
+    ) -> Result<Self, CoreError> {
+        let mut graph = Self::from_json_dir(root)?;
+        if let Some(dir) = mode_sets_dir {
+            if dir.is_dir() {
+                graph.mode_sets.extend(Self::load_spec_mode_sets(dir)?);
+            }
+        }
+        if let Some(dir) = components_dir {
+            if dir.is_dir() {
+                graph.components = Self::load_spec_components(dir)?;
+            }
+        }
+        Ok(graph)
+    }
+
     /// Load a graph for `root`, using the derived embedded-database cache when
     /// the `cache` feature is enabled.
     ///
     /// Drop-in replacement for [`Self::from_json_dir`]. See also
     /// [`Self::open_cached_with_index`] when the persisted query index is needed.
     pub fn open_cached(root: &Path) -> Result<Self, CoreError> {
+        Self::open_cached_with_catalogs(root, None, None)
+    }
+
+    /// Load a graph with optional spec catalog directories from cache or JSON.
+    pub fn open_cached_with_catalogs(
+        root: &Path,
+        mode_sets_dir: Option<&Path>,
+        components_dir: Option<&Path>,
+    ) -> Result<Self, CoreError> {
         #[cfg(feature = "cache")]
         {
-            crate::cache::open_cached(root)
+            crate::cache::open_cached_with_catalogs(root, mode_sets_dir, components_dir)
         }
         #[cfg(not(feature = "cache"))]
         {
-            Self::from_json_dir(root)
+            Self::from_json_dir_with_catalogs(root, mode_sets_dir, components_dir)
         }
     }
 
@@ -157,14 +189,27 @@ impl TokenGraph {
     /// in-memory rebuild. When the `cache` feature is disabled this builds the
     /// index from the JSON-loaded graph.
     pub fn open_cached_with_index(root: &Path) -> Result<(Self, query::TokenIndex), CoreError> {
+        Self::open_cached_with_index_with_catalogs(root, None, None)
+    }
+
+    /// Load a graph and query index with optional spec catalog directories.
+    pub fn open_cached_with_index_with_catalogs(
+        root: &Path,
+        mode_sets_dir: Option<&Path>,
+        components_dir: Option<&Path>,
+    ) -> Result<(Self, query::TokenIndex), CoreError> {
         #[cfg(feature = "cache")]
         {
-            let loaded = crate::cache::open_cached_with_index(root)?;
+            let loaded = crate::cache::open_cached_with_index_with_catalogs(
+                root,
+                mode_sets_dir,
+                components_dir,
+            )?;
             Ok((loaded.graph, loaded.index))
         }
         #[cfg(not(feature = "cache"))]
         {
-            let graph = Self::from_json_dir(root)?;
+            let graph = Self::from_json_dir_with_catalogs(root, mode_sets_dir, components_dir)?;
             let index = query::TokenIndex::build(&graph);
             Ok((graph, index))
         }
