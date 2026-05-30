@@ -21,6 +21,7 @@ use common::key;
 
 use crossterm::event::KeyCode;
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
+use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use design_data_tui::wizard::{ValueKind, ValueRow, WizardCtx, WizardState};
 use design_data_tui::{update, Message, Model, UpdateCtx};
@@ -82,6 +83,7 @@ fn submit_without_allow_write_does_not_create_file() {
     let tmpdir = tempfile::TempDir::new().expect("tempdir");
     let ctx = UpdateCtx {
         graph: &graph,
+        token_index: TokenIndex::build(&graph),
         dataset_path: Some(tmpdir.path()),
         schema_registry: Some(&registry),
         components_dir: None,
@@ -140,6 +142,7 @@ fn submit_with_allow_write_creates_token_file() {
     let tmpdir = tempfile::TempDir::new().expect("tempdir");
     let ctx = WizardCtx {
         graph: &graph,
+        token_index: TokenIndex::build(&graph),
         dataset_path: Some(tmpdir.path()),
         schema_registry: Some(&registry),
         allow_write: true,
@@ -184,6 +187,7 @@ fn submit_with_allow_write_updates_product_context() {
 
     let ctx = WizardCtx {
         graph: &graph,
+        token_index: TokenIndex::build(&graph),
         dataset_path: Some(tmpdir.path()),
         schema_registry: Some(&registry),
         allow_write: true,
@@ -212,6 +216,7 @@ fn submit_with_allow_write_missing_schema_returns_error() {
     let tmpdir = tempfile::TempDir::new().expect("tempdir");
     let ctx = WizardCtx {
         graph: &graph,
+        token_index: TokenIndex::build(&graph),
         dataset_path: Some(tmpdir.path()),
         schema_registry: Some(&registry),
         allow_write: true,
@@ -278,6 +283,7 @@ fn is_override_detected_when_token_name_exists_in_graph() {
     let tmpdir = tempfile::TempDir::new().expect("tempdir");
     let ctx = WizardCtx {
         graph: &graph,
+        token_index: TokenIndex::build(&graph),
         dataset_path: Some(tmpdir.path()),
         schema_registry: Some(&registry),
         allow_write: true,
@@ -317,6 +323,7 @@ fn resolve_target_file_foundation_maps_to_foundation_json() {
 
     let ctx = WizardCtx {
         graph: &graph,
+        token_index: TokenIndex::build(&graph),
         dataset_path: Some(tmpdir.path()),
         schema_registry: Some(&registry),
         allow_write: true,

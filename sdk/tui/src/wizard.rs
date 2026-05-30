@@ -18,6 +18,7 @@ use std::path::{Path, PathBuf};
 
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph};
+use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::suggest::{self, SuggestionResult};
 use design_data_core::write::{write_token, WriteTokenInput};
@@ -28,6 +29,7 @@ use uuid::Uuid;
 /// Minimal graph context passed to wizard key handlers.
 pub struct WizardCtx<'a> {
     pub graph: &'a TokenGraph,
+    pub token_index: TokenIndex,
     pub dataset_path: Option<&'a Path>,
     pub schema_registry: Option<&'a SchemaRegistry>,
     /// When true, Screen 4 Submit writes to disk via `write_token`.

@@ -207,7 +207,7 @@ pub fn step_intent(session_id: &str, intent: &str) -> Result<IntentStepResult, S
     session.wizard.screen = WizardScreen::Intent;
 
     let dataset_path = std::path::Path::new(&session.dataset_path);
-    let graph = TokenGraph::from_json_dir(dataset_path)
+    let graph = TokenGraph::open_cached(dataset_path)
         .map_err(|e| format!("failed to load dataset at {:?}: {e}", session.dataset_path))?;
 
     let raw = suggest::suggest(&graph, intent, None, 10);

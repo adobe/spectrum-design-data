@@ -17,6 +17,7 @@
 
 use design_data_core::diff::display_name;
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
+use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use ratatui::layout::Rect;
 use ratatui::widgets::TableState;
@@ -322,6 +323,7 @@ pub struct HitRegion {
 /// describe and validate commands.
 pub struct SubmitContext<'a> {
     pub graph: &'a TokenGraph,
+    pub token_index: TokenIndex,
     pub dataset_path: Option<&'a Path>,
     pub components_dir: Option<&'a Path>,
     pub schema_registry: Option<&'a SchemaRegistry>,
@@ -333,6 +335,7 @@ impl<'a> SubmitContext<'a> {
     pub fn new(graph: &'a TokenGraph) -> Self {
         Self {
             graph,
+            token_index: TokenIndex::build(graph),
             dataset_path: None,
             components_dir: None,
             schema_registry: None,

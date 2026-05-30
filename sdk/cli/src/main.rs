@@ -853,22 +853,24 @@ fn run_query(
     format: OutputFormat,
     count_only: bool,
 ) -> miette::Result<ExitCode> {
-    let mut graph = TokenGraph::open_cached(path)
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let resolved = data_source::resolve(&cwd, &CliPathOverrides::default()).into_diagnostic()?;
+
+    let (mut graph, mut index) = TokenGraph::open_cached_with_index(path)
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
     // Apply a configured platform manifest (filters/overrides/extensions) before querying.
-    let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(&cwd, &CliPathOverrides::default()).into_diagnostic()?;
     apply_configured_manifest(&mut graph, &resolved)?;
+    // Manifest overlays change the token set — rebuild the index when one is configured.
+    if resolved.platform_manifest.is_some() {
+        index = query::TokenIndex::build(&graph);
+    }
 
     let expr = query::parse(filter_expr)
         .into_diagnostic()
         .wrap_err("failed to parse filter expression")?;
 
-    // Build a secondary index so single-field equality queries use an indexed
-    // lookup instead of an O(n) scan; complex expressions fall back internally.
-    let index = query::TokenIndex::build(&graph);
     let results = query::filter_with_index(&graph, &index, &expr);
 
     if count_only {

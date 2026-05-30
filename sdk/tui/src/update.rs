@@ -23,6 +23,7 @@ use std::path::Path;
 
 use crossterm::event::{KeyCode, KeyModifiers, MouseButton, MouseEventKind};
 use design_data_core::graph::TokenGraph;
+use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use tui_input::backend::crossterm::EventHandler;
 
@@ -52,6 +53,7 @@ pub struct UpdateCtx<'a> {
     pub components_dir: Option<&'a Path>,
     pub schema_registry: Option<&'a SchemaRegistry>,
     pub mode_sets_dir: Option<&'a Path>,
+    pub token_index: TokenIndex,
     pub allow_write: bool,
 }
 
@@ -64,6 +66,7 @@ impl<'a> UpdateCtx<'a> {
             components_dir: None,
             schema_registry: None,
             mode_sets_dir: None,
+            token_index: TokenIndex::build(graph),
             allow_write: false,
         }
     }
@@ -71,6 +74,7 @@ impl<'a> UpdateCtx<'a> {
     fn as_wizard_ctx(&self) -> WizardCtx<'_> {
         WizardCtx {
             graph: self.graph,
+            token_index: self.token_index.clone(),
             dataset_path: self.dataset_path,
             schema_registry: self.schema_registry,
             allow_write: self.allow_write,
@@ -386,7 +390,7 @@ fn route_modal_key(
 
     // Find modal.
     if let Some(Modal::Find(ref mut fs)) = model.modal_mut() {
-        let event = fs.handle_key(key, ctx.graph);
+        let event = fs.handle_key(key, ctx.graph, &ctx.token_index);
         match event {
             FindEvent::Cancel => {
                 model.close_modal();

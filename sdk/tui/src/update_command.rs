@@ -104,7 +104,11 @@ fn dispatch_command(
             }
             match design_data_core::query::parse(rest) {
                 Ok(expr) => {
-                    let records = design_data_core::query::filter(ctx.graph, &expr);
+                    let records = design_data_core::query::filter_with_index(
+                        ctx.graph,
+                        &ctx.token_index,
+                        &expr,
+                    );
                     let rows: Vec<QueryRow> =
                         records.iter().map(|r| QueryRow::from_record(r)).collect();
                     let count = rows.len();

@@ -152,11 +152,11 @@ impl FindWizardState {
     ///
     /// Uses structured-filter path when any filter field is non-empty;
     /// falls back to `suggest::suggest` when only `intent` is filled.
-    pub fn refresh_preview(&mut self, graph: &TokenGraph) {
+    pub fn refresh_preview(&mut self, graph: &TokenGraph, index: &query::TokenIndex) {
         if let Some(expr_str) = self.assemble_expr() {
             match query::parse(&expr_str) {
                 Ok(filter) => {
-                    let records = query::filter(graph, &filter);
+                    let records = query::filter_with_index(graph, index, &filter);
                     self.preview_count = records.len();
                     self.preview_rows = records.iter().map(|r| QueryRow::from_record(r)).collect();
                     self.preview_error = None;
@@ -214,22 +214,32 @@ impl FindWizardState {
 
     // ── Dispatch ─────────────────────────────────────────────────────────────
 
-    pub fn handle_key(&mut self, key: KeyEvent, graph: &TokenGraph) -> FindEvent {
+    pub fn handle_key(
+        &mut self,
+        key: KeyEvent,
+        graph: &TokenGraph,
+        index: &query::TokenIndex,
+    ) -> FindEvent {
         if key.code == KeyCode::Esc {
             return FindEvent::Cancel;
         }
         match self.screen {
-            FindScreen::Filters => self.handle_filters_key(key, graph),
+            FindScreen::Filters => self.handle_filters_key(key, graph, index),
             FindScreen::Preview => self.handle_preview_key(key),
         }
     }
 
     // ── Screen 1: Filters ────────────────────────────────────────────────────
 
-    fn handle_filters_key(&mut self, key: KeyEvent, graph: &TokenGraph) -> FindEvent {
+    fn handle_filters_key(
+        &mut self,
+        key: KeyEvent,
+        graph: &TokenGraph,
+        index: &query::TokenIndex,
+    ) -> FindEvent {
         match key.code {
             KeyCode::Enter => {
-                self.refresh_preview(graph);
+                self.refresh_preview(graph, index);
                 self.screen = FindScreen::Preview;
                 FindEvent::Continue
             }

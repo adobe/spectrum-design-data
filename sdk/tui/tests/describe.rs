@@ -13,6 +13,7 @@ use common::key;
 
 use crossterm::event::KeyCode;
 use design_data_core::graph::{ComponentRecord, TokenGraph};
+use design_data_core::query::TokenIndex;
 use design_data_tui::app::ActiveView;
 use design_data_tui::{update, Message, Model, UpdateCtx};
 use serde_json::json;
@@ -38,6 +39,7 @@ fn describe_ctx<'a>(graph: &'a TokenGraph, dir: &'a PathBuf) -> UpdateCtx<'a> {
         components_dir: Some(dir.as_path()),
         schema_registry: None,
         mode_sets_dir: None,
+        token_index: TokenIndex::build(graph),
         allow_write: false,
     }
 }

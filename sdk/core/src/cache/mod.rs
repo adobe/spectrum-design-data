@@ -52,6 +52,22 @@
 //! [`build_bytes`] serializes a cache to an in-memory byte buffer and
 //! [`load_from_bytes`] / [`load_index_from_bytes`] open it again with no
 //! filesystem, via [`mem_backend::MemBackend`].
+//!
+//! ## Invalidation
+//!
+//! Cache freshness uses per-file **size + mtime** (not a full content hash) for
+//! speed. A stale miss only forces a rebuild (safe). A false hit requires a
+//! same-size edit with an unchanged mtime — unlikely in normal editor/git
+//! workflows, but possible in CI that preserves mtimes aggressively.
+//!
+//! ## Known limitations (schema v1)
+//!
+//! - **Inline mode sets** discovered by [`TokenGraph::from_json_dir`] inside the
+//!   tokens tree are not persisted; hydration uses [`TokenGraph::from_records`],
+//!   which clears `mode_sets`. The canonical Spectrum layout (mode sets under
+//!   `design-data-spec/mode-sets`) is unaffected.
+//! - **`components` / `mode_sets` catalog tables** from the plan are deferred;
+//!   only tokens and query indexes are cached today.
 
 mod mem_backend;
 
@@ -70,6 +86,13 @@ use crate::discovery::discover_json_files;
 use crate::graph::{TokenGraph, TokenRecord};
 use crate::query::{self, TokenIndex, ALLOWED_KEYS};
 use crate::CoreError;
+
+/// A token graph plus its query index, loaded together from cache or JSON.
+#[derive(Debug)]
+pub struct CachedDataset {
+    pub graph: TokenGraph,
+    pub index: TokenIndex,
+}
 
 /// Bump when the on-disk schema or value encoding changes, to invalidate caches
 /// written by older binaries (in addition to the tokens-version namespace).
@@ -163,25 +186,33 @@ fn debug_log(args: std::fmt::Arguments<'_>) {
 
 /// Load a [`TokenGraph`] for `tokens_root`, using the on-disk cache when fresh.
 ///
-/// Drop-in replacement for [`TokenGraph::from_json_dir`]:
-/// 1. On a cache hit (schema + tokens-version + content-hash all match) the
-///    graph is hydrated from redb — no JSON parsing.
-/// 2. On a miss or any cache error, the graph is built from JSON (the source of
-///    truth) and the cache is rewritten best-effort.
+/// Drop-in replacement for [`TokenGraph::from_json_dir`]. Prefer
+/// [`open_cached_with_index`] when you also need the persisted query index.
 ///
 /// Never fails because of the cache; only a JSON load error propagates.
 pub fn open_cached(tokens_root: &Path) -> Result<TokenGraph, CoreError> {
+    open_cached_with_index(tokens_root).map(|loaded| loaded.graph)
+}
+
+/// Load a graph **and** its query index for `tokens_root`.
+///
+/// On a cache hit both are hydrated from the redb file — including the `idx_*`
+/// multimap tables — without rebuilding the index in memory. On a miss or any
+/// cache error the graph is built from JSON (source of truth), the index is
+/// built from that graph, and the cache is rewritten best-effort.
+pub fn open_cached_with_index(tokens_root: &Path) -> Result<CachedDataset, CoreError> {
     match load_from_disk(tokens_root) {
-        Ok(Some(graph)) => return Ok(graph),
+        Ok(Some(loaded)) => return Ok(loaded),
         Ok(None) => {}
         Err(e) => debug_log(format_args!("read failed ({e}); rebuilding from json")),
     }
 
     let graph = TokenGraph::from_json_dir(tokens_root)?;
+    let index = TokenIndex::build(&graph);
     if let Err(e) = write_to_disk(tokens_root, &graph) {
         debug_log(format_args!("write failed ({e}); cache not updated"));
     }
-    Ok(graph)
+    Ok(CachedDataset { graph, index })
 }
 
 /// Serialize a freshly built cache for `tokens_root` into an in-memory byte
@@ -279,9 +310,9 @@ fn content_hash(tokens_root: &Path) -> std::io::Result<u64> {
 // Read path
 // ---------------------------------------------------------------------------
 
-/// Returns `Ok(Some(graph))` on a fresh cache hit, `Ok(None)` on a miss
+/// Returns `Ok(Some(loaded))` on a fresh cache hit, `Ok(None)` on a miss
 /// (absent/stale), or `Err` on a real cache error.
-fn load_from_disk(tokens_root: &Path) -> Result<Option<TokenGraph>, CacheError> {
+fn load_from_disk(tokens_root: &Path) -> Result<Option<CachedDataset>, CacheError> {
     let Some(path) = cache_db_path(tokens_root) else {
         return Ok(None);
     };
@@ -302,7 +333,10 @@ fn load_from_disk(tokens_root: &Path) -> Result<Option<TokenGraph>, CacheError> 
         return Ok(None);
     }
 
-    Ok(Some(hydrate(&rtx)?))
+    Ok(Some(CachedDataset {
+        graph: hydrate(&rtx)?,
+        index: read_index(&rtx)?,
+    }))
 }
 
 fn read_meta(rtx: &redb::ReadTransaction) -> Result<Option<CacheMeta>, CacheError> {
@@ -550,10 +584,15 @@ mod tests {
         // load_from_disk must report a genuine hit (Some) — proving the redb
         // read + MessagePack hydration path works, not the JSON fallback.
         let hit = load_from_disk(&root).unwrap();
-        let graph = hit.expect("expected a cache hit after priming");
-        assert_eq!(graph.tokens.len(), 2);
-        assert!(graph.tokens.contains_key("blue-100"));
-        assert!(graph.tokens.contains_key("blue-200"));
+        let loaded = hit.expect("expected a cache hit after priming");
+        assert_eq!(loaded.graph.tokens.len(), 2);
+        assert!(loaded.graph.tokens.contains_key("blue-100"));
+        assert!(loaded.graph.tokens.contains_key("blue-200"));
+
+        // Index must come from the persisted multimap tables, not a rebuild.
+        let expr = query::parse("component=button").unwrap();
+        let via_index = query::filter_with_index(&loaded.graph, &loaded.index, &expr);
+        assert_eq!(via_index.len(), 2);
 
         std::env::remove_var("DESIGN_DATA_CACHE_DIR");
     }

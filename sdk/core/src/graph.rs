@@ -138,10 +138,8 @@ impl TokenGraph {
     /// Load a graph for `root`, using the derived embedded-database cache when
     /// the `cache` feature is enabled.
     ///
-    /// Drop-in replacement for [`Self::from_json_dir`]: a fresh cache is
-    /// hydrated without re-parsing JSON; a stale/absent/corrupt cache rebuilds
-    /// from JSON (the source of truth) and rewrites the cache best-effort. When
-    /// the `cache` feature is disabled this is exactly [`Self::from_json_dir`].
+    /// Drop-in replacement for [`Self::from_json_dir`]. See also
+    /// [`Self::open_cached_with_index`] when the persisted query index is needed.
     pub fn open_cached(root: &Path) -> Result<Self, CoreError> {
         #[cfg(feature = "cache")]
         {
@@ -150,6 +148,25 @@ impl TokenGraph {
         #[cfg(not(feature = "cache"))]
         {
             Self::from_json_dir(root)
+        }
+    }
+
+    /// Load a graph and its query index together from cache or JSON.
+    ///
+    /// On a cache hit the `idx_*` multimap tables are hydrated without an
+    /// in-memory rebuild. When the `cache` feature is disabled this builds the
+    /// index from the JSON-loaded graph.
+    pub fn open_cached_with_index(root: &Path) -> Result<(Self, query::TokenIndex), CoreError> {
+        #[cfg(feature = "cache")]
+        {
+            let loaded = crate::cache::open_cached_with_index(root)?;
+            Ok((loaded.graph, loaded.index))
+        }
+        #[cfg(not(feature = "cache"))]
+        {
+            let graph = Self::from_json_dir(root)?;
+            let index = query::TokenIndex::build(&graph);
+            Ok((graph, index))
         }
     }
 

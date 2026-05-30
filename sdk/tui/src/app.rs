@@ -258,7 +258,7 @@ impl App {
 
         // Find wizard modal.
         if let Some(Modal::Find(ref mut fs)) = self.modal {
-            let event = fs.handle_key(key, ctx.graph);
+            let event = fs.handle_key(key, ctx.graph, &ctx.token_index);
             match event {
                 FindEvent::Cancel => {
                     self.modal = None;

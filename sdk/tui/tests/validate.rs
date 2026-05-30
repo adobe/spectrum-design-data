@@ -13,6 +13,7 @@ use common::key;
 
 use crossterm::event::KeyCode;
 use design_data_core::graph::TokenGraph;
+use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use design_data_tui::app::ActiveView;
 use design_data_tui::{update, Message, Model, UpdateCtx};
@@ -53,6 +54,7 @@ fn validate_ctx<'a>(
         components_dir: None,
         schema_registry: Some(registry),
         mode_sets_dir: None,
+        token_index: TokenIndex::build(graph),
         allow_write: false,
     }
 }
@@ -71,6 +73,7 @@ fn validate_without_registry_sets_error_status() {
         components_dir: None,
         schema_registry: None,
         mode_sets_dir: None,
+        token_index: TokenIndex::build(&graph),
         allow_write: false,
     };
     let mut model = Model::new();

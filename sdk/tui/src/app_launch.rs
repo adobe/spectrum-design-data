@@ -26,6 +26,7 @@ use crossterm::{
 };
 use design_data_core::data_source::{self, CliPathOverrides};
 use design_data_core::graph::TokenGraph;
+use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use miette::{IntoDiagnostic, Result, WrapErr};
 use ratatui::{backend::CrosstermBackend, Terminal};
@@ -73,6 +74,7 @@ struct DatasetHandle {
     token_count: usize,
     dataset_path: PathBuf,
     graph: TokenGraph,
+    token_index: TokenIndex,
     components_dir: Option<PathBuf>,
     mode_sets_dir: Option<PathBuf>,
     schema_registry: Option<SchemaRegistry>,
@@ -90,7 +92,7 @@ impl DatasetHandle {
         allow_write: bool,
         theme: Theme,
     ) -> Result<Self> {
-        let mut graph = TokenGraph::open_cached(&path)
+        let (mut graph, token_index) = TokenGraph::open_cached_with_index(&path)
             .into_diagnostic()
             .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
@@ -138,6 +140,7 @@ impl DatasetHandle {
             token_count: graph.tokens.len(),
             dataset_path: path,
             graph,
+            token_index,
             components_dir,
             mode_sets_dir,
             schema_registry,
@@ -161,6 +164,7 @@ impl DatasetHandle {
             components_dir: self.components_dir.as_deref(),
             schema_registry: self.schema_registry.as_ref(),
             mode_sets_dir: self.mode_sets_dir.as_deref(),
+            token_index: self.token_index.clone(),
             allow_write: self.allow_write,
         }
     }

@@ -629,6 +629,71 @@ mod tests {
         assert!(results.is_empty());
     }
 
+    // ── filter_with_index equivalence (#783) ─────────────────────────────
+
+    /// Assert `filter` and `filter_with_index` return the same names for `expr`.
+    fn assert_filter_equivalent(graph: &TokenGraph, expr_str: &str) {
+        let expr = parse(expr_str).unwrap();
+        let index = TokenIndex::build(graph);
+        let scan: Vec<_> = filter(graph, &expr)
+            .into_iter()
+            .map(|t| t.name.clone())
+            .collect();
+        let indexed: Vec<_> = filter_with_index(graph, &index, &expr)
+            .into_iter()
+            .map(|t| t.name.clone())
+            .collect();
+        assert_eq!(scan, indexed, "expr={expr_str:?}");
+    }
+
+    #[test]
+    fn filter_with_index_matches_filter_single_equality() {
+        let g = make_graph(vec![
+            (
+                "btn",
+                json!({"name": {"property": "bg", "component": "button"}, "value": "1"}),
+            ),
+            (
+                "chk",
+                json!({"name": {"property": "bg", "component": "checkbox"}, "value": "2"}),
+            ),
+        ]);
+        assert_filter_equivalent(&g, "component=button");
+        assert_filter_equivalent(&g, "property=bg");
+    }
+
+    #[test]
+    fn filter_with_index_matches_filter_complex_expressions() {
+        let g = make_graph(vec![
+            (
+                "btn",
+                json!({"name": {"property": "bg", "component": "button", "state": "hover"}, "value": "1"}),
+            ),
+            (
+                "chk",
+                json!({"name": {"property": "bg", "component": "checkbox", "state": "hover"}, "value": "2"}),
+            ),
+            (
+                "slider",
+                json!({"name": {"property": "bg", "component": "slider", "state": "default"}, "value": "3"}),
+            ),
+            (
+                "light",
+                json!({"name": {"property": "fg", "colorScheme": "light"}, "value": "4"}),
+            ),
+            (
+                "dark",
+                json!({"name": {"property": "fg", "colorScheme": "dark"}, "value": "5"}),
+            ),
+        ]);
+        assert_filter_equivalent(&g, "");
+        assert_filter_equivalent(&g, "component=button,state=hover");
+        assert_filter_equivalent(&g, "component=button|component=checkbox");
+        assert_filter_equivalent(&g, "colorScheme!=light");
+        assert_filter_equivalent(&g, "property=*-bg");
+        assert_filter_equivalent(&g, "component=missing");
+    }
+
     // ── Index builder ───────────────────────────────────────────────────
 
     #[test]

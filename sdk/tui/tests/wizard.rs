@@ -228,6 +228,7 @@ fn screen_3_enter_advances_to_screen_4() {
         components_dir: None,
         schema_registry: None,
         mode_sets_dir: None,
+        token_index: design_data_core::query::TokenIndex::build(&graph),
         allow_write: false,
     };
     let mut model = Model::new();
@@ -256,6 +257,7 @@ fn screen_4_empty_rationale_blocks_submit() {
         components_dir: None,
         schema_registry: None,
         mode_sets_dir: None,
+        token_index: design_data_core::query::TokenIndex::build(&graph),
         allow_write: false,
     };
     let mut model = Model::new();
@@ -280,6 +282,7 @@ fn screen_4_diff_preview_is_populated_on_enter() {
         components_dir: None,
         schema_registry: None,
         mode_sets_dir: None,
+        token_index: design_data_core::query::TokenIndex::build(&graph),
         allow_write: false,
     };
     let mut model = Model::new();
@@ -313,6 +316,7 @@ fn screen_4_submit_closes_modal_and_sets_status() {
         components_dir: None,
         schema_registry: None,
         mode_sets_dir: None,
+        token_index: design_data_core::query::TokenIndex::build(&graph),
         allow_write: false,
     };
     let mut model = Model::new();
@@ -350,6 +354,7 @@ fn submit_does_not_create_foundation_json_without_allow_write() {
     let foundation_file = tmpdir.path().join("foundation.json");
     let ctx = WizardCtx {
         graph: &graph,
+        token_index: design_data_core::query::TokenIndex::build(&graph),
         dataset_path: Some(tmpdir.path()),
         schema_registry: None,
         allow_write: false,

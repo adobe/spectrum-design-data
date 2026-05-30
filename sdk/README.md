@@ -14,6 +14,7 @@ sdk/
 │       ├── validate/   # two-layer validation (structural + relational)
 │       ├── diff/       # token dataset diffing
 │       ├── query/      # filter expressions
+│       ├── cache/      # derived redb cache over canonical JSON (default-on)
 │       ├── migrate/    # snapshot, convert, legacy helpers
 │       ├── figma/      # Figma Variables bridge (feature-gated)
 │       ├── schema/     # JSON Schema registry
@@ -105,6 +106,34 @@ design-data migrate convert input/ --output output/
 design-data migrate legacy-output input/ --output output/
 design-data migrate add-uuids input/ --output output/
 design-data migrate roundtrip-verify packages/tokens/src
+```
+
+### cache-build
+
+Build a portable `.redb` cache asset from a token dataset (for WASM web tools or offline distribution).
+
+```bash
+design-data cache-build packages/tokens/src -o index.redb
+```
+
+### Derived cache (CLI/TUI)
+
+The SDK builds a **derived, content-addressed redb cache** over the canonical JSON on disk. JSON remains the source of truth; the cache is rebuildable and never load-bearing (any cache error falls back to JSON parsing).
+
+| Variable / flag           | Purpose                                                               |
+| ------------------------- | --------------------------------------------------------------------- |
+| `DESIGN_DATA_CACHE_DIR`   | Override the OS cache root (default: `dirs::cache_dir()/design-data`) |
+| `DESIGN_DATA_LOG=debug`   | Log cache miss/rebuild/fallback events to stderr                      |
+| `design-data cache-build` | Emit a portable `index.redb` blob for WASM or CI artifacts            |
+
+Cache files live at `<cache_root>/cache/<tokens-version>/<dataset-key>.redb` and are gitignored (`*.redb`).
+
+**Invalidation** uses per-file size + mtime (not a full content hash) for speed. A stale miss only forces a rebuild. **Known limitation (schema v1):** inline mode-set JSON files co-located in the token tree are not persisted in the cache; the canonical Spectrum layout (mode sets under `design-data-spec/mode-sets`) is unaffected.
+
+Opt out of the cache layer when depending on `design-data-core` as a library:
+
+```toml
+design-data-core = { path = "../core", default-features = false }
 ```
 
 ### figma

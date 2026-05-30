@@ -69,7 +69,7 @@ impl App {
                 }
                 match query::parse(&rest) {
                     Ok(expr) => {
-                        let records = query::filter(ctx.graph, &expr);
+                        let records = query::filter_with_index(ctx.graph, &ctx.token_index, &expr);
                         let rows: Vec<QueryRow> =
                             records.iter().map(|r| QueryRow::from_record(r)).collect();
                         let count = rows.len();
