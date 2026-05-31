@@ -24,7 +24,7 @@ use crossterm::event::KeyCode;
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
 use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
-use design_data_tui::wizard::{ValueKind, ValueRow, WizardCtx, WizardState};
+use design_data_tui::wizard::{NameField, ValueKind, ValueRow, WizardCtx, WizardState};
 use design_data_tui::{update, Message, Model, UpdateCtx};
 use serde_json::json;
 use tui_input::Input;
@@ -171,6 +171,39 @@ fn submit_with_allow_write_creates_token_file() {
         doc.get("background-color").is_some(),
         "foundation.json should contain the new token key: {content}"
     );
+}
+
+#[test]
+fn submit_with_allow_write_includes_name_object() {
+    let registry = load_registry();
+    let graph = make_graph_with_schema();
+    let tmpdir = tempfile::TempDir::new().expect("tempdir");
+    let ctx = WizardCtx {
+        graph: &graph,
+        token_index: TokenIndex::build(&graph),
+        dataset_path: Some(tmpdir.path()),
+        schema_registry: Some(&registry),
+        allow_write: true,
+    };
+
+    let mut ws = wizard_at_confirm_literal("background-color", "rgb(2, 100, 220)", COLOR_SCHEMA);
+    ws.classification.name_fields = vec![NameField {
+        key: "variant".into(),
+        value: Input::from("accent".to_string()),
+    }];
+
+    let written_path = ws.perform_write(&ctx).expect("write should succeed");
+    assert!(
+        written_path.ends_with("foundation.json"),
+        "should write to foundation.json: {written_path}"
+    );
+
+    let foundation = tmpdir.path().join("foundation.json");
+    let content = std::fs::read_to_string(&foundation).expect("read foundation.json");
+    let doc: serde_json::Value = serde_json::from_str(&content).expect("parse foundation.json");
+    let tok = &doc["background-color-accent"];
+    assert_eq!(tok["name"]["property"], "background-color");
+    assert_eq!(tok["name"]["variant"], "accent");
 }
 
 #[test]

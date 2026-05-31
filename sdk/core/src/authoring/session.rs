@@ -359,18 +359,13 @@ fn build_token_value(wizard: &WizardDraft, schema_url: &str, rationale: &str) ->
         serde_json::Value::String(schema_url.to_string()),
     );
 
-    let mut name_obj = serde_json::Map::new();
-    name_obj.insert(
-        "property".into(),
-        serde_json::Value::String(wizard.classification.property.clone()),
+    obj.insert(
+        "name".into(),
+        crate::authoring::draft::build_name_object(
+            &wizard.classification.property,
+            &wizard.classification.name_fields,
+        ),
     );
-    for field in &wizard.classification.name_fields {
-        name_obj.insert(
-            field.key.clone(),
-            serde_json::Value::String(field.value.clone()),
-        );
-    }
-    obj.insert("name".into(), serde_json::Value::Object(name_obj));
 
     for (field, value) in build_value_fields(&wizard.values.rows) {
         obj.insert(field, value);

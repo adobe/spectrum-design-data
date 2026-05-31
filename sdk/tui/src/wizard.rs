@@ -524,11 +524,13 @@ impl WizardState {
         assemble_name_from_classification(&self.classification)
     }
 
-    /// Build the `$schema` + value fields shared by the write path and the diff
+    /// Build the `$schema` + `name` + value fields shared by the write path and the diff
     /// preview. Value fields come from [`design_data_core::authoring::draft::build_value_fields`]
     /// over every mode-combo row (flat `$ref`/`value` for a single default row,
     /// nested `sets` otherwise). Callers add `uuid`/`rationale` as needed.
     fn base_token_map(&self) -> serde_json::Map<String, serde_json::Value> {
+        let property = self.classification.property.value().trim().to_string();
+        let name_fields = classification_to_name_dtos(&self.classification);
         let value_fields = design_data_core::authoring::draft::build_value_fields(
             &value_rows_to_dtos(&self.values.rows),
         );
@@ -536,21 +538,22 @@ impl WizardState {
         if let Some(ref url) = self.schema_url {
             map.insert("$schema".into(), serde_json::Value::String(url.clone()));
         }
+        map.insert(
+            "name".into(),
+            design_data_core::authoring::draft::build_name_object(&property, &name_fields),
+        );
         for (field, value) in value_fields {
             map.insert(field, value);
         }
         map
     }
 
-    /// The token JSON object the wizard will write — `$schema` + value fields +
+    /// The token JSON object the wizard will write — `$schema` + `name` + value fields +
     /// rationale — **excluding** the generated `uuid`. Both [`Self::perform_write`]
     /// and the diff preview ([`Self::build_diff`]) derive from this single source,
     /// so what you see in the Confirm diff is exactly what lands on disk (sans
     /// uuid). Exposed so tests can assert on the structured shape (e.g.
     /// `sets.light` / `sets.dark`) rather than the rendered diff string.
-    ///
-    /// Note: unlike the MCP authoring session this does not yet emit a `name`
-    /// object — tracked in adobe/spectrum-design-data#1082.
     pub fn assembled_token(&self) -> serde_json::Value {
         let mut map = self.base_token_map();
         let rationale = self.rationale.value().trim().to_string();
@@ -670,6 +673,21 @@ fn infer_schema_url(graph: &TokenGraph, property: &str) -> Option<String> {
             None
         }
     })
+}
+
+/// Convert TUI classification name fields into the serializable DTO shape consumed by
+/// [`design_data_core::authoring::draft::build_name_object`].
+fn classification_to_name_dtos(
+    classification: &ClassificationDraft,
+) -> Vec<design_data_core::authoring::draft::NameFieldDto> {
+    classification
+        .name_fields
+        .iter()
+        .map(|f| design_data_core::authoring::draft::NameFieldDto {
+            key: f.key.clone(),
+            value: f.value.value().to_string(),
+        })
+        .collect()
 }
 
 /// Convert TUI value rows into the serializable DTO shape consumed by

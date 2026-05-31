@@ -192,6 +192,24 @@ pub fn build_value_fields(rows: &[ValueRowDto]) -> serde_json::Map<String, serde
     fields
 }
 
+/// Build the structured `name` object: `{ "property": ..., <name_fields>... }`.
+///
+/// Single source of truth shared by the MCP authoring session and TUI wizard.
+pub fn build_name_object(property: &str, name_fields: &[NameFieldDto]) -> serde_json::Value {
+    let mut name_obj = serde_json::Map::new();
+    name_obj.insert(
+        "property".into(),
+        serde_json::Value::String(property.to_string()),
+    );
+    for field in name_fields {
+        name_obj.insert(
+            field.key.clone(),
+            serde_json::Value::String(field.value.clone()),
+        );
+    }
+    serde_json::Value::Object(name_obj)
+}
+
 /// Recursively build a `sets` object from a slice of value rows.
 ///
 /// Rows are grouped by their first mode-combo dimension value; each group is
@@ -270,6 +288,28 @@ mod tests {
             alias_target: String::new(),
             literal: value.to_string(),
         }
+    }
+
+    #[test]
+    fn build_name_object_property_only() {
+        let name = build_name_object("background-color", &[]);
+        let obj = name.as_object().unwrap();
+        assert_eq!(obj["property"], "background-color");
+        assert_eq!(obj.len(), 1);
+    }
+
+    #[test]
+    fn build_name_object_includes_name_fields() {
+        let name = build_name_object(
+            "background-color",
+            &[NameFieldDto {
+                key: "variant".into(),
+                value: "accent".into(),
+            }],
+        );
+        let obj = name.as_object().unwrap();
+        assert_eq!(obj["property"], "background-color");
+        assert_eq!(obj["variant"], "accent");
     }
 
     #[test]
