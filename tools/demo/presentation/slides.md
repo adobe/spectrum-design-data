@@ -61,8 +61,11 @@ specificity, but deterministic and auditable.
 Beat A3 — `:describe button` pulls the component schema straight from the spec
 bundle: anatomy, states, accessibility role, token bindings.
 
-(The `/` fuzzy-find key is intentionally avoided — it isn't wired up yet. Search
-is `:query` and `:find`.)
+Beat A4 — `/accentbg` is live fuzzy-find: the table re-ranks on every keystroke
+with fzf-style subsequence matching (the header reads `Fuzzy: /accentbg`). Enter
+keeps the filtered results; Esc restores the previous view. So `:` is the
+structured surface (`query`/`find`) and `/` is incremental name search — show
+both.
 -->
 
 ***
@@ -99,7 +102,9 @@ Confirm (rationale required, live diff).
 
 Note the Confirm diff serializes EVERY mode-combo row as a `sets` block — we
 just fixed a bug where only the first row was written. The multi-mode story is
-honest on camera now.
+honest on camera now. The diff also emits a structured `name` object (property +
+name fields), so the TUI writes the same token shape as the MCP authoring
+session — the wizard and agent paths are at parity.
 -->
 
 ***

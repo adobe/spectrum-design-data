@@ -238,7 +238,9 @@ Quit and relaunch against the real dataset for the rest of the demo.
 * `/` `btnbg` — opens **live fuzzy-find**: the table re-ranks on every keystroke
   using fzf-style subsequence matching (`btnbg` matches `button-background`), with
   the header reading `Fuzzy: /btnbg`. `Enter` keeps the filtered results; `Esc`
-  restores the view that was on screen before you opened the palette.
+  restores the view that was on screen before you opened the palette. Pick a
+  needle that actually hits tokens in your dataset so the live narrowing reads
+  clearly on camera — `btnbg` is just an example.
 
 *"`:` is the structured command surface — `query` for predicate filtering and `find`
 for guided lookup — while `/` is incremental fuzzy search over token names. Tab

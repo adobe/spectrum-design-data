@@ -69,7 +69,11 @@ passing explicit `markers` timestamps in the slide's `playerProps`.
 
 ## Demo A — Find and inspect a token (`public/casts/A-find.cast`)
 
-Deterministic. \~2 min. Launch the TUI as above, then:
+Deterministic. \~2–2.5 min. Launch the TUI as above, then:
+
+> **Re-record needed:** the committed `A-find.cast` is a placeholder with markers
+> for A1–A3 only. Add the A4 fuzzy-find beat (and its marker) when you record the
+> real cast, or the deck's `pauseOnMarkers` won't stop for it.
 
 | Beat | Keystrokes                                                                                                                                            | Marker after |
 | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
