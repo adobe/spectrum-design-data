@@ -8,56 +8,40 @@ permalink: /ai/
 
 Spectrum Design Data publishes Model Context Protocol (MCP) servers and Agent Skills so AI assistants can query design tokens, component schemas, and Spectrum 2 documentation directly from tools like Claude Code and Cursor.
 
-## S2 docs skill (recommended for prototyping)
+Every integration comes in two forms: a lightweight **Agent Skill** (recommended for prototyping) and an always-on **MCP server**. The sections below are grouped by what you want to do — design tokens & schemas, or Spectrum 2 docs.
 
-The `s2-docs` Agent Skill fetches S2 component docs on-demand — only when the AI is working on Spectrum components — without loading a persistent MCP server into every session. This keeps context lean during long prototype sessions.
+## Which tool do I need?
 
-The skill auto-triggers when you mention Spectrum, React Spectrum, Spectrum Web Components, or a component name. You can also invoke it directly with `/s2-docs:s2-docs <component>`.
+| Goal | Use this |
+|------|----------|
+| Prototype with Spectrum tokens, zero setup | [`design-data` skill](#design-data-skill--spectrum-tokens-zero-config) |
+| Validate, diff, or author tokens on a custom dataset | [`design-data-agent` skill](#design-data-agent-skill--spec--custom-datasets) |
+| Look up S2 component docs and guidelines | [`s2-docs` skill](#s2-docs-skill-recommended-for-prototyping) |
+| Always-on access or agent pipelines | The matching [MCP server](#mcp-servers) for any of the above |
 
-### Install in Claude Code
+## Skill vs MCP — how to choose
 
-Add the Spectrum Design Data marketplace, then install the skill:
-
-```
-/plugin marketplace add adobe/spectrum-design-data
-/plugin install s2-docs@spectrum-design-data
-```
-
-After install, start a new session and ask something like _"which Spectrum component should I use for a searchable dropdown?"_ — the skill fetches the relevant docs automatically.
-
-### Install in Cursor
-
-Cursor Settings → Rules → **Add Rule** → **Remote Rule (GitHub)** → paste this URL:
-
-```
-https://github.com/adobe/spectrum-design-data/tree/main/tools/s2-docs-mcp/skills/s2-docs
-```
-
-Then invoke the skill in an Agent session via `/s2-docs get <component>` or ask a Spectrum question naturally.
-
-### Skill vs MCP — when to use which
+The same capability is available as a skill or an MCP server. They differ only in how they load:
 
 | | Agent Skill | MCP Server |
 |---|---|---|
 | **Context cost** | Description only (~200 chars) until invoked | All tool schemas loaded every session |
 | **Best for** | Prototyping, on-demand lookups | Always-available access, agent pipelines |
-| **Triggers** | Automatically on Spectrum intent, or `/s2-docs:s2-docs` | Called by the AI as a tool whenever needed |
+| **Triggers** | Automatically on intent, or invoked directly | Called by the AI as a tool whenever needed |
 | **Setup** | `/plugin install` or Cursor remote rule | Add to `mcp.json`, restart editor |
 
 Both can run together. The skill is a lightweight companion; the MCP is the full integration.
 
-## Design Data agent surface
+## Design tokens & component schemas
 
-Two Agent Skills cover design tokens and component schemas. Both shell out to the [`@adobe/design-data`](https://www.npmjs.com/package/@adobe/design-data) CLI — only the skill description loads into session context until invoked.
+Look up token values, query by component/property, suggest tokens from natural language, read component schemas, and (for custom datasets) validate, diff, and author tokens. All of these shell out to the [`@adobe/design-data`](https://www.npmjs.com/package/@adobe/design-data) CLI — only the skill description loads into session context until invoked.
 
-| Need | Skill | MCP fallback |
-|------|-------|--------------|
-| Spectrum tokens, zero setup (embedded snapshot) | `design-data` | `@adobe/design-data-mcp` |
-| Custom dataset on disk, validate/diff/write, spec tool names | `design-data-agent` | `@adobe/design-data-agent-mcp` |
-| Minimal session context cost | Skill (either above) | — |
-| Always-on tool access in agent pipelines | — | MCP (either above) |
+Pick based on your dataset:
 
-### `design-data` — Spectrum tokens (zero config)
+- **Spectrum tokens, zero config** → `design-data` skill (or `@adobe/design-data-mcp`). Uses the embedded Spectrum snapshot — no paths required.
+- **Custom dataset on disk, with validate/diff/write** → `design-data-agent` skill (or `@adobe/design-data-agent-mcp`). Tool names match the [agent surface spec](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data-spec/spec/agent-surface.md).
+
+### `design-data` skill — Spectrum tokens (zero config)
 
 Look up token values, query by component/property, suggest tokens from natural language, and read component schemas. Uses the embedded Spectrum snapshot automatically — no dataset paths required.
 
@@ -74,7 +58,7 @@ Look up token values, query by component/property, suggest tokens from natural l
 https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-skill/skills/design-data
 ```
 
-### `design-data-agent` — spec-conformant / custom datasets
+### `design-data-agent` skill — spec / custom datasets
 
 Validate, query, resolve, diff, and author tokens against a local dataset. Tool names match the [agent surface spec](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data-spec/spec/agent-surface.md). Requires `DESIGN_DATA_PATH` (and spec catalog paths for components/fields/dimensions).
 
@@ -91,19 +75,13 @@ Validate, query, resolve, diff, and author tokens against a local dataset. Tool 
 https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-mcp/skills/design-data
 ```
 
-### Skill vs MCP — design data
+### MCP servers
 
-| | Agent Skill | MCP Server |
-|---|---|---|
-| **Context cost** | Description only until invoked | All tool schemas loaded every session |
-| **Best for** | Prototyping, on-demand lookups | Always-available access, agent pipelines |
-| **Setup** | `/plugin install` or Cursor remote rule | Add to `mcp.json`, restart editor |
+For always-available tool access (higher context cost than the skills above), add the matching MCP server to your editor.
 
-## MCP Servers
+#### @adobe/design-data-mcp
 
-### @adobe/design-data-mcp
-
-Spectrum design tokens and component schemas via the `@adobe/design-data` CLI. Zero-config embedded snapshot. Prefer the [`design-data` skill](#design-data--spectrum-tokens-zero-config) for prototyping.
+Spectrum design tokens and component schemas via the `@adobe/design-data` CLI. Zero-config embedded snapshot. Prefer the [`design-data` skill](#design-data-skill--spectrum-tokens-zero-config) for prototyping.
 
 **npm:** `@adobe/design-data-mcp`
 
@@ -122,9 +100,9 @@ Spectrum design tokens and component schemas via the `@adobe/design-data` CLI. Z
 }
 ```
 
-### @adobe/design-data-agent-mcp
+#### @adobe/design-data-agent-mcp
 
-Spec-conformant agent surface for any local dataset. Tool names match the agent surface spec (`primer`, `resolve_token`, `query_tokens`, `validate_usage`, etc.). Prefer the [`design-data-agent` skill](#design-data-agent--spec-conformant--custom-datasets) for prototyping.
+Spec-conformant agent surface for any local dataset. Tool names match the agent surface spec (`primer`, `resolve_token`, `query_tokens`, `validate_usage`, etc.). Prefer the [`design-data-agent` skill](#design-data-agent-skill--spec--custom-datasets) for prototyping.
 
 **npm:** `@adobe/design-data-agent-mcp`
 
@@ -151,11 +129,11 @@ Spec-conformant agent surface for any local dataset. Tool names match the agent 
 
 Adjust paths to match your dataset layout.
 
-### @adobe/spectrum-design-data-mcp (legacy)
+### Legacy: @adobe/spectrum-design-data-mcp
 
 Design tokens and component API schemas. Enables AI to look up token values, find tokens by use case, validate component props, and get schema definitions.
 
-**Prefer [`@adobe/design-data-mcp`](#adobedesign-data-mcp)** for new projects — it wraps the current `@adobe/design-data` CLI with an embedded Spectrum snapshot.
+**Prefer [`@adobe/design-data-mcp`](#adobedesign-data-mcp)** for new projects — it wraps the current `@adobe/design-data` CLI with an embedded Spectrum snapshot. This package is kept for existing integrations.
 
 **npm:** `@adobe/spectrum-design-data-mcp`
 
@@ -163,7 +141,7 @@ Design tokens and component API schemas. Enables AI to look up token values, fin
 
 **Schema tools:** `list-components`, `get-component-schema`, `validate-component-props`, `search-components-by-feature`
 
-**Cursor config (single server):**
+**Cursor config:**
 
 ```json
 {
@@ -176,15 +154,40 @@ Design tokens and component API schemas. Enables AI to look up token values, fin
 }
 ```
 
+## Spectrum 2 documentation
+
+### s2-docs skill (recommended for prototyping)
+
+The `s2-docs` Agent Skill fetches S2 component docs on-demand — only when the AI is working on Spectrum components — without loading a persistent MCP server into every session. This keeps context lean during long prototype sessions.
+
+The skill auto-triggers when you mention Spectrum, React Spectrum, Spectrum Web Components, or a component name. You can also invoke it directly with `/s2-docs:s2-docs <component>`.
+
+**Claude Code:**
+
+```
+/plugin marketplace add adobe/spectrum-design-data
+/plugin install s2-docs@spectrum-design-data
+```
+
+After install, start a new session and ask something like _"which Spectrum component should I use for a searchable dropdown?"_ — the skill fetches the relevant docs automatically.
+
+**Cursor** — Settings → Rules → **Add Rule** → **Remote Rule (GitHub)**:
+
+```
+https://github.com/adobe/spectrum-design-data/tree/main/tools/s2-docs-mcp/skills/s2-docs
+```
+
+Then invoke the skill in an Agent session via `/s2-docs get <component>` or ask a Spectrum question naturally.
+
 ### @adobe/s2-docs-mcp
 
-Spectrum 2 component documentation and design guidelines. For prototyping, consider the [S2 docs skill](#s2-docs-skill-recommended-for-prototyping) above instead — it loads docs on-demand with less context overhead. Use this MCP when you want always-available access or are building agent pipelines.
+Spectrum 2 component documentation and design guidelines. For prototyping, prefer the [s2-docs skill](#s2-docs-skill-recommended-for-prototyping) above — it loads docs on-demand with less context overhead. Use this MCP when you want always-available access or are building agent pipelines.
 
 **npm:** `@adobe/s2-docs-mcp`
 
 **Tools:** `list-s2-components`, `get-s2-component`, `search-s2-docs`, `get-s2-stats`, `find-s2-component-by-use-case`
 
-**Cursor config (single server):** Use a local path to the repo, or install and run from the repo. Example:
+**Cursor config:**
 
 ```json
 {
@@ -201,7 +204,7 @@ If you run from source, point `args` to `tools/s2-docs-mcp/src/cli.js` inside yo
 
 ## Cursor IDE setup
 
-Add MCP servers to `.cursor/mcp.json` for always-available access. Skills (remote rules) are lighter for prototyping — see sections above.
+Add MCP servers to `.cursor/mcp.json` for always-available access. Skills (remote rules) are lighter for prototyping — see the sections above. Restart Cursor after changing MCP config.
 
 **Spectrum prototyping (tokens + S2 docs):**
 
@@ -236,24 +239,7 @@ Add MCP servers to `.cursor/mcp.json` for always-available access. Skills (remot
 }
 ```
 
-**Legacy (spectrum-design-data-mcp):**
-
-```json
-{
-  "mcpServers": {
-    "spectrum-design-data": {
-      "command": "npx",
-      "args": ["-y", "@adobe/spectrum-design-data-mcp"]
-    },
-    "s2-docs": {
-      "command": "npx",
-      "args": ["-y", "@adobe/s2-docs-mcp"]
-    }
-  }
-}
-```
-
-Restart Cursor after changing MCP config.
+For the legacy server, see [`@adobe/spectrum-design-data-mcp`](#legacy-adobespectrum-design-data-mcp) above.
 
 **More context in chat:**
 
