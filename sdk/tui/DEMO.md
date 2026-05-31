@@ -235,13 +235,14 @@ Quit and relaunch against the real dataset for the rest of the demo.
   property matches the `*background*` glob (any `query` expression works here).
 * `:find background` `Enter` — opens the Find wizard seeded with that intent for
   interactive name lookup.
+* `/` `btnbg` — opens **live fuzzy-find**: the table re-ranks on every keystroke
+  using fzf-style subsequence matching (`btnbg` matches `button-background`), with
+  the header reading `Fuzzy: /btnbg`. `Enter` keeps the filtered results; `Esc`
+  restores the view that was on screen before you opened the palette.
 
 *"`:` is the structured command surface — `query` for predicate filtering and `find`
-for guided lookup. Tab autocomplete and Up/Down history work throughout."*
-
-> **Note:** the `/` key is reserved for a future live fuzzy-find palette but is not
-> wired up yet (it opens the palette but does not filter). Until then, use `:query`
-> and `:find` for search. See the `/` fuzzy-find tracking issue.
+for guided lookup — while `/` is incremental fuzzy search over token names. Tab
+autocomplete and Up/Down history work throughout the `:` palette."*
 
 ***
 

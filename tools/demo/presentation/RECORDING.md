@@ -71,14 +71,18 @@ passing explicit `markers` timestamps in the slide's `playerProps`.
 
 Deterministic. \~2 min. Launch the TUI as above, then:
 
-| Beat | Keystrokes                                                                                  | Marker after |
-| ---- | ------------------------------------------------------------------------------------------- | ------------ |
-| A1   | `:` `query background-color/*` `Enter` — scroll `j`/`k`, then `Esc`                         | yes          |
-| A2   | `:` `resolve property=accent-background-color-default,colorScheme=dark` `Enter`, then `Esc` | yes          |
-| A3   | `:` `describe button` `Enter` — scroll with `j`/`k` / `PgDn`, then `Esc`                    | yes          |
+| Beat | Keystrokes                                                                                                                                            | Marker after |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| A1   | `:` `query background-color/*` `Enter` — scroll `j`/`k`, then `Esc`                                                                                   | yes          |
+| A2   | `:` `resolve property=accent-background-color-default,colorScheme=dark` `Enter`, then `Esc`                                                           | yes          |
+| A3   | `:` `describe button` `Enter` — scroll with `j`/`k` / `PgDn`, then `Esc`                                                                              | yes          |
+| A4   | `/` `accentbg` — live fuzzy filter (table re-ranks on every keystroke), `j`/`k` to move, `Enter` to keep results (or `Esc` to restore the prior view) | yes          |
 
-Trap: **do not press `/`** — the fuzzy-find palette is not wired yet
-(tracking issue). Use `:query` / `:find` only.
+`/` and `:` are complementary, so show both: `/` is **live fuzzy-find** (fzf-style
+subsequence match — `accentbg` finds `accent-background-…`, re-ranked per
+keystroke, header reads `Fuzzy: /accentbg`), while `:query` is structured
+predicate filtering. `Enter` commits the fuzzy results; `Esc` restores the view
+that was on screen before you opened the palette.
 
 ## Demo B — Name a new token (`public/casts/B-name.cast`)
 
@@ -91,7 +95,10 @@ Trap: **do not press `/`** — the fuzzy-find palette is not wired yet
 
 The Confirm diff now serializes **every mode-combo row** as a `sets` block
 (fixed; previously only the first row was written) — so the multi-mode story is
-honest on camera. Only add `--allow-write` for a deliberate "write to disk" take.
+honest on camera. The diff also emits a structured `name` object (property +
+name fields), matching what the MCP authoring session writes, so the TUI and
+agent paths produce identical token shapes. Only add `--allow-write` for a
+deliberate "write to disk" take.
 
 ## Demo C — Deterministic agent companion (`public/casts/C-suggest.cast`, optional)
 
