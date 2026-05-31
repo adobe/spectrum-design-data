@@ -24,4 +24,7 @@ tasks:
       - "design-system-registry:test"
     inputs:
       - "@globs(sources)"
+      # Site pages are read directly by src/pages.js and mirrored into docs/markdown/pages.
+      # Token/component/registry data is covered by the deps above.
+      - "/docs/site/src/pages/**/*"
     # Output is docs/markdown/ (outside project); Moon cannot declare parent paths

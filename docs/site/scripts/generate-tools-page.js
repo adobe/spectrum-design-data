@@ -108,7 +108,7 @@ function buildDeveloperToolsSection(toolsDir) {
   const lines = [
     "## Developer Tools",
     "",
-    "Packages under `tools/` in the repo:",
+    "Packages under `tools/` in the repo. For the MCP servers and Agent Skills (S2 docs, design tokens, and schemas), see [Using with AI](/ai/) for setup and usage.",
     "",
   ];
 

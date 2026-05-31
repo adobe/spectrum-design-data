@@ -129,4 +129,7 @@ tags:
 | user-image | User Image | User profile photo displayed within an avatar component | - |
 | initials | Initials | Text initials displayed in an avatar when no image is available | - |
 | guest-icon | Guest Icon | Icon displayed in an avatar representing an unauthenticated guest user | - |
+| disclosure-triangle | Disclosure Triangle | Expand/collapse indicator for accordion, tree, or disclosure components | - |
+| picker | Picker | Dropdown trigger area — the visible affordance, not the overlay | - |
+| progress-bar | Progress Bar | Visual progress fill track indicating completion level | - |
 
