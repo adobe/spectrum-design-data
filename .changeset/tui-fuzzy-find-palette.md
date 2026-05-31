@@ -1,5 +1,5 @@
 ---
-"@adobe/design-data-tui": minor
+"@adobe/design-data": minor
 ---
 
 Make the TUI `/` fuzzy-find palette filter token names live instead of being a
