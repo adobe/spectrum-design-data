@@ -1,0 +1,32 @@
+{
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/button/"
+      },
+      "accessibility": {
+        "role": "button",
+        "intents": ["trigger"],
+        "focusable": true,
+        "keyboardIntents": ["activate"],
+        "wcag": [
+          { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+        ]
+      },
+      "states": [
+        {
+          "name": "disabled",
+          "trigger": "prop",
+          "precedence": 100,
+          "announce": "Button disabled",
+          "communicates": "disabled",
+          "blocksInteraction": true
+        }
+      ]
+    }
+  ]
+}

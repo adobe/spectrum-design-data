@@ -1,0 +1,478 @@
+# Validation rule catalog (Layer 2) — stable IDs for diagnostics and conformance.
+# spec_version aligns with the human-readable spec (see spec/index.md).
+spec_version: "1.0.0-draft"
+rules:
+  - id: SPEC-001
+    name: alias-target-exists
+    severity: error
+    category: reference-integrity
+    assert: Every alias $ref MUST resolve to an existing token in the dataset.
+    message: "Alias target not found for $ref: {path}"
+    spec_ref: spec/token-format.md#alias-ref
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-002
+    name: alias-type-compatibility
+    severity: error
+    category: type-safety
+    assert: Resolved alias target MUST have a value type compatible with the referencing token’s expected type.
+    message: "Alias {path} resolves to incompatible type"
+    spec_ref: spec/token-format.md#literal-value
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-003
+    name: no-circular-aliases
+    severity: error
+    category: reference-integrity
+    assert: Alias chains MUST NOT contain cycles.
+    message: "Circular alias chain detected involving {path}"
+    spec_ref: spec/token-format.md#alias-ref
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-004
+    name: uuid-global-uniqueness
+    severity: error
+    category: completeness
+    assert: Token uuid values MUST be unique across all token documents in the dataset.
+    message: "Duplicate uuid {uuid}"
+    spec_ref: spec/token-format.md#lifecycle-and-metadata
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-005
+    name: cascade-coverage
+    severity: error
+    category: completeness
+    assert: Mode set declarations MUST satisfy coverage rules (e.g. default ∈ modes; peer mode requirements from coverage metadata).
+    message: "Mode-set coverage violation for {mode_set}"
+    spec_ref: spec/mode-sets.md#coverage-validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-006
+    name: specificity-correctness
+    severity: warning
+    category: type-safety
+    assert: When two tokens from the same layer match a context with equal specificity, the tie MUST be broken by document order (earlier in file wins; lexicographically earlier file path wins across files). Ties MUST be reported as warnings.
+    message: "Ambiguous cascade resolution (specificity tie) between {token_a} and {token_b} for context {context}; resolved by document order"
+    spec_ref: spec/cascade.md#semantic-specificity
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-007
+    name: name-roundtrip
+    severity: warning
+    category: naming-consistency
+    assert: Every legacy token name MUST be reproducible from a structured name object via deterministic generation rules, unless listed in naming-exceptions.json.
+    message: "Token '{token}' does not roundtrip through name-object generation rules"
+    spec_ref: spec/token-format.md#name-object
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-008
+    name: cascade-completeness
+    severity: warning
+    category: completeness
+    assert: For every cascade token that has a non-default mode variant, a base/default variant (name object with no mode set fields for that mode set, or explicitly the default mode value) MUST also exist in the dataset. Ensures all consumers can resolve without a fallback gap.
+    message: "Token property '{property}' has mode variant '{mode}' but no base/default variant"
+    spec_ref: spec/cascade.md#coverage
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-009
+    name: name-field-enum-sync
+    severity: warning
+    category: naming-consistency
+    assert: Recognized name object fields (component, state, variant, etc.) SHOULD use values drawn from the corresponding design-system-registry enums when those enums are available.
+    message: "Token name field '{field}' value '{value}' is not in the design-system-registry enum for '{field}'"
+    spec_ref: spec/token-format.md#name-object
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-010
+    name: replaced-by-target-exists
+    severity: error
+    category: reference-integrity
+    assert: Every UUID in replaced_by MUST resolve to an existing token in the dataset.
+    message: "replaced_by target UUID not found: {uuid}"
+    spec_ref: spec/token-format.md#lifecycle-and-metadata
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-011
+    name: replaced-by-array-requires-comment
+    severity: error
+    category: completeness
+    assert: When replaced_by is an array, deprecated_comment MUST be present to explain which replacement applies in which context.
+    message: "replaced_by is an array but deprecated_comment is missing on token {token}"
+    spec_ref: spec/token-format.md#lifecycle-and-metadata
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-012
+    name: replaced-by-requires-deprecated
+    severity: error
+    category: completeness
+    assert: If replaced_by is present, deprecated MUST also be present.
+    message: "Token {token} has replaced_by but is not marked deprecated"
+    spec_ref: spec/token-format.md#lifecycle-and-metadata
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-013
+    name: planned-removal-requires-deprecated
+    severity: error
+    category: completeness
+    assert: If plannedRemoval is present, deprecated MUST also be present.
+    message: "Token {token} has plannedRemoval but is not marked deprecated"
+    spec_ref: spec/token-format.md#lifecycle-and-metadata
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-014
+    name: composite-inline-alias-exists
+    severity: error
+    category: reference-integrity
+    assert: Inline alias references ({token-name}) within composite values MUST resolve to an existing token in the dataset.
+    message: "Inline alias target not found within composite value: {path}"
+    spec_ref: spec/token-format.md#inline-alias-references
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-015
+    name: composite-inline-alias-type-compatible
+    severity: error
+    category: type-safety
+    assert: Resolved inline alias target within a composite value MUST have a value type compatible with the sub-value's expected type.
+    message: "Inline alias {path} within composite resolves to incompatible type"
+    spec_ref: spec/token-format.md#inline-alias-references
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-016
+    name: value-type-match
+    severity: error
+    category: type-safety
+    assert: When $valueType is present on a token with a literal value, the value MUST validate against the referenced value-type schema.
+    message: "Token {token} value does not validate against declared $valueType schema {schema}"
+    spec_ref: spec/token-format.md#value-type-declaration-valuetype
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-017
+    name: string-name-tech-debt
+    severity: warning
+    category: tech-debt
+    assert: Token names SHOULD be structured name objects. A plain string name is permitted as a temporary escape hatch but MUST be treated as tech debt and tracked for remediation.
+    message: 'Token "{name}" uses a string name instead of a name object — treat as tech debt and plan remediation'
+    spec_ref: spec/token-format.md#string-name-escape-hatch
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-018
+    name: component-name-exists
+    severity: error
+    category: reference-integrity
+    assert: Token name-object 'component' field value MUST match the 'name' of a declared component in the dataset.
+    message: "Token '{token}' references undeclared component '{component}'"
+    spec_ref: spec/component-format.md#name
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-019
+    name: component-variant-valid
+    severity: error
+    category: reference-integrity
+    assert: Token name-object 'variant' field value MUST match a value in the declared 'variant' option `values` list for the referenced component, when that list exists.
+    message: "Token '{token}' has variant '{variant}' which is not declared on component '{component}'"
+    spec_ref: spec/component-format.md#options
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-020
+    name: component-anatomy-valid
+    severity: error
+    category: reference-integrity
+    assert: Token name-object 'anatomy' field value MUST match the 'name' of a declared anatomy part on the referenced component.
+    message: "Token '{token}' references undeclared anatomy part '{anatomy}' on component '{component}'"
+    spec_ref: spec/component-format.md#anatomy-stub
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-021
+    name: component-slot-vocabulary
+    severity: warning
+    category: component-contract
+    assert: Component slot declarations with a 'name' outside the canonical slot vocabulary SHOULD include a 'description' field documenting the custom slot's purpose.
+    message: "Component '{component}' has custom slot '{slot}' with no description — add a description or use a canonical slot name"
+    spec_ref: spec/component-format.md#canonical-slot-vocabulary
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-022
+    name: component-state-valid
+    severity: error
+    category: reference-integrity
+    assert: Token name-object 'state' field value MUST match the 'name' of a declared state on the referenced component, when state declarations are present.
+    message: "Token '{token}' references undeclared state '{state}' on component '{component}'"
+    spec_ref: spec/component-format.md#spec-rules
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-023
+    name: anatomy-custom-part-documented
+    severity: warning
+    category: component-contract
+    assert: Anatomy part declarations with a 'name' outside the canonical anatomy vocabulary SHOULD include a 'description' field.
+    message: "Component '{component}' has custom anatomy part '{part}' with no description"
+    spec_ref: spec/anatomy-format.md#canonical-anatomy-vocabulary
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-024
+    name: anatomy-part-name-unique
+    severity: error
+    category: component-contract
+    assert: Anatomy part names within a single component's anatomy array MUST be unique.
+    message: "Component '{component}' declares duplicate anatomy part name '{part}'"
+    spec_ref: spec/anatomy-format.md#name
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-025
+    name: anatomy-requires-component
+    severity: error
+    category: reference-integrity
+    assert: A token name object MUST NOT include an 'anatomy' field unless a 'component' field is also present.
+    message: "Token '{token}' has 'anatomy' field without a 'component' field"
+    spec_ref: spec/anatomy-format.md#cross-reference-with-token-name-objects
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-026
+    name: state-custom-name-documented
+    severity: warning
+    category: component-contract
+    assert: State declarations with a 'name' outside the canonical state vocabulary SHOULD include a 'description' field.
+    message: "Component '{component}' has custom state '{state}' with no description"
+    spec_ref: spec/state-model.md#canonical-state-vocabulary
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-027
+    name: token-binding-token-exists
+    severity: error
+    category: reference-integrity
+    assert: Each tokenBindings[].token value in a component declaration MUST match the name of a declared token in the dataset.
+    message: "Component '{component}' tokenBindings references unknown token '{token}'"
+    spec_ref: spec/component-format.md#token-bindings
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-028
+    name: document-block-agents-equals-content
+    severity: warning
+    category: completeness
+    assert: >
+      A document block's agents field, when present, SHOULD contain phrasing that differs from
+      content. An identical copy provides no agent-specific value and SHOULD be omitted or refined.
+      Applies to tokens, components, and anatomy parts.
+    message: "'{entity}' has a document block whose agents text is identical to content — tailor it for agent consumption or omit the agents field"
+    spec_ref: spec/document-blocks.md
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-029
+    name: document-block-missing-purpose
+    severity: warning
+    category: completeness
+    assert: >
+      An entity that carries a non-empty documentBlocks array SHOULD include at least one block
+      with type 'purpose' to document the entity's intent.
+      Applies to tokens, components, and anatomy parts.
+    message: "'{entity}' has documentBlocks but no purpose block — add a block with type 'purpose'"
+    spec_ref: spec/document-blocks.md
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-030
+    name: accessibility-empty
+    severity: warning
+    category: completeness
+    assert: >
+      A component declaration that carries an accessibility object SHOULD populate at least one
+      of the five known fields (role, intents, focusable, keyboardIntents, wcag). An entirely
+      empty accessibility object provides no semantic value and should be populated or removed.
+    message: "Component '{entity}' has an empty accessibility object — populate at least one field or remove the property"
+    spec_ref: spec/accessibility.md
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-031
+    name: accessibility-wcag-missing
+    severity: warning
+    category: completeness
+    assert: >
+      A component whose accessibility declaration includes a role SHOULD also include a non-empty
+      wcag array listing applicable WCAG 2.x success criteria. WCAG citations improve audit
+      traceability for components with a named semantic role.
+    message: "Component '{entity}' accessibility has a role but no wcag entries — add applicable WCAG 2.x success criteria"
+    spec_ref: spec/accessibility.md
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-032
+    name: product-layer-override-type-compat
+    severity: error
+    category: cascade
+    assert: >
+      A Platform- or Product-layer token that overrides a Foundation token (matched by UUID)
+      MUST NOT change the JSON value type of the `value` field. Overrides may change the value
+      but must preserve its JSON kind (string, number, object, array, boolean).
+    message: "Token '{entity}' override changes value type from '{foundationType}' to '{overrideType}' — overrides MUST NOT change the resolved token's value type"
+    spec_ref: spec/cascade.md
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-033
+    name: registry-id-cross-namespace-allowed
+    severity: error
+    category: registry
+    # Meta-rule: constrains validator behavior, not data shape. No SDK implementation exists;
+    # this entry documents a MUST constraint for external validator implementors. The error
+    # severity correctly signals "MUST" — a validator that incorrectly rejects valid
+    # cross-registry IDs is non-conforming. No conformance fixture is required because the
+    # SDK never emits this diagnostic; the rule is enforced by spec prose alone.
+    assert: >
+      A validator MUST NOT flag a registry ID as invalid solely because that same ID appears in
+      a different registry. Registry IDs are scoped to their registry; cross-registry overlap is
+      intentional when the same word is a valid term in each registry's distinct validation context.
+    message: "Registry ID '{id}' appears in multiple registries — this is permitted; do not reject on cross-registry overlap alone"
+    spec_ref: spec/registry.md#id-scoping
+    introduced_in: "1.0.0-draft"
+  - id: SPEC-034
+    name: component-category-registry-sync
+    severity: warning
+    category: naming-consistency
+    assert: >
+      A component's meta.category SHOULD reference an id from the categories registry in
+      @adobe/design-system-registry (categories.json). Unknown values are reported as
+      warnings; the registry is the authoritative vocabulary.
+    message: "Component '{entity}' meta.category value '{value}' is not in the design-system-registry categories vocabulary"
+    spec_ref: spec/registry.md#categories
+    introduced_in: "1.0.0-draft"
+  - id: SPEC-035
+    name: anatomy-part-name-registry-sync
+    severity: warning
+    category: naming-consistency
+    assert: >
+      A component anatomy part's name SHOULD reference an id from the anatomy-terms registry in
+      @adobe/design-system-registry (anatomy-terms.json). Unknown values are reported as
+      warnings; custom names remain permitted but the registry is the authoritative vocabulary.
+    message: "Component '{entity}' anatomy part name '{value}' is not in the design-system-registry anatomy-terms vocabulary"
+    spec_ref: spec/anatomy-format.md#canonical-anatomy-vocabulary
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-036
+    name: component-deprecation-cascade
+    severity: warning
+    category: reference-integrity
+    assert: >
+      Tokens SHOULD NOT reference a deprecated component via `name.component` unless the token
+      is itself deprecated. Non-deprecated tokens referencing a deprecated component are surfaced
+      as warnings to prompt authors to update the reference or mark the token deprecated.
+    message: "Token '{token}' references deprecated component '{component}' (deprecated since {version}); update the reference or mark the token deprecated"
+    spec_ref: spec/component-format.md#lifecycle
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-037
+    name: sub-entity-deprecation-cascade
+    severity: warning
+    category: reference-integrity
+    assert: >
+      Tokens SHOULD NOT reference a deprecated anatomy part, deprecated component state, or
+      deprecated option value via their `name` object unless the token is itself deprecated.
+      Non-deprecated tokens referencing deprecated sub-entities are surfaced as warnings to
+      prompt authors to update the reference or mark the token deprecated.
+      Deprecation is declared via `lifecycle.deprecated` on anatomy parts, states, and individual
+      option values within the `values` array on option descriptors.
+    message: "Token '{token}' references deprecated {kind} '{value}' on component '{component}' (deprecated since {version}); update the reference or mark the token deprecated"
+    spec_ref: spec/component-format.md#lifecycle
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-038
+    name: option-enum-obsolete
+    severity: warning
+    category: component-contract
+    assert: >
+      Option descriptors SHOULD NOT use the JSON Schema `enum` keyword. The `enum` field is
+      silently accepted at Layer 1 (optionDescriptor uses additionalProperties: true) but has
+      no effect on SDK rules or lifecycle cascade. Use `values` instead so per-value lifecycle
+      metadata can be attached to individual values.
+    message: "Component '{component}' option '{option}' uses the obsolete `enum` keyword; replace with a `values` array so per-value lifecycle metadata can be expressed"
+    spec_ref: spec/component-format.md#option-descriptor
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-039
+    name: manifest-query-parseable
+    severity: error
+    layer: 2
+    category: manifest
+    rfc: "#715"
+    assert: >
+      Each entry in 'manifest.include' and 'manifest.exclude' MUST parse as a valid query
+      expression per spec/query.md and MUST use only the supported query keys.
+      Entries that fail to parse, or that reference unsupported keys, are Layer 2 errors.
+      This rule lifts the deferred 'treat as opaque' clause from earlier 1.0.0-draft revisions.
+    message: "Manifest {array}[{idx}] failed to parse as a query: {error}"
+    spec_ref: spec/manifest.md#include--exclude
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-040
+    name: component-option-field-valid
+    severity: warning
+    layer: 2
+    category: component
+    rfc: "#806"
+    assert: >
+      For every token whose name object contains a key that is not a reserved name-object field
+      and that matches a declared component.options.<key> with a values[] list, the token's value
+      MUST appear in that values[] list. Reserved fields (component, variant, state, anatomy,
+      property, colorScheme, scale, contrast, uuid, object, category) are excluded; variant is
+      owned by SPEC-019. This rule generalises SPEC-019 to all remaining option-enum fields
+      (style, size, staticColor, etc.) at advisory severity.
+    message: "Token '{token}' has {field} '{value}' which is not declared on component '{component}'"
+    spec_ref: spec/component-format.md#options
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-041
+    name: mode-set-restriction-coverage
+    severity: error
+    layer: 2
+    category: completeness
+    rfc: "#806"
+    assert: >
+      When a manifest declares modeSetRestrictions, every token group (tokens sharing the same
+      non-mode-set name object fields) MUST have at least one candidate that survives ALL
+      restrictions simultaneously — i.e. at least one token whose name object either omits
+      each restricted mode set field (wildcard) or sets it to an allowed mode value for every
+      restriction. Restrictions are applied as a conjunction (matching cascade step 0), so a
+      group that satisfies each restriction individually but has no single token satisfying
+      all restrictions at once is also a coverage gap.
+      Sub-checks: (a) a modeSetRestrictions key that names an unknown mode set MUST emit a
+      Warning; (b) an allowed list that excludes the mode set's declared default MUST emit
+      an Error, since the resolver would return None for the default context on that platform.
+    message: "Token group '{base_name}' has no resolvable candidate under manifest mode-set restrictions ({restrictions})"
+    spec_ref: spec/mode-sets.md#platform-restrictions
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-042
+    name: field-scope-violation
+    severity: warning
+    layer: 2
+    category: taxonomy
+    rfc: "#806"
+    assert: >
+      When a token's name object contains a domain-scoped field (e.g. `colorFamily`,
+      `weight`, `motionRole`), the token's effective domain schema MUST be compatible
+      with that field's scope. For alias tokens (`alias.json`), the rule follows the
+      `alias_target` chain to the terminal non-alias schema before checking domain
+      compatibility — a color alias may carry `colorFamily` when its target is a
+      color-domain token. Using a color-scoped field on a typography token, or a
+      typography-scoped field on a color token, is a taxonomy violation. The set of
+      domain-scoped fields and their valid schema URL suffixes is declared in the field
+      catalog under `packages/design-data-spec/fields/` via the `scope` property.
+      Tokens without a `$schema` are skipped (domain cannot be determined).
+    message: "name.{field} is a {scope}-scoped field but token schema '{effective_schema}' is not a {scope} token type"
+    spec_ref: spec/taxonomy.md#token-type-taxonomies
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-043
+    name: domain-required-fields
+    severity: warning
+    layer: 2
+    category: taxonomy
+    rfc: "#806"
+    assert: >
+      Tokens in a known domain SHOULD include at least one domain-identifying field in
+      their name object so tooling can group, sort, and validate them correctly.
+      Color tokens (schema: color.json, color-set.json) SHOULD have `colorFamily` or
+      `scaleIndex`. Typography tokens (schema: font-*.json, typography.json) SHOULD have
+      `family`, `weight`, or `style`. Motion tokens (schema: duration.json, motion.json)
+      SHOULD have `motionRole` or `easing`. String-named tokens and tokens without `$schema`
+      are skipped. Advisory severity: the existing corpus has not yet migrated to structured
+      name objects; this rule tracks progress rather than blocking.
+    message: "{domain} token has a name object but no domain-identifying field — add at least one of: {required_fields}"
+    spec_ref: spec/taxonomy.md#token-type-taxonomies
+    introduced_in: "1.0.0-draft"

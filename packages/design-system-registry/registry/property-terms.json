@@ -1,0 +1,212 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "property-term",
+  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, overlay-color, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
+  "values": [
+    {
+      "id": "color",
+      "label": "Color",
+      "description": "Text or foreground color"
+    },
+    {
+      "id": "background-color",
+      "label": "Background Color",
+      "description": "Background fill color"
+    },
+    {
+      "id": "border-color",
+      "label": "Border Color",
+      "description": "Border or outline color"
+    },
+    {
+      "id": "fill-color",
+      "label": "Fill Color",
+      "description": "SVG or icon fill color"
+    },
+    {
+      "id": "icon-color",
+      "label": "Icon Color",
+      "description": "Foreground color of an icon"
+    },
+    {
+      "id": "shadow-color",
+      "label": "Shadow Color",
+      "description": "Drop shadow color component"
+    },
+    {
+      "id": "overlay-color",
+      "label": "Overlay Color",
+      "description": "Overlay or scrim tint color"
+    },
+    {
+      "id": "outline-color",
+      "label": "Outline Color",
+      "description": "CSS outline color"
+    },
+    {
+      "id": "opacity",
+      "label": "Opacity",
+      "description": "Element transparency level"
+    },
+    {
+      "id": "border-opacity",
+      "label": "Border Opacity",
+      "description": "Border transparency level"
+    },
+    {
+      "id": "overlay-opacity",
+      "label": "Overlay Opacity",
+      "description": "Overlay or scrim transparency level"
+    },
+    {
+      "id": "width",
+      "label": "Width",
+      "description": "Element width"
+    },
+    {
+      "id": "height",
+      "label": "Height",
+      "description": "Element height"
+    },
+    {
+      "id": "min-width",
+      "label": "Min Width",
+      "description": "Minimum element width"
+    },
+    {
+      "id": "max-width",
+      "label": "Max Width",
+      "description": "Maximum element width"
+    },
+    {
+      "id": "min-height",
+      "label": "Min Height",
+      "description": "Minimum element height"
+    },
+    {
+      "id": "max-height",
+      "label": "Max Height",
+      "description": "Maximum element height"
+    },
+    {
+      "id": "size",
+      "label": "Size",
+      "description": "General dimension size (non-directional)"
+    },
+    {
+      "id": "padding",
+      "label": "Padding",
+      "description": "Internal spacing on all sides"
+    },
+    {
+      "id": "padding-horizontal",
+      "label": "Horizontal Padding",
+      "description": "Internal horizontal (left/right) spacing"
+    },
+    {
+      "id": "padding-vertical",
+      "label": "Vertical Padding",
+      "description": "Internal vertical (top/bottom) spacing"
+    },
+    {
+      "id": "gap",
+      "label": "Gap",
+      "description": "Space between flex or grid children"
+    },
+    {
+      "id": "spacing",
+      "label": "Spacing",
+      "description": "General spacing between elements"
+    },
+    {
+      "id": "border-width",
+      "label": "Border Width",
+      "description": "Border or stroke thickness"
+    },
+    {
+      "id": "border-radius",
+      "label": "Border Radius",
+      "description": "Corner rounding radius"
+    },
+    {
+      "id": "outline-width",
+      "label": "Outline Width",
+      "description": "CSS outline thickness"
+    },
+    {
+      "id": "blur",
+      "label": "Blur",
+      "description": "Blur radius (backdrop or drop shadow)"
+    },
+    {
+      "id": "shadow",
+      "label": "Shadow",
+      "description": "Full box or drop shadow definition"
+    },
+    {
+      "id": "font-size",
+      "label": "Font Size",
+      "description": "Typeface size"
+    },
+    {
+      "id": "font-weight",
+      "label": "Font Weight",
+      "description": "Typeface weight (boldness)"
+    },
+    {
+      "id": "font-family",
+      "label": "Font Family",
+      "description": "Typeface family name"
+    },
+    {
+      "id": "font-style",
+      "label": "Font Style",
+      "description": "Typeface style (normal, italic, oblique)"
+    },
+    {
+      "id": "line-height",
+      "label": "Line Height",
+      "description": "Vertical spacing between lines of text"
+    },
+    {
+      "id": "letter-spacing",
+      "label": "Letter Spacing",
+      "description": "Horizontal spacing between characters"
+    },
+    {
+      "id": "text-align",
+      "label": "Text Align",
+      "description": "Horizontal alignment of text content"
+    },
+    {
+      "id": "duration",
+      "label": "Duration",
+      "description": "Animation or transition duration"
+    },
+    {
+      "id": "easing",
+      "label": "Easing",
+      "description": "Animation or transition easing function"
+    },
+    {
+      "id": "margin",
+      "label": "Margin",
+      "description": "External spacing on all sides (used for typography block margin multipliers)"
+    },
+    {
+      "id": "margin-top",
+      "label": "Margin Top",
+      "description": "External spacing above a block element"
+    },
+    {
+      "id": "margin-bottom",
+      "label": "Margin Bottom",
+      "description": "External spacing below a block element"
+    },
+    {
+      "id": "line-height-multiplier",
+      "label": "Line Height Multiplier",
+      "description": "Unitless line-height ratio (multiplier), distinct from the absolute px line-height paired with a specific font-size tier"
+    }
+  ]
+}

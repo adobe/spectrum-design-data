@@ -1,0 +1,253 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/tabs.json",
+  "specVersion": "1.0.0-draft",
+  "name": "tabs",
+  "displayName": "Tabs",
+  "description": "Tabs organize content into multiple sections and allow users to navigate between them. The content under the set of tabs should be related and form a coherent unit.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/tabs/"
+  },
+  "options": {
+    "orientation": {
+      "type": "string",
+      "default": "horizontal",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
+    },
+    "items": {
+      "type": "array",
+      "description": "An array of tab items.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The text displayed for the tab item."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the tab is disabled."
+          },
+          "state": {
+            "type": "string",
+            "enum": ["default", "hover", "keyboard focus"],
+            "default": "default",
+            "description": "The interaction state of the tab item."
+          },
+          "contentVariant": {
+            "type": "string",
+            "enum": ["label-only", "icon-only", "icon-label"],
+            "default": "icon-label",
+            "description": "Controls whether the tab displays a label, an icon, or both."
+          },
+          "density": {
+            "type": "string",
+            "enum": ["compact", "regular"],
+            "default": "regular"
+          },
+          "isFluid": {
+            "type": "boolean",
+            "default": false,
+            "description": "This overrides density and is only applicable to horizontal tabs."
+          },
+          "isEmphasized": {
+            "type": "boolean",
+            "default": false
+          },
+          "alignment": {
+            "type": "string",
+            "enum": ["start", "center"],
+            "default": "start"
+          },
+          "selectedItem": {
+            "description": "(list of available items)"
+          },
+          "keyboardActivation": {
+            "type": "string",
+            "enum": ["manual", "automatic"],
+            "default": "manual"
+          }
+        }
+      }
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "tab-item-compact-height-medium",
+      "context": "Height "
+    },
+    {
+      "token": "tab-item-height-medium",
+      "context": "Regular density "
+    },
+    {
+      "token": "corner-radius-0",
+      "context": "Corner radius"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon "
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "tab-item-top-to-workflow-icon-compact-medium",
+      "context": "Spacing (top/bottom to edge, workflow icon only)"
+    },
+    {
+      "token": "tab-item-top-to-workflow-icon-medium",
+      "context": "Spacing (top/bottom to edge, workflow icon only)"
+    },
+    {
+      "token": "tab-item-side-to-workflow-icon-compact-medium",
+      "context": "Spacing (side to edge, workflow icon only)"
+    },
+    {
+      "token": "tab-item-side-to-workflow-icon-medium",
+      "context": "Spacing (side to edge, workflow icon only)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (edge to edge)"
+    },
+    {
+      "token": "tab-item-top-to-text-compact-medium",
+      "context": "Spacing (top edge to label)"
+    },
+    {
+      "token": "tab-item-top-to-text-medium",
+      "context": "Spacing (top edge to label)"
+    },
+    {
+      "token": "tab-item-bottom-to-text-compact-medium",
+      "context": "Spacing (bottom edge to label)"
+    },
+    {
+      "token": "tab-item-bottom-to-text-medium",
+      "context": "Spacing (bottom edge to label)"
+    },
+    {
+      "token": "tab-item-to-tab-item-compact-horizontal-medium",
+      "context": "Spacing (between tab items, horizontal)"
+    },
+    {
+      "token": "tab-item-to-tab-item-horizontal-medium",
+      "context": "Spacing (between tab items, horizontal)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus ring"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus ring"
+    },
+    {
+      "token": "tab-selection-indicator-thickness",
+      "context": "Selection indicator (underline)"
+    },
+    {
+      "token": "spacing-75",
+      "context": "Spacing (selected) "
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (selected) "
+    },
+    {
+      "token": "spacing-50",
+      "context": "Spacing (selected with keyboard focus) "
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Tab items and selection indicator"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Tab items and selection indicator"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Tab items and selection indicator"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Tab items and selection indicator"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Tab items and selection indicator"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Tab items and selection indicator"
+    },
+    {
+      "token": "disabled-border-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus ring"
+    },
+    {
+      "token": "default-font-family"
+    },
+    {
+      "token": "default-font-style"
+    },
+    {
+      "token": "regular-font-weight"
+    },
+    {
+      "token": "font-size-75"
+    },
+    {
+      "token": "font-size-100"
+    },
+    {
+      "token": "font-size-200"
+    },
+    {
+      "token": "font-size-300"
+    },
+    {
+      "token": "line-height-100"
+    }
+  ],
+  "accessibility": {
+    "intents": ["navigate"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

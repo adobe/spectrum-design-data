@@ -1,0 +1,20 @@
+{
+  "renamed": [],
+  "deprecated": [],
+  "reverted": [],
+  "added": [],
+  "deleted": [],
+  "updated": [
+    {
+      "name": "background-color",
+      "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+      "property_changes": [
+        {
+          "path": "uuid",
+          "change_type": "added",
+          "new_value": "aaaaaaaa-0001-4000-8000-000000000001"
+        }
+      ]
+    }
+  ]
+}

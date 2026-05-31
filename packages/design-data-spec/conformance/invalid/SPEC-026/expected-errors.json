@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-026",
+      "severity": "warning",
+      "message_pattern": ".*custom state.*wobble.*no description.*"
+    }
+  ]
+}

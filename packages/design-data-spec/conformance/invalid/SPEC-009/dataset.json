@@ -1,0 +1,12 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "component": "nonexistent-widget",
+        "property": "background-color"
+      },
+      "value": "#0265dc"
+    }
+  ],
+  "components": []
+}

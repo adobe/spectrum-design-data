@@ -37,5 +37,6 @@ jobs:
           diff-type: token
           diff-generated: ${{ steps.diff.outputs.diff-generated }}
           diff-content: ${{ steps.diff.outputs.diff-content }}
+          diff-file-path: /tmp/token-diff.md
           pr-number: ${{ github.event.pull_request.number }}
           github-token: ${{ secrets.GITHUB_TOKEN }}

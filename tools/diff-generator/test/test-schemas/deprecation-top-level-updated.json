@@ -1,0 +1,22 @@
+{
+  "side-navigation-test-token": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension-set.json",
+    "component": "side-navigation",
+    "uuid": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-indent-medium instead.",
+    "renamed": "list-indent-medium",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "16px",
+        "uuid": "11111111-2222-3333-4444-555555555555"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "66666666-7777-8888-9999-aaaaaaaaaaaa"
+      }
+    }
+  }
+}

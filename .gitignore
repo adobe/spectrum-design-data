@@ -113,8 +113,30 @@ dist
 .moon/cache
 .moon/docker
 
+# Rust (design-data SDK workspace)
+sdk/target/
+
+# design-data derived embedded-database cache (rebuildable from canonical JSON,
+# never authoritative). Includes the OS cache dir contents and any locally built
+# cache assets emitted by `design-data cache-build`.
+*.redb
+*.redb.tmp
+
+# design-data platform binary slots — tracked placeholder shell scripts are
+# committed in sdk/npm/{platform}/bin/; real compiled binaries are written
+# there by CI immediately before `npm publish` and are NEVER committed.
+# CI does not run `git add` / `git commit`, so accidental commits only
+# happen locally. If a real binary ends up staged, remove it with:
+#   git restore --staged sdk/npm/darwin-arm64/bin/design-data
+
 # visual studio code
 .vscode/
+
+# Claude Code local settings (machine-specific)
+.claude/settings.local.json
+.claude/worktrees/
+**/.claude/
+.mcp.json
 
 # test temporary directories
 temp-*
@@ -122,3 +144,14 @@ temp-*
 
 # auto-generated token files (copied by prepare scripts)
 docs/s2-tokens-viewer/tokens/
+
+# tool output directories (graphify, ferrograph)
+graphify-out/
+**/graphify-out/
+.ferrograph
+**/.ferrograph
+tools/token-mapping-analyzer/output/
+
+# demo video pipeline rendered artifacts (re-buildable from manifests).
+# Commit only curated, published assets under tools/demo/videos/published/.
+tools/demo/videos/out/

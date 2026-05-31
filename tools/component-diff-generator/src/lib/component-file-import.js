@@ -20,7 +20,7 @@ import {
 } from "@adobe/spectrum-diff-core";
 
 // Component-specific constants and configuration
-const COMPONENT_PACKAGE_PATH = "packages/component-schemas";
+const COMPONENT_PACKAGE_PATH = "packages/design-data-spec";
 
 // ===== COMPONENT-SPECIFIC WRAPPER FUNCTIONS =====
 
@@ -59,11 +59,7 @@ export function cleanComponentPath(startDir, fileName) {
  * @returns {Array<string>} Processed file names
  */
 export function processComponentFileNames(fileNames, hasGivenFileNames) {
-  return processGenericFileNames(
-    fileNames,
-    hasGivenFileNames,
-    "schemas/components/",
-  );
+  return processGenericFileNames(fileNames, hasGivenFileNames, "components/");
 }
 
 // Re-export shared functions for backward compatibility
@@ -148,7 +144,7 @@ export class ComponentLoader extends FileLoader {
       // Try to fetch the GitHub API directory listing
       const repoName = repo || "adobe/spectrum-tokens";
       const branch = version === "latest" ? location : version;
-      const apiUrl = `https://api.github.com/repos/${repoName}/contents/packages/component-schemas/schemas`;
+      const apiUrl = `https://api.github.com/repos/${repoName}/contents/packages/design-data-spec/components`;
 
       const options = githubAPIKey
         ? { headers: { Authorization: `token ${githubAPIKey}` } }
@@ -160,19 +156,10 @@ export class ComponentLoader extends FileLoader {
         const contents = await response.json();
         const files = [];
 
-        // Process directory contents recursively
+        // Process directory contents — components/ is flat JSON files
         for (const item of contents) {
           if (item.type === "file" && item.name.endsWith(".json")) {
-            files.push(`schemas/${item.name}`);
-          } else if (item.type === "dir") {
-            // Recursively get files from subdirectories (like components/, types/)
-            const subFiles = await this.getFilesFromDirectory(
-              `${apiUrl}/${item.name}`,
-              branch,
-              options,
-              `schemas/${item.name}`,
-            );
-            files.push(...subFiles);
+            files.push(`components/${item.name}`);
           }
         }
 
@@ -221,72 +208,86 @@ export class ComponentLoader extends FileLoader {
    */
   getFallbackComponentFiles() {
     return [
-      "schemas/component.json",
-      "schemas/components/action-bar.json",
-      "schemas/components/action-button.json",
-      "schemas/components/action-group.json",
-      "schemas/components/alert-banner.json",
-      "schemas/components/alert-dialog.json",
-      "schemas/components/avatar.json",
-      "schemas/components/badge.json",
-      "schemas/components/body.json",
-      "schemas/components/bottom-navigation-android.json",
-      "schemas/components/breadcrumbs.json",
-      "schemas/components/button-group.json",
-      "schemas/components/button.json",
-      "schemas/components/checkbox-group.json",
-      "schemas/components/checkbox.json",
-      "schemas/components/close-button.json",
-      "schemas/components/coach-indicator.json",
-      "schemas/components/code.json",
-      "schemas/components/color-area.json",
-      "schemas/components/color-loupe.json",
-      "schemas/components/color-slider.json",
-      "schemas/components/color-wheel.json",
-      "schemas/components/combo-box.json",
-      "schemas/components/contextual-help.json",
-      "schemas/components/detail.json",
-      "schemas/components/divider.json",
-      "schemas/components/field-label.json",
-      "schemas/components/heading.json",
-      "schemas/components/help-text.json",
-      "schemas/components/in-field-progress-button.json",
-      "schemas/components/in-field-progress-circle.json",
-      "schemas/components/in-line-alert.json",
-      "schemas/components/link.json",
-      "schemas/components/menu.json",
-      "schemas/components/meter.json",
-      "schemas/components/opacity-checkerboard.json",
-      "schemas/components/picker.json",
-      "schemas/components/popover.json",
-      "schemas/components/progress-bar.json",
-      "schemas/components/progress-circle.json",
-      "schemas/components/radio-button.json",
-      "schemas/components/radio-group.json",
-      "schemas/components/rating.json",
-      "schemas/components/scroll-zoom-bar.json",
-      "schemas/components/search-field.json",
-      "schemas/components/select-box.json",
-      "schemas/components/side-navigation.json",
-      "schemas/components/slider.json",
-      "schemas/components/status-light.json",
-      "schemas/components/swatch-group.json",
-      "schemas/components/swatch.json",
-      "schemas/components/switch.json",
-      "schemas/components/tab-bar-ios.json",
-      "schemas/components/tabs.json",
-      "schemas/components/tag.json",
-      "schemas/components/text-area.json",
-      "schemas/components/text-field.json",
-      "schemas/components/thumbnail.json",
-      "schemas/components/toast.json",
-      "schemas/components/tooltip.json",
-      "schemas/components/tray.json",
-      "schemas/components/tree-view.json",
-      "schemas/types/hex-color.json",
-      "schemas/types/typography-classification.json",
-      "schemas/types/typography-script.json",
-      "schemas/types/workflow-icon.json",
+      "components/accordion.json",
+      "components/action-bar.json",
+      "components/action-button.json",
+      "components/action-group.json",
+      "components/alert-banner.json",
+      "components/alert-dialog.json",
+      "components/avatar-group.json",
+      "components/avatar.json",
+      "components/badge.json",
+      "components/body.json",
+      "components/bottom-navigation-android.json",
+      "components/breadcrumbs.json",
+      "components/button-group.json",
+      "components/button.json",
+      "components/calendar.json",
+      "components/cards.json",
+      "components/checkbox-group.json",
+      "components/checkbox.json",
+      "components/close-button.json",
+      "components/coach-indicator.json",
+      "components/coach-mark.json",
+      "components/code.json",
+      "components/color-area.json",
+      "components/color-handle.json",
+      "components/color-loupe.json",
+      "components/color-slider.json",
+      "components/color-wheel.json",
+      "components/combo-box.json",
+      "components/contextual-help.json",
+      "components/date-picker.json",
+      "components/detail.json",
+      "components/divider.json",
+      "components/drop-zone.json",
+      "components/field-label.json",
+      "components/heading.json",
+      "components/help-text.json",
+      "components/illustrated-message.json",
+      "components/in-field-progress-button.json",
+      "components/in-field-progress-circle.json",
+      "components/in-line-alert.json",
+      "components/link.json",
+      "components/list-view.json",
+      "components/menu.json",
+      "components/meter.json",
+      "components/number-field.json",
+      "components/opacity-checkerboard.json",
+      "components/picker.json",
+      "components/popover.json",
+      "components/progress-bar.json",
+      "components/progress-circle.json",
+      "components/radio-button.json",
+      "components/radio-group.json",
+      "components/rating.json",
+      "components/scroll-zoom-bar.json",
+      "components/search-field.json",
+      "components/segmented-control.json",
+      "components/select-box.json",
+      "components/side-navigation.json",
+      "components/slider.json",
+      "components/standard-dialog.json",
+      "components/standard-panel.json",
+      "components/status-light.json",
+      "components/steplist.json",
+      "components/swatch-group.json",
+      "components/swatch.json",
+      "components/switch.json",
+      "components/tab-bar-ios.json",
+      "components/table.json",
+      "components/tabs.json",
+      "components/tag-field.json",
+      "components/tag-group.json",
+      "components/tag.json",
+      "components/takeover-dialog.json",
+      "components/text-area.json",
+      "components/text-field.json",
+      "components/thumbnail.json",
+      "components/toast.json",
+      "components/tooltip.json",
+      "components/tray.json",
+      "components/tree-view.json",
     ];
   }
 

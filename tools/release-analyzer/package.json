@@ -1,5 +1,5 @@
 {
-  "name": "@adobe/spectrum-tokens-release-analyzer",
+  "name": "release-analyzer",
   "private": true,
   "version": "0.2.0",
   "description": "Analyzes Spectrum Tokens release history and generates data for change frequency visualization",

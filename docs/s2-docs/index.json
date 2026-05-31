@@ -1,0 +1,500 @@
+{
+  "generated": "2026-02-12T18:47:20.452Z",
+  "categories": {
+    "actions": [
+      {
+        "slug": "action-bar",
+        "name": "Action Bar",
+        "url": "https://s2.spectrum.corp.adobe.com/page/action-bar/",
+        "file": "components/actions/action-bar.md",
+        "exists": true
+      },
+      {
+        "slug": "action-button",
+        "name": "Action Button",
+        "url": "https://s2.spectrum.corp.adobe.com/page/action-button/",
+        "file": "components/actions/action-button.md",
+        "exists": true
+      },
+      {
+        "slug": "action-group",
+        "name": "Action Group",
+        "url": "https://s2.spectrum.corp.adobe.com/page/action-group/",
+        "file": "components/actions/action-group.md",
+        "exists": true
+      },
+      {
+        "slug": "button-group",
+        "name": "Button Group",
+        "url": "https://s2.spectrum.corp.adobe.com/page/button-group/",
+        "file": "components/actions/button-group.md",
+        "exists": true
+      },
+      {
+        "slug": "button",
+        "name": "Button",
+        "url": "https://s2.spectrum.corp.adobe.com/page/button/",
+        "file": "components/actions/button.md",
+        "exists": true
+      },
+      {
+        "slug": "close-button",
+        "name": "Close Button",
+        "url": "https://s2.spectrum.corp.adobe.com/page/close-button/",
+        "file": "components/actions/close-button.md",
+        "exists": true
+      },
+      {
+        "slug": "link",
+        "name": "Link",
+        "url": "https://s2.spectrum.corp.adobe.com/page/link/",
+        "file": "components/actions/link.md",
+        "exists": true
+      },
+      {
+        "slug": "list-view",
+        "name": "List View",
+        "url": "https://s2.spectrum.corp.adobe.com/page/list-view/",
+        "file": "components/actions/list-view.md",
+        "exists": true
+      },
+      {
+        "slug": "menu",
+        "name": "Menu",
+        "url": "https://s2.spectrum.corp.adobe.com/page/menu/",
+        "file": "components/actions/menu.md",
+        "exists": true
+      }
+    ],
+    "containers": [
+      {
+        "slug": "cards",
+        "name": "Cards",
+        "url": "https://s2.spectrum.corp.adobe.com/page/cards/",
+        "file": "components/containers/cards.md",
+        "exists": true
+      },
+      {
+        "slug": "divider",
+        "name": "Divider",
+        "url": "https://s2.spectrum.corp.adobe.com/page/divider/",
+        "file": "components/containers/divider.md",
+        "exists": true
+      },
+      {
+        "slug": "popover",
+        "name": "Popover",
+        "url": "https://s2.spectrum.corp.adobe.com/page/popover/",
+        "file": "components/containers/popover.md",
+        "exists": true
+      },
+      {
+        "slug": "standard-panel",
+        "name": "Standard Panel",
+        "url": "https://s2.spectrum.corp.adobe.com/page/standard-panel/",
+        "file": "components/containers/standard-panel.md",
+        "exists": true
+      },
+      {
+        "slug": "table",
+        "name": "Table",
+        "url": "https://s2.spectrum.corp.adobe.com/page/table/",
+        "file": "components/containers/table.md",
+        "exists": true
+      }
+    ],
+    "feedback": [
+      {
+        "slug": "alert-banner",
+        "name": "Alert Banner",
+        "url": "https://s2.spectrum.corp.adobe.com/page/alert-banner/",
+        "file": "components/feedback/alert-banner.md",
+        "exists": true
+      },
+      {
+        "slug": "alert-dialog",
+        "name": "Alert Dialog",
+        "url": "https://s2.spectrum.corp.adobe.com/page/alert-dialog/",
+        "file": "components/feedback/alert-dialog.md",
+        "exists": true
+      },
+      {
+        "slug": "coach-indicator",
+        "name": "Coach Indicator",
+        "url": "https://s2.spectrum.corp.adobe.com/page/coach-indicator/",
+        "file": "components/feedback/coach-indicator.md",
+        "exists": true
+      },
+      {
+        "slug": "coach-mark",
+        "name": "Coach Mark",
+        "url": "https://s2.spectrum.corp.adobe.com/page/coach-mark/",
+        "file": "components/feedback/coach-mark.md",
+        "exists": true
+      },
+      {
+        "slug": "contextual-help",
+        "name": "Contextual Help",
+        "url": "https://s2.spectrum.corp.adobe.com/page/contextual-help/",
+        "file": "components/feedback/contextual-help.md",
+        "exists": true
+      },
+      {
+        "slug": "illustrated-message",
+        "name": "Illustrated Message",
+        "url": "https://s2.spectrum.corp.adobe.com/page/illustrated-message/",
+        "file": "components/feedback/illustrated-message.md",
+        "exists": true
+      },
+      {
+        "slug": "in-line-alert",
+        "name": "In Line Alert",
+        "url": "https://s2.spectrum.corp.adobe.com/page/in-line-alert/",
+        "file": "components/feedback/in-line-alert.md",
+        "exists": true
+      },
+      {
+        "slug": "standard-dialog",
+        "name": "Standard Dialog",
+        "url": "https://s2.spectrum.corp.adobe.com/page/standard-dialog/",
+        "file": "components/feedback/standard-dialog.md",
+        "exists": true
+      },
+      {
+        "slug": "takeover-dialog",
+        "name": "Takeover Dialog",
+        "url": "https://s2.spectrum.corp.adobe.com/page/takeover-dialog/",
+        "file": "components/feedback/takeover-dialog.md",
+        "exists": true
+      },
+      {
+        "slug": "toast",
+        "name": "Toast",
+        "url": "https://s2.spectrum.corp.adobe.com/page/toast/",
+        "file": "components/feedback/toast.md",
+        "exists": true
+      },
+      {
+        "slug": "tooltip",
+        "name": "Tooltip",
+        "url": "https://s2.spectrum.corp.adobe.com/page/tooltip/",
+        "file": "components/feedback/tooltip.md",
+        "exists": true
+      }
+    ],
+    "inputs": [
+      {
+        "slug": "calendar",
+        "name": "Calendar",
+        "url": "https://s2.spectrum.corp.adobe.com/page/calendar/",
+        "file": "components/inputs/calendar.md",
+        "exists": true
+      },
+      {
+        "slug": "checkbox-group",
+        "name": "Checkbox Group",
+        "url": "https://s2.spectrum.corp.adobe.com/page/checkbox-group/",
+        "file": "components/inputs/checkbox-group.md",
+        "exists": true
+      },
+      {
+        "slug": "checkbox",
+        "name": "Checkbox",
+        "url": "https://s2.spectrum.corp.adobe.com/page/checkbox/",
+        "file": "components/inputs/checkbox.md",
+        "exists": true
+      },
+      {
+        "slug": "color-area",
+        "name": "Color Area",
+        "url": "https://s2.spectrum.corp.adobe.com/page/color-area/",
+        "file": "components/inputs/color-area.md",
+        "exists": true
+      },
+      {
+        "slug": "color-handle-and-loupe",
+        "name": "Color Handle And Loupe",
+        "url": "https://s2.spectrum.corp.adobe.com/page/color-handle-and-loupe/",
+        "file": "components/inputs/color-handle-and-loupe.md",
+        "exists": true
+      },
+      {
+        "slug": "color-handle",
+        "name": "Color Handle",
+        "url": "https://s2.spectrum.corp.adobe.com/page/color-handle/",
+        "file": "components/inputs/color-handle.md",
+        "exists": true
+      },
+      {
+        "slug": "color-slider",
+        "name": "Color Slider",
+        "url": "https://s2.spectrum.corp.adobe.com/page/color-slider/",
+        "file": "components/inputs/color-slider.md",
+        "exists": true
+      },
+      {
+        "slug": "color-wheel",
+        "name": "Color Wheel",
+        "url": "https://s2.spectrum.corp.adobe.com/page/color-wheel/",
+        "file": "components/inputs/color-wheel.md",
+        "exists": true
+      },
+      {
+        "slug": "combo-box",
+        "name": "Combo Box",
+        "url": "https://s2.spectrum.corp.adobe.com/page/combo-box/",
+        "file": "components/inputs/combo-box.md",
+        "exists": true
+      },
+      {
+        "slug": "date-picker",
+        "name": "Date Picker",
+        "url": "https://s2.spectrum.corp.adobe.com/page/date-picker/",
+        "file": "components/inputs/date-picker.md",
+        "exists": true
+      },
+      {
+        "slug": "drop-zone",
+        "name": "Drop Zone",
+        "url": "https://s2.spectrum.corp.adobe.com/page/drop-zone/",
+        "file": "components/inputs/drop-zone.md",
+        "exists": true
+      },
+      {
+        "slug": "field-label",
+        "name": "Field Label",
+        "url": "https://s2.spectrum.corp.adobe.com/page/field-label/",
+        "file": "components/inputs/field-label.md",
+        "exists": true
+      },
+      {
+        "slug": "help-text",
+        "name": "Help Text",
+        "url": "https://s2.spectrum.corp.adobe.com/page/help-text/",
+        "file": "components/inputs/help-text.md",
+        "exists": true
+      },
+      {
+        "slug": "number-field",
+        "name": "Number Field",
+        "url": "https://s2.spectrum.corp.adobe.com/page/number-field/",
+        "file": "components/inputs/number-field.md",
+        "exists": true
+      },
+      {
+        "slug": "picker",
+        "name": "Picker",
+        "url": "https://s2.spectrum.corp.adobe.com/page/picker/",
+        "file": "components/inputs/picker.md",
+        "exists": true
+      },
+      {
+        "slug": "radio-button",
+        "name": "Radio Button",
+        "url": "https://s2.spectrum.corp.adobe.com/page/radio-button/",
+        "file": "components/inputs/radio-button.md",
+        "exists": true
+      },
+      {
+        "slug": "radio-group",
+        "name": "Radio Group",
+        "url": "https://s2.spectrum.corp.adobe.com/page/radio-group/",
+        "file": "components/inputs/radio-group.md",
+        "exists": true
+      },
+      {
+        "slug": "rating",
+        "name": "Rating",
+        "url": "https://s2.spectrum.corp.adobe.com/page/rating/",
+        "file": "components/inputs/rating.md",
+        "exists": true
+      },
+      {
+        "slug": "search-field",
+        "name": "Search Field",
+        "url": "https://s2.spectrum.corp.adobe.com/page/search-field/",
+        "file": "components/inputs/search-field.md",
+        "exists": true
+      },
+      {
+        "slug": "segmented-control",
+        "name": "Segmented Control",
+        "url": "https://s2.spectrum.corp.adobe.com/page/segmented-control/",
+        "file": "components/inputs/segmented-control.md",
+        "exists": true
+      },
+      {
+        "slug": "select-box",
+        "name": "Select Box",
+        "url": "https://s2.spectrum.corp.adobe.com/page/select-box/",
+        "file": "components/inputs/select-box.md",
+        "exists": true
+      },
+      {
+        "slug": "slider",
+        "name": "Slider",
+        "url": "https://s2.spectrum.corp.adobe.com/page/slider/",
+        "file": "components/inputs/slider.md",
+        "exists": true
+      },
+      {
+        "slug": "swatch-group",
+        "name": "Swatch Group",
+        "url": "https://s2.spectrum.corp.adobe.com/page/swatch-group/",
+        "file": "components/inputs/swatch-group.md",
+        "exists": true
+      },
+      {
+        "slug": "swatch",
+        "name": "Swatch",
+        "url": "https://s2.spectrum.corp.adobe.com/page/swatch/",
+        "file": "components/inputs/swatch.md",
+        "exists": true
+      },
+      {
+        "slug": "switch",
+        "name": "Switch",
+        "url": "https://s2.spectrum.corp.adobe.com/page/switch/",
+        "file": "components/inputs/switch.md",
+        "exists": true
+      },
+      {
+        "slug": "tag-field",
+        "name": "Tag Field",
+        "url": "https://s2.spectrum.corp.adobe.com/page/tag-field/",
+        "file": "components/inputs/tag-field.md",
+        "exists": true
+      },
+      {
+        "slug": "tag-group",
+        "name": "Tag Group",
+        "url": "https://s2.spectrum.corp.adobe.com/page/tag-group/",
+        "file": "components/inputs/tag-group.md",
+        "exists": true
+      },
+      {
+        "slug": "tag",
+        "name": "Tag",
+        "url": "https://s2.spectrum.corp.adobe.com/page/tag/",
+        "file": "components/inputs/tag.md",
+        "exists": true
+      },
+      {
+        "slug": "text-area",
+        "name": "Text Area",
+        "url": "https://s2.spectrum.corp.adobe.com/page/text-area/",
+        "file": "components/inputs/text-area.md",
+        "exists": true
+      },
+      {
+        "slug": "text-field",
+        "name": "Text Field",
+        "url": "https://s2.spectrum.corp.adobe.com/page/text-field/",
+        "file": "components/inputs/text-field.md",
+        "exists": true
+      },
+      {
+        "slug": "thumbnail",
+        "name": "Thumbnail",
+        "url": "https://s2.spectrum.corp.adobe.com/page/thumbnail/",
+        "file": "components/inputs/thumbnail.md",
+        "exists": true
+      }
+    ],
+    "navigation": [
+      {
+        "slug": "accordion",
+        "name": "Accordion",
+        "url": "https://s2.spectrum.corp.adobe.com/page/accordion/",
+        "file": "components/navigation/accordion.md",
+        "exists": true
+      },
+      {
+        "slug": "breadcrumbs",
+        "name": "Breadcrumbs",
+        "url": "https://s2.spectrum.corp.adobe.com/page/breadcrumbs/",
+        "file": "components/navigation/breadcrumbs.md",
+        "exists": true
+      },
+      {
+        "slug": "side-navigation",
+        "name": "Side Navigation",
+        "url": "https://s2.spectrum.corp.adobe.com/page/side-navigation/",
+        "file": "components/navigation/side-navigation.md",
+        "exists": true
+      },
+      {
+        "slug": "tabs",
+        "name": "Tabs",
+        "url": "https://s2.spectrum.corp.adobe.com/page/tabs/",
+        "file": "components/navigation/tabs.md",
+        "exists": true
+      },
+      {
+        "slug": "tree-view",
+        "name": "Tree View",
+        "url": "https://s2.spectrum.corp.adobe.com/page/tree-view/",
+        "file": "components/navigation/tree-view.md",
+        "exists": true
+      }
+    ],
+    "status": [
+      {
+        "slug": "avatar-group",
+        "name": "Avatar Group",
+        "url": "https://s2.spectrum.corp.adobe.com/page/avatar-group/",
+        "file": "components/status/avatar-group.md",
+        "exists": true
+      },
+      {
+        "slug": "avatar",
+        "name": "Avatar",
+        "url": "https://s2.spectrum.corp.adobe.com/page/avatar/",
+        "file": "components/status/avatar.md",
+        "exists": true
+      },
+      {
+        "slug": "badge",
+        "name": "Badge",
+        "url": "https://s2.spectrum.corp.adobe.com/page/badge/",
+        "file": "components/status/badge.md",
+        "exists": true
+      },
+      {
+        "slug": "meter",
+        "name": "Meter",
+        "url": "https://s2.spectrum.corp.adobe.com/page/meter/",
+        "file": "components/status/meter.md",
+        "exists": true
+      },
+      {
+        "slug": "progress-bar",
+        "name": "Progress Bar",
+        "url": "https://s2.spectrum.corp.adobe.com/page/progress-bar/",
+        "file": "components/status/progress-bar.md",
+        "exists": true
+      },
+      {
+        "slug": "progress-circle",
+        "name": "Progress Circle",
+        "url": "https://s2.spectrum.corp.adobe.com/page/progress-circle/",
+        "file": "components/status/progress-circle.md",
+        "exists": true
+      },
+      {
+        "slug": "status-light",
+        "name": "Status Light",
+        "url": "https://s2.spectrum.corp.adobe.com/page/status-light/",
+        "file": "components/status/status-light.md",
+        "exists": true
+      },
+      {
+        "slug": "steplist",
+        "name": "Steplist",
+        "url": "https://s2.spectrum.corp.adobe.com/page/steplist/",
+        "file": "components/status/steplist.md",
+        "exists": true
+      }
+    ]
+  }
+}

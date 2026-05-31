@@ -1,0 +1,18 @@
+type: tool
+language: javascript
+platform: node
+
+tasks:
+  test:
+    command: [pnpm, ava, test]
+    inputs:
+      - "src/**/*"
+      - "test/**/*"
+      - "package.json"
+      - "ava.config.js"
+
+  lint:
+    command: [echo, "No linting configured"]
+
+  ci:
+    deps: [test]

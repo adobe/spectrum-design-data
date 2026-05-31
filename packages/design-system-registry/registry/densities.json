@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "density",
+  "description": "Options that create more or less space within or around the parts of a component.",
+  "values": [
+    {
+      "id": "spacious",
+      "label": "Spacious",
+      "description": "More space within and around component parts"
+    },
+    {
+      "id": "compact",
+      "label": "Compact",
+      "description": "Less space within and around component parts"
+    }
+  ]
+}

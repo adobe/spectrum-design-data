@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-system-registry",
-  "version": "1.1.0",
+  "version": "3.3.0",
   "description": "A single source of truth for design system terminology used across Spectrum tokens, component schemas, and anatomy",
   "type": "module",
   "main": "index.js",
@@ -13,7 +13,21 @@
     "./registry/components.json": "./registry/components.json",
     "./registry/scale-values.json": "./registry/scale-values.json",
     "./registry/categories.json": "./registry/categories.json",
-    "./registry/platforms.json": "./registry/platforms.json"
+    "./registry/platforms.json": "./registry/platforms.json",
+    "./registry/token-objects.json": "./registry/token-objects.json",
+    "./registry/structures.json": "./registry/structures.json",
+    "./registry/substructures.json": "./registry/substructures.json",
+    "./registry/orientations.json": "./registry/orientations.json",
+    "./registry/positions.json": "./registry/positions.json",
+    "./registry/densities.json": "./registry/densities.json",
+    "./registry/shapes.json": "./registry/shapes.json",
+    "./registry/color-families.json": "./registry/color-families.json",
+    "./registry/alignments.json": "./registry/alignments.json",
+    "./registry/typography-families.json": "./registry/typography-families.json",
+    "./registry/typography-weights.json": "./registry/typography-weights.json",
+    "./registry/typography-styles.json": "./registry/typography-styles.json",
+    "./registry/motion-roles.json": "./registry/motion-roles.json",
+    "./registry/easing-curves.json": "./registry/easing-curves.json"
   },
   "scripts": {
     "validate": "node scripts/validate-registry.js",

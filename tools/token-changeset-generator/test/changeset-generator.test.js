@@ -123,3 +123,22 @@ test("createChangesetContent should handle different bump types", (t) => {
   t.true(minorResult.includes('"@adobe/spectrum-tokens": minor'));
   t.true(patchResult.includes('"@adobe/spectrum-tokens": patch'));
 });
+
+test("createChangesetContent includes original implementer when provided", (t) => {
+  const tokenDiff = "## Token Changes";
+  const tokensStudioPR =
+    "https://github.com/adobe/spectrum-tokens-studio-data/pull/297";
+  const spectrumTokensPR =
+    "https://github.com/adobe/spectrum-design-data/pull/749";
+
+  const result = createChangesetContent(
+    "minor",
+    "",
+    tokenDiff,
+    tokensStudioPR,
+    spectrumTokensPR,
+    "NateBaldwinDesign",
+  );
+
+  t.true(result.includes("**Original implementer:** @NateBaldwinDesign"));
+});

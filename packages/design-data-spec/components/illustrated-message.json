@@ -1,0 +1,175 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/illustrated-message.json",
+  "specVersion": "1.0.0-draft",
+  "name": "illustrated-message",
+  "displayName": "Illustrated message",
+  "description": "An illustrated message displays an illustration with a short title and description, often used for empty states or error states.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/illustrated-message/"
+  },
+  "options": {
+    "illustration": {
+      "type": "string",
+      "description": "Optional illustration or icon displayed above the message."
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "description": "Size of the illustration.",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
+    },
+    "orientation": {
+      "type": "string",
+      "default": "vertical",
+      "description": "Orientation of the illustrated message.",
+      "values": [
+        {
+          "value": "vertical"
+        },
+        {
+          "value": "horizontal"
+        }
+      ]
+    },
+    "title": {
+      "type": "string",
+      "description": "Primary heading text of the message."
+    },
+    "description": {
+      "type": "string",
+      "description": "Secondary descriptive text providing context or instructions."
+    },
+    "primaryActionLabel": {
+      "type": "string",
+      "description": "Label for the primary action button. If undefined, no primary action is shown."
+    },
+    "secondaryActionLabel": {
+      "type": "string",
+      "description": "Label for the secondary action button. If undefined, no secondary action is shown."
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "illustrated-message-vertical-maximum-width",
+      "context": "Maximum width (Vertical variant)"
+    },
+    {
+      "token": "illustrated-message-horizontal-maximum-width",
+      "context": "Maximum width (Horizontal variant)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (Illustration to heading)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (Illustration to heading)"
+    },
+    {
+      "token": "spacing-75",
+      "context": "Spacing (Heading to description - vertical)"
+    },
+    {
+      "token": "spacing-300",
+      "context": "Spacing (Description to action - vertical)"
+    },
+    {
+      "token": "title-sans-serif-font-family",
+      "context": "Title"
+    },
+    {
+      "token": "title-sans-serif-font-weight",
+      "context": "Title"
+    },
+    {
+      "token": "title-sans-serif-font-style",
+      "context": "Title"
+    },
+    {
+      "token": "title-line-height",
+      "context": "Title"
+    },
+    {
+      "token": "illustrated-message-small-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "illustrated-message-small-cjk-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "illustrated-message-medium-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "illustrated-message-medium-cjk-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "illustrated-message-large-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "illustrated-message-large-cjk-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "body-sans-serif-font-family",
+      "context": "Description"
+    },
+    {
+      "token": "body-sans-serif-font-weight",
+      "context": "Description"
+    },
+    {
+      "token": "body-sans-serif-font-style",
+      "context": "Description"
+    },
+    {
+      "token": "line-height-200",
+      "context": "Description"
+    },
+    {
+      "token": "illustrated-message-small-body-font-size",
+      "context": "Description"
+    },
+    {
+      "token": "illustrated-message-medium-body-font-size",
+      "context": "Description"
+    },
+    {
+      "token": "illustrated-message-large-body-font-size",
+      "context": "Description"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Illustration color"
+    },
+    {
+      "token": "heading-color",
+      "context": "Heading color"
+    },
+    {
+      "token": "body-color",
+      "context": "Description color"
+    }
+  ],
+  "accessibility": {
+    "focusable": false
+  }
+}

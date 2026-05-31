@@ -95,7 +95,7 @@ runs:
           
           if [ $file_size -gt $max_size ]; then
             echo "diff_generated=too-large" >> $GITHUB_OUTPUT
-            echo "diff_content=Diff output is too large to display in PR comment (${file_size} bytes). Please check the workflow artifacts or run the diff tool locally." >> $GITHUB_OUTPUT
+            echo "diff_content=Diff output is too large for workflow outputs (${file_size} bytes). The PR comment step will upload the full report and post a truncated summary." >> $GITHUB_OUTPUT
           else
             echo "diff_generated=true" >> $GITHUB_OUTPUT
             # Use base64 encoding to safely pass multiline content

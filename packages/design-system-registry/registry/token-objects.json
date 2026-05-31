@@ -1,0 +1,32 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "token-object",
+  "description": "Styling surfaces to which visual properties are applied. These are abstract targets that exist on any element regardless of component type. Not to be confused with component anatomy (visible named parts).",
+  "values": [
+    {
+      "id": "background",
+      "label": "Background",
+      "description": "Background surface or fill"
+    },
+    {
+      "id": "border",
+      "label": "Border",
+      "description": "Border or outline of a component"
+    },
+    {
+      "id": "edge",
+      "label": "Edge",
+      "description": "Outer boundary of a component (used in spacing tokens)"
+    },
+    {
+      "id": "visual",
+      "label": "Visual",
+      "description": "Visible graphic element area (may be inset from edge)"
+    },
+    {
+      "id": "content",
+      "label": "Content",
+      "description": "Main content area"
+    }
+  ]
+}

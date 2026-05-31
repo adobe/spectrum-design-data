@@ -99,7 +99,7 @@
     {
       "id": "keyboard-focus",
       "label": "Keyboard Focus",
-      "aliases": ["keyboard focus"],
+      "aliases": ["keyboard focus", "key-focus"],
       "description": "Focused via keyboard navigation",
       "usedIn": ["tokens", "component-options", "component-schemas"],
       "definition": {

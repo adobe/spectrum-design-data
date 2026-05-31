@@ -1,0 +1,14 @@
+[
+  {
+    "name": { "property": "bg" },
+    "$schema": "https://example.com/color.json",
+    "value": "#ffffff",
+    "uuid": "aaaaaaaa-0001-4000-8000-000000000001"
+  },
+  {
+    "name": { "property": "spacing" },
+    "$schema": "https://example.com/dimension.json",
+    "value": "8px",
+    "uuid": "aaaaaaaa-0002-4000-8000-000000000001"
+  }
+]

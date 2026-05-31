@@ -63,7 +63,7 @@
 {{#each updated.renamed~}}
 - `{{name}}`
 {{#each change}}
-	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{originalValue}}` -> `{{newValue}}`{{/if}}
+	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{{originalValue}}}` -> `{{{newValue}}}`{{/if}}
 {{/each}}
 {{/each}}
 
@@ -76,7 +76,7 @@
 {{#each updated.added~}}
 - `{{name}}`
 {{#each changes}}
-	- `{{cleanPath path}}`: `{{newValue}}`
+	- `{{cleanPath path}}`: `{{{newValue}}}`
 {{/each}}
 {{/each}}
 
@@ -89,7 +89,7 @@
 {{#each updated.deleted~}}
 - `{{name}}`
 {{#each changes}}
-	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}{{originalValue}} -> `{{newValue}}`{{/if}}
+	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}{{{originalValue}}} -> `{{{newValue}}}`{{/if}}
 {{/each}}
 {{/each}}
 
@@ -102,7 +102,7 @@
 {{#each updated.updated~}}
 - `{{name}}`
 {{#each changes}}
-	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{originalValue}}` -> `{{newValue}}`{{/if}}
+	- `{{cleanPath path}}`: {{#if (ifEquals type "schema")}}`{{lastPathPart originalValue}}` -> `{{lastPathPart newValue}}`{{else}}`{{{originalValue}}}` -> `{{{newValue}}}`{{/if}}
 {{/each}}
 {{/each}}
 

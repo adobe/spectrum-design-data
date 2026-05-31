@@ -1,0 +1,13 @@
+{
+  "name": "@adobe/design-data-tui",
+  "version": "0.1.0",
+  "description": "Interactive TUI for Spectrum design data authoring and inspection",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "sdk/tui"
+  },
+  "author": "Garth Braithwaite <garthdb@gmail.com> (https://garthdb.com/)",
+  "license": "Apache-2.0"
+}

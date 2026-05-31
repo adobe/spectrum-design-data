@@ -1,0 +1,294 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/steplist.json",
+  "specVersion": "1.0.0-draft",
+  "name": "steplist",
+  "displayName": "Steplist",
+  "description": "Step lists display progress through a sequence of steps, with each step marked as completed, current, or incomplete.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/steplist/"
+  },
+  "options": {
+    "orientation": {
+      "type": "string",
+      "default": "horizontal",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
+    },
+    "items": {
+      "type": "array",
+      "description": "An array of step items in the step list.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The text displayed for the step item."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the step item is disabled."
+          },
+          "stepState": {
+            "type": "string",
+            "enum": [
+              "completed default",
+              "completed hover",
+              "current default",
+              "incomplete default"
+            ],
+            "default": "current default",
+            "description": "The current state of the step item."
+          }
+        },
+        "required": ["label", "stepState"]
+      }
+    },
+    "currentStep": {
+      "type": "string",
+      "description": "The identifier or label of the currently active step."
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "steplist-step-default-width-small",
+      "context": "Width small (default)"
+    },
+    {
+      "token": "steplist-step-default-width-medium",
+      "context": "Width small (default)"
+    },
+    {
+      "token": "steplist-step-default-width-large",
+      "context": "Width small (default)"
+    },
+    {
+      "token": "steplist-step-default-width-extra-large",
+      "context": "Width small (default)"
+    },
+    {
+      "token": "steplist-step-default-height-small",
+      "context": "Height small (default)"
+    },
+    {
+      "token": "steplist-step-default-height-medium",
+      "context": "Height small (default)"
+    },
+    {
+      "token": "steplist-step-default-height-large",
+      "context": "Height small (default)"
+    },
+    {
+      "token": "steplist-step-default-height-extra-large",
+      "context": "Height small (default)"
+    },
+    {
+      "token": "steplist-step-to-track-size-small",
+      "context": "Spacing (step to track)"
+    },
+    {
+      "token": "steplist-step-to-track-size-medium",
+      "context": "Spacing (step to track)"
+    },
+    {
+      "token": "steplist-step-to-track-size-large",
+      "context": "Spacing (step to track)"
+    },
+    {
+      "token": "steplist-step-to-track-size-extra-large",
+      "context": "Spacing (step to track)"
+    },
+    {
+      "token": "steplist-bottom-to-text",
+      "context": "Text adjustment"
+    },
+    {
+      "token": "border-width-200",
+      "context": "Visual border"
+    },
+    {
+      "token": "text-to-visual-75",
+      "context": "Spacing (text to visual)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (text to visual)"
+    },
+    {
+      "token": "text-to-visual-200",
+      "context": "Spacing (text to visual)"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Spacing (text to visual)"
+    },
+    {
+      "token": "steplist-visual-size-small",
+      "context": "Visual size"
+    },
+    {
+      "token": "steplist-visual-size-medium",
+      "context": "Visual size"
+    },
+    {
+      "token": "steplist-visual-size-large",
+      "context": "Visual size"
+    },
+    {
+      "token": "steplist-visual-size-extra-large",
+      "context": "Visual size"
+    },
+    {
+      "token": "steplist-track-thickness-thickness",
+      "context": "Steplist track thickness"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Step text"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Step text"
+    },
+    {
+      "token": "accent-content-color-key-focus",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-subdued-background-color-default",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-subdued-background-color-hover",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-subdued-background-color-key-focus",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-background-color-default",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-background-color-key-focus",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-visual-color",
+      "context": "Step visual"
+    },
+    {
+      "token": "accent-background-color-default",
+      "context": "Step visual"
+    },
+    {
+      "token": "accent-background-color-key-focus",
+      "context": "Step visual"
+    },
+    {
+      "token": "accent-background-color-hover",
+      "context": "Step visual"
+    },
+    {
+      "token": "gray-25",
+      "context": "Step visual text"
+    },
+    {
+      "token": "white",
+      "context": "Step visual text"
+    },
+    {
+      "token": "accent-visual-color",
+      "context": "Steplist track"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Label"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Label"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Label"
+    }
+  ],
+  "accessibility": {
+    "intents": ["navigate"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

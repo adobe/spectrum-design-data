@@ -43,9 +43,3 @@ tasks:
   # Quality pipeline
   ci:
     deps: [test]
-
-  # Development utilities
-  version:
-    command: [node, update-version.js]
-    platform: node
-    local: true

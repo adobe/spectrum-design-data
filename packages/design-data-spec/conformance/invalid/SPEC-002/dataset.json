@@ -1,0 +1,16 @@
+{
+  "tokens": [
+    {
+      "name": "spacing-alias",
+      "$ref": "base-color",
+      "uuid": "bbbbbbbb-0002-4000-8000-000000000001"
+    },
+    {
+      "name": "base-color",
+      "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+      "value": "rgb(0, 128, 255)",
+      "uuid": "aaaaaaaa-0002-4000-8000-000000000002"
+    }
+  ],
+  "components": []
+}

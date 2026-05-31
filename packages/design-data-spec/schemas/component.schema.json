@@ -1,0 +1,340 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "title": "Design data component declaration",
+  "description": "Layer 1 structural schema for a component declaration. Semantic cross-reference rules (component-name-exists, component-variant-valid, etc.) are Layer 2.",
+  "type": "object",
+  "required": ["$id", "name", "displayName", "meta"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "specVersion": {
+      "type": "string",
+      "description": "Spec version this document targets (e.g. '1.0.0-draft')."
+    },
+    "$id": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical identifier for this component declaration."
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "minLength": 1,
+      "description": "Machine identifier (kebab-case). Must match the value used in token name-object 'component' fields."
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable component name (e.g. 'Button')."
+    },
+    "description": {
+      "type": "string",
+      "description": "Plain-text description of the component's purpose."
+    },
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "options": {
+      "$ref": "#/$defs/optionsMap"
+    },
+    "slots": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/slotDeclaration"
+      },
+      "description": "Named content injection points. See spec/component-format.md#slots."
+    },
+    "anatomy": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/anatomyPart"
+      },
+      "description": "Named visible parts of the component. Full spec in spec/anatomy-format.md (Phase 6.2)."
+    },
+    "states": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/stateDeclaration"
+      },
+      "description": "Per-component state declarations. Full spec in spec/state-model.md (Phase 6.3)."
+    },
+    "lifecycle": {
+      "$ref": "#/$defs/lifecycle"
+    },
+    "tokenBindings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/tokenBinding" },
+      "description": "Tokens this component uses, including foundation/structure tokens not scoped to the component in their name-object. See spec/component-format.md#token-bindings (Phase 6.7)."
+    },
+    "documentBlocks": {
+      "type": "array",
+      "items": { "$ref": "document-block.schema.json" },
+      "minItems": 1,
+      "description": "Typed prose blocks for this component. See spec/document-blocks.md (Phase 9)."
+    },
+    "accessibility": {
+      "$ref": "accessibility.schema.json",
+      "description": "Semantic accessibility vocabulary for this component. See spec/accessibility.md (Phase 7)."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "meta": {
+      "type": "object",
+      "required": ["category", "documentationUrl"],
+      "properties": {
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Category id from @adobe/design-system-registry categories.json. Advisory validation via SPEC-034."
+        },
+        "documentationUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the component's documentation page."
+        }
+      },
+      "additionalProperties": false
+    },
+    "optionsMap": {
+      "type": "object",
+      "description": "Component API options. Each key is a camelCase option name; each value is an option descriptor.",
+      "additionalProperties": {
+        "$ref": "#/$defs/optionDescriptor"
+      }
+    },
+    "optionDescriptor": {
+      "type": "object",
+      "description": "Descriptor for a single component option. The `type` keyword follows JSON Schema conventions. Use `values` (not `enum`) to declare permitted values — the structured array allows per-value lifecycle metadata. Other JSON Schema keywords (default, description, pattern, minimum, maximum, items, properties, $ref) are permitted as needed.",
+      "$comment": "additionalProperties: true is required to allow JSON Schema passthrough keywords (pattern, minimum, etc.). This means the legacy `enum` keyword is silently accepted at Layer 1; SPEC-038 closes the gap at Layer 2 by warning when `enum` is present.",
+      "properties": {
+        "type": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "string",
+                "boolean",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "null"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "string",
+                  "boolean",
+                  "number",
+                  "integer",
+                  "object",
+                  "array",
+                  "null"
+                ]
+              },
+              "minItems": 1
+            }
+          ]
+        },
+        "values": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/optionValue" },
+          "description": "Exhaustive list of permitted values for this option, each with optional per-value metadata. Use this instead of the JSON Schema `enum` keyword so that lifecycle annotations can be attached to individual values. Consumed by SPEC-019 (variant validation) and SPEC-037 (deprecation cascade)."
+        },
+        "default": {
+          "description": "Default value when the option is not specified."
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain-text description of what the option controls."
+        },
+        "$ref": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "Reference to a shared type schema."
+        }
+      },
+      "additionalProperties": true
+    },
+    "optionValue": {
+      "type": "object",
+      "required": ["value"],
+      "description": "A single permitted value for a component option, with optional per-value metadata.",
+      "properties": {
+        "value": {
+          "description": "The permitted option value. Typically a string; the schema does not constrain the type so booleans and numbers remain expressible."
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain-text description of what this value means."
+        },
+        "lifecycle": {
+          "$ref": "#/$defs/lifecycle",
+          "description": "Version lifecycle metadata for this value. Set lifecycle.deprecated to signal that tokens referencing this value should migrate (SPEC-037)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "slotDeclaration": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Slot identifier. Should come from the canonical slot vocabulary."
+        },
+        "description": {
+          "type": "string",
+          "description": "What content belongs in this slot."
+        },
+        "required": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether consumers must populate this slot."
+        }
+      },
+      "additionalProperties": false
+    },
+    "anatomyPart": {
+      "type": "object",
+      "required": ["name"],
+      "description": "Named visible part of a component. Full spec in spec/anatomy-format.md (Phase 6.2).",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Anatomy part identifier (e.g. 'icon', 'label', 'handle')."
+        },
+        "description": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean",
+          "default": false
+        },
+        "contains": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Informative: anatomy part names nested within this part."
+        },
+        "documentBlocks": {
+          "type": "array",
+          "items": { "$ref": "document-block.schema.json" },
+          "description": "Typed prose blocks for this anatomy part. See spec/document-blocks.md (Phase 9)."
+        },
+        "lifecycle": {
+          "$ref": "#/$defs/lifecycle",
+          "description": "Version lifecycle metadata for this anatomy part. Set lifecycle.deprecated to signal that tokens referencing this part should migrate."
+        }
+      },
+      "additionalProperties": false
+    },
+    "stateDeclaration": {
+      "type": "object",
+      "required": ["name"],
+      "description": "Per-component state declaration. Full spec in spec/state-model.md.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "State identifier (e.g. 'hover', 'focus', 'disabled')."
+        },
+        "description": {
+          "type": "string"
+        },
+        "trigger": {
+          "type": "string",
+          "enum": ["prop", "interaction"],
+          "description": "'prop' for persistent prop-driven states (isDisabled); 'interaction' for runtime states (hover, focus, pressed)."
+        },
+        "precedence": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Resolution precedence; higher integer wins when multiple states are active simultaneously."
+        },
+        "layered": {
+          "type": "boolean",
+          "default": false,
+          "description": "true for states that compose with others (e.g. focus ring layered over hover)."
+        },
+        "announce": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Screen-reader announcement hint for this state transition. See spec/accessibility.md."
+        },
+        "communicates": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Semantic meaning conveyed to AT when this state is active (e.g. 'expanded', 'disabled'). See spec/accessibility.md."
+        },
+        "blocksInteraction": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this state prevents all user interaction. See spec/accessibility.md."
+        },
+        "lifecycle": {
+          "$ref": "#/$defs/lifecycle",
+          "description": "Version lifecycle metadata for this state. Set lifecycle.deprecated to signal that tokens referencing this state should migrate."
+        }
+      },
+      "additionalProperties": false
+    },
+    "tokenBinding": {
+      "type": "object",
+      "required": ["token"],
+      "description": "A single token usage binding on a component declaration.",
+      "properties": {
+        "token": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Token name string. MUST resolve to a known token in the dataset (rule SPEC-027)."
+        },
+        "context": {
+          "type": "string",
+          "description": "Human-readable label for how this token is used in the component (maps to Figma Token Group label)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "lifecycle": {
+      "type": "object",
+      "description": "Version lifecycle metadata, mirroring the token lifecycle pattern.",
+      "properties": {
+        "introduced": {
+          "type": "string",
+          "description": "Spec version when this component declaration was added (e.g. '1.0.0-draft')."
+        },
+        "deprecated": {
+          "type": "string",
+          "description": "Spec version when this component was deprecated. Truthy = deprecated."
+        },
+        "deprecatedComment": {
+          "type": "string",
+          "description": "Human-readable explanation of the deprecation and migration path."
+        },
+        "replacedBy": {
+          "oneOf": [
+            { "type": "string", "minLength": 1 },
+            {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "minItems": 1
+            }
+          ],
+          "description": "name value(s) of the replacement component(s)."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

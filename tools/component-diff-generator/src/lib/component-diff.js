@@ -228,22 +228,22 @@ function analyzePropertyChange(originalProp, updatedProp, deletedContent) {
     changes.push(`default changed to ${JSON.stringify(updatedProp.default)}`);
   }
 
-  // Check for enum changes
-  if (originalProp.enum && updatedProp.enum) {
-    const originalEnums = new Set(originalProp.enum);
-    const updatedEnums = new Set(updatedProp.enum);
+  // Check for values changes
+  if (originalProp.values && updatedProp.values) {
+    const originalVals = new Set(originalProp.values.map((v) => v.value));
+    const updatedVals = new Set(updatedProp.values.map((v) => v.value));
 
-    const addedEnums = [...updatedEnums].filter((e) => !originalEnums.has(e));
-    const removedEnums = [...originalEnums].filter((e) => !updatedEnums.has(e));
+    const addedVals = [...updatedVals].filter((v) => !originalVals.has(v));
+    const removedVals = [...originalVals].filter((v) => !updatedVals.has(v));
 
-    if (addedEnums.length > 0) {
+    if (addedVals.length > 0) {
       changes.push(
-        `added enum values: ${addedEnums.map((e) => JSON.stringify(e)).join(", ")}`,
+        `added values: ${addedVals.map((v) => JSON.stringify(v)).join(", ")}`,
       );
     }
-    if (removedEnums.length > 0) {
+    if (removedVals.length > 0) {
       changes.push(
-        `removed enum values: ${removedEnums.map((e) => JSON.stringify(e)).join(", ")}`,
+        `removed values: ${removedVals.map((v) => JSON.stringify(v)).join(", ")}`,
       );
     }
   }
@@ -341,10 +341,10 @@ export function isComponentChangeBreaking(
           ) {
             // If there's actual deleted content, check what was deleted
 
-            // Removing enum values should be breaking
+            // Removing values entries should be breaking
             if (
-              deletedContent.enum &&
-              Object.keys(deletedContent.enum).length > 0
+              deletedContent.values &&
+              Object.keys(deletedContent.values).length > 0
             ) {
               return true;
             }

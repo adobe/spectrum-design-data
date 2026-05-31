@@ -1,0 +1,169 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/coach-mark.json",
+  "specVersion": "1.0.0-draft",
+  "name": "coach-mark",
+  "displayName": "Coach mark",
+  "description": "Coach marks provide contextual guidance to users by highlighting specific interface elements.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/coach-mark/"
+  },
+  "options": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "hideImage": {
+      "type": "boolean",
+      "default": false,
+      "description": "Optional image to display in dialog."
+    },
+    "actions": {
+      "type": "object",
+      "description": "Configuration for coach mark actions.",
+      "properties": {
+        "topActionLabel": {
+          "type": "string",
+          "description": "Optional action button displayed at the top, often for a menu."
+        },
+        "footerContent": {
+          "type": "string",
+          "description": "Optional footer content to display in the dialog footer like a checkbox."
+        },
+        "primaryActionLabel": {
+          "type": "string",
+          "description": "Label for the primary footer action."
+        },
+        "secondaryActionLabel": {
+          "type": "string",
+          "description": "Label for the secondary footer action (optional)."
+        },
+        "cancelActionLabel": {
+          "type": "string",
+          "default": "cancel",
+          "description": "Label for the cancel action (optional)."
+        }
+      }
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "coach-mark-width",
+      "context": "Width"
+    },
+    {
+      "token": "coach-mark-minimum-width",
+      "context": "Width"
+    },
+    {
+      "token": "coach-mark-maximum-width",
+      "context": "Width"
+    },
+    {
+      "token": "coach-mark-edge-to-content",
+      "context": "Spacing (top/bottom/start/end edge to text)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (header to body, body to footer)"
+    },
+    {
+      "token": "spacing-300",
+      "context": "Spacing (header to body, body to footer)"
+    },
+    {
+      "token": "coach-mark-pagination-text-to-bottom-edge",
+      "context": "Spacing (pagination to bottom)"
+    },
+    {
+      "token": "coach-mark-media-minimum-height",
+      "context": "Media (16:9)"
+    },
+    {
+      "token": "coach-mark-media-height",
+      "context": "Media (4:3)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (action button to menu)"
+    },
+    {
+      "token": "title-sans-serif-font-family",
+      "context": "Title"
+    },
+    {
+      "token": "title-sans-serif-font-weight",
+      "context": "Title"
+    },
+    {
+      "token": "title-serif-font-style",
+      "context": "Title"
+    },
+    {
+      "token": "coach-mark-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "title-line-height",
+      "context": "Title"
+    },
+    {
+      "token": "body-sans-serif-font-family",
+      "context": "Body"
+    },
+    {
+      "token": "body-sans-serif-font-weight",
+      "context": "Body"
+    },
+    {
+      "token": "body-serif-font-style",
+      "context": "Body"
+    },
+    {
+      "token": "coach-mark-body-font-size",
+      "context": "Body"
+    },
+    {
+      "token": "line-height-200",
+      "context": "Body"
+    },
+    {
+      "token": "medium-font-weight",
+      "context": "Pagination"
+    },
+    {
+      "token": "coach-mark-pagination-body-font-size",
+      "context": "Pagination"
+    },
+    {
+      "token": "heading-color",
+      "context": "Color"
+    },
+    {
+      "token": "body-color",
+      "context": "Color"
+    },
+    {
+      "token": "coach-mark-pagination-color",
+      "context": "Color"
+    }
+  ],
+  "accessibility": {
+    "intents": ["dismiss"],
+    "focusable": true,
+    "keyboardIntents": ["dismiss"],
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

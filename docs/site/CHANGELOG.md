@@ -1,5 +1,14 @@
 # site
 
+## 0.2.1
+
+### Patch Changes
+
+- [#1004](https://github.com/adobe/spectrum-design-data/pull/1004) [`c0e262f`](https://github.com/adobe/spectrum-design-data/commit/c0e262f917a1fef0ad15dbc7d6fecdd00772958b) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix broken heading anchors on published spec pages.
+  - **docs/site/eleventy.config.js**: add `markdown-it-anchor` with a GitHub slugger; spec headings
+    now emit `id` attributes so fragment links like `#token-bindings` resolve.
+  - **docs/site/package.json**: add `markdown-it-anchor` and `github-slugger`.
+
 ## 0.1.2
 
 ### Patch Changes

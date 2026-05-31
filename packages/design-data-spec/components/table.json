@@ -1,0 +1,435 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/table.json",
+  "specVersion": "1.0.0-draft",
+  "name": "table",
+  "displayName": "Table",
+  "description": "Tables display information in rows and columns, allowing users to compare and scan structured data.",
+  "meta": {
+    "category": "data-visualization",
+    "documentationUrl": "https://spectrum.adobe.com/page/table/"
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "default": "m",
+      "description": "Controls the density of table rows.",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
+    },
+    "hideHeader": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the table header is hidden."
+    },
+    "header": {
+      "type": "object",
+      "description": "Configuration for the table header row.",
+      "properties": {
+        "alignment": {
+          "type": "string",
+          "enum": ["left", "right"],
+          "default": "left",
+          "description": "Alignment of the table header text."
+        },
+        "state": {
+          "type": "string",
+          "enum": ["default", "hover", "down", "keyboard focus"],
+          "default": "default",
+          "description": "Interaction state of the header row."
+        }
+      }
+    },
+    "density": {
+      "type": "string",
+      "default": "regular",
+      "values": [
+        {
+          "value": "compact"
+        },
+        {
+          "value": "regular"
+        },
+        {
+          "value": "spacious"
+        }
+      ]
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the table uses a quiet visual style."
+    },
+    "isSortable": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, table columns can be sorted."
+    },
+    "columns": {
+      "type": "array",
+      "description": "An array of column definitions for the table.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Unique identifier for the column."
+          },
+          "label": {
+            "type": "string",
+            "description": "The header text displayed for the column."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "text",
+              "number",
+              "avatar",
+              "date",
+              "sparkline",
+              "select",
+              "layout"
+            ],
+            "default": "text",
+            "description": "Defines the data type for the column."
+          },
+          "resizing": {
+            "type": "string",
+            "enum": ["fluid", "fixed"],
+            "default": "fluid",
+            "description": "Defines whether the column width is fluid or fixed."
+          },
+          "summary placement": {
+            "type": "string",
+            "enum": ["top", "bottom"],
+            "default": "bottom",
+            "description": "Placement of the summary row for this column, if applicable."
+          },
+          "summary text": {
+            "type": "string",
+            "description": "Text to display in the summary row for this column, if applicable."
+          },
+          "isSortable": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this column is sortable."
+          }
+        },
+        "required": ["key", "label", "type"]
+      }
+    },
+    "rows": {
+      "type": "array",
+      "description": "An array of row data for the table.",
+      "items": {
+        "type": "object",
+        "description": "Each object represents a single row, keyed by column IDs."
+      }
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "chevron-100",
+      "context": "Header icons"
+    },
+    {
+      "token": "corner-radius-medium-size-extra-small",
+      "context": "Note: desktop 6px, mobile 6px;"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Column header row height"
+    },
+    {
+      "token": "table-column-header-row-top-to-text-medium",
+      "context": "Spacing (column header row top/bottom to text)"
+    },
+    {
+      "token": "table-column-header-row-bottom-to-text-medium",
+      "context": "Spacing (column header row top/bottom to text)"
+    },
+    {
+      "token": "table-row-height-medium-compact",
+      "context": "Row height (minimum, compact density)"
+    },
+    {
+      "token": "table-row-height-medium",
+      "context": "Row height (minimum, regular density)"
+    },
+    {
+      "token": "table-row-height-medium-spacious",
+      "context": "Row height (minimum, spacious density)"
+    },
+    {
+      "token": "table-row-top-to-text-medium-compact",
+      "context": "Spacing (row top/bottom to text, compact density)"
+    },
+    {
+      "token": "table-row-bottom-to-text-medium-compact",
+      "context": "Spacing (row top/bottom to text, compact density)"
+    },
+    {
+      "token": "table-row-top-to-text-medium",
+      "context": "Note: desktop 11px, mobile 14px;"
+    },
+    {
+      "token": "table-row-bottom-to-text-medium",
+      "context": "Note: desktop 11px, mobile 14px;"
+    },
+    {
+      "token": "table-row-top-to-text-medium-spacious",
+      "context": "Spacing (row top/bottom to text, spacious density)"
+    },
+    {
+      "token": "table-row-bottom-to-text-medium-spacious",
+      "context": "Spacing (row top/bottom to text, spacious density)"
+    },
+    {
+      "token": "table-edge-to-content",
+      "context": "Spacing (text to start/end edge or divider)"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Note: desktop 8px, mobile 10px;\n\nThis applies to icon, avatar, and thumbnail."
+    },
+    {
+      "token": "table-border-divider-width",
+      "context": "Border and column divider width"
+    },
+    {
+      "token": "table-checkbox-to-text",
+      "context": "Spacing (checkbox to text)"
+    },
+    {
+      "token": "table-header-row-checkbox-to-top-medium",
+      "context": "Note: desktop 8px, mobile 11px;"
+    },
+    {
+      "token": "table-row-checkbox-to-top-medium-compact",
+      "context": "Note: desktop 8px, mobile 11px;"
+    },
+    {
+      "token": "table-row-checkbox-to-top-medium",
+      "context": "Note: desktop 12px, mobile 16px;"
+    },
+    {
+      "token": "table-row-checkbox-to-top-medium-spacious",
+      "context": "Note: desktop 16px, mobile 21px;"
+    },
+    {
+      "token": "table-section-header-row-height-medium",
+      "context": "Section header row height"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (section header row top/bottom to text) "
+    },
+    {
+      "token": "component-bottom-to-text-100",
+      "context": "Spacing (section header row top/bottom to text) "
+    },
+    {
+      "token": "accent-content-color-selected",
+      "context": "Selection indicator"
+    },
+    {
+      "token": "border-width-100",
+      "context": "Note: 1px;"
+    },
+    {
+      "token": "corner-radius-small-default",
+      "context": "Focus indicator (cell)"
+    },
+    {
+      "token": "side-focus-indicator",
+      "context": "Focus indicator (row)"
+    },
+    {
+      "token": "body-color",
+      "context": "Column header and row (text)"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Row: not selected"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Row: not selected"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Row: not selected"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Row: selected, checkbox & highlight"
+    },
+    {
+      "token": "neutral-content-color-default-hover",
+      "context": "Row: selected, checkbox & highlight"
+    },
+    {
+      "token": "neutral-content-color-default-down",
+      "context": "Row: selected, checkbox & highlight"
+    },
+    {
+      "token": "neutral-content-color-default-key-focus",
+      "context": "Row: selected, checkbox & highlight"
+    },
+    {
+      "token": "neutral-subdued-content-color-down",
+      "context": "Sort UI icon asset"
+    },
+    {
+      "token": "gray-25",
+      "context": "Note: change applies to both desktop and mobile."
+    },
+    {
+      "token": "gray-300",
+      "context": "Column header and row (background, border and divider)"
+    },
+    {
+      "token": "gray-75",
+      "context": "Column header and row (background, border and divider)"
+    },
+    {
+      "token": "gray-200",
+      "context": "Summary row (background)"
+    },
+    {
+      "token": "gray-100",
+      "context": "Row (disabled)"
+    },
+    {
+      "token": "gray-400",
+      "context": "Row (disabled)"
+    },
+    {
+      "token": "stack-item-background-color-hover",
+      "context": "Row (not selected, hover)"
+    },
+    {
+      "token": "stack-item-selected-background-color-default",
+      "context": "Row (checkbox selection)"
+    },
+    {
+      "token": "stack-item-selected-background-color-hover",
+      "context": "Row (checkbox selection, hover)"
+    },
+    {
+      "token": "stack-item-selected-background-color-down",
+      "context": "Row (checkbox selection, down)"
+    },
+    {
+      "token": "stack-item-selected-background-color-key-focus",
+      "context": "Row (checkbox selection, keyboard focus)"
+    },
+    {
+      "token": "table-selected-row-background-color-highlight",
+      "context": "Selected row background (highlight selection)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-highlight",
+      "context": "Selected row background (highlight selection)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-highlight-hover",
+      "context": "Selected row background (highlight selection, hover)"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus indicator (cell)"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Column header and row"
+    },
+    {
+      "token": "bold-font-weight",
+      "context": "Column header and row"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Column header and row"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Column header and row"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Column header and row"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Column header and row"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Column header and row"
+    },
+    {
+      "token": "table-row-hover-color;",
+      "context": "S1 Row (not selected, hover)"
+    },
+    {
+      "token": "table-row-hover-opacity",
+      "context": "S1 Row (not selected, hover)"
+    },
+    {
+      "token": "table-row-down-opacity",
+      "context": "S1 Row (checkbox selection, down)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-hover-highlight",
+      "context": "S2 Selected row background (highlight selection, hover)"
+    },
+    {
+      "token": "table-selected-row-background-color",
+      "context": "S1 Selected row background (highlight selection)"
+    },
+    {
+      "token": "table-selected-row-background-opacity",
+      "context": "S1 Selected row background (highlight selection)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-hover",
+      "context": "S1 Selected row background (highlight selection, hover)"
+    }
+  ],
+  "accessibility": {
+    "role": "grid",
+    "intents": ["select", "navigate"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate", "select-all"],
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

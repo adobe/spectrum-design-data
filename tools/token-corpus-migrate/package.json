@@ -1,0 +1,35 @@
+{
+  "name": "@adobe/token-corpus-migrate",
+  "version": "0.1.5",
+  "private": true,
+  "description": "Migration tool that adds structured name objects to tokens in packages/tokens/src/",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "token-corpus-migrate": "src/cli.js"
+  },
+  "scripts": {
+    "test": "ava test/**/*.test.js",
+    "lint": "echo 'No linting configured'"
+  },
+  "keywords": [
+    "spectrum",
+    "tokens",
+    "migration",
+    "taxonomy"
+  ],
+  "author": "Adobe",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@adobe/design-system-registry": "workspace:*",
+    "commander": "^12.1.0",
+    "glob": "^11.0.0"
+  },
+  "devDependencies": {
+    "ava": "^6.4.0"
+  },
+  "engines": {
+    "node": "~20.12"
+  },
+  "packageManager": "pnpm@10.17.1"
+}

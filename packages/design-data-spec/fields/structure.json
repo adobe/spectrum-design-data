@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "structure",
+  "description": "Reusable visual pattern that occurs across many components (e.g. drop-shadow, overlay). Distinct from component.",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/structures.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 2
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}

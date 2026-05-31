@@ -1,0 +1,22 @@
+{
+  "tokens": [
+    {
+      "name": "accent-color-bad",
+      "$valueType": "value-types/color.schema.json",
+      "value": "rgb(2, 101, 220)",
+      "uuid": "aaaaaaaa-0015-4000-8000-000000000001"
+    },
+    {
+      "name": "heading-style-bad",
+      "$valueType": "value-types/typography.schema.json",
+      "value": {
+        "fontFamily": "Adobe Clean",
+        "fontSize": "{accent-color-bad}",
+        "fontWeight": "700",
+        "lineHeight": "1.2"
+      },
+      "uuid": "aaaaaaaa-0015-4000-8000-000000000002"
+    }
+  ],
+  "components": []
+}

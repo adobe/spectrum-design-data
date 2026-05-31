@@ -1,0 +1,10 @@
+{
+  "specVersion": "1.0.0-draft",
+  "foundationVersion": "1.0.0",
+  "include": [
+    "component=button",
+    "component=button,state=hover",
+    "property=color-*"
+  ],
+  "exclude": ["component=button,colorScheme!=light"]
+}

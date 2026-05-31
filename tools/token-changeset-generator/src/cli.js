@@ -47,6 +47,10 @@ program
     "--github-token <token>",
     "GitHub API token (can also be set via GITHUB_TOKEN env var)",
   )
+  .option(
+    "--source-author <login>",
+    "GitHub login of the original Tokens Studio implementer (shown in changeset body)",
+  )
   .action(async (options) => {
     try {
       const githubToken = options.githubToken || process.env.GITHUB_TOKEN;
@@ -65,6 +69,7 @@ program
         spectrumTokensPR: options.spectrumTokensPr,
         outputDir: options.output,
         githubToken,
+        sourceAuthorLogin: options.sourceAuthor,
       });
 
       console.log("🎉 Changeset generation completed successfully!");

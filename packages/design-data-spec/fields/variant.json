@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "variant",
+  "description": "Primary color or semantic variant (e.g. accent, negative, informative, neutral). Not for visual style treatment — see style field for that.",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/variants.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 0
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}

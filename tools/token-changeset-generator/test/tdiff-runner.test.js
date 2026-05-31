@@ -76,3 +76,59 @@ test("determineBumpType should prioritize major over minor", (t) => {
   const result = determineBumpType(diffOutput);
   t.is(result, "major");
 });
+
+test("determineBumpType should return major for HTML strong Deleted label", (t) => {
+  const diffOutput = `
+## Tokens Changed (1)
+<details><summary><strong>Deleted (1)</strong></summary>
+- token-name
+</details>
+`;
+
+  const result = determineBumpType(diffOutput);
+  t.is(result, "major");
+});
+
+test("determineBumpType should return minor for Newly Deprecated", (t) => {
+  const diffOutput = `
+## Tokens Changed (1)
+**Newly Deprecated (540)**
+- old-token
+`;
+
+  const result = determineBumpType(diffOutput);
+  t.is(result, "minor");
+});
+
+test("determineBumpType should return major for Removed", (t) => {
+  const diffOutput = `
+## Tokens Changed (1)
+**Removed (2)**
+- gone
+`;
+
+  const result = determineBumpType(diffOutput);
+  t.is(result, "major");
+});
+
+test("determineBumpType should return patch for Revised only", (t) => {
+  const diffOutput = `
+## Tokens Changed (1)
+**Revised (3)**
+- a
+`;
+
+  const result = determineBumpType(diffOutput);
+  t.is(result, "patch");
+});
+
+test("determineBumpType should return patch for Changed only", (t) => {
+  const diffOutput = `
+## Tokens Changed (1)
+**Changed (1)**
+- b
+`;
+
+  const result = determineBumpType(diffOutput);
+  t.is(result, "patch");
+});

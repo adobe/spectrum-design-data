@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/cascade-file.schema.json",
+  "title": "Cascade token file",
+  "description": "Layer 1 — document envelope for cascade-format tokens. A cascade file is an ordered array of token objects; document order determines tie-breaking during cascade resolution.",
+  "type": "array",
+  "items": {
+    "$ref": "token.schema.json"
+  }
+}

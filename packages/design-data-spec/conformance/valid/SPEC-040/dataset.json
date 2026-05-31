@@ -1,0 +1,37 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "component": "widget",
+        "style": "fill",
+        "property": "background-color"
+      },
+      "value": "#0265dc"
+    },
+    {
+      "name": {
+        "component": "widget",
+        "style": "outline",
+        "property": "border-color"
+      },
+      "value": "#0265dc"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/widget.json",
+      "name": "widget",
+      "displayName": "Widget",
+      "meta": {
+        "category": "actions",
+        "documentationUrl": "https://spectrum.adobe.com/page/widget/"
+      },
+      "options": {
+        "style": {
+          "type": "enum",
+          "values": [{ "value": "fill" }, { "value": "outline" }]
+        }
+      }
+    }
+  ]
+}

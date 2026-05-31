@@ -1,5 +1,19 @@
 # @adobe/token-diff-generator
 
+## 2.5.4
+
+### Patch Changes
+
+- [#753](https://github.com/adobe/spectrum-design-data/pull/753) [`a6d8f51`](https://github.com/adobe/spectrum-design-data/commit/a6d8f51a72409d2d8bbc509e2262aaa5f34cd0f1) Thanks [@GarthDB](https://github.com/GarthDB)! - ## Fix false un-deprecation reports for restructured deprecation
+
+  Tokens that have `deprecated: true` at every set level
+  (e.g. `sets.desktop.deprecated` and `sets.mobile.deprecated`)
+  are now normalized to top-level `deprecated: true` before
+  diffing. This prevents false "Newly Deprecated" and
+  "Newly Un-deprecated" classifications when deprecation
+  metadata is restructured from set-level to top-level
+  without changing the token's actual deprecation status.
+
 ## 2.5.3
 
 ### Patch Changes

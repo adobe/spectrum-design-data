@@ -16,6 +16,14 @@
     },
     "deprecated_comment": {
       "type": "string"
+    },
+    "renamed": {
+      "type": "string",
+      "description": "New token name if this token has been renamed. Use for 1:1 complete replacements."
+    },
+    "description": {
+      "type": "string",
+      "description": "Plain text describing the token's purpose (aligns with DTCG $description)."
     }
   },
   "required": ["sets"]

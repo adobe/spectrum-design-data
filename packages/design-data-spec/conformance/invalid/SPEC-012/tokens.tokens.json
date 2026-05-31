@@ -1,0 +1,13 @@
+[
+  {
+    "name": { "property": "not-deprecated-but-replaced" },
+    "value": "#ffffff",
+    "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+    "replaced_by": "aaaaaaaa-0002-4000-8000-000000000001"
+  },
+  {
+    "name": { "property": "replacement" },
+    "value": "#000000",
+    "uuid": "aaaaaaaa-0002-4000-8000-000000000001"
+  }
+]

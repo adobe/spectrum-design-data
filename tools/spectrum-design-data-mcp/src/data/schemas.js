@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { readFileSync, readdirSync, statSync } from "fs";
+import { readFileSync, readdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -23,81 +23,52 @@ const __dirname = dirname(__filename);
  */
 export async function getSchemaData() {
   try {
-    // Try to import from the workspace package first
-    const componentSchemas = await import(
-      "@adobe/spectrum-component-api-schemas"
-    );
-
-    // If the package exports schema data directly, use it
-    if (componentSchemas.default || componentSchemas.schemas) {
-      return componentSchemas.default || componentSchemas.schemas;
+    const { getAllSchemas } =
+      await import("@adobe/spectrum-component-api-schemas");
+    const schemas = await getAllSchemas();
+    const components = {};
+    for (const schema of schemas) {
+      if (schema.name) {
+        components[`${schema.name}.json`] = schema;
+      }
     }
-
-    // Otherwise, read the schema files directly from the package
-    return await loadSchemaFilesDirectly();
+    return { components, types: {} };
   } catch (error) {
     console.error(
       "Failed to load schema data from package, trying direct file access:",
       error,
     );
-    return await loadSchemaFilesDirectly();
+    return loadSchemaFilesDirectly();
   }
 }
 
 /**
- * Load schema files directly from the repository structure
- * @returns {Promise<Object>} Schema data
+ * Load schema files directly from the repository structure (fallback)
+ * @returns {Object} Schema data
  */
-async function loadSchemaFilesDirectly() {
-  const schemaData = {
-    components: {},
-    types: {},
-  };
+function loadSchemaFilesDirectly() {
+  const schemaData = { components: {}, types: {} };
 
-  // Path to the schemas directory
-  const schemasPath = join(
+  const componentsPath = join(
     __dirname,
-    "../../../../packages/component-schemas/schemas",
+    "../../../../packages/design-data-spec/components",
   );
 
-  // Load component schemas
-  const componentsPath = join(schemasPath, "components");
   try {
-    const componentFiles = readdirSync(componentsPath).filter((file) =>
-      file.endsWith(".json"),
+    const componentFiles = readdirSync(componentsPath).filter((f) =>
+      f.endsWith(".json"),
     );
-
     for (const fileName of componentFiles) {
       try {
-        const filePath = join(componentsPath, fileName);
-        const fileContent = readFileSync(filePath, "utf8");
-        schemaData.components[fileName] = JSON.parse(fileContent);
-      } catch (error) {
-        console.error(`Failed to load component schema ${fileName}:`, error);
+        schemaData.components[fileName] = JSON.parse(
+          readFileSync(join(componentsPath, fileName), "utf8"),
+        );
+      } catch (err) {
+        console.error(`Failed to load component schema ${fileName}:`, err);
       }
     }
   } catch (error) {
     console.error("Failed to read components directory:", error);
-  }
-
-  // Load type schemas
-  const typesPath = join(schemasPath, "types");
-  try {
-    const typeFiles = readdirSync(typesPath).filter((file) =>
-      file.endsWith(".json"),
-    );
-
-    for (const fileName of typeFiles) {
-      try {
-        const filePath = join(typesPath, fileName);
-        const fileContent = readFileSync(filePath, "utf8");
-        schemaData.types[fileName] = JSON.parse(fileContent);
-      } catch (error) {
-        console.error(`Failed to load type schema ${fileName}:`, error);
-      }
-    }
-  } catch (error) {
-    console.error("Failed to read types directory:", error);
   }
 
   return schemaData;

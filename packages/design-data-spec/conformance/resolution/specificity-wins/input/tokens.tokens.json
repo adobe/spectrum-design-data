@@ -1,0 +1,12 @@
+[
+  {
+    "name": { "property": "background-color-default" },
+    "value": "#ffffff",
+    "uuid": "bbbbbbbb-0001-4000-8000-000000000001"
+  },
+  {
+    "name": { "property": "background-color-default", "colorScheme": "dark" },
+    "value": "#000000",
+    "uuid": "bbbbbbbb-0002-4000-8000-000000000002"
+  }
+]

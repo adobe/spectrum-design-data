@@ -1,0 +1,20 @@
+{
+  "tokens": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/widget.json",
+      "name": "widget",
+      "displayName": "Widget",
+      "meta": {
+        "category": "feedback",
+        "documentationUrl": "https://spectrum.adobe.com/page/widget/"
+      },
+      "anatomy": [
+        {
+          "name": "not-a-real-part",
+          "description": "A custom part not in the anatomy-terms registry."
+        }
+      ]
+    }
+  ]
+}

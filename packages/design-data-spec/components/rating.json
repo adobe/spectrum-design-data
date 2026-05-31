@@ -1,0 +1,168 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/rating.json",
+  "specVersion": "1.0.0-draft",
+  "name": "rating",
+  "displayName": "Rating",
+  "description": "The rating component lets users apply a rating to an item or experience, such as an image, a forum post, an item for sale in a marketplace, and more.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/rating/"
+  },
+  "options": {
+    "value": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "default": 0,
+      "multipleOf": 0.5,
+      "description": "From 0 to 5, can be a decimal to represent half stars"
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "worfklow-icon-size-75",
+      "context": "Layout"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Layout"
+    },
+    {
+      "token": "rating-width-small",
+      "context": "Width"
+    },
+    {
+      "token": "rating-width-medium",
+      "context": "Width"
+    },
+    {
+      "token": "rating-height-small",
+      "context": "Height"
+    },
+    {
+      "token": "rating-height-medium",
+      "context": "Height"
+    },
+    {
+      "token": "corner-radius-medium-size-small",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-medium",
+      "context": "Rounding"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus ring"
+    },
+    {
+      "token": "focus-indicator-grap",
+      "context": "Focus ring"
+    },
+    {
+      "token": "rating-top-to-content-area-small",
+      "context": "Spacing (padding)"
+    },
+    {
+      "token": "rating-top-to-content-area-medium",
+      "context": "Spacing (padding)"
+    },
+    {
+      "token": "rating-bottom-to-content-area-small",
+      "context": "Spacing (padding)"
+    },
+    {
+      "token": "rating-bottom-to-content-area-medium",
+      "context": "Spacing (padding)"
+    },
+    {
+      "token": "rating-edge-to-content-area-small",
+      "context": "Spacing (padding)"
+    },
+    {
+      "token": "rating-edge-to-content-area-medium",
+      "context": "Spacing (padding)"
+    },
+    {
+      "token": "spacing-75",
+      "context": "Spacing"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Default"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Emphasized"
+    },
+    {
+      "token": "accent-content-color-hover",
+      "context": "Hover"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Hover"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Down"
+    },
+    {
+      "token": "accent-content-color-down",
+      "context": "Down"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Disabled"
+    }
+  ],
+  "accessibility": {
+    "role": "slider",
+    "intents": ["choose"],
+    "focusable": true,
+    "keyboardIntents": ["increment", "decrement"],
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

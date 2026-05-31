@@ -16,10 +16,18 @@ import {
   states,
   variants,
   anatomyTerms,
+  propertyTerms,
   components,
   scaleValues,
   categories,
   platforms,
+  tokenObjects,
+  structures,
+  substructures,
+  orientations,
+  positions,
+  densities,
+  shapes,
   getValues,
   findValue,
   hasValue,
@@ -54,6 +62,13 @@ test("anatomyTerms registry loads successfully", (t) => {
   t.truthy(anatomyTerms.values);
   t.true(Array.isArray(anatomyTerms.values));
   t.true(anatomyTerms.values.length > 0);
+});
+
+test("propertyTerms registry loads successfully", (t) => {
+  t.truthy(propertyTerms);
+  t.truthy(propertyTerms.values);
+  t.true(Array.isArray(propertyTerms.values));
+  t.true(propertyTerms.values.length > 0);
 });
 
 test("components registry loads successfully", (t) => {
@@ -107,6 +122,16 @@ test("components registry has no duplicate IDs", (t) => {
   const ids = components.values.map((v) => v.id);
   const uniqueIds = new Set(ids);
   t.is(ids.length, uniqueIds.size);
+});
+
+test("anatomyTerms registry has no duplicate IDs", (t) => {
+  const ids = anatomyTerms.values.map((v) => v.id);
+  t.is(ids.length, new Set(ids).size);
+});
+
+test("propertyTerms registry has no duplicate IDs", (t) => {
+  const ids = propertyTerms.values.map((v) => v.id);
+  t.is(ids.length, new Set(ids).size);
 });
 
 // Test for duplicate aliases
@@ -226,6 +251,13 @@ test("sizes includes common t-shirt sizes", (t) => {
   t.true(ids.includes("xl"));
 });
 
+test("sizes does not contain numeric scale values", (t) => {
+  const ids = getValues(sizes);
+  t.false(ids.includes("50"));
+  t.false(ids.includes("100"));
+  t.false(ids.includes("200"));
+});
+
 test("states includes common interaction states", (t) => {
   const ids = getValues(states);
   t.true(ids.includes("default"));
@@ -243,10 +275,48 @@ test("variants includes semantic variants", (t) => {
 
 test("anatomyTerms includes key anatomy parts", (t) => {
   const ids = getValues(anatomyTerms);
-  t.true(ids.includes("edge"));
-  t.true(ids.includes("visual"));
   t.true(ids.includes("text"));
   t.true(ids.includes("icon"));
+  t.true(ids.includes("label"));
+  t.true(ids.includes("handle"));
+});
+
+test("anatomyTerms does not include styling surfaces", (t) => {
+  const ids = getValues(anatomyTerms);
+  t.false(ids.includes("background"));
+  t.false(ids.includes("border"));
+  t.false(ids.includes("edge"));
+  t.false(ids.includes("visual"));
+});
+
+test("propertyTerms includes core CSS styling attributes", (t) => {
+  const ids = getValues(propertyTerms);
+  t.true(ids.includes("color"));
+  t.true(ids.includes("background-color"));
+  t.true(ids.includes("border-color"));
+  t.true(ids.includes("opacity"));
+  t.true(ids.includes("width"));
+  t.true(ids.includes("height"));
+  t.true(ids.includes("font-size"));
+  t.true(ids.includes("gap"));
+});
+
+test("propertyTerms does not include anatomy parts or styling surfaces", (t) => {
+  const ids = getValues(propertyTerms);
+  t.false(ids.includes("background"));
+  t.false(ids.includes("border"));
+  t.false(ids.includes("icon"));
+  t.false(ids.includes("label"));
+  t.false(ids.includes("handle"));
+});
+
+test("tokenObjects includes styling surfaces", (t) => {
+  const ids = getValues(tokenObjects);
+  t.true(ids.includes("background"));
+  t.true(ids.includes("border"));
+  t.true(ids.includes("edge"));
+  t.true(ids.includes("visual"));
+  t.true(ids.includes("content"));
 });
 
 test("components includes core components", (t) => {
@@ -277,4 +347,71 @@ test("scaleValues includes common numeric scales", (t) => {
   t.true(ids.includes("100"));
   t.true(ids.includes("200"));
   t.true(ids.includes("300"));
+});
+
+test("scaleValues includes extended numeric scales", (t) => {
+  const ids = getValues(scaleValues);
+  t.true(ids.includes("1100"));
+  t.true(ids.includes("1200"));
+  t.true(ids.includes("1500"));
+});
+
+// Taxonomy registry tests
+
+const taxonomyRegistries = [
+  ["tokenObjects", tokenObjects],
+  ["structures", structures],
+  ["substructures", substructures],
+  ["orientations", orientations],
+  ["positions", positions],
+  ["densities", densities],
+  ["shapes", shapes],
+];
+
+for (const [name, registry] of taxonomyRegistries) {
+  test(`${name} registry loads successfully`, (t) => {
+    t.truthy(registry);
+    t.truthy(registry.values);
+    t.true(Array.isArray(registry.values));
+    t.true(registry.values.length > 0);
+  });
+
+  test(`${name} registry has no duplicate IDs`, (t) => {
+    const ids = registry.values.map((v) => v.id);
+    const uniqueIds = new Set(ids);
+    t.is(ids.length, uniqueIds.size);
+  });
+
+  test(`all ${name} values have id and label`, (t) => {
+    registry.values.forEach((value) => {
+      t.truthy(value.id, `${name} value missing id`);
+      t.truthy(value.label, `${name} value ${value.id} missing label`);
+    });
+  });
+}
+
+test("structures includes base and container", (t) => {
+  const ids = getValues(structures);
+  t.true(ids.includes("base"));
+  t.true(ids.includes("container"));
+});
+
+test("orientations includes vertical and horizontal", (t) => {
+  const ids = getValues(orientations);
+  t.true(ids.includes("vertical"));
+  t.true(ids.includes("horizontal"));
+});
+
+test("positions includes directional terms", (t) => {
+  const ids = getValues(positions);
+  t.true(ids.includes("top"));
+  t.true(ids.includes("bottom"));
+  t.true(ids.includes("start"));
+  t.true(ids.includes("end"));
+});
+
+test("densities includes spacious and compact", (t) => {
+  const ids = getValues(densities);
+  t.true(ids.includes("spacious"));
+  t.true(ids.includes("compact"));
 });

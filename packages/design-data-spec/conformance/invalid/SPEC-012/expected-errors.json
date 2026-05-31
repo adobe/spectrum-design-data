@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-012",
+      "severity": "error",
+      "message_pattern": "has replaced_by but is not marked deprecated"
+    }
+  ]
+}

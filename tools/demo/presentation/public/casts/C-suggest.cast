@@ -1,0 +1,11 @@
+{"version": 2, "width": 120, "height": 36, "title": "design-data — deterministic suggest (PLACEHOLDER)"}
+[0.4, "o", "\u001b[1;33mPLACEHOLDER cast — re-record with ./record-casts.sh C\u001b[0m\r\n\r\n"]
+[0.8, "o", "$ design-data suggest \"primary background color\"\r\n"]
+[1.4, "o", "accent-background-color-default        0.82\r\n"]
+[1.6, "o", "neutral-background-color-default       0.61\r\n"]
+[1.8, "o", "(deterministic Jaccard ranking — not a model)\r\n"]
+[2.4, "m", "C1 suggest"]
+[2.6, "o", "\r\n$ design-data primer packages/tokens/dist/json\r\n"]
+[3.2, "o", "\u25b6 2460 tokens \u00b7 packages/tokens/dist/json\r\n"]
+[3.8, "m", "C2 primer"]
+[4.0, "o", "\r\n"]

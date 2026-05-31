@@ -27,6 +27,7 @@ Packages in this monorepo:
 * [Spectrum S2 Tokens Viewer](docs/s2-tokens-viewer/) an enhanced token viewer with component usage analysis for Spectrum 2 tokens.
 * [Spectrum Tokens Docs](docs/site/) a static site to show the component options API and other token data.
 * [Release Timeline Visualization](docs/release-timeline/) interactive charts showing release frequency and development activity patterns. Published as a [static site](https://opensource.adobe.com/spectrum-design-data/release-timeline/).
+* [Spectrum 2 Documentation](docs/s2-docs/) comprehensive component guides and design principles from s2.spectrum.corp.adobe.com.
 
 ## Development Tools
 
@@ -35,10 +36,14 @@ Packages in this monorepo:
 * [Optimized Diff Engine](tools/optimized-diff/) high-performance diff algorithm for large token datasets.
 * [Release Analyzer](tools/release-analyzer/) tool for analyzing release history and generating data for change frequency visualization.
 * [Token Changeset Generator](tools/token-changeset-generator/) automates creation of changeset files from token diff analysis.
-* [Token CSV Generator](tools/token-csv-generator/) exports token data to CSV format for analysis and reporting.
 * [Transform Tokens JSON](tools/transform-tokens-json/) utilities for merging and transforming token data between formats.
 * [Token Manifest Builder](tools/token-manifest-builder/) generates manifest files for token distribution.
 * [Spectrum Design Data MCP](tools/spectrum-design-data-mcp/) Model Context Protocol server providing AI assistants with structured access to Spectrum design system data.
+* [S2 Docs MCP](tools/s2-docs-mcp/) MCP server providing AI assistants with access to Spectrum 2 component documentation and design guidelines.
+
+## SDK & TUI
+
+* [design-data](sdk/cli/) unified CLI and interactive TUI — validate, resolve, diff, query, and migrate tokens from the command line; run bare (`design-data`) to launch the interactive TUI (command palette, cascade resolver, validator, four-screen authoring wizard). The TUI library lives in [sdk/tui/](sdk/tui/).
 
 ## Setup monorepo locally
 

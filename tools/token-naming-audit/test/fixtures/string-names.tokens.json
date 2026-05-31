@@ -1,0 +1,14 @@
+[
+  {
+    "name": "accent-background-color-default",
+    "value": "#0d66d0"
+  },
+  {
+    "name": "some-unrecorded-legacy-token",
+    "value": "#ff0000"
+  },
+  {
+    "name": { "property": "color", "component": "button" },
+    "value": "#fff"
+  }
+]

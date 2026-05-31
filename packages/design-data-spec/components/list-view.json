@@ -1,0 +1,382 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/list-view.json",
+  "specVersion": "1.0.0-draft",
+  "name": "list-view",
+  "displayName": "List view",
+  "description": "List views display rows of data or options that users can browse, select, and interact with.",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://spectrum.adobe.com/page/list-view/"
+  },
+  "options": {
+    "selectionMode": {
+      "type": "string",
+      "default": "single",
+      "description": "Defines how many items can be selected at once.",
+      "values": [
+        {
+          "value": "none"
+        },
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        }
+      ]
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the list view uses a quiet visual style."
+    },
+    "items": {
+      "type": "array",
+      "description": "An array of list view items.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Primary text displayed for the item."
+          },
+          "description": {
+            "type": "string",
+            "description": "Secondary text displayed under the label (optional)."
+          },
+          "hideCheckbox": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the checkbox is hidden."
+          },
+          "hideDragHandle": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the drag handle is hidden."
+          },
+          "hideNavigationIndicator": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the navigation indicator is hidden."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the item is disabled."
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the item is selected."
+          },
+          "overflowMode": {
+            "type": "string",
+            "enum": ["wrap", "truncate"],
+            "default": "truncate",
+            "description": "Defines how text should behave when it overflows the available space."
+          },
+          "itemRounding": {
+            "type": "string",
+            "enum": ["none", "top", "bottom"],
+            "default": "none",
+            "description": "Defines the border radius of the list view item."
+          },
+          "isEmphasized": {
+            "type": "boolean",
+            "default": false
+          },
+          "state": {
+            "type": "string",
+            "enum": ["default", "hover", "dragged"],
+            "default": "default",
+            "description": "The interaction state of the list view item."
+          }
+        },
+        "required": ["label"]
+      }
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "(multi-select",
+      "context": "Variants"
+    },
+    {
+      "token": "multi-select)",
+      "context": "Variants"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon size"
+    },
+    {
+      "token": "list-view-minimum-height",
+      "context": "Component height"
+    },
+    {
+      "token": "list-view-minimum-width",
+      "context": "Component width"
+    },
+    {
+      "token": "corner-radius-medium-default",
+      "context": "Item rounding"
+    },
+    {
+      "token": "stack-item-start-edge-to-content",
+      "context": "Spacing (edge to drag handle)"
+    },
+    {
+      "token": "stack-item-drag-handle-to-control",
+      "context": "Spacing (drag handle to checkbox, to visual, to text)"
+    },
+    {
+      "token": "visual-to-control-100",
+      "context": "Spacing (drag handle to checkbox, to visual, to text)"
+    },
+    {
+      "token": "stack-item-text-to-control",
+      "context": "Spacing (drag handle to checkbox, to visual, to text)"
+    },
+    {
+      "token": "stack-item-edge-to-control",
+      "context": "Spacing (edge to checkbox, edge to visual, edge to text)"
+    },
+    {
+      "token": "stack-item-edge-to-visual",
+      "context": "Spacing (edge to checkbox, edge to visual, edge to text)"
+    },
+    {
+      "token": "component-edge-to-text",
+      "context": "Spacing (edge to checkbox, edge to visual, edge to text)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (content items to text)"
+    },
+    {
+      "token": "stack-item-action-to-navigation",
+      "context": "Spacing (navigation indicator to edge, actions to edge)"
+    },
+    {
+      "token": "list-view-end-edge-to-content",
+      "context": "Spacing (edge to Navigation icon)"
+    },
+    {
+      "token": "vertical-align-items",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "stack-item-minimum-padding-vertical",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "label-to-description-0",
+      "context": "Spacing (navigation indicator)"
+    },
+    {
+      "token": "border-width-100",
+      "context": "Border width (selected - highlight)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus (drag handle)"
+    },
+    {
+      "token": "drop-shadow-dragged-x",
+      "context": "Dragged shadow"
+    },
+    {
+      "token": "drop-shadow-dragged-y",
+      "context": "Dragged shadow"
+    },
+    {
+      "token": "drop-shadow-dragged-blur",
+      "context": "Dragged shadow"
+    },
+    {
+      "token": "drop-shadow-dragged-color",
+      "context": "Dragged shadow"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Height"
+    },
+    {
+      "token": "stack-item-header-minimum-width",
+      "context": "Width"
+    },
+    {
+      "token": "component-edge-to-text-100",
+      "context": "Spacing (horizontal)"
+    },
+    {
+      "token": "top-to-text-100",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "bottom-to-text-100",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-100",
+      "context": "Spacing (vertical)"
+    },
+    {
+      "token": "stack-item-header-to-item",
+      "context": "Spacing (vertically, between list view header to list view items)"
+    },
+    {
+      "token": "stack-item-item-to-item",
+      "context": "Spacing (vertically, between list view header to list view items)"
+    },
+    {
+      "token": "stack-item-background-color-hover",
+      "context": "Background"
+    },
+    {
+      "token": "stack-item-background-color-down",
+      "context": "Background"
+    },
+    {
+      "token": "stack-item-background-color-key-focus",
+      "context": "Background"
+    },
+    {
+      "token": "stack-item-selected-background-color-default",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-hover",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-down",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-key-focus",
+      "context": "Background (selected, checkbox)"
+    },
+    {
+      "token": "stack-item-selected-background-color-highlight",
+      "context": "Background (selected, highlight)"
+    },
+    {
+      "token": "stack-item-selected-background-opacity-highlight-hover",
+      "context": "Background (selected, highlight)"
+    },
+    {
+      "token": "accent-content-color-selected",
+      "context": "Border (selected, highlight)"
+    },
+    {
+      "token": "gray-300",
+      "context": "Border"
+    },
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-down",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-subdued-content-color-key-focus",
+      "context": "Label and icon (non-selected)"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Label and icon (selected, checkbox and highlight)"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Label and icon (selected, checkbox and highlight)"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Label and icon (selected, checkbox and highlight)"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Label and icon (selected, checkbox and highlight)"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Background (disabled)"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Label and icon (disabled)"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "title-color",
+      "context": "Title label and icon"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Text (List view item)"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Text (List view description)"
+    },
+    {
+      "token": "bold-font-weight",
+      "context": "Text (List view title)"
+    }
+  ],
+  "accessibility": {
+    "intents": ["select", "navigate"],
+    "focusable": true,
+    "keyboardIntents": ["navigate-items", "activate", "select-all"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+type: tool
+language: bash
+
+tasks:
+  verify:
+    command: [bash, tools/demo/verify-demo.sh]
+    options:
+      runFromWorkspaceRoot: true
+    inputs:
+      - "verify-demo.sh"
+      - "demo-commands.sh"
+      - "broken-token-example.tokens.json"
+
+  # Render a demo manifest's silent VHS assets (per-beat MP4s + full GIF/WebM).
+  # Pass a manifest with: moon run demo:videos-render -- tools/demo/videos/<name>.demo.mjs
+  videos-render:
+    command: [node, tools/demo/videos/render.mjs]
+    options:
+      runFromWorkspaceRoot: true
+      # Operator-only: needs `vhs` (+ ttyd/ffmpeg) on PATH, not available in CI.
+      runInCI: false
+    inputs:
+      - "videos/**/*.mjs"
+
+  # Record one voiceover clip per beat (interactive teleprompter; needs a mic + TTY).
+  videos-record:
+    command: [node, tools/demo/videos/record.mjs]
+    options:
+      runFromWorkspaceRoot: true
+    local: true
+
+  # Sync recorded audio to the rendered beats and assemble the narrated MP4 + captions.
+  videos-build:
+    command: [node, tools/demo/videos/build.mjs]
+    options:
+      runFromWorkspaceRoot: true
+      # Operator-only: consumes render.mjs output + recorded audio (ffmpeg), not in CI.
+      runInCI: false
+    inputs:
+      - "videos/**/*.mjs"
+
+  # ── Slidev presentation deck (asciinema casts + recorded AI/MCP video) ──────
+  # The deck is a standalone project under presentation/ (not in the pnpm
+  # workspace, to keep the root lockfile clean). Install its deps once with
+  # --ignore-workspace so it gets its own isolated node_modules/lockfile:
+  #   pnpm install --ignore-workspace --dir tools/demo/presentation
+  # then record casts with presentation/record-casts.sh (see RECORDING.md).
+
+  # Live dev server — screen-share this and narrate; each beat auto-pauses.
+  present:
+    command: [pnpm, --dir, tools/demo/presentation, run, dev]
+    options:
+      runFromWorkspaceRoot: true
+    local: true
+
+  # Static export of the deck (shareable site under presentation/dist/).
+  present-build:
+    command: [pnpm, --dir, tools/demo/presentation, run, build]
+    options:
+      runFromWorkspaceRoot: true
+      # Operator-only: the deck is a standalone install (--ignore-workspace), so
+      # its node_modules/slidev aren't present in CI's workspace install.
+      runInCI: false
+    inputs:
+      - "presentation/slides.md"
+      - "presentation/public/**/*"
+      - "presentation/package.json"
+
+  ci:
+    deps: [verify]

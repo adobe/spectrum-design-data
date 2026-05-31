@@ -1,0 +1,28 @@
+{
+  "renamed": [
+    {
+      "old_name": "old-prop[component=button]",
+      "new_name": "new-prop[component=button]",
+      "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+      "property_changes": [
+        {
+          "path": "name.property",
+          "change_type": "updated",
+          "new_value": "new-prop",
+          "original_value": "old-prop"
+        },
+        {
+          "path": "value",
+          "change_type": "updated",
+          "new_value": "20px",
+          "original_value": "10px"
+        }
+      ]
+    }
+  ],
+  "deprecated": [],
+  "reverted": [],
+  "added": [],
+  "deleted": [],
+  "updated": []
+}

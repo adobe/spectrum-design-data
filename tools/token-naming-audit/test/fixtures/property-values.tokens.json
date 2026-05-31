@@ -1,0 +1,14 @@
+[
+  {
+    "name": { "property": "color", "component": "button" },
+    "value": "#0d66d0"
+  },
+  {
+    "name": { "property": "background", "component": "button" },
+    "value": "#f5f5f5"
+  },
+  {
+    "name": { "property": "icon", "component": "button" },
+    "value": "16px"
+  }
+]

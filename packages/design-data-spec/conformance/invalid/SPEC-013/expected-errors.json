@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-013",
+      "severity": "error",
+      "message_pattern": "has plannedRemoval but is not marked deprecated"
+    }
+  ]
+}

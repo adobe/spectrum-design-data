@@ -1,0 +1,17 @@
+[
+  {
+    "name": { "property": "bg", "component": "button" },
+    "value": "#aaaaaa",
+    "uuid": "aaaaaaaa-0001-4000-8000-000000000001"
+  },
+  {
+    "name": { "property": "bg", "component": "checkbox" },
+    "value": "#bbbbbb",
+    "uuid": "aaaaaaaa-0002-4000-8000-000000000001"
+  },
+  {
+    "name": { "property": "bg", "component": "slider" },
+    "value": "#cccccc",
+    "uuid": "aaaaaaaa-0003-4000-8000-000000000001"
+  }
+]

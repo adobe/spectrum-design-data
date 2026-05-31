@@ -204,6 +204,15 @@ function checkProperties(
         currentOriginalLevel,
         update,
       );
+    } else if (Array.isArray(currentTokenLevel[property])) {
+      // arrays (e.g. multi-layer drop-shadow values) are treated as atomic leaf values
+      handleArrayLeafProperty(
+        property,
+        propertyPath,
+        currentTokenLevel,
+        currentOriginalLevel,
+        update,
+      );
     } else if (isObject(currentTokenLevel[property])) {
       // we've got an object that has properties in it we need to check (probably set stuff!)
       handleBranchProperty(
@@ -245,6 +254,31 @@ function handleLeafProperty(
       "path": "${propertyPath}",
       "new-value": "${newValue}"
     }`);
+  }
+}
+
+function handleArrayLeafProperty(
+  property,
+  propertyPath,
+  currentTokenLevel,
+  currentOriginalLevel,
+  update,
+) {
+  const newValue = JSON.stringify(currentTokenLevel[property]);
+  if (update) {
+    const origValue = JSON.stringify(
+      currentOriginalLevel ? currentOriginalLevel[property] : undefined,
+    );
+    currentTokenLevel[property] = {
+      path: propertyPath,
+      "new-value": newValue,
+      "original-value": origValue,
+    };
+  } else {
+    currentTokenLevel[property] = {
+      path: propertyPath,
+      "new-value": newValue,
+    };
   }
 }
 

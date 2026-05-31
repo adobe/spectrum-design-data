@@ -1,0 +1,240 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/swatch.json",
+  "specVersion": "1.0.0-draft",
+  "name": "swatch",
+  "displayName": "Swatch",
+  "description": "A swatch shows a small sample of a fill — such as a color, gradient, texture, or material — that is intended to be applied to an object.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/swatch/"
+  },
+  "options": {
+    "preview": {
+      "type": "string",
+      "description": "This will vary depending on implementation."
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "xs"
+        },
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
+    },
+    "shape": {
+      "type": "string",
+      "default": "square",
+      "values": [
+        {
+          "value": "square"
+        },
+        {
+          "value": "rectangle"
+        }
+      ]
+    },
+    "cornerRounding": {
+      "type": "string",
+      "default": "none",
+      "description": "Determines the corner radius of the swatch. Partial refers to corner-radius-75.",
+      "values": [
+        {
+          "value": "none"
+        },
+        {
+          "value": "partial"
+        },
+        {
+          "value": "full"
+        }
+      ]
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "swatch-size-extra-small",
+      "context": "Size (square)"
+    },
+    {
+      "token": "swatch-size-small",
+      "context": "Size (square)"
+    },
+    {
+      "token": "swatch-size-medium",
+      "context": "Size (square)"
+    },
+    {
+      "token": "swatch-size-large",
+      "context": "Size (square)"
+    },
+    {
+      "token": "swatch-rectangle-width-multiplier",
+      "context": "Width (rectangle)"
+    },
+    {
+      "token": "corner-radius-75",
+      "context": "Rounding"
+    },
+    {
+      "token": "border-width-100",
+      "context": "Border"
+    },
+    {
+      "token": "border-width-200",
+      "context": "Border and inner border (selected)"
+    },
+    {
+      "token": "workflow-icon-size-50",
+      "context": "Disabled icon asset"
+    },
+    {
+      "token": "workflow-icon-size-75",
+      "context": "Disabled icon asset"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Disabled icon asset"
+    },
+    {
+      "token": "workflow-icon-size-200",
+      "context": "Disabled icon asset"
+    },
+    {
+      "token": "swatch-slash-thickness-extra-small",
+      "context": "Slash thickness (empty)"
+    },
+    {
+      "token": "swatch-slash-thickness-small",
+      "context": "Slash thickness (empty)"
+    },
+    {
+      "token": "swatch-slash-thickness-medium",
+      "context": "Slash thickness (empty)"
+    },
+    {
+      "token": "swatch-slash-thickness-large",
+      "context": "Slash thickness (empty)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus ring"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus ring"
+    },
+    {
+      "token": "spacing-75",
+      "context": "Spacing (Tooltip to Swatch)"
+    },
+    {
+      "token": "swatch-border-color",
+      "context": "Border"
+    },
+    {
+      "token": "swatch-border-opacity",
+      "context": "Border"
+    },
+    {
+      "token": "gray-1000",
+      "context": "Border and inner border (selected)"
+    },
+    {
+      "token": "gray-25",
+      "context": "Border and inner border (selected)"
+    },
+    {
+      "token": "swatch-disabled-icon-border-color",
+      "context": "Disabled icon"
+    },
+    {
+      "token": "swatch-disabled-icon-border-opacity",
+      "context": "Disabled icon"
+    },
+    {
+      "token": "white",
+      "context": "Disabled icon"
+    },
+    {
+      "token": "negative-visual-color",
+      "context": "Slash"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Dash UI icon"
+    },
+    {
+      "token": "gray-100",
+      "context": "Add “button” background"
+    },
+    {
+      "token": "gray-200",
+      "context": "Add “button” background"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus ring"
+    },
+    {
+      "token": "spacing-50",
+      "context": "Spacing (compact)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (spacious)"
+    }
+  ],
+  "accessibility": {
+    "intents": ["choose"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

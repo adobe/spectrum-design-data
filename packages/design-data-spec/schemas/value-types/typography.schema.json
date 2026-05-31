@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/value-types/typography.schema.json",
+  "title": "Typography composite value",
+  "description": "Object bundling font properties for a typographic style. Sub-values may be literal strings or inline alias references ({token-name}).",
+  "type": "object",
+  "properties": {
+    "fontFamily": { "type": "string", "x-valueType": "font-family" },
+    "fontSize": { "type": "string", "x-valueType": "dimension" },
+    "fontWeight": { "type": "string", "x-valueType": "font-weight" },
+    "letterSpacing": { "type": "string", "x-valueType": "dimension" },
+    "lineHeight": { "type": "string", "x-valueType": ["dimension", "number"] }
+  },
+  "required": ["fontFamily", "fontSize", "fontWeight", "lineHeight"],
+  "additionalProperties": false
+}

@@ -8,6 +8,16 @@ Design tokens are directly integrated into our component libraries, UI kits, and
 
 Follow the monorepo [setup guide](../../README.md#setup-monorepo-locally).
 
+## Design Data validation
+
+Moon tasks run the Rust `design-data` CLI against `src/` and `schemas/`:
+
+* `moon run tokens:validateDesignData` — JSON Schema (Layer 1) + catalog rules (Layer 2)
+* `moon run tokens:verifyDesignDataSnapshot` — same as above, compared to
+  `snapshots/validation-snapshot.json` (update with `design-data migrate snapshot` when outputs change)
+
+From the repo root with Rust available, you can also run `cargo run -p design-data-cli --manifest-path sdk/Cargo.toml -- validate ./packages/tokens/src --schema-path ./packages/tokens/schemas`.
+
 ## Generate a Diff from the last release
 
 The `pnpm generateDiffResult` script will build the project and compare the tokens in the `dist` directory with the last released version of Spectrum Tokens. It will generate a report of added tokens, deleted tokens, tokens with value changes, and tokens with potential name changes. The script can't guarantee the correct name changes; it compares new tokens and deleted tokens to see if any have the same value and are likely to be token name changes.

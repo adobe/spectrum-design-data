@@ -1,0 +1,6 @@
+{
+  "specVersion": "1.0.0-draft",
+  "name": "scale",
+  "modes": ["medium", "large"],
+  "default": "xlarge"
+}

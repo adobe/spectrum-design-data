@@ -1,0 +1,14 @@
+{
+  "tokens": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/widget.json",
+      "name": "widget",
+      "displayName": "Widget",
+      "meta": {
+        "category": "not-a-real-category",
+        "documentationUrl": "https://spectrum.adobe.com/page/widget/"
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-010",
+      "severity": "error",
+      "message_pattern": "replaced_by target UUID not found"
+    }
+  ]
+}

@@ -34,6 +34,10 @@ export const anatomyTerms = JSON.parse(
   readFileSync(join(__dirname, "registry", "anatomy-terms.json"), "utf-8"),
 );
 
+export const propertyTerms = JSON.parse(
+  readFileSync(join(__dirname, "registry", "property-terms.json"), "utf-8"),
+);
+
 export const components = JSON.parse(
   readFileSync(join(__dirname, "registry", "components.json"), "utf-8"),
 );
@@ -60,6 +64,34 @@ export const tokenTerminology = JSON.parse(
 
 export const glossary = JSON.parse(
   readFileSync(join(__dirname, "registry", "glossary.json"), "utf-8"),
+);
+
+export const tokenObjects = JSON.parse(
+  readFileSync(join(__dirname, "registry", "token-objects.json"), "utf-8"),
+);
+
+export const structures = JSON.parse(
+  readFileSync(join(__dirname, "registry", "structures.json"), "utf-8"),
+);
+
+export const substructures = JSON.parse(
+  readFileSync(join(__dirname, "registry", "substructures.json"), "utf-8"),
+);
+
+export const orientations = JSON.parse(
+  readFileSync(join(__dirname, "registry", "orientations.json"), "utf-8"),
+);
+
+export const positions = JSON.parse(
+  readFileSync(join(__dirname, "registry", "positions.json"), "utf-8"),
+);
+
+export const densities = JSON.parse(
+  readFileSync(join(__dirname, "registry", "densities.json"), "utf-8"),
+);
+
+export const shapes = JSON.parse(
+  readFileSync(join(__dirname, "registry", "shapes.json"), "utf-8"),
 );
 
 /**

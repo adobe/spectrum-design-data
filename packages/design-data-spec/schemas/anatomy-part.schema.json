@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/anatomy-part.schema.json",
+  "title": "Anatomy part declaration",
+  "description": "Layer 1 structural schema for a single anatomy part object within a component declaration. Semantic rules (component-anatomy-valid, anatomy-custom-part-documented, anatomy-part-name-unique, anatomy-requires-component) are Layer 2.",
+  "type": "object",
+  "required": ["name"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "minLength": 1,
+      "description": "Kebab-case anatomy part identifier. Must match the value used in token name-object 'anatomy' fields."
+    },
+    "description": {
+      "type": "string",
+      "description": "Plain-text description of the part's visual role and boundaries."
+    },
+    "required": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this part is always rendered regardless of component configuration."
+    },
+    "contains": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*$"
+      },
+      "uniqueItems": true,
+      "description": "Informative list of child anatomy part names nested within this part. Does not carry enforcement semantics."
+    },
+    "documentBlocks": {
+      "type": "array",
+      "items": { "$ref": "document-block.schema.json" },
+      "minItems": 1,
+      "description": "Typed prose blocks for this anatomy part. See spec/document-blocks.md (Phase 9)."
+    },
+    "lifecycle": {
+      "$ref": "component.schema.json#/$defs/lifecycle",
+      "description": "Version lifecycle metadata for this anatomy part. Set lifecycle.deprecated to signal that tokens referencing this part should migrate."
+    }
+  },
+  "additionalProperties": false
+}

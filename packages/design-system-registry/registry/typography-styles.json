@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "typography-style",
+  "description": "Typographic style values for typography tokens. Assigned via the `style` name-object field. Corresponds to the CSS font-style axis. All recognized styles are listed; normal represents the default upright style.",
+  "values": [
+    {
+      "id": "normal",
+      "label": "Normal",
+      "description": "Default upright font style (font-style: normal)"
+    },
+    {
+      "id": "italic",
+      "label": "Italic",
+      "description": "Italic font style (font-style: italic)"
+    },
+    {
+      "id": "oblique",
+      "label": "Oblique",
+      "description": "Oblique font style (font-style: oblique)"
+    }
+  ]
+}

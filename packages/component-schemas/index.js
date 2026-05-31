@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Adobe. All rights reserved.
+Copyright 2026 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -13,6 +13,7 @@ import { glob } from "glob";
 import { isAbsolute, resolve } from "path";
 import { readFile } from "fs/promises";
 import * as url from "url";
+import { createRequire } from "module";
 
 export const getSlugFromDocumentationUrl = (documentationUrl) =>
   documentationUrl
@@ -25,22 +26,37 @@ export const readJson = async (fileName) =>
 
 export const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
-export const schemaFileNames = await glob(
-  `${resolve(__dirname, "./schemas")}/**/*.json`,
+// Locate the design-data-spec package's components directory
+const specPkgPath = createRequire(import.meta.url).resolve(
+  "@adobe/design-data-spec/package.json",
 );
+export const componentsDir = resolve(specPkgPath, "..", "components");
+
+export const schemaFileNames = await glob(`${componentsDir}/*.json`);
+
+// Add backward-compat aliases (title, properties) to a new-format component object.
+// Slug is NOT added here — only getAllSchemas adds it, matching original behavior.
+function withAliases(data) {
+  if (!Object.hasOwn(data, "meta")) return data;
+  return {
+    ...data,
+    title: data.displayName,
+    properties: data.options,
+  };
+}
 
 /**
- * Accepts either a schema name or an absolute path
+ * Accepts either a component filename (relative to componentsDir) or an absolute path.
  *
  * @param schemaFileName
  * @return {Promise<any>}
  */
 export const getSchemaFile = async (schemaFileName) => {
-  let filePath = resolve(__dirname, "schemas", schemaFileName);
-  if (isAbsolute(schemaFileName)) {
-    filePath = schemaFileName;
-  }
-  return await readJson(resolve(filePath));
+  const filePath = isAbsolute(schemaFileName)
+    ? schemaFileName
+    : resolve(componentsDir, schemaFileName);
+  const data = await readJson(filePath);
+  return withAliases(data);
 };
 
 export const getAllSlugs = async () => {
@@ -74,7 +90,7 @@ export const getAllSchemas = async () => {
       ) {
         return {
           ...data,
-          ...{ slug: getSlugFromDocumentationUrl(data.meta.documentationUrl) },
+          slug: getSlugFromDocumentationUrl(data.meta.documentationUrl),
         };
       } else return data;
     }),
@@ -90,6 +106,6 @@ export const getSchemaBySlug = async (slug) => {
   if (schema === undefined) {
     throw new Error(`Schema not found for slug: ${slug}`);
   }
-  delete schema.slug;
-  return schema;
+  const { slug: _, ...rest } = schema;
+  return rest;
 };

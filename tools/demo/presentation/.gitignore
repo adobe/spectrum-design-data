@@ -1,0 +1,17 @@
+# Slidev / Vite build + caches
+node_modules/
+dist/
+.slidev/
+
+# Standalone lockfile (this project is installed with --ignore-workspace, so it
+# has its own lockfile that is reproducible from package.json — not committed).
+pnpm-lock.yaml
+
+# Heavy recorded media — record locally, do not commit (see RECORDING.md).
+# Commit only curated finals if the team decides to publish a static deck.
+public/video/*.mp4
+public/video/*.webm
+public/video/*.mov
+
+# Note: small text-based *.cast files ARE committed so the deck renders
+# out of the box. Re-record them with ./record-casts.sh to replace placeholders.

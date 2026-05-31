@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-019",
+      "severity": "error",
+      "message_pattern": ".*variant.*electric.*not declared.*"
+    }
+  ]
+}

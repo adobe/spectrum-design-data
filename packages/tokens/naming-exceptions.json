@@ -1,0 +1,1170 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/naming-exceptions.json",
+  "description": "Legacy token names that cannot be deterministically generated from a structured name object. Each entry tracks a known inconsistency for future remediation.",
+  "exceptions": [
+    {
+      "token": "drop-shadow-emphasized-default-color",
+      "file": "color-aliases.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-hover-color",
+      "file": "color-aliases.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-hover-key-color",
+      "file": "color-aliases.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-color-default",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-color-down",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-color-emphasized",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-color-hover",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-color-key-focus",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "table-selected-row-background-color-non-emphasized",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-hover",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-non-emphasized",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "table-selected-row-background-opacity-non-emphasized-hover",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "tree-view-selected-row-background-color-emphasized",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "tree-view-selected-row-background-default",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "tree-view-selected-row-background-hover",
+      "file": "color-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-opacity-emphasized",
+      "file": "layout-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-opacity-emphasized-down",
+      "file": "layout-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-opacity-emphasized-hover",
+      "file": "layout-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "stack-item-selected-background-opacity-emphasized-key-focus",
+      "file": "layout-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "tree-view-selected-row-background-opacity-emphasized",
+      "file": "layout-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "tree-view-selected-row-background-opacity-emphasized-hover",
+      "file": "layout-component.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-default-blur",
+      "file": "layout.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-default-x",
+      "file": "layout.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-default-y",
+      "file": "layout.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-hover-blur",
+      "file": "layout.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-hover-x",
+      "file": "layout.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "drop-shadow-emphasized-hover-y",
+      "file": "layout.json",
+      "category": "compound-state",
+      "reason": "Does not roundtrip through canonical generation rules (category: compound-state)"
+    },
+    {
+      "token": "disabled-background-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-border-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-content-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-static-black-background-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-static-black-border-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-static-black-content-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-static-white-background-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-static-white-border-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "disabled-static-white-content-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "drop-shadow-emphasized-key-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "focus-indicator-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "static-black-focus-indicator-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "static-white-focus-indicator-color",
+      "file": "color-aliases.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "select-box-selected-border-color",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "swatch-disabled-icon-border-color",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "swatch-disabled-icon-border-opacity",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "table-row-down-opacity",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "table-row-hover-color",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "table-row-hover-opacity",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "table-selected-row-background-color",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "table-selected-row-background-opacity",
+      "file": "color-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "icon-color-disabled-primary",
+      "file": "icons.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "icon-color-emphasized-background",
+      "file": "icons.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "accordion-focus-indicator-gap",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-default-width-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-default-width-extra-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-default-width-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-default-width-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-default-width-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-edge-to-content-default-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-edge-to-content-default-extra-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-edge-to-content-default-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-edge-to-content-default-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "card-edge-to-content-default-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-default-width-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-default-width-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-default-width-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-default-width-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-edge-to-content-not-selected-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-edge-to-content-not-selected-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-edge-to-content-not-selected-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-edge-to-content-not-selected-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-top-to-selected-icon-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-top-to-selected-icon-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-top-to-selected-icon-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "menu-item-top-to-selected-icon-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "meter-default-width",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "slider-handle-border-width-down-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "slider-handle-border-width-down-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "slider-handle-border-width-down-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "slider-handle-border-width-down-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-height-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-height-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-height-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-height-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-width-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-width-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-width-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "steplist-step-default-width-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "switch-handle-selected-size-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "switch-handle-selected-size-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "switch-handle-selected-size-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "switch-handle-selected-size-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tab-item-focus-indicator-gap-extra-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tab-item-focus-indicator-gap-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tab-item-focus-indicator-gap-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tab-item-focus-indicator-gap-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tag-field-default-width-large",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tag-field-default-width-medium",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tag-field-default-width-small",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-cjk-emphasized-font-style",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-cjk-emphasized-font-weight",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-cjk-strong-emphasized-font-style",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-cjk-strong-emphasized-font-weight",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-sans-serif-emphasized-font-style",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-sans-serif-emphasized-font-weight",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-sans-serif-strong-emphasized-font-style",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-sans-serif-strong-emphasized-font-weight",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-serif-emphasized-font-style",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-serif-emphasized-font-weight",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-serif-strong-emphasized-font-style",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "title-serif-strong-emphasized-font-weight",
+      "file": "layout-component.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "side-focus-indicator",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-cjk-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-cjk-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-cjk-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-cjk-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-sans-serif-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-sans-serif-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-sans-serif-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-sans-serif-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-serif-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-serif-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-serif-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "body-serif-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-cjk-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-cjk-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-cjk-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-cjk-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "code-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "default-font-family",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "default-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-light-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-light-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-light-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-light-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-cjk-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-light-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-light-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-light-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-light-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-sans-serif-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-light-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-light-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-light-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-light-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "detail-serif-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-heavy-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-heavy-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-heavy-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-heavy-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-light-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-light-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-light-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-light-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-cjk-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-heavy-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-heavy-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-heavy-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-heavy-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-light-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-light-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-light-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-light-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-sans-serif-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-heavy-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-heavy-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-heavy-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-heavy-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-light-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-light-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-light-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-light-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-strong-emphasized-font-style",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "heading-serif-strong-emphasized-font-weight",
+      "file": "typography.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    }
+  ]
+}

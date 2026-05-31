@@ -1,0 +1,134 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/alert-banner.json",
+  "specVersion": "1.0.0-draft",
+  "name": "alert-banner",
+  "displayName": "Alert banner",
+  "description": "Alert banners show pressing and high-signal messages, such as system alerts. They're meant to be noticed and prompt users to take action.",
+  "meta": {
+    "category": "feedback",
+    "documentationUrl": "https://spectrum.adobe.com/page/alert-banner/"
+  },
+  "options": {
+    "text": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string",
+      "default": "neutral",
+      "values": [
+        {
+          "value": "neutral"
+        },
+        {
+          "value": "informative"
+        },
+        {
+          "value": "negative"
+        },
+        {
+          "value": "accent"
+        }
+      ]
+    },
+    "actionLabel": {
+      "type": "string",
+      "description": "If undefined, this button does not appear."
+    },
+    "isDismissible": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon asset"
+    },
+    {
+      "token": "alert-banner-minimum-height",
+      "context": "Height"
+    },
+    {
+      "token": "alert-banner-width",
+      "context": "Width"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Spacing (icon to text)"
+    },
+    {
+      "token": "spacing-300",
+      "context": "Spacing (start edge to text and icon)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (close button to end edge)"
+    },
+    {
+      "token": "spacing-200",
+      "context": "Spacing (close button to end edge)"
+    },
+    {
+      "token": "alert-banner-top-to-workflow-icon",
+      "context": "Spacing (top/bottom edge to icon)"
+    },
+    {
+      "token": "alert-banner-top-to-text",
+      "context": "Spacing (top/bottom edge to text)"
+    },
+    {
+      "token": "alert-banner-bottom-to-text",
+      "context": "Spacing (top/bottom edge to text)"
+    },
+    {
+      "token": "neutral-subdued-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "informative-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "negative-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Text"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Text"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Text"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Text"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Text"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Text"
+    }
+  ],
+  "accessibility": {
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.3",
+        "level": "AA",
+        "title": "Status Messages"
+      }
+    ]
+  }
+}

@@ -1,0 +1,522 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/action-button.json",
+  "specVersion": "1.0.0-draft",
+  "name": "action-button",
+  "displayName": "Action button",
+  "description": "Action buttons allow users to perform an action or mark a selection. They're used for similar, task-based options within a workflow, and are ideal for interfaces where buttons aren't meant to draw a lot of attention.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/action-button/"
+  },
+  "options": {
+    "label": {
+      "type": "string"
+    },
+    "hideLabel": {
+      "type": "boolean",
+      "default": false
+    },
+    "icon": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
+      "description": "Icon must be present if the label is not defined."
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "xs"
+        },
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "staticColor": {
+      "type": "string",
+      "description": "Static color must not be set for the default version of this component.",
+      "values": [
+        {
+          "value": "white"
+        },
+        {
+          "value": "black"
+        }
+      ]
+    },
+    "selectedTextColor": {
+      "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
+    },
+    "hasHoldIcon": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "component-height-50",
+      "context": "Height"
+    },
+    {
+      "token": "component-height-75",
+      "context": "Height"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Height"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Height"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Height"
+    },
+    {
+      "token": "component-size-difference-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-width-ratio-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "component-size-minimum-perspective-down",
+      "context": "Component size (down)"
+    },
+    {
+      "token": "corner-radius-medium-size-extra-small",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-small",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-medium",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-large",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-medium-size-extra-large",
+      "context": "Rounding"
+    },
+    {
+      "token": "workflow-icon-size-50",
+      "context": "Icon"
+    },
+    {
+      "token": "workflow-icon-size-75",
+      "context": "Icon"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon"
+    },
+    {
+      "token": "workflow-icon-size-200",
+      "context": "Icon"
+    },
+    {
+      "token": "workflow-icon-size-300",
+      "context": "Icon"
+    },
+    {
+      "token": "text-to-visual-50",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-75",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-200",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "component-edge-to-visual-50",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-visual-75",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-visual-100",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-visual-200",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-visual-300",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-text-50",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-text-75",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-text-100",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-text-200",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-text-300",
+      "context": "Spacing (start/end edges)"
+    },
+    {
+      "token": "component-edge-to-visual-only-50",
+      "context": "Spacing (start/end edges, icon only)"
+    },
+    {
+      "token": "component-edge-to-visual-only-75",
+      "context": "Spacing (start/end edges, icon only)"
+    },
+    {
+      "token": "component-edge-to-visual-only-100",
+      "context": "Spacing (start/end edges, icon only)"
+    },
+    {
+      "token": "component-edge-to-visual-only-200",
+      "context": "Spacing (start/end edges, icon only)"
+    },
+    {
+      "token": "component-edge-to-visual-only-300",
+      "context": "Spacing (start/end edges, icon only)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-50",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-75",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-100",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-200",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-workflow-icon-300",
+      "context": "Spacing (top edge to icon)"
+    },
+    {
+      "token": "component-top-to-text-50",
+      "context": "Spacing (top edge to label)"
+    },
+    {
+      "token": "component-top-to-text-75",
+      "context": "Spacing (top edge to label)"
+    },
+    {
+      "token": "component-top-to-text-100",
+      "context": "Spacing (top edge to label)"
+    },
+    {
+      "token": "component-top-to-text-200",
+      "context": "Spacing (top edge to label)"
+    },
+    {
+      "token": "component-top-to-text-300",
+      "context": "Spacing (top edge to label)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus ring"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus ring"
+    },
+    {
+      "token": "action-button-edge-to-hold-icon-extra-small",
+      "context": "Spacing (edge to hold icon)"
+    },
+    {
+      "token": "action-button-edge-to-hold-icon-small",
+      "context": "Spacing (edge to hold icon)"
+    },
+    {
+      "token": "action-button-edge-to-hold-icon-medium",
+      "context": "Spacing (edge to hold icon)"
+    },
+    {
+      "token": "action-button-edge-to-hold-icon-large",
+      "context": "Spacing (edge to hold icon)"
+    },
+    {
+      "token": "action-button-edge-to-hold-icon-extra-large",
+      "context": "Spacing (edge to hold icon)"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Label"
+    },
+    {
+      "token": "medium-font-weight",
+      "context": "Label"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-50",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "gray-100",
+      "context": "Background "
+    },
+    {
+      "token": "gray-200",
+      "context": "Background "
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Label, icon, and hold icon"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Label, icon, and hold icon"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Label, icon, and hold icon"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Label, icon, and hold icon"
+    },
+    {
+      "token": "neutral-background-color-selected-default",
+      "context": "Background (selected, non emphasized)"
+    },
+    {
+      "token": "neutral-background-color-selected-hover",
+      "context": "Background (selected, non emphasized)"
+    },
+    {
+      "token": "neutral-background-color-selected-down",
+      "context": "Background (selected, non emphasized)"
+    },
+    {
+      "token": "neutral-background-color-selected-key-focus",
+      "context": "Background (selected, non emphasized)"
+    },
+    {
+      "token": "gray-25",
+      "context": "Label, icon, and hold icon (selected, non emphasized)"
+    },
+    {
+      "token": "accent-background-color-default",
+      "context": "Background (selected, emphasized)"
+    },
+    {
+      "token": "accent-background-color-hover",
+      "context": "Background (selected, emphasized)"
+    },
+    {
+      "token": "accent-background-color-down",
+      "context": "Background (selected, emphasized)"
+    },
+    {
+      "token": "accent-background-color-key-focus",
+      "context": "Background (selected, emphasized)"
+    },
+    {
+      "token": "white",
+      "context": "Label, icon, and hold icon (selected, emphasized)"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Background (disabled)"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Label, icon, and hold icon (disabled)"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus ring"
+    },
+    {
+      "token": "transparent-white-100",
+      "context": "Background "
+    },
+    {
+      "token": "transparent-white-200",
+      "context": "Background "
+    },
+    {
+      "token": "transparent-white-800",
+      "context": "Label, icon, and hold icon"
+    },
+    {
+      "token": "transparent-white-900",
+      "context": "Label, icon, and hold icon"
+    },
+    {
+      "token": "black",
+      "context": "Label, icon, and hold icon (selected, white)"
+    },
+    {
+      "token": "disabled-static-white-background-color",
+      "context": "Background (disabled, white)"
+    },
+    {
+      "token": "transparent-white-25",
+      "context": "Background (disabled, white)"
+    },
+    {
+      "token": "disabled-static-white-content-color",
+      "context": "Label, icon, and hold icon (disabled, white)"
+    },
+    {
+      "token": "static-white-focus-indicator-color",
+      "context": "Focus ring (white)"
+    },
+    {
+      "token": "transparent-black-100",
+      "context": "Background "
+    },
+    {
+      "token": "transparent-black-200",
+      "context": "Background "
+    },
+    {
+      "token": "transparent-black-800",
+      "context": "Label, icon, and hold icon"
+    },
+    {
+      "token": "transparent-black-900",
+      "context": "Label, icon, and hold icon"
+    },
+    {
+      "token": "disabled-static-black-background-color",
+      "context": "Background (disabled, black)"
+    },
+    {
+      "token": "transparent-black-25",
+      "context": "Background (disabled, black)"
+    },
+    {
+      "token": "disabled-static-black-content-color",
+      "context": "Label, icon, and hold icon (disabled, black)"
+    },
+    {
+      "token": "static-black-focus-indicator-color",
+      "context": "Focus ring (black)"
+    }
+  ],
+  "accessibility": {
+    "role": "button",
+    "intents": ["trigger"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

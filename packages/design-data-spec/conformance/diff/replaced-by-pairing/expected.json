@@ -1,0 +1,43 @@
+{
+  "renamed": [
+    {
+      "old_name": "old-button-bg",
+      "new_name": "action-background-default",
+      "uuid": "aaaaaaaa-0002-4000-8000-000000000001",
+      "property_changes": [
+        {
+          "path": "deprecated",
+          "change_type": "deleted",
+          "original_value": "3.0.0"
+        },
+        {
+          "path": "deprecated_comment",
+          "change_type": "deleted",
+          "original_value": "Use action-background-default instead."
+        },
+        {
+          "path": "name.property",
+          "change_type": "updated",
+          "new_value": "action-background-default",
+          "original_value": "old-button-bg"
+        },
+        {
+          "path": "replaced_by",
+          "change_type": "deleted",
+          "original_value": "aaaaaaaa-0002-4000-8000-000000000001"
+        },
+        {
+          "path": "uuid",
+          "change_type": "updated",
+          "new_value": "aaaaaaaa-0002-4000-8000-000000000001",
+          "original_value": "aaaaaaaa-0001-4000-8000-000000000001"
+        }
+      ]
+    }
+  ],
+  "deprecated": [],
+  "reverted": [],
+  "added": [],
+  "deleted": [],
+  "updated": []
+}

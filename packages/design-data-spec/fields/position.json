@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "position",
+  "description": "Location relative to another object or edge (e.g. top, bottom, start, end, affixed).",
+  "kind": "semantic",
+  "registry": "packages/design-system-registry/registry/positions.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 8
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}

@@ -15,6 +15,7 @@ import detectNewTokens from "./added-token-detection.js";
 import detectDeletedTokens from "./deleted-token-detection.js";
 import detectDeprecatedTokens from "./deprecated-token-detection.js";
 import detectUpdatedTokens from "./updated-token-detection.js";
+import normalizeDeprecation from "./normalize-deprecation.js";
 
 /**
  * Token diff generator
@@ -23,19 +24,21 @@ import detectUpdatedTokens from "./updated-token-detection.js";
  * @return {object} resultJSON - a JSON object containing the new tokens, newly deprecated tokens, deleted tokens, updated values, renamed, updated type
  */
 export default function tokenDiff(original, updated) {
-  const changes = detailedDiff(original, updated);
-  const renamedTokens = detectRenamedTokens(original, changes.added);
+  const normalizedOriginal = normalizeDeprecation(original);
+  const normalizedUpdated = normalizeDeprecation(updated);
+  const changes = detailedDiff(normalizedOriginal, normalizedUpdated);
+  const renamedTokens = detectRenamedTokens(normalizedOriginal, changes.added);
   const deprecatedTokens = detectDeprecatedTokens(renamedTokens, changes);
   const newTokens = detectNewTokens(
     renamedTokens,
     deprecatedTokens,
     changes.added,
-    original,
+    normalizedOriginal,
   );
   const deletedTokens = detectDeletedTokens(renamedTokens, changes.deleted);
   const updatedTokens = detectUpdatedTokens(
     renamedTokens,
-    original,
+    normalizedOriginal,
     changes,
     newTokens,
     deprecatedTokens,

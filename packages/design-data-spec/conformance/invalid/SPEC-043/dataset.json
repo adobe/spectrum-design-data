@@ -1,0 +1,20 @@
+{
+  "tokens": [
+    {
+      "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+      "name": {
+        "property": "color",
+        "state": "hover"
+      },
+      "value": "#0265dc"
+    },
+    {
+      "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
+      "name": {
+        "property": "font-weight"
+      },
+      "value": "bold"
+    }
+  ],
+  "components": []
+}

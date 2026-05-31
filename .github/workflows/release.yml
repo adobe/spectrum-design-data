@@ -8,9 +8,201 @@ on:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
+# ──────────────────────────────────────────────────────────────────────────────
+# Three-phase release pipeline (biome pattern):
+#
+#   Phase 1 — `changesets`  (every push)
+#     Runs the changesets action in version-only mode. On a changeset push this
+#     creates or updates the "Version Packages" PR. On the version-PR merge it
+#     does nothing (no pending changesets) and exposes hasChangesets=false.
+#
+#   Phase 2 — `version` → `build-binaries`  (version-PR merge only)
+#     Gated on hasChangesets==false AND the local package version being ahead of
+#     npm. Builds the Rust binary for all four platforms in a matrix.
+#
+#   Phase 3 — `release`  (every version-PR merge)
+#     Runs whenever a version PR merges (hasChangesets==false), independent of
+#     whether anything was compiled. When binaries were built it downloads the
+#     artifacts and stages them into sdk/npm/*/bin/; when build-binaries was
+#     skipped (nothing to compile, e.g. an MCP-only release) those steps are
+#     skipped and it publishes the bumped Node packages. Then runs
+#     `pnpm release` (changeset publish) via OIDC. Only an actual binary build
+#     failure blocks the publish.
+#
+# Net effect: `cargo build --release` runs exactly ONCE per release cycle —
+# never on unrelated pushes or the changeset-PR-creation commit.
+# ──────────────────────────────────────────────────────────────────────────────
+
 jobs:
+  # ── Phase 1: always runs ────────────────────────────────────────────────────
+  changesets:
+    name: Changesets (version PR)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      hasChangesets: ${{ steps.cs.outputs.hasChangesets }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.17.0"
+
+      - run: npm install -g npm@11.6.2
+
+      - run: npm install -g pnpm@10.17.1
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build tokens package
+        run: |
+          cd packages/tokens
+          node tasks/buildSpectrumTokens.js
+          node tasks/buildManifest.js
+
+      # Use the official changesets/action here — NOT the GarthDB fork.
+      # The GarthDB fork only supports `publish:` and silently ignores `version:`,
+      # so it never creates the Version Packages PR. The official action supports
+      # both parameters independently. The fork is still used in the `release` job
+      # where `oidcAuth: true` is needed for npm trusted publishing.
+      #
+      # `pnpm run version` runs the package.json "version" script
+      # (`changeset version && moon run :version`). The explicit `run` is
+      # required — bare `pnpm version` collides with pnpm's built-in npm-style
+      # version command and would NOT execute the script. The Moon step
+      # (sync-cargo-version.mjs) mirrors the bumped npm version into the cli/tui
+      # Cargo.toml files. The `fixed` group in .changeset/config.json keeps all
+      # five @adobe/design-data* npm packages bumping together, so the platform
+      # binary packages can never lag behind the launcher version (the 0.2.0
+      # partial-publish failure mode).
+      - name: Create or update Version Packages PR
+        id: cs
+        uses: changesets/action@v1
+        with:
+          commit: "chore: release"
+          title: "Version Packages"
+          version: pnpm run version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  # ── Phase 2a: gate — only on version-PR merge ───────────────────────────────
+  version:
+    name: Check version change
+    needs: changesets
+    # hasChangesets=='false' means the version PR was just merged (no pending changesets).
+    if: needs.changesets.outputs.hasChangesets == 'false'
+    runs-on: ubuntu-latest
+    outputs:
+      cli-version: ${{ steps.v.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.17.0"
+
+      - name: Compare local version to npm
+        id: v
+        # Writes the new version to the output if ahead of npm, empty string otherwise.
+        # sdk/scripts/check-cli-version.mjs handles network errors gracefully.
+        run: echo "version=$(node sdk/scripts/check-cli-version.mjs)" >> "$GITHUB_OUTPUT"
+
+  # ── Phase 2b: build — runs only when version actually changed ───────────────
+  build-binaries:
+    name: Build binary (${{ matrix.platform }})
+    needs: version
+    # cli-version is empty when nothing changed → all four matrix legs are skipped.
+    if: needs.version.outputs.cli-version
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: aarch64-apple-darwin
+            platform: darwin-arm64
+            runner: macos-latest
+            ext: ""
+          # Cross-compile x86_64-apple-darwin from the ARM runner — Rust tier-1
+          # support for this target pair. Using macos-latest (ARM) avoids the
+          # deprecated macos-13 pool which has much longer queue times.
+          - target: x86_64-apple-darwin
+            platform: darwin-x64
+            runner: macos-latest
+            ext: ""
+          - target: x86_64-unknown-linux-gnu
+            platform: linux-x64
+            runner: ubuntu-latest
+            ext: ""
+          - target: x86_64-pc-windows-msvc
+            platform: win32-x64
+            runner: windows-latest
+            ext: ".exe"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.85.0"
+          targets: ${{ matrix.target }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.17.0"
+
+      - run: npm install -g pnpm@10.17.1
+
+      # --ignore-scripts skips prepare hooks (e.g. docs/s2-tokens-viewer uses
+      # `mkdir -p` which is not available on the Windows runner).
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+
+      # Regenerate sdk/core/src/registry_data.rs before cargo build.
+      # We run sdk:codegen (not codegen-check) because codegen-check compares
+      # file content as strings and fails on Windows when git checks out the
+      # committed LF file with CRLF endings.
+      - name: Set up moonrepo
+        uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+
+      - name: Regenerate registry data
+        run: moon run sdk:codegen
+        working-directory: .
+
+      - name: Build binary
+        run: cargo build --release --package design-data-cli --target ${{ matrix.target }}
+        working-directory: sdk
+
+      - name: Stage binary for packaging
+        shell: bash
+        run: |
+          mkdir -p sdk/npm/${{ matrix.platform }}/bin
+          cp sdk/target/${{ matrix.target }}/release/design-data${{ matrix.ext }} \
+             sdk/npm/${{ matrix.platform }}/bin/design-data${{ matrix.ext }}
+
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-data-${{ matrix.platform }}
+          path: sdk/npm/${{ matrix.platform }}/bin/design-data${{ matrix.ext }}
+          retention-days: 1
+
+  # ── Phase 3: publish ────────────────────────────────────────────────────────
   release:
-    name: Release
+    name: Publish to npm
+    needs: [changesets, version, build-binaries]
+    # Runs on any version-PR merge. Only blocks on an actual binary build
+    # failure: 'skipped' (nothing to compile, e.g. MCP-only release) and
+    # 'success' both proceed, while 'failure' aborts the publish.
+    if: |
+      !cancelled() &&
+      needs.changesets.outputs.hasChangesets == 'false' &&
+      needs.build-binaries.result != 'failure'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -19,28 +211,59 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      # Set up Node.js without proto to test OIDC compatibility
+
       - uses: actions/setup-node@v4
         with:
           node-version: "20.17.0"
-      # Install npm 11.6.2 (required for OIDC) - bypassing proto
+
+      # npm 11.6.2 required for OIDC trusted publishing
       - run: npm install -g npm@11.6.2
-      # Install pnpm directly
+
       - run: npm install -g pnpm@10.17.1
-      # Install dependencies
+
       - run: pnpm install --frozen-lockfile
-      # Build packages directly (bypassing moon - only tokens package has build tasks)
+
+      # Download pre-built binaries and stage them into the platform packages
+      # so they are present when `npm publish` runs. Skipped when cli-version is
+      # empty (nothing was compiled, e.g. an MCP-only release).
+      - name: Download binary artifacts
+        if: needs.version.outputs.cli-version
+        uses: actions/download-artifact@v4
+        with:
+          pattern: design-data-*
+          merge-multiple: false
+
+      - name: Stage binaries into platform packages
+        if: needs.version.outputs.cli-version
+        shell: bash
+        run: |
+          for platform in darwin-arm64 darwin-x64 linux-x64; do
+            mkdir -p sdk/npm/$platform/bin
+            mv design-data-$platform/design-data sdk/npm/$platform/bin/design-data
+            chmod +x sdk/npm/$platform/bin/design-data
+          done
+          mkdir -p sdk/npm/win32-x64/bin
+          mv design-data-win32-x64/design-data.exe sdk/npm/win32-x64/bin/design-data.exe
+
       - name: Build tokens package
         run: |
           cd packages/tokens
           node tasks/buildSpectrumTokens.js
           node tasks/buildManifest.js
-      - name: Create Release Pull Request or Publish to npm
-        id: changesets
+
+      # Guard against the 0.2.0 partial-publish failure mode: abort before
+      # publishing if any platform binary package.json version drifted from the
+      # CLI launcher version. The `fixed` changeset group should keep them in
+      # lockstep, so a mismatch here means something bypassed that mechanism.
+      - name: Verify platform package versions are in sync
+        if: needs.version.outputs.cli-version
+        run: node sdk/scripts/test-sync-cargo-version.mjs
+
+      - name: Publish packages
+        id: cs
         uses: GarthDB/changesets-action@v1.6.8
         with:
-          commit: "chore: release"
           publish: pnpm release
-          oidcAuth: true # Test OIDC without proto shims
+          oidcAuth: true
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

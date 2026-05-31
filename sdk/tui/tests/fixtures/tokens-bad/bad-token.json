@@ -1,0 +1,6 @@
+{
+  "bad-token": {
+    "$schema": "https://example.com/not-a-real-schema.json",
+    "value": "red"
+  }
+}

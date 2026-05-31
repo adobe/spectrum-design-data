@@ -1,0 +1,167 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/link.json",
+  "specVersion": "1.0.0-draft",
+  "name": "link",
+  "displayName": "Link",
+  "description": "Links allow users to navigate to a different location. They can be presented inside a paragraph or as standalone text.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/link/"
+  },
+  "options": {
+    "variant": {
+      "type": "string",
+      "default": "primary",
+      "values": [
+        {
+          "value": "primary"
+        },
+        {
+          "value": "secondary"
+        }
+      ]
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false
+    },
+    "staticColor": {
+      "type": "string",
+      "description": "Static color must not be set for the default version of this component.",
+      "values": [
+        {
+          "value": "white"
+        },
+        {
+          "value": "black"
+        }
+      ]
+    }
+  },
+  "states": [
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "tokenBindings": [
+    {
+      "token": "accent-content-color-default",
+      "context": "Text (primary)"
+    },
+    {
+      "token": "accent-content-color-hover",
+      "context": "Text (primary)"
+    },
+    {
+      "token": "accent-content-color-down",
+      "context": "Text (primary)"
+    },
+    {
+      "token": "accent-content-color-key-focus",
+      "context": "Text (primary)"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Text (secondary)"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Text (secondary)"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Text (secondary)"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Text (secondary)"
+    },
+    {
+      "token": "white",
+      "context": "Text (white)"
+    },
+    {
+      "token": "black",
+      "context": "Text (black)"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "medium-font-weight",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "text-underline-gap",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "text-underline-thickness",
+      "context": "Standalone variant, Default style"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Inline variant, Default style"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus ring"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus ring"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus ring"
+    }
+  ],
+  "accessibility": {
+    "role": "link",
+    "intents": ["navigate"],
+    "focusable": true,
+    "keyboardIntents": ["activate"],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

@@ -31,6 +31,7 @@ export function generateChangesetFileName() {
  * @param {string} tokenDiff - Token diff report from tdiff
  * @param {string} tokensStudioPR - Tokens studio PR URL
  * @param {string} spectrumTokensPR - Spectrum tokens PR URL
+ * @param {string} [sourceAuthorLogin] - GitHub login of original implementer (optional)
  * @returns {string} - Complete changeset file content
  */
 export function createChangesetContent(
@@ -39,14 +40,20 @@ export function createChangesetContent(
   tokenDiff,
   tokensStudioPR,
   spectrumTokensPR,
+  sourceAuthorLogin,
 ) {
   const yamlFrontMatter = `---
 "@adobe/spectrum-tokens": ${bumpType}
 ---`;
 
+  const authorLine =
+    sourceAuthorLogin && String(sourceAuthorLogin).trim()
+      ? `**Original implementer:** @${String(sourceAuthorLogin).trim()}\n\n`
+      : "";
+
   const changesetBody = `## Token sync from Spectrum Tokens Studio
 
-${motivation ? `### Design motivation\n\n${motivation}\n\n` : ""}### Token changes
+${authorLine}${motivation ? `### Design motivation\n\n${motivation}\n\n` : ""}### Token changes
 
 ${tokenDiff}
 
@@ -92,6 +99,7 @@ export function generateChangeset(options) {
     tokensStudioPR,
     spectrumTokensPR,
     outputDir,
+    sourceAuthorLogin,
   } = options;
 
   const content = createChangesetContent(
@@ -100,6 +108,7 @@ export function generateChangeset(options) {
     tokenDiff,
     tokensStudioPR,
     spectrumTokensPR,
+    sourceAuthorLogin,
   );
 
   return writeChangesetFile(content, outputDir);

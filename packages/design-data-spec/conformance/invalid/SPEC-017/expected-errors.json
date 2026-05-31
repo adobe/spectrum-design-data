@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-017",
+      "severity": "warning",
+      "message_pattern": "string name instead of a name object"
+    }
+  ]
+}

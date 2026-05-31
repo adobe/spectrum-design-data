@@ -1,0 +1,17 @@
+[
+  {
+    "name": { "property": "color-default" },
+    "value": "#ffffff",
+    "uuid": "aaaaaaaa-0001-4000-8000-000000000001"
+  },
+  {
+    "name": { "property": "color-hover" },
+    "value": "#eeeeee",
+    "uuid": "aaaaaaaa-0002-4000-8000-000000000001"
+  },
+  {
+    "name": { "property": "font-size" },
+    "value": "14px",
+    "uuid": "aaaaaaaa-0003-4000-8000-000000000001"
+  }
+]

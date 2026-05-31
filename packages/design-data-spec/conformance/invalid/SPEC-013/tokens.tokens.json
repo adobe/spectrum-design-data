@@ -1,0 +1,8 @@
+[
+  {
+    "name": { "property": "not-deprecated-but-planned-removal" },
+    "value": "#ffffff",
+    "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
+    "plannedRemoval": "4.0.0"
+  }
+]

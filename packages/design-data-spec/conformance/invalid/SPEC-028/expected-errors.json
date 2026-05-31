@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-028",
+      "severity": "warning",
+      "message_pattern": ".*agents text is identical to content.*"
+    }
+  ]
+}

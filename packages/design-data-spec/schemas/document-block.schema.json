@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/document-block.schema.json",
+  "title": "Document block",
+  "description": "A typed prose block attachable to tokens, components, or anatomy parts. See spec/document-blocks.md.",
+  "type": "object",
+  "required": ["type", "content"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["purpose", "guideline", "accessibility", "do-dont", "examples"],
+      "description": "Block type. One of: purpose, guideline, accessibility, do-dont, examples."
+    },
+    "content": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable prose for this block."
+    },
+    "agents": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional LLM-tuned rephrasing of content for agent consumption. Should differ from content."
+    },
+    "do": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Recommended practice. Meaningful only on do-dont blocks."
+    },
+    "dont": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Anti-pattern to avoid. Meaningful only on do-dont blocks."
+    }
+  },
+  "additionalProperties": false,
+  "if": {
+    "properties": { "type": { "const": "do-dont" } },
+    "required": ["type"]
+  },
+  "then": {
+    "anyOf": [{ "required": ["do"] }, { "required": ["dont"] }]
+  }
+}

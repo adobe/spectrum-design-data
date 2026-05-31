@@ -1,0 +1,54 @@
+{
+  "name": "@adobe/design-data-agent-mcp",
+  "version": "1.3.0",
+  "description": "MCP server and Claude Code skill for the design-data agent surface — shells out to the design-data CLI",
+  "type": "module",
+  "main": "./src/index.js",
+  "bin": {
+    "design-data-agent-mcp": "./src/index.js"
+  },
+  "files": [
+    "src/",
+    ".claude-plugin/",
+    "skills/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "tools/design-data-agent-mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-mcp#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "provenance": true
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1"
+  },
+  "devDependencies": {
+    "ava": "^6.0.1"
+  },
+  "engines": {
+    "node": ">=20.12.0"
+  },
+  "keywords": [
+    "mcp",
+    "design-system",
+    "design-tokens",
+    "design-data",
+    "agent-surface",
+    "cli"
+  ],
+  "author": "Adobe",
+  "license": "Apache-2.0"
+}
