@@ -38,16 +38,23 @@ take clean.
 * [ ] Terminal sized to **120×36** (the deck embeds at these dimensions).
 * [ ] Truecolor terminal (iTerm2 / kitty / wezterm), readable mono font with
   good box-drawing (JetBrains Mono, Cascadia Code).
-* [ ] Remove any leftover wizard draft so the reuse banner / wizard start fresh:
-  `bash
-      rm -f "$HOME/Library/Application Support/design-data-tui/wizard-draft.json"
-      `
-* [ ] Launch the TUI with a pinned theme and **no draft restore**:
-  `bash
-      cargo run -p design-data-cli --release -- \
-        packages/tokens/dist/json --theme spectrum --no-resume-wizard
-      `
+* [ ] Remove any leftover wizard draft so the reuse banner / wizard start fresh
+  (command below).
+* [ ] Launch the TUI with a pinned theme and **no draft restore** (command below).
 * [ ] Window is otherwise empty (no stray notifications, no split panes).
+
+Remove a stale wizard draft:
+
+```bash
+rm -f "$HOME/Library/Application Support/design-data-tui/wizard-draft.json"
+```
+
+Launch the TUI clean:
+
+```bash
+cargo run -p design-data-cli --release -- \
+  packages/tokens/dist/json --theme spectrum --no-resume-wizard
+```
 
 ## Markers
 
@@ -112,6 +119,13 @@ pnpm dev                          # or: npx @slidev/cli
 
 Step through and confirm the player pauses at each marker and the geometry/theme
 are legible at projector size.
+
+> **Reproducibility.** `package.json` pins **exact** versions (Slidev 51.8.2 on
+> Vite 6, no `^`) so direct deps don't drift. We deliberately **do not** commit a
+> `pnpm-lock.yaml` here (it would pull a second, isolated lockfile into the repo).
+> If you need byte-for-byte reproducibility of transitive deps too, run
+> `pnpm install --ignore-workspace --lockfile-only` locally and keep the generated
+> lockfile out of version control, or temporarily un-ignore it for a pinned build.
 
 > **Troubleshooting — "Cannot find native binding".** Slidev pulls napi-rs
 > packages (e.g. `oxc-parser`) whose per-platform `.node` bindings sometimes get

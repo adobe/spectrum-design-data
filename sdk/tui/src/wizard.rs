@@ -480,34 +480,19 @@ impl WizardState {
         let property = self.classification.property.value().trim().to_string();
         let target = resolve_target_file(self.classification.layer, &property, dataset_path);
 
-        // Build the token's value fields from every mode-combo row (flat
-        // `$ref`/`value` for a single default row, nested `sets` otherwise),
-        // sharing the assembly logic with the MCP authoring session.
-        let value_fields =
-            design_data_core::authoring::draft::build_value_fields(&value_rows_to_dtos(
-                &self.values.rows,
-            ));
-
-        // Generate a fresh UUID for the new token.
-        let uuid = Uuid::new_v4().to_string();
-
-        // Build the full token object including $schema if known.
-        let mut token_map = serde_json::Map::new();
-        if let Some(ref url) = self.schema_url {
-            token_map.insert("$schema".into(), serde_json::Value::String(url.clone()));
+        // The exact token JSON the diff preview shows (`$schema` + value fields
+        // from every mode-combo row + rationale), plus a fresh UUID for the new
+        // token. Rationale is pre-injected so schema validation can see it;
+        // write_token also receives it via WriteTokenInput::rationale and merges
+        // with or_insert_with, so the field is never written twice.
+        let mut token_obj = self.assembled_token();
+        if let Some(obj) = token_obj.as_object_mut() {
+            obj.insert(
+                "uuid".into(),
+                serde_json::Value::String(Uuid::new_v4().to_string()),
+            );
         }
-        for (field, value) in value_fields {
-            token_map.insert(field, value);
-        }
-        token_map.insert("uuid".into(), serde_json::Value::String(uuid));
-        let mut token_obj = serde_json::Value::Object(token_map);
-        // Rationale is pre-injected so schema validation can see it. write_token also
-        // receives it via WriteTokenInput::rationale and merges it with or_insert_with —
-        // so the field is never written twice; only the copy already in token_obj wins.
         let rationale_text = self.rationale.value().trim().to_string();
-        if !rationale_text.is_empty() {
-            token_obj["rationale"] = serde_json::Value::String(rationale_text.clone());
-        }
 
         let is_override = ctx.graph.tokens.contains_key(&key);
 
@@ -537,6 +522,42 @@ impl WizardState {
     /// The assembled token name derived from classification fields (property + name fields).
     pub fn assembled_name(&self) -> String {
         assemble_name_from_classification(&self.classification)
+    }
+
+    /// Build the `$schema` + value fields shared by the write path and the diff
+    /// preview. Value fields come from [`design_data_core::authoring::draft::build_value_fields`]
+    /// over every mode-combo row (flat `$ref`/`value` for a single default row,
+    /// nested `sets` otherwise). Callers add `uuid`/`rationale` as needed.
+    fn base_token_map(&self) -> serde_json::Map<String, serde_json::Value> {
+        let value_fields = design_data_core::authoring::draft::build_value_fields(
+            &value_rows_to_dtos(&self.values.rows),
+        );
+        let mut map = serde_json::Map::new();
+        if let Some(ref url) = self.schema_url {
+            map.insert("$schema".into(), serde_json::Value::String(url.clone()));
+        }
+        for (field, value) in value_fields {
+            map.insert(field, value);
+        }
+        map
+    }
+
+    /// The token JSON object the wizard will write — `$schema` + value fields +
+    /// rationale — **excluding** the generated `uuid`. Both [`Self::perform_write`]
+    /// and the diff preview ([`Self::build_diff`]) derive from this single source,
+    /// so what you see in the Confirm diff is exactly what lands on disk (sans
+    /// uuid). Exposed so tests can assert on the structured shape (e.g.
+    /// `sets.light` / `sets.dark`) rather than the rendered diff string.
+    ///
+    /// Note: unlike the MCP authoring session this does not yet emit a `name`
+    /// object — tracked in adobe/spectrum-design-data#1082.
+    pub fn assembled_token(&self) -> serde_json::Value {
+        let mut map = self.base_token_map();
+        let rationale = self.rationale.value().trim().to_string();
+        if !rationale.is_empty() {
+            map.insert("rationale".into(), serde_json::Value::String(rationale));
+        }
+        serde_json::Value::Object(map)
     }
 
     /// Build a unified diff between the current and predicted post-write state of the
@@ -574,25 +595,10 @@ impl WizardState {
             key
         };
 
-        // Mirror the write path: flat `$ref`/`value` for a single default row,
-        // nested `sets` for multi-mode rows (shared with the MCP session) so
-        // the preview matches exactly what gets written.
-        let value_fields =
-            design_data_core::authoring::draft::build_value_fields(&value_rows_to_dtos(
-                &self.values.rows,
-            ));
-        let mut token_map = serde_json::Map::new();
-        if let Some(ref url) = self.schema_url {
-            token_map.insert("$schema".into(), serde_json::Value::String(url.clone()));
-        }
-        for (field, value) in value_fields {
-            token_map.insert(field, value);
-        }
-        let mut token_obj = serde_json::Value::Object(token_map);
-        let rationale = self.rationale.value().trim().to_string();
-        if !rationale.is_empty() {
-            token_obj["rationale"] = serde_json::Value::String(rationale);
-        }
+        // Mirror the write path exactly (minus the UUID, which is irrelevant to
+        // the preview) so the diff matches what gets written: flat `$ref`/`value`
+        // for a single default row, nested `sets` for multi-mode rows.
+        let token_obj = self.assembled_token();
 
         // Merge into the existing file map.
         let mut map: serde_json::Map<String, serde_json::Value> =
@@ -671,9 +677,7 @@ fn infer_schema_url(graph: &TokenGraph, property: &str) -> Option<String> {
 ///
 /// `tui_input::Input` collapses to `String` on the boundary, mirroring the
 /// `WizardState` → `WizardDraft` conversion in `wizard_draft::to_draft`.
-fn value_rows_to_dtos(
-    rows: &[ValueRow],
-) -> Vec<design_data_core::authoring::draft::ValueRowDto> {
+fn value_rows_to_dtos(rows: &[ValueRow]) -> Vec<design_data_core::authoring::draft::ValueRowDto> {
     rows.iter()
         .map(|r| design_data_core::authoring::draft::ValueRowDto {
             mode_combo: r.mode_combo.clone(),
