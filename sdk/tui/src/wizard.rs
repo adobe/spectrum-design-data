@@ -685,7 +685,7 @@ fn classification_to_name_dtos(
         .iter()
         .map(|f| design_data_core::authoring::draft::NameFieldDto {
             key: f.key.clone(),
-            value: f.value.value().to_string(),
+            value: f.value.value().trim().to_string(),
         })
         .collect()
 }

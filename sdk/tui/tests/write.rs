@@ -171,6 +171,7 @@ fn submit_with_allow_write_creates_token_file() {
         doc.get("background-color").is_some(),
         "foundation.json should contain the new token key: {content}"
     );
+    assert_eq!(doc["background-color"]["name"]["property"], "background-color");
 }
 
 #[test]
