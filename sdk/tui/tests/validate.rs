@@ -16,8 +16,9 @@ use design_data_core::graph::TokenGraph;
 use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use design_data_tui::app::ActiveView;
-use design_data_tui::{update, Message, Model, UpdateCtx};
+use design_data_tui::{dispatch, update, Message, Model, UpdateCtx};
 use std::path::PathBuf;
+use std::sync::Arc;
 
 fn manifest_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -46,7 +47,7 @@ fn try_load_registry() -> Option<SchemaRegistry> {
 fn validate_ctx<'a>(
     graph: &'a TokenGraph,
     dataset_path: &'a std::path::Path,
-    registry: &'a SchemaRegistry,
+    registry: Arc<SchemaRegistry>,
 ) -> UpdateCtx<'a> {
     UpdateCtx {
         graph,
@@ -61,7 +62,9 @@ fn validate_ctx<'a>(
 }
 
 fn submit_validate(model: &mut Model, ctx: &UpdateCtx<'_>) {
-    update(model, Message::PaletteSubmit("validate".into()), ctx);
+    // `validate` now completes via a Task (ValidateDone), so drive it through
+    // `dispatch` to run the FS scan and settle the view before asserting.
+    dispatch(model, Message::PaletteSubmit("validate".into()), ctx);
 }
 
 #[test]
@@ -99,7 +102,7 @@ fn validate_good_tokens_produces_validate_view() {
     };
     let tokens_dir = tokens_good_dir();
     let graph = TokenGraph::from_json_dir(&tokens_dir).expect("graph load");
-    let ctx = validate_ctx(&graph, &tokens_dir, &registry);
+    let ctx = validate_ctx(&graph, &tokens_dir, Arc::new(registry));
     let mut model = Model::new();
     submit_validate(&mut model, &ctx);
     assert!(
@@ -115,7 +118,7 @@ fn validate_good_tokens_zero_findings() {
     };
     let tokens_dir = tokens_good_dir();
     let graph = TokenGraph::from_json_dir(&tokens_dir).expect("graph load");
-    let ctx = validate_ctx(&graph, &tokens_dir, &registry);
+    let ctx = validate_ctx(&graph, &tokens_dir, Arc::new(registry));
     let mut model = Model::new();
     submit_validate(&mut model, &ctx);
     if let ActiveView::Validate(ref vv) = model.active_view {
@@ -132,7 +135,7 @@ fn validate_bad_tokens_produces_findings() {
     };
     let tokens_dir = tokens_bad_dir();
     let graph = TokenGraph::from_json_dir(&tokens_dir).expect("graph load");
-    let ctx = validate_ctx(&graph, &tokens_dir, &registry);
+    let ctx = validate_ctx(&graph, &tokens_dir, Arc::new(registry));
     let mut model = Model::new();
     submit_validate(&mut model, &ctx);
     if let ActiveView::Validate(ref vv) = model.active_view {
@@ -152,7 +155,7 @@ fn validate_j_k_navigate() {
     };
     let tokens_dir = tokens_bad_dir();
     let graph = TokenGraph::from_json_dir(&tokens_dir).expect("graph load");
-    let ctx = validate_ctx(&graph, &tokens_dir, &registry);
+    let ctx = validate_ctx(&graph, &tokens_dir, Arc::new(registry));
     let mut model = Model::new();
     submit_validate(&mut model, &ctx);
     if let ActiveView::Validate(ref vv) = model.active_view {
@@ -179,7 +182,7 @@ fn validate_y_returns_clipboard_task() {
     };
     let tokens_dir = tokens_bad_dir();
     let graph = TokenGraph::from_json_dir(&tokens_dir).expect("graph load");
-    let ctx = validate_ctx(&graph, &tokens_dir, &registry);
+    let ctx = validate_ctx(&graph, &tokens_dir, Arc::new(registry));
     let mut model = Model::new();
     submit_validate(&mut model, &ctx);
     if let ActiveView::Validate(ref vv) = model.active_view {
@@ -205,7 +208,7 @@ fn esc_from_validate_view_returns_to_empty() {
     };
     let tokens_dir = tokens_good_dir();
     let graph = TokenGraph::from_json_dir(&tokens_dir).expect("graph load");
-    let ctx = validate_ctx(&graph, &tokens_dir, &registry);
+    let ctx = validate_ctx(&graph, &tokens_dir, Arc::new(registry));
     let mut model = Model::new();
     submit_validate(&mut model, &ctx);
     assert!(matches!(model.active_view, ActiveView::Validate(_)));

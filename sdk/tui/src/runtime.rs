@@ -16,6 +16,7 @@
 //! `replay` feeds a pre-recorded message stream through `update` deterministically.
 
 use std::io::Write;
+use std::time::Instant;
 
 use crossterm::event::{self, Event, KeyCode, KeyEventKind};
 use miette::{IntoDiagnostic, Result};
@@ -27,6 +28,7 @@ use ratatui::{
 use crate::app::{ActiveView, HitAction, HitRegion, PaletteMode};
 use crate::message::Message;
 use crate::model::Model;
+use crate::subscription::{subscriptions, Subscriptions, TICK_INTERVAL};
 use crate::task::Task;
 use crate::theme::Theme;
 use crate::update::{update, UpdateCtx};
@@ -44,6 +46,9 @@ pub fn run<B: ratatui::backend::Backend>(
     primer_line: &str,
     mut record: Option<&mut dyn Write>,
 ) -> Result<()> {
+    // Identity-keyed subscription set (#1022). The periodic `Tick` that used to be
+    // a hard-coded poll-timeout is now just another subscription the loop polls.
+    let mut subs: Subscriptions<Message> = Subscriptions::new();
     loop {
         let mut frame_area = Rect::default();
         let status_height = u16::from(model.status_message.is_some());
@@ -59,8 +64,12 @@ pub fn run<B: ratatui::backend::Backend>(
         // Rebuild mouse hit regions from the frame geometry set during draw.
         model.hit_regions = compute_hit_regions(&model, status_height, frame_area);
 
-        // Poll for the next crossterm event (16 ms ≈ 60 fps cadence).
-        if event::poll(std::time::Duration::from_millis(16)).into_diagnostic()? {
+        // Reconcile the active subscription set, then poll for input only until
+        // the soonest subscription is due (so ticks fire on cadence).
+        subs.diff(subscriptions(&model), Instant::now());
+        let timeout = subs.next_timeout(Instant::now()).unwrap_or(TICK_INTERVAL);
+
+        if event::poll(timeout).into_diagnostic()? {
             match event::read().into_diagnostic()? {
                 Event::Key(key) if key.kind == KeyEventKind::Press => {
                     // Capture palette input text BEFORE sending Key(Enter) to update(),
@@ -103,9 +112,14 @@ pub fn run<B: ratatui::backend::Backend>(
                 }
                 _ => {}
             }
-        } else {
-            // No event this frame — send a Tick so subscriptions can fire (#1022).
-            dispatch_and_record(&mut model, Message::Tick, ctx, &mut record);
+        }
+
+        // Fire any subscriptions whose interval elapsed (e.g. the periodic Tick).
+        for msg in subs.poll(Instant::now()) {
+            dispatch_and_record(&mut model, msg, ctx, &mut record);
+            if model.quit {
+                break;
+            }
         }
 
         if model.quit {
@@ -140,6 +154,19 @@ pub fn replay<B: ratatui::backend::Backend>(
         .draw(|f| draw(&mut model, f, theme, primer_line))
         .into_diagnostic()?;
     Ok(())
+}
+
+/// Dispatch a single message through `update` and run its resulting `Task` tree to
+/// completion, executing every `Task::Cmd` closure and feeding the produced
+/// messages back through `update`.
+///
+/// The interactive loop ([`run`]) drives messages itself; this helper exists for
+/// headless drivers and tests that need a command's side effects (e.g. the
+/// `describe`/`validate` FS reads that now complete via `DescribeDone`/`ValidateDone`)
+/// to settle synchronously before asserting on `Model` state.
+pub fn dispatch(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) {
+    let task = update(model, msg, ctx);
+    execute_task(task, model, ctx);
 }
 
 /// Record `msg` to the optional writer as a JSON line, then dispatch through update.

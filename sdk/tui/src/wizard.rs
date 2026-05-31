@@ -458,19 +458,18 @@ impl WizardState {
         self.screen = WizardScreen::Confirm;
     }
 
-    /// Attempt to write the token to disk using `write_token`.
+    /// Assemble the owned [`WriteTokenInput`] for this wizard without touching the
+    /// schema registry or performing any disk write.
     ///
-    /// Returns `Ok(written_path)` on success, `Err(message)` on failure.
-    /// Failures are non-fatal: the caller surfaces them on Screen 4 and keeps
-    /// the modal open so the user can correct the error.
-    pub fn perform_write(&self, ctx: &WizardCtx<'_>) -> Result<String, String> {
-        let registry = ctx.schema_registry.ok_or_else(|| {
-            "no schema registry available — run from the repo root or pass --schema-path"
-                .to_string()
-        })?;
-        let dataset_path = ctx
-            .dataset_path
-            .ok_or_else(|| "no dataset path available".to_string())?;
+    /// Split out from [`perform_write`](Self::perform_write) so the `update`
+    /// runtime can build the input synchronously and move it into a `Task::Cmd`
+    /// closure (which requires `Send + 'static`), keeping `update` free of I/O.
+    pub fn build_write_input(
+        &self,
+        dataset_path: Option<&Path>,
+        graph: &TokenGraph,
+    ) -> Result<WriteTokenInput, String> {
+        let dataset_path = dataset_path.ok_or_else(|| "no dataset path available".to_string())?;
 
         let key = self.assembled_name();
         if key.is_empty() {
@@ -494,7 +493,7 @@ impl WizardState {
         }
         let rationale_text = self.rationale.value().trim().to_string();
 
-        let is_override = ctx.graph.tokens.contains_key(&key);
+        let is_override = graph.tokens.contains_key(&key);
 
         let pc_path = dataset_path.join("product-context.json");
         let product_context = if pc_path.exists() {
@@ -503,20 +502,31 @@ impl WizardState {
             None
         };
 
-        write_token(
-            WriteTokenInput {
-                key,
-                token: token_obj,
-                target,
-                product_context,
-                rationale: Some(rationale_text),
-                created_at: None,
-                is_override,
-            },
-            registry,
-        )
-        .map(|out| out.written_to.display().to_string())
-        .map_err(|e| e.to_string())
+        Ok(WriteTokenInput {
+            key,
+            token: token_obj,
+            target,
+            product_context,
+            rationale: Some(rationale_text),
+            created_at: None,
+            is_override,
+        })
+    }
+
+    /// Attempt to write the token to disk using `write_token`.
+    ///
+    /// Returns `Ok(written_path)` on success, `Err(message)` on failure.
+    /// Failures are non-fatal: the caller surfaces them on Screen 4 and keeps
+    /// the modal open so the user can correct the error.
+    pub fn perform_write(&self, ctx: &WizardCtx<'_>) -> Result<String, String> {
+        let registry = ctx.schema_registry.ok_or_else(|| {
+            "no schema registry available — run from the repo root or pass --schema-path"
+                .to_string()
+        })?;
+        let input = self.build_write_input(ctx.dataset_path, ctx.graph)?;
+        write_token(input, registry)
+            .map(|out| out.written_to.display().to_string())
+            .map_err(|e| e.to_string())
     }
 
     /// The assembled token name derived from classification fields (property + name fields).

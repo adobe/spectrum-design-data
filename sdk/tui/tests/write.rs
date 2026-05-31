@@ -86,7 +86,7 @@ fn submit_without_allow_write_does_not_create_file() {
         graph: &graph,
         token_index: TokenIndex::build(&graph),
         dataset_path: Some(tmpdir.path()),
-        schema_registry: Some(&registry),
+        schema_registry: Some(std::sync::Arc::new(registry)),
         components_dir: None,
         mode_sets_dir: None,
         mode_set_restrictions: HashMap::new(),
@@ -138,6 +138,63 @@ fn submit_without_allow_write_does_not_create_file() {
 }
 
 #[test]
+fn write_done_ok_closes_modal_and_clears_draft() {
+    let graph = make_graph_with_schema();
+    let ctx = UpdateCtx::minimal(&graph);
+    let mut model = Model::new();
+    // Open the wizard so there is a modal to close.
+    update(
+        &mut model,
+        Message::PaletteSubmit("new background-color".into()),
+        &ctx,
+    );
+    assert!(model.is_modal_open(), "wizard modal should be open");
+
+    let task = update(
+        &mut model,
+        Message::WriteDone(Ok(PathBuf::from("/tmp/foundation.json"))),
+        &ctx,
+    );
+    assert!(
+        !model.is_modal_open(),
+        "WriteDone(Ok) should close the wizard modal"
+    );
+    assert!(
+        task.is_cmd(),
+        "WriteDone(Ok) should return a Task::Cmd to clear the draft"
+    );
+    let msg = model
+        .status_message
+        .as_ref()
+        .map(|m| m.text.as_str())
+        .unwrap_or("");
+    assert!(msg.contains("wrote"), "status should confirm write: {msg}");
+}
+
+#[test]
+fn write_done_err_keeps_modal_open() {
+    let graph = make_graph_with_schema();
+    let ctx = UpdateCtx::minimal(&graph);
+    let mut model = Model::new();
+    update(
+        &mut model,
+        Message::PaletteSubmit("new background-color".into()),
+        &ctx,
+    );
+    assert!(model.is_modal_open(), "wizard modal should be open");
+
+    update(
+        &mut model,
+        Message::WriteDone(Err("disk full".into())),
+        &ctx,
+    );
+    assert!(
+        model.is_modal_open(),
+        "WriteDone(Err) should keep the wizard open so the error can be corrected"
+    );
+}
+
+#[test]
 fn submit_with_allow_write_creates_token_file() {
     let registry = load_registry();
     let graph = make_graph_with_schema();
@@ -171,7 +228,10 @@ fn submit_with_allow_write_creates_token_file() {
         doc.get("background-color").is_some(),
         "foundation.json should contain the new token key: {content}"
     );
-    assert_eq!(doc["background-color"]["name"]["property"], "background-color");
+    assert_eq!(
+        doc["background-color"]["name"]["property"],
+        "background-color"
+    );
 }
 
 #[test]

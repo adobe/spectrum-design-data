@@ -18,6 +18,7 @@
 use std::collections::HashMap;
 use std::io::{stderr, BufRead as _, BufReader};
 use std::path::PathBuf;
+use std::sync::Arc;
 
 use clap::ValueEnum;
 use crossterm::{
@@ -81,7 +82,7 @@ struct DatasetHandle {
     platform_manifest_active: bool,
     components_dir: Option<PathBuf>,
     mode_sets_dir: Option<PathBuf>,
-    schema_registry: Option<SchemaRegistry>,
+    schema_registry: Option<Arc<SchemaRegistry>>,
     /// When true, wizard Screen 4 Submit writes to disk via `write_token`.
     allow_write: bool,
     /// Active color theme (terminal-native or Spectrum).
@@ -131,8 +132,9 @@ impl DatasetHandle {
 
         // Load schema registry for `:validate`. Silently skip if schema dir is absent
         // (schema_root has a fallback default; the load itself may fail when not in-repo).
-        let schema_registry =
-            SchemaRegistry::load_legacy_token_schemas(&resolved.schemas_root).ok();
+        let schema_registry = SchemaRegistry::load_legacy_token_schemas(&resolved.schemas_root)
+            .ok()
+            .map(Arc::new);
 
         Ok(Self {
             token_count: graph.tokens.len(),
@@ -167,7 +169,7 @@ impl DatasetHandle {
             graph: &self.graph,
             dataset_path: Some(&self.dataset_path),
             components_dir: self.components_dir.as_deref(),
-            schema_registry: self.schema_registry.as_ref(),
+            schema_registry: self.schema_registry.clone(),
             mode_sets_dir: self.mode_sets_dir.as_deref(),
             token_index: self.token_index.clone(),
             mode_set_restrictions: self.mode_set_restrictions.clone(),

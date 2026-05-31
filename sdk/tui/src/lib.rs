@@ -10,7 +10,6 @@
 
 pub mod app;
 pub mod app_launch;
-pub(crate) mod app_palette;
 pub mod app_views;
 pub(crate) mod clipboard;
 pub mod find;
@@ -21,6 +20,7 @@ pub mod mode;
 pub mod model;
 pub mod naming;
 pub mod runtime;
+pub mod subscription;
 pub mod task;
 pub mod theme;
 pub mod update;
@@ -35,7 +35,8 @@ pub use app_launch::{launch, LaunchOptions, ThemeChoice};
 pub use message::Message;
 pub use mode::{BrowsingState, ModalState, Mode, MouseMode, PaletteState};
 pub use model::Model;
-pub use runtime::{replay, run};
+pub use runtime::{dispatch, replay, run};
+pub use subscription::{subscriptions, Subscription, SubscriptionId, Subscriptions};
 pub use task::Task;
 pub use theme::Theme;
 pub use update::{update, UpdateCtx};

@@ -81,27 +81,40 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
 * **Must not** call `std::fs`, clipboard, or any async runtime inline.
 * **Must not** block — every potentially-slow operation returns `Task::Cmd`.
 * Treat `UpdateCtx` as read-only; only `model` is mutated.
-* Inline FS reads (`describe`, `validate`) are tagged `// TODO(#1023)`. Issue [#1023](https://github.com/adobe/spectrum-design-data/issues/1023)
-  landed write-side effects (clipboard, draft) but the read-side migration is still
-  open — see the TODO comments in `src/update_command.rs`.
+* All side effects dispatch via `Task::Cmd` (closed [#1023](https://github.com/adobe/spectrum-design-data/issues/1023)):
+  clipboard yanks, draft writes, the `--allow-write` wizard write (`WriteDone`),
+  the `describe` FS read (`DescribeDone`), and the `validate` FS scan
+  (`ValidateDone`). `UpdateCtx::schema_registry` is an `Arc<SchemaRegistry>` so
+  these closures can own a cheap clone and satisfy `Send + 'static`.
 
 ## The runtime loop (`runtime::run`)
 
 ```
+let mut subs = Subscriptions::new()
 loop {
     draw(model, frame, theme, primer_line)  ← draw FIRST; first frame renders before any input
     rebuild hit_regions
-    poll(16ms)
+    subs.diff(subscriptions(model), now)     ← start/stop streams by identity (#1022)
+    poll(subs.next_timeout(now))             ← wait only until the next subscription is due
     if event:
         Key(Enter) while palette open → capture input text first
         → update(model, msg, ctx)
         → execute_task(task, model, ctx)
         if Enter closed palette → update(model, PaletteSubmit(text), ctx)
-    else:
-        → update(model, Tick, ctx)
+    for msg in subs.poll(now):               ← fire due subscriptions (e.g. the periodic Tick)
+        → update(model, msg, ctx)
     if model.quit { break }
 }
 ```
+
+### `Subscription` (`src/subscription.rs`)
+
+Identity-keyed external event sources, modeled on iced. `subscriptions(model)`
+returns the desired set each frame; `Subscriptions::diff` starts streams for new
+\[`SubscriptionId`]s and stops streams for vanished ones. The periodic runtime
+`Tick` is now itself a subscription (`SubscriptionId::Tick`), replacing the old
+hard-coded poll-timeout tick. Streams are synchronous; time is supplied as an
+`Instant`, keeping the runner deterministic in tests.
 
 ## Testing patterns
 
@@ -139,11 +152,13 @@ See `REPLAY.md` for the `--record`/`--replay` CLI workflow.
   Use plain Rust functions instead.
 * **No second frontend** — `view.rs` targets Ratatui only. Targeting a web UI would
   require a separate rendering layer.
-* **No async runtime** — `Task::Perform` and subscription streams are deferred until
-  needed. The current polling cadence is sufficient.
-* **No rewrite in one PR** — `App` and its methods are still present for backward-
-  compat integration tests (`write.rs`, `wizard_persistence.rs`). They will be retired
-  gradually as tests migrate.
+* **No async runtime** — `Task::Perform` and async stream subscriptions are deferred
+  until needed. `Subscription` exists ([#1022](https://github.com/adobe/spectrum-design-data/issues/1022)) but its only source today is a synchronous
+  periodic interval (the `Tick`); the polling cadence remains synchronous.
+
+The legacy `App` state machine has been **retired** ([#1014](https://github.com/adobe/spectrum-design-data/issues/1014)): `Model` + `update` is now
+the single source of truth, and `src/app.rs` keeps only shared view-type re-exports and
+palette/command helper functions.
 
 ## References
 

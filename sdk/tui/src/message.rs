@@ -19,6 +19,8 @@
 use crossterm::event::{KeyEvent, MouseEvent};
 use serde::{Deserialize, Serialize};
 
+use crate::app_views::{DescribeView, DiagnosticRow};
+
 /// Every event that can flow through the TUI runtime's `update` function.
 ///
 /// Variants are grouped by source: raw input, palette lifecycle, per-modal
@@ -71,6 +73,12 @@ pub enum Message {
     WriteDone(Result<std::path::PathBuf, String>),
     /// A clipboard write completed. `None` = success; `Some(err)` = failure message.
     ClipboardDone(Option<String>),
+    /// A `describe` component FS read completed. `Ok` carries the rendered view;
+    /// `Err` carries the error string. Boxed to keep the enum within budget.
+    DescribeDone(Box<Result<DescribeView, String>>),
+    /// A `validate` FS scan completed. `Ok` carries the diagnostic rows;
+    /// `Err` carries the error string. Boxed to keep the enum within budget.
+    ValidateDone(Box<Result<Vec<DiagnosticRow>, String>>),
 }
 
 #[cfg(test)]

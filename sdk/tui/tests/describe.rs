@@ -15,7 +15,7 @@ use crossterm::event::KeyCode;
 use design_data_core::graph::{ComponentRecord, TokenGraph};
 use design_data_core::query::TokenIndex;
 use design_data_tui::app::ActiveView;
-use design_data_tui::{update, Message, Model, UpdateCtx};
+use design_data_tui::{dispatch, update, Message, Model, UpdateCtx};
 use serde_json::json;
 use std::path::PathBuf;
 
@@ -46,7 +46,9 @@ fn describe_ctx<'a>(graph: &'a TokenGraph, dir: &'a PathBuf) -> UpdateCtx<'a> {
 }
 
 fn submit_describe(model: &mut Model, ctx: &UpdateCtx<'_>, id: &str) {
-    update(model, Message::PaletteSubmit(format!("describe {id}")), ctx);
+    // `describe` now completes via a Task (DescribeDone), so drive it through
+    // `dispatch` to run the FS read and settle the view before asserting.
+    dispatch(model, Message::PaletteSubmit(format!("describe {id}")), ctx);
 }
 
 #[test]

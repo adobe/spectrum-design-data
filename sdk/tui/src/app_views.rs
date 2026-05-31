@@ -25,6 +25,7 @@ use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use ratatui::layout::Rect;
 use ratatui::widgets::TableState;
+use serde::{Deserialize, Serialize};
 
 use crate::find::{FindScreen, FindWizardState};
 use crate::naming::{NamingScreen, NamingWizardState};
@@ -227,6 +228,7 @@ impl ResolveView {
 }
 
 /// State for a component describe view.
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DescribeView {
     pub component: String,
     pub pretty_json: String,
@@ -234,7 +236,7 @@ pub struct DescribeView {
 }
 
 /// One row in the validate diagnostics table.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DiagnosticRow {
     pub severity: String,
     pub rule_id: String,

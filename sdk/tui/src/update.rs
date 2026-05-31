@@ -15,22 +15,25 @@
 //! side effects to run. It never calls `std::fs`, clipboard, or any async
 //! runtime directly — those are wrapped in `Task::Cmd` closures.
 //!
-//! Side effects deferred to `#1023`: `describe` FS read, `validate` FS scan,
-//! and `--allow-write` wizard writes still execute inline; they are tagged with
-//! `// TODO(#1023)` comments.
+//! All side effects now dispatch via `Task::Cmd`: clipboard yanks, the
+//! `--allow-write` wizard write (`WriteDone`), the `describe` FS read
+//! (`DescribeDone`), and the `validate` FS scan (`ValidateDone`). The completion
+//! messages feed back through `update` to settle the resulting view.
 
 use std::collections::HashMap;
 use std::path::Path;
+use std::sync::Arc;
 
 use crossterm::event::{KeyCode, KeyModifiers, MouseButton, MouseEventKind};
 use design_data_core::graph::TokenGraph;
 use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
+use design_data_core::write::write_token;
 use tui_input::backend::crossterm::EventHandler;
 
 use crate::app::{
     move_table_selection, rect_contains, ActiveView, HitAction, Modal, PaletteMode, StatusMessage,
-    KNOWN_COMMANDS,
+    ValidateView, KNOWN_COMMANDS,
 };
 use crate::clipboard::write_clipboard;
 use crate::find::FindEvent;
@@ -52,7 +55,9 @@ pub struct UpdateCtx<'a> {
     pub graph: &'a TokenGraph,
     pub dataset_path: Option<&'a Path>,
     pub components_dir: Option<&'a Path>,
-    pub schema_registry: Option<&'a SchemaRegistry>,
+    /// Shared so side-effect `Task::Cmd` closures (e.g. `validate`, wizard write)
+    /// can own a cheap `Arc` clone and satisfy the `Send + 'static` bound.
+    pub schema_registry: Option<Arc<SchemaRegistry>>,
     pub mode_sets_dir: Option<&'a Path>,
     pub token_index: TokenIndex,
     pub mode_set_restrictions: HashMap<String, Vec<String>>,
@@ -79,7 +84,7 @@ impl<'a> UpdateCtx<'a> {
             graph: self.graph,
             token_index: self.token_index.clone(),
             dataset_path: self.dataset_path,
-            schema_registry: self.schema_registry,
+            schema_registry: self.schema_registry.as_deref(),
             allow_write: self.allow_write,
         }
     }
@@ -108,16 +113,22 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
         Message::WriteDone(result) => {
             match result {
                 Ok(path) => {
+                    model.close_modal();
                     model.status_message =
                         Some(StatusMessage::info(format!("wrote → {}", path.display())));
+                    Task::cmd(|| {
+                        clear_wizard_draft();
+                        Message::Tick
+                    })
                 }
                 Err(e) => {
+                    // Keep the wizard open so the user can correct the error.
                     if let Some(Modal::Wizard(ref mut ws)) = model.modal_mut() {
                         ws.error = Some(e);
                     }
+                    Task::none()
                 }
             }
-            Task::none()
         }
         // Synthetic modal messages exist in Message for replay/injection use.
         // The Key path handles them via modal delegation above; no-op here.
@@ -135,6 +146,31 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
             model.status_message = Some(StatusMessage::error(format!(
                 "clipboard unavailable: {err}"
             )));
+            Task::none()
+        }
+        Message::DescribeDone(result) => {
+            match *result {
+                Ok(view) => {
+                    model.active_view = ActiveView::Describe(view);
+                    model.status_message = None;
+                }
+                Err(e) => {
+                    model.status_message = Some(StatusMessage::error(e));
+                }
+            }
+            Task::none()
+        }
+        Message::ValidateDone(result) => {
+            match *result {
+                Ok(rows) => {
+                    let count = rows.len();
+                    model.active_view = ActiveView::Validate(ValidateView::new(rows));
+                    model.status_message = Some(StatusMessage::info(format!("{count} finding(s)")));
+                }
+                Err(e) => {
+                    model.status_message = Some(StatusMessage::error(e));
+                }
+            }
             Task::none()
         }
     }
@@ -214,7 +250,9 @@ fn handle_palette_key(
     match key.code {
         KeyCode::Esc => {
             // Cancel: restore the view that was on screen before fuzzy-find opened.
-            let saved = model.palette_state_mut().and_then(|ps| ps.saved_view.take());
+            let saved = model
+                .palette_state_mut()
+                .and_then(|ps| ps.saved_view.take());
             model.close_palette();
             if let Some(view) = saved {
                 model.active_view = view;
@@ -493,31 +531,37 @@ fn route_modal_key(
                     Message::Tick
                 })
             } else {
-                // TODO(#1023): extract perform_write into Task::Cmd once WizardState
-                // exposes owned submit-data that can be moved into a 'static closure.
-                let write_result = if let Some(Modal::Wizard(ref ws)) = model.modal() {
-                    Some((ws.assembled_name(), ws.perform_write(&wctx)))
-                } else {
-                    None
+                // Build the owned write input synchronously (no I/O), then dispatch
+                // the actual disk write as a Task::Cmd. The modal stays open until
+                // WriteDone reports success, so write errors can be surfaced in place.
+                let input = match model.modal() {
+                    Some(Modal::Wizard(ws)) => ws.build_write_input(ctx.dataset_path, ctx.graph),
+                    _ => return Task::none(),
                 };
-                match write_result {
-                    Some((name, Ok(written_path))) => {
-                        model.close_modal();
-                        model.status_message = Some(StatusMessage::info(format!(
-                            "wrote {name} → {written_path}"
-                        )));
-                        Task::cmd(|| {
-                            clear_wizard_draft();
-                            Message::Tick
-                        })
+                let registry = ctx.schema_registry.clone();
+                match (input, registry) {
+                    (Ok(input), Some(registry)) => Task::cmd(move || {
+                        let result = write_token(input, &registry)
+                            .map(|out| out.written_to)
+                            .map_err(|e| e.to_string());
+                        Message::WriteDone(result)
+                    }),
+                    (Ok(_), None) => {
+                        if let Some(Modal::Wizard(ref mut ws)) = model.modal_mut() {
+                            ws.error = Some(
+                                "no schema registry available — run from the repo root \
+                                 or pass --schema-path"
+                                    .to_string(),
+                            );
+                        }
+                        Task::none()
                     }
-                    Some((_, Err(e))) => {
+                    (Err(e), _) => {
                         if let Some(Modal::Wizard(ref mut ws)) = model.modal_mut() {
                             ws.error = Some(e);
                         }
                         Task::none()
                     }
-                    None => Task::none(),
                 }
             }
         }

@@ -13,8 +13,8 @@ use common::{key, make_graph, update_ctx};
 
 use crossterm::event::KeyCode;
 use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph};
-use design_data_tui::app::{App, Modal, SubmitContext};
-use design_data_tui::wizard::{ValueKind, WizardCtx, WizardPath, WizardScreen};
+use design_data_tui::app::Modal;
+use design_data_tui::wizard::{ValueKind, WizardPath, WizardScreen};
 use design_data_tui::{update, Message, Model, Task, UpdateCtx};
 use std::path::PathBuf;
 
@@ -440,34 +440,39 @@ fn screen_3_assembled_token_serializes_every_mode_row_as_sets() {
     );
 }
 
-// ── Test that keeps App path (uses tempfile for FS write assertion) ────────────
+// ── No-write guard (uses tempfile for FS-absence assertion) ─────────────────────
 
 #[test]
 fn submit_does_not_create_foundation_json_without_allow_write() {
     let graph = make_graph();
-    let mut app = App::new();
     let tmpdir = tempfile::TempDir::new().expect("tempdir");
     let foundation_file = tmpdir.path().join("foundation.json");
-    let ctx = WizardCtx {
+    let ctx = UpdateCtx {
         graph: &graph,
-        token_index: design_data_core::query::TokenIndex::build(&graph),
         dataset_path: Some(tmpdir.path()),
+        components_dir: None,
         schema_registry: None,
+        mode_sets_dir: None,
+        token_index: design_data_core::query::TokenIndex::build(&graph),
+        mode_set_restrictions: std::collections::HashMap::new(),
         allow_write: false,
     };
-    // Use old App path since this test verifies filesystem behavior.
-    app.handle_key(key(KeyCode::Char(':')));
-    for c in "new background".chars() {
-        app.handle_key(key(KeyCode::Char(c)));
+    let mut model = Model::new();
+
+    // Drive the wizard to Screen 4 and submit without --allow-write.
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
+    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx); // focus property
+    for c in "background".chars() {
+        update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }
-    app.submit_palette(&SubmitContext::new(&graph));
-    app.handle_modal_key(key(KeyCode::Enter), &ctx);
-    app.handle_modal_key(key(KeyCode::Enter), &ctx);
-    app.handle_modal_key(key(KeyCode::Enter), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 4
     for c in "Rationale text here".chars() {
-        app.handle_modal_key(key(KeyCode::Char(c)), &ctx);
+        update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }
-    app.handle_modal_key(key(KeyCode::Enter), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // submit (preview only)
+
     assert!(
         !foundation_file.exists(),
         "wizard submit without --allow-write must NOT write"

@@ -14,8 +14,9 @@
 //! Extracted from `update.rs` to keep every source file within the 800-LOC budget
 //! enforced by `tests/budget.rs` (GH #1018).
 //!
-//! Side effects deferred to `#1023`: `describe` FS read and `validate` FS scan
-//! still execute inline; they are tagged with `// TODO(#1023)` comments.
+//! The `describe` FS read and `validate` FS scan dispatch via `Task::Cmd` and
+//! complete through `DescribeDone` / `ValidateDone`, keeping this dispatcher free
+//! of inline I/O.
 
 use std::collections::HashSet;
 
@@ -24,7 +25,7 @@ use design_data_core::cascade::resolve_property;
 use crate::app::{
     parse_resolve_args, resolve_context_with_restrictions, save_palette_history, ActiveView,
     DescribeView, DiagnosticRow, Modal, QueryRow, QueryView, ResolveView, ResolvedRow,
-    StatusMessage, ValidateView, HISTORY_CAP,
+    StatusMessage, HISTORY_CAP,
 };
 use crate::find::FindWizardState;
 use crate::message::Message;
@@ -143,8 +144,6 @@ fn dispatch_command(
             Task::none()
         }
         "describe" | "component" => {
-            // TODO(#1023): wrap the fs::read_to_string in Task::Cmd once the
-            // runtime can feed the result back as Message::DescribeDone.
             if rest.is_empty() {
                 model.status_message =
                     Some(StatusMessage::error("describe: component ID required"));
@@ -167,94 +166,89 @@ fn dispatch_command(
                 ));
                 return Task::none();
             };
+            // Own everything the FS read needs, then run it in a Task::Cmd so
+            // `update` stays free of I/O. The did-you-mean suggestion is computed
+            // synchronously here because it needs the borrowed token graph.
+            let id = id.to_string();
             let file_path = comp_dir.join(format!("{id}.json"));
-            if file_path.is_file() {
-                match std::fs::read_to_string(&file_path) {
-                    Ok(raw_text) => match serde_json::from_str::<serde_json::Value>(&raw_text) {
-                        Ok(doc) => match serde_json::to_string_pretty(&doc) {
-                            Ok(pretty) => {
-                                model.active_view = ActiveView::Describe(DescribeView {
-                                    component: id.to_string(),
-                                    pretty_json: pretty,
-                                    scroll: 0,
-                                });
-                                model.status_message = None;
+            let available: Vec<&str> = ctx
+                .graph
+                .components
+                .iter()
+                .map(|c| c.name.as_str())
+                .collect();
+            let suggestion = build_did_you_mean(&id, &available);
+            Task::cmd(move || {
+                let result = if file_path.is_file() {
+                    match std::fs::read_to_string(&file_path) {
+                        Ok(raw_text) => {
+                            match serde_json::from_str::<serde_json::Value>(&raw_text) {
+                                Ok(doc) => match serde_json::to_string_pretty(&doc) {
+                                    Ok(pretty) => Ok(DescribeView {
+                                        component: id,
+                                        pretty_json: pretty,
+                                        scroll: 0,
+                                    }),
+                                    Err(e) => Err(format!("describe: render error: {e}")),
+                                },
+                                Err(e) => Err(format!("describe: parse error: {e}")),
                             }
-                            Err(e) => {
-                                model.status_message = Some(StatusMessage::error(format!(
-                                    "describe: render error: {e}"
-                                )));
-                            }
-                        },
-                        Err(e) => {
-                            model.status_message =
-                                Some(StatusMessage::error(format!("describe: parse error: {e}")));
                         }
-                    },
-                    Err(e) => {
-                        model.status_message =
-                            Some(StatusMessage::error(format!("describe: read error: {e}")));
+                        Err(e) => Err(format!("describe: read error: {e}")),
                     }
-                }
-            } else {
-                let available: Vec<&str> = ctx
-                    .graph
-                    .components
-                    .iter()
-                    .map(|c| c.name.as_str())
-                    .collect();
-                let suggestion = build_did_you_mean(id, &available);
-                model.status_message = Some(StatusMessage::error(format!(
-                    "component '{id}' not found{suggestion}"
-                )));
-            }
-            Task::none()
+                } else {
+                    Err(format!("component '{id}' not found{suggestion}"))
+                };
+                Message::DescribeDone(Box::new(result))
+            })
         }
         "validate" => {
-            // TODO(#1023): wrap validate_all_with_options_and_names in Task::Cmd.
-            let (Some(dataset_path), Some(schema_registry)) =
-                (ctx.dataset_path, ctx.schema_registry)
+            let (Some(dataset_path), Some(registry)) =
+                (ctx.dataset_path, ctx.schema_registry.clone())
             else {
                 model.status_message = Some(StatusMessage::error(
                     "validate: requires --dataset and schema registry",
                 ));
                 return Task::none();
             };
-            use design_data_core::validate;
-            match validate::validate_all_with_options_and_names(
-                dataset_path,
-                schema_registry,
-                &HashSet::new(),
-                ctx.mode_sets_dir,
-                ctx.components_dir,
-                None,
-            ) {
-                Ok(report) => {
-                    let rows: Vec<DiagnosticRow> = report
-                        .errors
-                        .iter()
-                        .map(|d| DiagnosticRow {
-                            severity: "error".to_string(),
-                            rule_id: d.rule_id.clone().unwrap_or_default(),
-                            token: d.token.clone().unwrap_or_default(),
-                            message: d.message.clone(),
-                        })
-                        .chain(report.warnings.iter().map(|d| DiagnosticRow {
-                            severity: "warning".to_string(),
-                            rule_id: d.rule_id.clone().unwrap_or_default(),
-                            token: d.token.clone().unwrap_or_default(),
-                            message: d.message.clone(),
-                        }))
-                        .collect();
-                    let count = rows.len();
-                    model.active_view = ActiveView::Validate(ValidateView::new(rows));
-                    model.status_message = Some(StatusMessage::info(format!("{count} finding(s)")));
-                }
-                Err(e) => {
-                    model.status_message = Some(StatusMessage::error(format!("validate: {e}")));
-                }
-            }
-            Task::none()
+            // Own the inputs (paths + an Arc clone of the registry) so the scan can
+            // run inside a Task::Cmd closure that satisfies `Send + 'static`.
+            let dataset_path = dataset_path.to_path_buf();
+            let mode_sets_dir = ctx.mode_sets_dir.map(|p| p.to_path_buf());
+            let components_dir = ctx.components_dir.map(|p| p.to_path_buf());
+            Task::cmd(move || {
+                use design_data_core::validate;
+                let result = match validate::validate_all_with_options_and_names(
+                    &dataset_path,
+                    &registry,
+                    &HashSet::new(),
+                    mode_sets_dir.as_deref(),
+                    components_dir.as_deref(),
+                    None,
+                ) {
+                    Ok(report) => {
+                        let rows: Vec<DiagnosticRow> = report
+                            .errors
+                            .iter()
+                            .map(|d| DiagnosticRow {
+                                severity: "error".to_string(),
+                                rule_id: d.rule_id.clone().unwrap_or_default(),
+                                token: d.token.clone().unwrap_or_default(),
+                                message: d.message.clone(),
+                            })
+                            .chain(report.warnings.iter().map(|d| DiagnosticRow {
+                                severity: "warning".to_string(),
+                                rule_id: d.rule_id.clone().unwrap_or_default(),
+                                token: d.token.clone().unwrap_or_default(),
+                                message: d.message.clone(),
+                            }))
+                            .collect();
+                        Ok(rows)
+                    }
+                    Err(e) => Err(format!("validate: {e}")),
+                };
+                Message::ValidateDone(Box::new(result))
+            })
         }
         "find" => {
             let fs = FindWizardState::new_with_intent(rest.trim());
