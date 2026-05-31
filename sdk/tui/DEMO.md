@@ -221,7 +221,7 @@ Quit and relaunch against the real dataset for the rest of the demo.
 
 ***
 
-### Beat B3 — Palette dual-mode + Tab autocomplete + history (2 min)
+### Beat B3 — Palette commands + Tab autocomplete + history (2 min)
 
 **Command mode (`:`):**
 
@@ -229,13 +229,19 @@ Quit and relaunch against the real dataset for the rest of the demo.
 * Up arrow — recall previous commands from history.
 * Down arrow — forward through history.
 
-**Fuzzy-find mode (`/`):**
+**Search by name:**
 
-* Press `/` — palette opens in fuzzy-find mode (different prompt prefix).
-* Type `background` — filters tokens live.
+* `:query property=*background*` `Enter` — narrows the table to tokens whose
+  property matches the `*background*` glob (any `query` expression works here).
+* `:find background` `Enter` — opens the Find wizard seeded with that intent for
+  interactive name lookup.
 
-*"Two modes for two jobs: `:` is structured commands, `/` is quick fuzzy search across
-token names. Tab autocomplete and Up/Down history work in both."*
+*"`:` is the structured command surface — `query` for predicate filtering and `find`
+for guided lookup. Tab autocomplete and Up/Down history work throughout."*
+
+> **Note:** the `/` key is reserved for a future live fuzzy-find palette but is not
+> wired up yet (it opens the palette but does not filter). Until then, use `:query`
+> and `:find` for search. See the `/` fuzzy-find tracking issue.
 
 ***
 

@@ -348,6 +348,98 @@ fn screen_4_submit_closes_modal_and_sets_status() {
     );
 }
 
+#[test]
+fn screen_4_multi_mode_diff_emits_sets_for_every_row() {
+    // Regression guard for the first-row-only write bug: a graph with a
+    // color-scheme mode set produces light + dark rows, and the Confirm diff
+    // must serialize both as a `sets` block — not just the first row.
+    let fixtures = fixtures_path();
+    let graph = make_graph_with_modes();
+    let ctx = UpdateCtx {
+        graph: &graph,
+        dataset_path: Some(fixtures.as_path()),
+        components_dir: None,
+        schema_registry: None,
+        mode_sets_dir: None,
+        token_index: design_data_core::query::TokenIndex::build(&graph),
+        mode_set_restrictions: std::collections::HashMap::new(),
+        allow_write: false,
+    };
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3 (light + dark)
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 4 (build_diff)
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
+        assert_eq!(ws.values.rows.len(), 2, "two mode-combo rows expected");
+        let diff = ws
+            .diff_preview
+            .as_ref()
+            .expect("diff_preview should be populated");
+        assert!(
+            diff.contains("sets"),
+            "multi-mode token must emit a `sets` block, got:\n{diff}"
+        );
+        assert!(diff.contains("light"), "diff should include the light set");
+        assert!(diff.contains("dark"), "diff should include the dark set");
+        assert!(
+            !diff.contains("$alias"),
+            "alias rows must use the canonical `$ref` key, not `$alias`"
+        );
+    } else {
+        panic!("expected wizard modal");
+    }
+}
+
+#[test]
+fn screen_3_assembled_token_serializes_every_mode_row_as_sets() {
+    // Companion to the diff regression above, but asserting on the *structured*
+    // token object the write path serializes. `perform_write` and `build_diff`
+    // both derive from `assembled_token`, so parsing `sets.light` / `sets.dark`
+    // here guards against a future divergence between the diff preview and the
+    // JSON that actually lands on disk — caught against parsed values rather than
+    // diff text.
+    let fixtures = fixtures_path();
+    let graph = make_graph_with_modes();
+    let ctx = UpdateCtx {
+        graph: &graph,
+        dataset_path: Some(fixtures.as_path()),
+        components_dir: None,
+        schema_registry: None,
+        mode_sets_dir: None,
+        token_index: design_data_core::query::TokenIndex::build(&graph),
+        mode_set_restrictions: std::collections::HashMap::new(),
+        allow_write: false,
+    };
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3 (light + dark)
+
+    let Some(Modal::Wizard(ref ws)) = model.modal() else {
+        panic!("expected wizard modal");
+    };
+    assert_eq!(ws.values.rows.len(), 2, "two mode-combo rows expected");
+
+    let token = ws.assembled_token();
+    let sets = token
+        .get("sets")
+        .and_then(|v| v.as_object())
+        .unwrap_or_else(|| panic!("multi-mode token must serialize a `sets` object, got: {token}"));
+    assert!(
+        sets.contains_key("light"),
+        "sets must include the light row, got: {sets:?}"
+    );
+    assert!(
+        sets.contains_key("dark"),
+        "sets must include the dark row, got: {sets:?}"
+    );
+    assert!(
+        token.get("value").is_none() && token.get("$ref").is_none(),
+        "multi-mode token must not collapse to a single flat value/$ref, got: {token}"
+    );
+}
+
 // ── Test that keeps App path (uses tempfile for FS write assertion) ────────────
 
 #[test]

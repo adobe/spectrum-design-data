@@ -22,8 +22,8 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::draft::{
-    ClassificationDraftDto, NameFieldDto, ValueKind, ValueRowDto, ValuesDraftDto, WizardDraft,
-    WizardScreen,
+    build_value_fields, ClassificationDraftDto, NameFieldDto, ValueKind, ValueRowDto,
+    ValuesDraftDto, WizardDraft, WizardScreen,
 };
 use crate::graph::{Layer, TokenGraph};
 use crate::schema::SchemaRegistry;
@@ -372,25 +372,8 @@ fn build_token_value(wizard: &WizardDraft, schema_url: &str, rationale: &str) ->
     }
     obj.insert("name".into(), serde_json::Value::Object(name_obj));
 
-    match wizard.values.rows.as_slice() {
-        [] => {}
-        [single] if single.mode_combo.is_empty() => match single.kind {
-            ValueKind::Alias => {
-                obj.insert(
-                    "$ref".into(),
-                    serde_json::Value::String(single.alias_target.clone()),
-                );
-            }
-            ValueKind::Literal => {
-                obj.insert(
-                    "value".into(),
-                    serde_json::Value::String(single.literal.clone()),
-                );
-            }
-        },
-        rows => {
-            obj.insert("sets".into(), build_sets_from_rows(rows));
-        }
+    for (field, value) in build_value_fields(&wizard.values.rows) {
+        obj.insert(field, value);
     }
 
     if !rationale.is_empty() {
@@ -406,58 +389,6 @@ fn build_token_value(wizard: &WizardDraft, schema_url: &str, rationale: &str) ->
     );
 
     serde_json::Value::Object(obj)
-}
-
-/// Recursively build a `sets` object from a slice of value rows.
-///
-/// Rows are grouped by their first mode-combo dimension value; each group is
-/// either a leaf (single row, no remaining dimensions) or recurses into an
-/// inner `sets` layer.
-fn build_sets_from_rows(rows: &[ValueRowDto]) -> serde_json::Value {
-    let mut groups: std::collections::BTreeMap<String, Vec<ValueRowDto>> =
-        std::collections::BTreeMap::new();
-
-    for row in rows {
-        if row.mode_combo.is_empty() {
-            // Flat row mixed into a multi-row set — skip rather than silently
-            // collide; callers should ensure consistency.
-            continue;
-        }
-        let first_val = row.mode_combo[0].1.clone();
-        let mut sub = row.clone();
-        sub.mode_combo = row.mode_combo[1..].to_vec();
-        groups.entry(first_val).or_default().push(sub);
-    }
-
-    let mut sets_map = serde_json::Map::new();
-    for (key, sub_rows) in &groups {
-        let entry = if sub_rows.len() == 1 && sub_rows[0].mode_combo.is_empty() {
-            let mut leaf = serde_json::Map::new();
-            match sub_rows[0].kind {
-                ValueKind::Alias => {
-                    leaf.insert(
-                        "$ref".into(),
-                        serde_json::Value::String(sub_rows[0].alias_target.clone()),
-                    );
-                }
-                ValueKind::Literal => {
-                    leaf.insert(
-                        "value".into(),
-                        serde_json::Value::String(sub_rows[0].literal.clone()),
-                    );
-                }
-            }
-            serde_json::Value::Object(leaf)
-        } else {
-            let inner = build_sets_from_rows(sub_rows);
-            let mut wrapper = serde_json::Map::new();
-            wrapper.insert("sets".into(), inner);
-            serde_json::Value::Object(wrapper)
-        };
-        sets_map.insert(key.clone(), entry);
-    }
-
-    serde_json::Value::Object(sets_map)
 }
 
 #[cfg(test)]
@@ -569,27 +500,47 @@ mod tests {
     }
 
     #[test]
-    fn build_sets_from_rows_single_mode_dimension() {
-        let rows = vec![
-            ValueRowDto {
-                mode_combo: vec![("color-scheme".into(), "light".into())],
-                kind: ValueKind::Literal,
-                alias_target: String::new(),
-                literal: "white".into(),
+    fn build_token_value_multi_mode_persists_every_row() {
+        // Regression guard: the committed token must carry all mode-combo rows
+        // as a `sets` block, not just the first row.
+        let wizard = WizardDraft {
+            screen: WizardScreen::Values,
+            intent: String::new(),
+            selected_suggestion: 0,
+            chosen_path: crate::authoring::draft::WizardPath::CreateNew,
+            classification: ClassificationDraftDto {
+                layer: Layer::Foundation,
+                property: "background-color".into(),
+                name_fields: vec![],
+                focused_field: 0,
             },
-            ValueRowDto {
-                mode_combo: vec![("color-scheme".into(), "dark".into())],
-                kind: ValueKind::Literal,
-                alias_target: String::new(),
-                literal: "black".into(),
+            values: ValuesDraftDto {
+                rows: vec![
+                    ValueRowDto {
+                        mode_combo: vec![("color-scheme".into(), "light".into())],
+                        kind: ValueKind::Literal,
+                        alias_target: String::new(),
+                        literal: "white".into(),
+                    },
+                    ValueRowDto {
+                        mode_combo: vec![("color-scheme".into(), "dark".into())],
+                        kind: ValueKind::Literal,
+                        alias_target: String::new(),
+                        literal: "black".into(),
+                    },
+                ],
+                selected: 0,
             },
-        ];
-        let sets = build_sets_from_rows(&rows);
-        let obj = sets.as_object().unwrap();
-        let light = obj["light"].as_object().unwrap();
-        let dark = obj["dark"].as_object().unwrap();
-        assert_eq!(light["value"].as_str().unwrap(), "white");
-        assert_eq!(dark["value"].as_str().unwrap(), "black");
+            rationale: String::new(),
+            schema_url: None,
+            schema_url_input: String::new(),
+        };
+        let token = build_token_value(&wizard, "https://example.com/schema.json", "because");
+        let sets = token["sets"].as_object().unwrap();
+        assert_eq!(sets["light"]["value"], "white");
+        assert_eq!(sets["dark"]["value"], "black");
+        assert_eq!(token["rationale"], "because");
+        assert!(token.get("value").is_none(), "multi-mode must not be flat");
     }
 
     #[test]

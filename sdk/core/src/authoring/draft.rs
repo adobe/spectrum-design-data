@@ -150,3 +150,170 @@ pub struct ValueRowDto {
     pub alias_target: String,
     pub literal: String,
 }
+
+// ── Token value assembly (shared TUI wizard + MCP authoring session) ──────────
+
+/// Build the value-bearing fields of a token from a set of wizard value rows.
+///
+/// Returns a JSON object fragment containing exactly one of:
+/// - nothing (no rows),
+/// - a flat `$ref` (single row, alias kind, no mode conditions),
+/// - a flat `value` (single row, literal kind, no mode conditions),
+/// - a nested `sets` object (multiple rows, or any mode-conditional row).
+///
+/// This is the single source of truth for translating Screen 3 value rows into
+/// token JSON. Both the TUI wizard (`design-data-tui`) and the MCP authoring
+/// session call it so they emit identical multi-mode token shapes — previously
+/// the TUI assembled JSON from the first row only, silently dropping every
+/// other mode combination. `$ref` is the canonical alias key understood by the
+/// graph loader, migrator, and SPEC-001 validator.
+pub fn build_value_fields(rows: &[ValueRowDto]) -> serde_json::Map<String, serde_json::Value> {
+    let mut fields = serde_json::Map::new();
+    match rows {
+        [] => {}
+        [single] if single.mode_combo.is_empty() => match single.kind {
+            ValueKind::Alias => {
+                fields.insert(
+                    "$ref".into(),
+                    serde_json::Value::String(single.alias_target.clone()),
+                );
+            }
+            ValueKind::Literal => {
+                fields.insert(
+                    "value".into(),
+                    serde_json::Value::String(single.literal.clone()),
+                );
+            }
+        },
+        rows => {
+            fields.insert("sets".into(), build_sets_from_rows(rows));
+        }
+    }
+    fields
+}
+
+/// Recursively build a `sets` object from a slice of value rows.
+///
+/// Rows are grouped by their first mode-combo dimension value; each group is
+/// either a leaf (single row, no remaining dimensions) or recurses into an
+/// inner `sets` layer.
+fn build_sets_from_rows(rows: &[ValueRowDto]) -> serde_json::Value {
+    let mut groups: std::collections::BTreeMap<String, Vec<ValueRowDto>> =
+        std::collections::BTreeMap::new();
+
+    for row in rows {
+        if row.mode_combo.is_empty() {
+            // Flat row mixed into a multi-row set — skip rather than silently
+            // collide; callers should ensure consistency.
+            continue;
+        }
+        let first_val = row.mode_combo[0].1.clone();
+        let mut sub = row.clone();
+        sub.mode_combo = row.mode_combo[1..].to_vec();
+        groups.entry(first_val).or_default().push(sub);
+    }
+
+    let mut sets_map = serde_json::Map::new();
+    for (key, sub_rows) in &groups {
+        let entry = if sub_rows.len() == 1 && sub_rows[0].mode_combo.is_empty() {
+            let mut leaf = serde_json::Map::new();
+            match sub_rows[0].kind {
+                ValueKind::Alias => {
+                    leaf.insert(
+                        "$ref".into(),
+                        serde_json::Value::String(sub_rows[0].alias_target.clone()),
+                    );
+                }
+                ValueKind::Literal => {
+                    leaf.insert(
+                        "value".into(),
+                        serde_json::Value::String(sub_rows[0].literal.clone()),
+                    );
+                }
+            }
+            serde_json::Value::Object(leaf)
+        } else {
+            let inner = build_sets_from_rows(sub_rows);
+            let mut wrapper = serde_json::Map::new();
+            wrapper.insert("sets".into(), inner);
+            serde_json::Value::Object(wrapper)
+        };
+        sets_map.insert(key.clone(), entry);
+    }
+
+    serde_json::Value::Object(sets_map)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn alias_row(modes: &[(&str, &str)], target: &str) -> ValueRowDto {
+        ValueRowDto {
+            mode_combo: modes
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.to_string()))
+                .collect(),
+            kind: ValueKind::Alias,
+            alias_target: target.to_string(),
+            literal: String::new(),
+        }
+    }
+
+    fn literal_row(modes: &[(&str, &str)], value: &str) -> ValueRowDto {
+        ValueRowDto {
+            mode_combo: modes
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.to_string()))
+                .collect(),
+            kind: ValueKind::Literal,
+            alias_target: String::new(),
+            literal: value.to_string(),
+        }
+    }
+
+    #[test]
+    fn build_value_fields_empty_rows_is_empty() {
+        assert!(build_value_fields(&[]).is_empty());
+    }
+
+    #[test]
+    fn build_value_fields_single_alias_is_flat_ref() {
+        let fields = build_value_fields(&[alias_row(&[], "gray-900")]);
+        assert_eq!(fields["$ref"], "gray-900");
+        assert!(!fields.contains_key("sets"));
+    }
+
+    #[test]
+    fn build_value_fields_single_literal_is_flat_value() {
+        let fields = build_value_fields(&[literal_row(&[], "rgb(0, 0, 0)")]);
+        assert_eq!(fields["value"], "rgb(0, 0, 0)");
+        assert!(!fields.contains_key("sets"));
+    }
+
+    #[test]
+    fn build_value_fields_multi_mode_emits_every_row() {
+        let fields = build_value_fields(&[
+            literal_row(&[("colorScheme", "light")], "white"),
+            literal_row(&[("colorScheme", "dark")], "black"),
+        ]);
+        let sets = fields["sets"].as_object().unwrap();
+        assert_eq!(sets["light"]["value"], "white");
+        assert_eq!(sets["dark"]["value"], "black");
+    }
+
+    #[test]
+    fn build_value_fields_nested_mode_dimensions_recurse() {
+        let fields = build_value_fields(&[
+            alias_row(&[("colorScheme", "light"), ("scale", "desktop")], "a"),
+            alias_row(&[("colorScheme", "light"), ("scale", "mobile")], "b"),
+            alias_row(&[("colorScheme", "dark"), ("scale", "desktop")], "c"),
+            alias_row(&[("colorScheme", "dark"), ("scale", "mobile")], "d"),
+        ]);
+        let sets = fields["sets"].as_object().unwrap();
+        assert_eq!(sets["light"]["sets"]["desktop"]["$ref"], "a");
+        assert_eq!(sets["light"]["sets"]["mobile"]["$ref"], "b");
+        assert_eq!(sets["dark"]["sets"]["desktop"]["$ref"], "c");
+        assert_eq!(sets["dark"]["sets"]["mobile"]["$ref"], "d");
+    }
+}
