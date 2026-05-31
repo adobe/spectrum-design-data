@@ -480,18 +480,27 @@ impl WizardState {
         let property = self.classification.property.value().trim().to_string();
         let target = resolve_target_file(self.classification.layer, &property, dataset_path);
 
-        // Build token JSON value from the first value row.
-        let token_value = build_token_value(&self.values.rows);
+        // Build the token's value fields from every mode-combo row (flat
+        // `$ref`/`value` for a single default row, nested `sets` otherwise),
+        // sharing the assembly logic with the MCP authoring session.
+        let value_fields =
+            design_data_core::authoring::draft::build_value_fields(&value_rows_to_dtos(
+                &self.values.rows,
+            ));
 
         // Generate a fresh UUID for the new token.
         let uuid = Uuid::new_v4().to_string();
 
         // Build the full token object including $schema if known.
-        let mut token_obj = if let Some(ref url) = self.schema_url {
-            serde_json::json!({ "$schema": url, "value": token_value, "uuid": uuid })
-        } else {
-            serde_json::json!({ "value": token_value, "uuid": uuid })
-        };
+        let mut token_map = serde_json::Map::new();
+        if let Some(ref url) = self.schema_url {
+            token_map.insert("$schema".into(), serde_json::Value::String(url.clone()));
+        }
+        for (field, value) in value_fields {
+            token_map.insert(field, value);
+        }
+        token_map.insert("uuid".into(), serde_json::Value::String(uuid));
+        let mut token_obj = serde_json::Value::Object(token_map);
         // Rationale is pre-injected so schema validation can see it. write_token also
         // receives it via WriteTokenInput::rationale and merges it with or_insert_with —
         // so the field is never written twice; only the copy already in token_obj wins.
@@ -565,14 +574,21 @@ impl WizardState {
             key
         };
 
-        // Preview uses the first value row; full per-mode shape is deferred.
-        let token_value = build_token_value(&self.values.rows);
-
-        let mut token_obj = if let Some(ref url) = self.schema_url {
-            serde_json::json!({ "$schema": url, "value": token_value })
-        } else {
-            serde_json::json!({ "value": token_value })
-        };
+        // Mirror the write path: flat `$ref`/`value` for a single default row,
+        // nested `sets` for multi-mode rows (shared with the MCP session) so
+        // the preview matches exactly what gets written.
+        let value_fields =
+            design_data_core::authoring::draft::build_value_fields(&value_rows_to_dtos(
+                &self.values.rows,
+            ));
+        let mut token_map = serde_json::Map::new();
+        if let Some(ref url) = self.schema_url {
+            token_map.insert("$schema".into(), serde_json::Value::String(url.clone()));
+        }
+        for (field, value) in value_fields {
+            token_map.insert(field, value);
+        }
+        let mut token_obj = serde_json::Value::Object(token_map);
         let rationale = self.rationale.value().trim().to_string();
         if !rationale.is_empty() {
             token_obj["rationale"] = serde_json::Value::String(rationale);
@@ -650,24 +666,22 @@ fn infer_schema_url(graph: &TokenGraph, property: &str) -> Option<String> {
     })
 }
 
-/// Build the JSON value for a token from the wizard's value rows.
+/// Convert TUI value rows into the serializable DTO shape consumed by
+/// [`design_data_core::authoring::draft::build_value_fields`].
 ///
-/// Uses the first row only; full per-mode shape is deferred to a later milestone.
-fn build_token_value(rows: &[ValueRow]) -> serde_json::Value {
-    match rows.first() {
-        Some(row) => match row.kind {
-            ValueKind::Alias => {
-                let t = row.alias_target.value().trim();
-                if t.is_empty() {
-                    serde_json::Value::Null
-                } else {
-                    serde_json::json!({ "$alias": t })
-                }
-            }
-            ValueKind::Literal => serde_json::Value::String(row.literal.value().to_string()),
-        },
-        None => serde_json::Value::Null,
-    }
+/// `tui_input::Input` collapses to `String` on the boundary, mirroring the
+/// `WizardState` → `WizardDraft` conversion in `wizard_draft::to_draft`.
+fn value_rows_to_dtos(
+    rows: &[ValueRow],
+) -> Vec<design_data_core::authoring::draft::ValueRowDto> {
+    rows.iter()
+        .map(|r| design_data_core::authoring::draft::ValueRowDto {
+            mode_combo: r.mode_combo.clone(),
+            kind: r.kind,
+            alias_target: r.alias_target.value().to_string(),
+            literal: r.literal.value().to_string(),
+        })
+        .collect()
 }
 
 /// Build Screen 3 value rows from a graph's mode sets.

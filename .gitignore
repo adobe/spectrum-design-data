@@ -151,3 +151,7 @@ graphify-out/
 .ferrograph
 **/.ferrograph
 tools/token-mapping-analyzer/output/
+
+# demo video pipeline rendered artifacts (re-buildable from manifests).
+# Commit only curated, published assets under tools/demo/videos/published/.
+tools/demo/videos/out/

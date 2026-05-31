@@ -1,0 +1,132 @@
+/*
+ * Copyright 2026 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+
+/**
+ * render.mjs — render a demo manifest's silent video assets with VHS.
+ *
+ *   node tools/demo/videos/render.mjs [manifest] [options]
+ *
+ * Produces, under tools/demo/videos/out/:
+ *   <slug>-<beat>.mp4   one silent clip per beat (input to the sync/mux step)
+ *   <slug>.gif          full continuous tape, for README/docs embedding
+ *   <slug>.webm         full continuous tape, silent, for docs
+ *
+ * Options:
+ *   --beat <id>     render only the named beat (repeatable)
+ *   --no-full       skip the full GIF/WebM doc render
+ *   --full-only     render only the full GIF/WebM doc render
+ *   --no-prebuild   skip the manifest's prebuild commands (e.g. cargo build)
+ */
+
+import { mkdirSync, writeFileSync } from "node:fs";
+import { relative } from "node:path";
+import {
+  loadManifest,
+  assembleBeatTape,
+  assembleFullTape,
+} from "./lib/tape.mjs";
+import { repoRoot, outDir, runInherit, requireBin, log } from "./lib/run.mjs";
+
+/** Run VHS with a couple of retries — ttyd can race on startup right after a long build. */
+function runVhs(tapeRelPath) {
+  const attempts = 3;
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      runInherit("vhs", [tapeRelPath]);
+      return;
+    } catch (err) {
+      if (i === attempts) throw err;
+      log.warn(`vhs attempt ${i} failed (${err.message}); retrying…`);
+    }
+  }
+}
+
+function parseArgs(argv) {
+  const opts = {
+    manifest: undefined,
+    beats: [],
+    full: true,
+    beatsOnly: false,
+    prebuild: true,
+  };
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i];
+    if (a === "--beat") opts.beats.push(argv[++i]);
+    else if (a === "--no-full") opts.full = false;
+    else if (a === "--full-only")
+      ((opts.beatsOnly = false), (opts.fullOnly = true));
+    else if (a === "--no-prebuild") opts.prebuild = false;
+    else if (!a.startsWith("--")) opts.manifest = a;
+  }
+  return opts;
+}
+
+const DEFAULT_MANIFEST = "tools/demo/videos/cli-quickstart.demo.mjs";
+
+async function main() {
+  const opts = parseArgs(process.argv.slice(2));
+  requireBin("vhs", "Install with: brew install vhs");
+
+  const manifest = await loadManifest(opts.manifest ?? DEFAULT_MANIFEST);
+  mkdirSync(outDir, { recursive: true });
+  const rel = (p) => relative(repoRoot, p);
+
+  if (opts.prebuild && manifest.prebuild?.length) {
+    for (const cmd of manifest.prebuild) {
+      log.step(`prebuild: ${cmd}`);
+      runInherit("bash", ["-c", cmd]);
+      log.ok();
+    }
+  }
+
+  const selected = opts.beats.length
+    ? manifest.beats.filter((b) => opts.beats.includes(b.id))
+    : manifest.beats;
+  if (opts.beats.length && selected.length !== opts.beats.length) {
+    const found = new Set(selected.map((b) => b.id));
+    const missing = opts.beats.filter((b) => !found.has(b));
+    throw new Error(`Unknown beat id(s): ${missing.join(", ")}`);
+  }
+
+  if (!opts.fullOnly) {
+    for (const beat of selected) {
+      const videoPath = `${outDir}/${manifest.slug}-${beat.id}.mp4`;
+      const tapePath = `${outDir}/${manifest.slug}-${beat.id}.tape`;
+      const tape = assembleBeatTape(manifest, beat, rel(videoPath));
+      writeFileSync(tapePath, tape);
+      log.step(`render beat '${beat.id}' -> ${rel(videoPath)}`);
+      runVhs(rel(tapePath));
+      log.ok();
+    }
+  }
+
+  if (opts.full && !opts.beats.length) {
+    const gif = `${outDir}/${manifest.slug}.gif`;
+    const webm = `${outDir}/${manifest.slug}.webm`;
+    const tapePath = `${outDir}/${manifest.slug}-full.tape`;
+    const tape = assembleFullTape(manifest, [rel(gif), rel(webm)]);
+    writeFileSync(tapePath, tape);
+    log.step(`render full tape -> ${rel(gif)}, ${rel(webm)}`);
+    runVhs(rel(tapePath));
+    log.ok();
+  } else if (opts.full && opts.beats.length) {
+    log.info("skipping full doc render because --beat was used");
+  }
+
+  log.step("render complete");
+  log.info(`artifacts in ${rel(outDir)}`);
+}
+
+main().catch((err) => {
+  console.error(`\n\u001b[0;31mrender failed:\u001b[0m ${err.message}`);
+  process.exit(1);
+});
