@@ -85,14 +85,16 @@ export default async function (eleventyConfig) {
     );
   });
 
-  // Apply Spectrum table classes to token, component, and registry pages so markdown tables use @spectrum-css/table
+  // Apply Spectrum table classes to token, component, registry, spec, and AI
+  // pages so markdown tables use @spectrum-css/table
   eleventyConfig.addTransform("spectrum-tables", (content, outputPath) => {
     if (
       !outputPath ||
       (!outputPath.includes("/tokens/") &&
         !outputPath.includes("/components/") &&
         !outputPath.includes("/registry/") &&
-        !outputPath.includes("/spec/"))
+        !outputPath.includes("/spec/") &&
+        !outputPath.includes("/ai/"))
     )
       return content;
     return content
