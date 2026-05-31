@@ -124,10 +124,23 @@ pub struct QueryView {
     pub expr_text: String,
     pub rows: Vec<QueryRow>,
     pub table_state: TableState,
+    /// `true` when this view came from the `/` fuzzy-find palette rather than a
+    /// `:query` expression. Controls only the rendered title label (`Fuzzy:` vs
+    /// `Query:`); `expr_text` holds the raw search string either way.
+    pub is_fuzzy: bool,
 }
 
 impl QueryView {
     pub fn new(expr_text: String, rows: Vec<QueryRow>) -> Self {
+        Self::build(expr_text, rows, false)
+    }
+
+    /// Build a view for fuzzy-find results (titled `Fuzzy:` instead of `Query:`).
+    pub fn fuzzy(query: String, rows: Vec<QueryRow>) -> Self {
+        Self::build(query, rows, true)
+    }
+
+    fn build(expr_text: String, rows: Vec<QueryRow>, is_fuzzy: bool) -> Self {
         let mut table_state = TableState::default();
         if !rows.is_empty() {
             table_state.select(Some(0));
@@ -136,6 +149,7 @@ impl QueryView {
             expr_text,
             rows,
             table_state,
+            is_fuzzy,
         }
     }
 

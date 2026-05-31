@@ -280,7 +280,7 @@ fn handle_palette_key(
 /// navigation, yank, and mouse hit-regions all work for the filtered results.
 fn apply_fuzzy_filter(model: &mut Model, query: &str, ctx: &UpdateCtx<'_>) {
     let rows = crate::fuzzy::rank_token_rows(ctx.graph, query);
-    model.active_view = ActiveView::Query(crate::app::QueryView::new(query.to_string(), rows));
+    model.active_view = ActiveView::Query(crate::app::QueryView::fuzzy(query.to_string(), rows));
 }
 
 fn handle_history_nav(model: &mut Model, older: bool) {

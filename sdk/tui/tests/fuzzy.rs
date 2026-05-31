@@ -11,7 +11,7 @@
 //! Live `/` fuzzy-find palette behavior (GH #1079).
 
 mod common;
-use common::{key, make_graph_with_tokens, update_ctx};
+use common::{key, make_graph_with_tokens, render_to_buffer, update_ctx};
 
 use crossterm::event::KeyCode;
 use design_data_tui::app::ActiveView;
@@ -109,6 +109,26 @@ fn esc_restores_previous_view() {
         ActiveView::Query(ref qv) => assert_eq!(qv.expr_text, before),
         _ => panic!("expected the prior Query view to be restored"),
     }
+}
+
+#[test]
+fn fuzzy_view_titled_fuzzy_not_query() {
+    let graph = make_graph_with_tokens(&["accent-background", "neutral-background", "button"]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char('/'))), &ctx);
+    type_str(&mut model, &ctx, "bg");
+
+    let buf = render_to_buffer(&mut model, 80, 24);
+    let mut all = String::new();
+    for y in 0..24 {
+        for x in 0..80 {
+            all.push_str(buf.cell((x, y)).unwrap().symbol());
+        }
+        all.push('\n');
+    }
+    assert!(all.contains("Fuzzy: /bg"), "expected 'Fuzzy: /bg' title");
+    assert!(!all.contains("Query: bg"), "must not mislabel as a Query");
 }
 
 #[test]
