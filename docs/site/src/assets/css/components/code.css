@@ -100,3 +100,43 @@ pre[class*="language-"] code {
 .token.italic {
   font-style: italic;
 }
+
+/* Spectrum quiet ActionButton injected by copy-code.js. */
+.code-block {
+  position: relative;
+}
+
+.code-block-copy {
+  position: absolute;
+  top: var(--spectrum-spacing-100);
+  inset-inline-end: var(--spectrum-spacing-100);
+  opacity: 0;
+  transition: opacity 130ms ease-in-out;
+}
+
+/* The global reset caps svg with max-inline-size: 100%, which collapses an
+   icon-only ActionButton's icon to its tiny content box. Lift the cap and let
+   Spectrum's icon sizing apply. */
+.code-block-copy .spectrum-Icon {
+  max-inline-size: none;
+  inline-size: var(--spectrum-workflow-icon-size-75);
+  block-size: var(--spectrum-workflow-icon-size-75);
+}
+
+.code-block:hover .code-block-copy,
+.code-block:focus-within .code-block-copy {
+  opacity: 1;
+}
+
+/* Confirmation state: tint the checkmark with the Spectrum positive color. */
+.code-block-copy.is-copied {
+  opacity: 1;
+  color: var(--spectrum-green-900);
+}
+
+/* Touch devices have no hover, so keep the button visible. */
+@media (hover: none) {
+  .code-block-copy {
+    opacity: 1;
+  }
+}
