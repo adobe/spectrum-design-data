@@ -16,30 +16,30 @@ These metrics are extracted directly from the current token source files with ze
 
 ### 1. Token Inventory (Health)
 
-| Metric                             | Current Value            | Why It Matters                                                      |
-| ---------------------------------- | ------------------------ | ------------------------------------------------------------------- |
-| **Total tokens**                   | 2,338                    | Size of the design data surface area                                |
-| **Active tokens**                  | 2,150                    | Tokens currently in use                                             |
-| **Deprecated tokens**              | 188 (8.0%)               | Technical debt in the token layer                                   |
-| **Deprecated with migration path** | 57 (30.3% of deprecated) | How well we support migration when tokens change                    |
-| **Private tokens**                 | 372                      | Internal implementation tokens not intended for direct consumer use |
+| Metric                             | Current Value             | Why It Matters                                                      |
+| ---------------------------------- | ------------------------- | ------------------------------------------------------------------- |
+| **Total tokens**                   | 2,460                     | Size of the design data surface area                                |
+| **Active tokens**                  | 1,667                     | Tokens currently in use                                             |
+| **Deprecated tokens**              | 793 (32.2%)               | Technical debt in the token layer                                   |
+| **Deprecated with migration path** | 555 (70.0% of deprecated) | How well we support migration when tokens change                    |
+| **Private tokens**                 | 372                       | Internal implementation tokens not intended for direct consumer use |
 
 ### 2. Token Scope (Architecture)
 
 | Metric                            | Current Value | Why It Matters                                   |
 | --------------------------------- | ------------- | ------------------------------------------------ |
-| **Global (system) tokens**        | 965           | Foundation tokens available to all components    |
-| **Component tokens**              | 1,373         | Tokens scoped to specific components             |
-| **Unique components with tokens** | 95            | How many components have dedicated token support |
+| **Global (system) tokens**        | 1,078         | Foundation tokens available to all components    |
+| **Component tokens**              | 1,382         | Tokens scoped to specific components             |
+| **Unique components with tokens** | 96            | How many components have dedicated token support |
 
 ### 3. Token Architecture (Complexity)
 
 | Metric                       | Current Value | Why It Matters                                     |
 | ---------------------------- | ------------- | -------------------------------------------------- |
-| **Alias (reference) tokens** | 654           | Tokens that reference other tokens for consistency |
-| **Direct-value tokens**      | 459           | Tokens with hard-coded values                      |
+| **Alias (reference) tokens** | 714           | Tokens that reference other tokens for consistency |
+| **Direct-value tokens**      | 510           | Tokens with hard-coded values                      |
 | **Color theme set tokens**   | 470           | Tokens with light/dark/wireframe variants          |
-| **Scale set tokens**         | 755           | Tokens with desktop/mobile variants                |
+| **Scale set tokens**         | 766           | Tokens with desktop/mobile variants                |
 | **Max alias chain depth**    | 4             | Deepest nesting of token references                |
 
 ### 4. Data Quality
@@ -47,7 +47,7 @@ These metrics are extracted directly from the current token source files with ze
 | Metric                      | Current Value              | Why It Matters                                   |
 | --------------------------- | -------------------------- | ------------------------------------------------ |
 | **UUID coverage**           | 100%                       | Every token has a unique identifier for tracking |
-| **Migration path coverage** | 30.3% of deprecated tokens | Gap in providing clear upgrade guidance          |
+| **Migration path coverage** | 70.0% of deprecated tokens | Gap in providing clear upgrade guidance          |
 
 ### 5. Component Coverage
 
@@ -61,16 +61,16 @@ These metrics are extracted directly from the current token source files with ze
 
 | Category   | Count | What It Covers                                    |
 | ---------- | ----- | ------------------------------------------------- |
-| Layout     | 741   | Spacing, sizing, dimensions, margins              |
-| Other      | 550   | Component-specific tokens not in other categories |
-| Content    | 289   | Text and content-related colors/styles            |
+| Layout     | 790   | Spacing, sizing, dimensions, margins              |
+| Other      | 601   | Component-specific tokens not in other categories |
+| Content    | 294   | Text and content-related colors/styles            |
 | Typography | 284   | Font families, sizes, weights, line heights       |
 | Color      | 227   | Color values and visual tokens                    |
-| Background | 151   | Background colors and opacity                     |
+| Background | 154   | Background colors and opacity                     |
 | Border     | 58    | Border colors and styles                          |
 | Shadow     | 23    | Drop shadows and elevation                        |
+| Icon       | 20    | Icon-specific tokens                              |
 | Opacity    | 9     | Opacity values                                    |
-| Icon       | 6     | Icon-specific tokens                              |
 
 ## Additional Metrics Worth Working On
 

@@ -27,12 +27,12 @@ const DEFAULT_TOKENS_SRC = resolve(
 );
 
 /**
- * Default path to the component-schemas package.
+ * Default path to the component schema definitions (component-format spec docs).
  */
 const DEFAULT_COMPONENT_SCHEMAS = resolve(
   __dirname,
   "../../..",
-  "packages/component-schemas/schemas/components",
+  "packages/design-data-spec/components",
 );
 
 /**

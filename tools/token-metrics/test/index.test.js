@@ -348,16 +348,16 @@ test("computeMetrics with real token data produces reasonable results", async (t
   // Sanity checks against the real data
   t.true(metrics.summary.totalTokens > 2000, "should have > 2000 tokens");
   t.true(
-    metrics.summary.activeTokens > 1800,
-    "should have > 1800 active tokens",
+    metrics.summary.activeTokens > 1500,
+    "should have > 1500 active tokens",
   );
   t.true(
     metrics.summary.deprecatedTokens > 0,
     "should have some deprecated tokens",
   );
   t.true(
-    metrics.summary.deprecationRate < 20,
-    "deprecation rate should be < 20%",
+    metrics.summary.deprecationRate < 50,
+    "deprecation rate should be < 50%",
   );
   t.true(
     metrics.summary.uniqueComponents > 30,
@@ -371,5 +371,26 @@ test("computeMetrics with real token data produces reasonable results", async (t
   t.true(
     metrics.aliasChainDepth.maxDepth <= 10,
     "alias chain depth should be reasonable",
+  );
+});
+
+test("generateMetricsReport resolves component schema coverage against current spec layout", async (t) => {
+  // Guards against the component schema directory moving (it now lives at
+  // packages/design-data-spec/components). If the default path goes stale,
+  // schema coverage silently drops to 0, which this assertion catches.
+  const { default: generate } = await import("../src/index.js");
+  const report = await generate();
+
+  t.truthy(
+    report.componentCoverage,
+    "report should include component coverage",
+  );
+  t.true(
+    report.componentCoverage.registeredComponentCount > 0,
+    "should resolve registered components",
+  );
+  t.true(
+    report.componentCoverage.componentsWithSchema > 0,
+    "should resolve component schemas (path must point at design-data-spec/components)",
   );
 });

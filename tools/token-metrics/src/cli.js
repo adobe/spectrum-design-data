@@ -32,7 +32,10 @@ program
   )
   .option("--tokens-src <path>", "Path to tokens/src directory")
   .option("--registry <path>", "Path to design-system-registry components.json")
-  .option("--schemas <path>", "Path to component-schemas/schemas/components")
+  .option(
+    "--schemas <path>",
+    "Path to component schema definitions (design-data-spec/components)",
+  )
   .option("--summary", "Print only the summary to stdout", false)
   .action(async (options) => {
     try {
