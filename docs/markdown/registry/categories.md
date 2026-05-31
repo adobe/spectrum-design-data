@@ -12,7 +12,7 @@ tags:
 | --- | --- | --- | --- |
 | actions | Actions | Components that allow users to perform actions | - |
 | containers | Containers | Components that contain or organize other content | - |
-| data-visualization | Data Visualization | Components for displaying data and charts | data visualization |
+| data-visualization | Data Visualization | Components for displaying data and charts | - |
 | feedback | Feedback | Components that provide feedback to users | - |
 | inputs | Inputs | Components for user input and data entry | - |
 | navigation | Navigation | Components for navigation and wayfinding | - |
