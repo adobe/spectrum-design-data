@@ -46,15 +46,9 @@ pub(crate) fn handle_palette_submit(
     raw: String,
     ctx: &UpdateCtx<'_>,
 ) -> Task<Message> {
-    // FuzzyFind mode: close without dispatching.
-    // When the model is in Browsing mode (e.g. direct PaletteSubmit from tests or replay),
-    // treat as command mode — the submit should always dispatch.
-    let is_fuzzy = model.palette_mode() == Some(crate::app::PaletteMode::FuzzyFind);
-    if is_fuzzy {
-        model.close_palette();
-        return Task::none();
-    }
-
+    // FuzzyFind never reaches here: it filters live on each keystroke (see
+    // `apply_fuzzy_filter` in `update.rs`) and the runtime only dispatches
+    // `PaletteSubmit` for Command-mode Enter. This path is command dispatch only.
     let raw = raw.trim().to_string();
     model.close_palette();
 
