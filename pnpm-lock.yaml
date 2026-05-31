@@ -140,6 +140,12 @@ importers:
       "@11ty/eleventy-plugin-syntaxhighlight":
         specifier: ^5.0.2
         version: 5.0.2
+      "@spectrum-css/actionbutton":
+        specifier: ^7.2.0
+        version: 7.2.0(@spectrum-css/icon@9.2.0(@spectrum-css/tokens@16.0.2))(@spectrum-css/tokens@16.0.2)
+      "@spectrum-css/icon":
+        specifier: ^9.2.0
+        version: 9.2.0(@spectrum-css/tokens@16.0.2)
       "@spectrum-css/link":
         specifier: ^7.1.0
         version: 7.2.0(@spectrum-css/tokens@16.0.2)
@@ -2185,6 +2191,20 @@ packages:
         integrity: sha512-doH1gimEu3A46VX6aVxpHTeHrytJAG6HgdxntYnCFiIFHEM/ZGpG8KiZGBChchjQmG0XFIBL552kBTjVcMZXwQ==,
       }
     engines: { node: ">=12" }
+
+  "@spectrum-css/actionbutton@7.2.0":
+    resolution:
+      {
+        integrity: sha512-uz6/TTQS05ZHwvKSKUE21WBLKcsl3JvVPTGEnwrNm88DO6ZFXwNyAK770oKWlCv1HHB/M0q0F0sKhXKA18mJFA==,
+      }
+    peerDependencies:
+      "@spectrum-css/icon": ">=9.0.0 <10.0.0"
+      "@spectrum-css/tokens": ">=16.0.0 <17.0.0"
+    peerDependenciesMeta:
+      "@spectrum-css/icon":
+        optional: true
+      "@spectrum-css/tokens":
+        optional: true
 
   "@spectrum-css/icon@9.2.0":
     resolution:
@@ -10489,6 +10509,11 @@ snapshots:
   "@sindresorhus/transliterate@1.6.0":
     dependencies:
       escape-string-regexp: 5.0.0
+
+  "@spectrum-css/actionbutton@7.2.0(@spectrum-css/icon@9.2.0(@spectrum-css/tokens@16.0.2))(@spectrum-css/tokens@16.0.2)":
+    optionalDependencies:
+      "@spectrum-css/icon": 9.2.0(@spectrum-css/tokens@16.0.2)
+      "@spectrum-css/tokens": 16.0.2
 
   "@spectrum-css/icon@9.2.0(@spectrum-css/tokens@16.0.2)":
     optionalDependencies:

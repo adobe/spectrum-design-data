@@ -46,6 +46,7 @@ export default async function (eleventyConfig) {
   });
   eleventyConfig.addPassthroughCopy({ "public/.nojekyll": ".nojekyll" });
   eleventyConfig.addPassthroughCopy({ "public/schemas": "schemas" });
+  eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
 
   eleventyConfig.addCollection("components", function (api) {
     return api.getFilteredByGlob("src/components/**/*.md");
