@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-linux-x64",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "design-data binary for Linux x64",
   "os": [
     "linux"

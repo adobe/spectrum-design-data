@@ -1,5 +1,16 @@
 # @adobe/design-data-cli
 
+## 0.7.0
+
+### Minor Changes
+
+- [#1085](https://github.com/adobe/spectrum-design-data/pull/1085) [`14d4db4`](https://github.com/adobe/spectrum-design-data/commit/14d4db4781ce7a0807240878802a75beec47c702) Thanks [@GarthDB](https://github.com/GarthDB)! - Emit the structured `name` object from the TUI authoring wizard for MCP parity (closes #1082).
+  - **sdk/core/authoring/draft**: add shared `build_name_object` next to `build_value_fields`.
+  - **sdk/core/authoring/session**: delegate `name`-object assembly to the shared helper.
+  - **sdk/tui/wizard**: include `name` in `base_token_map` so writes and Confirm diff match MCP shape.
+  - **sdk/tui/tests/write**: assert `name.property` and name fields land on disk with a
+    real schema registry.
+
 ## 0.6.0
 
 ### Minor Changes
