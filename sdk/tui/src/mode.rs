@@ -17,7 +17,7 @@
 
 use tui_input::Input;
 
-use crate::app::{Modal, PaletteMode};
+use crate::app::{ActiveView, Modal, PaletteMode};
 
 // ── Top-level mode ────────────────────────────────────────────────────────────
 
@@ -62,12 +62,18 @@ pub struct ModalState {
 // ── Palette state ─────────────────────────────────────────────────────────────
 
 /// State carried while the command palette is open.
-#[derive(Debug)]
+///
+/// `saved_view` holds the `ActiveView` that was on screen when a fuzzy-find
+/// palette opened, so cancelling with `Esc` can restore it. It stays `None`
+/// for command mode and is cleared on commit (`Enter`). `ActiveView` carries
+/// ratatui `TableState`s that are not `Debug`, so this struct cannot derive it.
 pub struct PaletteState {
     pub mode: PaletteMode,
     pub input: Input,
     /// Index into `Model::palette_history`; `None` = fresh input.
     pub history_cursor: Option<usize>,
+    /// View to restore if a fuzzy-find session is cancelled; `None` otherwise.
+    pub saved_view: Option<ActiveView>,
 }
 
 impl PaletteState {
@@ -77,6 +83,7 @@ impl PaletteState {
             mode: PaletteMode::Command,
             input: Input::default(),
             history_cursor: None,
+            saved_view: None,
         }
     }
 
@@ -86,6 +93,7 @@ impl PaletteState {
             mode: PaletteMode::FuzzyFind,
             input: Input::default(),
             history_cursor: None,
+            saved_view: None,
         }
     }
 

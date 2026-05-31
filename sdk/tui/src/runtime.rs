@@ -24,7 +24,7 @@ use ratatui::{
     Terminal,
 };
 
-use crate::app::{ActiveView, HitAction, HitRegion};
+use crate::app::{ActiveView, HitAction, HitRegion, PaletteMode};
 use crate::message::Message;
 use crate::model::Model;
 use crate::task::Task;
@@ -70,7 +70,14 @@ pub fn run<B: ratatui::backend::Backend>(
                     // ever defers closing (e.g., for validation), palette_text is Some but
                     // the guard `!model.palette_open` will be false, so PaletteSubmit is
                     // correctly suppressed.
-                    let palette_text = if model.is_palette_open() && key.code == KeyCode::Enter {
+                    //
+                    // Only Command mode submits a command. FuzzyFind filters live on every
+                    // keystroke and commits its results on Enter inside update(), so its
+                    // input text must never reach the command dispatcher.
+                    let palette_text = if model.is_palette_open()
+                        && key.code == KeyCode::Enter
+                        && model.palette_mode() == Some(PaletteMode::Command)
+                    {
                         Some(model.palette_input_value().to_string())
                     } else {
                         None

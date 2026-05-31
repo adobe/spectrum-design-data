@@ -14,6 +14,7 @@ pub(crate) mod app_palette;
 pub mod app_views;
 pub(crate) mod clipboard;
 pub mod find;
+pub(crate) mod fuzzy;
 pub mod help;
 pub mod message;
 pub mod mode;

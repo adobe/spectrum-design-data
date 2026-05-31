@@ -157,13 +157,14 @@ fn render_query(f: &mut Frame<'_>, qv: &mut QueryView, area: Rect, theme: &Theme
         Constraint::Percentage(20),
         Constraint::Percentage(10),
     ];
+    let title = if qv.is_fuzzy {
+        format!(" Fuzzy: /{} ", qv.expr_text)
+    } else {
+        format!(" Query: {} ", qv.expr_text)
+    };
     let table = Table::new(rows, widths)
         .header(header)
-        .block(
-            Block::default()
-                .borders(Borders::ALL)
-                .title(format!(" Query: {} ", qv.expr_text)),
-        )
+        .block(Block::default().borders(Borders::ALL).title(title))
         .highlight_style(Style::default().bg(theme.selection_bg));
     f.render_stateful_widget(table, area, &mut qv.table_state);
 }

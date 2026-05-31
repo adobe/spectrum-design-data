@@ -155,7 +155,7 @@ fn handle_key(
 
     // While the palette is open all keys are consumed here.
     if model.is_palette_open() {
-        return handle_palette_key(model, key);
+        return handle_palette_key(model, key, ctx);
     }
 
     // Modal captures all key input when present.
@@ -186,7 +186,14 @@ fn handle_key(
             model.open_command_palette();
         }
         KeyCode::Char('/') => {
+            // Stash the current view so Esc can restore it, then seed the
+            // results table with all tokens (empty query matches everything).
+            let saved = std::mem::replace(&mut model.active_view, ActiveView::Empty);
             model.open_fuzzy_palette();
+            if let Some(ps) = model.palette_state_mut() {
+                ps.saved_view = Some(saved);
+            }
+            apply_fuzzy_filter(model, "", ctx);
         }
         KeyCode::Char('q') => {
             model.quit = true;
@@ -196,16 +203,30 @@ fn handle_key(
     Task::none()
 }
 
-fn handle_palette_key(model: &mut Model, key: crossterm::event::KeyEvent) -> Task<Message> {
+fn handle_palette_key(
+    model: &mut Model,
+    key: crossterm::event::KeyEvent,
+    ctx: &UpdateCtx<'_>,
+) -> Task<Message> {
     let palette_cmd_mode = model.palette_mode() == Some(PaletteMode::Command);
+    let palette_fuzzy_mode = model.palette_mode() == Some(PaletteMode::FuzzyFind);
 
     match key.code {
         KeyCode::Esc => {
+            // Cancel: restore the view that was on screen before fuzzy-find opened.
+            let saved = model.palette_state_mut().and_then(|ps| ps.saved_view.take());
             model.close_palette();
+            if let Some(view) = saved {
+                model.active_view = view;
+            }
         }
         KeyCode::Enter => {
-            // Close the palette. The runtime sends a separate Message::PaletteSubmit
-            // after detecting this transition; submit is NOT dispatched here.
+            // Commit: keep the live fuzzy results, discard the saved view. The
+            // runtime sends a separate Message::PaletteSubmit after detecting this
+            // transition; for fuzzy mode it is gated off so no command dispatches.
+            if let Some(ps) = model.palette_state_mut() {
+                ps.saved_view = None;
+            }
             model.close_palette();
         }
         KeyCode::Tab if palette_cmd_mode => {
@@ -244,9 +265,22 @@ fn handle_palette_key(model: &mut Model, key: crossterm::event::KeyEvent) -> Tas
                 ps.history_cursor = None;
                 ps.input.handle_event(&crossterm::event::Event::Key(key));
             }
+            // Re-run the live name filter on every edit (typing, Backspace, …).
+            if palette_fuzzy_mode {
+                let query = model.palette_input_value().to_string();
+                apply_fuzzy_filter(model, &query, ctx);
+            }
         }
     }
     Task::none()
+}
+
+/// Rebuild the results table from a fuzzy-find `query`, ranking token names with
+/// `fuzzy::rank_token_rows`. Sets `active_view` to a `Query` view so the table,
+/// navigation, yank, and mouse hit-regions all work for the filtered results.
+fn apply_fuzzy_filter(model: &mut Model, query: &str, ctx: &UpdateCtx<'_>) {
+    let rows = crate::fuzzy::rank_token_rows(ctx.graph, query);
+    model.active_view = ActiveView::Query(crate::app::QueryView::fuzzy(query.to_string(), rows));
 }
 
 fn handle_history_nav(model: &mut Model, older: bool) {
