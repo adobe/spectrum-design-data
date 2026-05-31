@@ -30,7 +30,7 @@ A flat event enum (`src/message.rs`). Every user action that can change state is
 `Message` variant. Serializable (Serde) for `--record`/`--replay` debugging.
 
 Key variants: `Key(KeyEvent)`, `Mouse(MouseEvent)`, `Tick`, `PaletteSubmit(String)`,
-`WriteDone(Result<PathBuf, String>)`, `ClipboardDone(Option<String>)`.
+`WriteDone(Result<(String, PathBuf), String>)`, `ClipboardDone(Option<String>)`.
 
 **Variant size budget: ≤ 128 bytes.** Box large payloads. Enforced by `tests/budget.rs`.
 

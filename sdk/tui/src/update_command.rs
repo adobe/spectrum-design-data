@@ -167,10 +167,13 @@ fn dispatch_command(
                 return Task::none();
             };
             // Own everything the FS read needs, then run it in a Task::Cmd so
-            // `update` stays free of I/O. The did-you-mean suggestion is computed
-            // synchronously here because it needs the borrowed token graph.
+            // `update` stays free of I/O.
             let id = id.to_string();
             let file_path = comp_dir.join(format!("{id}.json"));
+            // The did-you-mean suggestion needs the borrowed token graph, which the
+            // 'static closure can't capture, so it is computed eagerly here — even
+            // when the file exists and the suggestion goes unused. It's a cheap
+            // prefix scan over component names, so the wasted work is negligible.
             let available: Vec<&str> = ctx
                 .graph
                 .components

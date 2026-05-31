@@ -112,10 +112,12 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
         }
         Message::WriteDone(result) => {
             match result {
-                Ok(path) => {
+                Ok((name, path)) => {
                     model.close_modal();
-                    model.status_message =
-                        Some(StatusMessage::info(format!("wrote → {}", path.display())));
+                    model.status_message = Some(StatusMessage::info(format!(
+                        "wrote {name} → {}",
+                        path.display()
+                    )));
                     Task::cmd(|| {
                         clear_wizard_draft();
                         Message::Tick
@@ -534,15 +536,20 @@ fn route_modal_key(
                 // Build the owned write input synchronously (no I/O), then dispatch
                 // the actual disk write as a Task::Cmd. The modal stays open until
                 // WriteDone reports success, so write errors can be surfaced in place.
-                let input = match model.modal() {
-                    Some(Modal::Wizard(ws)) => ws.build_write_input(ctx.dataset_path, ctx.graph),
+                // The assembled name is captured now so the confirmation can name the
+                // token (WriteDone only carries owned data).
+                let (name, input) = match model.modal() {
+                    Some(Modal::Wizard(ws)) => (
+                        ws.assembled_name(),
+                        ws.build_write_input(ctx.dataset_path, ctx.graph),
+                    ),
                     _ => return Task::none(),
                 };
                 let registry = ctx.schema_registry.clone();
                 match (input, registry) {
                     (Ok(input), Some(registry)) => Task::cmd(move || {
                         let result = write_token(input, &registry)
-                            .map(|out| out.written_to)
+                            .map(|out| (name, out.written_to))
                             .map_err(|e| e.to_string());
                         Message::WriteDone(result)
                     }),

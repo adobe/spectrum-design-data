@@ -152,7 +152,10 @@ fn write_done_ok_closes_modal_and_clears_draft() {
 
     let task = update(
         &mut model,
-        Message::WriteDone(Ok(PathBuf::from("/tmp/foundation.json"))),
+        Message::WriteDone(Ok((
+            "background-color".to_string(),
+            PathBuf::from("/tmp/foundation.json"),
+        ))),
         &ctx,
     );
     assert!(
@@ -169,6 +172,10 @@ fn write_done_ok_closes_modal_and_clears_draft() {
         .map(|m| m.text.as_str())
         .unwrap_or("");
     assert!(msg.contains("wrote"), "status should confirm write: {msg}");
+    assert!(
+        msg.contains("background-color"),
+        "confirmation should name the written token: {msg}"
+    );
 }
 
 #[test]

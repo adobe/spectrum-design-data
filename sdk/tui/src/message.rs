@@ -68,9 +68,10 @@ pub enum Message {
     FindCancel,
 
     // ── Side-effect completions ───────────────────────────────────────────────
-    /// A write-token operation completed. `Ok` carries the written path;
+    /// A write-token operation completed. `Ok` carries the assembled token name
+    /// and the written path (so the confirmation can name the token);
     /// `Err` carries the error string.
-    WriteDone(Result<std::path::PathBuf, String>),
+    WriteDone(Result<(String, std::path::PathBuf), String>),
     /// A clipboard write completed. `None` = success; `Some(err)` = failure message.
     ClipboardDone(Option<String>),
     /// A `describe` component FS read completed. `Ok` carries the rendered view;

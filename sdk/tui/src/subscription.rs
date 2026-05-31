@@ -138,6 +138,14 @@ impl<M> Subscriptions<M> {
 
     /// Emit a message for every subscription whose interval has elapsed by
     /// `now`, advancing each fired subscription's clock.
+    ///
+    /// Note: a fired subscription's clock is reset with `last_fired = now`
+    /// rather than `last_fired += interval`, so missed intervals are *not*
+    /// caught up — at most one message fires per `poll`, no matter how far
+    /// behind we are. This intentionally avoids burst/replay under load and is
+    /// the right behavior for the ~16ms UI tick. A future subscription that
+    /// needs precise cadence (e.g. exact beats over time) would need the
+    /// accumulating `last_fired += interval` variant instead.
     pub fn poll(&mut self, now: Instant) -> Vec<M> {
         let mut out = Vec::new();
         for a in &mut self.active {
