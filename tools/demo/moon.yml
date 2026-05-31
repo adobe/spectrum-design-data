@@ -17,6 +17,8 @@ tasks:
     command: [node, tools/demo/videos/render.mjs]
     options:
       runFromWorkspaceRoot: true
+      # Operator-only: needs `vhs` (+ ttyd/ffmpeg) on PATH, not available in CI.
+      runInCI: false
     inputs:
       - "videos/**/*.mjs"
 
@@ -32,6 +34,8 @@ tasks:
     command: [node, tools/demo/videos/build.mjs]
     options:
       runFromWorkspaceRoot: true
+      # Operator-only: consumes render.mjs output + recorded audio (ffmpeg), not in CI.
+      runInCI: false
     inputs:
       - "videos/**/*.mjs"
 
@@ -54,6 +58,9 @@ tasks:
     command: [pnpm, --dir, tools/demo/presentation, run, build]
     options:
       runFromWorkspaceRoot: true
+      # Operator-only: the deck is a standalone install (--ignore-workspace), so
+      # its node_modules/slidev aren't present in CI's workspace install.
+      runInCI: false
     inputs:
       - "presentation/slides.md"
       - "presentation/public/**/*"
