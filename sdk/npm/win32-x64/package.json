@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-win32-x64",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "design-data binary for Windows x64",
   "os": [
     "win32"

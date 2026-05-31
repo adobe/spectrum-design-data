@@ -1,5 +1,32 @@
 # @adobe/design-data-cli
 
+## 0.6.0
+
+### Minor Changes
+
+- [#1083](https://github.com/adobe/spectrum-design-data/pull/1083) [`dcf3f2d`](https://github.com/adobe/spectrum-design-data/commit/dcf3f2da92b3fc3d6d9037b40fdb64eea44edba2) Thanks [@GarthDB](https://github.com/GarthDB)! - Make the TUI `/` fuzzy-find palette filter token names live instead of being a
+  no-op (closes #1079).
+  - **sdk/tui/src/fuzzy.rs**: new fzf-style `subsequence_score` + `rank_token_rows`
+    (case-insensitive, consecutive-run and word-boundary bonuses).
+  - **sdk/tui/src/update.rs**: `/` seeds an all-tokens results table and stashes the
+    prior view; each keystroke re-ranks live; Enter commits, Esc restores.
+  - **sdk/tui/src/mode.rs**: `PaletteState` gains `saved_view` for Esc restore.
+  - **sdk/tui/src/runtime.rs**: only Command-mode Enter dispatches `PaletteSubmit`,
+    so fuzzy input never hits the command router.
+  - **sdk/tui/src/update_command.rs**: drop the now-unreachable fuzzy early-return.
+
+- [#1081](https://github.com/adobe/spectrum-design-data/pull/1081) [`bb6e828`](https://github.com/adobe/spectrum-design-data/commit/bb6e828e92848b94d125c96ec233137c87ea5773) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the TUI authoring wizard dropping all but the first mode-combo row on write.
+  - **sdk/core/authoring/draft**: add shared `build_value_fields` that emits flat
+    `$ref`/`value` for a single default row and nested `sets` for multi-mode rows.
+  - **sdk/core/authoring/session**: delegate token-value assembly to the shared helper.
+  - **sdk/tui/wizard**: build the written token and the live diff from one
+    `assembled_token` source (every value row, canonical `$ref` not `$alias`), so the
+    Confirm diff matches exactly what lands on disk.
+  - **sdk/tui/tests/wizard**: add a structured regression test asserting the assembled
+    token serializes `sets.light`/`sets.dark` for multi-mode rows.
+  - **sdk/tui/DEMO.md**: correct Beat B3 to use `:query`/`:find`; note `/` fuzzy-find
+    is not yet wired.
+
 ## 0.5.0
 
 ### Minor Changes
