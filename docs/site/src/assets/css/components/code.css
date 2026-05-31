@@ -1,0 +1,102 @@
+/*
+Copyright 2026 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
+/* Spectrum "Code" typography applied to all code, inline and block. */
+code,
+pre,
+pre[class*="language-"],
+code[class*="language-"] {
+  font-family: var(--spectrum-code-font-family-stack);
+  font-size: var(--spectrum-code-size-m);
+  line-height: var(--spectrum-code-line-height);
+  color: var(--spectrum-code-color);
+}
+
+/* Inline code: subtle pill, distinct from body text. */
+code {
+  background-color: var(--spectrum-gray-100);
+  padding: 0.125em 0.4em;
+  border-radius: var(--spectrum-corner-radius-75);
+}
+
+/* Code block panel. */
+pre,
+pre[class*="language-"] {
+  background-color: var(--spectrum-gray-75);
+  border: 1px solid var(--spectrum-gray-200);
+  border-radius: var(--spectrum-corner-radius-200);
+  padding: var(--spacing-default);
+  margin: var(--spacing-default) 0;
+  overflow-x: auto;
+}
+
+/* Code inside a block resets the inline pill treatment. */
+pre code,
+pre[class*="language-"] code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Prism token colors mapped to Spectrum color tokens. */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: var(--spectrum-gray-700);
+}
+
+.token.punctuation,
+.token.operator {
+  color: var(--spectrum-gray-800);
+}
+
+.token.keyword,
+.token.atrule,
+.token.rule,
+.token.important,
+.token.selector {
+  color: var(--spectrum-indigo-900);
+}
+
+.token.string,
+.token.char,
+.token.attr-value,
+.token.regex {
+  color: var(--spectrum-green-900);
+}
+
+.token.function,
+.token.class-name {
+  color: var(--spectrum-blue-900);
+}
+
+.token.number,
+.token.boolean,
+.token.constant,
+.token.symbol {
+  color: var(--spectrum-red-900);
+}
+
+.token.property,
+.token.tag,
+.token.attr-name {
+  color: var(--spectrum-purple-900);
+}
+
+.token.bold {
+  font-weight: var(--spectrum-bold-font-weight);
+}
+
+.token.italic {
+  font-style: italic;
+}

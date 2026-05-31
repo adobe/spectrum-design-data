@@ -137,6 +137,9 @@ importers:
       "@11ty/eleventy":
         specifier: ^3.0.0
         version: 3.1.2
+      "@11ty/eleventy-plugin-syntaxhighlight":
+        specifier: ^5.0.2
+        version: 5.0.2
       "@spectrum-css/link":
         specifier: ^7.1.0
         version: 7.2.0(@spectrum-css/tokens@16.0.2)
@@ -805,6 +808,12 @@ packages:
         integrity: sha512-QK1tRFBhQdZASnYU8GMzpTdsMMFLVAkuU0gVVILqNyp09xJJZb81kAS3AFrNrwBCsgLxTdWHJ8N64+OTTsoKkA==,
       }
     engines: { node: ">=18" }
+
+  "@11ty/eleventy-plugin-syntaxhighlight@5.0.2":
+    resolution:
+      {
+        integrity: sha512-T6xVVRDJuHlrFMHbUiZkHjj5o1IlLzZW+1IL9eUsyXFU7rY2ztcYhZew/64vmceFFpQwzuSfxQOXxTJYmKkQ+A==,
+      }
 
   "@11ty/eleventy-utils@2.0.7":
     resolution:
@@ -9602,6 +9611,10 @@ snapshots:
     transitivePeerDependencies:
       - posthtml
       - supports-color
+
+  "@11ty/eleventy-plugin-syntaxhighlight@5.0.2":
+    dependencies:
+      prismjs: 1.30.0
 
   "@11ty/eleventy-utils@2.0.7": {}
 

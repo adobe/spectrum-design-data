@@ -11,6 +11,7 @@ governing permissions and limitations under the License.
 */
 
 import { HtmlBasePlugin } from "@11ty/eleventy";
+import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import markdownItAnchor from "markdown-it-anchor";
 import GithubSlugger from "github-slugger";
 import { resolve, dirname } from "path";
@@ -30,6 +31,7 @@ export default async function (eleventyConfig) {
   eleventyConfig.setUseGitIgnore(false);
   eleventyConfig.setLiquidOptions({ jsTruthy: true });
   eleventyConfig.addPlugin(HtmlBasePlugin, { pathPrefix });
+  eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(cssConfig, {
     outputPath: resolve(outputDir, "assets", "css", "index.css"),
   });

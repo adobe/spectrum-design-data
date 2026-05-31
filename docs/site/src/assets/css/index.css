@@ -14,3 +14,4 @@ governing permissions and limitations under the License.
 @import "global/global.css";
 @import "base/vars.css";
 @import "base/index.css";
+@import "components/code.css";
