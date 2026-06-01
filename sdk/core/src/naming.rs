@@ -24,6 +24,7 @@ use std::path::Path;
 use std::sync::LazyLock;
 
 use serde::{Deserialize, Serialize};
+use serde_json::{Map, Value};
 
 /// Well-known interactive / semantic state words that may appear as the
 /// trailing segment(s) of a legacy token name.
@@ -130,6 +131,70 @@ fn split_trailing_state(s: &str) -> (&str, Option<&str>) {
     }
 
     (s, None)
+}
+
+/// Extract the canonical legacy kebab-case key from a cascade `name` value.
+///
+/// Handles two name forms:
+///
+/// * **String** (SPEC-017 escape hatch): the string *is* the legacy key.
+/// * **Object**: reconstructed by domain-aware rules:
+///   - *Color-domain* (name has `colorFamily`):
+///     `{variant?}-{colorFamily}-{scaleIndex?}` — `property` is implicit ("color") and not
+///     serialized in the legacy key.
+///   - *General* (all other tokens): uses [`generate_legacy_name`] which produces
+///     `{component?}-{property}-{state?}`. For thin-format cascade tokens where
+///     `property` already contains the full legacy key (possibly with component prefix),
+///     the result equals `property` directly.
+///
+/// Returns `None` only when the name is not a recognised shape (neither string nor object
+/// with a `property` field).
+pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
+    // String escape hatch: the string IS the legacy key.
+    if let Some(s) = name_val.as_str() {
+        return Some(s.to_string());
+    }
+
+    let name: &Map<String, Value> = name_val.as_object()?;
+
+    // Color-domain serialization: {variant?}-{colorFamily}-{scaleIndex?}
+    // `property` ("color") is implicit for palette tokens and omitted from the key.
+    if let Some(color_family) = name.get("colorFamily").and_then(|v| v.as_str()) {
+        let mut parts: Vec<String> = Vec::new();
+        if let Some(v) = name.get("variant").and_then(|v| v.as_str()) {
+            parts.push(v.to_string());
+        }
+        parts.push(color_family.to_string());
+        if let Some(i) = name.get("scaleIndex").and_then(|v| v.as_i64()) {
+            parts.push(i.to_string());
+        }
+        return Some(parts.join("-"));
+    }
+
+    let property = name.get("property").and_then(|v| v.as_str())?;
+    let component = name.get("component").and_then(|v| v.as_str());
+    let state = name.get("state").and_then(|v| v.as_str());
+
+    // Thin-format detection: `property` already begins with `{component}-`.
+    // In the thin cascade format the full legacy key is stored in `property`; component is
+    // duplicated as a metadata annotation only. Using `generate_legacy_name` would double
+    // the prefix, so we return `property` directly.
+    // `property[c.len()..].starts_with('-')` is idiomatic and avoids the byte-boundary
+    // concern of a range index when `c` contains a multibyte character.
+    let is_thin = component.is_some_and(|c| {
+        property.starts_with(c) && property[c.len()..].starts_with('-')
+    });
+
+    if is_thin {
+        return Some(property.to_string());
+    }
+
+    // Decomposed/general format: reconstruct via generate_legacy_name.
+    Some(generate_legacy_name(&NameObject {
+        property: property.to_string(),
+        component: component.map(str::to_string),
+        state: state.map(str::to_string),
+    }))
 }
 
 /// An entry in the naming-exceptions.json allowlist.
@@ -276,5 +341,70 @@ mod tests {
         assert_eq!(obj.property, "accent-background-color");
         assert_eq!(obj.state.as_deref(), Some("default"));
         assert!(roundtrips("accent-background-color-default", None));
+    }
+
+    // ── extract_legacy_key ────────────────────────────────────────────────────
+
+    use serde_json::json;
+
+    #[test]
+    fn extract_key_string_escape_hatch() {
+        // String names (SPEC-017 escape hatch) are returned verbatim.
+        let name = json!("drop-shadow-emphasized-default-color");
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("drop-shadow-emphasized-default-color"));
+    }
+
+    #[test]
+    fn extract_key_color_family_with_scale_index() {
+        // Color-domain: {colorFamily}-{scaleIndex}, property ("color") is implicit.
+        let name = json!({"property": "color", "colorFamily": "blue", "scaleIndex": 100});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("blue-100"));
+    }
+
+    #[test]
+    fn extract_key_color_family_no_scale_index() {
+        let name = json!({"property": "color", "colorFamily": "black"});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("black"));
+    }
+
+    #[test]
+    fn extract_key_color_family_with_variant() {
+        let name = json!({"property": "color", "colorFamily": "cinnamon", "variant": "primary"});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("primary-cinnamon"));
+    }
+
+    #[test]
+    fn extract_key_decomposed_component_property_state() {
+        // General / decomposed format: generate_legacy_name path.
+        let name = json!({"component": "button", "property": "background-color", "state": "hover"});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("button-background-color-hover"));
+    }
+
+    #[test]
+    fn extract_key_thin_format_property_is_full_key() {
+        // Thin format: property starts with component prefix → return property directly.
+        let name = json!({"property": "swatch-disabled-icon-border-color", "component": "swatch"});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("swatch-disabled-icon-border-color"));
+    }
+
+    #[test]
+    fn extract_key_no_property_uses_color_domain() {
+        // Object with colorFamily but no property → color-domain path still works
+        // (property is implicit for palette tokens).
+        let name = json!({"colorFamily": "blue"});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("blue"));
+    }
+
+    #[test]
+    fn extract_key_no_property_no_color_family_returns_none() {
+        // Object with neither property nor colorFamily → None.
+        let name = json!({"state": "hover"});
+        assert_eq!(extract_legacy_key(&name), None);
+    }
+
+    #[test]
+    fn extract_key_non_string_non_object_returns_none() {
+        assert_eq!(extract_legacy_key(&json!(null)), None);
+        assert_eq!(extract_legacy_key(&json!(42)), None);
     }
 }

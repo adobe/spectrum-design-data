@@ -335,6 +335,12 @@ enum MigrateSub {
         /// Destination directory for cascade .tokens.json output files
         #[arg(long, value_name = "OUTPUT")]
         output: PathBuf,
+        /// Directory containing sidecar name-object JSON files (e.g. packages/token-names/names/)
+        #[arg(long, value_name = "DIR")]
+        names_dir: Option<PathBuf>,
+        /// Path to naming-exceptions.json for known non-roundtrippable token names
+        #[arg(long, value_name = "FILE")]
+        exceptions: Option<PathBuf>,
     },
     /// Convert cascade-format .tokens.json files back to legacy set-format JSON
     LegacyOutput {
@@ -655,8 +661,17 @@ fn run_migrate_roundtrip_verify(path: &Path) -> miette::Result<ExitCode> {
     Ok(ExitCode::from(1))
 }
 
-fn run_migrate_convert(input: &Path, output: &Path) -> miette::Result<ExitCode> {
-    let summary = migrate::convert_dir(input, output)
+fn run_migrate_convert(
+    input: &Path,
+    output: &Path,
+    names_dir: Option<&Path>,
+    exceptions: Option<&Path>,
+) -> miette::Result<ExitCode> {
+    let opts = migrate::ConvertOptions {
+        names_dir: names_dir.map(PathBuf::from),
+        exceptions_path: exceptions.map(PathBuf::from),
+    };
+    let summary = migrate::convert_dir_with_options(input, output, &opts)
         .into_diagnostic()
         .wrap_err_with(|| {
             format!(
@@ -672,6 +687,27 @@ fn run_migrate_convert(input: &Path, output: &Path) -> miette::Result<ExitCode> 
         summary.set_entries_unwrapped,
         summary.flat_tokens_converted,
     );
+    if summary.inline_names > 0
+        || summary.sidecar_names > 0
+        || summary.decomposed_names > 0
+        || summary.thin_names > 0
+    {
+        println!("\nName resolution:");
+        println!("  {:>5}  inline   (from existing name field)", summary.inline_names);
+        println!("  {:>5}  sidecar  (from token-names sidecar)", summary.sidecar_names);
+        println!("  {:>5}  decomposed (component + property + state)", summary.decomposed_names);
+        println!("  {:>5}  thin     (full key as property — tech debt)", summary.thin_names);
+        let total =
+            summary.inline_names + summary.sidecar_names + summary.decomposed_names + summary.thin_names;
+        if total > 0 {
+            let rich = summary.inline_names + summary.sidecar_names + summary.decomposed_names;
+            println!(
+                "  ──────\n  {:>5}  total  ({:.0}% structured)",
+                total,
+                100.0 * rich as f64 / total as f64
+            );
+        }
+    }
     Ok(ExitCode::SUCCESS)
 }
 
@@ -1562,7 +1598,12 @@ fn main() -> ExitCode {
                 schema_path,
                 exceptions_path,
             } => run_migrate_snapshot(&path, &output, schema_path, exceptions_path),
-            MigrateSub::Convert { input, output } => run_migrate_convert(&input, &output),
+            MigrateSub::Convert {
+                input,
+                output,
+                names_dir,
+                exceptions,
+            } => run_migrate_convert(&input, &output, names_dir.as_deref(), exceptions.as_deref()),
             MigrateSub::LegacyOutput { input, output } => {
                 run_migrate_legacy_output(&input, &output)
             }
