@@ -230,30 +230,75 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "description": "Horizontal internal spacing with uniform dimensions for base UI elements at 2x-large size",
     "uuid": "9c571815-ef7f-4baa-9c7f-32a6f89052b7",
+    "value": "{base-padding-vertical-2x-large}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `base-padding-horizontal-2x-large-uniform` instead.",
+    "renamed": "base-padding-horizontal-2x-large-uniform"
+  },
+  "base-padding-horizontal-2x-large-uniform": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "description": "Horizontal internal spacing with uniform dimensions for base UI elements at 2x-large size",
+    "uuid": "d1b4b30c-6fdf-4697-9ded-58e2dc2ef4dc",
     "value": "{base-padding-vertical-2x-large}"
   },
   "base-padding-horizontal-uniform-2x-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "description": "Horizontal internal spacing with uniform dimensions for base UI elements at 2x-small size",
     "uuid": "af1d798e-4235-44a3-a327-1779c134b72b",
+    "value": "{base-padding-vertical-2x-small}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `base-padding-horizontal-2x-small-uniform` instead.",
+    "renamed": "base-padding-horizontal-2x-small-uniform"
+  },
+  "base-padding-horizontal-2x-small-uniform": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "description": "Horizontal internal spacing with uniform dimensions for base UI elements at 2x-small size",
+    "uuid": "91a54f26-b583-4993-805b-a2cb61830366",
     "value": "{base-padding-vertical-2x-small}"
   },
   "base-padding-horizontal-uniform-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "description": "Horizontal internal spacing with uniform dimensions for base UI elements at extra-large size",
     "uuid": "54f547dc-cb51-4eb2-91ff-b0f7b383f072",
+    "value": "{base-padding-vertical-extra-large}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `base-padding-horizontal-extra-large-uniform` instead.",
+    "renamed": "base-padding-horizontal-extra-large-uniform"
+  },
+  "base-padding-horizontal-extra-large-uniform": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "description": "Horizontal internal spacing with uniform dimensions for base UI elements at extra-large size",
+    "uuid": "4c944d82-7f9f-4672-bbad-15bd5fb37349",
     "value": "{base-padding-vertical-extra-large}"
   },
   "base-padding-horizontal-uniform-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "description": "Horizontal internal spacing with uniform dimensions for base UI elements at extra-small size",
     "uuid": "337ce5da-d735-4930-a9c8-9fecf4dcb9b0",
+    "value": "{base-padding-vertical-extra-small}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `base-padding-horizontal-extra-small-uniform` instead.",
+    "renamed": "base-padding-horizontal-extra-small-uniform"
+  },
+  "base-padding-horizontal-extra-small-uniform": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "description": "Horizontal internal spacing with uniform dimensions for base UI elements at extra-small size",
+    "uuid": "68017185-a9d2-4b2f-8a19-fda1f248ab5a",
     "value": "{base-padding-vertical-extra-small}"
   },
   "base-padding-horizontal-uniform-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "description": "Horizontal internal spacing with uniform dimensions for base UI elements at large size",
     "uuid": "1006824d-539b-408e-afd6-1e77779b9d21",
+    "value": "{base-padding-vertical-large}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `base-padding-horizontal-large-uniform` instead.",
+    "renamed": "base-padding-horizontal-large-uniform"
+  },
+  "base-padding-horizontal-large-uniform": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "description": "Horizontal internal spacing with uniform dimensions for base UI elements at large size",
+    "uuid": "ed8ae947-d375-435f-ba23-a58830b2e169",
     "value": "{base-padding-vertical-large}"
   },
   "base-padding-horizontal-uniform-medium": {
@@ -266,6 +311,15 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "description": "Horizontal internal spacing with uniform dimensions for base UI elements at small size",
     "uuid": "3c42cb65-d84e-4cfd-bf17-e9f21ce17b7e",
+    "value": "{base-padding-vertical-small}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `base-padding-horizontal-small-uniform` instead.",
+    "renamed": "base-padding-horizontal-small-uniform"
+  },
+  "base-padding-horizontal-small-uniform": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "description": "Horizontal internal spacing with uniform dimensions for base UI elements at small size",
+    "uuid": "0809d6da-adc4-4d49-98e2-af6a67778842",
     "value": "{base-padding-vertical-small}"
   },
   "base-padding-vertical-2x-large": {
@@ -417,7 +471,26 @@
         "value": "30px"
       }
     },
-    "uuid": "03a7d531-c294-4a41-bd51-38c77a20317e"
+    "uuid": "03a7d531-c294-4a41-bd51-38c77a20317e",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `control-color-track-width` instead.",
+    "renamed": "control-color-track-width"
+  },
+  "control-color-track-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "uuid": "dd31d7b9-0ff7-4c40-84ab-fcec1833945a",
+        "value": "24px"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "uuid": "5cc87e8a-99db-4b86-ac17-b874122a9c58",
+        "value": "30px"
+      }
+    },
+    "uuid": "3289386e-37c0-4d85-b9b6-682fea65aae7"
   },
   "component-bottom-to-text-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

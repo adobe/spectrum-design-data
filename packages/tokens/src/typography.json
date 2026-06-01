@@ -234,47 +234,118 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "body",
     "uuid": "884b74cb-d247-491d-acb9-d3dc84bfd9a6",
+    "value": "{font-size-300}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `body-size-large` instead.",
+    "renamed": "body-size-large"
+  },
+  "body-size-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "body",
+    "uuid": "541627a2-297f-4c55-a75f-ac187127aeb5",
     "value": "{font-size-300}"
   },
   "body-size-m": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "body",
     "uuid": "4f7f6878-5304-48d3-8a42-5bb452c2163b",
+    "value": "{font-size-200}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `body-size-medium` instead.",
+    "renamed": "body-size-medium"
+  },
+  "body-size-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "body",
+    "uuid": "0cf815b0-0fd6-43a4-bb1e-da2dbaaf475b",
     "value": "{font-size-200}"
   },
   "body-size-s": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "body",
     "uuid": "1194f7e3-e4c3-4a3a-bd19-50f4b48e1a6e",
+    "value": "{font-size-100}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `body-size-small` instead.",
+    "renamed": "body-size-small"
+  },
+  "body-size-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "body",
+    "uuid": "13c4359b-336c-496d-b01a-fabde4b10b43",
     "value": "{font-size-100}"
   },
   "body-size-xl": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "body",
     "uuid": "3927604f-eaf3-4605-aa34-80b7bc88ac0f",
+    "value": "{font-size-400}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `body-size-extra-large` instead.",
+    "renamed": "body-size-extra-large"
+  },
+  "body-size-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "body",
+    "uuid": "40578e4a-8ffb-47e7-9198-d82c18441a94",
     "value": "{font-size-400}"
   },
   "body-size-xs": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "body",
     "uuid": "25e93322-8f0b-45f8-ae9a-18668251f064",
+    "value": "{font-size-75}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `body-size-extra-small` instead.",
+    "renamed": "body-size-extra-small"
+  },
+  "body-size-extra-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "body",
+    "uuid": "c891a862-6d59-4408-9486-796c8350cda2",
     "value": "{font-size-75}"
   },
   "body-size-xxl": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "body",
     "uuid": "4d0d4ed9-af14-4d88-98f1-9237f65e192a",
+    "value": "{font-size-500}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `body-size-2x-large` instead.",
+    "renamed": "body-size-2x-large"
+  },
+  "body-size-2x-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "body",
+    "uuid": "71ae47da-18ea-49e0-a363-ad8f88ef46c2",
     "value": "{font-size-500}"
   },
   "body-size-xxs": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "uuid": "3aa79ac7-9e78-4413-b500-b8d1937705cb",
+    "value": "{font-size-50}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `body-size-2x-small` instead.",
+    "renamed": "body-size-2x-small"
+  },
+  "body-size-2x-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "0398da58-07e6-43e4-9b38-1789b869296e",
     "value": "{font-size-50}"
   },
   "body-size-xxxl": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "body",
     "uuid": "e0b8ceea-3404-4c4b-9145-fe5d445020fe",
+    "value": "{font-size-600}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `body-size-3x-large` instead.",
+    "renamed": "body-size-3x-large"
+  },
+  "body-size-3x-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "body",
+    "uuid": "c3fac4f0-b8bd-45b9-a6ac-3cc7b961af59",
     "value": "{font-size-600}"
   },
   "bold-font-weight": {
@@ -408,30 +479,75 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "code",
     "uuid": "b7010f1a-c994-4b19-b273-3f609fe4be2b",
+    "value": "{font-size-300}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `code-size-large` instead.",
+    "renamed": "code-size-large"
+  },
+  "code-size-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "code",
+    "uuid": "75290ca0-581c-483c-9c55-d70c2d97530e",
     "value": "{font-size-300}"
   },
   "code-size-m": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "code",
     "uuid": "e5b76091-7cbb-4d1e-8d27-48f00759c9f3",
+    "value": "{font-size-200}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `code-size-medium` instead.",
+    "renamed": "code-size-medium"
+  },
+  "code-size-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "code",
+    "uuid": "cf842aa7-96dc-4079-99ff-1ad98b5e74a8",
     "value": "{font-size-200}"
   },
   "code-size-s": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "code",
     "uuid": "efa9311b-27c5-45ea-93a7-bef6f9370179",
+    "value": "{font-size-100}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `code-size-small` instead.",
+    "renamed": "code-size-small"
+  },
+  "code-size-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "code",
+    "uuid": "d2b4971d-3807-49ca-9f84-0c89dedb29b8",
     "value": "{font-size-100}"
   },
   "code-size-xl": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "code",
     "uuid": "7879adbc-6c38-4d29-9a90-a4ad91c75b90",
+    "value": "{font-size-400}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `code-size-extra-large` instead.",
+    "renamed": "code-size-extra-large"
+  },
+  "code-size-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "code",
+    "uuid": "5cbcce3a-b6f0-4466-a23a-76462c26d3c4",
     "value": "{font-size-400}"
   },
   "code-size-xs": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "code",
     "uuid": "f0c5e6fb-fb48-45d2-a043-558b3dc28bc7",
+    "value": "{font-size-75}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `code-size-extra-small` instead.",
+    "renamed": "code-size-extra-small"
+  },
+  "code-size-extra-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "code",
+    "uuid": "8f69c407-4274-4f7a-95b2-f4df5422084f",
     "value": "{font-size-75}"
   },
   "code-strong-emphasized-font-style": {
@@ -802,12 +918,30 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "detail",
     "uuid": "35ac24a4-0338-44c6-b780-120a0af0fc51",
+    "value": 0.25,
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `detail-margin-multiplier-bottom` instead.",
+    "renamed": "detail-margin-multiplier-bottom"
+  },
+  "detail-margin-multiplier-bottom": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "component": "detail",
+    "uuid": "ec39b178-3be2-45ca-98b1-2c578336678c",
     "value": 0.25
   },
   "detail-margin-top-multiplier": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "detail",
     "uuid": "5d34c3b5-fddd-420b-bfe4-0dee4e07701c",
+    "value": 0.88888889,
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `detail-margin-multiplier-top` instead.",
+    "renamed": "detail-margin-multiplier-top"
+  },
+  "detail-margin-multiplier-top": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "component": "detail",
+    "uuid": "ea4c6e48-acdb-4323-8da8-86d156cc556a",
     "value": 0.88888889
   },
   "detail-sans-serif-emphasized-font-style": {
@@ -1048,30 +1182,75 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "detail",
     "uuid": "613da587-5c48-4efa-abb5-36378c1e81f0",
+    "value": "{font-size-200}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `detail-size-large` instead.",
+    "renamed": "detail-size-large"
+  },
+  "detail-size-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "detail",
+    "uuid": "877c3a51-cc66-4d4e-9a77-d447987a2218",
     "value": "{font-size-200}"
   },
   "detail-size-m": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "detail",
     "uuid": "07840554-1ec1-4823-b119-474ec9cc31f0",
+    "value": "{font-size-100}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `detail-size-medium` instead.",
+    "renamed": "detail-size-medium"
+  },
+  "detail-size-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "detail",
+    "uuid": "65ed22d8-472f-42df-ae61-8182a0399a46",
     "value": "{font-size-100}"
   },
   "detail-size-s": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "detail",
     "uuid": "585e1bec-ee93-4983-b0bb-3a1f6ec28218",
+    "value": "{font-size-75}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `detail-size-small` instead.",
+    "renamed": "detail-size-small"
+  },
+  "detail-size-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "detail",
+    "uuid": "8af617c6-51de-4bc3-8a9a-7ea11e977f60",
     "value": "{font-size-75}"
   },
   "detail-size-xl": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "detail",
     "uuid": "ab476eec-b592-4890-af8f-74de808cb87f",
+    "value": "{font-size-300}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `detail-size-extra-large` instead.",
+    "renamed": "detail-size-extra-large"
+  },
+  "detail-size-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "detail",
+    "uuid": "31b06a7b-857f-492d-b51d-c17a83023918",
     "value": "{font-size-300}"
   },
   "detail-size-xs": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "detail",
     "uuid": "b33a59b4-1ec2-4f09-8cb3-9bfd09d7c695",
+    "value": "{font-size-50}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `detail-size-extra-small` instead.",
+    "renamed": "detail-size-extra-small"
+  },
+  "detail-size-extra-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "detail",
+    "uuid": "4ab8c98e-6914-4639-9aab-db82f0995b07",
     "value": "{font-size-50}"
   },
   "extra-bold-font-weight": {
@@ -1600,12 +1779,30 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "heading",
     "uuid": "dd2035b4-506f-41ab-a656-de3668d44e0f",
+    "value": 0.25,
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `heading-margin-multiplier-bottom` instead.",
+    "renamed": "heading-margin-multiplier-bottom"
+  },
+  "heading-margin-multiplier-bottom": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "component": "heading",
+    "uuid": "7fa5a902-9ca7-4747-846d-bb2e8ce7c684",
     "value": 0.25
   },
   "heading-margin-top-multiplier": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "heading",
     "uuid": "008fa04b-6d74-416b-a6ae-ceec90f08642",
+    "value": 0.88888889,
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `heading-margin-multiplier-top` instead.",
+    "renamed": "heading-margin-multiplier-top"
+  },
+  "heading-margin-multiplier-top": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "component": "heading",
+    "uuid": "c913bc07-d4de-43a3-aab5-89501ed9434c",
     "value": 0.88888889
   },
   "heading-sans-serif-emphasized-font-style": {
@@ -1924,36 +2121,90 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "heading",
     "uuid": "336e434c-9026-4bb3-96b1-5bb44376b868",
+    "value": "{font-size-700}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `heading-size-large` instead.",
+    "renamed": "heading-size-large"
+  },
+  "heading-size-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "uuid": "0058375b-94ac-4256-9cc6-777bf56a85b1",
     "value": "{font-size-700}"
   },
   "heading-size-m": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "heading",
     "uuid": "4cdcefe1-2006-4560-839f-5bdef6db8c1a",
+    "value": "{font-size-500}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `heading-size-medium` instead.",
+    "renamed": "heading-size-medium"
+  },
+  "heading-size-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "uuid": "d51dc90c-6d2c-49f0-a8f7-beafbcaa2e1d",
     "value": "{font-size-500}"
   },
   "heading-size-s": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "heading",
     "uuid": "96673fee-b75c-4867-9041-48362af044bc",
+    "value": "{font-size-400}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `heading-size-small` instead.",
+    "renamed": "heading-size-small"
+  },
+  "heading-size-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "uuid": "1da05f1d-0397-4972-ac0e-f7660dce6729",
     "value": "{font-size-400}"
   },
   "heading-size-xl": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "heading",
     "uuid": "94bb5ad9-503a-428a-a8ba-6cf3f70592ac",
+    "value": "{font-size-900}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `heading-size-extra-large` instead.",
+    "renamed": "heading-size-extra-large"
+  },
+  "heading-size-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "uuid": "80ee588f-dea3-4b12-a0cd-ba542d771d25",
     "value": "{font-size-900}"
   },
   "heading-size-xs": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "heading",
     "uuid": "4f179af6-c31f-48f8-927c-a45150668ad3",
+    "value": "{font-size-300}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `heading-size-extra-small` instead.",
+    "renamed": "heading-size-extra-small"
+  },
+  "heading-size-extra-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "uuid": "0f5071e4-0d2c-46d5-b441-ea66b9ac3faa",
     "value": "{font-size-300}"
   },
   "heading-size-xxl": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "heading",
     "uuid": "464e34cd-e768-4a38-a72b-cae1a4852ef3",
+    "value": "{font-size-1100}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `heading-size-2x-large` instead.",
+    "renamed": "heading-size-2x-large"
+  },
+  "heading-size-2x-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "uuid": "920fa886-3d98-47ea-89d1-22d5b0ecd5cc",
     "value": "{font-size-1100}"
   },
   "heading-size-xxs": {
@@ -1967,6 +2218,15 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "heading",
     "uuid": "db884bf9-e7b5-420a-b408-bd9a4d6bb0a4",
+    "value": "{font-size-1300}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `heading-size-3x-large` instead.",
+    "renamed": "heading-size-3x-large"
+  },
+  "heading-size-3x-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "uuid": "fcefa23c-e481-4d93-be28-0c83617be60a",
     "value": "{font-size-1300}"
   },
   "heading-size-xxxxl": {
@@ -2290,6 +2550,14 @@
   "medium-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "uuid": "c966c3b6-1bf5-4064-89f9-00d9ec673fd4",
+    "value": "medium",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `font-weight-medium` instead.",
+    "renamed": "font-weight-medium"
+  },
+  "font-weight-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
+    "uuid": "228afe79-2ba6-4979-9f4d-1b7f13219814",
     "value": "medium"
   },
   "regular-font-weight": {
