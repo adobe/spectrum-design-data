@@ -29,6 +29,7 @@ COMMANDS
   :describe <component>   Inspect a component schema
   :validate               Validate all tokens against schemas
   :new [<intent>]         Open the token authoring wizard
+  :find                   Open the fuzzy-find token explorer
 
 QUERY / RESOLVE / VALIDATE VIEW
   Up / k                  Move selection up

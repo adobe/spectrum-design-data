@@ -73,18 +73,22 @@ fn empty_app_renders_primer_text() {
 fn empty_app_renders_home_screen() {
     let mut model = Model::new();
     let buf = render_to_buffer(&mut model, W, H);
-    // The home screen replaces the old bordered empty box; verify the Spectrum
-    // logo marker (bottom ▀▀▀ row) or the prompt cue (>) appears somewhere in
-    // the main-content rows (1..H-1).
-    let has_home_content = (1..H - 1).any(|y| {
-        let row = row_str(&buf, y, W);
-        row.contains('▀') || row.contains('>')
-    });
-    assert!(
-        has_home_content,
-        "expected home screen content (logo or prompt) in rows 1..{}",
-        H - 1
-    );
+
+    // Logo: the bottom ▀▀▀ row must appear somewhere in the content area.
+    let has_logo = (1..H - 1).any(|y| row_str(&buf, y, W).contains('▀'));
+    assert!(has_logo, "expected Spectrum logo (▀▀▀ row) in main-content rows");
+
+    // Version line: "Spectrum Design Data  v0.x.x" must appear.
+    let has_name = (1..H - 1).any(|y| row_str(&buf, y, W).contains("Spectrum Design Data"));
+    assert!(has_name, "expected 'Spectrum Design Data' version line in home screen");
+
+    // Command table: at least one well-known command name must be present.
+    let has_command = (1..H - 1).any(|y| row_str(&buf, y, W).contains(":validate"));
+    assert!(has_command, "expected ':validate' command entry in home screen command table");
+
+    // Prompt cue: the '>' marker must appear.
+    let has_prompt = (1..H - 1).any(|y| row_str(&buf, y, W).contains('>'));
+    assert!(has_prompt, "expected '>' prompt cue in home screen");
 }
 
 #[test]

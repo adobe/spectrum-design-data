@@ -134,16 +134,25 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
 /// prompt cue, and a compact command reference — styled after Obsidian's TUI
 /// landing screen.
 fn render_home(frame: &mut Frame<'_>, area: Rect, theme: &Theme) {
-    // Column width for command names (left column of the command table).
-    const CMD_COL: usize = 28;
     // Left-margin spaces prepended to every rendered line.
     const MARGIN: &str = "  ";
+
+    // Derive the command-name column width from the actual content so the table
+    // stays aligned automatically if COMMANDS gains a longer entry.
+    // NOTE: uses .len() (byte count). All command name strings in COMMANDS are
+    // ASCII-only, so byte count == display column count. Non-ASCII glyphs would
+    // need unicode-width for correct alignment.
+    let cmd_col = COMMANDS
+        .iter()
+        .map(|(n, _)| n.len())
+        .max()
+        .unwrap_or(0);
 
     let version = env!("CARGO_PKG_VERSION");
 
     let mut lines: Vec<Line> = Vec::new();
 
-    // Logo (plain foreground, no tint).
+    // Logo (plain foreground, no tint — intentional per design).
     for logo_line in LOGO.lines() {
         lines.push(Line::from(format!("{MARGIN}{logo_line}")));
     }
@@ -183,9 +192,9 @@ fn render_home(frame: &mut Frame<'_>, area: Rect, theme: &Theme) {
     // Spacer.
     lines.push(Line::from(""));
 
-    // Command reference table.
+    // Command reference table — names left-padded to cmd_col width.
     for (name, desc) in COMMANDS {
-        let padding = CMD_COL.saturating_sub(name.len());
+        let padding = cmd_col.saturating_sub(name.len());
         lines.push(Line::from(vec![
             Span::raw(MARGIN),
             Span::styled(

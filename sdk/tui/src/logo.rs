@@ -34,8 +34,13 @@ pub const LOGO: &str = r"                ████
 
 /// Command reference shown on the home screen.
 ///
-/// Each entry is `(name, description)`. Keep in sync with `help.rs` and
-/// `update_command.rs`.
+/// Each entry is `(name, description)`. The command names **must be ASCII-only**;
+/// the render code uses `.len()` (byte count) as the display-column width. Add
+/// unicode-width if that ever changes.
+///
+/// These entries should stay in sync with the `COMMANDS` section of `help.rs`
+/// and with the command dispatch in `update_command.rs`. A test in this module
+/// (`commands_present_in_help_text`) guards against silent drift.
 pub const COMMANDS: &[(&str, &str)] = &[
     (":query <expr>", "Filter tokens  e.g. background-color/*"),
     (
@@ -49,3 +54,42 @@ pub const COMMANDS: &[(&str, &str)] = &[
     ("?", "Toggle help"),
     ("q", "Quit"),
 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::help::HELP_TEXT;
+
+    /// All command names in COMMANDS must be ASCII-only. The render code uses
+    /// `name.len()` (byte count) as the display-column width, which is only
+    /// correct for ASCII. This test fails fast if a non-ASCII glyph sneaks in.
+    #[test]
+    fn command_names_are_ascii() {
+        for (name, _) in COMMANDS {
+            assert!(
+                name.is_ascii(),
+                "COMMANDS entry {name:?} contains non-ASCII characters; \
+                 update render_home to use unicode-width before adding non-ASCII names"
+            );
+        }
+    }
+
+    /// Every command name in COMMANDS must appear somewhere in the HELP_TEXT
+    /// COMMANDS section, so the two sources of truth don't silently drift.
+    #[test]
+    fn commands_present_in_help_text() {
+        // Only check the palette command names (those starting with ':').
+        for (name, _) in COMMANDS {
+            if !name.starts_with(':') {
+                continue;
+            }
+            // Strip the leading ':' to match how help.rs writes the command
+            // (e.g. ":query <expr>" → "query" appears in HELP_TEXT as ":query").
+            assert!(
+                HELP_TEXT.contains(name),
+                "COMMANDS entry {name:?} is not present in HELP_TEXT; \
+                 update help.rs or logo.rs to keep them in sync"
+            );
+        }
+    }
+}
