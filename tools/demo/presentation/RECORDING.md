@@ -53,7 +53,7 @@ Launch the TUI clean:
 
 ```bash
 cargo run -p design-data-cli --release -- \
-  packages/tokens/dist/json --theme spectrum --no-resume-wizard
+  packages/design-data/tokens --theme spectrum --no-resume-wizard
 ```
 
 ## Markers
@@ -111,7 +111,7 @@ CLI, \~1 min. This is the deterministic counterpart to the recorded AI/MCP video
 | Beat | Command                                          | Marker after |
 | ---- | ------------------------------------------------ | ------------ |
 | C1   | `design-data suggest "primary background color"` | yes          |
-| C2   | `design-data primer packages/tokens/dist/json`   | yes          |
+| C2   | `design-data primer packages/design-data/tokens` | yes          |
 
 Honest framing while narrating: `suggest` is **deterministic lexical ranking**
 (Jaccard), not a model. The only model layer is the agent in Demo D.
@@ -132,7 +132,7 @@ In addition to `asciinema` and the built CLI, you need the design-data MCP wired
   "args": ["-y", "@adobe/design-data-agent-mcp"],
   "env": {
     "DESIGN_DATA_BIN": "${PWD}/sdk/target/release/design-data",
-    "DESIGN_DATA_PATH": "packages/design-data-spec",
+    "DESIGN_DATA_PATH": "packages/design-data/tokens",
     "DESIGN_DATA_COMPONENTS": "packages/design-data-spec/components"
   }
 }

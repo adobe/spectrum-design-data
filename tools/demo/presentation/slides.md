@@ -35,7 +35,7 @@ token against it, then hand the same data to an AI agent.
 
 # 1 · Find & inspect
 
-Search 2,460 tokens, resolve the cascade, read a component contract — all in the terminal.
+Search 4,166 tokens, resolve the cascade, read a component contract — all in the terminal.
 
 <!--
 First: before authoring anything, see what's already there. Everything here is
@@ -51,7 +51,7 @@ deterministic — query, resolve, describe. No model involved.
 <Asciinema src="casts/A-find.cast" :playerProps="{ pauseOnMarkers: true, cols: 120, rows: 36, poster: 'npt:0:00', theme: 'asciinema', fit: 'width' }" />
 
 <!--
-Beat A1 — `:query background-color/*` filters ~2,460 tokens into a Name / Value /
+Beat A1 — `:query background-color/*` filters ~4,166 tokens into a Name / Value /
 File / Layer table. The TUI loads the whole corpus in about a second.
 
 Beat A2 — `:resolve property=accent-background-color-default,colorScheme=dark`

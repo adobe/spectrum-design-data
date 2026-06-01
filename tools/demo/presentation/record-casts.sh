@@ -45,7 +45,7 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 CASTS_DIR="$SCRIPT_DIR/public/casts"
 mkdir -p "$CASTS_DIR"
 
-DATASET="packages/tokens/dist/json"
+DATASET="packages/design-data/tokens"
 TUI_CMD="cargo run -p design-data-cli --release -- $DATASET --theme spectrum --no-resume-wizard"
 
 # Clean any leftover wizard draft so the reuse banner / wizard start fresh.
