@@ -46,6 +46,7 @@ use std::path::Path;
 use serde_json::{Map, Value};
 
 use crate::discovery::discover_json_files;
+use crate::naming::extract_legacy_key;
 use crate::CoreError;
 
 // ── Schema URL constants ──────────────────────────────────────────────────────
@@ -106,20 +107,18 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<LegacySummary,
         if let Some(arr) = value.as_array() {
             for item in arr {
                 if let Some(tok) = item.as_object() {
-                    let name = tok
-                        .get("name")
-                        .and_then(|v| v.as_object())
-                        .and_then(|n| n.get("property"))
-                        .and_then(|v| v.as_str());
-                    if let Some(name) = name {
+                    // Use extract_legacy_key so string-name (escape-hatch) tokens
+                    // are indexed correctly alongside object-name tokens.
+                    let name = tok.get("name").and_then(extract_legacy_key);
+                    if let Some(ref name) = name {
                         // Index the per-mode uuid.
                         if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
-                            global_uuid_to_name.insert(uuid.to_string(), name.to_string());
+                            global_uuid_to_name.insert(uuid.to_string(), name.clone());
                         }
                         // Also index set_uuid so replaced_by pointing at a set token's
                         // outer UUID resolves correctly to renamed.
                         if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
-                            global_uuid_to_name.insert(set_uuid.to_string(), name.to_string());
+                            global_uuid_to_name.insert(set_uuid.to_string(), name.clone());
                         }
                     }
                 }
@@ -160,15 +159,16 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<LegacySummary,
     Ok(summary)
 }
 
-/// Convert a single cascade token (from a `name` object + token fields) to a
-/// legacy entry value. Returns `None` if the token has no `name.property`.
+/// Convert a single cascade token to a legacy entry value.
+///
+/// Accepts both object-name tokens and string-name (SPEC-017 escape-hatch) tokens.
+/// Returns `None` only when the token has no recognisable `name` field.
 ///
 /// Used directly in tests; `convert_dir` calls this internally via `convert_array`.
 pub fn convert_token(token: &Map<String, Value>) -> Option<(String, Value)> {
-    let name_obj = token.get("name")?.as_object()?;
-    let property = name_obj.get("property")?.as_str()?.to_string();
-    let entry = build_entry(token, name_obj);
-    Some((property, entry))
+    let key = token.get("name").and_then(extract_legacy_key)?;
+    let entry = build_flat_entry(token);
+    Some((key, entry))
 }
 
 // ── Roundtrip verification ────────────────────────────────────────────────────
@@ -463,13 +463,12 @@ fn convert_array(
         let Some(tok) = item.as_object() else {
             continue;
         };
-        let Some(name_obj) = tok.get("name").and_then(|v| v.as_object()) else {
+        // extract_legacy_key handles both object names (decomposed or thin) and
+        // string names (SPEC-017 escape hatch).
+        let Some(key) = tok.get("name").and_then(extract_legacy_key) else {
             continue;
         };
-        let Some(property) = name_obj.get("property").and_then(|v| v.as_str()) else {
-            continue;
-        };
-        groups.entry(property.to_string()).or_default().push(tok);
+        groups.entry(key).or_default().push(tok);
     }
 
     let mut out = Map::new();
@@ -696,14 +695,6 @@ fn build_flat_entry(tok: &Map<String, Value>) -> Value {
     }
 
     Value::Object(entry)
-}
-
-/// Build an entry value directly from a cascade token (used by `convert_token`).
-fn build_entry(tok: &Map<String, Value>, name_obj: &Map<String, Value>) -> Value {
-    // If the token has a recognized mode-set key in its name object, it cannot
-    // be round-tripped as a standalone entry — return flat entry.
-    let _ = name_obj;
-    build_flat_entry(tok)
 }
 
 /// Denormalize `$ref: "foo"` → `value: "{foo}"`.
