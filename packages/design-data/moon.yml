@@ -1,0 +1,75 @@
+# Copyright 2026 Adobe. All rights reserved.
+# This file is licensed to you under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License. You may obtain a copy
+# of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+# OF ANY KIND, either express or implied. See the License for the specific language
+# governing permissions and limitations under the License.
+$schema: "https://moonrepo.dev/schemas/project.json"
+layer: library
+fileGroups:
+  tokens:
+    - "tokens/**/*.tokens.json"
+
+tasks:
+  # Validate the cascade token files against the design-data spec rules.
+  validate:
+    command: ../../sdk/target/debug/design-data
+    args:
+      - validate
+      - ./tokens
+      - --exceptions-path
+      - ../tokens/naming-exceptions.json
+    platform: system
+    deps:
+      - sdk:build
+    inputs:
+      - "@globs(tokens)"
+      - "../tokens/naming-exceptions.json"
+
+  # Regenerate packages/tokens/src/ from the cascade source of truth.
+  # Run this after editing any tokens/*.tokens.json file to keep the
+  # legacy package in sync for downstream consumers.
+  legacy-output:
+    command: ../../sdk/target/debug/design-data
+    args:
+      - migrate
+      - legacy-output
+      - ./tokens
+      - --output
+      - ../tokens/src
+    platform: system
+    deps:
+      - sdk:build
+    inputs:
+      - "@globs(tokens)"
+    outputs:
+      - "../tokens/src/**/*.json"
+
+  # Regenerate the cascade token files from the legacy source.
+  # Used to re-sync this package after upstream legacy changes.
+  # Under normal operation, edits should be made here (cascade) not in
+  # packages/tokens/src (legacy).
+  generate:
+    command: ../../sdk/target/debug/design-data
+    args:
+      - migrate
+      - convert
+      - ../tokens/src
+      - --output
+      - ./tokens
+      - --names-dir
+      - ../token-names/names
+      - --exceptions
+      - ../tokens/naming-exceptions.json
+    platform: system
+    deps:
+      - sdk:build
+    inputs:
+      - "../tokens/src/**/*.json"
+      - "../token-names/names/**/*.json"
+      - "../tokens/naming-exceptions.json"
+    outputs:
+      - "@globs(tokens)"
