@@ -9,7 +9,7 @@
 // governing permissions and limitations under the License.
 
 use ratatui::{
-    layout::{Constraint, Direction, Layout, Rect},
+    layout::{Alignment, Constraint, Direction, Layout, Rect},
     style::{Modifier, Style},
     text::{Line, Span},
     widgets::{Block, Borders, Cell, Clear, Paragraph, Row, Table},
@@ -20,6 +20,7 @@ use crate::app::{
     ActiveView, DescribeView, Modal, QueryView, ResolveView, StatusKind, ValidateView,
 };
 use crate::help::HELP_TEXT;
+use crate::logo::{COMMANDS, LOGO};
 use crate::model::Model;
 use crate::naming::{NamingScreen, NamingWizardState};
 use crate::theme::Theme;
@@ -73,12 +74,7 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
 
     // Active view.
     match &mut model.active_view {
-        ActiveView::Empty => {
-            let block = Block::default()
-                .borders(Borders::ALL)
-                .title(" Active View ");
-            frame.render_widget(block, chunks[1]);
-        }
+        ActiveView::Empty => render_home(frame, chunks[1], theme),
         ActiveView::Query(ref mut qv) => render_query(frame, qv, chunks[1], theme),
         ActiveView::Resolve(ref mut rv) => render_resolve(frame, rv, chunks[1], theme),
         ActiveView::Describe(ref dv) => render_describe(frame, dv, chunks[1]),
@@ -131,6 +127,100 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
 }
 
 // ── Per-view render fns (extracted from the inline match arms) ────────────────
+
+/// Render the home / start screen shown at launch and after `Esc`.
+///
+/// Displays the Spectrum ASCII-art logo, the TUI name + version, a decorative
+/// prompt cue, and a compact command reference — styled after Obsidian's TUI
+/// landing screen.
+fn render_home(frame: &mut Frame<'_>, area: Rect, theme: &Theme) {
+    // Left-margin spaces prepended to every rendered line.
+    const MARGIN: &str = "  ";
+
+    // Derive the command-name column width from the actual content so the table
+    // stays aligned automatically if COMMANDS gains a longer entry.
+    // NOTE: uses .len() (byte count). All command name strings in COMMANDS are
+    // ASCII-only, so byte count == display column count. Non-ASCII glyphs would
+    // need unicode-width for correct alignment (guarded by command_names_are_ascii).
+    //
+    // Computed per call rather than cached (LazyLock/OnceLock). COMMANDS has
+    // 8 entries and render_home only runs when the screen is idle, so the
+    // overhead is negligible and the simplicity is worth it.
+    let cmd_col = COMMANDS
+        .iter()
+        .map(|(n, _)| n.len())
+        .max()
+        .unwrap_or(0);
+
+    let version = env!("CARGO_PKG_VERSION");
+
+    // Only show the logo when there is enough vertical space for it. The logo
+    // is 17 lines; the rest of the home screen (name + hint + prompt + 8
+    // commands + spacers) needs 13 more, so the full layout is 31 lines.
+    // Below that threshold the logo is silently omitted so the name, hint,
+    // prompt, and command table still render cleanly on shorter terminals.
+    let logo_lines: Vec<&str> = LOGO.lines().collect();
+    let non_logo_height: u16 = 13; // spacer + name + hint + spacer + prompt + spacer + 8 commands
+    let show_logo = area.height >= logo_lines.len() as u16 + 1 + non_logo_height;
+
+    let mut lines: Vec<Line> = Vec::new();
+
+    if show_logo {
+        for logo_line in &logo_lines {
+            lines.push(Line::from(format!("{MARGIN}{logo_line}")));
+        }
+        // Spacer between logo and name.
+        lines.push(Line::from(""));
+    }
+
+    // Name + version.
+    lines.push(Line::from(vec![
+        Span::raw(MARGIN),
+        Span::styled(
+            "Spectrum Design Data",
+            Style::default().add_modifier(Modifier::BOLD),
+        ),
+        Span::styled(format!("  v{version}"), Style::default().fg(theme.muted)),
+    ]));
+
+    // Hint line.
+    lines.push(Line::from(vec![
+        Span::raw(MARGIN),
+        Span::styled(
+            ": commands · / search · ? help · q quit",
+            Style::default().fg(theme.muted),
+        ),
+    ]));
+
+    lines.push(Line::from(""));
+
+    // Decorative prompt + block cursor.
+    lines.push(Line::from(vec![
+        Span::raw(MARGIN),
+        Span::raw("> "),
+        Span::styled(" ", Style::default().add_modifier(Modifier::REVERSED)),
+    ]));
+
+    lines.push(Line::from(""));
+
+    // Command reference table — names left-padded to cmd_col width.
+    for (name, desc) in COMMANDS {
+        let padding = cmd_col.saturating_sub(name.len());
+        lines.push(Line::from(vec![
+            Span::raw(MARGIN),
+            Span::styled(
+                name.to_string(),
+                Style::default()
+                    .fg(theme.accent)
+                    .add_modifier(Modifier::BOLD),
+            ),
+            Span::raw(" ".repeat(padding + 2)),
+            Span::styled(desc.to_string(), Style::default().fg(theme.muted)),
+        ]));
+    }
+
+    frame.render_widget(Paragraph::new(lines).alignment(Alignment::Left), area);
+}
 
 fn render_query(f: &mut Frame<'_>, qv: &mut QueryView, area: Rect, theme: &Theme) {
     let header = Row::new(vec![

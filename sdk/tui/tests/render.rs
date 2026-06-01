@@ -70,14 +70,32 @@ fn empty_app_renders_primer_text() {
 }
 
 #[test]
-fn empty_app_renders_active_view_border() {
+fn empty_app_renders_home_screen_tall() {
+    // Tall terminal (48 rows): logo threshold is met — all sections visible.
+    const H_TALL: u16 = 48;
+    let mut model = Model::new();
+    let buf = render_to_buffer(&mut model, W, H_TALL);
+
+    let rows = |needle: &str| (1..H_TALL - 1).any(|y| row_str(&buf, y, W).contains(needle));
+
+    assert!(rows("▀"), "logo (▀▀▀ row) should appear in a tall terminal");
+    assert!(rows("Spectrum Design Data"), "name line should appear");
+    assert!(rows(":validate"), "command table should appear");
+    assert!(rows(">"), "prompt cue should appear");
+}
+
+#[test]
+fn empty_app_renders_home_screen_short() {
+    // Short terminal (24 rows = 22 content rows): logo is omitted, but name,
+    // hint, prompt, and command table still render within the available space.
     let mut model = Model::new();
     let buf = render_to_buffer(&mut model, W, H);
-    let border_row = (1..H).find(|&y| buf.cell((0, y)).unwrap().symbol() == "┌");
-    assert!(
-        border_row.is_some(),
-        "expected a '┌' border somewhere in rows 1..{H}"
-    );
+
+    let rows = |needle: &str| (1..H - 1).any(|y| row_str(&buf, y, W).contains(needle));
+
+    assert!(!rows("▀"), "logo should be hidden on a short terminal");
+    assert!(rows("Spectrum Design Data"), "name line should appear even without logo");
+    assert!(rows(">"), "prompt cue should appear even without logo");
 }
 
 #[test]
