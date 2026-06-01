@@ -154,15 +154,24 @@ fn render_home(frame: &mut Frame<'_>, area: Rect, theme: &Theme) {
 
     let version = env!("CARGO_PKG_VERSION");
 
+    // Only show the logo when there is enough vertical space for it. The logo
+    // is 17 lines; the rest of the home screen (name + hint + prompt + 8
+    // commands + spacers) needs 13 more, so the full layout is 31 lines.
+    // Below that threshold the logo is silently omitted so the name, hint,
+    // prompt, and command table still render cleanly on shorter terminals.
+    let logo_lines: Vec<&str> = LOGO.lines().collect();
+    let non_logo_height: u16 = 13; // spacer + name + hint + spacer + prompt + spacer + 8 commands
+    let show_logo = area.height >= logo_lines.len() as u16 + 1 + non_logo_height;
+
     let mut lines: Vec<Line> = Vec::new();
 
-    // Logo (plain foreground, no tint — intentional per design).
-    for logo_line in LOGO.lines() {
-        lines.push(Line::from(format!("{MARGIN}{logo_line}")));
+    if show_logo {
+        for logo_line in &logo_lines {
+            lines.push(Line::from(format!("{MARGIN}{logo_line}")));
+        }
+        // Spacer between logo and name.
+        lines.push(Line::from(""));
     }
-
-    // Spacer.
-    lines.push(Line::from(""));
 
     // Name + version.
     lines.push(Line::from(vec![
@@ -183,7 +192,6 @@ fn render_home(frame: &mut Frame<'_>, area: Rect, theme: &Theme) {
         ),
     ]));
 
-    // Spacer.
     lines.push(Line::from(""));
 
     // Decorative prompt + block cursor.
@@ -193,7 +201,6 @@ fn render_home(frame: &mut Frame<'_>, area: Rect, theme: &Theme) {
         Span::styled(" ", Style::default().add_modifier(Modifier::REVERSED)),
     ]));
 
-    // Spacer.
     lines.push(Line::from(""));
 
     // Command reference table — names left-padded to cmd_col width.
