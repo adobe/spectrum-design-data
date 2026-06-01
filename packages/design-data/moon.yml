@@ -15,6 +15,8 @@ fileGroups:
 
 tasks:
   # Validate the cascade token files against the design-data spec rules.
+  # Note: `validate` uses --exceptions-path; `migrate convert` uses --exceptions.
+  # These are different subcommands with different flag names.
   validate:
     command: ../../sdk/target/debug/design-data
     args:
@@ -48,11 +50,30 @@ tasks:
     outputs:
       - "../tokens/src/**/*.json"
 
-  # Regenerate the cascade token files from the legacy source.
-  # Used to re-sync this package after upstream legacy changes.
-  # Under normal operation, edits should be made here (cascade) not in
-  # packages/tokens/src (legacy).
-  generate:
+  # CI guard: verify that packages/tokens/src/ is in sync with the cascade
+  # source. Fails if a PR updates cascade tokens without re-running legacy-output.
+  roundtrip-verify:
+    command: ../../sdk/target/debug/design-data
+    args:
+      - migrate
+      - roundtrip-verify
+      - ../tokens/src
+    platform: system
+    deps:
+      - sdk:build
+    inputs:
+      - "@globs(tokens)"
+      - "../tokens/src/**/*.json"
+
+  # ONE-TIME / ESCAPE HATCH — Re-sync cascade files from the legacy package.
+  # Use this only when upstream legacy changes need to be pulled into cascade
+  # before the full migration is complete. Under normal operation, all edits
+  # go into tokens/*.tokens.json (cascade), not packages/tokens/src/ (legacy).
+  #
+  # WARNING: this task OVERWRITES the cascade token files. Do not run it
+  # routinely — doing so would discard any hand-authored taxonomy improvements
+  # in the cascade source.
+  regenerate-from-legacy:
     command: ../../sdk/target/debug/design-data
     args:
       - migrate
@@ -71,5 +92,5 @@ tasks:
       - "../tokens/src/**/*.json"
       - "../token-names/names/**/*.json"
       - "../tokens/naming-exceptions.json"
-    outputs:
-      - "@globs(tokens)"
+    # No `outputs:` — prevents moon from auto-running this task as part of
+    # dependency graphs and silently clobbering hand-edited cascade tokens.
