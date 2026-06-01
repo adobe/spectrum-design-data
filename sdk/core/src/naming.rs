@@ -179,8 +179,10 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     // In the thin cascade format the full legacy key is stored in `property`; component is
     // duplicated as a metadata annotation only. Using `generate_legacy_name` would double
     // the prefix, so we return `property` directly.
+    // `property[c.len()..].starts_with('-')` is idiomatic and avoids the byte-boundary
+    // concern of a range index when `c` contains a multibyte character.
     let is_thin = component.is_some_and(|c| {
-        property.starts_with(c) && property.get(c.len()..c.len() + 1) == Some("-")
+        property.starts_with(c) && property[c.len()..].starts_with('-')
     });
 
     if is_thin {
@@ -339,5 +341,70 @@ mod tests {
         assert_eq!(obj.property, "accent-background-color");
         assert_eq!(obj.state.as_deref(), Some("default"));
         assert!(roundtrips("accent-background-color-default", None));
+    }
+
+    // ── extract_legacy_key ────────────────────────────────────────────────────
+
+    use serde_json::json;
+
+    #[test]
+    fn extract_key_string_escape_hatch() {
+        // String names (SPEC-017 escape hatch) are returned verbatim.
+        let name = json!("drop-shadow-emphasized-default-color");
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("drop-shadow-emphasized-default-color"));
+    }
+
+    #[test]
+    fn extract_key_color_family_with_scale_index() {
+        // Color-domain: {colorFamily}-{scaleIndex}, property ("color") is implicit.
+        let name = json!({"property": "color", "colorFamily": "blue", "scaleIndex": 100});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("blue-100"));
+    }
+
+    #[test]
+    fn extract_key_color_family_no_scale_index() {
+        let name = json!({"property": "color", "colorFamily": "black"});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("black"));
+    }
+
+    #[test]
+    fn extract_key_color_family_with_variant() {
+        let name = json!({"property": "color", "colorFamily": "cinnamon", "variant": "primary"});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("primary-cinnamon"));
+    }
+
+    #[test]
+    fn extract_key_decomposed_component_property_state() {
+        // General / decomposed format: generate_legacy_name path.
+        let name = json!({"component": "button", "property": "background-color", "state": "hover"});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("button-background-color-hover"));
+    }
+
+    #[test]
+    fn extract_key_thin_format_property_is_full_key() {
+        // Thin format: property starts with component prefix → return property directly.
+        let name = json!({"property": "swatch-disabled-icon-border-color", "component": "swatch"});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("swatch-disabled-icon-border-color"));
+    }
+
+    #[test]
+    fn extract_key_no_property_uses_color_domain() {
+        // Object with colorFamily but no property → color-domain path still works
+        // (property is implicit for palette tokens).
+        let name = json!({"colorFamily": "blue"});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("blue"));
+    }
+
+    #[test]
+    fn extract_key_no_property_no_color_family_returns_none() {
+        // Object with neither property nor colorFamily → None.
+        let name = json!({"state": "hover"});
+        assert_eq!(extract_legacy_key(&name), None);
+    }
+
+    #[test]
+    fn extract_key_non_string_non_object_returns_none() {
+        assert_eq!(extract_legacy_key(&json!(null)), None);
+        assert_eq!(extract_legacy_key(&json!(42)), None);
     }
 }

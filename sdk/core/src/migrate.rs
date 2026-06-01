@@ -125,6 +125,12 @@ pub struct MigrateSummary {
     pub decomposed_names: usize,
     /// Cascade tokens that kept the full legacy key as `property` (tech-debt / thin).
     pub thin_names: usize,
+    /// Flat tokens that had an inline `name` field that didn't roundtrip to the legacy key;
+    /// the inline name was discarded and a resolved name was substituted.
+    pub inline_names_dropped: usize,
+    /// Number of sidecar slug entries that were overwritten by a later file
+    /// (last-writer-wins collision count from `load_sidecar_names`).
+    pub sidecar_slug_overrides: usize,
 }
 
 /// Summary statistics from an add-uuids run.
@@ -149,14 +155,21 @@ struct NameContext<'a> {
 /// Load sidecar name-object JSON files from `dir` into a flat slug → name map.
 ///
 /// Each file in `dir` must be a JSON object mapping token slug → name-object value.
-/// Duplicate slugs across files are overwritten (last writer wins).
-fn load_sidecar_names(dir: &Path) -> Result<HashMap<String, Value>, CoreError> {
+/// Duplicate slugs across files are overwritten (last writer wins). The number of
+/// slug collisions (overrides) is added to `summary.sidecar_slug_overrides`.
+fn load_sidecar_names(
+    dir: &Path,
+    summary: &mut MigrateSummary,
+) -> Result<HashMap<String, Value>, CoreError> {
     let mut map = HashMap::new();
     for path in discover_json_files(dir)? {
         let text = std::fs::read_to_string(&path)?;
         let val: Value = serde_json::from_str(&text)?;
         if let Some(obj) = val.as_object() {
             for (slug, name_val) in obj {
+                if map.contains_key(slug) {
+                    summary.sidecar_slug_overrides += 1;
+                }
                 map.insert(slug.clone(), name_val.clone());
             }
         }
@@ -288,11 +301,17 @@ pub fn convert_token(name: &str, token_obj: &Map<String, Value>) -> Vec<Value> {
 
 /// Convert a single legacy token with access to a name→UUID map for resolving
 /// `renamed` → `replaced_by`.
+///
+/// Uses a throwaway `MigrateSummary` and `name_ctx: None` (thin path) because
+/// `convert_token` / `convert_token_with_context` are single-token utilities with
+/// no caller-visible summary and no name-resolution context. Full name resolution
+/// and summary accumulation happen only in `convert_dir` / `convert_dir_with_options`.
 fn convert_token_with_context(
     name: &str,
     token_obj: &Map<String, Value>,
     name_to_uuid: &HashMap<&str, &str>,
 ) -> Vec<Value> {
+    let mut throwaway = MigrateSummary::default();
     let schema = token_obj
         .get("$schema")
         .and_then(|v| v.as_str())
@@ -305,11 +324,21 @@ fn convert_token_with_context(
             "colorScheme",
             COLOR_SET_MODE_ORDER,
             name_to_uuid,
+            None,
+            &mut throwaway,
         )
     } else if schema.ends_with("scale-set.json") || schema.ends_with("typography-scale.json") {
-        convert_set(name, token_obj, "scale", SCALE_SET_MODE_ORDER, name_to_uuid)
+        convert_set(
+            name,
+            token_obj,
+            "scale",
+            SCALE_SET_MODE_ORDER,
+            name_to_uuid,
+            None,
+            &mut throwaway,
+        )
     } else {
-        vec![build_flat(name, token_obj, name_to_uuid)]
+        vec![build_flat(name, token_obj, name_to_uuid, None, &mut throwaway)]
     }
 }
 
@@ -319,11 +348,67 @@ fn convert_token_with_context(
 ///
 /// Returns a summary of the migration.
 pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<MigrateSummary, CoreError> {
-    std::fs::create_dir_all(output_dir)?;
+    let mut summary = MigrateSummary::default();
+    convert_dir_inner(input_dir, output_dir, None, &mut summary)?;
+    Ok(summary)
+}
+
+/// Convert all legacy token files in `input_dir` to cascade `.tokens.json` files in
+/// `output_dir`, applying richer name-object resolution guided by `opts`.
+///
+/// When `opts.names_dir` is set, sidecar name objects are merged where they roundtrip
+/// to the original key. When `opts.exceptions_path` is set, tokens listed in the
+/// exceptions file skip decomposition and receive a thin name.
+///
+/// The [`MigrateSummary`] returned includes per-resolution-kind counts so callers can
+/// measure decomposition quality (the "feasibility spike" report).
+pub fn convert_dir_with_options(
+    input_dir: &Path,
+    output_dir: &Path,
+    opts: &ConvertOptions,
+) -> Result<MigrateSummary, CoreError> {
     let mut summary = MigrateSummary::default();
 
-    // Pass 1: scan all files to build a global name → UUID map for cross-file
-    // renamed → replaced_by resolution.
+    // Load sidecar names if provided.
+    let sidecar: HashMap<String, Value> = match &opts.names_dir {
+        Some(dir) if dir.is_dir() => load_sidecar_names(dir, &mut summary)?,
+        _ => HashMap::new(),
+    };
+
+    // Load forced-thin set from naming-exceptions.json if provided.
+    let forced_thin: HashSet<String> = match &opts.exceptions_path {
+        Some(path) if path.exists() => {
+            let exc = naming::NamingExceptionsFile::load(path)?;
+            exc.token_set()
+        }
+        _ => HashSet::new(),
+    };
+
+    let name_ctx = NameContext {
+        sidecar: &sidecar,
+        forced_thin: &forced_thin,
+    };
+
+    convert_dir_inner(input_dir, output_dir, Some(&name_ctx), &mut summary)?;
+    Ok(summary)
+}
+
+// ── Internal helpers ──────────────────────────────────────────────────────────
+
+/// Shared pass-1/pass-2 implementation for `convert_dir` and `convert_dir_with_options`.
+///
+/// Pass 1 scans all files to build a global name→UUID map for cross-file
+/// `renamed` → `replaced_by` resolution. Pass 2 converts each file using that
+/// map, optionally threading a `NameContext` for richer name resolution.
+fn convert_dir_inner(
+    input_dir: &Path,
+    output_dir: &Path,
+    name_ctx: Option<&NameContext<'_>>,
+    summary: &mut MigrateSummary,
+) -> Result<(), CoreError> {
+    std::fs::create_dir_all(output_dir)?;
+
+    // Pass 1: scan all files to build a global name → UUID map.
     let files = discover_json_files(input_dir)?;
     let mut global_name_to_uuid: HashMap<String, String> = HashMap::new();
     let mut file_contents: Vec<(std::path::PathBuf, Value)> = Vec::new();
@@ -355,7 +440,7 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<MigrateSummary
             continue;
         };
 
-        let tokens = convert_object_with_context(obj, &mut summary, &name_to_uuid_ref);
+        let tokens = convert_object_with_context(obj, summary, &name_to_uuid_ref, name_ctx);
         if tokens.is_empty() {
             continue;
         }
@@ -373,107 +458,42 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<MigrateSummary
         summary.files_written += 1;
     }
 
-    Ok(summary)
+    Ok(())
 }
 
-/// Convert all legacy token files in `input_dir` to cascade `.tokens.json` files in
-/// `output_dir`, applying richer name-object resolution guided by `opts`.
-///
-/// When `opts.names_dir` is set, sidecar name objects are merged where they roundtrip
-/// to the original key. When `opts.exceptions_path` is set, tokens listed in the
-/// exceptions file skip decomposition and receive a thin name.
-///
-/// The [`MigrateSummary`] returned includes per-resolution-kind counts so callers can
-/// measure decomposition quality (the "feasibility spike" report).
-pub fn convert_dir_with_options(
-    input_dir: &Path,
-    output_dir: &Path,
-    opts: &ConvertOptions,
-) -> Result<MigrateSummary, CoreError> {
-    std::fs::create_dir_all(output_dir)?;
-    let mut summary = MigrateSummary::default();
-
-    // Load sidecar names if provided.
-    let sidecar: HashMap<String, Value> = match &opts.names_dir {
-        Some(dir) if dir.is_dir() => load_sidecar_names(dir)?,
-        _ => HashMap::new(),
-    };
-
-    // Load forced-thin set from naming-exceptions.json if provided.
-    let forced_thin: HashSet<String> = match &opts.exceptions_path {
-        Some(path) if path.exists() => {
-            let exc = naming::NamingExceptionsFile::load(path)?;
-            exc.token_set()
-        }
-        _ => HashSet::new(),
-    };
-
-    let name_ctx = NameContext {
-        sidecar: &sidecar,
-        forced_thin: &forced_thin,
-    };
-
-    // Pass 1: build cross-file name→UUID map (same as convert_dir).
-    let files = discover_json_files(input_dir)?;
-    let mut global_name_to_uuid: HashMap<String, String> = HashMap::new();
-    let mut file_contents: Vec<(std::path::PathBuf, Value)> = Vec::new();
-
-    for input_path in &files {
-        let text = std::fs::read_to_string(input_path)?;
-        let value: Value = serde_json::from_str(&text)?;
-        if let Some(obj) = value.as_object() {
-            for (name, val) in obj {
-                if let Some(tok) = val.as_object() {
-                    if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
-                        global_name_to_uuid.insert(name.clone(), uuid.to_string());
-                    }
-                }
-            }
-        }
-        file_contents.push((input_path.clone(), value));
+fn record_name_kind(kind: NameKind, count: usize, summary: &mut MigrateSummary) {
+    match kind {
+        NameKind::Inline => summary.inline_names += count,
+        NameKind::Sidecar => summary.sidecar_names += count,
+        NameKind::Decomposed => summary.decomposed_names += count,
+        NameKind::Thin => summary.thin_names += count,
     }
-
-    let name_to_uuid_ref: HashMap<&str, &str> = global_name_to_uuid
-        .iter()
-        .map(|(k, v)| (k.as_str(), v.as_str()))
-        .collect();
-
-    // Pass 2: convert each file with richer name resolution.
-    for (input_path, value) in &file_contents {
-        let Some(obj) = value.as_object() else {
-            continue;
-        };
-
-        let tokens =
-            convert_object_with_opts(obj, &mut summary, &name_to_uuid_ref, &name_ctx);
-        if tokens.is_empty() {
-            continue;
-        }
-
-        let stem = input_path
-            .file_stem()
-            .and_then(|s| s.to_str())
-            .unwrap_or("tokens");
-        let out_name = format!("{stem}.tokens.json");
-        let out_path = output_dir.join(out_name);
-        let out_text = serde_json::to_string_pretty(&Value::Array(tokens))?;
-        std::fs::write(&out_path, out_text)?;
-
-        summary.files_processed += 1;
-        summary.files_written += 1;
-    }
-
-    Ok(summary)
 }
 
-// ── Internal helpers ──────────────────────────────────────────────────────────
+/// Build the thin name value: `{property: key, component?}`.
+///
+/// This is the safe fallback name that always roundtrips because
+/// `naming::extract_legacy_key` detects the thin format and returns `property`
+/// directly for group key extraction in `legacy.rs`.
+fn thin_name_val(property: &str, source: &Map<String, Value>) -> Value {
+    let mut name = Map::new();
+    name.insert("property".into(), Value::String(property.to_string()));
+    if let Some(c) = source.get("component").and_then(|v| v.as_str()) {
+        name.insert("component".into(), Value::String(c.to_string()));
+    }
+    Value::Object(name)
+}
 
-/// Convert all entries in a legacy token file object to cascade tokens (opts path).
-fn convert_object_with_opts(
+/// Convert all entries in a legacy token file object to cascade tokens.
+///
+/// When `name_ctx` is `None`, the thin path is used (existing `build_flat` /
+/// `build_set_entry` logic). When `Some`, `resolve_name` is called for richer
+/// name-object resolution.
+fn convert_object_with_context(
     obj: &Map<String, Value>,
     summary: &mut MigrateSummary,
     name_to_uuid: &HashMap<&str, &str>,
-    name_ctx: &NameContext<'_>,
+    name_ctx: Option<&NameContext<'_>>,
 ) -> Vec<Value> {
     let mut out = Vec::new();
     for (name, val) in obj {
@@ -486,29 +506,19 @@ fn convert_object_with_opts(
             .unwrap_or("");
         if schema.ends_with("color-set.json") {
             let tokens =
-                convert_set_with_opts(name, tok_obj, "colorScheme", COLOR_SET_MODE_ORDER, name_to_uuid, name_ctx);
-            let n = tokens.len();
-            if n > 0 {
-                let kind = resolve_name(name, tok_obj, name_ctx).1;
-                record_name_kind(kind, n, summary);
-            }
-            summary.set_entries_unwrapped += n;
-            summary.tokens_produced += n;
+                convert_set(name, tok_obj, "colorScheme", COLOR_SET_MODE_ORDER, name_to_uuid, name_ctx, summary);
+            summary.set_entries_unwrapped += tokens.len();
+            summary.tokens_produced += tokens.len();
             out.extend(tokens);
         } else if schema.ends_with("scale-set.json") || schema.ends_with("typography-scale.json")
         {
             let tokens =
-                convert_set_with_opts(name, tok_obj, "scale", SCALE_SET_MODE_ORDER, name_to_uuid, name_ctx);
-            let n = tokens.len();
-            if n > 0 {
-                let kind = resolve_name(name, tok_obj, name_ctx).1;
-                record_name_kind(kind, n, summary);
-            }
-            summary.set_entries_unwrapped += n;
-            summary.tokens_produced += n;
+                convert_set(name, tok_obj, "scale", SCALE_SET_MODE_ORDER, name_to_uuid, name_ctx, summary);
+            summary.set_entries_unwrapped += tokens.len();
+            summary.tokens_produced += tokens.len();
             out.extend(tokens);
         } else {
-            let token = build_flat_with_opts(name, tok_obj, name_to_uuid, name_ctx, summary);
+            let token = build_flat(name, tok_obj, name_to_uuid, name_ctx, summary);
             summary.flat_tokens_converted += 1;
             summary.tokens_produced += 1;
             out.push(token);
@@ -517,190 +527,24 @@ fn convert_object_with_opts(
     out
 }
 
-fn record_name_kind(kind: NameKind, count: usize, summary: &mut MigrateSummary) {
-    match kind {
-        NameKind::Inline => summary.inline_names += count,
-        NameKind::Sidecar => summary.sidecar_names += count,
-        NameKind::Decomposed => summary.decomposed_names += count,
-        NameKind::Thin => summary.thin_names += count,
-    }
-}
-
-/// Convert a set token (opts path).
-fn convert_set_with_opts(
-    property: &str,
-    outer: &Map<String, Value>,
-    dim_key: &str,
-    mode_order: &[&str],
-    name_to_uuid: &HashMap<&str, &str>,
-    name_ctx: &NameContext<'_>,
-) -> Vec<Value> {
-    let sets = match outer.get("sets").and_then(|v| v.as_object()) {
-        Some(s) => s,
-        None => return vec![build_flat_with_opts(property, outer, name_to_uuid, name_ctx, &mut MigrateSummary::default())],
-    };
-
-    let mut modes: Vec<&str> = mode_order
-        .iter()
-        .filter(|m| sets.contains_key(**m))
-        .copied()
-        .collect();
-    for mode in sets.keys() {
-        if !modes.contains(&mode.as_str()) {
-            modes.push(mode.as_str());
-        }
-    }
-
-    modes
-        .iter()
-        .filter_map(|mode| {
-            let entry = sets.get(*mode)?.as_object()?;
-            Some(build_set_entry_with_opts(
-                property, outer, entry, dim_key, mode, name_to_uuid, name_ctx,
-            ))
-        })
-        .collect()
-}
-
-/// Build a cascade token from a set mode entry (opts path).
-fn build_set_entry_with_opts(
-    property: &str,
-    outer: &Map<String, Value>,
-    entry: &Map<String, Value>,
-    dim_key: &str,
-    mode: &str,
-    name_to_uuid: &HashMap<&str, &str>,
-    name_ctx: &NameContext<'_>,
-) -> Value {
-    let mut out = Map::new();
-
-    // Resolve the base name (taxonomy decomposition / sidecar enrichment).
-    let (base_name, _kind) = resolve_name(property, outer, name_ctx);
-    let name_val = match base_name {
-        Value::Object(mut name_obj) => {
-            // Add the mode-set dimension to the name object.
-            name_obj.insert(dim_key.to_string(), Value::String(mode.to_string()));
-            Value::Object(name_obj)
-        }
-        // String escape hatch: can't add dim_key to a string.
-        // Fall back to thin object so the set structure is preserved.
-        _ => {
-            let mut name_obj = Map::new();
-            name_obj.insert("property".into(), Value::String(property.to_string()));
-            if let Some(c) = outer.get("component").and_then(|v| v.as_str()) {
-                name_obj.insert("component".into(), Value::String(c.to_string()));
-            }
-            name_obj.insert(dim_key.to_string(), Value::String(mode.to_string()));
-            Value::Object(name_obj)
-        }
-    };
-    out.insert("name".into(), name_val);
-
-    if let Some(schema) = entry.get("$schema").and_then(|v| v.as_str()) {
-        out.insert("$schema".into(), Value::String(schema.to_string()));
-    }
-    insert_value_or_ref(&mut out, entry);
-    if let Some(uuid) = entry.get("uuid").and_then(|v| v.as_str()) {
-        out.insert("uuid".into(), Value::String(uuid.to_string()));
-    }
-    if let Some(set_uuid) = outer.get("uuid").and_then(|v| v.as_str()) {
-        out.insert("set_uuid".into(), Value::String(set_uuid.to_string()));
-    }
-    if let Some(outer_schema) = outer.get("$schema").and_then(|v| v.as_str()) {
-        out.insert("set_schema".into(), Value::String(outer_schema.to_string()));
-    }
-    for field in OUTER_LIFECYCLE_FIELDS {
-        if let Some(v) = outer.get(*field) {
-            out.insert(field.to_string(), v.clone());
-        }
-    }
-    for field in OUTER_LIFECYCLE_FIELDS {
-        if let Some(v) = entry.get(*field) {
-            out.insert(field.to_string(), v.clone());
-        }
-    }
-    normalize_lifecycle_for_cascade(&mut out, name_to_uuid);
-    Value::Object(out)
-}
-
-/// Build a cascade token from a flat (non-set) legacy token (opts path).
-fn build_flat_with_opts(
-    property: &str,
-    token_obj: &Map<String, Value>,
-    name_to_uuid: &HashMap<&str, &str>,
-    name_ctx: &NameContext<'_>,
-    summary: &mut MigrateSummary,
-) -> Value {
-    let mut out = Map::new();
-
-    let (name_val, kind) = resolve_name(property, token_obj, name_ctx);
-    record_name_kind(kind, 1, summary);
-    out.insert("name".into(), name_val);
-
-    if let Some(schema) = token_obj.get("$schema").and_then(|v| v.as_str()) {
-        if !schema.ends_with("color-set.json")
-            && !schema.ends_with("scale-set.json")
-            && !schema.ends_with("typography-scale.json")
-        {
-            out.insert("$schema".into(), Value::String(schema.to_string()));
-        }
-    }
-    insert_value_or_ref(&mut out, token_obj);
-    if let Some(uuid) = token_obj.get("uuid").and_then(|v| v.as_str()) {
-        out.insert("uuid".into(), Value::String(uuid.to_string()));
-    }
-    for field in OUTER_LIFECYCLE_FIELDS {
-        if let Some(v) = token_obj.get(*field) {
-            out.insert(field.to_string(), v.clone());
-        }
-    }
-    normalize_lifecycle_for_cascade(&mut out, name_to_uuid);
-    Value::Object(out)
-}
-
-/// Convert all entries in a legacy token file object to cascade tokens.
-fn convert_object_with_context(
-    obj: &Map<String, Value>,
-    summary: &mut MigrateSummary,
-    name_to_uuid: &HashMap<&str, &str>,
-) -> Vec<Value> {
-    let mut out = Vec::new();
-    for (name, val) in obj {
-        let Some(tok_obj) = val.as_object() else {
-            continue;
-        };
-        let schema = tok_obj
-            .get("$schema")
-            .and_then(|v| v.as_str())
-            .unwrap_or("");
-        if schema.ends_with("color-set.json")
-            || schema.ends_with("scale-set.json")
-            || schema.ends_with("typography-scale.json")
-        {
-            let tokens = convert_token_with_context(name, tok_obj, name_to_uuid);
-            summary.set_entries_unwrapped += tokens.len();
-            summary.tokens_produced += tokens.len();
-            out.extend(tokens);
-        } else {
-            out.push(build_flat(name, tok_obj, name_to_uuid));
-            summary.flat_tokens_converted += 1;
-            summary.tokens_produced += 1;
-        }
-    }
-    out
-}
-
 /// Convert a set token (color-set or scale-set) into N cascade tokens.
+///
+/// When `name_ctx` is `Some`, `resolve_name` is called ONCE here to get the
+/// pre-resolved `base_name`, which is passed to `build_set_entry` for all N
+/// modes. The kind is recorded once for all N modes with `record_name_kind`
+/// to avoid double-counting. When `name_ctx` is `None`, the thin path is used.
 fn convert_set(
     property: &str,
     outer: &Map<String, Value>,
     dim_key: &str,
     mode_order: &[&str],
     name_to_uuid: &HashMap<&str, &str>,
+    name_ctx: Option<&NameContext<'_>>,
+    summary: &mut MigrateSummary,
 ) -> Vec<Value> {
     let sets = match outer.get("sets").and_then(|v| v.as_object()) {
         Some(s) => s,
-        None => return vec![build_flat(property, outer, name_to_uuid)],
+        None => return vec![build_flat(property, outer, name_to_uuid, name_ctx, summary)],
     };
 
     // Emit modes in stable order (defined order first, then any extras).
@@ -715,41 +559,72 @@ fn convert_set(
         }
     }
 
+    // Resolve the base name ONCE (avoids double-counting per mode).
+    let (base_name, kind) = if let Some(ctx) = name_ctx {
+        resolve_name(property, outer, ctx)
+    } else {
+        (thin_name_val(property, outer), NameKind::Thin)
+    };
+
+    // Record the kind once for all N modes (not once per mode).
+    if !modes.is_empty() && name_ctx.is_some() {
+        record_name_kind(kind, modes.len(), summary);
+    }
+
     modes
         .iter()
         .filter_map(|mode| {
             let entry = sets.get(*mode)?.as_object()?;
             Some(build_set_entry(
-                property,
                 outer,
                 entry,
                 dim_key,
                 mode,
                 name_to_uuid,
+                &base_name,
             ))
         })
         .collect()
 }
 
 /// Build a cascade token from a set mode entry.
+///
+/// Accepts a pre-resolved `base_name` (computed once by `convert_set`) to
+/// avoid redundant `resolve_name` calls and prevent double-counting.
 fn build_set_entry(
-    property: &str,
     outer: &Map<String, Value>,
     entry: &Map<String, Value>,
     dim_key: &str,
     mode: &str,
     name_to_uuid: &HashMap<&str, &str>,
+    base_name: &Value,
 ) -> Value {
     let mut out = Map::new();
 
-    // Name object: property + optional component from outer + mode set mode.
-    let mut name_obj = Map::new();
-    name_obj.insert("property".into(), Value::String(property.to_string()));
-    if let Some(c) = outer.get("component").and_then(|v| v.as_str()) {
-        name_obj.insert("component".into(), Value::String(c.to_string()));
-    }
-    name_obj.insert(dim_key.to_string(), Value::String(mode.to_string()));
-    out.insert("name".into(), Value::Object(name_obj));
+    // Add the mode-set dimension to the pre-resolved name object.
+    let name_val = match base_name {
+        Value::Object(name_obj) => {
+            let mut name_obj = name_obj.clone();
+            name_obj.insert(dim_key.to_string(), Value::String(mode.to_string()));
+            Value::Object(name_obj)
+        }
+        // String escape hatch: can't add dim_key to a string.
+        // Fall back to thin object so the set structure is preserved.
+        _ => {
+            // Reconstruct thin from outer (property field is embedded in base_name
+            // only when it is an Object; this branch handles the unreachable
+            // String case defensively).
+            let property = base_name.as_str().unwrap_or("");
+            let mut name_obj = Map::new();
+            name_obj.insert("property".into(), Value::String(property.to_string()));
+            if let Some(c) = outer.get("component").and_then(|v| v.as_str()) {
+                name_obj.insert("component".into(), Value::String(c.to_string()));
+            }
+            name_obj.insert(dim_key.to_string(), Value::String(mode.to_string()));
+            Value::Object(name_obj)
+        }
+    };
+    out.insert("name".into(), name_val);
 
     // Schema URL from entry (value-type schema, not the set wrapper).
     if let Some(schema) = entry.get("$schema").and_then(|v| v.as_str()) {
@@ -794,20 +669,36 @@ fn build_set_entry(
 }
 
 /// Build a cascade token from a flat (non-set) legacy token.
+///
+/// When `name_ctx` is `None`, uses thin name construction (existing behavior).
+/// When `Some`, calls `resolve_name` and records the kind in `summary`.
+/// If the token had an inline `name` that didn't roundtrip, increments
+/// `summary.inline_names_dropped`.
 fn build_flat(
     property: &str,
     token_obj: &Map<String, Value>,
     name_to_uuid: &HashMap<&str, &str>,
+    name_ctx: Option<&NameContext<'_>>,
+    summary: &mut MigrateSummary,
 ) -> Value {
     let mut out = Map::new();
 
-    // Name object: property + optional component.
-    let mut name_obj = Map::new();
-    name_obj.insert("property".into(), Value::String(property.to_string()));
-    if let Some(c) = token_obj.get("component").and_then(|v| v.as_str()) {
-        name_obj.insert("component".into(), Value::String(c.to_string()));
-    }
-    out.insert("name".into(), Value::Object(name_obj));
+    let name_val = if let Some(ctx) = name_ctx {
+        // Track whether an inline name existed but didn't roundtrip.
+        let had_inline = token_obj.get("name").is_some();
+        let (resolved, kind) = resolve_name(property, token_obj, ctx);
+        // If the token had an inline name but resolve_name fell through (kind != Inline),
+        // the inline name was discarded.
+        if had_inline && kind != NameKind::Inline {
+            summary.inline_names_dropped += 1;
+        }
+        record_name_kind(kind, 1, summary);
+        resolved
+    } else {
+        // Thin path: property + optional component (no name resolution context).
+        thin_name_val(property, token_obj)
+    };
+    out.insert("name".into(), name_val);
 
     // Schema URL (value-type, not a set schema).
     if let Some(schema) = token_obj.get("$schema").and_then(|v| v.as_str()) {
@@ -1239,5 +1130,101 @@ mod tests {
         assert_eq!(val2["my-set"]["uuid"].as_str().unwrap(), uuid_after_run1);
 
         let _ = fs::remove_dir_all(&tmp);
+    }
+
+    // ── resolve_name ──────────────────────────────────────────────────────────
+
+    fn empty_ctx<'a>(
+        sidecar: &'a HashMap<String, Value>,
+        forced_thin: &'a HashSet<String>,
+    ) -> NameContext<'a> {
+        NameContext { sidecar, forced_thin }
+    }
+
+    #[test]
+    fn resolve_name_inline_roundtrips() {
+        // Token already has a valid inline name that roundtrips → NameKind::Inline.
+        let sidecar = HashMap::new();
+        let forced = HashSet::new();
+        let ctx = empty_ctx(&sidecar, &forced);
+        let tok = obj(json!({
+            "name": {"component": "button", "property": "background-color", "state": "hover"},
+            "uuid": "0000"
+        }));
+        let (name, kind) = resolve_name("button-background-color-hover", &tok, &ctx);
+        assert_eq!(kind, NameKind::Inline);
+        assert_eq!(name["component"], "button");
+        assert_eq!(name["property"], "background-color");
+    }
+
+    #[test]
+    fn resolve_name_inline_dropped_when_no_roundtrip() {
+        // Inline name exists but doesn't reconstruct the original key → falls through.
+        let sidecar = HashMap::new();
+        let forced = HashSet::new();
+        let ctx = empty_ctx(&sidecar, &forced);
+        let tok = obj(json!({
+            // icon-color + colorFamily → color domain serialization gives wrong key
+            "name": {"property": "icon-color", "colorFamily": "cinnamon", "variant": "primary"},
+            "component": "icon",
+            "uuid": "0000"
+        }));
+        let (_name, kind) = resolve_name("icon-color-cinnamon-primary-default", &tok, &ctx);
+        // Should fall through to Decomposed (parse_legacy_name handles it)
+        assert_ne!(kind, NameKind::Inline);
+    }
+
+    #[test]
+    fn resolve_name_sidecar_used_when_roundtrips() {
+        let mut sidecar = HashMap::new();
+        sidecar.insert(
+            "blue-100".to_string(),
+            json!({"property": "color", "colorFamily": "blue", "scaleIndex": 100}),
+        );
+        let forced = HashSet::new();
+        let ctx = empty_ctx(&sidecar, &forced);
+        let tok = obj(json!({"$schema": ".../color.json", "value": "#2c2c2c", "uuid": "0000"}));
+        let (name, kind) = resolve_name("blue-100", &tok, &ctx);
+        assert_eq!(kind, NameKind::Sidecar);
+        assert_eq!(name["colorFamily"], "blue");
+        assert_eq!(name["scaleIndex"], 100);
+    }
+
+    #[test]
+    fn resolve_name_decomposed_when_roundtrips() {
+        let sidecar = HashMap::new();
+        let forced = HashSet::new();
+        let ctx = empty_ctx(&sidecar, &forced);
+        let tok = obj(json!({"component": "button", "uuid": "0000"}));
+        let (name, kind) = resolve_name("button-background-color-hover", &tok, &ctx);
+        assert_eq!(kind, NameKind::Decomposed);
+        assert_eq!(name["component"], "button");
+        assert_eq!(name["property"], "background-color");
+        assert_eq!(name["state"], "hover");
+    }
+
+    #[test]
+    fn resolve_name_thin_for_forced_exceptions() {
+        let sidecar = HashMap::new();
+        let mut forced = HashSet::new();
+        forced.insert("swatch-disabled-icon-border-color".to_string());
+        let ctx = empty_ctx(&sidecar, &forced);
+        let tok = obj(json!({"component": "swatch", "uuid": "0000"}));
+        let (name, kind) = resolve_name("swatch-disabled-icon-border-color", &tok, &ctx);
+        assert_eq!(kind, NameKind::Thin);
+        // Thin name: full key in property.
+        assert_eq!(name["property"], "swatch-disabled-icon-border-color");
+        assert_eq!(name["component"], "swatch");
+    }
+
+    #[test]
+    fn resolve_name_thin_when_roundtrip_fails() {
+        // Key has embedded state in non-canonical position — roundtrips() = false.
+        let sidecar = HashMap::new();
+        let forced = HashSet::new();
+        let ctx = empty_ctx(&sidecar, &forced);
+        let tok = obj(json!({"component": "swatch", "uuid": "0000"}));
+        let (_name, kind) = resolve_name("swatch-disabled-icon-border-color", &tok, &ctx);
+        assert_eq!(kind, NameKind::Thin);
     }
 }
