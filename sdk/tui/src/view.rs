@@ -141,7 +141,11 @@ fn render_home(frame: &mut Frame<'_>, area: Rect, theme: &Theme) {
     // stays aligned automatically if COMMANDS gains a longer entry.
     // NOTE: uses .len() (byte count). All command name strings in COMMANDS are
     // ASCII-only, so byte count == display column count. Non-ASCII glyphs would
-    // need unicode-width for correct alignment.
+    // need unicode-width for correct alignment (guarded by command_names_are_ascii).
+    //
+    // Computed per call rather than cached (LazyLock/OnceLock). COMMANDS has
+    // 8 entries and render_home only runs when the screen is idle, so the
+    // overhead is negligible and the simplicity is worth it.
     let cmd_col = COMMANDS
         .iter()
         .map(|(n, _)| n.len())

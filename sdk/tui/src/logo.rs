@@ -74,17 +74,21 @@ mod tests {
         }
     }
 
-    /// Every command name in COMMANDS must appear somewhere in the HELP_TEXT
-    /// COMMANDS section, so the two sources of truth don't silently drift.
+    /// Every palette command in COMMANDS must appear in HELP_TEXT.
+    ///
+    /// **Coverage:** this test proves COMMANDS ⊆ HELP_TEXT (one direction).
+    /// It does *not* prove the reverse (a command added to HELP_TEXT but not
+    /// COMMANDS won't be caught), and it does not verify that
+    /// `update_command.rs` actually dispatches each command. The dispatcher in
+    /// `update_command.rs` is a flat `match` on string literals — if you add a
+    /// command there, also add it here and to HELP_TEXT, and this test will
+    /// catch any subsequent removal from either list.
     #[test]
     fn commands_present_in_help_text() {
-        // Only check the palette command names (those starting with ':').
         for (name, _) in COMMANDS {
             if !name.starts_with(':') {
                 continue;
             }
-            // Strip the leading ':' to match how help.rs writes the command
-            // (e.g. ":query <expr>" → "query" appears in HELP_TEXT as ":query").
             assert!(
                 HELP_TEXT.contains(name),
                 "COMMANDS entry {name:?} is not present in HELP_TEXT; \
