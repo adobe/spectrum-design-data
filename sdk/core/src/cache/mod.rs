@@ -30,7 +30,7 @@
 //! ```
 //!
 //! - `cache_base`: `DESIGN_DATA_CACHE_DIR` env override, else `dirs::cache_dir()/design-data`.
-//! - `tokens_version`: [`EMBEDDED_TOKENS_VERSION`] — upgrades self-invalidate.
+//! - `tokens_version`: [`EMBEDDED_DATA_VERSION`] — cascade data version; upgrades self-invalidate.
 //! - `dataset_key`: hash of the tokens root absolute path plus any configured
 //!   catalog directory paths (`mode-sets`, `components`), so distinct datasets
 //!   and catalog configurations do not thrash a single shared cache file.
@@ -97,7 +97,7 @@ use redb::{
 };
 use serde::{Deserialize, Serialize};
 
-use crate::data_source::embedded::EMBEDDED_TOKENS_VERSION;
+use crate::data_source::embedded::EMBEDDED_DATA_VERSION;
 use crate::discovery::discover_json_files;
 use crate::graph::{ComponentRecord, ModeSetRecord, TokenGraph, TokenRecord};
 use crate::query::{self, TokenIndex, ALLOWED_KEYS};
@@ -360,7 +360,7 @@ fn cache_db_path(
     let dataset_key = format!("{:016x}", hasher.finish());
     Some(
         base.join("cache")
-            .join(EMBEDDED_TOKENS_VERSION)
+            .join(EMBEDDED_DATA_VERSION)
             .join(format!("{dataset_key}.redb")),
     )
 }
@@ -394,7 +394,7 @@ fn content_hash(
 ) -> std::io::Result<u64> {
     let mut hasher = std::collections::hash_map::DefaultHasher::new();
     CACHE_SCHEMA_VERSION.hash(&mut hasher);
-    EMBEDDED_TOKENS_VERSION.hash(&mut hasher);
+    EMBEDDED_DATA_VERSION.hash(&mut hasher);
     hash_json_dir(&mut hasher, tokens_root)?;
     if let Some(dir) = mode_sets_dir {
         if dir.is_dir() {
@@ -433,7 +433,7 @@ fn load_from_disk(
     let meta = read_meta(&rtx)?;
     let fresh = meta.is_some_and(|m| {
         m.schema_version == CACHE_SCHEMA_VERSION
-            && m.tokens_version == EMBEDDED_TOKENS_VERSION
+            && m.tokens_version == EMBEDDED_DATA_VERSION
             && m.content_hash == expected
     });
     if !fresh {
@@ -569,7 +569,7 @@ fn write_tables(db: &Database, graph: &TokenGraph, hash: u64) -> Result<(), Cach
     {
         let meta = CacheMeta {
             schema_version: CACHE_SCHEMA_VERSION,
-            tokens_version: EMBEDDED_TOKENS_VERSION.to_string(),
+            tokens_version: EMBEDDED_DATA_VERSION.to_string(),
             content_hash: hash,
         };
         let mut meta_t = wtx.open_table(META)?;

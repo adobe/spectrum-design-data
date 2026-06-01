@@ -10,11 +10,12 @@
 
 //! Compile-time embedded Spectrum design-data snapshot.
 //!
-//! The design-data binary carries a pinned copy of `@adobe/spectrum-tokens` and the
-//! matching `@adobe/design-data-spec` catalog baked in at build time via
-//! [`include_dir!`].  On first use outside a monorepo checkout, [`materialize`] writes
-//! the snapshot to a version-namespaced directory under the OS cache dir so the disk-based
-//! loaders in `graph.rs`, `schema.rs`, and `discovery.rs` can read it as normal.
+//! The design-data binary carries a pinned copy of `@adobe/spectrum-design-data` (the
+//! canonical cascade-format token corpus) and the matching `@adobe/design-data-spec`
+//! catalog baked in at build time via [`include_dir!`].  On first use outside a monorepo
+//! checkout, [`materialize`] writes the snapshot to a version-namespaced directory under
+//! the OS cache dir so the disk-based loaders in `graph.rs`, `schema.rs`, and
+//! `discovery.rs` can read it as normal.
 //!
 //! The cache layout mirrors the monorepo, so [`crate::data_source::from_root`] can build
 //! a [`crate::data_source::ResolvedData`] from it unchanged:
@@ -22,8 +23,9 @@
 //! ```text
 //! <cache_root>/
 //!   packages/
+//!     design-data/
+//!       tokens/         ← cascade-format token JSON files (*.tokens.json)
 //!     tokens/
-//!       src/            ← token JSON files
 //!       schemas/        ← JSON Schema files (+ token-types/ subdir)
 //!       naming-exceptions.json
 //!       manifest.json
@@ -47,8 +49,9 @@ use include_dir::{include_dir, Dir};
 // Embedded data (baked into the binary at compile time)
 // ---------------------------------------------------------------------------
 
-/// Token source files (`packages/tokens/src/*.json`, 8 files, ~1.3 MB).
-static TOKENS_SRC: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/tokens/src");
+/// Cascade-format token source files (`packages/design-data/tokens/*.tokens.json`, 8 files).
+static TOKENS_SRC: Dir<'_> =
+    include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/tokens");
 
 /// JSON Schema files for token validation (`packages/tokens/schemas/`, ~88 KB).
 /// Includes the `token-types/` subdirectory.
@@ -82,11 +85,11 @@ static TOKENS_MANIFEST: &str = include_str!(concat!(
 // Version provenance
 // ---------------------------------------------------------------------------
 
-/// The `@adobe/spectrum-tokens` version baked into this binary.
+/// The `@adobe/spectrum-design-data` (cascade) version baked into this binary.
 ///
-/// Kept in sync with `packages/tokens/package.json` via a drift test.
-/// When bumping the tokens package, update this constant too.
-pub const EMBEDDED_TOKENS_VERSION: &str = "14.11.0";
+/// Kept in sync with `packages/design-data/package.json` via a drift test.
+/// When bumping the cascade data package, update this constant too.
+pub const EMBEDDED_DATA_VERSION: &str = "0.1.0";
 
 // ---------------------------------------------------------------------------
 // Cache-dir resolution
@@ -104,13 +107,13 @@ pub fn cache_root() -> Option<PathBuf> {
         return Some(
             PathBuf::from(p)
                 .join("embedded")
-                .join(EMBEDDED_TOKENS_VERSION),
+                .join(EMBEDDED_DATA_VERSION),
         );
     }
     dirs::cache_dir().map(|d| {
         d.join("design-data")
             .join("embedded")
-            .join(EMBEDDED_TOKENS_VERSION)
+            .join(EMBEDDED_DATA_VERSION)
     })
 }
 
@@ -139,7 +142,7 @@ pub fn materialize() -> io::Result<PathBuf> {
 }
 
 /// Remove sibling version directories under `embedded/` that don't match the
-/// current [`EMBEDDED_TOKENS_VERSION`], keeping the cache footprint bounded as
+/// current [`EMBEDDED_DATA_VERSION`], keeping the cache footprint bounded as
 /// the binary is updated across releases.  Errors are silently ignored — eviction
 /// is best-effort and must never cause the calling `materialize` to fail.
 fn evict_stale_versions(current: &Path) {
@@ -164,7 +167,7 @@ fn evict_stale_versions(current: &Path) {
 /// run cannot leave a partial tree that later invocations trust.
 ///
 /// Layout after a successful call (see module-level doc for the full tree):
-/// - `<root>/packages/tokens/src/` — token JSON
+/// - `<root>/packages/design-data/tokens/` — cascade-format token JSON (`*.tokens.json`)
 /// - `<root>/packages/tokens/schemas/` — schema JSON (+ `token-types/`)
 /// - `<root>/packages/tokens/naming-exceptions.json`
 /// - `<root>/packages/tokens/manifest.json`
@@ -196,7 +199,7 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
         std::fs::create_dir_all(dest)?;
         dir.extract(dest)
     };
-    extract(&TOKENS_SRC, &tmp.join("packages/tokens/src"))?;
+    extract(&TOKENS_SRC, &tmp.join("packages/design-data/tokens"))?;
     extract(&TOKENS_SCHEMAS, &tmp.join("packages/tokens/schemas"))?;
     extract(&MODE_SETS, &tmp.join("packages/design-data-spec/mode-sets"))?;
     extract(
@@ -229,7 +232,7 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
     std::fs::rename(&tmp, root)?;
 
     // Write sentinel last.
-    std::fs::write(&sentinel, EMBEDDED_TOKENS_VERSION.as_bytes())?;
+    std::fs::write(&sentinel, EMBEDDED_DATA_VERSION.as_bytes())?;
 
     Ok(())
 }
@@ -270,8 +273,8 @@ mod tests {
         let (_tmp, root) = temp_root();
 
         assert!(
-            root.join("packages/tokens/src").is_dir(),
-            "tokens/src missing"
+            root.join("packages/design-data/tokens").is_dir(),
+            "design-data/tokens missing"
         );
         assert!(
             root.join("packages/tokens/schemas/token-types").is_dir(),
@@ -325,12 +328,12 @@ mod tests {
     #[test]
     fn materialize_token_src_contains_json_files() {
         // Regression guard: if the number of embedded token source files changes
-        // (files added/removed from packages/tokens/src/), this test fails
-        // deliberately so the change is noticed and EMBEDDED_TOKENS_VERSION is
+        // (files added/removed from packages/design-data/tokens/), this test fails
+        // deliberately so the change is noticed and EMBEDDED_DATA_VERSION is
         // bumped alongside it.  Update the expected count if you've intentionally
         // added or removed token source files.
         let (_tmp, root) = temp_root();
-        let json_files: Vec<_> = fs::read_dir(root.join("packages/tokens/src"))
+        let json_files: Vec<_> = fs::read_dir(root.join("packages/design-data/tokens"))
             .unwrap()
             .flatten()
             .filter(|e| e.path().extension().is_some_and(|x| x == "json"))
@@ -338,8 +341,8 @@ mod tests {
         assert_eq!(
             json_files.len(),
             8,
-            "expected 8 token source files — update this count if you've added/removed \
-             files from packages/tokens/src/ and bump EMBEDDED_TOKENS_VERSION"
+            "expected 8 cascade token source files — update this count if you've added/removed \
+             files from packages/design-data/tokens/ and bump EMBEDDED_DATA_VERSION"
         );
     }
 
@@ -376,28 +379,29 @@ mod tests {
         );
     }
 
-    /// Drift test: the EMBEDDED_TOKENS_VERSION constant must match the version in
-    /// packages/tokens/package.json.  Fails CI when the tokens package is bumped
+    /// Drift test: the EMBEDDED_DATA_VERSION constant must match the version in
+    /// packages/design-data/package.json.  Fails CI when the cascade data package is bumped
     /// without updating the constant.
     #[test]
-    fn embedded_version_matches_tokens_package_json() {
+    fn embedded_version_matches_design_data_package_json() {
         let pkg_json_path = concat!(
             env!("CARGO_MANIFEST_DIR"),
-            "/../../packages/tokens/package.json"
+            "/../../packages/design-data/package.json"
         );
-        let raw = std::fs::read_to_string(pkg_json_path)
-            .expect("packages/tokens/package.json should be readable from the test environment");
-        let pkg: serde_json::Value =
-            serde_json::from_str(&raw).expect("packages/tokens/package.json should be valid JSON");
+        let raw = std::fs::read_to_string(pkg_json_path).expect(
+            "packages/design-data/package.json should be readable from the test environment",
+        );
+        let pkg: serde_json::Value = serde_json::from_str(&raw)
+            .expect("packages/design-data/package.json should be valid JSON");
         let pkg_version = pkg["version"]
             .as_str()
-            .expect("packages/tokens/package.json should have a string 'version' field");
+            .expect("packages/design-data/package.json should have a string 'version' field");
 
         assert_eq!(
-            EMBEDDED_TOKENS_VERSION, pkg_version,
-            "EMBEDDED_TOKENS_VERSION is '{}' but packages/tokens/package.json says '{}'. \
+            EMBEDDED_DATA_VERSION, pkg_version,
+            "EMBEDDED_DATA_VERSION is '{}' but packages/design-data/package.json says '{}'. \
              Update the constant in sdk/core/src/data_source/embedded.rs.",
-            EMBEDDED_TOKENS_VERSION, pkg_version
+            EMBEDDED_DATA_VERSION, pkg_version
         );
     }
 }

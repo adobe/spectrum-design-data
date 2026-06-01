@@ -19,7 +19,7 @@
 //! Fetched datasets are cached under:
 //! ```text
 //! <base>/sources/<type>/<key>/
-//!   packages/tokens/src/*.json
+//!   packages/design-data/tokens/*.tokens.json
 //!   packages/tokens/schemas/**
 //!   packages/tokens/naming-exceptions.json
 //!   packages/tokens/manifest.json
@@ -352,6 +352,13 @@ fn should_extract(rel: &Path) -> bool {
 
     match (first.as_deref(), second.as_deref()) {
         (Some("packages"), Some("tokens")) => true,
+        (Some("packages"), Some("design-data")) => {
+            // Only tokens/ — the cascade-format token data.
+            let third = components
+                .next()
+                .map(|c| c.as_os_str().to_string_lossy().into_owned());
+            matches!(third.as_deref(), Some("tokens"))
+        }
         (Some("packages"), Some("design-data-spec")) => {
             // Only mode-sets/, components/, fields/ — not the whole spec (schemas, rules, etc.)
             let third = components
@@ -414,6 +421,23 @@ mod tests {
             "packages/tokens/naming-exceptions.json"
         )));
         assert!(should_extract(Path::new("packages/tokens/manifest.json")));
+    }
+
+    #[test]
+    fn should_extract_cascade_tokens() {
+        assert!(should_extract(Path::new(
+            "packages/design-data/tokens/color-palette.tokens.json"
+        )));
+        assert!(should_extract(Path::new(
+            "packages/design-data/tokens/layout.tokens.json"
+        )));
+        // Other design-data paths are NOT extracted.
+        assert!(!should_extract(Path::new(
+            "packages/design-data/README.md"
+        )));
+        assert!(!should_extract(Path::new(
+            "packages/design-data/package.json"
+        )));
     }
 
     #[test]

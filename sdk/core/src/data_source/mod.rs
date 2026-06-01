@@ -151,7 +151,7 @@ pub enum Provenance {
     },
     /// Materialized from the binary's embedded snapshot (`#1049`).
     Embedded {
-        /// Semver string of the baked-in `@adobe/spectrum-tokens` release.
+        /// Semver string of the baked-in `@adobe/spectrum-design-data` (cascade) release.
         version: &'static str,
     },
 }
@@ -306,7 +306,7 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
                 &root,
                 overrides,
                 Provenance::Embedded {
-                    version: embedded::EMBEDDED_TOKENS_VERSION,
+                    version: embedded::EMBEDDED_DATA_VERSION,
                 },
             ));
         }
@@ -374,7 +374,7 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
     let tokens_root = overrides
         .tokens_root
         .clone()
-        .unwrap_or_else(|| root.to_path_buf());
+        .unwrap_or_else(|| root.join("packages/design-data/tokens"));
 
     let schemas_root = resolve_schema_root(overrides, || root.join("packages/tokens/schemas"));
 
@@ -567,6 +567,7 @@ mod tests {
     fn make_monorepo(dir: &Path) {
         fs::create_dir_all(dir.join("packages/tokens/schemas/token-types")).unwrap();
         fs::write(dir.join("packages/tokens/schemas/token-file.json"), b"{}").unwrap();
+        fs::create_dir_all(dir.join("packages/design-data/tokens")).unwrap();
         fs::create_dir_all(dir.join("packages/design-data-spec/mode-sets")).unwrap();
         fs::create_dir_all(dir.join("packages/design-data-spec/components")).unwrap();
         fs::create_dir_all(dir.join("packages/design-data-spec/fields")).unwrap();
@@ -672,7 +673,10 @@ mod tests {
         assert!(matches!(resolved.provenance, Provenance::Config { .. }));
         // Canonicalize both sides: on macOS /tmp → /private/tmp via symlink.
         let canon_root = ext_repo.canonicalize().unwrap_or(ext_repo.clone());
-        assert_eq!(resolved.tokens_root, canon_root);
+        assert_eq!(
+            resolved.tokens_root,
+            canon_root.join("packages/design-data/tokens")
+        );
         assert!(resolved.schemas_root.starts_with(&canon_root));
         assert!(resolved.components.is_some());
     }
