@@ -144,6 +144,14 @@ Beat D4 — Closing note: the same answers are reachable without a persistent MC
 via the design-data agent skill (npx @adobe/design-data …) for teams watching
 their context budget. The MCP exposes authoring tools too; the skill is read-only.
 
+Why this works as well as it does: every token now carries a structured `name`
+object (component / property / state / colorFamily / …), not just a flat kebab
+string. The agent can spot patterns ("all button color tokens use
+object:background + property:color"), flag gaps (hover exists but disabled is
+missing), and validate terms against the spec vocabulary registries — none of
+that reasoning is possible on raw strings. Structured names are what make the
+agent a genuine collaborator, not a search wrapper.
+
 Record with: tools/demo/presentation/record-casts.sh D (see RECORDING.md for the
 full D1–D4 beat table, clean-env checklist, and non-determinism guidance).
 See ../agent-questions.md for the verbatim prompt.
@@ -192,4 +200,7 @@ Recording instructions: <code>tools/demo/presentation/RECORDING.md</code>
 
 <!--
 Recap: find → name → agent. Deterministic core, one model layer, all auditable.
+The through-line: structured name objects (cascade format) make both authoring
+paths better — the wizard steps through taxonomy fields, the agent reasons across
+them. Same data, two surfaces, one coherent system.
 -->
