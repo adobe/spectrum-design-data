@@ -72,22 +72,27 @@ fn empty_app_renders_primer_text() {
 #[test]
 fn empty_app_renders_home_screen() {
     let mut model = Model::new();
-    let buf = render_to_buffer(&mut model, W, H);
+    // The home screen needs ~31 content rows (17-line logo + spacers + name +
+    // hint + prompt + 8 commands). The standard H=24 terminal only provides 22
+    // content rows (24 minus primer and palette), clipping the command table.
+    // Use a taller buffer so every section of the home screen is visible.
+    const H_TALL: u16 = 48;
+    let buf = render_to_buffer(&mut model, W, H_TALL);
 
     // Logo: the bottom ▀▀▀ row must appear somewhere in the content area.
-    let has_logo = (1..H - 1).any(|y| row_str(&buf, y, W).contains('▀'));
+    let has_logo = (1..H_TALL - 1).any(|y| row_str(&buf, y, W).contains('▀'));
     assert!(has_logo, "expected Spectrum logo (▀▀▀ row) in main-content rows");
 
     // Version line: "Spectrum Design Data  v0.x.x" must appear.
-    let has_name = (1..H - 1).any(|y| row_str(&buf, y, W).contains("Spectrum Design Data"));
+    let has_name = (1..H_TALL - 1).any(|y| row_str(&buf, y, W).contains("Spectrum Design Data"));
     assert!(has_name, "expected 'Spectrum Design Data' version line in home screen");
 
     // Command table: at least one well-known command name must be present.
-    let has_command = (1..H - 1).any(|y| row_str(&buf, y, W).contains(":validate"));
+    let has_command = (1..H_TALL - 1).any(|y| row_str(&buf, y, W).contains(":validate"));
     assert!(has_command, "expected ':validate' command entry in home screen command table");
 
     // Prompt cue: the '>' marker must appear.
-    let has_prompt = (1..H - 1).any(|y| row_str(&buf, y, W).contains('>'));
+    let has_prompt = (1..H_TALL - 1).any(|y| row_str(&buf, y, W).contains('>'));
     assert!(has_prompt, "expected '>' prompt cue in home screen");
 }
 
