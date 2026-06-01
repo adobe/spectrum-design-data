@@ -114,8 +114,72 @@ CLI, \~1 min. This is the deterministic counterpart to the recorded AI/MCP video
 | C2   | `design-data primer packages/tokens/dist/json`   | yes          |
 
 Honest framing while narrating: `suggest` is **deterministic lexical ranking**
-(Jaccard), not a model. The only model layer is the agent in the recorded
-Cursor video.
+(Jaccard), not a model. The only model layer is the agent in Demo D.
+
+## Demo D — Agent workflow (`public/casts/D-agent.cast`)
+
+Claude Code + design-data MCP. \~2–3 min. Non-deterministic (model output varies per take);
+do 2–3 takes and keep the cleanest one.
+
+### Prerequisites
+
+In addition to `asciinema` and the built CLI, you need the design-data MCP wired into
+`.mcp.json` at the repo root:
+
+```json
+"design-data": {
+  "command": "npx",
+  "args": ["-y", "@adobe/design-data-agent-mcp"],
+  "env": {
+    "DESIGN_DATA_BIN": "${PWD}/sdk/target/release/design-data",
+    "DESIGN_DATA_PATH": "packages/design-data-spec",
+    "DESIGN_DATA_COMPONENTS": "packages/design-data-spec/components"
+  }
+}
+```
+
+Pre-warm the MCP package so the first-run `npx` install stays out of the cast:
+
+```bash
+npx -y @adobe/design-data-agent-mcp --help 2>/dev/null || true
+```
+
+Then launch Claude Code once (`claude`), approve the design-data MCP connection in the
+permission dialog, and exit. This caches the approval so it won't interrupt the recording.
+
+### Clean-environment checklist (Demo D)
+
+* [ ] Terminal sized to **120×36**.
+* [ ] Truecolor terminal (iTerm2 / kitty / wezterm).
+* [ ] `.mcp.json` has the `design-data` server configured (see above).
+* [ ] MCP connection pre-approved in Claude Code (launch + approve + exit before recording).
+* [ ] `sdk/target/release/design-data` is up to date (`cargo build -p design-data-cli --release`).
+* [ ] Primary prompt ready to paste (copy from `../agent-questions.md`).
+* [ ] Window otherwise empty (no stray notifications, no split panes).
+
+### Beat table
+
+| Beat | Action                                                                                                                                                                                      | Marker after |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| D1   | `claude` (launch Claude Code) → paste the primary prompt from `agent-questions.md` → `Enter`                                                                                                | yes          |
+| D2   | Agent calls `mcp__design-data__component` for button → reads role, keyboardIntents, states → answer renders on screen                                                                       | yes          |
+| D3   | Agent calls `mcp__design-data__resolve` for `accent-background-color-default` in dark mode → quotes resolved value with spec citation                                                       | yes          |
+| D4   | Narrate the closing line about the agent skill: same answers without a persistent MCP via `npx @adobe/design-data …` — for teams watching context budget. Type `exit` to close Claude Code. | yes          |
+
+### Non-determinism guidance
+
+Model output varies between takes. Mitigations:
+
+* Use the **verbatim** primary prompt from `agent-questions.md` (exact wording produces
+  more consistent tool-call patterns).
+* Do 2–3 takes; keep the one where the agent calls both `mcp__design-data__component`
+  **and** `mcp__design-data__resolve` and quotes values with citations — that's success.
+* `--idle-time-limit 2` compresses dead air (thinking pauses). Model "thinking" spinners
+  are animation, not idle — they appear in the cast as honest agent-at-work.
+* If you want to trim a long thinking spinner or a verbose response, post-edit the `.cast`:
+  delete or compress lines between timestamps. The format is `[t, "o", "text\r\n"]`.
+* If dropping markers live is awkward, record straight through and insert
+  `[t, "m", "label"]` lines into the `.cast` afterward (same post-edit path as A/B/C).
 
 ## After recording
 
