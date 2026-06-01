@@ -1,5 +1,15 @@
 # @adobe/design-data-agent-mcp
 
+## 1.3.1
+
+### Patch Changes
+
+- [#1102](https://github.com/adobe/spectrum-design-data/pull/1102) [`f163915`](https://github.com/adobe/spectrum-design-data/commit/f163915c3bbe76a8eae1a047f3148ec7f3386b2c) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the MCP server failing to start when launched via npx or a node_modules/.bin shim.
+  - **src/index.js**: the entry-point guard compared `process.argv[1]` to the
+    module URL directly, which never matched when invoked through a symlink (npx,
+    pnpm `.bin`). The server exited 0 without starting, surfacing to clients as
+    `Failed to reconnect: -32000`. The check now compares resolved real paths.
+
 ## 1.3.0
 
 ### Minor Changes
