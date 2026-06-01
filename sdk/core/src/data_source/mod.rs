@@ -151,7 +151,7 @@ pub enum Provenance {
     },
     /// Materialized from the binary's embedded snapshot (`#1049`).
     Embedded {
-        /// Semver string of the baked-in `@adobe/spectrum-tokens` release.
+        /// Semver string of the baked-in `@adobe/spectrum-design-data` (cascade) release.
         version: &'static str,
     },
 }
@@ -306,7 +306,7 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
                 &root,
                 overrides,
                 Provenance::Embedded {
-                    version: embedded::EMBEDDED_TOKENS_VERSION,
+                    version: embedded::EMBEDDED_DATA_VERSION,
                 },
             ));
         }
@@ -374,7 +374,7 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
     let tokens_root = overrides
         .tokens_root
         .clone()
-        .unwrap_or_else(|| root.to_path_buf());
+        .unwrap_or_else(|| root.join("packages/design-data/tokens"));
 
     let schemas_root = resolve_schema_root(overrides, || root.join("packages/tokens/schemas"));
 
@@ -428,11 +428,20 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
 /// `packages/tokens/`) get `None` for spec dirs they can't reach — the same
 /// result they got before the resolver was introduced.
 fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
-    // tokens_root — original default was PathBuf::from(".") i.e. CWD.
-    let tokens_root = overrides
-        .tokens_root
-        .clone()
-        .unwrap_or_else(|| cwd.to_path_buf());
+    // tokens_root — probe for the cascade dataset first (same two-candidate pattern as
+    // other paths), falling back to CWD so that `design-data .` still works for custom
+    // datasets.  Consistent with the `from_root` default so in-repo and embedded/config
+    // tiers all land on `packages/design-data/tokens` without an explicit flag.
+    let tokens_root = overrides.tokens_root.clone().unwrap_or_else(|| {
+        let candidates = [
+            cwd.join("packages/design-data/tokens"),
+            cwd.join("../packages/design-data/tokens"),
+        ];
+        candidates
+            .into_iter()
+            .find(|c| c.is_dir())
+            .unwrap_or_else(|| cwd.to_path_buf())
+    });
 
     // schemas_root
     let schemas_root = resolve_schema_root(overrides, || {
@@ -567,6 +576,7 @@ mod tests {
     fn make_monorepo(dir: &Path) {
         fs::create_dir_all(dir.join("packages/tokens/schemas/token-types")).unwrap();
         fs::write(dir.join("packages/tokens/schemas/token-file.json"), b"{}").unwrap();
+        fs::create_dir_all(dir.join("packages/design-data/tokens")).unwrap();
         fs::create_dir_all(dir.join("packages/design-data-spec/mode-sets")).unwrap();
         fs::create_dir_all(dir.join("packages/design-data-spec/components")).unwrap();
         fs::create_dir_all(dir.join("packages/design-data-spec/fields")).unwrap();
@@ -592,13 +602,17 @@ mod tests {
     }
 
     #[test]
-    fn probe_tokens_root_defaults_to_cwd_when_in_repo() {
-        // In-repo: tokens_root defaults to the CWD (original "." behaviour).
+    fn probe_tokens_root_defaults_to_cascade_dataset_when_in_repo() {
+        // In-repo: tokens_root probes packages/design-data/tokens first so in-repo
+        // and embedded/config tiers all default to the same cascade corpus.
         let tmp = TempDir::new().unwrap();
-        make_monorepo(tmp.path()); // creates schemas/token-types → is_in_repo = true
+        make_monorepo(tmp.path()); // creates schemas/token-types AND packages/design-data/tokens
         let resolved = resolve(tmp.path(), &CliPathOverrides::default()).unwrap();
         assert_eq!(resolved.provenance, Provenance::InRepo);
-        assert_eq!(resolved.tokens_root, tmp.path());
+        assert_eq!(
+            resolved.tokens_root,
+            tmp.path().join("packages/design-data/tokens")
+        );
     }
 
     #[test]
@@ -672,7 +686,10 @@ mod tests {
         assert!(matches!(resolved.provenance, Provenance::Config { .. }));
         // Canonicalize both sides: on macOS /tmp → /private/tmp via symlink.
         let canon_root = ext_repo.canonicalize().unwrap_or(ext_repo.clone());
-        assert_eq!(resolved.tokens_root, canon_root);
+        assert_eq!(
+            resolved.tokens_root,
+            canon_root.join("packages/design-data/tokens")
+        );
         assert!(resolved.schemas_root.starts_with(&canon_root));
         assert!(resolved.components.is_some());
     }

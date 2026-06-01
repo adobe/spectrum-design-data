@@ -20,11 +20,12 @@ IDLE_LIMIT=2
 
 usage() {
   cat <<'USAGE'
-Usage: record-casts.sh <A|B|C> [output-name]
+Usage: record-casts.sh <A|B|C|D> [output-name]
 
-  A   Find and inspect a token   (TUI)   -> public/casts/A-find.cast
-  B   Name a new token           (TUI)   -> public/casts/B-name.cast
-  C   Deterministic agent companion (CLI) -> public/casts/C-suggest.cast
+  A   Find and inspect a token      (TUI)         -> public/casts/A-find.cast
+  B   Name a new token              (TUI)         -> public/casts/B-name.cast
+  C   Deterministic agent companion (CLI)         -> public/casts/C-suggest.cast
+  D   Agent workflow                (Claude Code) -> public/casts/D-agent.cast
 
 Pass an optional output-name to override the default cast filename (no extension).
 USAGE
@@ -44,7 +45,7 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 CASTS_DIR="$SCRIPT_DIR/public/casts"
 mkdir -p "$CASTS_DIR"
 
-DATASET="packages/tokens/dist/json"
+DATASET="packages/design-data/tokens"
 TUI_CMD="cargo run -p design-data-cli --release -- $DATASET --theme spectrum --no-resume-wizard"
 
 # Clean any leftover wizard draft so the reuse banner / wizard start fresh.
@@ -84,6 +85,35 @@ case "$DEMO" in
     echo "      sdk/target/release/design-data primer $DATASET"
     echo "    Type 'exit' to finish the recording."
     record "${NAME:-C-suggest}.cast" "design-data — deterministic suggest"
+    ;;
+  D|d)
+    cat <<'INSTRUCTIONS'
+
+Demo D — Agent workflow (Claude Code + design-data MCP)
+See RECORDING.md for the full checklist, beat table, and non-determinism guidance.
+
+Before recording:
+  1. Make sure .mcp.json has the design-data server configured.
+  2. Launch `claude` once in this repo and approve the design-data MCP connection.
+  3. Exit, then start the recording below and re-launch `claude` inside it.
+
+Inside the recording, paste the primary prompt from agent-questions.md:
+  "Using the design-data MCP, look up the button component and tell me:
+   1. What its accessibility role and keyboard intents are
+   2. Which states it declares
+   3. Which token resolves the default background color in the dark color scheme
+   Show the answers with citations from the spec, not a guess."
+
+Drop a marker (Ctrl+\) after:
+  D1 — prompt is submitted and the agent begins tool calls
+  D2 — the agent answers role / keyboardIntents / states
+  D3 — the agent answers the dark-mode resolved value with citation
+  D4 — closing line about the agent skill as the low-context alternative
+
+Type 'exit' to close Claude Code and end the recording.
+
+INSTRUCTIONS
+    record "${NAME:-D-agent}.cast" "design-data — agent (MCP)"
     ;;
   *)
     usage

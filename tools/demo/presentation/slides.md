@@ -2,9 +2,9 @@
 theme: default
 title: design-data — CLI & TUI demos
 info: |
-  Live demo deck for the design-data CLI/TUI. Terminal beats are asciinema
-  casts that auto-pause at each marker so the presenter narrates live; the
-  AI/MCP beat is a recorded Cursor video.
+  Live demo deck for the design-data CLI/TUI. All beats are asciinema casts
+  that auto-pause at each marker so the presenter narrates live — including
+  the agent movement, which is a live Claude Code + design-data MCP session.
 addons:
   - slidev-addon-asciinema
 class: text-center
@@ -35,7 +35,7 @@ token against it, then hand the same data to an AI agent.
 
 # 1 · Find & inspect
 
-Search 2,460 tokens, resolve the cascade, read a component contract — all in the terminal.
+Search 4,166 tokens, resolve the cascade, read a component contract — all in the terminal.
 
 <!--
 First: before authoring anything, see what's already there. Everything here is
@@ -51,7 +51,7 @@ deterministic — query, resolve, describe. No model involved.
 <Asciinema src="casts/A-find.cast" :playerProps="{ pauseOnMarkers: true, cols: 120, rows: 36, poster: 'npt:0:00', theme: 'asciinema', fit: 'width' }" />
 
 <!--
-Beat A1 — `:query background-color/*` filters ~2,460 tokens into a Name / Value /
+Beat A1 — `:query background-color/*` filters ~4,166 tokens into a Name / Value /
 File / Layer table. The TUI loads the whole corpus in about a second.
 
 Beat A2 — `:resolve property=accent-background-color-default,colorScheme=dark`
@@ -116,8 +116,8 @@ session — the wizard and agent paths are at parity.
 The same data, answered by an AI agent through the design-data MCP.
 
 <!--
-Third movement: hand the data to an agent. This beat is a recorded Cursor
-session because the agent work happens in the GUI.
+Third movement: hand the data to an agent. This is a live Claude Code
+terminal session with the design-data MCP connected — same format as A and B.
 -->
 
 ***
@@ -126,20 +126,35 @@ session because the agent work happens in the GUI.
 
 # Agent + design-data MCP
 
-<video controls width="900" class="mx-auto rounded shadow-lg">
-  <source src="/video/agent-mcp.mp4" type="video/mp4" />
-  Your browser does not support embedded video. The recording lives at
-  <code>public/video/agent-mcp.mp4</code>.
-</video>
+<Asciinema src="casts/D-agent.cast" :playerProps="{ pauseOnMarkers: true, cols: 120, rows: 36, poster: 'npt:0:00', theme: 'asciinema', fit: 'width' }" />
 
 <!--
-The agent reads the `button` component (role, keyboard intents, states) and
-resolves the dark-mode background — with citations from the spec, not a guess.
-Stretch: it drafts a `demo-banner` declaration from alert-banner patterns
-without writing to disk.
+Beat D1 — Paste the primary prompt from agent-questions.md: "Using the
+design-data MCP, look up the button component and tell me: (1) accessibility
+role and keyboard intents, (2) which states it declares, (3) which token
+resolves the default background color in dark mode — with citations, not a guess."
 
-Record this with: screen-capture the Cursor + design-data MCP session, save to
-public/video/agent-mcp.mp4. See ../agent-questions.md for the exact prompt.
+Beat D2 — Agent calls mcp__design-data__component for button, reads role,
+keyboardIntents, and state names; quotes them with spec citations.
+
+Beat D3 — Agent calls mcp__design-data__resolve for the dark-scheme default
+background; quotes the resolved hex/rgb value with a spec citation.
+
+Beat D4 — Closing note: the same answers are reachable without a persistent MCP
+via the design-data agent skill (npx @adobe/design-data …) for teams watching
+their context budget. The MCP exposes authoring tools too; the skill is read-only.
+
+Why this works as well as it does: every token now carries a structured `name`
+object (component / property / state / colorFamily / …), not just a flat kebab
+string. The agent can spot patterns ("all button color tokens use
+object:background + property:color"), flag gaps (hover exists but disabled is
+missing), and validate terms against the spec vocabulary registries — none of
+that reasoning is possible on raw strings. Structured names are what make the
+agent a genuine collaborator, not a search wrapper.
+
+Record with: tools/demo/presentation/record-casts.sh D (see RECORDING.md for the
+full D1–D4 beat table, clean-env checklist, and non-determinism guidance).
+See ../agent-questions.md for the verbatim prompt.
 -->
 
 ***
@@ -153,7 +168,7 @@ public/video/agent-mcp.mp4. See ../agent-questions.md for the exact prompt.
 * `query`, `resolve`, `describe`, `validate` — **deterministic**, auditable.
 * `suggest` (and the wizard's reuse engine) — **deterministic lexical ranking**
   (Jaccard similarity), <span class="opacity-70">not a model</span>.
-* The **only** model layer is the agent in the recorded video.
+* The **only** model layer is the agent in the Claude Code cast (Demo D).
 
 </div>
 
@@ -185,4 +200,7 @@ Recording instructions: <code>tools/demo/presentation/RECORDING.md</code>
 
 <!--
 Recap: find → name → agent. Deterministic core, one model layer, all auditable.
+The through-line: structured name objects (cascade format) make both authoring
+paths better — the wizard steps through taxonomy fields, the agent reasons across
+them. Same data, two surfaces, one coherent system.
 -->

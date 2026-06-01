@@ -90,13 +90,12 @@ for the full manifest schema.
 `presentation/` is a [Slidev](https://sli.dev) deck for presenting the demos **live
 while screen-sharing**. Unlike `videos/` (silent doc GIFs + narrated MP4s), the deck
 embeds interactive [asciinema](https://asciinema.org) casts that **auto-pause at every
-beat marker** — you narrate each beat in person, then resume. The AI/MCP beat is a
-recorded Cursor video on its own slide.
+beat marker** — you narrate each beat in person, then resume. All four movements are
+terminal casts, including the agent beat (Claude Code + design-data MCP).
 
 ```
-record-casts.sh ─▶ public/casts/*.cast ─┐
-screen-record Cursor ─▶ public/video/agent-mcp.mp4 ─┤─▶ slides.md (Asciinema, pauseOnMarkers)
-                                                     └─▶ pnpm dev (present) / pnpm build (static)
+record-casts.sh A/B/C/D ─▶ public/casts/*.cast ─▶ slides.md (Asciinema, pauseOnMarkers)
+                                                  └─▶ pnpm dev (present) / pnpm build (static)
 ```
 
 It is a **standalone** project (intentionally not in the pnpm workspace, to keep the
@@ -110,20 +109,17 @@ pnpm install --ignore-workspace --dir tools/demo/presentation
 ### Workflow
 
 ```bash
-# 1. Record the three terminal casts (drops a marker per beat). See RECORDING.md.
+# 1. Record the four terminal casts (drops a marker per beat). See RECORDING.md.
 tools/demo/presentation/record-casts.sh A   # find & inspect (TUI)
 tools/demo/presentation/record-casts.sh B   # name a new token (TUI)
 tools/demo/presentation/record-casts.sh C   # deterministic suggest companion (CLI)
+tools/demo/presentation/record-casts.sh D   # agent workflow (Claude Code + design-data MCP)
 
-# 2. Screen-record the Cursor + design-data MCP session (agent-questions.md)
-#    and save it to presentation/public/video/agent-mcp.mp4 (see that folder's README).
-
-# 3. Present (screen-share the dev server) or build a static deck.
+# 2. Present (screen-share the dev server) or build a static deck.
 moon run demo:present          # live dev server, narrate each beat
 moon run demo:present-build    # static export to presentation/dist/
 ```
 
 The committed `*.cast` files are **placeholders** so the deck renders out of the box;
-re-record them with `record-casts.sh` to capture the real sessions. Heavy video
-(`*.mp4`/`.webm`) is gitignored. Full operator cheat-sheet:
-[`presentation/RECORDING.md`](presentation/RECORDING.md).
+re-record them with `record-casts.sh` to capture the real sessions. Full operator
+cheat-sheet: [`presentation/RECORDING.md`](presentation/RECORDING.md).
