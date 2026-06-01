@@ -70,13 +70,20 @@ fn empty_app_renders_primer_text() {
 }
 
 #[test]
-fn empty_app_renders_active_view_border() {
+fn empty_app_renders_home_screen() {
     let mut model = Model::new();
     let buf = render_to_buffer(&mut model, W, H);
-    let border_row = (1..H).find(|&y| buf.cell((0, y)).unwrap().symbol() == "┌");
+    // The home screen replaces the old bordered empty box; verify the Spectrum
+    // logo marker (bottom ▀▀▀ row) or the prompt cue (>) appears somewhere in
+    // the main-content rows (1..H-1).
+    let has_home_content = (1..H - 1).any(|y| {
+        let row = row_str(&buf, y, W);
+        row.contains('▀') || row.contains('>')
+    });
     assert!(
-        border_row.is_some(),
-        "expected a '┌' border somewhere in rows 1..{H}"
+        has_home_content,
+        "expected home screen content (logo or prompt) in rows 1..{}",
+        H - 1
     );
 }
 

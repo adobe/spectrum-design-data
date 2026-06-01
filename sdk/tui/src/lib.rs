@@ -15,6 +15,7 @@ pub(crate) mod clipboard;
 pub mod find;
 pub(crate) mod fuzzy;
 pub mod help;
+pub(crate) mod logo;
 pub mod message;
 pub mod mode;
 pub mod model;
