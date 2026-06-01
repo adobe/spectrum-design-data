@@ -351,6 +351,10 @@ fn should_extract(rel: &Path) -> bool {
         .map(|c| c.as_os_str().to_string_lossy().into_owned());
 
     match (first.as_deref(), second.as_deref()) {
+        // Retain all of packages/tokens/** (schemas, naming-exceptions, manifest, and
+        // any legacy tokens/src that may appear in older remote tarballs).  The token
+        // data itself now lives under packages/design-data/tokens (arm below), but
+        // schemas and metadata still live here — so the whole parent is kept by design.
         (Some("packages"), Some("tokens")) => true,
         (Some("packages"), Some("design-data")) => {
             // Only tokens/ — the cascade-format token data.

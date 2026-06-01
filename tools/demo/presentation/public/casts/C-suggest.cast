@@ -1,5 +1,5 @@
 {"version": 2, "width": 120, "height": 36, "title": "design-data — deterministic suggest (PLACEHOLDER)"}
-[0.4, "o", "[1;33mPLACEHOLDER cast — re-record with ./record-casts.sh C[0m\r\n\r\n"]
+[0.4, "o", "\u001b[1;33mPLACEHOLDER cast — re-record with ./record-casts.sh C\u001b[0m\r\n\r\n"]
 [0.8, "o", "$ design-data suggest \"primary background color\"\r\n"]
 [1.4, "o", "accent-background-color-default        0.82\r\n"]
 [1.6, "o", "neutral-background-color-default       0.61\r\n"]
