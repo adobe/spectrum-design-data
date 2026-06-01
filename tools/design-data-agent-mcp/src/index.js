@@ -9,7 +9,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-import { readFileSync } from "fs";
+import { readFileSync, realpathSync } from "fs";
 import { fileURLToPath } from "url";
 import { resolve, dirname } from "path";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
@@ -89,7 +89,21 @@ async function startServer() {
   console.error("design-data-agent-mcp started");
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+// Resolve real paths so the entry-point check still matches when this module is
+// launched through a symlink (e.g. node_modules/.bin shim created by npx/pnpm).
+function isMainModule() {
+  const entry = process.argv[1];
+  if (!entry) return false;
+  const here = fileURLToPath(import.meta.url);
+  if (entry === here) return true;
+  try {
+    return realpathSync(entry) === realpathSync(here);
+  } catch {
+    return false;
+  }
+}
+
+if (isMainModule()) {
   startServer().catch((err) => {
     console.error(err);
     process.exit(1);
