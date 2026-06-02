@@ -59,7 +59,9 @@ pub fn run<B: ratatui::backend::Backend>(
                 frame_area = f.area();
                 draw(&mut model, f, theme, primer_line);
             })
-            .into_diagnostic()?;
+            // ratatui 0.30: Backend::Error no longer implies Send+Sync, so we
+            // cannot use into_diagnostic(); convert via Display instead.
+            .map_err(|e| miette::miette!("{e}"))?;
 
         // Rebuild mouse hit regions from the frame geometry set during draw.
         model.hit_regions = compute_hit_regions(&model, status_height, frame_area);
@@ -152,7 +154,8 @@ pub fn replay<B: ratatui::backend::Backend>(
     // Final draw so the caller can inspect the terminal buffer.
     terminal
         .draw(|f| draw(&mut model, f, theme, primer_line))
-        .into_diagnostic()?;
+        // ratatui 0.30: Backend::Error no longer implies Send+Sync; convert via Display.
+        .map_err(|e| miette::miette!("{e}"))?;
     Ok(())
 }
 

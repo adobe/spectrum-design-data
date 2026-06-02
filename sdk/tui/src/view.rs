@@ -255,7 +255,7 @@ fn render_query(f: &mut Frame<'_>, qv: &mut QueryView, area: Rect, theme: &Theme
     let table = Table::new(rows, widths)
         .header(header)
         .block(Block::default().borders(Borders::ALL).title(title))
-        .highlight_style(Style::default().bg(theme.selection_bg));
+        .row_highlight_style(Style::default().bg(theme.selection_bg));
     f.render_stateful_widget(table, area, &mut qv.table_state);
 }
 
@@ -297,7 +297,7 @@ fn render_resolve(f: &mut Frame<'_>, rv: &mut ResolveView, area: Rect, theme: &T
                 .borders(Borders::ALL)
                 .title(format!(" Resolve: {} ", rv.property)),
         )
-        .highlight_style(Style::default().bg(theme.selection_bg));
+        .row_highlight_style(Style::default().bg(theme.selection_bg));
     f.render_stateful_widget(table, area, &mut rv.table_state);
 }
 
@@ -340,7 +340,7 @@ fn render_validate(f: &mut Frame<'_>, vv: &mut ValidateView, area: Rect, theme: 
     let table = Table::new(rows, widths)
         .header(header)
         .block(Block::default().borders(Borders::ALL).title(" Validate "))
-        .highlight_style(Style::default().bg(theme.selection_bg));
+        .row_highlight_style(Style::default().bg(theme.selection_bg));
     f.render_stateful_widget(table, area, &mut vv.table_state);
 }
 
@@ -493,7 +493,7 @@ fn render_intent_content(
             Constraint::Length(5),
         ];
         let table =
-            Table::new(rows, widths).highlight_style(Style::default().bg(theme.selection_bg));
+            Table::new(rows, widths).row_highlight_style(Style::default().bg(theme.selection_bg));
         f.render_widget(table, list_area);
     }
 }
