@@ -921,8 +921,7 @@ mod migration_roundtrip {
         // for cascade arrays).
         let pairs: Vec<_> = tokens
             .iter()
-            .enumerate()
-            .map(|(_i, v)| {
+            .map(|v| {
                 let uuid = v["uuid"].as_str().unwrap_or("").to_string();
                 (uuid, PathBuf::from("output.tokens.json"), v.clone())
             })

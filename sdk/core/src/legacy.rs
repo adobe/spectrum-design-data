@@ -301,8 +301,7 @@ fn compare_token_entries(name: &str, reference: &Value, output: &Value) -> Vec<S
     let (Some(ref_obj), Some(out_obj)) = (reference.as_object(), output.as_object()) else {
         if reference != output {
             diffs.push(format!(
-                "value mismatch: {reference:?} vs {out_obj:?}",
-                out_obj = output
+                "value mismatch: {reference:?} vs {output:?}"
             ));
         }
         return diffs;

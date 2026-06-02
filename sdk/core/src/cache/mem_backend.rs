@@ -67,7 +67,7 @@ impl MemBackend {
 }
 
 fn lock_poisoned() -> io::Error {
-    io::Error::new(io::ErrorKind::Other, "MemBackend lock poisoned")
+    io::Error::other("MemBackend lock poisoned")
 }
 
 impl redb::StorageBackend for MemBackend {

@@ -485,7 +485,7 @@ impl TokenGraph {
                     synthetic_raw["rationale"] = rationale.clone();
                 }
 
-                let key = format!("product-context:{}:{}", uuid_str, idx);
+                let key = format!("product-context:{uuid_str}:{idx}");
                 self.tokens.insert(
                     key.clone(),
                     TokenRecord {
@@ -935,7 +935,7 @@ mod tests {
     fn write_json(dir: &tempfile::TempDir, filename: &str, value: serde_json::Value) {
         let path = dir.path().join(filename);
         let mut f = std::fs::File::create(&path).unwrap();
-        write!(f, "{}", value).unwrap();
+        write!(f, "{value}").unwrap();
     }
 
     #[test]

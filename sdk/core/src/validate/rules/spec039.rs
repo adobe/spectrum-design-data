@@ -53,8 +53,7 @@ impl ValidationRule for Rule {
                         rule_id: Some(self.id().to_string()),
                         severity: Severity::Error,
                         message: format!(
-                            "Manifest {array_name}[{idx}] {:?} failed to parse as a query: {err}",
-                            entry_str
+                            "Manifest {array_name}[{idx}] {entry_str:?} failed to parse as a query: {err}"
                         ),
                         instance_path: Some(format!("/{array_name}/{idx}")),
                         schema_path: None,
