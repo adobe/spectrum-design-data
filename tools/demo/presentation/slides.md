@@ -48,24 +48,23 @@ deterministic — query, resolve, describe. No model involved.
 
 # Find & inspect a token
 
-<Asciinema src="casts/A-find.cast" :playerProps="{ pauseOnMarkers: true, cols: 120, rows: 36, poster: 'npt:0:00', theme: 'asciinema', fit: 'width' }" />
+<Asciinema src="casts/A-find.cast" :playerProps="{ pauseOnMarkers: true, cols: 120, rows: 36, poster: 'npt:0:02', theme: 'asciinema', fit: 'width' }" />
 
 <!--
-Beat A1 — `:query background-color/*` filters ~4,166 tokens into a Name / Value /
-File / Layer table. The TUI loads the whole corpus in about a second.
+Beat A2 — :resolve property=accent-background-color,colorScheme=dark shows the
+cascade winner (★) and the full candidate table with a Spec specificity column.
+Same idea as CSS specificity, but deterministic and auditable. The winner is the
+accent-color-800 alias in the foundation layer.
 
-Beat A2 — `:resolve property=accent-background-color-default,colorScheme=dark`
-shows the cascade winner (★) and a Spec specificity column. Same idea as CSS
-specificity, but deterministic and auditable.
+Beat A3 — :describe button pulls the component schema straight from the spec
+bundle: anatomy, states, accessibility role, token bindings — the full contract
+the agent reads.
 
-Beat A3 — `:describe button` pulls the component schema straight from the spec
-bundle: anatomy, states, accessibility role, token bindings.
-
-Beat A4 — `/accentbg` is live fuzzy-find: the table re-ranks on every keystroke
-with fzf-style subsequence matching (the header reads `Fuzzy: /accentbg`). Enter
-keeps the filtered results; Esc restores the previous view. So `:` is the
-structured surface (`query`/`find`) and `/` is incremental name search — show
-both.
+Beat A4 — /accentbg is live fuzzy-find: the table re-ranks on every keystroke
+with fzf-style subsequence matching (the header reads "Fuzzy: /accentbg"). Enter
+keeps the filtered results; Esc restores the previous view. So : is the
+structured surface (resolve/describe/query) and / is incremental name search —
+show both.
 -->
 
 ***
@@ -88,23 +87,24 @@ which keeps the cascade coherent.
 
 # Name a new token
 
-<Asciinema src="casts/B-name.cast" :playerProps="{ pauseOnMarkers: true, cols: 120, rows: 36, poster: 'npt:0:00', theme: 'asciinema', fit: 'width' }" />
+<Asciinema src="casts/B-name.cast" :playerProps="{ pauseOnMarkers: true, cols: 120, rows: 36, poster: 'npt:0:02', theme: 'asciinema', fit: 'width' }" />
 
 <!--
-Beat B1 — `:new accent background`. The reuse banner fires because a high-
-confidence match exists (threshold 0.35). One Tab takes the alias path straight
-to the Confirm diff — a reference, not a duplicate value.
+Beat B1 — :new accent background opens the wizard at Screen 1 (Intent). The
+list shows existing matches ranked by confidence. One Tab takes the alias path
+straight to Screen 4 (Confirm diff) — a reference, not a duplicate value.
+We Escape out here to keep the dataset clean.
 
-Beat B2 — `:new custom brand overlay` is a genuinely novel intent, so no banner.
-Walk the four screens: Intent → Classification (layer, property, name fields,
-live preview) → Values (one row per mode combination, alias or literal) →
-Confirm (rationale required, live diff).
+Beat B2 — :new custom brand overlay is a genuinely novel intent, so no
+high-confidence reuse match. Walk the four screens:
+  Screen 1 Intent → Screen 2 Classification (layer, property, name fields,
+  live preview) → Screen 3 Values (one row per mode combination, alias or
+  literal) → Screen 4 Confirm (rationale required, live diff).
 
-Note the Confirm diff serializes EVERY mode-combo row as a `sets` block — we
-just fixed a bug where only the first row was written. The multi-mode story is
-honest on camera now. The diff also emits a structured `name` object (property +
-name fields), so the TUI writes the same token shape as the MCP authoring
-session — the wizard and agent paths are at parity.
+Note the Confirm diff serializes every mode-combo row as a sets block. The
+diff also emits a structured name object (property + name fields), so the TUI
+writes the same token shape as the MCP authoring session — the wizard and agent
+paths are at parity.
 -->
 
 ***
@@ -126,35 +126,39 @@ terminal session with the design-data MCP connected — same format as A and B.
 
 # Agent + design-data MCP
 
-<Asciinema src="casts/D-agent.cast" :playerProps="{ pauseOnMarkers: true, cols: 120, rows: 36, poster: 'npt:0:00', theme: 'asciinema', fit: 'width' }" />
+<Asciinema src="casts/D-agent.cast" :playerProps="{ pauseOnMarkers: true, cols: 120, rows: 36, poster: 'npt:0:07', idleTimeLimit: 3, theme: 'asciinema', fit: 'width' }" />
 
 <!--
-Beat D1 — Paste the primary prompt from agent-questions.md: "Using the
-design-data MCP, look up the button component and tell me: (1) accessibility
-role and keyboard intents, (2) which states it declares, (3) which token
-resolves the default background color in dark mode — with citations, not a guess."
+Beat D1 — Agent receives the prompt and immediately calls describe_component for
+button. Pause here to read the question aloud if the audience hasn't seen it:
+"Using the design-data MCP, look up the button component and tell me:
+(1) accessibility role and keyboard intents, (2) which states it declares,
+(3) which token resolves the default background color in dark mode —
+with citations from the spec, not a guess."
 
-Beat D2 — Agent calls mcp__design-data__component for button, reads role,
-keyboardIntents, and state names; quotes them with spec citations.
+Beat D2 — Agent reads the describe_component result: role (button, ARIA),
+keyboardIntents, and the state list. It quotes these with citations from the spec.
+Pause to call out that the agent is reading the actual component schema —
+the same contract the TUI showed in Demo A.
 
-Beat D3 — Agent calls mcp__design-data__resolve for the dark-scheme default
-background; quotes the resolved hex/rgb value with a spec citation.
+Beat D3 — Agent attempts resolve_token, hits an initial failure (property name
+mismatch), then queries for the right property name and resolves successfully.
+Worth narrating: "It tried, got a tool error, searched for the right property,
+and resolved it — the same thing an engineer would do, but in seconds."
+The resolved value comes back with a cascade citation.
 
-Beat D4 — Closing note: the same answers are reachable without a persistent MCP
-via the design-data agent skill (npx @adobe/design-data …) for teams watching
-their context budget. The MCP exposes authoring tools too; the skill is read-only.
+Beat D4 — Agent wraps up. Pause to note: the same answers are reachable
+deterministically via the design-data CLI (design-data suggest / resolve) for
+teams watching their context budget. The MCP adds authoring tools on top;
+the CLI is read-only and always available.
 
-Why this works as well as it does: every token now carries a structured `name`
-object (component / property / state / colorFamily / …), not just a flat kebab
-string. The agent can spot patterns ("all button color tokens use
-object:background + property:color"), flag gaps (hover exists but disabled is
-missing), and validate terms against the spec vocabulary registries — none of
-that reasoning is possible on raw strings. Structured names are what make the
-agent a genuine collaborator, not a search wrapper.
+Why this works as well as it does: every token carries a structured name object
+(component / property / state / colorFamily / ...), not a flat kebab string.
+The agent can reason about naming patterns, flag gaps, and validate terms against
+spec vocabulary registries. Structured names are what make it a collaborator,
+not just a search wrapper.
 
-Record with: tools/demo/presentation/record-casts.sh D (see RECORDING.md for the
-full D1–D4 beat table, clean-env checklist, and non-determinism guidance).
-See ../agent-questions.md for the verbatim prompt.
+To re-record: bash tools/demo/auto/auto-demo.sh D --record (plain terminal only).
 -->
 
 ***
@@ -173,15 +177,23 @@ See ../agent-questions.md for the verbatim prompt.
 </div>
 
 <div class="mt-8 opacity-70 text-sm">
-Optional companion cast below: the deterministic <code>suggest</code> + <code>primer</code> the wizard uses, in one command.
+Optional companion cast below: the deterministic <code>suggest</code> + <code>primer</code> commands.
 </div>
 
-<Asciinema src="casts/C-suggest.cast" :playerProps="{ pauseOnMarkers: true, cols: 120, rows: 36, poster: 'npt:0:00', theme: 'asciinema', fit: 'width' }" />
+<Asciinema src="casts/C-suggest.cast" :playerProps="{ pauseOnMarkers: true, cols: 120, rows: 36, poster: 'npt:0:04', theme: 'asciinema', fit: 'width' }" />
 
 <!--
-Be precise with the audience: most of design-data is deterministic. `suggest`
-is lexical Jaccard ranking, not AI. The agent is the only model. This honesty
-is the point — the design system stays auditable.
+Beat C1 — design-data suggest "primary background color" returns ranked
+candidate tokens by lexical Jaccard similarity. Honest framing: this is
+deterministic ranking, not AI.
+
+Beat C2 — design-data primer packages/design-data/tokens emits the structural
+overview the agent reads at session start: token count, mode sets, component
+list, conformance scope. This is what grounds the agent in the actual dataset.
+
+Be precise with the audience: most of design-data is deterministic. The agent
+is the only model layer. This honesty is the point — the design system stays
+auditable.
 -->
 
 ***
