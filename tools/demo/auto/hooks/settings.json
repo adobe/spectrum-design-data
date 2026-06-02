@@ -1,0 +1,39 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "mcp__design-data__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash tools/demo/auto/hooks/record-beat.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "mcp__design-data__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash tools/demo/auto/hooks/record-beat.sh --failure",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash tools/demo/auto/hooks/stop-done.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
