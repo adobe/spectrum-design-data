@@ -678,7 +678,7 @@ mod tests {
         fs::create_dir_all(&project).unwrap();
         fs::write(
             project.join(".design-data.toml"),
-            format!("[source]\ntype = \"path\"\nroot = \"../spectrum-repo\"\n"),
+            "[source]\ntype = \"path\"\nroot = \"../spectrum-repo\"\n".to_string(),
         )
         .unwrap();
 

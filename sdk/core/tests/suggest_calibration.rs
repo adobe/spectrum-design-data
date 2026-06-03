@@ -48,8 +48,7 @@ fn positive_intents_score_above_threshold() {
     let src = token_src();
     assert!(
         src.is_dir(),
-        "packages/tokens/src not found at {:?} — tests must run from the repo root",
-        src
+        "packages/tokens/src not found at {src:?} — tests must run from the repo root"
     );
     let graph = TokenGraph::from_json_dir(&src).expect("failed to load token graph");
     let threshold = alias_threshold();
@@ -142,8 +141,7 @@ fn negative_intents_score_below_threshold() {
     let src = token_src();
     assert!(
         src.is_dir(),
-        "packages/tokens/src not found at {:?} — tests must run from the repo root",
-        src
+        "packages/tokens/src not found at {src:?} — tests must run from the repo root"
     );
     let graph = TokenGraph::from_json_dir(&src).expect("failed to load token graph");
     let threshold = alias_threshold();
@@ -154,15 +152,11 @@ fn negative_intents_score_below_threshold() {
         let results = suggest::suggest(&graph, intent, None, 5);
         let top_score = results.first().map(|r| r.confidence).unwrap_or(0.0);
         eprintln!(
-            "[negative] {:?} → top score={:.3} (threshold={:.2})",
-            intent, top_score, threshold
+            "[negative] {intent:?} → top score={top_score:.3} (threshold={threshold:.2})"
         );
         assert!(
             top_score < threshold,
-            "negative intent {:?} should score below {:.2}, got {:.3}",
-            intent,
-            threshold,
-            top_score
+            "negative intent {intent:?} should score below {threshold:.2}, got {top_score:.3}"
         );
     }
 }
@@ -177,8 +171,7 @@ fn threshold_sits_in_calibrated_gap() {
     // DO legitimately trigger the banner — correct behavior, not a false positive.
     let threshold = alias_threshold();
     eprintln!(
-        "[gap-check] alias_threshold()={:.2} should be in (0.0, 0.60)",
-        threshold
+        "[gap-check] alias_threshold()={threshold:.2} should be in (0.0, 0.60)"
     );
     assert!(
         threshold > 0.0,

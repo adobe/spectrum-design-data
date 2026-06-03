@@ -83,8 +83,7 @@ impl ValidationRule for Rule {
                     rule_id: Some(self.id().to_string()),
                     severity: Severity::Warning,
                     message: format!(
-                        "modeSetRestrictions references unknown mode set '{}' — not declared in this dataset",
-                        ms_name
+                        "modeSetRestrictions references unknown mode set '{ms_name}' — not declared in this dataset"
                     ),
                     instance_path: Some(format!("modeSetRestrictions/{ms_name}")),
                     schema_path: None,
@@ -161,8 +160,7 @@ impl ValidationRule for Rule {
                     rule_id: Some(self.id().to_string()),
                     severity: Severity::Error,
                     message: format!(
-                        "Token group '{}' has no resolvable candidate under manifest mode-set restrictions ({})",
-                        base_name, restrictions_summary
+                        "Token group '{base_name}' has no resolvable candidate under manifest mode-set restrictions ({restrictions_summary})"
                     ),
                     instance_path: None,
                     schema_path: None,
@@ -375,8 +373,7 @@ mod tests {
         assert_eq!(
             diags.len(),
             1,
-            "expected 1 coverage-gap error, got: {:?}",
-            diags
+            "expected 1 coverage-gap error, got: {diags:?}"
         );
         assert_eq!(diags[0].severity, Severity::Error);
     }

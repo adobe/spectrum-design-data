@@ -174,7 +174,7 @@
       "property": "banner-gap-horizontal"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-400",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
     "uuid": "c0571c46-5946-4896-bcbf-270560de5385",
     "description": "Spacing between child elements for banner components"
   },
@@ -183,7 +183,7 @@
       "property": "banner-gap-vertical"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-100",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "312ebac2-32a0-47a8-9c4e-e366b2232228",
     "description": "Spacing between child elements for banner components"
   },
@@ -192,7 +192,7 @@
       "property": "banner-padding-horizontal"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-300",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
     "uuid": "eb386242-21c6-437b-8125-e6d4394dd9c5",
     "description": "Horizontal internal spacing for banner components"
   },
@@ -201,7 +201,7 @@
       "property": "banner-padding-horizontal-compact"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-100",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "7f237198-3842-49bc-aa79-e723fbe6c78e",
     "description": "Horizontal internal spacing for banner components (compact density)"
   },
@@ -210,7 +210,7 @@
       "property": "banner-padding-vertical"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-200",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
     "description": "Vertical internal spacing for banner components"
   },
@@ -345,7 +345,7 @@
       "property": "base-padding-horizontal-uniform-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "base-padding-vertical-2x-large",
+    "$ref": "51761a5c-200d-467d-a575-3722f825edb9",
     "uuid": "9c571815-ef7f-4baa-9c7f-32a6f89052b7",
     "description": "Horizontal internal spacing with uniform dimensions for base UI elements at 2x-large size"
   },
@@ -354,7 +354,7 @@
       "property": "base-padding-horizontal-uniform-2x-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "base-padding-vertical-2x-small",
+    "$ref": "c5f12db9-a471-4678-9828-e9b3d80f550d",
     "uuid": "af1d798e-4235-44a3-a327-1779c134b72b",
     "description": "Horizontal internal spacing with uniform dimensions for base UI elements at 2x-small size"
   },
@@ -363,7 +363,7 @@
       "property": "base-padding-horizontal-uniform-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "base-padding-vertical-extra-large",
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "54f547dc-cb51-4eb2-91ff-b0f7b383f072",
     "description": "Horizontal internal spacing with uniform dimensions for base UI elements at extra-large size"
   },
@@ -372,7 +372,7 @@
       "property": "base-padding-horizontal-uniform-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "base-padding-vertical-extra-small",
+    "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47",
     "uuid": "337ce5da-d735-4930-a9c8-9fecf4dcb9b0",
     "description": "Horizontal internal spacing with uniform dimensions for base UI elements at extra-small size"
   },
@@ -381,7 +381,7 @@
       "property": "base-padding-horizontal-uniform-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "base-padding-vertical-large",
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
     "uuid": "1006824d-539b-408e-afd6-1e77779b9d21",
     "description": "Horizontal internal spacing with uniform dimensions for base UI elements at large size"
   },
@@ -390,7 +390,7 @@
       "property": "base-padding-horizontal-uniform-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "base-padding-vertical-medium",
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "a982f1e2-0545-4ca3-8104-32208ea9e152",
     "description": "Horizontal internal spacing with uniform dimensions for base UI elements at medium size"
   },
@@ -399,7 +399,7 @@
       "property": "base-padding-horizontal-uniform-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "base-padding-vertical-small",
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "3c42cb65-d84e-4cfd-bf17-e9f21ce17b7e",
     "description": "Horizontal internal spacing with uniform dimensions for base UI elements at small size"
   },
@@ -2240,7 +2240,7 @@
       "property": "container-gap-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-500",
+    "$ref": "490b4010-1561-4b12-8cbb-cdb4b650ba74",
     "uuid": "4b6cd7dd-2b7c-4fec-935e-8ea88de4c412",
     "description": "Spacing between child elements for containers at 2x-large size"
   },
@@ -2249,7 +2249,7 @@
       "property": "container-gap-2x-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-85",
+    "$ref": "4adbd869-2ead-49b8-bed6-950fb14c695d",
     "uuid": "b83df7f2-8811-4bad-b012-213e430e2aaf",
     "description": "Spacing between child elements for containers at 2x-small size"
   },
@@ -2258,7 +2258,7 @@
       "property": "container-gap-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-400",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
     "uuid": "c9c7652f-0332-417f-8520-e2202d7a08dc",
     "description": "Spacing between child elements for containers at extra-large size"
   },
@@ -2267,7 +2267,7 @@
       "property": "container-gap-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-100",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "9c79efdc-ab56-4f2e-b44d-5641d2480964",
     "description": "Spacing between child elements for containers at extra-small size"
   },
@@ -2276,7 +2276,7 @@
       "property": "container-gap-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-350",
+    "$ref": "b352f0f0-5843-4c65-8357-625b938ccaa0",
     "uuid": "236385bb-9e50-484c-912d-a71fe33924f4",
     "description": "Spacing between child elements for containers at large size"
   },
@@ -2285,7 +2285,7 @@
       "property": "container-gap-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-300",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
     "uuid": "06d1563b-7d67-400a-bcfa-bc320c2b7a28",
     "description": "Spacing between child elements for containers at medium size"
   },
@@ -2294,7 +2294,7 @@
       "property": "container-gap-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-200",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "bd1948af-f4eb-46ed-9ab5-cbd93b5e0935",
     "description": "Spacing between child elements for containers at small size"
   },
@@ -2303,7 +2303,7 @@
       "property": "container-padding-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-500",
+    "$ref": "490b4010-1561-4b12-8cbb-cdb4b650ba74",
     "uuid": "3801295f-e52b-412a-baf4-0b8e20449333",
     "description": "Internal spacing for containers at 2x-large size"
   },
@@ -2312,7 +2312,7 @@
       "property": "container-padding-2x-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-85",
+    "$ref": "4adbd869-2ead-49b8-bed6-950fb14c695d",
     "uuid": "f0d9117a-5606-4e49-a81f-f89938b34ca4",
     "description": "Internal spacing for containers at 2x-small size"
   },
@@ -2321,7 +2321,7 @@
       "property": "container-padding-3x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-600",
+    "$ref": "b6d0b881-d25e-452c-9069-c18745d21f33",
     "uuid": "e595caf6-37f9-4f84-b81b-dd44ed0d6431",
     "description": "Internal spacing for containers at 3x-large size"
   },
@@ -2330,7 +2330,7 @@
       "property": "container-padding-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-400",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
     "uuid": "2e855806-0f65-4df0-9d8f-74428daa358d",
     "description": "Internal spacing for containers at extra-large size"
   },
@@ -2339,7 +2339,7 @@
       "property": "container-padding-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-100",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "9fcd2823-9a13-44c0-a613-7dbe272b99a9",
     "description": "Internal spacing for containers at extra-small size"
   },
@@ -2348,7 +2348,7 @@
       "property": "container-padding-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-350",
+    "$ref": "b352f0f0-5843-4c65-8357-625b938ccaa0",
     "uuid": "4cf528c8-fc7a-447b-ae4d-38b744ec1b0f",
     "description": "Internal spacing for containers at large size"
   },
@@ -2357,7 +2357,7 @@
       "property": "container-padding-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-300",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
     "uuid": "81e5f983-4ca0-4d45-89f0-4accd78d7946",
     "description": "Internal spacing for containers at medium size"
   },
@@ -2366,7 +2366,7 @@
       "property": "container-padding-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-200",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "4c8d7d30-f0fb-4306-b78a-09ec0f2ffd97",
     "description": "Internal spacing for containers at small size"
   },
@@ -2464,7 +2464,7 @@
       "state": "default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-800",
+    "$ref": "8fc023ca-8aec-40fe-9130-087aa035bac7",
     "uuid": "d639a0b5-16b4-4d75-ab37-d87815c7b500"
   },
   {
@@ -2472,7 +2472,7 @@
       "property": "corner-radius-full"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-1000",
+    "$ref": "e4ad85b2-97bf-48cf-a5a9-3ff3d1fada5b",
     "uuid": "4853520b-bda3-45d1-bd20-8508cac08847"
   },
   {
@@ -2481,7 +2481,7 @@
       "state": "default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-700",
+    "$ref": "cb6b72ed-a9a1-4113-b147-1ef369fe6269",
     "uuid": "29981aef-aea6-4cde-849f-4bc67e320ea7"
   },
   {
@@ -2490,7 +2490,7 @@
       "state": "default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-500",
+    "$ref": "ada2ea1d-1728-411a-8aae-a198ce390a25",
     "uuid": "a83a882e-430c-46fc-a8be-5ade0dd8a4c6"
   },
   {
@@ -2498,7 +2498,7 @@
       "property": "corner-radius-medium-size-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-700",
+    "$ref": "cb6b72ed-a9a1-4113-b147-1ef369fe6269",
     "uuid": "81752b3e-488a-4273-abb5-4ba8b7f278d9"
   },
   {
@@ -2506,7 +2506,7 @@
       "property": "corner-radius-medium-size-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-300",
+    "$ref": "154642d7-c23d-44fd-9d79-b719ef32922e",
     "uuid": "d0e02d98-e93f-4f81-8d81-8f95e06ad360"
   },
   {
@@ -2514,7 +2514,7 @@
       "property": "corner-radius-medium-size-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-600",
+    "$ref": "abc0f309-3bd2-4800-af12-b27386e86617",
     "uuid": "ede17e00-83ef-40c5-a1d0-a46372d3fc90"
   },
   {
@@ -2522,7 +2522,7 @@
       "property": "corner-radius-medium-size-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-500",
+    "$ref": "ada2ea1d-1728-411a-8aae-a198ce390a25",
     "uuid": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84"
   },
   {
@@ -2530,7 +2530,7 @@
       "property": "corner-radius-medium-size-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-400",
+    "$ref": "690db7ae-cae8-49bb-8777-b4f1829b2f0b",
     "uuid": "892bc9de-16b2-4c51-9c18-b239e52ffd14"
   },
   {
@@ -2538,7 +2538,7 @@
       "property": "corner-radius-none"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-0",
+    "$ref": "bb9d8350-b1fb-4496-9c22-6ec9647ff117",
     "uuid": "7a11b308-bed2-4b6f-bb4a-c9ae4ef8e03d"
   },
   {
@@ -2547,7 +2547,7 @@
       "state": "default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-100",
+    "$ref": "bf24d15e-ad86-4b6a-a9e0-e8fd49a5ae30",
     "uuid": "b4971f86-aeea-42c9-9ba7-a74cf4d1a545"
   },
   {
@@ -2555,7 +2555,7 @@
       "property": "corner-radius-small-size-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-300",
+    "$ref": "154642d7-c23d-44fd-9d79-b719ef32922e",
     "uuid": "d59337d1-4cec-43c0-821e-06a56745cbcc"
   },
   {
@@ -2563,7 +2563,7 @@
       "property": "corner-radius-small-size-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-200",
+    "$ref": "52ad01be-f512-4fa3-ae67-8c6cef70810c",
     "uuid": "f4f0bfc9-ce6d-473f-8dda-c9f21fb8a7b7"
   },
   {
@@ -2571,7 +2571,7 @@
       "property": "corner-radius-small-size-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-100",
+    "$ref": "bf24d15e-ad86-4b6a-a9e0-e8fd49a5ae30",
     "uuid": "a62a43dd-cb2a-4e18-bb94-7a9518668400"
   },
   {
@@ -2579,7 +2579,7 @@
       "property": "corner-radius-small-size-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "corner-radius-75",
+    "$ref": "ecb9d03a-7340-4b43-8aa7-f89eef9f3a20",
     "uuid": "3d39e5de-0800-4629-ae1a-99a34706a772"
   },
   {
@@ -2787,7 +2787,7 @@
       "property": "drop-shadow-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-blur-100",
+    "$ref": "025e39f4-dfe7-4a8a-beb5-bd0577f72eac",
     "uuid": "ac20a6da-31a7-4c8b-b361-0ad820cd8429",
     "deprecated": "unknown"
   },
@@ -2820,7 +2820,7 @@
       "property": "drop-shadow-dragged-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-blur-300",
+    "$ref": "34812e0c-7ccf-49c2-884a-6fecd45f7c5a",
     "uuid": "f6015252-21fb-48f9-aadb-5ad050e3d590"
   },
   {
@@ -2828,7 +2828,7 @@
       "property": "drop-shadow-dragged-x"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-x-300",
+    "$ref": "cb6d74fe-cc32-47ff-bf8b-74597643a8a6",
     "uuid": "be5c80b4-5769-491b-9550-fcf94f0c762e"
   },
   {
@@ -2836,7 +2836,7 @@
       "property": "drop-shadow-dragged-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-y-300",
+    "$ref": "5d09089b-c0c5-4122-a3be-3e989562acda",
     "uuid": "ff8d4fda-72fa-4256-b2c8-f22a9d3e644f"
   },
   {
@@ -2844,7 +2844,7 @@
       "property": "drop-shadow-elevated-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-blur-200",
+    "$ref": "2b08d425-ecf2-4891-83cd-005a2d5e76ce",
     "uuid": "f3487a86-3aea-4527-8b5c-287c0bddad6c"
   },
   {
@@ -2852,7 +2852,7 @@
       "property": "drop-shadow-elevated-x"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-x-200",
+    "$ref": "0c76c925-4d29-49a3-b882-e946bd7fe9f1",
     "uuid": "59324423-4428-40d7-a227-5f75aeb38312"
   },
   {
@@ -2860,7 +2860,7 @@
       "property": "drop-shadow-elevated-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-y-200",
+    "$ref": "d2d0320a-6984-4b3f-8f5d-ccb88892a26c",
     "uuid": "45f313a5-1749-4b95-b5e3-20944adbea84"
   },
   {
@@ -2868,7 +2868,7 @@
       "property": "drop-shadow-emphasized-default-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-blur-100",
+    "$ref": "025e39f4-dfe7-4a8a-beb5-bd0577f72eac",
     "uuid": "57920fe8-72ad-48d2-aa9b-feec4c989106"
   },
   {
@@ -2876,7 +2876,7 @@
       "property": "drop-shadow-emphasized-default-x"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-x-100",
+    "$ref": "751d636e-efb5-411e-a5b8-06b11439cc90",
     "uuid": "5b611aa8-9db2-495d-a119-3385eee62442"
   },
   {
@@ -2884,7 +2884,7 @@
       "property": "drop-shadow-emphasized-default-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-y-100",
+    "$ref": "ed1f46fd-a586-46a5-8cc1-d843a57e2cc2",
     "uuid": "02949dd5-0596-44bc-8b63-dcc7d2ba628b"
   },
   {
@@ -2892,7 +2892,7 @@
       "property": "drop-shadow-emphasized-hover-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-blur-200",
+    "$ref": "2b08d425-ecf2-4891-83cd-005a2d5e76ce",
     "uuid": "5f6674e8-ef00-490a-800d-3b946059bae2"
   },
   {
@@ -2900,7 +2900,7 @@
       "property": "drop-shadow-emphasized-hover-x"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-x-200",
+    "$ref": "0c76c925-4d29-49a3-b882-e946bd7fe9f1",
     "uuid": "d86f7c89-92a6-4bad-83b0-43953472ce7f"
   },
   {
@@ -2908,7 +2908,7 @@
       "property": "drop-shadow-emphasized-hover-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-y-200",
+    "$ref": "d2d0320a-6984-4b3f-8f5d-ccb88892a26c",
     "uuid": "da17e314-f3e9-4d49-9362-533eb65c0f7b"
   },
   {
@@ -2916,7 +2916,7 @@
       "property": "drop-shadow-x"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-x-100",
+    "$ref": "751d636e-efb5-411e-a5b8-06b11439cc90",
     "uuid": "81415747-aa3f-4ef3-b0bc-7c33f07a4316",
     "deprecated": "unknown"
   },
@@ -2949,7 +2949,7 @@
       "property": "drop-shadow-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "drop-shadow-y-100",
+    "$ref": "ed1f46fd-a586-46a5-8cc1-d843a57e2cc2",
     "uuid": "c530129f-248c-4e36-ba7f-05d6d6a53962",
     "deprecated": "unknown"
   },
@@ -2982,7 +2982,7 @@
       "property": "drop-target-dash-gap"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-85",
+    "$ref": "4adbd869-2ead-49b8-bed6-950fb14c695d",
     "uuid": "5582026a-22e6-4e0e-9a21-2a7a43b026a6",
     "description": "Dash gap spacing for drop targets"
   },
@@ -2991,7 +2991,7 @@
       "property": "drop-target-dash-length"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-100",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "24cd8175-3dc5-46ae-b1af-01632787fcd8",
     "description": "Dash length for drop targets"
   },
@@ -4503,7 +4503,7 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "field-width-small",
+    "$ref": "d316d676-b4cf-4d16-b89c-63ef1d969861",
     "uuid": "096ddcb7-5afd-416f-9a11-4275556c4b52",
     "set_uuid": "ad37a519-be52-492e-a816-03ed7608fe65",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -4517,7 +4517,7 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "field-width-small",
+    "$ref": "d316d676-b4cf-4d16-b89c-63ef1d969861",
     "uuid": "08c2390a-353b-4e6b-b025-dbaeaa5fdff2",
     "set_uuid": "ad37a519-be52-492e-a816-03ed7608fe65",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -4530,7 +4530,7 @@
       "property": "field-width-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "field-default-width-extra-large",
+    "$ref": "5ab58f4b-2493-499a-ab97-f7533de2c5fa",
     "uuid": "a903b595-ffe8-43ae-af9b-7b6577191dc5",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use field-default-width-extra-large instead.",
@@ -4541,7 +4541,7 @@
       "property": "field-width-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "field-default-width-large",
+    "$ref": "4b7418ca-2384-4470-bfca-d8f742681740",
     "uuid": "cc43e053-1255-403f-aaf5-2182f5438592",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use field-default-width-large instead.",
@@ -4552,7 +4552,7 @@
       "property": "field-width-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "field-default-width-medium",
+    "$ref": "7e5eb477-85b4-46c3-a5eb-ac986b3298e2",
     "uuid": "935927d3-b25e-468a-999a-938643901e50",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use field-default-width-medium instead.",
@@ -4563,7 +4563,7 @@
       "property": "field-width-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "field-default-width-small",
+    "$ref": "2fe6f129-a722-46ca-9f87-2cebcd2faa38",
     "uuid": "d316d676-b4cf-4d16-b89c-63ef1d969861",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use field-default-width-small instead.",
@@ -4593,7 +4593,7 @@
       "property": "focus-ring-gap"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-50",
+    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
     "uuid": "fb035d45-e63b-4cd4-b220-675a52e99399",
     "description": "Spacing between child elements for focus indicators"
   },
@@ -4650,7 +4650,7 @@
       "property": "group-gap-compact"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-50",
+    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
     "uuid": "0f93a6a8-0128-4ee3-81a1-53216e069acc",
     "description": "Spacing between child elements (compact density)"
   },
@@ -4659,7 +4659,7 @@
       "property": "group-gap-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-300",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
     "uuid": "89e74f93-9124-41a8-96b0-0fcc5ce9ab08",
     "description": "Spacing between child elements at extra-large size"
   },
@@ -4668,7 +4668,7 @@
       "property": "group-gap-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-75",
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
     "uuid": "c3ada312-da94-4779-bbf0-0fde3beb8121",
     "description": "Spacing between child elements at extra-small size"
   },
@@ -4677,7 +4677,7 @@
       "property": "group-gap-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-200",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "fd40a531-eee6-48b2-8212-a33d012a2173",
     "description": "Spacing between child elements at large size"
   },
@@ -4686,7 +4686,7 @@
       "property": "group-gap-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-100",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "6f2ccc0b-42ff-4f1a-a789-527427440d13",
     "description": "Spacing between child elements at medium size"
   },
@@ -4695,7 +4695,7 @@
       "property": "group-gap-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-85",
+    "$ref": "4adbd869-2ead-49b8-bed6-950fb14c695d",
     "uuid": "ce1865aa-9f33-492a-80c6-981fd503d70c",
     "description": "Spacing between child elements at small size"
   },
@@ -4714,7 +4714,7 @@
       "property": "list-gap-compact"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-50",
+    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
     "uuid": "a66810ec-1839-4ca3-8036-d552a71b1511",
     "description": "Spacing between child elements for list structures (compact density)"
   },
@@ -4723,7 +4723,7 @@
       "property": "list-gap-regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-75",
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
     "uuid": "b7e1af59-753e-4059-8f46-8d862f631ad8",
     "description": "Spacing between child elements for list structures (regular density)"
   },
@@ -4732,7 +4732,7 @@
       "property": "list-gap-spacious"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-100",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "2a22e67c-5c2b-452b-8d51-b0396677898c",
     "description": "Spacing between child elements for list structures (spacious density)"
   },
@@ -4741,7 +4741,7 @@
       "property": "list-indent-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-400",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
     "uuid": "c5c94124-c16d-46f1-a22a-acf1378846bc",
     "description": "Indentation for list structures at large size"
   },
@@ -4750,7 +4750,7 @@
       "property": "list-indent-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-300",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
     "uuid": "9af302c3-7cf8-4b03-b6d1-4af5e641d67f",
     "description": "Indentation for list structures at medium size"
   },
@@ -4759,7 +4759,7 @@
       "property": "list-item-gap-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-100",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "3cd1e483-969b-492c-8d44-d29348c981a5",
     "description": "Spacing between child elements for list structures items at medium size"
   },
@@ -4768,7 +4768,7 @@
       "property": "list-item-gap-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-50",
+    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
     "uuid": "a8a20ecd-480e-4681-8639-c44d6dcb0658",
     "description": "Spacing between child elements for list structures items at small size"
   },
@@ -4777,7 +4777,7 @@
       "property": "list-item-padding-horizontal"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-85",
+    "$ref": "4adbd869-2ead-49b8-bed6-950fb14c695d",
     "uuid": "2147f873-8f42-4821-9654-9db2b1adc2f9",
     "description": "Horizontal internal spacing for list structures items"
   },
@@ -4786,7 +4786,7 @@
       "property": "list-item-padding-vertical-regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-75",
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
     "uuid": "6207cc71-4b5d-4ada-ad9d-07ec0d51487c",
     "description": "Vertical internal spacing for list structures items (regular density)"
   },
@@ -4795,7 +4795,7 @@
       "property": "list-item-padding-vertical-spacious"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-100",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "71a2a059-e5d7-4965-a4c0-5ed1fee74c6a",
     "description": "Vertical internal spacing for list structures items (spacious density)"
   },
@@ -4916,7 +4916,7 @@
       "property": "popover-gap"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-100",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
     "description": "Spacing between child elements for popover components"
   },
@@ -4925,7 +4925,7 @@
       "property": "popover-padding"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-100",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "c872da51-317e-44cf-aef8-2f5f9fb77ae8",
     "description": "Internal spacing for popover components"
   },
@@ -5130,7 +5130,7 @@
       "property": "tab-gap-horizontal-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-600",
+    "$ref": "b6d0b881-d25e-452c-9069-c18745d21f33",
     "uuid": "0c958750-2c96-453b-9464-f041ac126749",
     "description": "Spacing between child elements for tab components at extra-large size"
   },
@@ -5139,7 +5139,7 @@
       "property": "tab-gap-horizontal-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-500",
+    "$ref": "490b4010-1561-4b12-8cbb-cdb4b650ba74",
     "uuid": "8932b4cf-300f-4377-bbda-7fc02011cd37",
     "description": "Spacing between child elements for tab components at large size"
   },
@@ -5148,7 +5148,7 @@
       "property": "tab-gap-horizontal-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-400",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
     "uuid": "7a5f3049-0c20-4ff8-84ea-d161e58546fb",
     "description": "Spacing between child elements for tab components at medium size"
   },
@@ -5157,7 +5157,7 @@
       "property": "tab-gap-horizontal-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-350",
+    "$ref": "b352f0f0-5843-4c65-8357-625b938ccaa0",
     "uuid": "a41aaa58-77af-476e-9050-4f4864c8c3f9",
     "description": "Spacing between child elements for tab components at small size"
   },
@@ -5166,7 +5166,7 @@
       "property": "table-item-padding-compact"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-100",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
     "uuid": "42473d6e-5f40-46c7-9bbc-302e355ae6ae",
     "description": "Internal spacing for table structures items (compact density)"
   },
@@ -5175,7 +5175,7 @@
       "property": "table-item-padding-regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-200",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
     "uuid": "15ffb38e-341b-4c47-a6b3-c197e05afffe",
     "description": "Internal spacing for table structures items (regular density)"
   },
@@ -5184,7 +5184,7 @@
       "property": "table-item-padding-spacious"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-300",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
     "uuid": "a775a186-802e-4256-947c-7fda3ac53caa",
     "description": "Internal spacing for table structures items (spacious density)"
   },
@@ -5593,7 +5593,7 @@
       "property": "window-to-edge"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "spacing-600",
+    "$ref": "b6d0b881-d25e-452c-9069-c18745d21f33",
     "uuid": "a3e53161-c38a-4ee0-88c2-4a36fd530e51",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token container-padding-3x-large instead.",

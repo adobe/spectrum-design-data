@@ -218,7 +218,7 @@
         "$ref": {
           "type": "string",
           "minLength": 1,
-          "description": "Alias target path or stable token id (resolution is Layer 2)."
+          "description": "Alias target. In cascade format: the target token's UUID (canonical, rename-proof, resolved via uuid_index — Layer 2). In the legacy transition format: the target's kebab-case name slug."
         },
         "uuid": {
           "type": "string",

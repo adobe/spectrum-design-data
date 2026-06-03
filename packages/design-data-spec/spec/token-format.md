@@ -98,7 +98,15 @@ The table below lists all semantic fields. Fields marked with a scope are domain
 
 ### Alias (`$ref`)
 
-When **`$ref`** is present, the token is an **alias**. The value **MUST** be a non-empty string interpreted as a **token path** or **stable identifier** resolvable by the validator (resolution rules are Layer 2; see rule `SPEC-001` in `rules/rules.yaml`).
+When **`$ref`** is present, the token is an **alias**. The value **MUST** be a non-empty string. In cascade format the value is the **UUID** of the target token (rename-proof, resolved via the graph's `uuid_index`). In the legacy transition format the value is the target token's kebab-case name (serialized legacy slug). Both forms are accepted; resolution rules are Layer 2 (see rule `SPEC-001` in `rules/rules.yaml`).
+
+```json
+// Cascade canonical form (recommended) — the UUID is stable across renames.
+{ "name": { "property": "accent-background-color", "state": "default", "colorScheme": "dark" },
+  "$schema": "…/alias.json",
+  "$ref": "87a2c8f0-54fd-4939-8f42-3124fde1e49e",
+  "uuid": "f24eb871-6419-4cef-88a2-cca8548ae31e" }
+```
 
 ### Literal `value`
 
@@ -268,7 +276,7 @@ Within a composite value, a string sub-value **MAY** be an **inline alias**: a r
 }
 ```
 
-**NORMATIVE:** In legacy format, inline aliases use the syntax `{token-name}` (curly-brace-wrapped token property name). In cascade format, the inline alias syntax is `{token-name}` for backward compatibility; UUID-based inline aliases are reserved for a future spec version.
+**NORMATIVE:** In legacy format, inline aliases use the syntax `{token-name}` (curly-brace-wrapped token property name). In cascade format, top-level `$ref` aliases use a UUID (canonical, rename-proof); inline composite aliases within `value` objects remain `{token-name}` for backward compatibility. UUID-based inline composite aliases are reserved for a future spec version.
 
 **NORMATIVE:** Inline aliases within composite values are subject to alias resolution rules. Validators **MUST** resolve inline aliases and report errors for missing targets (SPEC-014), type mismatches (SPEC-015), and circular references (SPEC-003, extended).
 

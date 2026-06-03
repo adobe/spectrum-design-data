@@ -199,7 +199,7 @@ fn render_preview_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, th
         let widths = [Constraint::Min(0), Constraint::Length(10)];
         f.render_widget(
             Table::new(display_rows, widths)
-                .highlight_style(Style::default().bg(theme.selection_bg)),
+                .row_highlight_style(Style::default().bg(theme.selection_bg)),
             chunks[2],
         );
     } else if fs.preview_error.is_none() {

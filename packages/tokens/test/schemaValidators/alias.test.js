@@ -26,16 +26,58 @@ const validate = await ajv.compile(
   await readJSON("schemas/token-types/alias.json"),
 );
 
-test("Every token schema should validate against the definition", (t) => {
+const ALIAS_SCHEMA =
+  "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json";
+
+test("cascade $ref-only alias validates (oneOf cascade branch)", (t) => {
+  const alias = {
+    $schema: ALIAS_SCHEMA,
+    $ref: "87a2c8f0-54fd-4939-8f42-3124fde1e49e",
+    uuid: "f24eb871-6419-4cef-88a2-cca8548ae31e",
+  };
+  const valid = validate(alias);
+  if (!valid) {
+    t.log("Validation errors:", validate.errors);
+  }
+  t.true(valid, "cascade alias with $ref and uuid must validate");
+});
+
+test("legacy value-form alias validates (oneOf legacy branch)", (t) => {
   const alias = {
     component: "swatch",
-    $schema:
-      "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    $schema: ALIAS_SCHEMA,
     value: "{gray-900}",
     uuid: "7da5157d-7f25-405b-8de0-f3669565fb48",
   };
-  if (!validate(alias)) {
-    console.log(validate.errors);
+  const valid = validate(alias);
+  if (!valid) {
+    t.log("Validation errors:", validate.errors);
   }
-  t.pass();
+  t.true(valid, "legacy alias with value:'{name}' and uuid must validate");
+});
+
+test("alias with both $ref and value is rejected by oneOf", (t) => {
+  const alias = {
+    $schema: ALIAS_SCHEMA,
+    $ref: "87a2c8f0-54fd-4939-8f42-3124fde1e49e",
+    value: "{gray-900}",
+    uuid: "f24eb871-6419-4cef-88a2-cca8548ae31e",
+  };
+  t.false(
+    validate(alias),
+    "alias carrying both $ref and value must be rejected (oneOf not both)",
+  );
+});
+
+test("legacy value with illegal characters in braces is rejected", (t) => {
+  const alias = {
+    $schema: ALIAS_SCHEMA,
+    // Dots and slashes are not allowed inside {…} by the legacy pattern.
+    value: "{a.b}",
+    uuid: "7da5157d-7f25-405b-8de0-f3669565fb48",
+  };
+  t.false(
+    validate(alias),
+    "value:'{a.b}' violates the \\{(\\w|-)*\\} pattern and must be rejected",
+  );
 });

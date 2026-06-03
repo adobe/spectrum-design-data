@@ -85,6 +85,9 @@
 //!   across Rust versions). Fine for local dev caches; do not share cache dirs
 //!   across heterogeneous CI runners expecting identical keys.
 
+// redb::TransactionError is 160 bytes (external); all CacheError-returning functions are private
+#![allow(clippy::result_large_err)]
+
 mod mem_backend;
 
 pub use mem_backend::MemBackend;

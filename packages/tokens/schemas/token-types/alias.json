@@ -2,26 +2,67 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
   "title": "Alias",
-  "description": "A token that references another token.",
+  "description": "A token that references another token. Accepts both the legacy value-form ('{name}') and the cascade canonical form ('$ref': '<uuid>').",
   "type": "object",
-  "allOf": [
+  "required": ["$schema", "uuid"],
+  "oneOf": [
     {
-      "$ref": "token.json"
+      "description": "Legacy format: alias target wrapped in curly braces, e.g. {blue-100}.",
+      "required": ["value"],
+      "not": { "required": ["$ref"] },
+      "properties": {
+        "value": {
+          "type": "string",
+          "pattern": "^\\{(\\w|-)*\\}$"
+        }
+      }
+    },
+    {
+      "description": "Cascade canonical format: alias target UUID (rename-proof, resolvable via uuid_index).",
+      "required": ["$ref"],
+      "not": { "required": ["value"] },
+      "properties": {
+        "$ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
     }
   ],
   "properties": {
     "$schema": {
       "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json"
     },
-    "value": {
-      "type": "string",
-      "pattern": "^\\{(\\w|-)*\\}$"
-    },
+    "name": {},
     "component": {},
     "private": {},
     "deprecated": {},
     "deprecated_comment": {},
     "description": {},
-    "uuid": {}
+    "uuid": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+      "format": "uuid"
+    },
+    "set_uuid": {
+      "type": "string",
+      "description": "Set-level UUID carried from the cascade migration (used by legacy-output to reconstruct the outer set UUID)."
+    },
+    "set_schema": {
+      "type": "string",
+      "description": "Set-level schema URL carried from the cascade migration."
+    },
+    "replaced_by": {
+      "oneOf": [
+        { "type": "string", "format": "uuid" },
+        {
+          "type": "array",
+          "items": { "type": "string", "format": "uuid" },
+          "minItems": 1
+        }
+      ]
+    },
+    "introduced": { "type": "string" },
+    "plannedRemoval": { "type": "string" }
   }
 }

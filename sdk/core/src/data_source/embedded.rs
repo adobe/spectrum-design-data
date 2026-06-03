@@ -399,9 +399,8 @@ mod tests {
 
         assert_eq!(
             EMBEDDED_DATA_VERSION, pkg_version,
-            "EMBEDDED_DATA_VERSION is '{}' but packages/design-data/package.json says '{}'. \
-             Update the constant in sdk/core/src/data_source/embedded.rs.",
-            EMBEDDED_DATA_VERSION, pkg_version
+            "EMBEDDED_DATA_VERSION is '{EMBEDDED_DATA_VERSION}' but packages/design-data/package.json says '{pkg_version}'. \
+             Update the constant in sdk/core/src/data_source/embedded.rs."
         );
     }
 }

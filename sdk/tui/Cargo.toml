@@ -11,9 +11,9 @@ path = "src/lib.rs"
 
 [dependencies]
 design-data-core = { path = "../core" }
-ratatui = "0.28"
-crossterm = { version = "0.28", features = ["serde"] }
-tui-input = "0.10"
+ratatui = { version = "0.30", default-features = false, features = ["crossterm"] }
+crossterm = { version = "0.29", features = ["serde"] }
+tui-input = "0.15"
 clap = { version = "4.5", features = ["derive"] }
 miette = { version = "7.4", features = ["fancy"] }
 thiserror = "2.0"
