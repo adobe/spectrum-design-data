@@ -1,7 +1,7 @@
 ---
 "@adobe/spectrum-design-data": minor
 "@adobe/design-data-spec": minor
-"design-data-core": minor
+"@adobe/design-data": minor
 ---
 Migrate cascade token `$ref` aliases from name strings to UUIDs.
 

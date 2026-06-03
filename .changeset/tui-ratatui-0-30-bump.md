@@ -1,5 +1,5 @@
 ---
-"design-data-tui": minor
+"@adobe/design-data": minor
 ---
 Upgrade Ratatui ecosystem to unlock new widget crates for UX improvements.
 
