@@ -166,8 +166,11 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<LegacySummary,
 ///
 /// Used directly in tests; `convert_dir` calls this internally via `convert_array`.
 pub fn convert_token(token: &Map<String, Value>) -> Option<(String, Value)> {
+    // No uuid_to_name map available in this single-token API; any UUID $ref
+    // is wrapped verbatim.  Use convert_dir for full UUID→name resolution.
+    let empty: HashMap<String, String> = HashMap::new();
     let key = token.get("name").and_then(extract_legacy_key)?;
-    let entry = build_flat_entry(token);
+    let entry = build_flat_entry(token, &empty);
     Some((key, entry))
 }
 
@@ -485,13 +488,13 @@ fn convert_array(
         }
 
         let mut entry = if let Some(dim) = dim_keys.into_iter().next() {
-            let result = build_set_entry(&property, &tokens, dim, summary);
+            let result = build_set_entry(&property, &tokens, dim, summary, global_uuid_to_name);
             summary.sets_reconstructed += 1;
             result
         } else {
             // No mode set key → flat entry (use first token, base/default variant).
             summary.flat_tokens += 1;
-            build_flat_entry(tokens[0])
+            build_flat_entry(tokens[0], global_uuid_to_name)
         };
 
         // Convert cascade lifecycle fields to legacy format.
@@ -571,6 +574,7 @@ fn build_set_entry(
     tokens: &[&Map<String, Value>],
     dim_key: &str,
     _summary: &mut LegacySummary,
+    uuid_to_name: &HashMap<String, String>,
 ) -> Value {
     // Prefer the stored set_schema (written by migrate) so we can round-trip
     // schema types that share a mode set key (e.g. typography-scale vs scale-set).
@@ -621,7 +625,7 @@ fn build_set_entry(
         let Some(mode) = name_obj.get(dim_key).and_then(|v| v.as_str()) else {
             continue;
         };
-        let entry = build_mode_entry(tok, tokens);
+        let entry = build_mode_entry(tok, tokens, uuid_to_name);
         sets.insert(mode.to_string(), Value::Object(entry));
     }
     outer.insert("sets".into(), Value::Object(sets));
@@ -635,6 +639,7 @@ fn build_set_entry(
 fn build_mode_entry(
     tok: &Map<String, Value>,
     all_tokens: &[&Map<String, Value>],
+    uuid_to_name: &HashMap<String, String>,
 ) -> Map<String, Value> {
     let mut entry = Map::new();
 
@@ -643,7 +648,7 @@ fn build_mode_entry(
     }
 
     // Value / alias denormalization.
-    insert_value_or_ref(&mut entry, tok);
+    insert_value_or_ref(&mut entry, tok, uuid_to_name);
 
     if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
         entry.insert("uuid".into(), Value::String(uuid.to_string()));
@@ -664,7 +669,7 @@ fn build_mode_entry(
 }
 
 /// Build a flat legacy entry from a cascade token with no mode-set key.
-fn build_flat_entry(tok: &Map<String, Value>) -> Value {
+fn build_flat_entry(tok: &Map<String, Value>, uuid_to_name: &HashMap<String, String>) -> Value {
     let mut entry = Map::new();
 
     if let Some(schema) = tok.get("$schema").and_then(|v| v.as_str()) {
@@ -681,7 +686,7 @@ fn build_flat_entry(tok: &Map<String, Value>) -> Value {
         entry.insert("component".into(), Value::String(c.to_string()));
     }
 
-    insert_value_or_ref(&mut entry, tok);
+    insert_value_or_ref(&mut entry, tok, uuid_to_name);
 
     if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
         entry.insert("uuid".into(), Value::String(uuid.to_string()));
@@ -696,10 +701,21 @@ fn build_flat_entry(tok: &Map<String, Value>) -> Value {
     Value::Object(entry)
 }
 
-/// Denormalize `$ref: "foo"` → `value: "{foo}"`.
-fn insert_value_or_ref(out: &mut Map<String, Value>, src: &Map<String, Value>) {
+/// Denormalize `$ref: "<uuid-or-name>"` → `value: "{<name>}"`.
+///
+/// When `$ref` holds a UUID (cascade canonical form), looks it up in
+/// `uuid_to_name` to recover the human-readable legacy slug.  If the UUID is
+/// not found in the map (dangling or non-UUID `$ref`), the raw `$ref` value is
+/// wrapped verbatim so the output is still syntactically valid and the
+/// `roundtrip-verify` task will surface the discrepancy.
+fn insert_value_or_ref(
+    out: &mut Map<String, Value>,
+    src: &Map<String, Value>,
+    uuid_to_name: &HashMap<String, String>,
+) {
     if let Some(r) = src.get("$ref").and_then(|v| v.as_str()) {
-        out.insert("value".into(), Value::String(format!("{{{r}}}")));
+        let name = uuid_to_name.get(r).map(String::as_str).unwrap_or(r);
+        out.insert("value".into(), Value::String(format!("{{{name}}}")));
     } else if let Some(v) = src.get("value") {
         out.insert("value".into(), v.clone());
     }

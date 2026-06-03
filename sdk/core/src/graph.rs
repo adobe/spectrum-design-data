@@ -16,6 +16,7 @@ use std::path::{Path, PathBuf};
 use serde_json::Value;
 
 use crate::discovery::discover_json_files;
+use crate::naming::extract_legacy_key;
 use crate::query;
 use crate::CoreError;
 
@@ -100,8 +101,16 @@ pub struct TokenGraph {
     ///
     /// Required for cascade-format alias resolution: cascade token keys are
     /// `"<file>:<index>"` (guaranteed unique) rather than UUIDs, so `$ref`
-    /// targets that are plain UUID strings need this index to resolve.
+    /// targets that are UUID strings need this index to resolve.
     uuid_index: HashMap<String, String>,
+    /// Tertiary index: legacy human-readable name → primary key in `tokens`.
+    ///
+    /// Populated for cascade-format tokens (keyed `"<file>:<index>"`), where
+    /// the graph key is not the human-readable legacy name.  Allows inline
+    /// composite alias references that use `{legacy-name}` syntax to resolve
+    /// against cascade tokens.  Not needed for object-format tokens, which are
+    /// already keyed by their legacy slug, but harmlessly populated there too.
+    legacy_name_index: HashMap<String, String>,
 }
 
 impl TokenGraph {
@@ -281,9 +290,25 @@ impl TokenGraph {
                         .and_then(|v| v.as_str())
                         .map(str::to_string);
                     let alias_target = extract_alias_target(tok_obj);
-                    // Register UUID → key for alias resolution.
+                    // Register UUID → key for cascade alias resolution.
                     if let Some(u) = &uuid {
                         g.uuid_index.entry(u.clone()).or_insert_with(|| key.clone());
+                    }
+                    // Register set_uuid → key so that aliases pointing at the
+                    // set-level UUID (emitted by the forward migration when a
+                    // legacy alias targets a color-set or scale-set token) can
+                    // resolve.  `or_insert_with` keeps the first mode (stable).
+                    if let Some(su) = tok_obj.get("set_uuid").and_then(|v| v.as_str()) {
+                        g.uuid_index.entry(su.to_string()).or_insert_with(|| key.clone());
+                    }
+                    // Register legacy name → key so inline composite `{name}`
+                    // refs can resolve against cascade tokens (keyed file:index).
+                    if let Some(name_val) = tok_obj.get("name") {
+                        if let Some(legacy_key) = extract_legacy_key(name_val) {
+                            g.legacy_name_index
+                                .entry(legacy_key)
+                                .or_insert_with(|| key.clone());
+                        }
                     }
                     g.tokens.insert(
                         key.clone(),
@@ -383,6 +408,9 @@ impl TokenGraph {
     pub fn from_pairs(entries: Vec<(String, PathBuf, Value)>) -> Self {
         let mut tokens = HashMap::new();
         let mut uuid_index = HashMap::new();
+        // `from_pairs` uses the entry name as the graph key (object-format style),
+        // so no separate legacy_name_index entry is needed — tokens.get(name) works.
+        let legacy_name_index = HashMap::new();
         for (name, file, raw) in entries {
             let tok_obj = raw.as_object();
             let schema_url = tok_obj
@@ -416,6 +444,7 @@ impl TokenGraph {
             mode_sets: Vec::new(),
             components: Vec::new(),
             uuid_index,
+            legacy_name_index,
         }
     }
 
@@ -426,11 +455,21 @@ impl TokenGraph {
     pub fn from_records(records: Vec<TokenRecord>) -> Self {
         let mut tokens = HashMap::new();
         let mut uuid_index = HashMap::new();
+        let mut legacy_name_index = HashMap::new();
         for record in records {
             if let Some(u) = &record.uuid {
                 uuid_index
                     .entry(u.clone())
                     .or_insert_with(|| record.name.clone());
+            }
+            // Index by legacy name derived from the name object so that inline
+            // composite refs can resolve if this was a cascade-format token.
+            if let Some(name_val) = record.raw.get("name") {
+                if let Some(legacy_key) = extract_legacy_key(name_val) {
+                    legacy_name_index
+                        .entry(legacy_key)
+                        .or_insert_with(|| record.name.clone());
+                }
             }
             tokens.insert(record.name.clone(), record);
         }
@@ -439,6 +478,7 @@ impl TokenGraph {
             mode_sets: Vec::new(),
             components: Vec::new(),
             uuid_index,
+            legacy_name_index,
         }
     }
 
@@ -893,29 +933,61 @@ fn normalize_ref_target(s: &str) -> String {
         .to_string()
 }
 
+impl TokenGraph {
+    /// Resolve an alias target string to a `TokenRecord`, trying indexes in
+    /// priority order:
+    ///
+    /// 1. **UUID index** — cascade `$ref` stores the target's UUID (canonical).
+    /// 2. **Direct graph key** — legacy object-format tokens are keyed by slug.
+    /// 3. **Legacy name index** — inline composite `{name}` refs that reference
+    ///    cascade tokens by their human-readable name.
+    pub fn resolve_alias_key<'a>(&'a self, target: &str) -> Option<&'a TokenRecord> {
+        // 1. UUID → graph key (cascade format canonical path).
+        if let Some(k) = self.uuid_index.get(target) {
+            if let Some(rec) = self.tokens.get(k) {
+                return Some(rec);
+            }
+        }
+        // 2. Direct lookup — object-format tokens are keyed by their legacy slug.
+        if let Some(rec) = self.tokens.get(target) {
+            return Some(rec);
+        }
+        // 3. Legacy name → graph key (inline composite refs into cascade tokens).
+        if let Some(k) = self.legacy_name_index.get(target) {
+            return self.tokens.get(k);
+        }
+        None
+    }
+}
+
 impl TokenRecord {
     /// Follow alias edges until a non-alias or missing target.
     ///
-    /// For cascade tokens whose `$ref` targets a UUID, the graph key is
-    /// `"file:index"` rather than the UUID itself. The `uuid_index` is checked
-    /// as a fallback so UUID-based aliases resolve correctly.
+    /// Resolution priority per hop (via [`TokenGraph::resolve_alias_key`]):
+    /// 1. UUID index — canonical for cascade `$ref` targets.
+    /// 2. Direct graph key — legacy slug-keyed object-format tokens.
+    /// 3. Legacy name index — inline composite `{name}` refs into cascade tokens.
+    ///
+    /// Cycle detection keys on the *resolved graph key* of each hop (not the
+    /// raw alias string), so chains that mix UUID and name references to the
+    /// same token are correctly detected.
     pub fn resolve_leaf<'a>(&'a self, graph: &'a TokenGraph) -> &'a TokenRecord {
         let mut current = self;
+        // Seed with the starting token's graph key.
         let mut seen: Vec<&str> = vec![&self.name];
-        while let Some(target_name) = &current.alias_target {
-            let next = graph.tokens.get(target_name).or_else(|| {
-                graph
-                    .uuid_index
-                    .get(target_name)
-                    .and_then(|k| graph.tokens.get(k))
-            });
-            let Some(next) = next else {
+        loop {
+            let Some(target_name) = current.alias_target.as_deref() else {
                 break;
             };
-            if seen.contains(&target_name.as_str()) {
+            let Some(next) = graph.resolve_alias_key(target_name) else {
+                break;
+            };
+            // Use the resolved graph key, not the raw alias string, so that a
+            // UUID ref and a name ref to the same token are both detected.
+            if seen.contains(&next.name.as_str()) {
                 break;
             }
-            seen.push(target_name);
+            seen.push(&next.name);
             current = next;
         }
         current
@@ -1312,5 +1384,149 @@ mod tests {
         let outcome = g.apply_platform_manifest(&manifest).unwrap();
         assert_eq!(g.tokens.len(), before);
         assert!(outcome.mode_set_restrictions.is_empty());
+    }
+
+    // ── resolve_alias_key / resolve_leaf (UUID-first, cycle guard) ────────────
+
+    /// Helper: build a cascade-format graph from an array of token objects.
+    ///
+    /// Uses a temp file so cascade-format ingest (keyed file:index) is exercised.
+    fn cascade_graph_from(tokens: serde_json::Value) -> TokenGraph {
+        use std::io::Write;
+        let dir = tempdir().unwrap();
+        let path = dir.path().join("tokens.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(f, "{tokens}").unwrap();
+        // Keep `dir` alive until graph is loaded.
+        let g = TokenGraph::from_json_dir(dir.path()).unwrap();
+        g
+    }
+
+    #[test]
+    fn resolve_alias_key_uuid_first() {
+        // Two tokens: a leaf (palette value) and an alias pointing to it by UUID.
+        let uuid = "aaaaaaaa-0000-0000-0000-000000000001";
+        let g = cascade_graph_from(json!([
+            {
+                "name": { "property": "color", "colorFamily": "blue", "scaleIndex": 100 },
+                "$schema": "https://example.com/color.json",
+                "value": "rgb(0,0,255)",
+                "uuid": uuid
+            },
+            {
+                "name": { "property": "accent-background-color", "state": "default" },
+                "$schema": "https://example.com/alias.json",
+                "$ref": uuid,
+                "uuid": "aaaaaaaa-0000-0000-0000-000000000002"
+            }
+        ]));
+
+        // resolve_alias_key by UUID must find the leaf.
+        let leaf = g.resolve_alias_key(uuid).expect("UUID lookup must succeed");
+        assert_eq!(leaf.raw["value"], "rgb(0,0,255)");
+
+        // resolve_leaf on the alias must traverse to the value token.
+        let alias_key = g
+            .tokens
+            .iter()
+            .find(|(_, r)| r.alias_target.is_some())
+            .map(|(k, _)| k.clone())
+            .unwrap();
+        let alias_rec = g.tokens.get(&alias_key).unwrap();
+        let resolved = alias_rec.resolve_leaf(&g);
+        assert_eq!(resolved.raw["value"], "rgb(0,0,255)");
+    }
+
+    #[test]
+    fn legacy_name_index_resolves_cascade_token_by_name() {
+        // Cascade tokens are keyed file:index. resolve_alias_key must still find
+        // them when given their human-readable legacy name.
+        let g = cascade_graph_from(json!([
+            {
+                "name": { "property": "color", "colorFamily": "blue", "scaleIndex": 100 },
+                "$schema": "https://example.com/color.json",
+                "value": "rgb(0,0,255)",
+                "uuid": "bbbbbbbb-0000-0000-0000-000000000001"
+            }
+        ]));
+
+        // "blue-100" is the serialized legacy name for this token.
+        let rec = g
+            .resolve_alias_key("blue-100")
+            .expect("legacy name lookup must succeed");
+        assert_eq!(rec.raw["value"], "rgb(0,0,255)");
+    }
+
+    #[test]
+    fn dangling_uuid_ref_returns_self_without_panic() {
+        // An alias whose $ref UUID has no matching token must break the chain
+        // and return self (same behaviour as today for dangling name refs).
+        let g = cascade_graph_from(json!([
+            {
+                "name": { "property": "accent-background-color", "state": "default" },
+                "$schema": "https://example.com/alias.json",
+                "$ref": "00000000-dead-beef-0000-000000000000",
+                "uuid": "cccccccc-0000-0000-0000-000000000001"
+            }
+        ]));
+
+        let alias_key = g.tokens.keys().next().unwrap().clone();
+        let rec = g.tokens.get(&alias_key).unwrap();
+        // Must return self, not panic.
+        let resolved = rec.resolve_leaf(&g);
+        assert_eq!(resolved.name, rec.name, "dangling UUID ref must return self");
+    }
+
+    #[test]
+    fn cycle_guard_detects_mixed_uuid_and_name_chain() {
+        // Craft a two-token cycle where A refs B by UUID and B refs A by legacy
+        // slug, exercising the "key on resolved graph key" fix.
+        let uuid_a = "dddddddd-0000-0000-0000-000000000001";
+        let uuid_b = "dddddddd-0000-0000-0000-000000000002";
+
+        // Use object-format for B so it's keyed by slug (enabling name ref from A).
+        let tokens_dir = tempdir().unwrap();
+        // Token A: cascade format, refs B by UUID.
+        let cascade_path = tokens_dir.path().join("a.json");
+        std::fs::write(
+            &cascade_path,
+            serde_json::to_string(&json!([
+                {
+                    "name": { "property": "accent-background-color", "state": "default" },
+                    "$schema": "https://example.com/alias.json",
+                    "$ref": uuid_b,
+                    "uuid": uuid_a
+                }
+            ]))
+            .unwrap(),
+        )
+        .unwrap();
+        // Token B: object format (keyed by slug), refs A by legacy name.
+        let obj_path = tokens_dir.path().join("b.json");
+        std::fs::write(
+            &obj_path,
+            serde_json::to_string(&json!({
+                "accent-color-800": {
+                    "$schema": "https://example.com/alias.json",
+                    "$ref": "accent-background-color-default",
+                    "uuid": uuid_b
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+
+        let g = TokenGraph::from_json_dir(tokens_dir.path()).unwrap();
+
+        // Resolving from either token must terminate (not loop forever).
+        let rec_a = g.resolve_alias_key(uuid_a).unwrap();
+        let result_a = rec_a.resolve_leaf(&g);
+        // Result is one of the two tokens; the important thing is it terminates.
+        assert!(
+            result_a.uuid.as_deref() == Some(uuid_a)
+                || result_a.uuid.as_deref() == Some(uuid_b),
+            "cycle must terminate, got {:?}",
+            result_a.uuid
+        );
     }
 }

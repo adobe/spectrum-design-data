@@ -194,7 +194,7 @@ impl ValidationRule for Rule {
                     continue;
                 };
 
-                let Some(target_record) = ctx.graph.tokens.get(&target_name) else {
+                let Some(target_record) = ctx.graph.resolve_alias_key(&target_name) else {
                     // Missing target is SPEC-014's job, not ours.
                     continue;
                 };

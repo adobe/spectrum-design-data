@@ -77,7 +77,7 @@ impl ValidationRule for Rule {
                     if hops >= 8 {
                         break; // depth guard; SPEC-003 enforces no true cycles
                     }
-                    let Some(target) = ctx.graph.tokens.get(target_name) else {
+                    let Some(target) = ctx.graph.resolve_alias_key(target_name) else {
                         break; // broken alias — SPEC-001 owns this diagnostic
                     };
                     resolved = target.schema_url.as_deref().unwrap_or("<missing schema>");

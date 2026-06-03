@@ -28,7 +28,7 @@ impl ValidationRule for Rule {
             let Some(target_name) = &t.alias_target else {
                 continue;
             };
-            let Some(target) = ctx.graph.tokens.get(target_name) else {
+            let Some(target) = ctx.graph.resolve_alias_key(target_name) else {
                 continue;
             };
             let leaf = target.resolve_leaf(ctx.graph);

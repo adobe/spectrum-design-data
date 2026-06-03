@@ -44,7 +44,7 @@ impl ValidationRule for Rule {
                     break;
                 }
                 path.push(next_name.clone());
-                let Some(next) = ctx.graph.tokens.get(next_name.as_str()) else {
+                let Some(next) = ctx.graph.resolve_alias_key(next_name.as_str()) else {
                     break;
                 };
                 current = next;

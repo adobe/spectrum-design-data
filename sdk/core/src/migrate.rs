@@ -131,6 +131,12 @@ pub struct MigrateSummary {
     /// Number of sidecar slug entries that were overwritten by a later file
     /// (last-writer-wins collision count from `load_sidecar_names`).
     pub sidecar_slug_overrides: usize,
+    /// Alias `$ref` targets whose legacy name was not found in the UUID map.
+    ///
+    /// These fall back to writing the raw name string so SPEC-014 can detect
+    /// the dangling ref downstream.  A non-zero count indicates source tokens
+    /// that reference a target not present in the current migration run.
+    pub dangling_alias_refs: usize,
 }
 
 /// Summary statistics from an add-uuids run.
@@ -582,6 +588,7 @@ fn convert_set(
                 mode,
                 name_to_uuid,
                 &base_name,
+                &mut summary.dangling_alias_refs,
             ))
         })
         .collect()
@@ -598,6 +605,7 @@ fn build_set_entry(
     mode: &str,
     name_to_uuid: &HashMap<&str, &str>,
     base_name: &Value,
+    dangling: &mut usize,
 ) -> Value {
     let mut out = Map::new();
 
@@ -631,8 +639,8 @@ fn build_set_entry(
         out.insert("$schema".into(), Value::String(schema.to_string()));
     }
 
-    // Value or alias.
-    insert_value_or_ref(&mut out, entry);
+    // Value or alias (UUID-keyed $ref for aliases).
+    insert_value_or_ref(&mut out, entry, name_to_uuid, dangling);
 
     // UUID from entry (mode-level).
     if let Some(uuid) = entry.get("uuid").and_then(|v| v.as_str()) {
@@ -710,8 +718,8 @@ fn build_flat(
         }
     }
 
-    // Value or alias.
-    insert_value_or_ref(&mut out, token_obj);
+    // Value or alias (UUID-keyed $ref for aliases).
+    insert_value_or_ref(&mut out, token_obj, name_to_uuid, &mut summary.dangling_alias_refs);
 
     // UUID.
     if let Some(uuid) = token_obj.get("uuid").and_then(|v| v.as_str()) {
@@ -766,13 +774,30 @@ fn normalize_lifecycle_for_cascade(
 
 /// Insert `value` or `$ref` into the output map from a source object.
 ///
-/// Alias syntax `value: "{token-name}"` is normalized to `$ref: "token-name"`.
-fn insert_value_or_ref(out: &mut Map<String, Value>, src: &Map<String, Value>) {
+/// Alias syntax `value: "{token-name}"` is normalized to `$ref: "<uuid>"` by
+/// looking up the target name in `name_to_uuid`.  If the target name is not
+/// found (dangling alias in the source), the name string is used verbatim as a
+/// fallback and `dangling` is incremented — SPEC-014 will flag it downstream.
+///
+/// Non-alias `value` entries are copied unchanged.
+fn insert_value_or_ref(
+    out: &mut Map<String, Value>,
+    src: &Map<String, Value>,
+    name_to_uuid: &HashMap<&str, &str>,
+    dangling: &mut usize,
+) {
     if let Some(val) = src.get("value") {
         if let Some(s) = val.as_str() {
             if s.starts_with('{') && s.ends_with('}') && s.len() > 2 {
-                let target = s[1..s.len() - 1].to_string();
-                out.insert("$ref".into(), Value::String(target));
+                let target_name = &s[1..s.len() - 1];
+                let ref_value = if let Some(&uuid) = name_to_uuid.get(target_name) {
+                    uuid.to_string()
+                } else {
+                    // Dangling alias: target not in this migration run.
+                    *dangling += 1;
+                    target_name.to_string()
+                };
+                out.insert("$ref".into(), Value::String(ref_value));
                 return;
             }
         }
