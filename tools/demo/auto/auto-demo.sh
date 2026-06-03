@@ -265,8 +265,8 @@ fi
 
 # ─── summary ─────────────────────────────────────────────────────────────────
 
-print_summary "$MODE"
-STATUS=$?
+STATUS=0
+print_summary "$MODE" || STATUS=$?
 
 if (( STATUS == 0 )); then
   echo -e "\n${GREEN}${BOLD}==> Demo $DEMO $MODE: OK${RESET}"

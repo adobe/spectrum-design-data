@@ -60,7 +60,7 @@ run_beats_D() {
     mv "$_settings_base" "$per_run_settings"
     # Use python3 to write the JSON so quoting in paths is handled correctly.
     python3 - "$per_run_settings" "$record_beat_sh" "$stop_done_sh" "$DEMO_BEATS_DIR" <<'PYEOF'
-import sys, json
+import sys, json, shlex
 
 out_path, record_sh, stop_sh, beats_dir = sys.argv[1:5]
 
@@ -69,18 +69,18 @@ settings = {
     "PostToolUse": [{
       "matcher": "mcp__design-data__.*",
       "hooks": [{"type": "command",
-                 "command": f"DEMO_BEATS_DIR={json.dumps(beats_dir)[1:-1]} bash {json.dumps(record_sh)[1:-1]}",
+                 "command": f"DEMO_BEATS_DIR={shlex.quote(beats_dir)} bash {shlex.quote(record_sh)}",
                  "timeout": 30}]
     }],
     "PostToolUseFailure": [{
       "matcher": "mcp__design-data__.*",
       "hooks": [{"type": "command",
-                 "command": f"DEMO_BEATS_DIR={json.dumps(beats_dir)[1:-1]} bash {json.dumps(record_sh)[1:-1]} --failure",
+                 "command": f"DEMO_BEATS_DIR={shlex.quote(beats_dir)} bash {shlex.quote(record_sh)} --failure",
                  "timeout": 30}]
     }],
     "Stop": [{
       "hooks": [{"type": "command",
-                 "command": f"DEMO_BEATS_DIR={json.dumps(beats_dir)[1:-1]} bash {json.dumps(stop_sh)[1:-1]}",
+                 "command": f"DEMO_BEATS_DIR={shlex.quote(beats_dir)} bash {shlex.quote(stop_sh)}",
                  "timeout": 30}]
     }]
   }

@@ -1,4 +1,5 @@
 {
+  "_comment": "REFERENCE ONLY — this file is not passed directly to claude. D.beats.sh generates a per-run settings file with absolute hook paths and DEMO_BEATS_DIR embedded. The relative paths here ('bash tools/demo/...') only resolve from the repo root and would fail elsewhere.",
   "hooks": {
     "PostToolUse": [
       {

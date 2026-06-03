@@ -51,9 +51,11 @@ These land on asciinema's own clock regardless of `--idle-time-limit` compressio
 
 **Demo D** — uses **Claude Code hooks** for reliable beat detection and marker timing:
 
-* A per-run `tools/demo/auto/hooks/settings.json` is supplied via
-  `claude --settings hooks/settings.json`, scoping hooks to that run only (no
-  change to global or project settings).
+* A per-run settings JSON is **generated at runtime** by `D.beats.sh` with absolute
+  hook paths and `DEMO_BEATS_DIR` baked in, then supplied via
+  `claude --settings <tmpfile>`, scoping hooks to that run only (no change to global or
+  project settings). `tools/demo/auto/hooks/settings.json` is a reference example only —
+  its relative paths are not used directly.
 * A **`PostToolUse`** hook (`record-beat.sh`) fires after each `mcp__design-data__`
   tool call and appends `epoch_seconds<TAB>tool_name` to a temporary beats log.
 * A **`Stop`** hook (`stop-done.sh`) touches a done sentinel when Claude finishes

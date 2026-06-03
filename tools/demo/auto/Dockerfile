@@ -14,7 +14,7 @@
 #   docker run --rm -v "$(pwd):/workspace:rw" spectrum-design-data-demo \
 #     bash /workspace/tools/demo/auto/auto-demo.sh C --verify
 
-FROM rust:1.82-slim AS builder
+FROM rust:1.88-slim AS builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
       pkg-config \
@@ -23,10 +23,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspace
-
-# Pre-cache dependencies by copying manifests first.
-COPY sdk/Cargo.toml sdk/Cargo.lock* ./sdk/
-COPY sdk/crates/ ./sdk/crates/ 2>/dev/null || true
 
 # Build the design-data CLI in release mode.
 COPY sdk/ ./sdk/
