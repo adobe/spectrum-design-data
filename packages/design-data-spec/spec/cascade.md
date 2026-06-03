@@ -55,7 +55,7 @@ Exact matching rules for omitted mode sets are defined alongside mode set declar
 
 **NORMATIVE:** Alias (`$ref`) resolution **MUST** occur **after** cascade selection. The resolution algorithm selects the winning candidate using layer, specificity, and tie-breaking rules before any alias chain is followed.
 
-**NORMATIVE:** If the winning candidate is an alias, its `$ref` chain **MUST** be resolved to a literal value using the standard alias-resolution rules (SPEC-001 through SPEC-003 in `rules/rules.yaml`). The alias target is resolved within the same dataset (i.e. the same merged layer stack), not relative to any single layer.
+**NORMATIVE:** If the winning candidate is an alias, its `$ref` chain **MUST** be resolved to a literal value using the standard alias-resolution rules (SPEC-001 through SPEC-003 in `rules/rules.yaml`). The alias target is resolved within the same dataset (i.e. the same merged layer stack), not relative to any single layer. In cascade format, `$ref` holds the **UUID** of the target token (see [`token-format.md` §Alias](token-format.md#alias-ref)); resolution proceeds UUID-first, then direct graph key (legacy slug), then serialised name.
 
 **RATIONALE:** Aliases participate in cascade as opaque references — their target values are not examined during specificity calculation or layer comparison. This keeps resolution deterministic and allows aliases to be valid candidates at any specificity level.
 

@@ -4,6 +4,7 @@
   "title": "Alias",
   "description": "A token that references another token. Accepts both the legacy value-form ('{name}') and the cascade canonical form ('$ref': '<uuid>').",
   "type": "object",
+  "required": ["$schema", "uuid"],
   "oneOf": [
     {
       "description": "Legacy format: alias target wrapped in curly braces, e.g. {blue-100}.",
@@ -40,7 +41,7 @@
     "description": {},
     "uuid": {
       "type": "string",
-      "pattern": "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
       "format": "uuid"
     },
     "set_uuid": {

@@ -616,12 +616,11 @@ fn build_set_entry(
             name_obj.insert(dim_key.to_string(), Value::String(mode.to_string()));
             Value::Object(name_obj)
         }
-        // String escape hatch: can't add dim_key to a string.
-        // Fall back to thin object so the set structure is preserved.
+        // String-valued base_name: produced when the sidecar carries a
+        // SPEC-017 string-name escape-hatch value rather than an object.
+        // Reconstruct a thin name object so the mode dimension can still
+        // be attached and the set structure is preserved.
         _ => {
-            // Reconstruct thin from outer (property field is embedded in base_name
-            // only when it is an Object; this branch handles the unreachable
-            // String case defensively).
             let property = base_name.as_str().unwrap_or("");
             let mut name_obj = Map::new();
             name_obj.insert("property".into(), Value::String(property.to_string()));

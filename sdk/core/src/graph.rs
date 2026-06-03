@@ -646,6 +646,7 @@ impl TokenGraph {
         // Rebuild the UUID index so override/alias resolution below cannot point
         // at tokens that were just filtered out.
         self.rebuild_uuid_index();
+        self.rebuild_legacy_name_index();
 
         // 2. overrides — typed, Platform layer, type-preserving.
         if let Some(overrides) = manifest.get("overrides").and_then(|v| v.as_array()) {
@@ -775,6 +776,8 @@ impl TokenGraph {
         &self,
         target: &str,
     ) -> Result<Vec<OverrideTargetMatch>, CoreError> {
+        // Query expression heuristic: UUIDs (hex+hyphens) and slugs (word chars+hyphens)
+        // never contain '=', so presence of '=' unambiguously signals a query expression.
         if target.contains('=') {
             let filter = query::parse(target)?;
             return Ok(query::filter(self, &filter)
@@ -812,6 +815,19 @@ impl TokenGraph {
                 self.uuid_index
                     .entry(u.clone())
                     .or_insert_with(|| key.clone());
+            }
+        }
+    }
+
+    fn rebuild_legacy_name_index(&mut self) {
+        self.legacy_name_index.clear();
+        for (key, rec) in &self.tokens {
+            if let Some(name_val) = rec.raw.get("name") {
+                if let Some(legacy_key) = extract_legacy_key(name_val) {
+                    self.legacy_name_index
+                        .entry(legacy_key)
+                        .or_insert_with(|| key.clone());
+                }
             }
         }
     }
