@@ -9,7 +9,7 @@
 [2.8, "o", "\r\n$ design-data resolve accent-background-color packages/design-data/tokens --color-scheme dark\r\n"]
 [3.4, "o", "Property:  accent-background-color\r\nAlias:     \"accent-color-800\"\r\nFile:      color-aliases.tokens.json\r\n"]
 [4.0, "m", "A2 resolve"]
-[4.2, "o", "\r\n$ design-data component button --components-dir packages/design-data-spec/components\r\n"]
+[4.2, "o", "\r\n$ design-data component button --components-dir packages/design-data/components\r\n"]
 [4.8, "o", "{ \"name\": \"button\", \"role\": \"button\", \"states\": [\"hover\", \"focus\", \"disabled\"], \"keyboardIntents\": [\"activate\"] }\r\n"]
 [5.6, "m", "A3 describe"]
 [5.8, "o", "\r\n"]
