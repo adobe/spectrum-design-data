@@ -66,5 +66,69 @@ tasks:
       - "presentation/public/**/*"
       - "presentation/package.json"
 
+  # ── rmux-driven automated verification + cast recording ──────────────────
+  # auto-demo.sh drives each demo via rmux send-keys/capture-pane, asserts
+  # expected output (--verify, CI-able for A/B/C), and optionally emits an
+  # asciinema v2 .cast with beat markers (--record, operator-only).
+  #
+  # A, B, C: deterministic (TUI/CLI) — suitable for CI.
+  # D: non-deterministic (Claude Code + MCP) — local-only, needs Claude auth.
+
+  # CI-able: drive demos A, B, C and assert expected output.
+  # D is excluded — it needs Claude auth/network (run auto-demo-d manually).
+  auto-verify:
+    command: [
+        bash,
+        -c,
+        "bash tools/demo/auto/auto-demo.sh A --verify &&
+        bash tools/demo/auto/auto-demo.sh B --verify &&
+        bash tools/demo/auto/auto-demo.sh C --verify",
+      ]
+    options:
+      runFromWorkspaceRoot: true
+      # Needs rmux on PATH and a real display/PTY; not suitable for headless CI runners.
+      runInCI: false
+    inputs:
+      - "auto/**/*.sh"
+      - "packages/design-data/tokens/**"
+      - "packages/design-data-spec/components/**"
+
+  # Verify Demo D locally (Claude Code + MCP; non-deterministic; local only).
+  auto-verify-d:
+    command: [bash, tools/demo/auto/auto-demo.sh, D, --verify]
+    options:
+      runFromWorkspaceRoot: true
+    local: true
+
+  # Record all four casts to presentation/public/casts/ (operator-only).
+  auto-record:
+    command: [
+        bash,
+        -c,
+        "bash tools/demo/auto/auto-demo.sh A --record &&
+        bash tools/demo/auto/auto-demo.sh B --record &&
+        bash tools/demo/auto/auto-demo.sh C --record &&
+        bash tools/demo/auto/auto-demo.sh D --record",
+      ]
+    options:
+      runFromWorkspaceRoot: true
+      runInCI: false
+    local: true
+
+  # Ad-hoc TUI verification runner (Tier 2 of the tui-verify skill).
+  # Drives the real binary in an rmux pane and asserts expected output.
+  # Pass --dataset and --steps arguments after --:
+  #   moon run demo:tui-verify -- --dataset packages/design-data --steps my-steps.txt
+  tui-verify:
+    command: [bash, tools/demo/auto/verify-tui.sh]
+    options:
+      runFromWorkspaceRoot: true
+      # Needs rmux on PATH and a real PTY — not suitable for headless CI runners.
+      runInCI: false
+    local: true
+    inputs:
+      - "auto/verify-tui.sh"
+      - "auto/lib/rmux-drive.sh"
+
   ci:
     deps: [verify]

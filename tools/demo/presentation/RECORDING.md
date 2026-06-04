@@ -7,7 +7,7 @@ of the License at http://www.apache.org/licenses/LICENSE-2.0
 
 # Recording the demo casts
 
-This is the operator's cheat-sheet for capturing the three terminal casts that
+This is the operator's cheat-sheet for capturing the four terminal casts that
 back the Slidev deck (`slides.md`). You drive the TUI/CLI live and drop a
 **marker** at each beat boundary; the Slidev player pauses on every marker so
 you can narrate, then resume.
@@ -15,6 +15,60 @@ you can narrate, then resume.
 > The casts are the presentation path. The VHS pipeline in `../videos/` is a
 > separate thing — it produces silent doc GIFs and narrated MP4s, not these
 > interactive casts.
+
+## Automated path (preferred)
+
+`tools/demo/auto/auto-demo.sh` drives each demo via `rmux` send-keys /
+capture-pane, asserts expected output, and optionally emits an asciinema v2 `.cast`
+with beat markers already injected — no live marker-key drops needed.
+
+**Prerequisites:** `rmux` 0.3.x and `asciinema` 3.x on PATH; CLI pre-built.
+For Demo D: `claude` on PATH, `.mcp.json` configured (see Demo D section below).
+
+```bash
+# Verify all deterministic demos (A, B, C) — CI-safe:
+bash tools/demo/auto/auto-demo.sh A --verify
+bash tools/demo/auto/auto-demo.sh B --verify
+bash tools/demo/auto/auto-demo.sh C --verify
+# Or via moon:
+moon run demo:auto-verify
+
+# Record all four casts to public/casts/:
+bash tools/demo/auto/auto-demo.sh A --record   # → public/casts/A-find.cast
+bash tools/demo/auto/auto-demo.sh B --record   # → public/casts/B-name.cast
+bash tools/demo/auto/auto-demo.sh C --record   # → public/casts/C-suggest.cast
+bash tools/demo/auto/auto-demo.sh D --record   # → public/casts/D-agent.cast (local-only)
+# Or all at once:
+moon run demo:auto-record
+
+# Clean-room Docker run for A/B/C (headless; D not supported in Docker):
+bash tools/demo/auto/auto-demo.sh A --record --docker
+```
+
+**Demos A, B, C** — beat markers are injected by anchoring to sentinel text patterns
+in the cast's output events (the TUI view headers: `Resolve:`, `Describe:`, `Fuzzy`).
+These land on asciinema's own clock regardless of `--idle-time-limit` compression.
+
+**Demo D** — uses **Claude Code hooks** for reliable beat detection and marker timing:
+
+* A per-run settings JSON is **generated at runtime** by `D.beats.sh` with absolute
+  hook paths and `DEMO_BEATS_DIR` baked in, then supplied via
+  `claude --settings <tmpfile>`, scoping hooks to that run only (no change to global or
+  project settings). `tools/demo/auto/hooks/settings.json` is a reference example only —
+  its relative paths are not used directly.
+* A **`PostToolUse`** hook (`record-beat.sh`) fires after each `mcp__design-data__`
+  tool call and appends `epoch_seconds<TAB>tool_name` to a temporary beats log.
+* A **`Stop`** hook (`stop-done.sh`) touches a done sentinel when Claude finishes
+  responding — replacing the fragile `wait_quiet` / blind `sleep 180` used previously.
+* Beat markers D1–D4 are anchored to real tool-call epochs (not rendered screen text),
+  so they are phrasing-invariant and model-version-independent.
+* Note: Demo D **must be run from a plain terminal**, not from inside another Claude
+  Code session (the auto-mode classifier blocks spawning a second `claude` process).
+
+The manual path below remains valid as a fallback for when you want to record a
+polished live take or adjust timing by hand.
+
+***
 
 ## Prerequisites
 
