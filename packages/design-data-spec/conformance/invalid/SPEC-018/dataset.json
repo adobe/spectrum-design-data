@@ -5,5 +5,5 @@
       "value": "#ff0000"
     }
   ],
-  "components": []
+  "components": [{ "name": "button" }]
 }

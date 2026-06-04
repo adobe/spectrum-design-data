@@ -4509,7 +4509,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use field-default-width-medium instead.",
-    "replaced_by": "7e5eb477-85b4-46c3-a5eb-ac986b3298e2"
+    "replaced_by": "f35ec29c-b8ee-46c9-9c8c-c40171a15920"
   },
   {
     "name": {
@@ -4523,51 +4523,63 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use field-default-width-medium instead.",
-    "replaced_by": "7e5eb477-85b4-46c3-a5eb-ac986b3298e2"
+    "replaced_by": "db379ff6-9ef2-44ee-9fce-32f1a53d68da"
   },
   {
     "name": {
       "property": "field-width-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "5ab58f4b-2493-499a-ab97-f7533de2c5fa",
+    "$ref": "23090def-780a-48cb-b644-8edd55189d46",
     "uuid": "a903b595-ffe8-43ae-af9b-7b6577191dc5",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use field-default-width-extra-large instead.",
-    "replaced_by": "5ab58f4b-2493-499a-ab97-f7533de2c5fa"
+    "replaced_by": [
+      "23090def-780a-48cb-b644-8edd55189d46",
+      "068a256a-8dfc-4616-bdc1-8895441ba90b"
+    ]
   },
   {
     "name": {
       "property": "field-width-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "4b7418ca-2384-4470-bfca-d8f742681740",
+    "$ref": "c6d08f8b-4e8c-478a-8b08-5b69d2da1a5e",
     "uuid": "cc43e053-1255-403f-aaf5-2182f5438592",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use field-default-width-large instead.",
-    "replaced_by": "4b7418ca-2384-4470-bfca-d8f742681740"
+    "replaced_by": [
+      "c6d08f8b-4e8c-478a-8b08-5b69d2da1a5e",
+      "88dfd273-555a-49bc-9271-a63ad45964e2"
+    ]
   },
   {
     "name": {
       "property": "field-width-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "7e5eb477-85b4-46c3-a5eb-ac986b3298e2",
+    "$ref": "f35ec29c-b8ee-46c9-9c8c-c40171a15920",
     "uuid": "935927d3-b25e-468a-999a-938643901e50",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use field-default-width-medium instead.",
-    "replaced_by": "7e5eb477-85b4-46c3-a5eb-ac986b3298e2"
+    "replaced_by": [
+      "f35ec29c-b8ee-46c9-9c8c-c40171a15920",
+      "db379ff6-9ef2-44ee-9fce-32f1a53d68da"
+    ]
   },
   {
     "name": {
       "property": "field-width-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "2fe6f129-a722-46ca-9f87-2cebcd2faa38",
+    "$ref": "39c39c14-0500-4bf6-a542-967697aaff41",
     "uuid": "d316d676-b4cf-4d16-b89c-63ef1d969861",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use field-default-width-small instead.",
-    "replaced_by": "2fe6f129-a722-46ca-9f87-2cebcd2faa38"
+    "replaced_by": [
+      "39c39c14-0500-4bf6-a542-967697aaff41",
+      "976298d3-326f-43da-aa71-bbd2dc1fad3d"
+    ]
   },
   {
     "name": {

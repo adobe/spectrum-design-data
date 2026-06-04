@@ -24,11 +24,6 @@ tasks:
       - ./tokens
       - --exceptions-path
       - ../tokens/naming-exceptions.json
-    options:
-      # Cascade tokens have pre-existing SPEC-010 errors (replaced_by targets that
-      # exist only in the legacy dataset, not yet migrated to cascade format).
-      # Re-enable in CI once those are resolved.
-      runInCI: false
     platform: system
     deps:
       - sdk:build
