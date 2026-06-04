@@ -63,7 +63,7 @@ Sleep 3s`,
       narration:
         "A designer asks: what tokens does the button use? This used to be a " +
         "code-archaeology task. Now it's one CLI call — the same answer for the engineer.",
-      tape: `Type "design-data query packages/design-data-spec --filter 'component=button'"
+      tape: `Type "design-data query packages/design-data/tokens --filter 'component=button'"
 Enter
 Wait
 Sleep 3s`,

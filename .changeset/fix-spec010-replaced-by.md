@@ -1,6 +1,6 @@
 ---
 "@adobe/spectrum-design-data": patch
-"@adobe/design-data-spec": patch
+"@adobe/design-data-spec": minor
 ---
 
 Fix stale `replaced_by` UUIDs and re-enable cascade token validation in CI.
