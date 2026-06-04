@@ -15,7 +15,7 @@ governing permissions and limitations under the License.
  * Seed tokenBindings on component files from spec-snoop figma.json data.
  *
  * Source: ~/Spectrum/spec-snoop/data/figma.json
- * Target: packages/design-data-spec/components/*.json
+ * Target: packages/design-data/components/*.json
  *
  * Each entry in figma.json maps a component display name to an object of
  * token-name → [{description, ...}] pairs. The description field is used as
@@ -35,7 +35,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const isDryRun = process.argv.includes("--dry-run");
 
 const figmaDataPath = join(homedir(), "Spectrum/spec-snoop/data/figma.json");
-const componentsDir = join(__dirname, "../components");
+const componentsDir = join(__dirname, "../../design-data/components");
 
 if (!existsSync(figmaDataPath)) {
   console.error(`Error: spec-snoop data not found at ${figmaDataPath}`);

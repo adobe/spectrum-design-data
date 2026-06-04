@@ -115,8 +115,8 @@ Build a portable `.redb` cache asset from a token dataset (for WASM web tools or
 ```bash
 design-data cache-build packages/tokens/src -o index.redb
 design-data cache-build packages/tokens/src \
-  --mode-sets-path packages/design-data-spec/mode-sets \
-  --components-path packages/design-data-spec/components \
+  --mode-sets-path packages/design-data/mode-sets \
+  --components-path packages/design-data/components \
   -o index.redb
 ```
 

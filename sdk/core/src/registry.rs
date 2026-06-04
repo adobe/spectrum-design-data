@@ -13,7 +13,7 @@
 //! Registry JSON files are embedded via the generated `registry_data.rs` (run
 //! `moon run sdk:codegen` to regenerate). The set of embedded registries and the
 //! list of SPEC-009 advisory fields are both driven by the field catalog in
-//! `packages/design-data-spec/fields/` — no Rust changes needed when adding a field.
+//! `packages/design-data/fields/` — no Rust changes needed when adding a field.
 
 use std::collections::{HashMap, HashSet};
 
@@ -22,7 +22,7 @@ use serde_json::Value;
 /// Parsed registry data for SPEC-009 enum validation.
 ///
 /// Keyed by field name (e.g. `"component"`, `"state"`). Built from the
-/// field catalog declarations in `packages/design-data-spec/fields/` via
+/// field catalog declarations in `packages/design-data/fields/` via
 /// the generated `build_registry_map()` function in `registry_data.rs`.
 #[derive(Debug, Clone)]
 pub struct RegistryData {
@@ -58,7 +58,7 @@ include!("registry_data.rs");
 impl RegistryData {
     /// Build registry data from the embedded JSON constants in `registry_data.rs`.
     ///
-    /// `registry_data.rs` is generated from `packages/design-data-spec/fields/`
+    /// `registry_data.rs` is generated from `packages/design-data/fields/`
     /// (field catalog) and `packages/design-system-registry/registry/` (vocabulary)
     /// by running `moon run sdk:codegen`. Adding a new field declaration and
     /// re-running codegen is all that's needed to extend SPEC-009.

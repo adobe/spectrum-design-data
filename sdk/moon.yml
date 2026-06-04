@@ -52,9 +52,9 @@ tasks:
       - "/packages/tokens/schemas/**/*.json"
       - "/packages/tokens/naming-exceptions.json"
       - "/packages/tokens/manifest.json"
-      - "/packages/design-data-spec/mode-sets/*.json"
-      - "/packages/design-data-spec/components/*.json"
-      - "/packages/design-data-spec/fields/*.json"
+      - "/packages/design-data/mode-sets/*.json"
+      - "/packages/design-data/components/*.json"
+      - "/packages/design-data/fields/*.json"
     deps:
       - codegen-check
   test:
@@ -70,9 +70,9 @@ tasks:
       - "/packages/tokens/schemas/**/*.json"
       - "/packages/tokens/naming-exceptions.json"
       - "/packages/tokens/manifest.json"
-      - "/packages/design-data-spec/mode-sets/*.json"
-      - "/packages/design-data-spec/components/*.json"
-      - "/packages/design-data-spec/fields/*.json"
+      - "/packages/design-data/mode-sets/*.json"
+      - "/packages/design-data/components/*.json"
+      - "/packages/design-data/fields/*.json"
     deps:
       - codegen-check
   lint:

@@ -19,10 +19,11 @@
   "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/packages/component-schemas#readme",
   "license": "Apache-2.0",
   "dependencies": {
-    "@adobe/design-data-spec": "workspace:*",
+    "@adobe/spectrum-design-data": "workspace:*",
     "glob": "^10.3.12"
   },
   "devDependencies": {
+    "@adobe/design-data-spec": "workspace:*",
     "ajv": "^8.12.0",
     "ajv-formats": "^3.0.1"
   }

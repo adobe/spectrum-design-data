@@ -26,9 +26,9 @@ export const readJson = async (fileName) =>
 
 export const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
-// Locate the design-data-spec package's components directory
+// Locate the spectrum-design-data package's components directory
 const specPkgPath = createRequire(import.meta.url).resolve(
-  "@adobe/design-data-spec/package.json",
+  "@adobe/spectrum-design-data/package.json",
 );
 export const componentsDir = resolve(specPkgPath, "..", "components");
 

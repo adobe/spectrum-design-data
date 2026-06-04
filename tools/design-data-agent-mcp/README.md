@@ -1,6 +1,6 @@
 # `@adobe/design-data-agent-mcp`
 
-MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data-spec/) agent surface. Shells out to the `design-data` CLI — all logic stays in the Rust SDK.
+MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data/) agent surface. Shells out to the `design-data` CLI — all logic stays in the Rust SDK.
 
 ## Install
 
@@ -67,9 +67,9 @@ node tools/design-data-agent-mcp/src/index.js
       "args": ["-y", "@adobe/design-data-agent-mcp"],
       "env": {
         "DESIGN_DATA_PATH": "./packages/tokens/src",
-        "DESIGN_DATA_COMPONENTS": "./packages/design-data-spec/components",
-        "DESIGN_DATA_FIELDS": "./packages/design-data-spec/fields",
-        "DESIGN_DATA_DIMENSIONS": "./packages/design-data-spec/dimensions"
+        "DESIGN_DATA_COMPONENTS": "./packages/design-data/components",
+        "DESIGN_DATA_FIELDS": "./packages/design-data/fields",
+        "DESIGN_DATA_DIMENSIONS": "./packages/design-data/dimensions"
       }
     }
   }

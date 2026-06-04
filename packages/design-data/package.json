@@ -17,10 +17,17 @@
   },
   "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/packages/design-data#readme",
   "exports": {
-    "./tokens/*": "./tokens/*.tokens.json"
+    "./package.json": "./package.json",
+    "./tokens/*": "./tokens/*.tokens.json",
+    "./components/*": "./components/*.json",
+    "./fields/*": "./fields/*.json",
+    "./mode-sets/*": "./mode-sets/*.json"
   },
   "files": [
     "tokens/",
+    "components/",
+    "fields/",
+    "mode-sets/",
     "README.md"
   ],
   "scripts": {}

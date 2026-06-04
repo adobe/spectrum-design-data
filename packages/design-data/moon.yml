@@ -22,14 +22,20 @@ tasks:
     args:
       - validate
       - ./tokens
+      - --schema-path
+      - ../../packages/tokens/schemas
       - --exceptions-path
       - ../tokens/naming-exceptions.json
+      - --components-path
+      - ./components
+      - --mode-sets-path
+      - ./mode-sets
     platform: system
     deps:
       - sdk:build
     inputs:
       - "@globs(tokens)"
-      - "../tokens/naming-exceptions.json"
+      - "/packages/tokens/naming-exceptions.json"
 
   # Regenerate packages/tokens/src/ from the cascade source of truth.
   # Run this after editing any tokens/*.tokens.json file to keep the
@@ -48,7 +54,7 @@ tasks:
     inputs:
       - "@globs(tokens)"
     outputs:
-      - "../tokens/src/**/*.json"
+      - "/packages/tokens/src/**/*.json"
 
   # CI guard: verify that packages/tokens/src/ is in sync with the cascade
   # source. Fails if a PR updates cascade tokens without re-running legacy-output.
@@ -63,7 +69,7 @@ tasks:
       - sdk:build
     inputs:
       - "@globs(tokens)"
-      - "../tokens/src/**/*.json"
+      - "/packages/tokens/src/**/*.json"
 
   # ONE-TIME / ESCAPE HATCH — Re-sync cascade files from the legacy package.
   # Use this only when upstream legacy changes need to be pulled into cascade
@@ -89,8 +95,8 @@ tasks:
     deps:
       - sdk:build
     inputs:
-      - "../tokens/src/**/*.json"
-      - "../token-names/names/**/*.json"
-      - "../tokens/naming-exceptions.json"
+      - "/packages/tokens/src/**/*.json"
+      - "/packages/token-names/names/**/*.json"
+      - "/packages/tokens/naming-exceptions.json"
     # No `outputs:` — prevents moon from auto-running this task as part of
     # dependency graphs and silently clobbering hand-edited cascade tokens.

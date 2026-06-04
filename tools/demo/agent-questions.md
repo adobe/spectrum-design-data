@@ -41,8 +41,8 @@ Use one of these in Claude Code with the `design-data` MCP enabled. The first is
 Fall back to running these directly in the terminal — the answers are equivalent, just less theatrical:
 
 ```bash
-design-data component button --components-dir packages/design-data-spec/components
+design-data component button --components-dir packages/design-data/components
 design-data resolve accent-background-color-default \
   --color-scheme dark --scale mobile --contrast high \
-  packages/design-data-spec
+  packages/design-data/tokens
 ```

@@ -58,9 +58,9 @@ A new schema (`packages/design-data-spec/schemas/field.schema.json`) for declari
 | `required`               | boolean                                | Whether field must be present on every name object     |
 | `valueType`              | `"string"` \| `"integer"`              | Type of the field value                                |
 
-### Default field catalog: `packages/design-data-spec/fields/`
+### Default field catalog: `packages/design-data/fields/`
 
-Spectrum's existing 13 semantic + 3 dimension fields are now declared as a default catalog in `packages/design-data-spec/fields/`:
+Spectrum's existing 13 semantic + 3 dimension fields are now declared as a default catalog in `packages/design-data/fields/`:
 
 ```
 fields/

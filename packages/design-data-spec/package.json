@@ -1,7 +1,7 @@
 {
   "name": "@adobe/design-data-spec",
   "version": "1.5.0",
-  "description": "Design Data Specification — prose, JSON Schemas, rule catalog, and conformance fixtures for Spectrum design data",
+  "description": "Design Data Specification — prose, JSON Schemas, rule catalog, and conformance fixtures for the design data format",
   "type": "module",
   "repository": {
     "type": "git",
@@ -21,7 +21,6 @@
   "packageManager": "pnpm@10.17.1",
   "exports": {
     "./package.json": "./package.json",
-    "./components/*.json": "./components/*.json",
     "./schemas/token.schema.json": "./schemas/token.schema.json",
     "./schemas/mode-set.schema.json": "./schemas/mode-set.schema.json",
     "./schemas/field.schema.json": "./schemas/field.schema.json",
@@ -33,9 +32,7 @@
     "./rules/rules.yaml": "./rules/rules.yaml"
   },
   "files": [
-    "components",
     "conformance",
-    "fields",
     "rules",
     "schemas",
     "spec",

@@ -71,7 +71,7 @@ program
       const newVersion = options.newSchemaVersion || options.nsv;
       const oldBranch = options.oldSchemaBranch || options.osb;
       const newBranch = options.newSchemaBranch || options.nsb;
-      const localDir = options.local || "packages/design-data-spec";
+      const localDir = options.local || "packages/design-data";
 
       // Determine loading strategy
       if ((oldVersion || oldBranch) && (newVersion || newBranch)) {

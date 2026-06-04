@@ -53,7 +53,7 @@ export default {
         "The component declaration is the contract. Anatomy, states, accessibility " +
         "intent, and exactly which tokens it binds. The agent reads this, the build " +
         "reads this, the visualizer reads this — one source.",
-      tape: `Type "design-data component button --components-dir packages/design-data-spec/components"
+      tape: `Type "design-data component button --components-dir packages/design-data/components"
 Enter
 Wait
 Sleep 3s`,

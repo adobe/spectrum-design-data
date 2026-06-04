@@ -35,7 +35,7 @@ These mode sets are declared in the `mode-sets/` catalog (see [Mode Set catalog]
 
 ## Mode Set catalog
 
-The Spectrum foundation publishes mode set declarations as JSON files under `packages/design-data-spec/mode-sets/`. Each file conforms to [`mode-set.schema.json`](../schemas/mode-set.schema.json).
+The Spectrum foundation publishes mode set declarations as JSON files under `packages/design-data/mode-sets/`. Each file conforms to [`mode-set.schema.json`](../schemas/mode-set.schema.json).
 
 **NORMATIVE:** Tooling (validators, resolution engine) **MUST** load mode set declarations from the dataset's mode set catalog before performing specificity calculations or coverage validation.
 

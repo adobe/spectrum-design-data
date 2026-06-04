@@ -51,7 +51,7 @@ function loadSchemaFilesDirectly() {
 
   const componentsPath = join(
     __dirname,
-    "../../../../packages/design-data-spec/components",
+    "../../../../packages/design-data/components",
   );
 
   try {

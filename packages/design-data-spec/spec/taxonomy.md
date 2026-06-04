@@ -281,7 +281,7 @@ package to avoid bumping the tokens version on every taxonomy change.
 | ----------------- | ----------------------------------- | -------------------------------------------------------------------------------- |
 | Token source data | `packages/tokens/src/*.json`        | `$schema`, `value`, `uuid`, `sets`, … — no `name` field                          |
 | Taxonomy sidecar  | `packages/token-names/names/*.json` | `{ "<slug>": { property, colorFamily, … }, … }` — one file per token source file |
-| Field definitions | `packages/design-data-spec/fields/` | Authoritative field catalog with scope and type                                  |
+| Field definitions | `packages/design-data/fields/`      | Authoritative field catalog with scope and type                                  |
 
 The sidecar package (`@adobe/token-names`) is **private** (not published to npm).
 Its delivery format for downstream consumers is TBD.

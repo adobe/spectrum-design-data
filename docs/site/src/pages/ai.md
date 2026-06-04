@@ -118,9 +118,9 @@ Spec-conformant agent surface for any local dataset. Tool names match the agent 
       "args": ["-y", "@adobe/design-data-agent-mcp"],
       "env": {
         "DESIGN_DATA_PATH": "./packages/tokens/src",
-        "DESIGN_DATA_COMPONENTS": "./packages/design-data-spec/components",
-        "DESIGN_DATA_FIELDS": "./packages/design-data-spec/fields",
-        "DESIGN_DATA_DIMENSIONS": "./packages/design-data-spec/dimensions"
+        "DESIGN_DATA_COMPONENTS": "./packages/design-data/components",
+        "DESIGN_DATA_FIELDS": "./packages/design-data/fields",
+        "DESIGN_DATA_DIMENSIONS": "./packages/design-data/dimensions"
       }
     }
   }

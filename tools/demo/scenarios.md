@@ -31,7 +31,7 @@ Open `https://opensource.adobe.com/spectrum-design-data/s2-visualizer/`.
 
 ```bash
 design-data component button \
-  --components-dir packages/design-data-spec/components
+  --components-dir packages/design-data/components
 ```
 
 * **Say**: "The component declaration is the contract. Anatomy, states, accessibility intent (role, keyboard intents, WCAG citations), exactly which tokens it binds. The agent reads this. The build reads this. The visualizer reads this. One source."
@@ -39,7 +39,7 @@ design-data component button \
 ### A3. Filter the design system by query
 
 ```bash
-design-data query packages/design-data-spec --filter "component=button"
+design-data query packages/design-data/tokens --filter "component=button"
 ```
 
 * **Say**: "A designer asks 'what tokens does the button use?' This used to be a code-archaeology task. Now it's one CLI call. Same answer for the engineer."
@@ -75,7 +75,7 @@ Expect: `error: ... [SPEC-001] Alias target not found for $ref: this-token-does-
 ### B3. The agent as participant
 
 ```bash
-design-data primer packages/design-data-spec
+design-data primer packages/design-data/tokens
 ```
 
 * **Say**: "This is what the agent reads when it opens the system — categories, conformance scope, the validation rules in play, how to author. A designer describes a new component in plain language; the agent uses the MCP to author a schema-conformant declaration, runs validate, opens a PR. The spec is the contract that lets the agent participate safely."
@@ -86,7 +86,7 @@ design-data primer packages/design-data-spec
 
 * **Visualizer down** → run `pnpm dev` in `docs/s2-visualizer/` for a local copy
 * **CLI command fails** → cut to the screen recording in `tools/demo/recordings/` (if recorded)
-* **Agent demo fails** → fall back to showing `design-data primer packages/design-data-spec` — same information, no live network dependency
+* **Agent demo fails** → fall back to showing `design-data primer packages/design-data/tokens` — same information, no live network dependency
 
 ***
 

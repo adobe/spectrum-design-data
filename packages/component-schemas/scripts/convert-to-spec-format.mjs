@@ -14,7 +14,7 @@ governing permissions and limitations under the License.
  * One-time conversion script: old component-schemas format → new design-data-spec format.
  *
  * Reads packages/component-schemas/schemas/components/*.json (old format)
- * and writes packages/design-data-spec/components/{name}.json (new format).
+ * and writes packages/design-data/components/{name}.json (new format).
  *
  * Skips button.json (hand-crafted in Phase 6.4).
  * Run: node packages/component-schemas/scripts/convert-to-spec-format.mjs
@@ -28,7 +28,7 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, "../../..");
 const sourceDir = resolve(repoRoot, "packages/component-schemas/schemas/components");
-const destDir = resolve(repoRoot, "packages/design-data-spec/components");
+const destDir = resolve(repoRoot, "packages/design-data/components");
 
 const SKIP = new Set(["button.json"]);
 

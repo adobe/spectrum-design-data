@@ -452,7 +452,7 @@ rules:
       color-domain token. Using a color-scoped field on a typography token, or a
       typography-scoped field on a color token, is a taxonomy violation. The set of
       domain-scoped fields and their valid schema URL suffixes is declared in the field
-      catalog under `packages/design-data-spec/fields/` via the `scope` property.
+      catalog under `packages/design-data/fields/` via the `scope` property.
       Tokens without a `$schema` are skipped (domain cannot be determined).
     message: "name.{field} is a {scope}-scoped field but token schema '{effective_schema}' is not a {scope} token type"
     spec_ref: spec/taxonomy.md#token-type-taxonomies

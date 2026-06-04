@@ -16,7 +16,7 @@
 //! typography-scoped field on a color token, is a taxonomy violation.
 //!
 //! The authoritative field→scope mapping is the field catalog under
-//! `packages/design-data-spec/fields/` (the `scope` property on each field JSON).
+//! `packages/design-data/fields/` (the `scope` property on each field JSON).
 //! The domain→schema-suffix mapping is shared with SPEC-043 via `super::DOMAIN_SCHEMAS`.
 //!
 //! **Alias-target resolution**: for tokens whose `$schema` is `alias.json`, the
@@ -32,7 +32,7 @@ use crate::validate::rule::{ValidationContext, ValidationRule};
 pub struct Rule;
 
 /// Returns the domain name for a domain-scoped field, or `None` for universal fields.
-/// Authoritative source: `packages/design-data-spec/fields/*.json` `scope` property.
+/// Authoritative source: `packages/design-data/fields/*.json` `scope` property.
 fn field_domain(field: &str) -> Option<&'static str> {
     match field {
         "colorFamily" => Some("color"),

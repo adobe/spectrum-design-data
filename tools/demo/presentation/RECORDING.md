@@ -187,7 +187,7 @@ In addition to `asciinema` and the built CLI, you need the design-data MCP wired
   "env": {
     "DESIGN_DATA_BIN": "${PWD}/sdk/target/release/design-data",
     "DESIGN_DATA_PATH": "packages/design-data/tokens",
-    "DESIGN_DATA_COMPONENTS": "packages/design-data-spec/components"
+    "DESIGN_DATA_COMPONENTS": "packages/design-data/components"
   }
 }
 ```

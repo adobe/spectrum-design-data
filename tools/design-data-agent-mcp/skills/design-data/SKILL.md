@@ -18,8 +18,8 @@ allowed-tools: Bash(npx @adobe/design-data *)
 Set two path variables once and reference them throughout. The token dataset and the spec catalog (components, fields, dimensions) live in separate directories:
 
 ```bash
-export DESIGN_DATA_PATH=./packages/tokens/src
-export DESIGN_DATA_SPEC_PATH=./packages/design-data-spec
+export DESIGN_DATA_PATH=./packages/design-data/tokens
+export DESIGN_DATA_SPEC_PATH=./packages/design-data
 ```
 
 For Spectrum tokens with zero setup (embedded snapshot), use the `design-data` skill instead — this skill targets custom or repo-local datasets.
@@ -45,7 +45,7 @@ npx @adobe/design-data primer "$DESIGN_DATA_PATH" --format json \
   --dimensions-dir "$DESIGN_DATA_SPEC_PATH/dimensions"
 ```
 
-Always pass `--components-dir`, `--fields-dir`, and `--dimensions-dir` explicitly. These directories live under `packages/design-data-spec/`, not under the token dataset. The CLI defaults probe those paths relative to CWD, so omitting the flags when running from an arbitrary directory (or with an absolute `DESIGN_DATA_PATH`) produces empty `components`, `taxonomyFields`, and `dimensions`.
+Always pass `--components-dir`, `--fields-dir`, and `--dimensions-dir` explicitly. These directories live under `packages/design-data/`, alongside the token dataset. The CLI defaults probe those paths relative to CWD, so omitting the flags when running from an arbitrary directory (or with an absolute `DESIGN_DATA_PATH`) produces empty `components`, `taxonomyFields`, and `dimensions`.
 
 The payload includes `specVersion`, `manifest`, `dimensions`, `components`, `taxonomyFields`, and `tokenCount`.
 
@@ -175,9 +175,9 @@ For always-available tool access (higher context cost), add `@adobe/design-data-
       "args": ["-y", "@adobe/design-data-agent-mcp"],
       "env": {
         "DESIGN_DATA_PATH": "./packages/tokens/src",
-        "DESIGN_DATA_COMPONENTS": "./packages/design-data-spec/components",
-        "DESIGN_DATA_FIELDS": "./packages/design-data-spec/fields",
-        "DESIGN_DATA_DIMENSIONS": "./packages/design-data-spec/dimensions"
+        "DESIGN_DATA_COMPONENTS": "./packages/design-data/components",
+        "DESIGN_DATA_FIELDS": "./packages/design-data/fields",
+        "DESIGN_DATA_DIMENSIONS": "./packages/design-data/dimensions"
       }
     }
   }

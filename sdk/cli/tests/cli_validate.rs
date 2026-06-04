@@ -209,9 +209,9 @@ fn write_creates_parent_dirs() {
 fn primer_paths() -> (PathBuf, PathBuf, PathBuf, PathBuf) {
     let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let src = manifest.join("../../packages/tokens/src");
-    let components = manifest.join("../../packages/design-data-spec/components");
-    let mode_sets = manifest.join("../../packages/design-data-spec/mode-sets");
-    let fields = manifest.join("../../packages/design-data-spec/fields");
+    let components = manifest.join("../../packages/design-data/components");
+    let mode_sets = manifest.join("../../packages/design-data/mode-sets");
+    let fields = manifest.join("../../packages/design-data/fields");
     assert!(src.is_dir(), "expected token sources at {}", src.display());
     assert!(
         components.is_dir(),
@@ -352,7 +352,7 @@ fn primer_fails_on_nonexistent_path() {
 
 fn component_dir() -> PathBuf {
     let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let dir = manifest.join("../../packages/design-data-spec/components");
+    let dir = manifest.join("../../packages/design-data/components");
     assert!(dir.is_dir(), "expected components at {}", dir.display());
     dir
 }

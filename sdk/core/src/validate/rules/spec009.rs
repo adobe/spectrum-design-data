@@ -12,7 +12,7 @@
 //!
 //! Semantic name-object fields with a backing registry vocabulary SHOULD use
 //! values from that registry. The set of checked fields is derived from the
-//! field catalog (`packages/design-data-spec/fields/`) — fields with
+//! field catalog (`packages/design-data/fields/`) — fields with
 //! `validation: "advisory"` and a non-null registry are checked here.
 //!
 //! This is a warning-only rule. Fields excluded from this check:

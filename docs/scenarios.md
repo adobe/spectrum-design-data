@@ -21,25 +21,25 @@ You are a designer or engineer on a product team. Spectrum is your design system
 **See what a component declares:**
 
 ```bash
-design-data component button --components-dir packages/design-data-spec/components
+design-data component button --components-dir packages/design-data/components
 ```
 
 **Find all tokens used by a component:**
 
 ```bash
-design-data query packages/design-data-spec --filter "component=button"
+design-data query packages/design-data/tokens --filter "component=button"
 ```
 
 **Validate a change to the dataset:**
 
 ```bash
-design-data validate packages/design-data-spec --strict
+design-data validate packages/design-data/tokens --strict
 ```
 
 **Open a primer for an agent session:**
 
 ```bash
-design-data primer packages/design-data-spec
+design-data primer packages/design-data/tokens
 ```
 
 ### Talking to the system through an agent
@@ -101,6 +101,6 @@ Both rely on the same three guarantees:
 * [Spec index](../packages/design-data-spec/spec/index.md) — all normative chapters
 * [SPEC rule catalog](../packages/design-data-spec/rules/rules.yaml) — all 43 validation rules with messages and spec cross-references
 * [CLI](../sdk/cli/) — `validate`, `resolve`, `diff`, `query`, `migrate`, `figma`, `primer`, `component`, `suggest`, `write`, `write-token`, `authoring-session`
-* [Component declarations](../packages/design-data-spec/components/) — 81 declared Spectrum components
+* [Component declarations](../packages/design-data/components/) — 81 declared Spectrum components
 * [Agent surface](../tools/design-data-agent-mcp/) — MCP server for agent integrations
 * [s2-visualizer](https://opensource.adobe.com/spectrum-design-data/s2-visualizer/) — live token graph for Spectrum

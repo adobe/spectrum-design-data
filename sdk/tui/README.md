@@ -32,8 +32,8 @@ drops you into an interactive session. Press `?` for the full keymap.
 | `<dataset>`                  | `.` (cwd)     | Path to a directory of token JSON files                                                                                      |
 | `--theme terminal\|spectrum` | `terminal`    | `terminal` uses terminal-native colors. `spectrum` uses the Adobe Spectrum palette (requires a 24-bit truecolor terminal).   |
 | `--allow-write`              | off           | Enable real disk writes from the wizard Screen 4 Submit. Without this flag the wizard shows a diff preview but never writes. |
-| `--components <dir>`         | auto-detected | Path to component JSON files. Defaults to `packages/design-data-spec/components` relative to the working directory.          |
-| `--mode-sets <dir>`          | auto-detected | Path to mode-set JSON files. Defaults to `packages/design-data-spec/mode-sets`.                                              |
+| `--components <dir>`         | auto-detected | Path to component JSON files. Defaults to `packages/design-data/components` relative to the working directory.               |
+| `--mode-sets <dir>`          | auto-detected | Path to mode-set JSON files. Defaults to `packages/design-data/mode-sets`.                                                   |
 | `--no-resume-wizard`         | off           | Do not restore an in-progress wizard draft from the previous session. Use this for demo recordings or clean-slate runs.      |
 
 ***
