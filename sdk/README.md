@@ -60,8 +60,8 @@ design-data validate packages/tokens/src --format json
 design-data validate packages/tokens/src \
   --schema-path packages/design-data-spec \
   --exceptions-path naming-exceptions.json \
-  --mode-sets-path packages/tokens/src/mode-sets \
-  --components-path packages/tokens/src/components
+  --mode-sets-path packages/design-data/mode-sets \
+  --components-path packages/design-data/components
 ```
 
 ### resolve

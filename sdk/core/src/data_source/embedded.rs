@@ -29,10 +29,10 @@
 //!       schemas/        ← JSON Schema files (+ token-types/ subdir)
 //!       naming-exceptions.json
 //!       manifest.json
-//!     design-data-spec/
-//!       mode-sets/
+//!     design-data/
 //!       components/
 //!       fields/
+//!       mode-sets/
 //!   .complete           ← written last; signals a complete extraction
 //! ```
 //!

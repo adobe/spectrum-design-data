@@ -14,11 +14,11 @@
 # A2. Component lookup — agent-readable surface (Phase 8)
 # Say: "Anatomy, states, accessibility, token bindings — all machine-readable."
 design-data component button \
-  --components-dir packages/design-data-spec/components
+  --components-dir packages/design-data/components
 
 # A3. Query the design system
 # Say: "A designer asks 'what tokens does the button use?' One CLI call. Same answer for the engineer."
-design-data query packages/design-data-spec --filter "component=button"
+design-data query packages/design-data/tokens --filter "component=button"
 
 # A4. (no command — switch to Claude Code, ask the question from agent-questions.md)
 
@@ -32,9 +32,9 @@ design-data validate tools/demo/broken-token-example.tokens.json
 
 # B3. Show the agent-readable primer — the agent's session-start view
 # Say: "This is what the agent reads when it opens the system."
-design-data primer packages/design-data-spec
+design-data primer packages/design-data/tokens
 
 # ─── Bonus / safety net ────────────────────────────────────────────────────
 
 # Validate the full Spectrum dataset (use if someone asks "does this really work at scale?")
-design-data validate packages/design-data-spec --strict
+design-data validate packages/design-data/tokens --strict
