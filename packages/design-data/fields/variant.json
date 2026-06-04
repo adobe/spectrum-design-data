@@ -4,7 +4,7 @@
   "name": "variant",
   "description": "Primary color or semantic variant (e.g. accent, negative, informative, neutral). Not for visual style treatment — see style field for that.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/variants.json",
+  "registry": "packages/design-data/registry/variants.json",
   "validation": "advisory",
   "serialization": {
     "position": 0

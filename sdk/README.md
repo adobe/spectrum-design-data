@@ -207,7 +207,7 @@ Relational rules have stable `SPEC-NNN` IDs and live in [`core/src/validate/rule
 
 ### Codegen
 
-`core/src/registry_data.rs` is generated from `packages/design-system-registry/registry/*.json` and spec field definitions. Never edit it by hand. CI runs `codegen-check` to detect drift; fix locally with `moon run sdk:codegen`.
+`core/src/registry_data.rs` is generated from `packages/design-data/registry/*.json` and spec field definitions. Never edit it by hand. CI runs `codegen-check` to detect drift; fix locally with `moon run sdk:codegen`.
 
 ### Integration tests
 

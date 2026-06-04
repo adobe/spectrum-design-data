@@ -4,7 +4,7 @@
   "name": "state",
   "description": "Interactive or semantic state (e.g. hover, focus, disabled, selected). Compound states use hyphenation (e.g. selected-hover).",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/states.json",
+  "registry": "packages/design-data/registry/states.json",
   "validation": "advisory",
   "serialization": {
     "position": 12

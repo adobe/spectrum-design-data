@@ -4,7 +4,7 @@
   "name": "shape",
   "description": "Overall component shape qualifier (e.g. uniform, rounded).",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/shapes.json",
+  "registry": "packages/design-data/registry/shapes.json",
   "validation": "advisory",
   "serialization": {
     "position": 11

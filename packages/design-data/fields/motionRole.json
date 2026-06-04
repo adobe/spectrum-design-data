@@ -4,7 +4,7 @@
   "name": "motionRole",
   "description": "Semantic role of a motion token — the interaction pattern it governs (e.g. enter, exit, transition, emphasis). Registry is provisional until motion tokens are added to the foundation.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/motion-roles.json",
+  "registry": "packages/design-data/registry/motion-roles.json",
   "validation": "advisory",
   "serialization": {
     "position": 21

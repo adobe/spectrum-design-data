@@ -4,7 +4,7 @@
   "name": "weight",
   "description": "Typographic weight of a typography token (e.g. regular, bold, light, black). Corresponds to the CSS font-weight axis.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/typography-weights.json",
+  "registry": "packages/design-data/registry/typography-weights.json",
   "validation": "advisory",
   "serialization": {
     "position": 19

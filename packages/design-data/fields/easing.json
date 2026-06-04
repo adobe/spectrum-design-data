@@ -4,7 +4,7 @@
   "name": "easing",
   "description": "Easing curve identifier for a motion token (e.g. ease-in, ease-out, standard). Registry is provisional until motion tokens are added to the foundation.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/easing-curves.json",
+  "registry": "packages/design-data/registry/easing-curves.json",
   "validation": "advisory",
   "serialization": {
     "position": 22

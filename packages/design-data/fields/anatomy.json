@@ -4,7 +4,7 @@
   "name": "anatomy",
   "description": "Visible named part of a component (e.g. handle, icon, label, track). Refers to a specific sub-element, not a styling surface.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/anatomy-terms.json",
+  "registry": "packages/design-data/registry/anatomy-terms.json",
   "validation": "advisory",
   "serialization": {
     "position": 4

@@ -4,7 +4,7 @@
   "name": "size",
   "description": "Relative t-shirt sizing of a component or token (e.g. small, medium, large, extra-large). Distinct from the `scale` mode set.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/sizes.json",
+  "registry": "packages/design-data/registry/sizes.json",
   "validation": "advisory",
   "serialization": {
     "position": 9

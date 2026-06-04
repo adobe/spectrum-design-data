@@ -60,8 +60,8 @@ impl ValidationRule for Rule {
                         rule_id: Some("SPEC-009".into()),
                         severity: Severity::Warning,
                         message: format!(
-                            "name.{field} value \"{value}\" is not in the design-system-registry \
-                             {field} vocabulary"
+                            "name.{field} value \"{value}\" is not in the spectrum-design-data \
+                             registry/{field} vocabulary"
                         ),
                         instance_path: Some(format!("/name/{field}")),
                         schema_path: None,

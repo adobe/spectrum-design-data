@@ -187,7 +187,7 @@ No string-named token may remain in a conforming dataset after the `2.0.0` cut w
 
 The `property` field on a name object is the **CSS/styling attribute or design-system abstraction** being defined — not an anatomy part, not a styling surface, and not a legacy compound name string. Not all valid values are CSS property identifiers; design-system abstractions (e.g. `padding-horizontal`, `overlay-color`, `size`) are permitted.
 
-**NORMATIVE:** Values for `property` **SHOULD** come from the [`property-terms`](../../packages/design-system-registry/registry/property-terms.json) registry. Non-registry values emit an advisory warning (SPEC-009 applied to the `property` field).
+**NORMATIVE:** Values for `property` **SHOULD** come from the [`property-terms`](../../packages/design-data/registry/property-terms.json) registry. Non-registry values emit an advisory warning (SPEC-009 applied to the `property` field).
 
 Examples of **valid** `property` values: `color`, `background-color`, `border-radius`, `font-size`, `gap`, `opacity`.
 

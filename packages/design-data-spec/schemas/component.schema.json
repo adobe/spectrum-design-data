@@ -89,7 +89,7 @@
         "category": {
           "type": "string",
           "minLength": 1,
-          "description": "Category id from @adobe/design-system-registry categories.json. Advisory validation via SPEC-034."
+          "description": "Category id from @adobe/spectrum-design-data registry/categories.json. Advisory validation via SPEC-034."
         },
         "documentationUrl": {
           "type": "string",

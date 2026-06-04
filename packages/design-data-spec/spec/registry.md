@@ -6,15 +6,13 @@ This document defines the **design system registry**: the set of named value col
 
 ## What a registry is
 
-A **registry** is a JSON file in `@adobe/design-system-registry` that declares an ordered list of named values. Each value has at minimum an `id` (the canonical string used in token names and component files) and a `label` (a human-readable display name). Values **MAY** carry additional fields such as `description`, `aliases`, `deprecated`, and `usedIn`.
+A **registry** is a JSON file in `@adobe/spectrum-design-data` (under `registry/`) that declares an ordered list of named values. Each value has at minimum an `id` (the canonical string used in token names and component files) and a `label` (a human-readable display name). Values **MAY** carry additional fields such as `description`, `aliases`, `deprecated`, and `usedIn`.
 
 Registries are the authoritative source of truth for vocabulary validation. A validator SHOULD flag token field values that are not present in the corresponding registry (typically as a warning, not an error — see field declarations in the field catalog).
 
 ## Packaging strategy
 
-All registries ship as a **single package**: `@adobe/design-system-registry`. The three semantically distinct registries described below are separate JSON files within that package. Independent sub-package splits are explicitly deferred.
-
-**Rationale:** No external consumers currently require independent semver versioning of individual registries. A single package is cheaper to maintain, simpler to consume, and avoids the proliferation of tiny packages with coordinated versioning overhead. If independent versioning needs emerge in a future release, the split can be done with a standard deprecation window per [Evolution](evolution.md).
+All registries ship within **`@adobe/spectrum-design-data`** under the `registry/` directory. The three semantically distinct registries described below are separate JSON files in that directory.
 
 ## Registries
 
@@ -32,7 +30,7 @@ Anatomy terms fall into three tiers:
 | Composite          | Another component used as a named part | `checkbox`, `close-button`, `popover`, `avatar`        |
 | Component-specific | Unique to one component                | `loupe`, `gripper`, `hold-icon`                        |
 
-**File:** `packages/design-system-registry/registry/anatomy-terms.json`\
+**File:** `packages/design-data/registry/anatomy-terms.json`\
 **Validated by:** SPEC-020, SPEC-023, SPEC-024, SPEC-025, SPEC-035 (advisory — anatomy part `name` values SHOULD match the anatomy-terms registry)\
 **See also:** [Taxonomy — Component anatomy vs. token objects](taxonomy.md#component-anatomy-vs-token-objects), [Anatomy format](anatomy-format.md)
 
@@ -50,7 +48,7 @@ Validates the `object` field on token name objects.
 | `visual`     | Visible graphic element area (may be inset from edge) |
 | `content`    | Main content area                                     |
 
-**File:** `packages/design-system-registry/registry/token-objects.json`\
+**File:** `packages/design-data/registry/token-objects.json`\
 **Validated by:** SPEC-009 (advisory — `name.object` field values SHOULD match the token-objects registry)\
 **See also:** [Taxonomy — Token objects (styling surfaces)](taxonomy.md#token-objects-styling-surfaces)
 
@@ -60,7 +58,7 @@ Validates the `category` field on component declarations.
 
 **What it contains:** Top-level categories for organizing components by purpose and interaction type. Used for documentation navigation and tooling filters.
 
-**File:** `packages/design-system-registry/registry/categories.json`\
+**File:** `packages/design-data/registry/categories.json`\
 **Validated by:** SPEC-034 (advisory — `meta.category` field values SHOULD match the categories registry)\
 **See also:** [Component format](component-format.md)
 
@@ -72,7 +70,7 @@ Registry IDs are scoped to their registry. The same ID **MAY** appear in multipl
 
 ## Other registries in the package
 
-The following registries exist in `@adobe/design-system-registry` but are not part of the three-registry boundary defined above. They validate other token name fields and component metadata fields:
+The following registries exist in `@adobe/spectrum-design-data` (under `registry/`) but are not part of the three-registry boundary defined above. They validate other token name fields and component metadata fields:
 
 | Registry          | File                     | Validates                            |
 | ----------------- | ------------------------ | ------------------------------------ |

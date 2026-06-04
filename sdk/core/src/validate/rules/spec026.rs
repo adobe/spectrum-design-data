@@ -11,7 +11,7 @@
 //! SPEC-026: state-custom-name-documented
 //!
 //! State declarations with a name outside the canonical state vocabulary
-//! (design-system-registry `states.json`) SHOULD include a `description` field.
+//! (spectrum-design-data `registry/states.json`) SHOULD include a `description` field.
 //! Custom state names without documentation make the component contract ambiguous.
 
 use crate::report::{Diagnostic, Severity};

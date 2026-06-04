@@ -4,7 +4,7 @@
   "name": "family",
   "description": "Type family of a typography token (e.g. sans-serif, serif, cjk, code). Used to distinguish tokens that apply to different script or display contexts.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/typography-families.json",
+  "registry": "packages/design-data/registry/typography-families.json",
   "validation": "advisory",
   "serialization": {
     "position": 18

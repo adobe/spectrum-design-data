@@ -4,7 +4,7 @@
   "name": "alignment",
   "description": "Horizontal alignment of a text-align token. Corresponds to the CSS text-align axis.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/alignments.json",
+  "registry": "packages/design-data/registry/alignments.json",
   "validation": "advisory",
   "serialization": {
     "position": 25

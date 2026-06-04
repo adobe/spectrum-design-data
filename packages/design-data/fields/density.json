@@ -4,7 +4,7 @@
   "name": "density",
   "description": "Space density within or around component parts (e.g. spacious, compact). Distinct from the `scale` mode set.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/densities.json",
+  "registry": "packages/design-data/registry/densities.json",
   "validation": "advisory",
   "serialization": {
     "position": 10

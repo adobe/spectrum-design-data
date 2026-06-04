@@ -275,19 +275,10 @@ importers:
   packages/design-data-spec: {}
 
   packages/design-system-registry:
-    devDependencies:
-      "@adobe/spectrum-component-api-schemas":
+    dependencies:
+      "@adobe/spectrum-design-data":
         specifier: workspace:*
-        version: link:../component-schemas
-      ajv:
-        specifier: ^8.17.1
-        version: 8.17.1
-      ajv-formats:
-        specifier: ^3.0.1
-        version: 3.0.1(ajv@8.17.1)
-      ava:
-        specifier: ^6.0.1
-        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+        version: link:../design-data
 
   packages/token-names:
     dependencies:

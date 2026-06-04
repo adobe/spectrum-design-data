@@ -4,7 +4,7 @@
   "name": "style",
   "description": "Typographic style of a typography token (e.g. italic, oblique). Corresponds to the CSS font-style axis. Normal style is omitted (default).",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/typography-styles.json",
+  "registry": "packages/design-data/registry/typography-styles.json",
   "validation": "advisory",
   "serialization": {
     "position": 20

@@ -4,7 +4,7 @@
   "name": "component",
   "description": "Component scope — the UI component this token belongs to (e.g. button, checkbox, slider).",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/components.json",
+  "registry": "packages/design-data/registry/components.json",
   "validation": "advisory",
   "serialization": {
     "position": 1

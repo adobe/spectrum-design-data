@@ -123,7 +123,7 @@ import {
   states, 
   getTermForPlatform,
   loadPlatformExtension 
-} from '@adobe/design-system-registry';
+} from '@adobe/spectrum-design-data';
 
 // Load platform extension
 const iosStates = loadPlatformExtension('./platform-extensions/ios-states.json');
@@ -139,7 +139,7 @@ console.log(hoverTerm.platform.codeExample); // "button.isHighlighted = true"
 ### Loading All Extensions
 
 ```javascript
-import { loadAllPlatformExtensions } from '@adobe/design-system-registry';
+import { loadAllPlatformExtensions } from '@adobe/spectrum-design-data';
 import { join } from 'node:path';
 
 const extensionsDir = join(__dirname, 'registry', 'platform-extensions');
@@ -202,12 +202,12 @@ pnpm install
 
 ### 2. Create Extension File
 
-Create your extension file in `packages/design-system-registry/registry/platform-extensions/`.
+Create your extension file in `packages/design-data/registry/platform-extensions/`.
 
 ### 3. Validate
 
 ```bash
-cd packages/design-system-registry
+cd packages/design-data
 pnpm validate
 ```
 
@@ -225,7 +225,7 @@ pnpm test
 pnpm changeset
 ```
 
-Select `@adobe/design-system-registry` and describe your changes.
+Select `@adobe/spectrum-design-data` and describe your changes.
 
 ### 6. Submit Pull Request
 

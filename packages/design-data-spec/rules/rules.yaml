@@ -78,8 +78,8 @@ rules:
     name: name-field-enum-sync
     severity: warning
     category: naming-consistency
-    assert: Recognized name object fields (component, state, variant, etc.) SHOULD use values drawn from the corresponding design-system-registry enums when those enums are available.
-    message: "Token name field '{field}' value '{value}' is not in the design-system-registry enum for '{field}'"
+    assert: Recognized name object fields (component, state, variant, etc.) SHOULD use values drawn from the corresponding spectrum-design-data registry when those enums are available.
+    message: "Token name field '{field}' value '{value}' is not in the spectrum-design-data registry for '{field}'"
     spec_ref: spec/token-format.md#name-object
     introduced_in: "1.0.0-draft"
 
@@ -327,9 +327,9 @@ rules:
     category: naming-consistency
     assert: >
       A component's meta.category SHOULD reference an id from the categories registry in
-      @adobe/design-system-registry (categories.json). Unknown values are reported as
+      @adobe/spectrum-design-data registry/categories.json. Unknown values are reported as
       warnings; the registry is the authoritative vocabulary.
-    message: "Component '{entity}' meta.category value '{value}' is not in the design-system-registry categories vocabulary"
+    message: "Component '{entity}' meta.category value '{value}' is not in the spectrum-design-data registry/categories vocabulary"
     spec_ref: spec/registry.md#categories
     introduced_in: "1.0.0-draft"
   - id: SPEC-035
@@ -338,9 +338,9 @@ rules:
     category: naming-consistency
     assert: >
       A component anatomy part's name SHOULD reference an id from the anatomy-terms registry in
-      @adobe/design-system-registry (anatomy-terms.json). Unknown values are reported as
+      @adobe/spectrum-design-data registry/anatomy-terms.json. Unknown values are reported as
       warnings; custom names remain permitted but the registry is the authoritative vocabulary.
-    message: "Component '{entity}' anatomy part name '{value}' is not in the design-system-registry anatomy-terms vocabulary"
+    message: "Component '{entity}' anatomy part name '{value}' is not in the spectrum-design-data registry/anatomy-terms vocabulary"
     spec_ref: spec/anatomy-format.md#canonical-anatomy-vocabulary
     introduced_in: "1.0.0-draft"
 

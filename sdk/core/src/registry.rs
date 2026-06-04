@@ -59,7 +59,7 @@ impl RegistryData {
     /// Build registry data from the embedded JSON constants in `registry_data.rs`.
     ///
     /// `registry_data.rs` is generated from `packages/design-data/fields/`
-    /// (field catalog) and `packages/design-system-registry/registry/` (vocabulary)
+    /// (field catalog) and `packages/design-data/registry/` (vocabulary)
     /// by running `moon run sdk:codegen`. Adding a new field declaration and
     /// re-running codegen is all that's needed to extend SPEC-009.
     pub fn embedded() -> Self {

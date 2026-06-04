@@ -4,7 +4,7 @@
   "name": "position",
   "description": "Location relative to another object or edge (e.g. top, bottom, start, end, affixed).",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/positions.json",
+  "registry": "packages/design-data/registry/positions.json",
   "validation": "advisory",
   "serialization": {
     "position": 8

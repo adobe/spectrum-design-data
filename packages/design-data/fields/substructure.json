@@ -4,7 +4,7 @@
   "name": "substructure",
   "description": "Child element within a parent structure (e.g. item within list-item, cell within table).",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/substructures.json",
+  "registry": "packages/design-data/registry/substructures.json",
   "validation": "advisory",
   "serialization": {
     "position": 3

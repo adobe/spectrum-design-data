@@ -99,7 +99,7 @@ The following anatomy part names are defined by the cross-platform design audit 
 
 Custom part names are permitted. When a custom name is used, the anatomy part object **SHOULD** include a `description` field explaining its visual role (rule SPEC-023).
 
-The table above is informative; the authoritative vocabulary is `@adobe/design-system-registry/registry/anatomy-terms.json` (119 entries). SPEC-035 fires advisory warnings when a declared anatomy part `name` is not in that registry, pointing authors at the canonical list. Custom names remain valid — SPEC-035 is advisory, not an error.
+The table above is informative; the authoritative vocabulary is `@adobe/spectrum-design-data/registry/anatomy-terms.json` (119 entries). SPEC-035 fires advisory warnings when a declared anatomy part `name` is not in that registry, pointing authors at the canonical list. Custom names remain valid — SPEC-035 is advisory, not an error.
 
 ## Cross-reference with token name objects
 
