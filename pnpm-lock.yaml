@@ -617,12 +617,12 @@ importers:
 
   tools/markdown-generator:
     dependencies:
-      "@adobe/design-system-registry":
-        specifier: workspace:*
-        version: link:../../packages/design-system-registry
       "@adobe/spectrum-component-api-schemas":
         specifier: workspace:*
         version: link:../../packages/component-schemas
+      "@adobe/spectrum-design-data":
+        specifier: workspace:*
+        version: link:../../packages/design-data
       "@adobe/spectrum-tokens":
         specifier: workspace:*
         version: link:../../packages/tokens
@@ -732,9 +732,9 @@ importers:
 
   tools/token-corpus-migrate:
     dependencies:
-      "@adobe/design-system-registry":
+      "@adobe/spectrum-design-data":
         specifier: workspace:*
-        version: link:../../packages/design-system-registry
+        version: link:../../packages/design-data
       commander:
         specifier: ^12.1.0
         version: 12.1.0
@@ -760,9 +760,9 @@ importers:
 
   tools/token-naming-audit:
     dependencies:
-      "@adobe/design-system-registry":
+      "@adobe/spectrum-design-data":
         specifier: workspace:*
-        version: link:../../packages/design-system-registry
+        version: link:../../packages/design-data
       commander:
         specifier: ^12.1.0
         version: 12.1.0
