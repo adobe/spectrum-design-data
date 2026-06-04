@@ -353,6 +353,8 @@ importers:
 
   sdk/npm/win32-x64: {}
 
+  sdk/tui: {}
+
   tools/changeset-linter:
     dependencies:
       chalk:

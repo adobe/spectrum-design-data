@@ -4,3 +4,4 @@ packages:
   - "tools/*"
   - "sdk/cli"
   - "sdk/npm/*"
+  - "sdk/tui"
