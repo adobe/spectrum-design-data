@@ -99,7 +99,7 @@ export function renderReport(stringNames, propertyValues) {
   lines.push(``);
   lines.push(
     `Tokens with a structured name object where \`name.property\` is not in ` +
-      `[\`property-terms.json\`](packages/design-system-registry/registry/property-terms.json).`,
+      `[\`property-terms.json\`](packages/design-data/registry/property-terms.json).`,
   );
   lines.push(
     `Migrate the value to the suggested field, or add it to the property-terms registry if it is a valid CSS/design-system attribute.`,

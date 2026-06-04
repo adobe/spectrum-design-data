@@ -10,11 +10,11 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import alignmentsData from "@adobe/design-system-registry/registry/alignments.json" with { type: "json" };
-import colorFamiliesData from "@adobe/design-system-registry/registry/color-families.json" with { type: "json" };
-import typographyFamiliesData from "@adobe/design-system-registry/registry/typography-families.json" with { type: "json" };
-import typographyStylesData from "@adobe/design-system-registry/registry/typography-styles.json" with { type: "json" };
-import typographyWeightsData from "@adobe/design-system-registry/registry/typography-weights.json" with { type: "json" };
+import alignmentsData from "@adobe/spectrum-design-data/registry/alignments.json" with { type: "json" };
+import colorFamiliesData from "@adobe/spectrum-design-data/registry/color-families.json" with { type: "json" };
+import typographyFamiliesData from "@adobe/spectrum-design-data/registry/typography-families.json" with { type: "json" };
+import typographyStylesData from "@adobe/spectrum-design-data/registry/typography-styles.json" with { type: "json" };
+import typographyWeightsData from "@adobe/spectrum-design-data/registry/typography-weights.json" with { type: "json" };
 
 const ALIGNMENTS = new Set(alignmentsData.values.map((v) => v.id));
 const COLOR_FAMILIES = new Set(colorFamiliesData.values.map((v) => v.id));

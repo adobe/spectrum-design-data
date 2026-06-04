@@ -46,11 +46,11 @@ Each token is matched against the rules in `src/transform.js`:
 | `alignment.json`                | `text-align-<alignment>`                | `{ property: "text-align", alignment }`                                |
 | `dimension.json`                | `letter-spacing` (exact)                | `{ property: "letter-spacing" }`                                       |
 
-Valid `colorFamily` values are sourced from `@adobe/design-system-registry/registry/color-families.json`.
-Valid `alignment` values are sourced from `@adobe/design-system-registry/registry/alignments.json`.
-Valid `family` values are sourced from `@adobe/design-system-registry/registry/typography-families.json`.
-Valid `style` values are sourced from `@adobe/design-system-registry/registry/typography-styles.json`.
-Valid `weight` values are sourced from `@adobe/design-system-registry/registry/typography-weights.json`.
+Valid `colorFamily` values are sourced from `@adobe/spectrum-design-data/registry/color-families.json`.
+Valid `alignment` values are sourced from `@adobe/spectrum-design-data/registry/alignments.json`.
+Valid `family` values are sourced from `@adobe/spectrum-design-data/registry/typography-families.json`.
+Valid `style` values are sourced from `@adobe/spectrum-design-data/registry/typography-styles.json`.
+Valid `weight` values are sourced from `@adobe/spectrum-design-data/registry/typography-weights.json`.
 Tokens that already have a `name` field are skipped.
 Alias tokens and other out-of-scope schemas are left untouched.
 
