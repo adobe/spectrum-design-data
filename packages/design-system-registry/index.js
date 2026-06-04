@@ -1,5 +1,5 @@
 /*
-Copyright 2025 Adobe. All rights reserved.
+Copyright 2026 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,170 +10,83 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { readFileSync, readdirSync } from "node:fs";
-import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Load registry files
-export const sizes = JSON.parse(
-  readFileSync(join(__dirname, "registry", "sizes.json"), "utf-8"),
-);
-
-export const states = JSON.parse(
-  readFileSync(join(__dirname, "registry", "states.json"), "utf-8"),
-);
-
-export const variants = JSON.parse(
-  readFileSync(join(__dirname, "registry", "variants.json"), "utf-8"),
-);
-
-export const anatomyTerms = JSON.parse(
-  readFileSync(join(__dirname, "registry", "anatomy-terms.json"), "utf-8"),
-);
-
-export const propertyTerms = JSON.parse(
-  readFileSync(join(__dirname, "registry", "property-terms.json"), "utf-8"),
-);
-
-export const components = JSON.parse(
-  readFileSync(join(__dirname, "registry", "components.json"), "utf-8"),
-);
-
-export const scaleValues = JSON.parse(
-  readFileSync(join(__dirname, "registry", "scale-values.json"), "utf-8"),
-);
-
-export const categories = JSON.parse(
-  readFileSync(join(__dirname, "registry", "categories.json"), "utf-8"),
-);
-
-export const platforms = JSON.parse(
-  readFileSync(join(__dirname, "registry", "platforms.json"), "utf-8"),
-);
-
-export const navigationTerms = JSON.parse(
-  readFileSync(join(__dirname, "registry", "navigation-terms.json"), "utf-8"),
-);
-
-export const tokenTerminology = JSON.parse(
-  readFileSync(join(__dirname, "registry", "token-terminology.json"), "utf-8"),
-);
-
-export const glossary = JSON.parse(
-  readFileSync(join(__dirname, "registry", "glossary.json"), "utf-8"),
-);
-
-export const tokenObjects = JSON.parse(
-  readFileSync(join(__dirname, "registry", "token-objects.json"), "utf-8"),
-);
-
-export const structures = JSON.parse(
-  readFileSync(join(__dirname, "registry", "structures.json"), "utf-8"),
-);
-
-export const substructures = JSON.parse(
-  readFileSync(join(__dirname, "registry", "substructures.json"), "utf-8"),
-);
-
-export const orientations = JSON.parse(
-  readFileSync(join(__dirname, "registry", "orientations.json"), "utf-8"),
-);
-
-export const positions = JSON.parse(
-  readFileSync(join(__dirname, "registry", "positions.json"), "utf-8"),
-);
-
-export const densities = JSON.parse(
-  readFileSync(join(__dirname, "registry", "densities.json"), "utf-8"),
-);
-
-export const shapes = JSON.parse(
-  readFileSync(join(__dirname, "registry", "shapes.json"), "utf-8"),
-);
-
 /**
- * Get all values from a registry by ID
- * @param {object} registry - The registry object
- * @returns {string[]} Array of value IDs
+ * @deprecated This package is deprecated. The registry data and API have moved to
+ * @adobe/spectrum-design-data. Update your imports:
+ *
+ *   import { sizes, getValues } from "@adobe/spectrum-design-data";
+ *   import sizesJson from "@adobe/spectrum-design-data/registry/sizes.json" with { type: "json" };
+ *
+ * This shim will be removed in a future major version.
  */
+
+import { readFileSync, readdirSync } from "node:fs";
+import { fileURLToPath, resolve as resolveUrl } from "node:url";
+import { dirname, join } from "node:path";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const registryPkg = require.resolve("@adobe/spectrum-design-data/package.json");
+const registryDir = join(dirname(registryPkg), "registry");
+
+function load(name) {
+  return JSON.parse(readFileSync(join(registryDir, name), "utf-8"));
+}
+
+export const sizes = load("sizes.json");
+export const states = load("states.json");
+export const variants = load("variants.json");
+export const anatomyTerms = load("anatomy-terms.json");
+export const propertyTerms = load("property-terms.json");
+export const components = load("components.json");
+export const scaleValues = load("scale-values.json");
+export const categories = load("categories.json");
+export const platforms = load("platforms.json");
+export const navigationTerms = load("navigation-terms.json");
+export const tokenTerminology = load("token-terminology.json");
+export const glossary = load("glossary.json");
+export const tokenObjects = load("token-objects.json");
+export const structures = load("structures.json");
+export const substructures = load("substructures.json");
+export const orientations = load("orientations.json");
+export const positions = load("positions.json");
+export const densities = load("densities.json");
+export const shapes = load("shapes.json");
+
 export function getValues(registry) {
   return registry.values.map((v) => v.id);
 }
 
-/**
- * Find a registry value by ID or alias
- * @param {object} registry - The registry object
- * @param {string} searchTerm - The ID or alias to search for
- * @returns {object|undefined} The matching value or undefined
- */
 export function findValue(registry, searchTerm) {
   return registry.values.find(
     (v) => v.id === searchTerm || v.aliases?.includes(searchTerm),
   );
 }
 
-/**
- * Check if a value exists in a registry
- * @param {object} registry - The registry object
- * @param {string} searchTerm - The ID or alias to search for
- * @returns {boolean} True if the value exists
- */
 export function hasValue(registry, searchTerm) {
   return findValue(registry, searchTerm) !== undefined;
 }
 
-/**
- * Get the default value from a registry
- * @param {object} registry - The registry object
- * @returns {object|undefined} The default value or undefined
- */
 export function getDefault(registry) {
   return registry.values.find((v) => v.default === true);
 }
 
-/**
- * Get all non-deprecated values from a registry
- * @param {object} registry - The registry object
- * @returns {array} Array of non-deprecated values
- */
 export function getActiveValues(registry) {
   return registry.values.filter((v) => !v.deprecated);
 }
 
-/**
- * Load a platform extension file
- * @param {string} extensionPath - Path to the extension JSON file
- * @returns {object} The extension object
- */
 export function loadPlatformExtension(extensionPath) {
   return JSON.parse(readFileSync(extensionPath, "utf-8"));
 }
 
-/**
- * Get platform-specific term for a registry value
- * @param {object} registry - The base registry object
- * @param {string} termId - The term ID to look up
- * @param {string} platform - The platform name
- * @param {object} extension - Optional: The platform extension object
- * @returns {object|undefined} Platform-specific term info or undefined
- */
 export function getTermForPlatform(registry, termId, platform, extension) {
-  // First, find the base term
   const baseTerm = findValue(registry, termId);
   if (!baseTerm) return undefined;
 
-  // Check if the term has platform-specific info in its platforms property
   if (baseTerm.platforms && baseTerm.platforms[platform]) {
-    return {
-      ...baseTerm,
-      platform: baseTerm.platforms[platform],
-    };
+    return { ...baseTerm, platform: baseTerm.platforms[platform] };
   }
 
-  // If extension is provided, check for platform-specific overrides
   if (extension && extension.platform === platform) {
     const ext = extension.extensions.find((e) => e.termId === termId);
     if (ext) {
@@ -191,30 +104,17 @@ export function getTermForPlatform(registry, termId, platform, extension) {
     }
   }
 
-  // Return base term if no platform-specific info found
   return baseTerm;
 }
 
-/**
- * Get all extensions for a specific platform
- * @param {array} extensions - Array of extension objects
- * @param {string} platform - The platform name
- * @returns {array} Array of extensions for the platform
- */
 export function getPlatformExtensions(extensions, platform) {
   return extensions.filter((ext) => ext.platform === platform);
 }
 
-/**
- * Load all platform extensions from a directory
- * @param {string} extensionsDir - Path to the extensions directory
- * @returns {array} Array of loaded extension objects
- */
 export function loadAllPlatformExtensions(extensionsDir) {
   const extensionFiles = readdirSync(extensionsDir).filter((f) =>
     f.endsWith(".json"),
   );
-
   return extensionFiles.map((file) =>
     loadPlatformExtension(join(extensionsDir, file)),
   );

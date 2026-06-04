@@ -253,13 +253,16 @@ importers:
 
   packages/component-schemas:
     dependencies:
-      "@adobe/design-data-spec":
+      "@adobe/spectrum-design-data":
         specifier: workspace:*
-        version: link:../design-data-spec
+        version: link:../design-data
       glob:
         specifier: ^10.3.12
         version: 10.4.5
     devDependencies:
+      "@adobe/design-data-spec":
+        specifier: workspace:*
+        version: link:../design-data-spec
       ajv:
         specifier: ^8.12.0
         version: 8.17.1
@@ -267,24 +270,25 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(ajv@8.17.1)
 
-  packages/design-data: {}
-
-  packages/design-data-spec: {}
-
-  packages/design-system-registry:
+  packages/design-data:
     devDependencies:
-      "@adobe/spectrum-component-api-schemas":
+      "@adobe/design-data-spec":
         specifier: workspace:*
-        version: link:../component-schemas
+        version: link:../design-data-spec
       ajv:
-        specifier: ^8.17.1
+        specifier: ^8.12.0
         version: 8.17.1
       ajv-formats:
         specifier: ^3.0.1
         version: 3.0.1(ajv@8.17.1)
-      ava:
-        specifier: ^6.0.1
-        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+
+  packages/design-data-spec: {}
+
+  packages/design-system-registry:
+    dependencies:
+      "@adobe/spectrum-design-data":
+        specifier: workspace:*
+        version: link:../design-data
 
   packages/token-names:
     dependencies:
@@ -623,12 +627,12 @@ importers:
 
   tools/markdown-generator:
     dependencies:
-      "@adobe/design-system-registry":
-        specifier: workspace:*
-        version: link:../../packages/design-system-registry
       "@adobe/spectrum-component-api-schemas":
         specifier: workspace:*
         version: link:../../packages/component-schemas
+      "@adobe/spectrum-design-data":
+        specifier: workspace:*
+        version: link:../../packages/design-data
       "@adobe/spectrum-tokens":
         specifier: workspace:*
         version: link:../../packages/tokens
@@ -738,9 +742,9 @@ importers:
 
   tools/token-corpus-migrate:
     dependencies:
-      "@adobe/design-system-registry":
+      "@adobe/spectrum-design-data":
         specifier: workspace:*
-        version: link:../../packages/design-system-registry
+        version: link:../../packages/design-data
       commander:
         specifier: ^12.1.0
         version: 12.1.0
@@ -766,9 +770,9 @@ importers:
 
   tools/token-naming-audit:
     dependencies:
-      "@adobe/design-system-registry":
+      "@adobe/spectrum-design-data":
         specifier: workspace:*
-        version: link:../../packages/design-system-registry
+        version: link:../../packages/design-data
       commander:
         specifier: ^12.1.0
         version: 12.1.0

@@ -11,7 +11,7 @@
 [3.0, "o", "\u001b[2m▶ calling mcp__design-data__component(component: \"button\")\u001b[0m\r\n"]
 [3.6, "o", "\u001b[1mRole:\u001b[0m button (ARIA) · \u001b[1mKeyboard intents:\u001b[0m activate\r\n"]
 [4.0, "o", "\u001b[1mStates:\u001b[0m hover, focus, disabled\r\n"]
-[4.4, "o", "(Source: packages/design-data-spec/components/button.json)\r\n\r\n"]
+[4.4, "o", "(Source: packages/design-data/components/button.json)\r\n\r\n"]
 [4.8, "m", "D2 role and states"]
 [5.0, "o", "\u001b[2m▶ calling mcp__design-data__resolve(token: \"accent-background-color\", colorScheme: \"dark\")\u001b[0m\r\n"]
 [5.6, "o", "\u001b[1mResolved:\u001b[0m #4069FD (rgb 64 105 253)\r\n"]

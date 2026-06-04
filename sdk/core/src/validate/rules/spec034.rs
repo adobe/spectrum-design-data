@@ -11,7 +11,7 @@
 //! SPEC-034: component-category-registry-sync
 //!
 //! A component's `meta.category` SHOULD reference an id from the categories
-//! registry in `@adobe/design-system-registry` (categories.json). Unknown
+//! registry in `@adobe/spectrum-design-data` (registry/categories.json). Unknown
 //! values are reported as warnings; the registry is the authoritative vocabulary.
 //!
 //! This mirrors SPEC-009 (name-field-enum-sync) for name-object fields, but
@@ -54,7 +54,7 @@ impl ValidationRule for Rule {
                     severity: Severity::Warning,
                     message: format!(
                         "Component '{}' meta.category value \"{}\" is not in the \
-                         design-system-registry categories vocabulary",
+                         spectrum-design-data registry/categories vocabulary",
                         comp.name, value
                     ),
                     instance_path: Some("/meta/category".into()),

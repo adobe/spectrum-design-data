@@ -15,5 +15,4 @@ export const config = {
   exceptionsPath: process.env.DESIGN_DATA_EXCEPTIONS ?? null,
   componentsDir: process.env.DESIGN_DATA_COMPONENTS ?? null,
   fieldsDir: process.env.DESIGN_DATA_FIELDS ?? null,
-  dimensionsDir: process.env.DESIGN_DATA_DIMENSIONS ?? null,
 };

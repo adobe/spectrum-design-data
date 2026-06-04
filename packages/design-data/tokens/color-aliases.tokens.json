@@ -1112,11 +1112,15 @@
       "property": "drop-shadow-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "92619056-db5a-45ab-ba0b-50e67cc497f6",
+    "$ref": "5c0f0543-7e9b-43d6-9fea-c771b9b524c6",
     "uuid": "be45ace6-9227-41d1-80be-0c58c3f8b3cb",
     "deprecated": "unknown",
     "deprecated_comment": "Replaced with drop-shadow-color-100",
-    "replaced_by": "92619056-db5a-45ab-ba0b-50e67cc497f6"
+    "replaced_by": [
+      "5c0f0543-7e9b-43d6-9fea-c771b9b524c6",
+      "8d7e0eb7-c3c7-485e-896c-d5d5107e3b8f",
+      "4110e60c-efd6-421d-9c5c-0356cfff8697"
+    ]
   },
   {
     "name": {

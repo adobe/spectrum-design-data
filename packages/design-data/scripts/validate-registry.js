@@ -1,5 +1,5 @@
 /*
-Copyright 2025 Adobe. All rights reserved.
+Copyright 2026 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -13,13 +13,17 @@ governing permissions and limitations under the License.
 import { readFileSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const registryDir = join(__dirname, "..", "registry");
-const schemaPath = join(__dirname, "..", "schemas", "registry-value.json");
+
+// Resolve registry-value.json from @adobe/design-data-spec
+const require = createRequire(import.meta.url);
+const specPkgPath = require.resolve("@adobe/design-data-spec/package.json");
+const schemaPath = join(dirname(specPkgPath), "schemas", "registry-value.json");
 
 const ajv = new Ajv({ strict: false, allErrors: true });
 addFormats(ajv);
@@ -29,12 +33,11 @@ const validate = ajv.compile(schema);
 
 let hasErrors = false;
 
-console.log("🔍 Validating design system registry...\n");
+console.log("🔍 Validating spectrum-design-data registry...\n");
 
-// Get all registry files
-const registryFiles = readdirSync(registryDir).filter((f) =>
-  f.endsWith(".json"),
-);
+const registryFiles = readdirSync(registryDir)
+  .filter((f) => f.endsWith(".json"))
+  .sort();
 
 for (const file of registryFiles) {
   const filePath = join(registryDir, file);
@@ -42,7 +45,6 @@ for (const file of registryFiles) {
 
   console.log(`📄 Validating ${file}...`);
 
-  // Validate against JSON schema
   const valid = validate(registry);
   if (!valid) {
     console.error(`  ❌ Schema validation failed:`);
@@ -53,29 +55,24 @@ for (const file of registryFiles) {
     continue;
   }
 
-  // Check for duplicate IDs
   const ids = new Set();
   const duplicateIds = [];
   for (const value of registry.values) {
-    if (ids.has(value.id)) {
-      duplicateIds.push(value.id);
-    }
+    if (ids.has(value.id)) duplicateIds.push(value.id);
     ids.add(value.id);
   }
-
   if (duplicateIds.length > 0) {
     console.error(`  ❌ Duplicate IDs found: ${duplicateIds.join(", ")}`);
     hasErrors = true;
   }
 
-  // Check for duplicate aliases
   const aliases = new Map();
   for (const value of registry.values) {
     if (value.aliases) {
       for (const alias of value.aliases) {
         if (aliases.has(alias)) {
           console.error(
-            `  ❌ Duplicate alias "${alias}" found in ${value.id} (already used by ${aliases.get(alias)})`,
+            `  ❌ Duplicate alias "${alias}" in ${value.id} (also used by ${aliases.get(alias)})`,
           );
           hasErrors = true;
         }
@@ -84,38 +81,30 @@ for (const file of registryFiles) {
     }
   }
 
-  // Check that only one value has default: true
   const defaults = registry.values.filter((v) => v.default === true);
   if (defaults.length > 1) {
     console.error(
-      `  ❌ Multiple default values found: ${defaults.map((d) => d.id).join(", ")}`,
+      `  ❌ Multiple default values: ${defaults.map((d) => d.id).join(", ")}`,
     );
     hasErrors = true;
   }
 
-  // Check that relatedTerms reference valid IDs
   for (const value of registry.values) {
     if (value.relatedTerms) {
       for (const relatedId of value.relatedTerms) {
         if (!ids.has(relatedId)) {
           console.error(
-            `  ❌ Invalid relatedTerm "${relatedId}" in ${value.id} (term does not exist)`,
+            `  ❌ Invalid relatedTerm "${relatedId}" in ${value.id}`,
           );
           hasErrors = true;
         }
       }
     }
-  }
-
-  // Check that governance.replacedBy references valid IDs
-  for (const value of registry.values) {
-    if (value.governance?.replacedBy) {
-      if (!ids.has(value.governance.replacedBy)) {
-        console.error(
-          `  ❌ Invalid governance.replacedBy "${value.governance.replacedBy}" in ${value.id} (term does not exist)`,
-        );
-        hasErrors = true;
-      }
+    if (value.governance?.replacedBy && !ids.has(value.governance.replacedBy)) {
+      console.error(
+        `  ❌ Invalid governance.replacedBy "${value.governance.replacedBy}" in ${value.id}`,
+      );
+      hasErrors = true;
     }
   }
 
@@ -130,5 +119,4 @@ if (hasErrors) {
   process.exit(1);
 } else {
   console.log("✅ All registry files validated successfully\n");
-  process.exit(0);
 }

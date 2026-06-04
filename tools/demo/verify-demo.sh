@@ -32,7 +32,7 @@ fail() { echo -e "${RED}    FAIL: $*${RESET}"; exit 1; }
 # ─── Prerequisites ────────────────────────────────────────────────────────────
 
 step "Check: repo root"
-[[ -d "packages/design-data-spec/components" ]] \
+[[ -d "packages/design-data/components" ]] \
   || fail "Run this script from the spectrum-design-data repo root."
 ok
 
@@ -43,20 +43,20 @@ ok
 CLI="sdk/target/release/design-data"
 [[ -x "$CLI" ]] || fail "Binary not found at $CLI after build."
 
-step "Check: packages/design-data-spec exists"
-[[ -d "packages/design-data-spec/components" ]] || fail "packages/design-data-spec/components not found."
+step "Check: packages/design-data exists"
+[[ -d "packages/design-data/components" ]] || fail "packages/design-data/components not found."
 ok
 
 # ─── Demo A — Prototype against Spectrum ─────────────────────────────────────
 
 step "A2: design-data component button"
 output=$("$CLI" component button \
-  --components-dir packages/design-data-spec/components 2>&1)
+  --components-dir packages/design-data/components 2>&1)
 [[ "$output" == *"button"* ]] || fail "Expected 'button' in component output."
 ok
 
 step "A3: design-data query --filter component=button"
-"$CLI" query packages/design-data-spec --filter "component=button" > /dev/null
+"$CLI" query packages/design-data/tokens --filter "component=button" > /dev/null
 ok
 
 # ─── Demo B — Blank design system ────────────────────────────────────────────
@@ -68,16 +68,16 @@ b2_output=$("$CLI" validate tools/demo/broken-token-example.tokens.json 2>&1 || 
   || fail "Expected SPEC-001 in validation output — demo 'catches mistakes' moment is broken."
 ok
 
-step "B3: design-data primer packages/design-data-spec"
-"$CLI" primer packages/design-data-spec > /dev/null
+step "B3: design-data primer packages/design-data/tokens"
+"$CLI" primer packages/design-data/tokens > /dev/null
 ok
 
 # ─── Bonus: full dataset runs without crashing ───────────────────────────────
 
-step "Bonus: design-data validate packages/design-data-spec --strict (runs without crashing)"
+step "Bonus: design-data validate packages/design-data/tokens --strict (runs without crashing)"
 # Exits non-zero when validation errors are present, which is normal for an in-progress system.
 # Assert it runs and produces output, not that the dataset is clean.
-bonus_output=$("$CLI" validate packages/design-data-spec --strict 2>&1 || true)
+bonus_output=$("$CLI" validate packages/design-data/tokens --strict 2>&1 || true)
 [[ -n "$bonus_output" ]] \
   || fail "Expected validation output for full dataset — command may have crashed silently."
 ok

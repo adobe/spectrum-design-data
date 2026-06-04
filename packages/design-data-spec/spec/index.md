@@ -93,11 +93,11 @@ Packaged copies in this repository live under `packages/design-data-spec/schemas
 
 ## Relationship to existing Adobe packages
 
-| Package / area                          | Relationship                                                                                                                                                                                                                                                                 |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@adobe/spectrum-tokens`                | **Current** token JSON under `packages/tokens/` is the **legacy** shape (e.g. `color-set`, `scale-set`). This spec defines the **target** format; backward-compat schemas and migration are Phase 1 ([#723](https://github.com/adobe/spectrum-design-data/issues/723)).      |
-| `@adobe/design-system-registry`         | Registry enums and component metadata MAY be referenced by validation rules (e.g. component association); exact coupling is Layer 2.                                                                                                                                         |
-| `@adobe/spectrum-component-api-schemas` | Will become a thin adapter over component declarations in `packages/design-data-spec/components/` (Phase 6.5). Until migration, existing schemas remain authoritative. Cross-reference rules SPEC-018–SPEC-020 apply when component declarations are present in the dataset. |
+| Package / area                          | Relationship                                                                                                                                                                                                                                                            |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@adobe/spectrum-tokens`                | **Current** token JSON under `packages/tokens/` is the **legacy** shape (e.g. `color-set`, `scale-set`). This spec defines the **target** format; backward-compat schemas and migration are Phase 1 ([#723](https://github.com/adobe/spectrum-design-data/issues/723)). |
+| `@adobe/spectrum-design-data`           | Registry enums (under `registry/`) and component metadata MAY be referenced by validation rules (e.g. component association); exact coupling is Layer 2.                                                                                                                |
+| `@adobe/spectrum-component-api-schemas` | Will become a thin adapter over component declarations in `packages/design-data/components/` (Phase 6.5). Until migration, existing schemas remain authoritative. Cross-reference rules SPEC-018–SPEC-020 apply when component declarations are present in the dataset. |
 
 ## Umbrella discussions
 

@@ -39,7 +39,7 @@ pub fn validate_all(
 /// Run structural + relational validation with a naming-exceptions allowlist.
 ///
 /// `mode_sets_path` is an optional directory containing spec-format mode set
-/// declaration JSON files (e.g. `packages/design-data-spec/mode-sets/`). When
+/// declaration JSON files (e.g. `packages/design-data/mode-sets/`). When
 /// provided, mode sets are loaded and attached to the token graph so that
 /// mode-set-aware rules (SPEC-005, SPEC-008) can fire correctly.
 pub fn validate_all_with_exceptions(

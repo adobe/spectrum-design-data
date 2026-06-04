@@ -1,13 +1,13 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
   "specVersion": "1.0.0-draft",
-  "name": "state",
-  "description": "Interactive or semantic state (e.g. hover, focus, disabled, selected). Compound states use hyphenation (e.g. selected-hover).",
+  "name": "anatomy",
+  "description": "Visible named part of a component (e.g. handle, icon, label, track). Refers to a specific sub-element, not a styling surface.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/states.json",
+  "registry": "packages/design-data/registry/anatomy-terms.json",
   "validation": "advisory",
   "serialization": {
-    "position": 12
+    "position": 4
   },
   "scope": null,
   "required": false,

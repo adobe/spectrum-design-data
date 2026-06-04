@@ -29,10 +29,10 @@
 //!       schemas/        ← JSON Schema files (+ token-types/ subdir)
 //!       naming-exceptions.json
 //!       manifest.json
-//!     design-data-spec/
-//!       mode-sets/
+//!     design-data/
 //!       components/
 //!       fields/
+//!       mode-sets/
 //!   .complete           ← written last; signals a complete extraction
 //! ```
 //!
@@ -57,16 +57,16 @@ static TOKENS_SRC: Dir<'_> =
 /// Includes the `token-types/` subdirectory.
 static TOKENS_SCHEMAS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/tokens/schemas");
 
-/// Mode-set declarations (`packages/design-data-spec/mode-sets/`, 3 files, ~12 KB).
+/// Mode-set declarations (`packages/design-data/mode-sets/`, 3 files, ~12 KB).
 static MODE_SETS: Dir<'_> =
-    include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data-spec/mode-sets");
+    include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/mode-sets");
 
-/// Component declaration JSONs (`packages/design-data-spec/components/`, 81 files, ~620 KB).
+/// Component declaration JSONs (`packages/design-data/components/`, 81 files, ~620 KB).
 static COMPONENTS: Dir<'_> =
-    include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data-spec/components");
+    include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/components");
 
-/// Taxonomy field JSONs (`packages/design-data-spec/fields/`, 24 files, ~96 KB).
-static FIELDS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data-spec/fields");
+/// Taxonomy field JSONs (`packages/design-data/fields/`, 24 files, ~96 KB).
+static FIELDS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/fields");
 
 /// Naming exceptions list (`packages/tokens/naming-exceptions.json`, ~46 KB).
 static NAMING_EXCEPTIONS: &str = include_str!(concat!(
@@ -171,9 +171,9 @@ fn evict_stale_versions(current: &Path) {
 /// - `<root>/packages/tokens/schemas/` — schema JSON (+ `token-types/`)
 /// - `<root>/packages/tokens/naming-exceptions.json`
 /// - `<root>/packages/tokens/manifest.json`
-/// - `<root>/packages/design-data-spec/mode-sets/`
-/// - `<root>/packages/design-data-spec/components/`
-/// - `<root>/packages/design-data-spec/fields/`
+/// - `<root>/packages/design-data/mode-sets/`
+/// - `<root>/packages/design-data/components/`
+/// - `<root>/packages/design-data/fields/`
 /// - `<root>/.complete`
 ///
 /// # Errors
@@ -201,12 +201,12 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
     };
     extract(&TOKENS_SRC, &tmp.join("packages/design-data/tokens"))?;
     extract(&TOKENS_SCHEMAS, &tmp.join("packages/tokens/schemas"))?;
-    extract(&MODE_SETS, &tmp.join("packages/design-data-spec/mode-sets"))?;
+    extract(&MODE_SETS, &tmp.join("packages/design-data/mode-sets"))?;
     extract(
         &COMPONENTS,
-        &tmp.join("packages/design-data-spec/components"),
+        &tmp.join("packages/design-data/components"),
     )?;
-    extract(&FIELDS, &tmp.join("packages/design-data-spec/fields"))?;
+    extract(&FIELDS, &tmp.join("packages/design-data/fields"))?;
 
     write_file(
         &tmp.join("packages/tokens/naming-exceptions.json"),
@@ -281,15 +281,15 @@ mod tests {
             "schemas/token-types missing"
         );
         assert!(
-            root.join("packages/design-data-spec/mode-sets").is_dir(),
+            root.join("packages/design-data/mode-sets").is_dir(),
             "mode-sets missing"
         );
         assert!(
-            root.join("packages/design-data-spec/components").is_dir(),
+            root.join("packages/design-data/components").is_dir(),
             "components missing"
         );
         assert!(
-            root.join("packages/design-data-spec/fields").is_dir(),
+            root.join("packages/design-data/fields").is_dir(),
             "fields missing"
         );
         assert!(
@@ -363,10 +363,10 @@ mod tests {
     #[test]
     fn materialize_components_count() {
         // Regression guard: if a component schema is added to or removed from
-        // packages/design-data-spec/components/, this test fails deliberately.
+        // packages/design-data/components/, this test fails deliberately.
         // Update the expected count when you've intentionally changed the set.
         let (_tmp, root) = temp_root();
-        let components: Vec<_> = fs::read_dir(root.join("packages/design-data-spec/components"))
+        let components: Vec<_> = fs::read_dir(root.join("packages/design-data/components"))
             .unwrap()
             .flatten()
             .filter(|e| e.path().extension().is_some_and(|x| x == "json"))
@@ -375,7 +375,7 @@ mod tests {
             components.len(),
             81,
             "expected 81 component schemas — update this count if you've added/removed \
-             schemas from packages/design-data-spec/components/"
+             schemas from packages/design-data/components/"
         );
     }
 

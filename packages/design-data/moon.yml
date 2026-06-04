@@ -12,8 +12,22 @@ layer: library
 fileGroups:
   tokens:
     - "tokens/**/*.tokens.json"
+  registry:
+    - "registry/**/*.json"
 
 tasks:
+  # Validate registry JSON files against registry-value.json schema (AJV).
+  # Also checks for duplicate IDs/aliases, multiple defaults, and stale relatedTerms refs.
+  validate-registry:
+    command: node
+    args:
+      - scripts/validate-registry.js
+    platform: node
+    inputs:
+      - "@globs(registry)"
+      - "scripts/validate-registry.js"
+      - "/packages/design-data-spec/schemas/registry-value.json"
+
   # Validate the cascade token files against the design-data spec rules.
   # Note: `validate` uses --exceptions-path; `migrate convert` uses --exceptions.
   # These are different subcommands with different flag names.
@@ -29,7 +43,7 @@ tasks:
       - sdk:build
     inputs:
       - "@globs(tokens)"
-      - "../tokens/naming-exceptions.json"
+      - "/packages/tokens/naming-exceptions.json"
 
   # Regenerate packages/tokens/src/ from the cascade source of truth.
   # Run this after editing any tokens/*.tokens.json file to keep the
@@ -48,7 +62,7 @@ tasks:
     inputs:
       - "@globs(tokens)"
     outputs:
-      - "../tokens/src/**/*.json"
+      - "/packages/tokens/src/**/*.json"
 
   # CI guard: verify that packages/tokens/src/ is in sync with the cascade
   # source. Fails if a PR updates cascade tokens without re-running legacy-output.
@@ -63,7 +77,7 @@ tasks:
       - sdk:build
     inputs:
       - "@globs(tokens)"
-      - "../tokens/src/**/*.json"
+      - "/packages/tokens/src/**/*.json"
 
   # ONE-TIME / ESCAPE HATCH — Re-sync cascade files from the legacy package.
   # Use this only when upstream legacy changes need to be pulled into cascade
@@ -89,8 +103,8 @@ tasks:
     deps:
       - sdk:build
     inputs:
-      - "../tokens/src/**/*.json"
-      - "../token-names/names/**/*.json"
-      - "../tokens/naming-exceptions.json"
+      - "/packages/tokens/src/**/*.json"
+      - "/packages/token-names/names/**/*.json"
+      - "/packages/tokens/naming-exceptions.json"
     # No `outputs:` — prevents moon from auto-running this task as part of
     # dependency graphs and silently clobbering hand-edited cascade tokens.

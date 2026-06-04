@@ -1,13 +1,13 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
   "specVersion": "1.0.0-draft",
-  "name": "anatomy",
-  "description": "Visible named part of a component (e.g. handle, icon, label, track). Refers to a specific sub-element, not a styling surface.",
+  "name": "density",
+  "description": "Space density within or around component parts (e.g. spacious, compact). Distinct from the `scale` mode set.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/anatomy-terms.json",
+  "registry": "packages/design-data/registry/densities.json",
   "validation": "advisory",
   "serialization": {
-    "position": 4
+    "position": 10
   },
   "scope": null,
   "required": false,

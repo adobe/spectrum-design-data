@@ -379,17 +379,17 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
     let schemas_root = resolve_schema_root(overrides, || root.join("packages/tokens/schemas"));
 
     let mode_sets = overrides.mode_sets.clone().or_else(|| {
-        let c = root.join("packages/design-data-spec/mode-sets");
+        let c = root.join("packages/design-data/mode-sets");
         c.is_dir().then_some(c)
     });
 
     let components = overrides.components.clone().or_else(|| {
-        let c = root.join("packages/design-data-spec/components");
+        let c = root.join("packages/design-data/components");
         c.is_dir().then_some(c)
     });
 
     let fields = overrides.fields.clone().or_else(|| {
-        let c = root.join("packages/design-data-spec/fields");
+        let c = root.join("packages/design-data/fields");
         c.is_dir().then_some(c)
     });
 
@@ -448,6 +448,7 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
         let candidates = [
             cwd.join("packages/tokens/schemas"),
             cwd.join("../packages/tokens/schemas"),
+            cwd.join("../../packages/tokens/schemas"),
         ];
         candidates
             .into_iter()
@@ -458,8 +459,8 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
     // mode_sets
     let mode_sets = overrides.mode_sets.clone().or_else(|| {
         let candidates = [
-            cwd.join("packages/design-data-spec/mode-sets"),
-            cwd.join("../packages/design-data-spec/mode-sets"),
+            cwd.join("packages/design-data/mode-sets"),
+            cwd.join("../packages/design-data/mode-sets"),
         ];
         candidates.into_iter().find(|c| c.is_dir())
     });
@@ -467,8 +468,8 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
     // components
     let components = overrides.components.clone().or_else(|| {
         let candidates = [
-            cwd.join("packages/design-data-spec/components"),
-            cwd.join("../packages/design-data-spec/components"),
+            cwd.join("packages/design-data/components"),
+            cwd.join("../packages/design-data/components"),
         ];
         candidates.into_iter().find(|c| c.is_dir())
     });
@@ -476,8 +477,8 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
     // fields
     let fields = overrides.fields.clone().or_else(|| {
         let candidates = [
-            cwd.join("packages/design-data-spec/fields"),
-            cwd.join("../packages/design-data-spec/fields"),
+            cwd.join("packages/design-data/fields"),
+            cwd.join("../packages/design-data/fields"),
         ];
         candidates.into_iter().find(|c| c.is_dir())
     });
@@ -577,9 +578,9 @@ mod tests {
         fs::create_dir_all(dir.join("packages/tokens/schemas/token-types")).unwrap();
         fs::write(dir.join("packages/tokens/schemas/token-file.json"), b"{}").unwrap();
         fs::create_dir_all(dir.join("packages/design-data/tokens")).unwrap();
-        fs::create_dir_all(dir.join("packages/design-data-spec/mode-sets")).unwrap();
-        fs::create_dir_all(dir.join("packages/design-data-spec/components")).unwrap();
-        fs::create_dir_all(dir.join("packages/design-data-spec/fields")).unwrap();
+        fs::create_dir_all(dir.join("packages/design-data/mode-sets")).unwrap();
+        fs::create_dir_all(dir.join("packages/design-data/components")).unwrap();
+        fs::create_dir_all(dir.join("packages/design-data/fields")).unwrap();
         fs::write(dir.join("packages/tokens/naming-exceptions.json"), b"{}").unwrap();
         fs::write(dir.join("packages/tokens/manifest.json"), b"[]").unwrap();
     }

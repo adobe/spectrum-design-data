@@ -10,7 +10,7 @@
 
 /**
  * Fallback serialization order used when the field catalog does not provide one.
- * Matches the positions declared in packages/design-data-spec/fields/*.json.
+ * Matches the positions declared in packages/design-data/fields/*.json.
  */
 const FALLBACK_SERIALIZATION_ORDER = [
   "variant",

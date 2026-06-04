@@ -5,5 +5,12 @@
       "value": "#ff0000"
     }
   ],
-  "components": []
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": { "category": "actions" }
+    }
+  ]
 }

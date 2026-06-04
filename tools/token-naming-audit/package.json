@@ -21,7 +21,7 @@
   "author": "Adobe",
   "license": "Apache-2.0",
   "dependencies": {
-    "@adobe/design-system-registry": "workspace:*",
+    "@adobe/spectrum-design-data": "workspace:*",
     "commander": "^12.1.0",
     "glob": "^11.0.0"
   },

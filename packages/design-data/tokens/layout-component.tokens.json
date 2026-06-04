@@ -836,7 +836,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Introduced as an error. Use accordion-top-to-text-spacious-small instead",
-    "replaced_by": "264faa19-9174-4d2c-8fb2-16dc0a693abd"
+    "replaced_by": "696ab6c1-0c23-4868-8d6c-039d6d430d29"
   },
   {
     "name": {
@@ -851,7 +851,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Introduced as an error. Use accordion-top-to-text-spacious-small instead",
-    "replaced_by": "264faa19-9174-4d2c-8fb2-16dc0a693abd"
+    "replaced_by": "7bcbaaf1-f1d8-4755-acb2-5f6a45c3b9fe"
   },
   {
     "name": {
@@ -1638,11 +1638,14 @@
       "property": "to-bottom-text"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "848a9c0d-eba9-4258-83fd-80e114fac05a",
+    "$ref": "e19fdd96-44a4-407b-b2b1-01001684fc84",
     "uuid": "e2bd6435-6fbd-4030-9ff5-b034438b8d8a",
     "deprecated": "unknown",
     "deprecated_comment": "Introduced as an error. Use alert-banner-bottom-to-text instead",
-    "replaced_by": "848a9c0d-eba9-4258-83fd-80e114fac05a"
+    "replaced_by": [
+      "e19fdd96-44a4-407b-b2b1-01001684fc84",
+      "5f2b2bc1-ebb0-46dd-a563-58df6307996d"
+    ]
   },
   {
     "name": {
@@ -1650,11 +1653,14 @@
       "property": "to-top-text"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "db0461aa-d466-4a49-8f6d-f3b65659abb5",
+    "$ref": "1d289972-d5ba-41e8-8935-e8c83afb15cf",
     "uuid": "8fefedaf-6e95-4a14-a8ba-08381f57bfeb",
     "deprecated": "unknown",
     "deprecated_comment": "Introduced as an error. Use alert-banner-top-to-text instead",
-    "replaced_by": "db0461aa-d466-4a49-8f6d-f3b65659abb5"
+    "replaced_by": [
+      "1d289972-d5ba-41e8-8935-e8c83afb15cf",
+      "8db02117-b543-4b3e-b0ff-203e9a821708"
+    ]
   },
   {
     "name": {
@@ -1662,11 +1668,14 @@
       "property": "to-top-workflow-icon"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "8ab5ed06-52be-4cbc-8922-35483e361488",
+    "$ref": "fbe047c4-0346-4b81-bdf6-6565cede7a28",
     "uuid": "42b40d65-eed4-432e-8ede-74d89905d131",
     "deprecated": "unknown",
     "deprecated_comment": "Introduced as an error. Use alert-banner-top-to-workflow-icon instead",
-    "replaced_by": "8ab5ed06-52be-4cbc-8922-35483e361488"
+    "replaced_by": [
+      "fbe047c4-0346-4b81-bdf6-6565cede7a28",
+      "402c755b-322c-4ea0-856c-ca209bdaa8ec"
+    ]
   },
   {
     "name": {
@@ -1812,11 +1821,14 @@
       "property": "description-size"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "6c94683e-1c66-4e07-84e4-7a8b6d7b069d",
+    "$ref": "eda300de-5f0a-42e9-9880-9244a45d4e7d",
     "uuid": "9dc42d1a-b87d-4a5d-a5a3-6afd4d5bd599",
     "deprecated": "unknown",
     "deprecated_comment": "Replace with alert-dialog-description-font-size",
-    "replaced_by": "6c94683e-1c66-4e07-84e4-7a8b6d7b069d"
+    "replaced_by": [
+      "eda300de-5f0a-42e9-9880-9244a45d4e7d",
+      "e969f730-9eea-4a35-8981-2804d660c23e"
+    ]
   },
   {
     "name": {
@@ -1866,11 +1878,14 @@
       "property": "title-size"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "5b046013-d264-4f71-b609-7dd2057571ff",
+    "$ref": "749fa425-de12-464d-a1e2-80eb135d3ea6",
     "uuid": "9b7ce1fc-ea8a-4d7b-a926-0accbd6b1197",
     "deprecated": "unknown",
     "deprecated_comment": "Replace with alert-dialog-title-font-size",
-    "replaced_by": "5b046013-d264-4f71-b609-7dd2057571ff"
+    "replaced_by": [
+      "749fa425-de12-464d-a1e2-80eb135d3ea6",
+      "c84328d2-578b-4a36-9065-6c6a9e1d311f"
+    ]
   },
   {
     "name": {
@@ -3022,11 +3037,14 @@
       "property": "start-edge-to-text"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "6833c05d-b5bd-49af-8dc7-8ef2ce52584a",
+    "$ref": "04141c6f-50ff-4301-a7b5-315bbd9cac18",
     "uuid": "a0542dab-98fb-45d8-b4a0-79cfd2cc4f1c",
     "deprecated": "unknown",
     "deprecated_comment": "Use a sized token instead, e.g., breadcrumbs-start-edge-to-text-large.",
-    "replaced_by": "6833c05d-b5bd-49af-8dc7-8ef2ce52584a"
+    "replaced_by": [
+      "04141c6f-50ff-4301-a7b5-315bbd9cac18",
+      "1d7bd78d-4469-4385-89e7-fcd574cc6368"
+    ]
   },
   {
     "name": {
@@ -3255,11 +3273,14 @@
       "property": "top-to-separator-icon"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "f5a2b688-0ddd-4423-a958-6ef4bad42809",
+    "$ref": "2e8091e4-f60b-438c-bcbb-111eb243900d",
     "uuid": "15e56281-5fc1-4b59-b815-fc333231e364",
     "deprecated": "unknown",
     "deprecated_comment": "Use a sized token instead, e.g., breadcrumbs-top-to-separator-large.",
-    "replaced_by": "f5a2b688-0ddd-4423-a958-6ef4bad42809"
+    "replaced_by": [
+      "2e8091e4-f60b-438c-bcbb-111eb243900d",
+      "2e12202a-8099-4a4d-b06d-703deaf20862"
+    ]
   },
   {
     "name": {
@@ -3267,11 +3288,14 @@
       "property": "top-to-separator-icon-compact"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "e7f97e3d-129e-4971-bc78-5f184710d716",
+    "$ref": "fdbf3b4b-7d6e-4464-8514-17c1b4790db6",
     "uuid": "a63e8df1-124f-4f3e-9e1b-ba422b8d8257",
     "deprecated": "unknown",
     "deprecated_comment": "Use a sized token instead, e.g., breadcrumbs-top-to-separator-medium.",
-    "replaced_by": "e7f97e3d-129e-4971-bc78-5f184710d716"
+    "replaced_by": [
+      "fdbf3b4b-7d6e-4464-8514-17c1b4790db6",
+      "fcbd2bcb-7f53-4219-9d6b-89c01fd50da7"
+    ]
   },
   {
     "name": {
@@ -4748,11 +4772,14 @@
       "property": "body-size"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "f4f305ae-e0da-48ec-9dab-c33cdd11b80f",
+    "$ref": "4b88a0d5-2d07-4e63-afa6-cdd611f0a8c1",
     "uuid": "eba9f466-deda-48d5-a120-14419d5a670f",
     "deprecated": "unknown",
     "deprecated_comment": "Replace with coach-mark-body-font-size",
-    "replaced_by": "f4f305ae-e0da-48ec-9dab-c33cdd11b80f"
+    "replaced_by": [
+      "4b88a0d5-2d07-4e63-afa6-cdd611f0a8c1",
+      "73959c3d-afc2-4f6e-bd34-0399bf3b5b73"
+    ]
   },
   {
     "name": {
@@ -4910,11 +4937,14 @@
       "property": "pagination-body-size"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "b8a50488-10c4-4b9e-8e3f-7cfdaea6b4a8",
+    "$ref": "06ae2458-8490-4741-8a02-97f60cc01592",
     "uuid": "df8bc8ae-b6fa-4414-93b7-c89d8097fe11",
     "deprecated": "unknown",
     "deprecated_comment": "Replace with coach-mark-pagination-body-font-size",
-    "replaced_by": "b8a50488-10c4-4b9e-8e3f-7cfdaea6b4a8"
+    "replaced_by": [
+      "06ae2458-8490-4741-8a02-97f60cc01592",
+      "4f8c99a5-0942-41b0-ac41-923ea9ca2bf2"
+    ]
   },
   {
     "name": {
@@ -4976,11 +5006,14 @@
       "property": "title-size"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "5ede1ea6-2643-489b-bd30-7165f5afe323",
+    "$ref": "5b132698-4ee2-40e4-83c0-9ad80f36f5fd",
     "uuid": "331604db-3f28-472e-810d-9010ed2c8e33",
     "deprecated": "unknown",
     "deprecated_comment": "Replace with coach-mark-title-font-size",
-    "replaced_by": "5ede1ea6-2643-489b-bd30-7165f5afe323"
+    "replaced_by": [
+      "5b132698-4ee2-40e4-83c0-9ad80f36f5fd",
+      "45855bc5-3b86-49a9-b443-7be9aa763c4e"
+    ]
   },
   {
     "name": {
@@ -6949,11 +6982,14 @@
       "property": "top-to-workflow-icon-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "955bbeaf-dc4e-460b-8957-d145d4b6fc3e",
+    "$ref": "72d6ae5c-e133-4e7f-bc96-3e4c28d586fd",
     "uuid": "bec914a9-5905-40ac-bd61-a727016c1228",
     "deprecated": "unknown",
     "deprecated_comment": "Replaced with component-top-to-workflow-icon-300",
-    "replaced_by": "955bbeaf-dc4e-460b-8957-d145d4b6fc3e"
+    "replaced_by": [
+      "72d6ae5c-e133-4e7f-bc96-3e4c28d586fd",
+      "bac14298-68f0-4fb6-a152-c95ab19fd27f"
+    ]
   },
   {
     "name": {
@@ -6961,11 +6997,14 @@
       "property": "top-to-workflow-icon-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "81bfcc6f-348b-4728-bfdc-10f2f181b041",
+    "$ref": "ef82b92a-2cbd-4b70-920c-4b999b018e07",
     "uuid": "54cae12b-5f21-47b4-a964-6033bd025975",
     "deprecated": "unknown",
     "deprecated_comment": "Replaced with component-top-to-workflow-icon-200",
-    "replaced_by": "81bfcc6f-348b-4728-bfdc-10f2f181b041"
+    "replaced_by": [
+      "ef82b92a-2cbd-4b70-920c-4b999b018e07",
+      "259c0cf5-d321-4a6b-a3ae-b8c58fc1c9d6"
+    ]
   },
   {
     "name": {
@@ -6973,11 +7012,14 @@
       "property": "top-to-workflow-icon-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "2b17325c-eec1-43e2-9a31-957adf67e44d",
+    "$ref": "c3a280b0-bc84-4a7c-8048-c689f8deef86",
     "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f",
     "deprecated": "unknown",
     "deprecated_comment": "Replaced with component-top-to-workflow-icon-100",
-    "replaced_by": "2b17325c-eec1-43e2-9a31-957adf67e44d"
+    "replaced_by": [
+      "c3a280b0-bc84-4a7c-8048-c689f8deef86",
+      "a3d3f9e9-a784-445a-a052-22f84b832512"
+    ]
   },
   {
     "name": {
@@ -6985,11 +7027,14 @@
       "property": "top-to-workflow-icon-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "3b07cd46-add6-4cd9-b3f8-626f113905dd",
+    "$ref": "2bc8b2ca-9792-4034-a604-43ce28ce8ede",
     "uuid": "91cb19ef-63fc-4d98-a61e-a5f55951f656",
     "deprecated": "unknown",
     "deprecated_comment": "Replaced with component-top-to-workflow-icon-75",
-    "replaced_by": "3b07cd46-add6-4cd9-b3f8-626f113905dd"
+    "replaced_by": [
+      "2bc8b2ca-9792-4034-a604-43ce28ce8ede",
+      "9d1b0ef4-5433-43fe-aa33-0274ff29f6f3"
+    ]
   },
   {
     "name": {
@@ -7001,7 +7046,10 @@
     "uuid": "4140710f-ae31-4ae3-b8b6-2d3eb6a1ae78",
     "deprecated": "unknown",
     "deprecated_comment": "Use illustrated-message-medium-body-font-size instead",
-    "replaced_by": "22f5b08c-2b86-447d-be0b-ed03841dbcfb"
+    "replaced_by": [
+      "ca0d9e22-35a8-4ae5-99ee-29cce3ffa0bd",
+      "32b359dc-b489-4476-afbd-1c04e6b0ff0e"
+    ]
   },
   {
     "name": {
@@ -7013,7 +7061,10 @@
     "uuid": "e77279df-bc62-441a-8a30-5faa41d0df10",
     "deprecated": "unknown",
     "deprecated_comment": "Use illustrated-message-medium-cjk-title-font-size instead",
-    "replaced_by": "d873db87-9e50-4aef-a9ee-b3b7da6bb44f"
+    "replaced_by": [
+      "ee763c7d-b98f-4f2e-9fc4-764cfa2ac53f",
+      "1cb0c913-f4ec-478c-b92d-4c9d78875362"
+    ]
   },
   {
     "name": {
@@ -7245,7 +7296,10 @@
     "uuid": "365ec548-431b-4e1e-9f9d-7b04d337f001",
     "deprecated": "unknown",
     "deprecated_comment": "Use illustrated-message-medium-title-font-size instead",
-    "replaced_by": "5a575423-6129-4fcf-93f0-d3eb44096dd5"
+    "replaced_by": [
+      "8e2d1a48-937c-4493-9624-5ca8383f74bd",
+      "65961091-abdb-4155-9887-4aebe857c4fd"
+    ]
   },
   {
     "name": {
@@ -8595,11 +8649,14 @@
       "component": "meter"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "986cf4b8-bb3b-4752-83b9-3001d6d6ffac",
+    "$ref": "ceeda4da-026b-496c-8abd-7081aceae262",
     "uuid": "2633d29d-8a14-48e8-977c-bdb9a53b3bd5",
     "deprecated": "unknown",
     "deprecated_comment": "Token renamed, use `meter-width`",
-    "replaced_by": "986cf4b8-bb3b-4752-83b9-3001d6d6ffac"
+    "replaced_by": [
+      "ceeda4da-026b-496c-8abd-7081aceae262",
+      "dc5f4966-4ddd-4e9a-a748-370d8eaae568"
+    ]
   },
   {
     "name": {
@@ -8971,13 +9028,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "a0410857-1be2-4bb8-9b31-a4db7f771485",
+    "$ref": "ead3f34f-55b1-4012-a4af-0f7fbf226020",
     "uuid": "9ddf2e73-ad74-46d7-a79d-fe961b06dbbd",
     "set_uuid": "d847973c-89b2-4454-9dd8-44fb671e9408",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use opacity-checkerboard-square-size-medium instead.",
-    "replaced_by": "a0410857-1be2-4bb8-9b31-a4db7f771485"
+    "replaced_by": "ead3f34f-55b1-4012-a4af-0f7fbf226020"
   },
   {
     "name": {
@@ -8986,13 +9043,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "a0410857-1be2-4bb8-9b31-a4db7f771485",
+    "$ref": "cc6fdec6-c03a-4691-805f-b60d199bb60d",
     "uuid": "879360e9-a7b0-47e0-bc4a-931a12877014",
     "set_uuid": "d847973c-89b2-4454-9dd8-44fb671e9408",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use opacity-checkerboard-square-size-medium instead.",
-    "replaced_by": "a0410857-1be2-4bb8-9b31-a4db7f771485"
+    "replaced_by": "cc6fdec6-c03a-4691-805f-b60d199bb60d"
   },
   {
     "name": {
@@ -15407,13 +15464,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "dfd0bc13-5c80-4156-bf21-ef87c7c6b29a",
+    "$ref": "8b969d35-01ab-419f-b391-484aad88fd41",
     "uuid": "d13d2f2e-9425-403d-a95f-889d67f03425",
     "set_uuid": "72d2def7-a752-4b02-b476-0d58cf74dae3",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-extra-large instead.",
-    "replaced_by": "dfd0bc13-5c80-4156-bf21-ef87c7c6b29a"
+    "replaced_by": "8b969d35-01ab-419f-b391-484aad88fd41"
   },
   {
     "name": {
@@ -15422,13 +15479,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "dfd0bc13-5c80-4156-bf21-ef87c7c6b29a",
+    "$ref": "f25c6bfd-0a0d-4fd1-ab7b-9cd1d13053e1",
     "uuid": "c9ac99be-86c3-4f6c-a2a5-3487041bc95e",
     "set_uuid": "72d2def7-a752-4b02-b476-0d58cf74dae3",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-extra-large instead.",
-    "replaced_by": "dfd0bc13-5c80-4156-bf21-ef87c7c6b29a"
+    "replaced_by": "f25c6bfd-0a0d-4fd1-ab7b-9cd1d13053e1"
   },
   {
     "name": {
@@ -15509,13 +15566,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "dfe63537-564b-4f23-ac78-39a08adeaf0b",
+    "$ref": "f14b75f3-cb07-48b3-8543-34d80747ff36",
     "uuid": "775139b2-3fb4-4019-8a3e-2377211ed0ec",
     "set_uuid": "47db1bbb-aaf2-4d31-bb52-7f260a1a069d",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-large instead.",
-    "replaced_by": "dfe63537-564b-4f23-ac78-39a08adeaf0b"
+    "replaced_by": "f14b75f3-cb07-48b3-8543-34d80747ff36"
   },
   {
     "name": {
@@ -15524,13 +15581,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "dfe63537-564b-4f23-ac78-39a08adeaf0b",
+    "$ref": "0de2f0a5-b32a-4f7b-b46c-1a6c25abc1ec",
     "uuid": "151bf172-2889-4c98-8f15-5b6cdcb30d4b",
     "set_uuid": "47db1bbb-aaf2-4d31-bb52-7f260a1a069d",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-large instead.",
-    "replaced_by": "dfe63537-564b-4f23-ac78-39a08adeaf0b"
+    "replaced_by": "0de2f0a5-b32a-4f7b-b46c-1a6c25abc1ec"
   },
   {
     "name": {
@@ -15611,13 +15668,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "0a40f436-9f58-4c9d-9a63-77c61adba6e2",
+    "$ref": "f14087ac-db72-43df-a8fa-9c9b03c6a1c9",
     "uuid": "c66ff3f2-3661-464c-b722-151f72d03f2a",
     "set_uuid": "18cd494e-f66e-4825-86fb-d35262cf7881",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-medium instead.",
-    "replaced_by": "0a40f436-9f58-4c9d-9a63-77c61adba6e2"
+    "replaced_by": "f14087ac-db72-43df-a8fa-9c9b03c6a1c9"
   },
   {
     "name": {
@@ -15626,13 +15683,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "0a40f436-9f58-4c9d-9a63-77c61adba6e2",
+    "$ref": "6ff9a81f-a2f8-4966-a48b-c8561aa4f833",
     "uuid": "e80339a8-22c4-4b53-9a4a-a4456f6cab3f",
     "set_uuid": "18cd494e-f66e-4825-86fb-d35262cf7881",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-medium instead.",
-    "replaced_by": "0a40f436-9f58-4c9d-9a63-77c61adba6e2"
+    "replaced_by": "6ff9a81f-a2f8-4966-a48b-c8561aa4f833"
   },
   {
     "name": {
@@ -15713,13 +15770,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "6353bfab-c0fa-4cfd-bf93-11c01df2f236",
+    "$ref": "56b58d2a-01dd-488b-b6e9-ff49555602b4",
     "uuid": "90ae4c5b-a49d-40ad-8dd8-b25720c13f79",
     "set_uuid": "539bf649-6bee-4fd1-b0b8-cdcf53ca17c5",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-small instead.",
-    "replaced_by": "6353bfab-c0fa-4cfd-bf93-11c01df2f236"
+    "replaced_by": "56b58d2a-01dd-488b-b6e9-ff49555602b4"
   },
   {
     "name": {
@@ -15728,13 +15785,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "6353bfab-c0fa-4cfd-bf93-11c01df2f236",
+    "$ref": "d6100789-7076-403a-b878-7bb204093c52",
     "uuid": "d3147ee6-dc34-46e2-8379-02d9690ff80a",
     "set_uuid": "539bf649-6bee-4fd1-b0b8-cdcf53ca17c5",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-bottom-to-text-small instead.",
-    "replaced_by": "6353bfab-c0fa-4cfd-bf93-11c01df2f236"
+    "replaced_by": "d6100789-7076-403a-b878-7bb204093c52"
   },
   {
     "name": {
@@ -15833,13 +15890,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "e9908164-5b47-4098-8de3-028cd93eaa0b",
+    "$ref": "acd6ad6b-bab0-40fb-afbe-5df7eea7efb3",
     "uuid": "9b775e1f-9348-431d-9ba8-bffb19bcbf85",
     "set_uuid": "8819d918-2f76-4980-bf68-4d6b0d12b56a",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-extra-large instead.",
-    "replaced_by": "e9908164-5b47-4098-8de3-028cd93eaa0b"
+    "replaced_by": "acd6ad6b-bab0-40fb-afbe-5df7eea7efb3"
   },
   {
     "name": {
@@ -15848,13 +15905,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "e9908164-5b47-4098-8de3-028cd93eaa0b",
+    "$ref": "fb02243f-0490-4eb2-aac2-fa364c6eab59",
     "uuid": "2171aee7-d013-459e-a13f-33075090cbe3",
     "set_uuid": "8819d918-2f76-4980-bf68-4d6b0d12b56a",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-extra-large instead.",
-    "replaced_by": "e9908164-5b47-4098-8de3-028cd93eaa0b"
+    "replaced_by": "fb02243f-0490-4eb2-aac2-fa364c6eab59"
   },
   {
     "name": {
@@ -15953,13 +16010,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "9fd50cd5-077e-4d5a-82f5-0c6639f63e70",
+    "$ref": "a8c2b073-495b-402b-b1dc-2337b0e42f37",
     "uuid": "559b9fc0-389e-4e2f-985c-8741f218850a",
     "set_uuid": "b801c82b-6ad6-47aa-a6ee-fae3f07fcc2b",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-large instead.",
-    "replaced_by": "9fd50cd5-077e-4d5a-82f5-0c6639f63e70"
+    "replaced_by": "a8c2b073-495b-402b-b1dc-2337b0e42f37"
   },
   {
     "name": {
@@ -15968,13 +16025,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "9fd50cd5-077e-4d5a-82f5-0c6639f63e70",
+    "$ref": "a0fa4e03-c1de-400d-8629-0ae9ffb9b9d8",
     "uuid": "2e16e4ef-fec6-41fb-9d96-bc6bb6c88f69",
     "set_uuid": "b801c82b-6ad6-47aa-a6ee-fae3f07fcc2b",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-large instead.",
-    "replaced_by": "9fd50cd5-077e-4d5a-82f5-0c6639f63e70"
+    "replaced_by": "a0fa4e03-c1de-400d-8629-0ae9ffb9b9d8"
   },
   {
     "name": {
@@ -16073,13 +16130,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "4ca4c4bf-85eb-41f7-9348-6408b408275e",
+    "$ref": "be965b15-08f8-43be-9953-52151d8c7670",
     "uuid": "2c8f9b97-f4df-48c2-ab1a-82373d335b83",
     "set_uuid": "30dfc19e-9751-4dab-a6c3-d3480af57dfc",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-medium instead.",
-    "replaced_by": "4ca4c4bf-85eb-41f7-9348-6408b408275e"
+    "replaced_by": "be965b15-08f8-43be-9953-52151d8c7670"
   },
   {
     "name": {
@@ -16088,13 +16145,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "4ca4c4bf-85eb-41f7-9348-6408b408275e",
+    "$ref": "2ae09505-d43f-4e2c-b8a6-014ccfef5c10",
     "uuid": "36505a4f-01b6-4b83-adf1-592818eb2c0d",
     "set_uuid": "30dfc19e-9751-4dab-a6c3-d3480af57dfc",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-medium instead.",
-    "replaced_by": "4ca4c4bf-85eb-41f7-9348-6408b408275e"
+    "replaced_by": "2ae09505-d43f-4e2c-b8a6-014ccfef5c10"
   },
   {
     "name": {
@@ -16193,13 +16250,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "300645bd-1253-44a2-970e-33a2a028eb4f",
+    "$ref": "909ebf8a-eebd-41b6-8fac-8fe31d2bac00",
     "uuid": "4435c143-a75a-47c1-a629-3574b70247a3",
     "set_uuid": "614a4d4a-48dc-4b3f-8920-e033dc4db28c",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-small instead.",
-    "replaced_by": "300645bd-1253-44a2-970e-33a2a028eb4f"
+    "replaced_by": "909ebf8a-eebd-41b6-8fac-8fe31d2bac00"
   },
   {
     "name": {
@@ -16208,13 +16265,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "300645bd-1253-44a2-970e-33a2a028eb4f",
+    "$ref": "365d9c3f-d287-4feb-b020-89434dd29378",
     "uuid": "a63aa24e-c956-4af5-bf4f-4c5d44bd1e16",
     "set_uuid": "614a4d4a-48dc-4b3f-8920-e033dc4db28c",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-checkbox-to-top-small instead.",
-    "replaced_by": "300645bd-1253-44a2-970e-33a2a028eb4f"
+    "replaced_by": "365d9c3f-d287-4feb-b020-89434dd29378"
   },
   {
     "name": {
@@ -16286,13 +16343,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "34dfc670-7333-40fc-96e0-93a466273634",
+    "$ref": "d52d3141-27a5-40eb-800f-1a09acd42534",
     "uuid": "face2717-9c2c-4e18-9632-4e4a595b1fc7",
     "set_uuid": "e65de693-2b8c-4c70-955d-2e6a64059ca4",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-height-extra-large instead.",
-    "replaced_by": "34dfc670-7333-40fc-96e0-93a466273634"
+    "replaced_by": "d52d3141-27a5-40eb-800f-1a09acd42534"
   },
   {
     "name": {
@@ -16301,13 +16358,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "34dfc670-7333-40fc-96e0-93a466273634",
+    "$ref": "c2e3068b-c0be-4615-bbf7-c65e58ef126b",
     "uuid": "b7753c9a-8854-4927-89dd-80d47bff5fa5",
     "set_uuid": "e65de693-2b8c-4c70-955d-2e6a64059ca4",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-height-extra-large instead.",
-    "replaced_by": "34dfc670-7333-40fc-96e0-93a466273634"
+    "replaced_by": "c2e3068b-c0be-4615-bbf7-c65e58ef126b"
   },
   {
     "name": {
@@ -16373,13 +16430,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "9e54ecf6-8a66-468c-8c8c-cd79ae9a6ecd",
+    "$ref": "d3d9b523-90dc-4532-9cf7-37b568bd6800",
     "uuid": "3b22a4c7-525c-4482-9e58-19cbe46d318b",
     "set_uuid": "02c1f806-f32d-4b95-a790-dbc50cd57f0e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-height-large instead.",
-    "replaced_by": "9e54ecf6-8a66-468c-8c8c-cd79ae9a6ecd"
+    "replaced_by": "d3d9b523-90dc-4532-9cf7-37b568bd6800"
   },
   {
     "name": {
@@ -16388,13 +16445,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "9e54ecf6-8a66-468c-8c8c-cd79ae9a6ecd",
+    "$ref": "ff04cae7-7f96-4db2-bf64-948c22d104ff",
     "uuid": "b92bc058-27ea-4e86-a1a2-e5dbae3c2ee8",
     "set_uuid": "02c1f806-f32d-4b95-a790-dbc50cd57f0e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-height-large instead.",
-    "replaced_by": "9e54ecf6-8a66-468c-8c8c-cd79ae9a6ecd"
+    "replaced_by": "ff04cae7-7f96-4db2-bf64-948c22d104ff"
   },
   {
     "name": {
@@ -16460,13 +16517,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "e4365ada-fe16-4c16-af28-eb9bcbb15756",
+    "$ref": "9d6dc5e8-d3f0-4f59-b062-756669ff7217",
     "uuid": "1dc88a25-18bc-491a-ab02-2c1ec36f4c1e",
     "set_uuid": "6c3fec1e-6a96-400f-8188-cd2fd6f5039a",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-height-medium instead.",
-    "replaced_by": "e4365ada-fe16-4c16-af28-eb9bcbb15756"
+    "replaced_by": "9d6dc5e8-d3f0-4f59-b062-756669ff7217"
   },
   {
     "name": {
@@ -16475,13 +16532,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "e4365ada-fe16-4c16-af28-eb9bcbb15756",
+    "$ref": "2cf7918c-f84a-4903-a6ba-b110807842ba",
     "uuid": "72e6564c-2acf-4f77-80d9-b21d2d55a580",
     "set_uuid": "6c3fec1e-6a96-400f-8188-cd2fd6f5039a",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-height-medium instead.",
-    "replaced_by": "e4365ada-fe16-4c16-af28-eb9bcbb15756"
+    "replaced_by": "2cf7918c-f84a-4903-a6ba-b110807842ba"
   },
   {
     "name": {
@@ -16547,13 +16604,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "a9bf30e6-0ca8-44af-8f97-149917c9f8c2",
+    "$ref": "10b892a0-3c97-4af6-8ecc-3359e8cd1302",
     "uuid": "fd53964b-cf4a-4cdf-b088-418364b1c518",
     "set_uuid": "f8519e64-027c-4724-b5f3-772ee266ba78",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-height-small instead.",
-    "replaced_by": "a9bf30e6-0ca8-44af-8f97-149917c9f8c2"
+    "replaced_by": "10b892a0-3c97-4af6-8ecc-3359e8cd1302"
   },
   {
     "name": {
@@ -16562,13 +16619,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "a9bf30e6-0ca8-44af-8f97-149917c9f8c2",
+    "$ref": "77a26f7c-2f71-4021-a1f2-a2af7c69a111",
     "uuid": "cdbb999d-c2a9-4325-9689-bede2ad3559a",
     "set_uuid": "f8519e64-027c-4724-b5f3-772ee266ba78",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-height-small instead.",
-    "replaced_by": "a9bf30e6-0ca8-44af-8f97-149917c9f8c2"
+    "replaced_by": "77a26f7c-2f71-4021-a1f2-a2af7c69a111"
   },
   {
     "name": {
@@ -16643,13 +16700,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "cf9418b9-a5ff-47ee-b19d-b933629f3072",
+    "$ref": "da7274c6-6f45-4087-b42f-dde7d3ac1af7",
     "uuid": "03555438-78f5-429a-a0dd-c6777dc36372",
     "set_uuid": "b7562d01-f178-4ab0-bef4-e1f8e5f0f901",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-extra-large instead.",
-    "replaced_by": "cf9418b9-a5ff-47ee-b19d-b933629f3072"
+    "replaced_by": "da7274c6-6f45-4087-b42f-dde7d3ac1af7"
   },
   {
     "name": {
@@ -16658,13 +16715,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "cf9418b9-a5ff-47ee-b19d-b933629f3072",
+    "$ref": "40de40fd-4bae-4a49-8aec-38dad2a1c5fb",
     "uuid": "c381a3c4-e0a3-4e86-b279-f51ee6e9e532",
     "set_uuid": "b7562d01-f178-4ab0-bef4-e1f8e5f0f901",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-extra-large instead.",
-    "replaced_by": "cf9418b9-a5ff-47ee-b19d-b933629f3072"
+    "replaced_by": "40de40fd-4bae-4a49-8aec-38dad2a1c5fb"
   },
   {
     "name": {
@@ -16745,13 +16802,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "de73e367-5c1a-4532-bd93-644f066fa2f3",
+    "$ref": "0820aecf-0647-4e51-ae40-44130bc86013",
     "uuid": "2ed03fb3-fed4-41d4-8a14-f7446bb76486",
     "set_uuid": "5be48be9-1157-411c-8357-b48451ee195e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-large instead.",
-    "replaced_by": "de73e367-5c1a-4532-bd93-644f066fa2f3"
+    "replaced_by": "0820aecf-0647-4e51-ae40-44130bc86013"
   },
   {
     "name": {
@@ -16760,13 +16817,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "de73e367-5c1a-4532-bd93-644f066fa2f3",
+    "$ref": "4d55e632-588b-4e82-90c0-4fa434998d15",
     "uuid": "0108018e-6146-45c9-b032-e3d44dfb8d84",
     "set_uuid": "5be48be9-1157-411c-8357-b48451ee195e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-large instead.",
-    "replaced_by": "de73e367-5c1a-4532-bd93-644f066fa2f3"
+    "replaced_by": "4d55e632-588b-4e82-90c0-4fa434998d15"
   },
   {
     "name": {
@@ -16847,13 +16904,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "6f81b550-82ce-436f-9e33-93a247eaae54",
+    "$ref": "ae401c94-c643-446f-a44e-38c9f3104fc6",
     "uuid": "8e1448f8-5806-4629-8131-4e8422b26870",
     "set_uuid": "40e31948-a58c-41f8-968b-2eaf58a1832f",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-medium instead.",
-    "replaced_by": "6f81b550-82ce-436f-9e33-93a247eaae54"
+    "replaced_by": "ae401c94-c643-446f-a44e-38c9f3104fc6"
   },
   {
     "name": {
@@ -16862,13 +16919,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "6f81b550-82ce-436f-9e33-93a247eaae54",
+    "$ref": "0cd86854-57ca-4023-b544-8a4a76418164",
     "uuid": "7df1dc32-b96d-41e3-a372-9bcaec7c2ccb",
     "set_uuid": "40e31948-a58c-41f8-968b-2eaf58a1832f",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-medium instead.",
-    "replaced_by": "6f81b550-82ce-436f-9e33-93a247eaae54"
+    "replaced_by": "0cd86854-57ca-4023-b544-8a4a76418164"
   },
   {
     "name": {
@@ -16949,13 +17006,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "c1be9ecb-be3e-4ed3-9e74-46d299b69fba",
+    "$ref": "52fb10e1-a45e-4b21-9563-b72a6cf8c7e0",
     "uuid": "5e5a6837-34c9-4f01-8769-b66c3f602d1f",
     "set_uuid": "116a4042-45aa-41d3-8964-b9f9cdfb5e0f",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-small instead.",
-    "replaced_by": "c1be9ecb-be3e-4ed3-9e74-46d299b69fba"
+    "replaced_by": "52fb10e1-a45e-4b21-9563-b72a6cf8c7e0"
   },
   {
     "name": {
@@ -16964,13 +17021,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "c1be9ecb-be3e-4ed3-9e74-46d299b69fba",
+    "$ref": "dfa553a2-b771-4a31-9294-3800d2126952",
     "uuid": "98014297-14dc-4547-944a-8951c7f6f253",
     "set_uuid": "116a4042-45aa-41d3-8964-b9f9cdfb5e0f",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-row-top-to-text-small instead.",
-    "replaced_by": "c1be9ecb-be3e-4ed3-9e74-46d299b69fba"
+    "replaced_by": "dfa553a2-b771-4a31-9294-3800d2126952"
   },
   {
     "name": {
@@ -17165,13 +17222,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "65180f74-078a-48db-aea1-e095d37f9e00",
+    "$ref": "0ae43893-e3ea-461f-a2fe-93239cb3a22a",
     "uuid": "17c4c578-d3e1-44c0-bd21-ee4df5cb2027",
     "set_uuid": "bfbef5d5-293c-4366-aef3-58e44a06500b",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-extra-large instead.",
-    "replaced_by": "65180f74-078a-48db-aea1-e095d37f9e00"
+    "replaced_by": "0ae43893-e3ea-461f-a2fe-93239cb3a22a"
   },
   {
     "name": {
@@ -17180,13 +17237,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "65180f74-078a-48db-aea1-e095d37f9e00",
+    "$ref": "17051925-5eda-45a3-8d45-d329e88bf63a",
     "uuid": "b60c33b8-acc1-4af1-b30f-b467054ee417",
     "set_uuid": "bfbef5d5-293c-4366-aef3-58e44a06500b",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-extra-large instead.",
-    "replaced_by": "65180f74-078a-48db-aea1-e095d37f9e00"
+    "replaced_by": "17051925-5eda-45a3-8d45-d329e88bf63a"
   },
   {
     "name": {
@@ -17285,13 +17342,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "bea15b38-2401-4051-9c87-c0dc347e7d1d",
+    "$ref": "589d6f19-ec7f-4a4f-a622-40d18d7e71f5",
     "uuid": "de6e6ae5-eae6-4f7a-89be-176674176242",
     "set_uuid": "00499404-08ab-4a8a-9939-035374dfe2f3",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-large instead.",
-    "replaced_by": "bea15b38-2401-4051-9c87-c0dc347e7d1d"
+    "replaced_by": "589d6f19-ec7f-4a4f-a622-40d18d7e71f5"
   },
   {
     "name": {
@@ -17300,13 +17357,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "bea15b38-2401-4051-9c87-c0dc347e7d1d",
+    "$ref": "92ade1a0-ea78-4930-82e7-fedafce42aed",
     "uuid": "fc7efe7c-ef97-424f-89c2-2211daf44b4a",
     "set_uuid": "00499404-08ab-4a8a-9939-035374dfe2f3",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-large instead.",
-    "replaced_by": "bea15b38-2401-4051-9c87-c0dc347e7d1d"
+    "replaced_by": "92ade1a0-ea78-4930-82e7-fedafce42aed"
   },
   {
     "name": {
@@ -17405,13 +17462,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "fa53e899-0a50-41a1-bf3b-ebb70df69dbd",
+    "$ref": "42914d96-ee9f-4ed9-9c7a-9c8ccca68245",
     "uuid": "12a6fd11-d3a5-4d72-9942-89d828d1d256",
     "set_uuid": "d51b5484-2bae-48f1-890a-fc90198ea480",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-medium instead.",
-    "replaced_by": "fa53e899-0a50-41a1-bf3b-ebb70df69dbd"
+    "replaced_by": "42914d96-ee9f-4ed9-9c7a-9c8ccca68245"
   },
   {
     "name": {
@@ -17420,13 +17477,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "fa53e899-0a50-41a1-bf3b-ebb70df69dbd",
+    "$ref": "2268750d-4c5f-46f1-bad7-dec21818bfe6",
     "uuid": "75af7a67-e0ae-4f41-9c70-09babbc587d1",
     "set_uuid": "d51b5484-2bae-48f1-890a-fc90198ea480",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-medium instead.",
-    "replaced_by": "fa53e899-0a50-41a1-bf3b-ebb70df69dbd"
+    "replaced_by": "2268750d-4c5f-46f1-bad7-dec21818bfe6"
   },
   {
     "name": {
@@ -17525,13 +17582,13 @@
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "6db35635-76fd-4ef3-9a44-c0b6354550ca",
+    "$ref": "96d7eb12-7e92-4ee8-988b-8e7e8a7de159",
     "uuid": "db98283d-1f25-4323-9f3a-0555b9670ba6",
     "set_uuid": "3d54e517-3d92-4adb-83e4-8f1cccc63673",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-small instead.",
-    "replaced_by": "6db35635-76fd-4ef3-9a44-c0b6354550ca"
+    "replaced_by": "96d7eb12-7e92-4ee8-988b-8e7e8a7de159"
   },
   {
     "name": {
@@ -17540,13 +17597,13 @@
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "6db35635-76fd-4ef3-9a44-c0b6354550ca",
+    "$ref": "43955cdb-afaf-4e59-bb26-3063661141d7",
     "uuid": "e25b14a7-cb9e-406b-bab6-b27575f00a52",
     "set_uuid": "3d54e517-3d92-4adb-83e4-8f1cccc63673",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "This token has been deprecated, use table-thumbnail-to-top-minimum-small instead.",
-    "replaced_by": "6db35635-76fd-4ef3-9a44-c0b6354550ca"
+    "replaced_by": "43955cdb-afaf-4e59-bb26-3063661141d7"
   },
   {
     "name": {

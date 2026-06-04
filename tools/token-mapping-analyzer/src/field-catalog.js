@@ -15,10 +15,7 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "../../..");
 
-const DEFAULT_FIELDS_DIR = resolve(
-  REPO_ROOT,
-  "packages/design-data-spec/fields",
-);
+const DEFAULT_FIELDS_DIR = resolve(REPO_ROOT, "packages/design-data/fields");
 
 /**
  * Load all field declarations from a fields directory.

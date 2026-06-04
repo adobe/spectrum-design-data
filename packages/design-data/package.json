@@ -17,11 +17,50 @@
   },
   "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/packages/design-data#readme",
   "exports": {
-    "./tokens/*": "./tokens/*.tokens.json"
+    "./package.json": "./package.json",
+    "./tokens/*": "./tokens/*.tokens.json",
+    "./components/*": "./components/*.json",
+    "./fields/*": "./fields/*.json",
+    "./mode-sets/*": "./mode-sets/*.json",
+    "./registry/sizes.json": "./registry/sizes.json",
+    "./registry/states.json": "./registry/states.json",
+    "./registry/variants.json": "./registry/variants.json",
+    "./registry/anatomy-terms.json": "./registry/anatomy-terms.json",
+    "./registry/components.json": "./registry/components.json",
+    "./registry/scale-values.json": "./registry/scale-values.json",
+    "./registry/categories.json": "./registry/categories.json",
+    "./registry/platforms.json": "./registry/platforms.json",
+    "./registry/token-objects.json": "./registry/token-objects.json",
+    "./registry/structures.json": "./registry/structures.json",
+    "./registry/substructures.json": "./registry/substructures.json",
+    "./registry/orientations.json": "./registry/orientations.json",
+    "./registry/positions.json": "./registry/positions.json",
+    "./registry/densities.json": "./registry/densities.json",
+    "./registry/shapes.json": "./registry/shapes.json",
+    "./registry/color-families.json": "./registry/color-families.json",
+    "./registry/alignments.json": "./registry/alignments.json",
+    "./registry/typography-families.json": "./registry/typography-families.json",
+    "./registry/typography-weights.json": "./registry/typography-weights.json",
+    "./registry/typography-styles.json": "./registry/typography-styles.json",
+    "./registry/motion-roles.json": "./registry/motion-roles.json",
+    "./registry/easing-curves.json": "./registry/easing-curves.json",
+    "./registry/glossary.json": "./registry/glossary.json",
+    "./registry/token-terminology.json": "./registry/token-terminology.json",
+    "./registry/property-terms.json": "./registry/property-terms.json",
+    "./registry/navigation-terms.json": "./registry/navigation-terms.json"
   },
   "files": [
     "tokens/",
+    "components/",
+    "fields/",
+    "mode-sets/",
+    "registry/",
     "README.md"
   ],
-  "scripts": {}
+  "scripts": {},
+  "devDependencies": {
+    "@adobe/design-data-spec": "workspace:*",
+    "ajv": "^8.12.0",
+    "ajv-formats": "^3.0.1"
+  }
 }

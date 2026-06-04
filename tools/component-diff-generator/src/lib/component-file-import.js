@@ -20,7 +20,7 @@ import {
 } from "@adobe/spectrum-diff-core";
 
 // Component-specific constants and configuration
-const COMPONENT_PACKAGE_PATH = "packages/design-data-spec";
+const COMPONENT_PACKAGE_PATH = "packages/design-data";
 
 // ===== COMPONENT-SPECIFIC WRAPPER FUNCTIONS =====
 
@@ -144,7 +144,7 @@ export class ComponentLoader extends FileLoader {
       // Try to fetch the GitHub API directory listing
       const repoName = repo || "adobe/spectrum-tokens";
       const branch = version === "latest" ? location : version;
-      const apiUrl = `https://api.github.com/repos/${repoName}/contents/packages/design-data-spec/components`;
+      const apiUrl = `https://api.github.com/repos/${repoName}/contents/packages/design-data/components`;
 
       const options = githubAPIKey
         ? { headers: { Authorization: `token ${githubAPIKey}` } }

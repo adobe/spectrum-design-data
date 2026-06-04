@@ -20,11 +20,18 @@ import * as url from "url";
 
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
+// Component data lives in @adobe/spectrum-design-data
+const dataPkgPath = createRequire(import.meta.url).resolve(
+  "@adobe/spectrum-design-data/package.json",
+);
+const dataPkgDir = resolve(dataPkgPath, "..");
+const componentsDir = resolve(dataPkgDir, "components");
+
+// JSON Schemas (component.schema.json etc.) live in @adobe/design-data-spec
 const specPkgPath = createRequire(import.meta.url).resolve(
   "@adobe/design-data-spec/package.json",
 );
 const specPkgDir = resolve(specPkgPath, "..");
-const componentsDir = resolve(specPkgDir, "components");
 
 const readJSON = async (filePath) =>
   JSON.parse(await readFile(filePath, "utf8"));

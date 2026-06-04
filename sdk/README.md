@@ -60,8 +60,8 @@ design-data validate packages/tokens/src --format json
 design-data validate packages/tokens/src \
   --schema-path packages/design-data-spec \
   --exceptions-path naming-exceptions.json \
-  --mode-sets-path packages/tokens/src/mode-sets \
-  --components-path packages/tokens/src/components
+  --mode-sets-path packages/design-data/mode-sets \
+  --components-path packages/design-data/components
 ```
 
 ### resolve
@@ -115,8 +115,8 @@ Build a portable `.redb` cache asset from a token dataset (for WASM web tools or
 ```bash
 design-data cache-build packages/tokens/src -o index.redb
 design-data cache-build packages/tokens/src \
-  --mode-sets-path packages/design-data-spec/mode-sets \
-  --components-path packages/design-data-spec/components \
+  --mode-sets-path packages/design-data/mode-sets \
+  --components-path packages/design-data/components \
   -o index.redb
 ```
 
@@ -207,7 +207,7 @@ Relational rules have stable `SPEC-NNN` IDs and live in [`core/src/validate/rule
 
 ### Codegen
 
-`core/src/registry_data.rs` is generated from `packages/design-system-registry/registry/*.json` and spec field definitions. Never edit it by hand. CI runs `codegen-check` to detect drift; fix locally with `moon run sdk:codegen`.
+`core/src/registry_data.rs` is generated from `packages/design-data/registry/*.json` and spec field definitions. Never edit it by hand. CI runs `codegen-check` to detect drift; fix locally with `moon run sdk:codegen`.
 
 ### Integration tests
 

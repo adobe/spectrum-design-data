@@ -11,7 +11,7 @@
 //! SPEC-035: anatomy-part-name-registry-sync
 //!
 //! A component anatomy part's `name` SHOULD reference an id from the anatomy-terms
-//! registry in `@adobe/design-system-registry` (anatomy-terms.json). Unknown values
+//! registry in `@adobe/spectrum-design-data` (registry/anatomy-terms.json). Unknown values
 //! are reported as warnings; the registry is the authoritative vocabulary.
 //!
 //! This mirrors SPEC-034 (component-category-registry-sync) for the anatomy array,
@@ -55,7 +55,7 @@ impl ValidationRule for Rule {
                         severity: Severity::Warning,
                         message: format!(
                             "Component '{}' anatomy part name \"{}\" is not in the \
-                             design-system-registry anatomy-terms vocabulary",
+                             spectrum-design-data registry/anatomy-terms vocabulary",
                             comp.name, name
                         ),
                         instance_path: Some(format!("/anatomy/{idx}/name")),

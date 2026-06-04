@@ -21,7 +21,7 @@ tasks:
     deps:
       - "tokens:build"
       - "component-schemas:test"
-      - "design-system-registry:test"
+      - "design-data:validate"
     inputs:
       - "@globs(sources)"
       # Site pages are read directly by src/pages.js and mirrored into docs/markdown/pages.

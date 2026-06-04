@@ -12,7 +12,7 @@
 //!
 //! Semantic name-object fields with a backing registry vocabulary SHOULD use
 //! values from that registry. The set of checked fields is derived from the
-//! field catalog (`packages/design-data-spec/fields/`) — fields with
+//! field catalog (`packages/design-data/fields/`) — fields with
 //! `validation: "advisory"` and a non-null registry are checked here.
 //!
 //! This is a warning-only rule. Fields excluded from this check:
@@ -60,8 +60,8 @@ impl ValidationRule for Rule {
                         rule_id: Some("SPEC-009".into()),
                         severity: Severity::Warning,
                         message: format!(
-                            "name.{field} value \"{value}\" is not in the design-system-registry \
-                             {field} vocabulary"
+                            "name.{field} value \"{value}\" is not in the spectrum-design-data \
+                             registry/{field} vocabulary"
                         ),
                         instance_path: Some(format!("/name/{field}")),
                         schema_path: None,

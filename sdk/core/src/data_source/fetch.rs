@@ -23,9 +23,9 @@
 //!   packages/tokens/schemas/**
 //!   packages/tokens/naming-exceptions.json
 //!   packages/tokens/manifest.json
-//!   packages/design-data-spec/mode-sets/     ← github / git only
-//!   packages/design-data-spec/components/
-//!   packages/design-data-spec/fields/
+//!   packages/design-data/mode-sets/          ← github / git only
+//!   packages/design-data/components/
+//!   packages/design-data/fields/
 //!   .complete                                ← written last; signals complete extraction
 //! ```
 //!
@@ -224,7 +224,7 @@ fn download_bytes(url: &str) -> Result<Vec<u8>, FetchError> {
 /// the repo name and tag (e.g. `spectrum-design-data--adobe-spectrum-tokens-14.11.0/`).
 /// This function strips that prefix dynamically by reading the first path component,
 /// and only extracts entries under `packages/tokens/` and
-/// `packages/design-data-spec/{mode-sets,components,fields}/`.
+/// `packages/design-data/{tokens,components,fields,mode-sets}/`.
 ///
 /// Uses the same atomic tmp-rename + `.complete`-sentinel pattern as
 /// [`super::embedded::materialize_to`].
@@ -309,9 +309,9 @@ fn extract_tarball_inner(bytes: &[u8], url: &str, dest: &Path) -> Result<(), Fet
 
         // Only extract paths we need:
         //   packages/tokens/**
-        //   packages/design-data-spec/mode-sets/**
-        //   packages/design-data-spec/components/**
-        //   packages/design-data-spec/fields/**
+        //   packages/design-data/mode-sets/**
+        //   packages/design-data/components/**
+        //   packages/design-data/fields/**
         if !should_extract(&rel) {
             continue;
         }
@@ -357,20 +357,13 @@ fn should_extract(rel: &Path) -> bool {
         // schemas and metadata still live here — so the whole parent is kept by design.
         (Some("packages"), Some("tokens")) => true,
         (Some("packages"), Some("design-data")) => {
-            // Only tokens/ — the cascade-format token data.
-            let third = components
-                .next()
-                .map(|c| c.as_os_str().to_string_lossy().into_owned());
-            matches!(third.as_deref(), Some("tokens"))
-        }
-        (Some("packages"), Some("design-data-spec")) => {
-            // Only mode-sets/, components/, fields/ — not the whole spec (schemas, rules, etc.)
+            // tokens/ — cascade-format token data; components/, fields/, mode-sets/ — Spectrum catalog.
             let third = components
                 .next()
                 .map(|c| c.as_os_str().to_string_lossy().into_owned());
             matches!(
                 third.as_deref(),
-                Some("mode-sets") | Some("components") | Some("fields")
+                Some("tokens") | Some("components") | Some("fields") | Some("mode-sets")
             )
         }
         _ => false,
@@ -447,13 +440,13 @@ mod tests {
     #[test]
     fn should_extract_spec_catalog_dirs() {
         assert!(should_extract(Path::new(
-            "packages/design-data-spec/mode-sets/color-scheme.json"
+            "packages/design-data/mode-sets/color-scheme.json"
         )));
         assert!(should_extract(Path::new(
-            "packages/design-data-spec/components/button.json"
+            "packages/design-data/components/button.json"
         )));
         assert!(should_extract(Path::new(
-            "packages/design-data-spec/fields/variant.json"
+            "packages/design-data/fields/variant.json"
         )));
     }
 
@@ -537,7 +530,7 @@ mod tests {
             "schemas/token-types missing"
         );
         assert!(
-            root.join("packages/design-data-spec/components").is_dir(),
+            root.join("packages/design-data/components").is_dir(),
             "components missing"
         );
         assert!(root.join(".complete").is_file(), "sentinel missing");

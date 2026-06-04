@@ -91,7 +91,7 @@ tasks:
     inputs:
       - "auto/**/*.sh"
       - "packages/design-data/tokens/**"
-      - "packages/design-data-spec/components/**"
+      - "packages/design-data/components/**"
 
   # Verify Demo D locally (Claude Code + MCP; non-deterministic; local only).
   auto-verify-d:

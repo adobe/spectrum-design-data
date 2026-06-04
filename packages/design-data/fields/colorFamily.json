@@ -4,7 +4,7 @@
   "name": "colorFamily",
   "description": "Hue family of a color token (e.g. blue, gray, celery, accent). Used on color palette and semantic color tokens. Paired with scaleIndex for ramp tokens (e.g. colorFamily=blue + scaleIndex=100 → blue-100).",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/color-families.json",
+  "registry": "packages/design-data/registry/color-families.json",
   "validation": "advisory",
   "serialization": {
     "position": 17

@@ -53,7 +53,7 @@ export default {
         "The component declaration is the contract. Anatomy, states, accessibility " +
         "intent, and exactly which tokens it binds. The agent reads this, the build " +
         "reads this, the visualizer reads this — one source.",
-      tape: `Type "design-data component button --components-dir packages/design-data-spec/components"
+      tape: `Type "design-data component button --components-dir packages/design-data/components"
 Enter
 Wait
 Sleep 3s`,
@@ -63,7 +63,7 @@ Sleep 3s`,
       narration:
         "A designer asks: what tokens does the button use? This used to be a " +
         "code-archaeology task. Now it's one CLI call — the same answer for the engineer.",
-      tape: `Type "design-data query packages/design-data-spec --filter 'component=button'"
+      tape: `Type "design-data query packages/design-data/tokens --filter 'component=button'"
 Enter
 Wait
 Sleep 3s`,

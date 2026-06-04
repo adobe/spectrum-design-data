@@ -27,6 +27,12 @@ impl ValidationRule for Rule {
     }
 
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
+        // Skip when no component catalog has been loaded — the rule cannot validate
+        // component-name references against a catalog that was never provided.
+        if ctx.graph.components.is_empty() {
+            return vec![];
+        }
+
         let mut out = Vec::new();
 
         let component_names: std::collections::HashSet<&str> = ctx
@@ -137,9 +143,10 @@ mod tests {
 
     #[test]
     fn undeclared_component_error() {
+        // Catalog is loaded (non-empty) but does not contain "ghost" → SPEC-018 fires.
         let diags = run(
             vec![json!({"name": {"property": "color", "component": "ghost"}, "value": "#fff"})],
-            vec![],
+            vec![json!({"name": "button"})],
         );
         assert_eq!(diags.len(), 1);
         assert_eq!(diags[0].severity, Severity::Error);

@@ -4,7 +4,7 @@
   "name": "structure",
   "description": "Reusable visual pattern that occurs across many components (e.g. drop-shadow, overlay). Distinct from component.",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/structures.json",
+  "registry": "packages/design-data/registry/structures.json",
   "validation": "advisory",
   "serialization": {
     "position": 2

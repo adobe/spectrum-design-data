@@ -21,7 +21,7 @@ a plain JSON object mapping token slug → name object:
 }
 ```
 
-Fields are defined in `packages/design-data-spec/fields/`.
+Fields are defined in `packages/design-data/fields/`.
 
 ## Using with the SDK validator
 

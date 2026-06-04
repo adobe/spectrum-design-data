@@ -4,7 +4,7 @@
   "name": "orientation",
   "description": "Direction or layout axis (e.g. vertical, horizontal).",
   "kind": "semantic",
-  "registry": "packages/design-system-registry/registry/orientations.json",
+  "registry": "packages/design-data/registry/orientations.json",
   "validation": "advisory",
   "serialization": {
     "position": 7
