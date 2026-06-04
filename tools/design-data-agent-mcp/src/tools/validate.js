@@ -35,9 +35,6 @@ export function createValidateTools() {
         if (config.schemaPath) args.push("--schema-path", config.schemaPath);
         if (config.exceptionsPath)
           args.push("--exceptions-path", config.exceptionsPath);
-        // validate uses --dimensions-path (old flag name, not --dimensions-dir)
-        if (config.dimensionsDir)
-          args.push("--dimensions-path", config.dimensionsDir);
         if (strict === true) args.push("--strict");
         const { exitCode, stdout, stderr } = await runCli(args);
         if (exitCode !== 0 && !stdout)

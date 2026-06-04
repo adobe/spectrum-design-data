@@ -27,8 +27,6 @@ export function createReadTools() {
         if (config.componentsDir)
           args.push("--components-dir", config.componentsDir);
         if (config.fieldsDir) args.push("--fields-dir", config.fieldsDir);
-        if (config.dimensionsDir)
-          args.push("--dimensions-dir", config.dimensionsDir);
         const { exitCode, stdout, stderr } = await runCli(args);
         if (exitCode !== 0)
           throw new Error(stderr || `primer exited ${exitCode}`);
@@ -67,9 +65,6 @@ export function createReadTools() {
       },
       async handler({ property, colorScheme, scale, contrast }) {
         const args = ["resolve", property, config.dataPath, "--format", "json"];
-        // resolve uses --dimensions-path (old flag name, not --dimensions-dir)
-        if (config.dimensionsDir)
-          args.push("--dimensions-path", config.dimensionsDir);
         if (colorScheme) args.push("--color-scheme", colorScheme);
         if (scale) args.push("--scale", scale);
         if (contrast) args.push("--contrast", contrast);

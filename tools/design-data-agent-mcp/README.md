@@ -53,7 +53,6 @@ node tools/design-data-agent-mcp/src/index.js
 | `DESIGN_DATA_PATH`       | `.`           | Dataset root path                         |
 | `DESIGN_DATA_COMPONENTS` | —             | Override components directory             |
 | `DESIGN_DATA_FIELDS`     | —             | Override fields directory                 |
-| `DESIGN_DATA_DIMENSIONS` | —             | Override dimensions directory             |
 | `DESIGN_DATA_SCHEMAS`    | —             | Override schema path (for `validate`)     |
 | `DESIGN_DATA_EXCEPTIONS` | —             | Override exceptions path (for `validate`) |
 
@@ -68,8 +67,7 @@ node tools/design-data-agent-mcp/src/index.js
       "env": {
         "DESIGN_DATA_PATH": "./packages/tokens/src",
         "DESIGN_DATA_COMPONENTS": "./packages/design-data/components",
-        "DESIGN_DATA_FIELDS": "./packages/design-data/fields",
-        "DESIGN_DATA_DIMENSIONS": "./packages/design-data/dimensions"
+        "DESIGN_DATA_FIELDS": "./packages/design-data/fields"
       }
     }
   }

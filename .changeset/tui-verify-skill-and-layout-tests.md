@@ -1,5 +1,5 @@
 ---
-"@adobe/design-data": patch
+"@adobe/design-data-tui": patch
 ---
 Add tui-verify skill, generic rmux runner, and layout size-breakpoint tests.
 

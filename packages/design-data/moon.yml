@@ -22,8 +22,6 @@ tasks:
     args:
       - validate
       - ./tokens
-      - --schema-path
-      - ../../packages/tokens/schemas
       - --exceptions-path
       - ../tokens/naming-exceptions.json
       - --components-path
