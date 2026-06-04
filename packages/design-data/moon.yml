@@ -12,8 +12,22 @@ layer: library
 fileGroups:
   tokens:
     - "tokens/**/*.tokens.json"
+  registry:
+    - "registry/**/*.json"
 
 tasks:
+  # Validate registry JSON files against registry-value.json schema (AJV).
+  # Also checks for duplicate IDs/aliases, multiple defaults, and stale relatedTerms refs.
+  validate-registry:
+    command: node
+    args:
+      - scripts/validate-registry.js
+    platform: node
+    inputs:
+      - "@globs(registry)"
+      - "scripts/validate-registry.js"
+      - "/packages/design-data-spec/schemas/registry-value.json"
+
   # Validate the cascade token files against the design-data spec rules.
   # Note: `validate` uses --exceptions-path; `migrate convert` uses --exceptions.
   # These are different subcommands with different flag names.

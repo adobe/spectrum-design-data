@@ -270,7 +270,17 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(ajv@8.17.1)
 
-  packages/design-data: {}
+  packages/design-data:
+    devDependencies:
+      "@adobe/design-data-spec":
+        specifier: workspace:*
+        version: link:../design-data-spec
+      ajv:
+        specifier: ^8.12.0
+        version: 8.17.1
+      ajv-formats:
+        specifier: ^3.0.1
+        version: 3.0.1(ajv@8.17.1)
 
   packages/design-data-spec: {}
 

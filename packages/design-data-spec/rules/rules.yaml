@@ -161,6 +161,7 @@ rules:
     category: reference-integrity
     assert: Token name-object 'component' field value MUST match the 'name' of a declared component in the dataset.
     message: "Token '{token}' references undeclared component '{component}'"
+    note: "Skipped when no component catalog is loaded (empty components list). Token-only validation runs that omit component declarations will not trigger this rule."
     spec_ref: spec/component-format.md#name
     introduced_in: "1.0.0-draft"
 

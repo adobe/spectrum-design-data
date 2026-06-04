@@ -57,5 +57,10 @@
     "registry/",
     "README.md"
   ],
-  "scripts": {}
+  "scripts": {},
+  "devDependencies": {
+    "@adobe/design-data-spec": "workspace:*",
+    "ajv": "^8.12.0",
+    "ajv-formats": "^3.0.1"
+  }
 }
