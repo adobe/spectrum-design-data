@@ -448,6 +448,7 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
         let candidates = [
             cwd.join("packages/tokens/schemas"),
             cwd.join("../packages/tokens/schemas"),
+            cwd.join("../../packages/tokens/schemas"),
         ];
         candidates
             .into_iter()
