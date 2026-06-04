@@ -1,5 +1,61 @@
 # @adobe/design-data-spec
 
+## 2.0.0
+
+### Major Changes
+
+- [#1113](https://github.com/adobe/spectrum-design-data/pull/1113) [`e23264e`](https://github.com/adobe/spectrum-design-data/commit/e23264e681c56077b5582bf019123b941862779a) Thanks [@GarthDB](https://github.com/GarthDB)! - Consolidate Spectrum-specific design data into a single package.
+  - **`@adobe/design-data-spec`**: removed `components/`, `fields/`, and `mode-sets/` directories
+    and their exports. Now a pure generalized format definition (schemas, spec, rules, conformance).
+    The `./components/*.json` export is no longer published — major bump because removing a
+    published export is a breaking change per semver.
+  - **`@adobe/spectrum-design-data`**: added `components/` (81 component declarations), `fields/`
+    (24 field catalog files), and `mode-sets/` (3 mode-set instances) alongside the existing
+    `tokens/`. New exports: `./components/*`, `./fields/*`, `./mode-sets/*`.
+
+### Minor Changes
+
+- [#1110](https://github.com/adobe/spectrum-design-data/pull/1110) [`073c22a`](https://github.com/adobe/spectrum-design-data/commit/073c22a75c27fbb44eb57eb6cb7311e294066d76) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate cascade token `$ref` aliases from name strings to UUIDs.
+  - **packages/design-data/tokens/\*.tokens.json**: alias `$ref` now holds the
+    target's UUID (rename-proof, cascade canonical). Legacy `packages/tokens/src`
+    is unchanged — roundtrip-verify stays clean.
+  - **sdk/core/src/graph.rs**: add `resolve_alias_key` (UUID-first + slug + legacy-
+    name-index fallback); fix cycle-guard to key on resolved graph key; index
+    `set_uuid` so set-targeted aliases resolve.
+  - **sdk/core/src/migrate.rs**: emit UUID `$ref` via `global_name_to_uuid`;
+    add `MigrateSummary.dangling_alias_refs` counter.
+  - **sdk/core/src/legacy.rs**: denormalize UUID `$ref` → `{name}` via
+    `global_uuid_to_name` so legacy output is byte-semantically identical.
+  - **sdk/core/src/validate/rules/spec001–003,015,042**: route alias lookups
+    through `resolve_alias_key` for correct UUID resolution.
+  - **packages/tokens/schemas/token-types/alias.json**: accept `value: "{name}"`
+    (legacy) or `$ref: "<uuid>"` (cascade) via `oneOf`.
+  - **packages/design-data-spec/schemas/token.schema.json**, **spec/token-format.md**:
+    document UUID as the cascade canonical `$ref`; activate the reserved direction.
+
+- [#1113](https://github.com/adobe/spectrum-design-data/pull/1113) [`e23264e`](https://github.com/adobe/spectrum-design-data/commit/e23264e681c56077b5582bf019123b941862779a) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix stale `replaced_by` UUIDs and re-enable cascade token validation in CI.
+  - **`packages/design-data/tokens/`**: corrected 70 deprecated tokens whose `replaced_by`
+    (and co-located `$ref`) fields held legacy scale-set wrapper UUIDs that no longer exist
+    in the cascade dataset. Targets are now remapped to the correct cascade-format UUIDs via
+    `set_uuid` lookup + scale matching.
+  - **`packages/design-data/moon.yml`**: removed `runInCI: false` from the `validate` task
+    now that SPEC-010 errors are resolved.
+  - **`sdk/core/src/validate/rules/spec018.rs`**: SPEC-018 now skips when no component
+    catalog is loaded (empty graph), matching the intended semantics — the rule cannot
+    validate component references against a catalog that was not provided.
+  - **`packages/design-data-spec/conformance/invalid/SPEC-018/dataset.json`**: updated
+    fixture to use a non-empty component catalog so SPEC-018 fires for the right reason
+    (referenced component not in the declared catalog).
+
+- [#1113](https://github.com/adobe/spectrum-design-data/pull/1113) [`e23264e`](https://github.com/adobe/spectrum-design-data/commit/e23264e681c56077b5582bf019123b941862779a) Thanks [@GarthDB](https://github.com/GarthDB)! - Move Spectrum registry vocabulary into spectrum-design-data; deprecate design-system-registry.
+  - **@adobe/spectrum-design-data**: gains `registry/` (27 vocabulary files) with
+    subpath exports (`./registry/*.json`); now the single source of truth for all Spectrum data.
+  - **@adobe/design-system-registry**: reduced to a compatibility shim. Migrate imports to
+    `@adobe/spectrum-design-data` — this shim will be removed in a future major version.
+  - **@adobe/design-data-spec**: gains `registry-value.json` and `platform-extension.json`
+    schema exports; `manifest.schema.json` `conceptOrder` enum relaxed to open `string` type
+    (no longer hardcodes Spectrum's field names — configurable per field catalog).
+
 ## 1.5.0
 
 ### Minor Changes
