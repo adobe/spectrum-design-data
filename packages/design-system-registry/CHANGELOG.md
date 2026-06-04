@@ -1,5 +1,23 @@
 # @adobe/design-system-registry
 
+## 5.0.0
+
+### Major Changes
+
+- [#1113](https://github.com/adobe/spectrum-design-data/pull/1113) [`e23264e`](https://github.com/adobe/spectrum-design-data/commit/e23264e681c56077b5582bf019123b941862779a) Thanks [@GarthDB](https://github.com/GarthDB)! - Move Spectrum registry vocabulary into spectrum-design-data; deprecate design-system-registry.
+  - **@adobe/spectrum-design-data**: gains `registry/` (27 vocabulary files) with
+    subpath exports (`./registry/*.json`); now the single source of truth for all Spectrum data.
+  - **@adobe/design-system-registry**: reduced to a compatibility shim. Migrate imports to
+    `@adobe/spectrum-design-data` — this shim will be removed in a future major version.
+  - **@adobe/design-data-spec**: gains `registry-value.json` and `platform-extension.json`
+    schema exports; `manifest.schema.json` `conceptOrder` enum relaxed to open `string` type
+    (no longer hardcodes Spectrum's field names — configurable per field catalog).
+
+### Patch Changes
+
+- Updated dependencies [[`073c22a`](https://github.com/adobe/spectrum-design-data/commit/073c22a75c27fbb44eb57eb6cb7311e294066d76), [`e23264e`](https://github.com/adobe/spectrum-design-data/commit/e23264e681c56077b5582bf019123b941862779a), [`e23264e`](https://github.com/adobe/spectrum-design-data/commit/e23264e681c56077b5582bf019123b941862779a), [`e23264e`](https://github.com/adobe/spectrum-design-data/commit/e23264e681c56077b5582bf019123b941862779a)]:
+  - @adobe/spectrum-design-data@0.2.0
+
 ## 3.3.0
 
 ### Minor Changes

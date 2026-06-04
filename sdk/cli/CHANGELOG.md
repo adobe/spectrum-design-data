@@ -1,5 +1,69 @@
 # @adobe/design-data-cli
 
+## 0.10.0
+
+### Minor Changes
+
+- [#1110](https://github.com/adobe/spectrum-design-data/pull/1110) [`073c22a`](https://github.com/adobe/spectrum-design-data/commit/073c22a75c27fbb44eb57eb6cb7311e294066d76) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate cascade token `$ref` aliases from name strings to UUIDs.
+  - **packages/design-data/tokens/\*.tokens.json**: alias `$ref` now holds the
+    target's UUID (rename-proof, cascade canonical). Legacy `packages/tokens/src`
+    is unchanged — roundtrip-verify stays clean.
+  - **sdk/core/src/graph.rs**: add `resolve_alias_key` (UUID-first + slug + legacy-
+    name-index fallback); fix cycle-guard to key on resolved graph key; index
+    `set_uuid` so set-targeted aliases resolve.
+  - **sdk/core/src/migrate.rs**: emit UUID `$ref` via `global_name_to_uuid`;
+    add `MigrateSummary.dangling_alias_refs` counter.
+  - **sdk/core/src/legacy.rs**: denormalize UUID `$ref` → `{name}` via
+    `global_uuid_to_name` so legacy output is byte-semantically identical.
+  - **sdk/core/src/validate/rules/spec001–003,015,042**: route alias lookups
+    through `resolve_alias_key` for correct UUID resolution.
+  - **packages/tokens/schemas/token-types/alias.json**: accept `value: "{name}"`
+    (legacy) or `$ref: "<uuid>"` (cascade) via `oneOf`.
+  - **packages/design-data-spec/schemas/token.schema.json**, **spec/token-format.md**:
+    document UUID as the cascade canonical `$ref`; activate the reserved direction.
+
+- [#1106](https://github.com/adobe/spectrum-design-data/pull/1106) [`0ec2032`](https://github.com/adobe/spectrum-design-data/commit/0ec20329ffdbabc79ca90e52fb26a5291cf5b8cf) Thanks [@GarthDB](https://github.com/GarthDB)! - Upgrade Ratatui ecosystem to unlock new widget crates for UX improvements.
+  - **sdk/tui/Cargo.toml**: bump `ratatui` 0.28→0.30, `crossterm` 0.28→0.29,
+    `tui-input` 0.10→0.15.
+  - **sdk/rust-toolchain.toml**: bump Rust toolchain 1.85→1.88
+    (required by ratatui 0.30 MSRV).
+  - **.github/workflows/release.yml**: update hardcoded toolchain pin to 1.88.0.
+  - **sdk/tui/src/view.rs**, **view_find.rs**: rename `highlight_style` →
+    `row_highlight_style` (ratatui 0.30 breaking change, 5 sites).
+  - **sdk/tui/src/runtime.rs**: use `map_err` for `terminal.draw()` calls
+    (ratatui 0.30: `Backend::Error` no longer implies `Send+Sync`).
+
+### Patch Changes
+
+- [#1107](https://github.com/adobe/spectrum-design-data/pull/1107) [`a113e86`](https://github.com/adobe/spectrum-design-data/commit/a113e860e6dc8fbaa1a079542f43e0bb68a779c7) Thanks [@GarthDB](https://github.com/GarthDB)! - Add rmux-driven demo automation for verification and cast recording.
+  - **tools/demo/auto/auto-demo.sh**: orchestrator with `--verify` (CI-able) and
+    `--record` (emits asciinema v2 `.cast` with beat markers) modes; `--docker` for
+    clean-room A/B/C runs. Fix `set -e` swallowing the failure summary line.
+  - **tools/demo/auto/lib/rmux-drive.sh**: shared drive loop — `send_keys`,
+    `wait_for`, `wait_quiet`, `assert_contains`, `inject_markers`.
+  - **tools/demo/auto/beats/{A,B,C,D}.beats.sh**: per-demo beat manifests; D
+    uses lenient anchors for non-deterministic Claude Code output. Use `shlex.quote`
+    for hook paths in the per-run settings generator (handles spaces in repo path).
+  - **tools/demo/auto/Dockerfile**: clean-room image for A/B/C (rmux + asciinema).
+    Bump builder stage to `rust:1.88-slim` (matches repo toolchain; ratatui 0.30 MSRV).
+    Remove malformed `COPY ... 2>/dev/null || true` line (docker syntax error).
+  - **tools/demo/moon.yml**: adds `auto-verify`, `auto-verify-d`, `auto-record` tasks.
+  - **tools/demo/presentation/RECORDING.md**: documents the automated path.
+
+- [#1107](https://github.com/adobe/spectrum-design-data/pull/1107) [`a113e86`](https://github.com/adobe/spectrum-design-data/commit/a113e860e6dc8fbaa1a079542f43e0bb68a779c7) Thanks [@GarthDB](https://github.com/GarthDB)! - Retrofit Demo D recording with Claude Code hooks for reliable beat detection.
+  - **tools/demo/auto/hooks/settings.json**: run-scoped hooks config (passed via
+    `claude --settings`); wires `PostToolUse` and `Stop` hooks to Demo D scripts.
+  - **tools/demo/auto/hooks/record-beat.sh**: appends tool-call epoch to beats log on
+    every `mcp__design-data__` call — replaces brittle screen-text sentinel matching.
+  - **tools/demo/auto/hooks/stop-done.sh**: touches done sentinel when Claude finishes —
+    replaces fragile `wait_quiet` / 180 s blind sleep.
+  - **tools/demo/auto/beats/D.beats.sh**: hook-driven beat detection with content-scrape
+    fallback; precision marker injection from hook epochs.
+  - **tools/demo/auto/lib/rmux-drive.sh**: adds `wait_for_file`, `wait_for_log_match`,
+    `assert_log_match`, and `inject_markers_by_time` helpers.
+  - **tools/demo/auto/auto-demo.sh**: exports `DEMO_BEATS_DIR`, passes `--settings`,
+    removes `--idle-time-limit` for Demo D to align cast timeline with wall-clock.
+
 ## 0.9.0
 
 ### Minor Changes
