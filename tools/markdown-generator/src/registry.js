@@ -10,19 +10,17 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import {
-  sizes,
-  states,
-  variants,
-  anatomyTerms,
-  components,
-  scaleValues,
-  categories,
-  platforms,
-  navigationTerms,
-  tokenTerminology,
-  glossary,
-} from "@adobe/design-system-registry";
+import sizes from "@adobe/spectrum-design-data/registry/sizes.json" with { type: "json" };
+import states from "@adobe/spectrum-design-data/registry/states.json" with { type: "json" };
+import variants from "@adobe/spectrum-design-data/registry/variants.json" with { type: "json" };
+import anatomyTerms from "@adobe/spectrum-design-data/registry/anatomy-terms.json" with { type: "json" };
+import components from "@adobe/spectrum-design-data/registry/components.json" with { type: "json" };
+import scaleValues from "@adobe/spectrum-design-data/registry/scale-values.json" with { type: "json" };
+import categories from "@adobe/spectrum-design-data/registry/categories.json" with { type: "json" };
+import platforms from "@adobe/spectrum-design-data/registry/platforms.json" with { type: "json" };
+import navigationTerms from "@adobe/spectrum-design-data/registry/navigation-terms.json" with { type: "json" };
+import tokenTerminology from "@adobe/spectrum-design-data/registry/token-terminology.json" with { type: "json" };
+import glossary from "@adobe/spectrum-design-data/registry/glossary.json" with { type: "json" };
 import { writeFile, mkdir } from "fs/promises";
 import { BASE_SOURCE_URL } from "./constants.js";
 

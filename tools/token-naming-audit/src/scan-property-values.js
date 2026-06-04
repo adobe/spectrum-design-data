@@ -12,12 +12,11 @@ governing permissions and limitations under the License.
 
 import { readFileSync } from "node:fs";
 import { glob } from "glob";
-import {
-  propertyTerms,
-  anatomyTerms,
-  tokenObjects,
-  getValues,
-} from "@adobe/design-system-registry";
+import propertyTerms from "@adobe/spectrum-design-data/registry/property-terms.json" with { type: "json" };
+import anatomyTerms from "@adobe/spectrum-design-data/registry/anatomy-terms.json" with { type: "json" };
+import tokenObjects from "@adobe/spectrum-design-data/registry/token-objects.json" with { type: "json" };
+
+const getValues = (r) => r.values.map((v) => v.id);
 
 const allowedPropertyValues = new Set(getValues(propertyTerms));
 const anatomySet = new Set(getValues(anatomyTerms));
