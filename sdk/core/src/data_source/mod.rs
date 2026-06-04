@@ -367,7 +367,15 @@ fn find_config(start: &Path) -> Result<Option<(PathBuf, DesignDataConfig)>, Data
     Ok(None)
 }
 
-/// Build [`ResolvedData`] from a known monorepo `root` directory (tier 2 path source).
+/// Build [`ResolvedData`] from a known dataset/monorepo `root` directory.
+///
+/// This is the tier-2 (`.design-data.toml` `path` source) and tier-4 (embedded
+/// snapshot) resolver. Given a dataset root it joins the conventional directory
+/// names defined by the normative dataset layout spec
+/// (`packages/design-data-spec/spec/dataset-layout.md#directory-layout`):
+/// `tokens/` (required), and the registered optional catalogs `mode-sets/`,
+/// `components/`, `fields/`, plus the legacy `schemas/`, `naming-exceptions.json`,
+/// and build `manifest.json`. Optional directories resolve to `None` when absent.
 ///
 /// Tier 1 overrides still win for any individually-set CLI flags.
 fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) -> ResolvedData {
@@ -416,11 +424,15 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
     }
 }
 
-/// Tier 3: replicate the original `default_*_path()` probing logic verbatim.
+/// Tier 3 of the dataset discovery algorithm: in-repo CWD-relative probing.
 ///
-/// Tries `packages/…` (run from repo root) and `../packages/…` (run from one
-/// level below the root, e.g. `sdk/`).  Returns `None` for any path not found —
-/// preserving the pre-resolver behaviour exactly for every existing working directory.
+/// Implements the "in-repo probing" tier described in
+/// `packages/design-data-spec/spec/dataset-layout.md#dataset-discovery`: when
+/// running inside a monorepo checkout, probe for the standard layout relative to
+/// the working directory. It tries `packages/…` (run from repo root) and
+/// `../packages/…` (run from one level below the root, e.g. `sdk/`) and returns
+/// `None` for any path not found — preserving the pre-resolver behaviour exactly
+/// for every existing working directory.
 ///
 /// NOTE: `is_in_repo` uses an ancestor-walk so it returns `true` from ANY
 /// subdirectory of the repo.  This function intentionally keeps the original

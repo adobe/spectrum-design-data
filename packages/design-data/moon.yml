@@ -14,6 +14,10 @@ fileGroups:
     - "tokens/**/*.tokens.json"
   registry:
     - "registry/**/*.json"
+  catalogs:
+    - "components/**/*.json"
+    - "fields/**/*.json"
+    - "mode-sets/**/*.json"
 
 tasks:
   # Validate registry JSON files against registry-value.json schema (AJV).
@@ -28,7 +32,32 @@ tasks:
       - "scripts/validate-registry.js"
       - "/packages/design-data-spec/schemas/registry-value.json"
 
+  # Validate the whole dataset: SPEC-044 directory-structure pre-check, token
+  # rules, and Layer 1 schema-shape validation of the registered catalog
+  # directories (fields/, components/, mode-sets/, registry/).
+  validate-dataset:
+    command: ../../sdk/target/debug/design-data
+    args:
+      - validate-dataset
+      - ./
+      - --spec-schemas
+      - ../design-data-spec/schemas
+      - --exceptions-path
+      - ../tokens/naming-exceptions.json
+    platform: system
+    deps:
+      - sdk:build
+    inputs:
+      - "@globs(tokens)"
+      - "@globs(catalogs)"
+      - "@globs(registry)"
+      - "/packages/tokens/naming-exceptions.json"
+      - "/packages/design-data-spec/schemas/**/*.json"
+
   # Validate the cascade token files against the design-data spec rules.
+  # Aggregates the full dataset validation (validate-dataset) and registry
+  # validation so `moon run design-data:validate` covers tokens, fields,
+  # components, mode-sets, and registry.
   # Note: `validate` uses --exceptions-path; `migrate convert` uses --exceptions.
   # These are different subcommands with different flag names.
   validate:
@@ -41,6 +70,8 @@ tasks:
     platform: system
     deps:
       - sdk:build
+      - ~:validate-dataset
+      - ~:validate-registry
     inputs:
       - "@globs(tokens)"
       - "/packages/tokens/naming-exceptions.json"

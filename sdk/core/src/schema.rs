@@ -132,6 +132,50 @@ impl SchemaRegistry {
             .collect())
     }
 
+    /// Validate an arbitrary JSON document against a schema file on disk.
+    ///
+    /// The JSON Schema draft is auto-detected from the schema's `$schema`
+    /// keyword, so this works for both Draft 2020-12 design-data schemas
+    /// (`field.schema.json`, `component.schema.json`, `mode-set.schema.json`) and
+    /// the Draft-07 `registry-value.json`. Sibling `*.json` schemas in the same
+    /// directory (and its `value-types/` subdirectory) are registered by their
+    /// `$id` so cross-schema `$ref`s (e.g. `component.schema.json` →
+    /// `accessibility.schema.json`) resolve locally instead of being fetched over
+    /// the network. Returns the list of Layer 1 schema violation messages
+    /// (empty = valid). Used by the `validate-dataset` command to schema-check
+    /// the registered catalog directories.
+    pub fn validate_value_against_schema_file(
+        value: &Value,
+        schema_path: &Path,
+    ) -> Result<Vec<String>, CoreError> {
+        let text = fs::read_to_string(schema_path)?;
+        let schema: Value = serde_json::from_str(&text)?;
+
+        // Register sibling schemas so `$ref`s by canonical `$id` resolve offline.
+        let mut resources: Vec<(String, Resource)> = Vec::new();
+        if let Some(dir) = schema_path.parent() {
+            collect_schema_resources(dir, &mut resources)?;
+            let value_types = dir.join("value-types");
+            if value_types.is_dir() {
+                collect_schema_resources(&value_types, &mut resources)?;
+            }
+        }
+
+        let mut builder = jsonschema::options();
+        if !resources.is_empty() {
+            let registry = Registry::try_from_resources(resources)?;
+            builder = builder.with_registry(registry);
+        }
+        let validator = builder
+            .should_validate_formats(true)
+            .build(&schema)
+            .map_err(|e| CoreError::SchemaBuild(e.to_string()))?;
+        Ok(validator
+            .iter_errors(value)
+            .map(|e| e.to_string())
+            .collect())
+    }
+
     /// Construct a no-op stub for unit tests where schema validation is never reached.
     #[cfg(test)]
     pub fn new_stub() -> Self {
@@ -146,6 +190,35 @@ impl SchemaRegistry {
             token_file_schema_url: String::new(),
         }
     }
+}
+
+/// Read every `*.json` schema file in `dir`, pairing each by its `$id` with a
+/// [`Resource`] for `$ref` resolution. Files without a string `$id` are skipped.
+fn collect_schema_resources(
+    dir: &Path,
+    out: &mut Vec<(String, Resource)>,
+) -> Result<(), CoreError> {
+    for entry in fs::read_dir(dir)? {
+        let path = entry?.path();
+        if path.extension().and_then(|e| e.to_str()) != Some("json") {
+            continue;
+        }
+        let text = fs::read_to_string(&path)?;
+        let value: Value = match serde_json::from_str(&text) {
+            Ok(v) => v,
+            Err(_) => continue,
+        };
+        let Some(id) = value
+            .get("$id")
+            .and_then(|v| v.as_str())
+            .map(str::to_string)
+        else {
+            continue;
+        };
+        let resource = Resource::from_contents(value)?;
+        out.push((id, resource));
+    }
+    Ok(())
 }
 
 #[cfg(test)]

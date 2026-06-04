@@ -22,9 +22,11 @@ const requiredPaths = [
   "spec/cascade.md",
   "spec/mode-sets.md",
   "spec/manifest.md",
+  "spec/dataset-layout.md",
   "schemas/token.schema.json",
   "schemas/mode-set.schema.json",
   "schemas/manifest.schema.json",
+  "schemas/dataset.schema.json",
   "schemas/value-types",
   "rules/rules.yaml",
   "conformance/valid",
@@ -34,6 +36,7 @@ const requiredPaths = [
   "conformance/invalid/SPEC-004",
   "conformance/invalid/SPEC-005",
   "conformance/invalid/SPEC-006",
+  "conformance/invalid/SPEC-044",
 ];
 
 for (const rel of requiredPaths) {

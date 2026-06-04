@@ -10,6 +10,7 @@
 
 //! Structural (Layer 1) and relational (Layer 2) validation.
 
+pub mod dataset_structure;
 pub mod relational;
 pub mod rule;
 pub mod rules;
@@ -19,7 +20,7 @@ use std::collections::HashSet;
 use std::path::Path;
 
 use crate::graph::TokenGraph;
-use crate::report::ValidationReport;
+use crate::report::{Severity, ValidationReport};
 use crate::schema::SchemaRegistry;
 use crate::CoreError;
 
@@ -111,6 +112,56 @@ pub fn validate_all_with_options_and_names(
     };
     let rel = relational::validate_relational(&graph, naming_exceptions, manifest.as_ref());
     report.merge(rel);
+    Ok(report)
+}
+
+/// Validate a whole **dataset** rooted at `dataset_root` (or its `tokens/` dir).
+///
+/// Runs the SPEC-044 structural pre-check ([`dataset_structure::check_dataset_structure`])
+/// **first**, so its diagnostics precede the token/relational rules and a
+/// missing `tokens/` directory produces a clear "structure is incomplete"
+/// message instead of a cascade of per-file errors. When `tokens/` is absent the
+/// graph cannot be built, so the structural diagnostics are returned directly.
+///
+/// `dataset_root` MAY be the dataset root or its `tokens/` directory; it is
+/// normalized via [`dataset_structure::resolve_dataset_root`].
+pub fn validate_dataset(
+    dataset_root: &Path,
+    schema_registry: &SchemaRegistry,
+    naming_exceptions: &HashSet<String>,
+    mode_sets_path: Option<&Path>,
+    components_path: Option<&Path>,
+    names_dir: Option<&Path>,
+) -> Result<ValidationReport, CoreError> {
+    let root = dataset_structure::resolve_dataset_root(dataset_root);
+
+    let mut report = ValidationReport::default();
+    let structure = dataset_structure::check_dataset_structure(&root);
+    let tokens_missing = structure.iter().any(|d| d.severity == Severity::Error);
+    for d in structure {
+        match d.severity {
+            Severity::Error => report.push_error(d),
+            _ => report.push_warning(d),
+        }
+    }
+
+    // Without a `tokens/` directory there is nothing to build a graph from; the
+    // SPEC-044 error already explains the problem, so return early.
+    if tokens_missing {
+        report.recompute_valid();
+        return Ok(report);
+    }
+
+    let tokens_dir = root.join("tokens");
+    let rest = validate_all_with_options_and_names(
+        &tokens_dir,
+        schema_registry,
+        naming_exceptions,
+        mode_sets_path,
+        components_path,
+        names_dir,
+    )?;
+    report.merge(rest);
     Ok(report)
 }
 

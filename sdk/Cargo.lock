@@ -548,7 +548,7 @@ dependencies = [
 
 [[package]]
 name = "design-data-cli"
-version = "0.9.0"
+version = "0.10.0"
 dependencies = [
  "assert_cmd",
  "chrono",
@@ -589,7 +589,7 @@ dependencies = [
 
 [[package]]
 name = "design-data-tui"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "clap",
  "crossterm",

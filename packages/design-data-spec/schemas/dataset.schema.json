@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/dataset.schema.json",
+  "title": "Dataset root descriptor",
+  "description": "Optional root descriptor (dataset.json) a design-data dataset MAY carry to declare which optional directories are present, pin the targeted spec version, and override default discovery paths. Absence of this file is not an error; see spec/dataset-layout.md.",
+  "type": "object",
+  "properties": {
+    "specVersion": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The spec version this dataset targets (e.g. \"1.0.0-draft\")."
+    },
+    "directories": {
+      "type": "object",
+      "description": "Declares which registered directories the dataset provides. Each value is true when the directory is present and authoritative for this dataset.",
+      "properties": {
+        "tokens": { "type": "boolean" },
+        "components": { "type": "boolean" },
+        "fields": { "type": "boolean" },
+        "modeSets": { "type": "boolean" },
+        "registry": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "paths": {
+      "type": "object",
+      "description": "Optional overrides for the default discovery paths, relative to the dataset root. When omitted, tooling uses the conventional directory names defined in spec/dataset-layout.md.",
+      "properties": {
+        "tokens": { "type": "string", "minLength": 1 },
+        "components": { "type": "string", "minLength": 1 },
+        "fields": { "type": "string", "minLength": 1 },
+        "modeSets": { "type": "string", "minLength": 1 },
+        "registry": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

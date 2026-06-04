@@ -31,7 +31,8 @@
     "./schemas/state-declaration.schema.json": "./schemas/state-declaration.schema.json",
     "./rules/rules.yaml": "./rules/rules.yaml",
     "./schemas/registry-value.json": "./schemas/registry-value.json",
-    "./schemas/platform-extension.json": "./schemas/platform-extension.json"
+    "./schemas/platform-extension.json": "./schemas/platform-extension.json",
+    "./schemas/dataset.schema.json": "./schemas/dataset.schema.json"
   },
   "files": [
     "conformance",

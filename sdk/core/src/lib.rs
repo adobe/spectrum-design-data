@@ -754,6 +754,127 @@ mod validation_conformance {
     }
 }
 
+/// SPEC-044 dataset-structure conformance — directory-based fixtures.
+///
+/// Unlike [`validation_conformance`] (in-memory `dataset.json` graphs), SPEC-044
+/// inspects the on-disk directory layout, so each fixture under
+/// `conformance/invalid/SPEC-044/<case>/` and `conformance/valid/SPEC-044/` is a
+/// **real dataset tree**. [`check_dataset_structure`](crate::validate::dataset_structure::check_dataset_structure)
+/// is run directly against the case directory and matched against
+/// `expected-errors.json`. Kept separate from `validation_conformance` so the
+/// graph-based harness is untouched (it skips dirs without `dataset.json`).
+#[cfg(test)]
+mod dataset_structure_conformance {
+    use std::path::Path;
+
+    use regex::Regex;
+    use serde_json::Value;
+
+    use crate::report::Severity;
+    use crate::validate::dataset_structure::check_dataset_structure;
+
+    fn severity_str(s: &Severity) -> &'static str {
+        match s {
+            Severity::Error => "error",
+            Severity::Warning => "warning",
+            Severity::Info => "info",
+        }
+    }
+
+    #[test]
+    fn invalid_spec044_fixtures_match_expected() {
+        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/invalid/SPEC-044");
+        let mut cases: Vec<_> = std::fs::read_dir(&base)
+            .expect("conformance/invalid/SPEC-044 dir missing")
+            .filter_map(|e| e.ok())
+            .filter(|e| e.path().is_dir())
+            .collect();
+        cases.sort_by_key(|e| e.path());
+
+        let mut failures = Vec::new();
+        for entry in cases {
+            let dir = entry.path();
+            let case = dir.file_name().unwrap().to_string_lossy().to_string();
+            let expected_path = dir.join("expected-errors.json");
+            let expected: Value = serde_json::from_str(
+                &std::fs::read_to_string(&expected_path)
+                    .unwrap_or_else(|e| panic!("{case}: failed to read expected-errors.json: {e}")),
+            )
+            .unwrap_or_else(|e| panic!("{case}: invalid expected-errors.json: {e}"));
+
+            let diagnostics = check_dataset_structure(&dir);
+            let expected_errors = expected
+                .get("errors")
+                .and_then(|v| v.as_array())
+                .cloned()
+                .unwrap_or_default();
+
+            for expected_err in &expected_errors {
+                let rule_id = expected_err
+                    .get("rule_id")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("");
+                let severity = expected_err
+                    .get("severity")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("");
+                let pattern = expected_err
+                    .get("message_pattern")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or(".*");
+                let re = Regex::new(pattern)
+                    .unwrap_or_else(|e| panic!("{case}: invalid message_pattern {pattern:?}: {e}"));
+
+                let matched = diagnostics.iter().any(|d| {
+                    d.rule_id.as_deref() == Some(rule_id)
+                        && severity_str(&d.severity) == severity
+                        && re.is_match(&d.message)
+                });
+
+                if !matched {
+                    let got: Vec<String> = diagnostics
+                        .iter()
+                        .map(|d| {
+                            format!(
+                                "[{} {}] {}",
+                                d.rule_id.as_deref().unwrap_or("?"),
+                                severity_str(&d.severity),
+                                d.message
+                            )
+                        })
+                        .collect();
+                    failures.push(format!(
+                        "{case}: no diagnostic matched rule_id={rule_id:?} severity={severity:?} pattern={pattern:?}\n  Got: [{}]",
+                        got.join("; ")
+                    ));
+                }
+            }
+        }
+
+        assert!(
+            failures.is_empty(),
+            "SPEC-044 conformance failures:\n{}",
+            failures.join("\n")
+        );
+    }
+
+    #[test]
+    fn valid_spec044_fixture_has_no_errors() {
+        let dir = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/valid/SPEC-044");
+        let diagnostics = check_dataset_structure(&dir);
+        let errors: Vec<_> = diagnostics
+            .iter()
+            .filter(|d| matches!(d.severity, Severity::Error))
+            .collect();
+        assert!(
+            errors.is_empty(),
+            "expected no errors for valid SPEC-044 fixture, got: {errors:?}"
+        );
+    }
+}
+
 /// Resolution conformance tests — fixture-driven, closes #768.
 ///
 /// Each test case lives under `packages/design-data-spec/conformance/resolution/<name>/`

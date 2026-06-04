@@ -121,6 +121,28 @@ enum Commands {
         #[arg(long)]
         strict: bool,
     },
+    /// Validate a whole dataset directory: SPEC-044 structure pre-check, tokens,
+    /// and the registered catalog directories (fields, components, mode-sets, registry)
+    ValidateDataset {
+        /// Path to the dataset root (or its tokens/ dir). Default: current directory.
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+        /// Root directory containing legacy `token-types/` and `token-file.json`
+        #[arg(long, value_name = "DIR")]
+        schema_path: Option<PathBuf>,
+        /// Directory containing the design-data-spec schemas (field/component/mode-set/registry)
+        #[arg(long, value_name = "DIR")]
+        spec_schemas: Option<PathBuf>,
+        /// Path to naming-exceptions.json allowlist for SPEC-007
+        #[arg(long, value_name = "FILE")]
+        exceptions_path: Option<PathBuf>,
+        /// Treat warnings as errors
+        #[arg(long)]
+        strict: bool,
+    },
     /// Resolve a token value for a given mode set context
     Resolve {
         /// Token property name to resolve (e.g. background-color-default)
@@ -560,6 +582,174 @@ fn run_validate(path: &Path, opts: ValidateOpts) -> miette::Result<ExitCode> {
     )
     .into_diagnostic()
     .wrap_err("validation failed")?;
+
+    match opts.format {
+        OutputFormat::Json => {
+            println!("{}", format::format_report_json(&report).into_diagnostic()?);
+        }
+        OutputFormat::Pretty => {
+            format::print_report_pretty(&report);
+        }
+    }
+
+    if report.failed(opts.strict) {
+        return Ok(ExitCode::from(1));
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
+struct ValidateDatasetOpts {
+    format: OutputFormat,
+    schema_path: Option<PathBuf>,
+    spec_schemas: Option<PathBuf>,
+    exceptions_path: Option<PathBuf>,
+    strict: bool,
+}
+
+/// Schema-validate every `*.json` file in `<dataset_root>/<dir_name>` against
+/// `schema_path`, appending any violations to `report` as Layer 1 errors.
+fn schema_validate_catalog_dir(
+    report: &mut design_data_core::report::ValidationReport,
+    dataset_root: &Path,
+    dir_name: &str,
+    schema_path: &Path,
+) -> miette::Result<()> {
+    use design_data_core::report::{Diagnostic, Severity};
+
+    let dir = dataset_root.join(dir_name);
+    if !dir.is_dir() {
+        return Ok(());
+    }
+    let mut entries: Vec<PathBuf> = std::fs::read_dir(&dir)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to read {}", dir.display()))?
+        .filter_map(|e| e.ok())
+        .map(|e| e.path())
+        .filter(|p| p.extension().and_then(|x| x.to_str()) == Some("json"))
+        .collect();
+    entries.sort();
+
+    for path in entries {
+        let text = std::fs::read_to_string(&path)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to read {}", path.display()))?;
+        let value: serde_json::Value = match serde_json::from_str(&text) {
+            Ok(v) => v,
+            Err(e) => {
+                report.push_error(Diagnostic {
+                    file: path.clone(),
+                    token: None,
+                    rule_id: None,
+                    severity: Severity::Error,
+                    message: format!("invalid JSON: {e}"),
+                    instance_path: None,
+                    schema_path: None,
+                });
+                continue;
+            }
+        };
+        let errors = SchemaRegistry::validate_value_against_schema_file(&value, schema_path)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to validate {}", path.display()))?;
+        for err in errors {
+            report.push_error(Diagnostic {
+                file: path.clone(),
+                token: None,
+                rule_id: None,
+                severity: Severity::Error,
+                message: format!("{dir_name} schema validation: {err}"),
+                instance_path: None,
+                schema_path: None,
+            });
+        }
+    }
+    Ok(())
+}
+
+/// Locate the design-data-spec schemas directory: explicit flag, then probe
+/// common in-repo locations relative to the dataset root and the cwd.
+fn resolve_spec_schemas(
+    explicit: Option<PathBuf>,
+    dataset_root: &Path,
+    cwd: &Path,
+) -> Option<PathBuf> {
+    if let Some(p) = explicit {
+        return p.is_dir().then_some(p);
+    }
+    let candidates = [
+        dataset_root.join("../design-data-spec/schemas"),
+        cwd.join("packages/design-data-spec/schemas"),
+        cwd.join("../packages/design-data-spec/schemas"),
+        cwd.join("../design-data-spec/schemas"),
+    ];
+    candidates
+        .into_iter()
+        .find(|c| c.join("field.schema.json").is_file())
+}
+
+fn run_validate_dataset(path: &Path, opts: ValidateDatasetOpts) -> miette::Result<ExitCode> {
+    if !validate::engine_ready() {
+        miette::bail!("validation engine not ready");
+    }
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let resolved = data_source::resolve(
+        &cwd,
+        &CliPathOverrides {
+            schema_root: opts.schema_path,
+            exceptions: opts.exceptions_path,
+            ..Default::default()
+        },
+    )
+    .into_diagnostic()?;
+
+    let schema_root = resolved.schemas_root;
+    let registry = SchemaRegistry::load_legacy_token_schemas(&schema_root)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load schemas from {}", schema_root.display()))?;
+    let exceptions = load_exceptions(resolved.exceptions.as_deref())?;
+
+    let dataset_root = validate::dataset_structure::resolve_dataset_root(path);
+
+    // Token validation runs with the same relational scope as `validate` (no
+    // catalogs fed into the graph); the registered catalog directories are
+    // checked structurally below via Layer 1 schema validation. This keeps
+    // dataset validation additive and avoids surfacing unrelated relational
+    // drift (e.g. SPEC-018 component association) that is out of scope here.
+    let mut report =
+        validate::validate_dataset(&dataset_root, &registry, &exceptions, None, None, None)
+            .into_diagnostic()
+            .wrap_err("validation failed")?;
+
+    // Layer 1 schema-shape validation of the registered catalog directories.
+    match resolve_spec_schemas(opts.spec_schemas, &dataset_root, &cwd) {
+        Some(spec_dir) => {
+            for (dir_name, schema_file) in [
+                ("fields", "field.schema.json"),
+                ("components", "component.schema.json"),
+                ("mode-sets", "mode-set.schema.json"),
+                ("registry", "registry-value.json"),
+            ] {
+                let schema_path = spec_dir.join(schema_file);
+                if schema_path.is_file() {
+                    schema_validate_catalog_dir(
+                        &mut report,
+                        &dataset_root,
+                        dir_name,
+                        &schema_path,
+                    )?;
+                }
+            }
+        }
+        None => {
+            eprintln!(
+                "design-data: warning: design-data-spec schemas not found; \
+                 skipping fields/components/mode-sets/registry schema validation \
+                 (pass --spec-schemas <DIR> to enable)"
+            );
+        }
+    }
+
+    report.recompute_valid();
 
     match opts.format {
         OutputFormat::Json => {
@@ -1546,6 +1736,26 @@ fn main() -> ExitCode {
                     mode_sets_path,
                     components_path,
                     names_dir,
+                    strict,
+                },
+            )
+        }
+        Commands::ValidateDataset {
+            path,
+            format,
+            schema_path,
+            spec_schemas,
+            exceptions_path,
+            strict,
+        } => {
+            let target = path.unwrap_or_else(|| PathBuf::from("."));
+            run_validate_dataset(
+                &target,
+                ValidateDatasetOpts {
+                    format,
+                    schema_path,
+                    spec_schemas,
+                    exceptions_path,
                     strict,
                 },
             )

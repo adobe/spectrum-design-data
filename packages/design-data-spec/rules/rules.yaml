@@ -477,3 +477,22 @@ rules:
     message: "{domain} token has a name object but no domain-identifying field — add at least one of: {required_fields}"
     spec_ref: spec/taxonomy.md#token-type-taxonomies
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-044
+    name: dataset-structure
+    severity: error
+    layer: 2
+    category: structure
+    assert: >
+      A conformant dataset MUST contain a `tokens/` directory holding at least one
+      `*.tokens.json` file. This structural pre-check fires before token- and
+      component-level rules so that downstream rules can assume the dataset structure
+      is present, and an incomplete dataset produces a clear "structure is incomplete"
+      diagnostic rather than a cascade of confusing per-file errors. A registered
+      optional directory (`components/`, `fields/`, `mode-sets/`, `registry/`) that is
+      present SHOULD contain at least one conformant `*.json` file; an empty registered
+      directory is reported as a warning. Because this rule inspects the on-disk
+      directory layout it runs as a filesystem pre-pass, not against the in-memory graph.
+    message: "Dataset structure incomplete: {detail}"
+    spec_ref: spec/dataset-layout.md#structural-validation
+    introduced_in: "1.0.0-draft"

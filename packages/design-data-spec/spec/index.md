@@ -25,6 +25,7 @@ The specification defines:
 11. **Document blocks** — typed prose blocks attachable to tokens, components, and anatomy parts; makes design guidance machine-readable and agent-queryable ([Document blocks](document-blocks.md)).
 12. **Agent-readable surface** — operations and transport contracts (CLI, MCP server, Agent Skill) for AI agents consuming spec-conformant design data; covers session primer, token resolution, validation, query, and component description ([Agent-readable surface](agent-surface.md)).
 13. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
+14. **Dataset layout** — normative directory structure of a dataset (`tokens/`, `components/`, `fields/`, `mode-sets/`, `registry/`), discovery algorithm, and optional root descriptor ([Dataset layout](dataset-layout.md)).
 
 ## Conformance
 
@@ -77,6 +78,7 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 | [Document blocks](document-blocks.md)               | Typed prose blocks (purpose, guideline, accessibility, do-dont, examples) attachable to any entity.                               |
 | [Agent-readable surface](agent-surface.md)          | Transport contracts (CLI, MCP, Agent Skill) and operation catalog for AI agents consuming spec-conformant design data.            |
 | [Evolution](evolution.md)                           | Deprecation lifecycle, migration windows, change classification.                                                                  |
+| [Dataset layout](dataset-layout.md)                 | Normative dataset directory structure, discovery algorithm, optional root descriptor, and SPEC-044 structural pre-check.          |
 
 ## JSON Schema `$id` and versioning
 

@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-044",
+      "severity": "warning",
+      "message_pattern": ".*components/.*contains no.*json.*"
+    }
+  ]
+}

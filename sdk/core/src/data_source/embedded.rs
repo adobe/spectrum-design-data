@@ -89,7 +89,7 @@ static TOKENS_MANIFEST: &str = include_str!(concat!(
 ///
 /// Kept in sync with `packages/design-data/package.json` via a drift test.
 /// When bumping the cascade data package, update this constant too.
-pub const EMBEDDED_DATA_VERSION: &str = "0.1.0";
+pub const EMBEDDED_DATA_VERSION: &str = "0.2.0";
 
 // ---------------------------------------------------------------------------
 // Cache-dir resolution
