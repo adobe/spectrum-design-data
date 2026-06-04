@@ -9,8 +9,6 @@ Fix stale `replaced_by` UUIDs and re-enable cascade token validation in CI.
   (and co-located `$ref`) fields held legacy scale-set wrapper UUIDs that no longer exist
   in the cascade dataset. Targets are now remapped to the correct cascade-format UUIDs via
   `set_uuid` lookup + scale matching.
-- **`packages/design-data/scripts/fix-replaced-by.mjs`**: audit script used to apply
-  the remapping; kept for reference and future migration drift.
 - **`packages/design-data/moon.yml`**: removed `runInCI: false` from the `validate` task
   now that SPEC-010 errors are resolved.
 - **`sdk/core/src/validate/rules/spec018.rs`**: SPEC-018 now skips when no component
