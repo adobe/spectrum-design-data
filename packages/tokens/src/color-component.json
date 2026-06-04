@@ -438,6 +438,15 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "stack-item",
     "uuid": "a0251da6-7517-4712-85a1-29ca7f16ef91",
+    "value": "{gray-100}",
+    "deprecated": true,
+    "deprecated_comment": "Renamed to spec-order name. Use `stack-item-background-color-keyboard-focus` instead.",
+    "renamed": "stack-item-background-color-keyboard-focus"
+  },
+  "stack-item-background-color-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "stack-item",
+    "uuid": "ed627f68-7ac3-4f84-8682-d740d57c921e",
     "value": "{gray-100}"
   },
   "stack-item-selected-background-color-default": {
