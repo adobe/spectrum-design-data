@@ -1,5 +1,5 @@
 ---
-"design-data-tui": minor
+"@adobe/design-data-tui": minor
 ---
 
 Route TUI palette dispatch through a `Command` enum and enforce
