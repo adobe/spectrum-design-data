@@ -18,6 +18,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.88.0
         with:
           targets: wasm32-unknown-unknown
+          components: clippy
       # Install wasm-pack so `moon run sdk-wasm:build` can invoke it.
       - uses: jetli/wasm-pack-action@v0.4.0
       - uses: moonrepo/setup-toolchain@v0
