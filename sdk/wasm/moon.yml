@@ -42,6 +42,7 @@ tasks:
     deps:
       - sdk:codegen-check
     platform: system
+    local: true
 
   # Build the wasm package for both nodejs and web targets.
   # Outputs:
