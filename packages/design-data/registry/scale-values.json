@@ -4,6 +4,13 @@
   "description": "Numeric scale values used in design tokens",
   "values": [
     {
+      "id": "25",
+      "label": "Scale 25",
+      "value": 25,
+      "category": "extended",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "50",
       "label": "Scale 50",
       "value": 50,

@@ -1,7 +1,8 @@
 [
   {
     "name": {
-      "property": "black-font-weight"
+      "property": "black-font-weight",
+      "weight": "black"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "value": "black",
@@ -182,7 +183,8 @@
   {
     "name": {
       "component": "body",
-      "property": "margin-multiplier"
+      "property": "margin-multiplier",
+      "structure": "body"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 0.75,
@@ -423,7 +425,8 @@
   },
   {
     "name": {
-      "property": "bold-font-weight"
+      "property": "bold-font-weight",
+      "weight": "bold"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "value": "bold",
@@ -431,7 +434,8 @@
   },
   {
     "name": {
-      "property": "cjk-font-family"
+      "property": "cjk-font-family",
+      "family": "cjk"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-family.json",
     "value": "Adobe Clean Han",
@@ -447,7 +451,9 @@
   },
   {
     "name": {
-      "property": "cjk-line-height-100"
+      "property": "cjk-line-height-100",
+      "scaleIndex": 100,
+      "family": "cjk"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 1.5,
@@ -455,7 +461,9 @@
   },
   {
     "name": {
-      "property": "cjk-line-height-200"
+      "property": "cjk-line-height-200",
+      "scaleIndex": 200,
+      "family": "cjk"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 1.7,
@@ -581,7 +589,8 @@
   {
     "name": {
       "component": "code",
-      "property": "font-family"
+      "property": "font-family",
+      "family": "code"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-family.json",
     "value": "Source Code Pro",
@@ -697,7 +706,8 @@
   },
   {
     "name": {
-      "property": "component-l-bold"
+      "property": "component-l-bold",
+      "weight": "bold"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -711,7 +721,8 @@
   },
   {
     "name": {
-      "property": "component-l-medium"
+      "property": "component-l-medium",
+      "weight": "medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -725,7 +736,8 @@
   },
   {
     "name": {
-      "property": "component-l-regular"
+      "property": "component-l-regular",
+      "weight": "regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -739,7 +751,8 @@
   },
   {
     "name": {
-      "property": "component-m-bold"
+      "property": "component-m-bold",
+      "weight": "bold"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -753,7 +766,8 @@
   },
   {
     "name": {
-      "property": "component-m-medium"
+      "property": "component-m-medium",
+      "weight": "medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -767,7 +781,8 @@
   },
   {
     "name": {
-      "property": "component-m-regular"
+      "property": "component-m-regular",
+      "weight": "regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -781,7 +796,8 @@
   },
   {
     "name": {
-      "property": "component-s-bold"
+      "property": "component-s-bold",
+      "weight": "bold"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -795,7 +811,8 @@
   },
   {
     "name": {
-      "property": "component-s-medium"
+      "property": "component-s-medium",
+      "weight": "medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -809,7 +826,8 @@
   },
   {
     "name": {
-      "property": "component-s-regular"
+      "property": "component-s-regular",
+      "weight": "regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -823,7 +841,8 @@
   },
   {
     "name": {
-      "property": "component-xl-bold"
+      "property": "component-xl-bold",
+      "weight": "bold"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -837,7 +856,8 @@
   },
   {
     "name": {
-      "property": "component-xl-medium"
+      "property": "component-xl-medium",
+      "weight": "medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -851,7 +871,8 @@
   },
   {
     "name": {
-      "property": "component-xl-regular"
+      "property": "component-xl-regular",
+      "weight": "regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -865,7 +886,8 @@
   },
   {
     "name": {
-      "property": "component-xs-bold"
+      "property": "component-xs-bold",
+      "weight": "bold"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -879,7 +901,8 @@
   },
   {
     "name": {
-      "property": "component-xs-medium"
+      "property": "component-xs-medium",
+      "weight": "medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -893,7 +916,8 @@
   },
   {
     "name": {
-      "property": "component-xs-regular"
+      "property": "component-xs-regular",
+      "weight": "regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -915,7 +939,8 @@
   },
   {
     "name": {
-      "property": "default-font-style"
+      "property": "default-font-style",
+      "style": "normal"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-style.json",
     "value": "normal",
@@ -1167,7 +1192,8 @@
   {
     "name": {
       "component": "detail",
-      "property": "margin-bottom-multiplier"
+      "property": "margin-bottom-multiplier",
+      "structure": "detail"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 0.25,
@@ -1176,7 +1202,8 @@
   {
     "name": {
       "component": "detail",
-      "property": "margin-top-multiplier"
+      "property": "margin-top-multiplier",
+      "structure": "detail"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 0.88888889,
@@ -1571,7 +1598,8 @@
   },
   {
     "name": {
-      "property": "extra-bold-font-weight"
+      "property": "extra-bold-font-weight",
+      "weight": "extra-bold"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "value": "extra-bold",
@@ -1580,7 +1608,8 @@
   {
     "name": {
       "property": "font-size-100",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "14px",
@@ -1591,7 +1620,8 @@
   {
     "name": {
       "property": "font-size-100",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "17px",
@@ -1602,7 +1632,8 @@
   {
     "name": {
       "property": "font-size-1000",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 1000
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "40px",
@@ -1613,7 +1644,8 @@
   {
     "name": {
       "property": "font-size-1000",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 1000
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "49px",
@@ -1624,7 +1656,8 @@
   {
     "name": {
       "property": "font-size-1100",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 1100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "45px",
@@ -1635,7 +1668,8 @@
   {
     "name": {
       "property": "font-size-1100",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 1100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "55px",
@@ -1646,7 +1680,8 @@
   {
     "name": {
       "property": "font-size-1200",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 1200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "51px",
@@ -1657,7 +1692,8 @@
   {
     "name": {
       "property": "font-size-1200",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 1200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "62px",
@@ -1668,7 +1704,8 @@
   {
     "name": {
       "property": "font-size-1300",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 1300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "58px",
@@ -1679,7 +1716,8 @@
   {
     "name": {
       "property": "font-size-1300",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 1300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "70px",
@@ -1690,7 +1728,8 @@
   {
     "name": {
       "property": "font-size-1400",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 1400
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "65px",
@@ -1701,7 +1740,8 @@
   {
     "name": {
       "property": "font-size-1400",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 1400
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "79px",
@@ -1712,7 +1752,8 @@
   {
     "name": {
       "property": "font-size-1500",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 1500
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "73px",
@@ -1723,7 +1764,8 @@
   {
     "name": {
       "property": "font-size-1500",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 1500
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "88px",
@@ -1734,7 +1776,8 @@
   {
     "name": {
       "property": "font-size-200",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "16px",
@@ -1745,7 +1788,8 @@
   {
     "name": {
       "property": "font-size-200",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "19px",
@@ -1756,7 +1800,8 @@
   {
     "name": {
       "property": "font-size-25",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 25
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "10px",
@@ -1767,7 +1812,8 @@
   {
     "name": {
       "property": "font-size-25",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 25
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "12px",
@@ -1778,7 +1824,8 @@
   {
     "name": {
       "property": "font-size-300",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "18px",
@@ -1789,7 +1836,8 @@
   {
     "name": {
       "property": "font-size-300",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "22px",
@@ -1800,7 +1848,8 @@
   {
     "name": {
       "property": "font-size-400",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 400
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "20px",
@@ -1811,7 +1860,8 @@
   {
     "name": {
       "property": "font-size-400",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 400
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "24px",
@@ -1822,7 +1872,8 @@
   {
     "name": {
       "property": "font-size-50",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 50
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "11px",
@@ -1833,7 +1884,8 @@
   {
     "name": {
       "property": "font-size-50",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 50
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "13px",
@@ -1844,7 +1896,8 @@
   {
     "name": {
       "property": "font-size-500",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 500
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "22px",
@@ -1855,7 +1908,8 @@
   {
     "name": {
       "property": "font-size-500",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 500
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "27px",
@@ -1866,7 +1920,8 @@
   {
     "name": {
       "property": "font-size-600",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 600
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "25px",
@@ -1877,7 +1932,8 @@
   {
     "name": {
       "property": "font-size-600",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 600
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "31px",
@@ -1888,7 +1944,8 @@
   {
     "name": {
       "property": "font-size-700",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 700
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "28px",
@@ -1899,7 +1956,8 @@
   {
     "name": {
       "property": "font-size-700",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 700
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "34px",
@@ -1910,7 +1968,8 @@
   {
     "name": {
       "property": "font-size-75",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 75
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "12px",
@@ -1921,7 +1980,8 @@
   {
     "name": {
       "property": "font-size-75",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 75
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "15px",
@@ -1932,7 +1992,8 @@
   {
     "name": {
       "property": "font-size-800",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 800
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "32px",
@@ -1943,7 +2004,8 @@
   {
     "name": {
       "property": "font-size-800",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 800
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "39px",
@@ -1954,7 +2016,8 @@
   {
     "name": {
       "property": "font-size-900",
-      "scale": "desktop"
+      "scale": "desktop",
+      "scaleIndex": 900
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "36px",
@@ -1965,7 +2028,8 @@
   {
     "name": {
       "property": "font-size-900",
-      "scale": "mobile"
+      "scale": "mobile",
+      "scaleIndex": 900
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "44px",
@@ -2316,7 +2380,8 @@
   {
     "name": {
       "component": "heading",
-      "property": "margin-bottom-multiplier"
+      "property": "margin-bottom-multiplier",
+      "structure": "heading"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 0.25,
@@ -2325,7 +2390,8 @@
   {
     "name": {
       "component": "heading",
-      "property": "margin-top-multiplier"
+      "property": "margin-top-multiplier",
+      "structure": "heading"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 0.88888889,
@@ -2876,7 +2942,8 @@
   },
   {
     "name": {
-      "property": "italic-font-style"
+      "property": "italic-font-style",
+      "style": "italic"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-style.json",
     "value": "italic",
@@ -2892,7 +2959,8 @@
   },
   {
     "name": {
-      "property": "light-font-weight"
+      "property": "light-font-weight",
+      "weight": "light"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "value": "light",
@@ -2900,7 +2968,8 @@
   },
   {
     "name": {
-      "property": "line-height-100"
+      "property": "line-height-100",
+      "scaleIndex": 100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 1.3,
@@ -2908,7 +2977,8 @@
   },
   {
     "name": {
-      "property": "line-height-200"
+      "property": "line-height-200",
+      "scaleIndex": 200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 1.5,
@@ -3312,7 +3382,8 @@
   },
   {
     "name": {
-      "property": "medium-font-weight"
+      "property": "medium-font-weight",
+      "weight": "medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "value": "medium",
@@ -3320,7 +3391,8 @@
   },
   {
     "name": {
-      "property": "regular-font-weight"
+      "property": "regular-font-weight",
+      "weight": "regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "value": "regular",
@@ -3328,7 +3400,8 @@
   },
   {
     "name": {
-      "property": "sans-serif-font-family"
+      "property": "sans-serif-font-family",
+      "family": "sans-serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-family.json",
     "value": "Adobe Clean Spectrum VF",
@@ -3336,7 +3409,8 @@
   },
   {
     "name": {
-      "property": "serif-font-family"
+      "property": "serif-font-family",
+      "family": "serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-family.json",
     "value": "Adobe Clean Serif",
