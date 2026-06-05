@@ -9,6 +9,11 @@
 # governing permissions and limitations under the License.
 $schema: "https://moonrepo.dev/schemas/project.json"
 layer: tool
+# The MCP server serves Spectrum design data, so it depends on the design-data
+# package. moon uses this for task ordering and (via
+# syncProjectWorkspaceDependencies) keeps the workspace dependency in package.json.
+dependsOn:
+  - "design-data"
 tasks:
   start:
     command: [node, src/index.js]
