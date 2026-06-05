@@ -608,4 +608,142 @@ mod tests {
             Some("light")
         );
     }
+
+    // ── Layer ordering: Platform > Foundation ────────────────────────────────
+
+    #[test]
+    fn platform_layer_beats_foundation_layer() {
+        // Foundation token and Platform override for the same name object.
+        let foundation = TokenRecord {
+            name: "foundation-bg".into(),
+            file: PathBuf::from("foundation.tokens.json"),
+            index: 0,
+            schema_url: None,
+            uuid: None,
+            alias_target: None,
+            raw: json!({"name": {"property": "bg"}, "value": "#foundation"}),
+            layer: Layer::Foundation,
+        };
+        let platform = TokenRecord {
+            name: "platform-bg".into(),
+            file: PathBuf::from("platform.tokens.json"),
+            index: 0,
+            schema_url: None,
+            uuid: None,
+            alias_target: None,
+            raw: json!({"name": {"property": "bg"}, "value": "#platform"}),
+            layer: Layer::Platform,
+        };
+        let g = TokenGraph::from_records(vec![foundation, platform]);
+        let ctx = ResolutionContext::new();
+        let winner = resolve(&g, &ctx).expect("should find a winner");
+        assert_eq!(winner.layer, Layer::Platform);
+        assert_eq!(
+            winner.raw.get("value").and_then(|v| v.as_str()),
+            Some("#platform")
+        );
+    }
+
+    // ── Specificity tie-break within same layer ──────────────────────────────
+
+    #[test]
+    fn higher_specificity_beats_lower_within_same_layer() {
+        // Same layer (Foundation), different specificity.
+        // dark token (colorScheme=dark, non-default) has specificity 1.
+        // light token (colorScheme=light, IS default) has specificity 0.
+        // When asking for dark, dark-specific token wins via specificity.
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "t-light".into(),
+                PathBuf::from("a.tokens.json"),
+                json!({"name": {"property": "bg", "colorScheme": "light"}, "value": "#light"}),
+            ),
+            (
+                "t-dark".into(),
+                PathBuf::from("a.tokens.json"),
+                json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#dark"}),
+            ),
+        ])
+        .with_mode_sets(vec![color_scheme_mode_set()]); // default_mode = "light"
+
+        let ctx = ResolutionContext::new().with("colorScheme", "dark");
+        let winner = resolve(&g, &ctx).expect("should find a winner");
+        // t-dark: colorScheme=dark (non-default) → specificity 1.
+        // t-light: colorScheme=light (IS default) → specificity 0.
+        // t-dark wins even though both files are the same.
+        assert_eq!(
+            winner.raw["name"]["colorScheme"].as_str(),
+            Some("dark")
+        );
+    }
+
+    #[test]
+    fn equal_specificity_same_layer_falls_back_to_document_index() {
+        // Two tokens in the same file: same layer, same specificity.
+        // Lower index wins (document order).
+        // Note: from_pairs sets index=0 for all tokens; use from_records instead
+        // so we can control the index explicitly.
+        use crate::graph::TokenRecord;
+        let first = TokenRecord {
+            name: "t-first".into(),
+            file: PathBuf::from("same.json"),
+            index: 0,
+            schema_url: None,
+            uuid: None,
+            alias_target: None,
+            raw: json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#first"}),
+            layer: Layer::Foundation,
+        };
+        let second = TokenRecord {
+            name: "t-second".into(),
+            file: PathBuf::from("same.json"),
+            index: 1, // higher index → loses tie-break
+            schema_url: None,
+            uuid: None,
+            alias_target: None,
+            raw: json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#second"}),
+            layer: Layer::Foundation,
+        };
+        let g = TokenGraph::from_records(vec![first, second])
+            .with_mode_sets(vec![color_scheme_mode_set()]);
+
+        let ctx = ResolutionContext::new().with("colorScheme", "dark");
+        let winner = resolve(&g, &ctx).expect("should find a winner");
+        // Both have the same file path and same specificity (dark=non-default → 1).
+        // t-first (index 0) beats t-second (index 1) via document order.
+        assert_eq!(
+            winner.raw.get("value").and_then(|v| v.as_str()),
+            Some("#first")
+        );
+    }
+
+    #[test]
+    fn double_mode_set_token_beats_single_mode_set_token() {
+        // Token with both colorScheme=dark AND scale=mobile has specificity 2.
+        // Token with only colorScheme=dark has specificity 1.
+        // The double-specific token wins when context matches both.
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "t-dark-mobile".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "bg", "colorScheme": "dark", "scale": "mobile"}, "value": "#double"}),
+            ),
+            (
+                "t-dark".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#single"}),
+            ),
+        ])
+        .with_mode_sets(vec![color_scheme_mode_set(), scale_mode_set()]);
+
+        let ctx = ResolutionContext::new()
+            .with("colorScheme", "dark")
+            .with("scale", "mobile");
+        let winner = resolve(&g, &ctx).expect("should find a winner");
+        assert_eq!(
+            winner.raw.get("value").and_then(|v| v.as_str()),
+            Some("#double"),
+            "double-specific token (specificity 2) should beat single-specific (specificity 1)"
+        );
+    }
 }

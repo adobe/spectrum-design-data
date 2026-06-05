@@ -25,3 +25,4 @@ dirs = "5"
 
 [dev-dependencies]
 tempfile = "3"
+insta = "1"

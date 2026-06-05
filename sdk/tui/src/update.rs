@@ -20,14 +20,7 @@
 //! (`DescribeDone`), and the `validate` FS scan (`ValidateDone`). The completion
 //! messages feed back through `update` to settle the resulting view.
 
-use std::collections::HashMap;
-use std::path::Path;
-use std::sync::Arc;
-
 use crossterm::event::{KeyCode, KeyModifiers, MouseButton, MouseEventKind};
-use design_data_core::graph::TokenGraph;
-use design_data_core::query::TokenIndex;
-use design_data_core::schema::SchemaRegistry;
 use design_data_core::write::write_token;
 use tui_input::backend::crossterm::EventHandler;
 
@@ -42,53 +35,9 @@ use crate::model::Model;
 use crate::naming::NamingEvent;
 use crate::task::Task;
 use crate::update_command::handle_palette_submit;
-use crate::wizard::{WizardCtx, WizardEvent};
+use crate::update_ctx::UpdateCtx;
+use crate::wizard::WizardEvent;
 use crate::wizard_draft::{clear_wizard_draft, save_wizard_draft, to_draft};
-
-// ── External context ──────────────────────────────────────────────────────────
-
-/// Read-only external context passed into `update` alongside the message.
-///
-/// Combines the fields of `SubmitContext` and `WizardCtx` so `update` is a
-/// single entry point regardless of which command or modal is active.
-pub struct UpdateCtx<'a> {
-    pub graph: &'a TokenGraph,
-    pub dataset_path: Option<&'a Path>,
-    pub components_dir: Option<&'a Path>,
-    /// Shared so side-effect `Task::Cmd` closures (e.g. `validate`, wizard write)
-    /// can own a cheap `Arc` clone and satisfy the `Send + 'static` bound.
-    pub schema_registry: Option<Arc<SchemaRegistry>>,
-    pub mode_sets_dir: Option<&'a Path>,
-    pub token_index: TokenIndex,
-    pub mode_set_restrictions: HashMap<String, Vec<String>>,
-    pub allow_write: bool,
-}
-
-impl<'a> UpdateCtx<'a> {
-    /// Minimal context for tests that only need key/palette/modal behavior.
-    pub fn minimal(graph: &'a TokenGraph) -> Self {
-        Self {
-            graph,
-            dataset_path: None,
-            components_dir: None,
-            schema_registry: None,
-            mode_sets_dir: None,
-            token_index: TokenIndex::build(graph),
-            mode_set_restrictions: HashMap::new(),
-            allow_write: false,
-        }
-    }
-
-    fn as_wizard_ctx(&self) -> WizardCtx<'_> {
-        WizardCtx {
-            graph: self.graph,
-            token_index: self.token_index.clone(),
-            dataset_path: self.dataset_path,
-            schema_registry: self.schema_registry.as_deref(),
-            allow_write: self.allow_write,
-        }
-    }
-}
 
 // ── Entry point ───────────────────────────────────────────────────────────────
 
@@ -97,6 +46,12 @@ impl<'a> UpdateCtx<'a> {
 /// Routes `msg` through the appropriate handler based on current `model` state,
 /// mutates `model` in place, and returns a `Task` describing any side effects
 /// to execute outside this call (FS writes, clipboard, etc.).
+///
+/// **In tests**: for messages that trigger IO commands (e.g. `describe`,
+/// `validate`, wizard write), call [`crate::runtime::dispatch`] instead of
+/// this function directly — `dispatch` runs the returned `Task` to completion
+/// so the model is fully settled before you assert. Plain `update` is fine for
+/// pure key/palette/modal transitions.
 pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Message> {
     match msg {
         Message::Key(key) => handle_key(model, key, ctx),

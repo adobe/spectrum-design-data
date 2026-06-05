@@ -31,7 +31,8 @@ use crate::model::Model;
 use crate::subscription::{subscriptions, Subscriptions, TICK_INTERVAL};
 use crate::task::Task;
 use crate::theme::Theme;
-use crate::update::{update, UpdateCtx};
+use crate::update::update;
+use crate::update_ctx::UpdateCtx;
 use crate::view::draw;
 
 /// Run the TUI event loop until the user quits.
@@ -301,8 +302,33 @@ fn compute_hit_regions(model: &Model, status_height: u16, frame_area: Rect) -> V
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::update::UpdateCtx;
-    use design_data_core::graph::TokenGraph;
+    use crate::message::Message;
+    use crate::theme::Theme;
+    use crate::update::update;
+    use crate::update_ctx::UpdateCtx;
+    use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
+    use ratatui::backend::TestBackend;
+    use ratatui::Terminal;
+    use serde_json::json;
+    use std::path::PathBuf;
+
+    fn make_test_graph(names: &[&str]) -> TokenGraph {
+        let records: Vec<TokenRecord> = names
+            .iter()
+            .enumerate()
+            .map(|(i, &name)| TokenRecord {
+                name: name.to_string(),
+                file: PathBuf::from("test.json"),
+                index: i,
+                schema_url: None,
+                uuid: None,
+                alias_target: None,
+                raw: json!({ "value": "red", "name": { "property": name } }),
+                layer: Layer::Foundation,
+            })
+            .collect();
+        TokenGraph::from_records(records)
+    }
 
     #[test]
     fn execute_task_handles_deeply_nested_batch_without_stack_overflow() {
@@ -316,5 +342,78 @@ mod tests {
 
         // Passes if it completes without stack overflow or panic.
         execute_task(deep, &mut model, &ctx);
+    }
+
+    /// Guard: `compute_hit_regions` layout must stay synchronized with `view::draw`.
+    ///
+    /// SYNC WITH view::draw — if the layout constraints in `view::draw` change, this
+    /// test will fail because the rendered row positions will shift relative to what
+    /// `compute_hit_regions` expects. Fix both together (see "SYNC WITH view::draw"
+    /// comment in `compute_hit_regions`).
+    #[test]
+    fn hit_regions_align_with_rendered_buffer_rows() {
+        const W: u16 = 80;
+        const H: u16 = 24;
+
+        // Set up a 3-token graph and open a "query *" view so we have multiple rows.
+        let graph = make_test_graph(&[
+            "accent-background-color-default",
+            "neutral-background-color-default",
+            "positive-background-color-default",
+        ]);
+        let ctx = UpdateCtx::minimal(&graph);
+        let mut model = Model::new();
+        update(
+            &mut model,
+            Message::PaletteSubmit("query property=*".into()),
+            &ctx,
+        );
+        assert!(
+            matches!(model.active_view, crate::app::ActiveView::Query(_)),
+            "expected Query view after 'query property=*'"
+        );
+
+        // Render to a TestBackend.
+        let backend = TestBackend::new(W, H);
+        let mut terminal = Terminal::new(backend).unwrap();
+        terminal
+            .draw(|f| draw(&mut model, f, &Theme::terminal(), "test · 3 tokens"))
+            .unwrap();
+        let buf = terminal.backend().buffer().clone();
+
+        // Compute hit regions with the same geometry.
+        let frame_area = Rect::new(0, 0, W, H);
+        let status_height = u16::from(model.status_message.is_some()); // 0
+        let regions = compute_hit_regions(&model, status_height, frame_area);
+
+        // We should get exactly 3 rows (one per token).
+        assert_eq!(regions.len(), 3, "expected 3 hit regions for 3 tokens");
+
+        // Cross-check: the buffer row at each region's y must have non-space content.
+        // This fails if compute_hit_regions returns a y that is outside the table data
+        // area because view::draw changed its layout without updating compute_hit_regions.
+        for (i, region) in regions.iter().enumerate() {
+            let y = region.rect.y;
+            // Scan a few columns looking for a non-space character — the token name.
+            let has_content = (1..20u16).any(|x| {
+                buf.cell((x, y))
+                    .map(|c| c.symbol() != " ")
+                    .unwrap_or(false)
+            });
+            assert!(
+                has_content,
+                "hit region {i} at y={y} has no rendered content in the buffer — \
+                 compute_hit_regions is out of sync with view::draw"
+            );
+
+            // Also check rows are sequential.
+            if i > 0 {
+                assert_eq!(
+                    region.rect.y,
+                    regions[i - 1].rect.y + 1,
+                    "hit region rows should be consecutive"
+                );
+            }
+        }
     }
 }
