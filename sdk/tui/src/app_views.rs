@@ -33,11 +33,6 @@ use crate::wizard::{WizardScreen, WizardState};
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-/// Command names for Tab autocomplete.
-pub(crate) const KNOWN_COMMANDS: &[&str] = &[
-    "find", "name", "new", "query", "resolve", "describe", "validate",
-];
-
 /// Max palette history entries persisted to disk.
 pub(crate) const HISTORY_CAP: usize = 200;
 
