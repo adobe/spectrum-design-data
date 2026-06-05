@@ -9,13 +9,12 @@
 // governing permissions and limitations under the License.
 
 mod common;
-use common::key;
+use common::{key, settle, update_ctx_builder};
 
 use crossterm::event::KeyCode;
 use design_data_core::graph::{ComponentRecord, TokenGraph};
-use design_data_core::query::TokenIndex;
 use design_data_tui::app::ActiveView;
-use design_data_tui::{dispatch, update, Message, Model, UpdateCtx};
+use design_data_tui::{update, Message, Model, UpdateCtx};
 use serde_json::json;
 use std::path::PathBuf;
 
@@ -33,22 +32,13 @@ fn make_graph_with_components() -> TokenGraph {
 }
 
 fn describe_ctx<'a>(graph: &'a TokenGraph, dir: &'a PathBuf) -> UpdateCtx<'a> {
-    UpdateCtx {
-        graph,
-        dataset_path: None,
-        components_dir: Some(dir.as_path()),
-        schema_registry: None,
-        mode_sets_dir: None,
-        token_index: TokenIndex::build(graph),
-        mode_set_restrictions: std::collections::HashMap::new(),
-        allow_write: false,
-    }
+    update_ctx_builder(graph).components_dir(dir.as_path()).build()
 }
 
 fn submit_describe(model: &mut Model, ctx: &UpdateCtx<'_>, id: &str) {
-    // `describe` now completes via a Task (DescribeDone), so drive it through
-    // `dispatch` to run the FS read and settle the view before asserting.
-    dispatch(model, Message::PaletteSubmit(format!("describe {id}")), ctx);
+    // `describe` completes via a Task (DescribeDone) — use `settle` to run the
+    // FS read and settle the view before asserting.
+    settle(model, Message::PaletteSubmit(format!("describe {id}")), ctx);
 }
 
 #[test]

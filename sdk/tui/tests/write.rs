@@ -14,11 +14,10 @@
 //! Tests that exercise the real `write_token` path load `SchemaRegistry` from
 //! `packages/tokens/schemas` (relative to the repo root via `CARGO_MANIFEST_DIR`).
 
-use std::collections::HashMap;
 use std::path::PathBuf;
 
 mod common;
-use common::key;
+use common::{feed_keys, key, type_str, update_ctx_builder};
 
 use crossterm::event::KeyCode;
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
@@ -82,16 +81,10 @@ fn submit_without_allow_write_does_not_create_file() {
     let registry = load_registry();
     let graph = make_graph_with_schema();
     let tmpdir = tempfile::TempDir::new().expect("tempdir");
-    let ctx = UpdateCtx {
-        graph: &graph,
-        token_index: TokenIndex::build(&graph),
-        dataset_path: Some(tmpdir.path()),
-        schema_registry: Some(std::sync::Arc::new(registry)),
-        components_dir: None,
-        mode_sets_dir: None,
-        mode_set_restrictions: HashMap::new(),
-        allow_write: false,
-    };
+    let ctx = update_ctx_builder(&graph)
+        .dataset_path(tmpdir.path())
+        .schema_registry(std::sync::Arc::new(registry))
+        .build();
     let mut model = Model::new();
     update(
         &mut model,
@@ -99,16 +92,12 @@ fn submit_without_allow_write_does_not_create_file() {
         &ctx,
     );
 
-    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 2
-    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx); // focus property
-    for c in "background-color".chars() {
-        update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
-    }
-    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 3
-    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Screen 4
-    for c in "Needed for checkout redesign".chars() {
-        update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
-    }
+    feed_keys(&mut model, &ctx, &[KeyCode::Enter]); // → Screen 2
+    feed_keys(&mut model, &ctx, &[KeyCode::Tab]);   // focus property
+    type_str(&mut model, &ctx, "background-color");
+    feed_keys(&mut model, &ctx, &[KeyCode::Enter]); // → Screen 3
+    feed_keys(&mut model, &ctx, &[KeyCode::Enter]); // → Screen 4
+    type_str(&mut model, &ctx, "Needed for checkout redesign");
     let task = update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
 
     assert!(
