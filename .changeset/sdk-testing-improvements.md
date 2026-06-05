@@ -1,5 +1,5 @@
 ---
-"design-data-tui": patch
+"design-data-tui": minor
 "design-data-core": patch
 ---
 

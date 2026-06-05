@@ -33,10 +33,6 @@ use design_data_tui::{update, Message, Model};
 /// The initial home screen (no query, no modal).
 #[test]
 fn snapshot_home_view() {
-    let graph = make_graph_with_tokens(&[
-        "accent-background-color-default",
-        "neutral-background-color-default",
-    ]);
     let mut model = Model::new();
     let buf = render_to_buffer(&mut model, 80, 24);
     let rendered = buffer_to_string(&buf);

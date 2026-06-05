@@ -56,14 +56,15 @@ fn yank_in_resolve_view_emits_clipboard_cmd() {
 
     update(
         &mut model,
-        Message::PaletteSubmit("resolve accent-background-color-default".into()),
+        Message::PaletteSubmit("resolve property=accent-background-color-default".into()),
         &ctx,
     );
-    // May be Resolve or a status error if token has no alias; just check task if view resolved.
-    if matches!(model.active_view, ActiveView::Resolve(_)) {
-        let task = update(&mut model, Message::Key(key(KeyCode::Char('y'))), &ctx);
-        assert_emits_cmd(&task, "'y' in resolve view should emit clipboard Task::Cmd");
-    }
+    assert!(
+        matches!(model.active_view, ActiveView::Resolve(_)),
+        "expected Resolve view after 'resolve property=accent-background-color-default'"
+    );
+    let task = update(&mut model, Message::Key(key(KeyCode::Char('y'))), &ctx);
+    assert_emits_cmd(&task, "'y' in resolve view should emit clipboard Task::Cmd");
 }
 
 /// 'y' outside a table view (in Empty state) emits no command.
