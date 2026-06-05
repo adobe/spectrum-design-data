@@ -44,10 +44,16 @@ tasks:
   #   pkg/node/ — synchronous nodejs target (no init() required)
   #   pkg/web/  — browser ESM target (requires await init(wasmUrl))
   # cache-build runs first to generate src/embedded_cache.redb so Dataset.embedded() works.
+  #
+  # Uses platform: system (bash) so we can prepend $HOME/.cargo/bin to PATH before invoking
+  # node scripts/build.mjs. This ensures wasm-pack finds rustup's rustc proxy rather than a
+  # Homebrew-managed rustc that lacks the wasm32-unknown-unknown target. CI is unaffected:
+  # dtolnay/rust-toolchain already places rustup's rustc first.
   build:
-    command: node
+    command: bash
     args:
-      - scripts/build.mjs
+      - -c
+      - 'export PATH="$HOME/.cargo/bin:$PATH" && node scripts/build.mjs'
     inputs:
       - "@globs(sources)"
       - "/sdk/core/src/**/*.rs"
@@ -62,7 +68,7 @@ tasks:
     deps:
       - sdk:codegen-check
       - cache-build
-    platform: node
+    platform: system
 
   # Run AVA parity tests against the compiled nodejs wasm package.
   test:
