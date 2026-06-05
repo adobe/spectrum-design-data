@@ -9,14 +9,15 @@
 // governing permissions and limitations under the License.
 
 use design_data_core::CoreError;
+use js_sys::Error;
 use wasm_bindgen::JsValue;
 
-/// Convert a [`CoreError`] into a JS error string.
+/// Convert a [`CoreError`] into a JS `Error` object.
 pub(crate) fn to_js_error(e: CoreError) -> JsValue {
-    JsValue::from_str(&e.to_string())
+    Error::new(&e.to_string()).into()
 }
 
-/// Convert any `Display`-able error into a JS error string.
+/// Convert any `Display`-able value into a JS `Error` object.
 pub(crate) fn js_err(msg: impl std::fmt::Display) -> JsValue {
-    JsValue::from_str(&msg.to_string())
+    Error::new(&msg.to_string()).into()
 }
