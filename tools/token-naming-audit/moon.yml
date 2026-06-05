@@ -10,6 +10,8 @@ tasks:
       - "test/**/*"
       - "package.json"
       - "ava.config.js"
+    deps:
+      - sdk-wasm:build
 
   lint:
     command: [echo, "No linting configured"]
