@@ -1,5 +1,16 @@
 export default {
-  "**/*.{js,jsx,ts,tsx,json,yml,yaml}": ["prettier --write"],
+  "**/*.{js,jsx,ts,tsx,json,yml,yaml}": (files) => {
+    // Exclude lockfiles: they are machine-generated and must not be reformatted
+    // by prettier (doing so produces a massive, churny diff). A bare
+    // `"!**/pnpm-lock.yaml": []` key does NOT exclude them from this glob —
+    // lint-staged matches each key independently — so filter them out here.
+    const lockfile = /(?:^|\/)(pnpm-lock\.yaml|package-lock\.json|yarn\.lock)$/;
+    const formatable = files.filter((file) => !lockfile.test(file));
+    if (formatable.length === 0) return [];
+    return [
+      `prettier --write ${formatable.map((f) => JSON.stringify(f)).join(" ")}`,
+    ];
+  },
   "**/*.md": (files) => {
     // Filter out changeset and CHANGELOG files - they need special handling
     // Skip 11ty page templates so YAML frontmatter (---) is not reformatted by remark
@@ -22,9 +33,6 @@ export default {
         `remark ${file} --use remark-frontmatter --use remark-gfm --use remark-github -o`,
     );
   },
-  "!**/pnpm-lock.yaml": [],
-  "!**/package-lock.json": [],
-  "!**/yarn.lock": [],
   ".changeset/*.md": (files) => {
     // Only run changeset linter on actual changeset files, not README.md
     const changesetFiles = files.filter((file) => !file.endsWith("README.md"));

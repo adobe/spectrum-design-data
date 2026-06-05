@@ -385,6 +385,15 @@ enum MigrateSub {
         #[arg(value_name = "PATH")]
         path: PathBuf,
     },
+    /// Verify that regenerating legacy output from cascade matches a reference legacy directory
+    LegacyVerify {
+        /// Source directory containing cascade .tokens.json files
+        #[arg(value_name = "CASCADE_DIR")]
+        cascade_dir: PathBuf,
+        /// Reference legacy directory to compare against (e.g. packages/tokens/src)
+        #[arg(long, value_name = "DIR")]
+        reference: PathBuf,
+    },
 }
 
 #[derive(Subcommand)]
@@ -850,6 +859,35 @@ fn run_migrate_roundtrip_verify(path: &Path) -> miette::Result<ExitCode> {
         .wrap_err_with(|| format!("roundtrip-verify failed: {}", path.display()))?;
     if diffs.is_empty() {
         println!("Roundtrip OK: {}", path.display());
+        return Ok(ExitCode::SUCCESS);
+    }
+    for d in &diffs {
+        if d.token.is_empty() {
+            eprintln!("  {}: {}", d.file, d.detail);
+        } else {
+            eprintln!("  {}/{}: {}", d.file, d.token, d.detail);
+        }
+    }
+    eprintln!("{} difference(s) found", diffs.len());
+    Ok(ExitCode::from(1))
+}
+
+fn run_migrate_legacy_verify(cascade_dir: &Path, reference: &Path) -> miette::Result<ExitCode> {
+    let diffs = legacy::legacy_output_verify(cascade_dir, reference)
+        .into_diagnostic()
+        .wrap_err_with(|| {
+            format!(
+                "legacy-verify failed: {} vs {}",
+                cascade_dir.display(),
+                reference.display()
+            )
+        })?;
+    if diffs.is_empty() {
+        println!(
+            "Legacy output OK: {} matches {}",
+            cascade_dir.display(),
+            reference.display()
+        );
         return Ok(ExitCode::SUCCESS);
     }
     for d in &diffs {
@@ -1831,6 +1869,10 @@ fn main() -> ExitCode {
             }
             MigrateSub::AddUuids { dir } => run_migrate_add_uuids(&dir),
             MigrateSub::RoundtripVerify { path } => run_migrate_roundtrip_verify(&path),
+            MigrateSub::LegacyVerify {
+                cascade_dir,
+                reference,
+            } => run_migrate_legacy_verify(&cascade_dir, &reference),
         },
         Commands::Figma { sub } => match sub {
             FigmaSub::Read {
