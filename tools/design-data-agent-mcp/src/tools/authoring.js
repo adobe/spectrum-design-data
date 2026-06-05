@@ -8,20 +8,26 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! MCP authoring-session tools (RFC #973 Q4).
-//!
-//! Each tool maps to one `design-data authoring-session` CLI subcommand.
-//! State is held on disk (one JSON file per session); the CLI is stateless.
+/**
+ * Authoring-session tools for design-data-agent-mcp.
+ *
+ * Most operations use @adobe/design-data-js (on-disk session store) and run
+ * fully in-process. The exception is authoring_session_step_intent, which still
+ * delegates to the CLI because the NLP `suggest` ranking is not yet on the wasm
+ * surface. When that API is added, step_intent can be migrated here too.
+ */
 
+import {
+  startSession,
+  getSession,
+  listSessions,
+  stepClassification,
+  stepValues,
+  commitSession,
+  cancelSession,
+} from "@adobe/design-data-js/session";
 import { runCli } from "../cli.js";
 import { config } from "../config.js";
-
-async function callCli(args) {
-  const { exitCode, stdout, stderr } = await runCli(args, { timeout: 30_000 });
-  if (exitCode !== 0)
-    throw new Error(stderr || `authoring-session exited ${exitCode}`);
-  return JSON.parse(stdout);
-}
 
 export function createAuthoringTools() {
   return [
@@ -48,7 +54,7 @@ export function createAuthoringTools() {
             "dataset_path is required (or set DESIGN_DATA_PATH in the environment)",
           );
         }
-        return callCli(["authoring-session", "start", path]);
+        return startSession(path);
       },
     },
 
@@ -71,15 +77,25 @@ export function createAuthoringTools() {
         additionalProperties: false,
       },
       async handler({ session_id, intent }) {
-        return callCli([
-          "authoring-session",
-          "step",
-          "intent",
-          "--session-id",
-          session_id,
-          "--intent",
-          intent,
-        ]);
+        // step_intent requires NLP suggest ranking — still uses the CLI.
+        // Will be migrated when suggest is added to the wasm surface.
+        const { exitCode, stdout, stderr } = await runCli(
+          [
+            "authoring-session",
+            "step",
+            "intent",
+            "--session-id",
+            session_id,
+            "--intent",
+            intent,
+          ],
+          { timeout: 30_000 },
+        );
+        if (exitCode !== 0)
+          throw new Error(
+            stderr || `authoring-session step intent exited ${exitCode}`,
+          );
+        return JSON.parse(stdout);
       },
     },
 
@@ -118,21 +134,11 @@ export function createAuthoringTools() {
         additionalProperties: false,
       },
       async handler({ session_id, layer, property, name_fields = [] }) {
-        const args = [
-          "authoring-session",
-          "step",
-          "classification",
-          "--session-id",
-          session_id,
-          "--layer",
+        return stepClassification(session_id, {
           layer,
-          "--property",
           property,
-        ];
-        for (const { key, value } of name_fields) {
-          args.push("--name-field", `${key}=${value}`);
-        }
-        return callCli(args);
+          nameFields: name_fields,
+        });
       },
     },
 
@@ -174,15 +180,7 @@ export function createAuthoringTools() {
         additionalProperties: false,
       },
       async handler({ session_id, rows }) {
-        return callCli([
-          "authoring-session",
-          "step",
-          "values",
-          "--session-id",
-          session_id,
-          "--rows",
-          JSON.stringify(rows),
-        ]);
+        return stepValues(session_id, rows);
       },
     },
 
@@ -217,7 +215,9 @@ export function createAuthoringTools() {
           schema_path: {
             type: "string",
             description:
-              "Path to schemas directory. Defaults to packages/tokens/schemas relative to target.",
+              "Path to schemas directory containing token-types/ and token-file.json. " +
+              "Used for Layer-1 JSON-Schema validation before writing. " +
+              "Defaults to @adobe/spectrum-tokens schemas when omitted.",
           },
           is_override: {
             type: "boolean",
@@ -236,22 +236,15 @@ export function createAuthoringTools() {
         schema_path,
         is_override = false,
       }) {
-        const args = [
-          "authoring-session",
-          "commit",
-          "--session-id",
-          session_id,
-          "--schema-url",
-          schema_url,
-          "--target",
+        return commitSession({
+          sessionId: session_id,
+          schemaUrl: schema_url,
           target,
-          "--rationale",
           rationale,
-        ];
-        if (product_context) args.push("--product-context", product_context);
-        if (schema_path) args.push("--schema-path", schema_path);
-        if (is_override) args.push("--is-override");
-        return callCli(args);
+          productContext: product_context,
+          schemaPath: schema_path ?? null,
+          isOverride: is_override,
+        });
       },
     },
 
@@ -261,18 +254,11 @@ export function createAuthoringTools() {
       inputSchema: {
         type: "object",
         required: ["session_id"],
-        properties: {
-          session_id: { type: "string" },
-        },
+        properties: { session_id: { type: "string" } },
         additionalProperties: false,
       },
       async handler({ session_id }) {
-        return callCli([
-          "authoring-session",
-          "cancel",
-          "--session-id",
-          session_id,
-        ]);
+        return cancelSession(session_id);
       },
     },
 
@@ -282,18 +268,11 @@ export function createAuthoringTools() {
       inputSchema: {
         type: "object",
         required: ["session_id"],
-        properties: {
-          session_id: { type: "string" },
-        },
+        properties: { session_id: { type: "string" } },
         additionalProperties: false,
       },
       async handler({ session_id }) {
-        return callCli([
-          "authoring-session",
-          "get",
-          "--session-id",
-          session_id,
-        ]);
+        return getSession(session_id);
       },
     },
 
@@ -306,7 +285,7 @@ export function createAuthoringTools() {
         additionalProperties: false,
       },
       async handler() {
-        return callCli(["authoring-session", "list"]);
+        return listSessions();
       },
     },
   ];

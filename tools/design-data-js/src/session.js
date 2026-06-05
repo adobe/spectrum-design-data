@@ -28,11 +28,16 @@ import {
   unlinkSync,
   readdirSync,
   renameSync,
-} from 'node:fs';
-import { join } from 'node:path';
-import { randomUUID } from 'node:crypto';
-import { homedir } from 'node:os';
-import { buildTokenFromWizard, writeToken, writeProductContext } from './write.js';
+} from "node:fs";
+import { join } from "node:path";
+import { randomUUID } from "node:crypto";
+import { homedir } from "node:os";
+import {
+  buildTokenFromWizard,
+  writeToken,
+  writeProductContext,
+} from "./write.js";
+import { validateTokenAgainstSchema, resolveSchemaDir } from "./validate.js";
 
 /**
  * Return the directory where session JSON files are stored.
@@ -45,14 +50,14 @@ function sessionsDir() {
     return process.env.DESIGN_DATA_AUTHORING_SESSIONS_DIR;
   }
   let base;
-  if (process.platform === 'win32') {
-    base = process.env.APPDATA ?? join(homedir(), 'AppData', 'Roaming');
-  } else if (process.platform === 'darwin') {
-    base = join(homedir(), 'Library', 'Application Support');
+  if (process.platform === "win32") {
+    base = process.env.APPDATA ?? join(homedir(), "AppData", "Roaming");
+  } else if (process.platform === "darwin") {
+    base = join(homedir(), "Library", "Application Support");
   } else {
-    base = process.env.XDG_DATA_HOME ?? join(homedir(), '.local', 'share');
+    base = process.env.XDG_DATA_HOME ?? join(homedir(), ".local", "share");
   }
-  return join(base, 'design-data', 'authoring-sessions');
+  return join(base, "design-data", "authoring-sessions");
 }
 
 function sessionPath(sessionId) {
@@ -62,14 +67,15 @@ function sessionPath(sessionId) {
 function atomicWriteSession(draft) {
   const dir = sessionsDir();
   mkdirSync(dir, { recursive: true });
-  const tmp = sessionPath(draft.session_id) + '.tmp.' + randomUUID().slice(0, 8);
-  writeFileSync(tmp, JSON.stringify(draft, null, 2) + '\n', 'utf-8');
+  const tmp =
+    sessionPath(draft.session_id) + ".tmp." + randomUUID().slice(0, 8);
+  writeFileSync(tmp, JSON.stringify(draft, null, 2) + "\n", "utf-8");
   renameSync(tmp, sessionPath(draft.session_id));
 }
 
 function readSessionOrThrow(sessionId) {
   try {
-    return JSON.parse(readFileSync(sessionPath(sessionId), 'utf-8'));
+    return JSON.parse(readFileSync(sessionPath(sessionId), "utf-8"));
   } catch {
     throw new Error(`Session not found: ${sessionId}`);
   }
@@ -114,8 +120,8 @@ export function listSessions() {
   const dir = sessionsDir();
   try {
     return readdirSync(dir)
-      .filter((f) => f.endsWith('.json') && !f.endsWith('.tmp'))
-      .map((f) => JSON.parse(readFileSync(join(dir, f), 'utf-8')));
+      .filter((f) => f.endsWith(".json") && !f.endsWith(".tmp"))
+      .map((f) => JSON.parse(readFileSync(join(dir, f), "utf-8")));
   } catch {
     return [];
   }
@@ -128,7 +134,10 @@ export function listSessions() {
  * @param {{ layer: string, property: string, nameFields?: Array<{key:string,value:string}> }} opts
  * @returns {object} Updated session draft.
  */
-export function stepClassification(sessionId, { layer, property, nameFields = [] }) {
+export function stepClassification(
+  sessionId,
+  { layer, property, nameFields = [] },
+) {
   const draft = readSessionOrThrow(sessionId);
   draft.wizard.classification = { layer, property, nameFields };
   atomicWriteSession(draft);
@@ -150,8 +159,8 @@ export function stepValues(sessionId, rows) {
 }
 
 /**
- * Commit the session: build the token from wizard state, write it to disk,
- * and delete the session file.
+ * Commit the session: build the token from wizard state, validate it against its
+ * JSON Schema (Layer-1), write it to disk, and delete the session file.
  *
  * @param {object} opts
  * @param {string} opts.sessionId
@@ -159,9 +168,12 @@ export function stepValues(sessionId, rows) {
  * @param {string} opts.target - Target file path.
  * @param {string} [opts.rationale]
  * @param {string} [opts.productContext]
- * @param {string} [opts.schemaPath] - (unused in JS version; no schema validation)
+ * @param {string} [opts.schemaPath] - Path to the schemas/ directory (contains
+ *   token-types/ and token-file.json). Defaults to @adobe/spectrum-tokens schemas.
+ *   Pass an explicit path when working with a custom schema set.
  * @param {boolean} [opts.isOverride]
  * @returns {{ writtenTo: string, productContextUpdated: boolean, tokenKey: string }}
+ * @throws {Error} When the built token fails Layer-1 JSON-Schema validation.
  */
 export function commitSession({
   sessionId,
@@ -169,15 +181,20 @@ export function commitSession({
   target,
   rationale,
   productContext,
+  schemaPath,
   isOverride = false,
 }) {
   const draft = readSessionOrThrow(sessionId);
 
   if (!draft.wizard.classification) {
-    throw new Error(`Session ${sessionId} has no classification step — call stepClassification first.`);
+    throw new Error(
+      `Session ${sessionId} has no classification step — call stepClassification first.`,
+    );
   }
   if (!draft.wizard.values || draft.wizard.values.length === 0) {
-    throw new Error(`Session ${sessionId} has no values step — call stepValues first.`);
+    throw new Error(
+      `Session ${sessionId} has no values step — call stepValues first.`,
+    );
   }
 
   const [tokenKey, token] = buildTokenFromWizard({
@@ -186,6 +203,22 @@ export function commitSession({
     rows: draft.wizard.values,
     uuid: randomUUID(),
   });
+
+  // Layer-1: validate the built token against its JSON Schema before writing.
+  // Validation runs when a schema directory is available. If schemaPath is
+  // explicitly provided it must resolve (throws on bad path). If it is omitted
+  // and auto-discovery finds nothing (e.g. @adobe/spectrum-tokens not installed),
+  // validation is skipped rather than blocking the commit.
+  const schemaDir = resolveSchemaDir(schemaPath ?? null, {
+    required: !!schemaPath,
+  });
+  if (schemaDir) {
+    const validation = validateTokenAgainstSchema(token, schemaDir);
+    if (!validation.valid) {
+      const summary = validation.errors.map((e) => e.message).join("; ");
+      throw new Error(`Token failed JSON-Schema validation: ${summary}`);
+    }
+  }
 
   const result = writeToken(tokenKey, token, {
     target,
@@ -197,7 +230,9 @@ export function commitSession({
   // Delete session file after successful commit.
   try {
     unlinkSync(sessionPath(sessionId));
-  } catch { /* already gone */ }
+  } catch {
+    /* already gone */
+  }
 
   return { ...result, tokenKey };
 }
@@ -211,6 +246,8 @@ export function commitSession({
 export function cancelSession(sessionId) {
   try {
     unlinkSync(sessionPath(sessionId));
-  } catch { /* already gone — idempotent */ }
+  } catch {
+    /* already gone — idempotent */
+  }
   return { cancelled: sessionId };
 }

@@ -60,7 +60,10 @@ test.before(async () => {
 test("Dataset.embedded() returns a dataset with a non-zero token count", (t) => {
   const ds = wasm.Dataset.embedded();
   t.truthy(ds);
-  t.true(ds.tokenCount() > 100, `Expected tokens > 100, got ${ds.tokenCount()}`);
+  t.true(
+    ds.tokenCount() > 100,
+    `Expected tokens > 100, got ${ds.tokenCount()}`,
+  );
 });
 
 test("Dataset.embedded() query returns results for known Spectrum tokens", (t) => {
@@ -116,6 +119,27 @@ test("getAdvisoryFields returns a non-empty string array", (t) => {
   t.true(Array.isArray(fields));
   t.true(fields.length > 0);
   t.true(fields.every((f) => typeof f === "string"));
+});
+
+test("getIndexedFields returns all 9 queryable filter keys", (t) => {
+  const fields = wasm.getIndexedFields();
+  t.true(Array.isArray(fields));
+  t.true(fields.every((f) => typeof f === "string"));
+  const expected = [
+    "property",
+    "component",
+    "variant",
+    "state",
+    "colorScheme",
+    "scale",
+    "contrast",
+    "uuid",
+    "$schema",
+  ];
+  t.is(fields.length, expected.length);
+  for (const key of expected) {
+    t.true(fields.includes(key), `getIndexedFields missing key: ${key}`);
+  }
 });
 
 // Registry JSON-object helpers — mirrors @adobe/design-system-registry API

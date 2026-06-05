@@ -2,20 +2,22 @@
 name: design-data-agent
 description: >
   Validate, query, resolve, diff, and author spec-conformant design tokens and components using the
-  design-data CLI against a local dataset. Use when the user asks about design tokens, a design
+  design-data MCP tools against a local dataset. Use when the user asks about design tokens, a design
   system, token lookup, spec-conformance, drift detection, or token authoring on custom data.
 when_to_use: >
   Trigger on: design system, design tokens, spec-conformant, drift, validate tokens, token
   authoring, custom dataset, DESIGN_DATA_PATH, design-data validate, design-data diff,
   design-data write, product-context.json.
-allowed-tools: Bash(npx @adobe/design-data *)
+allowed-tools: mcp__design-data-agent__primer, mcp__design-data-agent__query_tokens, mcp__design-data-agent__resolve_token, mcp__design-data-agent__describe_component, mcp__design-data-agent__validate_usage, mcp__design-data-agent__diff_datasets, mcp__design-data-agent__write, mcp__design-data-agent__start_authoring_session, mcp__design-data-agent__authoring_session_step_intent, mcp__design-data-agent__authoring_session_step_classification, mcp__design-data-agent__authoring_session_step_values, mcp__design-data-agent__authoring_session_commit, mcp__design-data-agent__authoring_session_cancel, mcp__design-data-agent__authoring_session_get, mcp__design-data-agent__authoring_session_list
 ---
 
 # design-data agent skill
 
-`design-data` is the reference CLI for the Spectrum Design Data specification. It validates, queries, resolves, and authors spec-conformant tokens and components from any dataset on the local filesystem.
+`@adobe/design-data-agent-mcp` provides in-process wasm tools for validating, querying,
+resolving, diffing, and authoring spec-conformant tokens and components from any dataset
+on the local filesystem.
 
-Set two path variables once and reference them throughout. The token dataset and the spec catalog (components, fields, dimensions) live in separate directories:
+Set two path variables once and reference them throughout:
 
 ```bash
 export DESIGN_DATA_PATH=./packages/design-data/tokens
@@ -26,145 +28,7 @@ For Spectrum tokens with zero setup (embedded snapshot), use the `design-data` s
 
 ## Bootstrap
 
-On first use, ensure the CLI is available:
-
-```
-npx @adobe/design-data --version
-```
-
-***
-
-## Session start — call `primer` first
-
-Call `primer` at the start of every session that touches design data. It returns the active dimensions, component list, taxonomy fields, and token count — structural context that scopes all subsequent lookups.
-
-```bash
-npx @adobe/design-data primer "$DESIGN_DATA_PATH" --format json \
-  --components-dir "$DESIGN_DATA_SPEC_PATH/components" \
-  --fields-dir     "$DESIGN_DATA_SPEC_PATH/fields"
-```
-
-Always pass `--components-dir` and `--fields-dir` explicitly. These directories live under `packages/design-data/`, alongside the token dataset. The CLI defaults probe those paths relative to CWD, so omitting the flags when running from an arbitrary directory (or with an absolute `DESIGN_DATA_PATH`) produces empty `components` and `taxonomyFields`.
-
-The payload includes `specVersion`, `manifest`, `components`, `taxonomyFields`, and `tokenCount`.
-
-***
-
-## Token lookup
-
-### Resolve a token to its literal value
-
-```bash
-npx @adobe/design-data resolve <property> "$DESIGN_DATA_PATH" --format json \
-  [--color-scheme light|dark] \
-  [--scale desktop|mobile] \
-  [--contrast regular|high]
-```
-
-Example:
-
-```bash
-npx @adobe/design-data resolve accent-background-color-default "$DESIGN_DATA_PATH" \
-  --format json --color-scheme dark --scale desktop
-```
-
-### Query tokens by filter expression
-
-```bash
-npx @adobe/design-data query "$DESIGN_DATA_PATH" --filter "<expr>" --format json
-```
-
-Valid filter keys: `property`, `component`, `variant`, `state`, `colorScheme`, `scale`, `contrast`, `uuid`, `$schema`. Any other key is a parse error. The dimension keys (`colorScheme`, `scale`, `contrast`) accept the same enum values as the `resolve` flags (`light`/`dark`, `desktop`/`mobile`, `regular`/`high`).
-
-Filter syntax examples:
-
-```
-property=background-color
-property=*background*
-component=button
-component=button,state=hover
-property=background-color|property=border-color
-$schema=https://spectrum.adobe.com/page/design-token/
-```
-
-> **Exit codes:** `0` = matches found; `1` = no matches (returns `[]` — not an error); `>1` = error.
-
-***
-
-## Component info
-
-```bash
-npx @adobe/design-data component <id> --components-dir "$DESIGN_DATA_SPEC_PATH/components"
-```
-
-Returns the component contract: `name`, `displayName`, `options`, `anatomy`, `states`, and `tokenBindings`. Output is always JSON; there is no `--format` flag on this subcommand.
-
-Pass `--components-dir` explicitly for the same reason as `primer` — the default probes CWD-relative paths that won't resolve in agent contexts.
-
-Example:
-
-```bash
-npx @adobe/design-data component button --components-dir "$DESIGN_DATA_SPEC_PATH/components"
-```
-
-***
-
-## Validation
-
-```bash
-npx @adobe/design-data validate "$DESIGN_DATA_PATH" --format json \
-  [--schema-path <path>] \
-  [--exceptions-path <path>] \
-  [--strict]
-```
-
-Returns a `ValidationReport` object: `{ layer: 1|2, errors: [...], warnings: [...] }` where each diagnostic has `rule_id` (e.g. `"SPEC-002"`), `severity` (`"error"` | `"warning"`), and `message`. Layer 1 is schema validation; Layer 2 is cascade-rule validation. `--strict` treats warnings as errors.
-
-***
-
-## Dataset diff
-
-```bash
-npx @adobe/design-data diff <old-path> <new-path> --format json [--filter <expr>]
-```
-
-> **Exit codes:** `0` = no changes; `1` = differences found (returns JSON diff — not an error); `>1` = error.
-
-***
-
-## Product-layer authoring
-
-Write or update the product context document in the dataset:
-
-```bash
-npx @adobe/design-data write \
-  --output "$DESIGN_DATA_PATH/product-context.json" \
-  --rationale "Why these overrides exist"
-```
-
-Always pass `--output` with an explicit path inside the dataset. The default resolves relative to CWD, which is rarely correct in agent contexts.
-
-Generates a product-context scaffold at the output path (`specVersion`, `layer: "product"`, `rationale`, attribution metadata). Creates the file if absent; overwrites if it already exists. The confirmation string returned to stdout on success is a plain text message — not JSON.
-
-***
-
-## Gotchas
-
-* **Scale values:** `desktop` and `mobile` — not `medium`/`large`.
-* **Contrast values:** `regular` and `high` — not `standard`/`high`.
-* **`query` exit 1** means no matches and still emits `[]`. Only `>1` is an error.
-* **`diff` exit 1** means changes were found. The JSON diff is in stdout — still a success result.
-* **`--format json`** — always pass this in agent and script contexts; the CLI pretty-prints when stdout is a TTY.
-
-## When working in Cursor
-
-Cursor Settings → Rules → **Add Rule** → **Remote Rule (GitHub)** → paste this URL:
-
-```
-https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-mcp/skills/design-data
-```
-
-For always-available tool access (higher context cost), add `@adobe/design-data-agent-mcp` to `.cursor/mcp.json`:
+Add `@adobe/design-data-agent-mcp` to your `.cursor/mcp.json`:
 
 ```json
 {
@@ -183,3 +47,122 @@ For always-available tool access (higher context cost), add `@adobe/design-data-
 ```
 
 Adjust paths to match your dataset layout.
+
+***
+
+## Session start — call `primer` first
+
+Call `primer` at the start of every session that touches design data. It returns the active
+dimensions, component list, taxonomy fields, and token count — structural context that scopes
+all subsequent lookups. No inputs required.
+
+***
+
+## Token lookup
+
+### Resolve a token to its literal value — `resolve_token`
+
+Required: `property` (string) — e.g. `"accent-background-color-default"`
+Optional: `colorScheme` (`"light"` or `"dark"`), `scale` (`"desktop"` or `"mobile"`),
+`contrast` (`"regular"` or `"high"`)
+
+### Query tokens by filter expression — `query_tokens`
+
+Required: `filter` (string)
+
+Valid filter keys: `property`, `component`, `variant`, `state`, `colorScheme`, `scale`,
+`contrast`, `uuid`, `$schema`.
+
+Filter syntax examples:
+
+```
+property=background-color
+property=*background*
+component=button
+component=button,state=hover
+property=background-color|property=border-color
+$schema=https://spectrum.adobe.com/page/design-token/
+```
+
+> **Exit codes:** `0` = matches found; empty array = no matches (not an error).
+
+***
+
+## Component info — `describe_component`
+
+Required: `id` (string) — kebab-case component ID, e.g. `button`, `action-button`
+
+Returns the component contract: `name`, `displayName`, `options`, `anatomy`, `states`,
+and `tokenBindings`.
+
+***
+
+## Validation — `validate_usage`
+
+Optional inputs:
+
+* `path` — dataset path (defaults to `DESIGN_DATA_PATH`)
+* `strict` (boolean) — treat warnings as errors
+* `schema_path` — override schemas directory (defaults to `@adobe/spectrum-tokens` schemas)
+
+Runs Layer-1 JSON-Schema structural validation and Layer-2 relational rules.
+Returns `{ valid, errors, warnings }`.
+
+> **Note:** `--exceptions-path` (SPEC-007 naming allowlist) is not supported in the
+> in-process path. Use the `design-data` CLI directly if you need exceptions support.
+
+***
+
+## Dataset diff — `diff_datasets`
+
+Required: `oldPath`, `newPath`
+Optional: `filter` (substring to narrow results by token name)
+
+Returns `{ renamed, deprecated, reverted, added, deleted, updated }`.
+
+***
+
+## Product-layer authoring — `write`
+
+Write or update the product context document in the dataset.
+
+Optional inputs: `output` (defaults to `$DESIGN_DATA_PATH/product-context.json`),
+`rationale` (string)
+
+***
+
+## Token authoring session
+
+Use the following tools in sequence to create a new token through the wizard:
+
+1. **`start_authoring_session`** — start a session (returns `session_id`)
+2. **`authoring_session_step_intent`** — provide natural-language intent; get token suggestions
+3. **`authoring_session_step_classification`** — set layer, property, name fields
+4. **`authoring_session_step_values`** — set mode-specific value rows
+5. **`authoring_session_commit`** — validate and write the token to disk
+6. **`authoring_session_cancel`** — cancel without writing
+
+Helper tools: `authoring_session_get` (inspect state), `authoring_session_list` (all active sessions).
+
+`authoring_session_commit` accepts an optional `schema_path` to override the schemas directory
+for Layer-1 JSON-Schema validation before writing.
+
+> **Note:** `authoring_session_step_intent` (NLP suggestion ranking) still delegates to the
+> `design-data` CLI because the NLP `suggest` API is not yet on the wasm surface.
+
+***
+
+## Gotchas
+
+* **Scale values:** `desktop` and `mobile` — not `medium`/`large`.
+* **Contrast values:** `regular` and `high` — not `standard`/`high`.
+* **`query_tokens` returns `[]`** when no tokens match — not an error.
+* **`diff_datasets` filter** matches by token name substring (case-insensitive).
+
+## When working in Cursor
+
+Cursor Settings → Rules → **Add Rule** → **Remote Rule (GitHub)** → paste this URL:
+
+```
+https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-mcp/skills/design-data
+```

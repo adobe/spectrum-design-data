@@ -580,6 +580,12 @@ importers:
 
   tools/design-data-agent-mcp:
     dependencies:
+      '@adobe/design-data-js':
+        specifier: workspace:*
+        version: link:../design-data-js
+      '@adobe/design-data-wasm':
+        specifier: workspace:*
+        version: link:../../sdk/wasm
       '@adobe/spectrum-design-data':
         specifier: workspace:*
         version: link:../../packages/design-data
@@ -596,6 +602,12 @@ importers:
       '@adobe/design-data-wasm':
         specifier: workspace:*
         version: link:../../sdk/wasm
+      ajv:
+        specifier: ^8.17.1
+        version: 8.17.1
+      ajv-formats:
+        specifier: ^3.0.1
+        version: 3.0.1(ajv@8.17.1)
     devDependencies:
       ava:
         specifier: ^6.1.2
@@ -603,6 +615,12 @@ importers:
 
   tools/design-data-mcp:
     dependencies:
+      '@adobe/design-data-wasm':
+        specifier: workspace:*
+        version: link:../../sdk/wasm
+      '@adobe/spectrum-design-data':
+        specifier: workspace:*
+        version: link:../../packages/design-data
       '@modelcontextprotocol/sdk':
         specifier: ^1.27.1
         version: 1.27.1(zod@3.25.76)

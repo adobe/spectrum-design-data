@@ -33,6 +33,14 @@ pub(crate) const ALLOWED_KEYS: &[&str] = &[
     "$schema",
 ];
 
+/// Return the list of keys that may appear in filter expressions.
+///
+/// Exposed so that the wasm surface can return the canonical set dynamically
+/// rather than duplicating it in JavaScript.
+pub fn indexed_fields() -> &'static [&'static str] {
+    ALLOWED_KEYS
+}
+
 /// Keys resolved from `raw["name"][key]` (name-object fields).
 const NAME_OBJECT_KEYS: &[&str] = &[
     "property",
@@ -371,6 +379,21 @@ mod tests {
                 .map(|(name, raw)| (name.to_string(), PathBuf::from("test.json"), raw))
                 .collect(),
         )
+    }
+
+    // ── indexed_fields ──────────────────────────────────────────────────
+
+    #[test]
+    fn indexed_fields_contains_expected_keys() {
+        let fields = super::indexed_fields();
+        let expected = [
+            "property", "component", "variant", "state",
+            "colorScheme", "scale", "contrast", "uuid", "$schema",
+        ];
+        assert_eq!(fields.len(), expected.len());
+        for key in &expected {
+            assert!(fields.contains(key), "indexed_fields missing key: {key}");
+        }
     }
 
     // ── Parser tests ────────────────────────────────────────────────────

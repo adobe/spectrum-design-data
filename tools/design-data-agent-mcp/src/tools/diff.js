@@ -8,7 +8,32 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-import { runCli } from "../cli.js";
+import { loadDataset } from "@adobe/design-data-js/load";
+
+/**
+ * Filter a diff result by a substring match against token names.
+ *
+ * The diff() return shape uses camelCase (per wasm serde rename_all = "camelCase"):
+ *   - renamed entries: { oldName, newName, ... }
+ *   - all other entries: { name, ... }
+ *
+ * @param {object} diff - DiffResult from Dataset.diff().
+ * @param {string} filter - Substring to match (case-insensitive).
+ * @returns {object} Filtered diff with the same top-level keys.
+ */
+export function filterDiffByName(diff, filter) {
+  const f = filter.toLowerCase();
+  const matchName = (t) =>
+    [t.name, t.oldName, t.newName].some((n) => n?.toLowerCase().includes(f));
+  return {
+    renamed: diff.renamed.filter(matchName),
+    deprecated: diff.deprecated.filter(matchName),
+    reverted: diff.reverted.filter(matchName),
+    added: diff.added.filter(matchName),
+    deleted: diff.deleted.filter(matchName),
+    updated: diff.updated.filter(matchName),
+  };
+}
 
 export function createDiffTools() {
   return [
@@ -36,12 +61,13 @@ export function createDiffTools() {
         additionalProperties: false,
       },
       async handler({ oldPath, newPath, filter }) {
-        const args = ["diff", oldPath, newPath, "--format", "json"];
-        if (filter) args.push("--filter", filter);
-        const { exitCode, stdout, stderr } = await runCli(args);
-        // exit code 1 means differences found — that is a valid result, not an error
-        if (exitCode > 1) throw new Error(stderr || `diff exited ${exitCode}`);
-        return JSON.parse(stdout);
+        const [oldDs, newDs] = await Promise.all([
+          loadDataset(oldPath),
+          loadDataset(newPath),
+        ]);
+        const diff = oldDs.diff(newDs);
+        if (!filter) return diff;
+        return filterDiffByName(diff, filter);
       },
     },
   ];

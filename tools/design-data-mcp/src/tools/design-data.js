@@ -9,57 +9,83 @@
 // governing permissions and limitations under the License.
 
 /**
- * MCP tool definitions that wrap the @adobe/design-data CLI.
+ * MCP tool definitions for @adobe/design-data-mcp.
  *
- * Each tool shells out to `npx @adobe/design-data <subcommand>` and returns
- * the parsed JSON output. The CLI handles data resolution automatically —
- * it uses the embedded Spectrum snapshot when no `.design-data.toml` is present,
- * or the configured source/version if one exists in the project.
+ * All tools run in-process via @adobe/design-data-wasm — no CLI binary or npx
+ * required. Dataset.embedded() provides the canonical Spectrum snapshot with
+ * zero configuration.
  */
 
-import { spawnSync } from "child_process";
+import { createRequire } from "module";
+import { readFileSync, existsSync } from "fs";
+import { join, dirname } from "path";
 
-/** npx executable name — .cmd suffix required on Windows without shell: true. */
-const NPX = process.platform === "win32" ? "npx.cmd" : "npx";
+let _wasm;
+/** Lazy-load and cache the wasm module (nodejs target, no init() required). */
+async function getWasm() {
+  if (!_wasm) _wasm = await import("@adobe/design-data-wasm");
+  return _wasm;
+}
+
+let _dataset;
+/**
+ * Return the embedded Spectrum dataset, caching it after first access.
+ *
+ * Dataset.embedded() clones the in-memory graph on every call; caching here
+ * avoids that per-request cost.
+ */
+async function getDataset() {
+  if (!_dataset) {
+    const wasm = await getWasm();
+    _dataset = wasm.Dataset.embedded();
+  }
+  return _dataset;
+}
 
 /**
- * Run `npx -y @adobe/design-data` with the given args and return parsed JSON stdout.
+ * Score tokens by keyword-overlap against an intent string.
  *
- * Uses spawnSync (blocking) intentionally: this MCP server serves a single
- * stdio client and processes requests sequentially, so blocking the event
- * loop is safe. The -y flag suppresses the interactive "install?" prompt on
- * first run so the server doesn't hang waiting for user input.
+ * Pure function — accepts the token array so it can be tested independently.
  *
- * Throws if the process can't start (result.error) or exits non-zero.
+ * @param {object[]} tokens - Array of token result objects with a `name` string.
+ * @param {string} intent - Natural-language intent to match against.
+ * @param {number} limit - Maximum results to return.
+ * @returns {{ name: string, confidence: number, uuid: string, raw: unknown }[]}
  */
-function runDesignData(args) {
-  const result = spawnSync(NPX, ["-y", "@adobe/design-data", ...args], {
-    encoding: "utf8",
-    // Allow up to 30s for first-run install + binary execution.
-    timeout: 30_000,
-  });
+export function scoreTokensByKeyword(tokens, intent, limit = 5) {
+  const words = intent.toLowerCase().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return [];
+  return tokens
+    .map((token) => {
+      const nameStr = token.name?.toLowerCase() ?? "";
+      const matches = words.filter((w) => nameStr.includes(w)).length;
+      const confidence = matches / words.length;
+      return { token, confidence };
+    })
+    .filter(({ confidence }) => confidence > 0)
+    .sort((a, b) => b.confidence - a.confidence)
+    .slice(0, limit)
+    .map(({ token, confidence }) => ({
+      name: token.name,
+      confidence: Math.round(confidence * 100) / 100,
+      uuid: token.uuid,
+      raw: token.raw,
+    }));
+}
 
-  // result.error is set when the process can't start at all (binary not found,
-  // timeout exceeded, etc.) — check before result.status.
-  if (result.error) throw result.error;
-
-  if (result.status !== 0) {
-    const msg = (result.stderr || result.stdout || "").trim();
-    throw new Error(`design-data exited ${result.status}: ${msg}`);
-  }
-
+/** Return the @adobe/spectrum-design-data package root directory, or null. */
+function resolveSpectrumDataPackage() {
   try {
-    return JSON.parse(result.stdout);
+    const req = createRequire(import.meta.url);
+    return dirname(req.resolve("@adobe/spectrum-design-data/package.json"));
   } catch {
-    // Some commands (e.g. component) output valid JSON but without --format json.
-    // If JSON.parse fails, return the raw string so the caller can decide.
-    return result.stdout.trim();
+    return null;
   }
 }
 
 export function createDesignDataTools() {
   return [
-    // ── primer ────────────────────────────────────────────────────────────────
+    // ── primer ─────────────────────────────────────────────────────────────
     {
       name: "design-data-primer",
       description:
@@ -72,12 +98,28 @@ export function createDesignDataTools() {
         properties: {},
         additionalProperties: false,
       },
-      handler() {
-        return runDesignData(["primer", "--format", "json"]);
+      async handler() {
+        const [wasm, ds] = await Promise.all([getWasm(), getDataset()]);
+
+        return {
+          source: "embedded",
+          tokenCount: ds.tokenCount(),
+          modeSets: {
+            colorScheme: wasm.getFieldValues("colorScheme") ?? [],
+            scale: wasm.getFieldValues("scale") ?? [],
+            contrast: wasm.getFieldValues("contrast") ?? [],
+          },
+          taxonomyFields: {
+            indexed: wasm.getIndexedFields(),
+            advisory: wasm.getAdvisoryFields() ?? [],
+          },
+          components: wasm.getFieldValues("component") ?? [],
+          properties: wasm.getFieldValues("property") ?? [],
+        };
       },
     },
 
-    // ── query ─────────────────────────────────────────────────────────────────
+    // ── query ───────────────────────────────────────────────────────────────
     {
       name: "design-data-query",
       description:
@@ -97,18 +139,20 @@ export function createDesignDataTools() {
         required: ["filter"],
         additionalProperties: false,
       },
-      handler({ filter }) {
-        return runDesignData(["query", "--filter", filter, "--format", "json"]);
+      async handler({ filter }) {
+        const ds = await getDataset();
+        return ds.query(filter);
       },
     },
 
-    // ── suggest ───────────────────────────────────────────────────────────────
+    // ── suggest ─────────────────────────────────────────────────────────────
     {
       name: "design-data-suggest",
       description:
-        "Suggest Spectrum tokens matching a natural-language intent. " +
-        "Returns ranked matches with confidence scores, token names, and values. " +
-        "Use when the user describes what they need rather than knowing the token name.",
+        "Suggest Spectrum tokens matching a natural-language intent using keyword-overlap " +
+        "scoring. Returns matches ranked by confidence, token names, and values. " +
+        "Use when the user describes what they need rather than knowing the token name. " +
+        "(TODO: swap to wasm NLP suggest when available for higher-quality ranking.)",
       inputSchema: {
         type: "object",
         properties: {
@@ -126,20 +170,14 @@ export function createDesignDataTools() {
         required: ["intent"],
         additionalProperties: false,
       },
-      handler({ intent, limit = 5 }) {
-        return runDesignData([
-          "suggest",
-          "--",
-          intent,
-          "--format",
-          "json",
-          "--limit",
-          String(limit),
-        ]);
+      async handler({ intent, limit = 5 }) {
+        const ds = await getDataset();
+        const allTokens = ds.query("");
+        return scoreTokensByKeyword(allTokens, intent, limit);
       },
     },
 
-    // ── component ─────────────────────────────────────────────────────────────
+    // ── component ───────────────────────────────────────────────────────────
     {
       name: "design-data-component",
       description:
@@ -159,13 +197,26 @@ export function createDesignDataTools() {
         required: ["id"],
         additionalProperties: false,
       },
-      handler({ id }) {
-        // component always outputs JSON — no --format flag.
-        return runDesignData(["component", "--", id]);
+      async handler({ id }) {
+        const pkgRoot = resolveSpectrumDataPackage();
+        if (!pkgRoot) {
+          throw new Error(
+            `@adobe/spectrum-design-data is not installed — cannot load component "${id}". ` +
+              `Install it with: pnpm add @adobe/spectrum-design-data`,
+          );
+        }
+        const componentFile = join(pkgRoot, "components", `${id}.json`);
+        if (!existsSync(componentFile)) {
+          throw new Error(
+            `Component not found: "${id}". ` +
+              `Call design-data-primer to see available component IDs.`,
+          );
+        }
+        return JSON.parse(readFileSync(componentFile, "utf-8"));
       },
     },
 
-    // ── resolve ───────────────────────────────────────────────────────────────
+    // ── resolve ─────────────────────────────────────────────────────────────
     {
       name: "design-data-resolve",
       description:
@@ -186,22 +237,29 @@ export function createDesignDataTools() {
           },
           scale: {
             type: "string",
-            description: 'Scale mode, e.g. "medium" or "large"',
+            description: 'Scale mode, e.g. "desktop" or "mobile"',
           },
           contrast: {
             type: "string",
-            description: 'Contrast mode, e.g. "standard" or "high"',
+            description: 'Contrast mode, e.g. "regular" or "high"',
           },
         },
         required: ["property"],
         additionalProperties: false,
       },
-      handler({ property, colorScheme, scale, contrast }) {
-        const args = ["resolve", "--", property, "--format", "json"];
-        if (colorScheme) args.push("--color-scheme", colorScheme);
-        if (scale) args.push("--scale", scale);
-        if (contrast) args.push("--contrast", contrast);
-        return runDesignData(args);
+      async handler({ property, colorScheme, scale, contrast }) {
+        const ds = await getDataset();
+        const context = {};
+        if (colorScheme) context.colorScheme = colorScheme;
+        if (scale) context.scale = scale;
+        if (contrast) context.contrast = contrast;
+        const result = ds.resolve(property, context);
+        if (!result) {
+          throw new Error(
+            `No token found for property "${property}" in context ${JSON.stringify(context)}`,
+          );
+        }
+        return result;
       },
     },
   ];

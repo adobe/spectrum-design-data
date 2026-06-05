@@ -22,8 +22,12 @@
  *   — on-disk authoring-session state machine (JS port of sdk/core/src/authoring/session.rs)
  */
 
-export { loadDataset, loadDatasetSync } from './load.js';
-export { writeProductContext, writeToken, buildTokenFromWizard } from './write.js';
+export { loadDataset, loadDatasetSync } from "./load.js";
+export {
+  writeProductContext,
+  writeToken,
+  buildTokenFromWizard,
+} from "./write.js";
 export {
   startSession,
   getSession,
@@ -32,4 +36,10 @@ export {
   stepValues,
   commitSession,
   cancelSession,
-} from './session.js';
+} from "./session.js";
+export {
+  validateDataset,
+  validateTokenAgainstSchema,
+  resolveSchemaDir,
+  loadSchemaValidator,
+} from "./validate.js";

@@ -9,7 +9,8 @@
     ".": "./src/index.js",
     "./load": "./src/load.js",
     "./write": "./src/write.js",
-    "./session": "./src/session.js"
+    "./session": "./src/session.js",
+    "./validate": "./src/validate.js"
   },
   "engines": {
     "node": ">=20.12.0"
@@ -22,7 +23,9 @@
   "author": "Adobe",
   "license": "Apache-2.0",
   "dependencies": {
-    "@adobe/design-data-wasm": "workspace:*"
+    "@adobe/design-data-wasm": "workspace:*",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
   },
   "devDependencies": {
     "ava": "^6.1.2"

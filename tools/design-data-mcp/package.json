@@ -31,6 +31,8 @@
     "provenance": true
   },
   "dependencies": {
+    "@adobe/design-data-wasm": "workspace:*",
+    "@adobe/spectrum-design-data": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.27.1"
   },
   "devDependencies": {

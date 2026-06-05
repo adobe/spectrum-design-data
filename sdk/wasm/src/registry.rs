@@ -68,6 +68,19 @@ pub fn get_advisory_fields() -> Vec<String> {
         .collect()
 }
 
+/// Return the list of field names that can be used as filter keys in query
+/// expressions (e.g. `"property"`, `"component"`, `"$schema"`).
+///
+/// This is the canonical set maintained in `design_data_core::query::ALLOWED_KEYS`,
+/// exposed here so callers do not need to hard-code it.
+#[wasm_bindgen(js_name = "getIndexedFields")]
+pub fn get_indexed_fields() -> Vec<String> {
+    design_data_core::query::indexed_fields()
+        .iter()
+        .map(|s| s.to_string())
+        .collect()
+}
+
 // ---------------------------------------------------------------------------
 // JSON-object helpers (mirror @adobe/design-system-registry contract)
 //
