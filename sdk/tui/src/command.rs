@@ -75,13 +75,13 @@ impl Command {
     /// Parse a command token (the part before the first space) into a variant.
     ///
     /// Matching is case-insensitive on the canonical name or any alias, mirroring
-    /// the lowercase normalization done by `handle_palette_submit`.
+    /// the lowercase normalization done by `handle_palette_submit`. All command
+    /// names are ASCII, so `eq_ignore_ascii_case` lets this stay allocation-free.
     pub(crate) fn parse(cmd: &str) -> Option<Command> {
-        let cmd = cmd.to_lowercase();
-        Command::ALL
-            .iter()
-            .copied()
-            .find(|c| c.canonical() == cmd || c.aliases().iter().any(|&a| a == cmd))
+        Command::ALL.iter().copied().find(|c| {
+            c.canonical().eq_ignore_ascii_case(cmd)
+                || c.aliases().iter().any(|&a| a.eq_ignore_ascii_case(cmd))
+        })
     }
 }
 

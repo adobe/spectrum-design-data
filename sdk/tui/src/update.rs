@@ -228,6 +228,9 @@ fn handle_palette_key(
         KeyCode::Tab if palette_cmd_mode => {
             let current = model.palette_input_value().to_string();
             if !current.contains(' ') {
+                // Canonical names only — aliases (e.g. `component`, `create`) are
+                // a dispatch-only convenience and are intentionally not offered by
+                // Tab completion, so `:comp<Tab>` does not expand to `component`.
                 let matches: Vec<&str> = Command::ALL
                     .iter()
                     .map(|c| c.canonical())
