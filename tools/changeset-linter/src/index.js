@@ -11,7 +11,7 @@
  */
 
 import { readFileSync } from "fs";
-import { join } from "path";
+import { join, dirname } from "path";
 
 /**
  * Configuration for changeset linting rules
@@ -68,11 +68,98 @@ const LINT_RULES = {
 };
 
 /**
+ * Walk up from startDir until a directory containing pnpm-workspace.yaml is found.
+ * @param {string} startDir
+ * @returns {string|null} workspace root path, or null if not found
+ */
+function findWorkspaceRoot(startDir) {
+  let dir = startDir;
+  while (true) {
+    try {
+      readFileSync(join(dir, "pnpm-workspace.yaml"));
+      return dir;
+    } catch {
+      const parent = dirname(dir);
+      if (parent === dir) return null; // filesystem root — give up
+      dir = parent;
+    }
+  }
+}
+
+/**
+ * Parse the `packages:` glob list from pnpm-workspace.yaml text.
+ * Uses line-by-line text parsing to avoid a YAML dep.
+ * @param {string} yamlContent
+ * @returns {string[]} array of glob patterns
+ */
+function parseWorkspaceGlobs(yamlContent) {
+  const globs = [];
+  let inPackages = false;
+  for (const line of yamlContent.split("\n")) {
+    if (/^packages:/.test(line)) {
+      inPackages = true;
+      continue;
+    }
+    if (inPackages) {
+      // Another top-level key ends the packages section
+      if (line.length > 0 && !/^\s/.test(line) && !line.startsWith("#")) {
+        inPackages = false;
+        continue;
+      }
+      const m = line.match(/^\s+-\s+["']?([^"'\s#]+)/);
+      if (m) globs.push(m[1]);
+    }
+  }
+  return globs;
+}
+
+/**
+ * Discover all npm package names present in the pnpm workspace.
+ * Uses `glob` (already a dependency) and reads each package.json "name" field.
+ * Returns an empty Set on any failure so callers degrade gracefully.
+ *
+ * @param {string} [cwd=process.cwd()] - directory to start searching from
+ * @returns {Promise<Set<string>>} set of workspace package names
+ */
+export async function getWorkspacePackageNames(cwd = process.cwd()) {
+  try {
+    const { globSync } = await import("glob");
+    const workspaceRoot = findWorkspaceRoot(cwd);
+    if (!workspaceRoot) return new Set();
+    const yamlContent = readFileSync(
+      join(workspaceRoot, "pnpm-workspace.yaml"),
+      "utf8",
+    );
+    const globs = parseWorkspaceGlobs(yamlContent);
+    const names = new Set();
+    for (const pattern of globs) {
+      const pkgJsonPaths = globSync(
+        join(workspaceRoot, pattern, "package.json"),
+      );
+      for (const pkgJsonPath of pkgJsonPaths) {
+        try {
+          const { name } = JSON.parse(readFileSync(pkgJsonPath, "utf8"));
+          if (name) names.add(name);
+        } catch {
+          /* skip malformed package.json */
+        }
+      }
+    }
+    return names;
+  } catch {
+    return new Set(); // Degrade gracefully — never block commits
+  }
+}
+
+/**
  * Lint a changeset file for conciseness and proper format
  * @param {string} filePath - Path to the changeset file
+ * @param {Set<string>} [validPackageNames] - workspace package names; when provided and
+ *   non-empty, any frontmatter package name absent from the set is reported as an error.
+ *   Omit (or pass an empty Set) to skip the check (preserves backward compatibility).
  * @returns {Object} Linting results with errors and warnings
  */
-export function lintChangeset(filePath) {
+export function lintChangeset(filePath, validPackageNames = new Set()) {
   const content = readFileSync(filePath, "utf8");
   const lines = content.split("\n");
 
@@ -97,6 +184,24 @@ export function lintChangeset(filePath) {
   for (const rule of LINT_RULES.requiredPatterns) {
     if (!rule.pattern.test(content)) {
       results.errors.push(`Missing required pattern: ${rule.message}`);
+    }
+  }
+
+  // Validate frontmatter package names against the workspace (when a non-empty Set is supplied)
+  if (validPackageNames.size > 0) {
+    const frontmatterText = lines.slice(0, frontmatterEnd).join("\n");
+    const pkgNameRegex = /"([^"]+)"\s*:\s*(?:major|minor|patch)/g;
+    let match;
+    while ((match = pkgNameRegex.exec(frontmatterText)) !== null) {
+      const name = match[1];
+      if (!validPackageNames.has(name)) {
+        // Suggest the scoped variant when the bare name matches the suffix of a valid name
+        const suggestion = [...validPackageNames].find((v) =>
+          v.endsWith(`/${name}`),
+        );
+        const hint = suggestion ? ` — did you mean "${suggestion}"?` : "";
+        results.errors.push(`Unknown package "${name}" in frontmatter${hint}`);
+      }
     }
   }
 
@@ -169,7 +274,10 @@ export async function lintAllChangesets(changesetDir = ".changeset") {
     return basename !== "README.md" && basename !== "config.json";
   });
 
-  return changesetFiles.map(lintChangeset);
+  // Discover valid workspace package names once and share across all files
+  const validPackageNames = await getWorkspacePackageNames();
+
+  return changesetFiles.map((f) => lintChangeset(f, validPackageNames));
 }
 
 export { LINT_RULES };

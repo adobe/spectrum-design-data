@@ -13,7 +13,11 @@
 import test from "ava";
 import { writeFileSync, mkdirSync, rmSync } from "fs";
 import { join } from "path";
-import { lintChangeset, LINT_RULES } from "../src/index.js";
+import {
+  lintChangeset,
+  getWorkspacePackageNames,
+  LINT_RULES,
+} from "../src/index.js";
 
 // Test directory setup
 const testDir = "./test-changesets";
@@ -191,6 +195,116 @@ This line is intentionally very long to test the line length validation rule tha
   t.is(result.errors.length, 0);
   t.true(result.warnings.length > 0);
   t.true(result.warnings.some((w) => w.includes("too long")));
+});
+
+// ── Package-name validation tests ─────────────────────────────────────────────
+
+const VALID_NAMES = new Set([
+  "@adobe/design-data-tui",
+  "@adobe/spectrum-tokens",
+  "@adobe/changeset-linter",
+]);
+
+test("lintChangeset - accepts a valid scoped package name", (t) => {
+  const content = `---
+"@adobe/design-data-tui": minor
+---
+
+Add something useful.`;
+  const filePath = join(testDir, "valid-scoped.md");
+  writeFileSync(filePath, content);
+
+  const result = lintChangeset(filePath, VALID_NAMES);
+
+  t.true(result.isValid);
+  t.is(result.errors.filter((e) => e.includes("Unknown package")).length, 0);
+});
+
+test("lintChangeset - errors on unscoped name with did-you-mean suggestion", (t) => {
+  const content = `---
+"design-data-tui": minor
+---
+
+Forgot the scope.`;
+  const filePath = join(testDir, "unscoped-name.md");
+  writeFileSync(filePath, content);
+
+  const result = lintChangeset(filePath, VALID_NAMES);
+
+  t.false(result.isValid);
+  const nameErrors = result.errors.filter((e) => e.includes("Unknown package"));
+  t.is(nameErrors.length, 1);
+  t.true(nameErrors[0].includes('"design-data-tui"'));
+  t.true(nameErrors[0].includes('"@adobe/design-data-tui"'));
+});
+
+test("lintChangeset - errors on completely unknown name with no suggestion", (t) => {
+  const content = `---
+"design-data-core": patch
+---
+
+Rust crate, not an npm package.`;
+  const filePath = join(testDir, "no-such-package.md");
+  writeFileSync(filePath, content);
+
+  const result = lintChangeset(filePath, VALID_NAMES);
+
+  t.false(result.isValid);
+  const nameErrors = result.errors.filter((e) => e.includes("Unknown package"));
+  t.is(nameErrors.length, 1);
+  t.true(nameErrors[0].includes('"design-data-core"'));
+  t.false(nameErrors[0].includes("did you mean"));
+});
+
+test("lintChangeset - errors only on the bad name in a multi-package frontmatter", (t) => {
+  const content = `---
+"@adobe/spectrum-tokens": minor
+"design-data-tui": minor
+---
+
+One good, one bad.`;
+  const filePath = join(testDir, "multi-package-bad-one.md");
+  writeFileSync(filePath, content);
+
+  const result = lintChangeset(filePath, VALID_NAMES);
+
+  t.false(result.isValid);
+  const nameErrors = result.errors.filter((e) => e.includes("Unknown package"));
+  t.is(nameErrors.length, 1);
+  t.true(nameErrors[0].includes('"design-data-tui"'));
+});
+
+test("lintChangeset - skips package-name check when no Set is provided", (t) => {
+  const content = `---
+"totally-made-up-package": minor
+---
+
+Back-compat: no Set means no name check.`;
+  const filePath = join(testDir, "no-set-backcompat.md");
+  writeFileSync(filePath, content);
+
+  // No validPackageNames argument — backward-compatible call
+  const result = lintChangeset(filePath);
+
+  t.true(result.isValid);
+  t.is(result.errors.filter((e) => e.includes("Unknown package")).length, 0);
+});
+
+// ── Integration test: real workspace discovery ────────────────────────────────
+
+test("getWorkspacePackageNames - discovers real workspace packages", async (t) => {
+  // Walk up from the linter's own directory to find the monorepo root
+  const names = await getWorkspacePackageNames();
+
+  t.true(names.size > 0, "should find at least one package");
+  t.true(
+    names.has("@adobe/design-data-tui"),
+    "should include @adobe/design-data-tui (sdk/tui)",
+  );
+  t.false(
+    names.has("design-data-tui"),
+    "should NOT include the unscoped form design-data-tui",
+  );
 });
 
 test("LINT_RULES configuration", (t) => {

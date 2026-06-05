@@ -14,7 +14,11 @@
 
 import { Command } from "commander";
 import chalk from "chalk";
-import { lintChangeset, lintAllChangesets } from "./index.js";
+import {
+  lintChangeset,
+  lintAllChangesets,
+  getWorkspacePackageNames,
+} from "./index.js";
 
 const program = new Command();
 
@@ -83,9 +87,10 @@ program
 program
   .command("check-file <file>")
   .description("Lint a specific changeset file")
-  .action((file) => {
+  .action(async (file) => {
     try {
-      const result = lintChangeset(file);
+      const validPackageNames = await getWorkspacePackageNames();
+      const result = lintChangeset(file, validPackageNames);
       const fileName = file.split("/").pop();
 
       if (result.errors.length > 0) {
