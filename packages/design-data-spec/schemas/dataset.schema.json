@@ -12,13 +12,13 @@
     },
     "directories": {
       "type": "object",
-      "description": "Declares which registered directories the dataset provides. Each value is true when the directory is present and authoritative for this dataset.",
+      "description": "Declares which registered directories the dataset provides. List a directory key with the value true to declare it present and authoritative; omit the key otherwise. The value is constrained to true so the flag cannot be used to negate a directory's presence (in particular it cannot waive the required tokens/ directory).",
       "properties": {
-        "tokens": { "type": "boolean" },
-        "components": { "type": "boolean" },
-        "fields": { "type": "boolean" },
-        "modeSets": { "type": "boolean" },
-        "registry": { "type": "boolean" }
+        "tokens": { "const": true },
+        "components": { "const": true },
+        "fields": { "const": true },
+        "modeSets": { "const": true },
+        "registry": { "const": true }
       },
       "additionalProperties": false
     },

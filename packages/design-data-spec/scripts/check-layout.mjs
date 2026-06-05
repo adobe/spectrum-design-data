@@ -37,6 +37,7 @@ const requiredPaths = [
   "conformance/invalid/SPEC-005",
   "conformance/invalid/SPEC-006",
   "conformance/invalid/SPEC-044",
+  "conformance/valid/SPEC-044",
 ];
 
 for (const rel of requiredPaths) {

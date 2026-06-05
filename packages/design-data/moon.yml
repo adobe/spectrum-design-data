@@ -22,6 +22,11 @@ fileGroups:
 tasks:
   # Validate registry JSON files against registry-value.json schema (AJV).
   # Also checks for duplicate IDs/aliases, multiple defaults, and stale relatedTerms refs.
+  #
+  # CANONICAL for registry semantics: `validate-dataset` (SDK) also schema-shape
+  # validates registry/*.json, but only this Node/AJV task performs the richer
+  # semantic checks (duplicate IDs/aliases, multiple defaults, stale relatedTerms).
+  # Keep this task until the registry semantics are ported to the SDK (PR-B).
   validate-registry:
     command: node
     args:

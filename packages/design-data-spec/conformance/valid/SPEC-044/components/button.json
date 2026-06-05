@@ -1,1 +1,9 @@
-{}
+{
+  "$id": "https://opensource.adobe.com/spectrum-design-data/conformance/valid/SPEC-044/button.json",
+  "name": "button",
+  "displayName": "Button",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/button/"
+  }
+}

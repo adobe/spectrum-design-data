@@ -687,6 +687,18 @@ fn resolve_spec_schemas(
         .find(|c| c.join("field.schema.json").is_file())
 }
 
+/// Validate a whole dataset directory: SPEC-044 structure pre-check, token rules,
+/// and Layer 1 schema-shape validation of the registered catalog directories.
+///
+/// NOTE: token-schema and naming-exceptions paths are resolved relative to the
+/// current working directory (via [`data_source::resolve`]), NOT relative to
+/// `path`. This is intentional for the in-repo workflow (the only current use
+/// case): the legacy `token-types/` schemas and `naming-exceptions.json` live in
+/// the checkout, not inside an arbitrary target dataset. The dataset's own
+/// catalog directories (`fields/`, `components/`, `mode-sets/`, `registry/`) and
+/// the SPEC-044 structure check ARE resolved relative to `path`. Pass
+/// `--schema-path` / `--exceptions-path` / `--spec-schemas` to override when
+/// validating a dataset outside the current checkout.
 fn run_validate_dataset(path: &Path, opts: ValidateDatasetOpts) -> miette::Result<ExitCode> {
     if !validate::engine_ready() {
         miette::bail!("validation engine not ready");
