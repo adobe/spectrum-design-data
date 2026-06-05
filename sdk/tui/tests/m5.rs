@@ -11,15 +11,25 @@
 //! M5 polish milestone tests: mouse, help overlay, palette history, theming.
 
 mod common;
-use common::{empty_graph, key, mouse, update_ctx};
+use common::{empty_graph, key, update_ctx};
 
-use crossterm::event::{KeyCode, MouseButton, MouseEventKind};
+use crossterm::event::{KeyCode, KeyModifiers, MouseButton, MouseEvent, MouseEventKind};
 use design_data_tui::app::{
     ActiveView, DescribeView, HitAction, HitRegion, Modal, QueryRow, QueryView,
 };
 use design_data_tui::theme::Theme;
 use design_data_tui::{update, Message, Model};
 use ratatui::layout::Rect;
+
+/// Build a mouse event at the given terminal cell.
+fn mouse(kind: MouseEventKind, row: u16, col: u16) -> MouseEvent {
+    MouseEvent {
+        kind,
+        row,
+        column: col,
+        modifiers: KeyModifiers::NONE,
+    }
+}
 
 // ── Help overlay ──────────────────────────────────────────────────────────────
 

@@ -8,9 +8,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-use crossterm::event::{
-    KeyCode, KeyEvent, KeyEventKind, KeyEventState, KeyModifiers, MouseEvent, MouseEventKind,
-};
+use crossterm::event::{KeyCode, KeyEvent, KeyEventKind, KeyEventState, KeyModifiers};
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
 use design_data_tui::theme::Theme;
 use design_data_tui::{dispatch, update, Message, Model, Task, UpdateCtx, UpdateCtxBuilder};
@@ -27,16 +25,6 @@ pub fn key(code: KeyCode) -> KeyEvent {
         modifiers: KeyModifiers::NONE,
         kind: KeyEventKind::Press,
         state: KeyEventState::NONE,
-    }
-}
-
-/// Build a mouse event at the given terminal cell.
-pub fn mouse(kind: MouseEventKind, row: u16, col: u16) -> MouseEvent {
-    MouseEvent {
-        kind,
-        row,
-        column: col,
-        modifiers: KeyModifiers::NONE,
     }
 }
 
@@ -92,23 +80,6 @@ pub fn render_to_buffer(model: &mut Model, w: u16, h: u16) -> Buffer {
         .draw(|f| design_data_tui::draw(model, f, &Theme::terminal(), TEST_PRIMER))
         .unwrap();
     terminal.backend().buffer().clone()
-}
-
-/// Stringify a ratatui `Buffer` into a multi-line string for snapshot comparison.
-///
-/// Each row becomes a line (trailing spaces trimmed); rows are joined by `\n`.
-/// This is the canonical input for `insta::assert_snapshot!` in render tests.
-pub fn buffer_to_string(buf: &Buffer) -> String {
-    let area = buf.area();
-    (0..area.height)
-        .map(|row| {
-            let line: String = (0..area.width)
-                .map(|col| buf.cell((col, row)).map(|c| c.symbol()).unwrap_or(" "))
-                .collect();
-            line.trim_end().to_string()
-        })
-        .collect::<Vec<_>>()
-        .join("\n")
 }
 
 // ── Builder convenience ───────────────────────────────────────────────────────
@@ -279,4 +250,10 @@ fn assert_emits_cmd_passes_on_task_cmd() {
 fn assert_emits_cmd_passes_on_batch_containing_cmd() {
     let task: Task<Message> = Task::batch(vec![Task::none(), Task::cmd(|| Message::Tick)]);
     assert_emits_cmd(&task, "Batch with Cmd should count as a side effect");
+}
+
+#[test]
+fn empty_graph_has_no_tokens() {
+    let graph = empty_graph();
+    assert!(graph.tokens.is_empty(), "empty_graph() should contain zero tokens");
 }

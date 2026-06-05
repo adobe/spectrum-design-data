@@ -24,9 +24,27 @@
 //! These tests use an 80×24 `TestBackend` (the canonical "terminal window").
 
 mod common;
-use common::{buffer_to_string, make_graph_with_tokens, render_to_buffer, update_ctx};
+use common::{make_graph_with_tokens, render_to_buffer, update_ctx};
 
 use design_data_tui::{update, Message, Model};
+use ratatui::buffer::Buffer;
+
+/// Stringify a ratatui [`Buffer`] into a multi-line string for snapshot comparison.
+///
+/// Each row becomes a line (trailing spaces trimmed); rows are joined by `\n`.
+/// This is the canonical input for `insta::assert_snapshot!` in render tests.
+fn buffer_to_string(buf: &Buffer) -> String {
+    let area = buf.area();
+    (0..area.height)
+        .map(|row| {
+            let line: String = (0..area.width)
+                .map(|col| buf.cell((col, row)).map(|c| c.symbol()).unwrap_or(" "))
+                .collect();
+            line.trim_end().to_string()
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
+}
 
 // ── Home / empty view ─────────────────────────────────────────────────────────
 
