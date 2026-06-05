@@ -51,6 +51,12 @@ function resolveDataPackageDir(subdir) {
 
 // Path precedence: explicit env override (anchored to dataRoot) wins, then the
 // resolved design-data package directory, then a final fallback.
+//
+// The fallback differs by field on purpose: `dataPath` is a required positional
+// CLI argument, so it falls back to the anchored current directory. `componentsDir`
+// and `fieldsDir` are optional `--components-dir`/`--fields-dir` flags, so they fall
+// back to `null` (flag omitted) and let the design-data binary's own discovery —
+// including its embedded snapshot — locate them.
 export const config = {
   bin: process.env.DESIGN_DATA_BIN ?? "design-data",
   dataRoot,
