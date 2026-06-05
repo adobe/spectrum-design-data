@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "design-data CLI — validate and inspect Spectrum design data",
   "type": "module",
   "bin": {
