@@ -119,9 +119,13 @@ fn empty_subscriptions_next_timeout_is_none() {
 }
 
 #[test]
-fn diff_replacing_subscription_resets_timer() {
-    // Start a tick subscription, let it almost fire, then replace with a new diff.
-    // The timer should reset to a fresh full interval.
+fn diff_with_same_set_preserves_timer() {
+    // Re-diffing with the same desired id-set must *not* reset the clock.
+    // `diff()` only starts clocks for newly-added ids; existing ids keep their
+    // existing clock so pacing is uninterrupted (see subscription.rs `diff` doc).
+    // Here we start a tick subscription, advance almost to the boundary, diff
+    // again with the same set, and assert the timer is still near expiry — not
+    // reset to a fresh full interval.
     let mut subs: Subscriptions<Message> = Subscriptions::new();
     let start = Instant::now();
     subs.diff(subscriptions(&Model::new()), start);
