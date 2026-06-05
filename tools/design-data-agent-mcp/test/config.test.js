@@ -9,8 +9,7 @@
 // governing permissions and limitations under the License.
 
 import test from "ava";
-import { createRequire } from "module";
-import { dirname, isAbsolute, resolve } from "path";
+import { isAbsolute, resolve } from "path";
 import { fileURLToPath } from "url";
 
 // `config` reads process.env at import time, so each case sets the environment
@@ -36,16 +35,8 @@ async function loadConfig(env) {
 // Repo root relative to this test file: test → package → tools → repo root.
 const SERVER_ROOT = fileURLToPath(new URL("../../..", import.meta.url));
 
-// The directory that @adobe/spectrum-design-data resolves to in this workspace,
-// used to assert the zero-config package-resolution behavior.
-const dataPkgDir = dirname(
-  createRequire(import.meta.url).resolve(
-    "@adobe/spectrum-design-data/package.json",
-  ),
-);
-
 test.serial(
-  "relative override is anchored to DESIGN_DATA_ROOT when set",
+  "relative path is anchored to DESIGN_DATA_ROOT when set",
   async (t) => {
     const root = resolve("/tmp/some-repo");
     const config = await loadConfig({
@@ -58,7 +49,7 @@ test.serial(
   },
 );
 
-test.serial("absolute overrides are returned unchanged", async (t) => {
+test.serial("absolute paths are returned unchanged", async (t) => {
   const abs = resolve("/var/data/tokens");
   const config = await loadConfig({
     DESIGN_DATA_ROOT: resolve("/tmp/some-repo"),
@@ -68,7 +59,7 @@ test.serial("absolute overrides are returned unchanged", async (t) => {
 });
 
 test.serial(
-  "relative override falls back to the server package root",
+  "relative path falls back to the server package root",
   async (t) => {
     const config = await loadConfig({
       DESIGN_DATA_PATH: "packages/design-data/tokens",
@@ -79,21 +70,12 @@ test.serial(
   },
 );
 
-test.serial(
-  "resolves data dirs from the @adobe/spectrum-design-data package with no env override",
-  async (t) => {
-    const config = await loadConfig({});
-    t.is(config.dataPath, resolve(dataPkgDir, "tokens"));
-    t.is(config.componentsDir, resolve(dataPkgDir, "components"));
-    t.is(config.fieldsDir, resolve(dataPkgDir, "fields"));
-    t.true(isAbsolute(config.dataPath));
-  },
-);
-
-test.serial("schema and exceptions paths stay null when unset", async (t) => {
+test.serial("unset optional path fields stay null", async (t) => {
   const config = await loadConfig({
     DESIGN_DATA_ROOT: resolve("/tmp/some-repo"),
   });
+  t.is(config.componentsDir, null);
+  t.is(config.fieldsDir, null);
   t.is(config.schemaPath, null);
   t.is(config.exceptionsPath, null);
 });

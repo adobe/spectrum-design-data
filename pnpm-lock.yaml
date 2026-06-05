@@ -574,9 +574,6 @@ importers:
 
   tools/design-data-agent-mcp:
     dependencies:
-      '@adobe/spectrum-design-data':
-        specifier: workspace:*
-        version: link:../../packages/design-data
       '@modelcontextprotocol/sdk':
         specifier: ^1.27.1
         version: 1.27.1(zod@3.25.76)

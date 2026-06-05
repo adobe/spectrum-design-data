@@ -33,7 +33,6 @@
     "provenance": true
   },
   "dependencies": {
-    "@adobe/spectrum-design-data": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.27.1"
   },
   "devDependencies": {
