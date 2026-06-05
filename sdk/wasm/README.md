@@ -24,9 +24,12 @@ imports work in ESM via cjs-module-lexer.
 ```js
 import { Dataset, getValues, findValue } from '@adobe/design-data-wasm';
 
-// Build a dataset from an array of raw token objects
+// Use the canonical embedded Spectrum dataset (zero config):
+const ds = Dataset.embedded();
+
+// Or build a dataset from your own token objects:
 const tokens = JSON.parse(fs.readFileSync('my-tokens.json', 'utf-8'));
-const ds = Dataset.fromTokens(tokens);
+const customDs = Dataset.fromTokens(tokens);
 
 // Query
 const colorTokens = ds.query('property=color,colorScheme=dark');
@@ -71,17 +74,15 @@ const results = ds.query('property=color');
 
 ### `Dataset`
 
-| Method                          | Returns                      | Description                                                                                              |
-| ------------------------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `Dataset.fromTokens(tokens)`    | `Dataset`                    | Build a dataset from an array of raw token JSON objects                                                  |
-| `ds.query(filterExpr)`          | `TokenResult[]`              | Filter tokens. Syntax: `key=value` pairs joined with `,` (AND) or `\|` (OR); `!=` negation; `*` wildcard |
-| `ds.validate()`                 | `ValidationResult`           | Relational validation. `valid`, `errors[]`, `warnings[]`                                                 |
-| `ds.resolve(property, context)` | `ResolveResult \| undefined` | Resolve a property in a mode-set context, e.g. `{ colorScheme: 'dark' }`                                 |
-| `ds.diff(otherDataset)`         | `DiffResult`                 | Semantic diff. Fields: `renamed`, `deprecated`, `reverted`, `added`, `deleted`, `updated`                |
-| `ds.tokenCount()`               | `number`                     | Number of tokens in the dataset                                                                          |
-
-> **Note**: `Dataset.embedded()` is not yet available. It requires a prebuilt `.redb`
-> cache blob (coming in a future release). Until then, use `Dataset.fromTokens()`.
+| Method                          | Returns                      | Description                                                                                                                                                                                                                   |
+| ------------------------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Dataset.embedded()`            | `Dataset`                    | Open the canonical embedded Spectrum dataset (prebuilt `.redb` cache — zero config). The full token dataset is compiled into the `.wasm` binary via `include_bytes!`; use `fromTokens()` instead if binary size is a concern. |
+| `Dataset.fromTokens(tokens)`    | `Dataset`                    | Build a dataset from an array of raw token JSON objects                                                                                                                                                                       |
+| `ds.query(filterExpr)`          | `TokenResult[]`              | Filter tokens. Syntax: `key=value` pairs joined with `,` (AND) or `\|` (OR); `!=` negation; `*` wildcard                                                                                                                      |
+| `ds.validate()`                 | `ValidationResult`           | Relational validation. `valid`, `errors[]`, `warnings[]`                                                                                                                                                                      |
+| `ds.resolve(property, context)` | `ResolveResult \| undefined` | Resolve a property in a mode-set context, e.g. `{ colorScheme: 'dark' }`                                                                                                                                                      |
+| `ds.diff(otherDataset)`         | `DiffResult`                 | Semantic diff. Fields: `renamed`, `deprecated`, `reverted`, `added`, `deleted`, `updated`                                                                                                                                     |
+| `ds.tokenCount()`               | `number`                     | Number of tokens in the dataset                                                                                                                                                                                               |
 
 ### Registry helpers
 
