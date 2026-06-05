@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-darwin-arm64",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "design-data binary for macOS arm64 (Apple Silicon)",
   "os": [
     "darwin"
