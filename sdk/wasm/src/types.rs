@@ -277,6 +277,10 @@ impl From<&design_data_core::report::Diagnostic> for Diagnostic {
 
 impl From<design_data_core::report::ValidationReport> for ValidationResult {
     fn from(r: design_data_core::report::ValidationReport) -> Self {
+        // NOTE: `ValidationReport.errors` holds ALL diagnostics regardless of severity
+        // (there is no separate `warnings` field in the core type — see sdk/core/src/report.rs).
+        // We split them into two JS-facing arrays by filtering the same slice twice; this is
+        // intentional, not a bug.
         let errors = r
             .errors
             .iter()

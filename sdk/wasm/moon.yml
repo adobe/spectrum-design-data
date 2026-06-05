@@ -16,23 +16,21 @@ fileGroups:
     - "Cargo.toml"
 tasks:
   # Build the .redb embedded cache blob from the canonical token source.
-  # Runs automatically as a dep of `build` so Dataset.embedded() is always wired.
+  # Uses packages/design-data/tokens (cascade array-format with inline name objects)
+  # so that query/resolve against name fields (property, component, state, colorScheme)
+  # work correctly. Runs automatically as a dep of `build`.
   cache-build:
-    command: cargo
+    command: bash
     args:
-      - run
-      - -p
-      - design-data-cli
-      - --
-      - cache-build
-      - packages/tokens/src
-      - --output
-      - sdk/wasm/src/embedded_cache.redb
+      - -c
+      - >-
+        cargo run -p design-data-cli --
+        cache-build "$MOON_WORKSPACE_ROOT/packages/design-data/tokens"
+        --output "$MOON_WORKSPACE_ROOT/sdk/wasm/src/embedded_cache.redb"
+        --mode-sets-path "$MOON_WORKSPACE_ROOT/packages/design-data/mode-sets"
+        --components-path "$MOON_WORKSPACE_ROOT/packages/design-data/components"
     inputs:
-      - "/packages/tokens/src/*.json"
-      - "/packages/tokens/schemas/**/*.json"
-      - "/packages/tokens/naming-exceptions.json"
-      - "/packages/tokens/manifest.json"
+      - "/packages/design-data/tokens/*.tokens.json"
       - "/packages/design-data/mode-sets/*.json"
       - "/packages/design-data/components/*.json"
     outputs:

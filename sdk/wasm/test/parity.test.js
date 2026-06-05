@@ -60,7 +60,7 @@ test.before(async () => {
 test("Dataset.embedded() returns a dataset with a non-zero token count", (t) => {
   const ds = wasm.Dataset.embedded();
   t.truthy(ds);
-  t.true(ds.tokenCount() > 0, `Expected tokens > 0, got ${ds.tokenCount()}`);
+  t.true(ds.tokenCount() > 100, `Expected tokens > 100, got ${ds.tokenCount()}`);
 });
 
 test("Dataset.embedded() query returns results for known Spectrum tokens", (t) => {
@@ -71,14 +71,17 @@ test("Dataset.embedded() query returns results for known Spectrum tokens", (t) =
 
 test("Dataset.embedded() resolve returns a token for a known property", (t) => {
   const ds = wasm.Dataset.embedded();
-  // background-color-default exists in every Spectrum color set
-  const result = ds.resolve("background-color-default", { colorScheme: "light" });
-  t.truthy(result, "Expected a resolved token for background-color-default");
+  // accent-background-color: a stable core Spectrum property present across all colorSchemes;
+  // unlikely to be renamed or removed, making it a reliable fixture anchor.
+  const result = ds.resolve("accent-background-color", {
+    colorScheme: "light",
+  });
+  t.truthy(result, "Expected a resolved token for accent-background-color");
   t.is(typeof result.specificity, "number");
   t.truthy(result.token.raw);
 });
 
-test("Dataset.embedded() returns the same graph instance on repeated calls", (t) => {
+test("Dataset.embedded() returns consistent results on repeated calls", (t) => {
   const ds1 = wasm.Dataset.embedded();
   const ds2 = wasm.Dataset.embedded();
   t.is(ds1.tokenCount(), ds2.tokenCount());
@@ -187,6 +190,18 @@ test("fromTokens builds a dataset with correct tokenCount", (t) => {
 test("fromTokens accepts an empty array", (t) => {
   const ds = wasm.Dataset.fromTokens([]);
   t.is(ds.tokenCount(), 0);
+});
+
+test("fromTokens throws on non-array input (plain object)", (t) => {
+  t.throws(() => wasm.Dataset.fromTokens({ values: [] }), {
+    instanceOf: Error,
+  });
+});
+
+test("fromTokens throws on non-array input (string)", (t) => {
+  t.throws(() => wasm.Dataset.fromTokens("not-an-array"), {
+    instanceOf: Error,
+  });
 });
 
 // ---------------------------------------------------------------------------

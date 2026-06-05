@@ -29,7 +29,7 @@ const ds = Dataset.embedded();
 
 // Or build a dataset from your own token objects:
 const tokens = JSON.parse(fs.readFileSync('my-tokens.json', 'utf-8'));
-const ds = Dataset.fromTokens(tokens);
+const customDs = Dataset.fromTokens(tokens);
 
 // Query
 const colorTokens = ds.query('property=color,colorScheme=dark');
@@ -54,6 +54,11 @@ console.log(`${diff.added.length} added, ${diff.deleted.length} deleted`);
 The `browser` export condition resolves to a browser ESM build. Call `init()`
 with the URL of the `.wasm` file before using any API.
 
+> **Note for Deno, Bun, and non-standard bundlers:** the package's `default` export
+> condition also resolves to the web (browser ESM) build, so runtimes or bundlers that
+> don't honour the `node` or `browser` condition will get this build and **must** call
+> `await init()` before using any API.
+
 ```js
 import init, { Dataset } from '@adobe/design-data-wasm';
 // or explicit browser path:
@@ -69,15 +74,15 @@ const results = ds.query('property=color');
 
 ### `Dataset`
 
-| Method                          | Returns                      | Description                                                                                              |
-| ------------------------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `Dataset.embedded()`            | `Dataset`                    | Open the canonical embedded Spectrum dataset (prebuilt `.redb` cache — zero config) |
-| `Dataset.fromTokens(tokens)`    | `Dataset`                    | Build a dataset from an array of raw token JSON objects                              |
-| `ds.query(filterExpr)`          | `TokenResult[]`              | Filter tokens. Syntax: `key=value` pairs joined with `,` (AND) or `\|` (OR); `!=` negation; `*` wildcard |
-| `ds.validate()`                 | `ValidationResult`           | Relational validation. `valid`, `errors[]`, `warnings[]`                             |
-| `ds.resolve(property, context)` | `ResolveResult \| undefined` | Resolve a property in a mode-set context, e.g. `{ colorScheme: 'dark' }`            |
-| `ds.diff(otherDataset)`         | `DiffResult`                 | Semantic diff. Fields: `renamed`, `deprecated`, `reverted`, `added`, `deleted`, `updated` |
-| `ds.tokenCount()`               | `number`                     | Number of tokens in the dataset                                                      |
+| Method                          | Returns                      | Description                                                                                                                                                                                                                   |
+| ------------------------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Dataset.embedded()`            | `Dataset`                    | Open the canonical embedded Spectrum dataset (prebuilt `.redb` cache — zero config). The full token dataset is compiled into the `.wasm` binary via `include_bytes!`; use `fromTokens()` instead if binary size is a concern. |
+| `Dataset.fromTokens(tokens)`    | `Dataset`                    | Build a dataset from an array of raw token JSON objects                                                                                                                                                                       |
+| `ds.query(filterExpr)`          | `TokenResult[]`              | Filter tokens. Syntax: `key=value` pairs joined with `,` (AND) or `\|` (OR); `!=` negation; `*` wildcard                                                                                                                      |
+| `ds.validate()`                 | `ValidationResult`           | Relational validation. `valid`, `errors[]`, `warnings[]`                                                                                                                                                                      |
+| `ds.resolve(property, context)` | `ResolveResult \| undefined` | Resolve a property in a mode-set context, e.g. `{ colorScheme: 'dark' }`                                                                                                                                                      |
+| `ds.diff(otherDataset)`         | `DiffResult`                 | Semantic diff. Fields: `renamed`, `deprecated`, `reverted`, `added`, `deleted`, `updated`                                                                                                                                     |
+| `ds.tokenCount()`               | `number`                     | Number of tokens in the dataset                                                                                                                                                                                               |
 
 ### Registry helpers
 
