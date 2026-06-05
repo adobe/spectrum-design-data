@@ -29,10 +29,7 @@ use common::{make_graph_with_tokens, render_to_buffer, update_ctx};
 use design_data_tui::{update, Message, Model};
 use ratatui::buffer::Buffer;
 
-/// Stringify a ratatui [`Buffer`] into a multi-line string for snapshot comparison.
-///
-/// Each row becomes a line (trailing spaces trimmed); rows are joined by `\n`.
-/// This is the canonical input for `insta::assert_snapshot!` in render tests.
+/// Stringify a ratatui [`Buffer`] into a trimmed multi-line string for `insta::assert_snapshot!`.
 fn buffer_to_string(buf: &Buffer) -> String {
     let area = buf.area();
     (0..area.height)
