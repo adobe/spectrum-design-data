@@ -11,7 +11,8 @@
  */
 
 import { readFileSync } from "fs";
-import { join, dirname } from "path";
+import { join, dirname, sep } from "path";
+import { globSync } from "glob";
 
 /**
  * Configuration for changeset linting rules
@@ -123,7 +124,6 @@ function parseWorkspaceGlobs(yamlContent) {
  */
 export async function getWorkspacePackageNames(cwd = process.cwd()) {
   try {
-    const { globSync } = await import("glob");
     const workspaceRoot = findWorkspaceRoot(cwd);
     if (!workspaceRoot) return new Set();
     const yamlContent = readFileSync(
@@ -133,9 +133,13 @@ export async function getWorkspacePackageNames(cwd = process.cwd()) {
     const globs = parseWorkspaceGlobs(yamlContent);
     const names = new Set();
     for (const pattern of globs) {
-      const pkgJsonPaths = globSync(
-        join(workspaceRoot, pattern, "package.json"),
-      );
+      // glob requires forward slashes; path.join may produce backslashes on Windows
+      const globPattern = join(
+        workspaceRoot,
+        pattern,
+        "package.json",
+      ).replaceAll(sep, "/");
+      const pkgJsonPaths = globSync(globPattern);
       for (const pkgJsonPath of pkgJsonPaths) {
         try {
           const { name } = JSON.parse(readFileSync(pkgJsonPath, "utf8"));
@@ -146,8 +150,13 @@ export async function getWorkspacePackageNames(cwd = process.cwd()) {
       }
     }
     return names;
-  } catch {
-    return new Set(); // Degrade gracefully — never block commits
+  } catch (err) {
+    // Warn on unexpected errors (import failures, permission issues, etc.) without
+    // blocking commits — the fail-safe is intentional, the noise is useful in dev.
+    console.warn(
+      `[changeset-linter] getWorkspacePackageNames failed: ${err.message}`,
+    );
+    return new Set();
   }
 }
 
@@ -264,8 +273,7 @@ function findFrontmatterEnd(lines) {
  * @returns {Promise<Object[]>} Array of linting results
  */
 export async function lintAllChangesets(changesetDir = ".changeset") {
-  const { globSync } = await import("glob");
-  const pattern = join(changesetDir, "*.md");
+  const pattern = join(changesetDir, "*.md").replaceAll(sep, "/");
   const files = globSync(pattern);
 
   // Filter out special changeset files
