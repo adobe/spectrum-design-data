@@ -17,3 +17,5 @@ Fix CI and apply post-review cleanups to `@adobe/design-data-wasm`.
   web build, requiring `await init()` in Deno/Bun and non-standard bundlers.
 - **sdk/wasm/test/parity.test.js**: add two tests asserting `fromTokens` throws on
   non-array input (plain object, string) rather than panicking.
+- **sdk/wasm/LICENSE**: correct appendix copyright to `Copyright 2026 Adobe` — matches
+  the Apache-2.0 canonical template and Adobe's own OSS convention (e.g. react-spectrum).
