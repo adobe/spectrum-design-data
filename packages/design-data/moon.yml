@@ -136,6 +136,13 @@ tasks:
       - --exceptions
       - ../tokens/naming-exceptions.json
     platform: system
+    options:
+      # Operator-only escape hatch: this task OVERWRITES the cascade source of
+      # truth (./tokens). `moon ci` runs every affected task regardless of the
+      # missing `outputs`, so editing this project's moon.yml would otherwise
+      # trip this destructive task and clobber the committed tokens before
+      # `validate` runs. Keep it out of CI entirely.
+      runInCI: false
     deps:
       - sdk:build
     inputs:
