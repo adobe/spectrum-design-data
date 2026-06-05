@@ -27,6 +27,7 @@ use crate::app::{
     DescribeView, DiagnosticRow, Modal, QueryRow, QueryView, ResolveView, ResolvedRow,
     StatusMessage, HISTORY_CAP,
 };
+use crate::command::Command;
 use crate::find::FindWizardState;
 use crate::message::Message;
 use crate::model::Model;
@@ -90,8 +91,8 @@ fn dispatch_command(
     rest: &str,
     ctx: &UpdateCtx<'_>,
 ) -> Task<Message> {
-    match cmd {
-        "query" => {
+    match Command::parse(cmd) {
+        Some(Command::Query) => {
             if rest.is_empty() {
                 model.status_message = Some(StatusMessage::error("query: expression required"));
                 return Task::none();
@@ -116,7 +117,7 @@ fn dispatch_command(
             }
             Task::none()
         }
-        "resolve" => {
+        Some(Command::Resolve) => {
             if rest.is_empty() {
                 model.status_message =
                     Some(StatusMessage::error("resolve: property=<name> required"));
@@ -143,7 +144,7 @@ fn dispatch_command(
             model.status_message = Some(StatusMessage::info(format!("{count} candidate(s)")));
             Task::none()
         }
-        "describe" | "component" => {
+        Some(Command::Describe) => {
             if rest.is_empty() {
                 model.status_message =
                     Some(StatusMessage::error("describe: component ID required"));
@@ -205,7 +206,7 @@ fn dispatch_command(
                 Message::DescribeDone(Box::new(result))
             })
         }
-        "validate" => {
+        Some(Command::Validate) => {
             let (Some(dataset_path), Some(registry)) =
                 (ctx.dataset_path, ctx.schema_registry.clone())
             else {
@@ -253,28 +254,28 @@ fn dispatch_command(
                 Message::ValidateDone(Box::new(result))
             })
         }
-        "find" => {
+        Some(Command::Find) => {
             let fs = FindWizardState::new_with_intent(rest.trim());
             model.open_modal(Modal::Find(Box::new(fs)));
             model.status_message = None;
             Task::none()
         }
-        "name" => {
+        Some(Command::Name) => {
             let mut ns = NamingWizardState::new_with_intent(rest.trim());
             ns.refresh_suggestions(ctx.graph);
             model.open_modal(Modal::Naming(Box::new(ns)));
             model.status_message = None;
             Task::none()
         }
-        "new" | "create" => {
+        Some(Command::New) => {
             let mut ws = WizardState::new_with_intent(rest.trim());
             ws.refresh_suggestions(ctx.graph);
             model.open_modal(Modal::Wizard(Box::new(ws)));
             model.status_message = None;
             Task::none()
         }
-        other => {
-            model.status_message = Some(StatusMessage::error(format!("unknown command: {other}")));
+        None => {
+            model.status_message = Some(StatusMessage::error(format!("unknown command: {cmd}")));
             Task::none()
         }
     }
