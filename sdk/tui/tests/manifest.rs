@@ -22,7 +22,7 @@ use design_data_core::query::{self, TokenIndex};
 use design_data_tui::app::ActiveView;
 use design_data_tui::message::Message;
 use design_data_tui::model::Model;
-use design_data_tui::update::{update, UpdateCtx};
+use design_data_tui::{update, UpdateCtx};
 use serde_json::json;
 
 fn repo_root() -> PathBuf {

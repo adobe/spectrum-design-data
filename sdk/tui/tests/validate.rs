@@ -9,14 +9,13 @@
 // governing permissions and limitations under the License.
 
 mod common;
-use common::key;
+use common::{key, settle, update_ctx_builder};
 
 use crossterm::event::KeyCode;
 use design_data_core::graph::TokenGraph;
-use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use design_data_tui::app::ActiveView;
-use design_data_tui::{dispatch, update, Message, Model, UpdateCtx};
+use design_data_tui::{update, Message, Model, UpdateCtx};
 use std::path::PathBuf;
 use std::sync::Arc;
 
@@ -49,38 +48,25 @@ fn validate_ctx<'a>(
     dataset_path: &'a std::path::Path,
     registry: Arc<SchemaRegistry>,
 ) -> UpdateCtx<'a> {
-    UpdateCtx {
-        graph,
-        dataset_path: Some(dataset_path),
-        components_dir: None,
-        schema_registry: Some(registry),
-        mode_sets_dir: None,
-        token_index: TokenIndex::build(graph),
-        mode_set_restrictions: std::collections::HashMap::new(),
-        allow_write: false,
-    }
+    update_ctx_builder(graph)
+        .dataset_path(dataset_path)
+        .schema_registry(registry)
+        .build()
 }
 
 fn submit_validate(model: &mut Model, ctx: &UpdateCtx<'_>) {
-    // `validate` now completes via a Task (ValidateDone), so drive it through
-    // `dispatch` to run the FS scan and settle the view before asserting.
-    dispatch(model, Message::PaletteSubmit("validate".into()), ctx);
+    // `validate` completes via a Task (ValidateDone) — use `settle` to run the
+    // FS scan and settle the view before asserting.
+    settle(model, Message::PaletteSubmit("validate".into()), ctx);
 }
 
 #[test]
 fn validate_without_registry_sets_error_status() {
     let graph = TokenGraph::default();
     let tokens_dir = tokens_good_dir();
-    let ctx = UpdateCtx {
-        graph: &graph,
-        dataset_path: Some(&tokens_dir),
-        components_dir: None,
-        schema_registry: None,
-        mode_sets_dir: None,
-        token_index: TokenIndex::build(&graph),
-        mode_set_restrictions: std::collections::HashMap::new(),
-        allow_write: false,
-    };
+    let ctx = update_ctx_builder(&graph)
+        .dataset_path(&tokens_dir)
+        .build();
     let mut model = Model::new();
     update(&mut model, Message::PaletteSubmit("validate".into()), &ctx);
     assert!(matches!(model.active_view, ActiveView::Empty));

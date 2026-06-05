@@ -42,8 +42,28 @@ impl<Msg: 'static> Task<Msg> {
         matches!(self, Task::None)
     }
 
-    /// Return true if this task is a `Cmd` closure (useful in tests).
+    /// Return true if this task is a top-level `Cmd` closure.
+    ///
+    /// For tests that go through `update` directly (not through `PaletteSubmit`
+    /// which may batch a history-save alongside the command), `is_cmd` is the
+    /// right assertion. Use [`has_cmd`][Task::has_cmd] when the command may
+    /// be nested inside a `Batch`.
     pub fn is_cmd(&self) -> bool {
         matches!(self, Task::Cmd(_))
+    }
+
+    /// Return true if this task contains at least one `Cmd` closure anywhere in
+    /// its tree.
+    ///
+    /// Unlike [`is_cmd`][Task::is_cmd] which only matches the top-level variant,
+    /// `has_cmd` traverses `Batch` nodes. Use this in tests when the command may
+    /// be wrapped inside a batch (e.g. after palette-history saves are combined
+    /// with the command task via `Task::batch`).
+    pub fn has_cmd(&self) -> bool {
+        match self {
+            Task::None => false,
+            Task::Cmd(_) => true,
+            Task::Batch(tasks) => tasks.iter().any(|t| t.has_cmd()),
+        }
     }
 }

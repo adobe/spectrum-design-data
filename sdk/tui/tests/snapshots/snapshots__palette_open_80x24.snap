@@ -1,0 +1,28 @@
+---
+source: tui/tests/snapshots.rs
+expression: rendered
+---
+▶ test · 0 tokens
+  Spectrum Design Data  v0.1.1
+  : commands · / search · ? help · q quit
+
+  >
+
+  :query <expr>             Filter tokens  e.g. background-color/*
+  :resolve property=<name>  Resolve a property through the cascade
+  :describe <component>     Inspect a component schema
+  :validate                 Validate all tokens against schemas
+  :new [<intent>]           Open the token authoring wizard
+  :find                     Open fuzzy find
+  ?                         Toggle help
+  q                         Quit
+
+
+
+
+
+
+
+
+
+:

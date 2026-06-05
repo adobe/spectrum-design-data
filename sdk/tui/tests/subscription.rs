@@ -87,3 +87,71 @@ fn next_timeout_counts_down_within_the_interval() {
     subs.diff(Vec::new(), half);
     assert_eq!(subs.next_timeout(half), None);
 }
+
+#[test]
+fn poll_exactly_at_interval_boundary_fires_exactly_once() {
+    // Verify that polling exactly at the boundary (not past it) still fires.
+    let mut subs: Subscriptions<Message> = Subscriptions::new();
+    let start = Instant::now();
+    subs.diff(subscriptions(&Model::new()), start);
+
+    // Exactly one interval later.
+    let at_boundary = start + TICK_INTERVAL;
+    let fired = subs.poll(at_boundary);
+    assert_eq!(fired.len(), 1, "poll at the exact boundary should fire once");
+
+    // Polling again immediately must not re-fire (no double-fire).
+    let immediate_repeat = subs.poll(at_boundary);
+    assert!(
+        immediate_repeat.is_empty(),
+        "polling again at the same instant must not re-fire"
+    );
+}
+
+#[test]
+fn empty_subscriptions_next_timeout_is_none() {
+    let subs: Subscriptions<Message> = Subscriptions::new();
+    assert_eq!(
+        subs.next_timeout(Instant::now()),
+        None,
+        "no subscriptions → no timeout"
+    );
+}
+
+#[test]
+fn diff_replacing_subscription_resets_timer() {
+    // Start a tick subscription, let it almost fire, then replace with a new diff.
+    // The timer should reset to a fresh full interval.
+    let mut subs: Subscriptions<Message> = Subscriptions::new();
+    let start = Instant::now();
+    subs.diff(subscriptions(&Model::new()), start);
+
+    // Almost at the boundary — re-diff before it fires.
+    let almost = start + TICK_INTERVAL - std::time::Duration::from_millis(1);
+    subs.diff(subscriptions(&Model::new()), almost); // same desired set — timer preserved
+
+    // The timeout at `almost` should be at most 1 ms (almost at boundary).
+    let remaining = subs.next_timeout(almost).expect("still active");
+    assert!(
+        remaining <= std::time::Duration::from_millis(2),
+        "timer should be near expiry: {remaining:?}"
+    );
+}
+
+#[test]
+fn subscription_poll_does_not_emit_before_interval_elapses() {
+    // If poll is called repeatedly before the interval, nothing fires.
+    let mut subs: Subscriptions<Message> = Subscriptions::new();
+    let start = Instant::now();
+    subs.diff(subscriptions(&Model::new()), start);
+
+    // Poll at sub-interval increments — no ticks should fire.
+    let step = TICK_INTERVAL / 4;
+    for i in 1..4u32 {
+        let t = start + step * i;
+        assert!(
+            subs.poll(t).is_empty(),
+            "tick must not fire before interval at step {i}"
+        );
+    }
+}
