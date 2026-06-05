@@ -1,5 +1,20 @@
 # @adobe/design-data-spec
 
+## 2.1.0
+
+### Minor Changes
+
+- [#1118](https://github.com/adobe/spectrum-design-data/pull/1118) [`8e017b2`](https://github.com/adobe/spectrum-design-data/commit/8e017b269f243a4842ba7239731041f8e56e4360) Thanks [@GarthDB](https://github.com/GarthDB)! - Define the normative dataset-directory layout and add the SPEC-044 structural
+  pre-check (closes #1114).
+  - **spec/dataset-layout.md**: new normative chapter for required/optional
+    directories, the discovery algorithm, and the optional root descriptor.
+  - **schemas/dataset.schema.json**: new optional `dataset.json` root descriptor;
+    allow `$schema` in `mode-set.schema.json`.
+  - **SPEC-044** (`dataset-structure`, error): pre-check that `tokens/` holds at
+    least one `*.tokens.json`; warns on empty registered optional directories.
+  - **sdk**: add `check_dataset_structure`, a `validate_dataset` entry point, and a
+    `validate-dataset` CLI subcommand that schema-validates the catalog directories.
+
 ## 2.0.0
 
 ### Major Changes
