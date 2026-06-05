@@ -6,6 +6,7 @@ projects:
   design-data-spec: "packages/design-data-spec"
   design-data: "packages/design-data"
   sdk: "sdk"
+  sdk-wasm: "sdk/wasm"
   visualizer: "docs/visualizer"
   s2-visualizer: "docs/s2-visualizer"
   site: "docs/site"

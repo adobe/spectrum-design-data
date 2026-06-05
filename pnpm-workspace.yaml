@@ -5,3 +5,4 @@ packages:
   - "sdk/cli"
   - "sdk/npm/*"
   - "sdk/tui"
+  - "sdk/wasm"

@@ -356,6 +356,12 @@ importers:
 
   sdk/tui: {}
 
+  sdk/wasm:
+    devDependencies:
+      ava:
+        specifier: ^6.1.2
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+
   tools/changeset-linter:
     dependencies:
       chalk:
@@ -776,6 +782,9 @@ importers:
 
   tools/token-naming-audit:
     dependencies:
+      '@adobe/design-data-wasm':
+        specifier: workspace:*
+        version: link:../../sdk/wasm
       '@adobe/spectrum-design-data':
         specifier: workspace:*
         version: link:../../packages/design-data

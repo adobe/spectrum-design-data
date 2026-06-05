@@ -1,0 +1,85 @@
+# Copyright 2026 Adobe. All rights reserved.
+# This file is licensed to you under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License. You may obtain a copy
+# of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+# OF ANY KIND, either express or implied. See the License for the specific language
+# governing permissions and limitations under the License.
+$schema: "https://moonrepo.dev/schemas/project.json"
+type: library
+language: rust
+fileGroups:
+  sources:
+    - "src/**/*.rs"
+    - "Cargo.toml"
+tasks:
+  # Build the .redb embedded cache blob from the canonical token source.
+  # Must run before `build` when the `embedded` Cargo feature is active.
+  # Gated: the embedded feature is disabled by default; run this manually
+  # before enabling it.
+  cache-build:
+    command: cargo
+    args:
+      - run
+      - -p
+      - design-data-cli
+      - --
+      - cache-build
+      - packages/tokens/src
+      - --output
+      - sdk/wasm/src/embedded_cache.redb
+    inputs:
+      - "/packages/tokens/src/*.json"
+      - "/packages/tokens/schemas/**/*.json"
+      - "/packages/tokens/naming-exceptions.json"
+      - "/packages/tokens/manifest.json"
+      - "/packages/design-data/mode-sets/*.json"
+      - "/packages/design-data/components/*.json"
+    outputs:
+      - "src/embedded_cache.redb"
+    deps:
+      - sdk:codegen-check
+    platform: system
+
+  # Build the wasm package for both nodejs and web targets.
+  # Outputs:
+  #   pkg/node/ — synchronous nodejs target (no init() required)
+  #   pkg/web/  — browser ESM target (requires await init(wasmUrl))
+  build:
+    command: node
+    args:
+      - scripts/build.mjs
+    inputs:
+      - "@globs(sources)"
+      - "/sdk/core/src/**/*.rs"
+      - "/sdk/core/Cargo.toml"
+      - "/sdk/core/src/registry_data.rs"
+    outputs:
+      - "pkg/node/design_data_wasm.js"
+      - "pkg/node/design_data_wasm.d.ts"
+      - "pkg/web/design_data_wasm.js"
+      - "pkg/web/design_data_wasm.d.ts"
+    deps:
+      - sdk:codegen-check
+    platform: node
+
+  # Run AVA parity tests against the compiled nodejs wasm package.
+  test:
+    command: [pnpm, ava, test]
+    inputs:
+      - "test/**/*.test.js"
+      - "ava.config.js"
+      - "package.json"
+      - "pkg/node/design_data_wasm.js"
+      - "pkg/node/design_data_wasm_bg.wasm"
+      - "/packages/design-data-spec/conformance/**/*"
+    deps:
+      - build
+    platform: node
+
+  ci:
+    deps:
+      - build
+      - test

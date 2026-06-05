@@ -10,7 +10,11 @@ description = "Design Data Specification validation core (structural + graph rul
 path = "src/lib.rs"
 
 [dependencies]
-jsonschema = "0.29"
+# resolve-http and resolve-file are jsonschema's default features but are not
+# supported on wasm32-unknown-unknown. We disable defaults here and re-enable
+# them via the `schema-resolvers` feature (added to `default` below) so that
+# native builds still have full resolver support while wasm builds compile cleanly.
+jsonschema = { version = "0.29", default-features = false }
 serde = { version = "1.0", features = ["derive"] }
 # preserve_order switches serde_json's Map from BTreeMap to IndexMap (crate-wide).
 # Required so write_token merges tokens without resorting keys on round-trip.
@@ -37,7 +41,7 @@ redb = { version = "2.6", optional = true }
 rmp-serde = { version = "1.3", optional = true }
 
 [features]
-default = ["cache"]
+default = ["cache", "schema-resolvers"]
 # Derived embedded-database cache over the canonical JSON files. On by default so
 # the CLI/TUI skip re-parsing JSON on every invocation; library consumers may opt
 # out with `--no-default-features`.
@@ -45,8 +49,25 @@ cache = ["dep:redb", "dep:rmp-serde"]
 # Forward-looking flag for `wasm32` web tools: the cache's in-memory open-from-bytes
 # path (`cache::load_from_bytes`) needs no filesystem and works under this feature.
 wasm = ["cache"]
+# Re-enable jsonschema's resolve-http and resolve-file features for native builds.
+# These are not supported on wasm32-unknown-unknown (jsonschema fires a compile_error),
+# so they are excluded from the `wasm` feature set. Included in `default` so native
+# tooling (CLI/TUI/tests) retains full schema validation with HTTP + file resolution.
+schema-resolvers = ["jsonschema/resolve-http", "jsonschema/resolve-file"]
 fetch = ["dep:reqwest", "dep:tokio", "dep:flate2", "dep:tar"]
 figma = ["dep:reqwest", "dep:tokio"]
+
+# On wasm32-unknown-unknown, getrandom (pulled in transitively e.g. by ahash → jsonschema)
+# needs the `wasm_js` backend, and uuid's plain `rng` path doesn't work either.
+# These target-scoped deps add the wasm32-specific features without affecting native builds.
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+# uuid: `js` feature uses wasm-bindgen/js-sys to call crypto.getRandomValues directly,
+# sidestepping the getrandom version chain.
+uuid = { version = "1.11", features = ["js"] }
+# getrandom 0.3 is pulled in transitively (e.g. by ahash). Enable `wasm_js` so Cargo
+# merges it into that transitive copy. The backend activation also requires the cfg flag
+# in sdk/.cargo/config.toml.
+getrandom = { version = "0.3", features = ["wasm_js"] }
 
 [dev-dependencies]
 regex = "1"
