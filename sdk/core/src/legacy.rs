@@ -567,12 +567,17 @@ fn normalize_lifecycle_for_legacy(
                     }
                 }
             }
-            // Emit renamed only when all elements point at the same logical token
-            // (e.g. two scale-set members with the same property name).
+            // Emit renamed only when all resolvable elements point at the same logical
+            // token (e.g. two scale-set members with the same property name). Unresolvable
+            // UUIDs are skipped rather than treated as ambiguous: if a replacement token is
+            // absent from this conversion run the resolvable elements still identify the
+            // replacement name, so emitting renamed is correct. If elements resolve to two
+            // or more distinct names the mapping is genuinely ambiguous; deprecated_comment
+            // explains it. An empty array (or all unresolvable) produces no renamed.
             if distinct.len() == 1 {
                 entry.insert("renamed".into(), Value::String(distinct[0].to_string()));
             }
-            // Multiple distinct targets: no 1:1 mapping; deprecated_comment explains it.
+            // Multiple distinct targets or empty: no 1:1 mapping.
         }
     }
 
@@ -980,6 +985,139 @@ mod tests {
         assert!(
             err.contains("bg"),
             "error message should name the property: {err}"
+        );
+    }
+
+    /// Empty replaced_by array must produce no renamed and must not crash.
+    #[test]
+    fn replaced_by_empty_array_omits_renamed() {
+        let arr = json!([{
+            "name": {"property": "old-token"},
+            "$schema": ".../alias.json",
+            "value": "1px",
+            "uuid": "old-uuid-empty",
+            "deprecated": "unknown",
+            "replaced_by": []
+        }]);
+        let global: HashMap<String, String> = HashMap::new();
+        let mut summary = LegacySummary::default();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &global).unwrap();
+        assert!(
+            out["old-token"].get("renamed").is_none(),
+            "empty replaced_by should not produce renamed"
+        );
+        assert_eq!(out["old-token"]["deprecated"], true);
+    }
+
+    /// When replaced_by contains a mix of resolvable and unresolvable UUIDs, and all
+    /// resolvable ones collapse to one name, renamed is still emitted.  The unresolvable
+    /// UUID is interpreted as "target may be absent from this conversion run" rather than
+    /// "unknown second target" — see the comment in normalize_lifecycle_for_legacy.
+    #[test]
+    fn replaced_by_array_partial_resolution_emits_renamed() {
+        let arr = json!([
+            {
+                "name": {"property": "old-token"},
+                "$schema": ".../alias.json",
+                "$ref": "known-uuid-0001",
+                "uuid": "old-partial-uuid",
+                "deprecated": "unknown",
+                "replaced_by": ["known-uuid-0001", "no-such-uuid-xyz"]
+            },
+            {
+                "name": {"property": "new-token"},
+                "$schema": ".../alias.json",
+                "value": "1px",
+                "uuid": "known-uuid-0001"
+            }
+        ]);
+        let mut global: HashMap<String, String> = HashMap::new();
+        for item in arr.as_array().unwrap() {
+            let tok = item.as_object().unwrap();
+            if let Some(key) = tok.get("name").and_then(extract_legacy_key) {
+                if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
+                    global.insert(uuid.to_string(), key);
+                }
+            }
+        }
+        let mut summary = LegacySummary::default();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &global).unwrap();
+        assert_eq!(
+            out["old-token"].get("renamed").and_then(|v| v.as_str()),
+            Some("new-token"),
+            "one resolvable + one unresolvable UUID should emit renamed from the resolved element"
+        );
+    }
+
+    /// Per-mode replaced_by strings (different UUID per scale member, both resolving to
+    /// the same property name) must produce renamed hoisted to the outer set level.
+    #[test]
+    fn per_mode_replaced_by_string_hoisted_to_outer() {
+        let arr = json!([
+            // old-width scale-set: each mode member replaced by the corresponding member
+            // of new-width.  The two target UUIDs differ but share the same property name.
+            {
+                "name": {"property": "old-width", "scale": "desktop"},
+                "$schema": ".../alias.json",
+                "$ref": "new-desktop-uuid-0001",
+                "uuid": "old-desktop-uuid-0001",
+                "set_uuid": "old-set-uuid-0001",
+                "set_schema": ".../scale-set.json",
+                "deprecated": "unknown",
+                "replaced_by": "new-desktop-uuid-0001"
+            },
+            {
+                "name": {"property": "old-width", "scale": "mobile"},
+                "$schema": ".../alias.json",
+                "$ref": "new-mobile-uuid-0001",
+                "uuid": "old-mobile-uuid-0001",
+                "set_uuid": "old-set-uuid-0001",
+                "set_schema": ".../scale-set.json",
+                "deprecated": "unknown",
+                "replaced_by": "new-mobile-uuid-0001"
+            },
+            {
+                "name": {"property": "new-width", "scale": "desktop"},
+                "$schema": ".../alias.json",
+                "value": "240px",
+                "uuid": "new-desktop-uuid-0001"
+            },
+            {
+                "name": {"property": "new-width", "scale": "mobile"},
+                "$schema": ".../alias.json",
+                "value": "288px",
+                "uuid": "new-mobile-uuid-0001"
+            }
+        ]);
+        let mut global: HashMap<String, String> = HashMap::new();
+        for item in arr.as_array().unwrap() {
+            let tok = item.as_object().unwrap();
+            if let Some(key) = tok.get("name").and_then(extract_legacy_key) {
+                if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
+                    global.insert(uuid.to_string(), key.clone());
+                }
+                if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
+                    global.insert(set_uuid.to_string(), key);
+                }
+            }
+        }
+        let mut summary = LegacySummary::default();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &global).unwrap();
+        let old = out["old-width"].as_object().unwrap();
+        assert_eq!(
+            old.get("renamed").and_then(|v| v.as_str()),
+            Some("new-width"),
+            "renamed should be hoisted to outer set level"
+        );
+        assert_eq!(old["deprecated"], true);
+        let sets = old["sets"].as_object().unwrap();
+        assert!(
+            sets["desktop"].as_object().unwrap().get("renamed").is_none(),
+            "renamed should be absent from sets.desktop after hoisting"
+        );
+        assert!(
+            sets["mobile"].as_object().unwrap().get("renamed").is_none(),
+            "renamed should be absent from sets.mobile after hoisting"
         );
     }
 
