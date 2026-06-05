@@ -26,6 +26,7 @@ projects:
   component-options-editor: "tools/component-options-editor"
   token-naming-audit: "tools/token-naming-audit"
   demo: "tools/demo"
+  design-data-js: "tools/design-data-js"
 vcs:
   manager: "git"
   defaultBranch: "main"
