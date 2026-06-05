@@ -54,6 +54,37 @@ test.before(async () => {
 });
 
 // ---------------------------------------------------------------------------
+// Dataset.embedded() — prebuilt .redb cache blob
+// ---------------------------------------------------------------------------
+
+test("Dataset.embedded() returns a dataset with a non-zero token count", (t) => {
+  const ds = wasm.Dataset.embedded();
+  t.truthy(ds);
+  t.true(ds.tokenCount() > 0, `Expected tokens > 0, got ${ds.tokenCount()}`);
+});
+
+test("Dataset.embedded() query returns results for known Spectrum tokens", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const results = ds.query("property=color");
+  t.true(results.length > 0, "Expected color tokens in embedded dataset");
+});
+
+test("Dataset.embedded() resolve returns a token for a known property", (t) => {
+  const ds = wasm.Dataset.embedded();
+  // background-color-default exists in every Spectrum color set
+  const result = ds.resolve("background-color-default", { colorScheme: "light" });
+  t.truthy(result, "Expected a resolved token for background-color-default");
+  t.is(typeof result.specificity, "number");
+  t.truthy(result.token.raw);
+});
+
+test("Dataset.embedded() returns the same graph instance on repeated calls", (t) => {
+  const ds1 = wasm.Dataset.embedded();
+  const ds2 = wasm.Dataset.embedded();
+  t.is(ds1.tokenCount(), ds2.tokenCount());
+});
+
+// ---------------------------------------------------------------------------
 // Registry helpers — embedded RegistryData (no tokens needed)
 // ---------------------------------------------------------------------------
 

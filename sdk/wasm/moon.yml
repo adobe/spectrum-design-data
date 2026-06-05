@@ -16,9 +16,7 @@ fileGroups:
     - "Cargo.toml"
 tasks:
   # Build the .redb embedded cache blob from the canonical token source.
-  # Must run before `build` when the `embedded` Cargo feature is active.
-  # Gated: the embedded feature is disabled by default; run this manually
-  # before enabling it.
+  # Runs automatically as a dep of `build` so Dataset.embedded() is always wired.
   cache-build:
     command: cargo
     args:
@@ -43,10 +41,11 @@ tasks:
       - sdk:codegen-check
     platform: system
 
-  # Build the wasm package for both nodejs and web targets.
+  # Build the wasm package for both nodejs and web targets with the `embedded` feature.
   # Outputs:
   #   pkg/node/ — synchronous nodejs target (no init() required)
   #   pkg/web/  — browser ESM target (requires await init(wasmUrl))
+  # cache-build runs first to generate src/embedded_cache.redb so Dataset.embedded() works.
   build:
     command: node
     args:
@@ -56,6 +55,7 @@ tasks:
       - "/sdk/core/src/**/*.rs"
       - "/sdk/core/Cargo.toml"
       - "/sdk/core/src/registry_data.rs"
+      - "src/embedded_cache.redb"
     outputs:
       - "pkg/node/design_data_wasm.js"
       - "pkg/node/design_data_wasm.d.ts"
@@ -63,6 +63,7 @@ tasks:
       - "pkg/web/design_data_wasm.d.ts"
     deps:
       - sdk:codegen-check
+      - cache-build
     platform: node
 
   # Run AVA parity tests against the compiled nodejs wasm package.
