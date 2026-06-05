@@ -94,6 +94,20 @@ tasks:
       - sdk:build
     inputs:
       - "@globs(sources)"
+  verifyLegacyOutput:
+    command: ../../sdk/target/debug/design-data
+    args:
+      - migrate
+      - legacy-verify
+      - ../design-data/tokens
+      - --reference
+      - ./src
+    platform: system
+    deps:
+      - sdk:build
+    inputs:
+      - "@globs(sources)"
+      - "../design-data/tokens/**/*.json"
   test:
     command:
       - pnpm
@@ -108,6 +122,7 @@ tasks:
       - ~:buildTokens
       - ~:verifyDesignDataSnapshot
       - ~:verifyLegacyRoundtrip
+      - ~:verifyLegacyOutput
     platform: node
   test-watch:
     command:

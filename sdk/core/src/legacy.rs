@@ -205,6 +205,24 @@ pub fn roundtrip_verify(legacy_src: &Path) -> Result<Vec<VerifyDifference>, Core
     verify_against_reference(legacy_tmp.path(), legacy_src)
 }
 
+/// Regenerate legacy files from a cascade source directory and compare
+/// semantically against a committed reference legacy directory.
+///
+/// Equivalent to running `design-data migrate legacy-output` into a temp dir
+/// and then comparing the output against `reference_legacy_dir` with the same
+/// semantic normalisation as [`roundtrip_verify`].
+///
+/// Returns an empty `Vec` when the cascade and reference are in sync. Returns
+/// `Err` only on I/O or parse failures.
+pub fn legacy_output_verify(
+    cascade_dir: &Path,
+    reference_legacy_dir: &Path,
+) -> Result<Vec<VerifyDifference>, CoreError> {
+    let legacy_tmp = tempfile::tempdir()?;
+    convert_dir(cascade_dir, legacy_tmp.path())?;
+    verify_against_reference(legacy_tmp.path(), reference_legacy_dir)
+}
+
 /// Compare a directory of generated legacy files against a reference directory.
 ///
 /// For each `.json` file in `reference_dir`, finds the matching file in
@@ -512,7 +530,11 @@ fn convert_array(
 /// Convert cascade lifecycle fields to legacy format on a token entry.
 ///
 /// - `deprecated: "version"` → `deprecated: true`
-/// - `replaced_by: "uuid"` → `renamed: "<property-name>"` (resolved via map)
+/// - `replaced_by: "uuid"` → `renamed: "<property-name>"` (string form, resolved via map)
+/// - `replaced_by: ["uuid", ...]` → `renamed: "<property-name>"` when all elements
+///   resolve to the **same** legacy name (multi-member scale/color-set pointing at one
+///   logical token); left unset when they resolve to multiple distinct names (genuine
+///   multi-target rename — `deprecated_comment` explains it).
 /// - `plannedRemoval`, `introduced` → removed (no legacy equivalent)
 fn normalize_lifecycle_for_legacy(
     entry: &mut Map<String, Value>,
@@ -525,14 +547,33 @@ fn normalize_lifecycle_for_legacy(
         }
     }
 
-    // replaced_by → renamed (resolve UUID to property name)
+    // replaced_by → renamed (resolve UUID(s) to property name)
     if let Some(replaced) = entry.remove("replaced_by") {
         if let Some(uuid) = replaced.as_str() {
+            // Single-string form.
             if let Some(name) = uuid_to_name.get(uuid) {
                 entry.insert("renamed".into(), Value::String(name.clone()));
             }
+        } else if let Some(arr) = replaced.as_array() {
+            // Array form: collect all distinct resolved names.
+            let mut distinct: Vec<&str> = Vec::new();
+            for elem in arr {
+                if let Some(uuid) = elem.as_str() {
+                    if let Some(name) = uuid_to_name.get(uuid) {
+                        let s = name.as_str();
+                        if !distinct.contains(&s) {
+                            distinct.push(s);
+                        }
+                    }
+                }
+            }
+            // Emit renamed only when all elements point at the same logical token
+            // (e.g. two scale-set members with the same property name).
+            if distinct.len() == 1 {
+                entry.insert("renamed".into(), Value::String(distinct[0].to_string()));
+            }
+            // Multiple distinct targets: no 1:1 mapping; deprecated_comment explains it.
         }
-        // Array form: don't emit renamed (no 1:1 mapping); deprecated_comment explains it.
     }
 
     // Drop fields with no legacy equivalent.
@@ -544,6 +585,41 @@ fn normalize_lifecycle_for_legacy(
         for (_mode, set_entry) in sets.iter_mut() {
             if let Some(obj) = set_entry.as_object_mut() {
                 normalize_lifecycle_for_legacy(obj, uuid_to_name);
+            }
+        }
+    }
+
+    // Hoist `renamed` to the outer level when it is absent there but consistently
+    // the same across all mode entries. This matches the structural convention of the
+    // committed legacy files (lifecycle fields uniform across all modes belong at the
+    // outer level, not inside each set entry). This can happen when the cascade source
+    // stores per-mode `replaced_by` UUIDs that all resolve to the same legacy token
+    // name (e.g. desktop/mobile scale members of one logical replacement token).
+    if entry.get("renamed").is_none() {
+        let hoist_val: Option<Value> = entry
+            .get("sets")
+            .and_then(|s| s.as_object())
+            .filter(|sets| !sets.is_empty())
+            .and_then(|sets| {
+                let mut iter = sets
+                    .values()
+                    .filter_map(|v| v.as_object()?.get("renamed").cloned());
+                let first = iter.next()?;
+                if iter.all(|v| v == first) {
+                    Some(first)
+                } else {
+                    None
+                }
+            });
+        if let Some(val) = hoist_val {
+            entry.insert("renamed".into(), val);
+            // Remove from mode entries — the value is now represented at the outer level.
+            if let Some(sets) = entry.get_mut("sets").and_then(|v| v.as_object_mut()) {
+                for set_entry in sets.values_mut() {
+                    if let Some(obj) = set_entry.as_object_mut() {
+                        obj.remove("renamed");
+                    }
+                }
             }
         }
     }
@@ -905,6 +981,113 @@ mod tests {
             err.contains("bg"),
             "error message should name the property: {err}"
         );
+    }
+
+    /// Regression: array-form replaced_by where all elements resolve to the same
+    /// property name (e.g. two scale-set members) must produce `renamed`.
+    #[test]
+    fn replaced_by_array_single_target_resolves_to_renamed() {
+        let arr = json!([
+            // old-token: flat alias, deprecated, replaced_by two scale-set member UUIDs.
+            {
+                "name": {"property": "old-width"},
+                "$schema": ".../alias.json",
+                "$ref": "new-desktop-uuid",
+                "uuid": "old-uuid-0001",
+                "deprecated": "unknown",
+                "deprecated_comment": "Use new-width instead.",
+                "replaced_by": ["new-desktop-uuid", "new-mobile-uuid"]
+            },
+            // new-width desktop: both scale members share the same property name.
+            {
+                "name": {"property": "new-width", "scale": "desktop"},
+                "$schema": ".../alias.json",
+                "value": "240px",
+                "uuid": "new-desktop-uuid"
+            },
+            // new-width mobile.
+            {
+                "name": {"property": "new-width", "scale": "mobile"},
+                "$schema": ".../alias.json",
+                "value": "288px",
+                "uuid": "new-mobile-uuid"
+            }
+        ]);
+
+        let mut global: HashMap<String, String> = HashMap::new();
+        for item in arr.as_array().unwrap() {
+            let tok = item.as_object().unwrap();
+            if let Some(key) = tok.get("name").and_then(extract_legacy_key) {
+                if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
+                    global.insert(uuid.to_string(), key.clone());
+                }
+                if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
+                    global.insert(set_uuid.to_string(), key);
+                }
+            }
+        }
+
+        let mut summary = LegacySummary::default();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &global).unwrap();
+
+        let old = &out["old-width"];
+        assert_eq!(
+            old.get("renamed").and_then(|v| v.as_str()),
+            Some("new-width"),
+            "array replaced_by all resolving to same name should produce renamed"
+        );
+        assert_eq!(old["deprecated"], true, "deprecated should be true");
+    }
+
+    /// Array-form replaced_by with two different target names must NOT emit renamed
+    /// (no 1:1 legacy mapping; deprecated_comment describes the split).
+    #[test]
+    fn replaced_by_array_multi_target_omits_renamed() {
+        let arr = json!([
+            // old-token: replaced by two genuinely distinct tokens.
+            {
+                "name": {"property": "old-token"},
+                "$schema": ".../alias.json",
+                "$ref": "target-a-uuid",
+                "uuid": "old-uuid-0002",
+                "deprecated": "unknown",
+                "deprecated_comment": "Split into token-a and token-b.",
+                "replaced_by": ["target-a-uuid", "target-b-uuid"]
+            },
+            {
+                "name": {"property": "token-a"},
+                "$schema": ".../alias.json",
+                "value": "1px",
+                "uuid": "target-a-uuid"
+            },
+            {
+                "name": {"property": "token-b"},
+                "$schema": ".../alias.json",
+                "value": "2px",
+                "uuid": "target-b-uuid"
+            }
+        ]);
+
+        let mut global: HashMap<String, String> = HashMap::new();
+        for item in arr.as_array().unwrap() {
+            let tok = item.as_object().unwrap();
+            if let Some(key) = tok.get("name").and_then(extract_legacy_key) {
+                if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
+                    global.insert(uuid.to_string(), key);
+                }
+            }
+        }
+
+        let mut summary = LegacySummary::default();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &global).unwrap();
+
+        let old = &out["old-token"];
+        assert!(
+            old.get("renamed").is_none(),
+            "multi-target array replaced_by should NOT produce renamed, got: {:?}",
+            old.get("renamed")
+        );
+        assert_eq!(old["deprecated"], true, "deprecated should still be true");
     }
 
     /// Regression: replaced_by pointing at a set token's outer UUID must resolve
