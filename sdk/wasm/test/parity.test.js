@@ -158,6 +158,18 @@ test("fromTokens accepts an empty array", (t) => {
   t.is(ds.tokenCount(), 0);
 });
 
+test("fromTokens throws on non-array input (plain object)", (t) => {
+  t.throws(() => wasm.Dataset.fromTokens({ values: [] }), {
+    instanceOf: Error,
+  });
+});
+
+test("fromTokens throws on non-array input (string)", (t) => {
+  t.throws(() => wasm.Dataset.fromTokens("not-an-array"), {
+    instanceOf: Error,
+  });
+});
+
 // ---------------------------------------------------------------------------
 // Query — conformance parity
 // ---------------------------------------------------------------------------

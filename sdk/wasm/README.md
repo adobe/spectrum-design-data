@@ -51,6 +51,11 @@ console.log(`${diff.added.length} added, ${diff.deleted.length} deleted`);
 The `browser` export condition resolves to a browser ESM build. Call `init()`
 with the URL of the `.wasm` file before using any API.
 
+> **Note for Deno, Bun, and non-standard bundlers:** the package's `default` export
+> condition also resolves to the web (browser ESM) build, so runtimes or bundlers that
+> don't honour the `node` or `browser` condition will get this build and **must** call
+> `await init()` before using any API.
+
 ```js
 import init, { Dataset } from '@adobe/design-data-wasm';
 // or explicit browser path:

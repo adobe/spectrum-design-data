@@ -120,7 +120,7 @@ impl Dataset {
     #[wasm_bindgen(js_name = "fromTokens")]
     pub fn from_tokens(tokens_json: JsValue) -> Result<Dataset, JsValue> {
         let tokens: Vec<serde_json::Value> =
-            serde_wasm_bindgen::from_value(tokens_json).map_err(|e| js_err(e))?;
+            serde_wasm_bindgen::from_value(tokens_json).map_err(js_err)?;
 
         let pairs: Vec<(String, std::path::PathBuf, serde_json::Value)> = tokens
             .into_iter()
@@ -203,7 +203,11 @@ impl Dataset {
     pub fn resolve(&self, property: &str, context: WasmContext) -> Result<Option<ResolveResult>, JsValue> {
         let ctx_map = context.into_inner();
 
-        // Build a sub-graph of only the tokens matching this property.
+        // Build a property-scoped sub-graph so `cascade::resolve` only sees candidates
+        // for this property. This clones the matching token records and the full mode-set
+        // map on every call — acceptable for Phase 1 usage, but a candidate for caching
+        // (e.g. pre-indexing by property) when resolve() becomes a hot path in Phase 2
+        // (see epic #731).
         let candidates: Vec<_> = self
             .graph
             .tokens

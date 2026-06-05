@@ -15,9 +15,8 @@ jobs:
           fetch-depth: 0
       # Install Rust 1.88.0 + wasm32 target for the sdk-wasm:build task.
       # This also covers sdk:lint (cargo clippy) and aligns with sdk/rust-toolchain.toml.
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@1.88.0
         with:
-          toolchain: "1.88.0"
           targets: wasm32-unknown-unknown
       # Install wasm-pack so `moon run sdk-wasm:build` can invoke it.
       - uses: jetli/wasm-pack-action@v0.4.0
