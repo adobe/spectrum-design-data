@@ -70,6 +70,21 @@ test.serial(
   },
 );
 
+test.serial(
+  "default dataPath ('.') resolves to dataRoot, not the process CWD",
+  async (t) => {
+    // Intentional behavior change: the old default of "." resolved against the
+    // process CWD (the bug behind #1109). The default now anchors to dataRoot so
+    // the dataset is found regardless of where the server was launched.
+    const root = resolve("/tmp/some-repo");
+    const config = await loadConfig({ DESIGN_DATA_ROOT: root });
+    t.is(config.dataPath, root);
+    t.is(config.dataPath, resolve(root, "."));
+    t.not(config.dataPath, resolve("."));
+    t.true(isAbsolute(config.dataPath));
+  },
+);
+
 test.serial("unset optional path fields stay null", async (t) => {
   const config = await loadConfig({
     DESIGN_DATA_ROOT: resolve("/tmp/some-repo"),
