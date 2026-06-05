@@ -1,0 +1,30 @@
+{
+  "name": "@adobe/design-data-js",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Node.js helpers for @adobe/design-data-wasm: filesystem dataset loading, token write operations, and authoring-session management",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./load": "./src/load.js",
+    "./write": "./src/write.js",
+    "./session": "./src/session.js"
+  },
+  "engines": {
+    "node": ">=20.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "tools/design-data-js"
+  },
+  "author": "Adobe",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@adobe/design-data-wasm": "workspace:*"
+  },
+  "devDependencies": {
+    "ava": "^6.1.2"
+  }
+}
