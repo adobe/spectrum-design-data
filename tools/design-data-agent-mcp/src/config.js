@@ -8,11 +8,34 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
+import { fileURLToPath } from "url";
+import { isAbsolute, resolve } from "path";
+
+// The repo root relative to this file: src → package → tools → repo root.
+// Used as the self-anchoring fallback when DESIGN_DATA_ROOT is not provided
+// and the server is run from inside the monorepo checkout.
+const SERVER_ROOT = fileURLToPath(new URL("../../..", import.meta.url));
+
+// Claude Code launches the MCP server with the working directory inherited from
+// wherever the editor was opened (e.g. `sdk/`), not the repo root. Relative
+// DESIGN_DATA_* paths must therefore be anchored to a known root rather than the
+// process CWD. Prefer an explicit absolute DESIGN_DATA_ROOT (works even when the
+// server is launched via `npx` from the npm cache); fall back to SERVER_ROOT for
+// in-repo runs.
+const dataRoot = process.env.DESIGN_DATA_ROOT
+  ? resolve(process.env.DESIGN_DATA_ROOT)
+  : SERVER_ROOT;
+
+function anchorPath(p) {
+  return p && !isAbsolute(p) ? resolve(dataRoot, p) : p;
+}
+
 export const config = {
   bin: process.env.DESIGN_DATA_BIN ?? "design-data",
-  dataPath: process.env.DESIGN_DATA_PATH ?? ".",
-  schemaPath: process.env.DESIGN_DATA_SCHEMAS ?? null,
-  exceptionsPath: process.env.DESIGN_DATA_EXCEPTIONS ?? null,
-  componentsDir: process.env.DESIGN_DATA_COMPONENTS ?? null,
-  fieldsDir: process.env.DESIGN_DATA_FIELDS ?? null,
+  dataRoot,
+  dataPath: anchorPath(process.env.DESIGN_DATA_PATH ?? "."),
+  schemaPath: anchorPath(process.env.DESIGN_DATA_SCHEMAS ?? null),
+  exceptionsPath: anchorPath(process.env.DESIGN_DATA_EXCEPTIONS ?? null),
+  componentsDir: anchorPath(process.env.DESIGN_DATA_COMPONENTS ?? null),
+  fieldsDir: anchorPath(process.env.DESIGN_DATA_FIELDS ?? null),
 };

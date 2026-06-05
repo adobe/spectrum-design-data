@@ -47,14 +47,30 @@ node tools/design-data-agent-mcp/src/index.js
 
 ### Environment variables
 
-| Variable                 | Default       | Description                               |
-| ------------------------ | ------------- | ----------------------------------------- |
-| `DESIGN_DATA_BIN`        | `design-data` | Path to the `design-data` binary          |
-| `DESIGN_DATA_PATH`       | `.`           | Dataset root path                         |
-| `DESIGN_DATA_COMPONENTS` | —             | Override components directory             |
-| `DESIGN_DATA_FIELDS`     | —             | Override fields directory                 |
-| `DESIGN_DATA_SCHEMAS`    | —             | Override schema path (for `validate`)     |
-| `DESIGN_DATA_EXCEPTIONS` | —             | Override exceptions path (for `validate`) |
+| Variable                 | Default       | Description                                       |
+| ------------------------ | ------------- | ------------------------------------------------- |
+| `DESIGN_DATA_BIN`        | `design-data` | Path to the `design-data` binary                  |
+| `DESIGN_DATA_ROOT`       | —             | Absolute root that relative paths are anchored to |
+| `DESIGN_DATA_PATH`       | `.`           | Dataset root path                                 |
+| `DESIGN_DATA_COMPONENTS` | —             | Override components directory                     |
+| `DESIGN_DATA_FIELDS`     | —             | Override fields directory                         |
+| `DESIGN_DATA_SCHEMAS`    | —             | Override schema path (for `validate`)             |
+| `DESIGN_DATA_EXCEPTIONS` | —             | Override exceptions path (for `validate`)         |
+
+> **Relative paths and the working directory.** The MCP client launches this
+> server with the working directory inherited from wherever the editor was
+> opened — which may be a subdirectory of your repo (e.g. `sdk/`), not the repo
+> root. Relative `DESIGN_DATA_*` paths are therefore anchored to a known root
+> rather than the process CWD:
+>
+> 1. If `DESIGN_DATA_ROOT` is set (recommended), relative paths resolve against
+>    it. Set it to the absolute path of your repo root. This is the reliable
+>    option when the server is launched via `npx`.
+> 2. Otherwise, relative paths resolve against the server package's own location
+>    in the monorepo (only correct when running the server from inside the repo
+>    checkout).
+>
+> Absolute `DESIGN_DATA_*` paths are always used as-is.
 
 ### Example (Cursor `.cursor/mcp.json`)
 
@@ -65,9 +81,10 @@ node tools/design-data-agent-mcp/src/index.js
       "command": "npx",
       "args": ["-y", "@adobe/design-data-agent-mcp"],
       "env": {
-        "DESIGN_DATA_PATH": "./packages/tokens/src",
-        "DESIGN_DATA_COMPONENTS": "./packages/design-data/components",
-        "DESIGN_DATA_FIELDS": "./packages/design-data/fields"
+        "DESIGN_DATA_ROOT": "/abs/path/to/your/repo",
+        "DESIGN_DATA_PATH": "packages/design-data/tokens",
+        "DESIGN_DATA_COMPONENTS": "packages/design-data/components",
+        "DESIGN_DATA_FIELDS": "packages/design-data/fields"
       }
     }
   }
