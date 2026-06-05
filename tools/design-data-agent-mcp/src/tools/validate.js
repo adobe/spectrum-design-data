@@ -8,38 +8,38 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-import { runCli } from "../cli.js";
-import { config } from "../config.js";
+import { loadDataset } from '@adobe/design-data-js/load';
+import { config } from '../config.js';
 
 export function createValidateTools() {
   return [
     {
-      name: "validate_usage",
+      name: 'validate_usage',
       description:
-        "Validate design token usage in a dataset. Returns a JSON report of violations and warnings.",
+        'Validate design token usage in a dataset. Returns a JSON report of violations and warnings.',
       inputSchema: {
-        type: "object",
+        type: 'object',
         properties: {
           path: {
-            type: "string",
-            description:
-              "Path to dataset to validate (defaults to DESIGN_DATA_PATH)",
+            type: 'string',
+            description: 'Path to dataset to validate (defaults to DESIGN_DATA_PATH)',
           },
-          strict: { type: "boolean", description: "Treat warnings as errors" },
+          strict: { type: 'boolean', description: 'Treat warnings as errors' },
         },
         additionalProperties: false,
       },
       async handler({ path, strict } = {}) {
         const target = path ?? config.dataPath;
-        const args = ["validate", target, "--format", "json"];
-        if (config.schemaPath) args.push("--schema-path", config.schemaPath);
-        if (config.exceptionsPath)
-          args.push("--exceptions-path", config.exceptionsPath);
-        if (strict === true) args.push("--strict");
-        const { exitCode, stdout, stderr } = await runCli(args);
-        if (exitCode !== 0 && !stdout)
-          throw new Error(stderr || `validate exited ${exitCode}`);
-        return JSON.parse(stdout);
+        const ds = await loadDataset(target);
+        const result = ds.validate();
+        if (strict && result.warnings.length > 0) {
+          return {
+            valid: false,
+            errors: [...result.errors, ...result.warnings],
+            warnings: [],
+          };
+        }
+        return result;
       },
     },
   ];

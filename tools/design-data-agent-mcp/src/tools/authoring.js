@@ -8,35 +8,40 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! MCP authoring-session tools (RFC #973 Q4).
-//!
-//! Each tool maps to one `design-data authoring-session` CLI subcommand.
-//! State is held on disk (one JSON file per session); the CLI is stateless.
+/**
+ * Authoring-session tools for design-data-agent-mcp.
+ *
+ * Most operations use @adobe/design-data-js (on-disk session store) and run
+ * fully in-process. The exception is authoring_session_step_intent, which still
+ * delegates to the CLI because the NLP `suggest` ranking is not yet on the wasm
+ * surface. When that API is added, step_intent can be migrated here too.
+ */
 
-import { runCli } from "../cli.js";
-import { config } from "../config.js";
-
-async function callCli(args) {
-  const { exitCode, stdout, stderr } = await runCli(args, { timeout: 30_000 });
-  if (exitCode !== 0)
-    throw new Error(stderr || `authoring-session exited ${exitCode}`);
-  return JSON.parse(stdout);
-}
+import {
+  startSession,
+  getSession,
+  listSessions,
+  stepClassification,
+  stepValues,
+  commitSession,
+  cancelSession,
+} from '@adobe/design-data-js/session';
+import { runCli } from '../cli.js';
+import { config } from '../config.js';
 
 export function createAuthoringTools() {
   return [
     {
-      name: "start_authoring_session",
+      name: 'start_authoring_session',
       description:
-        "Start a new token authoring session. Returns a session_id and the initial wizard state. " +
-        "The session persists across calls — use the returned session_id in subsequent steps.",
+        'Start a new token authoring session. Returns a session_id and the initial wizard state. ' +
+        'The session persists across calls — use the returned session_id in subsequent steps.',
       inputSchema: {
-        type: "object",
+        type: 'object',
         properties: {
           dataset_path: {
-            type: "string",
-            description:
-              "Path to the token dataset directory. Defaults to DESIGN_DATA_PATH.",
+            type: 'string',
+            description: 'Path to the token dataset directory. Defaults to DESIGN_DATA_PATH.',
           },
         },
         additionalProperties: false,
@@ -45,25 +50,25 @@ export function createAuthoringTools() {
         const path = dataset_path ?? config.dataPath;
         if (!path) {
           throw new Error(
-            "dataset_path is required (or set DESIGN_DATA_PATH in the environment)",
+            'dataset_path is required (or set DESIGN_DATA_PATH in the environment)',
           );
         }
-        return callCli(["authoring-session", "start", path]);
+        return startSession(path);
       },
     },
 
     {
-      name: "authoring_session_step_intent",
+      name: 'authoring_session_step_intent',
       description:
-        "Update the intent for a session and get ranked existing-token suggestions. " +
-        "Returns suggestions and can_alias (true when a high-confidence match exists).",
+        'Update the intent for a session and get ranked existing-token suggestions. ' +
+        'Returns suggestions and can_alias (true when a high-confidence match exists).',
       inputSchema: {
-        type: "object",
-        required: ["session_id", "intent"],
+        type: 'object',
+        required: ['session_id', 'intent'],
         properties: {
-          session_id: { type: "string" },
+          session_id: { type: 'string' },
           intent: {
-            type: "string",
+            type: 'string',
             description:
               "Natural-language description of what the token is for, e.g. 'accent background color'.",
           },
@@ -71,102 +76,84 @@ export function createAuthoringTools() {
         additionalProperties: false,
       },
       async handler({ session_id, intent }) {
-        return callCli([
-          "authoring-session",
-          "step",
-          "intent",
-          "--session-id",
+        // step_intent requires NLP suggest ranking — still uses the CLI.
+        // Will be migrated when suggest is added to the wasm surface.
+        const { exitCode, stdout, stderr } = await runCli([
+          'authoring-session',
+          'step',
+          'intent',
+          '--session-id',
           session_id,
-          "--intent",
+          '--intent',
           intent,
-        ]);
+        ], { timeout: 30_000 });
+        if (exitCode !== 0) throw new Error(stderr || `authoring-session step intent exited ${exitCode}`);
+        return JSON.parse(stdout);
       },
     },
 
     {
-      name: "authoring_session_step_classification",
+      name: 'authoring_session_step_classification',
       description:
-        "Set the layer, property, and name-object fields for the token. " +
-        "name_fields is an array of {key, value} objects.",
+        'Set the layer, property, and name-object fields for the token. ' +
+        'name_fields is an array of {key, value} objects.',
       inputSchema: {
-        type: "object",
-        required: ["session_id", "layer", "property"],
+        type: 'object',
+        required: ['session_id', 'layer', 'property'],
         properties: {
-          session_id: { type: "string" },
+          session_id: { type: 'string' },
           layer: {
-            type: "string",
-            enum: ["foundation", "platform", "product"],
-            description: "Token layer.",
+            type: 'string',
+            enum: ['foundation', 'platform', 'product'],
+            description: 'Token layer.',
           },
-          property: {
-            type: "string",
-            description: "Token property, e.g. 'background-color'.",
-          },
+          property: { type: 'string', description: "Token property, e.g. 'background-color'." },
           name_fields: {
-            type: "array",
+            type: 'array',
             items: {
-              type: "object",
-              required: ["key", "value"],
+              type: 'object',
+              required: ['key', 'value'],
               properties: {
-                key: { type: "string" },
-                value: { type: "string" },
+                key: { type: 'string' },
+                value: { type: 'string' },
               },
             },
-            description: "Additional name-object fields beyond property.",
+            description: 'Additional name-object fields beyond property.',
           },
         },
         additionalProperties: false,
       },
       async handler({ session_id, layer, property, name_fields = [] }) {
-        const args = [
-          "authoring-session",
-          "step",
-          "classification",
-          "--session-id",
-          session_id,
-          "--layer",
-          layer,
-          "--property",
-          property,
-        ];
-        for (const { key, value } of name_fields) {
-          args.push("--name-field", `${key}=${value}`);
-        }
-        return callCli(args);
+        return stepClassification(session_id, { layer, property, nameFields: name_fields });
       },
     },
 
     {
-      name: "authoring_session_step_values",
+      name: 'authoring_session_step_values',
       description:
-        "Set the value rows for the token. Each row specifies mode conditions and either " +
-        "a literal value or an alias target. Most tokens need one row with empty mode_combo.",
+        'Set the value rows for the token. Each row specifies mode conditions and either ' +
+        'a literal value or an alias target. Most tokens need one row with empty mode_combo.',
       inputSchema: {
-        type: "object",
-        required: ["session_id", "rows"],
+        type: 'object',
+        required: ['session_id', 'rows'],
         properties: {
-          session_id: { type: "string" },
+          session_id: { type: 'string' },
           rows: {
-            type: "array",
+            type: 'array',
             description:
               "Value rows. Each: { mode_combo: [[key,val],...], kind: 'Literal'|'Alias', " +
-              "alias_target: string, literal: string }",
+              'alias_target: string, literal: string }',
             items: {
-              type: "object",
-              required: ["mode_combo", "kind", "alias_target", "literal"],
+              type: 'object',
+              required: ['mode_combo', 'kind', 'alias_target', 'literal'],
               properties: {
                 mode_combo: {
-                  type: "array",
-                  items: {
-                    type: "array",
-                    items: { type: "string" },
-                    minItems: 2,
-                    maxItems: 2,
-                  },
+                  type: 'array',
+                  items: { type: 'array', items: { type: 'string' }, minItems: 2, maxItems: 2 },
                 },
-                kind: { type: "string", enum: ["Literal", "Alias"] },
-                alias_target: { type: "string" },
-                literal: { type: "string" },
+                kind: { type: 'string', enum: ['Literal', 'Alias'] },
+                alias_target: { type: 'string' },
+                literal: { type: 'string' },
               },
             },
           },
@@ -174,139 +161,95 @@ export function createAuthoringTools() {
         additionalProperties: false,
       },
       async handler({ session_id, rows }) {
-        return callCli([
-          "authoring-session",
-          "step",
-          "values",
-          "--session-id",
-          session_id,
-          "--rows",
-          JSON.stringify(rows),
-        ]);
+        return stepValues(session_id, rows);
       },
     },
 
     {
-      name: "authoring_session_commit",
+      name: 'authoring_session_commit',
       description:
-        "Build and write the token to disk, then remove the session. " +
-        "Requires schema_url (the JSON Schema URL for the token type) and target (output file path).",
+        'Build and write the token to disk, then remove the session. ' +
+        'Requires schema_url (the JSON Schema URL for the token type) and target (output file path).',
       inputSchema: {
-        type: "object",
-        required: ["session_id", "schema_url", "target"],
+        type: 'object',
+        required: ['session_id', 'schema_url', 'target'],
         properties: {
-          session_id: { type: "string" },
+          session_id: { type: 'string' },
           schema_url: {
-            type: "string",
+            type: 'string',
             description:
-              "The $schema URL for the token type, e.g. https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+              'The $schema URL for the token type, e.g. https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json',
           },
           target: {
-            type: "string",
-            description:
-              "Target legacy JSON file to write to (created if absent, merged if present).",
+            type: 'string',
+            description: 'Target legacy JSON file to write to (created if absent, merged if present).',
           },
-          rationale: {
-            type: "string",
-            description: "Why this token is being created.",
-          },
+          rationale: { type: 'string', description: 'Why this token is being created.' },
           product_context: {
-            type: "string",
-            description: "Path to product-context.json for rationale capture.",
+            type: 'string',
+            description: 'Path to product-context.json for rationale capture.',
           },
           schema_path: {
-            type: "string",
-            description:
-              "Path to schemas directory. Defaults to packages/tokens/schemas relative to target.",
+            type: 'string',
+            description: 'Path to schemas directory. (Not used in JS implementation; no schema validation.)',
           },
           is_override: {
-            type: "boolean",
-            description:
-              "True when this token overrides an existing foundation/platform token.",
+            type: 'boolean',
+            description: 'True when this token overrides an existing foundation/platform token.',
           },
         },
         additionalProperties: false,
       },
-      async handler({
-        session_id,
-        schema_url,
-        target,
-        rationale = "",
-        product_context,
-        schema_path,
-        is_override = false,
-      }) {
-        const args = [
-          "authoring-session",
-          "commit",
-          "--session-id",
-          session_id,
-          "--schema-url",
-          schema_url,
-          "--target",
+      async handler({ session_id, schema_url, target, rationale = '', product_context, is_override = false }) {
+        return commitSession({
+          sessionId: session_id,
+          schemaUrl: schema_url,
           target,
-          "--rationale",
           rationale,
-        ];
-        if (product_context) args.push("--product-context", product_context);
-        if (schema_path) args.push("--schema-path", schema_path);
-        if (is_override) args.push("--is-override");
-        return callCli(args);
+          productContext: product_context,
+          isOverride: is_override,
+        });
       },
     },
 
     {
-      name: "authoring_session_cancel",
-      description: "Cancel a session and delete its on-disk file.",
+      name: 'authoring_session_cancel',
+      description: 'Cancel a session and delete its on-disk file.',
       inputSchema: {
-        type: "object",
-        required: ["session_id"],
-        properties: {
-          session_id: { type: "string" },
-        },
+        type: 'object',
+        required: ['session_id'],
+        properties: { session_id: { type: 'string' } },
         additionalProperties: false,
       },
       async handler({ session_id }) {
-        return callCli([
-          "authoring-session",
-          "cancel",
-          "--session-id",
-          session_id,
-        ]);
+        return cancelSession(session_id);
       },
     },
 
     {
-      name: "authoring_session_get",
-      description: "Get the current state of an authoring session.",
+      name: 'authoring_session_get',
+      description: 'Get the current state of an authoring session.',
       inputSchema: {
-        type: "object",
-        required: ["session_id"],
-        properties: {
-          session_id: { type: "string" },
-        },
+        type: 'object',
+        required: ['session_id'],
+        properties: { session_id: { type: 'string' } },
         additionalProperties: false,
       },
       async handler({ session_id }) {
-        return callCli([
-          "authoring-session",
-          "get",
-          "--session-id",
-          session_id,
-        ]);
+        return getSession(session_id);
       },
     },
 
     {
-      name: "authoring_session_list",
-      description: "List all active authoring sessions.",
+      name: 'authoring_session_list',
+      description: 'List all active authoring sessions.',
       inputSchema: {
-        type: "object",
+        type: 'object',
         properties: {},
         additionalProperties: false,
       },
       async handler() {
-        return callCli(["authoring-session", "list"]);
+        return listSessions();
       },
     },
   ];

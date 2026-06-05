@@ -8,7 +8,7 @@ when_to_use: >
   Trigger on: design system, design tokens, spec-conformant, drift, validate tokens, token
   authoring, custom dataset, DESIGN_DATA_PATH, design-data validate, design-data diff,
   design-data write, product-context.json.
-allowed-tools: Bash(npx @adobe/design-data *)
+allowed-tools: mcp__design-data__primer, mcp__design-data__query_tokens, mcp__design-data__resolve_token, mcp__design-data__describe_component, mcp__design-data__validate_usage, mcp__design-data__diff_datasets, mcp__design-data__write, mcp__design-data__start_authoring_session, mcp__design-data__authoring_session_step_intent, mcp__design-data__authoring_session_step_classification, mcp__design-data__authoring_session_step_values, mcp__design-data__authoring_session_commit, mcp__design-data__authoring_session_cancel, mcp__design-data__authoring_session_get, mcp__design-data__authoring_session_list
 ---
 
 # design-data agent skill

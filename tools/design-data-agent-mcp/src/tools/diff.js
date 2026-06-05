@@ -8,40 +8,42 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-import { runCli } from "../cli.js";
+import { loadDataset } from '@adobe/design-data-js/load';
 
 export function createDiffTools() {
   return [
     {
-      name: "diff_datasets",
+      name: 'diff_datasets',
       description:
-        "Compare two design data datasets and return a JSON diff of added, removed, and changed tokens.",
+        'Compare two design data datasets and return a JSON diff of added, removed, and changed tokens.',
       inputSchema: {
-        type: "object",
-        required: ["oldPath", "newPath"],
+        type: 'object',
+        required: ['oldPath', 'newPath'],
         properties: {
-          oldPath: {
-            type: "string",
-            description: "Path to the old/baseline dataset",
-          },
-          newPath: {
-            type: "string",
-            description: "Path to the new/updated dataset",
-          },
-          filter: {
-            type: "string",
-            description: "Optional filter expression to narrow results",
-          },
+          oldPath: { type: 'string', description: 'Path to the old/baseline dataset' },
+          newPath: { type: 'string', description: 'Path to the new/updated dataset' },
+          filter: { type: 'string', description: 'Optional filter expression to narrow results' },
         },
         additionalProperties: false,
       },
       async handler({ oldPath, newPath, filter }) {
-        const args = ["diff", oldPath, newPath, "--format", "json"];
-        if (filter) args.push("--filter", filter);
-        const { exitCode, stdout, stderr } = await runCli(args);
-        // exit code 1 means differences found — that is a valid result, not an error
-        if (exitCode > 1) throw new Error(stderr || `diff exited ${exitCode}`);
-        return JSON.parse(stdout);
+        const [oldDs, newDs] = await Promise.all([
+          loadDataset(oldPath),
+          loadDataset(newPath),
+        ]);
+        const diff = oldDs.diff(newDs);
+        if (!filter) return diff;
+        // Apply filter post-diff by name prefix if provided.
+        const f = filter.toLowerCase();
+        const filterArr = (arr) => arr.filter((t) => (t.name ?? t.old_name ?? '').toLowerCase().includes(f));
+        return {
+          renamed: filterArr(diff.renamed),
+          deprecated: filterArr(diff.deprecated),
+          reverted: filterArr(diff.reverted),
+          added: filterArr(diff.added),
+          deleted: filterArr(diff.deleted),
+          updated: filterArr(diff.updated),
+        };
       },
     },
   ];

@@ -11,13 +11,13 @@ when_to_use: >
   "Spectrum component options", validate tokens, design-data primer, query tokens,
   suggest token, resolve token value, component schema, design system config,
   @adobe/design-data, design-data CLI.
-allowed-tools: Bash(npx @adobe/design-data *)
+allowed-tools: mcp__design-data__primer, mcp__design-data__query_tokens, mcp__design-data__resolve_token, mcp__design-data__describe_component, mcp__design-data__validate_usage, mcp__design-data__diff_datasets
 ---
 
 # Spectrum Design Data
 
 Access Spectrum design tokens, component schemas, and design-system structure
-via the `@adobe/design-data` CLI.
+via the `@adobe/design-data-mcp` MCP server (in-process wasm — no CLI binary required).
 
 ## Bootstrap
 
