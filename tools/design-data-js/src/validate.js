@@ -113,22 +113,22 @@ export function loadSchemaValidator(schemaDir) {
   const typesDir = join(schemaDir, "token-types");
   for (const file of readdirSync(typesDir).filter((f) => f.endsWith(".json"))) {
     const schema = JSON.parse(readFileSync(join(typesDir, file), "utf-8"));
-    try {
-      ajv.addSchema(schema, schema["$id"]);
-    } catch {
-      // Already registered (e.g. if called twice) — ignore.
-    }
+    const id = schema["$id"];
+    if (!id)
+      throw new Error(
+        `Token-type schema "${file}" is missing a required $id field`,
+      );
+    if (!ajv.getSchema(id)) ajv.addSchema(schema, id);
   }
 
   // Register token-file.json.
   const tokenFileSchema = JSON.parse(
     readFileSync(join(schemaDir, "token-file.json"), "utf-8"),
   );
-  try {
-    ajv.addSchema(tokenFileSchema, tokenFileSchema["$id"]);
-  } catch {
-    // Already registered.
-  }
+  const tokenFileId = tokenFileSchema["$id"];
+  if (!tokenFileId)
+    throw new Error(`token-file.json is missing a required $id field`);
+  if (!ajv.getSchema(tokenFileId)) ajv.addSchema(tokenFileSchema, tokenFileId);
 
   return ajv;
 }
@@ -233,7 +233,8 @@ export async function validateDataset(
       });
       continue;
     }
-    const tokens = Array.isArray(parsed) ? parsed : Object.values(parsed);
+    if (!Array.isArray(parsed)) continue; // Legacy object-map format — loadDataset (Layer-2) warns and skips these.
+    const tokens = parsed;
     for (const token of tokens) {
       const diags = validateTokenSchema(token, ajv, file);
       layer1Errors.push(...diags);

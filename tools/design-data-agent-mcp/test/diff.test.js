@@ -29,15 +29,23 @@ const SAMPLE_DIFF = {
   updated: [{ name: "accent-background-updated" }, { name: "spacing-updated" }],
 };
 
-test("filterDiffByName filters renamed by oldName and newName", (t) => {
-  const result = filterDiffByName(SAMPLE_DIFF, "accent");
-  // Only the first renamed entry has 'accent' (oldName 'accent-color-default');
-  // 'border-width' / 'border-width-thin' do not match.
+test("filterDiffByName matches renamed entries by oldName", (t) => {
+  // 'accent-color-default' appears in oldName; 'border-width*' entries don't match.
+  const result = filterDiffByName(SAMPLE_DIFF, "accent-color-default");
   t.is(result.renamed.length, 1);
-  t.true(
-    (result.renamed[0].oldName ?? "").includes("accent") ||
-      (result.renamed[0].newName ?? "").includes("accent"),
+  t.is(result.renamed[0].oldName, "accent-color-default");
+});
+
+test("filterDiffByName matches renamed entries by newName only", (t) => {
+  // 'background' appears in newName ('accent-background-color-default') but NOT in
+  // oldName ('accent-color-default'). With the old ?? chain this would silently miss it.
+  const result = filterDiffByName(SAMPLE_DIFF, "background");
+  t.is(
+    result.renamed.length,
+    1,
+    "should match via newName even when oldName doesn't match",
   );
+  t.is(result.renamed[0].newName, "accent-background-color-default");
 });
 
 test("filterDiffByName filters added/deleted/updated by name", (t) => {

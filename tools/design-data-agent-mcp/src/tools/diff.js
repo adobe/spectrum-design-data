@@ -24,7 +24,7 @@ import { loadDataset } from "@adobe/design-data-js/load";
 export function filterDiffByName(diff, filter) {
   const f = filter.toLowerCase();
   const matchName = (t) =>
-    (t.name ?? t.oldName ?? t.newName ?? "").toLowerCase().includes(f);
+    [t.name, t.oldName, t.newName].some((n) => n?.toLowerCase().includes(f));
   return {
     renamed: diff.renamed.filter(matchName),
     deprecated: diff.deprecated.filter(matchName),

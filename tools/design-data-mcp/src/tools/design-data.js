@@ -57,7 +57,7 @@ export function scoreTokensByKeyword(tokens, intent, limit = 5) {
   if (words.length === 0) return [];
   return tokens
     .map((token) => {
-      const nameStr = token.name.toLowerCase();
+      const nameStr = token.name?.toLowerCase() ?? "";
       const matches = words.filter((w) => nameStr.includes(w)).length;
       const confidence = matches / words.length;
       return { token, confidence };
