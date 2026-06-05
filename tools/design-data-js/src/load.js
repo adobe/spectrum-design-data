@@ -16,14 +16,14 @@
  * behaviour of `design-data query/resolve/validate/diff <dataPath>` but runs in-process.
  */
 
-import { readFileSync, readdirSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync, readdirSync, statSync } from "node:fs";
+import { join } from "node:path";
 
 let _wasmModule;
 
 async function getWasm() {
   if (!_wasmModule) {
-    _wasmModule = await import('@adobe/design-data-wasm');
+    _wasmModule = await import("@adobe/design-data-wasm");
   }
   return _wasmModule;
 }
@@ -35,14 +35,14 @@ async function getWasm() {
  * @param {string} dir
  * @returns {string[]}
  */
-function walkTokenFiles(dir) {
+export function walkTokenFiles(dir) {
   const results = [];
   for (const entry of readdirSync(dir)) {
     const fullPath = join(dir, entry);
     const stat = statSync(fullPath);
     if (stat.isDirectory()) {
       results.push(...walkTokenFiles(fullPath));
-    } else if (entry.endsWith('.tokens.json')) {
+    } else if (entry.endsWith(".tokens.json")) {
       results.push(fullPath);
     }
   }
@@ -66,9 +66,11 @@ export async function loadDataset(dirPath) {
   for (const file of files) {
     let content;
     try {
-      content = JSON.parse(readFileSync(file, 'utf-8'));
+      content = JSON.parse(readFileSync(file, "utf-8"));
     } catch (e) {
-      console.warn(`[design-data-js] Skipping unparseable file: ${file} — ${e.message}`);
+      console.warn(
+        `[design-data-js] Skipping unparseable file: ${file} — ${e.message}`,
+      );
       continue;
     }
     if (Array.isArray(content)) {
@@ -76,7 +78,9 @@ export async function loadDataset(dirPath) {
     } else {
       // Legacy object-map format is not supported by Dataset.fromTokens() —
       // the wasm surface only handles cascade arrays. Warn and skip.
-      console.warn(`[design-data-js] Skipping legacy object-map file (not cascade format): ${file}`);
+      console.warn(
+        `[design-data-js] Skipping legacy object-map file (not cascade format): ${file}`,
+      );
     }
   }
   return Dataset.fromTokens(tokens);
@@ -96,9 +100,11 @@ export function loadDatasetSync(dirPath, wasm) {
   for (const file of files) {
     let content;
     try {
-      content = JSON.parse(readFileSync(file, 'utf-8'));
+      content = JSON.parse(readFileSync(file, "utf-8"));
     } catch (e) {
-      console.warn(`[design-data-js] Skipping unparseable file: ${file} — ${e.message}`);
+      console.warn(
+        `[design-data-js] Skipping unparseable file: ${file} — ${e.message}`,
+      );
       continue;
     }
     if (Array.isArray(content)) {

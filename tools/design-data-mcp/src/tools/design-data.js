@@ -16,22 +16,68 @@
  * zero configuration.
  */
 
-import { createRequire } from 'module';
-import { readFileSync, existsSync } from 'fs';
-import { join, dirname } from 'path';
+import { createRequire } from "module";
+import { readFileSync, existsSync } from "fs";
+import { join, dirname } from "path";
 
 let _wasm;
 /** Lazy-load and cache the wasm module (nodejs target, no init() required). */
 async function getWasm() {
-  if (!_wasm) _wasm = await import('@adobe/design-data-wasm');
+  if (!_wasm) _wasm = await import("@adobe/design-data-wasm");
   return _wasm;
+}
+
+let _dataset;
+/**
+ * Return the embedded Spectrum dataset, caching it after first access.
+ *
+ * Dataset.embedded() clones the in-memory graph on every call; caching here
+ * avoids that per-request cost.
+ */
+async function getDataset() {
+  if (!_dataset) {
+    const wasm = await getWasm();
+    _dataset = wasm.Dataset.embedded();
+  }
+  return _dataset;
+}
+
+/**
+ * Score tokens by keyword-overlap against an intent string.
+ *
+ * Pure function — accepts the token array so it can be tested independently.
+ *
+ * @param {object[]} tokens - Array of token result objects with a `name` string.
+ * @param {string} intent - Natural-language intent to match against.
+ * @param {number} limit - Maximum results to return.
+ * @returns {{ name: string, confidence: number, uuid: string, raw: unknown }[]}
+ */
+export function scoreTokensByKeyword(tokens, intent, limit = 5) {
+  const words = intent.toLowerCase().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return [];
+  return tokens
+    .map((token) => {
+      const nameStr = token.name.toLowerCase();
+      const matches = words.filter((w) => nameStr.includes(w)).length;
+      const confidence = matches / words.length;
+      return { token, confidence };
+    })
+    .filter(({ confidence }) => confidence > 0)
+    .sort((a, b) => b.confidence - a.confidence)
+    .slice(0, limit)
+    .map(({ token, confidence }) => ({
+      name: token.name,
+      confidence: Math.round(confidence * 100) / 100,
+      uuid: token.uuid,
+      raw: token.raw,
+    }));
 }
 
 /** Return the @adobe/spectrum-design-data package root directory, or null. */
 function resolveSpectrumDataPackage() {
   try {
     const req = createRequire(import.meta.url);
-    return dirname(req.resolve('@adobe/spectrum-design-data/package.json'));
+    return dirname(req.resolve("@adobe/spectrum-design-data/package.json"));
   } catch {
     return null;
   }
@@ -41,129 +87,114 @@ export function createDesignDataTools() {
   return [
     // ── primer ─────────────────────────────────────────────────────────────
     {
-      name: 'design-data-primer',
+      name: "design-data-primer",
       description:
-        'Get a structural overview of the Spectrum design dataset: token count, ' +
-        'available mode-sets (color-scheme, scale, contrast), component list, ' +
-        'taxonomy fields, and data provenance. Call this at the start of a ' +
-        'design-token session to understand what data is available.',
-      inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+        "Get a structural overview of the Spectrum design dataset: token count, " +
+        "available mode-sets (color-scheme, scale, contrast), component list, " +
+        "taxonomy fields, and data provenance. Call this at the start of a " +
+        "design-token session to understand what data is available.",
+      inputSchema: {
+        type: "object",
+        properties: {},
+        additionalProperties: false,
+      },
       async handler() {
-        const wasm = await getWasm();
-        const ds = wasm.Dataset.embedded();
+        const [wasm, ds] = await Promise.all([getWasm(), getDataset()]);
 
         return {
-          source: 'embedded',
+          source: "embedded",
           tokenCount: ds.tokenCount(),
           modeSets: {
-            colorScheme: wasm.getFieldValues('colorScheme') ?? [],
-            scale: wasm.getFieldValues('scale') ?? [],
-            contrast: wasm.getFieldValues('contrast') ?? [],
+            colorScheme: wasm.getFieldValues("colorScheme") ?? [],
+            scale: wasm.getFieldValues("scale") ?? [],
+            contrast: wasm.getFieldValues("contrast") ?? [],
           },
           taxonomyFields: {
-            indexed: ['property', 'component', 'variant', 'state', 'colorScheme', 'scale', 'contrast', 'uuid'],
+            indexed: wasm.getIndexedFields(),
             advisory: wasm.getAdvisoryFields() ?? [],
           },
-          components: wasm.getFieldValues('component') ?? [],
-          properties: wasm.getFieldValues('property') ?? [],
+          components: wasm.getFieldValues("component") ?? [],
+          properties: wasm.getFieldValues("property") ?? [],
         };
       },
     },
 
     // ── query ───────────────────────────────────────────────────────────────
     {
-      name: 'design-data-query',
+      name: "design-data-query",
       description:
-        'Filter Spectrum tokens by a query expression. ' +
-        'Expression syntax: `component=button`, `component=button,state=hover`, ' +
-        '`property=color-*`, `colorScheme=dark`. ' +
-        'Returns an array of matching token objects.',
+        "Filter Spectrum tokens by a query expression. " +
+        "Expression syntax: `component=button`, `component=button,state=hover`, " +
+        "`property=color-*`, `colorScheme=dark`. " +
+        "Returns an array of matching token objects.",
       inputSchema: {
-        type: 'object',
+        type: "object",
         properties: {
           filter: {
-            type: 'string',
+            type: "string",
             description:
               'Query expression, e.g. "component=button" or "property=color-*,component=action-button"',
           },
         },
-        required: ['filter'],
+        required: ["filter"],
         additionalProperties: false,
       },
       async handler({ filter }) {
-        const wasm = await getWasm();
-        return wasm.Dataset.embedded().query(filter);
+        const ds = await getDataset();
+        return ds.query(filter);
       },
     },
 
     // ── suggest ─────────────────────────────────────────────────────────────
     {
-      name: 'design-data-suggest',
+      name: "design-data-suggest",
       description:
-        'Suggest Spectrum tokens matching a natural-language intent. ' +
-        'Returns ranked matches with confidence scores, token names, and values. ' +
-        'Use when the user describes what they need rather than knowing the token name.',
+        "Suggest Spectrum tokens matching a natural-language intent using keyword-overlap " +
+        "scoring. Returns matches ranked by confidence, token names, and values. " +
+        "Use when the user describes what they need rather than knowing the token name. " +
+        "(TODO: swap to wasm NLP suggest when available for higher-quality ranking.)",
       inputSchema: {
-        type: 'object',
+        type: "object",
         properties: {
           intent: {
-            type: 'string',
+            type: "string",
             description:
               'Natural-language description of the design need, e.g. "primary CTA button background color"',
           },
           limit: {
-            type: 'number',
-            description: 'Maximum number of suggestions to return (default: 5)',
+            type: "number",
+            description: "Maximum number of suggestions to return (default: 5)",
             default: 5,
           },
         },
-        required: ['intent'],
+        required: ["intent"],
         additionalProperties: false,
       },
       async handler({ intent, limit = 5 }) {
-        const wasm = await getWasm();
-        const ds = wasm.Dataset.embedded();
-        // Keyword-based ranking over token names. The NLP-ranked CLI suggest is
-        // more accurate; this runs fully in-process without the CLI.
-        const words = intent.toLowerCase().split(/\s+/).filter(Boolean);
-        const allTokens = ds.query('');
-        const scored = allTokens
-          .map((token) => {
-            const nameStr = token.name.toLowerCase();
-            const matches = words.filter((w) => nameStr.includes(w)).length;
-            const confidence = words.length > 0 ? matches / words.length : 0;
-            return { token, confidence };
-          })
-          .filter(({ confidence }) => confidence > 0)
-          .sort((a, b) => b.confidence - a.confidence)
-          .slice(0, limit);
-
-        return scored.map(({ token, confidence }) => ({
-          name: token.name,
-          confidence: Math.round(confidence * 100) / 100,
-          uuid: token.uuid,
-          raw: token.raw,
-        }));
+        const ds = await getDataset();
+        const allTokens = ds.query("");
+        return scoreTokensByKeyword(allTokens, intent, limit);
       },
     },
 
     // ── component ───────────────────────────────────────────────────────────
     {
-      name: 'design-data-component',
+      name: "design-data-component",
       description:
         "Get the full component declaration for a Spectrum component by ID. " +
         "Returns the component's displayName, description, and all available options " +
         "(variants, sizes, states, boolean props, etc.). " +
-        'Component IDs are kebab-case, e.g. button, action-button, text-field, picker.',
+        "Component IDs are kebab-case, e.g. button, action-button, text-field, picker.",
       inputSchema: {
-        type: 'object',
+        type: "object",
         properties: {
           id: {
-            type: 'string',
-            description: 'Component ID in kebab-case, e.g. button, action-button, picker, text-field',
+            type: "string",
+            description:
+              "Component ID in kebab-case, e.g. button, action-button, picker, text-field",
           },
         },
-        required: ['id'],
+        required: ["id"],
         additionalProperties: false,
       },
       async handler({ id }) {
@@ -171,48 +202,58 @@ export function createDesignDataTools() {
         if (!pkgRoot) {
           throw new Error(
             `@adobe/spectrum-design-data is not installed — cannot load component "${id}". ` +
-            `Install it with: pnpm add @adobe/spectrum-design-data`,
+              `Install it with: pnpm add @adobe/spectrum-design-data`,
           );
         }
-        const componentFile = join(pkgRoot, 'components', `${id}.json`);
+        const componentFile = join(pkgRoot, "components", `${id}.json`);
         if (!existsSync(componentFile)) {
           throw new Error(
             `Component not found: "${id}". ` +
-            `Call design-data-primer to see available component IDs.`,
+              `Call design-data-primer to see available component IDs.`,
           );
         }
-        return JSON.parse(readFileSync(componentFile, 'utf-8'));
+        return JSON.parse(readFileSync(componentFile, "utf-8"));
       },
     },
 
     // ── resolve ─────────────────────────────────────────────────────────────
     {
-      name: 'design-data-resolve',
+      name: "design-data-resolve",
       description:
-        'Resolve the concrete value of a Spectrum token property for a given ' +
-        'mode-set context (color-scheme, scale, contrast). ' +
-        'Returns the winning token with its resolved value.',
+        "Resolve the concrete value of a Spectrum token property for a given " +
+        "mode-set context (color-scheme, scale, contrast). " +
+        "Returns the winning token with its resolved value.",
       inputSchema: {
-        type: 'object',
+        type: "object",
         properties: {
           property: {
-            type: 'string',
-            description: 'Token property name, e.g. background-color-default, accent-color',
+            type: "string",
+            description:
+              "Token property name, e.g. background-color-default, accent-color",
           },
-          colorScheme: { type: 'string', description: 'Color scheme mode, e.g. "light" or "dark"' },
-          scale: { type: 'string', description: 'Scale mode, e.g. "desktop" or "mobile"' },
-          contrast: { type: 'string', description: 'Contrast mode, e.g. "regular" or "high"' },
+          colorScheme: {
+            type: "string",
+            description: 'Color scheme mode, e.g. "light" or "dark"',
+          },
+          scale: {
+            type: "string",
+            description: 'Scale mode, e.g. "desktop" or "mobile"',
+          },
+          contrast: {
+            type: "string",
+            description: 'Contrast mode, e.g. "regular" or "high"',
+          },
         },
-        required: ['property'],
+        required: ["property"],
         additionalProperties: false,
       },
       async handler({ property, colorScheme, scale, contrast }) {
-        const wasm = await getWasm();
+        const ds = await getDataset();
         const context = {};
         if (colorScheme) context.colorScheme = colorScheme;
         if (scale) context.scale = scale;
         if (contrast) context.contrast = contrast;
-        const result = wasm.Dataset.embedded().resolve(property, context);
+        const result = ds.resolve(property, context);
         if (!result) {
           throw new Error(
             `No token found for property "${property}" in context ${JSON.stringify(context)}`,
