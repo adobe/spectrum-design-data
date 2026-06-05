@@ -1,5 +1,37 @@
 # @adobe/design-data-tui
 
+## 0.2.0
+
+### Minor Changes
+
+- [#1121](https://github.com/adobe/spectrum-design-data/pull/1121) [`1b45ddd`](https://github.com/adobe/spectrum-design-data/commit/1b45ddd4b4fa1e3adb115bcd9b4d71056fc0f2e7) Thanks [@GarthDB](https://github.com/GarthDB)! - Improve SDK test ergonomics, regression guards, coverage, and add property/snapshot tests.
+  - **sdk/tui/src/update_ctx.rs** (new): Extract `UpdateCtx` + `UpdateCtxBuilder`; fluent
+    builder removes repetitive 8-field struct literals in write/describe/validate tests.
+  - **sdk/tui/tests/common/mod.rs**: Add `settle()`, `type_str()`, `feed_keys()`,
+    `assert_emits_cmd()`, `assert_no_effect()`, `buffer_to_string()` helpers.
+  - **sdk/tui/src/task.rs**: Add `Task::has_cmd()` for recursive Batch traversal.
+  - **sdk/tui/src/runtime.rs**: Add `hit_regions_align_with_rendered_buffer_rows` guard
+    pinning `compute_hit_regions` geometry against rendered buffer positions.
+  - **sdk/tui/tests/task_intent.rs** (new): 9 tests asserting `Task` side-effect intent.
+  - **sdk/tui/tests/subscription.rs**: Expand from 3 to 7 timing tests.
+  - **sdk/tui/tests/snapshots.rs** (new): 4 insta render snapshots (home, query, wizard).
+  - **sdk/core/src/discovery.rs**: 6 inline unit tests (was zero).
+  - **sdk/core/src/cascade.rs**: 5 edge-case tests (Platform layer, double-mode-set).
+  - **sdk/core/tests/prop_naming.rs** (new): 6 proptest properties for naming + query.
+
+- [#1127](https://github.com/adobe/spectrum-design-data/pull/1127) [`4d19ad3`](https://github.com/adobe/spectrum-design-data/commit/4d19ad3477e79382829ee70328a3ab9d0e2ec0ba) Thanks [@GarthDB](https://github.com/GarthDB)! - Route TUI palette dispatch through a `Command` enum and enforce
+  COMMANDS <-> dispatch sync (closes #1096).
+  - **sdk/tui/src/command.rs** (new): `Command` enum is the single source of truth for
+    palette commands, with `ALL`, `canonical`, `aliases`, and `parse`.
+  - **sdk/tui/src/update_command.rs**: dispatch matches on `Command::parse`; `describe`/
+    `component` and `new`/`create` collapse into single arms via aliases.
+  - **sdk/tui/src/update.rs**: Tab autocomplete derives from `Command::ALL`; removes the
+    hand-maintained `KNOWN_COMMANDS` const in `app_views.rs`.
+  - **sdk/tui/src/logo.rs** / **help.rs**: surface the previously orphaned `:name` command
+    so COMMANDS, HELP_TEXT, and dispatch agree.
+  - **sdk/tui/src/command.rs** (tests): bidirectional COMMANDS <-> `Command` checks plus
+    alias coverage, closing the loop left open by `commands_present_in_help_text` (#1094).
+
 ## 0.1.1
 
 ### Patch Changes
