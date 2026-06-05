@@ -1,6 +1,5 @@
 ---
-"design-data-tui": minor
-"design-data-core": patch
+"@adobe/design-data-tui": minor
 ---
 
 Improve SDK test ergonomics, regression guards, coverage, and add property/snapshot tests.
