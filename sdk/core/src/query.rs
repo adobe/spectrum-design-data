@@ -363,6 +363,58 @@ pub fn filter_with_index<'a>(
     filter(graph, expr)
 }
 
+// ── Fuzzy subsequence matching ───────────────────────────────────────────────
+
+/// Characters that mark a word boundary in a token name.  A match immediately
+/// after one of these (or at the start of the string) earns a boundary bonus.
+const BOUNDARY_CHARS: &[char] = &['-', '_', '.', '[', ']', ' ', ',', '='];
+
+/// Score `needle` as a subsequence of `haystack` (both matched case-insensitively).
+///
+/// Returns `None` when `needle` is not a subsequence of `haystack`.  An empty
+/// needle matches everything with a score of `0`.  Higher scores indicate
+/// tighter matches: each matched character scores `1`, with a `+3` bonus for
+/// runs of consecutive matches and a `+5` bonus for matches landing on a word
+/// boundary (so `btnbg` ranks `button-background` above incidental hits).
+pub fn subsequence_score(haystack: &str, needle: &str) -> Option<i32> {
+    if needle.is_empty() {
+        return Some(0);
+    }
+    let hay: Vec<char> = haystack.chars().flat_map(char::to_lowercase).collect();
+    let pat: Vec<char> = needle.chars().flat_map(char::to_lowercase).collect();
+
+    let mut score: i32 = 0;
+    let mut hi: usize = 0;
+    let mut last_match: Option<usize> = None;
+
+    for &pc in &pat {
+        let mut found = false;
+        while hi < hay.len() {
+            let idx = hi;
+            let hc = hay[idx];
+            hi += 1;
+            if hc == pc {
+                score += 1;
+                let at_boundary = idx == 0 || BOUNDARY_CHARS.contains(&hay[idx - 1]);
+                if at_boundary {
+                    score += 5;
+                }
+                if idx > 0 && last_match == Some(idx - 1) {
+                    score += 3;
+                }
+                last_match = Some(idx);
+                found = true;
+                break;
+            }
+        }
+        if !found {
+            return None;
+        }
+    }
+
+    Some(score)
+}
+
 // ── Tests ───────────────────────────────────────────────────────────────────
 
 #[cfg(test)]

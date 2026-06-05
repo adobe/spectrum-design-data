@@ -165,6 +165,87 @@ pub fn validate_dataset(
     Ok(report)
 }
 
+/// Schema-validate every `*.json` file in `<dataset_root>/<dir_name>` against
+/// `schema_path`, appending any violations to `report` as Layer 1 errors.
+///
+/// Returns early (with no error) when the directory does not exist.
+pub fn validate_catalog_dir(
+    report: &mut ValidationReport,
+    dataset_root: &Path,
+    dir_name: &str,
+    schema_path: &Path,
+) -> Result<(), CoreError> {
+    use crate::report::{Diagnostic, Severity};
+
+    let dir = dataset_root.join(dir_name);
+    if !dir.is_dir() {
+        return Ok(());
+    }
+    let mut entries: Vec<std::path::PathBuf> = std::fs::read_dir(&dir)?
+        .filter_map(|e| e.ok())
+        .map(|e| e.path())
+        .filter(|p| p.extension().and_then(|x| x.to_str()) == Some("json"))
+        .collect();
+    entries.sort();
+
+    for path in entries {
+        let text = std::fs::read_to_string(&path)?;
+        let value: serde_json::Value = match serde_json::from_str(&text) {
+            Ok(v) => v,
+            Err(e) => {
+                report.push_error(Diagnostic {
+                    file: path.clone(),
+                    token: None,
+                    rule_id: None,
+                    severity: Severity::Error,
+                    message: format!("invalid JSON: {e}"),
+                    instance_path: None,
+                    schema_path: None,
+                });
+                continue;
+            }
+        };
+        let errors = SchemaRegistry::validate_value_against_schema_file(&value, schema_path)?;
+        for err in errors {
+            report.push_error(Diagnostic {
+                file: path.clone(),
+                token: None,
+                rule_id: None,
+                severity: Severity::Error,
+                message: format!("{dir_name} schema validation: {err}"),
+                instance_path: None,
+                schema_path: None,
+            });
+        }
+    }
+    Ok(())
+}
+
+/// Run Layer 1 schema-shape validation over the standard catalog directories
+/// (`fields`, `components`, `mode-sets`, `registry`) inside `dataset_root`,
+/// using schema files from `spec_schemas_dir`.
+///
+/// Each sub-directory is validated only when its schema file is present in
+/// `spec_schemas_dir`.  Missing sub-directories are silently skipped.
+pub fn validate_catalog_schemas(
+    report: &mut ValidationReport,
+    dataset_root: &Path,
+    spec_schemas_dir: &Path,
+) -> Result<(), CoreError> {
+    for (dir_name, schema_file) in [
+        ("fields", "field.schema.json"),
+        ("components", "component.schema.json"),
+        ("mode-sets", "mode-set.schema.json"),
+        ("registry", "registry-value.json"),
+    ] {
+        let schema_path = spec_schemas_dir.join(schema_file);
+        if schema_path.is_file() {
+            validate_catalog_dir(report, dataset_root, dir_name, &schema_path)?;
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

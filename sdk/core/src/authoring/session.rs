@@ -330,20 +330,10 @@ pub fn commit_session(
 /// excluded: property names are unique within a layer's schema, so
 /// `property-variant-state` is the canonical key regardless of layer.
 fn derive_token_key(wizard: &WizardDraft) -> String {
-    let mut parts: Vec<&str> = Vec::new();
-    if !wizard.classification.property.is_empty() {
-        parts.push(&wizard.classification.property);
-    }
-    for field in &wizard.classification.name_fields {
-        if !field.value.is_empty() {
-            parts.push(&field.value);
-        }
-    }
-    if parts.is_empty() {
-        "unnamed-token".to_string()
-    } else {
-        parts.join("-")
-    }
+    super::draft::derive_token_key_from_parts(
+        &wizard.classification.property,
+        wizard.classification.name_fields.iter().map(|f| f.value.as_str()),
+    )
 }
 
 /// Construct the token JSON value from wizard state.

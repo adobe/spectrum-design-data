@@ -271,6 +271,58 @@ pub fn resolve_property(
         .collect()
 }
 
+// ── Resolve context helpers ───────────────────────────────────────────────────
+
+/// Parse a comma-separated `property=<name>,<modeSet>=<mode>,...` expression into a
+/// `(property, ResolutionContext)` pair.
+///
+/// The `property` key is special: its value becomes the first return value; all other
+/// `key=value` pairs are inserted into the context.  Unknown keys are silently ignored
+/// (no token query semantics here — just mode-set dimension bindings).
+///
+/// ```rust
+/// use design_data_core::cascade::parse_resolve_context;
+/// let (prop, ctx) = parse_resolve_context("property=color,colorScheme=dark").unwrap();
+/// assert_eq!(prop, "color");
+/// ```
+pub fn parse_resolve_context(expr: &str) -> Result<(String, ResolutionContext), String> {
+    let mut property: Option<String> = None;
+    let mut ctx = ResolutionContext::new();
+    for pair in expr.split(',') {
+        let pair = pair.trim();
+        if let Some((k, v)) = pair.split_once('=') {
+            let k = k.trim();
+            let v = v.trim();
+            if k == "property" {
+                property = Some(v.to_string());
+            } else if !k.is_empty() && !v.is_empty() {
+                ctx = ctx.with(k, v);
+            }
+        }
+    }
+    let prop = property.ok_or_else(|| "missing property= in expression".to_string())?;
+    if prop.is_empty() {
+        return Err("property value must not be empty".to_string());
+    }
+    Ok((prop, ctx))
+}
+
+/// Apply a set of manifest mode-set restrictions to a `ResolutionContext`.
+///
+/// Each `(mode_set, allowed_modes)` pair from the manifest is added to the context as a
+/// restriction.  This is the same operation both CLI and TUI perform before calling
+/// [`resolve_property`].
+pub fn apply_restrictions(
+    ctx: ResolutionContext,
+    restrictions: &HashMap<String, Vec<String>>,
+) -> ResolutionContext {
+    restrictions
+        .iter()
+        .fold(ctx, |acc, (mode_set, allowed)| {
+            acc.with_restriction(mode_set.clone(), allowed.clone())
+        })
+}
+
 // ── Tests ─────────────────────────────────────────────────────────────────────
 
 #[cfg(test)]

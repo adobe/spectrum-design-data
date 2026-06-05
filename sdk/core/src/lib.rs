@@ -14,6 +14,7 @@ pub mod authoring;
 #[cfg(feature = "cache")]
 pub mod cache;
 pub mod cascade;
+pub mod component;
 pub mod compat;
 pub mod data_source;
 pub mod diff;
@@ -25,6 +26,7 @@ pub mod legacy;
 pub mod manifest;
 pub mod migrate;
 pub mod naming;
+pub mod primer;
 pub mod query;
 pub mod registry;
 pub mod report;

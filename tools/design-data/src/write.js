@@ -16,9 +16,9 @@
  * in-process, with atomic file writes (tmp-then-rename) for safety.
  */
 
-import { readFileSync, writeFileSync, mkdirSync, renameSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
-import { randomUUID } from 'node:crypto';
+import { readFileSync, writeFileSync, mkdirSync, renameSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { randomUUID } from "node:crypto";
 
 /**
  * Atomically write `content` to `dest` (via a `.tmp` sibling).
@@ -27,9 +27,9 @@ import { randomUUID } from 'node:crypto';
  * @param {string} content
  */
 function atomicWrite(dest, content) {
-  const tmp = dest + '.tmp.' + randomUUID().slice(0, 8);
+  const tmp = dest + ".tmp." + randomUUID().slice(0, 8);
   mkdirSync(dirname(dest), { recursive: true });
-  writeFileSync(tmp, content, 'utf-8');
+  writeFileSync(tmp, content, "utf-8");
   renameSync(tmp, dest);
 }
 
@@ -49,18 +49,18 @@ export function writeProductContext({ output, rationale } = {}) {
   const dest = resolve(output);
   let doc;
   try {
-    doc = JSON.parse(readFileSync(dest, 'utf-8'));
+    doc = JSON.parse(readFileSync(dest, "utf-8"));
   } catch {
     doc = {
-      specVersion: '1.0.0-draft',
-      layer: 'product',
+      specVersion: "1.0.0-draft",
+      layer: "product",
     };
   }
   if (rationale != null) doc.rationale = rationale;
-  doc.createdBy = { type: 'agent', tool: 'design-data' };
+  doc.createdBy = { type: "agent", tool: "design-data" };
   doc.createdAt = new Date().toISOString();
 
-  atomicWrite(dest, JSON.stringify(doc, null, 2) + '\n');
+  atomicWrite(dest, JSON.stringify(doc, null, 2) + "\n");
   return `Wrote ${dest}`;
 }
 
@@ -84,16 +84,20 @@ export function writeProductContext({ output, rationale } = {}) {
  * @param {boolean} [opts.isOverride] - Whether this is a product-layer override.
  * @returns {{ writtenTo: string, productContextUpdated: boolean }}
  */
-export function writeToken(key, token, { target, productContext, rationale, isOverride = false } = {}) {
+export function writeToken(
+  key,
+  token,
+  { target, productContext, rationale, isOverride = false } = {},
+) {
   const dest = resolve(target);
   let existing;
   try {
-    existing = JSON.parse(readFileSync(dest, 'utf-8'));
+    existing = JSON.parse(readFileSync(dest, "utf-8"));
   } catch {
     existing = {};
   }
   existing[key] = token;
-  atomicWrite(dest, JSON.stringify(existing, null, 2) + '\n');
+  atomicWrite(dest, JSON.stringify(existing, null, 2) + "\n");
 
   let productContextUpdated = false;
   if (productContext) {
@@ -117,21 +121,29 @@ export function writeToken(key, token, { target, productContext, rationale, isOv
  * @param {string} opts.uuid - Token UUID.
  * @returns {[string, object]} Tuple of [tokenKey, tokenObject].
  */
-export function buildTokenFromWizard({ schemaUrl, classification, rows, uuid }) {
+export function buildTokenFromWizard({
+  schemaUrl,
+  classification,
+  rows,
+  uuid,
+}) {
   const { layer, property, nameFields = [] } = classification;
   const name = { property };
   for (const { key, value } of nameFields) name[key] = value;
 
-  const tokenKey = [property, ...nameFields.map(({ value }) => value)].join('/');
+  const tokenKey = [property, ...nameFields.map(({ value }) => value)].join(
+    "/",
+  );
 
   // Build the value portion from rows.
   let tokenValue;
   if (rows.length === 1 && rows[0].mode_combo.length === 0) {
     // Single base value — simple format.
     const row = rows[0];
-    tokenValue = row.kind === 'Alias'
-      ? { value: { ref: row.alias_target } }
-      : { value: row.literal };
+    tokenValue =
+      row.kind === "Alias"
+        ? { value: { ref: row.alias_target } }
+        : { value: row.literal };
   } else {
     // Multi-mode format: group rows by the first dimension key.
     const sets = {};
@@ -145,9 +157,10 @@ export function buildTokenFromWizard({ schemaUrl, classification, rows, uuid }) 
           target = target[k][v] = target[k][v] ?? {};
         } else {
           target[k] = target[k] ?? {};
-          target[k][v] = row.kind === 'Alias'
-            ? { value: { ref: row.alias_target } }
-            : { value: row.literal };
+          target[k][v] =
+            row.kind === "Alias"
+              ? { value: { ref: row.alias_target } }
+              : { value: row.literal };
         }
       }
     }

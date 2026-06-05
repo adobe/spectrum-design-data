@@ -210,6 +210,30 @@ pub fn build_name_object(property: &str, name_fields: &[NameFieldDto]) -> serde_
     serde_json::Value::Object(name_obj)
 }
 
+/// Canonical token key from a property name and name-field values.
+///
+/// Joins the non-empty trimmed parts with `-`, e.g. `"color"` + `["dark"]` →
+/// `"color-dark"`.  Returns `"unnamed-token"` if every part is empty or missing.
+///
+/// This is the single source of truth for key derivation — both the MCP authoring
+/// session (`session::derive_token_key`) and the TUI wizard
+/// (`tui::wizard_common::assemble_name_from_classification`) delegate to it.
+pub fn derive_token_key_from_parts<'a>(
+    property: &'a str,
+    field_values: impl Iterator<Item = &'a str>,
+) -> String {
+    let parts: Vec<&str> = std::iter::once(property)
+        .chain(field_values)
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+        .collect();
+    if parts.is_empty() {
+        "unnamed-token".to_string()
+    } else {
+        parts.join("-")
+    }
+}
+
 /// Recursively build a `sets` object from a slice of value rows.
 ///
 /// Rows are grouped by their first mode-combo dimension value; each group is
@@ -265,6 +289,38 @@ fn build_sets_from_rows(rows: &[ValueRowDto]) -> serde_json::Value {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // ── derive_token_key_from_parts ────────────────────────────────────────────
+
+    #[test]
+    fn key_parts_joined_with_dash() {
+        let key = derive_token_key_from_parts("color", ["dark", "hover"].iter().copied());
+        assert_eq!(key, "color-dark-hover");
+    }
+
+    #[test]
+    fn key_parts_skips_empty_fields() {
+        let key = derive_token_key_from_parts("color", ["", "hover"].iter().copied());
+        assert_eq!(key, "color-hover");
+    }
+
+    #[test]
+    fn key_parts_only_property() {
+        let key = derive_token_key_from_parts("color", std::iter::empty());
+        assert_eq!(key, "color");
+    }
+
+    #[test]
+    fn key_parts_all_empty_returns_unnamed() {
+        let key = derive_token_key_from_parts("", std::iter::empty());
+        assert_eq!(key, "unnamed-token");
+    }
+
+    #[test]
+    fn key_parts_whitespace_trimmed() {
+        let key = derive_token_key_from_parts("  color  ", ["  dark  "].iter().copied());
+        assert_eq!(key, "color-dark");
+    }
 
     fn alias_row(modes: &[(&str, &str)], target: &str) -> ValueRowDto {
         ValueRowDto {

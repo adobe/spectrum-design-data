@@ -102,7 +102,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::data_source::embedded::EMBEDDED_DATA_VERSION;
 use crate::discovery::discover_json_files;
-use crate::graph::{ComponentRecord, ModeSetRecord, TokenGraph, TokenRecord};
+use crate::graph::{ComponentRecord, FieldRecord, ModeSetRecord, TokenGraph, TokenRecord};
 use crate::query::{self, TokenIndex, ALLOWED_KEYS};
 use crate::CoreError;
 
@@ -115,13 +115,14 @@ pub struct CachedDataset {
 
 /// Bump when the on-disk schema or value encoding changes, to invalidate caches
 /// written by older binaries (in addition to the tokens-version namespace).
-const CACHE_SCHEMA_VERSION: u32 = 2;
+const CACHE_SCHEMA_VERSION: u32 = 3;
 
 const META: TableDefinition<&str, &[u8]> = TableDefinition::new("meta");
 const TOKENS: TableDefinition<&str, &[u8]> = TableDefinition::new("tokens");
 const UUID_INDEX: TableDefinition<&str, &str> = TableDefinition::new("uuid_index");
 const MODE_SETS: TableDefinition<&str, &[u8]> = TableDefinition::new("mode_sets");
 const COMPONENTS: TableDefinition<&str, &[u8]> = TableDefinition::new("components");
+const FIELDS: TableDefinition<&str, &[u8]> = TableDefinition::new("fields");
 
 // One multimap index table per query field (see `query::ALLOWED_KEYS`).
 const IDX_PROPERTY: MultimapTableDefinition<&str, &str> =
@@ -307,6 +308,49 @@ pub fn build_file_with_catalogs(
     write_db_file(out_path, &graph, hash).map_err(into_core)
 }
 
+/// Build cache bytes including optional spec catalog directories and the fields catalog.
+///
+/// Use this variant when you need [`TokenGraph::fields`] and [`TokenGraph::manifest`]
+/// persisted in the blob — e.g. when building the embedded WASM asset so that
+/// [`Dataset::primer()`] can return taxonomy fields and manifest without disk access.
+pub fn build_bytes_with_all_catalogs(
+    tokens_root: &Path,
+    mode_sets_dir: Option<&Path>,
+    components_dir: Option<&Path>,
+    fields_dir: Option<&Path>,
+) -> Result<Vec<u8>, CoreError> {
+    let graph = TokenGraph::from_json_dir_with_all_catalogs(
+        tokens_root,
+        mode_sets_dir,
+        components_dir,
+        fields_dir,
+    )?;
+    let hash = content_hash(tokens_root, mode_sets_dir, components_dir).map_err(CoreError::Io)?;
+    build_bytes_from_graph(&graph, hash).map_err(into_core)
+}
+
+/// Build a cache file including optional spec catalog directories and the fields catalog.
+///
+/// Like [`build_file_with_catalogs`] but also bakes the fields catalog and the
+/// manifest into the blob so that consumers without filesystem access (WASM) can
+/// answer primer requests entirely from the prebuilt asset.
+pub fn build_file_with_all_catalogs(
+    tokens_root: &Path,
+    mode_sets_dir: Option<&Path>,
+    components_dir: Option<&Path>,
+    fields_dir: Option<&Path>,
+    out_path: &Path,
+) -> Result<(), CoreError> {
+    let graph = TokenGraph::from_json_dir_with_all_catalogs(
+        tokens_root,
+        mode_sets_dir,
+        components_dir,
+        fields_dir,
+    )?;
+    let hash = content_hash(tokens_root, mode_sets_dir, components_dir).map_err(CoreError::Io)?;
+    write_db_file(out_path, &graph, hash).map_err(into_core)
+}
+
 /// Hydrate a [`TokenGraph`] from cache bytes (read-only, no filesystem).
 ///
 /// The WASM read path: open a cache blob produced by [`build_bytes`].
@@ -470,7 +514,18 @@ fn hydrate(rtx: &redb::ReadTransaction) -> Result<TokenGraph, CacheError> {
     let mut graph = TokenGraph::from_records(records);
     graph.mode_sets = read_ordinal_table::<ModeSetRecord>(rtx, MODE_SETS)?;
     graph.components = read_ordinal_table::<ComponentRecord>(rtx, COMPONENTS)?;
+    graph.fields = read_ordinal_table::<FieldRecord>(rtx, FIELDS)?;
+    // Manifest is stored in the META table under "manifest" (schema v3+).
+    // Gracefully ignore the key when absent (schema v2 or earlier caches).
+    graph.manifest = read_manifest(rtx).unwrap_or(serde_json::Value::Null);
     Ok(graph)
+}
+
+/// Read the manifest value from the META table. Returns `None` when the key is absent.
+fn read_manifest(rtx: &redb::ReadTransaction) -> Option<serde_json::Value> {
+    let table = rtx.open_table(META).ok()?;
+    let bytes = table.get("manifest").ok()??;
+    rmp_serde::from_slice(bytes.value()).ok()
 }
 
 fn read_ordinal_table<T: serde::de::DeserializeOwned>(
@@ -578,6 +633,9 @@ fn write_tables(db: &Database, graph: &TokenGraph, hash: u64) -> Result<(), Cach
         let mut meta_t = wtx.open_table(META)?;
         let bytes = rmp_serde::to_vec(&meta)?;
         meta_t.insert("meta", bytes.as_slice())?;
+        // Store manifest alongside the CacheMeta under a separate key.
+        let manifest_bytes = rmp_serde::to_vec(&graph.manifest)?;
+        meta_t.insert("manifest", manifest_bytes.as_slice())?;
     }
     {
         let mut tokens_t = wtx.open_table(TOKENS)?;
@@ -604,6 +662,14 @@ fn write_tables(db: &Database, graph: &TokenGraph, hash: u64) -> Result<(), Cach
     {
         let mut table = wtx.open_table(COMPONENTS)?;
         for (idx, record) in graph.components.iter().enumerate() {
+            let key = format!("{idx:020}");
+            let bytes = rmp_serde::to_vec(record)?;
+            table.insert(key.as_str(), bytes.as_slice())?;
+        }
+    }
+    {
+        let mut table = wtx.open_table(FIELDS)?;
+        for (idx, record) in graph.fields.iter().enumerate() {
             let key = format!("{idx:020}");
             let bytes = rmp_serde::to_vec(record)?;
             table.insert(key.as_str(), bytes.as_slice())?;
@@ -1018,5 +1084,89 @@ mod tests {
         assert_eq!(g.tokens.len(), 2);
 
         std::env::remove_var("DESIGN_DATA_CACHE_DIR");
+    }
+
+    #[test]
+    fn fields_and_manifest_survive_blob_roundtrip() {
+        use crate::graph::FieldRecord;
+        use std::io::Write;
+        use tempfile::TempDir;
+
+        let data = TempDir::new().unwrap();
+        let fields_dir = TempDir::new().unwrap();
+
+        // Write a minimal tokens file.
+        write_tokens(
+            data.path(),
+            "color.json",
+            json!({
+                "blue-100": {
+                    "value": "#00f",
+                    "uuid": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+                    "name": {"property": "background-color"}
+                }
+            }),
+        );
+
+        // Write a manifest.json alongside the tokens.
+        let manifest_val = json!({ "platform": "test", "version": "1.0" });
+        std::fs::write(
+            data.path().join("manifest.json"),
+            serde_json::to_string(&manifest_val).unwrap(),
+        )
+        .unwrap();
+
+        // Write two field JSON files.
+        {
+            let mut f =
+                std::fs::File::create(fields_dir.path().join("alignment.json")).unwrap();
+            write!(
+                f,
+                r#"{{"name":"alignment","required":false,"description":"Alignment axis"}}"#
+            )
+            .unwrap();
+        }
+        {
+            let mut f =
+                std::fs::File::create(fields_dir.path().join("component.json")).unwrap();
+            write!(
+                f,
+                r#"{{"name":"component","required":true}}"#
+            )
+            .unwrap();
+        }
+
+        let bytes = build_bytes_with_all_catalogs(
+            data.path(),
+            None,
+            None,
+            Some(fields_dir.path()),
+        )
+        .unwrap();
+        assert!(!bytes.is_empty());
+
+        let graph = load_from_bytes(&bytes).unwrap();
+
+        // Manifest must survive the round-trip.
+        assert!(
+            !graph.manifest.is_null(),
+            "manifest should be non-null after round-trip"
+        );
+        assert_eq!(
+            graph.manifest["platform"].as_str(),
+            Some("test"),
+            "manifest.platform should survive round-trip"
+        );
+
+        // Fields must survive, sorted by name.
+        assert_eq!(graph.fields.len(), 2, "both fields should survive round-trip");
+        assert_eq!(graph.fields[0].name, "alignment");
+        assert_eq!(graph.fields[0].required, false);
+        assert_eq!(
+            graph.fields[0].description.as_deref(),
+            Some("Alignment axis")
+        );
+        assert_eq!(graph.fields[1].name, "component");
+        assert_eq!(graph.fields[1].required, true);
     }
 }

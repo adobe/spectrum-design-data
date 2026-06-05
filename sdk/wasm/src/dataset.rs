@@ -23,9 +23,10 @@ use std::sync::OnceLock;
 
 #[cfg(feature = "embedded")]
 use design_data_core::cache;
-use design_data_core::cascade::{resolve, ResolutionContext};
+use design_data_core::cascade::{resolve_property, ResolutionContext};
 use design_data_core::diff::semantic_diff;
 use design_data_core::graph::TokenGraph;
+use design_data_core::primer;
 use design_data_core::query;
 use design_data_core::validate::relational::validate_relational;
 use wasm_bindgen::prelude::*;
@@ -57,7 +58,8 @@ static EMBEDDED_GRAPH: OnceLock<Result<TokenGraph, String>> = OnceLock::new();
 // To generate: `moon run sdk-wasm:cache-build` (or `cargo run -p design-data-cli
 // -- cache-build packages/design-data/tokens --output sdk/wasm/src/embedded_cache.redb
 // --mode-sets-path packages/design-data/mode-sets
-// --components-path packages/design-data/components`)
+// --components-path packages/design-data/components
+// --fields-path packages/design-data/fields`)
 #[cfg(feature = "embedded")]
 static EMBEDDED_CACHE_BYTES: &[u8] =
     include_bytes!("embedded_cache.redb");
@@ -65,6 +67,19 @@ static EMBEDDED_CACHE_BYTES: &[u8] =
 // ---------------------------------------------------------------------------
 // Dataset class
 // ---------------------------------------------------------------------------
+
+/// How this `Dataset` instance was created — used to synthesise the correct
+/// provenance value in [`Dataset::primer`].
+enum DatasetSource {
+    /// Loaded from the embedded `.redb` blob compiled into the wasm binary.
+    ///
+    /// Only reachable when the `embedded` feature is enabled; suppress the
+    /// dead-code lint for non-embedded builds.
+    #[cfg_attr(not(feature = "embedded"), allow(dead_code))]
+    Embedded,
+    /// Constructed in-memory from a caller-supplied token array.
+    InMemory,
+}
 
 /// A loaded token dataset you can query, validate, resolve, and diff.
 ///
@@ -83,6 +98,7 @@ static EMBEDDED_CACHE_BYTES: &[u8] =
 #[wasm_bindgen]
 pub struct Dataset {
     graph: TokenGraph,
+    source: DatasetSource,
 }
 
 #[wasm_bindgen]
@@ -104,7 +120,10 @@ impl Dataset {
                 .as_ref()
                 .map_err(|e| js_err(e))?
                 .clone();
-            Ok(Dataset { graph })
+            Ok(Dataset {
+                graph,
+                source: DatasetSource::Embedded,
+            })
         }
         #[cfg(not(feature = "embedded"))]
         {
@@ -144,7 +163,44 @@ impl Dataset {
             .collect();
 
         let graph = TokenGraph::from_pairs(pairs);
-        Ok(Dataset { graph })
+        Ok(Dataset {
+            graph,
+            source: DatasetSource::InMemory,
+        })
+    }
+
+    // -----------------------------------------------------------------------
+    // Primer
+    // -----------------------------------------------------------------------
+
+    /// Emit a structural overview of the dataset for agent session start.
+    ///
+    /// Returns a plain JS object with the same shape as `design-data primer --format json`:
+    /// `{ specVersion, tokenCount, modeSets, components, taxonomyFields, manifest, provenance }`.
+    ///
+    /// For the embedded Spectrum dataset (`Dataset.embedded()`), `taxonomyFields` and
+    /// `manifest` are baked into the prebuilt `.redb` blob by the `cache-build` task.
+    /// For in-memory datasets (`Dataset.fromTokens()`), both are empty / null.
+    ///
+    /// `provenance.source` is:
+    /// - `"embedded"` when created via `Dataset.embedded()` (includes `tokensVersion`)
+    /// - `"in-memory"` when created via `Dataset.fromTokens()`
+    pub fn primer(&self) -> Result<JsValue, JsValue> {
+        let provenance = match self.source {
+            DatasetSource::Embedded => {
+                serde_json::json!({
+                    "source": "embedded",
+                    "tokensVersion": primer::EMBEDDED_DATA_VERSION,
+                })
+            }
+            DatasetSource::InMemory => serde_json::json!({ "source": "in-memory" }),
+        };
+        let data = primer::build(&self.graph, provenance);
+        // Use the json_compatible serializer so serde_json::Value::Object fields
+        // (manifest, provenance) become plain JS objects rather than JS Maps.
+        use serde::Serialize as _;
+        let serializer = serde_wasm_bindgen::Serializer::json_compatible();
+        data.serialize(&serializer).map_err(js_err)
     }
 
     // -----------------------------------------------------------------------
@@ -210,49 +266,22 @@ impl Dataset {
     pub fn resolve(&self, property: &str, context: WasmContext) -> Result<Option<ResolveResult>, JsValue> {
         let ctx_map = context.into_inner();
 
-        // Build a property-scoped sub-graph so `cascade::resolve` only sees candidates
-        // for this property. This clones the matching token records and the full mode-set
-        // map on every call — acceptable for Phase 1 usage, but a candidate for caching
-        // (e.g. pre-indexing by property) when resolve() becomes a hot path in Phase 2
-        // (see epic #731).
-        let candidates: Vec<_> = self
-            .graph
-            .tokens
-            .values()
-            .filter(|t| {
-                t.raw
-                    .get("name")
-                    .and_then(|v| v.as_object())
-                    .and_then(|n| n.get("property"))
-                    .and_then(|v| v.as_str())
-                    == Some(property)
-            })
-            .cloned()
-            .collect();
-
-        let sub = TokenGraph::from_records(candidates)
-            .with_mode_sets(self.graph.mode_sets.clone());
-
         let mut ctx = ResolutionContext::new();
         for (k, v) in ctx_map {
             ctx = ctx.with(k, v);
         }
 
-        match resolve(&sub, &ctx) {
-            Some(winner) => {
-                use design_data_core::cascade::specificity;
-                // specificity(name_obj, mode_sets) — extract the `name` map from raw.
-                let spec = winner
-                    .raw
-                    .get("name")
-                    .and_then(|v| v.as_object())
-                    .map(|name_obj| specificity(name_obj, &sub.mode_sets))
-                    .unwrap_or(0);
-                Ok(Some(ResolveResult {
-                    token: TokenResult::from(winner),
-                    specificity: spec,
-                }))
-            }
+        // Delegate to cascade::resolve_property — the same path used by cli and tui.
+        // This correctly applies layer-ordering (Platform wins over Foundation) that
+        // the previous inline subgraph construction did not preserve.
+        match resolve_property(&self.graph, property, &ctx)
+            .into_iter()
+            .find(|c| c.is_winner)
+        {
+            Some(winner) => Ok(Some(ResolveResult {
+                token: TokenResult::from(&winner.record),
+                specificity: winner.specificity,
+            })),
             None => Ok(None),
         }
     }

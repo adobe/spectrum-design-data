@@ -21,7 +21,7 @@ use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph};
 use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::suggest::{self, SuggestionResult};
-use design_data_core::write::{write_token, WriteTokenInput};
+use design_data_core::write::{layer_target_filename, write_token, WriteTokenInput};
 use tui_input::backend::crossterm::EventHandler;
 use tui_input::Input;
 use uuid::Uuid;
@@ -647,42 +647,21 @@ impl Default for WizardState {
 
 /// Derive the target file path from `layer` and `property`.
 ///
-/// Convention (mirrors `core::write` legacy-map merge target selection):
-/// - Foundation → `<dataset>/foundation.json`
-/// - Platform   → `<dataset>/platform.json`
-/// - Product    → `<dataset>/product.json`
+/// Return the target file path for `layer` inside `dataset_path`.
 ///
-/// `_property` is reserved for future sub-property routing (e.g. component-scoped
-/// files keyed by property name). Not used at this layer count.
+/// Delegates to [`design_data_core::write::layer_target_filename`] so the
+/// layer → filename convention stays in one place.
+/// `_property` is reserved for future sub-property routing.
 fn resolve_target_file(layer: Layer, _property: &str, dataset_path: &Path) -> PathBuf {
-    let file = match layer {
-        Layer::Foundation => "foundation.json",
-        Layer::Platform => "platform.json",
-        Layer::Product => "product.json",
-    };
-    dataset_path.join(file)
+    dataset_path.join(layer_target_filename(layer))
 }
 
 /// Scan the graph for a token whose `name.property` matches `property` and
-/// return its `$schema` URL.  Returns `None` when no matching token is found.
+/// return its `$schema` URL.
+///
+/// Delegates to [`design_data_core::graph::TokenGraph::infer_schema_url`].
 fn infer_schema_url(graph: &TokenGraph, property: &str) -> Option<String> {
-    if property.is_empty() {
-        return None;
-    }
-    graph.tokens.values().find_map(|t| {
-        let prop_matches = t
-            .raw
-            .get("name")
-            .and_then(|n| n.as_object())
-            .and_then(|n| n.get("property"))
-            .and_then(|v| v.as_str())
-            == Some(property);
-        if prop_matches {
-            t.schema_url.clone()
-        } else {
-            None
-        }
-    })
+    graph.infer_schema_url(property)
 }
 
 /// Convert TUI classification name fields into the serializable DTO shape consumed by

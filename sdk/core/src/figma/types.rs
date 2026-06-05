@@ -31,7 +31,7 @@ pub struct VariablesMeta {
     pub variable_collections: HashMap<String, FigmaVariableCollection>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct FigmaVariable {
     pub id: String,
@@ -52,7 +52,7 @@ pub struct FigmaVariable {
     pub code_syntax: HashMap<String, String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct FigmaVariableCollection {
     pub id: String,
@@ -69,7 +69,7 @@ pub struct FigmaVariableCollection {
     pub variable_ids: Vec<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct FigmaMode {
     pub mode_id: String,

@@ -1,3 +1,0 @@
-#!/bin/sh
-echo "design-data placeholder — install the matching @adobe/design-data package"
-exit 1

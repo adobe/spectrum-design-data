@@ -20,7 +20,9 @@ use std::path::Path;
 use serde_json::Value;
 
 use super::color::parse_color;
-use super::types::{ModeValueAction, PostVariablesBody, VariableAction, VariablesMeta};
+use super::types::{
+    FigmaVariableCollection, ModeValueAction, PostVariablesBody, VariableAction, VariablesMeta,
+};
 use super::FigmaError;
 
 // ── Schema URL suffixes ──────────────────────────────────────────────────────
@@ -57,6 +59,41 @@ const PLATFORM_SCALE_PREFIX: &str = "platformScale";
 
 const COLOR_MODES: &[&str] = &["light", "dark", "wireframe"];
 const SCALE_MODES: &[&str] = &["desktop", "mobile"];
+
+/// A structured summary of one Figma collection and its non-remote variables.
+#[derive(Debug)]
+pub struct CollectionSummary {
+    /// The collection record (name, id, modes).
+    pub collection: FigmaVariableCollection,
+    /// All non-remote variables in this collection, sorted by name.
+    pub variables: Vec<super::types::FigmaVariable>,
+}
+
+/// Summarize a `VariablesMeta` payload into a list of [`CollectionSummary`] entries,
+/// one per collection, sorted by collection name.
+///
+/// Remote variables (where `variable.remote == true`) are excluded.  This is the
+/// structured data behind the CLI's `figma read --format pretty` output; callers
+/// apply their own presentation (sample limit, truncation text, etc.).
+pub fn summarize_variables(meta: &VariablesMeta) -> Vec<CollectionSummary> {
+    let mut collections: Vec<&FigmaVariableCollection> =
+        meta.variable_collections.values().collect();
+    collections.sort_by(|a, b| a.name.cmp(&b.name));
+
+    collections
+        .into_iter()
+        .map(|col| {
+            let mut variables: Vec<super::types::FigmaVariable> = meta
+                .variables
+                .values()
+                .filter(|v| v.variable_collection_id == col.id && !v.remote)
+                .cloned()
+                .collect();
+            variables.sort_by(|a, b| a.name.cmp(&b.name));
+            CollectionSummary { collection: col.clone(), variables }
+        })
+        .collect()
+}
 
 /// Summary of an export operation.
 #[derive(Debug, Default)]

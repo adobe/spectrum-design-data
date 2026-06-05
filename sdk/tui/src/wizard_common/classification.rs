@@ -11,6 +11,7 @@
 //! Screen 2 (Classification) data types and helpers shared between the
 //! authoring wizard (`wizard.rs`) and the naming wizard (`naming.rs`).
 
+use design_data_core::authoring::draft::derive_token_key_from_parts;
 use design_data_core::graph::Layer;
 use tui_input::Input;
 
@@ -53,19 +54,14 @@ impl Default for ClassificationDraft {
 
 /// Assemble a token name from classification fields (property + name fields).
 /// Shared by the authoring and naming wizards.
+///
+/// Delegates to `core::authoring::draft::derive_token_key_from_parts` so the join
+/// rule and `"unnamed-token"` fallback stay in one place.
 pub fn assemble_name_from_classification(classification: &ClassificationDraft) -> String {
-    let mut parts: Vec<String> = Vec::new();
-    let prop = classification.property.value().trim().to_string();
-    if !prop.is_empty() {
-        parts.push(prop);
-    }
-    for field in &classification.name_fields {
-        let v = field.value.value().trim().to_string();
-        if !v.is_empty() {
-            parts.push(v);
-        }
-    }
-    parts.join("-")
+    derive_token_key_from_parts(
+        classification.property.value().trim(),
+        classification.name_fields.iter().map(|f| f.value.value().trim()),
+    )
 }
 
 pub fn cycle_layer_forward(layer: Layer) -> Layer {

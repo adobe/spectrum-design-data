@@ -29,10 +29,12 @@ tasks:
         --output "$MOON_WORKSPACE_ROOT/sdk/wasm/src/embedded_cache.redb"
         --mode-sets-path "$MOON_WORKSPACE_ROOT/packages/design-data/mode-sets"
         --components-path "$MOON_WORKSPACE_ROOT/packages/design-data/components"
+        --fields-path "$MOON_WORKSPACE_ROOT/packages/design-data/fields"
     inputs:
       - "/packages/design-data/tokens/*.tokens.json"
       - "/packages/design-data/mode-sets/*.json"
       - "/packages/design-data/components/*.json"
+      - "/packages/design-data/fields/*.json"
     outputs:
       - "src/embedded_cache.redb"
     deps:

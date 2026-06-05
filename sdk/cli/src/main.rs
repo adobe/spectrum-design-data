@@ -35,13 +35,12 @@ use design_data_core::migrate;
 use design_data_core::naming::NamingExceptionsFile;
 use design_data_core::query;
 use design_data_core::schema::SchemaRegistry;
+use design_data_core::primer;
 use design_data_core::suggest;
 use design_data_core::validate;
 use design_data_core::write::{write_token, WriteTokenInput};
 use design_data_tui::{LaunchOptions, ThemeChoice};
 use miette::{IntoDiagnostic, WrapErr};
-
-const SPEC_VERSION: &str = "1.0.0-draft";
 
 /// Spectrum Design Data tooling — validate and migrate design tokens.
 ///
@@ -312,6 +311,9 @@ enum Commands {
         /// Components catalog directory
         #[arg(long, value_name = "DIR")]
         components_path: Option<PathBuf>,
+        /// Taxonomy fields catalog directory (baked into blob for primer() support)
+        #[arg(long, value_name = "DIR")]
+        fields_path: Option<PathBuf>,
     },
     /// Manage token authoring sessions (MCP parity, RFC #973 Q4)
     #[command(name = "authoring-session")]
@@ -615,65 +617,6 @@ struct ValidateDatasetOpts {
     strict: bool,
 }
 
-/// Schema-validate every `*.json` file in `<dataset_root>/<dir_name>` against
-/// `schema_path`, appending any violations to `report` as Layer 1 errors.
-fn schema_validate_catalog_dir(
-    report: &mut design_data_core::report::ValidationReport,
-    dataset_root: &Path,
-    dir_name: &str,
-    schema_path: &Path,
-) -> miette::Result<()> {
-    use design_data_core::report::{Diagnostic, Severity};
-
-    let dir = dataset_root.join(dir_name);
-    if !dir.is_dir() {
-        return Ok(());
-    }
-    let mut entries: Vec<PathBuf> = std::fs::read_dir(&dir)
-        .into_diagnostic()
-        .wrap_err_with(|| format!("failed to read {}", dir.display()))?
-        .filter_map(|e| e.ok())
-        .map(|e| e.path())
-        .filter(|p| p.extension().and_then(|x| x.to_str()) == Some("json"))
-        .collect();
-    entries.sort();
-
-    for path in entries {
-        let text = std::fs::read_to_string(&path)
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to read {}", path.display()))?;
-        let value: serde_json::Value = match serde_json::from_str(&text) {
-            Ok(v) => v,
-            Err(e) => {
-                report.push_error(Diagnostic {
-                    file: path.clone(),
-                    token: None,
-                    rule_id: None,
-                    severity: Severity::Error,
-                    message: format!("invalid JSON: {e}"),
-                    instance_path: None,
-                    schema_path: None,
-                });
-                continue;
-            }
-        };
-        let errors = SchemaRegistry::validate_value_against_schema_file(&value, schema_path)
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to validate {}", path.display()))?;
-        for err in errors {
-            report.push_error(Diagnostic {
-                file: path.clone(),
-                token: None,
-                rule_id: None,
-                severity: Severity::Error,
-                message: format!("{dir_name} schema validation: {err}"),
-                instance_path: None,
-                schema_path: None,
-            });
-        }
-    }
-    Ok(())
-}
 
 /// Locate the design-data-spec schemas directory: explicit flag, then probe
 /// common in-repo locations relative to the dataset root and the cwd.
@@ -744,22 +687,8 @@ fn run_validate_dataset(path: &Path, opts: ValidateDatasetOpts) -> miette::Resul
     // Layer 1 schema-shape validation of the registered catalog directories.
     match resolve_spec_schemas(opts.spec_schemas, &dataset_root, &cwd) {
         Some(spec_dir) => {
-            for (dir_name, schema_file) in [
-                ("fields", "field.schema.json"),
-                ("components", "component.schema.json"),
-                ("mode-sets", "mode-set.schema.json"),
-                ("registry", "registry-value.json"),
-            ] {
-                let schema_path = spec_dir.join(schema_file);
-                if schema_path.is_file() {
-                    schema_validate_catalog_dir(
-                        &mut report,
-                        &dataset_root,
-                        dir_name,
-                        &schema_path,
-                    )?;
-                }
-            }
+            validate::validate_catalog_schemas(&mut report, &dataset_root, &spec_dir)
+                .into_diagnostic()?;
         }
         None => {
             eprintln!(
@@ -1206,11 +1135,9 @@ fn run_figma_read(file_key: &str, token: &str, format: OutputFormat) -> miette::
                 meta.variables.len()
             );
 
-            // Sort collections by name for stable output.
-            let mut collections: Vec<_> = meta.variable_collections.values().collect();
-            collections.sort_by(|a, b| a.name.cmp(&b.name));
-
-            for col in &collections {
+            for col_summary in figma::mapping::summarize_variables(meta) {
+                let col = &col_summary.collection;
+                let vars = &col_summary.variables;
                 let mode_names: Vec<&str> = col.modes.iter().map(|m| m.name.as_str()).collect();
                 println!(
                     "Collection: \"{}\" ({} mode(s): {})",
@@ -1218,17 +1145,7 @@ fn run_figma_read(file_key: &str, token: &str, format: OutputFormat) -> miette::
                     col.modes.len(),
                     mode_names.join(", ")
                 );
-
-                // Collect variables belonging to this collection.
-                let mut vars: Vec<&figma::types::FigmaVariable> = meta
-                    .variables
-                    .values()
-                    .filter(|v| v.variable_collection_id == col.id && !v.remote)
-                    .collect();
-                vars.sort_by(|a, b| a.name.cmp(&b.name));
-
                 println!("  Variables: {}", vars.len());
-
                 // Show first 5 samples.
                 for v in vars.iter().take(5) {
                     println!("  Sample: {} [{}]", v.name, v.resolved_type);
@@ -1242,26 +1159,6 @@ fn run_figma_read(file_key: &str, token: &str, format: OutputFormat) -> miette::
     }
 
     Ok(ExitCode::SUCCESS)
-}
-
-fn scan_json_name_field(dir: &Path) -> Vec<String> {
-    let Ok(entries) = std::fs::read_dir(dir) else {
-        return vec![];
-    };
-    let mut names: Vec<String> = entries
-        .flatten()
-        .filter_map(|e| {
-            let p = e.path();
-            if p.extension().and_then(|x| x.to_str()) != Some("json") {
-                return None;
-            }
-            let raw = std::fs::read_to_string(&p).ok()?;
-            let v: serde_json::Value = serde_json::from_str(&raw).ok()?;
-            v.get("name")?.as_str().map(|s| s.to_string())
-        })
-        .collect();
-    names.sort();
-    names
 }
 
 fn run_primer(
@@ -1287,6 +1184,7 @@ fn run_primer(
     // Dataset path: explicit arg wins; otherwise use the resolved tokens root (which
     // comes from the config source, embedded snapshot, or in-repo CWD probing).
     let path = resolved.tokens_root.clone();
+    // Load graph (manifest is auto-loaded from tokens root by from_json_dir_with_*).
     let graph = TokenGraph::open_cached_with_catalogs(
         &path,
         resolved.mode_sets.as_deref(),
@@ -1294,66 +1192,13 @@ fn run_primer(
     )
     .into_diagnostic()
     .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
-    let token_count = graph.tokens.len();
-    let mode_sets: Vec<serde_json::Value> = graph
-        .mode_sets
-        .iter()
-        .map(|d| {
-            serde_json::json!({
-                "name": d.name,
-                "modes": d.modes,
-                "defaultMode": d.default_mode,
-            })
-        })
-        .collect();
 
-    let mut components: Vec<String> = graph.components.iter().map(|c| c.name.clone()).collect();
-    components.sort();
-
-    let taxonomy_fields: Vec<serde_json::Value> = resolved
-        .fields
-        .map(|dir| {
-            let Ok(entries) = std::fs::read_dir(&dir) else {
-                return vec![];
-            };
-            let mut fields: Vec<serde_json::Value> = entries
-                .flatten()
-                .filter_map(|e| {
-                    let p = e.path();
-                    if p.extension().and_then(|x| x.to_str()) != Some("json") {
-                        return None;
-                    }
-                    let raw = std::fs::read_to_string(&p).ok()?;
-                    let v: serde_json::Value = serde_json::from_str(&raw).ok()?;
-                    let name = v.get("name")?.as_str()?.to_string();
-                    let required = v.get("required").and_then(|r| r.as_bool()).unwrap_or(false);
-                    let mut field = serde_json::json!({
-                        "name": name,
-                        "required": required,
-                    });
-                    if let Some(desc) = v.get("description") {
-                        if !desc.is_null() {
-                            field["description"] = desc.clone();
-                        }
-                    }
-                    Some(field)
-                })
-                .collect();
-            fields.sort_by_key(|f| f["name"].as_str().unwrap_or("").to_string());
-            fields
-        })
-        .unwrap_or_default();
-
-    let manifest: serde_json::Value = {
-        let mp = path.join("manifest.json");
-        if mp.is_file() {
-            std::fs::read_to_string(&mp)
-                .ok()
-                .and_then(|s| serde_json::from_str(&s).ok())
-                .unwrap_or(serde_json::Value::Null)
-        } else {
-            serde_json::Value::Null
-        }
+    // Load fields from disk (not threaded through the runtime cache path).
+    let graph = if let Some(dir) = &resolved.fields {
+        let fields = TokenGraph::load_spec_fields(dir).unwrap_or_default();
+        graph.with_fields(fields)
+    } else {
+        graph
     };
 
     let provenance = match &resolved.provenance {
@@ -1372,15 +1217,7 @@ fn run_primer(
         }),
     };
 
-    let payload = serde_json::json!({
-        "specVersion": SPEC_VERSION,
-        "tokenCount": token_count,
-        "modeSets": mode_sets,
-        "components": components,
-        "taxonomyFields": taxonomy_fields,
-        "manifest": manifest,
-        "provenance": provenance,
-    });
+    let payload = primer::build(&graph, provenance);
 
     match format {
         OutputFormat::Json => {
@@ -1390,48 +1227,44 @@ fn run_primer(
             );
         }
         OutputFormat::Pretty => {
-            let mode_set_summary: Vec<String> = mode_sets
+            let mode_set_summary: Vec<String> = payload
+                .mode_sets
                 .iter()
-                .map(|d| {
-                    let name = d["name"].as_str().unwrap_or("");
-                    let default = d["defaultMode"].as_str().unwrap_or("");
-                    let mode_str = d["modes"]
-                        .as_array()
-                        .map(Vec::as_slice)
-                        .unwrap_or(&[])
+                .map(|ms| {
+                    let mode_str = ms
+                        .modes
                         .iter()
-                        .filter_map(|m| m.as_str())
                         .map(|m| {
-                            if m == default {
+                            if m == &ms.default_mode {
                                 format!("{m}*")
                             } else {
-                                m.to_string()
+                                m.clone()
                             }
                         })
                         .collect::<Vec<_>>()
                         .join("|");
-                    format!("{name} ({mode_str})")
+                    format!("{} ({mode_str})", ms.name)
                 })
                 .collect();
             const COMPONENT_PREVIEW_COUNT: usize = 8;
-            let comp_count = components.len();
+            let comp_count = payload.components.len();
             let comp_preview = if comp_count > COMPONENT_PREVIEW_COUNT {
                 format!(
                     "{}, … and {} more",
-                    components[..COMPONENT_PREVIEW_COUNT].join(", "),
+                    payload.components[..COMPONENT_PREVIEW_COUNT].join(", "),
                     comp_count - COMPONENT_PREVIEW_COUNT
                 )
             } else {
-                components.join(", ")
+                payload.components.join(", ")
             };
-            println!("Spec version:  {SPEC_VERSION}");
-            println!("Token count:   {token_count}");
+            println!("Spec version:  {}", primer::SPEC_VERSION);
+            println!("Token count:   {}", payload.token_count);
             println!("Mode sets:     {}", mode_set_summary.join(", "));
             println!("Components:    {comp_preview}");
-            println!("Fields:        {}", taxonomy_fields.len());
+            println!("Fields:        {}", payload.taxonomy_fields.len());
             println!(
                 "Manifest:      {}",
-                if manifest.is_null() {
+                if payload.manifest.is_null() {
                     "none"
                 } else {
                     "present"
@@ -1444,14 +1277,8 @@ fn run_primer(
 }
 
 fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<ExitCode> {
-    // Reject IDs that could escape the components directory via path traversal.
-    if !id
-        .chars()
-        .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-')
-        || id.is_empty()
-        || !id.chars().next().is_some_and(|c| c.is_ascii_lowercase())
-    {
-        eprintln!("Invalid component ID '{id}'. IDs must match ^[a-z][a-z0-9-]*$");
+    if let Err(msg) = design_data_core::component::validate_id(id) {
+        eprintln!("{msg}");
         return Ok(ExitCode::from(1));
     }
 
@@ -1468,26 +1295,22 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
         .components
         .ok_or_else(|| miette::miette!("could not locate components directory"))?;
 
-    let file = dir.join(format!("{id}.json"));
-    if file.is_file() {
-        let raw = std::fs::read_to_string(&file)
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to read {}", file.display()))?;
-        let doc: serde_json::Value = serde_json::from_str(&raw)
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to parse {}", file.display()))?;
-        println!("{}", serde_json::to_string_pretty(&doc).into_diagnostic()?);
-        return Ok(ExitCode::SUCCESS);
+    match design_data_core::component::lookup(&dir, id).into_diagnostic()? {
+        Some(doc) => {
+            println!("{}", serde_json::to_string_pretty(&doc).into_diagnostic()?);
+            Ok(ExitCode::SUCCESS)
+        }
+        None => {
+            let available = design_data_core::component::list(&dir);
+            eprintln!("Component '{id}' not found.");
+            if available.is_empty() {
+                eprintln!("No components found in {}", dir.display());
+            } else {
+                eprintln!("Available components: {}", available.join(", "));
+            }
+            Ok(ExitCode::from(1))
+        }
     }
-
-    let available = scan_json_name_field(&dir);
-    eprintln!("Component '{id}' not found.");
-    if available.is_empty() {
-        eprintln!("No components found in {}", dir.display());
-    } else {
-        eprintln!("Available components: {}", available.join(", "));
-    }
-    Ok(ExitCode::from(1))
 }
 
 fn run_suggest(
@@ -1550,6 +1373,7 @@ fn run_cache_build(
     output: &Path,
     mode_sets_path: Option<&Path>,
     components_path: Option<&Path>,
+    fields_path: Option<&Path>,
 ) -> miette::Result<ExitCode> {
     // Resolve the dataset: explicit arg wins, else the canonical resolved root.
     let cwd = std::env::current_dir().into_diagnostic()?;
@@ -1559,16 +1383,18 @@ fn run_cache_build(
             tokens_root: explicit_path.map(|p| p.to_path_buf()),
             mode_sets: mode_sets_path.map(|p| p.to_path_buf()),
             components: components_path.map(|p| p.to_path_buf()),
+            fields: fields_path.map(|p| p.to_path_buf()),
             ..Default::default()
         },
     )
     .into_diagnostic()?;
     let tokens_root = resolved.tokens_root;
 
-    cache::build_file_with_catalogs(
+    cache::build_file_with_all_catalogs(
         &tokens_root,
         resolved.mode_sets.as_deref(),
         resolved.components.as_deref(),
+        resolved.fields.as_deref(),
         output,
     )
     .into_diagnostic()
@@ -1597,38 +1423,17 @@ fn run_write(output: &Path, rationale: Option<&str>) -> miette::Result<ExitCode>
             .into_diagnostic()
             .wrap_err("failed to parse existing product-context.json")?
     } else {
-        // Build in spec field order: specVersion → layer → createdBy → createdAt.
-        // rationale is inserted after layer when present (see below).
-        let mut map = serde_json::Map::new();
-        map.insert(
-            "specVersion".to_string(),
-            serde_json::Value::String(SPEC_VERSION.to_string()),
-        );
-        map.insert(
-            "layer".to_string(),
-            serde_json::Value::String("product".to_string()),
-        );
-        if let Some(r) = rationale {
-            map.insert(
-                "rationale".to_string(),
-                serde_json::Value::String(r.to_string()),
-            );
-        }
-        map.insert(
-            "createdBy".to_string(),
-            serde_json::json!({ "type": "agent", "tool": "design-data" }),
-        );
-        map.insert(
-            "createdAt".to_string(),
-            serde_json::Value::String(Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string()),
-        );
-        serde_json::Value::Object(map)
+        let now = Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string();
+        design_data_core::write::build_product_context_doc(
+            "product",
+            rationale,
+            primer::SPEC_VERSION,
+            &now,
+        )
     };
 
     if output.exists() {
-        if let Some(r) = rationale {
-            doc["rationale"] = serde_json::Value::String(r.to_string());
-        }
+        design_data_core::write::merge_product_context_rationale(&mut doc, rationale);
     }
 
     if let Some(parent) = output.parent() {
@@ -1935,11 +1740,13 @@ fn main() -> ExitCode {
             output,
             mode_sets_path,
             components_path,
+            fields_path,
         } => run_cache_build(
             path.as_deref(),
             &output,
             mode_sets_path.as_deref(),
             components_path.as_deref(),
+            fields_path.as_deref(),
         ),
         Commands::AuthoringSession { cmd } => {
             return authoring::run(cmd);

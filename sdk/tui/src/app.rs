@@ -18,7 +18,7 @@
 
 use std::path::PathBuf;
 
-use design_data_core::cascade::ResolutionContext;
+use design_data_core::cascade::{apply_restrictions, parse_resolve_context, ResolutionContext};
 use ratatui::layout::Rect;
 use ratatui::widgets::TableState;
 
@@ -85,34 +85,19 @@ pub(crate) fn rect_contains(rect: Rect, row: u16, col: u16) -> bool {
     col >= rect.x && col < rect.x + rect.width && row >= rect.y && row < rect.y + rect.height
 }
 
+/// Parse a `property=<name>,<modeSet>=<mode>,...` expression.
+///
+/// Delegates to [`design_data_core::cascade::parse_resolve_context`].
 pub(crate) fn parse_resolve_args(rest: &str) -> Result<(String, ResolutionContext), String> {
-    let mut property: Option<String> = None;
-    let mut ctx = ResolutionContext::new();
-    for pair in rest.split(',') {
-        let pair = pair.trim();
-        if let Some((k, v)) = pair.split_once('=') {
-            let k = k.trim();
-            let v = v.trim();
-            if k == "property" {
-                property = Some(v.to_string());
-            } else if !k.is_empty() && !v.is_empty() {
-                ctx = ctx.with(k, v);
-            }
-        }
-    }
-    let prop = property.ok_or_else(|| "missing property= in expression".to_string())?;
-    if prop.is_empty() {
-        return Err("property value must not be empty".to_string());
-    }
-    Ok((prop, ctx))
+    parse_resolve_context(rest)
 }
 
 /// Layer platform manifest mode-set restrictions onto a parsed resolve context.
+///
+/// Delegates to [`design_data_core::cascade::apply_restrictions`].
 pub(crate) fn resolve_context_with_restrictions(
     ctx: ResolutionContext,
     restrictions: &std::collections::HashMap<String, Vec<String>>,
 ) -> ResolutionContext {
-    restrictions.iter().fold(ctx, |acc, (mode_set, allowed)| {
-        acc.with_restriction(mode_set.clone(), allowed.clone())
-    })
+    apply_restrictions(ctx, restrictions)
 }

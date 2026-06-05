@@ -481,3 +481,76 @@ test("resolve result has expected shape", (t) => {
   t.is(typeof result.token.layer, "string");
   t.truthy(result.token.raw);
 });
+
+// ---------------------------------------------------------------------------
+// Dataset.primer() — structural overview for agent session start
+// ---------------------------------------------------------------------------
+
+test("Dataset.embedded().primer() returns expected payload shape", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const p = ds.primer();
+
+  t.is(typeof p.specVersion, "string", "specVersion should be a string");
+  t.is(typeof p.tokenCount, "number", "tokenCount should be a number");
+  t.true(p.tokenCount > 100, `tokenCount should be >100, got ${p.tokenCount}`);
+  t.true(Array.isArray(p.modeSets), "modeSets should be an array");
+  t.true(p.modeSets.length > 0, "modeSets should not be empty");
+  t.true(Array.isArray(p.components), "components should be an array");
+  t.true(p.components.length > 0, "components should not be empty");
+  t.true(Array.isArray(p.taxonomyFields), "taxonomyFields should be an array");
+  t.true(
+    p.taxonomyFields.length > 0,
+    "taxonomyFields should not be empty (fields are baked into the embedded blob)",
+  );
+  t.is(typeof p.provenance, "object", "provenance should be an object");
+  t.is(
+    p.provenance.source,
+    "embedded",
+    "provenance.source should be 'embedded'",
+  );
+  t.is(
+    typeof p.provenance.tokensVersion,
+    "string",
+    "provenance.tokensVersion should be a string",
+  );
+});
+
+test("Dataset.embedded().primer() modeSets have expected shape", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const { modeSets } = ds.primer();
+
+  t.true(modeSets.length > 0);
+  const first = modeSets[0];
+  t.is(typeof first.name, "string");
+  t.true(Array.isArray(first.modes));
+  t.is(typeof first.defaultMode, "string");
+  t.true(first.modes.includes(first.defaultMode));
+});
+
+test("Dataset.embedded().primer() taxonomyFields have expected shape", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const { taxonomyFields } = ds.primer();
+
+  t.true(taxonomyFields.length > 0);
+  const first = taxonomyFields[0];
+  t.is(typeof first.name, "string");
+  t.is(typeof first.required, "boolean");
+  // Fields are sorted alphabetically
+  for (let i = 1; i < taxonomyFields.length; i++) {
+    t.true(
+      taxonomyFields[i].name >= taxonomyFields[i - 1].name,
+      `taxonomyFields should be sorted: ${taxonomyFields[i - 1].name} <= ${taxonomyFields[i].name}`,
+    );
+  }
+});
+
+test("Dataset.fromTokens().primer() returns in-memory provenance", (t) => {
+  const ds = wasm.Dataset.fromTokens([
+    { name: { property: "test" }, value: "#fff" },
+  ]);
+  const p = ds.primer();
+
+  t.is(p.tokenCount, 1);
+  t.is(p.provenance.source, "in-memory");
+  t.is(p.taxonomyFields.length, 0, "in-memory datasets have no fields");
+});

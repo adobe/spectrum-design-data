@@ -9,9 +9,9 @@
 // governing permissions and limitations under the License.
 
 export default {
-  files: ['test/**/*.test.js'],
+  files: ["test/**/*.test.js"],
   verbose: true,
   environmentVariables: {
-    NODE_ENV: 'test',
+    NODE_ENV: "test",
   },
 };

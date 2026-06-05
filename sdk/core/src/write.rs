@@ -14,10 +14,31 @@ use std::path::{Path, PathBuf};
 
 use serde_json::{Map, Value};
 
+use crate::graph::Layer;
 use crate::schema::SchemaRegistry;
 use crate::CoreError;
 
 const SPEC_VERSION: &str = "1.0.0-draft";
+
+/// Return the conventional token-file name for a given `layer` inside a dataset directory.
+///
+/// Convention: Foundation → `foundation.json`, Platform → `platform.json`,
+/// Product → `product.json`.  Callers combine this with the dataset root path.
+///
+/// ```rust
+/// use design_data_core::write::layer_target_filename;
+/// use design_data_core::graph::Layer;
+/// assert_eq!(layer_target_filename(Layer::Foundation), "foundation.json");
+/// assert_eq!(layer_target_filename(Layer::Platform), "platform.json");
+/// assert_eq!(layer_target_filename(Layer::Product), "product.json");
+/// ```
+pub fn layer_target_filename(layer: Layer) -> &'static str {
+    match layer {
+        Layer::Foundation => "foundation.json",
+        Layer::Platform => "platform.json",
+        Layer::Product => "product.json",
+    }
+}
 
 /// Input for the `write_token` operation.
 pub struct WriteTokenInput {
@@ -46,6 +67,50 @@ pub struct WriteTokenResult {
     pub written_to: PathBuf,
     /// Whether `product-context.json` was created or updated.
     pub product_context_updated: bool,
+}
+
+/// Build a new `product-context.json` document in spec field order.
+///
+/// Field order: `specVersion → layer → rationale (if present) → createdBy → createdAt`.
+///
+/// `now` is an ISO 8601 timestamp string (e.g. `"2026-01-01T00:00:00Z"`). Pass a
+/// fixed string in tests to keep results deterministic.
+///
+/// ```rust
+/// use design_data_core::write::build_product_context_doc;
+/// let doc = build_product_context_doc("product", Some("adopting dark mode"), "1.0.0-draft", "2026-01-01T00:00:00Z");
+/// assert_eq!(doc["layer"], "product");
+/// assert_eq!(doc["specVersion"], "1.0.0-draft");
+/// assert_eq!(doc["rationale"], "adopting dark mode");
+/// ```
+pub fn build_product_context_doc(
+    layer: &str,
+    rationale: Option<&str>,
+    spec_version: &str,
+    now: &str,
+) -> Value {
+    let mut map = Map::new();
+    map.insert("specVersion".into(), Value::String(spec_version.into()));
+    map.insert("layer".into(), Value::String(layer.into()));
+    if let Some(r) = rationale {
+        map.insert("rationale".into(), Value::String(r.into()));
+    }
+    map.insert(
+        "createdBy".into(),
+        serde_json::json!({ "type": "agent", "tool": "design-data" }),
+    );
+    map.insert("createdAt".into(), Value::String(now.into()));
+    Value::Object(map)
+}
+
+/// Merge a `rationale` update into an existing product-context document.
+///
+/// If `existing` is an object and `rationale` is `Some`, inserts/replaces the
+/// `"rationale"` field in-place.  No-ops when `rationale` is `None`.
+pub fn merge_product_context_rationale(existing: &mut Value, rationale: Option<&str>) {
+    if let (Some(r), Some(obj)) = (rationale, existing.as_object_mut()) {
+        obj.insert("rationale".into(), Value::String(r.into()));
+    }
 }
 
 /// Validate, write, and record a product-layer token.

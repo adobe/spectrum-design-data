@@ -58,6 +58,18 @@ impl std::str::FromStr for Layer {
     }
 }
 
+/// One taxonomy field entry loaded from the spec fields catalog.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct FieldRecord {
+    pub name: String,
+    pub required: bool,
+    // NOTE: do NOT add skip_serializing_if here — FieldRecord is rmp-encoded in the
+    // redb cache (ordinal table), and msgpack tuple lengths must match struct field
+    // counts exactly. skip_serializing_if produces a 2-element tuple on None, which
+    // fails to deserialize back to a 3-field struct.
+    pub description: Option<String>,
+}
+
 /// One component declaration (spec-format JSON), loaded for relational rules.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct ComponentRecord {
@@ -97,6 +109,10 @@ pub struct TokenGraph {
     pub tokens: HashMap<String, TokenRecord>,
     pub mode_sets: Vec<ModeSetRecord>,
     pub components: Vec<ComponentRecord>,
+    /// Taxonomy field definitions from the spec fields catalog.
+    pub fields: Vec<FieldRecord>,
+    /// Platform manifest from `manifest.json` in the tokens root, if present.
+    pub manifest: serde_json::Value,
     /// Secondary index: UUID value → primary key in `tokens`.
     ///
     /// Required for cascade-format alias resolution: cascade token keys are
@@ -175,6 +191,15 @@ impl TokenGraph {
         components_dir: Option<&Path>,
     ) -> Result<Self, CoreError> {
         let mut graph = Self::from_json_dir_with_names(root, names_dir)?;
+        // Load manifest.json from the tokens root when present.
+        let manifest_path = root.join("manifest.json");
+        if manifest_path.is_file() {
+            if let Ok(text) = std::fs::read_to_string(&manifest_path) {
+                if let Ok(val) = serde_json::from_str(&text) {
+                    graph.manifest = val;
+                }
+            }
+        }
         if let Some(dir) = mode_sets_dir {
             if dir.is_dir() {
                 graph.mode_sets.extend(Self::load_spec_mode_sets(dir)?);
@@ -183,6 +208,27 @@ impl TokenGraph {
         if let Some(dir) = components_dir {
             if dir.is_dir() {
                 graph.components = Self::load_spec_components(dir)?;
+            }
+        }
+        Ok(graph)
+    }
+
+    /// Load tokens with optional spec catalog directories including the fields catalog.
+    ///
+    /// Combines [`Self::from_json_dir_with_catalogs`] (mode sets + components) with
+    /// optional fields loading. The manifest is always loaded from
+    /// `root/manifest.json` when present, regardless of `fields_dir`.
+    pub fn from_json_dir_with_all_catalogs(
+        root: &Path,
+        mode_sets_dir: Option<&Path>,
+        components_dir: Option<&Path>,
+        fields_dir: Option<&Path>,
+    ) -> Result<Self, CoreError> {
+        let mut graph =
+            Self::from_json_dir_with_names_and_catalogs(root, None, mode_sets_dir, components_dir)?;
+        if let Some(dir) = fields_dir {
+            if dir.is_dir() {
+                graph.fields = Self::load_spec_fields(dir)?;
             }
         }
         Ok(graph)
@@ -443,6 +489,8 @@ impl TokenGraph {
             tokens,
             mode_sets: Vec::new(),
             components: Vec::new(),
+            fields: Vec::new(),
+            manifest: serde_json::Value::Null,
             uuid_index,
             legacy_name_index,
         }
@@ -477,6 +525,8 @@ impl TokenGraph {
             tokens,
             mode_sets: Vec::new(),
             components: Vec::new(),
+            fields: Vec::new(),
+            manifest: serde_json::Value::Null,
             uuid_index,
             legacy_name_index,
         }
@@ -864,6 +914,65 @@ impl TokenGraph {
     pub fn with_components(mut self, components: Vec<ComponentRecord>) -> Self {
         self.components = components;
         self
+    }
+
+    /// Load taxonomy field definitions from a spec fields catalog directory.
+    ///
+    /// Each JSON file is expected to have a `name` field (string), an optional
+    /// `required` field (boolean, defaults to `false`), and an optional
+    /// `description` field (string). Silently skips files missing a `name`.
+    pub fn load_spec_fields(dir: &Path) -> Result<Vec<FieldRecord>, CoreError> {
+        let mut out = Vec::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            let value: Value = serde_json::from_str(&text)?;
+            if let Some(obj) = value.as_object() {
+                if let Some(name) = obj.get("name").and_then(|v| v.as_str()) {
+                    let required = obj
+                        .get("required")
+                        .and_then(|v| v.as_bool())
+                        .unwrap_or(false);
+                    let description = obj
+                        .get("description")
+                        .and_then(|v| v.as_str())
+                        .filter(|s| !s.is_empty())
+                        .map(str::to_string);
+                    out.push(FieldRecord {
+                        name: name.to_string(),
+                        required,
+                        description,
+                    });
+                }
+            }
+        }
+        Ok(out)
+    }
+
+    /// Attach field records loaded from a fields catalog directory.
+    pub fn with_fields(mut self, fields: Vec<FieldRecord>) -> Self {
+        self.fields = fields;
+        self
+    }
+
+    /// Find the `$schema` URL of any token whose `name.property` matches `property`.
+    ///
+    /// Useful when creating a new token to infer the schema URL from an existing sibling
+    /// token in the same property group.  Returns `None` when `property` is empty or no
+    /// matching token is found.
+    pub fn infer_schema_url(&self, property: &str) -> Option<String> {
+        if property.is_empty() {
+            return None;
+        }
+        self.tokens.values().find_map(|t| {
+            let prop_matches = t
+                .raw
+                .get("name")
+                .and_then(|n| n.as_object())
+                .and_then(|n| n.get("property"))
+                .and_then(|v| v.as_str())
+                == Some(property);
+            if prop_matches { t.schema_url.clone() } else { None }
+        })
     }
 }
 
