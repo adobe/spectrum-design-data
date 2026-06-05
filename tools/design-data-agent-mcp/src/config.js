@@ -8,8 +8,9 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
+import { createRequire } from "module";
 import { fileURLToPath } from "url";
-import { isAbsolute, resolve } from "path";
+import { dirname, isAbsolute, resolve } from "path";
 
 // The repo root relative to this file: src → package → tools → repo root.
 // Used as the self-anchoring fallback when DESIGN_DATA_ROOT is not provided
@@ -30,12 +31,41 @@ function anchorPath(p) {
   return p && !isAbsolute(p) ? resolve(dataRoot, p) : p;
 }
 
+// Locate a directory inside the @adobe/spectrum-design-data package via Node's
+// module resolution. In a pnpm workspace this resolves through the symlink to
+// `packages/design-data`; when published it resolves the installed dependency.
+// Either way it is independent of the process working directory, so it provides
+// a zero-config default that does not depend on where the server was launched.
+// Returns null when the package is not installed (e.g. a standalone CLI install
+// that relies on the design-data binary's embedded snapshot instead).
+function resolveDataPackageDir(subdir) {
+  try {
+    const pkgJson = createRequire(import.meta.url).resolve(
+      "@adobe/spectrum-design-data/package.json",
+    );
+    return resolve(dirname(pkgJson), subdir);
+  } catch {
+    return null;
+  }
+}
+
+// Path precedence: explicit env override (anchored to dataRoot) wins, then the
+// resolved design-data package directory, then a final fallback.
 export const config = {
   bin: process.env.DESIGN_DATA_BIN ?? "design-data",
   dataRoot,
-  dataPath: anchorPath(process.env.DESIGN_DATA_PATH ?? "."),
+  dataPath:
+    anchorPath(process.env.DESIGN_DATA_PATH) ??
+    resolveDataPackageDir("tokens") ??
+    anchorPath("."),
   schemaPath: anchorPath(process.env.DESIGN_DATA_SCHEMAS ?? null),
   exceptionsPath: anchorPath(process.env.DESIGN_DATA_EXCEPTIONS ?? null),
-  componentsDir: anchorPath(process.env.DESIGN_DATA_COMPONENTS ?? null),
-  fieldsDir: anchorPath(process.env.DESIGN_DATA_FIELDS ?? null),
+  componentsDir:
+    anchorPath(process.env.DESIGN_DATA_COMPONENTS) ??
+    resolveDataPackageDir("components") ??
+    null,
+  fieldsDir:
+    anchorPath(process.env.DESIGN_DATA_FIELDS) ??
+    resolveDataPackageDir("fields") ??
+    null,
 };

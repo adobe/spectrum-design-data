@@ -57,20 +57,28 @@ node tools/design-data-agent-mcp/src/index.js
 | `DESIGN_DATA_SCHEMAS`    | —             | Override schema path (for `validate`)             |
 | `DESIGN_DATA_EXCEPTIONS` | —             | Override exceptions path (for `validate`)         |
 
-> **Relative paths and the working directory.** The MCP client launches this
-> server with the working directory inherited from wherever the editor was
-> opened — which may be a subdirectory of your repo (e.g. `sdk/`), not the repo
-> root. Relative `DESIGN_DATA_*` paths are therefore anchored to a known root
-> rather than the process CWD:
+> **Path resolution.** The MCP client launches this server with the working
+> directory inherited from wherever the editor was opened — which may be a
+> subdirectory of your repo (e.g. `sdk/`), not the repo root. To stay independent
+> of that working directory, each data path is resolved in this order:
 >
-> 1. If `DESIGN_DATA_ROOT` is set (recommended), relative paths resolve against
->    it. Set it to the absolute path of your repo root. This is the reliable
->    option when the server is launched via `npx`.
-> 2. Otherwise, relative paths resolve against the server package's own location
->    in the monorepo (only correct when running the server from inside the repo
->    checkout).
+> 1. **Explicit env override.** If `DESIGN_DATA_PATH` / `DESIGN_DATA_COMPONENTS` /
+>    `DESIGN_DATA_FIELDS` is set, it is used. Relative values are anchored to
+>    `DESIGN_DATA_ROOT` (absolute, recommended when launching via `npx`) or, if
+>    that is unset, to the server package's own location in the monorepo. Absolute
+>    values are used as-is.
+> 2. **Resolved `@adobe/spectrum-design-data` package** (zero config). When no env
+>    override is set, the server resolves the installed `@adobe/spectrum-design-data`
+>    package via Node module resolution and reads its `tokens/`, `components/`, and
+>    `fields/` directories. In a pnpm workspace this follows the symlink to
+>    `packages/design-data`; when published it uses the installed dependency. This
+>    is independent of the working directory.
+> 3. **Fallback.** `dataPath` falls back to the (anchored) current directory; the
+>    component/field overrides fall back to the `design-data` binary's own
+>    discovery (including its embedded snapshot).
 >
-> Absolute `DESIGN_DATA_*` paths are always used as-is.
+> In a monorepo checkout you typically need no `DESIGN_DATA_*` env vars at all —
+> resolution via the workspace package handles it.
 
 ### Example (Cursor `.cursor/mcp.json`)
 
