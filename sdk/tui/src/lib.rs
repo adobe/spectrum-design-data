@@ -12,6 +12,7 @@ pub mod app;
 pub mod app_launch;
 pub mod app_views;
 pub(crate) mod clipboard;
+pub(crate) mod command;
 pub mod find;
 pub(crate) mod fuzzy;
 pub mod help;

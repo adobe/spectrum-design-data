@@ -39,8 +39,10 @@ pub const LOGO: &str = r"                ████
 /// unicode-width if that ever changes.
 ///
 /// These entries should stay in sync with the `COMMANDS` section of `help.rs`
-/// and with the command dispatch in `update_command.rs`. A test in this module
-/// (`commands_present_in_help_text`) guards against silent drift.
+/// and with the command dispatch in `update_command.rs`. Two tests guard against
+/// silent drift: `commands_present_in_help_text` (COMMANDS subset of HELP_TEXT)
+/// and the bidirectional COMMANDS <-> `Command` enum check in `command.rs`
+/// (every `:` entry maps to a dispatchable variant and vice versa, GH #1096).
 pub const COMMANDS: &[(&str, &str)] = &[
     (":query <expr>", "Filter tokens  e.g. background-color/*"),
     (
@@ -50,6 +52,7 @@ pub const COMMANDS: &[(&str, &str)] = &[
     (":describe <component>", "Inspect a component schema"),
     (":validate", "Validate all tokens against schemas"),
     (":new [<intent>]", "Open the token authoring wizard"),
+    (":name [<intent>]", "Open the token naming wizard"),
     (":find", "Open fuzzy find"),
     ("?", "Toggle help"),
     ("q", "Quit"),

@@ -26,9 +26,10 @@ use tui_input::backend::crossterm::EventHandler;
 
 use crate::app::{
     move_table_selection, rect_contains, ActiveView, HitAction, Modal, PaletteMode, StatusMessage,
-    ValidateView, KNOWN_COMMANDS,
+    ValidateView,
 };
 use crate::clipboard::write_clipboard;
+use crate::command::Command;
 use crate::find::FindEvent;
 use crate::message::Message;
 use crate::model::Model;
@@ -227,10 +228,13 @@ fn handle_palette_key(
         KeyCode::Tab if palette_cmd_mode => {
             let current = model.palette_input_value().to_string();
             if !current.contains(' ') {
-                let matches: Vec<&str> = KNOWN_COMMANDS
+                // Canonical names only — aliases (e.g. `component`, `create`) are
+                // a dispatch-only convenience and are intentionally not offered by
+                // Tab completion, so `:comp<Tab>` does not expand to `component`.
+                let matches: Vec<&str> = Command::ALL
                     .iter()
-                    .copied()
-                    .filter(|&c| c.starts_with(current.as_str()))
+                    .map(|c| c.canonical())
+                    .filter(|c| c.starts_with(current.as_str()))
                     .collect();
                 match matches.len() {
                     0 => {}
