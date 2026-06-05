@@ -1,0 +1,52 @@
+{
+  "name": "@adobe/design-data-wasm",
+  "version": "0.0.1",
+  "private": true,
+  "description": "WebAssembly bindings for design-data-core — query, validate, resolve, diff, and registry helpers for Spectrum design tokens",
+  "type": "module",
+  "main": "./pkg/node/design_data_wasm.js",
+  "types": "./pkg/node/design_data_wasm.d.ts",
+  "exports": {
+    ".": {
+      "types": "./pkg/node/design_data_wasm.d.ts",
+      "node": "./pkg/node/design_data_wasm.js",
+      "browser": "./pkg/web/design_data_wasm.js",
+      "default": "./pkg/web/design_data_wasm.js"
+    }
+  },
+  "files": [
+    "pkg/node/design_data_wasm.js",
+    "pkg/node/design_data_wasm_bg.wasm",
+    "pkg/node/design_data_wasm.d.ts",
+    "pkg/node/design_data_wasm_bg.wasm.d.ts",
+    "pkg/web/design_data_wasm.js",
+    "pkg/web/design_data_wasm_bg.wasm",
+    "pkg/web/design_data_wasm.d.ts",
+    "pkg/web/design_data_wasm_bg.wasm.d.ts",
+    "README.md"
+  ],
+  "keywords": [
+    "spectrum",
+    "design-system",
+    "design-tokens",
+    "wasm",
+    "webassembly"
+  ],
+  "engines": {
+    "node": ">=20.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "sdk/wasm"
+  },
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/sdk/wasm#readme",
+  "author": "Adobe",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "ava": "^6.1.2"
+  }
+}

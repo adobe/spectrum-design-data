@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["core", "cli", "tui"]
+members = ["core", "cli", "tui", "wasm"]
 
 [workspace.package]
 edition = "2021"
