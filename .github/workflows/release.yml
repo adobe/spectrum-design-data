@@ -9,28 +9,25 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Three-phase release pipeline (biome pattern):
+# Two-phase release pipeline:
 #
 #   Phase 1 — `changesets`  (every push)
 #     Runs the changesets action in version-only mode. On a changeset push this
 #     creates or updates the "Version Packages" PR. On the version-PR merge it
 #     does nothing (no pending changesets) and exposes hasChangesets=false.
 #
-#   Phase 2 — `version` → `build-binaries`  (version-PR merge only)
-#     Gated on hasChangesets==false AND the local package version being ahead of
-#     npm. Builds the Rust binary for all four platforms in a matrix.
+#   Phase 2 — `build-binaries` + `release`  (version-PR merge only)
+#     Both jobs gate on hasChangesets==false.
+#     `build-binaries` compiles the Rust CLI for all four platforms in a matrix
+#     and uploads the binaries as GitHub Actions artifacts.
+#     `release` publishes npm packages via changeset publish (OIDC), then
+#     downloads the built artifacts and attaches them to the GitHub Release
+#     tagged by the design-data-cli Cargo.toml version. Only an actual binary
+#     build failure blocks the publish.
 #
-#   Phase 3 — `release`  (every version-PR merge)
-#     Runs whenever a version PR merges (hasChangesets==false), independent of
-#     whether anything was compiled. When binaries were built it downloads the
-#     artifacts and stages them into sdk/npm/*/bin/; when build-binaries was
-#     skipped (nothing to compile, e.g. an MCP-only release) those steps are
-#     skipped and it publishes the bumped Node packages. Then runs
-#     `pnpm release` (changeset publish) via OIDC. Only an actual binary build
-#     failure blocks the publish.
-#
-# Net effect: `cargo build --release` runs exactly ONCE per release cycle —
-# never on unrelated pushes or the changeset-PR-creation commit.
+# The native design-data-cli binary is delivered via GitHub Releases (and
+# optionally cargo install / Homebrew). The @adobe/design-data npm package is
+# now the JS/wasm library glue, not a CLI launcher.
 # ──────────────────────────────────────────────────────────────────────────────
 
 jobs:
@@ -74,11 +71,8 @@ jobs:
       # (`changeset version && moon run :version`). The explicit `run` is
       # required — bare `pnpm version` collides with pnpm's built-in npm-style
       # version command and would NOT execute the script. The Moon step
-      # (sync-cargo-version.mjs) mirrors the bumped npm version into the cli/tui
-      # Cargo.toml files. The `fixed` group in .changeset/config.json keeps all
-      # five @adobe/design-data* npm packages bumping together, so the platform
-      # binary packages can never lag behind the launcher version (the 0.2.0
-      # partial-publish failure mode).
+      # (sync-cargo-version.mjs) mirrors the bumped npm version into the
+      # tui/Cargo.toml file.
       - name: Create or update Version Packages PR
         id: cs
         uses: changesets/action@v1
@@ -89,34 +83,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-  # ── Phase 2a: gate — only on version-PR merge ───────────────────────────────
-  version:
-    name: Check version change
-    needs: changesets
-    # hasChangesets=='false' means the version PR was just merged (no pending changesets).
-    if: needs.changesets.outputs.hasChangesets == 'false'
-    runs-on: ubuntu-latest
-    outputs:
-      cli-version: ${{ steps.v.outputs.version }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20.17.0"
-
-      - name: Compare local version to npm
-        id: v
-        # Writes the new version to the output if ahead of npm, empty string otherwise.
-        # sdk/scripts/check-cli-version.mjs handles network errors gracefully.
-        run: echo "version=$(node sdk/scripts/check-cli-version.mjs)" >> "$GITHUB_OUTPUT"
-
-  # ── Phase 2b: build — runs only when version actually changed ───────────────
+  # ── Phase 2a: build — runs on every version-PR merge ───────────────────────
   build-binaries:
     name: Build binary (${{ matrix.platform }})
-    needs: version
-    # cli-version is empty when nothing changed → all four matrix legs are skipped.
-    if: needs.version.outputs.cli-version
+    needs: changesets
+    if: needs.changesets.outputs.hasChangesets == 'false'
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
@@ -178,27 +149,27 @@ jobs:
         run: cargo build --release --package design-data-cli --target ${{ matrix.target }}
         working-directory: sdk
 
-      - name: Stage binary for packaging
+      - name: Stage binary for upload
         shell: bash
         run: |
-          mkdir -p sdk/npm/${{ matrix.platform }}/bin
+          mkdir -p dist/${{ matrix.platform }}
           cp sdk/target/${{ matrix.target }}/release/design-data${{ matrix.ext }} \
-             sdk/npm/${{ matrix.platform }}/bin/design-data${{ matrix.ext }}
+             dist/${{ matrix.platform }}/design-data${{ matrix.ext }}
 
       - name: Upload binary artifact
         uses: actions/upload-artifact@v4
         with:
           name: design-data-${{ matrix.platform }}
-          path: sdk/npm/${{ matrix.platform }}/bin/design-data${{ matrix.ext }}
+          path: dist/${{ matrix.platform }}/design-data${{ matrix.ext }}
           retention-days: 1
 
-  # ── Phase 3: publish ────────────────────────────────────────────────────────
+  # ── Phase 2b: publish ───────────────────────────────────────────────────────
   release:
     name: Publish to npm
-    needs: [changesets, version, build-binaries]
+    needs: [changesets, build-binaries]
     # Runs on any version-PR merge. Only blocks on an actual binary build
-    # failure: 'skipped' (nothing to compile, e.g. MCP-only release) and
-    # 'success' both proceed, while 'failure' aborts the publish.
+    # failure: 'skipped' (nothing to compile) and 'success' both proceed,
+    # while 'failure' aborts the publish.
     if: |
       !cancelled() &&
       needs.changesets.outputs.hasChangesets == 'false' &&
@@ -223,41 +194,11 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # Download pre-built binaries and stage them into the platform packages
-      # so they are present when `npm publish` runs. Skipped when cli-version is
-      # empty (nothing was compiled, e.g. an MCP-only release).
-      - name: Download binary artifacts
-        if: needs.version.outputs.cli-version
-        uses: actions/download-artifact@v4
-        with:
-          pattern: design-data-*
-          merge-multiple: false
-
-      - name: Stage binaries into platform packages
-        if: needs.version.outputs.cli-version
-        shell: bash
-        run: |
-          for platform in darwin-arm64 darwin-x64 linux-x64; do
-            mkdir -p sdk/npm/$platform/bin
-            mv design-data-$platform/design-data sdk/npm/$platform/bin/design-data
-            chmod +x sdk/npm/$platform/bin/design-data
-          done
-          mkdir -p sdk/npm/win32-x64/bin
-          mv design-data-win32-x64/design-data.exe sdk/npm/win32-x64/bin/design-data.exe
-
       - name: Build tokens package
         run: |
           cd packages/tokens
           node tasks/buildSpectrumTokens.js
           node tasks/buildManifest.js
-
-      # Guard against the 0.2.0 partial-publish failure mode: abort before
-      # publishing if any platform binary package.json version drifted from the
-      # CLI launcher version. The `fixed` changeset group should keep them in
-      # lockstep, so a mismatch here means something bypassed that mechanism.
-      - name: Verify platform package versions are in sync
-        if: needs.version.outputs.cli-version
-        run: node sdk/scripts/test-sync-cargo-version.mjs
 
       - name: Publish packages
         id: cs
@@ -267,3 +208,39 @@ jobs:
           oidcAuth: true
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      # Download the binaries built by build-binaries and attach them to the
+      # GitHub Release tagged by the design-data-cli Cargo.toml version.
+      # Skipped when build-binaries did not succeed (e.g. it was skipped due
+      # to no code changes that affect the binary — currently build-binaries
+      # always runs on version-PR merge, so this only fires on build failure).
+      - name: Download binary artifacts
+        if: needs.build-binaries.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          pattern: design-data-*
+          merge-multiple: false
+
+      - name: Attach binaries to GitHub Release
+        if: needs.build-binaries.result == 'success'
+        shell: bash
+        run: |
+          CLI_VERSION=$(grep '^version' sdk/cli/Cargo.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
+          TAG="design-data-cli@${CLI_VERSION}"
+          # Create the release if it doesn't exist yet; --notes-file requires a
+          # file so we inline a brief message. || true so a pre-existing release
+          # doesn't abort the workflow.
+          gh release create "${TAG}" \
+            --title "design-data CLI ${CLI_VERSION}" \
+            --notes "Native CLI binary for \`design-data\` v${CLI_VERSION}. Install via \`cargo install design-data-cli\` or download below." \
+            || true
+          for platform in darwin-arm64 darwin-x64 linux-x64; do
+            gh release upload "${TAG}" \
+              "design-data-${platform}/design-data" \
+              --clobber
+          done
+          gh release upload "${TAG}" \
+            "design-data-win32-x64/design-data.exe" \
+            --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}

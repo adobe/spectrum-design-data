@@ -279,7 +279,8 @@ pub fn build_bytes_with_catalogs(
         mode_sets_dir,
         components_dir,
     )?;
-    let hash = content_hash(tokens_root, mode_sets_dir, components_dir).map_err(CoreError::Io)?;
+    let hash =
+        content_hash(tokens_root, mode_sets_dir, components_dir, None).map_err(CoreError::Io)?;
     build_bytes_from_graph(&graph, hash).map_err(into_core)
 }
 
@@ -304,7 +305,8 @@ pub fn build_file_with_catalogs(
         mode_sets_dir,
         components_dir,
     )?;
-    let hash = content_hash(tokens_root, mode_sets_dir, components_dir).map_err(CoreError::Io)?;
+    let hash =
+        content_hash(tokens_root, mode_sets_dir, components_dir, None).map_err(CoreError::Io)?;
     write_db_file(out_path, &graph, hash).map_err(into_core)
 }
 
@@ -325,7 +327,8 @@ pub fn build_bytes_with_all_catalogs(
         components_dir,
         fields_dir,
     )?;
-    let hash = content_hash(tokens_root, mode_sets_dir, components_dir).map_err(CoreError::Io)?;
+    let hash =
+        content_hash(tokens_root, mode_sets_dir, components_dir, fields_dir).map_err(CoreError::Io)?;
     build_bytes_from_graph(&graph, hash).map_err(into_core)
 }
 
@@ -347,7 +350,8 @@ pub fn build_file_with_all_catalogs(
         components_dir,
         fields_dir,
     )?;
-    let hash = content_hash(tokens_root, mode_sets_dir, components_dir).map_err(CoreError::Io)?;
+    let hash =
+        content_hash(tokens_root, mode_sets_dir, components_dir, fields_dir).map_err(CoreError::Io)?;
     write_db_file(out_path, &graph, hash).map_err(into_core)
 }
 
@@ -438,6 +442,7 @@ fn content_hash(
     tokens_root: &Path,
     mode_sets_dir: Option<&Path>,
     components_dir: Option<&Path>,
+    fields_dir: Option<&Path>,
 ) -> std::io::Result<u64> {
     let mut hasher = std::collections::hash_map::DefaultHasher::new();
     CACHE_SCHEMA_VERSION.hash(&mut hasher);
@@ -449,6 +454,11 @@ fn content_hash(
         }
     }
     if let Some(dir) = components_dir {
+        if dir.is_dir() {
+            hash_json_dir(&mut hasher, dir)?;
+        }
+    }
+    if let Some(dir) = fields_dir {
         if dir.is_dir() {
             hash_json_dir(&mut hasher, dir)?;
         }
@@ -473,7 +483,7 @@ fn load_from_disk(
     if !path.exists() {
         return Ok(None);
     }
-    let expected = content_hash(tokens_root, mode_sets_dir, components_dir)?;
+    let expected = content_hash(tokens_root, mode_sets_dir, components_dir, None)?;
     let db = Database::open(&path)?;
     let rtx = db.begin_read()?;
 
@@ -583,7 +593,7 @@ fn write_to_disk(
 ) -> Result<(), CacheError> {
     let path = cache_db_path(tokens_root, mode_sets_dir, components_dir)
         .ok_or(CacheError::NoCacheDir)?;
-    let hash = content_hash(tokens_root, mode_sets_dir, components_dir)?;
+    let hash = content_hash(tokens_root, mode_sets_dir, components_dir, None)?;
     write_db_file(&path, graph, hash)?;
     evict_stale_versions(&path);
     Ok(())

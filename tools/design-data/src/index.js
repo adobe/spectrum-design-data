@@ -9,7 +9,7 @@
 // governing permissions and limitations under the License.
 
 /**
- * @adobe/design-data-js
+ * @adobe/design-data
  *
  * Node.js glue layer over @adobe/design-data-wasm:
  *

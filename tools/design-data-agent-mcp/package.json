@@ -33,7 +33,7 @@
     "provenance": true
   },
   "dependencies": {
-    "@adobe/design-data-js": "workspace:*",
+    "@adobe/design-data": "workspace:*",
     "@adobe/design-data-wasm": "workspace:*",
     "@adobe/spectrum-design-data": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.27.1"

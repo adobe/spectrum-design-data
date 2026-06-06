@@ -203,7 +203,7 @@ Relational rules have stable `SPEC-NNN` IDs and live in [`core/src/validate/rule
 | `moon run sdk:test`    | `cargo test --workspace` (after codegen check)                |
 | `moon run sdk:lint`    | `cargo clippy --workspace -- -D warnings`                     |
 | `moon run sdk:codegen` | Regenerate `core/src/registry_data.rs` from registry JSON     |
-| `moon run sdk:version` | Sync npm version → `cli/Cargo.toml` after `changeset version` |
+| `moon run sdk:version` | Sync npm version → `tui/Cargo.toml` after `changeset version` |
 
 ### Codegen
 
@@ -211,7 +211,7 @@ Relational rules have stable `SPEC-NNN` IDs and live in [`core/src/validate/rule
 
 ### Integration tests
 
-Integration tests live in `sdk/cli/tests/cli_validate.rs` and use [`assert_cmd`](https://docs.rs/assert_cmd) to exercise the binary end-to-end.
+Integration tests live in `sdk/cli/tests/` and use [`assert_cmd`](https://docs.rs/assert_cmd) to exercise the binary end-to-end.
 
 ### Figma feature flag
 
@@ -219,18 +219,16 @@ The `figma` module in `design-data-core` is gated behind the optional `figma` fe
 
 ## Versioning
 
-Versions are managed via [changesets](https://github.com/changesets/changesets) at the repo root. Run `pnpm run version` (which chains `changeset version && moon run :version`) so the npm bump and the Rust crate versions stay in sync. The explicit `run` is required — bare `pnpm version` invokes pnpm's built-in version command and skips the script. `moon run sdk:version` (`scripts/sync-cargo-version.mjs`) mirrors the npm version from `cli/package.json` into `cli/Cargo.toml` and `tui/Cargo.toml`.
+Versions are managed via [changesets](https://github.com/changesets/changesets) at the repo root. Run `pnpm run version` (which chains `changeset version && moon run :version`) so the npm bump and the Rust crate versions stay in sync. The explicit `run` is required — bare `pnpm version` invokes pnpm's built-in version command and skips the script. `moon run sdk:version` (`scripts/sync-cargo-version.mjs`) mirrors the npm version from `tui/package.json` into `tui/Cargo.toml`.
 
-### Platform package version locking
+### Native CLI delivery
 
-`@adobe/design-data` is a thin JS launcher that delegates to a native binary shipped in one of four platform packages (`@adobe/design-data-darwin-arm64`, `-darwin-x64`, `-linux-x64`, `-win32-x64`). The launcher pins these as `optionalDependencies` using `workspace:*`, which pnpm resolves to the exact version at publish time.
+The `design-data-cli` Rust binary is released via **GitHub Releases** (tagged `design-data-cli@x.y.z`). The release workflow builds it for four platforms on every version-PR merge and attaches the binaries to the release.
 
-All five packages **must** publish at the same version every release, or `npm i -g @adobe/design-data` will pull a launcher that points at a stale (or missing) binary. This is enforced by a [`fixed`](https://github.com/changesets/changesets/blob/main/docs/fixed-packages.md) group in [`.changeset/config.json`](../.changeset/config.json):
+Install options:
 
-```json
-"fixed": [
-  ["@adobe/design-data", "@adobe/design-data-darwin-arm64", "@adobe/design-data-darwin-x64", "@adobe/design-data-linux-x64", "@adobe/design-data-win32-x64"]
-]
-```
+* **Cargo:** `cargo install design-data-cli`
+* **GitHub Releases:** download the binary for your platform from the [Releases page](https://github.com/adobe/spectrum-design-data/releases)
+* **Homebrew:** (future) `brew install adobe/tap/design-data`
 
-With `fixed`, a changeset targeting only `@adobe/design-data` bumps and republishes all five together — contributors never need to write changesets for the platform packages. The release workflow also runs `sdk/scripts/test-sync-cargo-version.mjs` as a pre-publish guard to abort if any platform version drifts. Do not add the four `*-mcp`/`-spec`/`-tui` packages to this group; they version independently.
+The `@adobe/design-data` npm package is now the **JS/wasm library** (`tools/design-data`), not the CLI launcher. It exposes `loadDataset`, `validateDataset`, session helpers, and write utilities via `@adobe/design-data-wasm` under the hood. The `design-data-cli` Cargo.toml version is managed independently; bump it manually before a native release and add a matching changeset for the changelog.

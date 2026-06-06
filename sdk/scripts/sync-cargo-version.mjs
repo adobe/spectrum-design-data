@@ -9,14 +9,14 @@
 // governing permissions and limitations under the License.
 
 /**
- * Syncs versions across all SDK crates and npm packages after `changeset version`.
+ * Syncs the tui Cargo.toml version from tui/package.json after `changeset version`.
  *
- * - For `cli` and `tui`: reads version from package.json and writes it into Cargo.toml.
- * - For platform packages (`npm/{platform}`): writes the CLI version into each package.json.
- * - For the launcher (`cli`): keeps all `optionalDependencies` pinned to the same version.
+ * - For `tui`: reads version from tui/package.json and writes it into tui/Cargo.toml.
+ *
+ * The `design-data-cli` Rust crate (sdk/cli/Cargo.toml) is versioned independently
+ * and released via GitHub Releases — it no longer has a corresponding npm package.
  *
  * Run after `changeset version` via `moon run sdk:version`.
- * Smoke-tested by sdk/scripts/test-sync-cargo-version.mjs.
  */
 
 import { readFileSync, writeFileSync } from 'fs';
@@ -25,48 +25,19 @@ import { resolve, dirname } from 'path';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
-// ── 1. Sync cli + tui: package.json → Cargo.toml ─────────────────────────────
+// Sync tui: package.json → Cargo.toml
 
-// Read the CLI package.json once; its version drives everything below.
-const cliPkg = JSON.parse(readFileSync(resolve(root, 'cli/package.json'), 'utf8'));
-const cliVersion = cliPkg.version;
+const tuiPkg = JSON.parse(readFileSync(resolve(root, 'tui/package.json'), 'utf8'));
+const tuiVersion = tuiPkg.version;
 
-for (const crate of ['cli', 'tui']) {
-  const version = crate === 'cli'
-    ? cliVersion
-    : JSON.parse(readFileSync(resolve(root, `${crate}/package.json`), 'utf8')).version;
+const cargoPath = resolve(root, 'tui/Cargo.toml');
+const cargo = readFileSync(cargoPath, 'utf8');
 
-  const cargoPath = resolve(root, `${crate}/Cargo.toml`);
-  const cargo = readFileSync(cargoPath, 'utf8');
+const updated = cargo.replace(/^version\s*=\s*"[^"]+"/m, `version = "${tuiVersion}"`);
 
-  const updated = cargo.replace(/^version\s*=\s*"[^"]+"/m, `version = "${version}"`);
-
-  if (updated === cargo) {
-    console.log(`sdk/${crate}/Cargo.toml already at ${version}`);
-  } else {
-    writeFileSync(cargoPath, updated);
-    console.log(`Updated sdk/${crate}/Cargo.toml to ${version}`);
-  }
+if (updated === cargo) {
+  console.log(`sdk/tui/Cargo.toml already at ${tuiVersion}`);
+} else {
+  writeFileSync(cargoPath, updated);
+  console.log(`Updated sdk/tui/Cargo.toml to ${tuiVersion}`);
 }
-
-// ── 2. Propagate CLI version to platform packages and optionalDependencies ───
-
-const platforms = ['darwin-arm64', 'darwin-x64', 'linux-x64', 'win32-x64'];
-
-for (const platform of platforms) {
-  const pkgPath = resolve(root, `npm/${platform}/package.json`);
-  const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'));
-
-  if (pkg.version === cliVersion) {
-    console.log(`sdk/npm/${platform}/package.json already at ${cliVersion}`);
-    continue;
-  }
-
-  pkg.version = cliVersion;
-  writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
-  console.log(`Updated sdk/npm/${platform}/package.json to ${cliVersion}`);
-}
-
-// Note: optionalDependencies in sdk/cli/package.json use "workspace:*" —
-// pnpm converts these to the actual resolved version at publish time via
-// `pnpm publish`. No manual update needed here.

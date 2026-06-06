@@ -11,7 +11,7 @@
 /**
  * Authoring-session tools for design-data-agent-mcp.
  *
- * Most operations use @adobe/design-data-js (on-disk session store) and run
+ * Most operations use @adobe/design-data (on-disk session store) and run
  * fully in-process. The exception is authoring_session_step_intent, which still
  * delegates to the CLI because the NLP `suggest` ranking is not yet on the wasm
  * surface. When that API is added, step_intent can be migrated here too.
@@ -25,7 +25,7 @@ import {
   stepValues,
   commitSession,
   cancelSession,
-} from "@adobe/design-data-js/session";
+} from "@adobe/design-data/session";
 import { runCli } from "../cli.js";
 import { config } from "../config.js";
 

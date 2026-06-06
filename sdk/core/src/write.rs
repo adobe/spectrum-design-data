@@ -15,10 +15,9 @@ use std::path::{Path, PathBuf};
 use serde_json::{Map, Value};
 
 use crate::graph::Layer;
+use crate::primer;
 use crate::schema::SchemaRegistry;
 use crate::CoreError;
-
-const SPEC_VERSION: &str = "1.0.0-draft";
 
 /// Return the conventional token-file name for a given `layer` inside a dataset directory.
 ///
@@ -259,7 +258,7 @@ fn update_product_context(
     } else {
         // New document — build in spec field order.
         let mut m = Map::new();
-        m.insert("specVersion".into(), Value::String(SPEC_VERSION.into()));
+        m.insert("specVersion".into(), Value::String(primer::SPEC_VERSION.into()));
         m.insert("layer".into(), Value::String("product".into()));
         m.insert(
             "createdBy".into(),

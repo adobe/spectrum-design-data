@@ -331,29 +331,6 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  sdk/cli:
-    optionalDependencies:
-      '@adobe/design-data-darwin-arm64':
-        specifier: workspace:*
-        version: link:../npm/darwin-arm64
-      '@adobe/design-data-darwin-x64':
-        specifier: workspace:*
-        version: link:../npm/darwin-x64
-      '@adobe/design-data-linux-x64':
-        specifier: workspace:*
-        version: link:../npm/linux-x64
-      '@adobe/design-data-win32-x64':
-        specifier: workspace:*
-        version: link:../npm/win32-x64
-
-  sdk/npm/darwin-arm64: {}
-
-  sdk/npm/darwin-x64: {}
-
-  sdk/npm/linux-x64: {}
-
-  sdk/npm/win32-x64: {}
-
   sdk/tui: {}
 
   sdk/wasm:
@@ -578,26 +555,7 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1(webpack@5.104.1)
 
-  tools/design-data-agent-mcp:
-    dependencies:
-      '@adobe/design-data-js':
-        specifier: workspace:*
-        version: link:../design-data-js
-      '@adobe/design-data-wasm':
-        specifier: workspace:*
-        version: link:../../sdk/wasm
-      '@adobe/spectrum-design-data':
-        specifier: workspace:*
-        version: link:../../packages/design-data
-      '@modelcontextprotocol/sdk':
-        specifier: ^1.27.1
-        version: 1.27.1(zod@3.25.76)
-    devDependencies:
-      ava:
-        specifier: ^6.0.1
-        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
-
-  tools/design-data-js:
+  tools/design-data:
     dependencies:
       '@adobe/design-data-wasm':
         specifier: workspace:*
@@ -611,6 +569,25 @@ importers:
     devDependencies:
       ava:
         specifier: ^6.1.2
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+
+  tools/design-data-agent-mcp:
+    dependencies:
+      '@adobe/design-data':
+        specifier: workspace:*
+        version: link:../design-data
+      '@adobe/design-data-wasm':
+        specifier: workspace:*
+        version: link:../../sdk/wasm
+      '@adobe/spectrum-design-data':
+        specifier: workspace:*
+        version: link:../../packages/design-data
+      '@modelcontextprotocol/sdk':
+        specifier: ^1.27.1
+        version: 1.27.1(zod@3.25.76)
+    devDependencies:
+      ava:
+        specifier: ^6.0.1
         version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
 
   tools/design-data-mcp:

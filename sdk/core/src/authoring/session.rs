@@ -334,6 +334,7 @@ fn derive_token_key(wizard: &WizardDraft) -> String {
         &wizard.classification.property,
         wizard.classification.name_fields.iter().map(|f| f.value.as_str()),
     )
+    .unwrap_or_else(|| "unnamed-token".to_string())
 }
 
 /// Construct the token JSON value from wizard state.

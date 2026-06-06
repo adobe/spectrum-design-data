@@ -2,7 +2,5 @@ packages:
   - "packages/*"
   - "docs/*"
   - "tools/*"
-  - "sdk/cli"
-  - "sdk/npm/*"
   - "sdk/tui"
   - "sdk/wasm"

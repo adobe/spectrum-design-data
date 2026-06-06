@@ -55,13 +55,17 @@ impl Default for ClassificationDraft {
 /// Assemble a token name from classification fields (property + name fields).
 /// Shared by the authoring and naming wizards.
 ///
-/// Delegates to `core::authoring::draft::derive_token_key_from_parts` so the join
-/// rule and `"unnamed-token"` fallback stay in one place.
+/// Returns `""` when no fields are filled in — the TUI uses this to gate
+/// [`WizardState::build_write_input`] (which rejects on empty key) and to show a
+/// blank name preview rather than the `"unnamed-token"` sentinel that the MCP
+/// session uses.  The shared join rule lives in
+/// [`design_data_core::authoring::draft::derive_token_key_from_parts`].
 pub fn assemble_name_from_classification(classification: &ClassificationDraft) -> String {
     derive_token_key_from_parts(
         classification.property.value().trim(),
         classification.name_fields.iter().map(|f| f.value.value().trim()),
     )
+    .unwrap_or_default()
 }
 
 pub fn cycle_layer_forward(layer: Layer) -> Layer {

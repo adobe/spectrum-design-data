@@ -8,7 +8,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-import { validateDataset } from "@adobe/design-data-js/validate";
+import { validateDataset } from "@adobe/design-data/validate";
 import { config } from "../config.js";
 
 export function createValidateTools() {

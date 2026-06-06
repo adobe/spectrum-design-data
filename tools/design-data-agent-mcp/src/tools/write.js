@@ -8,33 +8,34 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-import { join } from 'path';
-import { writeProductContext } from '@adobe/design-data-js/write';
-import { config } from '../config.js';
+import { join } from "path";
+import { writeProductContext } from "@adobe/design-data/write";
+import { config } from "../config.js";
 
 export function createWriteTools() {
   return [
     {
-      name: 'write',
+      name: "write",
       description:
-        'Write agent-generated design context to the dataset (e.g. product-context.json). Returns a confirmation message.',
+        "Write agent-generated design context to the dataset (e.g. product-context.json). Returns a confirmation message.",
       inputSchema: {
-        type: 'object',
+        type: "object",
         properties: {
           output: {
-            type: 'string',
+            type: "string",
             description:
-              'Output file path (defaults to product-context.json inside DESIGN_DATA_PATH)',
+              "Output file path (defaults to product-context.json inside DESIGN_DATA_PATH)",
           },
           rationale: {
-            type: 'string',
-            description: 'Rationale or summary to embed in the written file',
+            type: "string",
+            description: "Rationale or summary to embed in the written file",
           },
         },
         additionalProperties: false,
       },
       async handler({ output, rationale } = {}) {
-        const resolvedOutput = output ?? join(config.dataPath, 'product-context.json');
+        const resolvedOutput =
+          output ?? join(config.dataPath, "product-context.json");
         return writeProductContext({ output: resolvedOutput, rationale });
       },
     },
