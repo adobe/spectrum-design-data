@@ -1,5 +1,25 @@
 # @adobe/design-data-mcp
 
+## 1.3.0
+
+### Minor Changes
+
+- [#1141](https://github.com/adobe/spectrum-design-data/pull/1141) [`87f07af`](https://github.com/adobe/spectrum-design-data/commit/87f07af51cfdaa80788e943cd948232d78e6cfd7) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(sdk): expose Dataset.suggest() on wasm surface; swap MCP suggest to wasm.
+  - **sdk/wasm/src/types.rs**: add `SuggestResult` DTO (camelCase tsify) and
+    `SuggestResultArray` wrapper; `From<SuggestionResult>` conversion.
+  - **sdk/wasm/src/dataset.rs**: add `Dataset.suggest(intent, propertyHint, limit)`
+    binding over `design_data_core::suggest::suggest` — Jaccard scoring in-process,
+    no full token allocation on the JS side.
+  - **tools/design-data-mcp**: replace `ds.query("") + scoreTokensByKeyword` with
+    `ds.suggest(intent, undefined, limit)`; remove dead `scoreTokensByKeyword` export.
+    Output shape changes to the richer Rust shape (`tokenName`, `file`, `layer`,
+    `nameObject`, `value`, `confidence`, `tokenUuid`).
+
+### Patch Changes
+
+- Updated dependencies [[`87f07af`](https://github.com/adobe/spectrum-design-data/commit/87f07af51cfdaa80788e943cd948232d78e6cfd7)]:
+  - @adobe/design-data-wasm@0.2.0
+
 ## 1.2.0
 
 ### Minor Changes
