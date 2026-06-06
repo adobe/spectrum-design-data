@@ -1,5 +1,19 @@
 # @adobe/design-data
 
+## 2.0.2
+
+### Patch Changes
+
+- [#1143](https://github.com/adobe/spectrum-design-data/pull/1143) [`f829426`](https://github.com/adobe/spectrum-design-data/commit/f8294264fdcc5905a8d33dbdde391d8d452597b6) Thanks [@GarthDB](https://github.com/GarthDB)! - perf(validate): single-pass token read in validateDataset.
+  - **tools/design-data/src/validate.js**: accumulate parsed tokens during the Layer-1
+    JSON-Schema loop and reuse them for the Layer-2 wasm Dataset — eliminates the
+    second `walkTokenFiles` + `readFileSync` pass that `loadDataset` previously triggered.
+  - **tools/design-data/src/load.js**: export new `buildDataset(tokens)` helper
+    (`Dataset.fromTokens` wrapper) for callers that have already parsed token data.
+
+- Updated dependencies [[`f829426`](https://github.com/adobe/spectrum-design-data/commit/f8294264fdcc5905a8d33dbdde391d8d452597b6)]:
+  - @adobe/design-data-wasm@0.3.0
+
 ## 2.0.1
 
 ### Patch Changes

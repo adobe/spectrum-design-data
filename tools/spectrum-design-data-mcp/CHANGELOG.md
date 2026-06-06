@@ -1,5 +1,21 @@
 # [**@adobe/spectrum-design-data-mcp**](https://github.com/adobe/spectrum-design-data-mcp)
 
+## 1.1.33
+
+### Patch Changes
+
+- [#1143](https://github.com/adobe/spectrum-design-data/pull/1143) [`f829426`](https://github.com/adobe/spectrum-design-data/commit/f8294264fdcc5905a8d33dbdde391d8d452597b6) Thanks [@GarthDB](https://github.com/GarthDB)! - Formally deprecate `@adobe/spectrum-design-data-mcp` in favour of `@adobe/design-data-mcp`.
+  - **tools/spectrum-design-data-mcp/package.json**: prepend description with DEPRECATED notice
+    pointing to `@adobe/design-data-mcp`.
+  - **tools/spectrum-design-data-mcp/README.md**: add deprecation callout block under H1.
+  - **tools/spectrum-design-data-mcp/src/index.js**: emit deprecation warning to stderr on startup.
+  - **docs/site/src/pages/ai.md**: strengthen Legacy section from soft "prefer" to formal ⚠️
+    deprecated callout; preserve tool lists and config for existing users.
+
+  No code or tool behaviour changes; existing integrations continue to work unchanged.
+
+  Post-publish: run `npm deprecate @adobe/spectrum-design-data-mcp "..."` against the registry.
+
 ## 1.1.32
 
 ### Patch Changes
