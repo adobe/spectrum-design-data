@@ -377,7 +377,7 @@ pub fn resolve_reference(
             let legacy_match = t
                 .raw
                 .get("name")
-                .and_then(|n| extract_legacy_key(n))
+                .and_then(extract_legacy_key)
                 .is_some_and(|k| k == name);
             let direct_match = t.name == name;
             legacy_match || direct_match
@@ -426,7 +426,7 @@ pub fn resolve_reference(
         let hop_label = next
             .raw
             .get("name")
-            .and_then(|n| extract_legacy_key(n))
+            .and_then(extract_legacy_key)
             .map(|k| format!("{{{k}}}"))
             .unwrap_or_else(|| {
                 format!("(uuid:{})", next.uuid.as_deref().unwrap_or("?"))
