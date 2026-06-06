@@ -17,8 +17,8 @@ jobs:
   # with the rust job so JS-only PRs get fast feedback without waiting for
   # the full Rust + wasm build.
   #
-  # If you add a new moon project with CI tasks that do NOT depend on sdk:build
-  # or sdk-wasm:build, add its target to the moon ci invocation below.
+  # If you add a new moon project with CI tasks that do NOT depend on sdk:build,
+  # sdk-wasm:build, or @adobe/design-data-wasm, add its target below.
   node:
     name: Node
     runs-on: ubuntu-latest
@@ -51,11 +51,8 @@ jobs:
             spectrum-diff-core:ci \
             optimized-diff:test \
             release-analyzer:test \
-            token-naming-audit:ci \
             demo:ci \
-            design-data-glue:ci \
             spectrum-design-data-mcp:test \
-            design-data-agent-mcp:test \
             component-options-editor:test
       - uses: moonrepo/run-report-action@v1
         if: success() || failure()
@@ -67,8 +64,8 @@ jobs:
   # sdk-wasm:build. Uses Swatinem/rust-cache to persist the Cargo build cache
   # across runs, turning cold 455-crate compiles into fast incremental builds.
   #
-  # If you add a new moon task that depends on sdk:build or sdk-wasm:build,
-  # add its target to the moon ci invocation below.
+  # If you add a new moon task that depends on sdk:build, sdk-wasm:build, or
+  # @adobe/design-data-wasm (workspace:*), add its target below.
   rust:
     name: Rust
     runs-on: ubuntu-latest
@@ -111,7 +108,10 @@ jobs:
             tokens:test \
             design-data:validate \
             design-data:roundtrip-verify \
-            design-data:legacy-output
+            design-data:legacy-output \
+            design-data-glue:ci \
+            design-data-agent-mcp:test \
+            token-naming-audit:ci
       - uses: moonrepo/run-report-action@v1
         if: success() || failure()
         with:
