@@ -418,7 +418,7 @@ pub fn resolve_reference(
         .expect("candidates is non-empty"); // safe
 
     // Build the chain by walking alias edges, using context-aware set resolution.
-    let mut chain: Vec<String> = vec![format!("{{{name}}}",)];
+    let mut chain: Vec<String> = vec![format!("{{{name}}}")];
     let mut current = best;
     let mut seen = std::collections::HashSet::new();
     seen.insert(current.name.clone());

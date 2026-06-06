@@ -1157,7 +1157,7 @@ impl TokenGraph {
         ctx: &std::collections::HashMap<String, String>,
     ) -> Option<&'a TokenRecord> {
         let keys = self.set_uuid_index.get(set_uuid)?;
-        let mut best_score = usize::MAX; // sentinel: no winner yet
+        let mut best_score = 0usize;
         let mut best_uuid: Option<&str> = None;
         let mut best: Option<&TokenRecord> = None;
 
