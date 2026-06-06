@@ -42,37 +42,6 @@ async function getDataset() {
   return _dataset;
 }
 
-/**
- * Score tokens by keyword-overlap against an intent string.
- *
- * Pure function — accepts the token array so it can be tested independently.
- *
- * @param {object[]} tokens - Array of token result objects with a `name` string.
- * @param {string} intent - Natural-language intent to match against.
- * @param {number} limit - Maximum results to return.
- * @returns {{ name: string, confidence: number, uuid: string, raw: unknown }[]}
- */
-export function scoreTokensByKeyword(tokens, intent, limit = 5) {
-  const words = intent.toLowerCase().split(/\s+/).filter(Boolean);
-  if (words.length === 0) return [];
-  return tokens
-    .map((token) => {
-      const nameStr = token.name?.toLowerCase() ?? "";
-      const matches = words.filter((w) => nameStr.includes(w)).length;
-      const confidence = matches / words.length;
-      return { token, confidence };
-    })
-    .filter(({ confidence }) => confidence > 0)
-    .sort((a, b) => b.confidence - a.confidence)
-    .slice(0, limit)
-    .map(({ token, confidence }) => ({
-      name: token.name,
-      confidence: Math.round(confidence * 100) / 100,
-      uuid: token.uuid,
-      raw: token.raw,
-    }));
-}
-
 /** Return the @adobe/spectrum-design-data package root directory, or null. */
 function resolveSpectrumDataPackage() {
   try {
@@ -149,10 +118,10 @@ export function createDesignDataTools() {
     {
       name: "design-data-suggest",
       description:
-        "Suggest Spectrum tokens matching a natural-language intent using keyword-overlap " +
-        "scoring. Returns matches ranked by confidence, token names, and values. " +
-        "Use when the user describes what they need rather than knowing the token name. " +
-        "(TODO: swap to wasm NLP suggest when available for higher-quality ranking.)",
+        "Suggest Spectrum tokens matching a natural-language intent using Jaccard similarity " +
+        "scoring over token name segments, name-object fields, and description text. " +
+        "Returns matches ranked by confidence with token name, layer, value, and name object. " +
+        "Use when the user describes what they need rather than knowing the token name.",
       inputSchema: {
         type: "object",
         properties: {
@@ -172,8 +141,7 @@ export function createDesignDataTools() {
       },
       async handler({ intent, limit = 5 }) {
         const ds = await getDataset();
-        const allTokens = ds.query("");
-        return scoreTokensByKeyword(allTokens, intent, limit);
+        return ds.suggest(intent, undefined, limit);
       },
     },
 

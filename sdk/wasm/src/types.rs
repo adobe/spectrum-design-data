@@ -219,6 +219,34 @@ impl TokenResultArray {
     }
 }
 
+/// A single ranked suggestion result from `Dataset.suggest()`.
+#[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
+#[tsify(into_wasm_abi, from_wasm_abi)]
+#[serde(rename_all = "camelCase")]
+pub struct SuggestResult {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub token_uuid: Option<String>,
+    pub token_name: String,
+    pub file: String,
+    pub layer: String,
+    pub confidence: f32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub name_object: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub value: Option<serde_json::Value>,
+}
+
+/// A list of suggestion results from `Dataset.suggest()`. Typed as `SuggestResult[]` in TypeScript.
+#[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
+#[tsify(into_wasm_abi, from_wasm_abi)]
+pub struct SuggestResultArray(Vec<SuggestResult>);
+
+impl SuggestResultArray {
+    pub fn new(v: Vec<SuggestResult>) -> Self {
+        Self(v)
+    }
+}
+
 /// A mode-set context for token resolution.
 ///
 /// Maps mode-set names (e.g. `"colorScheme"`, `"scale"`) to their active mode
@@ -240,6 +268,20 @@ impl ResolutionContext {
 // ---------------------------------------------------------------------------
 // Conversion helpers from core types
 // ---------------------------------------------------------------------------
+
+impl From<design_data_core::suggest::SuggestionResult> for SuggestResult {
+    fn from(r: design_data_core::suggest::SuggestionResult) -> Self {
+        Self {
+            token_uuid: r.token_uuid,
+            token_name: r.token_name,
+            file: r.file.to_string_lossy().into_owned(),
+            layer: format!("{:?}", r.layer).to_lowercase(),
+            confidence: r.confidence,
+            name_object: r.name_object,
+            value: r.value,
+        }
+    }
+}
 
 impl From<&design_data_core::graph::TokenRecord> for TokenResult {
     fn from(r: &design_data_core::graph::TokenRecord) -> Self {

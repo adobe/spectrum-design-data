@@ -13,10 +13,7 @@ import { tmpdir } from "node:os";
 import { mkdirSync, writeFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
-import {
-  createDesignDataTools,
-  scoreTokensByKeyword,
-} from "../src/tools/design-data.js";
+import { createDesignDataTools } from "../src/tools/design-data.js";
 
 const EXPECTED_TOOLS = [
   "design-data-primer",
@@ -26,53 +23,47 @@ const EXPECTED_TOOLS = [
   "design-data-resolve",
 ];
 
-// ── scoreTokensByKeyword ─────────────────────────────────────────────────────
+// ── design-data-suggest (wasm-backed) ────────────────────────────────────────
 
-const FIXTURE_TOKENS = [
-  { name: "accent-background-color-default", uuid: "aaa-001", raw: null },
-  { name: "accent-border-color-default", uuid: "aaa-002", raw: null },
-  { name: "neutral-background-color-default", uuid: "aaa-003", raw: null },
-  { name: "spacing-100", uuid: "aaa-004", raw: null },
-  { name: "font-size-100", uuid: "aaa-005", raw: null },
-];
-
-test("scoreTokensByKeyword returns matches ranked by confidence", (t) => {
-  const results = scoreTokensByKeyword(
-    FIXTURE_TOKENS,
-    "accent background color",
-    10,
+test("design-data-suggest returns ranked results in richer Rust shape", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
   );
-  t.true(results.length > 0);
-  // First result should be 'accent-background-color-default' (3/3 words match)
-  t.is(results[0].name, "accent-background-color-default");
-  t.is(results[0].confidence, 1);
-});
-
-test("scoreTokensByKeyword respects the limit", (t) => {
-  const results = scoreTokensByKeyword(FIXTURE_TOKENS, "color", 2);
-  t.is(results.length, 2);
-});
-
-test("scoreTokensByKeyword returns empty array when no tokens match", (t) => {
-  const results = scoreTokensByKeyword(FIXTURE_TOKENS, "zzz-no-match");
-  t.deepEqual(results, []);
-});
-
-test("scoreTokensByKeyword returns empty array for empty intent", (t) => {
-  const results = scoreTokensByKeyword(FIXTURE_TOKENS, "");
-  t.deepEqual(results, []);
-});
-
-test("scoreTokensByKeyword result includes name, confidence, uuid, raw", (t) => {
-  const results = scoreTokensByKeyword(FIXTURE_TOKENS, "accent");
+  const results = await tools["design-data-suggest"].handler({
+    intent: "accent background color",
+    limit: 5,
+  });
+  t.true(Array.isArray(results));
   t.true(results.length > 0);
   for (const r of results) {
-    t.true(Object.hasOwn(r, "name"));
-    t.true(Object.hasOwn(r, "confidence"));
-    t.true(Object.hasOwn(r, "uuid"));
-    t.true(Object.hasOwn(r, "raw"));
+    t.true(Object.hasOwn(r, "tokenName"), "result has tokenName");
+    t.true(Object.hasOwn(r, "confidence"), "result has confidence");
+    t.true(Object.hasOwn(r, "layer"), "result has layer");
     t.is(typeof r.confidence, "number");
+    t.true(r.confidence > 0 && r.confidence <= 1);
   }
+});
+
+test("design-data-suggest respects limit", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const results = await tools["design-data-suggest"].handler({
+    intent: "color",
+    limit: 3,
+  });
+  t.true(results.length <= 3);
+});
+
+test("design-data-suggest returns empty array for unrecognised intent", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const results = await tools["design-data-suggest"].handler({
+    intent: "zzz-no-match-xyzzy",
+    limit: 5,
+  });
+  t.deepEqual(results, []);
 });
 
 // ── component not-found error ────────────────────────────────────────────────

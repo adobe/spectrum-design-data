@@ -28,14 +28,15 @@ use design_data_core::diff::semantic_diff;
 use design_data_core::graph::TokenGraph;
 use design_data_core::primer;
 use design_data_core::query;
+use design_data_core::suggest;
 use design_data_core::validate::relational::validate_relational;
 use wasm_bindgen::prelude::*;
 
 use crate::error::{js_err, to_js_error};
 use crate::types::{
     AddedToken, DeletedToken, DeprecatedToken, DiffResult, PropertyChange, RenamedToken,
-    ResolveResult, ResolutionContext as WasmContext, RevertedToken, TokenResult, TokenResultArray,
-    UpdatedToken, ValidationResult,
+    ResolveResult, ResolutionContext as WasmContext, RevertedToken, SuggestResult,
+    SuggestResultArray, TokenResult, TokenResultArray, UpdatedToken, ValidationResult,
 };
 
 // ---------------------------------------------------------------------------
@@ -224,6 +225,32 @@ impl Dataset {
         let records = query::filter(&self.graph, &filter);
         let results: Vec<TokenResult> = records.iter().map(|r| TokenResult::from(*r)).collect();
         Ok(TokenResultArray::new(results))
+    }
+
+    // -----------------------------------------------------------------------
+    // Suggest
+    // -----------------------------------------------------------------------
+
+    /// Rank existing tokens by similarity to a natural-language `intent` string.
+    ///
+    /// Uses Jaccard similarity over the bag-of-words formed from each token's
+    /// key segments, name-object field values, and description text.  Optionally
+    /// filter to tokens matching a specific `propertyHint` (e.g. `"color"`).
+    ///
+    /// ```js
+    /// const results = ds.suggest("primary button background", undefined, 5);
+    /// ```
+    #[wasm_bindgen]
+    pub fn suggest(
+        &self,
+        intent: &str,
+        property_hint: Option<String>,
+        limit: usize,
+    ) -> Result<SuggestResultArray, JsValue> {
+        let results = suggest::suggest(&self.graph, intent, property_hint.as_deref(), limit);
+        Ok(SuggestResultArray::new(
+            results.into_iter().map(SuggestResult::from).collect(),
+        ))
     }
 
     // -----------------------------------------------------------------------
