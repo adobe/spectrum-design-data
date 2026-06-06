@@ -1096,6 +1096,27 @@ fn parse_mode_set(path: &Path, obj: &serde_json::Map<String, Value>) -> Option<M
     })
 }
 
+/// Count the name-object fields in `raw` that match the given context map.
+///
+/// Used for context-aware candidate selection in [`TokenGraph::resolve_set_in_context`]
+/// and `cascade::resolve_reference`: the candidate with the highest score is the
+/// best fit for the requested context.
+pub(crate) fn name_ctx_score(
+    raw: &Value,
+    ctx: &std::collections::HashMap<String, String>,
+) -> usize {
+    let Some(name) = raw.get("name") else {
+        return 0;
+    };
+    ctx.iter()
+        .filter(|(k, v)| {
+            name.get(k.as_str())
+                .and_then(|f| f.as_str())
+                .is_some_and(|f| f == v.as_str())
+        })
+        .count()
+}
+
 pub(crate) fn extract_alias_target(obj: &serde_json::Map<String, Value>) -> Option<String> {
     if let Some(r) = obj.get("$ref").and_then(|v| v.as_str()) {
         return Some(normalize_ref_target(r));
@@ -1165,16 +1186,7 @@ impl TokenGraph {
             let Some(rec) = self.tokens.get(key) else {
                 continue;
             };
-            let score = ctx
-                .iter()
-                .filter(|(k, v)| {
-                    rec.raw
-                        .get("name")
-                        .and_then(|n| n.get(k.as_str()))
-                        .and_then(|f| f.as_str())
-                        .is_some_and(|f| f == v.as_str())
-                })
-                .count();
+            let score = name_ctx_score(&rec.raw, ctx);
             let cand_uuid = rec.uuid.as_deref().unwrap_or("");
             // Higher score wins; equal scores break on uuid lexicographic ascending.
             let is_better = match best {

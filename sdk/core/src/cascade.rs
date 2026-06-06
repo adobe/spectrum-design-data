@@ -394,19 +394,8 @@ pub fn resolve_reference(
     let best = candidates
         .iter()
         .max_by(|a, b| {
-            let score = |t: &&crate::graph::TokenRecord| {
-                ctx.iter()
-                    .filter(|(k, v)| {
-                        t.raw
-                            .get("name")
-                            .and_then(|n| n.get(k.as_str()))
-                            .and_then(|f| f.as_str())
-                            .is_some_and(|f| f == v.as_str())
-                    })
-                    .count()
-            };
-            let sa = score(a);
-            let sb = score(b);
+            let sa = crate::graph::name_ctx_score(&a.raw, ctx);
+            let sb = crate::graph::name_ctx_score(&b.raw, ctx);
             sa.cmp(&sb).then_with(|| {
                 // Lower uuid string = higher priority (stable, deterministic).
                 let ua = a.uuid.as_deref().unwrap_or("");
