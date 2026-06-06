@@ -11,18 +11,53 @@
 /**
  * Read tools for design-data-agent-mcp.
  *
- * query_tokens and resolve_token use @adobe/design-data (loadDataset) + the
- * wasm Dataset to run in-process without spawning the CLI binary.
+ * All read tools run fully in-process via @adobe/design-data-wasm — no CLI binary
+ * required. primer and describe_component were migrated in issue m1r.
  *
- * primer and describe_component still invoke the CLI: primer aggregates complex
- * catalog metadata (components, fields) not yet on the wasm surface, and
- * describe_component requires the components catalog path resolution that the CLI
- * handles. These will be ported when those APIs are added to the wasm surface.
+ * Note: authoring_session_step_intent in authoring.js still uses the CLI because
+ * the NLP suggest ranking is not yet on the wasm surface.
  */
 
+import { readFileSync, existsSync, readdirSync } from "fs";
+import { join } from "path";
 import { loadDataset } from "@adobe/design-data/load";
-import { runCli } from "../cli.js";
 import { config } from "../config.js";
+
+let _wasm;
+/** Lazy-load and cache the wasm module (nodejs target, no init() required). */
+async function getWasm() {
+  if (!_wasm) _wasm = await import("@adobe/design-data-wasm");
+  return _wasm;
+}
+
+let _dataset;
+/**
+ * Return the embedded Spectrum dataset, caching it after first access.
+ *
+ * Dataset.embedded() clones the in-memory graph on every call; caching here
+ * avoids that per-request cost.
+ */
+async function getDataset() {
+  if (!_dataset) {
+    const wasm = await getWasm();
+    _dataset = wasm.Dataset.embedded();
+  }
+  return _dataset;
+}
+
+/**
+ * Validate a component ID against the same rule as the Rust SDK.
+ * See sdk/core/src/component.rs:validate_id — prevents path traversal.
+ */
+const COMPONENT_ID_RE = /^[a-z][a-z0-9-]*$/;
+function validateComponentId(id) {
+  if (!COMPONENT_ID_RE.test(id)) {
+    throw new Error(
+      `Invalid component ID "${id}". IDs must be kebab-case: start with a lowercase ` +
+        `letter and contain only lowercase letters, digits, and hyphens.`,
+    );
+  }
+}
 
 export function createReadTools() {
   return [
@@ -36,14 +71,22 @@ export function createReadTools() {
         additionalProperties: false,
       },
       async handler() {
-        const args = ["primer", config.dataPath, "--format", "json"];
-        if (config.componentsDir)
-          args.push("--components-dir", config.componentsDir);
-        if (config.fieldsDir) args.push("--fields-dir", config.fieldsDir);
-        const { exitCode, stdout, stderr } = await runCli(args);
-        if (exitCode !== 0)
-          throw new Error(stderr || `primer exited ${exitCode}`);
-        return JSON.parse(stdout);
+        const [wasm, ds] = await Promise.all([getWasm(), getDataset()]);
+        return {
+          source: "embedded",
+          tokenCount: ds.tokenCount(),
+          modeSets: {
+            colorScheme: wasm.getFieldValues("colorScheme") ?? [],
+            scale: wasm.getFieldValues("scale") ?? [],
+            contrast: wasm.getFieldValues("contrast") ?? [],
+          },
+          taxonomyFields: {
+            indexed: wasm.getIndexedFields(),
+            advisory: wasm.getAdvisoryFields() ?? [],
+          },
+          components: wasm.getFieldValues("component") ?? [],
+          properties: wasm.getFieldValues("property") ?? [],
+        };
       },
     },
 
@@ -127,13 +170,32 @@ export function createReadTools() {
         additionalProperties: false,
       },
       async handler({ id }) {
-        const args = ["component", id];
-        if (config.componentsDir)
-          args.push("--components-dir", config.componentsDir);
-        const { exitCode, stdout, stderr } = await runCli(args);
-        if (exitCode !== 0)
-          throw new Error(stderr || `component exited ${exitCode}`);
-        return JSON.parse(stdout);
+        validateComponentId(id);
+        const componentsDir = config.componentsDir;
+        if (!componentsDir) {
+          throw new Error(
+            `@adobe/spectrum-design-data is not installed — cannot load component "${id}". ` +
+              `Install it with: pnpm add @adobe/spectrum-design-data`,
+          );
+        }
+        const componentFile = join(componentsDir, `${id}.json`);
+        if (!existsSync(componentFile)) {
+          let available;
+          try {
+            available = readdirSync(componentsDir)
+              .filter((f) => f.endsWith(".json"))
+              .map((f) => f.replace(/\.json$/, ""))
+              .sort()
+              .join(", ");
+          } catch {
+            available = null;
+          }
+          const hint = available
+            ? `Available components: ${available}`
+            : `Call primer to see available component IDs.`;
+          throw new Error(`Component not found: "${id}". ${hint}`);
+        }
+        return JSON.parse(readFileSync(componentFile, "utf-8"));
       },
     },
   ];

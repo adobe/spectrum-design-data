@@ -1,6 +1,6 @@
 # `@adobe/design-data-agent-mcp`
 
-MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data/) agent surface. Shells out to the `design-data` CLI — all logic stays in the Rust SDK.
+MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data/) agent surface. Read tools (`primer`, `resolve_token`, `query_tokens`, `describe_component`) run fully in-process via `@adobe/design-data-wasm` — no CLI binary required for those. Only `authoring_session_step_intent` still invokes the native binary (for NLP suggest ranking, not yet on the wasm surface).
 
 ## Install
 
@@ -29,7 +29,7 @@ https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-
 npx @adobe/design-data-agent-mcp
 ```
 
-Requires the `@adobe/design-data` CLI on `PATH` (or set `DESIGN_DATA_BIN`).
+The `@adobe/design-data` CLI binary is **only** needed for `authoring_session_step_intent`. All other tools run in-process. Set `DESIGN_DATA_BIN` if the binary is not on `PATH`.
 
 ## MCP server
 
@@ -49,7 +49,7 @@ node tools/design-data-agent-mcp/src/index.js
 
 | Variable                 | Default       | Description                                       |
 | ------------------------ | ------------- | ------------------------------------------------- |
-| `DESIGN_DATA_BIN`        | `design-data` | Path to the `design-data` binary                  |
+| `DESIGN_DATA_BIN`        | `design-data` | Path to the `design-data` binary (authoring only) |
 | `DESIGN_DATA_ROOT`       | —             | Absolute root that relative paths are anchored to |
 | `DESIGN_DATA_PATH`       | `.`           | Dataset root path                                 |
 | `DESIGN_DATA_COMPONENTS` | —             | Override components directory                     |
@@ -74,8 +74,9 @@ node tools/design-data-agent-mcp/src/index.js
 >    `packages/design-data`; when published it uses the installed dependency. This
 >    is independent of the working directory.
 > 3. **Fallback.** `dataPath` falls back to the (anchored) current directory; the
->    component/field overrides fall back to the `design-data` binary's own
->    discovery (including its embedded snapshot).
+>    component/field overrides fall back to `null` (not supplied), which means
+>    `describe_component` will throw an error if `@adobe/spectrum-design-data` is
+>    not resolvable.
 >
 > In a monorepo checkout you typically need no `DESIGN_DATA_*` env vars at all —
 > resolution via the workspace package handles it.
