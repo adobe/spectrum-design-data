@@ -106,6 +106,11 @@ export async function startServer() {
 
   // Log server start for debugging (this goes to stderr, not stdout which is used for MCP)
   console.error("Spectrum Design Data MCP server started");
+  console.error(
+    "[DEPRECATED] @adobe/spectrum-design-data-mcp is deprecated and receives no new features. " +
+      "Migrate to @adobe/design-data-mcp (in-process wasm) for actively maintained Spectrum token tooling. " +
+      "See https://www.npmjs.com/package/@adobe/design-data-mcp",
+  );
 }
 
 // Export for testing

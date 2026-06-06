@@ -1,7 +1,7 @@
 {
   "name": "@adobe/spectrum-design-data-mcp",
   "version": "1.1.32",
-  "description": "Model Context Protocol server for Spectrum design data including tokens, schemas, and component anatomy",
+  "description": "DEPRECATED — use @adobe/design-data-mcp (in-process wasm) instead. Model Context Protocol server for Spectrum design data including tokens, schemas, and component anatomy",
   "keywords": [
     "mcp",
     "model-context-protocol",

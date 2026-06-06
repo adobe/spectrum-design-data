@@ -1,5 +1,13 @@
 # Spectrum Design Data MCP Server
 
+> **⚠️ Deprecated** — This package is no longer actively maintained. New projects should use
+> [`@adobe/design-data-mcp`](https://www.npmjs.com/package/@adobe/design-data-mcp) instead,
+> which runs in-process via wasm and is the actively maintained successor. Note that
+> `@adobe/design-data-mcp` is not a drop-in replacement — it has different tool names and does
+> not include `query-tokens-by-value`, `validate-component-props`, or the component-schema
+> tools. This package remains available for backward compatibility but will receive no new
+> features.
+
 A Model Context Protocol (MCP) server that provides AI tools with structured access to Adobe Spectrum design system data, including design tokens and component API schemas.
 
 ## Overview
