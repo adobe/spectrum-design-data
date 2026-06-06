@@ -17,6 +17,7 @@ import {
   resolveSchemaDir,
   loadSchemaValidator,
   validateTokenAgainstSchema,
+  validateDataset,
 } from "../src/validate.js";
 
 // ---------------------------------------------------------------------------
@@ -197,4 +198,35 @@ test("validateTokenAgainstSchema passes a token without $schema (cascade)", (t) 
   const result = validateTokenAgainstSchema(noSchema, SCHEMA_DIR);
   t.true(result.valid);
   t.deepEqual(result.errors, []);
+});
+
+// ---------------------------------------------------------------------------
+// validateDataset tests (Layer-1 + Layer-2 single-pass path)
+// ---------------------------------------------------------------------------
+
+test("validateDataset returns valid for a well-formed token dataset", async (t) => {
+  const result = await validateDataset(DATASET_DIR, { schemaPath: SCHEMA_DIR });
+  t.true(
+    result.valid,
+    `Expected valid but got errors: ${JSON.stringify(result.errors)}`,
+  );
+  t.deepEqual(result.errors, []);
+});
+
+test("validateDataset catches Layer-1 errors from invalid token files", async (t) => {
+  const dir = join(TMP, "invalid-tokens-" + randomUUID().slice(0, 8));
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(
+    join(dir, "bad.tokens.json"),
+    JSON.stringify([
+      {
+        $schema: `${SCHEMA_ID_BASE}/token-types/color.json`,
+        uuid: randomUUID(),
+      },
+    ]), // missing value
+  );
+  const result = await validateDataset(dir, { schemaPath: SCHEMA_DIR });
+  t.false(result.valid);
+  t.true(result.errors.length > 0, "Expected at least one Layer-1 error");
+  rmSync(dir, { recursive: true, force: true });
 });

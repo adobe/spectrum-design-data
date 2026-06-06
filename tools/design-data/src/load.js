@@ -87,6 +87,19 @@ export async function loadDataset(dirPath) {
 }
 
 /**
+ * Build a Dataset directly from an already-parsed token array.
+ * Use this when the caller has already read and parsed the token files to avoid
+ * a second filesystem pass.
+ *
+ * @param {object[]} tokens - Flat array of cascade-format token objects.
+ * @returns {Promise<import('@adobe/design-data-wasm').Dataset>}
+ */
+export async function buildDataset(tokens) {
+  const { Dataset } = await getWasm();
+  return Dataset.fromTokens(tokens);
+}
+
+/**
  * Synchronous variant using the already-loaded wasm module.
  * The caller is responsible for ensuring the module is initialised first.
  *

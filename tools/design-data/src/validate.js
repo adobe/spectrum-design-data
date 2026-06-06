@@ -26,7 +26,7 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import Ajv from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
-import { loadDataset, walkTokenFiles } from "./load.js";
+import { buildDataset, walkTokenFiles } from "./load.js";
 
 // ---------------------------------------------------------------------------
 // Schema directory resolution
@@ -220,8 +220,10 @@ export async function validateDataset(
   const ajv = loadSchemaValidator(resolvedSchemaDir);
   const layer1Errors = [];
 
-  // Walk token files and validate each token's $schema.
+  // Walk token files, validate each token's $schema, and accumulate parsed tokens
+  // so Layer-2 can reuse the same data without a second filesystem pass.
   const tokenFiles = walkTokenFiles(datasetPath);
+  const allTokens = [];
   for (const file of tokenFiles) {
     let parsed;
     try {
@@ -234,15 +236,15 @@ export async function validateDataset(
       continue;
     }
     if (!Array.isArray(parsed)) continue; // Legacy object-map format — loadDataset (Layer-2) warns and skips these.
-    const tokens = parsed;
-    for (const token of tokens) {
+    allTokens.push(...parsed);
+    for (const token of parsed) {
       const diags = validateTokenSchema(token, ajv, file);
       layer1Errors.push(...diags);
     }
   }
 
-  // Layer-2: relational rules via wasm.
-  const ds = await loadDataset(datasetPath);
+  // Layer-2: relational rules via wasm — built from already-parsed tokens.
+  const ds = await buildDataset(allTokens);
   const layer2Result = ds.validate();
 
   const allErrors = [
