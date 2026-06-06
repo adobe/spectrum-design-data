@@ -1,5 +1,40 @@
 # s2-tokens-viewer
 
+## 0.2.0
+
+### Minor Changes
+
+- [#1145](https://github.com/adobe/spectrum-design-data/pull/1145) [`04aaa7f`](https://github.com/adobe/spectrum-design-data/commit/04aaa7fe6a1aaa3d04c2dc03cb17dd8a1b15e8bb) Thanks [@GarthDB](https://github.com/GarthDB)! - Switch s2-tokens-viewer token resolution from runtime to build-time wasm.
+  - **scripts/resolve.mjs**: new build-time script; drives `Dataset.embedded()` via
+    `@adobe/design-data-wasm` (node) to pre-resolve all 2,460 slugs into
+    `tokens/resolved.json` (values + chains per context).
+  - **moon.yml**: new `resolve` task (`sdk-wasm:build` + `prepare` deps);
+    `export` now depends on `resolve` so `resolved.json` ships to `site/`.
+  - **index.html**: replace inline `TokenResolver`/`TokenResolverFactory` (~190 lines)
+    with `createResolvedLookup(map, type)`; all call sites unchanged.
+  - **deploy-docs.yml**: add Rust toolchain + wasm-pack steps; drop stale
+    `s2-tokens-viewer:export` line (correct id is `viewer`).
+
+### Patch Changes
+
+- [#1147](https://github.com/adobe/spectrum-design-data/pull/1147) [`cece05d`](https://github.com/adobe/spectrum-design-data/commit/cece05de03dd8b43cfeb697d045eb4302a34b26c) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix set-level alias resolution in `resolve_reference` after cache reload.
+  - **`sdk/core/src/graph.rs`**: add `set_uuid_index` (set_uuid → all children) populated in
+    all graph builders and `rebuild_uuid_index`; add `resolve_set_in_context` and
+    `resolve_alias_in_context` for context-aware chain walking through set-level UUID aliases.
+  - **`sdk/core/src/cascade.rs`**: extract `resolve_reference(graph, slug, ctx)` as a
+    testable core function with deterministic tie-breaking and graceful dangling-ref handling.
+  - **`sdk/wasm/src/dataset.rs`**: delegate `resolveReference` to the core function;
+    remove spike-status comment.
+  - **`packages/design-data-spec/conformance/reference/`**: 4 new fixture-driven
+    conformance cases (set-alias-light, set-alias-dark, dangling-ref, unknown-slug).
+  - **`sdk/wasm/test/parity.test.js`**: 7 new parity tests (wireframe, scale, set-alias
+    regression, dangling-ref degradation, stable tie-break).
+  - **`docs/s2-tokens-viewer/scripts/resolve.mjs`**: remove JS fallback (now redundant);
+    `wasm: 9062 | fallback: 0 | missing: 0`.
+
+- Updated dependencies [[`cece05d`](https://github.com/adobe/spectrum-design-data/commit/cece05de03dd8b43cfeb697d045eb4302a34b26c)]:
+  - @adobe/design-data-wasm@0.4.0
+
 ## 0.1.24
 
 ### Patch Changes
