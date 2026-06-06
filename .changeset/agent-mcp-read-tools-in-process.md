@@ -1,5 +1,5 @@
 ---
-"@adobe/design-data-agent-mcp": patch
+"@adobe/design-data-agent-mcp": minor
 ---
 
 Migrate `primer` and `describe_component` read tools off the native CLI to in-process wasm.

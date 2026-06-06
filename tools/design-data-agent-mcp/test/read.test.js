@@ -9,6 +9,7 @@
 // governing permissions and limitations under the License.
 
 import test from "ava";
+import { config } from "../src/config.js";
 import { createReadTools } from "../src/tools/read.js";
 
 // ── helpers ────────────────────────────────────────────────────────────────────
@@ -105,4 +106,42 @@ test("describe_component not-found error lists available component IDs", async (
     err.message.includes("button") || err.message.includes("primer"),
     `error should list available components or suggest primer, got: ${err.message}`,
   );
+});
+
+test("describe_component throws helpful error when componentsDir is null", async (t) => {
+  // Simulates a zero-config install where @adobe/spectrum-design-data is absent.
+  const saved = config.componentsDir;
+  t.teardown(() => {
+    config.componentsDir = saved;
+  });
+  config.componentsDir = null;
+
+  const describe = getHandler("describe_component");
+  const err = await t.throwsAsync(() => describe({ id: "button" }));
+  t.true(
+    err.message.includes("not installed"),
+    `expected 'not installed', got: ${err.message}`,
+  );
+});
+
+test("primer shape contract: SKILL.md fields are all present", async (t) => {
+  // Guards the contract described in SKILL.md: "returns the active dimensions,
+  // component list, taxonomy fields, and token count". If this shape changes,
+  // update the SKILL.md prompt accordingly.
+  const primer = getHandler("primer");
+  const result = await primer();
+  // active dimensions
+  t.true("colorScheme" in result.modeSets, "modeSets.colorScheme");
+  t.true("scale" in result.modeSets, "modeSets.scale");
+  t.true("contrast" in result.modeSets, "modeSets.contrast");
+  // component list
+  t.true(
+    result.components.includes("button"),
+    "components[] includes 'button'",
+  );
+  // taxonomy fields
+  t.true("indexed" in result.taxonomyFields, "taxonomyFields.indexed");
+  t.true("advisory" in result.taxonomyFields, "taxonomyFields.advisory");
+  // token count
+  t.is(typeof result.tokenCount, "number");
 });

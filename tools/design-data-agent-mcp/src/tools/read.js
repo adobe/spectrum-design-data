@@ -71,7 +71,16 @@ export function createReadTools() {
         additionalProperties: false,
       },
       async handler() {
-        const [wasm, ds] = await Promise.all([getWasm(), getDataset()]);
+        // Shape note: this response intentionally diverges from the CLI PrimerData
+        // struct (sdk/core/src/primer.rs). The CLI emits modeSets as an array of
+        // {name, values} objects and taxonomyFields as a flat array. This in-process
+        // shape uses keyed objects (matching the sibling design-data-mcp), which agents
+        // and the SKILL.md skill prompt consume by key name. Skill contract:
+        // tokenCount, modeSets.{colorScheme,scale,contrast}, components[],
+        // taxonomyFields.{indexed,advisory}. CLI-only fields (specVersion, manifest,
+        // provenance) are not present — no SKILL.md reference or consumer relies on them.
+        const wasm = await getWasm();
+        const ds = await getDataset();
         return {
           source: "embedded",
           tokenCount: ds.tokenCount(),
