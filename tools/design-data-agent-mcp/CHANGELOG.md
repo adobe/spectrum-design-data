@@ -1,5 +1,19 @@
 # @adobe/design-data-agent-mcp
 
+## 1.6.0
+
+### Minor Changes
+
+- [#1139](https://github.com/adobe/spectrum-design-data/pull/1139) [`b08627f`](https://github.com/adobe/spectrum-design-data/commit/b08627f0841925dea5781a08946420ab38ac8b35) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate `primer` and `describe_component` read tools off the native CLI to in-process wasm.
+  - **tools/read.js**: replace `runCli` for `primer` with wasm `getWasm`/`getDataset`/`getFieldValues`
+    composing the primer response; matches sibling `design-data-mcp` pattern.
+  - **tools/read.js**: replace `runCli` for `describe_component` with direct filesystem read;
+    add `validateComponentId` (mirrors `component.rs:validate_id`) to block path traversal.
+  - **test/read.test.js**: tests for primer shape, id-validation edge cases, and not-found
+    error listing available components.
+  - **package.json**, **README.md**: note that the `design-data` binary is now only needed
+    for `authoring_session_step_intent`.
+
 ## 1.5.0
 
 ### Minor Changes
