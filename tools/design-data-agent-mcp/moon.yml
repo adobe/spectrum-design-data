@@ -21,6 +21,8 @@ tasks:
   test:
     command: [pnpm, ava]
     platform: node
+    deps:
+      - sdk-wasm:build
     inputs:
       - "src/**/*.js"
       - "test/**/*.js"
