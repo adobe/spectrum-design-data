@@ -378,6 +378,10 @@ impl Dataset {
         }
 
         // Pick the candidate with the most name-object fields matching the context.
+        // Tie-breaking is non-deterministic (HashMap iteration order). In practice ties
+        // are rare — most slugs have one candidate per context — but this should be made
+        // stable (e.g. by secondary-sorting on uuid) when this method is productionised.
+        // Tracked: spectrum-design-data-nyt.
         let best = candidates
             .iter()
             .max_by_key(|t| {

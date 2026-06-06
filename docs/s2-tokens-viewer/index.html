@@ -139,6 +139,9 @@
        */
       function createResolvedLookup(map, type) {
         // Pick the best context entry for a slug: exact match → "default" → first available.
+        // The last fallback (first available key) handles cross-domain queries gracefully:
+        // the viewer always passes the semantically correct context (light/dark for color,
+        // desktop/mobile for layout), so this path is only reached in edge cases.
         const pick = (slug, ctx) =>
           map[slug]?.[ctx] ??
           map[slug]?.default ??
@@ -1352,11 +1355,20 @@
           }
 
           // Load pre-resolved token map (emitted at build time by scripts/resolve.mjs).
-          const resolvedJson = await fetch("tokens/resolved.json").then(r => r.json());
-          window.resolvedTokens = resolvedJson.tokens;
+          // Degrade gracefully if the file is absent (e.g. viewer served without building).
+          try {
+            const resolvedJson = await fetch("tokens/resolved.json").then(r => r.json());
+            window.resolvedTokens = resolvedJson.tokens;
+          } catch (e) {
+            console.error("tokens/resolved.json unavailable — token resolution disabled. Run `moon run viewer:resolve` to generate it.", e);
+            window.resolvedTokens = {};
+          }
 
           // Create resolvers (backed by the pre-resolved map — no runtime wasm needed).
           const resolvers = createResolvers();
+          // Store globally so modal/details handlers (createTokenChainDisplay) can reuse
+          // the same resolver instances without recreating them on every call.
+          window.resolvers = resolvers;
 
           // Initialize UI components
           initializeGrids(validData, resolvers);
@@ -2649,11 +2661,12 @@
         createTokenChainDisplay(tokenName, format) {
           // For token references, try to find its resolution chain.
           if (!ValueFormatter.isType.tokenReference(tokenName)) return null;
-          const map = window.resolvedTokens;
-          if (!map) return null;
-          // Determine token type from name; default to color for backward compatibility.
+          if (!window.resolvers) return null;
+          // Reuse the resolvers already created in init() rather than allocating new ones.
+          // Heuristic: "color" in name → color resolver; anything else → layout resolver.
+          // Known rough edge: will need updating if new token categories are added.
           const type = tokenName.includes("color") ? "color" : "layout";
-          const resolver = createResolvedLookup(map, type);
+          const resolver = window.resolvers[type];
           const chain = TokenChainHandler.getResolutionChain(resolver, tokenName);
           if (chain && chain.length > 1) {
             return TokenChainHandler.createResolutionChainElement(
