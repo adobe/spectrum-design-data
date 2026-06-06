@@ -1,0 +1,8 @@
+{
+  "description": "A set-level alias ($ref targeting a set_uuid) MUST resolve to the mode-appropriate child. Under colorScheme=light, accent-color-900 → blue-900 light.",
+  "resolved": true,
+  "expected_value": "rgb(59, 99, 251)",
+  "expected_chain_length": 3,
+  "expected_chain_0": "{accent-color-900}",
+  "expected_chain_last": "rgb(59, 99, 251)"
+}

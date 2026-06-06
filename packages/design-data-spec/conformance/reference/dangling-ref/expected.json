@@ -1,0 +1,7 @@
+{
+  "description": "An alias whose $ref target is absent from the dataset MUST NOT panic. resolve_reference MUST return a result with no terminal value (value absent) and a partial chain containing at least the starting slug.",
+  "resolved": true,
+  "expected_has_value": false,
+  "expected_chain_min_length": 1,
+  "expected_chain_0": "{accent-color-dangling}"
+}

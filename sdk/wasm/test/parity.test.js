@@ -715,3 +715,171 @@ test("resolveReference: embedded dataset resolves blue-100 with dark context", (
   t.truthy(r, "should resolve 'blue-100' in dark context");
   t.deepEqual(r.value, "rgb(14, 23, 63)");
 });
+
+// ── additional context coverage ──────────────────────────────────────────────
+
+test("resolveReference: wireframe context resolves blue-100", (t) => {
+  // wireframe is a third colorScheme mode; blue-100 has a wireframe variant.
+  const ds = wasm.Dataset.embedded();
+  const r = ds.resolveReference("{blue-100}", { colorScheme: "wireframe" });
+  t.truthy(r, "should resolve 'blue-100' in wireframe context");
+  t.true(Array.isArray(r.chain) && r.chain.length >= 2);
+  t.truthy(r.value, "wireframe value should be non-null");
+  // wireframe value must differ from light (rgb(245, 249, 255)).
+  t.notDeepEqual(
+    r.value,
+    "rgb(245, 249, 255)",
+    "wireframe must differ from light",
+  );
+});
+
+test("resolveReference: scale context (desktop) resolves a dimension token", (t) => {
+  // font-size-75 has desktop/mobile scale variants with different values.
+  const ds = wasm.Dataset.embedded();
+  const r = ds.resolveReference("{font-size-75}", { scale: "desktop" });
+  t.truthy(r, "should resolve 'font-size-75' in desktop context");
+  t.true(Array.isArray(r.chain) && r.chain.length >= 2);
+  t.truthy(r.value !== null && r.value !== undefined);
+});
+
+test("resolveReference: scale context desktop vs mobile returns different values", (t) => {
+  // font-size-75: desktop=12px, mobile=15px — guaranteed to differ.
+  const ds = wasm.Dataset.embedded();
+  const desktop = ds.resolveReference("{font-size-75}", { scale: "desktop" });
+  const mobile = ds.resolveReference("{font-size-75}", { scale: "mobile" });
+  t.truthy(desktop, "should resolve desktop");
+  t.truthy(mobile, "should resolve mobile");
+  // desktop and mobile values must differ.
+  t.notDeepEqual(
+    desktop.value,
+    mobile.value,
+    "desktop and mobile font-size-75 should have different values",
+  );
+});
+
+// ── set-level alias resolution (the key regression this nyt fixed) ──────────
+
+test("resolveReference: embedded dataset resolves set-level alias accent-background-color-default", (t) => {
+  // accent-background-color-default → accent-color-900 (set-level $ref) → blue-900 light/dark.
+  // Before the nyt fix, set-level $refs were not restored after cache reload, so value was null.
+  const ds = wasm.Dataset.embedded();
+  const light = ds.resolveReference("{accent-background-color-default}", {
+    colorScheme: "light",
+  });
+  const dark = ds.resolveReference("{accent-background-color-default}", {
+    colorScheme: "dark",
+  });
+
+  t.truthy(light, "light should resolve");
+  t.truthy(dark, "dark should resolve");
+  t.truthy(
+    light.value !== null && light.value !== undefined,
+    "light value should be non-null",
+  );
+  t.truthy(
+    dark.value !== null && dark.value !== undefined,
+    "dark value should be non-null",
+  );
+  t.notDeepEqual(light.value, dark.value, "light and dark should differ");
+
+  // Chain must be at least 3 hops: {slug} → {accent-color-900} → {blue-9xx} → rgb(…)
+  t.true(
+    light.chain.length >= 3,
+    `light chain too short: ${JSON.stringify(light.chain)}`,
+  );
+  t.is(light.chain[0], "{accent-background-color-default}");
+  t.true(
+    typeof light.chain[light.chain.length - 1] === "string" &&
+      light.chain[light.chain.length - 1].startsWith("rgb("),
+    `light chain should end with rgb(…), got ${light.chain[light.chain.length - 1]}`,
+  );
+});
+
+test("resolveReference: set-level alias light vs dark returns different chains", (t) => {
+  // Verify the chain tail is a concrete RGB value, not a UUID placeholder.
+  const ds = wasm.Dataset.fromTokens([
+    {
+      name: {
+        property: "color",
+        colorFamily: "blue",
+        scaleIndex: 900,
+        colorScheme: "light",
+      },
+      value: "rgb(59, 99, 251)",
+      uuid: "nyt-blue900-light-0000-000000000001",
+      set_uuid: "nyt-blue900-set-000-0000-000000000001",
+    },
+    {
+      name: {
+        property: "color",
+        colorFamily: "blue",
+        scaleIndex: 900,
+        colorScheme: "dark",
+      },
+      value: "rgb(75, 117, 255)",
+      uuid: "nyt-blue900-dark-0000-000000000001",
+      set_uuid: "nyt-blue900-set-000-0000-000000000001",
+    },
+    {
+      name: { property: "accent-color-900" },
+      $ref: "nyt-blue900-set-000-0000-000000000001",
+      uuid: "nyt-accent-color-900-000-000000000001",
+    },
+  ]);
+
+  const light = ds.resolveReference("{accent-color-900}", {
+    colorScheme: "light",
+  });
+  const dark = ds.resolveReference("{accent-color-900}", {
+    colorScheme: "dark",
+  });
+
+  t.truthy(light, "light should resolve");
+  t.truthy(dark, "dark should resolve");
+  t.deepEqual(light.value, "rgb(59, 99, 251)", "light value");
+  t.deepEqual(dark.value, "rgb(75, 117, 255)", "dark value");
+  t.is(light.chain.length, 3, `light chain: ${JSON.stringify(light.chain)}`);
+  t.is(dark.chain.length, 3, `dark chain: ${JSON.stringify(dark.chain)}`);
+  t.is(light.chain[0], "{accent-color-900}");
+  t.is(light.chain[2], "rgb(59, 99, 251)");
+  t.is(dark.chain[2], "rgb(75, 117, 255)");
+});
+
+// ── dangling ref ─────────────────────────────────────────────────────────────
+
+test("resolveReference: dangling $ref returns result with no value (graceful degradation)", (t) => {
+  const ds = wasm.Dataset.fromTokens([
+    {
+      name: { property: "dangling-alias" },
+      $ref: "00000000-0000-0000-0000-000000000000",
+      uuid: "nyt-dangling-0000-0000-000000000001",
+    },
+  ]);
+  const r = ds.resolveReference("{dangling-alias}", {});
+  // Must return a result (not undefined — the slug IS found).
+  t.truthy(r !== undefined, "should return a result");
+  // Terminal value must be absent (no record with the dangling UUID exists).
+  t.is(r.value, undefined, "dangling alias should produce no terminal value");
+  // Chain must start with the slug.
+  t.true(Array.isArray(r.chain), "chain should be an array");
+  t.is(
+    r.chain[0],
+    "{dangling-alias}",
+    `chain[0] should be the slug, got ${r.chain[0]}`,
+  );
+});
+
+// ── stable tie-break ─────────────────────────────────────────────────────────
+
+test("resolveReference: repeated calls with same args return identical chain", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const r1 = ds.resolveReference("{accent-background-color-default}", {
+    colorScheme: "light",
+  });
+  const r2 = ds.resolveReference("{accent-background-color-default}", {
+    colorScheme: "light",
+  });
+  t.truthy(r1 && r2, "both calls should resolve");
+  t.deepEqual(r1.value, r2.value, "value must be stable across calls");
+  t.deepEqual(r1.chain, r2.chain, "chain must be stable across calls");
+});

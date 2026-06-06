@@ -15,14 +15,9 @@
  * every slug and its context keys, then resolves each (slug, context) pair via
  * Dataset.resolveReference() from @adobe/design-data-wasm (node build, no init() needed).
  *
- * Some tokens in the cascade dataset use $ref-based UUID aliasing which the wasm
- * resolveReference prototype does not yet follow (tracked as spectrum-design-data-nyt).
- * For those, a JS fallback resolver walks the object-map chain directly so every slug
- * gets a fully-resolved value.
- *
  * Emits tokens/resolved.json:
  *   {
- *     _meta: { generated, slugCount, resolvedCount, wasmCount, fallbackCount, datasetTokenCount },
+ *     _meta: { generated, slugCount, resolvedCount, wasmCount, missingCount, datasetTokenCount },
  *     tokens: { [slug]: { [ctx]: { value, chain } } }
  *   }
  *
@@ -63,7 +58,6 @@ function isTokenRecord(obj) {
  */
 function loadObjectMap() {
   const slugs = new Map();
-  const sourceMap = {};
   const files = readdirSync(tokensDir)
     .filter(f => f.endsWith('.json') && f !== 'package.json' && f !== 'resolved.json')
     .sort(); // deterministic order
@@ -81,9 +75,7 @@ function loadObjectMap() {
     for (const [slug, entry] of Object.entries(data)) {
       if (!isTokenRecord(entry)) continue;
       const ctxKeys = entry.sets ? Object.keys(entry.sets).filter(k => k in CTX_MAP) : [];
-      // Merge into sourceMap: last writer wins (matches priority order in the old TokenResolverFactory)
-      if (!sourceMap[slug]) sourceMap[slug] = entry;
-      // Merge context keys
+      // Merge context keys across files (union).
       if (slugs.has(slug)) {
         for (const k of ctxKeys) slugs.get(slug).add(k);
       } else {
@@ -91,53 +83,7 @@ function loadObjectMap() {
       }
     }
   }
-  return { slugs, sourceMap };
-}
-
-/**
- * JS fallback resolver: walks object-map alias chain for (slug, ctx).
- * Used when wasm resolveReference returns no terminal value (e.g. $ref-based aliases).
- * Returns { value, chain } with the same shape as ReferenceChainResult.
- */
-function resolveObjectMap(slug, ctx, sourceMap, maxDepth = 20) {
-  const chain = [`{${slug}}`];
-  const seen = new Set([slug]);
-  let current = slug;
-  let depth = 0;
-
-  while (depth++ < maxDepth) {
-    const entry = sourceMap[current];
-    if (!entry) break;
-
-    // Pick context-specific value, then single value, then nothing.
-    // ctx may be a real context key (light/dark/etc.) or undefined (single-value token).
-    let rawValue = (ctx ? entry.sets?.[ctx]?.value : undefined) ?? entry.value;
-    if (rawValue === undefined || rawValue === null) break;
-
-    // If it's a reference, follow it
-    if (typeof rawValue === 'string' && rawValue.includes('{')) {
-      const nextSlug = rawValue.replace(/[{}]/g, '');
-      if (seen.has(nextSlug)) {
-        chain.push('(circular reference)');
-        break;
-      }
-      seen.add(nextSlug);
-      chain.push(`{${nextSlug}}`);
-      current = nextSlug;
-      continue;
-    }
-
-    // Terminal value reached
-    if (typeof rawValue === 'object' && rawValue !== null && rawValue.r !== undefined) {
-      // RGBA object — store as-is; runtime will convert to rgb() string
-      chain.push(`rgba(${rawValue.r},${rawValue.g},${rawValue.b},${rawValue.a})`);
-      return { value: rawValue, chain };
-    }
-    chain.push(String(rawValue));
-    return { value: rawValue, chain };
-  }
-
-  return { value: undefined, chain };
+  return { slugs };
 }
 
 async function main() {
@@ -146,19 +92,17 @@ async function main() {
   const ds = wasm.Dataset.embedded();
   const datasetTokenCount = ds.tokenCount();
 
-  const { slugs, sourceMap } = loadObjectMap();
+  const { slugs } = loadObjectMap();
   console.log(`[resolve] ${slugs.size} slugs, ${datasetTokenCount} tokens in embedded dataset`);
 
   const resolved = {};
   let wasmCount = 0;
-  let fallbackCount = 0;
   let missingCount = 0;
 
   for (const [slug, ctxSet] of slugs) {
     const ref = `{${slug}}`;
     // Tokens without sets (single-value, no context key) still need to be resolved per theme
     // because they may reference tokens that DO have sets (e.g. {blue-900} has light/dark/wireframe).
-    // Enumerate under all contexts; the object-map fallback will pick the right set entry.
     const ctxKeys = ctxSet.size > 0 ? [...ctxSet] : Object.keys(CTX_MAP);
 
     const byCtx = {};
@@ -167,21 +111,12 @@ async function main() {
       const r = ds.resolveReference(ref, ctxMap);
 
       if (r && r.value !== undefined) {
-        // Wasm resolved fully (common case: palette tokens, layout tokens).
         byCtx[ctx] = { value: r.value, chain: r.chain };
         wasmCount++;
-      } else {
-        // Wasm returned no terminal value (e.g. $ref-based alias in cascade).
-        // Fall back to JS object-map resolution for value + chain.
-        const fb = resolveObjectMap(slug, ctx, sourceMap);
-        if (fb.value !== undefined) {
-          byCtx[ctx] = { value: fb.value, chain: fb.chain };
-          fallbackCount++;
-        }
-        // else: no result for this ctx — may be a cross-domain miss (color token
-        // asked for layout context, or vice versa).  The viewer always passes the
-        // semantically correct context, so we only warn if ALL contexts fail below.
       }
+      // Cross-domain misses (color token asked for layout context, or vice versa) are
+      // expected: the viewer always passes a semantically correct context, so we only
+      // warn when ALL contexts fail (below).
     }
 
     if (Object.keys(byCtx).length > 0) {
@@ -199,7 +134,6 @@ async function main() {
       slugCount: slugs.size,
       resolvedCount: Object.keys(resolved).length,
       wasmCount,
-      fallbackCount,
       missingCount,
       datasetTokenCount,
     },
@@ -208,7 +142,7 @@ async function main() {
 
   writeFileSync(outPath, JSON.stringify(output, null, 2));
   console.log(`[resolve] Wrote ${outPath}`);
-  console.log(`[resolve] wasm: ${wasmCount} | fallback: ${fallbackCount} | missing: ${missingCount}`);
+  console.log(`[resolve] wasm: ${wasmCount} | missing: ${missingCount}`);
 
   if (missingCount > 0) {
     console.warn(`[resolve] ${missingCount} entries unresolvable — raw reference strings will show in the viewer.`);

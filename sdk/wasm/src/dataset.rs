@@ -314,25 +314,30 @@ impl Dataset {
     }
 
     // -----------------------------------------------------------------------
-    // resolveReference — legacy-slug reference resolution (spike)
+    // resolveReference — legacy-slug reference resolution
     // -----------------------------------------------------------------------
 
-    /// Resolve a legacy token reference by name in a given context, returning
+    /// Resolve a legacy token reference by slug in a given context, returning
     /// the terminal value and the full alias chain.
     ///
-    /// This bridges the legacy *object-map* resolution model used by
-    /// `docs/s2-tokens-viewer` — where `{blue-100}` is a named slug reference
-    /// — to the cascade dataset.  The wasm `resolve()` method resolves by
-    /// *property* name in a mode-set context; this method resolves by *legacy
-    /// slug* and a flat context map matching name-object fields.
+    /// Bridges the legacy *object-map* slug model used by `docs/s2-tokens-viewer`
+    /// to the cascade dataset.  The wasm `resolve()` method resolves by *property*
+    /// name in a mode-set context; this method resolves by *legacy slug* and a flat
+    /// context map matching name-object fields.
     ///
-    /// Context keys mirror cascade name-object fields, e.g.
-    /// `{ colorScheme: "light" }` or `{ scale: "desktop" }`.
-    /// The candidate with the most matching context fields wins.
+    /// Context keys mirror cascade name-object fields:
+    /// - `{ colorScheme: "light" | "dark" | "wireframe" }`
+    /// - `{ scale: "desktop" | "mobile" }`
     ///
-    /// **Spike status:** this API is experimental.  The legacy slug → cascade
-    /// mapping and context-field matching are sufficient for feasibility
-    /// evaluation but are not production-hardened.
+    /// The candidate with the most matching context fields wins; tie-breaking is
+    /// stable (secondary sort by uuid ascending).  When an alias chain passes through
+    /// a set-level UUID, the context-appropriate child is selected so that e.g.
+    /// `{accent-color-900}` under `{ colorScheme: "dark" }` correctly resolves to
+    /// the dark variant of `{blue-900}`.
+    ///
+    /// Dangling aliases (a `$ref` target absent from the embedded dataset) are
+    /// handled gracefully: the walk stops and the partial chain is returned with
+    /// `value: undefined`.
     ///
     /// ```js
     /// const r = ds.resolveReference("{accent-color-100}", { colorScheme: "light" });
@@ -345,103 +350,13 @@ impl Dataset {
         token_ref: &str,
         context: WasmContext,
     ) -> Result<Option<crate::types::ReferenceChainResult>, JsValue> {
-        use design_data_core::naming::extract_legacy_key;
-
-        // Strip optional `{…}` wrapper from the reference.
-        let name = token_ref
-            .trim()
-            .trim_start_matches('{')
-            .trim_end_matches('}');
-
         let ctx_map = context.into_inner();
-
-        // Collect all cascade tokens whose computed legacy key equals `name`,
-        // or whose direct graph key equals `name` (object-format legacy tokens).
-        let candidates: Vec<&design_data_core::graph::TokenRecord> = self
-            .graph
-            .tokens
-            .values()
-            .filter(|t| {
-                let legacy_match = t
-                    .raw
-                    .get("name")
-                    .and_then(|n| extract_legacy_key(n))
-                    .map(|k| k == name)
-                    .unwrap_or(false);
-                let direct_match = t.name == name;
-                legacy_match || direct_match
-            })
-            .collect();
-
-        if candidates.is_empty() {
-            return Ok(None);
-        }
-
-        // Pick the candidate with the most name-object fields matching the context.
-        // Tie-breaking is non-deterministic (HashMap iteration order). In practice ties
-        // are rare — most slugs have one candidate per context — but this should be made
-        // stable (e.g. by secondary-sorting on uuid) when this method is productionised.
-        // Tracked: spectrum-design-data-nyt.
-        let best = candidates
-            .iter()
-            .max_by_key(|t| {
-                ctx_map
-                    .iter()
-                    .filter(|(k, v)| {
-                        t.raw
-                            .get("name")
-                            .and_then(|n| n.get(k.as_str()))
-                            .and_then(|f| f.as_str())
-                            .map(|f| f == v.as_str())
-                            .unwrap_or(false)
-                    })
-                    .count()
-            })
-            .copied()
-            .unwrap(); // safe: candidates is non-empty
-
-        // Build the chain by walking alias edges.
-        let mut chain: Vec<String> = vec![format!("{{{}}}", name)];
-        let mut current = best;
-        let mut seen: std::collections::HashSet<String> = std::collections::HashSet::new();
-        seen.insert(current.name.clone());
-
-        loop {
-            let Some(alias_target) = current.alias_target.as_deref() else {
-                break;
-            };
-            let Some(next) = self.graph.resolve_alias_key(alias_target) else {
-                break;
-            };
-            if !seen.insert(next.name.clone()) {
-                break; // cycle guard
-            }
-            // Represent the hop as `{legacy-key}` if we can compute it.
-            let hop_label = next
-                .raw
-                .get("name")
-                .and_then(|n| extract_legacy_key(n))
-                .map(|k| format!("{{{}}}", k))
-                .unwrap_or_else(|| {
-                    format!(
-                        "(uuid:{})",
-                        next.uuid.as_deref().unwrap_or("?")
-                    )
-                });
-            chain.push(hop_label);
-            current = next;
-        }
-
-        // Append the terminal value as the last chain entry.
-        let value = current.raw.get("value").cloned();
-        if let Some(ref v) = value {
-            chain.push(match v {
-                serde_json::Value::String(s) => s.clone(),
-                other => other.to_string(),
-            });
-        }
-
-        Ok(Some(crate::types::ReferenceChainResult { value, chain }))
+        let result =
+            design_data_core::cascade::resolve_reference(&self.graph, token_ref, &ctx_map);
+        Ok(result.map(|r| crate::types::ReferenceChainResult {
+            value: r.value,
+            chain: r.chain,
+        }))
     }
 
     // -----------------------------------------------------------------------

@@ -1,0 +1,32 @@
+[
+  {
+    "name": {
+      "property": "color",
+      "colorFamily": "blue",
+      "scaleIndex": 900,
+      "colorScheme": "light"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgb(59, 99, 251)",
+    "uuid": "ref-blue900-light-0000-000000000001",
+    "set_uuid": "ref-blue900-set-000-0000-000000000001"
+  },
+  {
+    "name": {
+      "property": "color",
+      "colorFamily": "blue",
+      "scaleIndex": 900,
+      "colorScheme": "dark"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgb(75, 117, 255)",
+    "uuid": "ref-blue900-dark-0000-000000000001",
+    "set_uuid": "ref-blue900-set-000-0000-000000000001"
+  },
+  {
+    "name": { "property": "accent-color-900" },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ref-blue900-set-000-0000-000000000001",
+    "uuid": "ref-accent-color-900-0000-000000000001"
+  }
+]

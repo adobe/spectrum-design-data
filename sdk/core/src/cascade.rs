@@ -323,6 +323,141 @@ pub fn apply_restrictions(
         })
 }
 
+// ── Legacy-slug reference resolution ─────────────────────────────────────────
+
+/// The resolved value and alias chain from [`resolve_reference`].
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct ReferenceChainResult {
+    /// The resolved terminal value (absent when all aliases in the chain dangle).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub value: Option<serde_json::Value>,
+    /// Ordered list: original `{slug}` → intermediate `{name}` hops → terminal value string.
+    pub chain: Vec<String>,
+}
+
+/// Resolve a legacy token reference by slug in a given context, returning the
+/// terminal value and the full alias chain.
+///
+/// This is the engine-agnostic core of `Dataset.resolveReference` (wasm surface).
+/// It bridges the legacy *object-map* slug model used by `docs/s2-tokens-viewer`
+/// to the cascade dataset: `{blue-100}` → UUID alias chain → `"rgb(245, 249, 255)"`.
+///
+/// `ctx` maps cascade name-object field names to their requested values, e.g.
+/// `{"colorScheme": "dark"}` or `{"scale": "mobile"}`.
+///
+/// When an alias targets a **set-level UUID** (a common pattern after `migrate convert`
+/// explodes color-set tokens into per-mode records), [`TokenGraph::resolve_alias_in_context`]
+/// picks the mode-appropriate child so chains traverse the correct light/dark/wireframe
+/// variant.
+///
+/// Graceful degradation: if the chain dangling (a `$ref` target is absent), the walk
+/// stops and returns whatever value/chain was accumulated so far.  Callers receive a
+/// `ReferenceChainResult` with `value: None` rather than an error.
+///
+/// Returns `None` when no token matches `slug` at all.
+pub fn resolve_reference(
+    graph: &TokenGraph,
+    slug: &str,
+    ctx: &std::collections::HashMap<String, String>,
+) -> Option<ReferenceChainResult> {
+    use crate::naming::extract_legacy_key;
+
+    // Strip optional `{…}` wrapper.
+    let name = slug
+        .trim()
+        .trim_start_matches('{')
+        .trim_end_matches('}');
+
+    // Collect all cascade tokens whose computed legacy key equals `name`,
+    // or whose direct graph key equals `name` (object-format legacy tokens).
+    let candidates: Vec<&crate::graph::TokenRecord> = graph
+        .tokens
+        .values()
+        .filter(|t| {
+            let legacy_match = t
+                .raw
+                .get("name")
+                .and_then(|n| extract_legacy_key(n))
+                .is_some_and(|k| k == name);
+            let direct_match = t.name == name;
+            legacy_match || direct_match
+        })
+        .collect();
+
+    if candidates.is_empty() {
+        return None;
+    }
+
+    // Pick the candidate with the most name-object fields matching the context.
+    // Tie-break is stable: secondary-sort by uuid ascending so repeated calls
+    // with the same arguments always return the same token.
+    let best = candidates
+        .iter()
+        .max_by(|a, b| {
+            let score = |t: &&crate::graph::TokenRecord| {
+                ctx.iter()
+                    .filter(|(k, v)| {
+                        t.raw
+                            .get("name")
+                            .and_then(|n| n.get(k.as_str()))
+                            .and_then(|f| f.as_str())
+                            .is_some_and(|f| f == v.as_str())
+                    })
+                    .count()
+            };
+            let sa = score(a);
+            let sb = score(b);
+            sa.cmp(&sb).then_with(|| {
+                // Lower uuid string = higher priority (stable, deterministic).
+                let ua = a.uuid.as_deref().unwrap_or("");
+                let ub = b.uuid.as_deref().unwrap_or("");
+                ub.cmp(ua) // reversed: max_by, so larger comparator = winner
+            })
+        })
+        .copied()
+        .expect("candidates is non-empty"); // safe
+
+    // Build the chain by walking alias edges, using context-aware set resolution.
+    let mut chain: Vec<String> = vec![format!("{{{name}}}",)];
+    let mut current = best;
+    let mut seen = std::collections::HashSet::new();
+    seen.insert(current.name.clone());
+
+    loop {
+        let Some(alias_target) = current.alias_target.as_deref() else {
+            break;
+        };
+        let Some(next) = graph.resolve_alias_in_context(alias_target, ctx) else {
+            break; // dangling ref — degrade gracefully
+        };
+        if !seen.insert(next.name.clone()) {
+            break; // cycle guard
+        }
+        // Represent the hop as `{legacy-key}` when derivable, else as UUID.
+        let hop_label = next
+            .raw
+            .get("name")
+            .and_then(|n| extract_legacy_key(n))
+            .map(|k| format!("{{{k}}}"))
+            .unwrap_or_else(|| {
+                format!("(uuid:{})", next.uuid.as_deref().unwrap_or("?"))
+            });
+        chain.push(hop_label);
+        current = next;
+    }
+
+    // Append the terminal value as the last chain entry.
+    let value = current.raw.get("value").cloned();
+    if let Some(ref v) = value {
+        chain.push(match v {
+            serde_json::Value::String(s) => s.clone(),
+            other => other.to_string(),
+        });
+    }
+
+    Some(ReferenceChainResult { value, chain })
+}
+
 // ── Tests ─────────────────────────────────────────────────────────────────────
 
 #[cfg(test)]

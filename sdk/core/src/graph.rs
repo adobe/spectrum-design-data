@@ -118,6 +118,10 @@ pub struct TokenGraph {
     /// Required for cascade-format alias resolution: cascade token keys are
     /// `"<file>:<index>"` (guaranteed unique) rather than UUIDs, so `$ref`
     /// targets that are UUID strings need this index to resolve.
+    ///
+    /// Also contains `set_uuid → first child key` as a context-free fallback
+    /// (see `set_uuid_index` for the full child list used by context-aware
+    /// resolution).
     uuid_index: HashMap<String, String>,
     /// Tertiary index: legacy human-readable name → primary key in `tokens`.
     ///
@@ -127,6 +131,18 @@ pub struct TokenGraph {
     /// against cascade tokens.  Not needed for object-format tokens, which are
     /// already keyed by their legacy slug, but harmlessly populated there too.
     legacy_name_index: HashMap<String, String>,
+    /// Quaternary index: set-level UUID → all child graph keys (in insertion order).
+    ///
+    /// When the cascade `migrate convert` command explodes a legacy color-set or
+    /// scale-set token into per-mode records, each child carries a `set_uuid`
+    /// field pointing at the original set-level UUID (which is no longer any
+    /// individual record's `uuid`).  Context-aware callers (e.g.
+    /// [`TokenGraph::resolve_alias_in_context`]) use this index to pick the
+    /// mode-appropriate child rather than always taking the first.
+    ///
+    /// `uuid_index` retains the `set_uuid → first child` mapping as a context-free
+    /// fallback so non-context callers like `resolve_leaf` continue to terminate.
+    set_uuid_index: HashMap<String, Vec<String>>,
 }
 
 impl TokenGraph {
@@ -343,9 +359,15 @@ impl TokenGraph {
                     // Register set_uuid → key so that aliases pointing at the
                     // set-level UUID (emitted by the forward migration when a
                     // legacy alias targets a color-set or scale-set token) can
-                    // resolve.  `or_insert_with` keeps the first mode (stable).
+                    // resolve.  `or_insert_with` keeps the first mode (stable)
+                    // as a context-free fallback in uuid_index; set_uuid_index
+                    // accumulates ALL children for context-aware selection.
                     if let Some(su) = tok_obj.get("set_uuid").and_then(|v| v.as_str()) {
                         g.uuid_index.entry(su.to_string()).or_insert_with(|| key.clone());
+                        g.set_uuid_index
+                            .entry(su.to_string())
+                            .or_default()
+                            .push(key.clone());
                     }
                     // Register legacy name → key so inline composite `{name}`
                     // refs can resolve against cascade tokens (keyed file:index).
@@ -454,6 +476,7 @@ impl TokenGraph {
     pub fn from_pairs(entries: Vec<(String, PathBuf, Value)>) -> Self {
         let mut tokens = HashMap::new();
         let mut uuid_index = HashMap::new();
+        let mut set_uuid_index: HashMap<String, Vec<String>> = HashMap::new();
         // `from_pairs` uses the entry name as the graph key (object-format style),
         // so no separate legacy_name_index entry is needed — tokens.get(name) works.
         let legacy_name_index = HashMap::new();
@@ -470,6 +493,13 @@ impl TokenGraph {
             let alias_target = tok_obj.and_then(extract_alias_target);
             if let Some(u) = &uuid {
                 uuid_index.entry(u.clone()).or_insert_with(|| name.clone());
+            }
+            if let Some(su) = tok_obj
+                .and_then(|o| o.get("set_uuid"))
+                .and_then(|v| v.as_str())
+            {
+                uuid_index.entry(su.to_string()).or_insert_with(|| name.clone());
+                set_uuid_index.entry(su.to_string()).or_default().push(name.clone());
             }
             tokens.insert(
                 name.clone(),
@@ -493,6 +523,7 @@ impl TokenGraph {
             manifest: serde_json::Value::Null,
             uuid_index,
             legacy_name_index,
+            set_uuid_index,
         }
     }
 
@@ -503,12 +534,21 @@ impl TokenGraph {
     pub fn from_records(records: Vec<TokenRecord>) -> Self {
         let mut tokens = HashMap::new();
         let mut uuid_index = HashMap::new();
+        let mut set_uuid_index: HashMap<String, Vec<String>> = HashMap::new();
         let mut legacy_name_index = HashMap::new();
         for record in records {
             if let Some(u) = &record.uuid {
                 uuid_index
                     .entry(u.clone())
                     .or_insert_with(|| record.name.clone());
+            }
+            if let Some(su) = record
+                .raw
+                .get("set_uuid")
+                .and_then(|v| v.as_str())
+            {
+                uuid_index.entry(su.to_string()).or_insert_with(|| record.name.clone());
+                set_uuid_index.entry(su.to_string()).or_default().push(record.name.clone());
             }
             // Index by legacy name derived from the name object so that inline
             // composite refs can resolve if this was a cascade-format token.
@@ -529,6 +569,7 @@ impl TokenGraph {
             manifest: serde_json::Value::Null,
             uuid_index,
             legacy_name_index,
+            set_uuid_index,
         }
     }
 
@@ -857,14 +898,32 @@ impl TokenGraph {
         Ok(Vec::new())
     }
 
-    /// Rebuild `uuid_index` from the current `tokens` map (after filtering).
+    /// Rebuild `uuid_index` and `set_uuid_index` from the current `tokens` map
+    /// (after filtering or cache reload).
+    ///
+    /// This is called whenever the token map is mutated (e.g. after loading from
+    /// the redb cache, which only persists `tokens`/`mode_sets`/`fields`).
+    /// Rebuilding here ensures that `set_uuid` → children mappings are restored
+    /// even when the graph was not loaded fresh from JSON.
     fn rebuild_uuid_index(&mut self) {
         self.uuid_index.clear();
+        self.set_uuid_index.clear();
         for (key, rec) in &self.tokens {
             if let Some(u) = &rec.uuid {
                 self.uuid_index
                     .entry(u.clone())
                     .or_insert_with(|| key.clone());
+            }
+            if let Some(su) = rec.raw.get("set_uuid").and_then(|v| v.as_str()) {
+                // First-child fallback for context-free callers (resolve_leaf, etc.).
+                self.uuid_index
+                    .entry(su.to_string())
+                    .or_insert_with(|| key.clone());
+                // Full child list for context-aware resolution.
+                self.set_uuid_index
+                    .entry(su.to_string())
+                    .or_default()
+                    .push(key.clone());
             }
         }
     }
@@ -1082,6 +1141,76 @@ impl TokenGraph {
             return self.tokens.get(k);
         }
         None
+    }
+
+    /// Resolve a set-level UUID to the context-appropriate child record.
+    ///
+    /// Picks the child from `set_uuid_index` whose name-object fields best match
+    /// `ctx` (greatest count of matching key=value pairs).  Tie-breaks are stable:
+    /// among equal-score children the one with the lexicographically smallest `uuid`
+    /// wins, so repeated calls with the same arguments always return the same token.
+    ///
+    /// Returns `None` when no children are registered for `set_uuid`.
+    pub fn resolve_set_in_context<'a>(
+        &'a self,
+        set_uuid: &str,
+        ctx: &std::collections::HashMap<String, String>,
+    ) -> Option<&'a TokenRecord> {
+        let keys = self.set_uuid_index.get(set_uuid)?;
+        let mut best_score = usize::MAX; // sentinel: no winner yet
+        let mut best_uuid: Option<&str> = None;
+        let mut best: Option<&TokenRecord> = None;
+
+        for key in keys {
+            let Some(rec) = self.tokens.get(key) else {
+                continue;
+            };
+            let score = ctx
+                .iter()
+                .filter(|(k, v)| {
+                    rec.raw
+                        .get("name")
+                        .and_then(|n| n.get(k.as_str()))
+                        .and_then(|f| f.as_str())
+                        .is_some_and(|f| f == v.as_str())
+                })
+                .count();
+            let cand_uuid = rec.uuid.as_deref().unwrap_or("");
+            // Higher score wins; equal scores break on uuid lexicographic ascending.
+            let is_better = match best {
+                None => true,
+                Some(_) => {
+                    score > best_score
+                        || (score == best_score && Some(cand_uuid) < best_uuid)
+                }
+            };
+            if is_better {
+                best_score = score;
+                best_uuid = Some(cand_uuid);
+                best = Some(rec);
+            }
+        }
+        best
+    }
+
+    /// Context-aware alias resolution: checks `set_uuid_index` first.
+    ///
+    /// When `alias_target` is a set-level UUID, returns the mode-appropriate child
+    /// via [`TokenGraph::resolve_set_in_context`].  Falls back to the standard
+    /// [`TokenGraph::resolve_alias_key`] path (uuid_index → direct → legacy name)
+    /// for all other alias targets.
+    ///
+    /// Use this in chain-walking code that has an active resolution context; use
+    /// `resolve_alias_key` for context-free alias resolution (e.g. `resolve_leaf`).
+    pub(crate) fn resolve_alias_in_context<'a>(
+        &'a self,
+        alias_target: &str,
+        ctx: &std::collections::HashMap<String, String>,
+    ) -> Option<&'a TokenRecord> {
+        if self.set_uuid_index.contains_key(alias_target) {
+            return self.resolve_set_in_context(alias_target, ctx);
+        }
+        self.resolve_alias_key(alias_target)
     }
 }
 

@@ -1,0 +1,8 @@
+[
+  {
+    "name": { "property": "accent-color-dangling" },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "00000000-0000-0000-0000-000000000000",
+    "uuid": "ref-dangling-alias-0000-000000000001"
+  }
+]

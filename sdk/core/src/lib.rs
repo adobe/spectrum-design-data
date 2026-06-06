@@ -1105,6 +1105,147 @@ mod migration_roundtrip {
     }
 }
 
+/// Reference conformance tests — fixture-driven.
+///
+/// Each test case lives under `packages/design-data-spec/conformance/reference/<name>/`
+/// with `input/` (cascade tokens), `query.json`, and `expected.json`.
+///
+/// `query.json` shape: `{ "ref": "{slug}", "context": { …name-object fields… } }`.
+/// `expected.json` shape:
+///   - `resolved: bool` — whether `resolve_reference` should return `Some`.
+///   - `expected_value?: any` — asserts the terminal value when `resolved: true`.
+///   - `expected_has_value?: bool` — when false, asserts value is None (dangling chain).
+///   - `expected_chain_length?: number` — exact chain length.
+///   - `expected_chain_min_length?: number` — minimum chain length.
+///   - `expected_chain_0?: string` — asserts `chain[0]`.
+///   - `expected_chain_last?: string` — asserts `chain[chain.len()-1]`.
+#[cfg(test)]
+mod reference_conformance {
+    use std::collections::HashMap;
+    use std::path::Path;
+
+    use serde_json::Value;
+
+    use crate::cascade::resolve_reference;
+    use crate::graph::TokenGraph;
+
+    fn run_fixture(case: &str) {
+        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/reference")
+            .join(case);
+
+        let query_text = std::fs::read_to_string(base.join("query.json"))
+            .unwrap_or_else(|e| panic!("{case}: failed to read query.json: {e}"));
+        let query: Value = serde_json::from_str(&query_text)
+            .unwrap_or_else(|e| panic!("{case}: invalid query.json: {e}"));
+
+        let expected_text = std::fs::read_to_string(base.join("expected.json"))
+            .unwrap_or_else(|e| panic!("{case}: failed to read expected.json: {e}"));
+        let expected: Value = serde_json::from_str(&expected_text)
+            .unwrap_or_else(|e| panic!("{case}: invalid expected.json: {e}"));
+
+        let slug = query["ref"]
+            .as_str()
+            .unwrap_or_else(|| panic!("{case}: query.json missing 'ref'"));
+
+        let ctx: HashMap<String, String> = query
+            .get("context")
+            .and_then(|v| v.as_object())
+            .map(|o| {
+                o.iter()
+                    .filter_map(|(k, v)| v.as_str().map(|s| (k.clone(), s.to_string())))
+                    .collect()
+            })
+            .unwrap_or_default();
+
+        let graph = TokenGraph::from_json_dir(&base.join("input"))
+            .unwrap_or_else(|e| panic!("{case}: failed to load tokens: {e}"));
+
+        let should_resolve = expected["resolved"].as_bool().unwrap_or(true);
+        let result = resolve_reference(&graph, slug, &ctx);
+
+        if !should_resolve {
+            assert!(
+                result.is_none(),
+                "{case}: expected None but got Some({result:?})"
+            );
+            return;
+        }
+
+        let r = result.unwrap_or_else(|| panic!("{case}: expected Some but got None"));
+
+        // Optional: assert that value is present or absent.
+        if let Some(has_value) = expected.get("expected_has_value").and_then(|v| v.as_bool()) {
+            if has_value {
+                assert!(r.value.is_some(), "{case}: expected a terminal value but got None");
+            } else {
+                assert!(r.value.is_none(), "{case}: expected no terminal value but got {:?}", r.value);
+            }
+        }
+
+        // Optional: assert terminal value.
+        if let Some(expected_value) = expected.get("expected_value") {
+            let actual = r.value.as_ref().unwrap_or_else(|| {
+                panic!("{case}: expected_value asserted but result has no value")
+            });
+            assert_eq!(actual, expected_value, "{case}: wrong terminal value");
+        }
+
+        // Optional: chain length checks.
+        if let Some(len) = expected.get("expected_chain_length").and_then(|v| v.as_u64()) {
+            assert_eq!(
+                r.chain.len(),
+                len as usize,
+                "{case}: expected chain length {len}, got {} ({:?})",
+                r.chain.len(),
+                r.chain
+            );
+        }
+        if let Some(min) = expected.get("expected_chain_min_length").and_then(|v| v.as_u64()) {
+            assert!(
+                r.chain.len() >= min as usize,
+                "{case}: expected chain.len() >= {min}, got {} ({:?})",
+                r.chain.len(),
+                r.chain
+            );
+        }
+        if let Some(first) = expected.get("expected_chain_0").and_then(|v| v.as_str()) {
+            assert_eq!(
+                r.chain.first().map(String::as_str),
+                Some(first),
+                "{case}: wrong chain[0]"
+            );
+        }
+        if let Some(last) = expected.get("expected_chain_last").and_then(|v| v.as_str()) {
+            assert_eq!(
+                r.chain.last().map(String::as_str),
+                Some(last),
+                "{case}: wrong chain[-1]"
+            );
+        }
+    }
+
+    #[test]
+    fn set_alias_light() {
+        run_fixture("set-alias-light");
+    }
+
+    #[test]
+    fn set_alias_dark() {
+        run_fixture("set-alias-dark");
+    }
+
+    #[test]
+    fn dangling_ref() {
+        run_fixture("dangling-ref");
+    }
+
+    #[test]
+    fn unknown_slug() {
+        run_fixture("unknown-slug");
+    }
+}
+
 /// Diff conformance tests — fixture-driven, closes #788.
 ///
 /// Each test case lives under `packages/design-data-spec/conformance/diff/<name>/`
