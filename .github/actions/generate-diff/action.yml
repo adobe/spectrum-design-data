@@ -46,6 +46,13 @@ runs:
       shell: bash
       run: moon setup
 
+    - name: Cache pnpm store
+      uses: actions/cache@v4
+      with:
+        path: ~/.local/share/pnpm/store
+        key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: pnpm-${{ runner.os }}-
+
     - name: Install tool dependencies
       shell: bash
       working-directory: ./tools/${{ inputs.tool }}

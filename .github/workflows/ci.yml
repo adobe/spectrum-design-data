@@ -5,26 +5,113 @@ permissions:
   contents: read
   pull-requests: write
 
+# Cancel superseded runs on the same branch — avoids running stale CI when
+# commits are pushed in quick succession.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  ci:
-    name: CI
+  # Pure-Node checks — no Rust compilation. Runs tool unit tests and
+  # package-level Node tasks that have no sdk:* dependency. Runs in parallel
+  # with the rust job so JS-only PRs get fast feedback without waiting for
+  # the full Rust + wasm build.
+  #
+  # If you add a new moon project with CI tasks that do NOT depend on sdk:build
+  # or sdk-wasm:build, add its target to the moon ci invocation below.
+  node:
+    name: Node
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      # Install Rust 1.88.0 + wasm32 target for the sdk-wasm:build task.
-      # This also covers sdk:lint (cargo clippy) and aligns with sdk/rust-toolchain.toml.
+          # Blobless partial clone: fetches full commit graph but skips
+          # historical file blobs (fetched on demand). Keeps moon's affected
+          # detection intact while reducing checkout time on large histories.
+          filter: blob:none
+      - uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm/store
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ runner.os }}-
+      - name: Run Node CI tasks
+        run: |
+          moon ci \
+            tokens:buildTokens \
+            tokens:buildManifest \
+            component-schemas:test \
+            design-data-spec:check \
+            token-diff-generator:ci \
+            component-diff-generator:ci \
+            spectrum-diff-core:ci \
+            optimized-diff:test \
+            release-analyzer:test \
+            token-naming-audit:ci \
+            demo:ci \
+            design-data-glue:ci \
+            spectrum-design-data-mcp:test \
+            design-data-agent-mcp:test \
+            component-options-editor:test
+      - uses: moonrepo/run-report-action@v1
+        if: success() || failure()
+        with:
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+
+  # Rust + wasm checks — compiles the SDK workspace and runs all tasks that
+  # depend on sdk:build (tokens validation, design-data validation) or
+  # sdk-wasm:build. Uses Swatinem/rust-cache to persist the Cargo build cache
+  # across runs, turning cold 455-crate compiles into fast incremental builds.
+  #
+  # If you add a new moon task that depends on sdk:build or sdk-wasm:build,
+  # add its target to the moon ci invocation below.
+  rust:
+    name: Rust
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: blob:none
+      # Install Rust 1.88.0 + wasm32 target + clippy before moon/proto runs,
+      # so proto uses the system-installed toolchain rather than re-downloading.
+      # Aligned with sdk/rust-toolchain.toml and .moon/toolchain.yml.
       - uses: dtolnay/rust-toolchain@1.88.0
         with:
           targets: wasm32-unknown-unknown
           components: clippy
+      # Persist the Cargo build cache (sdk/target/) across PR runs.
+      # On a warm hit this turns a full 455-crate recompile into an incremental
+      # build — the single biggest CI speedup in this repo.
+      - name: Cache Cargo build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "sdk -> sdk/target"
       # Install wasm-pack so `moon run sdk-wasm:build` can invoke it.
       - uses: jetli/wasm-pack-action@v0.4.0
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
-      - run: moon ci
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm/store
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ runner.os }}-
+      - name: Run Rust CI tasks
+        run: |
+          moon ci \
+            sdk:lint \
+            sdk:test \
+            sdk-wasm:ci \
+            tokens:test \
+            design-data:validate \
+            design-data:roundtrip-verify \
+            design-data:legacy-output
       - uses: moonrepo/run-report-action@v1
         if: success() || failure()
         with:

@@ -7,6 +7,10 @@ on:
       - "packages/design-data/components/**"
       - "packages/component-schemas/package.json"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   component-diff-comment:
     runs-on: ubuntu-latest

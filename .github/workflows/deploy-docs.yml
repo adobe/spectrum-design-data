@@ -45,6 +45,12 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.88.0
         with:
           targets: wasm32-unknown-unknown
+      # Persist the Cargo build cache across deploys so the viewer's wasm
+      # build is incremental rather than recompiling from scratch each time.
+      - name: Cache Cargo build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "sdk -> sdk/target"
       - uses: jetli/wasm-pack-action@v0.4.0
       - uses: moonrepo/setup-toolchain@v0
         with:

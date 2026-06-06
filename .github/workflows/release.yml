@@ -53,6 +53,13 @@ jobs:
 
       - run: npm install -g pnpm@10.17.1
 
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm/store
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ runner.os }}-
+
       - run: pnpm install --frozen-lockfile
 
       - name: Build tokens package
@@ -122,11 +129,26 @@ jobs:
           toolchain: "1.88.0"
           targets: ${{ matrix.target }}
 
+      # Persist the Cargo build cache per target platform so release builds
+      # are incremental rather than cold-compiling 455 crates each time.
+      - name: Cache Cargo build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "sdk -> sdk/target"
+          key: ${{ matrix.target }}
+
       - uses: actions/setup-node@v4
         with:
           node-version: "20.17.0"
 
       - run: npm install -g pnpm@10.17.1
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm/store
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ runner.os }}-
 
       # --ignore-scripts skips prepare hooks (e.g. docs/s2-tokens-viewer uses
       # `mkdir -p` which is not available on the Windows runner).
@@ -191,6 +213,13 @@ jobs:
       - run: npm install -g npm@11.6.2
 
       - run: npm install -g pnpm@10.17.1
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm/store
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ runner.os }}-
 
       - run: pnpm install --frozen-lockfile
 

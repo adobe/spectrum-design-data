@@ -7,6 +7,10 @@ on:
       - "packages/tokens/src/**"
       - "packages/tokens/schemas/**"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   token-diff-comment:
     runs-on: ubuntu-latest
