@@ -65,6 +65,9 @@ importers:
 
   docs/s2-tokens-viewer:
     dependencies:
+      '@adobe/design-data-wasm':
+        specifier: workspace:*
+        version: link:../../sdk/wasm
       '@adobe/spectrum-tokens':
         specifier: workspace:*
         version: link:../../packages/tokens

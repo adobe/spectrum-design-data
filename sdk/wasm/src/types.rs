@@ -247,6 +247,28 @@ impl SuggestResultArray {
     }
 }
 
+/// The result of `Dataset.resolveReference()`.
+///
+/// Contains the resolved terminal value and the full chain of names/references
+/// traversed to reach it — mirrors the `getResolutionChain()` behaviour from
+/// the legacy inline `TokenResolver` in `docs/s2-tokens-viewer/index.html`.
+///
+/// ```ts
+/// const r = ds.resolveReference("{accent-color-100}", { colorScheme: "light" });
+/// // r.chain → ["{accent-color-100}", "{blue-100}", "rgb(245, 249, 255)"]
+/// // r.value → "rgb(245, 249, 255)"
+/// ```
+#[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
+#[tsify(into_wasm_abi, from_wasm_abi)]
+#[serde(rename_all = "camelCase")]
+pub struct ReferenceChainResult {
+    /// The resolved terminal value (absent if the chain is empty or all aliases dangle).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub value: Option<serde_json::Value>,
+    /// Ordered list from original reference → intermediate names → final value string.
+    pub chain: Vec<String>,
+}
+
 /// A mode-set context for token resolution.
 ///
 /// Maps mode-set names (e.g. `"colorScheme"`, `"scale"`) to their active mode

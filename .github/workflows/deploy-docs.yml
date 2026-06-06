@@ -40,6 +40,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      # Rust + wasm-pack required for viewer:resolve → sdk-wasm:build.
+      # Pinned to match ci.yml and sdk/rust-toolchain.toml.
+      - uses: dtolnay/rust-toolchain@1.88.0
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: jetli/wasm-pack-action@v0.4.0
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
@@ -50,7 +56,6 @@ jobs:
       - run: moon run visualizer:build
       - run: moon run s2-visualizer:build
       - run: moon run viewer:export
-      - run: moon run s2-tokens-viewer:export
       - run: moon run release-timeline:build
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

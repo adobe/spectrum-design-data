@@ -18,6 +18,7 @@
   "keywords": [],
   "author": "Larz (http://larz.co)",
   "dependencies": {
+    "@adobe/design-data-wasm": "workspace:*",
     "@adobe/spectrum-tokens": "workspace:*"
   }
 }

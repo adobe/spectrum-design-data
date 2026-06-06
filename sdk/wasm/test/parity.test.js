@@ -554,3 +554,164 @@ test("Dataset.fromTokens().primer() returns in-memory provenance", (t) => {
   t.is(p.provenance.source, "in-memory");
   t.is(p.taxonomyFields.length, 0, "in-memory datasets have no fields");
 });
+
+// ---------------------------------------------------------------------------
+// Dataset.resolveReference() — legacy-slug reference resolution (spike)
+// ---------------------------------------------------------------------------
+
+test("resolveReference: resolves a direct-value token by legacy slug", (t) => {
+  // Build a minimal cascade dataset matching the viewer's token format.
+  // "black" is a direct-value palette token.
+  const ds = wasm.Dataset.fromTokens([
+    {
+      name: { property: "color", colorFamily: "black" },
+      $schema:
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+      value: "rgb(0, 0, 0)",
+      uuid: "test-black-0000-0000-0000-000000000001",
+    },
+  ]);
+
+  const r = ds.resolveReference("{black}", {});
+  t.truthy(r, "should return a result");
+  t.deepEqual(r.value, "rgb(0, 0, 0)");
+  t.deepEqual(r.chain, ["{black}", "rgb(0, 0, 0)"]);
+});
+
+test("resolveReference: resolves a color-set token with context discrimination", (t) => {
+  // Two cascade variants for "blue-100" — light and dark.
+  const ds = wasm.Dataset.fromTokens([
+    {
+      name: {
+        property: "color",
+        colorFamily: "blue",
+        scaleIndex: 100,
+        colorScheme: "light",
+      },
+      $schema:
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+      value: "rgb(245, 249, 255)",
+      uuid: "test-blue100-light-0000-0000-000000000001",
+    },
+    {
+      name: {
+        property: "color",
+        colorFamily: "blue",
+        scaleIndex: 100,
+        colorScheme: "dark",
+      },
+      $schema:
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+      value: "rgb(14, 23, 63)",
+      uuid: "test-blue100-dark-0000-0000-000000000001",
+    },
+  ]);
+
+  const light = ds.resolveReference("{blue-100}", { colorScheme: "light" });
+  t.truthy(light);
+  t.deepEqual(light.value, "rgb(245, 249, 255)", "should pick light variant");
+
+  const dark = ds.resolveReference("{blue-100}", { colorScheme: "dark" });
+  t.truthy(dark);
+  t.deepEqual(dark.value, "rgb(14, 23, 63)", "should pick dark variant");
+});
+
+test("resolveReference: follows a one-hop alias chain", (t) => {
+  // accent-background-color-default (alias) → blue-100 (concrete value in light context).
+  // Uses real cascade naming: state-based property → generate_legacy_name produces
+  // "accent-background-color-default", and colorFamily-based → "blue-100".
+  const lightUUID = "test-blue100-light-0000-0000-000000000002";
+  const ds = wasm.Dataset.fromTokens([
+    {
+      name: {
+        property: "color",
+        colorFamily: "blue",
+        scaleIndex: 100,
+        colorScheme: "light",
+      },
+      value: "rgb(245, 249, 255)",
+      uuid: lightUUID,
+    },
+    {
+      name: {
+        property: "accent-background-color",
+        state: "default",
+        colorScheme: "light",
+      },
+      $schema:
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+      $ref: lightUUID,
+      uuid: "test-accent-bg-default-light-0000-000000000001",
+    },
+  ]);
+
+  // Note: extract_legacy_key({ property: "accent-background-color", state: "default" })
+  // → "accent-background-color-default" (via generate_legacy_name).
+  const r = ds.resolveReference("{accent-background-color-default}", {
+    colorScheme: "light",
+  });
+  t.truthy(r, "alias chain should resolve");
+  t.deepEqual(r.value, "rgb(245, 249, 255)");
+  // Chain: [{accent-background-color-default}, {blue-100}, rgb(245, 249, 255)]
+  t.is(
+    r.chain.length,
+    3,
+    `chain length expected 3, got: ${JSON.stringify(r.chain)}`,
+  );
+  t.is(r.chain[0], "{accent-background-color-default}");
+  t.is(r.chain[2], "rgb(245, 249, 255)");
+});
+
+test("resolveReference: returns undefined for an unknown token name", (t) => {
+  const ds = wasm.Dataset.fromTokens([
+    {
+      name: { property: "color", colorFamily: "blue" },
+      value: "blue",
+      uuid: "any",
+    },
+  ]);
+  const r = ds.resolveReference("{totally-made-up}", {});
+  t.is(r, undefined);
+});
+
+test("resolveReference: result has expected shape", (t) => {
+  const ds = wasm.Dataset.fromTokens([
+    {
+      name: { property: "color", colorFamily: "black" },
+      value: "rgb(0, 0, 0)",
+      uuid: "shape-black-0000-0000-0000-000000000001",
+    },
+  ]);
+  const r = ds.resolveReference("black", {});
+  t.truthy(r);
+  t.true(Array.isArray(r.chain));
+  t.true(r.chain.length >= 1);
+  // value is the raw JSON value (string for color, number for dimension, etc.)
+  t.true(r.value !== null && r.value !== undefined);
+});
+
+// ── embedded dataset smoke test ──────────────────────────────────────────────
+
+test("resolveReference: embedded dataset resolves a known palette token", (t) => {
+  const ds = wasm.Dataset.embedded();
+  // "black" is a stable direct-value palette token in the embedded Spectrum dataset.
+  const r = ds.resolveReference("{black}", {});
+  t.truthy(r, "should resolve 'black' in embedded dataset");
+  t.true(Array.isArray(r.chain) && r.chain.length >= 2);
+  t.truthy(r.value);
+});
+
+test("resolveReference: embedded dataset resolves blue-100 with light context", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const r = ds.resolveReference("{blue-100}", { colorScheme: "light" });
+  t.truthy(r, "should resolve 'blue-100' in light context");
+  t.deepEqual(r.value, "rgb(245, 249, 255)");
+  t.is(r.chain[0], "{blue-100}");
+});
+
+test("resolveReference: embedded dataset resolves blue-100 with dark context", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const r = ds.resolveReference("{blue-100}", { colorScheme: "dark" });
+  t.truthy(r, "should resolve 'blue-100' in dark context");
+  t.deepEqual(r.value, "rgb(14, 23, 63)");
+});

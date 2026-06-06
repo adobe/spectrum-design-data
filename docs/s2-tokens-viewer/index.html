@@ -126,199 +126,44 @@
         typography: "typography.json",
       };
 
-      // Unified Token Resolver class
-      class TokenResolver {
-        constructor(sources, tokenType = "color") {
-          this.sources = sources;
-          this.tokenType = tokenType;
-          this.cache = new Map();
-          this.resolving = new Set();
-        }
-
-        // Get source for a token
-        getTokenSource(tokenName) {
-          for (const [sourceName, source] of Object.entries(this.sources)) {
-            if (source[tokenName]) {
-              return sourceName;
-            }
-          }
-          return null;
-        }
-
-        // Main resolution method
-        resolve(tokenReference, context = "light") {
-          // Handle numeric values directly (especially for layout tokens)
-          if (typeof tokenReference === "number") {
-            return tokenReference;
-          }
-
-          if (
-            !tokenReference ||
-            typeof tokenReference !== "string" ||
-            !tokenReference.includes("{")
-          ) {
-            return tokenReference;
-          }
-
-          // Strip curly braces
-          const tokenName = tokenReference.replace(/[{}]/g, "");
-
-          // Check cache first
-          const cacheKey = `${tokenName}:${context}`;
-          if (this.cache.has(cacheKey)) {
-            return this.cache.get(cacheKey);
-          }
-
-          // Detect circular references
-          if (this.resolving.has(cacheKey)) {
-            console.warn(`Circular reference detected for token: ${tokenName}`);
-            return tokenReference;
-          }
-          this.resolving.add(cacheKey);
-
-          try {
-            const result = this.resolveToken(tokenName, context);
-            this.cache.set(cacheKey, result);
-            return result;
-          } finally {
-            this.resolving.delete(cacheKey);
-          }
-        }
-
-        // Internal resolution logic
-        resolveToken(tokenName, context) {
-          // Check each source in priority order
-          for (const [sourceName, source] of Object.entries(this.sources)) {
-            const token = source[tokenName];
-            if (!token) continue;
-
-            // Handle context-specific values (theme for colors, platform for layout)
-            if (token.sets?.[context]?.value) {
-              return this.resolveValue(token.sets[context].value, context);
-            }
-            // Handle single values
-            if (token.value) {
-              return this.resolveValue(token.value, context);
-            }
-          }
-
-          return null;
-        }
-
-        // Resolve raw values or further references
-        resolveValue(value, context) {
-          // If it's a reference (has curly braces), resolve it
-          if (typeof value === "string" && value.includes("{")) {
-            return this.resolve(value, context);
-          }
-
-          // Handle string numeric values
-          if (ValueFormatter.isType.numeric(value)) {
-            // If it's already a number, return as is
-            if (typeof value === "number") return value;
-            // Otherwise convert string to number
-            return parseFloat(value);
-          }
-
-          // Handle RGBA object format (for color type only)
-          if (
-            this.tokenType === "color" &&
-            typeof value === "object" &&
-            value !== null &&
-            value.r !== undefined
-          ) {
-            // Use ValueFormatter's modern method directly
-            return ValueFormatter.colorConverter.toRGBString(value);
-          }
-
-          // Return raw values as-is
-          return value;
-        }
-
-        // Get the full resolution chain for debugging/display
-        getResolutionChain(tokenReference, context = "light") {
-          const chain = [];
-          let current = tokenReference;
-          const seen = new Set();
-
-          // Handle numeric values directly
-          if (typeof current === "number") {
-            chain.push(current);
-            return chain;
-          }
-
-          while (
-            current &&
-            typeof current === "string" &&
-            current.includes("{")
-          ) {
-            chain.push(current);
-            const tokenName = current.replace(/[{}]/g, "");
-
-            if (seen.has(tokenName)) {
-              chain.push("(circular reference)");
-              break;
-            }
-            seen.add(tokenName);
-
-            // Find next reference in chain
-            let found = false;
-            for (const source of Object.values(this.sources)) {
-              const token = source[tokenName];
-              if (token) {
-                current = token.sets?.[context]?.value || token.value;
-                found = true;
-                break;
-              }
-            }
-
-            if (!found) break;
-          }
-
-          if (current) chain.push(current);
-          return chain;
-        }
-      }
-
       /**
-       * Factory function to get the appropriate resolver based on the type
-       * @param {string} type - The type of resolver to get ('color' or 'layout')
-       * @param {Object} data - The data sources for the resolver
-       * @returns {TokenResolver} The appropriate resolver instance
+       * Build a duck-typed resolver object from the pre-resolved token map emitted by
+       * scripts/resolve.mjs at build time.  The returned object exposes the same
+       * .resolve() / .getResolutionChain() interface previously provided by TokenResolver
+       * so that ValueFormatter.resolveTokenValue, TokenChainHandler.getResolutionChain,
+       * and all other call sites remain unchanged.
+       *
+       * @param {Object} map   The `tokens` object from resolved.json
+       * @param {string} type  "color" or "layout"
+       * @returns {Object}     Duck-typed resolver compatible with the rest of the viewer
        */
-      class TokenResolverFactory {
-        /**
-         * Creates the appropriate resolver for a token type
-         * @param {string} type The token type ('color', 'layout', etc.)
-         * @param {Object} data Source data objects
-         * @returns {TokenResolver} The resolver instance
-         */
-        static createResolver(type, data = {}) {
-          switch (type) {
-            case "color":
-              return new TokenResolver(
-                {
-                  colorPalette: data.colorPalette || {},
-                  aliases: data.aliases || {},
-                  semanticColors: data.semanticColors || {},
-                  componentColors: data.componentColors || {},
-                },
-                "color"
-              );
-            case "layout":
-              return new TokenResolver(
-                {
-                  typographyTokens: data.typographyTokens || {},
-                  layoutTokens: data.layoutTokens || {},
-                  componentLayoutTokens: data.componentLayoutTokens || {},
-                  semanticLayoutTokens: data.semanticLayoutTokens || {},
-                },
-                "layout"
-              );
-            default:
-              throw new Error(`Unknown resolver type: ${type}`);
-          }
-        }
+      function createResolvedLookup(map, type) {
+        // Pick the best context entry for a slug: exact match → "default" → first available.
+        const pick = (slug, ctx) =>
+          map[slug]?.[ctx] ??
+          map[slug]?.default ??
+          map[slug]?.[Object.keys(map[slug] ?? {})[0]];
+
+        return {
+          tokenType: type,
+          resolve(ref, ctx = "light") {
+            if (typeof ref === "number") return ref;
+            if (!ref || typeof ref !== "string" || !ref.includes("{")) return ref;
+            const e = pick(ref.replace(/[{}]/g, ""), ctx);
+            if (!e || e.value == null) return null;
+            const v = e.value;
+            // RGBA object (rare in cascade data) → CSS rgb() string for color display.
+            if (typeof v === "object" && v !== null && v.r !== undefined) {
+              return ValueFormatter.colorConverter.toRGBString(v);
+            }
+            return typeof v === "string" ? v : String(v);
+          },
+          getResolutionChain(ref, ctx = "light") {
+            if (typeof ref === "number") return [ref];
+            if (!ref || typeof ref !== "string" || !ref.includes("{")) return [ref];
+            return pick(ref.replace(/[{}]/g, ""), ctx)?.chain ?? [ref];
+          },
+        };
       }
 
       // Replace the current ValueFormatter with a more modular design
@@ -1506,8 +1351,12 @@
             DOM.colorFormat.value = savedFormat;
           }
 
-          // Create resolvers
-          const resolvers = createResolvers(validData);
+          // Load pre-resolved token map (emitted at build time by scripts/resolve.mjs).
+          const resolvedJson = await fetch("tokens/resolved.json").then(r => r.json());
+          window.resolvedTokens = resolvedJson.tokens;
+
+          // Create resolvers (backed by the pre-resolved map — no runtime wasm needed).
+          const resolvers = createResolvers();
 
           // Initialize UI components
           initializeGrids(validData, resolvers);
@@ -1531,31 +1380,12 @@
         }
       }
 
-      // Helper function to create resolvers
-      function createResolvers(data) {
-        const [
-          colorPalette,
-          aliases,
-          semanticPalette,
-          componentColors,
-          icons,
-          layoutTokens,
-          layoutComponent,
-          typography,
-        ] = data;
-
+      // Helper function to create resolvers from the pre-resolved token map.
+      function createResolvers() {
+        const map = window.resolvedTokens || {};
         return {
-          color: TokenResolverFactory.createResolver("color", {
-            colorPalette,
-            aliases,
-            semanticColors: semanticPalette,
-            componentColors,
-          }),
-          layout: TokenResolverFactory.createResolver("layout", {
-            layoutTokens,
-            componentLayoutTokens: layoutComponent,
-            typographyTokens: typography,
-          }),
+          color: createResolvedLookup(map, "color"),
+          layout: createResolvedLookup(map, "layout"),
         };
       }
 
@@ -1663,12 +1493,7 @@
         // Create a resolver if one wasn't provided (for color grids only)
         let effectiveResolver = resolver;
         if (gridType === "color" && !effectiveResolver) {
-          effectiveResolver = TokenResolverFactory.createResolver("color", {
-            colorPalette,
-            aliases,
-            semanticColors: tokenData,
-            componentColors: semanticData || componentColors,
-          });
+          effectiveResolver = createResolvedLookup(window.resolvedTokens || {}, "color");
         }
 
         // Create grid directly using TokenTableFactory for all grid types
@@ -2822,33 +2647,20 @@
 
         // Add method to create token chain display if needed
         createTokenChainDisplay(tokenName, format) {
-          // For token references, try to find its resolution chain
-          if (ValueFormatter.isType.tokenReference(tokenName)) {
-            // Find the appropriate resolver
-            let resolver = null;
-            if (tokenName.includes("color")) {
-              resolver = TokenResolverFactory.createResolver("color", {
-                colorPalette: window.colorPaletteData || {},
-                aliases: window.aliasesData || {},
-                semanticColors: window.semanticColorsData || {},
-                componentColors: window.componentColorsData || {},
-              });
-            }
-
-            if (resolver) {
-              const chain = TokenChainHandler.getResolutionChain(
-                resolver,
-                tokenName
-              );
-              if (chain && chain.length > 1) {
-                return TokenChainHandler.createResolutionChainElement(
-                  chain,
-                  format || DOM.colorFormat.value
-                );
-              }
-            }
+          // For token references, try to find its resolution chain.
+          if (!ValueFormatter.isType.tokenReference(tokenName)) return null;
+          const map = window.resolvedTokens;
+          if (!map) return null;
+          // Determine token type from name; default to color for backward compatibility.
+          const type = tokenName.includes("color") ? "color" : "layout";
+          const resolver = createResolvedLookup(map, type);
+          const chain = TokenChainHandler.getResolutionChain(resolver, tokenName);
+          if (chain && chain.length > 1) {
+            return TokenChainHandler.createResolutionChainElement(
+              chain,
+              format || DOM.colorFormat.value
+            );
           }
-
           return null;
         }
       }
