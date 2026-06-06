@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Node.js helpers for @adobe/design-data-wasm: filesystem dataset loading, token write operations, and authoring-session management",
   "type": "module",
   "main": "./src/index.js",

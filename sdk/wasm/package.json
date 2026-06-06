@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-wasm",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "private": true,
   "description": "WebAssembly bindings for design-data-core — query, validate, resolve, diff, and registry helpers for Spectrum design tokens",
   "type": "module",

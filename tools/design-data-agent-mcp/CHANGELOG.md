@@ -1,5 +1,41 @@
 # @adobe/design-data-agent-mcp
 
+## 1.5.0
+
+### Minor Changes
+
+- [#1135](https://github.com/adobe/spectrum-design-data/pull/1135) [`43cc2c5`](https://github.com/adobe/spectrum-design-data/commit/43cc2c584e17dc6fceeb1de8cc11033fd393245e) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix review findings from Phase C MCP wasm migration.
+  - **design-data-mcp**: replace hardcoded `indexed` field list with `getIndexedFields()`
+    wasm call (was missing `$schema`); cache `Dataset.embedded()`; extract
+    `scoreTokensByKeyword` helper; update suggest description to disclose keyword scoring.
+  - **design-data-agent-mcp validate**: restore Layer-1 JSON-Schema validation via
+    `@adobe/design-data-js/validate`; expose `schema_path` input; document exceptions limit.
+  - **design-data-agent-mcp diff**: fix filter to use camelCase `oldName`/`newName`;
+    extract `filterDiffByName` helper.
+  - **design-data-agent-mcp authoring**: restore `schema_path` on `authoring_session_commit`
+    and wire it to Layer-1 validation in `commitSession`.
+  - **design-data-skill SKILL.md**: fix `allowed-tools` to correct tool names; rewrite
+    body to use MCP tool descriptions instead of CLI `npx` commands.
+  - **design-data-agent-mcp SKILL.md**: fix `allowed-tools` prefix to
+    `mcp__design-data-agent__`; rewrite body to use MCP tool descriptions.
+  - **sdk/core query.rs**: expose `indexed_fields()` public accessor.
+  - **sdk/wasm registry.rs**: add `getIndexedFields()` wasm export.
+
+### Patch Changes
+
+- [#1138](https://github.com/adobe/spectrum-design-data/pull/1138) [`a393c71`](https://github.com/adobe/spectrum-design-data/commit/a393c7132af49b92852e88b2632451f61a1e67bb) Thanks [@GarthDB](https://github.com/GarthDB)! - Rename `@adobe/design-data-js` → `@adobe/design-data`; remove binary npm packages.
+  - **@adobe/design-data** (was `@adobe/design-data-js`): package renamed; all
+    import paths (`@adobe/design-data/load`, `/write`, `/session`, `/validate`) are
+    unchanged. Update your `package.json` dependency name to `@adobe/design-data`.
+  - **sdk/npm/\***: platform binary packages (`darwin-arm64`, `darwin-x64`,
+    `linux-x64`, `win32-x64`) and the CLI npm wrapper removed; use the Rust CLI
+    binary directly or the wasm package instead.
+  - **tools/design-data-agent-mcp**: dependency name updated to `@adobe/design-data`.
+
+- Updated dependencies [[`a393c71`](https://github.com/adobe/spectrum-design-data/commit/a393c7132af49b92852e88b2632451f61a1e67bb), [`a393c71`](https://github.com/adobe/spectrum-design-data/commit/a393c7132af49b92852e88b2632451f61a1e67bb), [`a393c71`](https://github.com/adobe/spectrum-design-data/commit/a393c7132af49b92852e88b2632451f61a1e67bb)]:
+  - @adobe/design-data-wasm@0.1.0
+  - @adobe/design-data@2.0.0
+
 ## 1.4.1
 
 ### Patch Changes

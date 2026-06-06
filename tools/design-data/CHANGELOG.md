@@ -1,5 +1,23 @@
 # @adobe/design-data
 
+## 2.0.0
+
+### Major Changes
+
+- [#1138](https://github.com/adobe/spectrum-design-data/pull/1138) [`a393c71`](https://github.com/adobe/spectrum-design-data/commit/a393c7132af49b92852e88b2632451f61a1e67bb) Thanks [@GarthDB](https://github.com/GarthDB)! - Rename `@adobe/design-data-js` → `@adobe/design-data`; remove binary npm packages.
+  - **@adobe/design-data** (was `@adobe/design-data-js`): package renamed; all
+    import paths (`@adobe/design-data/load`, `/write`, `/session`, `/validate`) are
+    unchanged. Update your `package.json` dependency name to `@adobe/design-data`.
+  - **sdk/npm/\***: platform binary packages (`darwin-arm64`, `darwin-x64`,
+    `linux-x64`, `win32-x64`) and the CLI npm wrapper removed; use the Rust CLI
+    binary directly or the wasm package instead.
+  - **tools/design-data-agent-mcp**: dependency name updated to `@adobe/design-data`.
+
+### Patch Changes
+
+- Updated dependencies [[`a393c71`](https://github.com/adobe/spectrum-design-data/commit/a393c7132af49b92852e88b2632451f61a1e67bb), [`a393c71`](https://github.com/adobe/spectrum-design-data/commit/a393c7132af49b92852e88b2632451f61a1e67bb)]:
+  - @adobe/design-data-wasm@0.1.0
+
 ## 1.0.0
 
 ### Major Changes
