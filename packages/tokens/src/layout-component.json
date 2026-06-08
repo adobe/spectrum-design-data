@@ -4779,21 +4779,25 @@
   },
   "form-item-gap-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "form-item",
     "value": "{base-gap-extra-large}",
     "uuid": "a70d4855-0c3f-4b59-9f63-16334cd06134"
   },
   "form-item-gap-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "form-item",
     "value": "{base-gap-large}",
     "uuid": "61cc3354-d256-482f-91d7-e4361cc4da9d"
   },
   "form-item-gap-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "form-item",
     "value": "{base-gap-medium}",
     "uuid": "56c23cee-9c0b-4851-ae72-a7287151b2fb"
   },
   "form-item-gap-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "form-item",
     "value": "{base-gap-small}",
     "uuid": "33bbbb47-23c6-4390-9577-42be709ceb98"
   },

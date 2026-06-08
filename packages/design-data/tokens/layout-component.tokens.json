@@ -20218,6 +20218,7 @@
   },
   {
     "name": {
+      "component": "form-item",
       "property": "form-item-gap-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -20226,6 +20227,7 @@
   },
   {
     "name": {
+      "component": "form-item",
       "property": "form-item-gap-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -20234,6 +20236,7 @@
   },
   {
     "name": {
+      "component": "form-item",
       "property": "form-item-gap-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -20242,6 +20245,7 @@
   },
   {
     "name": {
+      "component": "form-item",
       "property": "form-item-gap-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
