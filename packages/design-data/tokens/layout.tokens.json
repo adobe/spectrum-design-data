@@ -295,7 +295,8 @@
     "value": "18px",
     "uuid": "1a49e758-b070-4d85-97c5-0f9cc786999b",
     "set_uuid": "3eb3e963-b4b8-462f-b4e2-a48c657e2fd2",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "description": "Horizontal internal spacing for base UI elements at 2x-large size"
   },
   {
     "name": {
@@ -306,7 +307,8 @@
     "value": "14px",
     "uuid": "4f4ff59b-d91a-46fa-9388-b5ae49445d6f",
     "set_uuid": "3eb3e963-b4b8-462f-b4e2-a48c657e2fd2",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "description": "Horizontal internal spacing for base UI elements at 2x-large size"
   },
   {
     "name": {
@@ -317,7 +319,8 @@
     "value": "16px",
     "uuid": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
     "set_uuid": "26cedd5b-5c67-4da7-974f-806b20064a5b",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "description": "Horizontal internal spacing for base UI elements at extra-large size"
   },
   {
     "name": {
@@ -328,7 +331,8 @@
     "value": "12px",
     "uuid": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
     "set_uuid": "26cedd5b-5c67-4da7-974f-806b20064a5b",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "description": "Horizontal internal spacing for base UI elements at extra-large size"
   },
   {
     "name": {
@@ -348,7 +352,8 @@
     "value": "14px",
     "uuid": "ece70425-e509-45cc-8336-76fc8afdb921",
     "set_uuid": "ef179042-3ad8-4db5-8e23-983134f5906c",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "description": "Horizontal internal spacing for base UI elements at large size"
   },
   {
     "name": {
@@ -359,7 +364,8 @@
     "value": "12px",
     "uuid": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
     "set_uuid": "ef179042-3ad8-4db5-8e23-983134f5906c",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "description": "Horizontal internal spacing for base UI elements at large size"
   },
   {
     "name": {
@@ -370,7 +376,8 @@
     "value": "12px",
     "uuid": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
     "set_uuid": "4043f679-9ec2-4eef-b934-19f60d7e74f5",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "description": "Horizontal internal spacing for base UI elements at medium size"
   },
   {
     "name": {
@@ -381,7 +388,8 @@
     "value": "10px",
     "uuid": "71731484-e759-4a5f-89ed-9fe04ac19aed",
     "set_uuid": "4043f679-9ec2-4eef-b934-19f60d7e74f5",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "description": "Horizontal internal spacing for base UI elements at medium size"
   },
   {
     "name": {
@@ -392,7 +400,8 @@
     "value": "10px",
     "uuid": "ba072414-2cdd-4773-86a5-11ca47c08e23",
     "set_uuid": "0732ae91-c85b-45ab-8a57-e21622768db3",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "description": "Horizontal internal spacing for base UI elements at small size"
   },
   {
     "name": {
@@ -403,7 +412,8 @@
     "value": "8px",
     "uuid": "6b43633d-8f29-4c24-b26e-687d6f161bce",
     "set_uuid": "0732ae91-c85b-45ab-8a57-e21622768db3",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "description": "Horizontal internal spacing for base UI elements at small size"
   },
   {
     "name": {

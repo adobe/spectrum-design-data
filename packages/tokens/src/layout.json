@@ -193,6 +193,7 @@
   "base-padding-horizontal-2x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "uuid": "3eb3e963-b4b8-462f-b4e2-a48c657e2fd2",
+    "description": "Horizontal internal spacing for base UI elements at 2x-large size",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -209,6 +210,7 @@
   "base-padding-horizontal-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "uuid": "26cedd5b-5c67-4da7-974f-806b20064a5b",
+    "description": "Horizontal internal spacing for base UI elements at extra-large size",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -231,6 +233,7 @@
   "base-padding-horizontal-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "uuid": "ef179042-3ad8-4db5-8e23-983134f5906c",
+    "description": "Horizontal internal spacing for base UI elements at large size",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -247,6 +250,7 @@
   "base-padding-horizontal-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "uuid": "4043f679-9ec2-4eef-b934-19f60d7e74f5",
+    "description": "Horizontal internal spacing for base UI elements at medium size",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -263,6 +267,7 @@
   "base-padding-horizontal-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "uuid": "0732ae91-c85b-45ab-8a57-e21622768db3",
+    "description": "Horizontal internal spacing for base UI elements at small size",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
