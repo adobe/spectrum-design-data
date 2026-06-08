@@ -288,21 +288,47 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-2x-large"
+      "property": "base-padding-horizontal-2x-large",
+      "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "14px",
-    "uuid": "3eb3e963-b4b8-462f-b4e2-a48c657e2fd2",
-    "description": "Horizontal internal spacing for base UI elements at 2x-large size"
+    "value": "18px",
+    "uuid": "1a49e758-b070-4d85-97c5-0f9cc786999b",
+    "set_uuid": "3eb3e963-b4b8-462f-b4e2-a48c657e2fd2",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
   },
   {
     "name": {
-      "property": "base-padding-horizontal-extra-large"
+      "property": "base-padding-horizontal-2x-large",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "4f4ff59b-d91a-46fa-9388-b5ae49445d6f",
+    "set_uuid": "3eb3e963-b4b8-462f-b4e2-a48c657e2fd2",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "name": {
+      "property": "base-padding-horizontal-extra-large",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "set_uuid": "26cedd5b-5c67-4da7-974f-806b20064a5b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "name": {
+      "property": "base-padding-horizontal-extra-large",
+      "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
-    "uuid": "26cedd5b-5c67-4da7-974f-806b20064a5b",
-    "description": "Horizontal internal spacing for base UI elements at extra-large size"
+    "uuid": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "set_uuid": "26cedd5b-5c67-4da7-974f-806b20064a5b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
   },
   {
     "name": {
@@ -315,30 +341,69 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-large"
+      "property": "base-padding-horizontal-large",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "ece70425-e509-45cc-8336-76fc8afdb921",
+    "set_uuid": "ef179042-3ad8-4db5-8e23-983134f5906c",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "name": {
+      "property": "base-padding-horizontal-large",
+      "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
-    "uuid": "ef179042-3ad8-4db5-8e23-983134f5906c",
-    "description": "Horizontal internal spacing for base UI elements at large size"
+    "uuid": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
+    "set_uuid": "ef179042-3ad8-4db5-8e23-983134f5906c",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
   },
   {
     "name": {
-      "property": "base-padding-horizontal-medium"
+      "property": "base-padding-horizontal-medium",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "set_uuid": "4043f679-9ec2-4eef-b934-19f60d7e74f5",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "name": {
+      "property": "base-padding-horizontal-medium",
+      "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
-    "uuid": "4043f679-9ec2-4eef-b934-19f60d7e74f5",
-    "description": "Horizontal internal spacing for base UI elements at medium size"
+    "uuid": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "set_uuid": "4043f679-9ec2-4eef-b934-19f60d7e74f5",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
   },
   {
     "name": {
-      "property": "base-padding-horizontal-small"
+      "property": "base-padding-horizontal-small",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "ba072414-2cdd-4773-86a5-11ca47c08e23",
+    "set_uuid": "0732ae91-c85b-45ab-8a57-e21622768db3",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "name": {
+      "property": "base-padding-horizontal-small",
+      "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
-    "uuid": "0732ae91-c85b-45ab-8a57-e21622768db3",
-    "description": "Horizontal internal spacing for base UI elements at small size"
+    "uuid": "6b43633d-8f29-4c24-b26e-687d6f161bce",
+    "set_uuid": "0732ae91-c85b-45ab-8a57-e21622768db3",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
   },
   {
     "name": {
@@ -769,7 +834,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -783,7 +848,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -797,7 +862,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -811,7 +876,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -825,7 +890,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -839,7 +904,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -881,7 +946,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -895,7 +960,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -909,7 +974,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -923,7 +988,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -937,7 +1002,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -951,7 +1016,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -965,7 +1030,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -979,7 +1044,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -1021,7 +1086,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -1035,7 +1100,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -1483,7 +1548,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -1497,7 +1562,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -1511,7 +1576,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -1525,7 +1590,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -1539,7 +1604,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -1553,7 +1618,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -1567,7 +1632,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -1581,7 +1646,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -1595,7 +1660,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -1609,7 +1674,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -1623,7 +1688,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -1637,7 +1702,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -1651,7 +1716,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -1665,7 +1730,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -1679,7 +1744,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -1693,7 +1758,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Eliminating pill-specific padding to align with Spectrum Future Foundations designs",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -3007,7 +3072,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -3021,7 +3086,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -3035,7 +3100,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -3049,7 +3114,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -3063,7 +3128,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -3077,7 +3142,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -3100,7 +3165,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -3114,7 +3179,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -3137,7 +3202,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -3151,7 +3216,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -3165,7 +3230,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -3179,7 +3244,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -3193,7 +3258,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -3207,7 +3272,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -3221,7 +3286,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -3235,7 +3300,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -3258,7 +3323,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -3272,7 +3337,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -3286,7 +3351,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -3300,7 +3365,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -3314,7 +3379,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -3328,7 +3393,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -3351,7 +3416,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -3365,7 +3430,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -3389,7 +3454,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -3403,7 +3468,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -3417,7 +3482,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -3431,7 +3496,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -3445,7 +3510,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -3459,7 +3524,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -3473,7 +3538,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -3487,7 +3552,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -3501,7 +3566,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -3515,7 +3580,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -3529,7 +3594,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -3543,7 +3608,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -3557,7 +3622,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -3571,7 +3636,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -3585,7 +3650,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -3599,7 +3664,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -3613,7 +3678,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -3627,7 +3692,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -3641,7 +3706,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -3655,7 +3720,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -3669,7 +3734,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -3683,7 +3748,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -3697,7 +3762,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -3711,7 +3776,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -4677,12 +4742,28 @@
   },
   {
     "name": {
+      "property": "group-gap-extra-large-spacious"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
+    "uuid": "44df5dc7-cd4a-455c-a662-640963b956be"
+  },
+  {
+    "name": {
       "property": "group-gap-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
     "uuid": "c3ada312-da94-4779-bbf0-0fde3beb8121",
     "description": "Spacing between child elements at extra-small size"
+  },
+  {
+    "name": {
+      "property": "group-gap-extra-small-spacious"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
+    "uuid": "6ef5ec39-cff9-4689-8603-d89a9f12d6a5"
   },
   {
     "name": {
@@ -4695,6 +4776,14 @@
   },
   {
     "name": {
+      "property": "group-gap-large-spacious"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "b352f0f0-5843-4c65-8357-625b938ccaa0",
+    "uuid": "74977a77-fecf-4840-99c0-a55cfad9c7e0"
+  },
+  {
+    "name": {
       "property": "group-gap-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -4704,12 +4793,28 @@
   },
   {
     "name": {
+      "property": "group-gap-medium-spacious"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
+    "uuid": "ac8268b8-7975-4b8b-8043-33900765ae32"
+  },
+  {
+    "name": {
       "property": "group-gap-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "4adbd869-2ead-49b8-bed6-950fb14c695d",
     "uuid": "ce1865aa-9f33-492a-80c6-981fd503d70c",
     "description": "Spacing between child elements at small size"
+  },
+  {
+    "name": {
+      "property": "group-gap-small-spacious"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
+    "uuid": "13e12260-c5e2-4579-8b28-db919f4d4612"
   },
   {
     "name": {
@@ -4961,7 +5066,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -4975,7 +5080,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
