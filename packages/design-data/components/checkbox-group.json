@@ -9,83 +9,75 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/checkbox-group/"
   },
-  "options": {
-    "label": {
-      "type": "string"
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "A checkbox group is a grouping of checkboxes that are related to each other."
     },
+    {
+      "type": "guideline",
+      "content": "When a description is present and an error is triggered, it is replaced with an error message. Once the error is resolved, the help text description reappears."
+    },
+    {
+      "type": "guideline",
+      "content": "A checkbox group in a disabled state shows that a selection exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that an action may become available later. The field label, checkboxes, and help text are all displayed in a disabled state when the checkbox group is disabled."
+    },
+    {
+      "type": "guideline",
+      "content": "Checkbox groups can be either horizontal or vertical. By default, checkbox groups are stacked vertically. Use a horizontal checkbox group when vertical space is limited."
+    },
+    {
+      "type": "guideline",
+      "content": "Checkbox groups can be marked as optional or required, depending on the situation. Optional checkbox groups are either denoted with text added to the end of the label — “(optional)” — or have no indication at all."
+    },
+    {
+      "type": "guideline",
+      "content": "For required checkbox groups, there are two necessity indicator options: a “(required)” label or an asterisk. If you use an asterisk, be sure to include help text to explain what the asterisk means."
+    },
+    {
+      "type": "guideline",
+      "content": "The asterisk used in this component is an icon that has specific spacing from the label text — not part of the label text itself."
+    },
+    {
+      "type": "guideline",
+      "content": "Labels can be placed either on top or on the side. Top labels are the default and are recommended because they work better with long copy, localization, and responsive layouts. Side labels are most useful when vertical space is limited."
+    },
+    {
+      "type": "guideline",
+      "content": "Checkbox groups should always have a label. In rare cases where context is sufficient and an accessibility expert has reviewed the design, the label could be undefined. These checkbox groups without a visible label should still include an aria-label in HTML (depending on the context, “aria-label” or “aria-labelledby”)."
+    }
+  ],
+  "options": {
+    "label": { "type": "string" },
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "values": [
-        {
-          "value": "top"
-        },
-        {
-          "value": "side"
-        }
-      ]
+      "values": [{ "value": "top" }, { "value": "side" }]
     },
     "necessityIndicator": {
       "type": "string",
       "default": "icon",
-      "values": [
-        {
-          "value": "text"
-        },
-        {
-          "value": "icon"
-        }
-      ]
+      "values": [{ "value": "text" }, { "value": "icon" }]
     },
-    "isRequired": {
-      "type": "boolean",
-      "default": false
-    },
+    "isRequired": { "type": "boolean", "default": false },
     "orientation": {
       "type": "string",
       "default": "vertical",
-      "values": [
-        {
-          "value": "horizontal"
-        },
-        {
-          "value": "vertical"
-        }
-      ]
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
     },
-    "isError": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
-    "description": {
-      "type": "string"
-    },
-    "errorMessage": {
-      "type": "string"
-    }
+    "isError": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
+    "description": { "type": "string" },
+    "errorMessage": { "type": "string" }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [],
   "accessibility": {
     "intents": ["choose"],
     "focusable": false,
     "wcag": [
-      {
-        "criterion": "1.3.1",
-        "level": "A",
-        "title": "Info and Relationships"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

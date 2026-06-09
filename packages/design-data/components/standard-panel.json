@@ -9,75 +9,127 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/page/standard-panel/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Standard Panels provide a flexible container for grouping related content and actions."
+    },
+    {
+      "type": "guideline",
+      "content": "Standard panels are containers used to group related content or tools in a consistent layout. They support a range of sizes, densities, and configurations to fit different use cases across products. Panels can be placed alongside primary content to provide supporting controls or information."
+    },
+    {
+      "type": "guideline",
+      "content": "Determines whether the close button is visible in the top right corner of the panel. Set to true to hide the button when panel dismissal is not required."
+    },
+    {
+      "type": "guideline",
+      "content": "Determines whether the gripper is visible at the top center of the panel. Set to true to hide the gripper when panel dragging is not required."
+    },
+    {
+      "type": "guideline",
+      "content": "Specifies the visual style of the panel. Use primary for panels that require high emphasis with the primary background color, and secondary for panels that require lower emphasis."
+    },
+    {
+      "type": "guideline",
+      "content": "There are three density options for standard panel: compact, regular, and spacious. Regular is the default and recommended for layouts in creative tools, marketing, or analytics products. Use spacious for lighter-weight web experiences, such as Adobe Express. Use compact for complex professional tools where maximizing screen space is essential."
+    },
+    {
+      "type": "guideline",
+      "content": "Defines the panel’s layout behavior. Use anchored when the panel is docked alongside other panels on the same surface. Use floating when the panel is undocked and positioned above the application surface. Use dragged for the panel’s appearance while it is being moved."
+    },
+    {
+      "type": "guideline",
+      "content": "Controls whether the panel content is organized into sections. When set to true, the panel displays content without structural segmentation, allowing full customization based on product or experience needs. When set to false, the panel uses an embedded accordion component to divide content into smaller, structured segments, each customizable while maintaining a standardized layout for clarity and consistency."
+    },
+    {
+      "type": "guideline",
+      "content": "Determines whether the panel title is visible at the top of the panel."
+    },
+    {
+      "type": "guideline",
+      "content": "Determines whether the back button is visible at the top of the panel, positioned to the left of the panel title."
+    },
+    {
+      "type": "guideline",
+      "content": "Determines the size of the panel title. Options are small and medium. Use medium to establish visual hierarchy. Use small for compact layouts or secondary panels."
+    },
+    {
+      "type": "guideline",
+      "content": "A standard panel can sometimes be dragged and rearranged, or undocked to become a floating panel. In this case, display the gripper at the top of the panel, then click and drag to detach it."
+    },
+    {
+      "type": "guideline",
+      "content": "Standard panel uses an Accordion subcomponent to manage collapsible content sections. It can be configured to allow multiple sections to expand independently or restrict expansion to a single section at a time."
+    },
+    {
+      "type": "guideline",
+      "content": "A panel can scroll internally, and a group of panels can also scroll as a unit. Panels always scroll independently from the canvas or page content. The header and footer areas of a panel can remain fixed during scrolling."
+    },
+    {
+      "type": "guideline",
+      "content": "When users scroll in the outer areas of a panel — such as the header, footer, or sides — the entire panel group scrolls. When scrolling within the inner content area, only the panel’s content scrolls, while the header and footer (if present) stay in place."
+    },
+    {
+      "type": "guideline",
+      "content": "Standard panel supports three widths: small, medium, and large. The small size is best for a single column of items, such as swatches or navigation elements. Medium is the default for most scenarios and works well for tools that interact with a canvas area, including filters, sliders, text boxes, or swatches. The large size is ideal for panels where users browse or search for content, such as images, assets, cards, or templates."
+    },
+    {
+      "type": "guideline",
+      "content": "The panel title can act as a label for the fields in the panel, if the design is reviewed and approved by an accessibility expert."
+    },
+    {
+      "type": "guideline",
+      "content": "Use a single panel density across a product to maintain visual consistency. Mixing densities within the same experience is not recommended."
+    },
+    {
+      "type": "guideline",
+      "content": "The choice of density often depends on context, user preference, and device type. Compact saves space in complex professional tools, regular balances usability across a range of products, and spacious improves comfort in lighter-weight experiences."
+    },
+    {
+      "type": "guideline",
+      "content": "Anchored panels are docked in fixed areas of the workspace and grouped with other panels on the same surface. They cannot move freely outside their designated location unless undocked. This layout helps maintain a consistent and organized workspace, making it easier for users to access essential tools without obstructing the canvas or working area. A common example is the layers panel docked to the right side of Photoshop."
+    },
+    {
+      "type": "guideline",
+      "content": "Floating panels are undocked and can be moved freely anywhere on the screen, independent of the main workspace. This style offers flexibility, especially when working across multiple monitors or when isolating a panel improves focus. A common example is a Properties panel floating near artwork in Illustrator for quick access."
+    },
+    {
+      "type": "guideline",
+      "content": "Dragging refers to manually moving a panel by clicking and dragging the gripper. This interaction allows users to reposition a panel within the workspace. A dragged panel can be docked into a new location (anchored) or left to float independently. This behavior supports workspace customization, helping users tailor panel placement to fit their workflow. For example, dragging the Tools panel from the left side of Photoshop to float next to the canvas."
+    }
+  ],
   "options": {
     "container": {
       "type": "string",
       "default": "anchored",
       "values": [
-        {
-          "value": "anchored"
-        },
-        {
-          "value": "floating"
-        },
-        {
-          "value": "dragged"
-        }
+        { "value": "anchored" },
+        { "value": "floating" },
+        { "value": "dragged" }
       ]
     },
-    "label": {
-      "type": "string"
-    },
-    "description": {
-      "type": "string"
-    },
-    "value": {
-      "type": "string"
-    },
+    "label": { "type": "string" },
+    "description": { "type": "string" },
+    "value": { "type": "string" },
     "density": {
       "type": "string",
       "default": "regular",
       "values": [
-        {
-          "value": "compact"
-        },
-        {
-          "value": "regular"
-        },
-        {
-          "value": "spacious"
-        }
+        { "value": "compact" },
+        { "value": "regular" },
+        { "value": "spacious" }
       ]
     },
     "style": {
       "type": "string",
       "default": "primary",
-      "values": [
-        {
-          "value": "primary"
-        },
-        {
-          "value": "secondary"
-        }
-      ]
+      "values": [{ "value": "primary" }, { "value": "secondary" }]
     },
-    "hideGripper": {
-      "type": "boolean",
-      "default": false
-    },
-    "hideCloseButton": {
-      "type": "boolean",
-      "default": false
-    },
-    "hideDivider": {
-      "type": "boolean",
-      "default": false
-    }
+    "hideGripper": { "type": "boolean", "default": false },
+    "hideCloseButton": { "type": "boolean", "default": false },
+    "hideDivider": { "type": "boolean", "default": false }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
-  "accessibility": {
-    "focusable": false
-  }
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": { "focusable": false }
 }

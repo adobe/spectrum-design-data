@@ -9,6 +9,72 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/color-slider/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "A color slider lets users visually change an individual channel of a color."
+    },
+    {
+      "type": "guideline",
+      "content": "Color sliders adjust a single channel of a color. They’re often used in combination with other color controls to provide fine-tuned visual selection."
+    },
+    {
+      "type": "guideline",
+      "content": "A color slider in a disabled state shows that an input exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that a slider may become available later."
+    },
+    {
+      "type": "guideline",
+      "content": "The slider’s length can be customized based on its context, while its thickness stays fixed for consistency and usability."
+    },
+    {
+      "type": "guideline",
+      "content": "Color sliders can be either in horizontal or vertical orientation. By default, a color slider is horizontal and should be used when vertical space is more limited. The vertical orientation is used when horizontal space is more limited."
+    },
+    {
+      "type": "guideline",
+      "content": "The step refers to the increment by which these values increase or decrease. A step value of 1 (default) allows a user to only select whole numbers within the min and max range."
+    },
+    {
+      "type": "guideline",
+      "content": "The min and max values also can be customized appropriately for what the color slider is being used for (such as 0 to 360 for hue). By default, the min value starts at 0 and max value is set to 100."
+    },
+    {
+      "type": "guideline",
+      "content": "The value is the number selected within the color slider’s range, from the min value to max value."
+    },
+    {
+      "type": "guideline",
+      "content": "Controls a single color channel — such as hue, lightness, or alpha—at a time. The track’s gradient visualizes the full range of values for that channel."
+    },
+    {
+      "type": "guideline",
+      "content": "The background of the color slider is a visual representation of the range of values a user can select from. This can represent color properties such as hues, color channel values (such as RGB or CMYK levels), or opacity. The exact format this background property takes will depend on what implementation you are working with. Some examples of the format include image, canvas, and gradient."
+    },
+    {
+      "type": "guideline",
+      "content": "The keyboard focus state enlarges the handle to become twice as large. The loupe is a visual-only element and should not receive focus since it does not provide interactive functionality."
+    },
+    {
+      "type": "guideline",
+      "content": "Unlike the slider itself, the color slider’s handle can slide all the way to the edge of the track. It always displays the selected color inside the handle and never gets cut off by the track or any container."
+    },
+    {
+      "type": "guideline",
+      "content": "A color slider’s minimum length is 80 px on desktop, 100 px on mobile."
+    },
+    {
+      "type": "guideline",
+      "content": "Color sliders should be labeled and, when applicable, paired with text fields. If labeling each individual slider is redundant, label the group of sliders instead (for example, “RGB” or “HSB”)."
+    },
+    {
+      "type": "guideline",
+      "content": "When using color sliders, it’s important to clearly display the color selection in real time. It can be in a color swatch, directly on the canvas, or both."
+    },
+    {
+      "type": "guideline",
+      "content": "The color loupe component can be used above the handle to show the selected color that would otherwise be covered by a cursor, stylus, or finger on the down/touch state. This can be customized to appear only on finger-input, or always appear regardless of input type."
+    }
+  ],
   "options": {
     "background": {
       "type": "string",
@@ -19,125 +85,50 @@
       "default": "hue",
       "description": "Which channel of the color this slider controls. Use 'alpha' for opacity.",
       "values": [
-        {
-          "value": "hue"
-        },
-        {
-          "value": "saturation"
-        },
-        {
-          "value": "lightness"
-        },
-        {
-          "value": "red"
-        },
-        {
-          "value": "green"
-        },
-        {
-          "value": "blue"
-        },
-        {
-          "value": "alpha"
-        }
+        { "value": "hue" },
+        { "value": "saturation" },
+        { "value": "lightness" },
+        { "value": "red" },
+        { "value": "green" },
+        { "value": "blue" },
+        { "value": "alpha" }
       ]
     },
     "value": {
       "type": "number",
       "description": "Number (from minValue to maxValue)."
     },
-    "minValue": {
-      "type": "number",
-      "default": 0
-    },
-    "maxValue": {
-      "type": "number",
-      "default": 100
-    },
-    "step": {
-      "type": "number",
-      "default": 1
-    },
+    "minValue": { "type": "number", "default": 0 },
+    "maxValue": { "type": "number", "default": 100 },
+    "step": { "type": "number", "default": 1 },
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [
-        {
-          "value": "horizontal"
-        },
-        {
-          "value": "vertical"
-        }
-      ]
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
     },
-    "length": {
-      "type": "number",
-      "default": 192,
-      "description": "units: px"
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    }
+    "length": { "type": "number", "default": 192, "description": "units: px" },
+    "isDisabled": { "type": "boolean", "default": false }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "color-slider-length",
-      "context": "Length"
-    },
-    {
-      "token": "color-slider-minimum-length",
-      "context": "Length"
-    },
-    {
-      "token": "color-control-track-width",
-      "context": "Width"
-    },
-    {
-      "token": "color-slider-border-width",
-      "context": "Border"
-    },
-    {
-      "token": "color-slider-border-rounding",
-      "context": "Border"
-    },
+    { "token": "color-slider-length", "context": "Length" },
+    { "token": "color-slider-minimum-length", "context": "Length" },
+    { "token": "color-control-track-width", "context": "Width" },
+    { "token": "color-slider-border-width", "context": "Border" },
+    { "token": "color-slider-border-rounding", "context": "Border" },
     {
       "token": "component-top-to-text-75",
       "context": "Spacing (field label value to track)"
     },
-    {
-      "token": "color-slider-border-color",
-      "context": "Border"
-    },
-    {
-      "token": "color-slider-border-opacity",
-      "context": "Border"
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "disabled-background-color",
-      "context": "Disabled"
-    }
+    { "token": "color-slider-border-color", "context": "Border" },
+    { "token": "color-slider-border-opacity", "context": "Border" },
+    { "token": "disabled-content-color", "context": "Disabled" },
+    { "token": "disabled-background-color", "context": "Disabled" }
   ],
   "accessibility": {
     "role": "slider",
@@ -145,21 +136,9 @@
     "focusable": true,
     "keyboardIntents": ["increment", "decrement"],
     "wcag": [
-      {
-        "criterion": "1.3.1",
-        "level": "A",
-        "title": "Info and Relationships"
-      },
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

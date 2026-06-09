@@ -9,21 +9,109 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/date-picker/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "A date picker lets users enter a single date or a date range. It includes a calendar popover and a field."
+    },
+    {
+      "type": "guideline",
+      "content": "Date pickers allow selection of a single date or a date range. They include a calendar within a popover, with optional manual entry. Date range variants support selecting a start and end date in one field."
+    },
+    {
+      "type": "guideline",
+      "content": "Calendar popover displays a grid of days spanning one, two, or three months, enabling users to select a single date or a range."
+    },
+    {
+      "type": "guideline",
+      "content": "Date field allows users to enter and edit date values. Users can edit each part of a date value, such as the day, month, and year, by interacting with individual segments. A date field includes a label, segments for each value of the date, and an in-field button to allow the user to open the calendar popover."
+    },
+    {
+      "type": "guideline",
+      "content": "The range of days the user has selected (a start date and an end date)."
+    },
+    {
+      "type": "guideline",
+      "content": "The selected date allows a user to see which date they have selected within the calendar popover."
+    },
+    {
+      "type": "guideline",
+      "content": "A single date picker only displays a single date within the date field as well as a single month within the calendar popover."
+    },
+    {
+      "type": "guideline",
+      "content": "A double date picker displays a date range within the date field as well as two consecutive months within the calendar popover."
+    },
+    {
+      "type": "guideline",
+      "content": "A triple date picker displays a date range within the date field as well as three consecutive months within the calendar popover."
+    },
+    {
+      "type": "guideline",
+      "content": "The calendar popover is displayed or hidden when the user selects the in-field button (the calendar icon)."
+    },
+    {
+      "type": "guideline",
+      "content": "If a user selects a day preceding the first selection, that earlier day becomes the start of the range. For example:"
+    },
+    {
+      "type": "guideline",
+      "content": "A third selection resets the range. For example:"
+    },
+    {
+      "type": "guideline",
+      "content": "Date pickers display placeholder values in individual segments by default. This is to makes it easier for users to focus and edit specific values like the day, month, or year without re-entering the entire date."
+    },
+    {
+      "type": "guideline",
+      "content": "This approach reduces input errors, improves accessibility, and supports faster, more precise interactions. It also adapts well to different regional formats, enhancing clarity across locales."
+    },
+    {
+      "type": "guideline",
+      "content": "Date pickers can be used to select a single date or a date range (a start date and an end date)."
+    },
+    {
+      "type": "guideline",
+      "content": "When a date picker is formatted to allow a range, it displays a placeholder by default. When the user first interacts with the date field, the first value of the placeholder is in focus. This is to allow the user to edit the individual segments. When the user opens the popover without interacting, it displays the current day along with the month and year based on their locale. However, the date field will continue to show the placeholder until the user either completes the range in the field or within the calendar popover."
+    },
+    {
+      "type": "guideline",
+      "content": "If the user inputs a date range within the date field that spans more than the maximum of three months that the calendar popover allows, the calendar popover will only show the first three consecutive months within that range."
+    },
+    {
+      "type": "guideline",
+      "content": "The date field can also capture time values with precision down to the second, and may include time zone information. The calendar popover can also include time-specific fields, allowing users to specify start and end times."
+    },
+    {
+      "type": "guideline",
+      "content": "Date pickers can be marked as optional or required, depending on the situation. For required date pickers, there are two styling options: a “(required)” label or an asterisk. If you use an asterisk, be sure to include help text to explain what the asterisk means. Optional date pickers are either denoted with text added to the end of the label — “(optional)” — or have no indication at all."
+    },
+    {
+      "type": "guideline",
+      "content": "The asterisk used in this component is an icon that has specific spacing from the label text — not part of the label text itself."
+    },
+    {
+      "type": "guideline",
+      "content": "A read-only state of date picker means that the user cannot interact with the field, and they can only read what the field is displaying. Therefore, the in-field button is not clickable. In the disabled state, the read-only state of date picker allows the user to focus on a value—even though they cannot change the value."
+    },
+    {
+      "type": "guideline",
+      "content": "A disabled date picker means that the user cannot interact with the field, but not for the same reasons as a read-only scenario. For example, a date picker may be temporarily disabled because the user needs to complete a dependent task (such as filling out another field) somewhere within their experience. A disabled date picker does not allow for the ability to focus on a value, or to change its value."
+    },
+    {
+      "type": "guideline",
+      "content": "A date picker can be marked as having an error to show that a value needs to be entered in order to move forward, or that an entered value is invalid. In this scenario, displaying error text beneath the date field can aid the user in understanding how to resolve it. Error text within the calendar popover may also be helpful to aid the user in understanding what the error is signaling."
+    }
+  ],
   "options": {
     "variant": {
       "type": "string",
       "default": "single",
       "description": "Controls the number of months displayed in the calendar popover.",
       "values": [
-        {
-          "value": "single"
-        },
-        {
-          "value": "double"
-        },
-        {
-          "value": "triple"
-        }
+        { "value": "single" },
+        { "value": "double" },
+        { "value": "triple" }
       ]
     },
     "selectedDate": {
@@ -34,14 +122,8 @@
       "type": "object",
       "description": "The currently selected date range, used when selectionMode is range.",
       "properties": {
-        "start": {
-          "type": "string",
-          "description": "Range start date."
-        },
-        "end": {
-          "type": "string",
-          "description": "Range end date."
-        }
+        "start": { "type": "string", "description": "Range start date." },
+        "end": { "type": "string", "description": "Range end date." }
       }
     },
     "dateField": {
@@ -57,22 +139,10 @@
           "enum": ["top", "side"],
           "default": "top"
         },
-        "hideLabel": {
-          "type": "boolean",
-          "default": false
-        },
-        "isDisabled": {
-          "type": "boolean",
-          "default": false
-        },
-        "isReadOnly": {
-          "type": "boolean",
-          "default": false
-        },
-        "isRequired": {
-          "type": "boolean",
-          "default": false
-        },
+        "hideLabel": { "type": "boolean", "default": false },
+        "isDisabled": { "type": "boolean", "default": false },
+        "isReadOnly": { "type": "boolean", "default": false },
+        "isRequired": { "type": "boolean", "default": false },
         "isError": {
           "type": "boolean",
           "default": false,
@@ -97,10 +167,7 @@
       "type": "object",
       "description": "Configuration for the calendar popover.",
       "properties": {
-        "isDisabled": {
-          "type": "boolean",
-          "default": false
-        },
+        "isDisabled": { "type": "boolean", "default": false },
         "minValue": {
           "type": "string",
           "description": "The minimum allowed date that a user may select."
@@ -165,14 +232,9 @@
       }
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "component-to-calendar-popover",
-      "context": "Spacing (open)"
-    },
+    { "token": "component-to-calendar-popover", "context": "Spacing (open)" },
     {
       "token": "single-calendar-popover-minimum-width",
       "context": "Width (minimum)"
@@ -189,26 +251,11 @@
       "token": "double-calendar-popover-minimum-height",
       "context": "Height (minimum)"
     },
-    {
-      "token": "corner-radius-700",
-      "context": "Corner rounding"
-    },
-    {
-      "token": "spacing-300",
-      "context": "Spacing (start/end edge to days) "
-    },
-    {
-      "token": "spacing-400",
-      "context": "Spacing (top/bottom edge to days) "
-    },
-    {
-      "token": "spacing-700",
-      "context": "Spacing (month + year to chevron) "
-    },
-    {
-      "token": "spacing-100",
-      "context": "Spacing (between week labels) "
-    },
+    { "token": "corner-radius-700", "context": "Corner rounding" },
+    { "token": "spacing-300", "context": "Spacing (start/end edge to days) " },
+    { "token": "spacing-400", "context": "Spacing (top/bottom edge to days) " },
+    { "token": "spacing-700", "context": "Spacing (month + year to chevron) " },
+    { "token": "spacing-100", "context": "Spacing (between week labels) " },
     {
       "token": "current-day-indicator-size-100",
       "context": "Current day indicator"
@@ -229,50 +276,17 @@
       "token": "range-border-dash-thickness",
       "context": "Range fill stroke padding"
     },
-    {
-      "token": "blue-900",
-      "context": "Day values "
-    },
-    {
-      "token": "white",
-      "context": "Day values "
-    },
-    {
-      "token": "blue-1000",
-      "context": "Day values "
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Day values "
-    },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Day values "
-    },
-    {
-      "token": "gray-100",
-      "context": "Day values "
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Day values "
-    },
-    {
-      "token": "negative-background-color-default",
-      "context": "Day values "
-    },
-    {
-      "token": "negative-background-color-hover",
-      "context": "Day values "
-    },
-    {
-      "token": "neutral-content-color-hover",
-      "context": "Current day"
-    },
-    {
-      "token": "strikethrough-day-thickness",
-      "context": "Strikethrough day "
-    },
+    { "token": "blue-900", "context": "Day values " },
+    { "token": "white", "context": "Day values " },
+    { "token": "blue-1000", "context": "Day values " },
+    { "token": "focus-indicator-color", "context": "Day values " },
+    { "token": "neutral-content-color-default", "context": "Day values " },
+    { "token": "gray-100", "context": "Day values " },
+    { "token": "disabled-content-color", "context": "Day values " },
+    { "token": "negative-background-color-default", "context": "Day values " },
+    { "token": "negative-background-color-hover", "context": "Day values " },
+    { "token": "neutral-content-color-hover", "context": "Current day" },
+    { "token": "strikethrough-day-thickness", "context": "Strikethrough day " },
     {
       "token": "strikethrough-day-orientation",
       "context": "Strikethrough day "
@@ -281,10 +295,7 @@
       "token": "blue-subtle-background-color-default",
       "context": "Range fill color "
     },
-    {
-      "token": "gray-25",
-      "context": "Background and border "
-    },
+    { "token": "gray-25", "context": "Background and border " },
     {
       "token": "neutral-content-color-focus-hover",
       "context": "In field button colors "
@@ -297,22 +308,13 @@
       "token": "neutral-content-color-key-focus",
       "context": "In field button colors "
     },
-    {
-      "token": "disabled-color-content",
-      "context": "In field button colors "
-    },
-    {
-      "token": "gray-200",
-      "context": "In field button colors "
-    },
+    { "token": "disabled-color-content", "context": "In field button colors " },
+    { "token": "gray-200", "context": "In field button colors " },
     {
       "token": "background-disabled-color",
       "context": "In field button colors "
     },
-    {
-      "token": "disabled-background-color",
-      "context": "Disabled"
-    },
+    { "token": "disabled-background-color", "context": "Disabled" },
     {
       "token": "default-font-family",
       "context": "Label, value, help text, and error message"
@@ -337,14 +339,8 @@
       "token": "cjk-line-height-100",
       "context": "Label, value, help text, and error message"
     },
-    {
-      "token": "date-picker-minimum-width",
-      "context": "Width (minimum)"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Height"
-    },
+    { "token": "date-picker-minimum-width", "context": "Width (minimum)" },
+    { "token": "component-height-100", "context": "Height" },
     {
       "token": "corner-radius-medium-size-medium",
       "context": "Corner rounding "
@@ -365,22 +361,13 @@
       "token": "component-bottom-to-text-100",
       "context": "Spacing (top/bottom edge to label)"
     },
-    {
-      "token": "border-width-200",
-      "context": "Border "
-    },
+    { "token": "border-width-200", "context": "Border " },
     {
       "token": "focus-indicator-thickness",
       "context": "Keyboard focus indicator "
     },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Keyboard focus indicator "
-    },
-    {
-      "token": "spacing-50",
-      "context": "Individual value spacing "
-    },
+    { "token": "focus-indicator-gap", "context": "Keyboard focus indicator " },
+    { "token": "spacing-50", "context": "Individual value spacing " },
     {
       "token": "segmented-text-field-gap",
       "context": "Spacing between values"
@@ -393,22 +380,13 @@
       "token": "date-picker-visual-to-field-button",
       "context": "Icon spacing (error)"
     },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Alert icon size "
-    },
-    {
-      "token": "date-field-minimum-width",
-      "context": "Width (minimum)"
-    },
+    { "token": "workflow-icon-size-100", "context": "Alert icon size " },
+    { "token": "date-field-minimum-width", "context": "Width (minimum)" },
     {
       "token": "date-field-text-to-visual",
       "context": "Spacing (value to alert icon)"
     },
-    {
-      "token": "time-field-minimum-width",
-      "context": "Width (minimum)"
-    },
+    { "token": "time-field-minimum-width", "context": "Width (minimum)" },
     {
       "token": "time-field-text-to-visual",
       "context": "Spacing (value to alert icon)"
@@ -421,10 +399,7 @@
       "token": "date-picker-text-to-visual",
       "context": "Spacing (value to alert icon)"
     },
-    {
-      "token": "negative-visual-color",
-      "context": "Alert icon (error) color"
-    },
+    { "token": "negative-visual-color", "context": "Alert icon (error) color" },
     {
       "token": "negative-content-color-default",
       "context": "Error message (error) color"
@@ -441,31 +416,16 @@
       "token": "triple-calendar-popover-minimum-height",
       "context": "Popover minimum width"
     },
-    {
-      "token": "spacing-500",
-      "context": "Popover minimum width"
-    }
+    { "token": "spacing-500", "context": "Popover minimum width" }
   ],
   "accessibility": {
     "intents": ["input", "choose"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      {
-        "criterion": "1.3.1",
-        "level": "A",
-        "title": "Info and Relationships"
-      },
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

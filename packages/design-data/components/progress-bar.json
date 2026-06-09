@@ -9,47 +9,86 @@
     "category": "status",
     "documentationUrl": "https://spectrum.adobe.com/page/progress-bar/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Progress bars show the progression of a system operation: downloading, uploading, processing, etc., in a visual way. They can represent either determinate or indeterminate progress."
+    },
+    {
+      "type": "guideline",
+      "content": "A progress bar can be either determinate or indeterminate. By default, progress bars are determinate. Use a determinate progress bar when progress can be calculated against a specific goal (e.g., downloading a file of a known size). Use an indeterminate progress bar when progress is happening but the time or effort to completion can’t be determined (e.g., attempting to reconnect to a server)."
+    },
+    {
+      "type": "guideline",
+      "content": "Progress bars come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+    },
+    {
+      "type": "guideline",
+      "content": "Progress bars can have a value label that gives detailed information about the progress (e.g. \"60%\" or \"2 of 8\"). This value label works alongside the label and should not be displayed if the label itself is not displayed. It should also not be displayed if the progress is indeterminate. Similar to the label, the value label is always placed above the track."
+    },
+    {
+      "type": "guideline",
+      "content": "The value represents progress within the bar’s range, from minimum to maximum. These defaults are 0 and 100 but can be customized. Min and max values don’t apply to indeterminate progress bars."
+    },
+    {
+      "type": "guideline",
+      "content": "The label of the progress bar can be hidden if the context for the progress bar is sufficient without the title — for example, when the progress bar is shown inside a table row and the item is labeled in another column."
+    },
+    {
+      "type": "guideline",
+      "content": "Labels can be placed either on top or on the side. Top labels are the default and are recommended because they work better with long copy, localization, and responsive layouts. Side labels are most useful when vertical space is limited."
+    },
+    {
+      "type": "guideline",
+      "content": "Progress bars should have a label that gives context about the operation being performed. Use an ellipsis at the end of the label text to communicate that the process is in progress. In rare cases where context is sufficient and an accessibility expert has reviewed the design, the label could be undefined. These progress bars should still include an aria-label in HTML (depending on the context, “aria-label” or “aria-labelledby”)."
+    },
+    {
+      "type": "guideline",
+      "content": "When a progress bar needs to be placed on top of a colored background, use the over background variant. This progress bar uses a static white color regardless of the color theme. Make sure the background offers enough contrast for the progress bar to be legible."
+    },
+    {
+      "type": "guideline",
+      "content": "Use the over background variant when a progress bar needs to be placed on top of a colored background or visual."
+    },
+    {
+      "type": "guideline",
+      "content": "Over background progress bars are available in static black or white, meaning they don’t change with the theme of the page. Use static black on light color or image backgrounds, and white on dark color or image backgrounds."
+    },
+    {
+      "type": "guideline",
+      "content": "The minimum width of a progress bar is 48 px and the maximum width of a progress bar is 768 px, for both desktop and mobile platform scale. Smaller progress bars should only be used in places where it’s not necessary to have a label."
+    },
+    {
+      "type": "guideline",
+      "content": "When the label is too long for the available horizontal space, it wraps to form another line. The value is always shown in full and never wraps or truncates."
+    },
+    {
+      "type": "guideline",
+      "content": "Both progress bars and circles can show either determinate or indeterminate progress. The available space should help determine whether a progress bar or circle is best. Progress bars are preferred in vertically narrow areas such as tables or cards. Use a progress circle for full-page loading or very small areas. Use a progress bar in a loader dialog."
+    },
+    {
+      "type": "guideline",
+      "content": "Use the built-in style to show a label associated with the operation. This style always includes a left-aligned label and a right-aligned percentage value above the track. The label should be in sentence case. Add an ellipsis (\"...\") at the end to indicate that the action is in progress — for example, \"Loading data...\" or \"Updating settings..."
+    }
+  ],
   "options": {
     "variant": {
       "type": "string",
       "default": "default",
-      "values": [
-        {
-          "value": "default"
-        },
-        {
-          "value": "over background"
-        }
-      ]
+      "values": [{ "value": "default" }, { "value": "over background" }]
     },
     "staticColor": {
       "type": "string",
       "description": "Static color can only be white, otherwise it is default.",
-      "values": [
-        {
-          "value": "white"
-        }
-      ]
+      "values": [{ "value": "white" }]
     },
-    "label": {
-      "type": "string"
-    },
+    "label": { "type": "string" },
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "values": [
-        {
-          "value": "top"
-        },
-        {
-          "value": "side"
-        }
-      ]
+      "values": [{ "value": "top" }, { "value": "side" }]
     },
-    "hideLabel": {
-      "type": "boolean",
-      "default": false
-    },
+    "hideLabel": { "type": "boolean", "default": false },
     "value": {
       "type": "number",
       "description": "Not applicable when indeterminate."
@@ -64,47 +103,24 @@
       "default": 1,
       "description": "Not applicable when indeterminate."
     },
-    "valueLabel": {
-      "type": "string"
-    },
-    "width": {
-      "type": "number"
-    },
+    "valueLabel": { "type": "string" },
+    "width": { "type": "number" },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
-    "isIndeterminate": {
-      "type": "boolean",
-      "default": false
-    }
+    "isIndeterminate": { "type": "boolean", "default": false }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "progress-bar-minimum-width",
-      "context": "Minimum width"
-    },
-    {
-      "token": "progress-bar-maximum-width",
-      "context": "Maximum width"
-    },
+    { "token": "progress-bar-minimum-width", "context": "Minimum width" },
+    { "token": "progress-bar-maximum-width", "context": "Maximum width" },
     {
       "token": "spacing-75",
       "context": "Spacing (field label to progress bar)"
@@ -129,78 +145,33 @@
       "token": "component-top-to-text-300",
       "context": "Spacing (top edge to text)"
     },
-    {
-      "token": "progress-bar-thickness-small",
-      "context": "Thickness (track)"
-    },
+    { "token": "progress-bar-thickness-small", "context": "Thickness (track)" },
     {
       "token": "progress-bar-thickness-medium",
       "context": "Thickness (track)"
     },
-    {
-      "token": "progress-bar-thickness-large",
-      "context": "Thickness (track)"
-    },
+    { "token": "progress-bar-thickness-large", "context": "Thickness (track)" },
     {
       "token": "progress-bar-thickness-extra-large",
       "context": "Thickness (track)"
     },
-    {
-      "token": "corner-radius-full",
-      "context": "Rounding"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Value"
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Value"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Value"
-    },
-    {
-      "token": "font-size-75",
-      "context": "Value"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Value"
-    },
-    {
-      "token": "font-size-200",
-      "context": "Value"
-    },
-    {
-      "token": "font-size-300",
-      "context": "Value"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Value"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-subdued-content-color-default",
-      "context": "Text"
-    },
-    {
-      "token": "track-color",
-      "context": "Track and indicator"
-    },
+    { "token": "corner-radius-full", "context": "Rounding" },
+    { "token": "default-font-family", "context": "Value" },
+    { "token": "regular-font-weight", "context": "Value" },
+    { "token": "default-font-style", "context": "Value" },
+    { "token": "font-size-75", "context": "Value" },
+    { "token": "font-size-100", "context": "Value" },
+    { "token": "font-size-200", "context": "Value" },
+    { "token": "font-size-300", "context": "Value" },
+    { "token": "line-height-100", "context": "Value" },
+    { "token": "cjk-line-height-100", "context": "Value" },
+    { "token": "neutral-subdued-content-color-default", "context": "Text" },
+    { "token": "track-color", "context": "Track and indicator" },
     {
       "token": "accent-content-color-default",
       "context": "Track and indicator"
     },
-    {
-      "token": "static-white-text-color",
-      "context": "Text (white)"
-    },
+    { "token": "static-white-text-color", "context": "Text (white)" },
     {
       "token": "static-white-track-color",
       "context": "Track and indicator (white)"
@@ -214,16 +185,8 @@
     "role": "progressbar",
     "focusable": false,
     "wcag": [
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      },
-      {
-        "criterion": "4.1.3",
-        "level": "AA",
-        "title": "Status Messages"
-      }
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" },
+      { "criterion": "4.1.3", "level": "AA", "title": "Status Messages" }
     ]
   }
 }

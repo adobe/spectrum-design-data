@@ -9,18 +9,49 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/steplist/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Step lists display progress through a sequence of steps, with each step marked as completed, current, or incomplete."
+    },
+    {
+      "type": "guideline",
+      "content": "Steplists show progress across a series of discrete steps in a process. Use them for setups, wizards, or other flows with a fixed number of stages. They can be displayed horizontally or vertically."
+    },
+    {
+      "type": "guideline",
+      "content": "A current step in a steplist is styled to indicate the user's active position within a sequence. This styling helps orient the user by showing which step they are currently working on or viewing. It typically uses a distinct visual treatment, such as displaying the number of the step, to differentiate it from completed or incomplete steps. This ensures clarity in navigation and reinforces the sense of progress through the workflow."
+    },
+    {
+      "type": "guideline",
+      "content": "Represents an individual step within the steplist. Each item conveys a specific stage in a process or workflow."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, steplists are horizontal and should be used for wider layouts or panels to keep the user’s focus moving from left to right. Vertical steplists should be used for more narrow layouts or panels to accommodate more steps without crowding."
+    },
+    {
+      "type": "guideline",
+      "content": "Users can’t click on incomplete steps. The steplist follows a linear flow, requiring completion of the previous step before moving to the next."
+    },
+    {
+      "type": "guideline",
+      "content": "Completed steps display a checkmark, while remaining steps retain their numeric indicators. The current step uses a darker fill to indicate selection. This treatment is available in medium, large, and extra-large sizes."
+    },
+    {
+      "type": "guideline",
+      "content": "When a step’s label is long for the available horizontal space, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "Labels are optional in a steplist. Here are three recommended approaches:"
+    }
+  ],
   "options": {
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [
-        {
-          "value": "horizontal"
-        },
-        {
-          "value": "vertical"
-        }
-      ]
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
     },
     "items": {
       "type": "array",
@@ -57,9 +88,7 @@
       "description": "The identifier or label of the currently active step."
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     {
       "token": "steplist-step-default-width-small",
@@ -109,46 +138,16 @@
       "token": "steplist-step-to-track-size-extra-large",
       "context": "Spacing (step to track)"
     },
-    {
-      "token": "steplist-bottom-to-text",
-      "context": "Text adjustment"
-    },
-    {
-      "token": "border-width-200",
-      "context": "Visual border"
-    },
-    {
-      "token": "text-to-visual-75",
-      "context": "Spacing (text to visual)"
-    },
-    {
-      "token": "text-to-visual-100",
-      "context": "Spacing (text to visual)"
-    },
-    {
-      "token": "text-to-visual-200",
-      "context": "Spacing (text to visual)"
-    },
-    {
-      "token": "text-to-visual-300",
-      "context": "Spacing (text to visual)"
-    },
-    {
-      "token": "steplist-visual-size-small",
-      "context": "Visual size"
-    },
-    {
-      "token": "steplist-visual-size-medium",
-      "context": "Visual size"
-    },
-    {
-      "token": "steplist-visual-size-large",
-      "context": "Visual size"
-    },
-    {
-      "token": "steplist-visual-size-extra-large",
-      "context": "Visual size"
-    },
+    { "token": "steplist-bottom-to-text", "context": "Text adjustment" },
+    { "token": "border-width-200", "context": "Visual border" },
+    { "token": "text-to-visual-75", "context": "Spacing (text to visual)" },
+    { "token": "text-to-visual-100", "context": "Spacing (text to visual)" },
+    { "token": "text-to-visual-200", "context": "Spacing (text to visual)" },
+    { "token": "text-to-visual-300", "context": "Spacing (text to visual)" },
+    { "token": "steplist-visual-size-small", "context": "Visual size" },
+    { "token": "steplist-visual-size-medium", "context": "Visual size" },
+    { "token": "steplist-visual-size-large", "context": "Visual size" },
+    { "token": "steplist-visual-size-extra-large", "context": "Visual size" },
     {
       "token": "steplist-track-thickness-thickness",
       "context": "Steplist track thickness"
@@ -157,30 +156,15 @@
       "token": "neutral-subdued-content-color-default",
       "context": "Step text"
     },
-    {
-      "token": "neutral-subdued-content-color-hover",
-      "context": "Step text"
-    },
+    { "token": "neutral-subdued-content-color-hover", "context": "Step text" },
     {
       "token": "neutral-subdued-content-color-key-focus",
       "context": "Step text"
     },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Step text"
-    },
-    {
-      "token": "neutral-content-color-key-focus",
-      "context": "Step text"
-    },
-    {
-      "token": "accent-content-color-default",
-      "context": "Step text"
-    },
-    {
-      "token": "accent-content-color-key-focus",
-      "context": "Step text"
-    },
+    { "token": "neutral-content-color-default", "context": "Step text" },
+    { "token": "neutral-content-color-key-focus", "context": "Step text" },
+    { "token": "accent-content-color-default", "context": "Step text" },
+    { "token": "accent-content-color-key-focus", "context": "Step text" },
     {
       "token": "neutral-subdued-background-color-default",
       "context": "Step visual"
@@ -193,102 +177,34 @@
       "token": "neutral-subdued-background-color-key-focus",
       "context": "Step visual"
     },
-    {
-      "token": "neutral-background-color-default",
-      "context": "Step visual"
-    },
-    {
-      "token": "neutral-background-color-key-focus",
-      "context": "Step visual"
-    },
-    {
-      "token": "neutral-visual-color",
-      "context": "Step visual"
-    },
-    {
-      "token": "accent-background-color-default",
-      "context": "Step visual"
-    },
-    {
-      "token": "accent-background-color-key-focus",
-      "context": "Step visual"
-    },
-    {
-      "token": "accent-background-color-hover",
-      "context": "Step visual"
-    },
-    {
-      "token": "gray-25",
-      "context": "Step visual text"
-    },
-    {
-      "token": "white",
-      "context": "Step visual text"
-    },
-    {
-      "token": "accent-visual-color",
-      "context": "Steplist track"
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "disabled-background-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Label"
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Label"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-75",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-200",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-300",
-      "context": "Label"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Label"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Label"
-    }
+    { "token": "neutral-background-color-default", "context": "Step visual" },
+    { "token": "neutral-background-color-key-focus", "context": "Step visual" },
+    { "token": "neutral-visual-color", "context": "Step visual" },
+    { "token": "accent-background-color-default", "context": "Step visual" },
+    { "token": "accent-background-color-key-focus", "context": "Step visual" },
+    { "token": "accent-background-color-hover", "context": "Step visual" },
+    { "token": "gray-25", "context": "Step visual text" },
+    { "token": "white", "context": "Step visual text" },
+    { "token": "accent-visual-color", "context": "Steplist track" },
+    { "token": "disabled-content-color", "context": "Disabled" },
+    { "token": "disabled-background-color", "context": "Disabled" },
+    { "token": "default-font-family", "context": "Label" },
+    { "token": "regular-font-weight", "context": "Label" },
+    { "token": "default-font-style", "context": "Label" },
+    { "token": "font-size-75", "context": "Label" },
+    { "token": "font-size-100", "context": "Label" },
+    { "token": "font-size-200", "context": "Label" },
+    { "token": "font-size-300", "context": "Label" },
+    { "token": "line-height-100", "context": "Label" },
+    { "token": "cjk-line-height-100", "context": "Label" }
   ],
   "accessibility": {
     "intents": ["navigate"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

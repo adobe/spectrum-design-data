@@ -9,81 +9,83 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/field-label/"
   },
-  "options": {
-    "label": {
-      "type": "string"
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Field labels give context to the information that a user needs to input. They're commonly used in forms."
     },
+    {
+      "type": "guideline",
+      "content": "Field labels provide context for associated input fields. They describe the expected content or data type."
+    },
+    {
+      "type": "guideline",
+      "content": "A field label in a disabled state shows that an input field exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that an input field may become available later."
+    },
+    {
+      "type": "guideline",
+      "content": "Inputs can be marked as required or optional, depending on the situation, using a necessity indicator. There are two styles for the necessity indicator: icon or text."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, the necessity indicator is shown with an asterisk icon. Required inputs are marked with this at the end of the label. If you use this icon, be sure to include hint text to explain what it means. The asterisk used in this component is an icon that has specific spacing from the label text — not part of the label text itself. Optional inputs do not have an icon."
+    },
+    {
+      "type": "guideline",
+      "content": "Alternatively, the necessity indicator can be shown with text. This appends text that reads either “(required)” or “(optional)” at the end of the label."
+    },
+    {
+      "type": "guideline",
+      "content": "Field labels come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option with medium-sized inputs. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page. Both small and medium field labels have the same font size, but different paddings when used as side labels."
+    },
+    {
+      "type": "guideline",
+      "content": "A label can be placed either on top or on the side of an input. This option affects the bounding box of the component to ensure proper alignment. Top labels are the default and are recommended because they work better with long copy, localization, and responsive layouts. Side labels are most useful when vertical space is limited."
+    },
+    {
+      "type": "guideline",
+      "content": "When the field label is too long for the available horizontal space, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "In a single form, mark only the required fields or only the optional fields, depending on whichever is less frequent in the entire form."
+    },
+    {
+      "type": "guideline",
+      "content": "If most of the input fields are optional, only the required fields should be given an asterisk icon or have labels appended with “(required).” If most of the input fields are required, only the optional fields should be appended with “(optional).” An asterisk icon should never be used to note that a field is optional."
+    }
+  ],
+  "options": {
+    "label": { "type": "string" },
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "values": [
-        {
-          "value": "top"
-        },
-        {
-          "value": "side"
-        }
-      ]
+      "values": [{ "value": "top" }, { "value": "side" }]
     },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
     "necessityIndicator": {
       "type": "string",
       "default": "icon",
-      "values": [
-        {
-          "value": "text"
-        },
-        {
-          "value": "icon"
-        }
-      ]
+      "values": [{ "value": "text" }, { "value": "icon" }]
     },
-    "isRequired": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    }
+    "isRequired": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "component-height-75",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-200",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-300",
-      "context": "Minimum height"
-    },
+    { "token": "component-height-75", "context": "Minimum height" },
+    { "token": "component-height-100", "context": "Minimum height" },
+    { "token": "component-height-200", "context": "Minimum height" },
+    { "token": "component-height-300", "context": "Minimum height" },
     {
       "token": "field-label-text-to-asterisk-small",
       "context": "Spacing (label to asterisk icon)"
@@ -148,18 +150,9 @@
       "token": "component-bottom-to-text-300",
       "context": "Spacing (top/bottom edge to label)"
     },
-    {
-      "token": "asterisk-icon-size-100",
-      "context": "Asterisk UI icon asset"
-    },
-    {
-      "token": "asterisk-icon-size-200",
-      "context": "Asterisk UI icon asset"
-    },
-    {
-      "token": "asterisk-icon-size-300",
-      "context": "Asterisk UI icon asset"
-    },
+    { "token": "asterisk-icon-size-100", "context": "Asterisk UI icon asset" },
+    { "token": "asterisk-icon-size-200", "context": "Asterisk UI icon asset" },
+    { "token": "asterisk-icon-size-300", "context": "Asterisk UI icon asset" },
     {
       "token": "neutral-subdued-content-color-default",
       "context": "Label and asterisk icon"
@@ -168,52 +161,17 @@
       "token": "disabled-content-color",
       "context": "Label and asterisk icon (disabled)"
     },
-    {
-      "token": "white",
-      "context": "Label and asterisk icon (white)"
-    },
-    {
-      "token": "black",
-      "context": "Label and asterisk icon (black)"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Label"
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Label"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-75",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-200",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-300",
-      "context": "Label"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Label"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Label"
-    }
+    { "token": "white", "context": "Label and asterisk icon (white)" },
+    { "token": "black", "context": "Label and asterisk icon (black)" },
+    { "token": "default-font-family", "context": "Label" },
+    { "token": "regular-font-weight", "context": "Label" },
+    { "token": "default-font-style", "context": "Label" },
+    { "token": "font-size-75", "context": "Label" },
+    { "token": "font-size-100", "context": "Label" },
+    { "token": "font-size-200", "context": "Label" },
+    { "token": "font-size-300", "context": "Label" },
+    { "token": "line-height-100", "context": "Label" },
+    { "token": "cjk-line-height-100", "context": "Label" }
   ],
-  "accessibility": {
-    "focusable": false
-  }
+  "accessibility": { "focusable": false }
 }

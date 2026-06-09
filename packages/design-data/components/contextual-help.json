@@ -9,142 +9,97 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/contextual-help/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Contextual help shows a user extra information about the state of either an adjacent component or an entire view. It explains a high-level topic about an experience and can point users to more information elsewhere."
+    },
+    {
+      "type": "guideline",
+      "content": "Contextual help displays additional information about the state of a nearby component or an entire view. It explains high-level concepts and can link to more detailed guidance."
+    },
+    {
+      "type": "guideline",
+      "content": "To make sure that a popover will stay within certain boundaries (e.g., a browser window) it’s possible to define a container, and a container padding value, to respect."
+    },
+    {
+      "type": "guideline",
+      "content": "The cross offset is the placement offset on the cross axis (x-axis for top and bottom, y-axis for left and right)."
+    },
+    {
+      "type": "guideline",
+      "content": "A contextual help can have up to one link."
+    },
+    {
+      "type": "guideline",
+      "content": "The offset is the distance between the action button and the popover edge. There is a default value but this can also be adjusted depending on the context."
+    },
+    {
+      "type": "guideline",
+      "content": "Indicates whether contents are informative or provides helpful guidance."
+    },
+    {
+      "type": "guideline",
+      "content": "Contextual help can be used to explain why a component is disabled and how to enable it. Don’t make disabled components interactive (with focus states or hovering) as a way to display contextual information."
+    },
+    {
+      "type": "guideline",
+      "content": "There are two size options for the action button in contextual help: extra-small and small. Regardless of size, the action button should be quiet and display only an icon."
+    }
+  ],
   "options": {
     "icon": {
       "type": "string",
       "default": "info",
-      "values": [
-        {
-          "value": "info"
-        },
-        {
-          "value": "help"
-        }
-      ]
+      "values": [{ "value": "info" }, { "value": "help" }]
     },
     "popoverPlacement": {
       "type": "string",
       "default": "bottom start",
       "values": [
-        {
-          "value": "top"
-        },
-        {
-          "value": "top left"
-        },
-        {
-          "value": "top right"
-        },
-        {
-          "value": "top start"
-        },
-        {
-          "value": "top end"
-        },
-        {
-          "value": "bottom"
-        },
-        {
-          "value": "bottom left"
-        },
-        {
-          "value": "bottom right"
-        },
-        {
-          "value": "bottom start"
-        },
-        {
-          "value": "bottom end"
-        },
-        {
-          "value": "left"
-        },
-        {
-          "value": "left top"
-        },
-        {
-          "value": "left bottom"
-        },
-        {
-          "value": "start"
-        },
-        {
-          "value": "start top"
-        },
-        {
-          "value": "start bottom"
-        },
-        {
-          "value": "right"
-        },
-        {
-          "value": "right top"
-        },
-        {
-          "value": "right bottom"
-        },
-        {
-          "value": "end"
-        },
-        {
-          "value": "end top"
-        },
-        {
-          "value": "end bottom"
-        }
+        { "value": "top" },
+        { "value": "top left" },
+        { "value": "top right" },
+        { "value": "top start" },
+        { "value": "top end" },
+        { "value": "bottom" },
+        { "value": "bottom left" },
+        { "value": "bottom right" },
+        { "value": "bottom start" },
+        { "value": "bottom end" },
+        { "value": "left" },
+        { "value": "left top" },
+        { "value": "left bottom" },
+        { "value": "start" },
+        { "value": "start top" },
+        { "value": "start bottom" },
+        { "value": "right" },
+        { "value": "right top" },
+        { "value": "right bottom" },
+        { "value": "end" },
+        { "value": "end top" },
+        { "value": "end bottom" }
       ]
     },
-    "popoverOffset": {
-      "type": "number",
-      "default": 8
-    },
+    "popoverOffset": { "type": "number", "default": 8 },
     "href": {
       "type": "string",
       "description": "Optional URL within contextual help content like a 'Learn more' link."
     },
-    "popoverCrossOffset": {
-      "type": "number",
-      "default": 0
-    },
-    "containerPadding": {
-      "type": "number",
-      "default": 8
-    }
+    "popoverCrossOffset": { "type": "number", "default": 0 },
+    "containerPadding": { "type": "number", "default": 8 }
   },
   "states": [
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "open",
-      "trigger": "prop"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "down", "trigger": "interaction" },
+    { "name": "open", "trigger": "prop" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "xs-s",
-      "context": "Components"
-    },
-    {
-      "token": "s-m",
-      "context": "Components"
-    },
-    {
-      "token": "contextual-help-minimum-width",
-      "context": "Minimum width"
-    },
-    {
-      "token": "corner-radius-large-default",
-      "context": "Rounding"
-    },
+    { "token": "xs-s", "context": "Components" },
+    { "token": "s-m", "context": "Components" },
+    { "token": "contextual-help-minimum-width", "context": "Minimum width" },
+    { "token": "corner-radius-large-default", "context": "Rounding" },
     {
       "token": "spacing-400",
       "context": "Spacing (top/bottom/start/end edge to text)"
@@ -161,70 +116,26 @@
       "token": "spacing-300",
       "context": "Spacing (header to body, body to link)"
     },
-    {
-      "token": "contextual-help-title-size",
-      "context": "Title"
-    },
-    {
-      "token": "title-sans-serif-font-family",
-      "context": "Title"
-    },
-    {
-      "token": "title-sans-serif-font-weight",
-      "context": "Title"
-    },
-    {
-      "token": "title-sans-serif-font-style",
-      "context": "Title"
-    },
-    {
-      "token": "title-line-height",
-      "context": "Title"
-    },
-    {
-      "token": "contextual-help-body-size",
-      "context": "Body"
-    },
-    {
-      "token": "body-sans-serif-font-family",
-      "context": "Body"
-    },
-    {
-      "token": "body-sans-serif-font-weight",
-      "context": "Body"
-    },
-    {
-      "token": "body-sans-serif-font-style",
-      "context": "Body"
-    },
-    {
-      "token": "line-height-200",
-      "context": "Body"
-    },
-    {
-      "token": "title-color",
-      "context": "Color"
-    },
-    {
-      "token": "body-color",
-      "context": "Color"
-    }
+    { "token": "contextual-help-title-size", "context": "Title" },
+    { "token": "title-sans-serif-font-family", "context": "Title" },
+    { "token": "title-sans-serif-font-weight", "context": "Title" },
+    { "token": "title-sans-serif-font-style", "context": "Title" },
+    { "token": "title-line-height", "context": "Title" },
+    { "token": "contextual-help-body-size", "context": "Body" },
+    { "token": "body-sans-serif-font-family", "context": "Body" },
+    { "token": "body-sans-serif-font-weight", "context": "Body" },
+    { "token": "body-sans-serif-font-style", "context": "Body" },
+    { "token": "line-height-200", "context": "Body" },
+    { "token": "title-color", "context": "Color" },
+    { "token": "body-color", "context": "Color" }
   ],
   "accessibility": {
     "intents": ["trigger"],
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

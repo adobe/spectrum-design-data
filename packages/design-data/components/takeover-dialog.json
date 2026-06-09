@@ -9,28 +9,61 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/takeover-dialog/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Takeover dialogs are larger, flexible dialogs that contain other components to support complex workflows."
+    },
+    {
+      "type": "guideline",
+      "content": "Takeover dialogs are full-screen modals used for complex or immersive workflows. They block access to the rest of the interface and are typically used when multiple steps or tools need focused attention. Use when the task requires the entire screen and shouldn’t be interrupted."
+    },
+    {
+      "type": "guideline",
+      "content": "The takeover dialog supports two slots—one in the header and one in the body—where other components can be inserted."
+    },
+    {
+      "type": "guideline",
+      "content": "Takeover dialogs support two layout variants: dialog and full-screen."
+    },
+    {
+      "type": "guideline",
+      "content": "All takeover dialogs must include a title. The title appears at the top of the dialog and should briefly describe the expected outcome if the user proceeds with the primary action."
+    },
+    {
+      "type": "guideline",
+      "content": "A takeover dialog must include at least one button. The primary action label refers to the rightmost button in the dialog footer for languages that read left to right. It should use a short, actionable phrase that clearly communicates the result of selecting the action—whether that means taking action, progressing through a workflow, or dismissing the dialog."
+    },
+    {
+      "type": "guideline",
+      "content": "Takeover dialogs can include up to three buttons if a secondary outline button label is defined. If no label is defined, the button won’t appear. The secondary outline button should use a short, actionable phrase that clearly communicates the result of selecting the action—typically describing the previous step or an alternative choice."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, a takeover dialog that includes a button to cancel or go back will be labeled “Cancel.”"
+    },
+    {
+      "type": "guideline",
+      "content": "When the title is too long for the available horizontal space, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "Takeover dialogs can optionally include additional elements in the header custom content area. When horizontal space is limited, the header custom content will be displayed underneath the title."
+    },
+    {
+      "type": "guideline",
+      "content": "Most dialog titles should communicate the primary action of the dialog. When possible, the button label should use the same language as the action mentioned in the title. For example, if the title is “Delete conversation,” the primary action button label should be “Delete.”"
+    }
+  ],
   "options": {
-    "title": {
-      "type": "string"
-    },
-    "description": {
-      "type": "string"
-    },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
     "variant": {
       "type": "string",
       "default": "dialog",
-      "values": [
-        {
-          "value": "dialog"
-        },
-        {
-          "value": "full screen"
-        }
-      ]
+      "values": [{ "value": "dialog" }, { "value": "full screen" }]
     },
-    "primaryActionLabel": {
-      "type": "string"
-    },
+    "primaryActionLabel": { "type": "string" },
     "secondaryActionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
@@ -59,42 +92,19 @@
       }
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "takeover-dialog-width",
-      "context": "Height & width"
-    },
-    {
-      "token": "takeover-dialog-height",
-      "context": "Height & width"
-    },
-    {
-      "token": "window-to-edge",
-      "context": "Margins (dialog option)"
-    },
+    { "token": "takeover-dialog-width", "context": "Height & width" },
+    { "token": "takeover-dialog-height", "context": "Height & width" },
+    { "token": "window-to-edge", "context": "Margins (dialog option)" },
     {
       "token": "corner-radius-extra-large-default",
       "context": "Rounding (dialog option)"
     },
-    {
-      "token": "background-color-layer2",
-      "context": "Background"
-    },
-    {
-      "token": "overlay-color",
-      "context": "Overlay"
-    },
-    {
-      "token": "overlay-opacity",
-      "context": "Overlay"
-    },
-    {
-      "token": "heading-color",
-      "context": "Title"
-    }
+    { "token": "background-color-layer2", "context": "Background" },
+    { "token": "overlay-color", "context": "Overlay" },
+    { "token": "overlay-opacity", "context": "Overlay" },
+    { "token": "heading-color", "context": "Title" }
   ],
   "accessibility": {
     "role": "dialog",
@@ -102,16 +112,8 @@
     "focusable": false,
     "keyboardIntents": ["dismiss"],
     "wcag": [
-      {
-        "criterion": "2.4.3",
-        "level": "A",
-        "title": "Focus Order"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

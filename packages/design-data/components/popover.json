@@ -9,87 +9,94 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/page/popover/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Popovers are containers used to display transient content such as menus, options, additional actions, and more. They visually stand out through stroke and drop shadow and float on top of the interface."
+    },
+    {
+      "type": "guideline",
+      "content": "Popovers are containers for transient content like menus, options, or additional actions. They float above the interface and stand out visually using stroke and drop shadow."
+    },
+    {
+      "type": "guideline",
+      "content": "To keep a popover within certain boundaries, such as a browser window, define a container and a container padding value."
+    },
+    {
+      "type": "guideline",
+      "content": "The cross offset is the placement offset on the cross axis: the x-axis for top and bottom positions, and the y-axis for left and right positions."
+    },
+    {
+      "type": "guideline",
+      "content": "The offset is the space between the source and the popover (or tip, if present). Adjust it as needed to align visually with the source’s perceived bounds and maintain a balanced relationship between the two elements."
+    },
+    {
+      "type": "guideline",
+      "content": "A popover is positioned in relation to its source."
+    },
+    {
+      "type": "guideline",
+      "content": "Popovers usually appear without a tip and rely on a distinct down state in the source to show their origin. When the source lacks that visual cue, add a tip to reinforce the connection between the popover and its source."
+    },
+    {
+      "type": "guideline",
+      "content": "A popover’s height can be customized appropriately for its context."
+    },
+    {
+      "type": "guideline",
+      "content": "A popover’s width can be customized appropriately for its context."
+    },
+    {
+      "type": "guideline",
+      "content": "Popovers stem off of action buttons that act as a source to open up transient content."
+    },
+    {
+      "type": "guideline",
+      "content": "When displaying a popover, it should animate from its source to reinforce the connection between popover and source. It should fade in and slide with subtle motion from the source."
+    },
+    {
+      "type": "guideline",
+      "content": "A popover can be dismissed by clicking or tapping anywhere outside it, including the source, or by selecting an option or taking an action inside the popover."
+    },
+    {
+      "type": "guideline",
+      "content": "Trays can be used as alternatives to popovers on small screens. Use a tray when the amount of content is too large or overwhelming for a popover."
+    },
+    {
+      "type": "guideline",
+      "content": "When the source that triggers the popover does not have a visually distinct down state, use a popover with a tip to clearly indicate the connection to its source."
+    }
+  ],
   "options": {
-    "width": {
-      "type": "number"
-    },
-    "height": {
-      "type": "number"
-    },
-    "hideTip": {
-      "type": "boolean",
-      "default": false
-    },
+    "width": { "type": "number" },
+    "height": { "type": "number" },
+    "hideTip": { "type": "boolean", "default": false },
     "placement": {
       "type": "string",
       "default": "top",
       "values": [
-        {
-          "value": "top"
-        },
-        {
-          "value": "top left"
-        },
-        {
-          "value": "top right"
-        },
-        {
-          "value": "top start"
-        },
-        {
-          "value": "top end"
-        },
-        {
-          "value": "bottom"
-        },
-        {
-          "value": "bottom left"
-        },
-        {
-          "value": "bottom right"
-        },
-        {
-          "value": "bottom start"
-        },
-        {
-          "value": "bottom end"
-        },
-        {
-          "value": "left"
-        },
-        {
-          "value": "left top"
-        },
-        {
-          "value": "left bottom"
-        },
-        {
-          "value": "start"
-        },
-        {
-          "value": "start top"
-        },
-        {
-          "value": "start bottom"
-        },
-        {
-          "value": "right"
-        },
-        {
-          "value": "right top"
-        },
-        {
-          "value": "right bottom"
-        },
-        {
-          "value": "end"
-        },
-        {
-          "value": "end top"
-        },
-        {
-          "value": "end bottom"
-        }
+        { "value": "top" },
+        { "value": "top left" },
+        { "value": "top right" },
+        { "value": "top start" },
+        { "value": "top end" },
+        { "value": "bottom" },
+        { "value": "bottom left" },
+        { "value": "bottom right" },
+        { "value": "bottom start" },
+        { "value": "bottom end" },
+        { "value": "left" },
+        { "value": "left top" },
+        { "value": "left bottom" },
+        { "value": "start" },
+        { "value": "start top" },
+        { "value": "start bottom" },
+        { "value": "right" },
+        { "value": "right top" },
+        { "value": "right bottom" },
+        { "value": "end" },
+        { "value": "end top" },
+        { "value": "end bottom" }
       ]
     },
     "offset": {
@@ -97,78 +104,36 @@
       "default": 8,
       "description": "pixel measurement"
     },
-    "crossOffset": {
-      "type": "number",
-      "default": 0
-    },
+    "crossOffset": { "type": "number", "default": 0 },
     "containerPadding": {
       "type": "number",
       "default": 8,
       "description": "pixel measurement"
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "corner-radius-large-default",
-      "context": "Rounding"
-    },
-    {
-      "token": "popover-tip-width",
-      "context": "Tip"
-    },
-    {
-      "token": "popover-tip-height",
-      "context": "Tip"
-    },
+    { "token": "corner-radius-large-default", "context": "Rounding" },
+    { "token": "popover-tip-width", "context": "Tip" },
+    { "token": "popover-tip-height", "context": "Tip" },
     {
       "token": "popover-edge-to-content-area",
       "context": "Spacing (left/right edge to content area)"
     },
-    {
-      "token": "spacing-100",
-      "context": "Spacing (tip to source)"
-    },
-    {
-      "token": "border-width-100",
-      "context": "Border"
-    },
-    {
-      "token": "background-layer-2-color",
-      "context": "Background and border"
-    },
-    {
-      "token": "popover-border-color",
-      "context": "Background and border"
-    },
-    {
-      "token": "drop-shadow-elevated-color",
-      "context": "Drop shadow"
-    },
-    {
-      "token": "drop-shadow-elevated-x",
-      "context": "Drop shadow"
-    },
-    {
-      "token": "drop-shadow-elevated-y",
-      "context": "Drop shadow"
-    },
-    {
-      "token": "drop-shadow-elevated-blur",
-      "context": "Drop shadow"
-    }
+    { "token": "spacing-100", "context": "Spacing (tip to source)" },
+    { "token": "border-width-100", "context": "Border" },
+    { "token": "background-layer-2-color", "context": "Background and border" },
+    { "token": "popover-border-color", "context": "Background and border" },
+    { "token": "drop-shadow-elevated-color", "context": "Drop shadow" },
+    { "token": "drop-shadow-elevated-x", "context": "Drop shadow" },
+    { "token": "drop-shadow-elevated-y", "context": "Drop shadow" },
+    { "token": "drop-shadow-elevated-blur", "context": "Drop shadow" }
   ],
   "accessibility": {
     "intents": ["dismiss"],
     "focusable": false,
     "wcag": [
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

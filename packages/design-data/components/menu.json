@@ -9,128 +9,174 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/menu/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Menus help users take actions, choose from a list of options, configure settings, and more. They can be placed in a transient container, like a popover or tray."
+    },
+    {
+      "type": "guideline",
+      "content": "A disabled menu item indicates that an option exists but isn’t available in the current context. This helps preserve layout consistency and signals that the action might be available later."
+    },
+    {
+      "type": "guideline",
+      "content": "An unavailable menu item signals that an option exists but isn’t accessible in the current scenario. This helps ensure the label remains visible and provides context about why the option is unavailable, or directions for how to make it available."
+    },
+    {
+      "type": "guideline",
+      "content": "Displays submenus in a collapsed, nested format within the parent menu container. Works with both popover and tray styles. When using a tray, set a fixed height to avoid disorienting shifts when items expand or collapse."
+    },
+    {
+      "type": "guideline",
+      "content": "Use a section header when a menu section requires a label or descriptor. Section headers are helpful when two or more sections differ in function or context, making it easier for users to understand the structure."
+    },
+    {
+      "type": "guideline",
+      "content": "When the selection option is enabled, the selection can be displayed using checkmarks, checkboxes or switches. Switches are more commonly used on mobile."
+    },
+    {
+      "type": "guideline",
+      "content": "A menu section has the options of single selection, multiple selection, or having no selection. By default, menu items have no selection, and perform an action on press."
+    },
+    {
+      "type": "guideline",
+      "content": "For single selection menu sections, menu items show a single checkmark to indicate the selected item. Multiple selection menu sections can display checkboxes or switches beside each menu item."
+    },
+    {
+      "type": "guideline",
+      "content": "Menus come in four different sizes: small, medium, large, and extra-large. Medium is the default and most commonly used. Menu sizes should correspond to the size of the menu trigger component (like an action button), and any embedded components (like switches) should follow suit."
+    },
+    {
+      "type": "guideline",
+      "content": "Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+    },
+    {
+      "type": "guideline",
+      "content": "A menu item can display a related value in the value area. Examples of values include the selected option from a submenu, a keyboard shortcut for the action, or other content that clarifies the menu item."
+    },
+    {
+      "type": "guideline",
+      "content": "Menu items can include description text to provide extra clarity beyond the label. Descriptions help users understand the action and make informed choices."
+    },
+    {
+      "type": "guideline",
+      "content": "Avoid cluttering items with repetitive details or promotional content."
+    },
+    {
+      "type": "guideline",
+      "content": "Menu items can include icons, but only when they add meaningful context — not just for decoration. Use icons when they have a strong, recognizable association with the label (like tool switching in a toolbar)."
+    },
+    {
+      "type": "guideline",
+      "content": "A menu item must include a label that clearly communicates the action or option it represents."
+    },
+    {
+      "type": "guideline",
+      "content": "On desktop, menus are shown in a popover by default. On mobile, popovers can be used when appropriate. Submenus cascade in a separate popover by default."
+    },
+    {
+      "type": "guideline",
+      "content": "When a menu item includes a submenu, a drill-in chevron appears at the end of the item to indicate that additional options are available."
+    },
+    {
+      "type": "guideline",
+      "content": "When a menu item leads to a different context, such as a new page or dialog, a link-out icon appears at the end of the item to indicate that the user will navigate away from the current view."
+    },
+    {
+      "type": "guideline",
+      "content": "When a menu is displayed within popovers, a submenu will appear adjacent to the parent menu item in a separate popover. The submenu popover is aligned with an offset to horizontally overlap the parent menu and vertically align the first submenu item with the parent menu item."
+    },
+    {
+      "type": "guideline",
+      "content": "When a menu is shown in a popover, any submenu appears in a separate popover next to the parent item. The submenu popover is positioned to overlap the parent menu horizontally, with vertical alignment that matches the first submenu item to its parent."
+    },
+    {
+      "type": "guideline",
+      "content": "When a menu is shown in a tray, selecting a parent item with a submenu replaces the tray’s content with the submenu. A back button labeled with the parent item’s title appears at the top of the tray to let users return to the previous menu level."
+    },
+    {
+      "type": "guideline",
+      "content": "A menu item can be navigated using a keyboard. The keyboard focus state takes the menu item’s visual hover state and adds a focus ring around the item."
+    },
+    {
+      "type": "guideline",
+      "content": "When a menu item’s label or description are too long for the available horizontal space, they wrap to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "Dividers appear between sections when two or more sections are used within the same menu."
+    },
+    {
+      "type": "guideline",
+      "content": "In Windows high contrast mode, menu items should display with default text color. Selected items should have the background and text colors defined for selected text."
+    },
+    {
+      "type": "guideline",
+      "content": "Menus should be sized according to the component being used as the menu trigger. All submenus within the menu should also be using the same size as the menu trigger."
+    },
+    {
+      "type": "guideline",
+      "content": "Following Adobe’s UX writing style, write menu items in sentence case unless they contain words that are branded terms."
+    },
+    {
+      "type": "guideline",
+      "content": "Don’t end a menu command with an ellipsis (…) unless it requires additional input to complete the action, typically in a dialog."
+    }
+  ],
   "options": {
     "container": {
       "type": "string",
-      "values": [
-        {
-          "value": "popover"
-        },
-        {
-          "value": "tray"
-        }
-      ]
+      "values": [{ "value": "popover" }, { "value": "tray" }]
     },
-    "label": {
-      "type": "string"
-    },
+    "label": { "type": "string" },
     "icon": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
       "description": "Icon must be present if the label is not defined."
     },
-    "description": {
-      "type": "string"
-    },
-    "value": {
-      "type": "string"
-    },
+    "description": { "type": "string" },
+    "value": { "type": "string" },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
     "selectionMode": {
       "type": "string",
       "values": [
-        {
-          "value": "single"
-        },
-        {
-          "value": "multiple"
-        },
-        {
-          "value": "no selection"
-        }
+        { "value": "single" },
+        { "value": "multiple" },
+        { "value": "no selection" }
       ]
     },
     "selectionStyle": {
       "type": "string",
-      "values": [
-        {
-          "value": "checkbox"
-        },
-        {
-          "value": "switch"
-        }
-      ]
+      "values": [{ "value": "checkbox" }, { "value": "switch" }]
     },
-    "sectionHeader": {
-      "type": "string"
-    },
-    "isCollapsible": {
-      "type": "boolean",
-      "default": false
-    },
-    "isUnavailable": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    }
+    "sectionHeader": { "type": "string" },
+    "isCollapsible": { "type": "boolean", "default": false },
+    "isUnavailable": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     {
       "token": "popover-submenu-to-menu-item-position",
       "context": "Sub-menu alignment with menu item"
     },
-    {
-      "token": "component-height-75",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-200",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-300",
-      "context": "Minimum height"
-    },
+    { "token": "component-height-75", "context": "Minimum height" },
+    { "token": "component-height-100", "context": "Minimum height" },
+    { "token": "component-height-200", "context": "Minimum height" },
+    { "token": "component-height-300", "context": "Minimum height" },
     {
       "token": "component-size-difference-down",
       "context": "Component size (down)"
@@ -143,42 +189,18 @@
       "token": "component-size-minimum-perspective-down",
       "context": "Component size (down)"
     },
-    {
-      "token": "corner-radius-400",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-500",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-600",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-700",
-      "context": "Rounding"
-    },
+    { "token": "corner-radius-400", "context": "Rounding" },
+    { "token": "corner-radius-500", "context": "Rounding" },
+    { "token": "corner-radius-600", "context": "Rounding" },
+    { "token": "corner-radius-700", "context": "Rounding" },
     {
       "token": "menu-item-section-divider-height",
       "context": "Height (section divider)"
     },
-    {
-      "token": "text-to-visual-75",
-      "context": "Spacing (icon to label)"
-    },
-    {
-      "token": "text-to-visual-100",
-      "context": "Spacing (icon to label)"
-    },
-    {
-      "token": "text-to-visual-200",
-      "context": "Spacing (icon to label)"
-    },
-    {
-      "token": "text-to-visual-300",
-      "context": "Spacing (icon to label)"
-    },
+    { "token": "text-to-visual-75", "context": "Spacing (icon to label)" },
+    { "token": "text-to-visual-100", "context": "Spacing (icon to label)" },
+    { "token": "text-to-visual-200", "context": "Spacing (icon to label)" },
+    { "token": "text-to-visual-300", "context": "Spacing (icon to label)" },
     {
       "token": "component-top-to-workflow-icon-75",
       "context": "Spacing (top edge to icon)"
@@ -195,10 +217,7 @@
       "token": "component-top-to-workflow-icon-300",
       "context": "Spacing (top edge to icon)"
     },
-    {
-      "token": "menu-item-to-items",
-      "context": "Spacing (item to item)"
-    },
+    { "token": "menu-item-to-items", "context": "Spacing (item to item)" },
     {
       "token": "component-edge-to-text-75",
       "context": "Spacing (start/end edges to content)"
@@ -367,30 +386,12 @@
       "token": "menu-item-top-to-disclosure-icon-extra-large",
       "context": "Spacing (top edge to disclosure icon)"
     },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "workflow-icon-size-75",
-      "context": "Icon (menu item)"
-    },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Icon (menu item)"
-    },
-    {
-      "token": "workflow-icon-size-200",
-      "context": "Icon (menu item)"
-    },
-    {
-      "token": "workflow-icon-size-300",
-      "context": "Icon (menu item)"
-    },
+    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
+    { "token": "focus-indicator-gap", "context": "Focus indicator" },
+    { "token": "workflow-icon-size-75", "context": "Icon (menu item)" },
+    { "token": "workflow-icon-size-100", "context": "Icon (menu item)" },
+    { "token": "workflow-icon-size-200", "context": "Icon (menu item)" },
+    { "token": "workflow-icon-size-300", "context": "Icon (menu item)" },
     {
       "token": "checkmark-icon-size-75",
       "context": "Icon (single selection, selected menu item)"
@@ -435,66 +436,24 @@
       "token": "link-out-icon-size-200",
       "context": "Icon (external link action, menu item)"
     },
-    {
-      "token": "thumbnail-size-500",
-      "context": "Thumbnail"
-    },
-    {
-      "token": "thumbnail-size-700",
-      "context": "Thumbnail"
-    },
-    {
-      "token": "thumbnail-size-800",
-      "context": "Thumbnail"
-    },
-    {
-      "token": "thumbnail-size-900",
-      "context": "Thumbnail"
-    },
-    {
-      "token": "menu-item-background-color-default",
-      "context": "Background"
-    },
-    {
-      "token": "menu-item-background-color-hover",
-      "context": "Background"
-    },
-    {
-      "token": "menu-item-background-color-down",
-      "context": "Background"
-    },
+    { "token": "thumbnail-size-500", "context": "Thumbnail" },
+    { "token": "thumbnail-size-700", "context": "Thumbnail" },
+    { "token": "thumbnail-size-800", "context": "Thumbnail" },
+    { "token": "thumbnail-size-900", "context": "Thumbnail" },
+    { "token": "menu-item-background-color-default", "context": "Background" },
+    { "token": "menu-item-background-color-hover", "context": "Background" },
+    { "token": "menu-item-background-color-down", "context": "Background" },
     {
       "token": "menu-item-background-color-key-focus",
       "context": "Background"
     },
-    {
-      "token": "menu-item-background-color-disabled",
-      "context": "Background"
-    },
-    {
-      "token": "menu-item-background-opacity",
-      "context": "Background"
-    },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Label and icon"
-    },
-    {
-      "token": "neutral-content-color-hover",
-      "context": "Label and icon"
-    },
-    {
-      "token": "neutral-content-color-down",
-      "context": "Label and icon"
-    },
-    {
-      "token": "neutral-content-color-key-focus",
-      "context": "Label and icon"
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Label and icon"
-    },
+    { "token": "menu-item-background-color-disabled", "context": "Background" },
+    { "token": "menu-item-background-opacity", "context": "Background" },
+    { "token": "neutral-content-color-default", "context": "Label and icon" },
+    { "token": "neutral-content-color-hover", "context": "Label and icon" },
+    { "token": "neutral-content-color-down", "context": "Label and icon" },
+    { "token": "neutral-content-color-key-focus", "context": "Label and icon" },
+    { "token": "disabled-content-color", "context": "Label and icon" },
     {
       "token": "neutral-subdued-content-color-default",
       "context": "Description"
@@ -503,70 +462,25 @@
       "token": "neutral-subdued-content-color-hover",
       "context": "Description"
     },
-    {
-      "token": "neutral-subdued-content-color-down",
-      "context": "Description"
-    },
+    { "token": "neutral-subdued-content-color-down", "context": "Description" },
     {
       "token": "neutral-subdued-content-color-key-focus",
       "context": "Description"
     },
-    {
-      "token": "accent-content-color-default",
-      "context": "Checkmark icon"
-    },
-    {
-      "token": "accent-content-color-hover",
-      "context": "Checkmark icon"
-    },
-    {
-      "token": "accent-content-color-down",
-      "context": "Checkmark icon"
-    },
-    {
-      "token": "accent-content-color-key-focus",
-      "context": "Checkmark icon"
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Section header title"
-    },
-    {
-      "token": "bold-font-weight",
-      "context": "Section header title"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Section header title"
-    },
-    {
-      "token": "font-size-75",
-      "context": "Section header title"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Section header title"
-    },
-    {
-      "token": "font-size-200",
-      "context": "Section header title"
-    },
-    {
-      "token": "font-size-300",
-      "context": "Section header title"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Section header title"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Section header title"
-    },
+    { "token": "accent-content-color-default", "context": "Checkmark icon" },
+    { "token": "accent-content-color-hover", "context": "Checkmark icon" },
+    { "token": "accent-content-color-down", "context": "Checkmark icon" },
+    { "token": "accent-content-color-key-focus", "context": "Checkmark icon" },
+    { "token": "focus-indicator-color", "context": "Focus indicator" },
+    { "token": "default-font-family", "context": "Section header title" },
+    { "token": "bold-font-weight", "context": "Section header title" },
+    { "token": "default-font-style", "context": "Section header title" },
+    { "token": "font-size-75", "context": "Section header title" },
+    { "token": "font-size-100", "context": "Section header title" },
+    { "token": "font-size-200", "context": "Section header title" },
+    { "token": "font-size-300", "context": "Section header title" },
+    { "token": "line-height-100", "context": "Section header title" },
+    { "token": "cjk-line-height-100", "context": "Section header title" },
     {
       "token": "regular-font-weight",
       "context": "Descriptions (section header and item)"
@@ -582,16 +496,8 @@
     "focusable": false,
     "keyboardIntents": ["navigate-options", "activate", "dismiss"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

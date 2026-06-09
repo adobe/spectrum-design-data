@@ -9,6 +9,56 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/rating/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "The rating component lets users apply a rating to an item or experience, such as an image, a forum post, an item for sale in a marketplace, and more."
+    },
+    {
+      "type": "guideline",
+      "content": "Ratings allow scoring of an item or experience based on quality or preference. Common examples include images, forum posts, or products."
+    },
+    {
+      "type": "guideline",
+      "content": "A rating in a disabled state shows that the component exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that an action may become available later."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, ratings are not emphasized (dark gray). This version is optimal for when the rating is not the core part of an interface, such as in application panels, where all visual components are monochrome in order to direct focus to the content."
+    },
+    {
+      "type": "guideline",
+      "content": "The emphasized (blue) version provides a visual prominence that is optimal for forms, dialogs, and other situations where a rating needs to be noticed."
+    },
+    {
+      "type": "guideline",
+      "content": "The value is the number of the rating selected, on a sentiment scale from 0 to 5 (0 being the lowest, 5 being the highest)."
+    },
+    {
+      "type": "guideline",
+      "content": "The rating component supports two main use cases: inputting and aggregating. Inputting allows users to select a rating, while aggregating displays the average rating, which may include fractional stars. Interactive ratings show only whole stars to avoid confusion during selection."
+    },
+    {
+      "type": "guideline",
+      "content": "When a user interacts with a rating component that shows a previously entered value, a tooltip appears when they hover over a star. The language in the tooltip is phrased as a call-to-action to edit their rating. For example, “Edit 4 star rating”."
+    },
+    {
+      "type": "guideline",
+      "content": "A user’s previously entered rating can be cleared if they select the “highest” star (for example, clicking or tapping the fourth star from the left on a four-star rating). On keyboard focus, the left/down arrow keys will decrease the rating until the last star is removed. A tooltip appears on hover with alt text that describes the action, for example “Clear 4 star rating”."
+    },
+    {
+      "type": "guideline",
+      "content": "Rating can display approximate value or precise value depending on the needs of the product or service. For example, Amazon.com uses approximate rating, but Apple's App Store uses precise rating."
+    },
+    {
+      "type": "guideline",
+      "content": "When representing multiple values (e.g., rating 2 photos at the same time), the rating is shown as empty if the ratings are not the same. This behavior is consistent with how a radio button group works, as well."
+    },
+    {
+      "type": "guideline",
+      "content": "Star ratings should always have 5 available stars. This shouldn’t be increased or decreased to fit various containers."
+    }
+  ],
   "options": {
     "value": {
       "type": "number",
@@ -18,73 +68,26 @@
       "multipleOf": 0.5,
       "description": "From 0 to 5, can be a decimal to represent half stars"
     },
-    "isEmphasized": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    }
+    "isEmphasized": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "worfklow-icon-size-75",
-      "context": "Layout"
-    },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Layout"
-    },
-    {
-      "token": "rating-width-small",
-      "context": "Width"
-    },
-    {
-      "token": "rating-width-medium",
-      "context": "Width"
-    },
-    {
-      "token": "rating-height-small",
-      "context": "Height"
-    },
-    {
-      "token": "rating-height-medium",
-      "context": "Height"
-    },
-    {
-      "token": "corner-radius-medium-size-small",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-medium",
-      "context": "Rounding"
-    },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus ring"
-    },
-    {
-      "token": "focus-indicator-grap",
-      "context": "Focus ring"
-    },
+    { "token": "worfklow-icon-size-75", "context": "Layout" },
+    { "token": "workflow-icon-size-100", "context": "Layout" },
+    { "token": "rating-width-small", "context": "Width" },
+    { "token": "rating-width-medium", "context": "Width" },
+    { "token": "rating-height-small", "context": "Height" },
+    { "token": "rating-height-medium", "context": "Height" },
+    { "token": "corner-radius-medium-size-small", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-medium", "context": "Rounding" },
+    { "token": "focus-indicator-thickness", "context": "Focus ring" },
+    { "token": "focus-indicator-grap", "context": "Focus ring" },
     {
       "token": "rating-top-to-content-area-small",
       "context": "Spacing (padding)"
@@ -109,38 +112,14 @@
       "token": "rating-edge-to-content-area-medium",
       "context": "Spacing (padding)"
     },
-    {
-      "token": "spacing-75",
-      "context": "Spacing"
-    },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Default"
-    },
-    {
-      "token": "accent-content-color-default",
-      "context": "Emphasized"
-    },
-    {
-      "token": "accent-content-color-hover",
-      "context": "Hover"
-    },
-    {
-      "token": "neutral-content-color-hover",
-      "context": "Hover"
-    },
-    {
-      "token": "neutral-content-color-down",
-      "context": "Down"
-    },
-    {
-      "token": "accent-content-color-down",
-      "context": "Down"
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Disabled"
-    }
+    { "token": "spacing-75", "context": "Spacing" },
+    { "token": "neutral-content-color-default", "context": "Default" },
+    { "token": "accent-content-color-default", "context": "Emphasized" },
+    { "token": "accent-content-color-hover", "context": "Hover" },
+    { "token": "neutral-content-color-hover", "context": "Hover" },
+    { "token": "neutral-content-color-down", "context": "Down" },
+    { "token": "accent-content-color-down", "context": "Down" },
+    { "token": "disabled-content-color", "context": "Disabled" }
   ],
   "accessibility": {
     "role": "slider",
@@ -148,21 +127,9 @@
     "focusable": true,
     "keyboardIntents": ["increment", "decrement"],
     "wcag": [
-      {
-        "criterion": "1.3.1",
-        "level": "A",
-        "title": "Info and Relationships"
-      },
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

@@ -9,6 +9,36 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/drop-zone/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "A drop zone allows users to drag and drop files or other content into a designated area."
+    },
+    {
+      "type": "guideline",
+      "content": "Drop zones accept dragged and dropped objects. They support upload and file management workflows, and are commonly used to move or add content within an interface."
+    },
+    {
+      "type": "guideline",
+      "content": "A button is an optional element to prompt the user to take action."
+    },
+    {
+      "type": "guideline",
+      "content": "Drop zones come in three different sizes: small, medium, and large. The medium size is the default and most frequently used option."
+    },
+    {
+      "type": "guideline",
+      "content": "Indicate to users the accepted file types to let users know what they can upload before interacting. This can be done through helper text or placeholder content."
+    },
+    {
+      "type": "guideline",
+      "content": "When a file is dragged over or dropped into the zone, provide the user with visual feedback such as highlighting the border or changing the background, to confirm the interaction is recognized."
+    },
+    {
+      "type": "guideline",
+      "content": "Visual styling that indicates a user can replace file types within a dropzone should clearly communicate interactivity and the potential for change without disrupting the overall layout. This is typically achieved through subtle but intuitive cues such as displaying a button over the drop zone area informing the user that they may replace their content type."
+    }
+  ],
   "options": {
     "accept": {
       "type": "array",
@@ -20,17 +50,7 @@
     "size": {
       "type": "string",
       "default": "m",
-      "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        }
-      ]
+      "values": [{ "value": "s" }, { "value": "m" }, { "value": "l" }]
     },
     "actionLabel": {
       "type": "string",
@@ -49,18 +69,10 @@
       "description": "Callback function called when a file is dragged out of the drop zone."
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "drop-zone-width",
-      "context": "Component width"
-    },
-    {
-      "token": "spacing-400",
-      "context": "Padding"
-    },
+    { "token": "drop-zone-width", "context": "Component width" },
+    { "token": "spacing-400", "context": "Padding" },
     {
       "token": "drop-zone-content-maximum-width",
       "context": "Content width (maximum)"
@@ -85,30 +97,15 @@
       "token": "spacing-200",
       "context": "Spacing (illustration to title area) "
     },
-    {
-      "token": "spacing-75",
-      "context": "Spacing (title area to body area) "
-    },
-    {
-      "token": "spacing-300",
-      "context": "Spacing (body area to action) "
-    },
-    {
-      "token": "component-height-300",
-      "context": "Text area (filled, hover)"
-    },
+    { "token": "spacing-75", "context": "Spacing (title area to body area) " },
+    { "token": "spacing-300", "context": "Spacing (body area to action) " },
+    { "token": "component-height-300", "context": "Text area (filled, hover)" },
     {
       "token": "component-edge-to-text-300",
       "context": "Text area (filled, hover)"
     },
-    {
-      "token": "component-top",
-      "context": "Text area (filled, hover)"
-    },
-    {
-      "token": "text-300",
-      "context": "Text area (filled, hover)"
-    },
+    { "token": "component-top", "context": "Text area (filled, hover)" },
+    { "token": "text-300", "context": "Text area (filled, hover)" },
     {
       "token": "component-bottom-to-text-300",
       "context": "Text area (filled, hover)"
@@ -133,10 +130,7 @@
       "token": "drop-zone-cjk-title-font-size",
       "context": "Title area and body area"
     },
-    {
-      "token": "title-line-height",
-      "context": "Title area and body area"
-    },
+    { "token": "title-line-height", "context": "Title area and body area" },
     {
       "token": "body-sans-serif-font-family",
       "context": "Title area and body area"
@@ -153,50 +147,23 @@
       "token": "drop-zone-body-font-size",
       "context": "Title area and body area"
     },
-    {
-      "token": "body-line-height",
-      "context": "Title area and body area"
-    },
+    { "token": "body-line-height", "context": "Title area and body area" },
     {
       "token": "sans-serif-font-family",
       "context": "Title area and body area"
     },
-    {
-      "token": "bold-font-weight",
-      "context": "Title area and body area"
-    },
-    {
-      "token": "default-font-size",
-      "context": "Title area and body area"
-    },
-    {
-      "token": "font-size-300",
-      "context": "Title area and body area"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Title area and body area"
-    },
-    {
-      "token": "grey-300",
-      "context": "Border color"
-    },
+    { "token": "bold-font-weight", "context": "Title area and body area" },
+    { "token": "default-font-size", "context": "Title area and body area" },
+    { "token": "font-size-300", "context": "Title area and body area" },
+    { "token": "line-height-100", "context": "Title area and body area" },
+    { "token": "grey-300", "context": "Border color" },
     {
       "token": "neutral-content-color-default",
       "context": "Illustration color"
     },
-    {
-      "token": "accent-content-color",
-      "context": "Illustration color"
-    },
-    {
-      "token": "heading-color",
-      "context": "Title and body color"
-    },
-    {
-      "token": "body-color",
-      "context": "Title and body color"
-    },
+    { "token": "accent-content-color", "context": "Illustration color" },
+    { "token": "heading-color", "context": "Title and body color" },
+    { "token": "body-color", "context": "Title and body color" },
     {
       "token": "accent-visual-color",
       "context": "Border and background color (empty, hover)"
@@ -223,16 +190,8 @@
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

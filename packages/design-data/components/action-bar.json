@@ -9,28 +9,56 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/action-bar/"
   },
-  "options": {
-    "isEmphasized": {
-      "type": "boolean",
-      "default": false
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Action bars are used for single and bulk selection patterns, when a user needs to perform actions on either a single or multiple items at the same time."
+    },
+    {
+      "type": "guideline",
+      "content": "Action bar in Dark theme.\n\nAction bar is split into a separate component for each color theme — light and dark. Since each is set to either light or dark mode in Figma, they do not switch automatically like the rest of the UI when placed in frames that are set to \"auto\" mode.\n\nIn dark theme, the action bar also includes a 1px inner border to help it stand out against the background colors."
+    },
+    {
+      "type": "guideline",
+      "content": "Action group variants (Icon-only, Label-only, Icon + label).\n\nAt larger screen or section sizes, use an action group that shows a label and icon. For smaller screen or section sizes, use an icon-only action group. Place any overflow actions into a action menu at the end of the bar."
+    },
+    {
+      "type": "guideline",
+      "content": "Action disabled behavior.\n\nIndividual actions can be disabled in an action bar which follow the isDisabled property of the action group. This disabled state shows that the action buttons within the group exist, but are not available in that circumstance. This state can be used to maintain layout continuity and to communicate that an action group may become available later."
+    },
+    {
+      "type": "guideline",
+      "content": "Placement.\n\nWhen a user selects items with relevant actions, an action bar appears at the bottom of the viewport. The bar should have margins of `spacing-200` (12 pixels on desktop scale) on the sides and bottom."
+    },
+    {
+      "type": "guideline",
+      "content": "Safe zone.\n\nInclude a safe zone of at least `spacing-400` (24 pixels on desktop scale) between the item counter and the action group."
+    },
+    {
+      "type": "guideline",
+      "content": "Motion and stickiness.\n\nAction bars slide and fade in from the bottom of the page or section. They remain or \"stick\" there until a user either deselects the items or navigates away."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't add a drag bar",
+      "dont": "An action bar appears when items in a list or grid view are selected, and it remains in place until items are deselected or a user navigates away. Action bars can not be moved or dragged."
+    },
+    {
+      "type": "guideline",
+      "content": "Allow scrolling to view underlying content.\n\nAction bars appear on top of content. Allow space for a user to still be able to view the content underneath, especially if they're taking actions on a table or a list of items and need to be able to scroll."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't use quick actions",
+      "dont": "Instead of quick actions, use an action bar for both single and bulk selection patterns. An action bar is useful for when a user needs to perform actions on either a single or multiple items at the same time. It can be used on either a grid view or a table view.\n\nDon't use quick actions — a deprecated component — because it presents conflicting nested actions (for example, a whole asset card could open a detailed view). This makes targeting specific actions very difficult, especially on smaller screens or with the keyboard."
     }
-  },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  ],
+  "options": { "isEmphasized": { "type": "boolean", "default": false } },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "action-bar-height",
-      "context": "Height"
-    },
-    {
-      "token": "action-bar-minimum-width",
-      "context": "Width (minimum)"
-    },
-    {
-      "token": "corner-radius-medium-size-extra-large",
-      "context": "Rounding"
-    },
+    { "token": "action-bar-height", "context": "Height" },
+    { "token": "action-bar-minimum-width", "context": "Width (minimum)" },
+    { "token": "corner-radius-medium-size-extra-large", "context": "Rounding" },
     {
       "token": "action-bar-top-to-content-area",
       "context": "Spacing (padding)"
@@ -55,66 +83,24 @@
       "token": "action-bar-close-button-to-counter",
       "context": "Spacing (counter)"
     },
-    {
-      "token": "background-elevated-color",
-      "context": "Background (default)"
-    },
+    { "token": "background-elevated-color", "context": "Background (default)" },
     {
       "token": "neutral-content-color-default",
       "context": "Background (emphasized)"
     },
-    {
-      "token": "action-bar-border",
-      "context": "Border"
-    },
-    {
-      "token": "drop-shadow-elevated-color",
-      "context": "Drop shadow"
-    },
-    {
-      "token": "drop-shadow-elevated-x",
-      "context": "Drop shadow"
-    },
-    {
-      "token": "drop-shadow-elevated-y",
-      "context": "Drop shadow"
-    },
-    {
-      "token": "drop-shadow-elevated-blur",
-      "context": "Drop shadow"
-    },
-    {
-      "token": "action-bar-counter-font-size",
-      "context": "Counter"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Counter"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Counter"
-    },
-    {
-      "token": "accent-background-color-default",
-      "context": "Background"
-    },
-    {
-      "token": "accent-background-color-hover",
-      "context": "Background"
-    },
-    {
-      "token": "accent-background-color-down",
-      "context": "Background"
-    },
-    {
-      "token": "accent-background-color-key-focus",
-      "context": "Background"
-    },
-    {
-      "token": "white",
-      "context": "Icon and Clear icon"
-    },
+    { "token": "action-bar-border", "context": "Border" },
+    { "token": "drop-shadow-elevated-color", "context": "Drop shadow" },
+    { "token": "drop-shadow-elevated-x", "context": "Drop shadow" },
+    { "token": "drop-shadow-elevated-y", "context": "Drop shadow" },
+    { "token": "drop-shadow-elevated-blur", "context": "Drop shadow" },
+    { "token": "action-bar-counter-font-size", "context": "Counter" },
+    { "token": "line-height-100", "context": "Counter" },
+    { "token": "cjk-line-height-100", "context": "Counter" },
+    { "token": "accent-background-color-default", "context": "Background" },
+    { "token": "accent-background-color-hover", "context": "Background" },
+    { "token": "accent-background-color-down", "context": "Background" },
+    { "token": "accent-background-color-key-focus", "context": "Background" },
+    { "token": "white", "context": "Icon and Clear icon" },
     {
       "token": "neutral-selected-background-color-default",
       "context": "Background"
@@ -131,10 +117,7 @@
       "token": "neutral-selected-background-color-key-focus",
       "context": "Background"
     },
-    {
-      "token": "gray-25",
-      "context": "Icon and Clear icon"
-    },
+    { "token": "gray-25", "context": "Icon and Clear icon" },
     {
       "token": "neutral-content-color-hover",
       "context": "Control (selected, non emphasized)"
@@ -167,10 +150,7 @@
       "token": "neutral-subdued-content-color-default",
       "context": "Step text"
     },
-    {
-      "token": "neutral-subdued-content-color-hover",
-      "context": "Step text"
-    },
+    { "token": "neutral-subdued-content-color-hover", "context": "Step text" },
     {
       "token": "neutral-subdued-content-color-key-focus",
       "context": "Step text"
@@ -187,28 +167,15 @@
       "token": "neutral-subdued-background-color-key-focus",
       "context": "Step visual"
     },
-    {
-      "token": "neutral-background-color-default",
-      "context": "Step visual"
-    },
-    {
-      "token": "neutral-background-color-key-focus",
-      "context": "Step visual"
-    },
-    {
-      "token": "neutral-visual-color",
-      "context": "Step visual"
-    }
+    { "token": "neutral-background-color-default", "context": "Step visual" },
+    { "token": "neutral-background-color-key-focus", "context": "Step visual" },
+    { "token": "neutral-visual-color", "context": "Step visual" }
   ],
   "accessibility": {
     "intents": ["trigger"],
     "focusable": false,
     "wcag": [
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

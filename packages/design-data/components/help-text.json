@@ -9,21 +9,66 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/help-text/"
   },
-  "options": {
-    "text": {
-      "type": "string"
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Help text provides either an informative description or an error message that gives more context about what a user needs to input. It’s commonly used in forms."
     },
+    {
+      "type": "guideline",
+      "content": "Help text provides additional context for an input field, such as descriptions, instructions, or error messages. It’s commonly used in forms to clarify what’s expected or to explain validation."
+    },
+    {
+      "type": "guideline",
+      "content": "Help text using the neutral variant can be displayed in a disabled state. The text appears with a lighter gray that matches the style of other components in a disabled state. Help text using the negative variant cannot be displayed in a disabled state because it communicates an error, and error messages should not be visible when the component is disabled."
+    },
+    {
+      "type": "guideline",
+      "content": "Help text comes in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option. Use the other sizes sparingly and pair them with components of the same size to respect the built-in hierarchy."
+    },
+    {
+      "type": "guideline",
+      "content": "Help text has two variants: neutral and negative. The neutral variant is used to convey informative messages, while the negative variant is used to convey error messages."
+    },
+    {
+      "type": "guideline",
+      "content": "The text can accommodate either a description or an error message, giving extra context and guidance. Sometimes this communicates what to input or select, and sometimes it communicates how. It includes information such as:"
+    },
+    {
+      "type": "guideline",
+      "content": "Regardless of the kind of message, it should be clear and concise. Use 1-2 short, complete sentences that end with a period (never an exclamation point). When showing formatting examples, it's not necessary to end with a period."
+    },
+    {
+      "type": "guideline",
+      "content": "When the text is too long for the available horizontal space, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "For the optional icon that can be displayed with the negative variant, usage depends on what kind of component the help text is accompanying. Whether to include the optional icon with the negative variant depends on the component that the help text accompanies."
+    },
+    {
+      "type": "guideline",
+      "content": "Help text displays either a description (the neutral variant) or an error message (the negative variant) in the same space. When a description is present and an error is triggered, it is replaced with an error message. Once the error is resolved, the help text description reappears."
+    },
+    {
+      "type": "guideline",
+      "content": "Since one gets replaced by Because one replaces the other, the language of the help text description and the error need to work together to communicate convey the same message messaging. The description text explains the requirements or adds supplementary context for how to successfully interact with a component. The error message text restates the same requirements, guiding the user to fix the issue. tells a user how to fix the error by re-stating the interaction requirements. Make sure that the help text description and error message include the same essential information so that it isn’t lost if one replaces the other."
+    },
+    {
+      "type": "guideline",
+      "content": "Communicate error messages in a human-centered way by guiding a user and showing them a solution — don’t simply state what’s wrong and then leave them guessing as to how to resolve it. Ambiguous error messages can be frustrating and even shame-inducing for users. Also, keep in mind that something that a system may deem an error may not actually be perceived as an error to a user."
+    },
+    {
+      "type": "guideline",
+      "content": "For help text, usually the error is related to something that needs to be fixed for in-line validation, so a helpful tone is most appropriate. For example, if someone were to miss filling out a required field that asks for their email address, write the error text like you’re offering a hint or a tip to help guide them to understand what needs to go in the missing field: “Enter your email address.”"
+    }
+  ],
+  "options": {
+    "text": { "type": "string" },
     "variant": {
       "type": "string",
       "default": "neutral",
-      "values": [
-        {
-          "value": "neutral"
-        },
-        {
-          "value": "negative"
-        }
-      ]
+      "values": [{ "value": "neutral" }, { "value": "negative" }]
     },
     "hideIcon": {
       "type": "boolean",
@@ -34,18 +79,10 @@
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
     "isDisabled": {
@@ -54,46 +91,17 @@
       "description": "Help text cannot be both disabled and negative variant."
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "component-height-75",
-      "context": "Minimum Height"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Minimum Height"
-    },
-    {
-      "token": "component-height-200",
-      "context": "Minimum Height"
-    },
-    {
-      "token": "component-height-300",
-      "context": "Minimum Height"
-    },
-    {
-      "token": "workflow-icon-size-75",
-      "context": "Icon size"
-    },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Icon size"
-    },
-    {
-      "token": "workflow-icon-size-200",
-      "context": "Icon size"
-    },
-    {
-      "token": "workflow-icon-size-300",
-      "context": "Icon size"
-    },
-    {
-      "token": "text-to-visual-75",
-      "context": "Spacing (alert icon to text)"
-    },
+    { "token": "component-height-75", "context": "Minimum Height" },
+    { "token": "component-height-100", "context": "Minimum Height" },
+    { "token": "component-height-200", "context": "Minimum Height" },
+    { "token": "component-height-300", "context": "Minimum Height" },
+    { "token": "workflow-icon-size-75", "context": "Icon size" },
+    { "token": "workflow-icon-size-100", "context": "Icon size" },
+    { "token": "workflow-icon-size-200", "context": "Icon size" },
+    { "token": "workflow-icon-size-300", "context": "Icon size" },
+    { "token": "text-to-visual-75", "context": "Spacing (alert icon to text)" },
     {
       "token": "text-to-visual-100",
       "context": "Spacing (alert icon to text)"
@@ -154,10 +162,7 @@
       "token": "component-bottom-to-text-300",
       "context": "Spacing (top/bottom edge to text)"
     },
-    {
-      "token": "neutral-subdued-content-color-default",
-      "context": "Text"
-    },
+    { "token": "neutral-subdued-content-color-default", "context": "Text" },
     {
       "token": "disabled-content-color-default",
       "context": "Text and alert icon (disabled)"
@@ -166,44 +171,15 @@
       "token": "negative-content-color-default",
       "context": "Text and alert icon (warning)"
     },
-    {
-      "token": "default-font-family",
-      "context": "Text"
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Text"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Text"
-    },
-    {
-      "token": "font-size-75",
-      "context": "Text"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Text"
-    },
-    {
-      "token": "font-size-200",
-      "context": "Text"
-    },
-    {
-      "token": "font-size-300",
-      "context": "Text"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Text"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Text"
-    }
+    { "token": "default-font-family", "context": "Text" },
+    { "token": "regular-font-weight", "context": "Text" },
+    { "token": "default-font-style", "context": "Text" },
+    { "token": "font-size-75", "context": "Text" },
+    { "token": "font-size-100", "context": "Text" },
+    { "token": "font-size-200", "context": "Text" },
+    { "token": "font-size-300", "context": "Text" },
+    { "token": "line-height-100", "context": "Text" },
+    { "token": "cjk-line-height-100", "context": "Text" }
   ],
-  "accessibility": {
-    "focusable": false
-  }
+  "accessibility": { "focusable": false }
 }

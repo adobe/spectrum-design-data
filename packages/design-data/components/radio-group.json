@@ -9,105 +9,138 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/radio-group/"
   },
-  "options": {
-    "label": {
-      "type": "string"
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "A radio group is a grouping of radio buttons that are related to each other."
     },
+    {
+      "type": "guideline",
+      "content": "Radio groups organize related radio buttons into a single selection set. Only one option can be selected at a time."
+    },
+    {
+      "type": "guideline",
+      "content": "Radio groups should use help text for error messaging and descriptions. Descriptions are valuable for giving context behind why a selection is required, or for clarifying the options."
+    },
+    {
+      "type": "guideline",
+      "content": "Radio groups can be marked as having an error to show that a selection needs to be made in order to move forward, or that a selection that was made is invalid. The error is indicated with negative help text, along with an icon."
+    },
+    {
+      "type": "guideline",
+      "content": "A radio group in a disabled state shows that a selection exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that an action may become available later. The field label, radio buttons, and help text are all displayed in a disabled state when the radio group is disabled."
+    },
+    {
+      "type": "guideline",
+      "content": "Radio groups can be marked as optional or required, depending on the situation. For required radio groups, there are two styling options: a “(required)” label or an asterisk. If you use an asterisk, be sure to include help text to explain what the asterisk means. Optional radio groups are either denoted with text added to the end of the label — “(optional)” — or have no indication at all."
+    },
+    {
+      "type": "guideline",
+      "content": "The asterisk used in this component is an icon that has specific spacing from the label text — not part of the label text itself."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, radio buttons are not emphasized (gray). This option is best for when the radio button is not the core part of an interface, such as in application panels, where all visual components are monochrome in order to direct focus to the content."
+    },
+    {
+      "type": "guideline",
+      "content": "The emphasized (blue) version provides a visual prominence that is best for forms, settings, lists or grids of assets, and other situations where a radio button needs to be noticed."
+    },
+    {
+      "type": "guideline",
+      "content": "Radio groups come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+    },
+    {
+      "type": "guideline",
+      "content": "Radio groups can be either horizontal or vertical. By default, radio groups are vertical. Use a horizontal radio group when vertical space is limited."
+    },
+    {
+      "type": "guideline",
+      "content": "Labels can be placed either on top or on the side. Top labels are the default and are recommended because they work better with long copy, localization, and responsive layouts. Side labels are most useful when vertical space is limited."
+    },
+    {
+      "type": "guideline",
+      "content": "Radio groups should always have a label. In rare cases where context is sufficient and an accessibility expert has reviewed the design, the label could be undefined. These radio groups without a visible label should still include an aria-label in HTML (depending on the context, “aria-label” or “aria-labelledby”)."
+    },
+    {
+      "type": "guideline",
+      "content": "A radio button can be navigated using a keyboard. The keyboard focus state takes the radio button’s visual hover state and adds a blue ring to the radio button in focus."
+    },
+    {
+      "type": "guideline",
+      "content": "When the label is too long for the horizontal space available, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "When a radio button group presents multiple values that are not identical, the group should not show a selection. Any subsequent selection should update all values."
+    },
+    {
+      "type": "guideline",
+      "content": "Emphasized radio group is optimal for forms, settings, and other scenarios where the radio group need to be noticed. Default radio group is optimal for application panels where all the visual components are monochrome in order to direct focus to the canvas."
+    },
+    {
+      "type": "guideline",
+      "content": "Radio buttons and checkboxes are not interchangeable. Radio buttons are best used for selecting a single option from a list of mutually exclusive options. Checkboxes are best used for selecting multiple options at once (or no options)."
+    },
+    {
+      "type": "guideline",
+      "content": "Radio groups should always have a label that clearly describes what the list of options represents. This is important for accessibility, since a screen reader will read the label before each option. Make sure to include a label, and don't assume that the options are self-explanatory without one. Write the label in sentence case."
+    },
+    {
+      "type": "guideline",
+      "content": "Radio buttons are best when only one option can be selected at a time from a set (e.g., choosing one preference or mode)."
+    },
+    {
+      "type": "guideline",
+      "content": "Switches are best for communicating activation (e.g., turning a setting on or off)."
+    },
+    {
+      "type": "guideline",
+      "content": "Checkboxes are best for communicating selection (e.g., selecting multiple items from a list)."
+    }
+  ],
+  "options": {
+    "label": { "type": "string" },
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "values": [
-        {
-          "value": "top"
-        },
-        {
-          "value": "side"
-        }
-      ]
+      "values": [{ "value": "top" }, { "value": "side" }]
     },
     "orientation": {
       "type": "string",
       "default": "vertical",
-      "values": [
-        {
-          "value": "horizontal"
-        },
-        {
-          "value": "vertical"
-        }
-      ]
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
     },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
-    "isEmphasized": {
-      "type": "boolean",
-      "default": false
-    },
+    "isEmphasized": { "type": "boolean", "default": false },
     "necessityIndicator": {
       "type": "string",
       "default": "icon",
-      "values": [
-        {
-          "value": "text"
-        },
-        {
-          "value": "icon"
-        }
-      ]
+      "values": [{ "value": "text" }, { "value": "icon" }]
     },
-    "isRequired": {
-      "type": "boolean",
-      "default": false
-    },
-    "isError": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
-    "errorMessage": {
-      "type": "string"
-    },
-    "description": {
-      "type": "string"
-    }
+    "isRequired": { "type": "boolean", "default": false },
+    "isError": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
+    "errorMessage": { "type": "string" },
+    "description": { "type": "string" }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [],
   "accessibility": {
     "intents": ["choose"],
     "focusable": false,
     "wcag": [
-      {
-        "criterion": "1.3.1",
-        "level": "A",
-        "title": "Info and Relationships"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

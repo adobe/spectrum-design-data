@@ -9,6 +9,96 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/calendar/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Calendars display days, weeks, and months, allowing users to select dates or ranges."
+    },
+    {
+      "type": "guideline",
+      "content": "Calendars display the days of a selected month and highlight the current day. They support navigating to past or future months and selecting a specific date."
+    },
+    {
+      "type": "guideline",
+      "content": "An array of days that are displayed in the current calendar view. This includes:"
+    },
+    {
+      "type": "guideline",
+      "content": "The maximum amount of months displayed in the calendar popover is three."
+    },
+    {
+      "type": "guideline",
+      "content": "The minimum amount of months displayed in the calendar popover is one."
+    },
+    {
+      "type": "guideline",
+      "content": "The calendar popover may display an error as error text when a user attempts to provide an input that violates the defined constraints of the date selection. For example, when the user selects dates that fall outside allowable limits, or conflict with contextual restrictions."
+    },
+    {
+      "type": "guideline",
+      "content": "The calendar popover is disabled. For example, a month within a three-month range is disabled."
+    },
+    {
+      "type": "guideline",
+      "content": "The types of selection available for the calendar."
+    },
+    {
+      "type": "guideline",
+      "content": "The current year or month displayed in the calendar popover."
+    },
+    {
+      "type": "guideline",
+      "content": "When a day or several days are unavailable within the calendar popover, each day should display a strikethrough to help the user understand that they cannot select it."
+    },
+    {
+      "type": "guideline",
+      "content": "Disabled days use a distinct gray style to clearly differentiate them from unavailable days. When the calendar prevents selection of past dates, this visual treatment helps users distinguish disabled days from those marked as unavailable."
+    },
+    {
+      "type": "guideline",
+      "content": "In a date selection system, users often need to distinguish between dates that cannot be selected and dates that are simply inactive. Supporting both states improves clarity and prevents errors."
+    },
+    {
+      "type": "guideline",
+      "content": "Here’s an example scenario: A potential guest is browsing a calendar to book a stay at a vacation rental."
+    },
+    {
+      "type": "guideline",
+      "content": "Unavailable dates: Days when the rental is already booked or blocked by the owner. These appear with a strikethrough, indicating they cannot be selected."
+    },
+    {
+      "type": "guideline",
+      "content": "Disabled dates: Past dates that are no longer valid for booking. These appear visually distinct (gray style) to show they are inactive."
+    },
+    {
+      "type": "guideline",
+      "content": "Guests see unavailable dates marked clearly so they don’t attempt to select them. Hosts or admins can view past dates as disabled and also mark future dates as unavailable when needed."
+    },
+    {
+      "type": "guideline",
+      "content": "By supporting both behaviors, the system provides a clear, intuitive experience for different user roles and prevents confusion during date selection."
+    },
+    {
+      "type": "guideline",
+      "content": "The range fill shows which days fall between two selected dates. If the range spans more than the three-month calendar view, it ends on the last visible day but continues as users navigate with the calendar chevrons. A dashed stroke outlines the fill to improve visibility on bright screens and for users with vision impairments."
+    },
+    {
+      "type": "guideline",
+      "content": "The strikethrough styling intentionally accommodates internationalization."
+    },
+    {
+      "type": "guideline",
+      "content": "The calendar popover supports a disabled state but not a read-only state. Dates or months may be temporarily disabled based on context (for example, if a user must complete a task before selecting a date). In these cases, help text can explain why certain dates are unavailable."
+    },
+    {
+      "type": "guideline",
+      "content": "If a date picker is truly read-only, users shouldn’t be able to open the calendar popover at all, since they can’t interact with it."
+    },
+    {
+      "type": "guideline",
+      "content": "The calendar popover can also include time-specific fields, allowing users to specify start and end times."
+    }
+  ],
   "options": {
     "currentMonth": {
       "type": "number",
@@ -24,23 +114,10 @@
       "type": "string",
       "default": "single",
       "description": "Controls whether the calendar allows selecting a single date or a date range.",
-      "values": [
-        {
-          "value": "single"
-        },
-        {
-          "value": "range"
-        }
-      ]
+      "values": [{ "value": "single" }, { "value": "range" }]
     },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
-    "isError": {
-      "type": "boolean",
-      "default": false
-    },
+    "isDisabled": { "type": "boolean", "default": false },
+    "isError": { "type": "boolean", "default": false },
     "minValue": {
       "type": "string",
       "description": "The minimum allowed date that a user may select (ISO format string)."
@@ -105,29 +182,15 @@
       }
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["input", "choose"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      {
-        "criterion": "1.3.1",
-        "level": "A",
-        "title": "Info and Relationships"
-      },
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

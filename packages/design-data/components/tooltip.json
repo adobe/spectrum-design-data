@@ -9,23 +9,93 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/tooltip/"
   },
-  "options": {
-    "label": {
-      "type": "string"
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Tooltips show contextual help or information about specific components when a user hovers or focuses on them."
     },
+    {
+      "type": "guideline",
+      "content": "Tooltips display contextual information related to a specific component. They appear on hover or focus to clarify purpose or behavior."
+    },
+    {
+      "type": "guideline",
+      "content": "All tooltips have a label. The label communicates the contextual help or information about specific components when a user hovers over or focuses on them."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, tooltips are the neutral variant. These are the most common variant because most tooltips are used to only disclose additional information, without conveying a semantic meaning. The neutral variant never includes an icon."
+    },
+    {
+      "type": "guideline",
+      "content": "Tooltips also come in semantic variants: informative (blue), and negative (red). An icon is required for these variants to ensure information isn’t conveyed by color alone."
+    },
+    {
+      "type": "guideline",
+      "content": "2 of the 3 tooltip variants (informative and negative) can include an icon to supplement the messaging. These icons are predefined and can not be customized. Unless it's being used to provide context about the exact same icon, a semantic tooltip should always show an icon. Doing this is essential for helping users with color vision deficiency to discern the message tone."
+    },
+    {
+      "type": "guideline",
+      "content": "A tooltip is positioned in relation to its target."
+    },
+    {
+      "type": "guideline",
+      "content": "This option determines whether or not a tooltip should be able to switch sides when constrained by space. A tooltip placed at the top would flip to be placed at the bottom (and vice versa), and a tooltip placed at the left would flip to be placed at the right (and vice versa)."
+    },
+    {
+      "type": "guideline",
+      "content": "The offset is the distance between the end of the tip and the target."
+    },
+    {
+      "type": "guideline",
+      "content": "To make sure that the tooltip will stay within certain boundaries (e.g., a browser window) it’s possible to define a container and a container padding value to respect."
+    },
+    {
+      "type": "guideline",
+      "content": "When the label is too long for the available horizontal space, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "A tooltip fades in and out when showing and hiding, and slides a short distance from the source to indicate its origin. The direction of the slide (left, right, top, bottom) depends on the placement of the tooltip. The animation attributes (duration, easing, offset) are the same whether it’s showing or hiding."
+    },
+    {
+      "type": "guideline",
+      "content": "Tooltips attached to help icons appear immediately. For conventional UI elements where a tooltip appearing immediately would be intrusive, delay appearance with a warmup period."
+    },
+    {
+      "type": "guideline",
+      "content": "The warmup period is a global timer that requires the cursor to remain on a UI element for the allotted time before a tooltip appears. Once this period is complete, a tooltip appears instantly on any hovered-upon UI element until the cursor is in an area that does not trigger a tooltip for the duration of the cooldown period."
+    },
+    {
+      "type": "guideline",
+      "content": "Icons are not always easy to identify on their own. When you use components that don’t have labels — for example, icon-only action buttons and tabs — make sure to use tooltips to provide context for the icons."
+    },
+    {
+      "type": "guideline",
+      "content": "For example, in a scenario where a user is entering their password into a field, the crucial information would be to state the password requirements. Supplementary context would be a message about how to get help if they have forgotten their password."
+    },
+    {
+      "type": "guideline",
+      "content": "Tooltips should be as concise and clear as possible. Keep the text to 1 or 2 short sentences. If the information you need to communicate is longer than that, look into using a different design."
+    },
+    {
+      "type": "guideline",
+      "content": "If a tooltip is written in a full sentence (or is 2 or more sentences), include a period at the end. If it's a short phrase or is only the name of a tool, action, or icon, don't add a period to the end."
+    },
+    {
+      "type": "guideline",
+      "content": "Tooltips appear only on hover or when in keyboard focus. They should not contain actions or links."
+    }
+  ],
+  "options": {
+    "label": { "type": "string" },
     "variant": {
       "type": "string",
       "default": "neutral",
       "values": [
-        {
-          "value": "neutral"
-        },
-        {
-          "value": "informative"
-        },
-        {
-          "value": "negative"
-        }
+        { "value": "neutral" },
+        { "value": "informative" },
+        { "value": "negative" }
       ]
     },
     "hasIcon": {
@@ -42,24 +112,13 @@
       "type": "string",
       "default": "top",
       "values": [
-        {
-          "value": "top"
-        },
-        {
-          "value": "bottom"
-        },
-        {
-          "value": "left"
-        },
-        {
-          "value": "right"
-        }
+        { "value": "top" },
+        { "value": "bottom" },
+        { "value": "left" },
+        { "value": "right" }
       ]
     },
-    "shouldFlip": {
-      "type": "boolean",
-      "default": false
-    },
+    "shouldFlip": { "type": "boolean", "default": false },
     "offset": {
       "type": "number",
       "default": 4,
@@ -71,34 +130,14 @@
       "description": "units: pixels"
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "component-height-75",
-      "context": "Minimum height"
-    },
-    {
-      "token": "tooltip-maximum-width",
-      "context": "Maximum width"
-    },
-    {
-      "token": "corner-radius-500",
-      "context": "Rounding"
-    },
-    {
-      "token": "tooltip-tip-width",
-      "context": "Tip"
-    },
-    {
-      "token": "tooltip-tip-height",
-      "context": "Tip"
-    },
-    {
-      "token": "tooltip-tip-corner-radius",
-      "context": "Rounding (tip)"
-    },
+    { "token": "component-height-75", "context": "Minimum height" },
+    { "token": "tooltip-maximum-width", "context": "Maximum width" },
+    { "token": "corner-radius-500", "context": "Rounding" },
+    { "token": "tooltip-tip-width", "context": "Tip" },
+    { "token": "tooltip-tip-height", "context": "Tip" },
+    { "token": "tooltip-tip-corner-radius", "context": "Rounding (tip)" },
     {
       "token": "component-edge-to-text-75",
       "context": "Spacing (start/end edges)"
@@ -111,42 +150,15 @@
       "token": "component-bottom-to-text-75",
       "context": "Spacing (top/bottom edge to text)"
     },
-    {
-      "token": "spacing-75",
-      "context": "Spacing (tip to source)"
-    },
-    {
-      "token": "spacing-100",
-      "context": "Container padding"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Label"
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Label"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-75",
-      "context": "Label"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Label"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Label"
-    },
-    {
-      "token": "gray-25",
-      "context": "Text"
-    },
+    { "token": "spacing-75", "context": "Spacing (tip to source)" },
+    { "token": "spacing-100", "context": "Container padding" },
+    { "token": "default-font-family", "context": "Label" },
+    { "token": "regular-font-weight", "context": "Label" },
+    { "token": "default-font-style", "context": "Label" },
+    { "token": "font-size-75", "context": "Label" },
+    { "token": "line-height-100", "context": "Label" },
+    { "token": "cjk-line-height-100", "context": "Label" },
+    { "token": "gray-25", "context": "Text" },
     {
       "token": "neutral-background-color-default",
       "context": "Background (Neutral)"
@@ -169,11 +181,7 @@
         "level": "AA",
         "title": "Content on Hover or Focus"
       },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

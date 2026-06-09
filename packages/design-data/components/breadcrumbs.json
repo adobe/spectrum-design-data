@@ -9,6 +9,80 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/breadcrumbs/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Breadcrumbs show hierarchy and navigational context for a user’s location within an app."
+    },
+    {
+      "type": "guideline",
+      "content": "When set to true, the breadcrumb item is displayed as an icon only."
+    },
+    {
+      "type": "guideline",
+      "content": "Separators visually divide breadcrumb items and convey hierarchy."
+    },
+    {
+      "type": "guideline",
+      "content": "Breadcrumbs can include multiple items, but too many levels can overwhelm users. Limit the hierarchy to four items (including the root, if shown) to provide clear context while keeping truncated options accessible."
+    },
+    {
+      "type": "guideline",
+      "content": "Breadcrumbs come in two sizes: medium, and large. The medium size is the default and most frequently used option."
+    },
+    {
+      "type": "guideline",
+      "content": "The multiline variation places emphasis on the selected breadcrumb item as a page title, helping a user to more clearly identify their current location."
+    },
+    {
+      "type": "guideline",
+      "content": "Breadcrumbs truncate when there is not enough room to display all levels of the breadcrumb list, or as a way of managing relevance of the visible breadcrumb items in a deeply nested hierarchy. The truncation of breadcrumb items begins when either there is not enough room to display all items, or if there are 5 or more breadcrumbs to display."
+    },
+    {
+      "type": "guideline",
+      "content": "The truncation menu displays all options within a breadcrumb. Items are listed with the hierarchy ordered from top (root) to bottom and include the currently selected item."
+    },
+    {
+      "type": "guideline",
+      "content": "Breadcrumbs need a consistent hierarchical structure because they create a path for discovery and context for a user’s current location."
+    },
+    {
+      "type": "guideline",
+      "content": "Breadcrumbs should be a form of navigating a linear hierarchy. They should not be used for any other interactions, such as displaying filters."
+    },
+    {
+      "type": "guideline",
+      "content": "The truncation menu should display all available options within the hierarchy where a user is located — not as indented. Doing this provides context for the directionality of how the menu is being displayed. Adding indentation to the menu items does not add value to understanding the hierarchy, and it can actually decrease the readability of the menu options."
+    },
+    {
+      "type": "guideline",
+      "content": "When list items are truncated into a menu but the label text is still too large for the horizontal space, truncate the text with an ellipsis. By default, truncation should occur at the end of the title. If your users need to see the end of truncated titles, truncating the middle of the title is acceptable."
+    },
+    {
+      "type": "guideline",
+      "content": "When the breadcrumb title is truncated, a tooltip should display the full title when the user hovers, keyboard focuses, or single-taps on mobile."
+    },
+    {
+      "type": "guideline",
+      "content": "Prioritize using the truncation menu when breadcrumb labels are long. Never truncate more than one breadcrumb label. If the current location has a long label, all items can be truncated into the menu."
+    },
+    {
+      "type": "guideline",
+      "content": "Truncation should be avoided by way of the breadcrumbs overflow behavior, although in some cases the final breadcrumb title may truncate with an ellipsis."
+    },
+    {
+      "type": "guideline",
+      "content": "Be mindful of your user’s cognitive load and truncate breadcrumbs appropriately. Displaying too many levels can be overwhelming. By displaying only 4 items in the hierarchy (including the root item, if you are displaying it), users will quickly understand context while still having easy access to any truncated options. Truncation of breadcrumb items begins when either there is not enough room to display all items, or if there are 5 or more breadcrumbs to display."
+    },
+    {
+      "type": "guideline",
+      "content": "Don't use icons within the labels for breadcrumbs. Since breadcrumb labels are horizontally distributed, icons disrupt the rhythm and readability of the list."
+    },
+    {
+      "type": "guideline",
+      "content": "Breadcrumbs are a way for traveling up a hierarchical navigation and should not be mixed with controls intended for lateral or non-hierarchical navigation."
+    }
+  ],
   "options": {
     "isMultiline": {
       "type": "boolean",
@@ -19,14 +93,7 @@
       "type": "string",
       "default": "m",
       "description": "Controls the overall size of the breadcrumb component.",
-      "values": [
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        }
-      ]
+      "values": [{ "value": "m" }, { "value": "l" }]
     },
     "items": {
       "type": "array",
@@ -47,10 +114,7 @@
             "description": "Indicates if the breadcrumb item represents the current page.",
             "default": false
           },
-          "isDisabled": {
-            "type": "boolean",
-            "default": false
-          }
+          "isDisabled": { "type": "boolean", "default": false }
         },
         "required": ["label"]
       }
@@ -59,14 +123,7 @@
       "type": "string",
       "default": "chevron",
       "description": "The separator icon used between breadcrumb items.",
-      "values": [
-        {
-          "value": "chevron"
-        },
-        {
-          "value": "none"
-        }
-      ]
+      "values": [{ "value": "chevron" }, { "value": "none" }]
     },
     "isTruncated": {
       "type": "boolean",
@@ -77,47 +134,22 @@
       "type": "string",
       "description": "Overrides the size of the breadcrumb items when isMultiline is true.",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    },
-    {
-      "name": "drag-and-drop",
-      "trigger": "prop"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" },
+    { "name": "drag-and-drop", "trigger": "prop" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "component-height-200",
-      "context": "Height"
-    },
+    { "token": "component-height-200", "context": "Height" },
     {
       "token": "breadcrumbs-text-to-separator-large",
       "context": "Spacing (breadcrumb item/title to separator icon)"
@@ -162,14 +194,8 @@
       "token": "text-underline-gap",
       "context": "Breadcrumb item (hover, down, focus states)"
     },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus indicator"
-    },
+    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
+    { "token": "focus-indicator-gap", "context": "Focus indicator" },
     {
       "token": "default-font-family",
       "context": "Text (breadcrumb item and title)"
@@ -182,10 +208,7 @@
       "token": "default-font-style",
       "context": "Text (breadcrumb item and title)"
     },
-    {
-      "token": "font-size-200",
-      "context": "Text (breadcrumb item and title)"
-    },
+    { "token": "font-size-200", "context": "Text (breadcrumb item and title)" },
     {
       "token": "line-height-100",
       "context": "Text (breadcrumb item and title)"
@@ -206,14 +229,8 @@
       "token": "disabled-content-color",
       "context": "Breadcrumb item (disabled)"
     },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Height (medium)"
-    },
+    { "token": "focus-indicator-color", "context": "Focus indicator" },
+    { "token": "component-height-100", "context": "Height (medium)" },
     {
       "token": "breadcrumbs-text-to-separator-medium",
       "context": "Spacing (breadcrumb item/title to separator icon, medium)"
@@ -238,10 +255,7 @@
       "token": "font-size-100",
       "context": "Text (breadcrumb item and title, medium)"
     },
-    {
-      "token": "breadcrumbs-height-multiline",
-      "context": "Height"
-    },
+    { "token": "breadcrumbs-height-multiline", "context": "Height" },
     {
       "token": "breadcrumbs-text-to-separator-multiline",
       "context": "Spacing (breadcrumb item/title to separator icon, multiline)"
@@ -292,16 +306,8 @@
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

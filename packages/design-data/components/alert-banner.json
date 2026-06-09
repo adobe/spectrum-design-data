@@ -9,69 +9,122 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/alert-banner/"
   },
-  "options": {
-    "text": {
-      "type": "string"
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Alert banners show pressing and high-signal messages, such as system alerts. They're meant to be noticed and prompt users to take action."
     },
+    {
+      "type": "guideline",
+      "content": "Alert banners communicate high-priority messages that need immediate attention. They appear prominently in the interface and often prompt an action."
+    },
+    {
+      "type": "guideline",
+      "content": "An alert banner can include an icon-only close button to dismiss it."
+    },
+    {
+      "type": "guideline",
+      "content": "An alert banner ideally provides a way for a user to address an issue in-line with an action. It can have both an icon-only close button and a button with a contextual action to take. There should never be more than one button with a contextual action in an alert banner."
+    },
+    {
+      "type": "guideline",
+      "content": "An alert banner always has a semantic meaning and uses semantic colors. Only gray (neutral), blue (informative), and red (negative) are available as options."
+    },
+    {
+      "type": "guideline",
+      "content": "Text is required for all alert banners. The message should be concise and, if applicable, describe the next step that a user can take."
+    },
+    {
+      "type": "guideline",
+      "content": "When the text is too long for the available horizontal space, it wraps to form another line. In actionable alert banners, the button moves below the text prior to text wrapping."
+    },
+    {
+      "type": "guideline",
+      "content": "Whenever possible, add an in-line action button if there's a way for a user to quickly address the issue associated with an alert."
+    },
+    {
+      "type": "guideline",
+      "content": "The close button is optional, depending on context. Consider adding one to let a user easily dismiss the alert."
+    },
+    {
+      "type": "guideline",
+      "content": "Alert banners should be reserved only for high-signal, system-level alert messages, such as internet connection issues, expirations of subscriptions, or major changes."
+    },
+    {
+      "type": "guideline",
+      "content": "Don’t use yellow or orange colors for errors because the contrast is not accessible."
+    },
+    {
+      "type": "guideline",
+      "content": "If you need to show a “notice” message or other non-critical communication, use the gray (neutral) or blue (informative) semantic color options. Reserve the red (negative) option only for errors that directly interrupt or block a user’s experience — not for nice-to-know information."
+    },
+    {
+      "type": "guideline",
+      "content": "Don't include more than one action in an alert banner. Having more than one action to choose from can be overwhelming, and it can become difficult for users to decide what to do next in such a small space."
+    },
+    {
+      "type": "guideline",
+      "content": "Alert banners should appear at the top of a page, below the header."
+    },
+    {
+      "type": "guideline",
+      "content": "Don't show multiple alert banners at the same time. If a new alert banner appears with a higher priority message, it should replace an existing alert banner of lesser importance until the higher priority one has been addressed."
+    },
+    {
+      "type": "guideline",
+      "content": "Overlay an alert banner when it's expected to fade in and out without impacting the content underneath it, and when it's not hiding any important actions or information by being there. An alert banner should only overlay content if it is dismissible."
+    },
+    {
+      "type": "guideline",
+      "content": "Push an alert banner when it's expected to stay in place, when it's not dismissible, or when no information should be hidden from the view."
+    },
+    {
+      "type": "guideline",
+      "content": "If a user dismisses an alert banner without addressing an error that needs to be resolved, it should come back into view at the next possible occasion."
+    },
+    {
+      "type": "guideline",
+      "content": "Never allow alert banners to time out. Since these are system-level messages, they should not dismiss on their own unless there is a change in the system that resolves an issue (e.g., regaining internet connectivity after losing it)."
+    },
+    {
+      "type": "guideline",
+      "content": "When used in the app frame, the alert banner appears above the Top App Bar (TAB) and header, or above the header if the TAB isn’t active."
+    },
+    {
+      "type": "guideline",
+      "content": "Learn more about how the Top App Bar (TAB) works in the app frame."
+    }
+  ],
+  "options": {
+    "text": { "type": "string" },
     "variant": {
       "type": "string",
       "default": "neutral",
       "values": [
-        {
-          "value": "neutral"
-        },
-        {
-          "value": "informative"
-        },
-        {
-          "value": "negative"
-        },
-        {
-          "value": "accent"
-        }
+        { "value": "neutral" },
+        { "value": "informative" },
+        { "value": "negative" },
+        { "value": "accent" }
       ]
     },
     "actionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
     },
-    "isDismissible": {
-      "type": "boolean",
-      "default": false
-    }
+    "isDismissible": { "type": "boolean", "default": false }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Icon asset"
-    },
-    {
-      "token": "alert-banner-minimum-height",
-      "context": "Height"
-    },
-    {
-      "token": "alert-banner-width",
-      "context": "Width"
-    },
-    {
-      "token": "text-to-visual-300",
-      "context": "Spacing (icon to text)"
-    },
+    { "token": "workflow-icon-size-100", "context": "Icon asset" },
+    { "token": "alert-banner-minimum-height", "context": "Height" },
+    { "token": "alert-banner-width", "context": "Width" },
+    { "token": "text-to-visual-300", "context": "Spacing (icon to text)" },
     {
       "token": "spacing-300",
       "context": "Spacing (start edge to text and icon)"
     },
-    {
-      "token": "spacing-100",
-      "context": "Spacing (close button to end edge)"
-    },
-    {
-      "token": "spacing-200",
-      "context": "Spacing (close button to end edge)"
-    },
+    { "token": "spacing-100", "context": "Spacing (close button to end edge)" },
+    { "token": "spacing-200", "context": "Spacing (close button to end edge)" },
     {
       "token": "alert-banner-top-to-workflow-icon",
       "context": "Spacing (top/bottom edge to icon)"
@@ -92,43 +145,18 @@
       "token": "informative-background-color-default",
       "context": "Background"
     },
-    {
-      "token": "negative-background-color-default",
-      "context": "Background"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Text"
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Text"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Text"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Text"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Text"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Text"
-    }
+    { "token": "negative-background-color-default", "context": "Background" },
+    { "token": "default-font-family", "context": "Text" },
+    { "token": "regular-font-weight", "context": "Text" },
+    { "token": "default-font-style", "context": "Text" },
+    { "token": "font-size-100", "context": "Text" },
+    { "token": "line-height-100", "context": "Text" },
+    { "token": "cjk-line-height-100", "context": "Text" }
   ],
   "accessibility": {
     "focusable": false,
     "wcag": [
-      {
-        "criterion": "4.1.3",
-        "level": "AA",
-        "title": "Status Messages"
-      }
+      { "criterion": "4.1.3", "level": "AA", "title": "Status Messages" }
     ]
   }
 }

@@ -9,105 +9,98 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/page/cards/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Cards group related content into distinct layouts depending on context."
+    },
+    {
+      "type": "guideline",
+      "content": "Cards group related content and actions into flexible containers for browsing. They preview key information and reveal more detail on interaction."
+    },
+    {
+      "type": "guideline",
+      "content": "Card preview areas have a maximum image height aspect ratio of 3:4, and a minimum height aspect ratio of of 4:1."
+    },
+    {
+      "type": "guideline",
+      "content": "If the card has a fixed height, such as in a tile grid, long titles will be truncated. Use short titles to avoid this. In layouts with variable height, like a waterfall grid, titles will wrap to fit."
+    },
+    {
+      "type": "guideline",
+      "content": "Cards, by definition, should have some form of interaction such as viewing, editing, purchasing, etc. Some actions are exposed in buttons, and others simply occur by clicking the card."
+    },
+    {
+      "type": "guideline",
+      "content": "If a card only has an ability to be opened or viewed in more detail, do not include a button. Clicking anywhere on the card should perform that action."
+    },
+    {
+      "type": "guideline",
+      "content": "If a card has other interactive elements such as a hidden actions menu or an avatar, but no buttons, the whole card (outside of those elements) should be clickable."
+    },
+    {
+      "type": "guideline",
+      "content": "If there’s only one action (that’s not opening or viewing the card), use a button to communicate that action. If there are two or more available actions, and one of those actions is to open or view the card, use a button to communicate “View” or “Open,” instead of relying on clicking on the card."
+    },
+    {
+      "type": "guideline",
+      "content": "If a standard card has a footer with a button, only the button is clickable. If a card has a preview, clicking the preview will open that card. When a preview is purely decorative, it is not clickable."
+    },
+    {
+      "type": "guideline",
+      "content": "When a group of cards are loading, they follow the ghost loading convention. There are 5 phases for ghost loading:"
+    },
+    {
+      "type": "guideline",
+      "content": "Cards are meant to just show a taste of the available information. Don’t overload cards with more information than necessary."
+    },
+    {
+      "type": "guideline",
+      "content": "Only standard cards can have a footer, and buttons can only appear inside a footer."
+    },
+    {
+      "type": "guideline",
+      "content": "Individual cards are not aligned to individual columns in the page's responsive column grid. Instead, groups of cards are aligned to the column grid in a layout region."
+    },
+    {
+      "type": "guideline",
+      "content": "If the preview is a video clip or other moving item, do not automatically play the clip or motion. Save the movement for either when a user hovers on the card or when they click on a play button."
+    }
+  ],
   "options": {
     "variant": {
       "type": "string",
       "default": "asset",
       "description": "Determines which card layout variant is used.",
       "values": [
-        {
-          "value": "asset"
-        },
-        {
-          "value": "collection"
-        },
-        {
-          "value": "flex"
-        },
-        {
-          "value": "gallery"
-        },
-        {
-          "value": "horizontal"
-        },
-        {
-          "value": "product"
-        }
+        { "value": "asset" },
+        { "value": "collection" },
+        { "value": "flex" },
+        { "value": "gallery" },
+        { "value": "horizontal" },
+        { "value": "product" }
       ]
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "card-minimum-width-extra-small",
-      "context": "Width (minimum)"
-    },
-    {
-      "token": "card-minimum-width-small",
-      "context": "Width (minimum)"
-    },
-    {
-      "token": "card-minimum-width-medium",
-      "context": "Width (minimum)"
-    },
-    {
-      "token": "card-minimum-width-large",
-      "context": "Width (minimum)"
-    },
-    {
-      "token": "card-minimum-width-extra-large",
-      "context": "Width (minimum)"
-    },
-    {
-      "token": "card-default-width-extra-small",
-      "context": "Width (default)"
-    },
-    {
-      "token": "card-default-width-small",
-      "context": "Width (default)"
-    },
-    {
-      "token": "card-default-width-medium",
-      "context": "Width (default)"
-    },
-    {
-      "token": "card-default-width-large",
-      "context": "Width (default)"
-    },
-    {
-      "token": "card-default-width-extra-large",
-      "context": "Width (default)"
-    },
-    {
-      "token": "card-maximum-width-extra-small",
-      "context": "Width (maximum)"
-    },
-    {
-      "token": "card-maximum-width-small",
-      "context": "Width (maximum)"
-    },
-    {
-      "token": "card-maximum-width-medium",
-      "context": "Width (maximum)"
-    },
-    {
-      "token": "card-maximum-width-large",
-      "context": "Width (maximum)"
-    },
-    {
-      "token": "card-maximum-width-extra-large",
-      "context": "Width (maximum)"
-    },
-    {
-      "token": "corner-radius-medium-default",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-large-default",
-      "context": "Rounding"
-    },
+    { "token": "card-minimum-width-extra-small", "context": "Width (minimum)" },
+    { "token": "card-minimum-width-small", "context": "Width (minimum)" },
+    { "token": "card-minimum-width-medium", "context": "Width (minimum)" },
+    { "token": "card-minimum-width-large", "context": "Width (minimum)" },
+    { "token": "card-minimum-width-extra-large", "context": "Width (minimum)" },
+    { "token": "card-default-width-extra-small", "context": "Width (default)" },
+    { "token": "card-default-width-small", "context": "Width (default)" },
+    { "token": "card-default-width-medium", "context": "Width (default)" },
+    { "token": "card-default-width-large", "context": "Width (default)" },
+    { "token": "card-default-width-extra-large", "context": "Width (default)" },
+    { "token": "card-maximum-width-extra-small", "context": "Width (maximum)" },
+    { "token": "card-maximum-width-small", "context": "Width (maximum)" },
+    { "token": "card-maximum-width-medium", "context": "Width (maximum)" },
+    { "token": "card-maximum-width-large", "context": "Width (maximum)" },
+    { "token": "card-maximum-width-extra-large", "context": "Width (maximum)" },
+    { "token": "corner-radius-medium-default", "context": "Rounding" },
+    { "token": "corner-radius-large-default", "context": "Rounding" },
     {
       "token": "card-edge-to-content-compact-extra-small",
       "context": "Spacing (top/side/bottom edge to content, extra small)"
@@ -168,74 +161,26 @@
       "token": "card-edge-to-content-spacious-extra-large",
       "context": "Spacing (top/side/bottom edge to content, extra large)"
     },
-    {
-      "token": "border-width-200",
-      "context": "Border"
-    },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "background-layer-2-color",
-      "context": "Background"
-    },
-    {
-      "token": "background-layer-1-color",
-      "context": "Background"
-    },
-    {
-      "token": "card-background-well-color",
-      "context": "Well"
-    },
-    {
-      "token": "gray-100",
-      "context": "Border"
-    },
-    {
-      "token": "gray-200",
-      "context": "Border"
-    },
-    {
-      "token": "neutral-subdued-content-color-selected",
-      "context": "Border"
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus ring"
-    },
-    {
-      "token": "disabled-background-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "opacity-disabled",
-      "context": "Disabled"
-    },
-    {
-      "token": "card-background-color-loading",
-      "context": "Loading"
-    },
+    { "token": "border-width-200", "context": "Border" },
+    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
+    { "token": "focus-indicator-gap", "context": "Focus indicator" },
+    { "token": "background-layer-2-color", "context": "Background" },
+    { "token": "background-layer-1-color", "context": "Background" },
+    { "token": "card-background-well-color", "context": "Well" },
+    { "token": "gray-100", "context": "Border" },
+    { "token": "gray-200", "context": "Border" },
+    { "token": "neutral-subdued-content-color-selected", "context": "Border" },
+    { "token": "focus-indicator-color", "context": "Focus ring" },
+    { "token": "disabled-background-color", "context": "Disabled" },
+    { "token": "opacity-disabled", "context": "Disabled" },
+    { "token": "card-background-color-loading", "context": "Loading" },
     {
       "token": "card-minimum-height-extra-small",
       "context": "Height (minimum)"
     },
-    {
-      "token": "card-minimum-height-small",
-      "context": "Height (minimum)"
-    },
-    {
-      "token": "card-minimum-height-medium",
-      "context": "Height (minimum)"
-    },
-    {
-      "token": "card-minimum-height-large",
-      "context": "Height (minimum)"
-    },
+    { "token": "card-minimum-height-small", "context": "Height (minimum)" },
+    { "token": "card-minimum-height-medium", "context": "Height (minimum)" },
+    { "token": "card-minimum-height-large", "context": "Height (minimum)" },
     {
       "token": "card-minimum-height-extra-large",
       "context": "Height (minimum)"
@@ -284,78 +229,24 @@
       "token": "card-header-to-description",
       "context": "Spacing (header to description)"
     },
-    {
-      "token": "border-width-400",
-      "context": "Border"
-    },
-    {
-      "token": "title-color",
-      "context": "Value"
-    },
-    {
-      "token": "body-color",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Value"
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "title-sans-serif-font-family",
-      "context": "Title"
-    },
-    {
-      "token": "title-sans-serif-font-weight",
-      "context": "Title"
-    },
-    {
-      "token": "title-serif-font-style",
-      "context": "Title"
-    },
-    {
-      "token": "font-size-50",
-      "context": "Title"
-    },
-    {
-      "token": "font-size-75",
-      "context": "Title"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Title"
-    },
-    {
-      "token": "font-size-200",
-      "context": "Title"
-    },
-    {
-      "token": "font-size-300",
-      "context": "Title"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Title"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Title"
-    },
-    {
-      "token": "body-sans-serif-font-family",
-      "context": "Body"
-    },
-    {
-      "token": "body-sans-serif-font-weight",
-      "context": "Body"
-    },
-    {
-      "token": "body-serif-font-style",
-      "context": "Body"
-    },
+    { "token": "border-width-400", "context": "Border" },
+    { "token": "title-color", "context": "Value" },
+    { "token": "body-color", "context": "Value" },
+    { "token": "neutral-content-color-default", "context": "Value" },
+    { "token": "disabled-content-color", "context": "Disabled" },
+    { "token": "title-sans-serif-font-family", "context": "Title" },
+    { "token": "title-sans-serif-font-weight", "context": "Title" },
+    { "token": "title-serif-font-style", "context": "Title" },
+    { "token": "font-size-50", "context": "Title" },
+    { "token": "font-size-75", "context": "Title" },
+    { "token": "font-size-100", "context": "Title" },
+    { "token": "font-size-200", "context": "Title" },
+    { "token": "font-size-300", "context": "Title" },
+    { "token": "line-height-100", "context": "Title" },
+    { "token": "cjk-line-height-100", "context": "Title" },
+    { "token": "body-sans-serif-font-family", "context": "Body" },
+    { "token": "body-sans-serif-font-weight", "context": "Body" },
+    { "token": "body-serif-font-style", "context": "Body" },
     {
       "token": "collection-card-minimum-height-extra-small",
       "context": "Height (minimum), default variant"
@@ -396,14 +287,8 @@
       "token": "collection-card-hero-minimum-height-extra-large",
       "context": "Height (minimum), hero image variant"
     },
-    {
-      "token": "spacing-100",
-      "context": "Spacing (header to footer)"
-    },
-    {
-      "token": "card-header-to-footer",
-      "context": "Spacing (text to visual)"
-    },
+    { "token": "spacing-100", "context": "Spacing (header to footer)" },
+    { "token": "card-header-to-footer", "context": "Spacing (text to visual)" },
     {
       "token": "card-edge-to-content-compact-extra-medium",
       "context": "Spacing (top/side/bottom edge to content, medium)"
@@ -460,30 +345,12 @@
       "token": "card-description-to-footer",
       "context": "Spacing (description to footer)"
     },
-    {
-      "token": "thumbnail-size-100",
-      "context": "Components"
-    },
-    {
-      "token": "thumbnail-size-300",
-      "context": "Components"
-    },
-    {
-      "token": "thumbnail-size-500",
-      "context": "Components"
-    },
-    {
-      "token": "thumbnail-size-700",
-      "context": "Components"
-    },
-    {
-      "token": "thumbnail-size-900",
-      "context": "Components"
-    },
-    {
-      "token": "thumbnail-size-1000",
-      "context": "Components"
-    },
+    { "token": "thumbnail-size-100", "context": "Components" },
+    { "token": "thumbnail-size-300", "context": "Components" },
+    { "token": "thumbnail-size-500", "context": "Components" },
+    { "token": "thumbnail-size-700", "context": "Components" },
+    { "token": "thumbnail-size-900", "context": "Components" },
+    { "token": "thumbnail-size-1000", "context": "Components" },
     {
       "token": "card-horizontal-edge-to-content-compact",
       "context": "Spacing (top/side/bottom edge to content)"
@@ -526,16 +393,8 @@
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

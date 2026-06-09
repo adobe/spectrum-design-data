@@ -9,56 +9,58 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/swatch-group/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "A swatch group is a grouping of swatches that are related to each other."
+    },
+    {
+      "type": "guideline",
+      "content": "Swatch groups organize related swatches into a single container. They’re used to display collections of colors, gradients, textures, or materials for comparison or selection."
+    },
+    {
+      "type": "guideline",
+      "content": "Swatch groups come in 3 densities: regular (default), compact, and spacious. Compact and spacious densities retain the same swatch size as regular density but have less or more padding between each swatch, respectively."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, selection is not enabled in a swatch group. Selection can be enabled for a swatch group to allow for toggling. This is often used inside of swatch panels."
+    },
+    {
+      "type": "guideline",
+      "content": "When selection is enabled, a swatch group can allow for either single or multiple selection of swatches. This is often used inside of swatch panels to allow for bulk operations, such as deleting multiple swatches at once."
+    },
+    {
+      "type": "guideline",
+      "content": "It’s important for users to compare colors when they’re displayed in a swatch group. Because of this, swatches within a swatch group with low contrast (below 3:1 contrast with the background) have a less prominent border compared to the swatch component when used by itself. This reduces the likelihood of the UI interfering with color perception and comparisons."
+    }
+  ],
   "options": {
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "xs"
-        },
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        }
+        { "value": "xs" },
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" }
       ]
     },
     "density": {
       "type": "string",
       "default": "regular",
       "values": [
-        {
-          "value": "compact"
-        },
-        {
-          "value": "regular"
-        },
-        {
-          "value": "spacious"
-        }
+        { "value": "compact" },
+        { "value": "regular" },
+        { "value": "spacious" }
       ]
     },
-    "enableSelection": {
-      "type": "boolean",
-      "default": false
-    },
+    "enableSelection": { "type": "boolean", "default": false },
     "selectionMode": {
       "type": "string",
       "description": "Only applicable if selection is enabled.",
       "default": "single",
-      "values": [
-        {
-          "value": "single"
-        },
-        {
-          "value": "multiple"
-        }
-      ]
+      "values": [{ "value": "single" }, { "value": "multiple" }]
     },
     "allowsEmptySelection": {
       "type": "boolean",
@@ -70,45 +72,27 @@
       "default": "none",
       "description": "Determines the corner radius of each swatch in the group. Partial refers to corner-radius-75.",
       "values": [
-        {
-          "value": "none"
-        },
-        {
-          "value": "full"
-        },
-        {
-          "value": "partial"
-        }
+        { "value": "none" },
+        { "value": "full" },
+        { "value": "partial" }
       ]
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     {
       "token": "swatch-group-spacing-spacious",
       "context": "Spacing (spacious)"
     },
-    {
-      "token": "swatch-group-border-color",
-      "context": "Border"
-    },
-    {
-      "token": "swatch-group-border-opacity",
-      "context": "Border"
-    }
+    { "token": "swatch-group-border-color", "context": "Border" },
+    { "token": "swatch-group-border-opacity", "context": "Border" }
   ],
   "accessibility": {
     "role": "group",
     "intents": ["choose"],
     "focusable": false,
     "wcag": [
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

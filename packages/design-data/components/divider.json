@@ -9,85 +9,46 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/page/divider/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Dividers bring clarity to a layout by grouping and dividing content in close proximity. They can also be used to establish rhythm and hierarchy."
+    },
+    {
+      "type": "guideline",
+      "content": "Place a divider below a header.\n\nDividers (medium or large) can be used in combination with a header text to create a section or a page title. In such cases, place the divider below the header."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't overuse dividers",
+      "dont": "Dividers lose their value when overused. Use them sparingly to avoid creating unnecessary noise."
+    }
+  ],
   "options": {
     "size": {
       "type": "string",
       "default": "s",
-      "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        }
-      ]
+      "values": [{ "value": "s" }, { "value": "m" }, { "value": "l" }]
     },
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [
-        {
-          "value": "horizontal"
-        },
-        {
-          "value": "vertical"
-        }
-      ]
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "divider-thickness-small",
-      "context": "Thickness"
-    },
-    {
-      "token": "divider-thickness-medium",
-      "context": "Thickness"
-    },
-    {
-      "token": "divider-thickness-large",
-      "context": "Thickness"
-    },
-    {
-      "token": "divider-horizontal-minimum-width",
-      "context": "Horizontal"
-    },
-    {
-      "token": "divider-vertical-minimum-height",
-      "context": "Horizontal"
-    },
-    {
-      "token": "gray-200",
-      "context": "Fill "
-    },
-    {
-      "token": "gray-800",
-      "context": "Fill "
-    },
-    {
-      "token": "transparent-white-200",
-      "context": "Fill (white)"
-    },
-    {
-      "token": "transparent-white-800",
-      "context": "Fill (white)"
-    },
-    {
-      "token": "transparent-black-200",
-      "context": "Fill (black)"
-    },
-    {
-      "token": "transparent-black-800",
-      "context": "Fill (black)"
-    }
+    { "token": "divider-thickness-small", "context": "Thickness" },
+    { "token": "divider-thickness-medium", "context": "Thickness" },
+    { "token": "divider-thickness-large", "context": "Thickness" },
+    { "token": "divider-horizontal-minimum-width", "context": "Horizontal" },
+    { "token": "divider-vertical-minimum-height", "context": "Horizontal" },
+    { "token": "gray-200", "context": "Fill " },
+    { "token": "gray-800", "context": "Fill " },
+    { "token": "transparent-white-200", "context": "Fill (white)" },
+    { "token": "transparent-white-800", "context": "Fill (white)" },
+    { "token": "transparent-black-200", "context": "Fill (black)" },
+    { "token": "transparent-black-800", "context": "Fill (black)" }
   ],
-  "accessibility": {
-    "focusable": false
-  }
+  "accessibility": { "focusable": false }
 }

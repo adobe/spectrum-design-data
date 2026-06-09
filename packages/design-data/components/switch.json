@@ -9,135 +9,118 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/switch/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Switches allow users to turn an individual option on or off. They are usually used to activate or deactivate a specific setting."
+    },
+    {
+      "type": "guideline",
+      "content": "Switches toggle an individual option on or off. They're typically used to activate or deactivate a specific setting."
+    },
+    {
+      "type": "guideline",
+      "content": "Switch should always have a label for accessibility and clear comprehension. When the label is not defined, a switch becomes standalone. Standalone switches should only be used when their connection to other components is clear and they give sufficient context — for example, in application panels."
+    },
+    {
+      "type": "guideline",
+      "content": "Switches can either be selected or not selected. They cannot be in an indeterminate state (unlike checkboxes). When a switch represents multiple values that are not identical, the switch should appear as not selected."
+    },
+    {
+      "type": "guideline",
+      "content": "Switch come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, switches are not emphasized (gray). This version is optimal for when the switch is not the core part of an interface, such as in application panels, where all visual components are monochrome in order to direct focus to the content."
+    },
+    {
+      "type": "guideline",
+      "content": "The emphasized (blue) version provides a visual prominence that is optimal for forms, settings, lists or grids of assets, and other situations where a switch needs to be noticed."
+    },
+    {
+      "type": "guideline",
+      "content": "A switch in a disabled state shows that an action exists, but is not available in that circumstance. This state can be used to maintain layout continuity and to communicate that an action may become available later."
+    },
+    {
+      "type": "guideline",
+      "content": "Switches have a read-only option for when they’re in the disabled state but still need their labels to be shown. This allows for content to be copied, but not interacted with or changed."
+    },
+    {
+      "type": "guideline",
+      "content": "A switch can be navigated using a keyboard. The keyboard focus state takes the switch’s visual hover state and adds a blue ring to the switch in focus."
+    },
+    {
+      "type": "guideline",
+      "content": "When the label is too long for the horizontal space available, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "Emphasized switches are optimal for forms, settings, and other scenarios where the switches need to be noticed. Not emphasized switches are optimal for application panels where all the visual components are monochrome in order to direct focus to the canvas."
+    },
+    {
+      "type": "guideline",
+      "content": "Standalone switches should be used in situations where the context is clear without an associated text label. For example, a switch located at the top of a panel next to the panel's title makes it clear that the switch will enable/disable the panel options."
+    },
+    {
+      "type": "guideline",
+      "content": "Switches are best for communicating activation (e.g., turning a setting on or off). Checkboxes are best for communicating selection (e.g., selecting multiple items from a list). Radio buttons are best when only one option can be selected at a time from a set (e.g., choosing one preference or mode)."
+    },
+    {
+      "type": "guideline",
+      "content": "When a switch represents multiple values that are not identical, the switch should appear as not selected. Any subsequent click or tap should select the switch, and update all values to be selected. Another click or tap after that should deselect the switch, and update all values to be not selected."
+    },
+    {
+      "type": "guideline",
+      "content": "Switches can only be on or off. Indeterminate switches don’t exist in accessibility APIs, so it’s not possible to make an indeterminate switch accessible. If you need to show a partial state, use a checkbox instead of a switch."
+    },
+    {
+      "type": "guideline",
+      "content": "When a parent switch represents a group of switches, it should be turned off unless all of the switches are on (turning the parent switch on turns all of the switches on)."
+    }
+  ],
   "options": {
-    "label": {
-      "type": "string"
-    },
-    "isSelected": {
-      "type": "boolean",
-      "default": false
-    },
+    "label": { "type": "string" },
+    "isSelected": { "type": "boolean", "default": false },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
-    "isEmphasized": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
-    "isReadOnly": {
-      "type": "boolean",
-      "default": false
-    }
+    "isEmphasized": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
+    "isReadOnly": { "type": "boolean", "default": false }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "component-height-75",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-200",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-300",
-      "context": "Minimum height"
-    },
-    {
-      "token": "corner-radius-full",
-      "context": "Rounding"
-    },
-    {
-      "token": "switch-control-width-small",
-      "context": "Track (size)"
-    },
-    {
-      "token": "switch-control-width-medium",
-      "context": "Track (size)"
-    },
-    {
-      "token": "switch-control-width-large",
-      "context": "Track (size)"
-    },
-    {
-      "token": "switch-control-width-extra-large",
-      "context": "Track (size)"
-    },
-    {
-      "token": "switch-control-height-small",
-      "context": "Track (size)"
-    },
-    {
-      "token": "switch-control-height-medium",
-      "context": "Track (size)"
-    },
-    {
-      "token": "switch-control-height-large",
-      "context": "Track (size)"
-    },
-    {
-      "token": "switch-control-height-extra-large",
-      "context": "Track (size)"
-    },
-    {
-      "token": "border-width-200",
-      "context": "Track (border)"
-    },
-    {
-      "token": "switch-handle-size-small",
-      "context": "Handle (size)"
-    },
-    {
-      "token": "switch-handle-size-medium",
-      "context": "Handle (size)"
-    },
-    {
-      "token": "switch-handle-size-large",
-      "context": "Handle (size)"
-    },
-    {
-      "token": "switch-handle-size-extra-large",
-      "context": "Handle (size)"
-    },
+    { "token": "component-height-75", "context": "Minimum height" },
+    { "token": "component-height-100", "context": "Minimum height" },
+    { "token": "component-height-200", "context": "Minimum height" },
+    { "token": "component-height-300", "context": "Minimum height" },
+    { "token": "corner-radius-full", "context": "Rounding" },
+    { "token": "switch-control-width-small", "context": "Track (size)" },
+    { "token": "switch-control-width-medium", "context": "Track (size)" },
+    { "token": "switch-control-width-large", "context": "Track (size)" },
+    { "token": "switch-control-width-extra-large", "context": "Track (size)" },
+    { "token": "switch-control-height-small", "context": "Track (size)" },
+    { "token": "switch-control-height-medium", "context": "Track (size)" },
+    { "token": "switch-control-height-large", "context": "Track (size)" },
+    { "token": "switch-control-height-extra-large", "context": "Track (size)" },
+    { "token": "border-width-200", "context": "Track (border)" },
+    { "token": "switch-handle-size-small", "context": "Handle (size)" },
+    { "token": "switch-handle-size-medium", "context": "Handle (size)" },
+    { "token": "switch-handle-size-large", "context": "Handle (size)" },
+    { "token": "switch-handle-size-extra-large", "context": "Handle (size)" },
     {
       "token": "switch-handle-selected-size-small",
       "context": "Handle (size)"
@@ -154,22 +137,10 @@
       "token": "switch-handle-selected-size-extra-large",
       "context": "Handle (size)"
     },
-    {
-      "token": "text-to-control-75",
-      "context": "Spacing (control to label)"
-    },
-    {
-      "token": "text-to-control-100",
-      "context": "Spacing (control to label)"
-    },
-    {
-      "token": "text-to-control-200",
-      "context": "Spacing (control to label)"
-    },
-    {
-      "token": "text-to-control-300",
-      "context": "Spacing (control to label)"
-    },
+    { "token": "text-to-control-75", "context": "Spacing (control to label)" },
+    { "token": "text-to-control-100", "context": "Spacing (control to label)" },
+    { "token": "text-to-control-200", "context": "Spacing (control to label)" },
+    { "token": "text-to-control-300", "context": "Spacing (control to label)" },
     {
       "token": "switch-top-to-control-small",
       "context": "Spacing (top edge to control)"
@@ -218,14 +189,8 @@
       "token": "component-bottom-to-text-300",
       "context": "Spacing (top/bottom edge to label)"
     },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus indicator"
-    },
+    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
+    { "token": "focus-indicator-gap", "context": "Focus indicator" },
     {
       "token": "component-size-difference-down",
       "context": "Component size (down)"
@@ -238,58 +203,19 @@
       "token": "component-size-minimum-perspective-down",
       "context": "Component size (down)"
     },
-    {
-      "token": "font-size-75",
-      "context": "Font size"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Font size"
-    },
-    {
-      "token": "font-size-200",
-      "context": "Font size"
-    },
-    {
-      "token": "font-size-300",
-      "context": "Font size"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Font size"
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Font size"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Font size"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Font size"
-    },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Label"
-    },
-    {
-      "token": "neutral-content-color-hover",
-      "context": "Label"
-    },
-    {
-      "token": "neutral-content-color-down",
-      "context": "Label"
-    },
-    {
-      "token": "neutral-content-color-key-focus",
-      "context": "Label"
-    },
-    {
-      "token": "gray-25",
-      "context": "Control"
-    },
+    { "token": "font-size-75", "context": "Font size" },
+    { "token": "font-size-100", "context": "Font size" },
+    { "token": "font-size-200", "context": "Font size" },
+    { "token": "font-size-300", "context": "Font size" },
+    { "token": "default-font-family", "context": "Font size" },
+    { "token": "regular-font-weight", "context": "Font size" },
+    { "token": "line-height-100", "context": "Font size" },
+    { "token": "cjk-line-height-100", "context": "Font size" },
+    { "token": "neutral-content-color-default", "context": "Label" },
+    { "token": "neutral-content-color-hover", "context": "Label" },
+    { "token": "neutral-content-color-down", "context": "Label" },
+    { "token": "neutral-content-color-key-focus", "context": "Label" },
+    { "token": "gray-25", "context": "Control" },
     {
       "token": "accent-content-color-default",
       "context": "Control (selected, emphasized)"
@@ -306,14 +232,8 @@
       "token": "accent-content-color-key-focus",
       "context": "Control (selected, emphasized)"
     },
-    {
-      "token": "disabled-content-color",
-      "context": "Label (disabled)"
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus indicator"
-    }
+    { "token": "disabled-content-color", "context": "Label (disabled)" },
+    { "token": "focus-indicator-color", "context": "Focus indicator" }
   ],
   "accessibility": {
     "role": "switch",
@@ -321,16 +241,8 @@
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }
