@@ -31,6 +31,8 @@ jobs:
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
+      - name: Cache pnpm store
+        uses: ./.github/actions/cache-pnpm-store
       - run: moon setup
       - run: moon run :build --query "projectSource~packages/*"
       - name: Snapshot release

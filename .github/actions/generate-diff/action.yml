@@ -42,6 +42,11 @@ runs:
       with:
         auto-install: true
 
+    # Cache the pnpm store before moon setup so that setup's own pnpm
+    # invocations benefit from the cached packages.
+    - name: Cache pnpm store
+      uses: ./.github/actions/cache-pnpm-store
+
     - name: Setup moon
       shell: bash
       run: moon setup
