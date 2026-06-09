@@ -101,5 +101,7 @@ jobs:
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
+      - name: Cache pnpm store
+        uses: ./.github/actions/cache-pnpm-store
       - name: Check CI target coverage
         run: node .github/scripts/check-ci-coverage.mjs

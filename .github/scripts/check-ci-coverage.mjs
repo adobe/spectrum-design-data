@@ -45,7 +45,15 @@ try {
   process.exit(1);
 }
 
-const { tasks: taskMap } = JSON.parse(moonOutput);
+const parsed = JSON.parse(moonOutput);
+if (!parsed || typeof parsed.tasks !== 'object' || parsed.tasks === null) {
+  console.error(
+    'Unexpected `moon query tasks --json` output: missing or non-object `tasks` field.\n' +
+      'This likely means moon changed its JSON schema — check the query output manually.',
+  );
+  process.exit(1);
+}
+const { tasks: taskMap } = parsed;
 
 // Build: runInCI set and dependency graph
 const runInCI = new Set();
@@ -120,6 +128,38 @@ if (staleExcluded.length > 0) {
     'The following targets in .excludedFromCI[] are not runInCI tasks\n' +
       '(they would never run in CI anyway — remove to keep the list tidy):\n' +
       staleExcluded.map((t) => `  - ${t}`).join('\n'),
+  );
+}
+
+// 4. Node job-assignment correctness: no .node[] target may transitively depend
+//    on an sdk:* or sdk-wasm:* task. The `node` job runs without a Rust toolchain;
+//    a misclassified target would fail at runtime with "cargo: command not found".
+//    This is derived from the live moon graph, not the hand-maintained rust list,
+//    so it stays accurate even if the lists drift.
+const rustToolchainTasks = new Set(
+  [...allTargets].filter((t) => {
+    const proj = t.split(':')[0];
+    return proj === 'sdk' || proj === 'sdk-wasm';
+  }),
+);
+
+const badNodeAssignments = [];
+for (const nt of nodeTargets) {
+  if (!allTargets.has(nt)) continue; // already caught by check 2
+  const ntClosure = closure([nt]);
+  const rustDeps = [...ntClosure].filter((t) => rustToolchainTasks.has(t)).sort();
+  if (rustDeps.length > 0) {
+    badNodeAssignments.push({ target: nt, rustDeps });
+  }
+}
+
+if (badNodeAssignments.length > 0) {
+  errors.push(
+    'The following .node[] targets transitively depend on Rust-toolchain (sdk:*/sdk-wasm:*) tasks.\n' +
+      'The node job runs without a Rust toolchain — move these to .rust[] in .github/ci-targets.json:\n' +
+      badNodeAssignments
+        .map(({ target, rustDeps }) => `  - ${target}  (via: ${rustDeps.join(', ')})`)
+        .join('\n'),
   );
 }
 
