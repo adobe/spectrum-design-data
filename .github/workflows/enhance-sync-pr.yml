@@ -92,6 +92,9 @@ jobs:
         with:
           auto-install: true
 
+      - name: Cache pnpm store
+        uses: ./.github/actions/cache-pnpm-store
+
       - name: Setup moon
         run: moon setup
 
